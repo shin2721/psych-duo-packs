@@ -1,0 +1,26 @@
+{
+  "packId": "seed_v1",
+  "title": "Seed Pack v1",
+  "locale": "ja-JP",
+  "skills": [
+    {
+      "id": "cog-bias-anchoring",
+      "title": "アンカリング効果",
+      "cards": [
+        {
+          "type": "mcq",
+          "q": "アンカリング効果とは？",
+          "choices": [
+            "最初の情報が判断に過度に影響する",
+            "繰り返すと好きになる",
+            "他人の目で態度が変わる",
+            "損を避けて得を追う傾向"
+          ],
+          "answerIndex": 0,
+          "explain": "最初の提示値（アンカー）が後の判断を引っ張るバイアス。"
+        }
+      ]
+    }
+  ],
+  "version": 1
+}
