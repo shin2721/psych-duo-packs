@@ -6,19 +6,18 @@
   "updatedAt": "2025-09-12T07:11:57.493Z",
   "totalPacks": 2,
   "packs": [
-    {
-      "packId": "season_w01",
-      "title": "Season Week 01",
-      "locale": "ja-JP",
-      "version": 1,
-      "path": "packs/season_w01.json"
-    },
-    {
-      "packId": "seed_v1",
-      "title": "Seed Pack v1",
-      "locale": "ja-JP",
-      "version": 1,
-      "path": "packs/seed_v1.json"
-    }
-  ]
-}
+  {
+    "packId": "season_w01",
+    "title": "Season Week 01",
+    "locale": "ja-JP",
+    "version": 1,
+    "path": "season_w01.json"
+  },
+  {
+    "packId": "seed_v1",
+    "title": "Seed Pack v1",
+    "locale": "ja-JP",
+    "version": 1,
+    "path": "seed_v1.json"
+  }
+]
