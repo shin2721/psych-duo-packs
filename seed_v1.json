@@ -2,25 +2,16 @@
   "packId": "seed_v1",
   "title": "Seed Pack v1",
   "locale": "ja-JP",
-  "skills": [
+  "version": 1,
+  "skills": [{ "id": "cog-bias-anchoring" }],
+  "cards": [
     {
-      "id": "cog-bias-anchoring",
-      "title": "アンカリング効果",
-      "cards": [
-        {
-          "type": "mcq",
-          "q": "アンカリング効果とは？",
-          "choices": [
-            "最初の情報が判断に過度に影響する",
-            "繰り返すと好きになる",
-            "他人の目で態度が変わる",
-            "損を避けて得を追う傾向"
-          ],
-          "answerIndex": 0,
-          "explain": "最初の提示値（アンカー）が後の判断を引っ張るバイアス。"
-        }
-      ]
+      "id": "seed-001",
+      "type": "mcq",
+      "q": "最初に示された数値が判断に影響する現象は？",
+      "choices": ["アンカリング", "確証バイアス", "生存者バイアス", "後知恵バイアス"],
+      "answerIndex": 0,
+      "explain": "初期値（アンカー）が後続の見積もりを引き寄せる。"
     }
-  ],
-  "version": 1
+  ]
 }
