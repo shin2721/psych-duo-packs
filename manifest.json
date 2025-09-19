@@ -20,5 +20,9 @@
       "version": 1,
       "path": "seed_v1.json"
     }
+  ],
+  "packIds": [
+    "season_w01",
+    "seed_v1"
   ]
 }
