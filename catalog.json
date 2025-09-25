@@ -4,6 +4,16 @@
       "id": "mental",
       "title": "メンタルスキル",
       "manifest": "mental/manifest.json"
+    },
+    {
+      "id": "money",
+      "title": "お金の基礎",
+      "manifest": "money/manifest.json"
+    },
+    {
+      "id": "work",
+      "title": "仕事術",
+      "manifest": "work/manifest.json"
     }
   ]
 }
