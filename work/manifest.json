@@ -1,1 +1,8 @@
-{ "app":"psycle","track":"work", "totalPacks":1, "packIds":["work_w01"] }
+{
+  "app": "psycle",
+  "track": "work",
+  "totalPacks": 1,
+  "packIds": [
+    "work_w01"
+  ]
+}

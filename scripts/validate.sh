@@ -7,6 +7,9 @@ for f in "${files[@]}"; do
   echo "check: $f"
   if ! jq -e . "$f" >/dev/null; then echo "❌ invalid JSON: $f"; fail=1; continue; fi
   case "$f" in
+    catalog.json)
+      jq -e 'has("tracks") and (.tracks|type=="array")' "$f" >/dev/null || { echo "❌ catalog schema: $f"; fail=1; }
+      ;;
     */manifest.json|manifest.json)
       jq -e 'has("packIds") and (.packIds|type=="array") and (has("totalPacks"))' "$f" >/dev/null || { echo "❌ manifest schema: $f"; fail=1; }
       ;;

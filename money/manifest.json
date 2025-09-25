@@ -1,1 +1,8 @@
-{ "app":"psycle","track":"money","totalPacks":1, "packIds":["money_w01"] }
+{
+  "app": "psycle",
+  "track": "money",
+  "totalPacks": 1,
+  "packIds": [
+    "money_w01"
+  ]
+}
