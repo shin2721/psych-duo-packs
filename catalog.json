@@ -1,0 +1,9 @@
+{
+  "tracks": [
+    {
+      "id": "mental",
+      "title": "メンタルスキル",
+      "manifest": "mental/manifest.json"
+    }
+  ]
+}

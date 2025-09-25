@@ -1,0 +1,15 @@
+{
+  "app": "psycle",
+  "track": "mental",
+  "schema": 1,
+  "copyright": "© 2025 shin2721. All rights reserved.",
+  "terms": "Use only within the psych-duo app. No redistribution.",
+  "updatedAt": "2025-09-19T09:27:39Z",
+  "totalPacks": 4,
+  "packIds": [
+    "mental_w01",
+    "mental_w02",
+    "mental_w03",
+    "mental_w04"
+  ]
+}
