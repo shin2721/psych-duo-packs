@@ -4,7 +4,7 @@
   "copyright": "© 2025 shin2721. All rights reserved.",
   "terms": "Use only within the psych-duo app. No redistribution.",
   "updatedAt": "2025-09-19T09:27:39Z",
-  "totalPacks": 2,
+  "totalPacks": 3,
   "packs": [
     {
       "packId": "season_w01",
@@ -23,6 +23,7 @@
   ],
   "packIds": [
     "season_w01",
+    "season_w02",
     "seed_v1"
   ]
 }
