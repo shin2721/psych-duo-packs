@@ -1,0 +1,15 @@
+{
+  "meta": { "theme": "仕事術（3/4）｜課題設定・レビュー運用・情報共有", "arc": "仕事術入門（全4週）" },
+  "cards": [
+    {"type":"mcq","q":"良い課題設定の第一歩は？","choices":["解決策から考える","現状把握と目的の明確化","すぐ実装する","関係者を増やす"],"answerIndex":1,"explain":"As-Is/To-Beと成功基準を定義。"},
+    {"type":"mcq","q":"SMARTのMは？","choices":["Manageable","Measurable","Minimal","Meaningful"],"answerIndex":1,"explain":"測定可能。客観評価できること。"},
+    {"type":"mcq","q":"レビュー依頼で必須は？","choices":["挨拶のみ","相手の好み","観点と期限","顔文字"],"answerIndex":2,"explain":"目的・観点・締切・責任者を明記。"},
+    {"type":"mcq","q":"PRレビュー停滞の対策は？","choices":["レビュアを無限に増やす","巨大PRをまとめて出す","小さく分割し早めに出す","依頼しない"],"answerIndex":2,"explain":"変更粒度を小さくしてフロー改善。"},
+    {"type":"mcq","q":"Single Source of Truth の利点は？","choices":["重複配置","唯一の最新参照点","誰も編集不可","印刷がしやすい"],"answerIndex":1,"explain":"更新場所を一本化して齟齬を防ぐ。"},
+    {"type":"mcq","q":"週次共有で含めたいのは？","choices":["詳細議事録","雑談","進捗/リスク/次アクション","色彩ガイド"],"answerIndex":2,"explain":"Status・Risks・Nextで把握。"},
+    {"type":"mcq","q":"情報共有チャンネル設計のコツ？","choices":["DM中心","目的別チャンネルを定義","通知を常時ミュート","@here多用"],"answerIndex":1,"explain":"目的別に分けて検索性UP。"},
+    {"type":"mcq","q":"レビュー観点を明確にするには？","choices":[""見ておいて"とだけ書く","サンプルと非例を示す","期限を曖昧にする","観点は後で決める"],"answerIndex":1,"explain":"具体例で境界を可視化。"},
+    {"type":"mcq","q":"課題が大きすぎる時の対処は？","choices":["担当を増やす","締切を延ばす","次の具体的1手に分割","優先度を下げるだけ"],"answerIndex":2,"explain":"行動可能な単位に分解。"},
+    {"type":"mcq","q":"ドキュメント更新の基本？","choices":["年1回で十分","変更時に即更新","終了後まとめて","口頭共有のみ"],"answerIndex":1,"explain":"変更と同時に更新。"}
+  ]
+}
