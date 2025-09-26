@@ -1,0 +1,31 @@
+name: Manual Publish
+on:
+  workflow_dispatch:
+    inputs:
+      track:
+        description: publish track (mental|money|work|all)
+        required: false
+        default: all
+permissions:
+  contents: write
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: sudo apt-get update && sudo apt-get install -y jq
+      - name: git config
+        run: |
+          git config user.name "pack-bot"
+          git config user.email "bot@users.noreply.github.com"
+      - name: Auto publish from queue
+        env:
+          TRACK_INPUT: ${{ github.event.inputs.track }}
+        run: |
+          set -e
+          chmod +x scripts/ops.sh scripts/auto_publish.sh || true
+          tracks=(mental money work)
+          if [ -n "${TRACK_INPUT}" ] && [ "${TRACK_INPUT}" != "all" ]; then tracks=("${TRACK_INPUT}"); fi
+          for t in "${tracks[@]}"; do
+            [ -d "queue/$t" ] && bash scripts/auto_publish.sh "$t" || true
+          done
