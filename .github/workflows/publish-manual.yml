@@ -25,7 +25,9 @@ jobs:
           set -e
           chmod +x scripts/ops.sh scripts/auto_publish.sh || true
           tracks=(mental money work)
-          if [ -n "${TRACK_INPUT}" ] && [ "${TRACK_INPUT}" != "all" ]; then tracks=("${TRACK_INPUT}"); fi
+          if [ -n "${TRACK_INPUT}" ] && [ "${TRACK_INPUT}" \!= "all" ]; then
+            tracks=("${TRACK_INPUT}")
+          fi
           for t in "${tracks[@]}"; do
             [ -d "queue/$t" ] && bash scripts/auto_publish.sh "$t" || true
           done
