@@ -34,3 +34,4 @@ jobs:
           for t in "${tracks[@]}"; do
             [ -d "queue/$t" ] && bash scripts/auto_publish.sh "$t" || true
           done
+# trigger
