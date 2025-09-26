@@ -1,9 +1,10 @@
 {
   "app": "psycle",
   "track": "money",
-  "totalPacks": 2,
+  "totalPacks": 3,
   "packIds": [
     "money_w01",
-    "money_w02"
+    "money_w02",
+    "money_w03"
   ]
 }
