@@ -35,3 +35,4 @@ jobs:
             [ -d "queue/$t" ] && bash scripts/auto_publish.sh "$t" || true
           done
 # trigger
+
