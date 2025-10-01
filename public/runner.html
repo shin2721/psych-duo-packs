@@ -107,7 +107,8 @@
     try {
       const cat = await jget(`${BASE}/catalog.json?ts=${ts()}`);
       if (cat && Array.isArray(cat.tracks) && cat.tracks.length) {
-        ids = cat.tracks.map(t=>t.id).filter(Boolean);
+        const parsed = cat.tracks.map(t => typeof t === "string" ? t : t.id).filter(Boolean);
+      if (parsed.length) ids = parsed;
       }
     } catch {}
     // render track buttons
