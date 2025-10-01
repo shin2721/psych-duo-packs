@@ -94,6 +94,10 @@
 </script>
 <!-- /psycle-hotfix-v2 -->
     
+  <link rel="manifest" href="./manifest.webmanifest">
+  <meta name="theme-color" content="#0ea5e9">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 </head>
 <body>
 <header>
@@ -319,6 +323,7 @@
   loadTracks();
 })();
 </script>
+<script>(function(){if("serviceWorker" in navigator){navigator.serviceWorker.register("./sw.js").catch(console.warn);}})();</script>
 </body>
 </html>
 <script id="psycle-extend" data-ver="dl-deeplink-csv">
