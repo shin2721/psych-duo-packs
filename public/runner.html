@@ -255,3 +255,147 @@
 </script>
 </body>
 </html>
+<script id="psycle-extend" data-ver="dl-deeplink-csv">
+(function(){
+  // 安全ガード
+  const ready = (sel, timeout=8000) => new Promise((resolve,reject)=>{
+    const t0 = Date.now();
+    (function tick(){
+      const el = document.querySelector(sel);
+      if(el) return resolve(el);
+      if(Date.now()-t0>timeout) return reject(new Error('timeout:'+sel));
+      requestAnimationFrame(tick);
+    })();
+  });
+
+  const qs = new URLSearchParams(location.search);
+  const wantTrack = qs.get('track');   // mental|money|work を推奨
+  const wantPack  = qs.get('pack');    // 例: work_w03
+  const autostart = qs.get('autostart') === '1';
+
+  // 部分一致ユーティリティ（value/labelの両方を対象）
+  function setSelectByFuzzy(select, want){
+    if(!select || !want) return false;
+    const W = want.toLowerCase();
+    let hit = null;
+    [...select.options].forEach(o=>{
+      const v = (o.value||'').toLowerCase();
+      const t = (o.textContent||'').toLowerCase();
+      if(!hit && (v===W || t===W || v.includes(W) || t.includes(W))) hit = o.value;
+    });
+    if(hit!=null){ select.value = hit; select.dispatchEvent(new Event('change')); return true; }
+    return false;
+  }
+
+  // 回答ログ用
+  const sess = { rows: [], startedAt: 0, endedAt: 0, track: '', pack: '', total: 0, correct: 0 };
+  window.__psycleSession = sess;
+
+  // 既存の回答ハンドラを横取り（見つかるものをラップ）
+  // 候補: window.onChoice, window.handleAnswer, window.onAnswer など
+  const candidates = ['onChoice','handleAnswer','onAnswer'];
+  for(const k of candidates){
+    if(typeof window[k] === 'function'){
+      const orig = window[k];
+      window[k] = function(idx, isCorrect){
+        try{
+          // idx や isCorrect の引数形式が違う場合は orig を先に呼び出してから
+          // 画面から現在インデックス/正誤を推定するフォールバックでも可
+          if(typeof idx==='number' && typeof isCorrect==='boolean'){
+            sess.rows.push({ n: idx+1, selectedIndex: idx, isCorrect });
+          }
+        }catch(e){}
+        return orig.apply(this, arguments);
+      };
+      break;
+    }
+  }
+
+  // スタート・終了の観測（開始/再開ボタンのクリックや結果表示のDOMを監視）
+  function markStart(track, pack){
+    sess.startedAt = Date.now();
+    sess.track = track||''; sess.pack = pack||'';
+  }
+  function markEnd(summary){
+    sess.endedAt = Date.now();
+    if(summary){ sess.total = summary.total||sess.rows.length; sess.correct = summary.correct||0; }
+  }
+
+  // CSV 生成
+  function toCSV(){
+    const dt = new Date(sess.endedAt||Date.now());
+    const pad = n=>String(n).padStart(2,'0');
+    const ts = dt.getFullYear()+''+pad(dt.getMonth()+1)+''+pad(dt.getDate())+'-'+pad(dt.getHours())+pad(dt.getMinutes())+pad(dt.getSeconds());
+    const head = 'timestamp,track,pack,total,correct,elapsedMs\n';
+    const ms = (sess.endedAt && sess.startedAt) ? (sess.endedAt - sess.startedAt) : 0;
+    const summary = [dt.toISOString(), sess.track, sess.pack, sess.total||sess.rows.length, sess.correct||0, ms].join(',') + '\n';
+    const detailHead = 'n,selectedIndex,isCorrect\n';
+    const detail = sess.rows.map(r=>[r.n,r.selectedIndex,(r.isCorrect?1:0)].join(',')).join('\n');
+    const csv = head + summary + (detail ? detailHead + detail + '\n' : '');
+    const blob = new Blob([csv], {type:'text/csv'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `psycle_${sess.track||'track'}_${sess.pack||'pack'}_${ts}.csv`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  // UI ボタン追加（リセット隣）
+  function injectCSVButton(){
+    const resetBtn = Array.from(document.querySelectorAll('button')).find(b=>(b.textContent||'').includes('リセット'));
+    if(!resetBtn) return;
+    if(document.getElementById('btnCsv')) return;
+    const btn = document.createElement('button');
+    btn.id = 'btnCsv';
+    btn.className = resetBtn.className;
+    btn.style.marginLeft = '8px';
+    btn.textContent = 'CSV出力';
+    btn.addEventListener('click', toCSV);
+    resetBtn.parentElement.insertBefore(btn, resetBtn.nextSibling);
+  }
+
+  // 画面要素に同期
+  (async function main(){
+    try{
+      injectCSVButton();
+
+      // セレクト特定（「トラック」「週」順に並んでいる前提）
+      const selects = await ready('select');
+      const allSel = document.querySelectorAll('select');
+      const trackSel = allSel[0], packSel = allSel[1];
+
+      // トラック/パック反映
+      if(wantTrack) setSelectByFuzzy(trackSel, wantTrack);
+      // pack はトラック変更で非同期に埋まる可能性があるので少し待つ
+      if(wantPack){
+        let tries=0;
+        while(tries++<30 && (!setSelectByFuzzy(packSel, wantPack))) await new Promise(r=>setTimeout(r,100));
+      }
+
+      // 現在選択をセッションに記録
+      const tk = (trackSel && trackSel.value) || wantTrack || '';
+      const pk = (packSel && packSel.value) || wantPack  || '';
+      markStart(tk, pk);
+
+      // 自動開始
+      if(autostart){
+        const startBtn = Array.from(document.querySelectorAll('button')).find(b=>/開始|再開/.test(b.textContent||''));
+        if(startBtn) startBtn.click();
+      }
+
+      // 終了監視（結果表示DOMの変化を監視して正答数などを拾えれば反映）
+      const obs = new MutationObserver(()=>{
+        const sumEl = Array.from(document.querySelectorAll('div,span,p')).find(el=>(el.textContent||'').match(/正解|得点|score/i));
+        if(sumEl){
+          // 数値をざっくり抽出（失敗してもOK）
+          const m = (sumEl.textContent||'').match(/(\d+)\s*\/\s*(\d+)/);
+          if(m){ sess.correct = +m[1]; sess.total = +m[2]; }
+          markEnd({total:sess.total, correct:sess.correct});
+          injectCSVButton();
+        }
+      });
+      obs.observe(document.body, {childList:true, subtree:true});
+    }catch(e){ console.warn('[psycle-extend]', e); }
+  })();
+})();
+</script>
