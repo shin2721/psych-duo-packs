@@ -69,7 +69,8 @@
 <script>
 (function(){
   const ts = () => Date.now();
-  const BASE = location.href.replace(/\\/public\\/.*$/, "");
+  const rootPath = location.pathname.replace(/\\/public\\/.*$/, "/");
+  const BASE = location.origin + rootPath;
   document.getElementById("baseView").textContent = BASE;
 
   // ----- state -----
