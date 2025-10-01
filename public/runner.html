@@ -34,6 +34,66 @@
   </style>
   <link rel="stylesheet" href="../css/psycle.css">
 <style id="psycle-hotfix-clicks">.psycle-banner,.mascot,.mascot-layer,.sprout,.overlay{pointer-events:none !important}</style>
+
+<!-- psycle-hotfix-v2: unlock clicks + un-disable controls -->
+<style id="psycle-hotfix-v2">
+  /* 1) クリックを奪う可能性のあるオーバーレイ系を全停止 */
+  .overlay, .ui-overlay, .click-shield, .banner, .psycle-banner,
+  .mascot, .mascot-layer, .sprout, [data-overlay], [data-click-shield] {
+    pointer-events: none !important;
+    z-index: 0 !important;
+  }
+  /* 2) 操作パネル側は必ず操作可能に */
+  #controls, #controls *, aside, aside *, button, select, input {
+    pointer-events: auto !important;
+  }
+  /* 3) mascot container specifically */
+  #psycle-mascot, #psycle-mascot * {
+    pointer-events: none !important;
+  }
+</style>
+<script id="psycle-hotfix-v2">
+  (function(){
+    const enableControls = () => {
+      // 3) 意図せず disabled が残っていたら解除
+      document.querySelectorAll(
+        "button[disabled],select[disabled],input[disabled]"
+      ).forEach(el => {
+        // 開始ボタン以外のdisabledを解除
+        if (!el.id || el.id !== "startBtn") {
+          el.removeAttribute("disabled");
+        }
+      });
+
+      // 4) 全画面/高z-indexの要素が残っていたら pointer-events を止める
+      const isFull = (el, s) => {
+        const w = Math.max(el.offsetWidth, el.clientWidth);
+        const h = Math.max(el.offsetHeight, el.clientHeight);
+        return (w >= window.innerWidth * 0.9 && h >= window.innerHeight * 0.9);
+      };
+      document.querySelectorAll("body *").forEach(el => {
+        const s = getComputedStyle(el);
+        if ((s.position === "fixed" || s.position === "absolute")) {
+          const zi = parseInt(s.zIndex || "0", 10) || 0;
+          if (zi >= 10 && isFull(el, s) && !el.closest("aside")) {
+            el.style.pointerEvents = "none";
+            el.style.zIndex = "0";
+          }
+        }
+      });
+    };
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", enableControls);
+    } else {
+      enableControls();
+    }
+    // Re-run after mutations
+    setTimeout(enableControls, 500);
+    setTimeout(enableControls, 1000);
+  })();
+</script>
+<!-- /psycle-hotfix-v2 -->
+    
 </head>
 <body>
 <header>
