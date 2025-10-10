@@ -1,0 +1,726 @@
+[
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "深呼吸する",
+      "深呼吸するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "40961410",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「リラクゼーション技法が不安を和らげた」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「リラクゼーション技法が不安を和らげた」です",
+    "source_id": "40681000",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "リラックスする",
+      "リラックスするの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "40669702",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "ポジティブ思考がメンタルヘルスを改善した",
+      "ポジティブ思考がメンタルヘルスを悪化した",
+      "ポジティブ思考がメンタルヘルスを改善した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "41042666",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「瞑想の実践でストレスが軽減した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！瞑想の実践でストレスが軽減した",
+    "source_id": "41032459",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「瞑想の実践でストレスが軽減した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！瞑想の実践でストレスが軽減した",
+    "source_id": "40966095",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "ポジティブ思考がメンタルヘルスを改善した",
+      "ポジティブ思考がメンタルヘルスを悪化した",
+      "ポジティブ思考がメンタルヘルスを改善した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "40957601",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "認知的再評価で感情調整が改善した",
+      "認知的再評価で感情調整が悪化した",
+      "認知的再評価で感情調整が改善した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、認知的再評価で感情調整が改善した",
+    "source_id": "40896980",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "リラクゼーション技法が不安を和らげた",
+      "リラクゼーション技法が不安を和らげた（ただし一部の人のみ）",
+      "気の持ちようで治る",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "40865406",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "ポジティブ思考がメンタルヘルスを改善した",
+      "ポジティブ思考がメンタルヘルスを悪化した",
+      "ポジティブ思考がメンタルヘルスを改善した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "40854622",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「認知的再評価で感情調整が改善した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！認知的再評価で感情調整が改善した",
+    "source_id": "40706348",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「リラクゼーション技法が不安を和らげた」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！リラクゼーション技法が不安を和らげた",
+    "source_id": "40673454",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「呼吸法の練習で不安が減少した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！呼吸法の練習で不安が減少した",
+    "source_id": "40653877",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "呼吸法の練習で不安が減少した",
+      "呼吸法の練習で不安が増加した",
+      "呼吸法の練習で不安が減少した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、呼吸法の練習で不安が減少した",
+    "source_id": "40652979",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "ポジティブ思考がメンタルヘルスを改善した",
+      "ポジティブ思考がメンタルヘルスを悪化した",
+      "ポジティブ思考がメンタルヘルスを改善した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "40614975",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「認知的再評価で感情調整が改善した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！認知的再評価で感情調整が改善した",
+    "source_id": "40581775",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "ポジティブ思考がメンタルヘルスを改善した",
+      "ポジティブ思考がメンタルヘルスを悪化した",
+      "ポジティブ思考がメンタルヘルスを改善した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "40570936",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "リラックスする",
+      "リラックスするの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "40536491",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___でストレスが軽減した",
+    "choices": [
+      "瞑想の実践",
+      "瞑想の実践（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「瞑想の実践」。瞑想の実践でストレスが軽減した",
+    "source_id": "40387873",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「認知的再評価で感情調整が改善した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「認知的再評価で感情調整が改善した」です",
+    "source_id": "40387621",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "リラックスする",
+      "リラックスするの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "40331790",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「心拍変動バイオフィードバックが有効だった」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「心拍変動バイオフィードバックが有効だった」です",
+    "source_id": "40310870",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が緊張を緩和した",
+    "choices": [
+      "深呼吸",
+      "深呼吸（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「深呼吸」。深呼吸が緊張を緩和した",
+    "source_id": "40298641",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "マインドフルネスがストレス軽減に効果的だった",
+      "マインドフルネスがストレス増大に効果的だった",
+      "マインドフルネスがストレス軽減に効果的だった（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "40248919",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "心拍変動バイオフィードバックが有効だった",
+      "心拍変動バイオフィードバックが有効だった（ただし一部の人のみ）",
+      "気の持ちようで治る",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、心拍変動バイオフィードバックが有効だった",
+    "source_id": "40219760",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "マインドフルネスを実践する",
+      "マインドフルネスを実践するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "39992301",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で不安が減少した",
+    "choices": [
+      "呼吸法の練習",
+      "呼吸法の練習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「呼吸法の練習」。呼吸法の練習で不安が減少した",
+    "source_id": "39967381",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "呼吸法の練習で不安が減少した",
+      "呼吸法の練習で不安が増加した",
+      "呼吸法の練習で不安が減少した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、呼吸法の練習で不安が減少した",
+    "source_id": "39927405",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で不安が減少した",
+    "choices": [
+      "呼吸法の練習",
+      "呼吸法の練習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「呼吸法の練習」。呼吸法の練習で不安が減少した",
+    "source_id": "39773406",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___がストレス軽減に効果的だった",
+    "choices": [
+      "マインドフルネス",
+      "マインドフルネス（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「マインドフルネス」。マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "41058084",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「呼吸法の練習で不安が減少した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！呼吸法の練習で不安が減少した",
+    "source_id": "40983490",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「マインドフルネスがストレス軽減に効果的だった」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "40748001",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "マインドフルネスがストレス軽減に効果的だった",
+      "マインドフルネスがストレス増大に効果的だった",
+      "マインドフルネスがストレス軽減に効果的だった（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "40730453",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で不安が減少した",
+    "choices": [
+      "呼吸法の練習",
+      "呼吸法の練習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「呼吸法の練習」。呼吸法の練習で不安が減少した",
+    "source_id": "40651514",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___がストレス軽減に効果的だった",
+    "choices": [
+      "マインドフルネス",
+      "マインドフルネス（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「マインドフルネス」。マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "40550279",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "リラックスする",
+      "リラックスするの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、瞑想の実践でストレスが軽減した",
+    "source_id": "40543159",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「瞑想の実践でストレスが軽減した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「瞑想の実践でストレスが軽減した」です",
+    "source_id": "40505983",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "マインドフルネスを実践する",
+      "マインドフルネスを実践するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "40378969",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "心拍変動バイオフィードバックが有効だった",
+      "心拍変動バイオフィードバックが有効だった（ただし一部の人のみ）",
+      "気の持ちようで治る",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、心拍変動バイオフィードバックが有効だった",
+    "source_id": "40370092",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が不安を和らげた",
+    "choices": [
+      "リラクゼーション技法",
+      "リラクゼーション技法（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「リラクゼーション技法」。リラクゼーション技法が不安を和らげた",
+    "source_id": "40313046",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で感情調整が改善した",
+    "choices": [
+      "認知的再評価",
+      "認知的再評価（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「認知的再評価」。認知的再評価で感情調整が改善した",
+    "source_id": "39666474",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "心拍変動バイオフィードバックが有効だった",
+      "心拍変動バイオフィードバックが有効だった（ただし一部の人のみ）",
+      "気の持ちようで治る",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、心拍変動バイオフィードバックが有効だった",
+    "source_id": "39606848",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「深呼吸が緊張を緩和した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！深呼吸が緊張を緩和した",
+    "source_id": "38285433",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "マインドフルネスを実践する",
+      "マインドフルネスを実践するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "41066166",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___がメンタルヘルスを改善した",
+    "choices": [
+      "ポジティブ思考",
+      "ポジティブ思考（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「ポジティブ思考」。ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "41062722",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "深呼吸する",
+      "深呼吸するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "41057895",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "リラクゼーション技法が不安を和らげた",
+      "リラクゼーション技法が不安を和らげた（ただし一部の人のみ）",
+      "気の持ちようで治る",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "41057045",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "認知的再評価で感情調整が改善した",
+      "認知的再評価で感情調整が悪化した",
+      "認知的再評価で感情調整が改善した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、認知的再評価で感情調整が改善した",
+    "source_id": "41056541",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "深呼吸する",
+      "深呼吸するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、瞑想の実践でストレスが軽減した",
+    "source_id": "41052998",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "マインドフルネスを実践する",
+      "マインドフルネスを実践するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、深呼吸が緊張を緩和した",
+    "source_id": "41054086",
+    "difficulty": "hard",
+    "xp": 15
+  }
+]

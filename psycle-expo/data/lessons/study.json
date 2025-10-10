@@ -1,0 +1,726 @@
+[
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「教えることで学習が定着した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「教えることで学習が定着した」です",
+    "source_id": "40721136",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「反復練習が習得を促進した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！反復練習が習得を促進した",
+    "source_id": "40957189",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "教えることで学習が定着した",
+      "教えることで学習が定着した（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、教えることで学習が定着した",
+    "source_id": "40798935",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が記憶定着を高めた",
+    "choices": [
+      "分散学習",
+      "分散学習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「分散学習」。分散学習が記憶定着を高めた",
+    "source_id": "40782516",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "教えることで学習が定着した",
+      "教えることで学習が定着した（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、教えることで学習が定着した",
+    "source_id": "40728368",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「教えることで学習が定着した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「教えることで学習が定着した」です",
+    "source_id": "40635609",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは効率よく勉強したいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "復習する",
+      "復習するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、想起練習が学習効果を向上させた",
+    "source_id": "40570936",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「想起練習が学習効果を向上させた」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！想起練習が学習効果を向上させた",
+    "source_id": "40387873",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "想起練習が学習効果を向上させた",
+      "想起練習が学習効果を低下させた",
+      "想起練習が学習効果を向上させた（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、想起練習が学習効果を向上させた",
+    "source_id": "40562106",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "テスト効果が記憶に有効だった",
+      "テスト効果が記憶に有効だった（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、テスト効果が記憶に有効だった",
+    "source_id": "40929922",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "反復練習が習得を促進した",
+      "反復練習が習得を阻害した",
+      "反復練習が習得を促進した（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、反復練習が習得を促進した",
+    "source_id": "40675034",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「テスト効果が記憶に有効だった」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！テスト効果が記憶に有効だった",
+    "source_id": "40614481",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは効率よく勉強したいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "復習する",
+      "復習するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、教えることで学習が定着した",
+    "source_id": "40456468",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは効率よく勉強したいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "想起練習する",
+      "想起練習するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、想起練習が学習効果を向上させた",
+    "source_id": "40412139",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "分散学習が記憶定着を高めた",
+      "分散学習が記憶定着を下げた",
+      "分散学習が記憶定着を高めた（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、分散学習が記憶定着を高めた",
+    "source_id": "40447145",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「想起練習が学習効果を向上させた」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「想起練習が学習効果を向上させた」です",
+    "source_id": "40779716",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "テスト効果が記憶に有効だった",
+      "テスト効果が記憶に有効だった（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、テスト効果が記憶に有効だった",
+    "source_id": "40956990",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で学習が定着した",
+    "choices": [
+      "教えること",
+      "教えること（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「教えること」。教えることで学習が定着した",
+    "source_id": "41053770",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「想起練習が学習効果を向上させた」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！想起練習が学習効果を向上させた",
+    "source_id": "41053695",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「テスト効果が記憶に有効だった」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！テスト効果が記憶に有効だった",
+    "source_id": "41039407",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「テスト効果が記憶に有効だった」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「テスト効果が記憶に有効だった」です",
+    "source_id": "40653051",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「反復練習が習得を促進した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「反復練習が習得を促進した」です",
+    "source_id": "41060038",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「反復練習が習得を促進した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「反復練習が習得を促進した」です",
+    "source_id": "41032006",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "反復練習が習得を促進した",
+      "反復練習が習得を阻害した",
+      "反復練習が習得を促進した（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、反復練習が習得を促進した",
+    "source_id": "40907430",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が記憶に有効だった",
+    "choices": [
+      "テスト効果",
+      "テスト効果（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「テスト効果」。テスト効果が記憶に有効だった",
+    "source_id": "40903447",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が記憶に有効だった",
+    "choices": [
+      "テスト効果",
+      "テスト効果（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「テスト効果」。テスト効果が記憶に有効だった",
+    "source_id": "40879778",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が記憶に有効だった",
+    "choices": [
+      "テスト効果",
+      "テスト効果（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「テスト効果」。テスト効果が記憶に有効だった",
+    "source_id": "40857872",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "テスト効果が記憶に有効だった",
+      "テスト効果が記憶に有効だった（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、テスト効果が記憶に有効だった",
+    "source_id": "40850056",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "分散学習が記憶定着を高めた",
+      "分散学習が記憶定着を下げた",
+      "分散学習が記憶定着を高めた（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、分散学習が記憶定着を高めた",
+    "source_id": "40845587",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "反復練習が習得を促進した",
+      "反復練習が習得を阻害した",
+      "反復練習が習得を促進した（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、反復練習が習得を促進した",
+    "source_id": "40840237",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "教えることで学習が定着した",
+      "教えることで学習が定着した（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、教えることで学習が定着した",
+    "source_id": "40816222",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で学習が定着した",
+    "choices": [
+      "教えること",
+      "教えること（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「教えること」。教えることで学習が定着した",
+    "source_id": "40816024",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "自己説明が理解を深めた",
+      "自己説明が理解を浅くした",
+      "自己説明が理解を深めた（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、自己説明が理解を深めた",
+    "source_id": "40763384",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "教えることで学習が定着した",
+      "教えることで学習が定着した（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、教えることで学習が定着した",
+    "source_id": "40730315",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは効率よく勉強したいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "想起練習する",
+      "想起練習するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、自己説明が理解を深めた",
+    "source_id": "40663838",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で学習が定着した",
+    "choices": [
+      "教えること",
+      "教えること（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「教えること」。教えることで学習が定着した",
+    "source_id": "40644948",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が習得を促進した",
+    "choices": [
+      "反復練習",
+      "反復練習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「反復練習」。反復練習が習得を促進した",
+    "source_id": "40493809",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは効率よく勉強したいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "想起練習する",
+      "想起練習するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、テスト効果が記憶に有効だった",
+    "source_id": "40489161",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が記憶定着を高めた",
+    "choices": [
+      "分散学習",
+      "分散学習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「分散学習」。分散学習が記憶定着を高めた",
+    "source_id": "40450427",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が習得を促進した",
+    "choices": [
+      "反復練習",
+      "反復練習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「反復練習」。反復練習が習得を促進した",
+    "source_id": "40410098",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が記憶定着を高めた",
+    "choices": [
+      "分散学習",
+      "分散学習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「分散学習」。分散学習が記憶定着を高めた",
+    "source_id": "40401690",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で学習が定着した",
+    "choices": [
+      "教えること",
+      "教えること（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「教えること」。教えることで学習が定着した",
+    "source_id": "40340949",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは効率よく勉強したいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "復習する",
+      "復習するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、自己説明が理解を深めた",
+    "source_id": "40198099",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「教えることで学習が定着した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「教えることで学習が定着した」です",
+    "source_id": "40116700",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「反復練習が習得を促進した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！反復練習が習得を促進した",
+    "source_id": "40105780",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは効率よく勉強したいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "復習する",
+      "復習するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、反復練習が習得を促進した",
+    "source_id": "40049579",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "想起練習が学習効果を向上させた",
+      "想起練習が学習効果を低下させた",
+      "想起練習が学習効果を向上させた（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、想起練習が学習効果を向上させた",
+    "source_id": "40021129",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が理解を深めた",
+    "choices": [
+      "自己説明",
+      "自己説明（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「自己説明」。自己説明が理解を深めた",
+    "source_id": "39988930",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "分散学習が記憶定着を高めた",
+      "分散学習が記憶定着を下げた",
+      "分散学習が記憶定着を高めた（ただし一部の人のみ）",
+      "一夜漬けでも覚えられる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、分散学習が記憶定着を高めた",
+    "source_id": "39968891",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは効率よく勉強したいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "想起練習する",
+      "想起練習するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、テスト効果が記憶に有効だった",
+    "source_id": "38749023",
+    "difficulty": "easy",
+    "xp": 8
+  }
+]

@@ -1,0 +1,736 @@
+[
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "運動する",
+      "運動するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、バランスの取れた食事が効果的だった",
+    "source_id": "40907633",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "睡眠時間を確保する",
+      "睡眠時間を確保するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、バランスの取れた食事が効果的だった",
+    "source_id": "41054273",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「有酸素運動が心肺機能を向上させた」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「有酸素運動が心肺機能を向上させた」です",
+    "source_id": "41054257",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "有酸素運動が心肺機能を向上させた",
+      "有酸素運動が心肺機能を低下させた",
+      "有酸素運動が心肺機能を向上させた（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、有酸素運動が心肺機能を向上させた",
+    "source_id": "40994407",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "睡眠時間の確保が重要だった",
+      "睡眠時間の確保が重要だった（ただし一部の人のみ）",
+      "サプリメントだけで十分",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、睡眠時間の確保が重要だった",
+    "source_id": "40738338",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "有酸素運動が心肺機能を向上させた",
+      "有酸素運動が心肺機能を低下させた",
+      "有酸素運動が心肺機能を向上させた（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、有酸素運動が心肺機能を向上させた",
+    "source_id": "40681000",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が重要だった",
+    "choices": [
+      "睡眠時間の確保",
+      "睡眠時間の確保（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「睡眠時間の確保」。睡眠時間の確保が重要だった",
+    "source_id": "41040018",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「睡眠時間の確保が重要だった」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「睡眠時間の確保が重要だった」です",
+    "source_id": "41025527",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「睡眠時間の確保が重要だった」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！睡眠時間の確保が重要だった",
+    "source_id": "40995761",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "有酸素運動が心肺機能を向上させた",
+      "有酸素運動が心肺機能を低下させた",
+      "有酸素運動が心肺機能を向上させた（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、有酸素運動が心肺機能を向上させた",
+    "source_id": "40981477",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "バランスの取れた食事が効果的だった",
+      "バランスの取れた食事が効果なしだった",
+      "バランスの取れた食事が効果的だった（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、バランスの取れた食事が効果的だった",
+    "source_id": "40966908",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "ストレス軽減法が健康増進に寄与した",
+      "ストレス増大法が健康増進に寄与した",
+      "ストレス軽減法が健康増進に寄与した（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ストレス軽減法が健康増進に寄与した",
+    "source_id": "40966095",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "ストレス軽減法が健康増進に寄与した",
+      "ストレス増大法が健康増進に寄与した",
+      "ストレス軽減法が健康増進に寄与した（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ストレス軽減法が健康増進に寄与した",
+    "source_id": "40963202",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "定期的な運動が健康を改善した",
+      "定期的な運動が健康を悪化した",
+      "定期的な運動が健康を改善した（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、定期的な運動が健康を改善した",
+    "source_id": "40957601",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が効果的だった",
+    "choices": [
+      "バランスの取れた食事",
+      "バランスの取れた食事（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「バランスの取れた食事」。バランスの取れた食事が効果的だった",
+    "source_id": "40954555",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「定期的な運動が健康を改善した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「定期的な運動が健康を改善した」です",
+    "source_id": "40929742",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "定期的な運動が健康を改善した",
+      "定期的な運動が健康を悪化した",
+      "定期的な運動が健康を改善した（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、定期的な運動が健康を改善した",
+    "source_id": "40882468",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "睡眠時間の確保が重要だった",
+      "睡眠時間の確保が重要だった（ただし一部の人のみ）",
+      "サプリメントだけで十分",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、睡眠時間の確保が重要だった",
+    "source_id": "40864504",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "睡眠時間の確保が重要だった",
+      "睡眠時間の確保が重要だった（ただし一部の人のみ）",
+      "サプリメントだけで十分",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、睡眠時間の確保が重要だった",
+    "source_id": "40848505",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が健康を改善した",
+    "choices": [
+      "定期的な運動",
+      "定期的な運動（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「定期的な運動」。定期的な運動が健康を改善した",
+    "source_id": "40842180",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "バランス良く食べる",
+      "バランス良く食べるの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、有酸素運動が心肺機能を向上させた",
+    "source_id": "40781783",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「定期的な運動が健康を改善した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「定期的な運動が健康を改善した」です",
+    "source_id": "40770927",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "睡眠時間の確保が重要だった",
+      "睡眠時間の確保が重要だった（ただし一部の人のみ）",
+      "サプリメントだけで十分",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、睡眠時間の確保が重要だった",
+    "source_id": "40749646",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "バランス良く食べる",
+      "バランス良く食べるの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ストレス軽減法が健康増進に寄与した",
+    "source_id": "40712552",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "運動する",
+      "運動するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、十分な休息が回復を促進した",
+    "source_id": "40706348",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「十分な休息が回復を促進した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「十分な休息が回復を促進した」です",
+    "source_id": "40697094",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が健康を改善した",
+    "choices": [
+      "定期的な運動",
+      "定期的な運動（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「定期的な運動」。定期的な運動が健康を改善した",
+    "source_id": "40684312",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "運動する",
+      "運動するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ストレス軽減法が健康増進に寄与した",
+    "source_id": "40663866",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "睡眠時間を確保する",
+      "睡眠時間を確保するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ストレス軽減法が健康増進に寄与した",
+    "source_id": "40650376",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「睡眠時間の確保が重要だった」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「睡眠時間の確保が重要だった」です",
+    "source_id": "40643578",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が効果的だった",
+    "choices": [
+      "バランスの取れた食事",
+      "バランスの取れた食事（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「バランスの取れた食事」。バランスの取れた食事が効果的だった",
+    "source_id": "40634131",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "定期的な運動が健康を改善した",
+      "定期的な運動が健康を悪化した",
+      "定期的な運動が健康を改善した（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、定期的な運動が健康を改善した",
+    "source_id": "40631405",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が心肺機能を向上させた",
+    "choices": [
+      "有酸素運動",
+      "有酸素運動（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「有酸素運動」。有酸素運動が心肺機能を向上させた",
+    "source_id": "40627440",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "運動する",
+      "運動するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ストレス軽減法が健康増進に寄与した",
+    "source_id": "40627430",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "睡眠時間を確保する",
+      "睡眠時間を確保するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、定期的な運動が健康を改善した",
+    "source_id": "40619882",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が健康増進に寄与した",
+    "choices": [
+      "ストレス軽減法",
+      "ストレス軽減法（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「ストレス軽減法」。ストレス軽減法が健康増進に寄与した",
+    "source_id": "40609715",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "運動する",
+      "運動するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、十分な休息が回復を促進した",
+    "source_id": "40539259",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "ストレス軽減法が健康増進に寄与した",
+      "ストレス増大法が健康増進に寄与した",
+      "ストレス軽減法が健康増進に寄与した（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ストレス軽減法が健康増進に寄与した",
+    "source_id": "40512050",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が心肺機能を向上させた",
+    "choices": [
+      "有酸素運動",
+      "有酸素運動（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「有酸素運動」。有酸素運動が心肺機能を向上させた",
+    "source_id": "40509807",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「有酸素運動が心肺機能を向上させた」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！有酸素運動が心肺機能を向上させた",
+    "source_id": "40504595",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が重要だった",
+    "choices": [
+      "睡眠時間の確保",
+      "睡眠時間の確保（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「睡眠時間の確保」。睡眠時間の確保が重要だった",
+    "source_id": "40488306",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "ストレス軽減法が健康増進に寄与した",
+      "ストレス増大法が健康増進に寄与した",
+      "ストレス軽減法が健康増進に寄与した（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ストレス軽減法が健康増進に寄与した",
+    "source_id": "40470618",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "運動する",
+      "運動するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、十分な休息が回復を促進した",
+    "source_id": "40462558",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が健康を改善した",
+    "choices": [
+      "定期的な運動",
+      "定期的な運動（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「定期的な運動」。定期的な運動が健康を改善した",
+    "source_id": "40456518",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が効果的だった",
+    "choices": [
+      "バランスの取れた食事",
+      "バランスの取れた食事（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「バランスの取れた食事」。バランスの取れた食事が効果的だった",
+    "source_id": "40454784",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "バランスの取れた食事が効果的だった",
+      "バランスの取れた食事が効果なしだった",
+      "バランスの取れた食事が効果的だった（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、バランスの取れた食事が効果的だった",
+    "source_id": "40405489",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が健康を改善した",
+    "choices": [
+      "定期的な運動",
+      "定期的な運動（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「定期的な運動」。定期的な運動が健康を改善した",
+    "source_id": "40260973",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "十分な休息が回復を促進した",
+      "十分な休息が回復を阻害した",
+      "十分な休息が回復を促進した（ただし一部の人のみ）",
+      "サプリメントだけで十分"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、十分な休息が回復を促進した",
+    "source_id": "40259503",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたは健康になりたいと感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "運動する",
+      "運動するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、バランスの取れた食事が効果的だった",
+    "source_id": "40249126",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が健康を改善した",
+    "choices": [
+      "定期的な運動",
+      "定期的な運動（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「定期的な運動」。定期的な運動が健康を改善した",
+    "source_id": "40248919",
+    "difficulty": "hard",
+    "xp": 15
+  }
+]

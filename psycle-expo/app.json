@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "psycle-expo",
+    "slug": "psycle-expo",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "image": "./assets/splash-icon.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.anonymous.psycle-expo"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#ffffff"
+      },
+      "edgeToEdgeEnabled": true,
+      "package": "com.anonymous.psycleexpo"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "scheme": "psycle",
+    "plugins": [
+      "expo-router",
+      "expo-dev-client"
+    ],
+    "extra": {
+      "BASE_URL": "https://shin2721.github.io/psych-duo-packs"
+    }
+  }
+}
