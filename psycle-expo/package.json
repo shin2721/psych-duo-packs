@@ -7,7 +7,10 @@
     "android": "expo start --android --dev-client",
     "ios": "expo start --ios --dev-client",
     "web": "expo start --web",
-    "tunnel": "expo start --tunnel --dev-client"
+    "tunnel": "expo start --tunnel --dev-client",
+    "fetch": "node scripts/fetch_sources.mjs",
+    "questions": "node scripts/generate_questions.mjs",
+    "update-content": "node scripts/fetch_sources.mjs"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",

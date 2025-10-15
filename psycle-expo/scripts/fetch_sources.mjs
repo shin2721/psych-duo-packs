@@ -3,7 +3,7 @@ import { writeFile, readFile } from "node:fs/promises";
 
 // ============ 設定 ============
 const FROM_YEAR = 2012;
-const MAX_PER_UNIT = 80; // PubMed優先で抄録付き文献を多く取得
+const MAX_PER_UNIT = 80; // ERIC、PubMed、Crossrefから抄録付き文献を取得
 const TYPES_OK = new Set(["journal-article"]); // Crossref
 const PUBTYPE_ALLOW = /./; // Accept all publication types
 const PUBTYPE_DENY  = /case reports?|editorial|letter|comment/i;
@@ -74,6 +74,52 @@ async function fetchCrossref(unitKey) {
         unit: unitKey
       };
     });
+}
+
+// ============ ERIC (Education Resources Information Center) ============
+// 参考: https://eric.ed.gov/?api
+async function fetchERIC(unitKey) {
+  // ERIC doesn't support phrase queries (quoted strings), so remove quotes
+  const q = UNIT_QUERIES[unitKey].crossref.replace(/"/g, '');
+  const url = `https://api.ies.ed.gov/eric/?search=${encodeURIComponent(q)}&rows=${MAX_PER_UNIT}&format=json&start=0`;
+
+  try {
+    const r = await fetch(url);
+
+    if (!r.ok) {
+      console.warn(`  [ERIC] HTTP ${r.status} for ${unitKey}`);
+      return [];
+    }
+
+    const j = await r.json();
+    const allDocs = j.response?.docs || [];
+
+    const withDescription = allDocs.filter(x => x.description && x.description.length > 50);
+
+    const withYear = withDescription.filter(x => x.publicationdateyear && x.publicationdateyear >= FROM_YEAR);
+
+    return withYear.map(x => {
+      const year = parseInt(x.publicationdateyear, 10);
+      return {
+        id: x.id || `eric:${x.accno}`,
+        doi: null,
+        pmid: null,
+        title: x.title || "",
+        authors: Array.isArray(x.author) ? x.author : [],
+        year,
+        venue: x.source || "",
+        url: `https://eric.ed.gov/?id=${x.id}`,
+        type: x.publicationtype?.join("; ") || "journal-article",
+        tags: x.subject || [],
+        abstract: x.description || null,
+        source: "eric",
+        unit: unitKey
+      };
+    });
+  } catch (error) {
+    console.warn(`  [ERIC] Error for ${unitKey}:`, error.message);
+    return [];
+  }
 }
 
 // ============ OpenAlex ============
@@ -265,25 +311,39 @@ async function run() {
   const units = Object.keys(UNIT_QUERIES);
   let all = [];
   for (const u of units) {
-    console.log(`[${u}] Fetching from OpenAlex, PubMed, and Crossref...`);
+    console.log(`[${u}] Fetching from ERIC, PubMed, and Crossref...`);
 
-    // Fetch all sources in parallel (OpenAlex has no rate limit issues)
-    const [oa, pm, cr] = await Promise.all([
-      fetchOpenAlex(u),
+    // Fetch all sources in parallel
+    const [eric, pm, cr] = await Promise.all([
+      fetchERIC(u),
       fetchPubMed(u),
       fetchCrossref(u)
     ]);
 
-    // OpenAlex優先（抄録必須）、次にPubMed（抄録付き）、最後にCrossref
-    let recs = dedupe([...oa, ...pm, ...cr]);
+    // ERIC優先（全て抄録付き）、次にPubMed（抄録付きが多い）、最後にCrossref
+    let recs = dedupe([...eric, ...pm, ...cr]);
     recs = filterAndScore(recs, u);
     console.log(` -> kept ${recs.length} items (${recs.filter(r => r.abstract).length} with abstracts)`);
-    console.log(`    Sources: OpenAlex=${oa.length}, PubMed=${pm.length}, Crossref=${cr.length}`);
+    console.log(`    Sources: ERIC=${eric.length}, PubMed=${pm.length}, Crossref=${cr.length}`);
     all.push(...recs);
   }
   all = dedupe(all);
   console.log(`\nDONE. wrote ${all.length} records to data/sources.json`);
   console.log(`Total with abstracts: ${all.filter(r => r.abstract).length}`);
   await writeFile("data/sources.json", JSON.stringify(all, null, 2), "utf8");
+
+  // Auto-generate questions after fetching sources
+  console.log("\n=== Auto-generating questions ===");
+  const { exec } = await import("node:child_process");
+  const { promisify } = await import("node:util");
+  const execAsync = promisify(exec);
+
+  try {
+    const { stdout, stderr } = await execAsync("node scripts/generate_questions.mjs");
+    console.log(stdout);
+    if (stderr) console.error(stderr);
+  } catch (error) {
+    console.error("Failed to generate questions:", error.message);
+  }
 }
 run().catch(e => { console.error(e); process.exit(1); });
