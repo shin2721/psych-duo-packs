@@ -22,6 +22,16 @@ const MODES = {
     evidence_granularity: "paragraph", // ABS:¶2
     question_types: ["mcq", "tf", "cloze", "word_bank"],
   },
+  multi_abstract_lite: {
+    profiles: ["lite"],
+    sources_to_combine: 5,  // Combine 5 papers
+    lessons_per_unit: 3,    // 3 lessons per unit
+    questions_per_lesson: 8, // 8 questions per lesson
+    units_to_generate: 3,    // 3 units (background, methods, results)
+    allow_figure_questions: false,
+    evidence_granularity: "paragraph", // ABS:paper_id:¶2
+    question_types: ["mcq", "tf", "cloze", "word_bank"],
+  },
   pmc_pro: {
     profiles: ["pro", "lite"],
     lessons_per_unit: 3,
@@ -32,6 +42,142 @@ const MODES = {
     question_types: ["mcq", "tf", "cloze", "word_bank", "reorder", "figure_reading", "free_typing"],
   },
 };
+
+// ============ Multi-Abstract Lite Pack Builder ============
+async function buildMultiAbstractLitePack(sources) {
+  const mode = MODES.multi_abstract_lite;
+
+  if (sources.length < mode.sources_to_combine) {
+    console.log(`⚠️  Insufficient sources (${sources.length}/${mode.sources_to_combine})`);
+    return null;
+  }
+
+  const selectedSources = sources.slice(0, mode.sources_to_combine);
+
+  // Generate pack ID from first source
+  const firstSource = selectedSources[0];
+  const packId = `pack_multi_${firstSource.unit}_${Date.now()}`;
+
+  const pack = {
+    id: packId,
+    title: `${firstSource.unit.toUpperCase()} Research Collection (${selectedSources.length} papers)`,
+    units: [
+      { id: "u1_background", name: "背景・目的", lessons: mode.lessons_per_unit },
+      { id: "u2_methods", name: "方法", lessons: mode.lessons_per_unit },
+      { id: "u3_results", name: "結果", lessons: mode.lessons_per_unit },
+    ],
+    targets: [],
+    tags: [firstSource.unit],
+    lesson_size: mode.questions_per_lesson,
+    profiles: mode.profiles,
+    source: {
+      type: "multi_abstract",
+      papers: selectedSources.map(s => ({
+        doi: s.doi || null,
+        pmid: s.pmid || null,
+        title: s.title,
+      })),
+      license: "abstract_fair_use",
+    },
+  };
+
+  // Extract facts from all sources
+  const allFacts = [];
+  const allSpans = [];
+
+  for (let i = 0; i < selectedSources.length; i++) {
+    const source = selectedSources[i];
+    const sourcePrefix = `P${i + 1}`;
+
+    // Parse abstract
+    const sentences = source.abstract
+      .split(/[。．.!?]\s*/)
+      .map(s => s.trim())
+      .filter(s => s.length > 20);
+
+    const groupSize = Math.max(3, Math.floor(sentences.length / 4));
+    const sections = [];
+
+    for (let j = 0; j < sentences.length; j += groupSize) {
+      const group = sentences.slice(j, j + groupSize).join(". ");
+      if (group.length > 50) {
+        const spanId = `${sourcePrefix}:¶${Math.floor(j / groupSize) + 1}`;
+        sections.push({
+          id: spanId,
+          text: group,
+          section: "abstract",
+        });
+      }
+    }
+
+    // Add spans
+    allSpans.push(...sections);
+
+    // Extract facts from this source
+    const facts = extractFactsFromAbstract(source.abstract, sections);
+
+    // Prefix evidence_span_id with source identifier
+    facts.forEach(fact => {
+      fact.sourceIndex = i;
+      fact.sourceTitle = source.title.slice(0, 60);
+    });
+
+    allFacts.push(...facts);
+  }
+
+  const unitsToGenerate = mode.units_to_generate || 3;
+  const totalQuestions = mode.lessons_per_unit * mode.questions_per_lesson * unitsToGenerate;
+
+  if (allFacts.length < totalQuestions * 0.7) {
+    console.log(`⚠️  Insufficient facts (${allFacts.length}/${Math.floor(totalQuestions * 0.7)} minimum)`);
+    return null;
+  }
+
+  // Generate questions from pooled facts
+  const items = [];
+  let factIndex = 0;
+
+  for (let unitIdx = 0; unitIdx < unitsToGenerate; unitIdx++) {
+    const unit = pack.units[unitIdx];
+
+    for (let lessonNum = 1; lessonNum <= mode.lessons_per_unit; lessonNum++) {
+      for (let q = 0; q < mode.questions_per_lesson; q++) {
+        if (factIndex >= allFacts.length) break;
+
+        const fact = allFacts[factIndex];
+        factIndex++;
+
+        const item = generateQuestionFromFact(
+          fact,
+          unit.id,
+          lessonNum,
+          items.length,
+          mode
+        );
+
+        if (item) {
+          items.push(item);
+        } else {
+          q--; // Retry
+        }
+      }
+    }
+  }
+
+  if (items.length < totalQuestions * 0.7) {
+    console.log(`⚠️  Too few questions (${items.length}/${totalQuestions})`);
+    return null;
+  }
+
+  // Generate schedule
+  const schedule = items.map((item, idx) => ({
+    item_id: item.id,
+    due_at_offset_min: 10 + idx * 5,
+    half_life_h: 24,
+  }));
+
+  return { pack, spans: allSpans, items, schedule };
+}
 
 // ============ Abstract Lite Pack Builder ============
 async function buildAbstractLitePack(source) {
@@ -543,13 +689,41 @@ async function main() {
     .sort((a, b) => b.score - a.score)
     .map(x => x.source);
 
-  // Generate pack from top source
-  const source = rankedSources[0];
-  console.log(`\n📄 Building pack from: ${source.title.slice(0, 80)}...`);
-  console.log(`   DOI: ${source.doi || 'N/A'}`);
-  console.log(`   Abstract length: ${source.abstract.length} chars`);
+  let result;
 
-  const result = await buildAbstractLitePack(source);
+  if (mode === "multi_abstract_lite") {
+    // Group by unit and select top 5 from each
+    const units = ["mental", "money", "work", "health", "social", "study"];
+    let selectedUnit = null;
+    let unitSources = [];
+
+    for (const unit of units) {
+      const sources = rankedSources.filter(s => s.unit === unit);
+      if (sources.length >= MODES.multi_abstract_lite.sources_to_combine) {
+        selectedUnit = unit;
+        unitSources = sources;
+        break;
+      }
+    }
+
+    if (!selectedUnit) {
+      console.error("❌ No unit with sufficient sources for multi-abstract pack");
+      process.exit(1);
+    }
+
+    console.log(`\n📚 Building multi-abstract pack from ${selectedUnit} unit`);
+    console.log(`   Papers: ${Math.min(unitSources.length, MODES.multi_abstract_lite.sources_to_combine)}`);
+
+    result = await buildMultiAbstractLitePack(unitSources);
+  } else {
+    // Single-paper pack
+    const source = rankedSources[0];
+    console.log(`\n📄 Building pack from: ${source.title.slice(0, 80)}...`);
+    console.log(`   DOI: ${source.doi || 'N/A'}`);
+    console.log(`   Abstract length: ${source.abstract.length} chars`);
+
+    result = await buildAbstractLitePack(source);
+  }
 
   if (!result) {
     console.error("❌ Failed to build pack");

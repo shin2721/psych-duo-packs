@@ -1,0 +1,60 @@
+{
+  "id": "pack_multi_mental_1760518924860",
+  "title": "MENTAL Research Collection (5 papers)",
+  "units": [
+    {
+      "id": "u1_background",
+      "name": "背景・目的",
+      "lessons": 3
+    },
+    {
+      "id": "u2_methods",
+      "name": "方法",
+      "lessons": 3
+    },
+    {
+      "id": "u3_results",
+      "name": "結果",
+      "lessons": 3
+    }
+  ],
+  "targets": [],
+  "tags": [
+    "mental"
+  ],
+  "lesson_size": 8,
+  "profiles": [
+    "lite"
+  ],
+  "source": {
+    "type": "multi_abstract",
+    "papers": [
+      {
+        "doi": null,
+        "pmid": null,
+        "title": "Emotional Regulation Predicting Well-Being in Online Undergraduate Learners"
+      },
+      {
+        "doi": "10.1186/s40359-025-03467-5",
+        "pmid": "41068976",
+        "title": "Nurses' attitudes towards artificial intelligence: relationship between cognitive flexibility and emotion regulation."
+      },
+      {
+        "doi": "10.1007/s11325-025-03472-3",
+        "pmid": "41082129",
+        "title": "Machine learning insights into obesity related genes XRCC4 and ARL6 in obstructive sleep apnea."
+      },
+      {
+        "doi": "10.5080/u27576",
+        "pmid": "41070519",
+        "title": "Investigation of Anhedonia, Emotional Expression, and Emotion Regulation Difficulties in Individuals Diagnosed with Fibromyalgia."
+      },
+      {
+        "doi": "10.5080/u27657",
+        "pmid": "41070514",
+        "title": "The Relationship Between Depressive Symptoms, Alexithymia, Emotion Regulation and Empathy in Adolescents with Social Anxiety Disorder."
+      }
+    ],
+    "license": "abstract_fair_use"
+  }
+}
