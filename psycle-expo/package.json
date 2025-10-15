@@ -10,7 +10,9 @@
     "tunnel": "expo start --tunnel --dev-client",
     "fetch": "node scripts/fetch_sources.mjs",
     "questions": "node scripts/generate_questions.mjs",
-    "update-content": "node scripts/fetch_sources.mjs"
+    "update-content": "node scripts/fetch_sources.mjs",
+    "pack:lite": "node scripts/pack_builder.mjs abstract_lite",
+    "pack:pro": "node scripts/pack_builder.mjs pmc_pro"
   },
   "dependencies": {
     "@expo/vector-icons": "^15.0.2",
