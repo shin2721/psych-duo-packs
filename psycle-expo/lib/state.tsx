@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
 
 interface Quest {
   id: string;
@@ -19,6 +19,26 @@ interface AppState {
   quests: Quest[];
   incrementQuest: (id: string, step?: number) => void;
   claimQuest: (id: string) => void;
+  // Streak system
+  streak: number;
+  lastStudyDate: string | null;
+  freezeCount: number;
+  useFreeze: () => boolean;
+  // Currency system
+  gems: number;
+  addGems: (amount: number) => void;
+  spendGems: (amount: number) => boolean;
+  buyFreeze: () => boolean;
+  // Daily goal system
+  dailyGoal: number;
+  dailyXP: number;
+  setDailyGoal: (xp: number) => void;
+  // Life system
+  lives: number;
+  maxLives: number;
+  loseLife: () => boolean;
+  refillLives: () => boolean;
+  lastLifeLostTime: number | null;
 }
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
@@ -37,7 +57,90 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     { id: "q_weekly_10lessons", type: "weekly", title: "週に10レッスン完了", need: 10, progress: 2, rewardXp: 100, claimed: false, chestState: "closed" },
   ]);
 
-  const addXp = (amount: number) => setXP((prev) => prev + amount);
+  // Streak system
+  const [streak, setStreak] = useState(0);
+  const [lastStudyDate, setLastStudyDate] = useState<string | null>(null);
+  const [freezeCount, setFreezeCount] = useState(2); // Start with 2 free freezes
+
+  // Currency system
+  const [gems, setGems] = useState(50); // Start with 50 gems
+
+  // Daily goal system
+  const [dailyGoal, setDailyGoalState] = useState(10); // Regular = 10 XP
+  const [dailyXP, setDailyXP] = useState(0);
+  const [dailyGoalLastReset, setDailyGoalLastReset] = useState(getTodayDate());
+
+  // Life system
+  const MAX_LIVES = 5;
+  const [lives, setLives] = useState(MAX_LIVES);
+  const [lastLifeLostTime, setLastLifeLostTime] = useState<number | null>(null);
+
+  // Helper: Get today's date in YYYY-MM-DD format
+  function getTodayDate(): string {
+    const d = new Date();
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+
+  // Helper: Get yesterday's date
+  function getYesterdayDate(): string {
+    const d = new Date();
+    d.setDate(d.getDate() - 1);
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+
+  // Check and reset daily progress
+  useEffect(() => {
+    const today = getTodayDate();
+    if (dailyGoalLastReset !== today) {
+      setDailyXP(0);
+      setDailyGoalLastReset(today);
+    }
+  }, [dailyGoalLastReset]);
+
+  // Update streak when studying
+  const updateStreak = () => {
+    const today = getTodayDate();
+    const yesterday = getYesterdayDate();
+
+    if (lastStudyDate === today) {
+      // Already studied today, no change
+      return;
+    } else if (lastStudyDate === yesterday) {
+      // Studied yesterday, increment streak
+      setStreak((prev) => prev + 1);
+      setLastStudyDate(today);
+    } else if (lastStudyDate === null) {
+      // First time studying
+      setStreak(1);
+      setLastStudyDate(today);
+    } else {
+      // Streak broken, check if freeze available
+      if (freezeCount > 0) {
+        // Auto-use freeze to save streak
+        setFreezeCount((prev) => prev - 1);
+        setStreak((prev) => prev + 1);
+        setLastStudyDate(today);
+      } else {
+        // Streak lost, reset to 1
+        setStreak(1);
+        setLastStudyDate(today);
+      }
+    }
+  };
+
+  // Add XP and update daily progress + streak
+  const addXp = (amount: number) => {
+    setXP((prev) => prev + amount);
+    setDailyXP((prev) => {
+      const newDailyXP = prev + amount;
+      // Award gems when daily goal is reached
+      if (prev < dailyGoal && newDailyXP >= dailyGoal) {
+        addGems(5); // 5 gems for completing daily goal
+      }
+      return newDailyXP;
+    });
+    updateStreak();
+  };
 
   const incrementQuest = (id: string, step = 1) => {
     setQuests((prev) =>
@@ -54,6 +157,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       prev.map((q) => {
         if (q.id === id && q.progress >= q.need && !q.claimed) {
           addXp(q.rewardXp);
+          addGems(10); // Also award 10 gems for quest completion
           return { ...q, claimed: true, chestState: "opening" as const };
         }
         return q;
@@ -67,6 +171,85 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     }, 1200);
   };
 
+  // Currency methods
+  const addGems = (amount: number) => {
+    setGems((prev) => prev + amount);
+  };
+
+  const spendGems = (amount: number): boolean => {
+    if (gems >= amount) {
+      setGems((prev) => prev - amount);
+      return true;
+    }
+    return false;
+  };
+
+  const buyFreeze = (): boolean => {
+    const cost = 10; // 10 gems per freeze
+    if (spendGems(cost)) {
+      setFreezeCount((prev) => prev + 1);
+      return true;
+    }
+    return false;
+  };
+
+  const useFreeze = (): boolean => {
+    if (freezeCount > 0) {
+      setFreezeCount((prev) => prev - 1);
+      return true;
+    }
+    return false;
+  };
+
+  const setDailyGoal = (xp: number) => {
+    setDailyGoalState(xp);
+  };
+
+  // Life system methods
+  const loseLife = (): boolean => {
+    if (lives > 0) {
+      setLives((prev) => prev - 1);
+      setLastLifeLostTime(Date.now());
+      return true;
+    }
+    return false;
+  };
+
+  const refillLives = (): boolean => {
+    const cost = 10; // 10 gems for full refill
+    if (spendGems(cost)) {
+      setLives(MAX_LIVES);
+      setLastLifeLostTime(null);
+      return true;
+    }
+    return false;
+  };
+
+  // Auto-recover lives over time (30 minutes per life)
+  useEffect(() => {
+    if (lives >= MAX_LIVES || lastLifeLostTime === null) return;
+
+    const interval = setInterval(() => {
+      const now = Date.now();
+      const timeSinceLastLoss = now - lastLifeLostTime;
+      const LIFE_RECOVERY_TIME = 30 * 60 * 1000; // 30 minutes
+
+      if (timeSinceLastLoss >= LIFE_RECOVERY_TIME) {
+        setLives((prev) => {
+          const newLives = Math.min(prev + 1, MAX_LIVES);
+          if (newLives >= MAX_LIVES) {
+            setLastLifeLostTime(null);
+          } else {
+            setLastLifeLostTime(now);
+          }
+          return newLives;
+        });
+      }
+    }, 60000); // Check every minute
+
+    return () => clearInterval(interval);
+  }, [lives, lastLifeLostTime, MAX_LIVES]);
+
   return (
     <AppStateContext.Provider
       value={{
@@ -77,6 +260,26 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         quests,
         incrementQuest,
         claimQuest,
+        // Streak system
+        streak,
+        lastStudyDate,
+        freezeCount,
+        useFreeze,
+        // Currency system
+        gems,
+        addGems,
+        spendGems,
+        buyFreeze,
+        // Daily goal system
+        dailyGoal,
+        dailyXP,
+        setDailyGoal,
+        // Life system
+        lives,
+        maxLives: MAX_LIVES,
+        loseLife,
+        refillLives,
+        lastLifeLostTime,
       }}
     >
       {children}

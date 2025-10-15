@@ -7,6 +7,7 @@ import { theme } from "../../lib/theme";
 import { league, promotionCut, relegationCut } from "../../lib/data";
 import { useAppState } from "../../lib/state";
 import { Chest } from "../../components/Chest";
+import { GlobalHeader } from "../../components/GlobalHeader";
 
 const COLORS = ["#fbbf24", "#60a5fa", "#a78bfa", "#f472b6", "#34d399"];
 
@@ -16,6 +17,7 @@ export default function LeagueScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
+      <GlobalHeader />
       <LinearGradient colors={["#1e293b", theme.colors.surface]} style={styles.header}>
         <View style={styles.headerTop}>
           <View style={styles.badge}>

@@ -7,6 +7,7 @@ const MAX_PER_UNIT = 80; // PubMed優先で抄録付き文献を多く取得
 const TYPES_OK = new Set(["journal-article"]); // Crossref
 const PUBTYPE_ALLOW = /./; // Accept all publication types
 const PUBTYPE_DENY  = /case reports?|editorial|letter|comment/i;
+const SEMANTIC_SCHOLAR_API_KEY = process.env.SEMANTIC_SCHOLAR_API_KEY || null;
 
 const UNIT_QUERIES = {
   mental: {
@@ -73,6 +74,113 @@ async function fetchCrossref(unitKey) {
         unit: unitKey
       };
     });
+}
+
+// ============ OpenAlex ============
+// 参考: https://docs.openalex.org/
+async function fetchOpenAlex(unitKey) {
+  const q = UNIT_QUERIES[unitKey].crossref;
+  const url = `https://api.openalex.org/works?search=${encodeURIComponent(q)}&filter=from_publication_date:${FROM_YEAR}-01-01,type:journal-article&per-page=${MAX_PER_UNIT}&select=id,doi,title,publication_year,authorships,primary_location,type,concepts,ids,abstract_inverted_index&mailto=psycle@example.org`;
+
+  try {
+    const r = await fetch(url);
+
+    if (!r.ok) {
+      console.warn(`  [OpenAlex] HTTP ${r.status} for ${unitKey}`);
+      return [];
+    }
+
+    const j = await r.json();
+
+    return (j.results || [])
+      .filter(x => x.abstract_inverted_index) // Must have abstract
+      .map(x => {
+        // Reconstruct abstract from inverted index
+        const invertedIndex = x.abstract_inverted_index || {};
+        const words = [];
+        for (const [word, positions] of Object.entries(invertedIndex)) {
+          for (const pos of positions) {
+            words[pos] = word;
+          }
+        }
+        const abstract = words.filter(Boolean).join(" ").trim();
+
+        const doi = x.doi ? x.doi.replace("https://doi.org/", "") : null;
+        const pmid = x.ids?.pmid ? x.ids.pmid.replace("https://pubmed.ncbi.nlm.nih.gov/", "") : null;
+
+        return {
+          id: doi ? `doi:${doi}` : (pmid ? `pmid:${pmid}` : `openalex:${x.id}`),
+          doi,
+          pmid,
+          title: x.title || "",
+          authors: (x.authorships || []).map(a => a.author?.display_name).filter(Boolean),
+          year: x.publication_year || null,
+          venue: x.primary_location?.source?.display_name || "",
+          url: doi ? `https://doi.org/${doi}` : x.id,
+          type: x.type || "journal-article",
+          tags: (x.concepts || []).map(c => c.display_name),
+          abstract: abstract.length > 50 ? abstract : null,
+          source: "openalex",
+          unit: unitKey
+        };
+      })
+      .filter(x => x.abstract && x.year && x.year >= FROM_YEAR);
+  } catch (error) {
+    console.warn(`  [OpenAlex] Error for ${unitKey}:`, error.message);
+    return [];
+  }
+}
+
+// ============ Semantic Scholar ============
+// 参考: https://api.semanticscholar.org/api-docs/graph
+async function fetchSemanticScholar(unitKey) {
+  const q = UNIT_QUERIES[unitKey].crossref;
+  const url = `https://api.semanticscholar.org/graph/v1/paper/search?query=${encodeURIComponent(q)}&limit=${MAX_PER_UNIT}&fields=paperId,title,abstract,year,authors,venue,externalIds,publicationTypes,fieldsOfStudy&minCitationCount=3`;
+
+  try {
+    const headers = {
+      "User-Agent": "psycle/1.0 (academic research app)",
+    };
+
+    if (SEMANTIC_SCHOLAR_API_KEY) {
+      headers["x-api-key"] = SEMANTIC_SCHOLAR_API_KEY;
+    }
+
+    const r = await fetch(url, { headers });
+
+    if (!r.ok) {
+      console.warn(`  [Semantic Scholar] HTTP ${r.status} for ${unitKey}`);
+      return [];
+    }
+
+    const j = await r.json();
+
+    return (j.data || [])
+      .filter(x => x.abstract && x.abstract.length > 50) // Must have abstract
+      .filter(x => x.year && x.year >= FROM_YEAR) // Filter by year
+      .map(x => {
+        const doi = x.externalIds?.DOI || null;
+        const pmid = x.externalIds?.PubMed || null;
+        return {
+          id: doi ? `doi:${doi}` : (pmid ? `pmid:${pmid}` : `s2:${x.paperId}`),
+          doi,
+          pmid,
+          title: x.title || "",
+          authors: (x.authors || []).map(a => a.name).filter(Boolean),
+          year: x.year || null,
+          venue: x.venue || "",
+          url: doi ? `https://doi.org/${doi}` : `https://www.semanticscholar.org/paper/${x.paperId}`,
+          type: (x.publicationTypes || []).join("; ") || "journal-article",
+          tags: x.fieldsOfStudy || [],
+          abstract: x.abstract || null,
+          source: "semantic-scholar",
+          unit: unitKey
+        };
+      });
+  } catch (error) {
+    console.warn(`  [Semantic Scholar] Error for ${unitKey}:`, error.message);
+    return [];
+  }
 }
 
 // ============ PubMed ============
@@ -157,12 +265,20 @@ async function run() {
   const units = Object.keys(UNIT_QUERIES);
   let all = [];
   for (const u of units) {
-    console.log(`[${u}] Crossref/PubMed fetching...`);
-    const [cr, pm] = await Promise.all([fetchCrossref(u), fetchPubMed(u)]);
-    // PubMed優先（抄録付き）でdedupe
-    let recs = dedupe([...pm, ...cr]);
+    console.log(`[${u}] Fetching from OpenAlex, PubMed, and Crossref...`);
+
+    // Fetch all sources in parallel (OpenAlex has no rate limit issues)
+    const [oa, pm, cr] = await Promise.all([
+      fetchOpenAlex(u),
+      fetchPubMed(u),
+      fetchCrossref(u)
+    ]);
+
+    // OpenAlex優先（抄録必須）、次にPubMed（抄録付き）、最後にCrossref
+    let recs = dedupe([...oa, ...pm, ...cr]);
     recs = filterAndScore(recs, u);
     console.log(` -> kept ${recs.length} items (${recs.filter(r => r.abstract).length} with abstracts)`);
+    console.log(`    Sources: OpenAlex=${oa.length}, PubMed=${pm.length}, Crossref=${cr.length}`);
     all.push(...recs);
   }
   all = dedupe(all);

@@ -5,6 +5,7 @@ import { theme } from "../../lib/theme";
 import { useAppState } from "../../lib/state";
 import { Card, ProgressBar, SectionHeader } from "../../components/ui";
 import { Chest } from "../../components/Chest";
+import { GlobalHeader } from "../../components/GlobalHeader";
 
 export default function QuestsScreen() {
   const { xp, quests, claimQuest } = useAppState();
@@ -40,6 +41,7 @@ export default function QuestsScreen() {
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
+      <GlobalHeader />
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.headerRow}>
           <Text style={styles.title}>10月のクエスト</Text>

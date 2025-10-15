@@ -1,6 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Pressable, StyleSheet, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+// import * as Haptics from "expo-haptics";
+// import { Audio } from "expo-av";
 import { theme } from "../lib/theme";
 
 export interface Question {
@@ -16,12 +18,56 @@ export interface Question {
 
 interface Props {
   question: Question;
-  onAnswer: (isCorrect: boolean, xp: number) => void;
+  onContinue: (isCorrect: boolean, xp: number) => void;
 }
 
-export function QuestionRenderer({ question, onAnswer }: Props) {
+export function QuestionRenderer({ question, onContinue }: Props) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [showResult, setShowResult] = useState(false);
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+  const slideAnim = useRef(new Animated.Value(30)).current;
+
+  useEffect(() => {
+    // フェードイン・スライドインアニメーション
+    Animated.parallel([
+      Animated.timing(fadeAnim, {
+        toValue: 1,
+        duration: 400,
+        useNativeDriver: true,
+      }),
+      Animated.spring(slideAnim, {
+        toValue: 0,
+        friction: 8,
+        useNativeDriver: true,
+      }),
+    ]).start();
+  }, []);
+
+  // TODO: Re-enable after rebuilding dev client with expo-av
+  // const playSound = async (isCorrect: boolean) => {
+  //   try {
+  //     await Audio.setAudioModeAsync({
+  //       playsInSilentModeIOS: true,
+  //       staysActiveInBackground: false,
+  //     });
+
+  //     const { sound } = await Audio.Sound.createAsync(
+  //       isCorrect
+  //         ? { uri: "https://actions.google.com/sounds/v1/alarms/beep_short.ogg" }
+  //         : { uri: "https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" },
+  //       { shouldPlay: true, volume: 0.3 }
+  //     );
+
+  //     // Unload sound after playing
+  //     sound.setOnPlaybackStatusUpdate((status) => {
+  //       if (status.isLoaded && status.didJustFinish) {
+  //         sound.unloadAsync();
+  //       }
+  //     });
+  //   } catch (error) {
+  //     // Audio not available or failed to load
+  //   }
+  // };
 
   const handleSelect = (index: number) => {
     if (showResult) return;
@@ -31,15 +77,39 @@ export function QuestionRenderer({ question, onAnswer }: Props) {
 
     const isCorrect = index === question.correct_index;
 
-    setTimeout(() => {
-      onAnswer(isCorrect, isCorrect ? question.xp : 0);
-    }, 1500);
+    // Haptic feedback (TODO: Re-enable after rebuilding dev client)
+    // Haptics.impactAsync requires dev client rebuild
+    // try {
+    //   if (isCorrect) {
+    //     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+    //   } else {
+    //     Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+    //   }
+    // } catch (error) {
+    //   // Haptics not available on this platform
+    // }
+
+    // Sound feedback (TODO: Re-enable after rebuilding dev client)
+    // playSound(isCorrect);
+  };
+
+  const handleContinue = () => {
+    const isCorrect = selectedIndex === question.correct_index;
+    onContinue(isCorrect, isCorrect ? question.xp : 0);
   };
 
   const isCorrect = selectedIndex === question.correct_index;
 
   return (
-    <View style={styles.container}>
+    <Animated.View
+      style={[
+        styles.container,
+        {
+          opacity: fadeAnim,
+          transform: [{ translateY: slideAnim }],
+        },
+      ]}
+    >
       {/* 難易度バッジ */}
       <View style={styles.difficultyBadge}>
         <Text style={styles.difficultyText}>
@@ -106,9 +176,15 @@ export function QuestionRenderer({ question, onAnswer }: Props) {
             </Text>
           </View>
           <Text style={styles.explanation}>{question.explanation}</Text>
+
+          {/* 次へボタン */}
+          <Pressable style={styles.continueButton} onPress={handleContinue}>
+            <Text style={styles.continueButtonText}>続ける</Text>
+            <Ionicons name="arrow-forward" size={20} color="#fff" />
+          </Pressable>
         </View>
       )}
-    </View>
+    </Animated.View>
   );
 }
 
@@ -314,24 +390,25 @@ const styles = StyleSheet.create({
     marginBottom: 16,
   },
   difficultyText: {
-    fontSize: 14,
-    color: theme.colors.textSecondary,
-    backgroundColor: theme.colors.primaryLight,
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#ffffff",
+    backgroundColor: "rgba(255, 255, 255, 0.15)",
     paddingHorizontal: 12,
     paddingVertical: 4,
     borderRadius: 12,
   },
   xpText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: theme.colors.primary,
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#ffffff",
   },
   questionText: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: theme.colors.text,
+    fontSize: 24,
+    fontWeight: "800",
+    color: "#ffffff",
     marginBottom: 24,
-    lineHeight: 28,
+    lineHeight: 34,
   },
   choicesContainer: {
     gap: 12,
@@ -359,9 +436,11 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.error,
   },
   choiceText: {
-    fontSize: 16,
-    color: theme.colors.text,
+    fontSize: 18,
+    color: "#1a1a1a",
     flex: 1,
+    lineHeight: 26,
+    fontWeight: "600",
   },
   selectedChoiceText: {
     color: "#fff",
@@ -383,9 +462,9 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   tfText: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: theme.colors.text,
+    fontSize: 19,
+    fontWeight: "700",
+    color: "#1a1a1a",
   },
   fillBlankButton: {
     backgroundColor: "#fff",
@@ -416,9 +495,11 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   scenarioText: {
-    fontSize: 16,
-    color: theme.colors.text,
+    fontSize: 18,
+    color: "#1a1a1a",
     flex: 1,
+    lineHeight: 26,
+    fontWeight: "600",
   },
   resultBox: {
     marginTop: 24,
@@ -438,8 +519,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   resultTitle: {
-    fontSize: 18,
-    fontWeight: "600",
+    fontSize: 20,
+    fontWeight: "700",
   },
   correctText: {
     color: theme.colors.success,
@@ -448,8 +529,26 @@ const styles = StyleSheet.create({
     color: theme.colors.error,
   },
   explanation: {
-    fontSize: 14,
-    color: theme.colors.textSecondary,
-    lineHeight: 20,
+    fontSize: 16,
+    color: "#2c2c2c",
+    lineHeight: 24,
+    marginBottom: 16,
+    fontWeight: "500",
+  },
+  continueButton: {
+    backgroundColor: theme.colors.success,
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    marginTop: 16,
+  },
+  continueButtonText: {
+    fontSize: 17,
+    fontWeight: "700",
+    color: "#fff",
   },
 });

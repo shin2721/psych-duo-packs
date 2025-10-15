@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
+import * as Haptics from "expo-haptics";
+import ConfettiCannon from "react-native-confetti-cannon";
 import { theme } from "../../lib/theme";
 import { useAppState } from "../../lib/state";
 import { loadLessons, calculateStars, Lesson } from "../../lib/lessons";
@@ -9,7 +11,7 @@ import { QuestionRenderer } from "../../components/QuestionRenderer";
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { addXp, incrementQuest } = useAppState();
+  const { addXp, incrementQuest, addGems } = useAppState();
 
   // Parse lesson ID: "{unit}_lesson_{level}"
   const [unit, lessonNum] = id?.split("_lesson_") || [];
@@ -24,6 +26,23 @@ export default function LessonScreen() {
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [totalXP, setTotalXP] = useState(0);
   const [showResults, setShowResults] = useState(false);
+
+  // Confetti ref
+  const confettiRef = useRef<any>(null);
+
+  // Trigger confetti on perfect lesson
+  useEffect(() => {
+    if (showResults) {
+      const correctCount = answers.filter((a) => a).length;
+      const stars = calculateStars(correctCount, total);
+
+      if (stars === 3) {
+        // Perfect lesson - trigger confetti and haptic
+        Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+        confettiRef.current?.start();
+      }
+    }
+  }, [showResults]);
 
   if (!lesson) {
     return (
@@ -42,7 +61,7 @@ export default function LessonScreen() {
   const progress = currentQuestionIndex + 1;
   const total = lesson.questions.length;
 
-  const handleAnswer = (isCorrect: boolean, xp: number) => {
+  const handleContinue = (isCorrect: boolean, xp: number) => {
     const newAnswers = [...answers, isCorrect];
     const newTotalXP = totalXP + xp;
 
@@ -51,13 +70,9 @@ export default function LessonScreen() {
 
     // Move to next question or show results
     if (currentQuestionIndex + 1 < lesson.questions.length) {
-      setTimeout(() => {
-        setCurrentQuestionIndex(currentQuestionIndex + 1);
-      }, 1000);
+      setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
-      setTimeout(() => {
-        setShowResults(true);
-      }, 1000);
+      setShowResults(true);
     }
   };
 
@@ -68,6 +83,9 @@ export default function LessonScreen() {
     // Add XP and update quests
     addXp(totalXP);
     incrementQuest("q_daily_3lessons");
+
+    // Award gems based on performance
+    addGems(stars); // 1-3 gems based on stars
 
     // Bonus quests for perfect lessons
     if (stars === 3) {
@@ -92,7 +110,20 @@ export default function LessonScreen() {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.resultsContainer}>
-          <Text style={styles.resultsTitle}>レッスン完了！</Text>
+          {/* Confetti for perfect lessons */}
+          {stars === 3 && (
+            <ConfettiCannon
+              ref={confettiRef}
+              count={150}
+              origin={{ x: -10, y: 0 }}
+              autoStart={false}
+              fadeOut
+            />
+          )}
+
+          <Text style={styles.resultsTitle}>
+            {stars === 3 ? "パーフェクト！" : "レッスン完了！"}
+          </Text>
 
           <View style={styles.starsContainer}>
             {[1, 2, 3].map((i) => (
@@ -153,7 +184,11 @@ export default function LessonScreen() {
 
       {/* Question */}
       <View style={styles.questionContainer}>
-        <QuestionRenderer question={currentQuestion} onAnswer={handleAnswer} />
+        <QuestionRenderer
+          key={currentQuestionIndex}
+          question={currentQuestion}
+          onContinue={handleContinue}
+        />
       </View>
     </SafeAreaView>
   );
@@ -225,9 +260,9 @@ const styles = StyleSheet.create({
     padding: 24,
   },
   resultsTitle: {
-    fontSize: 32,
-    fontWeight: "bold",
-    color: theme.colors.fg,
+    fontSize: 36,
+    fontWeight: "800",
+    color: "#ffffff",
     marginBottom: 32,
   },
   starsContainer: {
@@ -247,14 +282,16 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   statLabel: {
-    fontSize: 14,
-    color: theme.colors.fg + "80",
+    fontSize: 16,
+    fontWeight: "600",
+    color: "#ffffff",
+    opacity: 0.8,
     marginBottom: 4,
   },
   statValue: {
-    fontSize: 32,
+    fontSize: 36,
     fontWeight: "bold",
-    color: theme.colors.fg,
+    color: "#ffffff",
   },
   buttonRow: {
     flexDirection: "row",
@@ -270,16 +307,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   secondaryButton: {
-    backgroundColor: "transparent",
+    backgroundColor: "#ffffff",
     borderWidth: 2,
-    borderColor: theme.colors.primary,
+    borderColor: "#ffffff",
   },
   buttonText: {
-    fontSize: 16,
-    fontWeight: "600",
+    fontSize: 18,
+    fontWeight: "700",
     color: "#fff",
   },
   secondaryButtonText: {
     color: theme.colors.primary,
+    fontWeight: "700",
   },
 });
