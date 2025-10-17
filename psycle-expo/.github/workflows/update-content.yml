@@ -27,10 +27,10 @@ jobs:
       - name: Fetch sources and generate questions
         run: npm run update-content
 
-      - name: Generate lite pack (single paper, 24 questions)
+      - name: Generate lite pack (single paper, 90 questions)
         run: npm run pack:lite
 
-      - name: Generate multi-abstract pack (5 papers, 62 questions)
+      - name: Generate multi-abstract pack (3-5 papers, 90 questions)
         run: npm run pack:multi
 
       - name: Check for changes
@@ -53,8 +53,8 @@ jobs:
           - Fetched latest papers from ERIC, PubMed, and Crossref
           - Auto-generated questions from abstracts
           - Generated new learning packs:
-            * Lite pack: 1 paper, 24 questions
-            * Multi-abstract pack: 5 papers, 62 questions
+            * Lite pack: 1 paper, 90 questions (3 units × 2 lessons × 15 questions)
+            * Multi-abstract pack: 3-5 papers, 90 questions (3 units × 2 lessons × 15 questions)
           - Updated: $(date +'%Y-%m-%d %H:%M:%S UTC')
 
           🤖 Automated by GitHub Actions"

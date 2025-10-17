@@ -1,0 +1,94 @@
+{
+  "plans": {
+    "free": {
+      "id": "free",
+      "name": "Free",
+      "price_jpy": 0,
+      "energy": {
+        "daily_cap": 5,
+        "auto_refill": true
+      },
+      "item_access": {
+        "lite": true,
+        "pro": false
+      },
+      "features": {
+        "mistakes_hub": {
+          "enabled": false,
+          "daily_limit": 0
+        },
+        "reroll": {
+          "enabled": false,
+          "per_item_limit": 0,
+          "per_lesson_limit": 0
+        },
+        "ai_explain": {
+          "mode": "off"
+        }
+      }
+    },
+    "pro": {
+      "id": "pro",
+      "name": "Pro",
+      "price_jpy": 1990,
+      "energy": {
+        "daily_cap": null,
+        "auto_refill": false
+      },
+      "item_access": {
+        "lite": true,
+        "pro": false
+      },
+      "features": {
+        "mistakes_hub": {
+          "enabled": true,
+          "daily_limit": null
+        },
+        "reroll": {
+          "enabled": false,
+          "per_item_limit": 0,
+          "per_lesson_limit": 0
+        },
+        "ai_explain": {
+          "mode": "off"
+        }
+      }
+    },
+    "max": {
+      "id": "max",
+      "name": "Max",
+      "price_jpy": 2990,
+      "energy": {
+        "daily_cap": null,
+        "auto_refill": false
+      },
+      "item_access": {
+        "lite": true,
+        "pro": true
+      },
+      "features": {
+        "mistakes_hub": {
+          "enabled": true,
+          "daily_limit": null
+        },
+        "reroll": {
+          "enabled": false,
+          "per_item_limit": 0,
+          "per_lesson_limit": 0
+        },
+        "ai_explain": {
+          "mode": "off"
+        }
+      }
+    }
+  },
+  "defaults": {
+    "lesson_size": 15,
+    "mistakes_hub_size": 10,
+    "reroll_beta_tolerance": 0,
+    "long_think_threshold_seconds": 25,
+    "past_days_window": 30,
+    "optimal_p_min": 0.55,
+    "optimal_p_max": 0.7
+  }
+}
