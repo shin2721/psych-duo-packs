@@ -1,4 +1,13 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import {
+  canUseMistakesHub,
+  consumeMistakesHub,
+  getMistakesHubRemaining,
+  hasProItemAccess,
+} from "../src/featureGate";
+import { selectMistakesHubItems } from "../src/features/mistakesHub";
+
+type PlanId = "free" | "pro" | "max";
 
 interface Quest {
   id: string;
@@ -9,6 +18,18 @@ interface Quest {
   rewardXp: number;
   claimed: boolean;
   chestState: "closed" | "opening" | "opened";
+}
+
+interface ReviewEvent {
+  userId: string;
+  itemId: string;
+  ts: number;
+  result: "correct" | "incorrect";
+  latencyMs?: number;
+  dueAt?: number;
+  tags?: string[];
+  beta?: number;
+  p?: number;
 }
 
 interface AppState {
@@ -39,6 +60,17 @@ interface AppState {
   loseLife: () => boolean;
   refillLives: () => boolean;
   lastLifeLostTime: number | null;
+  // Plan & Entitlements
+  planId: PlanId;
+  setPlanId: (plan: PlanId) => void;
+  hasProAccess: boolean;
+  // MistakesHub
+  reviewEvents: ReviewEvent[];
+  addReviewEvent: (event: Omit<ReviewEvent, "userId" | "ts">) => void;
+  getMistakesHubItems: () => string[];
+  canAccessMistakesHub: boolean;
+  mistakesHubRemaining: number | null;
+  startMistakesHubSession: () => void;
 }
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
@@ -46,6 +78,12 @@ const AppStateContext = createContext<AppState | undefined>(undefined);
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [selectedGenre, setSelectedGenre] = useState("mental");
   const [xp, setXP] = useState(0);
+
+  // Plan & Entitlements
+  const [planId, setPlanIdState] = useState<PlanId>("free");
+  const [reviewEvents, setReviewEvents] = useState<ReviewEvent[]>([]);
+  const DUMMY_USER_ID = "user_local"; // In production, use actual user ID
+
   const [quests, setQuests] = useState<Quest[]>([
     { id: "q_monthly_50pts", type: "monthly", title: "50クエストポイントを獲得する", need: 50, progress: 12, rewardXp: 150, claimed: false, chestState: "closed" },
     { id: "q_monthly_breathTempo", type: "monthly", title: "呼吸ゲームで60秒達成", need: 60, progress: 0, rewardXp: 120, claimed: false, chestState: "closed" },
@@ -225,6 +263,36 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return false;
   };
 
+  // Plan & Entitlements methods
+  const setPlanId = (plan: PlanId) => {
+    setPlanIdState(plan);
+  };
+
+  const hasProAccess = hasProItemAccess(planId);
+  const canAccessMistakesHub = canUseMistakesHub(DUMMY_USER_ID, planId);
+  const mistakesHubRemaining = getMistakesHubRemaining(DUMMY_USER_ID, planId);
+
+  // MistakesHub methods
+  const addReviewEventFunc = (event: Omit<ReviewEvent, "userId" | "ts">) => {
+    const fullEvent: ReviewEvent = {
+      ...event,
+      userId: DUMMY_USER_ID,
+      ts: Date.now(),
+    };
+    setReviewEvents((prev) => [...prev, fullEvent]);
+  };
+
+  const getMistakesHubItemsFunc = (): string[] => {
+    return selectMistakesHubItems(reviewEvents);
+  };
+
+  const startMistakesHubSessionFunc = () => {
+    if (canAccessMistakesHub) {
+      consumeMistakesHub(DUMMY_USER_ID);
+      // TODO: Navigate to MistakesHub session screen
+    }
+  };
+
   // Auto-recover lives over time (30 minutes per life)
   useEffect(() => {
     if (lives >= MAX_LIVES || lastLifeLostTime === null) return;
@@ -280,6 +348,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         loseLife,
         refillLives,
         lastLifeLostTime,
+        // Plan & Entitlements
+        planId,
+        setPlanId,
+        hasProAccess,
+        // MistakesHub
+        reviewEvents,
+        addReviewEvent: addReviewEventFunc,
+        getMistakesHubItems: getMistakesHubItemsFunc,
+        canAccessMistakesHub,
+        mistakesHubRemaining,
+        startMistakesHubSession: startMistakesHubSessionFunc,
       }}
     >
       {children}
