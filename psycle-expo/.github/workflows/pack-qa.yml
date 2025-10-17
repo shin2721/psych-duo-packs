@@ -1,0 +1,182 @@
+name: Pack QA
+
+on:
+  push:
+    paths:
+      - 'paper_packs/**'
+  pull_request:
+    paths:
+      - 'paper_packs/**'
+  workflow_dispatch:
+    inputs:
+      pack_dir:
+        description: 'Pack directory to validate (e.g., paper_packs/pack_abstract_test)'
+        required: false
+
+jobs:
+  validate-packs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Find changed packs
+        id: find-packs
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] && [ -n "${{ github.event.inputs.pack_dir }}" ]; then
+            # Manual trigger with specific pack
+            echo "packs=${{ github.event.inputs.pack_dir }}" >> $GITHUB_OUTPUT
+          else
+            # Detect changed packs from git diff
+            if [ "${{ github.event_name }}" = "pull_request" ]; then
+              BASE="${{ github.event.pull_request.base.sha }}"
+            else
+              BASE="HEAD^"
+            fi
+
+            # Find all pack directories that have changed files
+            CHANGED_PACKS=$(git diff --name-only $BASE HEAD | grep '^paper_packs/' | cut -d/ -f1-2 | sort -u | tr '\n' ' ')
+
+            if [ -z "$CHANGED_PACKS" ]; then
+              echo "No pack changes detected"
+              echo "packs=" >> $GITHUB_OUTPUT
+            else
+              echo "packs=$CHANGED_PACKS" >> $GITHUB_OUTPUT
+            fi
+          fi
+
+      - name: Validate packs
+        id: validate
+        run: |
+          PACKS="${{ steps.find-packs.outputs.packs }}"
+
+          if [ -z "$PACKS" ]; then
+            echo "No packs to validate"
+            exit 0
+          fi
+
+          echo "## Pack QA Results" > qa-report.md
+          echo "" >> qa-report.md
+
+          ALL_PASSED=true
+
+          for pack_dir in $PACKS; do
+            if [ ! -d "$pack_dir" ]; then
+              echo "⚠️ Directory not found: $pack_dir" | tee -a qa-report.md
+              continue
+            fi
+
+            echo "### 📦 \`$pack_dir\`" >> qa-report.md
+            echo "" >> qa-report.md
+
+            # Run validation
+            if node scripts/pack_qa.mjs "$pack_dir" > qa-output.txt 2>&1; then
+              echo "✅ **Validation passed**" >> qa-report.md
+              cat qa-output.txt >> qa-report.md
+            else
+              echo "❌ **Validation failed**" >> qa-report.md
+              cat qa-output.txt >> qa-report.md
+              ALL_PASSED=false
+            fi
+
+            echo "" >> qa-report.md
+            echo "---" >> qa-report.md
+            echo "" >> qa-report.md
+          done
+
+          cat qa-report.md >> $GITHUB_STEP_SUMMARY
+
+          if [ "$ALL_PASSED" = false ]; then
+            exit 1
+          fi
+
+      - name: Auto-fix issues (optional)
+        if: failure() && github.event_name == 'pull_request'
+        run: |
+          PACKS="${{ steps.find-packs.outputs.packs }}"
+
+          for pack_dir in $PACKS; do
+            if [ -d "$pack_dir" ]; then
+              echo "Attempting to fix: $pack_dir"
+              node scripts/pack_qa.mjs "$pack_dir" --fix || true
+            fi
+          done
+
+          # Check if fixes were applied
+          if git diff --quiet; then
+            echo "No fixes applied"
+          else
+            echo "Fixes applied, creating commit..."
+            git config user.name "Pack QA Bot"
+            git config user.email "noreply@github.com"
+            git add paper_packs/
+            git commit -m "fix(pack-qa): Auto-fix pack validation issues
+
+Applied automated fixes for pack validation errors:
+$(git diff --name-only HEAD^)"
+
+            # Push fixes back to PR branch (requires write permissions)
+            # git push origin HEAD:${{ github.head_ref }}
+          fi
+
+      - name: Comment PR with results
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            if (!fs.existsSync('qa-report.md')) {
+              console.log('No QA report found');
+              return;
+            }
+
+            const report = fs.readFileSync('qa-report.md', 'utf8');
+
+            // Find existing comment
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+
+            const botComment = comments.find(comment =>
+              comment.user.type === 'Bot' &&
+              comment.body.includes('Pack QA Results')
+            );
+
+            const commentBody = `## 🔍 Pack QA Results\n\n${report}\n\n---\n*Automated validation by Pack QA Bot*`;
+
+            if (botComment) {
+              // Update existing comment
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: botComment.id,
+                body: commentBody
+              });
+            } else {
+              // Create new comment
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: commentBody
+              });
+            }
+
+      - name: Upload QA report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: pack-qa-report
+          path: qa-report.md
+          if-no-files-found: ignore
