@@ -3,14 +3,34 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react";
 import { useAppState } from "../lib/state";
 import { theme } from "../lib/theme";
+import { buyPlan } from "../lib/billing";
 
 /**
  * プラン選択UI（Free/Pro/Max）
- *
- * デモ用：実際の決済連携は別途実装
  */
 export function PlanSelector() {
   const { planId, setPlanId, hasProAccess, canAccessMistakesHub } = useAppState();
+
+  // デモ用：仮のユーザー情報（実際はSupabase authから取得）
+  const demoUser = {
+    uid: "demo-user-123",
+    email: "demo@psycle.app",
+  };
+
+  const handlePlanSelect = async (selectedPlan: "free" | "pro" | "max") => {
+    if (selectedPlan === "free") {
+      // Freeプランはそのまま切り替え
+      setPlanId(selectedPlan);
+      return;
+    }
+
+    // Pro/Maxは決済画面へ
+    try {
+      await buyPlan(selectedPlan, demoUser.uid, demoUser.email);
+    } catch (error) {
+      console.error("Plan purchase error:", error);
+    }
+  };
 
   const plans = [
     {
@@ -74,7 +94,7 @@ export function PlanSelector() {
               styles.planCard,
               planId === plan.id && styles.planCardActive,
             ]}
-            onPress={() => setPlanId(plan.id)}
+            onPress={() => handlePlanSelect(plan.id)}
           >
             <Text style={styles.planName}>{plan.name}</Text>
             <Text style={styles.planPrice}>{plan.price}</Text>
@@ -90,12 +110,17 @@ export function PlanSelector() {
                 <Text style={styles.activeBadgeText}>現在のプラン</Text>
               </View>
             )}
+            {plan.id !== "free" && planId !== plan.id && (
+              <View style={styles.purchaseButton}>
+                <Text style={styles.purchaseButtonText}>購入する →</Text>
+              </View>
+            )}
           </TouchableOpacity>
         ))}
       </View>
 
       <Text style={styles.disclaimer}>
-        ※ これはデモUIです。実際の決済は別途実装されます。
+        ※ Pro/Maxプランの購入にはStripe決済が使用されます
       </Text>
     </View>
   );
@@ -186,6 +211,18 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: "#fff",
     fontWeight: "600",
+  },
+  purchaseButton: {
+    marginTop: theme.spacing.md,
+    backgroundColor: theme.colors.primary,
+    padding: theme.spacing.sm,
+    borderRadius: 8,
+    alignItems: "center",
+  },
+  purchaseButtonText: {
+    fontSize: 14,
+    color: "#fff",
+    fontWeight: "700",
   },
   disclaimer: {
     marginTop: theme.spacing.lg,
