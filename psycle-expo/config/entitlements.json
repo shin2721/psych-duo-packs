@@ -42,7 +42,8 @@
         "ai_explain": {
           "mode": "off"
         }
-      }
+      },
+      "stripe_price_id": "price_1SJ82EJDXOz4c0ISSpJmO8sx"
     },
     "max": {
       "id": "max",
@@ -64,7 +65,8 @@
         "ai_explain": {
           "mode": "off"
         }
-      }
+      },
+      "stripe_price_id": "price_1SJ82FJDXOz4c0ISrrFASipQ"
     }
   },
   "defaults": {
