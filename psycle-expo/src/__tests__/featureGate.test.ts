@@ -6,7 +6,6 @@ import {
   hasProItemAccess,
   hasLiteItemAccess,
   isExplainEnabled,
-  getRerollLimits,
 } from "../featureGate";
 
 describe("featureGate", () => {
@@ -68,14 +67,6 @@ describe("featureGate", () => {
       expect(isExplainEnabled("free")).toBe(false);
       expect(isExplainEnabled("pro")).toBe(false);
       expect(isExplainEnabled("max")).toBe(false);
-    });
-  });
-
-  describe("Reroll", () => {
-    test("全プランでRerollは無効", () => {
-      expect(getRerollLimits("free")).toBe(null);
-      expect(getRerollLimits("pro")).toBe(null);
-      expect(getRerollLimits("max")).toBe(null);
     });
   });
 });

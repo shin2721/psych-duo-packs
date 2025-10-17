@@ -6,7 +6,6 @@ type PlanId = "free" | "pro" | "max";
 interface PlanConfig {
   features: {
     mistakes_hub: { enabled: boolean; daily_limit: number | null };
-    reroll: { enabled: boolean; per_item_limit?: number; per_lesson_limit?: number };
     ai_explain: { mode: string };
   };
   item_access: { lite: boolean; pro: boolean };
@@ -130,22 +129,4 @@ export function hasLiteItemAccess(plan: PlanId): boolean {
 export function isExplainEnabled(plan: PlanId): boolean {
   const config = entitlements.plans[plan] as PlanConfig;
   return config?.features.ai_explain.mode !== "off";
-}
-
-/**
- * Reroll機能の上限を取得（現状すべて0）
- * @param {PlanId} plan - プランID
- * @returns {{ perItem: number; perLesson: number } | null} 常にnull（無効）
- */
-export function getRerollLimits(plan: PlanId): { perItem: number; perLesson: number } | null {
-  const config = entitlements.plans[plan] as PlanConfig;
-
-  if (!config?.features.reroll.enabled) {
-    return null;
-  }
-
-  return {
-    perItem: config.features.reroll.per_item_limit ?? 0,
-    perLesson: config.features.reroll.per_lesson_limit ?? 0,
-  };
 }
