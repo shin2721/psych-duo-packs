@@ -174,7 +174,7 @@ export function QuestionRenderer({ question, onContinue }: Props) {
     } else if (question.type === "sort_order") {
       isCorrect = JSON.stringify(currentOrder) === JSON.stringify(question.correct_order);
     } else if (question.type === "fill_blank_tap") {
-      isCorrect = selectedAnswer === question.choices[question.correct_index ?? 0];
+      isCorrect = selectedIndex === question.correct_index;
     } else if (question.type === "swipe_judgment") {
       const correctDirection = question.is_true ? "right" : "left";
       isCorrect = swipeDirection === correctDirection;
@@ -230,7 +230,7 @@ export function QuestionRenderer({ question, onContinue }: Props) {
     } else if (question.type === "sort_order") {
       return JSON.stringify(currentOrder) === JSON.stringify(question.correct_order);
     } else if (question.type === "fill_blank_tap") {
-      return selectedAnswer === question.choices[question.correct_index ?? 0];
+      return selectedIndex === question.correct_index;
     } else if (question.type === "swipe_judgment") {
       const correctDirection = question.is_true ? "right" : "left";
       return swipeDirection === correctDirection;
