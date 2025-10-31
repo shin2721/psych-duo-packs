@@ -1,19 +1,36 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, Pressable, StyleSheet, Animated } from "react-native";
+import { View, Text, Pressable, StyleSheet, Animated, ScrollView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 // import * as Haptics from "expo-haptics";
 // import { Audio } from "expo-av";
 import { theme } from "../lib/theme";
+import { SortOrder, SelectAll, FillBlankTap, SwipeJudgment, Conversation, Matching } from "./QuestionTypes";
 
 export interface Question {
-  type: "multiple_choice" | "true_false" | "fill_blank" | "scenario";
+  type: "multiple_choice" | "true_false" | "fill_blank" | "scenario" | "sort_order" | "select_all" | "fill_blank_tap" | "swipe_judgment" | "conversation" | "matching";
   question: string;
   choices: string[];
-  correct_index: number;
-  explanation: string;
+  correct_index?: number;
+  correct_answers?: number[]; // For select_all
+  explanation: string | { correct: string; incorrect: Record<string, string> };
   source_id: string;
   difficulty: string;
   xp: number;
+  // sort_order fields
+  items?: string[];
+  correct_order?: number[];
+  initial_order?: number[];
+  // fill_blank_tap fields
+  statement?: string;
+  blank_options?: string[];
+  // swipe_judgment fields
+  is_true?: boolean;
+  // conversation fields
+  your_response_prompt?: string;
+  // matching fields
+  left_items?: string[];
+  right_items?: string[];
+  correct_pairs?: number[][];
 }
 
 interface Props {
@@ -23,9 +40,45 @@ interface Props {
 
 export function QuestionRenderer({ question, onContinue }: Props) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+  const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]); // For select_all
+  const [revealedIndexes, setRevealedIndexes] = useState<number[]>([]); // For select_all immediate feedback
   const [showResult, setShowResult] = useState(false);
+  const [currentOrder, setCurrentOrder] = useState<number[]>([]);
+  const [scrollEnabled, setScrollEnabled] = useState(true);
+  const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null); // For fill_blank_tap
+  const [swipeDirection, setSwipeDirection] = useState<"left" | "right" | null>(null); // For swipe_judgment
+  const [selectedResponse, setSelectedResponse] = useState<number | null>(null); // For conversation
+  const [selectedPairs, setSelectedPairs] = useState<number[][]>([]); // For matching
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const slideAnim = useRef(new Animated.Value(30)).current;
+
+  // Initialize state when question changes
+  useEffect(() => {
+    if (question.type === "sort_order" && question.items) {
+      setCurrentOrder(question.initial_order || question.items.map((_, i) => i));
+    }
+    setSelectedIndex(null);
+    setSelectedIndexes([]);
+    setRevealedIndexes([]);
+    setShowResult(false);
+    setSelectedAnswer(null);
+    setSwipeDirection(null);
+    setSelectedResponse(null);
+    setSelectedPairs([]);
+  }, [question]);
+
+  // select_all: Auto-show result when all correct answers are selected
+  useEffect(() => {
+    if (question.type === "select_all" && question.correct_answers && !showResult) {
+      const sortedSelected = [...selectedIndexes].sort();
+      const sortedCorrect = [...question.correct_answers].sort();
+      const allCorrectSelected = JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
+
+      if (allCorrectSelected && selectedIndexes.length > 0) {
+        setShowResult(true);
+      }
+    }
+  }, [selectedIndexes, question, showResult]);
 
   useEffect(() => {
     // フェードイン・スライドインアニメーション
@@ -93,12 +146,102 @@ export function QuestionRenderer({ question, onContinue }: Props) {
     // playSound(isCorrect);
   };
 
+  const handleToggle = (index: number) => {
+    if (showResult) return;
+
+    const isCorrect = question.correct_answers?.includes(index);
+
+    // Immediate feedback
+    setRevealedIndexes(prev => [...prev, index]);
+
+    if (isCorrect) {
+      // Add to selected list if correct
+      setSelectedIndexes(prev => [...prev, index]);
+    } else {
+      // Remove red display after 800ms if incorrect
+      setTimeout(() => {
+        setRevealedIndexes(prev => prev.filter(i => i !== index));
+      }, 800);
+    }
+  };
+
   const handleContinue = () => {
-    const isCorrect = selectedIndex === question.correct_index;
+    let isCorrect = false;
+    if (question.type === "select_all" && question.correct_answers) {
+      const sortedSelected = [...selectedIndexes].sort();
+      const sortedCorrect = [...question.correct_answers].sort();
+      isCorrect = JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
+    } else if (question.type === "sort_order") {
+      isCorrect = JSON.stringify(currentOrder) === JSON.stringify(question.correct_order);
+    } else if (question.type === "fill_blank_tap") {
+      isCorrect = selectedAnswer === question.choices[question.correct_index ?? 0];
+    } else if (question.type === "swipe_judgment") {
+      const correctDirection = question.is_true ? "right" : "left";
+      isCorrect = swipeDirection === correctDirection;
+    } else if (question.type === "conversation") {
+      isCorrect = selectedResponse === question.correct_index;
+    } else if (question.type === "matching" && question.correct_pairs) {
+      isCorrect = JSON.stringify(selectedPairs.sort()) === JSON.stringify(question.correct_pairs.sort());
+    } else {
+      isCorrect = selectedIndex === question.correct_index;
+    }
     onContinue(isCorrect, isCorrect ? question.xp : 0);
   };
 
-  const isCorrect = selectedIndex === question.correct_index;
+  const handleReorder = (newOrder: number[]) => {
+    setCurrentOrder(newOrder);
+  };
+
+  const handleSubmitOrder = () => {
+    setShowResult(true);
+  };
+
+  const handleSelectAnswer = (answer: string) => {
+    if (showResult) return;
+    setSelectedAnswer(answer);
+    setShowResult(true);
+  };
+
+  const handleSwipe = (direction: "left" | "right") => {
+    if (showResult) return;
+    setSwipeDirection(direction);
+    setShowResult(true);
+  };
+
+  const handleSelectResponse = (index: number) => {
+    if (showResult) return;
+    setSelectedResponse(index);
+    setShowResult(true);
+  };
+
+  const handleMatch = (pairs: number[][]) => {
+    setSelectedPairs(pairs);
+  };
+
+  const handleSubmitMatching = () => {
+    setShowResult(true);
+  };
+
+  const isCorrect = (() => {
+    if (question.type === "select_all" && question.correct_answers) {
+      const sortedSelected = [...selectedIndexes].sort();
+      const sortedCorrect = [...question.correct_answers].sort();
+      return JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
+    } else if (question.type === "sort_order") {
+      return JSON.stringify(currentOrder) === JSON.stringify(question.correct_order);
+    } else if (question.type === "fill_blank_tap") {
+      return selectedAnswer === question.choices[question.correct_index ?? 0];
+    } else if (question.type === "swipe_judgment") {
+      const correctDirection = question.is_true ? "right" : "left";
+      return swipeDirection === correctDirection;
+    } else if (question.type === "conversation") {
+      return selectedResponse === question.correct_index;
+    } else if (question.type === "matching" && question.correct_pairs) {
+      return JSON.stringify(selectedPairs.sort()) === JSON.stringify(question.correct_pairs.sort());
+    } else {
+      return selectedIndex === question.correct_index;
+    }
+  })();
 
   return (
     <Animated.View
@@ -110,18 +253,24 @@ export function QuestionRenderer({ question, onContinue }: Props) {
         },
       ]}
     >
-      {/* 難易度バッジ */}
-      <View style={styles.difficultyBadge}>
-        <Text style={styles.difficultyText}>
-          {question.difficulty === "easy" ? "初級" : question.difficulty === "medium" ? "中級" : "上級"}
-        </Text>
-        <Text style={styles.xpText}>{question.xp} XP</Text>
-      </View>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollContent}
+        showsVerticalScrollIndicator={true}
+        scrollEnabled={scrollEnabled}
+      >
+        {/* 難易度バッジ */}
+        <View style={styles.difficultyBadge}>
+          <Text style={styles.difficultyText}>
+            {question.difficulty === "easy" ? "初級" : question.difficulty === "medium" ? "中級" : "上級"}
+          </Text>
+          <Text style={styles.xpText}>{question.xp} XP</Text>
+        </View>
 
-      {/* 問題文 */}
-      <Text style={styles.questionText}>{question.question}</Text>
+        {/* 問題文 */}
+        <Text style={styles.questionText}>{question.question}</Text>
 
-      {/* タイプ別レンダリング */}
+        {/* タイプ別レンダリング */}
       {question.type === "multiple_choice" && (
         <MultipleChoice
           choices={question.choices}
@@ -156,10 +305,90 @@ export function QuestionRenderer({ question, onContinue }: Props) {
         <Scenario
           choices={question.choices}
           selectedIndex={selectedIndex}
-          correctIndex={question.correct_index}
+          correctIndex={question.correct_index || 0}
           showResult={showResult}
           onSelect={handleSelect}
         />
+      )}
+
+      {question.type === "select_all" && question.correct_answers && (
+        <SelectAll
+          choices={question.choices}
+          selectedIndexes={selectedIndexes}
+          correctAnswers={question.correct_answers}
+          showResult={showResult}
+          onToggle={handleToggle}
+          revealedIndexes={revealedIndexes}
+        />
+      )}
+
+      {question.type === "sort_order" && question.items && question.correct_order && (
+        <>
+          <SortOrder
+            items={question.items}
+            currentOrder={currentOrder}
+            correctOrder={question.correct_order}
+            showResult={showResult}
+            onReorder={handleReorder}
+            onDragStart={() => setScrollEnabled(false)}
+            onDragEnd={() => setScrollEnabled(true)}
+          />
+          {!showResult && (
+            <Pressable style={styles.submitButton} onPress={handleSubmitOrder}>
+              <Text style={styles.submitButtonText}>答えを確認</Text>
+            </Pressable>
+          )}
+        </>
+      )}
+
+      {question.type === "fill_blank_tap" && (
+        <FillBlankTap
+          choices={question.choices}
+          selectedIndex={selectedIndex}
+          correctIndex={question.correct_index ?? 0}
+          showResult={showResult}
+          onSelect={handleSelect}
+        />
+      )}
+
+      {question.type === "swipe_judgment" && (
+        <SwipeJudgment
+          statement={question.question}
+          selectedAnswer={swipeDirection}
+          correctAnswer={question.is_true ? "right" : "left"}
+          showResult={showResult}
+          onSwipe={handleSwipe}
+        />
+      )}
+
+      {question.type === "conversation" && question.your_response_prompt && (
+        <Conversation
+          prompt={question.question}
+          responsePrompt={question.your_response_prompt}
+          choices={question.choices}
+          selectedIndex={selectedResponse}
+          correctIndex={question.correct_index ?? 0}
+          showResult={showResult}
+          onSelect={handleSelectResponse}
+        />
+      )}
+
+      {question.type === "matching" && question.left_items && question.right_items && question.correct_pairs && (
+        <>
+          <Matching
+            leftItems={question.left_items}
+            rightItems={question.right_items}
+            selectedPairs={selectedPairs}
+            correctPairs={question.correct_pairs}
+            showResult={showResult}
+            onMatch={handleMatch}
+          />
+          {!showResult && (
+            <Pressable style={styles.submitButton} onPress={handleSubmitMatching}>
+              <Text style={styles.submitButtonText}>答えを確認</Text>
+            </Pressable>
+          )}
+        </>
       )}
 
       {/* 結果表示 */}
@@ -175,7 +404,16 @@ export function QuestionRenderer({ question, onContinue }: Props) {
               {isCorrect ? "正解！" : "残念..."}
             </Text>
           </View>
-          <Text style={styles.explanation}>{question.explanation}</Text>
+          <Text style={styles.explanation}>
+            {typeof question.explanation === 'string'
+              ? question.explanation
+              : typeof question.explanation === 'object' && question.explanation
+                ? (isCorrect
+                  ? question.explanation.correct || ''
+                  : (question.explanation.incorrect?.[selectedIndex ?? 0] || question.explanation.incorrect?.default || question.explanation.incorrect?.['1'] || question.explanation.incorrect?.['0'] || ''))
+                : ''
+            }
+          </Text>
 
           {/* 次へボタン */}
           <Pressable style={styles.continueButton} onPress={handleContinue}>
@@ -184,6 +422,7 @@ export function QuestionRenderer({ question, onContinue }: Props) {
           </Pressable>
         </View>
       )}
+      </ScrollView>
     </Animated.View>
   );
 }
@@ -381,7 +620,13 @@ function Scenario({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
     padding: 20,
+    paddingBottom: 40,
   },
   difficultyBadge: {
     flexDirection: "row",
@@ -547,6 +792,19 @@ const styles = StyleSheet.create({
     marginTop: 16,
   },
   continueButtonText: {
+    fontSize: 17,
+    fontWeight: "700",
+    color: "#fff",
+  },
+  submitButton: {
+    backgroundColor: "#22d3ee",
+    paddingVertical: 16,
+    paddingHorizontal: 32,
+    borderRadius: 16,
+    alignItems: "center",
+    marginTop: 20,
+  },
+  submitButtonText: {
     fontSize: 17,
     fontWeight: "700",
     color: "#fff",
