@@ -140,7 +140,7 @@ export function SwipeJudgment({
     onPanResponderMove: Animated.event([null, { dx: pan.x }], { useNativeDriver: false }),
     onPanResponderRelease: (e, gesture) => {
       if (showResult) return;
-      const threshold = 50; // もっと軽く反応するようにしきい値を下げる
+      const threshold = 30; // 感度を上げる（より軽く反応）
       if (Math.abs(gesture.dx) > threshold) {
         const direction = gesture.dx > 0 ? "right" : "left";
         onSwipe(direction);
@@ -177,7 +177,7 @@ export function SwipeJudgment({
           selectedAnswer && (isCorrect ? styles.swipeCorrect : styles.swipeIncorrect),
         ]}
       >
-        <Ionicons name="swap-horizontal" size={32} color={selectedAnswer ? "#fff" : "#22d3ee"} />
+        <Ionicons name="swap-horizontal" size={24} color={selectedAnswer ? "#fff" : "#22d3ee"} />
         <Text style={styles.swipeCardText}>
           {statement}
         </Text>
@@ -658,16 +658,16 @@ const styles = StyleSheet.create({
   },
   swipeCard: {
     backgroundColor: "#fff",
-    borderRadius: 16,
-    padding: 24,
-    width: 300,
+    borderRadius: 12,
+    padding: 16,
+    width: 240,
     alignItems: "center",
-    gap: 12,
+    gap: 8,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.15,
-    shadowRadius: 8,
-    elevation: 5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
   },
   swipeCorrect: {
     backgroundColor: theme.colors.success,
@@ -676,15 +676,15 @@ const styles = StyleSheet.create({
     backgroundColor: "#ef4444",
   },
   swipeCardText: {
-    fontSize: 18,
+    fontSize: 15,
     fontWeight: "600",
     color: "#1a1a1a",
     textAlign: "center",
   },
   swipeHint: {
-    fontSize: 14,
+    fontSize: 12,
     color: "#999",
-    marginTop: 8,
+    marginTop: 4,
   },
   swipeHintSelected: {
     color: "#fff",

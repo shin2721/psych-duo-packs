@@ -410,7 +410,12 @@ export function QuestionRenderer({ question, onContinue }: Props) {
               : typeof question.explanation === 'object' && question.explanation
                 ? (isCorrect
                   ? question.explanation.correct || ''
-                  : (question.explanation.incorrect?.[selectedIndex ?? 0] || question.explanation.incorrect?.default || question.explanation.incorrect?.['1'] || question.explanation.incorrect?.['0'] || ''))
+                  : (
+                      // swipe_judgmentの場合はswipeDirectionをキーとして使う
+                      question.type === 'swipe_judgment' && swipeDirection
+                        ? (question.explanation.incorrect?.[swipeDirection] || question.explanation.incorrect?.default || '')
+                        : (question.explanation.incorrect?.[selectedIndex ?? 0] || question.explanation.incorrect?.default || question.explanation.incorrect?.['1'] || question.explanation.incorrect?.['0'] || '')
+                    ))
                 : ''
             }
           </Text>

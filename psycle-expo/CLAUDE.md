@@ -2,6 +2,10 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Language Setting
+
+**IMPORTANT**: Always respond in Japanese (日本語) unless the user explicitly requests English. This is a Japanese project with Japanese-speaking developers.
+
 ## Project Overview
 
 **Psycle** is a Duolingo-inspired mobile app for learning evidence-based psychology techniques. Built with React Native, Expo SDK 54, and TypeScript.
