@@ -64,6 +64,9 @@ interface AppState {
   planId: PlanId;
   setPlanId: (plan: PlanId) => void;
   hasProAccess: boolean;
+  activeUntil: string | null;
+  setActiveUntil: (date: string | null) => void;
+  isSubscriptionActive: boolean;
   // MistakesHub
   reviewEvents: ReviewEvent[];
   addReviewEvent: (event: Omit<ReviewEvent, "userId" | "ts">) => void;
@@ -71,6 +74,9 @@ interface AppState {
   canAccessMistakesHub: boolean;
   mistakesHubRemaining: number | null;
   startMistakesHubSession: () => void;
+  // Lesson progress
+  completedLessons: Set<string>;
+  completeLesson: (lessonId: string) => void;
 }
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
@@ -81,6 +87,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Plan & Entitlements
   const [planId, setPlanIdState] = useState<PlanId>("free");
+  const [activeUntil, setActiveUntilState] = useState<string | null>(null);
   const [reviewEvents, setReviewEvents] = useState<ReviewEvent[]>([]);
   const DUMMY_USER_ID = "user_local"; // In production, use actual user ID
 
@@ -102,6 +109,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Currency system
   const [gems, setGems] = useState(50); // Start with 50 gems
+
+  // Lesson progress
+  const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
+
+  function completeLesson(lessonId: string) {
+    setCompletedLessons(prev => new Set(prev).add(lessonId));
+  }
 
   // Daily goal system
   const [dailyGoal, setDailyGoalState] = useState(10); // Regular = 10 XP
@@ -268,6 +282,18 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setPlanIdState(plan);
   };
 
+  const setActiveUntil = (date: string | null) => {
+    setActiveUntilState(date);
+  };
+
+  // Check if subscription is currently active
+  const isSubscriptionActive = (() => {
+    if (!activeUntil || planId === "free") return false;
+    const expirationDate = new Date(activeUntil);
+    const now = new Date();
+    return now < expirationDate;
+  })();
+
   const hasProAccess = hasProItemAccess(planId);
   const canAccessMistakesHub = canUseMistakesHub(DUMMY_USER_ID, planId);
   const mistakesHubRemaining = getMistakesHubRemaining(DUMMY_USER_ID, planId);
@@ -352,6 +378,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         planId,
         setPlanId,
         hasProAccess,
+        activeUntil,
+        setActiveUntil,
+        isSubscriptionActive,
         // MistakesHub
         reviewEvents,
         addReviewEvent: addReviewEventFunc,
@@ -359,6 +388,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         canAccessMistakesHub,
         mistakesHubRemaining,
         startMistakesHubSession: startMistakesHubSessionFunc,
+        // Lesson progress
+        completedLessons,
+        completeLesson,
       }}
     >
       {children}

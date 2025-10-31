@@ -7,8 +7,8 @@ import { theme } from "../lib/theme";
 /**
  * MistakesHub（個別化復習）へのアクセスボタン
  *
- * Free: 利用不可（アップセル表示）
- * Pro/Max: 無制限アクセス
+ * Free/Pro: 利用不可（アップセル表示）
+ * Max: 無制限アクセス
  */
 export function MistakesHubButton() {
   const {
@@ -24,9 +24,9 @@ export function MistakesHubButton() {
 
   const handlePress = () => {
     if (!canAccessMistakesHub) {
-      // Show upsell modal for Pro/Max
+      // Show upsell modal for Max
       alert(
-        "Proプランで\"ミス復習\"が使えます\n\n" +
+        "Maxプランで\"ミス復習\"が使えます\n\n" +
           "✓ 直近のミスを10問厳選\n" +
           "✓ 無制限で何度でも復習可能\n" +
           "✓ タグ配分を自動最適化\n\n" +
@@ -59,7 +59,7 @@ export function MistakesHubButton() {
         disabled={!hasEnoughData}
       >
         <Text style={styles.buttonTitle}>
-          {canAccessMistakesHub ? "ミスだけ5分で復習" : "🔒 ミスだけ5分で復習（Pro）"}
+          {canAccessMistakesHub ? "ミスだけ5分で復習" : "🔒 ミスだけ5分で復習（Max）"}
         </Text>
         <Text style={styles.buttonSubtitle}>直近のつまずきを10問だけ</Text>
       </TouchableOpacity>
@@ -71,7 +71,7 @@ export function MistakesHubButton() {
             : `本日の復習セッション: 残り ${mistakesHubRemaining}/1`}
         </Text>
       ) : (
-        <Text style={styles.statusText}>ミス復習は Pro 以上で利用できます</Text>
+        <Text style={styles.statusText}>ミス復習は Max プランで利用できます</Text>
       )}
 
       {hasEnoughData && (

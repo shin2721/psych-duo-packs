@@ -37,12 +37,12 @@ export function canUseMistakesHub(userId: string, plan: PlanId): boolean {
 
   const dailyLimit = config.features.mistakes_hub.daily_limit;
 
-  // Pro/Maxは無制限
+  // Maxは無制限
   if (dailyLimit === null) {
     return true;
   }
 
-  // Freeプランは利用不可（daily_limit=0）
+  // Free/Proプランは利用不可（daily_limit=0）
   if (dailyLimit === 0) {
     return false;
   }
@@ -74,10 +74,10 @@ export function consumeMistakesHub(userId: string): void {
 }
 
 /**
- * 本日の残りMistakesHubセッション数を取得（Freeプランのみ）
+ * 本日の残りMistakesHubセッション数を取得
  * @param {string} userId - ユーザーID
  * @param {PlanId} plan - プランID
- * @returns {number | null} 残り回数、または無制限ならnull
+ * @returns {number | null} 残り回数、または無制限（Max）ならnull
  */
 export function getMistakesHubRemaining(userId: string, plan: PlanId): number | null {
   const config = entitlements.plans[plan] as PlanConfig;
@@ -88,7 +88,7 @@ export function getMistakesHubRemaining(userId: string, plan: PlanId): number | 
   }
 
   if (dailyLimit === 0) {
-    return 0; // Freeプランは利用不可
+    return 0; // Free/Proプランは利用不可
   }
 
   const today = getTodayKey();

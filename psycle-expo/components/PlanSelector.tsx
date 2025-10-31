@@ -4,12 +4,15 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react";
 import { useAppState } from "../lib/state";
 import { theme } from "../lib/theme";
 import { buyPlan } from "../lib/billing";
+import { getPlanPrice, detectUserRegion } from "../lib/pricing";
 
 /**
  * プラン選択UI（Free/Pro/Max）
+ * 地域別価格に対応
  */
 export function PlanSelector() {
   const { planId, setPlanId, hasProAccess, canAccessMistakesHub } = useAppState();
+  const userRegion = detectUserRegion();
 
   // デモ用：仮のユーザー情報（実際はSupabase authから取得）
   const demoUser = {
@@ -46,17 +49,17 @@ export function PlanSelector() {
     {
       id: "pro" as const,
       name: "Pro",
-      price: "¥1,990 / 月",
+      price: `${getPlanPrice("pro", "monthly", userRegion)} / 月`,
       features: [
         "無制限エネルギー",
         "Lite問題フルアクセス",
-        "✅ ミス復習無制限",
+        "❌ ミス復習なし",
       ],
     },
     {
       id: "max" as const,
       name: "Max",
-      price: "¥2,990 / 月",
+      price: `${getPlanPrice("max", "monthly", userRegion)} / 月`,
       features: [
         "無制限エネルギー",
         "✅ Pro問題アクセス",

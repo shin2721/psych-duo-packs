@@ -25,7 +25,7 @@
     "pro": {
       "id": "pro",
       "name": "Pro",
-      "price_jpy": 1990,
+      "price_jpy": 1490,
       "energy": {
         "daily_cap": null,
         "auto_refill": false
@@ -36,8 +36,8 @@
       },
       "features": {
         "mistakes_hub": {
-          "enabled": true,
-          "daily_limit": null
+          "enabled": false,
+          "daily_limit": 0
         },
         "ai_explain": {
           "mode": "off"
@@ -48,7 +48,7 @@
     "max": {
       "id": "max",
       "name": "Max",
-      "price_jpy": 2990,
+      "price_jpy": 1980,
       "energy": {
         "daily_cap": null,
         "auto_refill": false

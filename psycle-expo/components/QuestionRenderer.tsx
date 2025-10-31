@@ -461,7 +461,10 @@ function MultipleChoice({
             onPress={() => onSelect(index)}
             disabled={showResult}
           >
-            <Text style={[styles.choiceText, isSelected && styles.selectedChoiceText]}>
+            <Text style={[
+              styles.choiceText,
+              (isSelected || shouldShowCorrect || shouldShowIncorrect) && styles.selectedChoiceText
+            ]}>
               {choice}
             </Text>
             {shouldShowCorrect && (

@@ -1,0 +1,15 @@
+{"id":"term_aerobic","type":"mcq3","label":"用語","intro":"「有酸素運動」って何？","stem":"有酸素運動の意味は？","choices":["酸素を使って長く続ける運動","息を止めて行う運動","短時間で全力を出す運動"],"answer_index":0,"snack":"例：ウォーキング、ジョギング、水泳","info":"基本用語"}
+{"id":"term_hba1c","type":"mcq3","label":"用語","intro":"「HbA1c」って何？","stem":"HbA1cの意味は？","choices":["過去2〜3ヶ月の血糖値の平均","今の血糖値","コレステロール値"],"answer_index":0,"snack":"糖尿病の管理指標","info":"基本用語"}
+{"id":"exercise_combo_vs_single","type":"ab","label":"研究","intro":"運動の種類","stem":"血糖値改善に効果的なのはどっち？","choices":["有酸素+筋トレの組み合わせ","有酸素運動だけ"],"answer_index":0,"snack":"両方やると効果2倍","info":"Church (2010) RCT"}
+{"id":"quit_method_vs_willpower","type":"ab","label":"研究","intro":"禁煙の成功率","stem":"禁煙成功率が高いのはどっち？","choices":["薬+カウンセリング","意志の力だけ"],"answer_index":0,"snack":"サポートありで成功率3倍","info":"Fiore (2008) ガイドライン"}
+{"id":"sleep_regular_vs_irregular","type":"ab","label":"研究","intro":"睡眠の質","stem":"体調が良いのはどっち？","choices":["毎日同じ時間に寝起き","バラバラな時間に寝起き"],"answer_index":0,"snack":"規則正しい睡眠で体内時計が整う","info":"Walker (2017) 睡眠研究"}
+{"id":"diet_sustainable_vs_extreme","type":"ab","label":"研究","intro":"ダイエットの効果","stem":"長期的に体重を維持できるのはどっち？","choices":["ゆっくり続けられる食事改善","極端な食事制限"],"answer_index":0,"snack":"無理のない改善が続く","info":"Wing (2005) 体重管理研究"}
+{"id":"exercise_frequency","type":"mcq3","label":"研究","intro":"運動の頻度","stem":"健康効果が出る運動頻度は？","choices":["週3〜5回","毎日2時間","月1回だけ"],"answer_index":0,"snack":"週3〜5回30分が理想","info":"WHO (2020) ガイドライン"}
+{"id":"sleep_duration","type":"mcq3","label":"研究","intro":"理想の睡眠時間","stem":"成人の推奨睡眠時間は？","choices":["7〜9時間","4〜5時間","10時間以上"],"answer_index":0,"snack":"7〜9時間で免疫力最大","info":"Hirshkowitz (2015) 睡眠ガイドライン"}
+{"id":"stress_chronic_effect","type":"mcq3","label":"研究","intro":"ストレスと健康","stem":"慢性ストレスで起こることは？","choices":["炎症が増えて病気リスク↑","免疫力が上がる","記憶力が良くなる"],"answer_index":0,"snack":"ストレス→炎症→病気","info":"Cohen (2007) ストレス研究"}
+{"id":"mediterranean_diet","type":"mcq3","label":"研究","intro":"健康的な食事","stem":"地中海食の特徴は？","choices":["オリーブオイルと魚が中心","肉と揚げ物が中心","加工食品が中心"],"answer_index":0,"snack":"心臓病リスクが30%減","info":"Estruch (2013) PREDIMED試験"}
+{"id":"hydration","type":"mcq3","label":"研究","intro":"水分補給","stem":"適切な水分摂取量は？","choices":["1日1.5〜2リットル","1日5リットル","喉が渇いたら飲む程度"],"answer_index":0,"snack":"こまめに水を飲むのが大切","info":"栄養学基礎"}
+{"id":"smoking_immediate_effect","type":"truefalse","label":"研究","intro":"禁煙の効果","stem":"禁煙後20分で心拍数と血圧が正常化し始める","choices":["正しい","誤り"],"answer_index":0,"snack":"禁煙の効果は即座に現れる","info":"WHO (2020) 禁煙ガイドライン"}
+{"id":"blue_light_sleep","type":"truefalse","label":"研究","intro":"睡眠と光","stem":"寝る前のスマホ（ブルーライト）は睡眠の質を下げる","choices":["正しい","誤り"],"answer_index":0,"snack":"ブルーライトでメラトニン分泌↓","info":"Chang (2015) 睡眠研究"}
+{"id":"cloze_exercise_combo","type":"cloze1","label":"復習","intro":"糖尿病の運動療法について","stem":"【　　　】と筋トレの組み合わせが血糖値改善に効果的","choices":["有酸素運動","ストレッチ","ヨガ"],"answer_index":0,"snack":"有酸素運動＝長く続ける運動","info":"復習問題"}
+{"id":"method_diet_study","type":"method","label":"研究デザイン","intro":"研究の種類を当てよう","stem":"地中海食の効果を調べる研究はどれ？","choices":["くじ引きで2グループに分けて比較","食事の前後で変化を比較","1人の事例を詳しく観察"],"answer_index":0,"snack":"くじ引き（ランダム化）が最も信頼できる","info":"Estruch (2013) RCT"}

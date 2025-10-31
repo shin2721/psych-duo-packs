@@ -1,0 +1,151 @@
+=== Psycle Auto-fetch started at 2025年 10月22日 水曜日 15時12分02秒 JST ===
+[mental] Fetching from ERIC, PubMed, and Crossref...
+ -> kept 60 items (15 with abstracts)
+    Sources: ERIC=69, PubMed=80, Crossref=80
+[money] Fetching from ERIC, PubMed, and Crossref...
+ -> kept 145 items (66 with abstracts)
+    Sources: ERIC=42, PubMed=80, Crossref=80
+[work] Fetching from ERIC, PubMed, and Crossref...
+ -> kept 124 items (66 with abstracts)
+    Sources: ERIC=55, PubMed=80, Crossref=80
+[health] Fetching from ERIC, PubMed, and Crossref...
+ -> kept 182 items (102 with abstracts)
+    Sources: ERIC=48, PubMed=80, Crossref=80
+[social] Fetching from ERIC, PubMed, and Crossref...
+ -> kept 161 items (82 with abstracts)
+    Sources: ERIC=16, PubMed=80, Crossref=80
+[study] Fetching from ERIC, PubMed, and Crossref...
+ -> kept 169 items (101 with abstracts)
+    Sources: ERIC=69, PubMed=80, Crossref=80
+
+DONE. wrote 824 records to data/sources.json
+Total with abstracts: 415
+
+=== Auto-generating questions ===
+
+[mental] 15 sources with abstracts
+  📚 Found 30 existing questions (2 units)
+  🆕 10 unused sources available
+  🔄 0 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 6 sources
+  📝 Saved to data/questions/mental.jsonl
+  📊 Total: 45 questions (3 units)
+  ➕ Added 15 new questions this run
+
+[money] 66 sources with abstracts
+  📚 Found 71 existing questions (5 units)
+  🆕 29 unused sources available
+  🔄 34 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 8 sources
+  📝 Saved to data/questions/money.jsonl
+  📊 Total: 86 questions (6 units)
+  ➕ Added 15 new questions this run
+
+[work] 66 sources with abstracts
+  📚 Found 79 existing questions (6 units)
+  🆕 27 unused sources available
+  🔄 36 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 5 sources
+  📝 Saved to data/questions/work.jsonl
+  📊 Total: 94 questions (7 units)
+  ➕ Added 15 new questions this run
+
+[health] 97 sources with abstracts
+  📚 Found 76 existing questions (6 units)
+  🆕 85 unused sources available
+  🔄 11 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 6 sources
+  📝 Saved to data/questions/health.jsonl
+  📊 Total: 91 questions (7 units)
+  ➕ Added 15 new questions this run
+
+[social] 70 sources with abstracts
+  📚 Found 85 existing questions (6 units)
+  🆕 59 unused sources available
+  🔄 10 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 6 sources
+  📝 Saved to data/questions/social.jsonl
+  📊 Total: 100 questions (7 units)
+  ➕ Added 15 new questions this run
+
+[study] 101 sources with abstracts
+  📚 Found 82 existing questions (6 units)
+  🆕 48 unused sources available
+  🔄 45 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 7 sources
+  📝 Saved to data/questions/study.jsonl
+  📊 Total: 97 questions (7 units)
+  ➕ Added 15 new questions this run
+
+✅ Question generation complete.
+
+
+[mental] 15 sources with abstracts
+  📚 Found 45 existing questions (3 units)
+  🆕 4 unused sources available
+  🔄 3 partially used sources can generate more questions
+  🔄 Using all available sources (including partially used)
+  ✓ Generated 10 new questions from 7 sources
+  🔍 Removed 2 duplicate questions
+  📝 Saved to data/questions/mental.jsonl
+  📊 Total: 53 questions (4 units)
+  ➕ Added 8 new questions this run
+
+[money] 66 sources with abstracts
+  📚 Found 86 existing questions (6 units)
+  🆕 22 unused sources available
+  🔄 38 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 10 sources
+  📝 Saved to data/questions/money.jsonl
+  📊 Total: 101 questions (7 units)
+  ➕ Added 15 new questions this run
+
+[work] 66 sources with abstracts
+  📚 Found 94 existing questions (7 units)
+  🆕 22 unused sources available
+  🔄 36 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 9 sources
+  📝 Saved to data/questions/work.jsonl
+  📊 Total: 109 questions (8 units)
+  ➕ Added 15 new questions this run
+
+[health] 97 sources with abstracts
+  📚 Found 91 existing questions (7 units)
+  🆕 79 unused sources available
+  🔄 14 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 6 sources
+  📝 Saved to data/questions/health.jsonl
+  📊 Total: 106 questions (8 units)
+  ➕ Added 15 new questions this run
+
+[social] 70 sources with abstracts
+  📚 Found 100 existing questions (7 units)
+  🆕 53 unused sources available
+  🔄 13 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 6 sources
+  📝 Saved to data/questions/social.jsonl
+  📊 Total: 115 questions (8 units)
+  ➕ Added 15 new questions this run
+
+[study] 101 sources with abstracts
+  📚 Found 97 existing questions (7 units)
+  🆕 41 unused sources available
+  🔄 49 partially used sources can generate more questions
+  ✨ Using only unused sources
+  ✓ Generated 15 new questions from 7 sources
+  📝 Saved to data/questions/study.jsonl
+  📊 Total: 112 questions (8 units)
+  ➕ Added 15 new questions this run
+
+✅ Question generation complete.
+=== Completed at 2025年 10月22日 水曜日 15時12分20秒 JST ===

@@ -9,6 +9,7 @@ export const theme = {
     accent: "#22d3ee",
     success: "#22c55e",
     warn: "#f59e0b",
+    error: "#ef4444",
   },
   radius: {
     md: 12,

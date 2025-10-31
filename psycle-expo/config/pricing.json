@@ -1,0 +1,87 @@
+{
+  "pricing": {
+    "US": {
+      "currency": "USD",
+      "symbol": "$",
+      "pro_monthly": 14.99,
+      "max_monthly": 19.99,
+      "pro_yearly": 99.99,
+      "max_yearly": 129.99,
+      "note": "習慣化×プレミアム感でOK"
+    },
+    "CA": {
+      "currency": "CAD",
+      "symbol": "CA$",
+      "pro_monthly": 14.99,
+      "max_monthly": 19.99,
+      "pro_yearly": 99.99,
+      "max_yearly": 129.99,
+      "note": "US準拠で問題なし"
+    },
+    "EU": {
+      "currency": "EUR",
+      "symbol": "€",
+      "pro_monthly": 11.99,
+      "max_monthly": 15.99,
+      "pro_yearly": 79.99,
+      "max_yearly": 109.99,
+      "note": "VAT高め、据え置きが◎",
+      "countries": ["DE", "FR", "ES", "IT"]
+    },
+    "GB": {
+      "currency": "GBP",
+      "symbol": "£",
+      "pro_monthly": 9.99,
+      "max_monthly": 13.99,
+      "pro_yearly": 69.99,
+      "max_yearly": 94.99,
+      "note": "£10未満・£14未満を死守"
+    },
+    "JP": {
+      "currency": "JPY",
+      "symbol": "¥",
+      "pro_monthly": 1490,
+      "max_monthly": 1980,
+      "pro_yearly": 9900,
+      "max_yearly": 12800,
+      "note": "¥1,500未満・¥2,000未満"
+    },
+    "KR": {
+      "currency": "KRW",
+      "symbol": "₩",
+      "pro_monthly": 12900,
+      "max_monthly": 16900,
+      "pro_yearly": 99000,
+      "max_yearly": 129000,
+      "note": "学習アプリ馴染み◎"
+    },
+    "IN": {
+      "currency": "INR",
+      "symbol": "₹",
+      "pro_monthly": 449,
+      "max_monthly": 599,
+      "pro_yearly": 2999,
+      "max_yearly": 3999,
+      "note": "価格弾力大→広告/提携で補完"
+    },
+    "BR": {
+      "currency": "BRL",
+      "symbol": "R$",
+      "pro_monthly": 34.90,
+      "max_monthly": 44.90,
+      "pro_yearly": 249,
+      "max_yearly": 329,
+      "note": "分割文化あり、年額お得訴求"
+    },
+    "MX": {
+      "currency": "MXN",
+      "symbol": "MX$",
+      "pro_monthly": 99,
+      "max_monthly": 129,
+      "pro_yearly": 699,
+      "max_yearly": 899,
+      "note": "2桁価格でCVR↑"
+    }
+  },
+  "default_region": "JP"
+}

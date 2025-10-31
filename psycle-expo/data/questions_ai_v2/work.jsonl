@@ -1,0 +1,15 @@
+{"id":"term_burnout","type":"mcq3","label":"用語","intro":"「バーンアウト」って何？","stem":"バーンアウトの意味は？","choices":["燃え尽きて疲れ果てること","やる気に満ちた状態","一時的な疲労感"],"answer_index":0,"snack":"例：頑張りすぎて心身ともにボロボロ","info":"基本用語"}
+{"id":"term_flow","type":"mcq3","label":"用語","intro":"「フロー状態」って何？","stem":"フロー状態の意味は？","choices":["集中して時間を忘れる状態","退屈で眠くなる状態","不安で焦る状態"],"answer_index":0,"snack":"例：夢中で作業してたら3時間経ってた","info":"基本用語"}
+{"id":"autonomy_vs_control","type":"ab","label":"研究","intro":"働き方の自由度","stem":"仕事の満足度が高いのはどっち？","choices":["自分で決められる仕事","全て指示される仕事"],"answer_index":0,"snack":"自律性があると満足度2倍","info":"Deci & Ryan (2000) 自己決定理論"}
+{"id":"feedback_positive_vs_none","type":"ab","label":"研究","intro":"フィードバックの効果","stem":"モチベーションが上がるのはどっち？","choices":["具体的なフィードバックをもらう","何も言われない"],"answer_index":0,"snack":"フィードバックでやる気↑","info":"Kluger (1996) メタ分析"}
+{"id":"break_with_vs_without","type":"ab","label":"研究","intro":"休憩の取り方","stem":"午後の生産性が高いのはどっち？","choices":["昼休みにしっかり休む","昼も働き続ける"],"answer_index":0,"snack":"休憩で午後の集中力50%↑","info":"Trougakos (2008) 回復研究"}
+{"id":"goal_challenging_vs_easy","type":"ab","label":"研究","intro":"目標の難易度","stem":"成果が上がるのはどっち？","choices":["少し難しい目標","簡単すぎる目標"],"answer_index":0,"snack":"適度な挑戦がパフォーマンス向上","info":"Locke (1990) 目標設定理論"}
+{"id":"multitasking","type":"mcq3","label":"研究","intro":"マルチタスクの真実","stem":"マルチタスクの効果は？","choices":["効率が落ちてミスが増える","効率が上がる","何も変わらない"],"answer_index":0,"snack":"同時作業で生産性40%↓","info":"Rubinstein (2001) 認知研究"}
+{"id":"morning_vs_evening","type":"mcq3","label":"研究","intro":"時間帯と生産性","stem":"集中力が最も高い時間帯は？","choices":["人によって異なる（朝型/夜型）","全員朝が一番","全員夜が一番"],"answer_index":0,"snack":"自分のリズムに合わせるのが最適","info":"Roenneberg (2012) 時間生物学"}
+{"id":"workspace_noise","type":"mcq3","label":"研究","intro":"作業環境の音","stem":"クリエイティブな作業に適した音は？","choices":["適度なカフェの雑音","完全な静寂","大音量の音楽"],"answer_index":0,"snack":"70デシベルの環境音が創造性↑","info":"Mehta (2012) 環境心理"}
+{"id":"meeting_effectiveness","type":"mcq3","label":"研究","intro":"効果的な会議","stem":"会議を短く効果的にする方法は？","choices":["立って行う（スタンドアップ）","座って行う","オンラインで行う"],"answer_index":0,"snack":"立ち会議は34%時間短縮","info":"Bluedorn (1999) 組織研究"}
+{"id":"motivation_intrinsic","type":"mcq3","label":"研究","intro":"やる気の源泉","stem":"長続きするモチベーションは？","choices":["仕事自体が楽しい（内発的）","報酬のため（外発的）","罰を避けるため"],"answer_index":0,"snack":"楽しさが最高の燃料","info":"Pink (2009) モチベーション研究"}
+{"id":"pomodoro_technique","type":"truefalse","label":"研究","intro":"時間管理法","stem":"ポモドーロテクニック（25分作業+5分休憩）は集中力を高める","choices":["正しい","誤り"],"answer_index":0,"snack":"短時間集中→休憩のサイクルが効果的","info":"Cirillo (2006)"}
+{"id":"deadline_pressure","type":"truefalse","label":"研究","intro":"締め切り効果","stem":"適度な時間的プレッシャーは創造性を高める","choices":["正しい","誤り"],"answer_index":0,"snack":"ほどよい締め切りが創造性を刺激","info":"Amabile (2002) 創造性研究"}
+{"id":"cloze_autonomy","type":"cloze1","label":"復習","intro":"仕事の満足度について","stem":"【　　　】が高いと仕事の満足度が上がる","choices":["自律性","給料","勤務時間"],"answer_index":0,"snack":"自律性＝自分で決められる自由","info":"復習問題"}
+{"id":"method_motivation_study","type":"method","label":"研究デザイン","intro":"研究の種類を当てよう","stem":"仕事の自由度の効果を調べる研究はどれ？","choices":["くじ引きで2グループに分けて比較","自由度の前後で変化を比較","1つの会社を詳しく観察"],"answer_index":0,"snack":"くじ引き（ランダム化）が最も信頼できる","info":"Deci & Ryan (2000) RCT"}

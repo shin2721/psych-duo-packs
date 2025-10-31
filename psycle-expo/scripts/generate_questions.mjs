@@ -27,16 +27,19 @@ async function generateQuestionsFromSource(source, maxQuestions = MAX_QUESTIONS_
   const abstract = source.abstract;
   const title = source.title;
 
-  // 抄録をセンテンスに分割
-  const sentences = abstract.split(/[。\.]/g).filter(s => s.trim().length > 20);
+  // 抄録をセンテンスに分割（改善版：複数の終端記号に対応）
+  const sentences = abstract
+    .split(/(?<=[.!?。！？])\s+/)
+    .map(s => s.trim())
+    .filter(s => s.length > 30 && /[.!?。！？]$/.test(s)); // 完全な文のみ
 
   if (sentences.length < 3) {
     return []; // 情報不足
   }
 
-  // 結論・結果を含むセンテンスを優先
+  // 結論・結果を含むセンテンスを優先（キーワードを拡張）
   const conclusionSentences = sentences.filter(s =>
-    /result|conclusion|finding|showed|demonstrated|indicated|suggest|found|observed/i.test(s)
+    /result|conclusion|finding|showed|demonstrated|indicated|suggest|found|observed|associated|revealed|confirmed|reported|significant|positive|negative|correlation|relationship|effect|impact/i.test(s)
   );
 
   if (conclusionSentences.length === 0) {
@@ -66,7 +69,7 @@ async function generateQuestionsFromSource(source, maxQuestions = MAX_QUESTIONS_
     else if (hasEffect) questionType = "relationship";
 
     // 質問とchoicesを生成
-    questions.push({
+    const question = {
       unit: source.unit,
       source_id: source.id || source.doi || source.pmid,
       question_type: questionType,
@@ -76,7 +79,14 @@ async function generateQuestionsFromSource(source, maxQuestions = MAX_QUESTIONS_
       difficulty: estimateDifficulty(abstract, questionType),
       tags: source.tags || [],
       citation: formatCitation(source)
-    });
+    };
+
+    // 品質チェック
+    const validation = validateQuestion(question);
+    if (validation.valid) {
+      questions.push(question);
+    }
+    // Invalid questions are silently skipped
   }
 
   return questions;
@@ -84,86 +94,195 @@ async function generateQuestionsFromSource(source, maxQuestions = MAX_QUESTIONS_
 
 function extractStem(sentence, title, type) {
   // 抄録の事実から質問を生成
-  // 実装: センテンスから主要な概念を抽出して質問形式に変換
+  // 主要な心理学概念を検出して問題文に含める
 
-  if (type === "quantitative") {
-    // 例: "Study found X% improvement" → "研究により報告された改善率は?"
-    const numMatch = sentence.match(/(\d+\.?\d*)\s*%/);
-    if (numMatch) {
-      return `${title.slice(0, 80)}に関する研究で報告された主要な数値的結果は？`;
+  // 主要な心理学用語のリスト
+  const psychConcepts = [
+    "認知的再評価", "マインドフルネス", "感情調整", "呼吸法", "リラクゼーション",
+    "バイオフィードバック", "ストレス管理", "レジリエンス", "共感", "積極的傾聴",
+    "傾聴", "コミュニケーション", "ポモドーロ", "時間管理", "先延ばし", "実行意図",
+    "目標設定", "自己効力感", "集中力", "運動習慣", "睡眠衛生", "習慣", "栄養",
+    "身体活動", "想起練習", "分散学習", "間隔反復", "メタ認知", "ワーキングメモリ",
+    "自己説明", "予算管理", "衝動買い", "メンタルアカウンティング", "金融リテラシー",
+    "貯蓄"
+  ];
+
+  // タイトルまたは文から概念を検出
+  const detectedConcept = psychConcepts.find(concept =>
+    title.includes(concept) || sentence.includes(concept)
+  );
+
+  // 英語の心理学用語も検出
+  const englishConcepts = {
+    "cognitive reappraisal": "認知的再評価",
+    "mindfulness": "マインドフルネス",
+    "emotion regulation": "感情調整",
+    "breathing": "呼吸法",
+    "relaxation": "リラクゼーション",
+    "biofeedback": "バイオフィードバック",
+    "stress management": "ストレス管理",
+    "resilience": "レジリエンス",
+    "empathy": "共感",
+    "active listening": "積極的傾聴",
+    "time management": "時間管理",
+    "procrastination": "先延ばし",
+    "self-efficacy": "自己効力感",
+    "sleep hygiene": "睡眠衛生",
+    "working memory": "ワーキングメモリ",
+    "metacognition": "メタ認知"
+  };
+
+  let conceptForQuestion = detectedConcept;
+  if (!conceptForQuestion) {
+    for (const [eng, jpn] of Object.entries(englishConcepts)) {
+      if (title.toLowerCase().includes(eng.toLowerCase()) ||
+          sentence.toLowerCase().includes(eng.toLowerCase())) {
+        conceptForQuestion = jpn;
+        break;
+      }
     }
   }
 
+  // タイトルの一部を抽出（最初の50文字程度）
+  const titlePreview = title.length > 50 ? title.substring(0, 50) + "..." : title;
+
+  // 日本語で問題文を生成（研究タイトルを含む）
+  if (type === "quantitative") {
+    return `「${titlePreview}」の研究で報告された数値的結果は？`;
+  }
+
   if (type === "comparison") {
-    // 例: "A was more effective than B" → "AとBを比較した結果は？"
-    return `以下の研究における比較結果として正しいものはどれか？`;
+    return `「${titlePreview}」の研究で比較されたことは？`;
   }
 
   if (type === "relationship") {
-    return `${title.slice(0, 80)}の研究で明らかになった関連性は？`;
+    return `「${titlePreview}」の研究で見つかった関連性は？`;
   }
 
   // デフォルト: 一般的な事実問題
-  return `以下の研究結果として正しく述べられているものはどれか？`;
+  return `「${titlePreview}」の研究で明らかになったことは？`;
 }
 
 function generateChoices(sentence, type, abstract) {
   // 正答（センテンスから完全な形で抽出）
   const correctAnswer = cleanSentence(sentence);
 
-  // 抄録から他のセンテンスを取得（誤答候補）
+  // 抄録から他の完全なセンテンスを取得（改善版）
   const allSentences = abstract
-    .split(/[。\.]/g)
-    .map(s => cleanSentence(s))
-    .filter(s => s.length > 40 && s !== correctAnswer);
+    .split(/(?<=[.!?。！？])\s+/)
+    .map(s => cleanSentence(s.trim()))
+    .filter(s =>
+      s.length > 40 &&
+      s !== correctAnswer &&
+      /[.!?。！？]$/.test(s) && // 完全な文のみ
+      s.length < 200 // 長すぎる文は除外
+    );
 
-  // 誤答生成戦略:
-  // 1. 数値を変える
-  // 2. 方向性を反転
-  // 3. 他のセンテンスから文脈違いを作る
+  // 誤答生成戦略（優先順位変更 - より難しくするため）:
+  // 1. 抄録内の他の結論文を使う（最優先 - 最も挑戦的）
+  // 2. 同じトピックだが異なるメカニズムの文
+  // 3. 条件付きの真実（部分的に正しいが全体として誤り）
+  // 4. 数値や方向性の微妙な変更（最終手段）
 
-  const distractor1 = perturbNumber(correctAnswer);
-  const distractor2 = perturbDirection(correctAnswer);
-  const distractor3 = allSentences.length > 0
-    ? allSentences[0].slice(0, 150)
-    : perturbSubject(correctAnswer);
-
-  // 重複チェック
-  const choices = [
-    { text: correctAnswer, is_correct: true },
-    { text: distractor1, is_correct: false },
-    { text: distractor2, is_correct: false },
-    { text: distractor3, is_correct: false }
+  const candidates = [
+    { text: correctAnswer, is_correct: true }
   ];
+  const seen = new Set([correctAnswer.slice(0, 80).toLowerCase().replace(/\s+/g, ' ')]);
 
-  // 重複削除とシャッフル準備
-  const uniqueChoices = [];
-  const seen = new Set();
-  for (const c of choices) {
-    const key = c.text.slice(0, 50).toLowerCase();
-    if (!seen.has(key)) {
+  // 1. 抄録内の結論文をすべて候補として追加（最大3つ）
+  const conclusionSentences = allSentences.filter(s =>
+    /result|conclusion|finding|showed|demonstrated|indicated|suggest|found|observed|associated|revealed|confirmed|reported|significant|correlation|relationship|effect/i.test(s)
+  );
+
+  for (const contextualSentence of conclusionSentences.slice(0, 3)) {
+    const key = contextualSentence.slice(0, 80).toLowerCase().replace(/\s+/g, ' ');
+    if (!seen.has(key) && contextualSentence.length >= 40) {
+      candidates.push({ text: contextualSentence, is_correct: false });
       seen.add(key);
-      uniqueChoices.push(c);
+      if (candidates.length >= 4) break;
     }
   }
 
-  // 足りない場合は汎用誤答を追加
-  while (uniqueChoices.length < 4) {
-    uniqueChoices.push({
-      text: `研究では${uniqueChoices.length === 1 ? "相関が" : uniqueChoices.length === 2 ? "効果が" : "差が"}見られなかった`,
-      is_correct: false
-    });
+  // 2. まだ足りない場合、方法論や背景の文を追加（同じ研究内容なので混乱しやすい）
+  if (candidates.length < 4) {
+    const methodSentences = allSentences.filter(s =>
+      /method|procedure|participant|measure|assess|evaluate|examined|investigated|analyzed/i.test(s)
+    );
+
+    for (const methodSentence of methodSentences.slice(0, 2)) {
+      const key = methodSentence.slice(0, 80).toLowerCase().replace(/\s+/g, ' ');
+      if (!seen.has(key) && methodSentence.length >= 40) {
+        candidates.push({ text: methodSentence, is_correct: false });
+        seen.add(key);
+        if (candidates.length >= 4) break;
+      }
+    }
   }
 
-  return uniqueChoices;
+  // 3. まだ足りない場合のみ、微妙な変更を加えた誤答を生成
+  if (candidates.length < 4) {
+    const subtleDistractor = perturbSubtly(correctAnswer);
+    const key = subtleDistractor.slice(0, 80).toLowerCase().replace(/\s+/g, ' ');
+    if (!seen.has(key) && subtleDistractor !== correctAnswer) {
+      candidates.push({ text: subtleDistractor, is_correct: false });
+      seen.add(key);
+    }
+  }
+
+  // 4. 足りない場合は文脈に応じた高度な汎用誤答を追加
+  const advancedFallbacks = [
+    "この効果は統計的に有意であったものの、臨床的には小さい効果量（d < 0.3）にとどまった",
+    "介入群と対照群の間に統計的有意差は認められたが、事前に設定した最小臨床的重要差には達しなかった",
+    "初期の効果は観察されたが、6ヶ月後のフォローアップでは効果の持続は確認されなかった",
+    "サブグループ解析では特定の条件下でのみ効果が認められ、全体としては有意な差は検出されなかった",
+    "媒介分析の結果、当初想定されたメカニズムとは異なる経路を通じて効果が生じていることが示された",
+    "交絡変数を調整した多変量解析では、単変量解析で見られた関連性は有意ではなくなった"
+  ];
+
+  let fallbackIndex = 0;
+  while (candidates.length < 4 && fallbackIndex < advancedFallbacks.length) {
+    const fallbackText = advancedFallbacks[fallbackIndex];
+    const fallbackKey = fallbackText.slice(0, 80).toLowerCase().replace(/\s+/g, ' ');
+
+    if (!seen.has(fallbackKey)) {
+      candidates.push({
+        text: fallbackText,
+        is_correct: false
+      });
+      seen.add(fallbackKey);
+    }
+    fallbackIndex++;
+  }
+
+  // 5. 最終手段：抄録内の任意の長い文を使用
+  if (candidates.length < 4) {
+    for (const anySentence of allSentences) {
+      const key = anySentence.slice(0, 80).toLowerCase().replace(/\s+/g, ' ');
+      if (!seen.has(key) && anySentence.length >= 40) {
+        candidates.push({ text: anySentence, is_correct: false });
+        seen.add(key);
+        if (candidates.length >= 4) break;
+      }
+    }
+  }
+
+  return candidates.slice(0, 4); // 4択に制限
 }
 
 function cleanSentence(s) {
-  return s
+  const cleaned = s
     .trim()
     .replace(/\s+/g, " ")
-    .replace(/^\s*[-•]\s*/, "")
-    .slice(0, 150);
+    .replace(/^\s*[-•]\s*/, "");
+
+  // 完全な文かチェック（150文字以上でも終端記号があればOK）
+  if (cleaned.length > 200 && /[.!?。！？]/.test(cleaned)) {
+    // 長すぎる場合は最初の完全な文だけ取る
+    const firstSentenceMatch = cleaned.match(/^[^.!?。！？]+[.!?。！？]/);
+    return firstSentenceMatch ? firstSentenceMatch[0] : cleaned.slice(0, 180);
+  }
+
+  return cleaned;
 }
 
 function perturbNumber(sentence) {
@@ -176,11 +295,50 @@ function perturbNumber(sentence) {
     return perturbed + unit;
   });
 
-  return modified !== sentence ? modified : sentence.replace(/\d+/, m => parseInt(m) + 5);
+  // If no change was made or result is too short, return original
+  if (modified === sentence || modified.length < 30) {
+    return sentence.replace(/\d+/, m => parseInt(m) + 5);
+  }
+  return modified;
+}
+
+function perturbSubtly(sentence) {
+  // 微妙な変更を加える（より難易度が高い）
+  const strategies = [
+    // 1. 限定詞を追加（部分的な真実にする）
+    () => {
+      if (Math.random() > 0.5 && !sentence.includes("一部")) {
+        return sentence.replace(/([。.])$/, "（ただし一部の参加者のみ）$1");
+      }
+      return sentence.replace(/([。.])$/, "（特定の条件下でのみ）$1");
+    },
+    // 2. 因果関係を相関関係に変える
+    () => sentence
+      .replace(/caused|led to|resulted in/gi, "was associated with")
+      .replace(/により|によって/g, "と関連して"),
+    // 3. 統計的有意性の曖昧化
+    () => sentence
+      .replace(/significant/gi, "marginal")
+      .replace(/有意/g, "やや"),
+    // 4. 時間軸の変更
+    () => sentence
+      .replace(/immediately/gi, "after several months")
+      .replace(/直後/g, "数ヶ月後"),
+    // 5. 程度の微調整
+    () => sentence
+      .replace(/\bstrong\b/gi, "moderate")
+      .replace(/\blarge\b/gi, "small to moderate")
+      .replace(/強い/g, "中程度の")
+      .replace(/大きな/g, "小から中程度の")
+  ];
+
+  // ランダムに戦略を1つ選択
+  const strategy = strategies[Math.floor(Math.random() * strategies.length)];
+  return strategy();
 }
 
 function perturbDirection(sentence) {
-  // 方向性を反転
+  // 方向性を反転（使用頻度を下げるため、この関数は直接呼ばれなくなった）
   return sentence
     .replace(/\bincreased\b/gi, "decreased")
     .replace(/\bdecreased\b/gi, "increased")
@@ -197,7 +355,7 @@ function perturbDirection(sentence) {
 }
 
 function perturbSubject(sentence) {
-  // 主語・対象を変更
+  // 主語・対象を変更（使用頻度を下げるため、この関数は直接呼ばれなくなった）
   return sentence
     .replace(/\bparticipants\b/gi, "control group")
     .replace(/\bintervention group\b/gi, "placebo group")
@@ -223,6 +381,47 @@ function formatCitation(source) {
   const doi = source.doi ? `https://doi.org/${source.doi}` : source.url;
 
   return `${authors} (${year}). ${title}. ${venue}. ${doi}`;
+}
+
+function validateQuestion(question) {
+  // 質問の品質をチェック
+  const correctChoice = question.choices.find(c => c.is_correct);
+
+  if (!correctChoice) {
+    return { valid: false, reason: "No correct answer" };
+  }
+
+  // 正解が完全な文か確認
+  if (correctChoice.text.length < 30) {
+    return { valid: false, reason: "Correct answer too short" };
+  }
+
+  // 正解が途中で切れていないか確認（句読点または完結している文）
+  const endsWithPunctuation = /[.!?。！？]$/.test(correctChoice.text);
+  const seemsComplete = correctChoice.text.length >= 50 && !/\.\.\.$|…$/.test(correctChoice.text);
+  if (!endsWithPunctuation && !seemsComplete) {
+    return { valid: false, reason: "Correct answer is incomplete" };
+  }
+
+  // 選択肢が重複していないか確認
+  const texts = question.choices.map(c => c.text.slice(0, 50).toLowerCase());
+  const uniqueTexts = new Set(texts);
+  if (uniqueTexts.size < 4) {
+    return { valid: false, reason: "Duplicate choices" };
+  }
+
+  // 4つの選択肢があるか確認
+  if (question.choices.length !== 4) {
+    return { valid: false, reason: `Wrong number of choices: ${question.choices.length}` };
+  }
+
+  // すべての選択肢が最小限の長さがあるか確認
+  const allChoicesValid = question.choices.every(c => c.text.length >= 20);
+  if (!allChoicesValid) {
+    return { valid: false, reason: "Some choices are too short" };
+  }
+
+  return { valid: true };
 }
 
 // ============ メイン処理 ============

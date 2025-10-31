@@ -9,16 +9,45 @@ import { Pill } from "../../components/ui";
 import { Trail } from "../../components/trail";
 import { Modal } from "../../components/Modal";
 import { GlobalHeader } from "../../components/GlobalHeader";
+import { router } from "expo-router";
 
 export default function CourseScreen() {
-  const { selectedGenre, setSelectedGenre, addXp, incrementQuest, streak, dailyXP, dailyGoal, freezeCount, gems } = useAppState();
-  const [modalNode, setModalNode] = useState<string | null>(null);
+  const { selectedGenre, setSelectedGenre, addXp, incrementQuest, streak, dailyXP, dailyGoal, freezeCount, gems, completedLessons } = useAppState();
+  const [modalNode, setModalNode] = useState<any>(null);
 
-  const currentTrail = trailsByGenre[selectedGenre] || trailsByGenre.mental;
+  const baseTrail = trailsByGenre[selectedGenre] || trailsByGenre.mental;
+
+  // Compute status based on completed lessons
+  const currentTrail = baseTrail.map((node, index) => {
+    const lessonFile = node.lessonFile;
+    if (!lessonFile) return node;
+
+    const isCompleted = completedLessons.has(lessonFile);
+    if (isCompleted) return { ...node, status: "done" };
+
+    // Check if previous lesson is completed
+    const prevNode = baseTrail[index - 1];
+    const prevCompleted = prevNode?.lessonFile ? completedLessons.has(prevNode.lessonFile) : true;
+
+    if (index === 0 || prevCompleted) return { ...node, status: "current" };
+    return { ...node, status: "locked" };
+  });
 
   const handleStart = () => {
-    addXp(10);
-    incrementQuest("q_daily_3lessons");
+    if (!modalNode) {
+      setModalNode(null);
+      return;
+    }
+
+    // Find the node in the trail
+    const node = currentTrail.find(n => n.id === modalNode);
+    if (!node?.lessonFile) {
+      setModalNode(null);
+      return;
+    }
+
+    // Navigate to lesson screen
+    router.push(`/lesson?file=${node.lessonFile}&genre=${selectedGenre}`);
     setModalNode(null);
   };
 

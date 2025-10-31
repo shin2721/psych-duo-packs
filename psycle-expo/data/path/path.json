@@ -1,0 +1,339 @@
+{
+  "version": "1.0",
+  "energy": {
+    "max": 25,
+    "regen_ms": 3600000,
+    "streak_bonuses": {
+      "5": 1,
+      "10": 3
+    },
+    "perfect_bonus": 5,
+    "cost_per_answer": 1
+  },
+  "sections": [
+    {
+      "id": "main.auto",
+      "title": "心理学の基礎",
+      "units": [
+        {
+          "unit_id": "health.u1",
+          "nodes": [
+            {
+              "node_id": "n01",
+              "lessons": [
+                "data/units_out/health.u1/n01_l01.jsonl",
+                "data/units_out/health.u1/n01_l02.jsonl",
+                "data/units_out/health.u1/n01_l03.jsonl",
+                "data/units_out/health.u1/n01_l04.jsonl",
+                "data/units_out/health.u1/n01_l05.jsonl",
+                "data/units_out/health.u1/n01_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n02",
+              "lessons": [
+                "data/units_out/health.u1/n02_l01.jsonl",
+                "data/units_out/health.u1/n02_l02.jsonl",
+                "data/units_out/health.u1/n02_l03.jsonl",
+                "data/units_out/health.u1/n02_l04.jsonl",
+                "data/units_out/health.u1/n02_l05.jsonl",
+                "data/units_out/health.u1/n02_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n03",
+              "lessons": [
+                "data/units_out/health.u1/n03_l01.jsonl",
+                "data/units_out/health.u1/n03_l02.jsonl",
+                "data/units_out/health.u1/n03_l03.jsonl",
+                "data/units_out/health.u1/n03_l04.jsonl",
+                "data/units_out/health.u1/n03_l05.jsonl",
+                "data/units_out/health.u1/n03_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n04",
+              "lessons": [
+                "data/units_out/health.u1/n04_l01.jsonl",
+                "data/units_out/health.u1/n04_l02.jsonl",
+                "data/units_out/health.u1/n04_l03.jsonl",
+                "data/units_out/health.u1/n04_l04.jsonl",
+                "data/units_out/health.u1/n04_l05.jsonl",
+                "data/units_out/health.u1/n04_l06.jsonl"
+              ]
+            }
+          ],
+          "title": "health",
+          "context": "health",
+          "lesson_size": 15,
+          "lessons_per_node": 6
+        },
+        {
+          "unit_id": "mental.u1",
+          "nodes": [
+            {
+              "node_id": "n01",
+              "lessons": [
+                "data/units_out/mental.u1/n01_l01.jsonl",
+                "data/units_out/mental.u1/n01_l02.jsonl",
+                "data/units_out/mental.u1/n01_l03.jsonl",
+                "data/units_out/mental.u1/n01_l04.jsonl",
+                "data/units_out/mental.u1/n01_l05.jsonl",
+                "data/units_out/mental.u1/n01_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n02",
+              "lessons": [
+                "data/units_out/mental.u1/n02_l01.jsonl",
+                "data/units_out/mental.u1/n02_l02.jsonl",
+                "data/units_out/mental.u1/n02_l03.jsonl",
+                "data/units_out/mental.u1/n02_l04.jsonl",
+                "data/units_out/mental.u1/n02_l05.jsonl",
+                "data/units_out/mental.u1/n02_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n03",
+              "lessons": [
+                "data/units_out/mental.u1/n03_l01.jsonl",
+                "data/units_out/mental.u1/n03_l02.jsonl",
+                "data/units_out/mental.u1/n03_l03.jsonl",
+                "data/units_out/mental.u1/n03_l04.jsonl",
+                "data/units_out/mental.u1/n03_l05.jsonl",
+                "data/units_out/mental.u1/n03_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n04",
+              "lessons": [
+                "data/units_out/mental.u1/n04_l01.jsonl",
+                "data/units_out/mental.u1/n04_l02.jsonl",
+                "data/units_out/mental.u1/n04_l03.jsonl",
+                "data/units_out/mental.u1/n04_l04.jsonl",
+                "data/units_out/mental.u1/n04_l05.jsonl",
+                "data/units_out/mental.u1/n04_l06.jsonl"
+              ]
+            }
+          ],
+          "title": "mental",
+          "context": "mental",
+          "lesson_size": 15,
+          "lessons_per_node": 6
+        },
+        {
+          "unit_id": "money.u1",
+          "nodes": [
+            {
+              "node_id": "n01",
+              "lessons": [
+                "data/units_out/money.u1/n01_l01.jsonl",
+                "data/units_out/money.u1/n01_l02.jsonl",
+                "data/units_out/money.u1/n01_l03.jsonl",
+                "data/units_out/money.u1/n01_l04.jsonl",
+                "data/units_out/money.u1/n01_l05.jsonl",
+                "data/units_out/money.u1/n01_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n02",
+              "lessons": [
+                "data/units_out/money.u1/n02_l01.jsonl",
+                "data/units_out/money.u1/n02_l02.jsonl",
+                "data/units_out/money.u1/n02_l03.jsonl",
+                "data/units_out/money.u1/n02_l04.jsonl",
+                "data/units_out/money.u1/n02_l05.jsonl",
+                "data/units_out/money.u1/n02_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n03",
+              "lessons": [
+                "data/units_out/money.u1/n03_l01.jsonl",
+                "data/units_out/money.u1/n03_l02.jsonl",
+                "data/units_out/money.u1/n03_l03.jsonl",
+                "data/units_out/money.u1/n03_l04.jsonl",
+                "data/units_out/money.u1/n03_l05.jsonl",
+                "data/units_out/money.u1/n03_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n04",
+              "lessons": [
+                "data/units_out/money.u1/n04_l01.jsonl",
+                "data/units_out/money.u1/n04_l02.jsonl",
+                "data/units_out/money.u1/n04_l03.jsonl",
+                "data/units_out/money.u1/n04_l04.jsonl",
+                "data/units_out/money.u1/n04_l05.jsonl",
+                "data/units_out/money.u1/n04_l06.jsonl"
+              ]
+            }
+          ],
+          "title": "money",
+          "context": "money",
+          "lesson_size": 15,
+          "lessons_per_node": 6
+        },
+        {
+          "unit_id": "social.u1",
+          "nodes": [
+            {
+              "node_id": "n01",
+              "lessons": [
+                "data/units_out/social.u1/n01_l01.jsonl",
+                "data/units_out/social.u1/n01_l02.jsonl",
+                "data/units_out/social.u1/n01_l03.jsonl",
+                "data/units_out/social.u1/n01_l04.jsonl",
+                "data/units_out/social.u1/n01_l05.jsonl",
+                "data/units_out/social.u1/n01_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n02",
+              "lessons": [
+                "data/units_out/social.u1/n02_l01.jsonl",
+                "data/units_out/social.u1/n02_l02.jsonl",
+                "data/units_out/social.u1/n02_l03.jsonl",
+                "data/units_out/social.u1/n02_l04.jsonl",
+                "data/units_out/social.u1/n02_l05.jsonl",
+                "data/units_out/social.u1/n02_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n03",
+              "lessons": [
+                "data/units_out/social.u1/n03_l01.jsonl",
+                "data/units_out/social.u1/n03_l02.jsonl",
+                "data/units_out/social.u1/n03_l03.jsonl",
+                "data/units_out/social.u1/n03_l04.jsonl",
+                "data/units_out/social.u1/n03_l05.jsonl",
+                "data/units_out/social.u1/n03_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n04",
+              "lessons": [
+                "data/units_out/social.u1/n04_l01.jsonl",
+                "data/units_out/social.u1/n04_l02.jsonl",
+                "data/units_out/social.u1/n04_l03.jsonl",
+                "data/units_out/social.u1/n04_l04.jsonl",
+                "data/units_out/social.u1/n04_l05.jsonl",
+                "data/units_out/social.u1/n04_l06.jsonl"
+              ]
+            }
+          ],
+          "title": "social",
+          "context": "social",
+          "lesson_size": 15,
+          "lessons_per_node": 6
+        },
+        {
+          "unit_id": "study.u1",
+          "nodes": [
+            {
+              "node_id": "n01",
+              "lessons": [
+                "data/units_out/study.u1/n01_l01.jsonl",
+                "data/units_out/study.u1/n01_l02.jsonl",
+                "data/units_out/study.u1/n01_l03.jsonl",
+                "data/units_out/study.u1/n01_l04.jsonl",
+                "data/units_out/study.u1/n01_l05.jsonl",
+                "data/units_out/study.u1/n01_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n02",
+              "lessons": [
+                "data/units_out/study.u1/n02_l01.jsonl",
+                "data/units_out/study.u1/n02_l02.jsonl",
+                "data/units_out/study.u1/n02_l03.jsonl",
+                "data/units_out/study.u1/n02_l04.jsonl",
+                "data/units_out/study.u1/n02_l05.jsonl",
+                "data/units_out/study.u1/n02_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n03",
+              "lessons": [
+                "data/units_out/study.u1/n03_l01.jsonl",
+                "data/units_out/study.u1/n03_l02.jsonl",
+                "data/units_out/study.u1/n03_l03.jsonl",
+                "data/units_out/study.u1/n03_l04.jsonl",
+                "data/units_out/study.u1/n03_l05.jsonl",
+                "data/units_out/study.u1/n03_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n04",
+              "lessons": [
+                "data/units_out/study.u1/n04_l01.jsonl",
+                "data/units_out/study.u1/n04_l02.jsonl",
+                "data/units_out/study.u1/n04_l03.jsonl",
+                "data/units_out/study.u1/n04_l04.jsonl",
+                "data/units_out/study.u1/n04_l05.jsonl",
+                "data/units_out/study.u1/n04_l06.jsonl"
+              ]
+            }
+          ],
+          "title": "study",
+          "context": "study",
+          "lesson_size": 15,
+          "lessons_per_node": 6
+        },
+        {
+          "unit_id": "work.u1",
+          "nodes": [
+            {
+              "node_id": "n01",
+              "lessons": [
+                "data/units_out/work.u1/n01_l01.jsonl",
+                "data/units_out/work.u1/n01_l02.jsonl",
+                "data/units_out/work.u1/n01_l03.jsonl",
+                "data/units_out/work.u1/n01_l04.jsonl",
+                "data/units_out/work.u1/n01_l05.jsonl",
+                "data/units_out/work.u1/n01_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n02",
+              "lessons": [
+                "data/units_out/work.u1/n02_l01.jsonl",
+                "data/units_out/work.u1/n02_l02.jsonl",
+                "data/units_out/work.u1/n02_l03.jsonl",
+                "data/units_out/work.u1/n02_l04.jsonl",
+                "data/units_out/work.u1/n02_l05.jsonl",
+                "data/units_out/work.u1/n02_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n03",
+              "lessons": [
+                "data/units_out/work.u1/n03_l01.jsonl",
+                "data/units_out/work.u1/n03_l02.jsonl",
+                "data/units_out/work.u1/n03_l03.jsonl",
+                "data/units_out/work.u1/n03_l04.jsonl",
+                "data/units_out/work.u1/n03_l05.jsonl",
+                "data/units_out/work.u1/n03_l06.jsonl"
+              ]
+            },
+            {
+              "node_id": "n04",
+              "lessons": [
+                "data/units_out/work.u1/n04_l01.jsonl",
+                "data/units_out/work.u1/n04_l02.jsonl",
+                "data/units_out/work.u1/n04_l03.jsonl",
+                "data/units_out/work.u1/n04_l04.jsonl",
+                "data/units_out/work.u1/n04_l05.jsonl",
+                "data/units_out/work.u1/n04_l06.jsonl"
+              ]
+            }
+          ],
+          "title": "work",
+          "context": "work",
+          "lesson_size": 15,
+          "lessons_per_node": 6
+        }
+      ]
+    }
+  ]
+}

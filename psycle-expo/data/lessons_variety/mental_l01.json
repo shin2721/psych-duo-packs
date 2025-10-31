@@ -1,0 +1,238 @@
+[
+  {
+    "id": "q01",
+    "type": "true_false",
+    "stem": "❓ 質問:\n\n「メンタルヘルス = 病気のこと」\n\n正しい？",
+    "choices": [
+      "正しい",
+      "間違い"
+    ],
+    "answer_index": 1,
+    "snack": "その通り！✨\n\nメンタルヘルスは「心の健康」全体のこと。病気だけじゃないよ。",
+    "info": "mental_health_basics",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "q02",
+    "type": "multiple_choice",
+    "stem": "🧠 思考のクセのことを何という？",
+    "choices": [
+      "認知バイアス",
+      "記憶障害",
+      "性格",
+      "才能"
+    ],
+    "answer_index": 0,
+    "snack": "正解！🎯\n\n認知バイアスは思考のクセのこと。誰にでもあるよ。",
+    "info": "cognitive_bias",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "q03",
+    "type": "multiple_choice",
+    "stem": "😊 感情をコントロールする方法を何という？",
+    "choices": [
+      "感情調整",
+      "感情抑圧",
+      "感情否定",
+      "感情無視"
+    ],
+    "answer_index": 0,
+    "snack": "完璧！👍\n\n感情調整は感情を上手に扱うスキルだよ。",
+    "info": "emotion_regulation",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "q04",
+    "type": "multiple_choice",
+    "stem": "📚 「成功した起業家の本ばかり読む」\n\n何バイアス？",
+    "choices": [
+      "生存者バイアス",
+      "確証バイアス",
+      "正常性バイアス",
+      "後知恵バイアス"
+    ],
+    "answer_index": 0,
+    "snack": "いいね！💡\n\n成功例だけ見るのが「生存者バイアス」だよ。",
+    "info": "cognitive_bias, survivorship_bias",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "q05",
+    "type": "fill_blank",
+    "stem": "✨ 穴埋め問題:\n\n「認知行動療法は___と___を変える方法だよ」",
+    "choices": [
+      "考え方、行動",
+      "性格、才能",
+      "記憶、感情",
+      "過去、未来"
+    ],
+    "answer_index": 0,
+    "snack": "素晴らしい！🌟\n\n認知行動療法のコアは「考え方」と「行動」を変えることだよ。",
+    "info": "cbt_basics",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "q06",
+    "type": "multiple_choice",
+    "stem": "👤 「イライラが止まらない...」\n\n最初にすべきことは？",
+    "choices": [
+      "イライラに気づく",
+      "すぐ謝る",
+      "我慢する",
+      "忘れようとする"
+    ],
+    "answer_index": 0,
+    "snack": "正解！🎯\n\nまず気づくことが第一歩。気づかないと対処できないからね。",
+    "info": "emotion_regulation, awareness",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "q07",
+    "type": "multiple_choice",
+    "stem": "😊 「考え方を変える」専門用語は？",
+    "choices": [
+      "認知的再評価",
+      "感情抑制",
+      "行動回避",
+      "思考停止"
+    ],
+    "answer_index": 0,
+    "snack": "完璧！✨\n\n認知的再評価は効果的な感情調整法だよ。",
+    "info": "cognitive_reappraisal",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "q08",
+    "type": "multiple_choice",
+    "stem": "😰 太郎さん「プレゼンで失敗した...もうダメだ」\n\nあなたならどう声かける？",
+    "choices": [
+      "「何を学んだ？」",
+      "「気にするな」",
+      "「次は頑張れ」",
+      "「誰でも失敗する」"
+    ],
+    "answer_index": 0,
+    "snack": "いいね！💭\n\n失敗を学びに変える質問。これが認知的再評価につながるよ。",
+    "info": "cognitive_reappraisal, support",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "q09",
+    "type": "true_false",
+    "stem": "❓ 質問:\n\n「認知バイアスは悪いもの」\n\n正しい？",
+    "choices": [
+      "正しい",
+      "間違い"
+    ],
+    "answer_index": 1,
+    "snack": "その通り！👍\n\nバイアスは悪くない。気づくことが大事なんだ。",
+    "info": "cognitive_bias",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "q10",
+    "type": "multiple_choice",
+    "stem": "🎯 「自分だけは事故に遭わない」\n\n何バイアス？",
+    "choices": [
+      "正常性バイアス",
+      "生存者バイアス",
+      "確証バイアス",
+      "楽観バイアス"
+    ],
+    "answer_index": 0,
+    "snack": "正解！🎉\n\n「自分は大丈夫」と思い込むのが正常性バイアス。",
+    "info": "cognitive_bias, normalcy_bias",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "q11",
+    "type": "multiple_choice",
+    "stem": "🔗 バイアスと例を結びつけよう:\n\n「自分の意見を支持する記事ばかり読む」",
+    "choices": [
+      "確証バイアス",
+      "生存者バイアス",
+      "正常性バイアス",
+      "後知恵バイアス"
+    ],
+    "answer_index": 0,
+    "snack": "完璧！💪\n\n自分の意見を裏付ける情報ばかり集めるのが確証バイアス。",
+    "info": "cognitive_bias, confirmation_bias",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "q12",
+    "type": "multiple_choice",
+    "stem": "🌟 花子さん「また失敗した...私はダメな人間だ」\n\nどうアドバイスする？",
+    "choices": [
+      "「1回の失敗で全てが決まるわけじゃない」",
+      "「そんなことない」",
+      "「次は成功するよ」",
+      "「みんな失敗する」"
+    ],
+    "answer_index": 0,
+    "snack": "素晴らしい！⚡\n\n「一部 = 全体」と思い込む認知の歪みを修正してる。これが認知行動療法の基本。",
+    "info": "cognitive_distortion, reappraisal",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "q13",
+    "type": "multiple_choice",
+    "stem": "💭 ストレス対処法を何という？",
+    "choices": [
+      "コーピング",
+      "リラクゼーション",
+      "メディテーション",
+      "モチベーション"
+    ],
+    "answer_index": 0,
+    "snack": "正解！🎯\n\nコーピングはストレス対処法のこと。",
+    "info": "stress_management, coping",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "q14",
+    "type": "multiple_choice",
+    "stem": "😰 ケンジさん「仕事でミスして、もう無理...」\n\nあなたなら？",
+    "choices": [
+      "まず話を聞く",
+      "すぐアドバイスする",
+      "「大丈夫」と言う",
+      "励ます言葉をかける"
+    ],
+    "answer_index": 0,
+    "snack": "いいね！💪\n\nまず話を聞く。これが基本。焦って解決策を出すより、まず理解することが大事。",
+    "info": "active_listening, support",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "q15",
+    "type": "multiple_choice",
+    "stem": "🎉 メンタルヘルスで一番大事なことは？",
+    "choices": [
+      "気づくこと",
+      "我慢すること",
+      "完璧を目指すこと",
+      "人と比べること"
+    ],
+    "answer_index": 0,
+    "snack": "完璧！🎉\n\n自分の心の状態に気づくことが、全ての始まり。気づけば対処できる。",
+    "info": "mental_health_basics, awareness",
+    "difficulty": "medium",
+    "xp": 5
+  }
+]

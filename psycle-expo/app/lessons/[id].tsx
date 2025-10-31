@@ -21,6 +21,13 @@ export default function LessonScreen() {
   const lessons = loadLessons(unit);
   const lesson: Lesson | undefined = lessons[lessonIndex];
 
+  console.log(`[LessonScreen] Unit: ${unit}, LessonIndex: ${lessonIndex}`);
+  console.log(`[LessonScreen] Total lessons: ${lessons.length}`);
+  if (lesson) {
+    console.log(`[LessonScreen] Lesson questions (${lesson.questions.length}):`,
+      lesson.questions.map((q,i) => `${i+1}. ${q.question.substring(0,30)}`));
+  }
+
   // State
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState<boolean[]>([]);

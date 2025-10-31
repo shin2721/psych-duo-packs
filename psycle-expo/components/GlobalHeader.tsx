@@ -1,13 +1,21 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
 import { useAppState } from "../lib/state";
 import { router } from "expo-router";
+import { getEnergy, ENERGY_MAX } from "../src/energy";
 
 export function GlobalHeader() {
-  const { xp, streak, gems, lives, maxLives, dailyXP, dailyGoal } = useAppState();
+  const { xp, streak, gems, dailyXP, dailyGoal } = useAppState();
+  const [energy, setEnergy] = useState(ENERGY_MAX);
   const dailyProgress = Math.min((dailyXP / dailyGoal) * 100, 100);
+
+  useEffect(() => {
+    setEnergy(getEnergy());
+    const interval = setInterval(() => setEnergy(getEnergy()), 60000); // 1分ごとに更新
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <View style={styles.container}>
@@ -54,14 +62,14 @@ export function GlobalHeader() {
           <Text style={styles.value}>{gems}</Text>
         </Pressable>
 
-        <Pressable style={styles.livesItem} onPress={() => router.push("/(tabs)/shop")}>
+        <Pressable style={styles.energyItem} onPress={() => router.push("/(tabs)/shop")}>
           <Ionicons
-            name="heart"
+            name="flash"
             size={18}
-            color={lives > 0 ? theme.colors.error : "#ccc"}
+            color={energy > 5 ? theme.colors.accent : energy > 0 ? "#ff9800" : "#ccc"}
           />
-          <Text style={[styles.value, lives === 0 && styles.zeroLives]}>
-            {lives}
+          <Text style={[styles.value, energy === 0 && styles.zeroEnergy]}>
+            {energy}/{ENERGY_MAX}
           </Text>
         </Pressable>
       </View>
@@ -98,7 +106,7 @@ const styles = StyleSheet.create({
     fontVariant: ["tabular-nums"], // Monospace numbers
     color: "#1a1a1a",
   },
-  zeroLives: {
+  zeroEnergy: {
     color: "#ccc",
   },
   goalRing: {
@@ -122,13 +130,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
   },
-  livesItem: {
+  energyItem: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
     paddingHorizontal: 12,
     paddingVertical: 8,
     borderRadius: 20,
-    backgroundColor: "#ffe0e0",
+    backgroundColor: "#fff3e0",
   },
 });

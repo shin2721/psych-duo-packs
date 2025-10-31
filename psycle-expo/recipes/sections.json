@@ -1,0 +1,12 @@
+{
+  "sections": [
+    {
+      "id": "mental.core",
+      "title": "メンタル・コア",
+      "unit_ids": [
+        "mental.emotion-regulation.dir-happiness.u1"
+      ]
+    }
+  ],
+  "auto_include_units": true
+}
