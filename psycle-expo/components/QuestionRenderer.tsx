@@ -256,12 +256,16 @@ export function QuestionRenderer({ question, onContinue }: Props) {
         },
       ]}
     >
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={true}
-        scrollEnabled={scrollEnabled}
-      >
+      {question.type === "sort_order" ? (
+        <View style={[styles.scrollView, styles.scrollContent]}>
+      ) : (
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={true}
+          scrollEnabled={scrollEnabled}
+        >
+      )}
         {/* 難易度バッジ */}
         <View style={styles.difficultyBadge}>
           <Text style={styles.difficultyText}>
@@ -430,7 +434,11 @@ export function QuestionRenderer({ question, onContinue }: Props) {
           </Pressable>
         </View>
       )}
-      </ScrollView>
+      {question.type === "sort_order" ? (
+        </View>
+      ) : (
+        </ScrollView>
+      )}
     </Animated.View>
   );
 }
