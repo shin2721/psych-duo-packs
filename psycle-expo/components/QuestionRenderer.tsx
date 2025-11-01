@@ -258,185 +258,345 @@ export function QuestionRenderer({ question, onContinue }: Props) {
     >
       {question.type === "sort_order" ? (
         <View style={[styles.scrollView, styles.scrollContent]}>
-      ) : (
-        <ScrollView
-          style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
-          showsVerticalScrollIndicator={true}
-          scrollEnabled={scrollEnabled}
-        >
-      )}
-        {/* 難易度バッジ */}
-        <View style={styles.difficultyBadge}>
-          <Text style={styles.difficultyText}>
-            {question.difficulty === "easy" ? "初級" : question.difficulty === "medium" ? "中級" : "上級"}
-          </Text>
-          <Text style={styles.xpText}>{question.xp} XP</Text>
-        </View>
-
-        {/* 問題文 */}
-        <Text style={styles.questionText}>{question.question}</Text>
-
-        {/* タイプ別レンダリング */}
-      {question.type === "multiple_choice" && (
-        <MultipleChoice
-          choices={question.choices}
-          selectedIndex={selectedIndex}
-          correctIndex={question.correct_index}
-          showResult={showResult}
-          onSelect={handleSelect}
-        />
-      )}
-
-      {question.type === "true_false" && (
-        <TrueFalse
-          choices={question.choices}
-          selectedIndex={selectedIndex}
-          correctIndex={question.correct_index}
-          showResult={showResult}
-          onSelect={handleSelect}
-        />
-      )}
-
-      {question.type === "fill_blank" && (
-        <FillBlank
-          choices={question.choices}
-          selectedIndex={selectedIndex}
-          correctIndex={question.correct_index}
-          showResult={showResult}
-          onSelect={handleSelect}
-        />
-      )}
-
-      {question.type === "scenario" && (
-        <Scenario
-          choices={question.choices}
-          selectedIndex={selectedIndex}
-          correctIndex={question.correct_index || 0}
-          showResult={showResult}
-          onSelect={handleSelect}
-        />
-      )}
-
-      {question.type === "select_all" && question.correct_answers && (
-        <SelectAll
-          choices={question.choices}
-          selectedIndexes={selectedIndexes}
-          correctAnswers={question.correct_answers}
-          showResult={showResult}
-          onToggle={handleToggle}
-          revealedIndexes={revealedIndexes}
-        />
-      )}
-
-      {question.type === "sort_order" && question.items && question.correct_order && (
-        <>
-          <SortOrder
-            items={question.items}
-            currentOrder={currentOrder}
-            correctOrder={question.correct_order}
-            showResult={showResult}
-            onReorder={handleReorder}
-            onDragStart={() => setScrollEnabled(false)}
-            onDragEnd={() => setScrollEnabled(true)}
-          />
-          {!showResult && (
-            <Pressable style={styles.submitButton} onPress={handleSubmitOrder}>
-              <Text style={styles.submitButtonText}>答えを確認</Text>
-            </Pressable>
-          )}
-        </>
-      )}
-
-      {question.type === "fill_blank_tap" && (
-        <FillBlankTap
-          choices={question.choices}
-          selectedIndex={selectedIndex}
-          correctIndex={question.correct_index ?? 0}
-          showResult={showResult}
-          onSelect={handleSelect}
-        />
-      )}
-
-      {question.type === "swipe_judgment" && (
-        <SwipeJudgment
-          statement={question.question}
-          selectedAnswer={swipeDirection}
-          correctAnswer={question.is_true ? "right" : "left"}
-          showResult={showResult}
-          onSwipe={handleSwipe}
-        />
-      )}
-
-      {question.type === "conversation" && question.your_response_prompt && (
-        <Conversation
-          prompt={question.question}
-          responsePrompt={question.your_response_prompt}
-          choices={question.choices}
-          selectedIndex={selectedResponse}
-          correctIndex={question.correct_index ?? 0}
-          showResult={showResult}
-          onSelect={handleSelectResponse}
-        />
-      )}
-
-      {question.type === "matching" && question.left_items && question.right_items && question.correct_pairs && (
-        <>
-          <Matching
-            leftItems={question.left_items}
-            rightItems={question.right_items}
-            selectedPairs={selectedPairs}
-            correctPairs={question.correct_pairs}
-            showResult={showResult}
-            onMatch={handleMatch}
-          />
-          {!showResult && (
-            <Pressable style={styles.submitButton} onPress={handleSubmitMatching}>
-              <Text style={styles.submitButtonText}>答えを確認</Text>
-            </Pressable>
-          )}
-        </>
-      )}
-
-      {/* 結果表示 */}
-      {showResult && (
-        <View style={[styles.resultBox, isCorrect ? styles.correctBox : styles.incorrectBox]}>
-          <View style={styles.resultHeader}>
-            <Ionicons
-              name={isCorrect ? "checkmark-circle" : "close-circle"}
-              size={32}
-              color={isCorrect ? theme.colors.success : theme.colors.error}
-            />
-            <Text style={[styles.resultTitle, isCorrect ? styles.correctText : styles.incorrectText]}>
-              {isCorrect ? "正解！" : "残念..."}
+          {/* 難易度バッジ */}
+          <View style={styles.difficultyBadge}>
+            <Text style={styles.difficultyText}>
+              {question.difficulty === "easy" ? "初級" : question.difficulty === "medium" ? "中級" : "上級"}
             </Text>
+            <Text style={styles.xpText}>{question.xp} XP</Text>
           </View>
-          <Text style={styles.explanation}>
-            {typeof question.explanation === 'string'
-              ? question.explanation
-              : typeof question.explanation === 'object' && question.explanation
-                ? (isCorrect
-                  ? question.explanation.correct || ''
-                  : (
-                      // swipe_judgmentの場合はswipeDirectionをキーとして使う
-                      question.type === 'swipe_judgment' && swipeDirection
-                        ? (question.explanation.incorrect?.[swipeDirection] || question.explanation.incorrect?.default || '')
-                        : (question.explanation.incorrect?.[selectedIndex ?? 0] || question.explanation.incorrect?.default || question.explanation.incorrect?.['1'] || question.explanation.incorrect?.['0'] || '')
-                    ))
-                : ''
-            }
-          </Text>
 
-          {/* 次へボタン */}
-          <Pressable style={styles.continueButton} onPress={handleContinue}>
-            <Text style={styles.continueButtonText}>続ける</Text>
-            <Ionicons name="arrow-forward" size={20} color="#fff" />
-          </Pressable>
-        </View>
-      )}
-      {question.type === "sort_order" ? (
+          {/* 問題文 */}
+          <Text style={styles.questionText}>{question.question}</Text>
+
+          {/* タイプ別レンダリング */}
+          {question.type === "multiple_choice" && (
+            <MultipleChoice
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "true_false" && (
+            <TrueFalse
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "fill_blank" && (
+            <FillBlank
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "scenario" && (
+            <Scenario
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index || 0}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "select_all" && question.correct_answers && (
+            <SelectAll
+              choices={question.choices}
+              selectedIndexes={selectedIndexes}
+              correctAnswers={question.correct_answers}
+              showResult={showResult}
+              onToggle={handleToggle}
+              revealedIndexes={revealedIndexes}
+            />
+          )}
+
+          {question.type === "sort_order" && question.items && question.correct_order && (
+            <>
+              <SortOrder
+                items={question.items}
+                currentOrder={currentOrder}
+                correctOrder={question.correct_order}
+                showResult={showResult}
+                onReorder={handleReorder}
+                onDragStart={() => setScrollEnabled(false)}
+                onDragEnd={() => setScrollEnabled(true)}
+              />
+              {!showResult && (
+                <Pressable style={styles.submitButton} onPress={handleSubmitOrder}>
+                  <Text style={styles.submitButtonText}>答えを確認</Text>
+                </Pressable>
+              )}
+            </>
+          )}
+
+          {question.type === "fill_blank_tap" && (
+            <FillBlankTap
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index ?? 0}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "swipe_judgment" && (
+            <SwipeJudgment
+              statement={question.question}
+              selectedAnswer={swipeDirection}
+              correctAnswer={question.is_true ? "right" : "left"}
+              showResult={showResult}
+              onSwipe={handleSwipe}
+            />
+          )}
+
+          {question.type === "conversation" && question.your_response_prompt && (
+            <Conversation
+              prompt={question.question}
+              responsePrompt={question.your_response_prompt}
+              choices={question.choices}
+              selectedIndex={selectedResponse}
+              correctIndex={question.correct_index ?? 0}
+              showResult={showResult}
+              onSelect={handleSelectResponse}
+            />
+          )}
+
+          {question.type === "matching" && question.left_items && question.right_items && question.correct_pairs && (
+            <>
+              <Matching
+                leftItems={question.left_items}
+                rightItems={question.right_items}
+                selectedPairs={selectedPairs}
+                correctPairs={question.correct_pairs}
+                showResult={showResult}
+                onMatch={handleMatch}
+              />
+              {!showResult && (
+                <Pressable style={styles.submitButton} onPress={handleSubmitMatching}>
+                  <Text style={styles.submitButtonText}>答えを確認</Text>
+                </Pressable>
+              )}
+            </>
+          )}
+
+          {/* 結果表示 */}
+          {showResult && (
+            <View style={[styles.resultBox, isCorrect ? styles.correctBox : styles.incorrectBox]}>
+              <View style={styles.resultHeader}>
+                <Ionicons
+                  name={isCorrect ? "checkmark-circle" : "close-circle"}
+                  size={32}
+                  color={isCorrect ? theme.colors.success : theme.colors.error}
+                />
+                <Text style={[styles.resultTitle, isCorrect ? styles.correctText : styles.incorrectText]}>
+                  {isCorrect ? "正解！" : "残念..."}
+                </Text>
+              </View>
+              <Text style={styles.explanation}>
+                {typeof question.explanation === 'string'
+                  ? question.explanation
+                  : typeof question.explanation === 'object' && question.explanation
+                    ? (isCorrect
+                      ? question.explanation.correct || ''
+                      : (
+                          // swipe_judgmentの場合はswipeDirectionをキーとして使う
+                          question.type === 'swipe_judgment' && swipeDirection
+                            ? (question.explanation.incorrect?.[swipeDirection] || question.explanation.incorrect?.default || '')
+                            : (question.explanation.incorrect?.[selectedIndex ?? 0] || question.explanation.incorrect?.default || question.explanation.incorrect?.['1'] || question.explanation.incorrect?.['0'] || '')
+                        ))
+                    : ''
+                }
+              </Text>
+
+              {/* 次へボタン */}
+              <Pressable style={styles.continueButton} onPress={handleContinue}>
+                <Text style={styles.continueButtonText}>続ける</Text>
+                <Ionicons name="arrow-forward" size={20} color="#fff" />
+              </Pressable>
+            </View>
+          )}
         </View>
       ) : (
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={true} scrollEnabled={scrollEnabled}>
+          {/* 難易度バッジ */}
+          <View style={styles.difficultyBadge}>
+            <Text style={styles.difficultyText}>
+              {question.difficulty === "easy" ? "初級" : question.difficulty === "medium" ? "中級" : "上級"}
+            </Text>
+            <Text style={styles.xpText}>{question.xp} XP</Text>
+          </View>
+
+          {/* 問題文 */}
+          <Text style={styles.questionText}>{question.question}</Text>
+
+          {/* タイプ別レンダリング */}
+          {question.type === "multiple_choice" && (
+            <MultipleChoice
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "true_false" && (
+            <TrueFalse
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "fill_blank" && (
+            <FillBlank
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "scenario" && (
+            <Scenario
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index || 0}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "select_all" && question.correct_answers && (
+            <SelectAll
+              choices={question.choices}
+              selectedIndexes={selectedIndexes}
+              correctAnswers={question.correct_answers}
+              showResult={showResult}
+              onToggle={handleToggle}
+              revealedIndexes={revealedIndexes}
+            />
+          )}
+
+          {question.type === "sort_order" && question.items && question.correct_order && (
+            <>
+              <SortOrder
+                items={question.items}
+                currentOrder={currentOrder}
+                correctOrder={question.correct_order}
+                showResult={showResult}
+                onReorder={handleReorder}
+                onDragStart={() => setScrollEnabled(false)}
+                onDragEnd={() => setScrollEnabled(true)}
+              />
+              {!showResult && (
+                <Pressable style={styles.submitButton} onPress={handleSubmitOrder}>
+                  <Text style={styles.submitButtonText}>答えを確認</Text>
+                </Pressable>
+              )}
+            </>
+          )}
+
+          {question.type === "fill_blank_tap" && (
+            <FillBlankTap
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index ?? 0}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "swipe_judgment" && (
+            <SwipeJudgment
+              statement={question.question}
+              selectedAnswer={swipeDirection}
+              correctAnswer={question.is_true ? "right" : "left"}
+              showResult={showResult}
+              onSwipe={handleSwipe}
+            />
+          )}
+
+          {question.type === "conversation" && question.your_response_prompt && (
+            <Conversation
+              prompt={question.question}
+              responsePrompt={question.your_response_prompt}
+              choices={question.choices}
+              selectedIndex={selectedResponse}
+              correctIndex={question.correct_index ?? 0}
+              showResult={showResult}
+              onSelect={handleSelectResponse}
+            />
+          )}
+
+          {question.type === "matching" && question.left_items && question.right_items && question.correct_pairs && (
+            <>
+              <Matching
+                leftItems={question.left_items}
+                rightItems={question.right_items}
+                selectedPairs={selectedPairs}
+                correctPairs={question.correct_pairs}
+                showResult={showResult}
+                onMatch={handleMatch}
+              />
+              {!showResult && (
+                <Pressable style={styles.submitButton} onPress={handleSubmitMatching}>
+                  <Text style={styles.submitButtonText}>答えを確認</Text>
+                </Pressable>
+              )}
+            </>
+          )}
+
+          {/* 結果表示 */}
+          {showResult && (
+            <View style={[styles.resultBox, isCorrect ? styles.correctBox : styles.incorrectBox]}>
+              <View style={styles.resultHeader}>
+                <Ionicons
+                  name={isCorrect ? "checkmark-circle" : "close-circle"}
+                  size={32}
+                  color={isCorrect ? theme.colors.success : theme.colors.error}
+                />
+                <Text style={[styles.resultTitle, isCorrect ? styles.correctText : styles.incorrectText]}>
+                  {isCorrect ? "正解！" : "残念..."}
+                </Text>
+              </View>
+              <Text style={styles.explanation}>
+                {typeof question.explanation === 'string'
+                  ? question.explanation
+                  : typeof question.explanation === 'object' && question.explanation
+                    ? (isCorrect
+                      ? question.explanation.correct || ''
+                      : (
+                          // swipe_judgmentの場合はswipeDirectionをキーとして使う
+                          question.type === 'swipe_judgment' && swipeDirection
+                            ? (question.explanation.incorrect?.[swipeDirection] || question.explanation.incorrect?.default || '')
+                            : (question.explanation.incorrect?.[selectedIndex ?? 0] || question.explanation.incorrect?.default || question.explanation.incorrect?.['1'] || question.explanation.incorrect?.['0'] || '')
+                        ))
+                    : ''
+                }
+              </Text>
+
+              {/* 次へボタン */}
+              <Pressable style={styles.continueButton} onPress={handleContinue}>
+                <Text style={styles.continueButtonText}>続ける</Text>
+                <Ionicons name="arrow-forward" size={20} color="#fff" />
+              </Pressable>
+            </View>
+          )}
         </ScrollView>
       )}
     </Animated.View>
