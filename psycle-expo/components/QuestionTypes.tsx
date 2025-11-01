@@ -276,16 +276,11 @@ export function SortOrder({
   const createPanResponder = (index: number) => {
     return PanResponder.create({
       // タップしたら即座にPanResponderを有効化
-      onStartShouldSetPanResponder: () => !showResult,
-      onStartShouldSetPanResponderCapture: () => false, // 子のイベントをブロックしない
+      onStartShouldSetPanResponder: () => true,
+      onStartShouldSetPanResponderCapture: () => true,
       // わずかでも動いたらドラッグ開始
-      onMoveShouldSetPanResponder: (_, gestureState) => {
-        return !showResult && Math.abs(gestureState.dy) > 2;
-      },
-      onMoveShouldSetPanResponderCapture: (_, gestureState) => {
-        // ScrollViewより優先してPanResponderを有効化
-        return !showResult && Math.abs(gestureState.dy) > 2;
-      },
+      onMoveShouldSetPanResponder: () => true,
+      onMoveShouldSetPanResponderCapture: () => true,
 
       onPanResponderGrant: () => {
         if (showResult) return;

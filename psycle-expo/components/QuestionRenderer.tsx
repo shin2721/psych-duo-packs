@@ -56,6 +56,9 @@ export function QuestionRenderer({ question, onContinue }: Props) {
   useEffect(() => {
     if (question.type === "sort_order" && question.items) {
       setCurrentOrder(question.initial_order || question.items.map((_, i) => i));
+      setScrollEnabled(false); // sort_orderの時はScrollViewを無効化
+    } else {
+      setScrollEnabled(true);
     }
     setSelectedIndex(null);
     setSelectedIndexes([]);
