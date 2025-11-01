@@ -43,7 +43,17 @@ export function QuestionRenderer({ question, onContinue }: Props) {
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]); // For select_all
   const [revealedIndexes, setRevealedIndexes] = useState<number[]>([]); // For select_all immediate feedback
   const [showResult, setShowResult] = useState(false);
-  const [currentOrder, setCurrentOrder] = useState<number[]>([]);
+  // Initialize currentOrder properly for sort_order questions
+  const [currentOrder, setCurrentOrder] = useState<number[]>(() => {
+    if (question.type === "sort_order" && question.items) {
+      const initial = question.initial_order && question.initial_order.length > 0
+        ? question.initial_order
+        : question.items.map((_, i) => i);
+      console.log("[QuestionRenderer] Initializing currentOrder:", initial);
+      return initial;
+    }
+    return [];
+  });
   const [scrollEnabled, setScrollEnabled] = useState(true);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null); // For fill_blank_tap
   const [swipeDirection, setSwipeDirection] = useState<"left" | "right" | null>(null); // For swipe_judgment
@@ -54,12 +64,30 @@ export function QuestionRenderer({ question, onContinue }: Props) {
 
   // Initialize state when question changes
   useEffect(() => {
+    console.log("[QuestionRenderer] Question object:", {
+      type: question.type,
+      source_id: question.source_id,
+      question: question.question?.substring(0, 50),
+      hasItems: !!question.items,
+      itemsLength: question.items?.length,
+      items: question.items,
+      correct_order: question.correct_order
+    });
+
     if (question.type === "sort_order" && question.items) {
-      setCurrentOrder(question.initial_order || question.items.map((_, i) => i));
-      setScrollEnabled(false); // sort_orderの時はScrollViewを無効化
-    } else {
-      setScrollEnabled(true);
+      const initialOrder = question.initial_order && question.initial_order.length > 0
+        ? question.initial_order
+        : question.items.map((_, i) => i);
+      console.log("[QuestionRenderer] sort_order question:", {
+        items: question.items,
+        itemsLength: question.items?.length,
+        correct_order: question.correct_order,
+        initial_order: question.initial_order,
+        computedInitialOrder: initialOrder
+      });
+      setCurrentOrder(initialOrder);
     }
+    setScrollEnabled(true); // スクロールはデフォルトで有効
     setSelectedIndex(null);
     setSelectedIndexes([]);
     setRevealedIndexes([]);
@@ -82,6 +110,13 @@ export function QuestionRenderer({ question, onContinue }: Props) {
       }
     }
   }, [selectedIndexes, question, showResult]);
+
+  // Ensure scroll is enabled when result is shown
+  useEffect(() => {
+    if (showResult) {
+      setScrollEnabled(true);
+    }
+  }, [showResult]);
 
   useEffect(() => {
     // フェードイン・スライドインアニメーション
@@ -257,7 +292,12 @@ export function QuestionRenderer({ question, onContinue }: Props) {
       ]}
     >
       {question.type === "sort_order" ? (
-        <View style={[styles.scrollView, styles.scrollContent]}>
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={true}
+          scrollEnabled={scrollEnabled}
+        >
           {/* 難易度バッジ */}
           <View style={styles.difficultyBadge}>
             <Text style={styles.difficultyText}>
@@ -426,9 +466,9 @@ export function QuestionRenderer({ question, onContinue }: Props) {
               </Pressable>
             </View>
           )}
-        </View>
+        </ScrollView>
       ) : (
-        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={true} scrollEnabled={scrollEnabled}>
+        <ScrollView style={styles.scrollView} contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={true}>
           {/* 難易度バッジ */}
           <View style={styles.difficultyBadge}>
             <Text style={styles.difficultyText}>

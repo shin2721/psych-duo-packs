@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useMemo } from "react";
 import { View, Text, Pressable, StyleSheet, PanResponder, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
@@ -267,98 +267,129 @@ export function SortOrder({
   onDragStart?: () => void;
   onDragEnd?: () => void;
 }) {
-  const [draggingIndex, setDraggingIndex] = useState<number | null>(null);
-  const dragY = useRef(new Animated.Value(0)).current;
-  const [targetPosition, setTargetPosition] = useState<number | null>(null);
+  const [draggingItemIndex, setDraggingItemIndex] = useState<number | null>(null);
+  const ITEM_HEIGHT = 72;
 
-  const ITEM_HEIGHT = 80; // アイテムの高さ（padding + margin + border）
+  // 各itemIndexごとにdragY値を持つ（アイテムIDベース）
+  const dragYRefs = useRef<Map<number, Animated.Value>>(new Map());
 
-  const createPanResponder = (index: number) => {
-    return PanResponder.create({
-      // タップしたら即座にPanResponderを有効化
-      onStartShouldSetPanResponder: () => true,
-      onStartShouldSetPanResponderCapture: () => true,
-      // わずかでも動いたらドラッグ開始
-      onMoveShouldSetPanResponder: () => true,
-      onMoveShouldSetPanResponderCapture: () => true,
+  // itemIndexに対応するdragY値を取得または作成
+  const getDragY = (itemIndex: number) => {
+    if (!dragYRefs.current.has(itemIndex)) {
+      dragYRefs.current.set(itemIndex, new Animated.Value(0));
+    }
+    return dragYRefs.current.get(itemIndex)!;
+  };
+
+  console.log("[SortOrder] Rendering with:", {
+    items,
+    currentOrder,
+    correctOrder,
+    itemsLength: items.length,
+    currentOrderLength: currentOrder.length
+  });
+
+  if (!items || items.length === 0) {
+    return (
+      <View style={styles.sortContainer}>
+        <Text style={{color: 'red', fontSize: 18}}>エラー: items配列が空です</Text>
+      </View>
+    );
+  }
+
+  if (!currentOrder || currentOrder.length === 0) {
+    return (
+      <View style={styles.sortContainer}>
+        <Text style={{color: 'red', fontSize: 18}}>エラー: currentOrderが空です</Text>
+      </View>
+    );
+  }
+
+  const getPanResponder = (itemIndex: number) => {
+    const dragY = getDragY(itemIndex);
+
+    // showResultの状態を毎回参照するため、キャッシュしない
+    const panResponder = PanResponder.create({
+      onStartShouldSetPanResponder: () => !showResult,
+      onMoveShouldSetPanResponder: (_, gestureState) => {
+        // 結果表示中はドラッグを無効化してスクロールを優先
+        if (showResult) return false;
+
+        const absY = Math.abs(gestureState.dy);
+        const absX = Math.abs(gestureState.dx);
+        // 垂直方向の動きが5px以上かつ、水平方向より大きい場合のみドラッグ
+        return absY > 5 && absY > absX * 1.2;
+      },
 
       onPanResponderGrant: () => {
-        if (showResult) return;
-        setDraggingIndex(index);
+        setDraggingItemIndex(itemIndex);
         dragY.setValue(0);
-        setTargetPosition(index);
         onDragStart?.();
       },
 
-      onPanResponderMove: (_, gesture) => {
-        if (showResult) return;
+      onPanResponderMove: Animated.event([null, { dy: dragY }], {
+        useNativeDriver: false,
+      }),
 
-        // リアルタイムで位置を更新
-        dragY.setValue(gesture.dy);
+      onPanResponderRelease: (_, gestureState) => {
+        // 現在の位置を取得
+        const currentPosition = currentOrder.indexOf(itemIndex);
 
-        // 現在のターゲット位置を計算
-        const movedPositions = Math.round(gesture.dy / ITEM_HEIGHT);
-        const newTarget = Math.max(0, Math.min(currentOrder.length - 1, index + movedPositions));
-        setTargetPosition(newTarget);
-      },
+        // どれだけ移動したか計算
+        const movedPositions = Math.round(gestureState.dy / ITEM_HEIGHT);
+        const newPosition = Math.max(0, Math.min(currentOrder.length - 1, currentPosition + movedPositions));
 
-      onPanResponderRelease: (_, gesture) => {
-        if (showResult) {
-          setDraggingIndex(null);
-          setTargetPosition(null);
-          onDragEnd?.();
-          return;
-        }
+        console.log('Drag release:', {
+          itemIndex,
+          currentPosition,
+          newPosition,
+          dy: gestureState.dy,
+          movedPositions,
+          currentOrder,
+        });
 
-        // ドラッグした距離から新しい位置を計算
-        const movedPositions = Math.round(gesture.dy / ITEM_HEIGHT);
-        const newPosition = Math.max(0, Math.min(currentOrder.length - 1, index + movedPositions));
+        // まずアニメーションを即座にリセット
+        dragY.setValue(0);
+        setDraggingItemIndex(null);
 
-        if (newPosition !== index) {
+        // 位置が変わった場合は並び替え（SWAP方式）
+        if (newPosition !== currentPosition) {
           const newOrder = [...currentOrder];
-          const [removed] = newOrder.splice(index, 1);
-          newOrder.splice(newPosition, 0, removed);
+          // 2つのアイテムを入れ替え
+          const temp = newOrder[newPosition];
+          newOrder[newPosition] = newOrder[currentPosition];
+          newOrder[currentPosition] = temp;
+          console.log('New order (swapped):', newOrder);
           onReorder(newOrder);
         }
 
-        // アニメーションでリセット
-        Animated.spring(dragY, {
-          toValue: 0,
-          useNativeDriver: true,
-          speed: 20,
-          bounciness: 8,
-        }).start(() => {
-          setDraggingIndex(null);
-          setTargetPosition(null);
-          onDragEnd?.();
-        });
+        onDragEnd?.();
       },
 
       onPanResponderTerminate: () => {
-        Animated.spring(dragY, {
-          toValue: 0,
-          useNativeDriver: true,
-        }).start(() => {
-          setDraggingIndex(null);
-          setTargetPosition(null);
-          onDragEnd?.();
-        });
+        dragY.setValue(0);
+        setDraggingItemIndex(null);
+        onDragEnd?.();
       },
     });
+
+    return panResponder;
   };
 
   return (
-    <View style={styles.sortContainer}>
-      <Text style={styles.sortHint}>👆 タップ＆ドラッグで並び替えよう</Text>
+    <View style={styles.sortContainer} pointerEvents={showResult ? "none" : "auto"}>
+      <Text style={styles.sortHint}>≡ をドラッグして並び替えよう</Text>
       {currentOrder.map((itemIndex, position) => {
         const isCorrectPosition = showResult && correctOrder[position] === itemIndex;
         const isIncorrectPosition = showResult && !isCorrectPosition;
-        const isDragging = draggingIndex === position;
-        const isTarget = targetPosition === position && !isDragging;
+        const isDragging = draggingItemIndex === itemIndex;
+        const itemText = items[itemIndex];
+        const dragY = getDragY(itemIndex);
 
         return (
           <Animated.View
-            key={`${position}-${itemIndex}`}
+            key={`item-${itemIndex}`}
+            pointerEvents={showResult ? "box-none" : "auto"}
             style={[
               {
                 marginBottom: 12,
@@ -366,25 +397,26 @@ export function SortOrder({
                 zIndex: isDragging ? 1000 : 1,
               },
             ]}
-            {...createPanResponder(position).panHandlers}
           >
             <View
               style={[
                 styles.sortItem,
                 isDragging && styles.sortItemDragging,
-                isTarget && styles.sortItemTarget,
                 isCorrectPosition && styles.correctChoice,
                 isIncorrectPosition && styles.incorrectChoice,
               ]}
             >
-              <Ionicons
-                name="reorder-three"
-                size={24}
-                color={isDragging ? "#22d3ee" : isTarget ? "#0ea5e9" : "#9aa3b2"}
-                style={{ marginRight: 12 }}
-              />
+              {!showResult && (
+                <View {...getPanResponder(itemIndex).panHandlers} style={{ padding: 8, marginLeft: -8, marginRight: 4 }}>
+                  <Ionicons
+                    name="reorder-three"
+                    size={24}
+                    color={isDragging ? "#22d3ee" : "#9aa3b2"}
+                  />
+                </View>
+              )}
               <Text style={styles.sortItemText}>
-                {items[itemIndex]}
+                {itemText || `アイテム${position+1}`}
               </Text>
               {isCorrectPosition && (
                 <Ionicons name="checkmark-circle" size={24} color={theme.colors.success} />
@@ -750,7 +782,6 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   sortItem: {
-    flex: 1,
     backgroundColor: "#fff",
     borderWidth: 2,
     borderColor: "#e0e0e0",
@@ -759,6 +790,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
+    minHeight: 60,
   },
   sortItemDragging: {
     shadowColor: "#000",
