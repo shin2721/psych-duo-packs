@@ -399,6 +399,7 @@ export function SortOrder({
             ]}
           >
             <View
+              {...(!showResult ? getPanResponder(itemIndex).panHandlers : {})}
               style={[
                 styles.sortItem,
                 isDragging && styles.sortItemDragging,
@@ -407,7 +408,7 @@ export function SortOrder({
               ]}
             >
               {!showResult && (
-                <View {...getPanResponder(itemIndex).panHandlers} style={{ padding: 8, marginLeft: -8, marginRight: 4 }}>
+                <View style={{ padding: 8, marginLeft: -8, marginRight: 4 }}>
                   <Ionicons
                     name="reorder-three"
                     size={24}
