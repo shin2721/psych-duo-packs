@@ -6,6 +6,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **IMPORTANT**: Always respond in Japanese (日本語) unless the user explicitly requests English. This is a Japanese project with Japanese-speaking developers.
 
+## Git Workflow
+
+**IMPORTANT**: When the user says "gitadd", always perform BOTH operations:
+1. `git add <files>` - Stage the modified files
+2. `git commit` - Create a commit with an appropriate message
+
+Do NOT just stage files - always commit immediately after staging. The user expects both operations to happen automatically.
+
 ## Project Overview
 
 **Psycle** is a Duolingo-inspired mobile app for learning evidence-based psychology techniques. Built with React Native, Expo SDK 54, and TypeScript.
