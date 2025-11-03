@@ -125,6 +125,16 @@ export function QuestionRenderer({ question, onContinue }: Props) {
     }
   }, [selectedIndexes, question, showResult]);
 
+  // matching: Auto-show result when all pairs are matched
+  useEffect(() => {
+    if (question.type === "matching" && question.correct_pairs && !showResult) {
+      const totalPairs = question.correct_pairs.length;
+      if (selectedPairs.length === totalPairs) {
+        setShowResult(true);
+      }
+    }
+  }, [selectedPairs, question, showResult]);
+
   // Ensure scroll is enabled when result is shown
   useEffect(() => {
     if (showResult) {
@@ -429,21 +439,14 @@ export function QuestionRenderer({ question, onContinue }: Props) {
           )}
 
           {question.type === "matching" && question.left_items && question.right_items && question.correct_pairs && (
-            <>
-              <Matching
-                leftItems={question.left_items}
-                rightItems={question.right_items}
-                selectedPairs={selectedPairs}
-                correctPairs={question.correct_pairs}
-                showResult={showResult}
-                onMatch={handleMatch}
-              />
-              {!showResult && (
-                <Pressable style={styles.submitButton} onPress={handleSubmitMatching}>
-                  <Text style={styles.submitButtonText}>答えを確認</Text>
-                </Pressable>
-              )}
-            </>
+            <Matching
+              leftItems={question.left_items}
+              rightItems={question.right_items}
+              selectedPairs={selectedPairs}
+              correctPairs={question.correct_pairs}
+              showResult={showResult}
+              onMatch={handleMatch}
+            />
           )}
 
           {/* 結果表示 */}
@@ -600,21 +603,14 @@ export function QuestionRenderer({ question, onContinue }: Props) {
           )}
 
           {question.type === "matching" && question.left_items && question.right_items && question.correct_pairs && (
-            <>
-              <Matching
-                leftItems={question.left_items}
-                rightItems={question.right_items}
-                selectedPairs={selectedPairs}
-                correctPairs={question.correct_pairs}
-                showResult={showResult}
-                onMatch={handleMatch}
-              />
-              {!showResult && (
-                <Pressable style={styles.submitButton} onPress={handleSubmitMatching}>
-                  <Text style={styles.submitButtonText}>答えを確認</Text>
-                </Pressable>
-              )}
-            </>
+            <Matching
+              leftItems={question.left_items}
+              rightItems={question.right_items}
+              selectedPairs={selectedPairs}
+              correctPairs={question.correct_pairs}
+              showResult={showResult}
+              onMatch={handleMatch}
+            />
           )}
 
           {/* 結果表示 */}
