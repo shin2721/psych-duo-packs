@@ -98,14 +98,28 @@ export function QuestionRenderer({ question, onContinue }: Props) {
     setSelectedPairs([]);
   }, [question]);
 
-  // select_all: Auto-show result when all correct answers are selected
+  // select_all: Auto-show result when all correct answers are selected OR when wrong answer is selected
   useEffect(() => {
     if (question.type === "select_all" && question.correct_answers && !showResult) {
+      console.log("=== SELECT_ALL DEBUG ===");
+      console.log("selectedIndexes:", selectedIndexes);
+      console.log("correct_answers:", question.correct_answers);
+
       const sortedSelected = [...selectedIndexes].sort();
       const sortedCorrect = [...question.correct_answers].sort();
       const allCorrectSelected = JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
 
+      // Check if any wrong answer is selected
+      const hasWrongAnswer = selectedIndexes.some(idx => !question.correct_answers?.includes(idx));
+      console.log("hasWrongAnswer:", hasWrongAnswer);
+      console.log("allCorrectSelected:", allCorrectSelected);
+
       if (allCorrectSelected && selectedIndexes.length > 0) {
+        console.log("→ Setting showResult=true (all correct)");
+        setShowResult(true);
+      } else if (hasWrongAnswer) {
+        console.log("→ Setting showResult=true (wrong answer)");
+        // Immediately show result if wrong answer is selected
         setShowResult(true);
       }
     }
@@ -196,6 +210,8 @@ export function QuestionRenderer({ question, onContinue }: Props) {
       // Add to selected list if correct
       setSelectedIndexes(prev => [...prev, index]);
     } else {
+      // Add wrong answer to trigger useEffect, then remove
+      setSelectedIndexes(prev => [...prev, index]);
       // Remove red display after 800ms if incorrect
       setTimeout(() => {
         setRevealedIndexes(prev => prev.filter(i => i !== index));
