@@ -451,6 +451,7 @@ export function Matching({
 }) {
   const [selectedLeft, setSelectedLeft] = useState<number | null>(null);
   const [selectedRight, setSelectedRight] = useState<number | null>(null);
+  const [currentIncorrectLeft, setCurrentIncorrectLeft] = useState<number | null>(null);
   const [currentIncorrectRight, setCurrentIncorrectRight] = useState<number | null>(null);
   const [triedPairs, setTriedPairs] = useState<Set<string>>(new Set());
 
@@ -465,6 +466,7 @@ export function Matching({
     } else {
       // 右が選択されていない場合、左を選択
       setSelectedLeft(index);
+      setCurrentIncorrectLeft(null);
       setCurrentIncorrectRight(null);
     }
   };
@@ -480,6 +482,7 @@ export function Matching({
     } else {
       // 左が選択されていない場合、右を選択
       setSelectedRight(index);
+      setCurrentIncorrectLeft(null);
       setCurrentIncorrectRight(null);
     }
   };
@@ -495,14 +498,17 @@ export function Matching({
       // 正解の場合、ペアとして記録
       const newPairs = [...selectedPairs, [leftIndex, rightIndex]];
       onMatch(newPairs);
+      setCurrentIncorrectLeft(null);
       setCurrentIncorrectRight(null);
     } else {
       // 不正解の場合
       setTriedPairs(new Set([...triedPairs, pairKey]));
+      setCurrentIncorrectLeft(leftIndex);
       setCurrentIncorrectRight(rightIndex);
 
       // 少し待ってから赤い表示を消す
       setTimeout(() => {
+        setCurrentIncorrectLeft(null);
         setCurrentIncorrectRight(null);
       }, 800);
     }
@@ -515,6 +521,7 @@ export function Matching({
         <View style={styles.matchingColumn}>
           {leftItems.map((item, index) => {
             const isMatched = selectedPairs.some(([l, _]) => l === index);
+            const isCurrentIncorrect = currentIncorrectLeft === index;
             return (
               <Pressable
                 key={index}
@@ -522,6 +529,7 @@ export function Matching({
                   styles.matchingItem,
                   selectedLeft === index && styles.matchingItemSelected,
                   isMatched && styles.correctChoice,
+                  isCurrentIncorrect && styles.incorrectChoice,
                 ]}
                 onPress={() => handleLeftPress(index)}
                 disabled={isMatched}
@@ -529,6 +537,12 @@ export function Matching({
                 <Text style={styles.matchingItemText}>
                   {item}
                 </Text>
+                {isMatched && (
+                  <Ionicons name="checkmark-circle" size={20} color={theme.colors.success} />
+                )}
+                {isCurrentIncorrect && (
+                  <Ionicons name="close-circle" size={20} color={"#ef4444"} />
+                )}
               </Pressable>
             );
           })}
@@ -839,6 +853,7 @@ const styles = StyleSheet.create({
     borderColor: "#e0e0e0",
     borderRadius: 12,
     padding: 12,
+    minHeight: 60,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
