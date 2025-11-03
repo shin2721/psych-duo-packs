@@ -213,19 +213,16 @@ export function QuestionRenderer({ question, onContinue }: Props) {
 
     const isCorrect = question.correct_answers?.includes(index);
 
-    // Immediate feedback
+    // Immediate feedback - keep showing both correct and incorrect choices
     setRevealedIndexes(prev => [...prev, index]);
 
     if (isCorrect) {
       // Add to selected list if correct
       setSelectedIndexes(prev => [...prev, index]);
     } else {
-      // Add wrong answer to trigger useEffect, then remove
+      // Add wrong answer to trigger useEffect
       setSelectedIndexes(prev => [...prev, index]);
-      // Remove red display after 800ms if incorrect
-      setTimeout(() => {
-        setRevealedIndexes(prev => prev.filter(i => i !== index));
-      }, 800);
+      // Keep incorrect choices visible (removed setTimeout)
     }
   };
 

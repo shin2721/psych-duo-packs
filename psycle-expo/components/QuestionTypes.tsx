@@ -25,9 +25,11 @@ export function SelectAll({
         const isSelected = selectedIndexes.includes(index);
         const isCorrect = correctAnswers.includes(index);
         const isRevealed = revealedIndexes.includes(index);
-        const shouldShowCorrect = isSelected && isCorrect;
-        const shouldShowIncorrect = isRevealed && !isCorrect;
-        const shouldShowUnselectedIncorrect = showResult && !isSelected && !isCorrect;
+
+        // Show correct answers: selected correct or unselected correct (when showResult)
+        const shouldShowCorrect = isCorrect && (isSelected || showResult);
+        // Show incorrect: revealed incorrect or showResult incorrect
+        const shouldShowIncorrect = !isCorrect && (isRevealed || showResult);
 
         return (
           <Pressable
@@ -36,7 +38,6 @@ export function SelectAll({
               styles.choiceButton,
               shouldShowCorrect && styles.correctChoice,
               shouldShowIncorrect && styles.incorrectChoice,
-              shouldShowUnselectedIncorrect && styles.unselectedIncorrectChoice,
             ]}
             onPress={() => onToggle(index)}
             disabled={showResult || isSelected}
@@ -46,25 +47,21 @@ export function SelectAll({
                 styles.checkbox,
                 shouldShowCorrect && styles.checkboxCorrect,
                 shouldShowIncorrect && styles.checkboxIncorrect,
-                shouldShowUnselectedIncorrect && styles.checkboxUnselectedIncorrect,
               ]}>
                 {shouldShowCorrect && (
                   <Ionicons name="checkmark" size={20} color="#fff" />
                 )}
-                {(shouldShowIncorrect || shouldShowUnselectedIncorrect) && (
-                  <Ionicons name="close" size={20} color={shouldShowIncorrect ? "#fff" : "#6b7280"} />
+                {shouldShowIncorrect && (
+                  <Ionicons name="close" size={20} color="#fff" />
                 )}
               </View>
             </View>
-            <Text style={styles.choiceText}>
+            <Text style={[
+              styles.choiceText,
+              (shouldShowCorrect || shouldShowIncorrect) && styles.choiceTextWhite,
+            ]}>
               {choice}
             </Text>
-            {shouldShowCorrect && (
-              <Ionicons name="checkmark-circle" size={24} color={theme.colors.success} />
-            )}
-            {shouldShowIncorrect && (
-              <Ionicons name="close-circle" size={24} color="#ef4444" />
-            )}
           </Pressable>
         );
       })}
@@ -453,7 +450,6 @@ export function Matching({
   const [selectedRight, setSelectedRight] = useState<number | null>(null);
   const [currentIncorrectLeft, setCurrentIncorrectLeft] = useState<number | null>(null);
   const [currentIncorrectRight, setCurrentIncorrectRight] = useState<number | null>(null);
-  const [triedPairs, setTriedPairs] = useState<Set<string>>(new Set());
 
   const handleLeftPress = (index: number) => {
     // すでにマッチ済みの左アイテムは選択できない
@@ -488,10 +484,6 @@ export function Matching({
   };
 
   const tryPair = (leftIndex: number, rightIndex: number) => {
-    // すでに試したペアは選択できない
-    const pairKey = `${leftIndex}-${rightIndex}`;
-    if (triedPairs.has(pairKey)) return;
-
     const isCorrect = correctPairs.some(([l, r]) => l === leftIndex && r === rightIndex);
 
     if (isCorrect) {
@@ -502,7 +494,6 @@ export function Matching({
       setCurrentIncorrectRight(null);
     } else {
       // 不正解の場合
-      setTriedPairs(new Set([...triedPairs, pairKey]));
       setCurrentIncorrectLeft(leftIndex);
       setCurrentIncorrectRight(rightIndex);
 
@@ -552,9 +543,6 @@ export function Matching({
             const matchedLeft = selectedPairs.find(([_, r]) => r === index)?.[0];
             const isMatched = matchedLeft !== undefined;
             const isCurrentIncorrect = currentIncorrectRight === index;
-            // Prevent clicking if already tried with current left/right selection
-            const pairKeyLeft = selectedLeft !== null ? `${selectedLeft}-${index}` : "";
-            const isTriedWithCurrentLeft = pairKeyLeft && triedPairs.has(pairKeyLeft);
 
             return (
               <Pressable
@@ -566,7 +554,7 @@ export function Matching({
                   isCurrentIncorrect && styles.incorrectChoice,
                 ]}
                 onPress={() => handleRightPress(index)}
-                disabled={isMatched || isTriedWithCurrentLeft}
+                disabled={isMatched}
               >
                 <Text style={styles.matchingItemText}>
                   {item}
@@ -624,6 +612,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   selectedChoiceText: {
+    color: "#fff",
+  },
+  choiceTextWhite: {
     color: "#fff",
   },
 
