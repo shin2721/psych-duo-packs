@@ -747,7 +747,7 @@ function TrueFalse({
             disabled={showResult}
           >
             <Ionicons
-              name={choice === "本当" ? "checkmark-circle-outline" : "close-circle-outline"}
+              name={choice === "正しい" || choice === "本当" ? "checkmark-circle-outline" : "close-circle-outline"}
               size={48}
               color={isSelected ? "#fff" : theme.colors.primary}
             />
