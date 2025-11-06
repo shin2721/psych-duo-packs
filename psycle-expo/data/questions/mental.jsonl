@@ -12,4 +12,31 @@
 {"unit":"mental","source_id":"pmid:41105355","question_type":"comparison","stem":"「老年期における睡眠と神経認知機能」の研究で比較されたことは？","choices":[{"text":"MMSE スコアは、地域居住者と比較して、老人ホーム入居者の方が有意に低かった (22.2 ± 4.4 対 22.2 ± 4.4)。","is_correct":true},{"text":"この研究は、トゥルキエに住む65歳以上の個人の睡眠の質、認知機能、生活の質に対する施設的ケアの影響を評価することを目的としていました。","is_correct":false},{"text":"年齢と学歴を調整した後、ANCOVA は、老人ホーム入居者の MMSE スコアが地域居住者よりも有意に低いことを確認しました (F(1,58)=7.","is_correct":false},{"text":"MMSE におけるこれらの差異は、年齢と教育による調整後も有意なままでした (ANCOVA、p=0.006)。","is_correct":false}],"correct_index":0,"difficulty":"medium","tags":[],"citation":"Durak B Author, Özol D Author, Saraç S Author (2025). Sleep and neurocognitive function in the geriatric population: a cross-sectional comparison between nursing-home and community-dwelling older adults.. Sleep & breathing = Schlaf & Atmung. https://doi.org/10.1007/s11325-025-03502-0"}
 {"unit":"mental","source_id":"pmid:41115878","question_type":"relationship","stem":"「作業記憶負荷に依存した神経変調」の研究で見た関連性は？","choices":[{"text":"認知行動療法 (CBT) は、強迫性障害 (OCD) の効果的な治療法です。","is_correct":true},{"text":"より高い調節は、より大きな相対的な症状の軽減と関連していた。","is_correct":false},{"text":"現在の研究の結果は、変化するタスク要求に柔軟に適応する WM システムの能力が OCD における CBT 反応の有用な指標となる可能性があることを示しています。","is_correct":false},{"text":"ただし、発見はより大きなサンプルで再現する必要があります。","is_correct":false}],"correct_index":0,"difficulty":"easy","tags":[],"citation":"Heinzel S Author, Kaufmann C Author, Grützmann R Author (2025). Working memory load-dependent modulation of neural activity predicts response to cognitive behavioral therapy in obsessive-compulsive disorder.. Translational psychiatry. https://doi.org/10.1038/s41398-025-03608-9"}
 {"unit":"mental","source_id":"pmid:41115878","question_type":"comparison","stem":"「作業記憶負荷に依存した神経変調」の研究で比較されたことは？","choices":[{"text":"より高い調節は、より大きな相対的な症状の軽減と関連していた。","is_correct":true},{"text":"認知行動療法 (CBT) は、強迫性障害 (OCD) の効果的な治療法です。","is_correct":false},{"text":"現在の研究の結果は、変化するタスク要求に柔軟に適応する WM システムの能力が OCD における CBT 反応の有用な指標となる可能性があることを示しています。","is_correct":false},{"text":"ただし、発見はより大きなサンプルで再現する必要があります。","is_correct":false}],"correct_index":0,"difficulty":"medium","tags":[],"citation":"Heinzel S Author, Kaufmann C Author, Grützmann R Author (2025). Working memory load-dependent modulation of neural activity predicts response to cognitive behavioral therapy in obsessive-compulsive disorder.. Translational psychiatry. https://doi.org/10.1038/s41398-025-03608-9"}
-{"unit":"mental","source_id":"pmid:41115878","question_type":"fact","stem":"「作業記憶負荷に依存した神経変調」の研究で明らかになった事は？","choices":[{"text":"現在の研究の結果は、変化するタスク要求に柔軟に適応する WM システムの能力が OCD における CBT 反応の有用な指標となる可能性があることを示しています。","is_correct":true},{"text":"認知行動療法 (CBT) は、強迫性障害 (OCD) の効果的な治療法です。","is_correct":false},{"text":"より高い調節は、より大きな相対的な症状の軽減と関連していた。","is_correct":false},{"text":"ただし、発見はより大きなサンプルで再現する必要があります。","is_correct":false}],"correct_index":0,"difficulty":"easy","tags":[],"citation":"Heinzel S Author, Kaufmann C Author, Grützmann R Author (2025). Working memory load-dependent modulation of neural activity predicts response to cognitive behavioral therapy in obsessive-compulsive disorder.. Translational psychiatry. https://doi.org/10.1038/s41398-025-03608-9"}
+{"unit":"mental","source_id":"pmid:41115878","question_type":"fact","stem":"「作業記憶負荷に依存した神経変調」の研究で明らかになった事は？","choices":[{"text":"WMシステムが変化するタスク要求に柔軟に適応する能力がOCDにおけるCBT反応の有用な指標となる可能性があること","is_correct":true},{"text":"認知行動療法(CBT)が強迫性障害(OCD)の効果的な治療法であること","is_correct":false},{"text":"より高い調節がより大きな相対的な症状の軽減と関連していたこと","is_correct":false},{"text":"発見はより大きなサンプルで再現する必要があること","is_correct":false}],"correct_index":0,"difficulty":"easy","tags":[],"citation":"Heinzel S Author, Kaufmann C Author, Grützmann R Author (2025). Working memory load-dependent modulation of neural activity predicts response to cognitive behavioral therapy in obsessive-compulsive disorder.. Translational psychiatry. https://doi.org/10.1038/s41398-025-03608-9"}
+  "unit": "mental",
+  "source_id": "pmid:41115878",
+  "question_type": "fact",
+  "stem": "「作業記憶負荷に依存した神経変調」の研究で明らかになった事は？",
+  "choices": [
+    {
+      "text": "WMシステムが変化するタスク要求に柔軟に適応する能力がOCDにおけるCBT反応の有用な指標となる可能性があること",
+      "is_correct": true
+    },
+    {
+      "text": "認知行動療法(CBT)が強迫性障害(OCD)の効果的な治療法であること",
+      "is_correct": false
+    },
+    {
+      "text": "より高い調節がより大きな相対的な症状の軽減と関連していたこと",
+      "is_correct": false
+    },
+    {
+      "text": "発見はより大きなサンプルで再現する必要があること",
+      "is_correct": false
+    }
+  ],
+  "correct_index": 0,
+  "difficulty": "easy",
+  "tags": [],
+  "citation": "Heinzel S Author, Kaufmann C Author, Grützmann R Author (2025). Working memory load-dependent modulation of neural activity predicts response to cognitive behavioral therapy in obsessive-compulsive disorder.. Translational psychiatry. https://doi.org/10.1038/s41398-025-03608-9"
+}

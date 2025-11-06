@@ -2,6 +2,11 @@ import { Question } from "../components/QuestionRenderer";
 
 // トップレベルでJSONファイルをインポート（Metro bundlerが確実に認識するため）
 import mentalQuestions from "../data/lessons/mental.json";
+import moneyQuestions from "../data/lessons/money.json";
+import workQuestions from "../data/lessons/work.json";
+import healthQuestions from "../data/lessons/health.json";
+import socialQuestions from "../data/lessons/social.json";
+import studyQuestions from "../data/lessons/study.json";
 
 export interface Lesson {
   id: string;
@@ -14,8 +19,22 @@ export interface Lesson {
 
 // 新しいデータ形式を古い形式に変換
 function adaptQuestion(raw: any): Question {
+  // タイプ変換マップ
+  const typeMap: Record<string, string> = {
+    'truefalse': 'true_false',
+    'mcq3': 'multiple_choice',
+    'ab': 'multiple_choice',
+    'cloze1': 'fill_blank',
+    'cloze2': 'fill_blank',
+    'cloze3': 'fill_blank',
+    'rank': 'sort_order',
+  };
+
+  const rawType = raw.type || "multiple_choice";
+  const mappedType = typeMap[rawType] || rawType;
+
   const adapted: any = {
-    type: raw.type || "multiple_choice",
+    type: mappedType,
     question: raw.content?.prompt || raw.stem || raw.question || "質問",
     choices: raw.content?.options || raw.choices || [],
     correct_index: raw.correct_answer ?? raw.answer_index ?? raw.correct_index ?? 0,
@@ -38,6 +57,13 @@ function adaptQuestion(raw: any): Question {
 
   // sort_order: items と correct_order を追加
   if (raw.type === "sort_order") {
+    console.log("[adaptQuestion] sort_order raw data:", {
+      id: raw.id,
+      type: raw.type,
+      content: raw.content,
+      items: raw.items,
+      correct_order: raw.correct_order
+    });
     adapted.items = raw.content?.items || raw.items || [];
     adapted.correct_order = raw.correct_order || [];
     const itemCount = adapted.items.length;
@@ -47,6 +73,13 @@ function adaptQuestion(raw: any): Question {
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     adapted.initial_order = shuffled;
+    console.log("[adaptQuestion] sort_order adapted:", {
+      items: adapted.items,
+      correct_order: adapted.correct_order,
+      itemsLength: adapted.items.length,
+      initial_order: adapted.initial_order,
+      shuffled: shuffled
+    });
   }
 
   // matching: left_items, right_items, correct_pairs を追加
@@ -61,6 +94,11 @@ function adaptQuestion(raw: any): Question {
     adapted.your_response_prompt = raw.content?.your_response_prompt || raw.your_response_prompt || "";
   }
 
+  // sort_orderの場合、返す直前のadaptedオブジェクトをログ出力
+  if (raw.type === "sort_order") {
+    console.log("[adaptQuestion] FINAL adapted object being returned:", JSON.stringify(adapted, null, 2));
+  }
+
   return adapted;
 }
 
@@ -73,6 +111,21 @@ export function loadLessons(unit: string): Lesson[] {
       case "mental":
         rawData = mentalQuestions;
         break;
+      case "money":
+        rawData = moneyQuestions;
+        break;
+      case "work":
+        rawData = workQuestions;
+        break;
+      case "health":
+        rawData = healthQuestions;
+        break;
+      case "social":
+        rawData = socialQuestions;
+        break;
+      case "study":
+        rawData = studyQuestions;
+        break;
       default:
         return [];
     }
@@ -83,6 +136,13 @@ export function loadLessons(unit: string): Lesson[] {
     const questions = rawQuestions.map(adaptQuestion);
 
     console.log(`[loadLessons] ${unit}: ${questions.length} questions total`);
+
+    // 問題をシャッフル（Fisher-Yates アルゴリズム）
+    const shuffledQuestions = [...questions];
+    for (let i = shuffledQuestions.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffledQuestions[i], shuffledQuestions[j]] = [shuffledQuestions[j], shuffledQuestions[i]];
+    }
 
     // 6レベル分のレッスンを生成（各15問）
     const lessons: Lesson[] = [];
