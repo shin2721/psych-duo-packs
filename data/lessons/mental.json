@@ -1,0 +1,812 @@
+[
+  {
+    "id": "mental_l01_001",
+    "type": "scenario",
+    "question": "友達のAさんが「プレゼン前で頭が真っ白」と言っている。\n最初にやるといいのは？",
+    "choices": [
+      "深く呼吸してもらう",
+      "すぐに内容を確認する",
+      "気合いを入れる",
+      "とりあえず放っておく"
+    ],
+    "correct_index": 0,
+    "explanation": "まず体を落ち着かせる（深呼吸）→その後で考える。順番が大事。",
+    "source_id": "40961410",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#深呼吸",
+      "#即効性",
+      "#セルフコーチング"
+    ]
+  },
+  {
+    "id": "mental_l01_002",
+    "type": "true_false",
+    "question": "本当？嘘？\n「深呼吸は60秒で心拍が下がる研究がある」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "本当。60秒でも変化が出る研究がある。数週間かけなくてOK。",
+    "source_id": "40681000",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#深呼吸",
+      "#即効性",
+      "#自律神経"
+    ]
+  },
+  {
+    "id": "mental_l01_003",
+    "type": "multiple_choice",
+    "question": "「マインドフルネス」とは？",
+    "choices": [
+      "今この瞬間に注意を向けること",
+      "ポジティブに考えること",
+      "過去を振り返ること",
+      "未来を計画すること"
+    ],
+    "correct_index": 0,
+    "explanation": "「今ここ」＝今この瞬間に注意を向けること。それだけでOK。",
+    "source_id": "40669702",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#マインドフルネス",
+      "#感情の扱い方"
+    ]
+  },
+  {
+    "id": "mental_l01_004",
+    "type": "multiple_choice",
+    "question": "緊張すると心拍が上がるのは、どの神経の働き？",
+    "choices": [
+      "交感神経",
+      "副交感神経",
+      "運動神経",
+      "感覚神経"
+    ],
+    "correct_index": 0,
+    "explanation": "交感神経がONになると心拍・汗が増える。体が「戦う」モードになる。",
+    "source_id": "41042666",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#自律神経",
+      "#交感神経",
+      "#副交感神経"
+    ]
+  },
+  {
+    "id": "mental_l01_005",
+    "type": "true_false",
+    "question": "本当？嘘？\n「深呼吸で副交感神経をONにできる」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "本当。深呼吸は副交感神経のスイッチ。1分でも効果あり。",
+    "source_id": "41032459",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#深呼吸",
+      "#副交感神経",
+      "#即効性"
+    ]
+  },
+  {
+    "id": "mental_l01_006",
+    "type": "multiple_choice",
+    "question": "副交感神経の役割は？",
+    "choices": [
+      "体をリラックスさせる",
+      "心拍を速くする",
+      "筋肉を緊張させる",
+      "汗をかかせる"
+    ],
+    "correct_index": 0,
+    "explanation": "副交感神経は「休む」モード。深呼吸でONになる。",
+    "source_id": "40966095",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#副交感神経",
+      "#自律神経",
+      "#深呼吸"
+    ]
+  },
+  {
+    "id": "mental_l01_007",
+    "type": "scenario",
+    "question": "ストレスで心拍が上がっているとき、\n深呼吸をすると何が起こる？",
+    "choices": [
+      "副交感神経がONになり心拍が落ち着く",
+      "交感神経が強くなりさらに緊張する",
+      "何も起こらない",
+      "逆効果になる"
+    ],
+    "correct_index": 0,
+    "explanation": "深呼吸→副交感神経ON→心拍ダウン。このパターンを覚えよう。",
+    "source_id": "40957601",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#深呼吸",
+      "#副交感神経",
+      "#即効性"
+    ]
+  },
+  {
+    "id": "mental_l01_008",
+    "type": "multiple_choice",
+    "question": "感情をうまく扱うスキルを何という？",
+    "choices": [
+      "感情調整（エモーション・レギュレーション）",
+      "感情抑圧",
+      "感情爆発",
+      "感情無視"
+    ],
+    "correct_index": 0,
+    "explanation": "感情調整は、感情を無理に消すのではなく上手に扱うこと。",
+    "source_id": "40896980",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#感情の扱い方",
+      "#感情調整"
+    ]
+  },
+  {
+    "id": "mental_l01_009",
+    "type": "fill_blank",
+    "question": "空欄を埋めよう。\n「4秒吸って、7秒止めて、___秒で吐く」",
+    "choices": [
+      "8",
+      "4",
+      "10",
+      "5"
+    ],
+    "correct_index": 0,
+    "explanation": "4-7-8呼吸。吐く時間が長いほど副交感神経がONになりやすい。",
+    "source_id": "40865406",
+    "difficulty": "medium",
+    "xp": 12,
+    "tags": [
+      "#深呼吸",
+      "#4-7-8呼吸",
+      "#即効性"
+    ]
+  },
+  {
+    "id": "mental_l01_010",
+    "type": "true_false",
+    "question": "本当？嘘？\n「4-7-8呼吸は寝る前に試すと良い」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "本当。寝る前に1回だけ試してみよう。体が「休むモード」に入る。",
+    "source_id": "40854622",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#4-7-8呼吸",
+      "#深呼吸",
+      "#セルフコーチング"
+    ]
+  },
+  {
+    "id": "mental_l01_011",
+    "type": "timer",
+    "question": "今、深呼吸を1分間やってみる？",
+    "choices": [
+      "やる",
+      "スキップ"
+    ],
+    "correct_index": 0,
+    "explanation": "1分で心拍が下がる研究がある。ランク狙いでもサクッと試せる。",
+    "source_id": "40706348",
+    "difficulty": "easy",
+    "xp": 8,
+    "timer_seconds": 60,
+    "tags": [
+      "#深呼吸",
+      "#即効性",
+      "#実践"
+    ]
+  },
+  {
+    "id": "mental_l01_012",
+    "type": "multiple_choice",
+    "question": "「CBT」の日本語訳は？",
+    "choices": [
+      "認知行動療法",
+      "認知的再評価",
+      "カウンセリング",
+      "マインドフルネス"
+    ],
+    "correct_index": 0,
+    "explanation": "認知行動療法（Cognitive Behavioral Therapy）。考え方と行動を変える方法。",
+    "source_id": "40673454",
+    "difficulty": "medium",
+    "xp": 12,
+    "tags": [
+      "#認知行動療法",
+      "#CBT"
+    ]
+  },
+  {
+    "id": "mental_l01_013",
+    "type": "true_false",
+    "question": "本当？嘘？\n「感情は消すべきものではない」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "本当。感情は敵じゃない。まず認めて、そこから扱い方を考える。",
+    "source_id": "40653877",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#感情の扱い方",
+      "#感情調整"
+    ]
+  },
+  {
+    "id": "mental_l01_014",
+    "type": "multiple_choice",
+    "question": "「認知再評価」とは？",
+    "choices": [
+      "状況の意味づけを変えること",
+      "感情を抑え込むこと",
+      "事実を変えること",
+      "他人の評価を気にすること"
+    ],
+    "correct_index": 0,
+    "explanation": "状況の意味づけを変える。「失敗」→「学びのチャンス」みたいに。",
+    "source_id": "40652979",
+    "difficulty": "medium",
+    "xp": 12,
+    "tags": [
+      "#認知再評価",
+      "#感情の扱い方"
+    ]
+  },
+  {
+    "id": "mental_l01_015",
+    "type": "true_false",
+    "question": "本当？嘘？\n「認知再評価で感情調整が改善する研究がある」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "本当。見方を変えると感情も変わる。1分でできる小さな練習から。",
+    "source_id": "40614975",
+    "difficulty": "easy",
+    "xp": 8,
+    "tags": [
+      "#認知再評価",
+      "#感情調整",
+      "#セルフコーチング"
+    ]
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「認知的再評価で感情調整が改善した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！認知的再評価で感情調整が改善した",
+    "source_id": "40581775",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "次のうち、研究で明らかになったことは？",
+    "choices": [
+      "ポジティブ思考がメンタルヘルスを改善した",
+      "ポジティブ思考がメンタルヘルスを悪化した",
+      "ポジティブ思考がメンタルヘルスを改善した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "40570936",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "リラックスする",
+      "リラックスするの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "40536491",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___でストレスが軽減した",
+    "choices": [
+      "瞑想の実践",
+      "瞑想の実践（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「瞑想の実践」。瞑想の実践でストレスが軽減した",
+    "source_id": "40387873",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「認知的再評価で感情調整が改善した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「認知的再評価で感情調整が改善した」です",
+    "source_id": "40387621",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "リラックスする",
+      "リラックスするの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "40331790",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「心拍変動バイオフィードバックが有効だった」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「心拍変動バイオフィードバックが有効だった」です",
+    "source_id": "40310870",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が緊張を緩和した",
+    "choices": [
+      "深呼吸",
+      "深呼吸（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「深呼吸」。深呼吸が緊張を緩和した",
+    "source_id": "40298641",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "マインドフルネスがストレス軽減に効果的だった",
+      "マインドフルネスがストレス増大に効果的だった",
+      "マインドフルネスがストレス軽減に効果的だった（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "40248919",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "心拍変動バイオフィードバックが有効だった",
+      "心拍変動バイオフィードバックが有効だった（ただし一部の人のみ）",
+      "気の持ちようで治る",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、心拍変動バイオフィードバックが有効だった",
+    "source_id": "40219760",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "マインドフルネスを実践する",
+      "マインドフルネスを実践するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "39992301",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で不安が減少した",
+    "choices": [
+      "呼吸法の練習",
+      "呼吸法の練習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「呼吸法の練習」。呼吸法の練習で不安が減少した",
+    "source_id": "39967381",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "呼吸法の練習で不安が減少した",
+      "呼吸法の練習で不安が増加した",
+      "呼吸法の練習で不安が減少した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、呼吸法の練習で不安が減少した",
+    "source_id": "39927405",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で不安が減少した",
+    "choices": [
+      "呼吸法の練習",
+      "呼吸法の練習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「呼吸法の練習」。呼吸法の練習で不安が減少した",
+    "source_id": "39773406",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___がストレス軽減に効果的だった",
+    "choices": [
+      "マインドフルネス",
+      "マインドフルネス（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「マインドフルネス」。マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "41058084",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「呼吸法の練習で不安が減少した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！呼吸法の練習で不安が減少した",
+    "source_id": "40983490",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「マインドフルネスがストレス軽減に効果的だった」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "40748001",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "マインドフルネスがストレス軽減に効果的だった",
+      "マインドフルネスがストレス増大に効果的だった",
+      "マインドフルネスがストレス軽減に効果的だった（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "40730453",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で不安が減少した",
+    "choices": [
+      "呼吸法の練習",
+      "呼吸法の練習（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「呼吸法の練習」。呼吸法の練習で不安が減少した",
+    "source_id": "40651514",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___がストレス軽減に効果的だった",
+    "choices": [
+      "マインドフルネス",
+      "マインドフルネス（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「マインドフルネス」。マインドフルネスがストレス軽減に効果的だった",
+    "source_id": "40550279",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "リラックスする",
+      "リラックスするの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、瞑想の実践でストレスが軽減した",
+    "source_id": "40543159",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「瞑想の実践でストレスが軽減した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 1,
+    "explanation": "実際は「瞑想の実践でストレスが軽減した」です",
+    "source_id": "40505983",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "マインドフルネスを実践する",
+      "マインドフルネスを実践するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "40378969",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "心拍変動バイオフィードバックが有効だった",
+      "心拍変動バイオフィードバックが有効だった（ただし一部の人のみ）",
+      "気の持ちようで治る",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、心拍変動バイオフィードバックが有効だった",
+    "source_id": "40370092",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___が不安を和らげた",
+    "choices": [
+      "リラクゼーション技法",
+      "リラクゼーション技法（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「リラクゼーション技法」。リラクゼーション技法が不安を和らげた",
+    "source_id": "40313046",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___で感情調整が改善した",
+    "choices": [
+      "認知的再評価",
+      "認知的再評価（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「認知的再評価」。認知的再評価で感情調整が改善した",
+    "source_id": "39666474",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "心拍変動バイオフィードバックが有効だった",
+      "心拍変動バイオフィードバックが有効だった（ただし一部の人のみ）",
+      "気の持ちようで治る",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、心拍変動バイオフィードバックが有効だった",
+    "source_id": "39606848",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "true_false",
+    "question": "本当？嘘？\n「深呼吸が緊張を緩和した」",
+    "choices": [
+      "本当",
+      "嘘"
+    ],
+    "correct_index": 0,
+    "explanation": "正解！深呼吸が緊張を緩和した",
+    "source_id": "38285433",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "マインドフルネスを実践する",
+      "マインドフルネスを実践するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "41066166",
+    "difficulty": "medium",
+    "xp": 12
+  },
+  {
+    "type": "fill_blank",
+    "question": "空欄に入る言葉は？\n___がメンタルヘルスを改善した",
+    "choices": [
+      "ポジティブ思考",
+      "ポジティブ思考（一部のみ）",
+      "効果なし",
+      "確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "正解は「ポジティブ思考」。ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "41062722",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "深呼吸する",
+      "深呼吸するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、ポジティブ思考がメンタルヘルスを改善した",
+    "source_id": "41057895",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "リラクゼーション技法が不安を和らげた",
+      "リラクゼーション技法が不安を和らげた（ただし一部の人のみ）",
+      "気の持ちようで治る",
+      "この効果は確認されていない"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、リラクゼーション技法が不安を和らげた",
+    "source_id": "41057045",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "multiple_choice",
+    "question": "科学的に証明されているのはどれ？",
+    "choices": [
+      "認知的再評価で感情調整が改善した",
+      "認知的再評価で感情調整が悪化した",
+      "認知的再評価で感情調整が改善した（ただし一部の人のみ）",
+      "気の持ちようで治る"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、認知的再評価で感情調整が改善した",
+    "source_id": "41056541",
+    "difficulty": "easy",
+    "xp": 8
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "深呼吸する",
+      "深呼吸するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、瞑想の実践でストレスが軽減した",
+    "source_id": "41052998",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "type": "scenario",
+    "question": "あなたはストレスを感じていると感じています。\n研究に基づくと、どうするのが良い？",
+    "choices": [
+      "マインドフルネスを実践する",
+      "マインドフルネスを実践するの逆をする",
+      "何もしない",
+      "他人に任せる"
+    ],
+    "correct_index": 0,
+    "explanation": "研究によると、深呼吸が緊張を緩和した",
+    "source_id": "41054086",
+    "difficulty": "hard",
+    "xp": 15
+  }
+]
