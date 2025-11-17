@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import {
   View,
   Text,
@@ -8,6 +8,35 @@ import {
   SafeAreaView,
 } from 'react-native';
 
+/**
+ * Fisher-Yates shuffle algorithm
+ * Returns a shuffled copy of the array along with index mapping
+ */
+function shuffleChoices(choices: string[], correctIndex: number): {
+  shuffled: string[];
+  mapping: number[];
+  newCorrectIndex: number;
+} {
+  const indices = choices.map((_, i) => i);
+  const shuffled = [...choices];
+
+  // Fisher-Yates shuffle
+  for (let i = shuffled.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    [indices[i], indices[j]] = [indices[j], indices[i]];
+  }
+
+  // Find new position of correct answer
+  const newCorrectIndex = indices.indexOf(correctIndex);
+
+  return {
+    shuffled,
+    mapping: indices,
+    newCorrectIndex,
+  };
+}
+
 export type QuestionCard = {
   id: string;
   type: 'mcq';
@@ -15,6 +44,7 @@ export type QuestionCard = {
   choices: string[];
   answerIndex: number;
   explain: string;
+  actionTip?: string;
 };
 
 export type Lesson = {
@@ -42,13 +72,20 @@ export default function LessonScreen({ lesson }: LessonScreenProps) {
   const currentCard = lesson.cards[currentIndex];
   const progress = ((currentIndex + 1) / lesson.cards.length) * 100;
 
+  // Shuffle choices for current question (memoized per question)
+  const { shuffled: shuffledChoices, newCorrectIndex } = useMemo(
+    () => shuffleChoices(currentCard.choices, currentCard.answerIndex),
+    [currentIndex, currentCard.choices, currentCard.answerIndex]
+  );
+
   const handleSelectAnswer = (index: number) => {
     if (showExplanation) return; // Already answered
 
     setSelectedAnswer(index);
     setShowExplanation(true);
 
-    if (index === currentCard.answerIndex) {
+    // Check if selected shuffled index matches the new correct index
+    if (index === newCorrectIndex) {
       setCorrectCount((prev) => prev + 1);
     }
   };
@@ -89,9 +126,9 @@ export default function LessonScreen({ lesson }: LessonScreenProps) {
         <Text style={styles.question}>{currentCard.q}</Text>
 
         <View style={styles.choicesContainer}>
-          {currentCard.choices.map((choice, index) => {
+          {shuffledChoices.map((choice, index) => {
             const isSelected = selectedAnswer === index;
-            const isCorrect = index === currentCard.answerIndex;
+            const isCorrect = index === newCorrectIndex;
             const showCorrect = showExplanation && isCorrect;
             const showIncorrect = showExplanation && isSelected && !isCorrect;
 
@@ -123,9 +160,19 @@ export default function LessonScreen({ lesson }: LessonScreenProps) {
         {showExplanation && (
           <View style={styles.explanationContainer}>
             <Text style={styles.explanationTitle}>
-              {selectedAnswer === currentCard.answerIndex ? '正解！' : '不正解'}
+              {selectedAnswer === newCorrectIndex ? '正解！' : '不正解'}
             </Text>
             <Text style={styles.explanationText}>{currentCard.explain}</Text>
+          </View>
+        )}
+
+        {showExplanation && currentCard.actionTip && (
+          <View style={styles.actionTipContainer}>
+            <Text style={styles.actionTipIcon}>💡</Text>
+            <View style={styles.actionTipContent}>
+              <Text style={styles.actionTipLabel}>今日できる一歩</Text>
+              <Text style={styles.actionTipText}>{currentCard.actionTip}</Text>
+            </View>
           </View>
         )}
       </ScrollView>
@@ -281,5 +328,32 @@ const styles = StyleSheet.create({
     color: '#333',
     textAlign: 'center',
     marginBottom: 8,
+  },
+  actionTipContainer: {
+    marginTop: 16,
+    padding: 12,
+    backgroundColor: '#F5F5F5',
+    borderRadius: 8,
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 8,
+  },
+  actionTipIcon: {
+    fontSize: 20,
+    marginTop: 2,
+  },
+  actionTipContent: {
+    flex: 1,
+  },
+  actionTipLabel: {
+    fontSize: 13,
+    fontWeight: '600',
+    color: '#666',
+    marginBottom: 4,
+  },
+  actionTipText: {
+    fontSize: 14,
+    color: '#333',
+    lineHeight: 20,
   },
 });

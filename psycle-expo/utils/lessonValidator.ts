@@ -46,6 +46,11 @@ function validateQuestionCard(card: any, index: number): string[] {
     errors.push(`Question ${index + 1}: Missing or invalid 'explain' field`);
   }
 
+  // Optional actionTip field validation
+  if (card.actionTip !== undefined && typeof card.actionTip !== 'string') {
+    errors.push(`Question ${index + 1}: Invalid 'actionTip' field (must be a string if present)`);
+  }
+
   return errors;
 }
 
