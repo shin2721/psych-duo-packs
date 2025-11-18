@@ -160,7 +160,7 @@ export default function LessonScreen({ lesson }: LessonScreenProps) {
         {showExplanation && (
           <View style={styles.explanationContainer}>
             <Text style={styles.explanationTitle}>
-              {selectedAnswer === newCorrectIndex ? '正解！' : '不正解'}
+              {selectedAnswer === newCorrectIndex ? '正解！' : 'もう一度整理しよう'}
             </Text>
             <Text style={styles.explanationText}>{currentCard.explain}</Text>
           </View>
@@ -331,29 +331,32 @@ const styles = StyleSheet.create({
   },
   actionTipContainer: {
     marginTop: 16,
-    padding: 12,
-    backgroundColor: '#F5F5F5',
-    borderRadius: 8,
+    padding: 14,
+    backgroundColor: '#E3F2FD',
+    borderRadius: 10,
+    borderLeftWidth: 3,
+    borderLeftColor: '#2196F3',
     flexDirection: 'row',
     alignItems: 'flex-start',
-    gap: 8,
+    gap: 10,
   },
   actionTipIcon: {
-    fontSize: 20,
-    marginTop: 2,
+    fontSize: 22,
+    marginTop: 1,
   },
   actionTipContent: {
     flex: 1,
   },
   actionTipLabel: {
-    fontSize: 13,
-    fontWeight: '600',
-    color: '#666',
-    marginBottom: 4,
+    fontSize: 14,
+    fontWeight: '700',
+    color: '#1976D2',
+    marginBottom: 6,
   },
   actionTipText: {
-    fontSize: 14,
-    color: '#333',
-    lineHeight: 20,
+    fontSize: 15,
+    color: '#0D47A1',
+    lineHeight: 22,
+    fontWeight: '500',
   },
 });
