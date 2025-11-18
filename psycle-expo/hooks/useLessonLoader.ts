@@ -27,8 +27,9 @@ export function useLessonLoader(lessonId: string, useFallback: boolean = true) {
         try {
           if (lessonId === 'mental_l01') {
             // In Expo, we need to use require() for local JSON files
-            lessonData = require('../../data/lessons/mental.json');
-            console.log('=== LOADED LESSON DATA ===');
+            // Using mental_v2.json to bypass require() cache
+            lessonData = require('../../data/lessons/mental_v2.json');
+            console.log('=== LOADED LESSON DATA (v2) ===');
             console.log('Lesson ID:', lessonData.id);
             console.log('First question:', lessonData.cards?.[0]?.q);
             console.log('First explain:', lessonData.cards?.[0]?.explain);
