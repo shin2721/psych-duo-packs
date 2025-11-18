@@ -28,6 +28,11 @@ export function useLessonLoader(lessonId: string, useFallback: boolean = true) {
           if (lessonId === 'mental_l01') {
             // In Expo, we need to use require() for local JSON files
             lessonData = require('../../data/lessons/mental.json');
+            console.log('=== LOADED LESSON DATA ===');
+            console.log('Lesson ID:', lessonData.id);
+            console.log('First question:', lessonData.cards?.[0]?.q);
+            console.log('First explain:', lessonData.cards?.[0]?.explain);
+            console.log('=========================');
           } else {
             throw new Error(`Unknown lesson ID: ${lessonId}`);
           }
