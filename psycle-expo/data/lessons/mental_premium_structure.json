@@ -1,0 +1,482 @@
+[
+  {
+    "id": "mental_l07_cbt_01",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 1: cognitive_distortions",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_02",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 2: cognitive_distortions",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_03",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 3: cognitive_distortions",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_04",
+    "type": "sort_order",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 4: thought_records",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_05",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 5: thought_records",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_06",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 6: thought_records",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_07",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 7: behavioral_activation",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_08",
+    "type": "sort_order",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 8: behavioral_activation",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_09",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 9: behavioral_activation",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_10",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 10: exposure_hierarchy",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_11",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 11: exposure_hierarchy",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_12",
+    "type": "sort_order",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 12: exposure_hierarchy",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_13",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 13: core_beliefs",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_14",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 14: core_beliefs",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l07_cbt_15",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "CBT Question 15: core_beliefs",
+    "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+  },
+  {
+    "id": "mental_l08_neuro_01",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 1: amygdala",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_02",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 2: amygdala",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_03",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 3: amygdala",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_04",
+    "type": "sort_order",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 4: prefrontal_cortex",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_05",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 5: prefrontal_cortex",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_06",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 6: prefrontal_cortex",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_07",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 7: neurotransmitters",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_08",
+    "type": "sort_order",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 8: neurotransmitters",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_09",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 9: neurotransmitters",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_10",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 10: stress_response",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_11",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 11: stress_response",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_12",
+    "type": "sort_order",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 12: stress_response",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_13",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 13: neuroplasticity",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_14",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 14: neuroplasticity",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l08_neuro_15",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "Neuroscience Question 15: neuroplasticity",
+    "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+  },
+  {
+    "id": "mental_l09_resilience_01",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 1: social_support",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_02",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 2: social_support",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_03",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 3: social_support",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_04",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 4: meaning_making",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_05",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 5: meaning_making",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_06",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 6: meaning_making",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_07",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 7: optimism",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_08",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 8: optimism",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_09",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 9: optimism",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_10",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 10: self_efficacy",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_11",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 11: self_efficacy",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_12",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 12: self_efficacy",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_13",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 13: coping_strategies",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_14",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 14: coping_strategies",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l09_resilience_15",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Resilience Question 15: coping_strategies",
+    "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience."
+  },
+  {
+    "id": "mental_l10_anxiety_01",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 1: exposure_therapy",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_02",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 2: exposure_therapy",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_03",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 3: exposure_therapy",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_04",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 4: safety_behaviors",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_05",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 5: safety_behaviors",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_06",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 6: safety_behaviors",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_07",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 7: intolerance_uncertainty",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_08",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 8: intolerance_uncertainty",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_09",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 9: intolerance_uncertainty",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_10",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 10: metacognition",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_11",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 11: metacognition",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_12",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 12: metacognition",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_13",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 13: inhibitory_learning",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_14",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 14: inhibitory_learning",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  },
+  {
+    "id": "mental_l10_anxiety_15",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "Anxiety Research Question 15: inhibitory_learning",
+    "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy."
+  }
+]

@@ -14,15 +14,17 @@ interface TrailNode {
   type?: NodeType;
   gameId?: string;
   lessonId?: string;
+  isLocked?: boolean; // For paywall
 }
 
 interface Props {
   trail: TrailNode[];
   hideLabels?: boolean;
   onStart?: (nodeId: string) => void;
+  onLockedPress?: (nodeId: string) => void; // Callback for locked lessons
 }
 
-export function Trail({ trail, hideLabels, onStart }: Props) {
+export function Trail({ trail, hideLabels, onStart, onLockedPress }: Props) {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.spine} />
@@ -32,6 +34,12 @@ export function Trail({ trail, hideLabels, onStart }: Props) {
           <View key={node.id} style={[styles.nodeWrapper, isLeft ? styles.nodeLeft : styles.nodeRight]}>
             <View style={[styles.arm, isLeft ? styles.armLeft : styles.armRight]} />
             <Node node={node} onPress={() => {
+              // Handle locked lessons
+              if (node.isLocked) {
+                onLockedPress?.(node.id);
+                return;
+              }
+
               if (node.status === "current") {
                 if (node.type === "game" && node.gameId) {
                   router.push(`/games/${node.gameId}`);
@@ -77,6 +85,7 @@ function Node({ node, onPress }: { node: TrailNode; onPress: () => void }) {
   };
 
   const getIcon = () => {
+    if (node.isLocked) return <Ionicons name="lock-closed" size={24} color={theme.colors.sub} />;
     if (node.status === "done") return <Ionicons name="checkmark" size={28} color="#fff" />;
     if (node.status === "locked") return <Text style={styles.lockedText}>?</Text>;
     return <Ionicons name={node.icon as any} size={28} color={node.status === "current" ? "#001" : theme.colors.sub} />;
@@ -86,8 +95,8 @@ function Node({ node, onPress }: { node: TrailNode; onPress: () => void }) {
     <Animated.View style={{ transform: [{ scale: node.status === "current" ? scaleAnim : 1 }] }}>
       <Pressable
         style={[styles.node, getNodeStyle()]}
-        onPress={node.status === "current" ? onPress : undefined}
-        disabled={node.status !== "current"}
+        onPress={node.isLocked || node.status === "current" ? onPress : undefined}
+        disabled={!node.isLocked && node.status !== "current"}
       >
         {getIcon()}
       </Pressable>
@@ -97,6 +106,7 @@ function Node({ node, onPress }: { node: TrailNode; onPress: () => void }) {
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
     padding: theme.spacing.xl,
     paddingTop: theme.spacing.md,
     position: "relative",

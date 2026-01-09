@@ -1,0 +1,852 @@
+#!/usr/bin/env python3
+import json
+
+# Study Level 2: Memory Palaces & Mnemonics
+study_l02 = [
+    {
+        "id": "study_l02_001",
+        "type": "multiple_choice",
+        "question": "🏰 「記憶の宮殿」（場所法）の仕組みは？",
+        "choices": ["馴染みのある場所に、覚えたいものを配置する", "ひたすら書いて覚える", "歌にして覚える"],
+        "correct_index": 0,
+        "explanation": "【場所法】\n人間の脳は「空間情報」を覚えるのが得意です（海馬の場所細胞）。自宅の玄関に「リンゴ」、廊下に「牛乳」...と置くイメージをすると、驚くほど記憶できます。\n\n💡 Try this: 買い物リスト5つを、自分の部屋の家具に置いて覚えてみましょう。",
+        "source_id": "method_of_loci_maguire_2003",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l02_002",
+        "type": "true_false",
+        "question": "🧠 「デュアルコーディング」（二重符号化）とは、文字と画像をセットで覚えること",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【二重符号化理論】\n「文字だけ」より「文字＋画像」の方が、脳の異なる領域（言語野と視覚野）を使うため、記憶の定着率が2倍になります。\n\n💡 Try this: 単語帳を作る時は、意味だけでなく簡単なイラストも描き込みましょう。",
+        "source_id": "dual_coding_paivio_1971",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l02_003",
+        "type": "multiple_choice",
+        "question": "🔢 数字を覚えるのに有効な「チャンク化」とは？",
+        "choices": ["長い情報を意味のある塊（チャンク）に分ける", "声に出して読む", "逆から読む"],
+        "correct_index": 0,
+        "explanation": "【チャンク化】\nワーキングメモリの容量は限られています。「09012345678」より「090-1234-5678」の方が覚えやすいのは、11個の情報を3つの塊に圧縮しているからです。\n\n💡 Try this: 長い英単語は、接頭辞・語根・接尾辞（例：un-believ-able）に分解して覚えましょう。",
+        "source_id": "chunking_miller_1956",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "study_l02_004",
+        "type": "multiple_choice",
+        "question": "🗣️ 「精緻化リハーサル」とは？",
+        "choices": ["新しい情報を、既知の知識と結びつけて深く考えること", "ひたすら繰り返すこと（維持リハーサル）", "寝る前に見ること"],
+        "correct_index": 0,
+        "explanation": "【精緻化】\n丸暗記（維持リハーサル）はすぐ忘れます。「なぜそうなる？」「具体例は？」と情報を膨らませる（精緻化）ことで、長期記憶に送られます。\n\n💡 Try this: 新しい用語を覚える時、「これは〇〇に似ている」と自分の体験と結びつけましょう。",
+        "source_id": "elaborative_rehearsal_craik_1972",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l02_005",
+        "type": "true_false",
+        "question": "💤 徹夜漬け（一夜漬け）は、長期記憶の形成に効果的である",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 1,
+        "explanation": "【睡眠と固定化】\n記憶は寝ている間に整理・定着（固定化）されます。徹夜はそのプロセスを阻害するため、翌日のテストは乗り切れても、すぐに忘れてしまいます。\n\n💡 Try this: テスト前日は最低6時間寝ましょう。寝ている間に脳が復習してくれます。",
+        "source_id": "sleep_memory_consolidation_stickgold",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l02_006",
+        "type": "multiple_choice",
+        "question": "📝 「生成効果」（Generation Effect）とは？",
+        "choices": ["自分で答えをひねり出すと記憶に残る", "教科書を読むと記憶に残る", "先生の話を聞くと記憶に残る"],
+        "correct_index": 0,
+        "explanation": "【生成効果】\n「読むだけ」より、穴埋め問題などで「自分で答えを作る」プロセスを経た方が、記憶強度は高まります。\n\n💡 Try this: 教科書を読む時、重要な単語を隠して「何だっけ？」と思い出しながら読みましょう。",
+        "source_id": "generation_effect_slamecka_1978",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l02_007",
+        "type": "multiple_choice",
+        "question": "🎨 「語呂合わせ」が有効な心理学的理由は？",
+        "choices": ["無意味な情報に「意味」と「リズム」を与えるから", "面白いから", "短いから"],
+        "correct_index": 0,
+        "explanation": "【意味づけ】\n脳は「意味のある物語」を好みます。年号などの無機質な数字に、語呂合わせでストーリーを与えることで、強固なエピソード記憶に変換できます。\n\n💡 Try this: 覚えにくい公式や年号は、無理やりでもいいので自作の語呂合わせを作りましょう。",
+        "source_id": "mnemonics_efficacy_review",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "study_l02_008",
+        "type": "true_false",
+        "question": "🚶 運動しながら暗記すると覚えやすい",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【身体化された認知】\n歩きながら学習すると、血流が上がり覚醒度が高まるだけでなく、場所や動きと情報が結びつき、記憶の手がかりが増えます。\n\n💡 Try this: 暗記カードを持って、部屋の中を歩き回りながら音読してみましょう。",
+        "source_id": "exercise_learning_review_2017",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l02_009",
+        "type": "multiple_choice",
+        "question": "🔄 「分散学習」（Spaced Repetition）の対義語は？",
+        "choices": ["集中学習（Massed Practice）", "反復学習", "適応学習"],
+        "correct_index": 0,
+        "explanation": "【集中学習の罠】\n一度にまとめてやる「集中学習（一夜漬け）」は、やった気になりますが定着率は低いです。間隔を空ける「分散学習」の方が圧倒的に効率的です。\n\n💡 Try this: 1時間まとめてやるより、15分×4回（朝・昼・夕・寝る前）に分けましょう。",
+        "source_id": "spacing_effect_ebbinghaus",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l02_010",
+        "type": "multiple_choice",
+        "question": "🎭 「感情」と記憶の関係は？",
+        "choices": ["感情が動いた出来事は強く記憶される", "感情は記憶の邪魔になる", "関係ない"],
+        "correct_index": 0,
+        "explanation": "【扁桃体の変調作用】\n「楽しい」「悔しい」などの感情を司る扁桃体が活性化すると、隣にある海馬（記憶の司令塔）に「これは重要だ！」と信号を送り、記憶を強化します。\n\n💡 Try this: 勉強がつまらない時は、「もしこれがテストに出たら...！」とドキドキする状況を想像してみましょう。",
+        "source_id": "emotion_memory_amygdala",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l02_011",
+        "type": "true_false",
+        "question": "🧠 「検索練習」（テスト）は、インプットより効果が高い",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【テスト効果】\n情報を脳に入れる（インプット）時より、脳から取り出す（検索）時に、神経回路が強化されます。テストは「評価」ではなく「最強の学習法」です。\n\n💡 Try this: 教科書を閉じ、白紙に「今読んだ内容」を書き出してみましょう（ブレインダンプ）。",
+        "source_id": "testing_effect_roediger_2006",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l02_012",
+        "type": "multiple_choice",
+        "question": "🧩 「インターリービング」（交互学習）とは？",
+        "choices": ["異なる種類の問題を混ぜて解くこと", "同じ問題を繰り返すこと", "休憩を挟むこと"],
+        "correct_index": 0,
+        "explanation": "【交互学習】\n「AAA BBB CCC」とブロックでやるより、「ABC BCA CAB」と混ぜてやる方が、脳が「違い」を識別しようとするため、応用力がつきます。\n\n💡 Try this: 数学の勉強では、単元ごとの問題だけでなく、全範囲のランダム問題集を解きましょう。",
+        "source_id": "interleaving_effect_bjork",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l02_013",
+        "type": "multiple_choice",
+        "question": "🗣️ 「ファインマン・テクニック」の核心は？",
+        "choices": ["子供でも分かるようにシンプルに説明する", "専門用語をたくさん使う", "図をたくさん使う"],
+        "correct_index": 0,
+        "explanation": "【教えるつもり学習】\n「他人に教える」つもりで勉強すると、理解度が深まります。特に「子供に教える」と想定することで、本質的な理解が試されます。\n\n💡 Try this: 勉強したことを、架空の小学生に向かって声に出して説明してみましょう。",
+        "source_id": "feynman_technique",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l02_014",
+        "type": "true_false",
+        "question": "🎵 音楽を聴きながらの勉強（ながら勉強）は効率が良い",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 1,
+        "explanation": "【マルチタスクのコスト】\n歌詞のある音楽は言語野を使うため、読書や暗記と競合し、効率を下げます。BGMにするなら「歌詞のない環境音」がベストです。\n\n💡 Try this: 暗記や読書の時は無音か環境音（雨の音など）にし、単純作業の時だけ好きな音楽を聴きましょう。",
+        "source_id": "music_study_performance_review",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l02_015",
+        "type": "multiple_choice",
+        "question": "💤 「睡眠学習」は本当に可能か？",
+        "choices": ["新しい知識の獲得は難しいが、記憶の定着は行われる", "寝ている間に外国語がペラペラになる", "全く効果がない"],
+        "correct_index": 0,
+        "explanation": "【睡眠中の処理】\n寝ている間に新しい単語を覚えるのは困難ですが、昼間に学習した内容に関連する音や匂いを睡眠中に流すと、記憶が強化される（TMR法）ことは実証されています。\n\n💡 Try this: 寝る直前に覚えた単語の音声を、小音量で流しながら寝てみましょう（効果には個人差があります）。",
+        "source_id": "targeted_memory_reactivation",
+        "difficulty": "hard",
+        "xp": 15
+    }
+]
+
+# Study Level 3: Focus & Flow State
+study_l03 = [
+    {
+        "id": "study_l03_001",
+        "type": "multiple_choice",
+        "question": "🍅 「ポモドーロ・テクニック」の基本サイクルは？",
+        "choices": ["25分集中＋5分休憩", "50分集中＋10分休憩", "90分集中＋20分休憩"],
+        "correct_index": 0,
+        "explanation": "【時間枠】\n25分という短い時間は「心理的ハードル」を下げ、集中力を維持しやすくします。5分の休憩が脳の疲労回復を促します。\n\n💡 Try this: タイマーを25分にセットし、「鳴るまではスマホを見ない」と決めて始めましょう。",
+        "source_id": "pomodoro_technique_cirillo",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "study_l03_002",
+        "type": "true_false",
+        "question": "🧠 人間は「マルチタスク」が得意である",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 1,
+        "explanation": "【タスク・スイッチング】\n脳は同時に2つのことを処理できません。高速で切り替えているだけです。この切り替えには「スイッチング・コスト」がかかり、効率が40%低下し、IQも下がります。\n\n💡 Try this: 勉強中はスマホを別室に置き、「シングルタスク」を徹底しましょう。",
+        "source_id": "multitasking_cognitive_cost_apa",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l03_003",
+        "type": "multiple_choice",
+        "question": "🌊 「フロー状態」（ゾーン）に入るための条件は？",
+        "choices": ["課題の難易度と自分のスキルが釣り合っていること", "課題が簡単すぎること", "課題が難しすぎること"],
+        "correct_index": 0,
+        "explanation": "【フローチャンネル】\n簡単すぎると退屈、難しすぎると不安。その中間の「ギリギリできるかできないか」のレベルで、人は没頭します。\n\n💡 Try this: 問題が簡単すぎたら「制限時間を設ける」、難しすぎたら「基礎に戻る」などして難易度を調整しましょう。",
+        "source_id": "flow_csikszentmihalyi",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l03_004",
+        "type": "multiple_choice",
+        "question": "📱 スマホが視界にあるだけで集中力が下がる現象は？",
+        "choices": ["ブレイン・ドレイン（脳の排出）効果", "スマホ依存症", "デジタル・デトックス"],
+        "correct_index": 0,
+        "explanation": "【ブレイン・ドレイン】\nテキサス大学の研究で、スマホが机の上にあるだけで（電源オフでも）、脳の一部が「スマホを無視すること」に使われ、認知能力が低下することが判明しました。\n\n💡 Try this: 勉強中はスマホを「視界に入らない場所（カバンの中や別室）」に隠しましょう。",
+        "source_id": "brain_drain_ward_2017",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l03_005",
+        "type": "true_false",
+        "question": "👀 「一点を見つめる」と集中力が高まる",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【視覚と集中】\n視覚的な注意（どこを見るか）と精神的な注意（何を考えるか）は連動しています。一点を凝視することで、脳のノルアドレナリン系が活性化し、集中モードに入ります。\n\n💡 Try this: 勉強を始める前に30秒間、壁の点などをじっと見つめてからスタートしましょう。",
+        "source_id": "visual_focus_attention_huberman",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l03_006",
+        "type": "multiple_choice",
+        "question": "🧘 集中力が切れた時の最適な休憩法は？",
+        "choices": ["ぼーっとする（デフォルト・モード・ネットワーク活性化）", "スマホでSNSを見る", "ゲームをする"],
+        "correct_index": 0,
+        "explanation": "【DMN】\nスマホを見ると脳は情報を処理し続け、休まりません。何もしないでぼーっとする時、脳は情報の整理（DMN）を行います。\n\n💡 Try this: 休憩時間はスマホを見ず、窓の外を眺めたり、目を閉じて深呼吸しましょう。",
+        "source_id": "default_mode_network_rest",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l03_007",
+        "type": "multiple_choice",
+        "question": "⚡ 「ツァイガルニク効果」を勉強に活かすには？",
+        "choices": ["キリの悪いところでわざと中断する", "キリの良いところまで終わらせる", "一度も中断しない"],
+        "correct_index": 0,
+        "explanation": "【未完了の課題】\n人間は「完了したもの」より「未完了のもの」を強く記憶し、気になります。あえて途中で止めることで、再開時のモチベーションが維持されます。\n\n💡 Try this: 休憩に入る時、問題を解き終わってからではなく、「解いている途中」で席を立ちましょう。",
+        "source_id": "zeigarnik_effect_1927",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l03_008",
+        "type": "true_false",
+        "question": "🎧 ホワイトノイズ（「サー」という雑音）は集中を助ける",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【確率共鳴】\n適度なランダムノイズ（ホワイトノイズ）は、脳内の信号を増幅させ、特に注意欠陥傾向のある人の集中力を高めることが分かっています。\n\n💡 Try this: 静かすぎて集中できない時は、YouTubeなどで「ホワイトノイズ」や「雨の音」を流してみましょう。",
+        "source_id": "white_noise_adhd_learning",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l03_009",
+        "type": "multiple_choice",
+        "question": "🚀 「5秒ルール」とは？",
+        "choices": ["「やるぞ」と思ったら5秒以内に行動する", "床に落ちた食べ物を5秒以内に拾う", "5秒ごとに休憩する"],
+        "correct_index": 0,
+        "explanation": "【メル・ロビンス】\n脳は変化を嫌い、行動しない言い訳を5秒で作り始めます。その前に「5, 4, 3, 2, 1, GO!」とカウントダウンして動き出すことで、言い訳を遮断できます。\n\n💡 Try this: 朝起きられない時、布団の中で「5, 4, 3, 2, 1, 起きる！」と唱えて飛び起きましょう。",
+        "source_id": "5_second_rule_robbins",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "study_l03_010",
+        "type": "multiple_choice",
+        "question": "📝 「認知的不協和」を利用してやる気を出す方法は？",
+        "choices": ["やる気がなくても、とりあえず机に向かって教科書を開く", "やる気が出るまで待つ", "自分を責める"],
+        "correct_index": 0,
+        "explanation": "【行動が先、感情が後】\n脳は「行動」と「感情」の矛盾を嫌います。「勉強している（行動）」のに「やる気がない（感情）」のは不快なので、脳は後から「やる気がある」状態に感情を修正します（作業興奮）。\n\n💡 Try this: 「1分だけやる」と決めて始めましょう。気づいたら続いています。",
+        "source_id": "cognitive_dissonance_festinger",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l03_011",
+        "type": "true_false",
+        "question": "🍫 勉強前の高GI食品（甘いお菓子など）は集中力を持続させる",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 1,
+        "explanation": "【血糖値クラッシュ】\n急激に血糖値が上がると、インスリンが出て急降下し、強い眠気や集中力低下を招きます。低GI食品（ナッツ、ヨーグルトなど）がおすすめです。\n\n💡 Try this: おやつはチョコではなく、素焼きのアーモンドやカカオ高配合チョコを選びましょう。",
+        "source_id": "glycemic_index_cognition",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l03_012",
+        "type": "multiple_choice",
+        "question": "🧘 「ヴィパッサナー瞑想」（気づきの瞑想）の学習効果は？",
+        "choices": ["注意制御機能が向上し、気が散ってもすぐに戻れるようになる", "記憶力が下がる", "眠くなる"],
+        "correct_index": 0,
+        "explanation": "【注意の筋トレ】\n瞑想は「逸れた注意を呼吸に戻す」練習です。これを続けると、勉強中にスマホなどが気になっても、すぐに意識を勉強に戻せるようになります。\n\n💡 Try this: 勉強前に3分間、呼吸に意識を向ける瞑想を行いましょう。",
+        "source_id": "mindfulness_attention_regulation",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l03_013",
+        "type": "multiple_choice",
+        "question": "🌡️ 勉強に最適な室温は？",
+        "choices": ["少し涼しめ（22-25度）", "暖かめ（28度以上）", "寒め（15度以下）"],
+        "correct_index": 0,
+        "explanation": "【頭寒足熱】\n室温が高すぎると副交感神経が優位になり眠くなります。少し涼しいくらいが交感神経を刺激し、集中力を維持できます。\n\n💡 Try this: 暖房を効かせすぎず、足元を温めて頭は涼しく保ちましょう。",
+        "source_id": "temperature_productivity_cornel",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l03_014",
+        "type": "true_false",
+        "question": "💧 勉強中にガムを噛むと集中力が上がる",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【咀嚼効果】\n噛むリズム運動はセロトニン神経を活性化し、脳への血流を増やします。メジャーリーガーがガムを噛むのも集中力維持のためです。\n\n💡 Try this: 難問に取り組む時、ガムを噛んでリズムを作ってみましょう。",
+        "source_id": "chewing_gum_attention_2015",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "study_l03_015",
+        "type": "multiple_choice",
+        "question": "🛌 「パワーナップ」（仮眠）の前にコーヒーを飲むと良い理由は？",
+        "choices": ["起きた直後にカフェインが効き始め、スッキリ目覚められるから", "夢を見やすくなるから", "味が良くなるから"],
+        "correct_index": 0,
+        "explanation": "【コーヒーナップ】\nカフェインの効果発現には20分かかります。飲んでから20分寝ると、ちょうど起きる頃に覚醒作用が現れ、睡眠慣性（だるさ）を防げます。\n\n💡 Try this: 昼食後、コーヒーを飲んでから15分タイマーをかけて突っ伏して寝ましょう。",
+        "source_id": "coffee_nap_driver_study",
+        "difficulty": "medium",
+        "xp": 10
+    }
+]
+
+# Study Level 4: Note-taking (Cornell, Zettelkasten)
+study_l04 = [
+    {
+        "id": "study_l04_001",
+        "type": "multiple_choice",
+        "question": "📝 「コーネル式ノート術」の特徴は？",
+        "choices": ["ページを「ノート」「キュー」「サマリー」の3領域に分ける", "とにかく綺麗に書く", "マインドマップを使う"],
+        "correct_index": 0,
+        "explanation": "【コーネル大学発】\n授業中に書く「ノート欄」、復習時にキーワードを書く「キュー欄」、最後に要約する「サマリー欄」に分けることで、ノートを取るだけで復習システムが完成します。\n\n💡 Try this: ノートの左端5cmに線を引き、そこを復習用の「クイズ欄」にしましょう。",
+        "source_id": "cornell_note_taking_pauk",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l04_002",
+        "type": "true_false",
+        "question": "💻 PCでタイプするより、手書きでノートを取る方が記憶に残る",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【手書きの優位性】\nプリンストン大の研究で、手書きは「情報の取捨選択」が必要なため、脳が深く処理し、概念理解が進むことが示されました。PCは「逐語記録」になりがちです。\n\n💡 Try this: 講義や会議のメモは、あえて紙とペンを使ってみましょう。",
+        "source_id": "pen_is_mightier_mueller_2014",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l04_003",
+        "type": "multiple_choice",
+        "question": "🗂️ 「ツェッテルカステン」（Zettelkasten）とは？",
+        "choices": ["1枚のカードに1つのアイデアを書き、リンクさせる知識管理法", "ドイツの暗記法", "速読術"],
+        "correct_index": 0,
+        "explanation": "【社会学者ルーマンの秘密】\n知識を「ネットワーク」として管理する方法。断片的なアイデアをつなぎ合わせることで、独創的な論文や本を量産できます。\n\n💡 Try this: 学んだことを「自分の言葉」で1枚のカードに書き、関連する他のカードとリンクさせましょう。",
+        "source_id": "zettelkasten_luhmann",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l04_004",
+        "type": "multiple_choice",
+        "question": "🎨 「マインドマップ」が脳に優しい理由は？",
+        "choices": ["放射思考（連想）という脳の自然な構造に近いから", "カラフルだから", "絵が描けるから"],
+        "correct_index": 0,
+        "explanation": "【トニー・ブザン】\n脳はリスト形式（箇条書き）ではなく、中心から放射状に連想を広げます。マインドマップはこの構造を模倣しているため、発想と記憶を助けます。\n\n💡 Try this: 新しい企画を考える時、中心にテーマを書き、枝を伸ばして自由に発想してみましょう。",
+        "source_id": "mind_map_buzan",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l04_005",
+        "type": "true_false",
+        "question": "🖍️ 教科書にハイライト（蛍光ペン）を引きすぎると、学習効果が下がる",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【ハイライトの罠】\n線を引くと「脳が満足」してしまい、実際には頭に入っていない現象（流暢性の錯覚）が起きます。重要なのは「線を引く」ことより「思い出す」ことです。\n\n💡 Try this: ハイライトは「復習する時に見る場所」の目印程度にし、引いた後に必ず内容を自問自答しましょう。",
+        "source_id": "highlighting_inefficacy_dunlosky_2013",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l04_006",
+        "type": "multiple_choice",
+        "question": "🔄 ノートを見返す（再読）だけの復習効果は？",
+        "choices": ["非常に低い（受動的学習）", "非常に高い", "中くらい"],
+        "correct_index": 0,
+        "explanation": "【能動的想起】\nただ眺めるだけでは脳は働きません。ノートを隠して「何が書いてあった？」と思い出す（検索練習）プロセスが不可欠です。\n\n💡 Try this: ノートを見返すのではなく、ノートの内容を白紙に再現できるかテストしましょう。",
+        "source_id": "rereading_vs_retrieval",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l04_007",
+        "type": "multiple_choice",
+        "question": "🖼️ 「概念マップ」（コンセプトマップ）とは？",
+        "choices": ["概念同士の関係（原因、結果など）を線で結んで可視化する図", "地図を覚えること", "絵を描くこと"],
+        "correct_index": 0,
+        "explanation": "【構造化】\n知識の「構造」を理解するのに最適です。単なる用語の暗記ではなく、「AがBを引き起こす」といった因果関係を整理できます。\n\n💡 Try this: 複雑な理論を学んだら、要素を箱で囲み、矢印で関係性を図解してみましょう。",
+        "source_id": "concept_mapping_novak",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l04_008",
+        "type": "true_false",
+        "question": "🗣️ 講義の録音を後で聞き直すのは、最も効率的な学習法である",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 1,
+        "explanation": "【時間対効果】\n録音を聞き直すのは時間がかかりすぎます。その場で要点をメモし、不明点だけを聞き直す方が効率的です。\n\n💡 Try this: 録音に頼らず、「今ここで理解してメモする」という集中力を持って講義に臨みましょう。",
+        "source_id": "recording_lectures_efficiency",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l04_009",
+        "type": "multiple_choice",
+        "question": "📝 「SQ3R法」の5つのステップは？",
+        "choices": ["Survey（概観）, Question（質問）, Read（精読）, Recite（暗唱）, Review（復習）", "Scan, Quick, Read, Repeat, Rest", "Study, Quiz, Read, Relax, Repeat"],
+        "correct_index": 0,
+        "explanation": "【読書技法】\nいきなり読み始めず、まず目次を見て（S）、問いを立て（Q）、答えを探しながら読み（R）、要約し（R）、復習する（R）。これで理解度が劇的に上がります。\n\n💡 Try this: 本を読む前に目次を見て、「この章から何を知りたいか？」と3つの質問を作ってみましょう。",
+        "source_id": "sq3r_robinson_1946",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l04_010",
+        "type": "multiple_choice",
+        "question": "🎨 「スケッチノート」（ビジュアルシンキング）の効果は？",
+        "choices": ["抽象的な概念を具体的なイメージに変換し、理解を助ける", "絵が上手くなる", "ノートが綺麗になる"],
+        "correct_index": 0,
+        "explanation": "【視覚化】\n簡単なアイコンや図を使うことで、脳の処理負担を減らし、全体像を把握しやすくなります。絵心は不要です。\n\n💡 Try this: 「成長」を矢印で、「対立」を雷マークで表すなど、自分なりの記号を使ってみましょう。",
+        "source_id": "sketchnoting_rohde",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l04_011",
+        "type": "true_false",
+        "question": "📱 ノートアプリ（Notionなど）は、検索性において紙より優れている",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【デジタルの利点】\n大量の情報を蓄積・検索・再利用するにはデジタルが圧倒的に有利です。思考の整理はアナログ、保存はデジタルと使い分けるのが賢明です。\n\n💡 Try this: 紙のメモをスマホで撮影し、OCR（文字認識）機能で検索できるように保存しましょう。",
+        "source_id": "digital_vs_analog_note_taking",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "study_l04_012",
+        "type": "multiple_choice",
+        "question": "❓ ノートを取る時、最も重要なことは？",
+        "choices": ["自分の言葉で言い換える（パラフレーズ）", "先生の言葉をそのまま書く", "色をたくさん使う"],
+        "correct_index": 0,
+        "explanation": "【処理の深さ】\nそのまま書き写すのは単なる「コピー」です。自分の言葉に翻訳することで、脳は意味を理解しようと働きます。\n\n💡 Try this: 「つまり、こういうこと」と要約してノートに書きましょう。",
+        "source_id": "paraphrasing_learning_depth",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l04_013",
+        "type": "multiple_choice",
+        "question": "🔄 「忘却曲線」に対抗する最適な復習タイミングは？",
+        "choices": ["翌日、1週間後、2週間後、1ヶ月後", "毎日", "試験直前"],
+        "correct_index": 0,
+        "explanation": "【分散効果】\nエビングハウスの忘却曲線に基づき、忘れかけた頃に復習するのが最も効率的です。間隔を徐々に広げていきます。\n\n💡 Try this: カレンダーに「〇〇の復習」と予定を書き込みましょう。",
+        "source_id": "forgetting_curve_ebbinghaus",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l04_014",
+        "type": "true_false",
+        "question": "📉 授業直後の「1分間復習」は効果がある",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【直後再生】\n授業や会議が終わった直後に、何も見ずに「今のポイントは何だった？」と思い出すだけで、記憶の定着率が大幅に上がります。\n\n💡 Try this: 席を立つ前に1分だけ、目を閉じて内容を振り返りましょう。",
+        "source_id": "immediate_recall_effect",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "study_l04_015",
+        "type": "multiple_choice",
+        "question": "🧩 「構造化ノート」とは？",
+        "choices": ["情報の階層構造（大見出し、小見出し）を明確にしたノート", "自由に書くノート", "絵日記"],
+        "correct_index": 0,
+        "explanation": "【情報の整理】\n脳は情報を階層的に保存します。インデント（字下げ）を使って構造化することで、脳の保存形式に合わせることができます。\n\n💡 Try this: 箇条書きを使う時は、必ずインデントを使って親子関係を明確にしましょう。",
+        "source_id": "structured_note_taking",
+        "difficulty": "medium",
+        "xp": 10
+    }
+]
+
+# Study Level 5: Reading Speed & Comprehension
+study_l05 = [
+    {
+        "id": "study_l05_001",
+        "type": "multiple_choice",
+        "question": "📖 「速読」の科学的な限界は？",
+        "choices": ["読む速度を上げると、理解度は必ず下がる（トレードオフ）", "訓練すれば理解度100%で超高速で読める", "限界はない"],
+        "correct_index": 0,
+        "explanation": "【速読の真実】\n眼球運動の限界と脳の処理速度から、理解度を維持したまま読めるのは分速300-400語程度です。「写真のように撮る」速読は科学的に否定されています。\n\n💡 Try this: 「速く読む」ことより「必要な部分だけを読む（スキミング）」技術を磨きましょう。",
+        "source_id": "speed_reading_tradeoff_rayner_2016",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l05_002",
+        "type": "true_false",
+        "question": "👀 「指差し読み」（指で文字をなぞる）は読書速度を上げる",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【ペーサー効果】\n指やペンで視線を誘導することで、視線の迷い（回帰）を防ぎ、スムーズに読み進めることができます。\n\n💡 Try this: 難解な本を読む時、ペン先で文字をなぞりながら読んでみましょう。",
+        "source_id": "pacer_reading_technique",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l05_003",
+        "type": "multiple_choice",
+        "question": "🔍 「スキミング」（拾い読み）のコツは？",
+        "choices": ["見出し、太字、最初と最後の段落を読む", "全ての文字を速く見る", "真ん中だけ読む"],
+        "correct_index": 0,
+        "explanation": "【構造の把握】\n文章の要点は「最初（導入）」と「最後（結論）」に集中しています。ここを押さえるだけで、全体の8割を理解できます。\n\n💡 Try this: 本を買う前や読む前に、まず「目次」と「あとがき」を読みましょう。",
+        "source_id": "skimming_strategy",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l05_004",
+        "type": "multiple_choice",
+        "question": "🧠 「背景知識」が読解力に与える影響は？",
+        "choices": ["背景知識があるほど、速く深く理解できる（マタイ効果）", "関係ない", "知識がない方が先入観なく読める"],
+        "correct_index": 0,
+        "explanation": "【スキーマ】\n読解とは「文字情報」と「自分の知識」の統合プロセスです。知識が多ければ推測が働き、読むのが速くなります。\n\n💡 Try this: 難しい本を読む前に、入門書やWikiで「予備知識」を入れておきましょう。",
+        "source_id": "schema_theory_reading",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l05_005",
+        "type": "true_false",
+        "question": "🗣️ 頭の中で音読する癖（サブボーカリゼーション）は完全に消すべき？",
+        "choices": ["誤り（完全には消せないし、理解に必要）", "正しい（消せば10倍速くなる）"],
+        "correct_index": 0,
+        "explanation": "【内言語】\n頭の中の発音は、複雑な文章を理解するために必要です。無理に消そうとすると理解度が崩壊します。簡単な文章なら飛ばすことも可能です。\n\n💡 Try this: 小説などは音読を楽しんで読み、ビジネス書は視覚的に情報を拾うなど、読み方を使い分けましょう。",
+        "source_id": "subvocalization_comprehension",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l05_006",
+        "type": "multiple_choice",
+        "question": "📚 「シントピカル・リーディング」（同一主題読書）とは？",
+        "choices": ["同じテーマの本を複数冊同時に読み比べる", "1冊を完璧に読む", "趣味の本を読む"],
+        "correct_index": 0,
+        "explanation": "【モーティマー・アドラー】\n1冊だけでは著者のバイアスがかかります。複数冊を比較することで、共通点（本質）と相違点（議論の余地）が見えてきます。\n\n💡 Try this: 何かを学ぶ時は、最低3冊の異なる著者の本を買いましょう。",
+        "source_id": "syntopical_reading_adler",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l05_007",
+        "type": "multiple_choice",
+        "question": "📝 「要約」が読解力を高める理由は？",
+        "choices": ["情報の優先順位をつけ、再構築する必要があるから", "字を書く練習になるから", "短くなるから"],
+        "correct_index": 0,
+        "explanation": "【要約の認知プロセス】\n要約するには、完全に理解し、重要な部分を選び抜き、自分の言葉で再構成する必要があります。これは高度な知的作業です。\n\n💡 Try this: 1章読み終わるごとに、「要するにどういうこと？」と一言でまとめてみましょう。",
+        "source_id": "summarization_comprehension_strategy",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l05_008",
+        "type": "true_false",
+        "question": "📖 紙の本より電子書籍の方が理解度が高い",
+        "choices": ["誤り（紙の方が位置情報記憶に有利）", "正しい"],
+        "correct_index": 0,
+        "explanation": "【媒体の差】\n多くの研究で、長文の理解や記憶に関しては、物理的な手触りや厚み（位置情報）がある紙の本の方が優れていることが示されています。\n\n💡 Try this: 深く理解したい専門書は「紙」で、検索したい情報は「電子」でと使い分けましょう。",
+        "source_id": "paper_vs_digital_reading_meta_2018",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l05_009",
+        "type": "multiple_choice",
+        "question": "❓ 「クリティカル・リーディング」（批判的読書）とは？",
+        "choices": ["著者の主張を鵜呑みにせず、根拠や論理を検証しながら読む", "著者の悪口を探す", "批判的な本を読む"],
+        "correct_index": 0,
+        "explanation": "【能動的読書】\n「本当にそうか？」「反例はないか？」「根拠は何か？」と著者と対話するように読むことで、深い理解と独自の視点が生まれます。\n\n💡 Try this: 本に「？」や「！」などの書き込みをしながら読みましょう。",
+        "source_id": "critical_reading_strategies",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l05_010",
+        "type": "multiple_choice",
+        "question": "🎯 読書における「メタ認知」の役割は？",
+        "choices": ["「今、自分は理解できているか？」をモニタリングする", "文字を追う", "ページをめくる"],
+        "correct_index": 0,
+        "explanation": "【理解のモニタリング】\n読書上手な人は、「ここが分からない」と気づき、読み返したりペースを落としたりして調整します。下手な人は分からなくても進んでしまいます。\n\n💡 Try this: ページをめくる前に「今のページの内容分かった？」と自分に問いかけましょう。",
+        "source_id": "metacognition_reading_comprehension",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l05_011",
+        "type": "true_false",
+        "question": "🎵 読書中に音楽を聴くと、読解速度が上がる",
+        "choices": ["誤り（言語処理が競合する）", "正しい"],
+        "correct_index": 0,
+        "explanation": "【認知資源の競合】\n読書と言語的な音楽（歌詞あり）は、脳の同じ領域（言語野）を取り合います。読書中は無音か、歌詞のない環境音がベストです。\n\n💡 Try this: 読書に没頭したい時は、ノイズキャンセリングイヤホンで静寂を作りましょう。",
+        "source_id": "background_music_reading_performance",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l05_012",
+        "type": "multiple_choice",
+        "question": "👀 「周辺視野」を使った読書とは？",
+        "choices": ["一点を凝視せず、視野を広げてブロック単位で文字を捉える", "横目で読む", "遠くを見る"],
+        "correct_index": 0,
+        "explanation": "【視覚情報処理】\n一文字ずつ追うのではなく、周辺視野を使って数単語〜数行を一度に捉えることで、眼球運動の回数を減らし、速度を上げられます。\n\n💡 Try this: 行の最初と最後の数文字を見ずに、真ん中あたりを見て全体を把握する練習をしてみましょう。",
+        "source_id": "peripheral_vision_reading",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l05_013",
+        "type": "multiple_choice",
+        "question": "📚 積読（つんどく）の効用は？",
+        "choices": ["知的好奇心を刺激し、「まだ知らないことがある」と謙虚になれる", "お金の無駄", "部屋が狭くなる"],
+        "correct_index": 0,
+        "explanation": "【アンチライブラリー】\nナシーム・タレブは、未読の本の山（アンチライブラリー）こそが、自分の無知を思い出させ、知的探究心を維持するリマインダーになると説いています。\n\n💡 Try this: 興味がある本はとりあえず買って、背表紙を眺めるだけでもOKとしましょう。",
+        "source_id": "antilibrary_taleb",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "study_l05_014",
+        "type": "true_false",
+        "question": "🧠 難しい本を読むことは、脳のトレーニングになる",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【認知的負荷】\n簡単な本ばかり読んでも脳は成長しません。少し背伸びが必要な難解な本を読むことで、脳の結合が強化され、知性が磨かれます。\n\n💡 Try this: 年に数冊は、古典や専門書など「歯ごたえのある本」に挑戦しましょう。",
+        "source_id": "deep_reading_cognitive_benefits",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l05_015",
+        "type": "multiple_choice",
+        "question": "🔄 読んだ内容を忘れないための「40秒復習法」とは？",
+        "choices": ["読み終わった直後に40秒かけて要点を思い出す", "40秒ごとに休む", "40秒で読む"],
+        "correct_index": 0,
+        "explanation": "【サセックス大学の研究】\n学習直後に40秒間の復習（想起）を行ったグループは、行わなかったグループより、2週間後の記憶定着率が大幅に高かったです。\n\n💡 Try this: 本を閉じたら、スマホを触る前に40秒だけ「何が書いてあった？」と振り返りましょう。",
+        "source_id": "40_seconds_revision_study",
+        "difficulty": "medium",
+        "xp": 10
+    }
+]
+
+# Study Level 6: Self-Regulated Learning
+study_l06 = [
+    {
+        "id": "study_l06_001",
+        "type": "multiple_choice",
+        "question": "🎓 「自己調整学習」（Self-Regulated Learning）の3段階は？",
+        "choices": ["予見（計画）→遂行（実行）→自己省察（振り返り）", "予習→授業→復習", "読む→書く→話す"],
+        "correct_index": 0,
+        "explanation": "【ジマーマンのモデル】\n優秀な学習者は、ただ勉強するのではなく、自分で計画を立て、実行中にモニタリングし、結果を振り返って次の計画に活かすサイクルを回しています。\n\n💡 Try this: 勉強を始める前に「今日の目標」、終わった後に「何がうまくいったか」を記録しましょう。",
+        "source_id": "self_regulated_learning_zimmerman_2002",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l06_002",
+        "type": "true_false",
+        "question": "🧠 「成長マインドセット」を持つ人は、失敗を恐れない",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【キャロル・ドゥエック】\n能力は生まれつき（硬直マインドセット）ではなく、努力で伸びる（成長マインドセット）と信じる人は、失敗を「能力不足」ではなく「学習の機会」と捉えます。\n\n💡 Try this: 間違えた時、「私はダメだ」ではなく「まだ習得中だ（Not Yet）」と言い換えましょう。",
+        "source_id": "growth_mindset_dweck_2006",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l06_003",
+        "type": "multiple_choice",
+        "question": "🎯 「学習性無力感」を克服するには？",
+        "choices": ["小さな成功体験を積み重ね、コントロール感を取り戻す", "諦める", "もっと高い目標を立てる"],
+        "correct_index": 0,
+        "explanation": "【セリグマン】\n「何をしても無駄だ」という無力感は、小さな「できた！」を積み重ねることで解除できます。スモールステップが鍵です。\n\n💡 Try this: 絶対に達成できる低い目標（例：本を1行読む）から始め、自分への信頼を回復しましょう。",
+        "source_id": "learned_helplessness_seligman_1967",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l06_004",
+        "type": "multiple_choice",
+        "question": "⏳ 「パーキンソンの法則」への対策は？",
+        "choices": ["あえて短い締め切りを設定する", "時間をたっぷり確保する", "締め切りを作らない"],
+        "correct_index": 0,
+        "explanation": "【仕事は膨張する】\n「仕事の量は、完成のために与えられた時間をすべて満たすまで膨張する」。1時間で終わる仕事も、1日あれば1日かけてしまいます。\n\n💡 Try this: 「このタスクは30分で終わらせる」とタイマーをセットし、ゲーム感覚で挑みましょう。",
+        "source_id": "parkinsons_law_1955",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l06_005",
+        "type": "true_false",
+        "question": "🧘 「セルフ・コンパッション」（自分への優しさ）は甘えである",
+        "choices": ["誤り（再起力を高める）", "正しい"],
+        "correct_index": 0,
+        "explanation": "【失敗からの回復】\n自分を責めるより、友人に接するように優しく励ます方が、失敗からの立ち直りが早く、次の挑戦へのモチベーションが高まります。\n\n💡 Try this: 計画通りにいかなくても、「人間だからそんな日もある。次はどうしよう？」と優しく切り替えましょう。",
+        "source_id": "self_compassion_neff_2003",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l06_006",
+        "type": "multiple_choice",
+        "question": "🔄 「ダブル・ループ学習」とは？",
+        "choices": ["行動だけでなく、前提（ルールや目標）そのものを見直す学習", "同じ間違いを2回繰り返すこと", "2倍勉強すること"],
+        "correct_index": 0,
+        "explanation": "【アージリス】\n「やり方を変える（シングル・ループ）」だけでなく、「そもそもなぜこれをやるのか？（ダブル・ループ）」と根本を問うことで、飛躍的な成長が起きます。\n\n💡 Try this: 行き詰まったら、「もっと頑張る」のではなく「やり方や目標自体が間違っていないか？」と考えてみましょう。",
+        "source_id": "double_loop_learning_argyris",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l06_007",
+        "type": "multiple_choice",
+        "question": "🧩 「転移」（Transfer of Learning）を起こすには？",
+        "choices": ["抽象的な原理・原則を理解し、他の事例に応用する", "丸暗記する", "一つのことだけ極める"],
+        "correct_index": 0,
+        "explanation": "【学習の応用】\nAで学んだことをBで活かすには、表面的な手順ではなく「背後にある原理」を理解する必要があります。\n\n💡 Try this: 何かを学んだら、「これは他の分野（趣味や仕事）でどう使えるか？」と考えてみましょう。",
+        "source_id": "transfer_of_learning_perkins",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l06_008",
+        "type": "true_false",
+        "question": "🧠 「流動性知能」（地頭）は成人以降も伸ばせる",
+        "choices": ["正しい（ワーキングメモリ訓練などで向上可能）", "誤り（20代でピークを迎え低下する一方）"],
+        "correct_index": 0,
+        "explanation": "【知能の可塑性】\nかつては固定と考えられていましたが、Nバック課題などのワーキングメモリトレーニングにより、流動性知能が向上する可能性が示されています。\n\n💡 Try this: 慣れた作業だけでなく、脳に負荷のかかる新しい課題に挑戦し続けましょう。",
+        "source_id": "fluid_intelligence_training_jaeggi_2008",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l06_009",
+        "type": "multiple_choice",
+        "question": "🚀 「自己効力感」（Self-Efficacy）を高める4つの要因で最も強力なのは？",
+        "choices": ["達成体験（自分でできた！）", "代理体験（あの人にもできた）", "言語的説得（君ならできる）"],
+        "correct_index": 0,
+        "explanation": "【バンデューラ】\n「自分には能力がある」という確信（自己効力感）を高める最強の方法は、実際にやって成功することです。小さな成功が大きな自信を作ります。\n\n💡 Try this: 確実に達成できる「今日のToDo」を完了させ、完了のチェックマークをつける快感を味わいましょう。",
+        "source_id": "self_efficacy_bandura_1977",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l06_010",
+        "type": "multiple_choice",
+        "question": "🤝 「ピア・インストラクション」（仲間同士の教え合い）の効果は？",
+        "choices": ["教える側も教わる側も理解が深まる", "間違ったことを覚えるリスクがある", "時間がかかるだけ"],
+        "correct_index": 0,
+        "explanation": "【ハーバード大マズール教授】\n学生同士で議論させる授業は、講義形式よりも概念理解度が大幅に向上しました。近いレベルの仲間との対話は、思考の整理に最適です。\n\n💡 Try this: 勉強仲間を見つけ、お互いに問題を出し合ったり、解説し合ったりしましょう。",
+        "source_id": "peer_instruction_mazur_1997",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l06_011",
+        "type": "true_false",
+        "question": "📅 「計画錯誤」（Planning Fallacy）とは、計画を悲観的に立てすぎること",
+        "choices": ["誤り（楽観的に立てすぎて失敗すること）", "正しい"],
+        "correct_index": 0,
+        "explanation": "【カーネマン】\n人は自分の能力を過信し、トラブルを考慮せず、「最短で終わる時間」を計画しがちです。実際は予想の1.5〜2倍かかります。\n\n💡 Try this: 計画を立てたら、それに「バッファ（予備日）」を50%追加しましょう。",
+        "source_id": "planning_fallacy_kahneman_1979",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "study_l06_012",
+        "type": "multiple_choice",
+        "question": "🧘 「意志力」（Willpower）の正しい使い方は？",
+        "choices": ["意志力を使わなくて済むように「環境」や「習慣」を作る", "気合で乗り切る", "我慢する"],
+        "correct_index": 0,
+        "explanation": "【自我消耗】\n意志力は筋肉のように疲労します（自我消耗）。成功者は意志力が強いのではなく、意志力を使わずに自動的に行動できる「仕組み」を作っています。\n\n💡 Try this: 「勉強するぞ」と気合を入れるのではなく、「朝起きたら机に座る」という自動的なルーチンを作りましょう。",
+        "source_id": "ego_depletion_baumeister_1998",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l06_013",
+        "type": "multiple_choice",
+        "question": "🔍 「確証バイアス」が学習を妨げる理由は？",
+        "choices": ["自分の考えに合う情報ばかり集め、反証を無視するから", "自信がなくなるから", "記憶力が下がるから"],
+        "correct_index": 0,
+        "explanation": "【バイアス】\n人は「自分が正しい」と思いたい生き物です。しかし成長するには、「自分の間違い」や「知らないこと」に直面する必要があります。\n\n💡 Try this: 自分の意見と反対の意見を持つ本や記事を、あえて読んでみましょう。",
+        "source_id": "confirmation_bias_learning",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l06_014",
+        "type": "true_false",
+        "question": "🧠 「アンラーニング」（学習棄却）とは、学んだことを忘れること",
+        "choices": ["正しい（古い知識を捨て、新しい知識に入れ替えること）", "誤り"],
+        "correct_index": 0,
+        "explanation": "【学びほぐし】\n時代遅れになった知識や習慣を意識的に捨て（Unlearn）、新しいやり方を取り入れる（Relearn）能力が、変化の激しい時代には不可欠です。\n\n💡 Try this: 「今までこうやってきたから」という理由で続けている習慣を、一度見直してみましょう。",
+        "source_id": "unlearning_organizational_learning",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "study_l06_015",
+        "type": "multiple_choice",
+        "question": "🌟 「熟達化」（Expertise）への近道は？",
+        "choices": ["限界的練習（Deliberate Practice）を繰り返す", "ただ長く続ける", "才能に頼る"],
+        "correct_index": 0,
+        "explanation": "【アンダース・エリクソン】\nただ漫然と繰り返しても上手くなりません。自分の限界ギリギリの課題を設定し、フィードバックを受けながら修正する「意図的な練習」だけが、達人を作ります。\n\n💡 Try this: 「今日はここを改善する」と具体的なテーマを持って練習に取り組みましょう。",
+        "source_id": "deliberate_practice_ericsson_1993",
+        "difficulty": "hard",
+        "xp": 15
+    }
+]
+
+# Combine all levels
+all_questions = study_l02 + study_l03 + study_l04 + study_l05 + study_l06
+
+print(json.dumps(all_questions, ensure_ascii=False, indent=2))

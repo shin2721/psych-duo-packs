@@ -1,5 +1,5 @@
 import React, { useState, useRef, useMemo } from "react";
-import { View, Text, Pressable, StyleSheet, PanResponder, Animated } from "react-native";
+import { View, Text, Pressable, StyleSheet, PanResponder, Animated, TextInput } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
 
@@ -71,12 +71,14 @@ export function SelectAll({
 
 // 穴埋めタップ（fill_blank_tapと同じ、名前を変えただけ）
 export function FillBlankTap({
+  statement,
   choices,
   selectedIndex,
   correctIndex,
   showResult,
   onSelect,
 }: {
+  statement?: string;
   choices: string[];
   selectedIndex: number | null;
   correctIndex: number;
@@ -85,6 +87,9 @@ export function FillBlankTap({
 }) {
   return (
     <View style={styles.fillBlankContainer}>
+      {statement && (
+        <Text style={styles.fillBlankStatement}>{statement}</Text>
+      )}
       <Text style={styles.fillBlankPrompt}>タップして選ぼう:</Text>
       <View style={styles.fillBlankChoices}>
         {choices.map((choice, index) => {
@@ -134,7 +139,9 @@ export function SwipeJudgment({
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => !showResult,
-    onPanResponderMove: Animated.event([null, { dx: pan.x }], { useNativeDriver: false }),
+    onPanResponderMove: (_, gestureState) => {
+      pan.x.setValue(gestureState.dx);
+    },
     onPanResponderRelease: (e, gesture) => {
       if (showResult) return;
       const threshold = 30; // 感度を上げる（より軽く反応）
@@ -289,7 +296,7 @@ export function SortOrder({
   if (!items || items.length === 0) {
     return (
       <View style={styles.sortContainer}>
-        <Text style={{color: 'red', fontSize: 18}}>エラー: items配列が空です</Text>
+        <Text style={{ color: 'red', fontSize: 18 }}>エラー: items配列が空です</Text>
       </View>
     );
   }
@@ -297,7 +304,7 @@ export function SortOrder({
   if (!currentOrder || currentOrder.length === 0) {
     return (
       <View style={styles.sortContainer}>
-        <Text style={{color: 'red', fontSize: 18}}>エラー: currentOrderが空です</Text>
+        <Text style={{ color: 'red', fontSize: 18 }}>エラー: currentOrderが空です</Text>
       </View>
     );
   }
@@ -324,9 +331,9 @@ export function SortOrder({
         onDragStart?.();
       },
 
-      onPanResponderMove: Animated.event([null, { dy: dragY }], {
-        useNativeDriver: false,
-      }),
+      onPanResponderMove: (_, gestureState) => {
+        dragY.setValue(gestureState.dy);
+      },
 
       onPanResponderRelease: (_, gestureState) => {
         // 現在の位置を取得
@@ -414,7 +421,7 @@ export function SortOrder({
                 </View>
               )}
               <Text style={styles.sortItemText}>
-                {itemText || `アイテム${position+1}`}
+                {itemText || `アイテム${position + 1}`}
               </Text>
               {isCorrectPosition && (
                 <Ionicons name="checkmark-circle" size={24} color={theme.colors.success} />
@@ -574,6 +581,416 @@ export function Matching({
   );
 }
 
+// Swipe判定（Q1用）
+export function SwipeChoice({
+  question,
+  onSwipe,
+}: {
+  question: string;
+  onSwipe: (direction: "left" | "right") => void;
+}) {
+  const pan = useRef(new Animated.ValueXY()).current;
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onMoveShouldSetPanResponder: (_, gestureState) => {
+        return Math.abs(gestureState.dx) > 10;
+      },
+      onPanResponderMove: Animated.event([null, { dx: pan.x }], {
+        useNativeDriver: false,
+      }),
+      onPanResponderRelease: (_, gestureState) => {
+        if (Math.abs(gestureState.dx) > 60) {
+          const direction = gestureState.dx > 0 ? "right" : "left";
+          Animated.timing(pan, {
+            toValue: { x: gestureState.dx > 0 ? 500 : -500, y: 0 },
+            duration: 200,
+            useNativeDriver: true,
+          }).start(() => {
+            onSwipe(direction);
+            pan.setValue({ x: 0, y: 0 });
+          });
+        } else {
+          Animated.spring(pan, {
+            toValue: { x: 0, y: 0 },
+            useNativeDriver: true,
+          }).start();
+        }
+      },
+    })
+  ).current;
+
+  return (
+    <View style={styles.swipeChoiceContainer}>
+      <Animated.View
+        style={[
+          styles.swipeChoiceCard,
+          {
+            transform: [{ translateX: pan.x }],
+          },
+        ]}
+        {...panResponder.panHandlers}
+      >
+        <Text style={styles.swipeQuestion}>{question}</Text>
+        <View style={styles.swipeHints}>
+          <Text style={styles.swipeHintLeft}>←  いいえ</Text>
+          <Text style={styles.swipeHintRight}>はい  →</Text>
+        </View>
+      </Animated.View>
+    </View>
+  );
+}
+
+// アニメーション説明（Q3用・簡略版）
+export function AnimatedExplanation({
+  onComplete,
+}: {
+  onComplete: () => void;
+}) {
+  const [step, setStep] = React.useState(0);
+  const fadeAnim = useRef(new Animated.Value(1)).current;
+
+  React.useEffect(() => {
+    if (step < 3) {
+      const timer = setTimeout(() => {
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 300,
+          useNativeDriver: true,
+        }).start(() => {
+          setStep(step + 1);
+          fadeAnim.setValue(1);
+        });
+      }, 2000);
+      return () => clearTimeout(timer);
+    } else {
+      const timer = setTimeout(() => {
+        onComplete();
+      }, 1500);
+      return () => clearTimeout(timer);
+    }
+  }, [step]);
+
+  const content = [
+    { icon: "heart", text: "心臓ドクドク", color: "#ef4444" },
+    { icon: "fitness", text: "ゆっくり呼吸", color: "#22d3ee" },
+    { icon: "heart", text: "心拍が落ち着く", color: "#10b981" },
+  ];
+
+  return (
+    <View style={styles.animatedContainer}>
+      <Animated.View style={[styles.animatedContent, { opacity: fadeAnim }]}>
+        {step < 3 && (
+          <>
+            <Ionicons name={content[step].icon as any} size={80} color={content[step].color} />
+            <Text style={styles.animatedText}>{content[step].text}</Text>
+          </>
+        )}
+      </Animated.View>
+      {step === 3 && (
+        <View style={styles.animatedFinal}>
+          <Text style={styles.animatedFinalText}>60秒で心拍10-15%↓</Text>
+        </View>
+      )}
+    </View>
+  );
+}
+
+// リズムタップ（Q4用）
+export function RhythmTap({
+  onComplete,
+}: {
+  onComplete: () => void;
+}) {
+  const [phase, setPhase] = React.useState<"inhale" | "hold" | "exhale" | "done">("inhale");
+  const [counter, setCounter] = React.useState(4);
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  React.useEffect(() => {
+    if (phase === "done") {
+      setTimeout(() => onComplete(), 1000);
+      return;
+    }
+
+    if (phase === "inhale" && counter > 0) {
+      Animated.spring(scaleAnim, {
+        toValue: 1.2,
+        useNativeDriver: true,
+      }).start();
+      const timer = setTimeout(() => {
+        setCounter(counter - 1);
+        scaleAnim.setValue(1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+
+    if (phase === "inhale" && counter === 0) {
+      setPhase("hold");
+      setCounter(7);
+    }
+
+    if (phase === "hold" && counter > 0) {
+      const timer = setTimeout(() => setCounter(counter - 1), 1000);
+      return () => clearTimeout(timer);
+    }
+
+    if (phase === "hold" && counter === 0) {
+      setPhase("exhale");
+      setCounter(8);
+    }
+
+    if (phase === "exhale" && counter > 0) {
+      Animated.spring(scaleAnim, {
+        toValue: 0.8,
+        useNativeDriver: true,
+      }).start();
+      const timer = setTimeout(() => {
+        setCounter(counter - 1);
+        scaleAnim.setValue(1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    }
+
+    if (phase === "exhale" && counter === 0) {
+      setPhase("done");
+    }
+  }, [phase, counter]);
+
+  const phaseText = {
+    inhale: `鼻から吸って (${counter})`,
+    hold: `止めて (${counter})`,
+    exhale: `口から吐いて (${counter})`,
+    done: "完了！",
+  };
+
+  return (
+    <View style={styles.rhythmContainer}>
+      <Animated.View style={[styles.rhythmCircle, { transform: [{ scale: scaleAnim }] }]}>
+        <Text style={styles.rhythmCounter}>{phase === "done" ? "✓" : counter}</Text>
+      </Animated.View>
+      <Text style={styles.rhythmText}>{phaseText[phase]}</Text>
+    </View>
+  );
+}
+
+// 複数選択トリガー設定（Q9用）
+export function MultiSelectTriggers({
+  options,
+  selectedIndexes,
+  onToggle,
+}: {
+  options: string[];
+  selectedIndexes: number[];
+  onToggle: (index: number) => void;
+}) {
+  return (
+    <View style={styles.triggersContainer}>
+      <Text style={styles.triggersPrompt}>どんな時に使う？</Text>
+      {options.map((option, index) => {
+        const isSelected = selectedIndexes.includes(index);
+        return (
+          <Pressable
+            key={index}
+            style={[
+              styles.triggerOption,
+              isSelected && styles.triggerOptionSelected,
+            ]}
+            onPress={() => onToggle(index)}
+          >
+            <View style={[
+              styles.triggerCheckbox,
+              isSelected && styles.triggerCheckboxSelected,
+            ]}>
+              {isSelected && (
+                <Ionicons name="checkmark" size={16} color="#fff" />
+              )}
+            </View>
+            <Text style={[
+              styles.triggerText,
+              isSelected && styles.triggerTextSelected,
+            ]}>
+              {option}
+            </Text>
+          </Pressable>
+        );
+      })}
+    </View>
+  );
+}
+
+// ========================================
+// Quick Reflex（反射型：時間制限付き即答問題）
+// ========================================
+export function QuickReflex({
+  choices,
+  selectedIndex,
+  correctIndex,
+  showResult,
+  onSelect,
+  timeLimit = 2000,
+}: {
+  choices: string[];
+  selectedIndex: number | null;
+  correctIndex: number;
+  showResult: boolean;
+  onSelect: (index: number) => void;
+  timeLimit?: number;
+}) {
+  const [timeRemaining, setTimeRemaining] = useState(timeLimit);
+  const [isTimeUp, setIsTimeUp] = useState(false);
+
+  // タイマー処理
+  React.useEffect(() => {
+    if (showResult || isTimeUp) return;
+
+    const interval = setInterval(() => {
+      setTimeRemaining((prev) => {
+        if (prev <= 100) {
+          setIsTimeUp(true);
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 100;
+      });
+    }, 100);
+
+    return () => clearInterval(interval);
+  }, [showResult, isTimeUp]);
+
+  // 時間切れ時に自動的に不正解として処理
+  React.useEffect(() => {
+    if (isTimeUp && !showResult) {
+      onSelect(-1); // 無効なインデックスで不正解扱い
+    }
+  }, [isTimeUp, showResult, onSelect]);
+
+  const progressPercent = (timeRemaining / timeLimit) * 100;
+
+  return (
+    <View style={styles.quickReflexContainer}>
+      {/* タイマー表示 */}
+      <View style={styles.timerContainer}>
+        <View style={styles.timerBar}>
+          <View
+            style={[
+              styles.timerProgress,
+              {
+                width: `${progressPercent}%`,
+                backgroundColor: progressPercent > 30 ? theme.colors.primary : "#e74c3c",
+              },
+            ]}
+          />
+        </View>
+        <Text style={styles.timerText}>
+          {isTimeUp ? "⏰ 時間切れ！" : `⏱ ${(timeRemaining / 1000).toFixed(1)}秒`}
+        </Text>
+      </View>
+
+      {/* 選択肢 */}
+      <View style={styles.choicesContainer}>
+        {choices.map((choice, index) => {
+          const isSelected = selectedIndex === index;
+          const isCorrect = index === correctIndex;
+          const shouldShowCorrect = showResult && isCorrect;
+          const shouldShowIncorrect = showResult && isSelected && !isCorrect;
+
+          return (
+            <Pressable
+              key={index}
+              style={[
+                styles.choiceButton,
+                shouldShowCorrect && styles.correctChoice,
+                shouldShowIncorrect && styles.incorrectChoice,
+                isTimeUp && !showResult && styles.disabledChoice,
+              ]}
+              onPress={() => !isTimeUp && onSelect(index)}
+              disabled={showResult || isTimeUp}
+            >
+              <Text
+                style={[
+                  styles.choiceText,
+                  (shouldShowCorrect || shouldShowIncorrect) && styles.choiceTextWhite,
+                ]}
+              >
+                {choice}
+              </Text>
+              {shouldShowCorrect && (
+                <Ionicons name="checkmark-circle" size={24} color="#fff" />
+              )}
+              {shouldShowIncorrect && <Ionicons name="close-circle" size={24} color="#fff" />}
+            </Pressable>
+          );
+        })}
+      </View>
+
+      {isTimeUp && !showResult && (
+        <Text style={styles.timeUpMessage}>時間内に答えられませんでした</Text>
+      )}
+    </View>
+  );
+}
+
+// ========================================
+// Micro Input（入力型：短文入力問題）
+// ========================================
+export function MicroInput({
+  inputText,
+  setInputText,
+  placeholder,
+  showResult,
+  onSubmit,
+}: {
+  inputText: string;
+  setInputText: (text: string) => void;
+  placeholder: string;
+  showResult: boolean;
+  onSubmit: () => void;
+}) {
+  return (
+    <View style={styles.microInputContainer}>
+      <View style={styles.inputWrapper}>
+        <Text style={styles.inputLabel}>答えを入力してください：</Text>
+        <View style={styles.textInputContainer}>
+          <Text style={styles.inputPrefix}>👉</Text>
+          <TextInput
+            value={inputText}
+            onChangeText={setInputText}
+            placeholder={placeholder}
+            editable={!showResult}
+            style={[
+              styles.textInput,
+              showResult && styles.textInputDisabled,
+            ]}
+            onSubmitEditing={() => {
+              if (!showResult && inputText.trim()) {
+                onSubmit();
+              }
+            }}
+            returnKeyType="done"
+            autoCapitalize="none"
+            autoCorrect={false}
+          />
+        </View>
+      </View>
+
+      {!showResult && (
+        <Pressable
+          style={[
+            styles.submitButton,
+            !inputText.trim() && styles.submitButtonDisabled,
+          ]}
+          onPress={onSubmit}
+          disabled={!inputText.trim()}
+        >
+          <Text style={styles.submitButtonText}>
+            {inputText.trim() ? "答えを確認" : "入力してください"}
+          </Text>
+        </Pressable>
+      )}
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
   choicesContainer: {
     gap: 12,
@@ -656,6 +1073,13 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: "#fff",
     fontWeight: "600",
+  },
+  fillBlankStatement: {
+    fontSize: 20,
+    color: "#fff",
+    fontWeight: "700",
+    lineHeight: 30,
+    marginBottom: 8,
   },
   fillBlankChoices: {
     flexDirection: "row",
@@ -863,5 +1287,343 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     flex: 1,
   },
-
+  // SwipeChoice styles
+  swipeChoiceContainer: {
+    height: 400,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  swipeChoiceCard: {
+    width: 300,
+    height: 350,
+    backgroundColor: "#fff",
+    borderRadius: 20,
+    padding: 24,
+    justifyContent: "space-between",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 8,
+  },
+  swipeQuestion: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#1a1a1a",
+    textAlign: "center",
+  },
+  swipeHints: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  swipeHintLeft: {
+    fontSize: 16,
+    color: "#ef4444",
+    fontWeight: "600",
+  },
+  swipeHintRight: {
+    fontSize: 16,
+    color: "#10b981",
+    fontWeight: "600",
+  },
+  // AnimatedExplanation styles
+  animatedContainer: {
+    height: 300,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  animatedContent: {
+    alignItems: "center",
+    gap: 16,
+  },
+  animatedText: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: "#1a1a1a",
+  },
+  animatedFinal: {
+    alignItems: "center",
+  },
+  animatedFinalText: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#10b981",
+  },
+  // RhythmTap styles
+  rhythmContainer: {
+    height: 300,
+    justifyContent: "center",
+    alignItems: "center",
+    gap: 24,
+  },
+  rhythmCircle: {
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: "#22d3ee",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  rhythmCounter: {
+    fontSize: 48,
+    fontWeight: "700",
+    color: "#fff",
+  },
+  rhythmText: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#1a1a1a",
+  },
+  // MultiSelectTriggers styles
+  triggersContainer: {
+    gap: 12,
+  },
+  triggersPrompt: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: "#1a1a1a",
+    marginBottom: 8,
+  },
+  triggerOption: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: "#fff",
+    borderWidth: 2,
+    borderColor: "#e0e0e0",
+    borderRadius: 12,
+    padding: 16,
+  },
+  triggerOptionSelected: {
+    backgroundColor: "#22d3ee",
+    borderColor: "#22d3ee",
+  },
+  triggerCheckbox: {
+    width: 24,
+    height: 24,
+    borderRadius: 6,
+    borderWidth: 2,
+    borderColor: "#e0e0e0",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  triggerCheckboxSelected: {
+    backgroundColor: "#fff",
+    borderColor: "#fff",
+  },
+  triggerText: {
+    fontSize: 16,
+    color: "#1a1a1a",
+    flex: 1,
+  },
+  triggerTextSelected: {
+    color: "#fff",
+  },
+  // Quick Reflex styles
+  quickReflexContainer: {
+    width: "100%",
+  },
+  timerContainer: {
+    marginBottom: 20,
+    alignItems: "center",
+  },
+  timerBar: {
+    width: "100%",
+    height: 8,
+    backgroundColor: "#ecf0f1",
+    borderRadius: 4,
+    overflow: "hidden",
+    marginBottom: 8,
+  },
+  timerProgress: {
+    height: "100%",
+    borderRadius: 4,
+  },
+  timerText: {
+    fontSize: 18,
+    fontWeight: "600",
+    color: theme.colors.text,
+  },
+  timeUpMessage: {
+    marginTop: 16,
+    fontSize: 16,
+    color: "#e74c3c",
+    textAlign: "center",
+    fontWeight: "500",
+  },
+  disabledChoice: {
+    opacity: 0.5,
+  },
+  // Micro Input styles
+  microInputContainer: {
+    width: "100%",
+  },
+  inputWrapper: {
+    marginBottom: 20,
+  },
+  inputLabel: {
+    fontSize: 16,
+    fontWeight: "500",
+    color: theme.colors.text,
+    marginBottom: 12,
+  },
+  textInputContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  inputPrefix: {
+    fontSize: 24,
+  },
+  textInput: {
+    flex: 1,
+    padding: 12,
+    fontSize: 18,
+    borderRadius: 8,
+    borderWidth: 2,
+    borderColor: theme.colors.primary,
+    backgroundColor: "#fff",
+  },
+  textInputDisabled: {
+    borderColor: "#95a5a6",
+    backgroundColor: "#ecf0f1",
+  },
+  submitButton: {
+    backgroundColor: theme.colors.primary,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    alignItems: "center",
+    marginTop: 12,
+  },
+  submitButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  submitButtonDisabled: {
+    backgroundColor: "#bdc3c7",
+    opacity: 0.6,
+  },
+  // Consequence Scenario styles
+  consequenceContainer: {
+    width: "100%",
+    alignItems: "center",
+  },
+  consequenceQuestion: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: theme.colors.text,
+    textAlign: "center",
+    marginBottom: 20,
+  },
+  consequencePrompt: {
+    fontSize: 16,
+    color: theme.colors.sub,
+    marginBottom: 24,
+  },
+  consequenceButtons: {
+    flexDirection: "row",
+    gap: 16,
+    width: "100%",
+    justifyContent: "center",
+  },
+  consequenceButton: {
+    flex: 1,
+    padding: 20,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    borderWidth: 2,
+    borderColor: "transparent",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+  positiveButton: {
+    backgroundColor: theme.colors.success,
+  },
+  negativeButton: {
+    backgroundColor: "#ef4444",
+  },
+  selectedPositive: {
+    borderColor: "#166534", // Darker green
+    borderWidth: 4,
+  },
+  selectedNegative: {
+    borderColor: "#991b1b", // Darker red
+    borderWidth: 4,
+  },
+  consequenceButtonText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+  },
 });
+
+// 結果予測シナリオ（Positive/Negative）
+export function ConsequenceScenario({
+  question,
+  consequenceType,
+  showResult,
+  onSelect,
+}: {
+  question: string;
+  consequenceType: "positive" | "negative";
+  showResult: boolean;
+  onSelect: (isPositive: boolean) => void;
+}) {
+  const [selected, setSelected] = useState<"positive" | "negative" | null>(null);
+
+  const handlePress = (type: "positive" | "negative") => {
+    if (showResult) return;
+    setSelected(type);
+    onSelect(type === "positive");
+  };
+
+  return (
+    <View style={styles.consequenceContainer}>
+      <Text style={styles.consequenceQuestion}>{question}</Text>
+      <Text style={styles.consequencePrompt}>この行動の結果は？</Text>
+
+      <View style={styles.consequenceButtons}>
+        <Pressable
+          style={[
+            styles.consequenceButton,
+            styles.positiveButton,
+            selected === "positive" && styles.selectedPositive,
+            showResult && consequenceType === "positive" && styles.correctChoice,
+            showResult && selected === "positive" && consequenceType !== "positive" && styles.incorrectChoice,
+            showResult && consequenceType !== "positive" && styles.disabledChoice, // Fade out wrong option if correct is negative
+            showResult && consequenceType === "positive" && styles.correctChoice, // Highlight correct
+          ]}
+          onPress={() => handlePress("positive")}
+          disabled={showResult}
+        >
+          <Ionicons name="happy-outline" size={32} color="#fff" />
+          <Text style={styles.consequenceButtonText}>ポジティブ</Text>
+        </Pressable>
+
+        <Pressable
+          style={[
+            styles.consequenceButton,
+            styles.negativeButton,
+            selected === "negative" && styles.selectedNegative,
+            showResult && consequenceType === "negative" && styles.correctChoice,
+            showResult && selected === "negative" && consequenceType !== "negative" && styles.incorrectChoice,
+            showResult && consequenceType !== "negative" && styles.disabledChoice,
+            showResult && consequenceType === "negative" && styles.correctChoice,
+          ]}
+          onPress={() => handlePress("negative")}
+          disabled={showResult}
+        >
+          <Ionicons name="sad-outline" size={32} color="#fff" />
+          <Text style={styles.consequenceButtonText}>ネガティブ</Text>
+        </Pressable>
+      </View>
+    </View>
+  );
+}

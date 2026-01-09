@@ -1,0 +1,97 @@
+[
+    {
+        "id": "test_platinum_q01",
+        "type": "consequence_scenario",
+        "question": "徹夜で勉強して試験に臨む",
+        "consequence_type": "negative",
+        "explanation": "睡眠不足は認知機能を低下させ、記憶の定着を妨げます。十分な睡眠をとった方がパフォーマンスは向上します。",
+        "actionable_advice": "💡 Try this: 試験前日は少なくとも7時間の睡眠を確保しましょう。",
+        "citation": "Walker, 2017",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "test_platinum_q01"
+    },
+    {
+        "id": "test_platinum_q02",
+        "type": "sort_order",
+        "question": "効果的な学習のプロセスを正しい順序に並べ替えてください。",
+        "items": [
+            "全体像を把握する",
+            "詳細を学習する",
+            "テストで想起する",
+            "復習する"
+        ],
+        "correct_order": [
+            0,
+            1,
+            2,
+            3
+        ],
+        "explanation": "全体から細部へ、そして想起練習と分散学習を組み合わせるのが最も効果的です。",
+        "actionable_advice": "💡 Try this: 教科書の目次を見てから中身を読み始めましょう。",
+        "citation": "Brown et al., 2014",
+        "difficulty": "medium",
+        "xp": 15,
+        "source_id": "test_platinum_q02"
+    },
+    {
+        "id": "test_platinum_q03",
+        "type": "matching",
+        "question": "心理学用語と意味を組み合わせてください。",
+        "left_items": [
+            "流動性知能",
+            "結晶性知能"
+        ],
+        "right_items": [
+            "新しい問題を解決する力",
+            "経験から得た知識"
+        ],
+        "correct_pairs": [
+            [
+                0,
+                0
+            ],
+            [
+                1,
+                1
+            ]
+        ],
+        "explanation": "流動性知能は加齢とともに低下しやすい一方、結晶性知能は維持・向上しやすいです。",
+        "actionable_advice": "💡 Try this: 新しい趣味を始めて流動性知能を刺激しましょう。",
+        "citation": "Cattell, 1963",
+        "difficulty": "hard",
+        "xp": 20,
+        "source_id": "test_platinum_q03"
+    },
+    {
+        "id": "test_platinum_q04",
+        "type": "swipe_choice",
+        "question": "ストレスを感じたとき、すぐに解消すべき？",
+        "answer": "right",
+        "explanation": "慢性的なストレスは有害ですが、適度なストレスは成長につながります。解消だけでなく、向き合い方も重要です。",
+        "actionable_advice": "💡 Try this: ストレスを「挑戦」と捉え直してみましょう。",
+        "citation": "McGonigal, 2015",
+        "difficulty": "medium",
+        "xp": 10,
+        "source_id": "test_platinum_q04"
+    },
+    {
+        "id": "test_platinum_q05",
+        "type": "term_card",
+        "question": "学習カード",
+        "term": "ポモドーロ・テクニック",
+        "term_en": "Pomodoro Technique",
+        "definition": "25分の集中と5分の休憩を繰り返す時間管理術。",
+        "key_points": [
+            "短時間で集中力を維持",
+            "疲れを溜めない",
+            "タスクを分割する"
+        ],
+        "explanation": "人間の集中力には限界があるため、こまめな休憩が生産性を高めます。",
+        "actionable_advice": "💡 Try this: タイマーをセットして25分だけ作業してみましょう。",
+        "citation": "Cirillo, 1980s",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "test_platinum_q05"
+    }
+]

@@ -1,42 +1,281 @@
 {
-  "packId": "season_w01",
-  "title": "Season Week 01",
-  "locale": "ja-JP",
-  "skills": [
-    {
-      "id": "cog-bias-framing",
-      "title": "フレーミング効果",
-      "cards": [
-        {
-          "type": "mcq",
-          "q": "同じ内容でも表現で判断が変わる現象は？",
-          "choices": [
-            "フレーミング効果",
-            "確証バイアス",
-            "後知恵バイアス",
-            "代表性ヒューリスティック"
-          ],
-          "answerIndex": 0,
-          "explain": "表現（利得/損失など）により選好が変化する。"
-        }
-      ]
-    }
-  ],
-  "version": 1,
   "id": "mental_w01",
   "cards": [
     {
-      "id": "sample_1",
-      "type": "mcq",
-      "q": "同じ内容でも表現で判断が変わる現象は？",
+      "id": "mental_l01_001",
+      "type": "conversation",
+      "question": "【ミニケース】友達のAさん「明日面接なんだけど、緊張で眠れなくて...どうしよう」\n\nあなたならどう返す？",
+      "your_response_prompt": "あなた: 「...」",
       "choices": [
-        "フレーミング効果",
-        "確証バイアス",
-        "後知恵バイアス",
-        "代表性ヒューリスティック"
+        "大丈夫だよ！きっとうまくいくから！",
+        "今すぐ深呼吸を3回してみて。4秒吸って6秒吐くやつ",
+        "もう一度練習したほうがいいんじゃない？"
       ],
-      "answerIndex": 0,
-      "explain": "表現（利得/損失など）により選好が変化する。"
+      "correct_index": 1,
+      "explanation": "不安な時は「励まし」より「具体的な行動」が効く。60秒で心拍15%↓の即効性あり。\n\n💡 Try this: 友達が不安そうなら、「大丈夫」ではなく「4秒吸って6秒吐く深呼吸を3回してみて」と具体的に教えよう。",
+      "difficulty": "easy",
+      "xp": 10
+    },
+    {
+      "id": "mental_l01_002",
+      "type": "true_false",
+      "question": "呼吸法の効果は数週間後に現れる。",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 1,
+      "explanation": "60秒で心拍が15%も↓する即効性がある。\n\n💡 Try this: 今すぐ深呼吸を試してみよう。すぐに効果を実感できるはず。",
+      "difficulty": "easy",
+      "xp": 5
+    },
+    {
+      "id": "mental_l01_003",
+      "type": "multiple_choice",
+      "question": "「今ここ」への気づきとは？",
+      "choices": [
+        "過去を反省すること",
+        "今この瞬間に注意を向けること",
+        "未来を計画すること"
+      ],
+      "answer_index": 1,
+      "explanation": "「今ここ」への気づきがマインドフルネスの核心。判断せず観察するだけでOK。\n\n💡 Try this: 1分間、呼吸だけに意識を向けて、他のことを考えずに観察してみよう。",
+      "difficulty": "medium",
+      "xp": 5
+    },
+    {
+      "id": "mental_l01_004",
+      "type": "fill_blank",
+      "question": "緊張で心臓ドキドキ...これ［　］神経が活性化",
+      "choices": [
+        "交感",
+        "副交感",
+        "迷走"
+      ],
+      "answer_index": 0,
+      "explanation": "交感神経=ON、副交感神経=OFFの緊張状態。呼吸で切替可能。\n\n💡 Try this: 緊張したら、深呼吸で副交感神経のスイッチを押してみよう。",
+      "difficulty": "easy",
+      "xp": 5
+    },
+    {
+      "id": "mental_l01_005",
+      "type": "swipe_judgment",
+      "question": "深呼吸は即効性のあるストレス対策である。",
+      "is_true": true,
+      "explanation": "迷走神経がONになって副交感神経が活性化する。\n\n💡 Try this: 60秒だけ試してみよう。4秒吸って6秒吐く深呼吸を3回。",
+      "difficulty": "easy",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l01_006",
+      "type": "matching",
+      "question": "リラックスを司る神経は？マッチさせよう",
+      "left_items": [
+        "交感神経",
+        "副交感神経"
+      ],
+      "right_items": [
+        "リラックス",
+        "緊張・興奮"
+      ],
+      "correct_pairs": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ]
+      ],
+      "explanation": "副交感神経をONにしてリラックスモードに切り替える。\n\n💡 Try this: 深呼吸を1回だけでいいので試してみよう。",
+      "difficulty": "easy",
+      "xp": 5
+    },
+    {
+      "id": "mental_l01_007",
+      "type": "scenario",
+      "question": "【実践】電車の中で急に動悸がして、汗が出てきた。周りの目が気になる。\n\nこの時、すぐにできる対処は？",
+      "choices": [
+        "深呼吸を3回して、心拍を落ち着かせる",
+        "次の駅で降りて休む",
+        "スマホを見て気を紛らわす"
+      ],
+      "answer_index": 0,
+      "explanation": "パニック症状は交感神経の過活動。深呼吸で副交感神経をONにすれば60秒で心拍15%↓。\n\n💡 Try this: 今度同じ状況になったら、4秒吸って6秒吐く深呼吸を3回試してみよう。",
+      "difficulty": "easy",
+      "xp": 5
+    },
+    {
+      "id": "mental_l01_008",
+      "type": "sort_order",
+      "question": "緊張した時、どの順で対処する？",
+      "choices": [],
+      "items": [
+        "深呼吸で落ち着く",
+        "状況を認識する",
+        "感情に気づく",
+        "別の視点で捉え直す"
+      ],
+      "correct_order": [
+        1,
+        2,
+        0,
+        3
+      ],
+      "initial_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "explanation": "この順で実践すると効果的だと研究で証明されている。認知→感情→行動の順。\n\n💡 Try this: 今から習慣化してみよう。「状況→感情→深呼吸→捉え直し」の順で。",
+      "difficulty": "easy",
+      "xp": 5
+    },
+    {
+      "id": "mental_l01_009",
+      "type": "select_all",
+      "question": "今日から始められるストレス対策は？（複数選択）",
+      "choices": [
+        "深呼吸",
+        "散歩",
+        "お酒",
+        "運動"
+      ],
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "explanation": "お酒は一時的で逆効果リスクがある。深呼吸・散歩・運動が効果的。\n\n💡 Try this: 毎日続けられる1つを選んで、今日から始めてみよう。",
+      "difficulty": "easy",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l01_010",
+      "type": "fill_blank_tap",
+      "statement": "寝る前の4-7-8呼吸：4秒吸って7秒止めて［　］秒吐く",
+      "choices": [
+        "6",
+        "7",
+        "8",
+        "10"
+      ],
+      "correct_index": 2,
+      "explanation": "入眠に効果的な4-7-8呼吸法。\n\n💡 Try this: 今夜ベッドで試してみよう。4秒吸って7秒止めて8秒吐く。",
+      "difficulty": "easy",
+      "xp": 5
+    },
+    {
+      "id": "mental_l01_011",
+      "type": "quick_reflex",
+      "question": "⏱️【タイマー】今、呼吸が浅くなっている？\n\n深呼吸を今すぐする？しない？（3秒以内！）",
+      "choices": [
+        "する",
+        "しない"
+      ],
+      "correct_index": 0,
+      "time_limit": 3000,
+      "explanation": "正解！実際にやってみることで、知識が「運動記憶」に変わる。記憶保持率90%！\n\n💡 Try this: 4秒吸って6秒吐く深呼吸を、今すぐ3回やってみよう。",
+      "difficulty": "easy",
+      "xp": 10
+    },
+    {
+      "id": "mental_l01_012",
+      "type": "micro_input",
+      "question": "📝 「CBT」の日本語訳は？",
+      "input_answer": "認知行動療法",
+      "placeholder": "答えを入力...",
+      "explanation": "正解！考え方と行動を変えるというテクニック。\n\n💡 Try this: 「ダメだ」→「今回はミスしたけど次は改善できる」と考え直してみよう。",
+      "difficulty": "easy",
+      "xp": 5
+    },
+    {
+      "id": "mental_l01_013",
+      "type": "true_false",
+      "question": "不安やイライラは避けるべき感情である。",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 1,
+      "explanation": "感情に善悪はないという心理学の基本。観察して受け入れることが大切。\n\n💡 Try this: 今の気持ちをただ見てあげよう。「今、不安を感じているな」と認めるだけでOK。",
+      "difficulty": "easy",
+      "xp": 5
+    },
+    {
+      "id": "mental_l01_014",
+      "type": "multiple_choice",
+      "question": "感情調整で最も健康的なのは？",
+      "choices": [
+        "感情を完全に抑え込む",
+        "感情を認めて適切に対処する",
+        "感情に完全に身を任せる"
+      ],
+      "answer_index": 1,
+      "explanation": "感情を抑圧すると逆効果を生む。解釈を変えて感情を調整する方が有効。\n\n💡 Try this: 今の状況で「なぜこう感じるのか？」と自問して、解釈を変えてみよう。",
+      "difficulty": "medium",
+      "xp": 5,
+      "source_id": "ED662876"
+    },
+    {
+      "id": "mental_l01_015",
+      "type": "multiple_choice",
+      "question": "認知再評価で大事なのは？",
+      "choices": [
+        "感情を無視する",
+        "状況の解釈を変える",
+        "感情を抑え込む"
+      ],
+      "answer_index": 1,
+      "explanation": "状況の解釈を変えることで感情が変わる。\n\n💡 Try this: 「ダメだ」→「今回はミスしたけど次は改善できる」と考え直してみよう。今日から使える！",
+      "difficulty": "easy",
+      "xp": 5
+    },
+    {
+      "id": "minicase_001",
+      "type": "scenario",
+      "question": "【ミニケース】\n\n明日の面接を控えたAさん。夜中に何度も目が覚め、手が冷たくなり、呼吸が浅い。\n\n最優先で行うべき対処は？",
+      "choices": [
+        "深呼吸で生理反応を整える",
+        "面接の練習をもう一度する",
+        "不安な気持ちを紙に書き出す"
+      ],
+      "answer_index": 0,
+      "explanation": "呼吸が浅いと脳に酸素が届かず、不安が増幅する。まず深呼吸で体を落ち着かせてから、次の対処を考える。\n\n💡 Try this: 4秒吸って6秒吐く深呼吸を3回。体が落ち着いてから、次のステップへ。",
+      "difficulty": "easy",
+      "xp": 10
+    },
+    {
+      "id": "minicase_002",
+      "type": "scenario",
+      "question": "【ミニケース】\n\nBさんは上司に叱られた直後。「自分はダメだ」と考えが止まらない。\n\nこの時、最も効果的な対処は？",
+      "choices": [
+        "「今回はミスしたけど、次はできる」と考え直す（認知再評価）",
+        "そのまま我慢して仕事を続ける（抑圧）",
+        "上司が悪いと考える（責任転嫁）"
+      ],
+      "answer_index": 0,
+      "explanation": "「ダメだ」という極端な考えを、「今回はミスしたけど」と具体的に変えることで、感情が落ち着く。これが認知再評価。記憶定着率は通常の2-3倍！\n\n💡 Try this: 「ダメだ」と思ったら、「今回は〇〇だったけど、次は△△できる」と具体的に言い換えよう。",
+      "difficulty": "easy",
+      "xp": 10
+    },
+    {
+      "id": "minicase_003",
+      "type": "scenario",
+      "question": "【ミニケース】\n\nCさんは満員電車で急に息苦しくなり、手が震え始めた。\n\n今すぐできる対処は？",
+      "choices": [
+        "次の駅で降りて、深呼吸を5回する",
+        "気のせいだと思って我慢する",
+        "スマホで音楽を聴いて気を紛らわす"
+      ],
+      "answer_index": 0,
+      "explanation": "パニック症状は、環境を変える+呼吸で9割改善する。我慢すると悪化する。\n\n💡 Try this: すぐに降りて外の空気を吸おう。そして4秒吸って6秒吐く深呼吸を5回。",
+      "difficulty": "easy",
+      "xp": 10
     }
   ]
 }

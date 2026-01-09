@@ -27,6 +27,12 @@ const PSYCH_TERMS = {
     { ja: 'ソリューション・フォーカスト', en: 'SFBT', desc: '解決に焦点を当てる' },
     { ja: '家族療法', en: 'Family Therapy', desc: '家族システム全体を治療' },
     { ja: '認知処理療法', en: 'CPT', desc: 'PTSD（心的外傷後ストレス障害）の認知パターンを変える' },
+    // 追加5項目（Claude生成 - psych_terms_candidates.json）
+    { ja: 'ゲシュタルト療法', en: 'Gestalt Therapy', desc: '今の気づきに焦点' },
+    { ja: 'ナラティブセラピー', en: 'Narrative Therapy', desc: '人生の物語を書き換え' },
+    { ja: 'アートセラピー', en: 'Art Therapy', desc: '創作で心を癒す' },
+    { ja: '漸進的筋弛緩法', en: 'PMR', desc: '筋肉の緊張をほぐす' },
+    { ja: 'ポジティブ心理学療法', en: 'Positive Psychotherapy', desc: '強みと幸福に着目' },
   ],
   disorders: [
     { ja: 'うつ病', en: 'Depression', symptom: '気分の落ち込み' },
@@ -43,6 +49,23 @@ const PSYCH_TERMS = {
     { ja: 'ADHD', en: 'ADHD', symptom: '注意散漫・多動性' },
     { ja: '睡眠障害', en: 'Sleep Disorder', symptom: '睡眠の質・量の問題' },
     { ja: '物質使用障害', en: 'Substance Use', symptom: '依存・乱用' },
+    // 追加16項目（Claude生成 - psych_terms_candidates.json）
+    { ja: '全般性不安症', en: 'GAD', symptom: 'あらゆることへの不安' },
+    { ja: '分離不安症', en: 'Separation Anxiety', symptom: '離れることへの恐怖' },
+    { ja: '限局性恐怖症', en: 'Specific Phobia', symptom: '特定対象への恐怖' },
+    { ja: '適応障害', en: 'Adjustment Disorder', symptom: '環境変化への不適応' },
+    { ja: '身体症状症', en: 'Somatic Symptom', symptom: '心因性の身体症状' },
+    { ja: '解離性障害', en: 'Dissociative Disorder', symptom: '記憶や意識の断絶' },
+    { ja: '神経性やせ症', en: 'Anorexia Nervosa', symptom: '極端な食事制限' },
+    { ja: '神経性過食症', en: 'Bulimia Nervosa', symptom: '過食と排出の繰り返し' },
+    { ja: 'スマホ依存', en: 'Smartphone Addiction', symptom: 'スマホが手放せない' },
+    { ja: 'ゲーム障害', en: 'Gaming Disorder', symptom: 'ゲームの制御不能' },
+    { ja: 'SNS疲れ', en: 'SNS Fatigue', symptom: 'SNSによる疲労感' },
+    { ja: '完璧主義', en: 'Perfectionism', symptom: '過度な完璧さの追求' },
+    { ja: '対人恐怖症', en: 'Taijin Kyofusho', symptom: '他者への過度な恐れ' },
+    { ja: 'HSP', en: 'Highly Sensitive Person', symptom: '刺激への高い敏感性' },
+    { ja: '五月病', en: 'May Blues', symptom: '新環境後の無気力' },
+    { ja: '冬季うつ病', en: 'SAD', symptom: '季節性の気分低下' },
   ],
   concepts: [
     { ja: '感情調整', en: 'Emotion Regulation', effect: '気持ちをうまく扱う' },
@@ -63,6 +86,29 @@ const PSYCH_TERMS = {
     { ja: 'バイアス', en: 'Bias', effect: '無意識の偏見' },
     { ja: 'プラシーボ効果', en: 'Placebo', effect: '思い込みによる変化' },
     { ja: '神経可塑性', en: 'Neuroplasticity', effect: '脳の変化する力' },
+    // 追加22項目（Claude生成 - psych_terms_candidates.json）
+    { ja: 'マインドセット', en: 'Mindset', effect: '物事への基本的構え' },
+    { ja: 'グリット', en: 'Grit', effect: 'やり抜く力と情熱' },
+    { ja: '自己効力感', en: 'Self-Efficacy', effect: 'できる感覚' },
+    { ja: '楽観主義', en: 'Optimism', effect: '前向きな見通し' },
+    { ja: '内発的動機づけ', en: 'Intrinsic Motivation', effect: '内側からの意欲' },
+    { ja: '条件づけ', en: 'Conditioning', effect: '刺激と反応の学習' },
+    { ja: 'オペラント条件づけ', en: 'Operant Conditioning', effect: '報酬による行動形成' },
+    { ja: '古典的条件づけ', en: 'Classical Conditioning', effect: '刺激の連合学習' },
+    { ja: '認知負荷', en: 'Cognitive Load', effect: '考える際の負担' },
+    { ja: '注意のコントロール', en: 'Attention Control', effect: '集中の管理能力' },
+    { ja: 'ポジティブ感情', en: 'Positive Emotion', effect: '喜びや満足の感情' },
+    { ja: 'ネガティブ感情', en: 'Negative Emotion', effect: '不安や悲しみの感情' },
+    { ja: '感情伝染', en: 'Emotional Contagion', effect: '感情が周囲に伝わる' },
+    { ja: '共感力', en: 'Empathy', effect: '他者の気持ち理解' },
+    { ja: '同調圧力', en: 'Peer Pressure', effect: '周囲に合わせる圧力' },
+    { ja: 'コンフォートゾーン', en: 'Comfort Zone', effect: '心地よい範囲' },
+    { ja: 'ストレッサー', en: 'Stressor', effect: 'ストレスの原因' },
+    { ja: '認知バイアス', en: 'Cognitive Bias', effect: '思考の系統的な偏り' },
+    { ja: '確証バイアス', en: 'Confirmation Bias', effect: '信念を強化する偏り' },
+    { ja: 'ハロー効果', en: 'Halo Effect', effect: '第一印象の影響力' },
+    { ja: 'ダニング・クルーガー効果', en: 'Dunning-Kruger', effect: '無知ゆえの過信' },
+    { ja: 'アンカリング効果', en: 'Anchoring', effect: '基準点への固着' },
   ]
 };
 
@@ -999,6 +1045,102 @@ const METHOD_DATABASE = {
     action: "【今度のパーティーで試そう】\n\n次にパーティーに行ったら：\n\n1. 話しかけたい人を見つける\n\n2. 5、4、3、2、1\n\n3. 「この料理美味しいですね」\n\nそれだけ。\n\n5秒で人生が変わるよ。"
   }
 };
+
+// ================== 誤解データベース ==================
+const COMMON_MYTHS = [
+  { myth: 'うつ病は気の持ちようで治る', truth: '脳の生物学的変化であり、適切な治療が必要', category: 'mental' },
+  { myth: 'カウンセリングは愚痴を聞くだけ', truth: '認知の歪みを特定し、具体的なスキルを教える科学的治療', category: 'mental' },
+  { myth: '抗うつ薬は依存性がある', truth: '適切に処方されれば依存性はなく、脳内物質を正常化する', category: 'mental' },
+  { myth: 'ストレスは悪いものだ', truth: '適度なストレスは成長に必要。問題は慢性的な過剰ストレス', category: 'mental' },
+  { myth: 'トラウマは時間が解決する', truth: 'PTSD（心的外傷後ストレス障害）は専門治療が必要。放置すると悪化する', category: 'mental' },
+  { myth: '心の病気は弱さの証拠', truth: '誰でもなりうる。脳の病気であり、性格の問題ではない', category: 'mental' },
+  { myth: '瞑想は宗教的なもの', truth: '脳科学に基づく訓練法。ストレス軽減効果が科学的に証明されている', category: 'mental' },
+  { myth: '子どもはトラウマを覚えてない', truth: '幼少期のトラウマは無意識に残り、大人になっても影響する', category: 'mental' },
+  { myth: '薬を飲んだら一生やめられない', truth: '症状が安定すれば、医師の指導のもと減薬・中止できる', category: 'mental' },
+  { myth: 'ポジティブ思考だけで克服できる', truth: '認知療法は「考え方を変える」が、無理にポジティブにするのではない', category: 'mental' },
+  { myth: '貯金は収入が増えてから', truth: '収入の10%を先に貯金する習慣が、資産形成の基本', category: 'money' },
+  { myth: '投資はギャンブル', truth: '長期・分散投資は科学的にリスクを減らす方法', category: 'money' },
+  { myth: 'クレジットカードは借金', truth: '計画的に使えば、ポイント還元でお得。問題は使いすぎ', category: 'money' },
+  { myth: '保険はたくさん入るべき', truth: '必要最小限でOK。過剰な保険は資産形成を妨げる', category: 'money' },
+  { myth: 'マルチタスクは効率的', truth: '脳科学的には非効率。シングルタスクの方が生産性が高い', category: 'work' },
+  { myth: '睡眠時間を削って働くべき', truth: '睡眠不足は判断力を低下させ、生産性が落ちる', category: 'work' },
+  { myth: '完璧主義が成功への道', truth: '完璧主義は先延ばしを生む。80%で行動する方が成果が出る', category: 'work' },
+  { myth: '運動する時間がない', truth: '1日10分の運動でも、健康効果がある', category: 'health' },
+  { myth: 'ダイエットは食べないこと', truth: '極端な食事制限はリバウンドを招く。バランスが大事', category: 'health' },
+  { myth: '内向的な人は損', truth: '内向性は強み。深い思考・集中力に優れている', category: 'social' },
+];
+
+// ================== 警告サインデータベース ==================
+const WARNING_SIGNS = [
+  { sign: '睡眠時間が減ってきた', category: 'physiological', severity: 'medium', disorder: 'うつ病' },
+  { sign: '趣味を楽しめなくなった', category: 'behavioral', severity: 'high', disorder: 'うつ病' },
+  { sign: '些細なことでイライラする', category: 'emotional', severity: 'medium', disorder: '不安症' },
+  { sign: '人と会うのを避けるようになった', category: 'behavioral', severity: 'high', disorder: '社交不安症' },
+  { sign: '集中力が続かない', category: 'cognitive', severity: 'medium', disorder: 'ADHD' },
+  { sign: '食欲が落ちてきた', category: 'physiological', severity: 'medium', disorder: 'うつ病' },
+  { sign: '朝起きるのがつらい', category: 'physiological', severity: 'low', disorder: 'うつ病' },
+  { sign: '将来が不安で仕方ない', category: 'cognitive', severity: 'medium', disorder: '不安症' },
+  { sign: '自分を責めることが増えた', category: 'cognitive', severity: 'high', disorder: 'うつ病' },
+  { sign: '体が重く感じる', category: 'physiological', severity: 'medium', disorder: 'うつ病' },
+  { sign: 'ミスが増えた', category: 'behavioral', severity: 'medium', disorder: 'バーンアウト' },
+  { sign: '仕事に行きたくない', category: 'motivational', severity: 'medium', disorder: 'バーンアウト' },
+  { sign: '友達からの誘いを断る', category: 'behavioral', severity: 'medium', disorder: 'うつ病' },
+  { sign: '小さな決断ができない', category: 'cognitive', severity: 'medium', disorder: 'うつ病' },
+  { sign: '涙もろくなった', category: 'emotional', severity: 'medium', disorder: 'うつ病' },
+  { sign: 'お酒の量が増えた', category: 'behavioral', severity: 'high', disorder: '物質使用障害' },
+  { sign: '体調不良が続く', category: 'physiological', severity: 'medium', disorder: 'ストレス' },
+  { sign: '他人の成功が妬ましい', category: 'emotional', severity: 'low', disorder: 'うつ病' },
+  { sign: 'SNSをダラダラ見る時間が増えた', category: 'behavioral', severity: 'low', disorder: '回避行動' },
+  { sign: '休日も休めない', category: 'behavioral', severity: 'medium', disorder: 'バーンアウト' },
+];
+
+// ================== 改善指標データベース ==================
+const PROGRESS_INDICATORS = [
+  { indicator: '不安はあるが、行動できるようになった', realistic: true, stage: 'recovery', disorder: '不安症' },
+  { indicator: '完全に不安が消えた', realistic: false, stage: 'unrealistic', disorder: '不安症' },
+  { indicator: '悪い日もあるが、良い日が増えた', realistic: true, stage: 'recovery', disorder: 'うつ病' },
+  { indicator: '毎日完璧に幸せ', realistic: false, stage: 'unrealistic', disorder: 'うつ病' },
+  { indicator: '以前より睡眠の質が改善した', realistic: true, stage: 'recovery', disorder: '睡眠障害' },
+  { indicator: '8時間ぐっすり毎日眠れる', realistic: false, stage: 'unrealistic', disorder: '睡眠障害' },
+  { indicator: 'ストレスを感じても、対処できるようになった', realistic: true, stage: 'recovery', disorder: 'ストレス' },
+  { indicator: 'ストレスを全く感じない', realistic: false, stage: 'unrealistic', disorder: 'ストレス' },
+  { indicator: '治療を続けながら、仕事ができている', realistic: true, stage: 'recovery', disorder: 'うつ病' },
+  { indicator: '薬を飲まずに完治した', realistic: false, stage: 'unrealistic', disorder: 'うつ病' },
+  { indicator: '小さな成功を積み重ねている', realistic: true, stage: 'recovery', disorder: 'うつ病' },
+  { indicator: '一度も失敗しない', realistic: false, stage: 'unrealistic', disorder: 'うつ病' },
+  { indicator: 'パニック発作の頻度が減った', realistic: true, stage: 'recovery', disorder: 'パニック障害' },
+  { indicator: 'パニック発作が二度と起きない', realistic: false, stage: 'unrealistic', disorder: 'パニック障害' },
+  { indicator: '人前で話せるようになってきた', realistic: true, stage: 'recovery', disorder: '社交不安症' },
+  { indicator: '緊張せずに完璧にスピーチできる', realistic: false, stage: 'unrealistic', disorder: '社交不安症' },
+  { indicator: 'トラウマを思い出しても、冷静でいられる', realistic: true, stage: 'recovery', disorder: 'PTSD（心的外傷後ストレス障害）' },
+  { indicator: 'トラウマを完全に忘れた', realistic: false, stage: 'unrealistic', disorder: 'PTSD（心的外傷後ストレス障害）' },
+  { indicator: '自分に優しくできるようになった', realistic: true, stage: 'recovery', disorder: 'うつ病' },
+  { indicator: '自分を完璧に愛せるようになった', realistic: false, stage: 'unrealistic', disorder: 'うつ病' },
+];
+
+// ================== 認知の歪みデータベース ==================
+const COGNITIVE_DISTORTIONS = [
+  { distortion: '全か無か思考', example: '1つミスしたから、全部ダメだ', correction: '部分的な成功も評価する' },
+  { distortion: '過度の一般化', example: '1回失敗したから、いつも失敗する', correction: '1回の出来事から全体を決めつけない' },
+  { distortion: '心のフィルター', example: '99%うまくいったのに、1%の失敗ばかり考える', correction: 'うまくいったことにも目を向ける' },
+  { distortion: 'マイナス思考', example: '褒められても「お世辞だ」と否定する', correction: '良いことも素直に受け取る' },
+  { distortion: '結論の飛躍', example: '返信がない＝嫌われた', correction: '他の可能性も考える（忙しいだけかも）' },
+  { distortion: '拡大解釈と過小評価', example: '自分のミスは大問題、成功は大したことない', correction: 'バランスよく評価する' },
+  { distortion: '感情的決めつけ', example: '不安だから、きっと失敗する', correction: '感情は事実ではない' },
+  { distortion: 'すべき思考', example: '完璧にすべき、失敗すべきでない', correction: '「したい」「できればいいな」に言い換える' },
+  { distortion: 'レッテル貼り', example: '1回ミスした＝私はダメ人間', correction: '行動と人格を分ける' },
+  { distortion: '個人化', example: '同僚の機嫌が悪いのは自分のせい', correction: '他人の気分は自分のせいではない' },
+  { distortion: '白黒思考', example: '成功か失敗、勝ちか負け', correction: 'グレーゾーンを認める' },
+  { distortion: '破滅的思考', example: 'ミスしたら人生終わり', correction: '最悪の事態は起きにくい' },
+  { distortion: '他人と比較', example: 'あの人より劣ってる', correction: '自分の成長を基準にする' },
+  { distortion: '完璧主義', example: '100%完璧じゃないと意味がない', correction: '80%で十分価値がある' },
+  { distortion: '読心術', example: 'きっとあの人は私を嫌ってる', correction: '確認せずに決めつけない' },
+  { distortion: '占い師思考', example: 'どうせ失敗する', correction: '未来は確定していない' },
+  { distortion: '自責思考', example: '全部自分のせい', correction: '責任を適切に分ける' },
+  { distortion: '他責思考', example: '全部あの人のせい', correction: '自分にできることを考える' },
+  { distortion: '過度な期待', example: '努力すれば必ず成功する', correction: '努力は確率を上げるが、保証ではない' },
+  { distortion: '感情の理由づけ', example: '罪悪感があるから、悪いことをした', correction: '感情は必ずしも事実を反映しない' },
+];
 
 // ================== シナリオテンプレート ==================
 
@@ -2614,6 +2756,420 @@ class ProblemGenerator {
     };
   }
 
+  // 23. 誤解解消 (myth_busting) - 心理学の誤解を正す
+  generateMythBusting() {
+    const myth = this.randomChoice(COMMON_MYTHS);
+
+    const choices = ['正しい', '誤り'];
+    const correctIndex = 1;  // 誤解なので「誤り」が正解
+
+    const what = `【この誤解について】\n\n「${myth.myth}」\n\n→ これは誤り！\n\n正しくは：${myth.truth}`;
+    const why = `🧠【なぜ誤解が広まった？】\n\n心理学は目に見えない領域だから、誤解が生まれやすいんだ。でも、科学的には明確な答えがある。正しい知識を持つことで、効果的な対処ができるようになるよ。`;
+    const how = `💪【正しい理解】\n\n${myth.truth}\n\nこれが科学的に証明されてる事実だよ。`;
+    const real_example = `🌟【実際の影響】\n\nこの誤解のせいで、「自分の努力が足りない」と自分を責めてしまう人が多いんだ。でも、正しい理解があれば、適切な助けを求められるようになる。`;
+    const action = `🔍【今すぐできること】\n\n周りの人がこの誤解をしてたら、優しく正してあげよう。「実は科学的には...」って伝えることで、誰かを救えるかもしれないよ。`;
+
+    return {
+      id: `myth_busting_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      type: 'truefalse',  // 正しい/誤り の2択
+      stem: `「${myth.myth}」\nこれは正しい？`,
+      choices: choices,
+      answer_index: correctIndex,
+
+      what: what,
+      why: why,
+      how: how,
+      real_example: real_example,
+      action: action,
+
+      fun_fact: `💡多くの心理学の誤解は、メディアの誤った報道や都市伝説から生まれているんだ。`,
+      tip: `🔍実践: 心理学の情報を見たら、「これ、科学的に証明されてる？」って疑問を持つ習慣をつけよう。`,
+      incorrect_feedback: {},
+      emoji_hint: '❌',
+      difficulty: 'easy',
+      xp: 10
+    };
+  }
+
+  // 24. 早期警告サイン (early_warning) - 悪化の兆候を見逃さない
+  generateEarlyWarning() {
+    const disorder = this.randomChoice(PSYCH_TERMS.disorders);
+
+    // そのdisorderに関連する警告サインを3つ選ぶ
+    const relatedSigns = WARNING_SIGNS.filter(s => s.disorder === disorder.ja);
+    const selectedSigns = this.randomSample(relatedSigns.length >= 3 ? relatedSigns : WARNING_SIGNS, 3);
+
+    // 1つはダミー（関係ない行動）
+    const dummySigns = ['仕事の量が増えた', '新しい趣味を始めた', '友達が増えた'];
+    const allSigns = [...selectedSigns.map(s => s.sign), this.randomChoice(dummySigns)];
+
+    // 正解は最初の3つ（selectedSigns）
+    const correctAnswers = [0, 1, 2];
+
+    const what = `【${disorder.ja}の警告サイン】\n\n以下のサインが出てきたら、注意が必要だよ：\n${selectedSigns.map(s => `• ${s.sign}`).join('\n')}`;
+    const why = `🧠【なぜ早期発見が大事？】\n\n症状は段階的に悪化する。初期のサインを見逃さず、早めに対処すれば、重症化を防げるんだ。問題が大きくなる前に、小さなサインに気づこう。`;
+    const how = `💪【見分け方】\n\n「いつもと違う」って感覚が大事。普段できてたことができなくなったり、生活パターンが変わったりしたら、それがサインかもしれない。`;
+    const real_example = `🌟【実際の例】\n\nうつ病の初期サインを見逃して、半年後に休職することになった人がいたんだ。「睡眠が乱れてきた」時点で対処してたら、違ってたかもしれない。`;
+    const action = `🔍【今すぐチェック！】\n\n自分に当てはまるサインがないか、振り返ってみよう。もし2つ以上当てはまったら、信頼できる人に相談するか、専門家に相談してみて。`;
+
+    return {
+      id: `early_warning_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      type: 'select_all',  // 複数選択
+      stem: `${disorder.ja}の警告サインを全て選ぼう`,
+      choices: allSigns,
+      answer_index: 0,  // ダミーフィールド
+      correct_answers: correctAnswers,
+
+      what: what,
+      why: why,
+      how: how,
+      real_example: real_example,
+      action: action,
+
+      fun_fact: `💡研究によると、早期介入は治療期間を半分に短縮できることが多いんだ。`,
+      tip: `🔍実践: 毎週日曜日に「今週の自分」を振り返る習慣をつけよう。変化に気づきやすくなるよ。`,
+      incorrect_feedback: {},
+      emoji_hint: '⚠️',
+      difficulty: 'medium',
+      xp: 15
+    };
+  }
+
+  // 25. 改善指標 (progress_indicator) - 現実的な回復目標
+  generateProgressIndicator() {
+    const disorder = this.randomChoice(PSYCH_TERMS.disorders);
+
+    // 全指標からrealistic/unrealisticを取得（disorderに依存せず）
+    const realisticOnes = PROGRESS_INDICATORS.filter(i => i.realistic);
+    const unrealisticOnes = PROGRESS_INDICATORS.filter(i => !i.realistic);
+
+    // 現実的な指標を1つ、非現実的な指標を2つ選ぶ
+    const correctIndicator = this.randomChoice(realisticOnes);
+    const wrongIndicators = this.randomSample(unrealisticOnes, 2);
+
+    const choices = [correctIndicator.indicator, ...wrongIndicators.map(i => i.indicator)];
+    const correctIndex = 0;
+
+    const what = `【${disorder.ja}の現実的な改善指標】\n\n「${correctIndicator.indicator}」\n\nこれが回復の証だよ。完璧じゃなくても、これで十分進歩してる。`;
+    const why = `🧠【なぜ現実的な目標が大事？】\n\n「完全に治る」を目指すと、挫折しやすい。でも「症状があっても生活できる」を目指すと、達成可能で、自信がつくんだ。回復は直線的じゃない。波があっても大丈夫。`;
+    const how = `💪【見分け方】\n\n現実的な指標は「完璧」を求めない。「以前より良くなった」「悪い日もあるが対処できる」って感覚があれば、それが回復だよ。`;
+    const real_example = `🌟【実際の例】\n\n不安症から回復した人が言ってた：「不安はまだあるけど、前は外出できなかった。今は不安を感じながらも電車に乗れる。これが私の回復」って。`;
+    const action = `🔍【自分の進歩を認めよう】\n\n完璧じゃなくても、小さな進歩を祝おう。「昨日より1歩でも進んだ」って思えたら、それが回復の証だよ。`;
+
+    return {
+      id: `progress_indicator_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      type: 'mcq3',
+      stem: `${disorder.ja}の回復を示す、現実的な指標はどれ？`,
+      choices: choices,
+      answer_index: correctIndex,
+
+      what: what,
+      why: why,
+      how: how,
+      real_example: real_example,
+      action: action,
+
+      fun_fact: `💡研究によると、「完璧主義的な回復目標」は再発率を2倍にすることが分かってるんだ。`,
+      tip: `🔍実践: 「今週できたこと3つ」を毎週書き出そう。小さな進歩が積み重なってることに気づけるよ。`,
+      incorrect_feedback: {},
+      emoji_hint: '📈',
+      difficulty: 'medium',
+      xp: 15
+    };
+  }
+
+  // 26. 認知の歪み特定 (thought_record) - 思考パターンの問題を見つける
+  generateThoughtRecord() {
+    const distortion = this.randomChoice(COGNITIVE_DISTORTIONS);
+
+    // 他の歪みから2つダミーを選ぶ
+    const otherDistortions = COGNITIVE_DISTORTIONS.filter(d => d.distortion !== distortion.distortion);
+    const dummies = this.randomSample(otherDistortions, 2);
+
+    const choices = [distortion.distortion, ...dummies.map(d => d.distortion)];
+    const correctIndex = 0;
+
+    const what = `【この思考の問題】\n\n「${distortion.example}」\n\n→ これは「${distortion.distortion}」と呼ばれる認知の歪みだよ。`;
+    const why = `🧠【なぜこの思考が問題？】\n\n認知の歪みは、現実を歪めて見せる「色眼鏡」みたいなもの。この眼鏡をかけてると、事実を正しく認識できず、不必要に苦しむことになるんだ。`;
+    const how = `💪【修正方法】\n\n${distortion.correction}\n\nこのように考え直すことで、より現実的でバランスの取れた見方ができるようになるよ。`;
+    const real_example = `🌟【実際の例】\n\n「${distortion.example}」って考えてた人が、「${distortion.correction}」って考え直したら、気持ちが楽になったんだ。事実は変わってないのに、見方を変えるだけで感情が変わるって不思議だよね。`;
+    const action = `🔍【今すぐ試そう！】\n\n今日、ネガティブな考えが浮かんだら、「これ、認知の歪みかも？」って疑ってみよう。そして、別の見方を探してみて。`;
+
+    return {
+      id: `thought_record_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      type: 'mcq3',
+      stem: `「${distortion.example}」\nこの思考の問題は？`,
+      choices: choices,
+      answer_index: correctIndex,
+
+      what: what,
+      why: why,
+      how: how,
+      real_example: real_example,
+      action: action,
+
+      fun_fact: `💡認知行動療法の創始者アーロン・ベックは、10種類以上の認知の歪みを特定したんだ。`,
+      tip: `🔍実践: 思考記録ノートを作ろう。「出来事」「思考」「感情」を書いて、パターンに気づくことが大事。`,
+      incorrect_feedback: {},
+      emoji_hint: '🧠',
+      difficulty: 'medium',
+      xp: 15
+    };
+  }
+
+  // ==================== Option B: 新しい問題タイプ（学習デザイン改善） ====================
+
+  // 27. 用語導入 (term_intro) - Layer 1: 知識ゼロから学べる導入レッスン
+  generateTermIntro() {
+    // PSYCH_TERMSからランダムに1つ選択
+    const categories = ['therapies', 'disorders', 'concepts'];
+    const category = this.randomChoice(categories);
+    const term = this.randomChoice(PSYCH_TERMS[category]);
+
+    // カテゴリーごとのフィールド名取得
+    const descField = category === 'therapies' ? 'desc' :
+                     category === 'disorders' ? 'symptom' : 'effect';
+
+    // 具体例を生成
+    let example, question, correctChoice;
+
+    if (category === 'therapies') {
+      example = `例: ${term.desc}ことで、心の健康を改善します`;
+      question = 'この治療法の特徴は？';
+      correctChoice = term.desc;
+    } else if (category === 'disorders') {
+      example = `症状: ${term[descField]}という特徴があります`;
+      question = '主な症状は？';
+      correctChoice = term[descField];
+    } else {
+      example = `効果: ${term[descField]}ことができます`;
+      question = 'この概念の効果は？';
+      correctChoice = term[descField];
+    }
+
+    // ダミー選択肢（同カテゴリから2つ）
+    const others = PSYCH_TERMS[category].filter(t => t.ja !== term.ja);
+    const dummies = this.randomSample(others, 2);
+    const dummyChoices = dummies.map(d => {
+      const field = category === 'therapies' ? 'desc' :
+                   category === 'disorders' ? 'symptom' : 'effect';
+      return d[field];
+    });
+
+    const choices = [correctChoice, ...dummyChoices];
+    const correctIndex = 0;
+    this.shuffleArray(choices);
+    const finalCorrectIndex = choices.indexOf(correctChoice);
+
+    return {
+      id: `term_intro_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      type: 'term_intro',
+      label: '新しい用語',
+      intro: `${term.ja}を学ぼう`,
+      term: term.ja,
+      term_en: term.en,
+      context: example,
+      stem: question,
+      choices: choices,
+      answer_index: finalCorrectIndex,
+      snack: `${term.ja}: ${correctChoice}`,
+      info: `用語: ${term.en}`,
+      difficulty: 'easy',
+      xp: 5
+    };
+  }
+
+  // 28. コンテキスト付きシナリオ (scenario_rich) - Layer 2: 推論可能な問題
+  generateScenarioRich() {
+    // 治療法をランダム選択
+    const therapy = this.randomChoice(PSYCH_TERMS.therapies);
+
+    // シナリオ生成（治療法に合う状況を推論）
+    let situation, hint;
+
+    if (therapy.ja.includes('認知')) {
+      situation = '田中さん「私はダメな人間だ」といつも考えてしまいます';
+      hint = '考え方を変えたい';
+    } else if (therapy.ja.includes('行動')) {
+      situation = '鈴木さん「やる気が出ない。何もしたくない」と無気力です';
+      hint = '活動を増やしたい';
+    } else if (therapy.ja.includes('曝露') || therapy.ja.includes('EMDR')) {
+      situation = '佐藤さん「怖くて電車に乗れません」と回避しています';
+      hint = '恐怖に慣れたい';
+    } else if (therapy.ja.includes('マインドフルネス') || therapy.ja.includes('瞑想')) {
+      situation = '山田さん「頭の中がいつもザワザワしてます」と落ち着きません';
+      hint = '今に集中したい';
+    } else {
+      situation = `クライアントが「${therapy.desc}」を必要としています`;
+      hint = '適切なアプローチを選びたい';
+    }
+
+    // ダミー選択肢（他の治療法から2つ）
+    const otherTherapies = PSYCH_TERMS.therapies.filter(t => t.ja !== therapy.ja);
+    const dummies = this.randomSample(otherTherapies, 2);
+
+    // 選択肢に説明を括弧書き
+    const choices = [
+      `${therapy.ja}（${therapy.desc}）`,
+      `${dummies[0].ja}（${dummies[0].desc}）`,
+      `${dummies[1].ja}（${dummies[1].desc}）`
+    ];
+
+    const correctIndex = 0;
+    this.shuffleArray(choices);
+    const finalCorrectIndex = choices.indexOf(`${therapy.ja}（${therapy.desc}）`);
+
+    return {
+      id: `scenario_rich_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      type: 'scenario_rich',
+      label: 'セラピー選択',
+      intro: '治療法を選ぼう',
+      stem: situation,
+      context: hint,
+      choices: choices,
+      answer_index: finalCorrectIndex,
+      snack: `${therapy.desc}がベスト`,
+      info: `治療法: ${therapy.en}`,
+      difficulty: 'medium',
+      xp: 10
+    };
+  }
+
+  // 29. 推論ベース問題 (inference) - Layer 3: 考えるクイズ
+  generateInference() {
+    // 概念をランダム選択
+    const concept = this.randomChoice(PSYCH_TERMS.concepts);
+
+    // 推論可能な状況を生成（概念の効果から逆算）
+    let situation, reasoning;
+
+    if (concept.effect.includes('気持ち') || concept.effect.includes('感情')) {
+      situation = '怒りが爆発しそうな時、どうすればいい？';
+      reasoning = '感情を扱う概念が必要';
+    } else if (concept.effect.includes('考え') || concept.effect.includes('思考')) {
+      situation = 'ネガティブな考えが止まらない時、どうすればいい？';
+      reasoning = '考え方を変える概念が必要';
+    } else if (concept.effect.includes('行動') || concept.effect.includes('活動')) {
+      situation = 'やる気が出ない時、どうすればいい？';
+      reasoning = '行動を促す概念が必要';
+    } else {
+      situation = `「${concept.effect}」したい時、どの概念が役立つ？`;
+      reasoning = 'この効果を持つ概念を選ぶ';
+    }
+
+    // ダミー選択肢（他の概念から2つ）
+    const otherConcepts = PSYCH_TERMS.concepts.filter(c => c.ja !== concept.ja);
+    const dummies = this.randomSample(otherConcepts, 2);
+
+    // 選択肢に効果を括弧書き
+    const choices = [
+      `${concept.ja}（${concept.effect}）`,
+      `${dummies[0].ja}（${dummies[0].effect}）`,
+      `${dummies[1].ja}（${dummies[1].effect}）`
+    ];
+
+    const correctIndex = 0;
+    this.shuffleArray(choices);
+    const finalCorrectIndex = choices.indexOf(`${concept.ja}（${concept.effect}）`);
+
+    return {
+      id: `inference_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      type: 'inference',
+      label: '応用',
+      intro: 'どれがベスト？',
+      stem: situation,
+      hint: reasoning,
+      choices: choices,
+      answer_index: finalCorrectIndex,
+      snack: `${concept.effect}`,
+      info: `概念: ${concept.en}`,
+      difficulty: 'medium',
+      xp: 10
+    };
+  }
+
+  // 30. Quick Reflex（反射型：時間制限付き即答問題）
+  generateQuickReflex() {
+    const therapy = this.randomChoice(PSYCH_TERMS.therapies);
+    const concept = this.randomChoice(PSYCH_TERMS.concepts);
+
+    // ランダムに療法か概念を選択
+    const useTherapy = Math.random() > 0.5;
+    const item = useTherapy ? therapy : concept;
+
+    const scenarios = [
+      '不安が高まってきた時',
+      'イライラして集中できない時',
+      '悲しくて涙が出そうな時',
+      '緊張で手が震える時',
+      'パニックになりそうな時'
+    ];
+
+    const scenario = this.randomChoice(scenarios);
+    const correctAnswer = useTherapy ? therapy.ja : concept.ja;
+    const correctEffect = useTherapy ? therapy.desc : concept.effect;
+
+    // ダミー選択肢を生成
+    const allItems = [...PSYCH_TERMS.therapies, ...PSYCH_TERMS.concepts];
+    const dummies = allItems
+      .filter(x => (useTherapy ? x.ja : x.ja) !== correctAnswer)
+      .sort(() => Math.random() - 0.5)
+      .slice(0, 1);
+
+    const choices = [correctAnswer, useTherapy ? dummies[0].ja : dummies[0].ja];
+    const correctIndex = 0;
+    this.shuffleArray(choices);
+    const finalCorrectIndex = choices.indexOf(correctAnswer);
+
+    return {
+      id: `quick_reflex_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      type: 'quick_reflex',
+      stem: `⏱️ 2秒で答えて！\n\n${scenario}、すぐに使えるのは？`,
+      choices: choices,
+      answer_index: finalCorrectIndex,
+      snack: `${correctEffect}。すぐに使えるテクニックだよ！`,
+      info: `Quick Reflex: ${useTherapy ? item.en : item.en}`,
+      difficulty: 'easy',
+      xp: 10,
+      time_limit: 2000  // 2秒
+    };
+  }
+
+  // 31. Micro Input（入力型：短文入力問題）
+  generateMicroInput() {
+    const concepts = [
+      { keyword: 'CBT', answer: '認知行動療法', hint: '考え方と行動を変える' },
+      { keyword: 'DBT', answer: '弁証法的行動療法', hint: '感情調整スキル' },
+      { keyword: 'ACT', answer: 'アクセプタンス&コミットメント療法', hint: '受け入れと行動' },
+      { keyword: 'EMDR', answer: '眼球運動による脱感作と再処理', hint: 'トラウマ処理' },
+      { keyword: 'マインドフルネス', answer: 'mindfulness', hint: '今に集中' },
+      { keyword: 'レジリエンス', answer: 'resilience', hint: '回復力' },
+      { keyword: 'セルフコンパッション', answer: 'self-compassion', hint: '自分への優しさ' },
+      { keyword: 'メタ認知', answer: 'metacognition', hint: '考えについて考える' }
+    ];
+
+    const item = this.randomChoice(concepts);
+    const isJaToEn = item.keyword.match(/[ぁ-んァ-ヶー]/);  // ひらがな・カタカナが含まれるなら日本語→英語
+
+    const question = isJaToEn
+      ? `「${item.keyword}」を英語で書いてね（小文字で）`
+      : `「${item.keyword}」の日本語訳は？`;
+
+    return {
+      id: `micro_input_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
+      type: 'micro_input',
+      stem: `📝 ${question}`,
+      choices: [],  // 入力型なので選択肢なし
+      answer_index: 0,  // 使用されない
+      snack: `正解！${item.hint}というテクニックだよ。`,
+      info: `Micro Input: ${item.keyword}`,
+      difficulty: 'easy',
+      xp: 5,
+      input_answer: item.answer.toLowerCase(),  // 小文字で統一
+      placeholder: '答えを入力...'
+    };
+  }
+
   // -------------------- メイン生成関数 --------------------
 
   generate_question(type = null) {
@@ -2640,6 +3196,17 @@ class ProblemGenerator {
       contraindication: () => this.generateContraindication(),
       population_match: () => this.generatePopulationMatch(),
       dosage: () => this.generateDosage(),
+      myth_busting: () => this.generateMythBusting(),
+      early_warning: () => this.generateEarlyWarning(),
+      progress_indicator: () => this.generateProgressIndicator(),
+      thought_record: () => this.generateThoughtRecord(),
+      // Option B: 新しい問題タイプ
+      term_intro: () => this.generateTermIntro(),
+      scenario_rich: () => this.generateScenarioRich(),
+      inference: () => this.generateInference(),
+      // 反射型・入力型
+      quick_reflex: () => this.generateQuickReflex(),
+      micro_input: () => this.generateMicroInput(),
     };
 
     if (type && generators[type]) {

@@ -1,42 +1,237 @@
 {
-  "packId": "season_w03",
-  "title": "Season Week 01",
-  "locale": "ja-JP",
-  "skills": [
-    {
-      "id": "cog-bias-framing",
-      "title": "フレーミング効果",
-      "cards": [
-        {
-          "type": "mcq",
-          "q": "同じ内容でも表現で判断が変わる現象は？",
-          "choices": [
-            "フレーミング効果",
-            "確証バイアス",
-            "後知恵バイアス",
-            "代表性ヒューリスティック"
-          ],
-          "answerIndex": 0,
-          "explain": "表現（利得/損失など）により選好が変化する。"
-        }
-      ]
-    }
-  ],
-  "version": 1,
   "id": "mental_w03",
   "cards": [
     {
-      "id": "sample_1",
-      "type": "mcq",
-      "q": "同じ内容でも表現で判断が変わる現象は？",
+      "id": "mental_l03_001",
+      "type": "scenario",
       "choices": [
-        "フレーミング効果",
-        "確証バイアス",
-        "後知恵バイアス",
-        "代表性ヒューリスティック"
+        "怒りを即座に表現する",
+        "感情に名前をつける（ラベリング）",
+        "感情を無視する"
       ],
-      "answerIndex": 0,
-      "explain": "表現（利得/損失など）により選好が変化する。"
+      "answer_index": 1,
+      "difficulty": "medium",
+      "xp": 5,
+      "question": "上司に理不尽に怒られた。感情調整の第一歩は？",
+      "explanation": "ラベリング（言語化）で扁桃体が鎮静する。\n\n💡 Try this: 「不安だ」と声に出して言葉にしてみて"
+    },
+    {
+      "id": "mental_l03_002",
+      "type": "true_false",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 1,
+      "difficulty": "medium",
+      "xp": 5,
+      "question": "感情を言語化すると感情が強まる",
+      "explanation": "言語化すると感情中枢が落ち着く研究結果がある。\n\n💡 Try this: 逆に強まらない。口に出してみて"
+    },
+    {
+      "id": "mental_l03_003",
+      "type": "multiple_choice",
+      "choices": [
+        "雑念を追いかける",
+        "「雑念だ」と気づいて呼吸に戻る",
+        "自分を責める"
+      ],
+      "answer_index": 1,
+      "difficulty": "medium",
+      "xp": 5,
+      "question": "気づいて戻す繰り返し。これが何の訓練だった？",
+      "explanation": "気づいて戻す繰り返しが訓練の核。\n\n💡 Try this: この反復で集中力UP。呼吸に意識を戻してみて"
+    },
+    {
+      "id": "mental_l03_004",
+      "type": "swipe_judgment",
+      "choices": [],
+      "difficulty": "medium",
+      "xp": 5,
+      "statement": "慢性ストレスは免疫システムを弱める",
+      "is_true": true,
+      "source_id": "ED566260",
+      "question": "慢性ストレスは免疫システムを弱める",
+      "explanation": "慢性ストレスでコルチゾール↑になると免疫↓の原因。\n\n💡 Try this: 毎日深呼吸でリセットしよう",
+      "correct_index": 0
+    },
+    {
+      "id": "mental_l03_005",
+      "type": "scenario",
+      "choices": [
+        "不安を完全に消そうとする",
+        "「準備した」と自分に言い聞かせる",
+        "不安から目を背ける"
+      ],
+      "answer_index": 1,
+      "difficulty": "medium",
+      "xp": 5,
+      "question": "試験前の不安。最も効果的な対処は？",
+      "explanation": "自己肯定的な再評価でパフォーマンスがUPする。\n\n💡 Try this: 「できる」と心の中で唱えてみて"
+    },
+    {
+      "id": "mental_l03_006",
+      "type": "true_false",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 1,
+      "difficulty": "medium",
+      "xp": 5,
+      "question": "前にも出たね、即効性と継続効果。呼吸法はどっちだった？",
+      "explanation": "即効性があって継続すると自律神経バランスも改善する。\n\n💡 Try this: 60秒で心拍が↓するから、深呼吸を3回試してみて"
+    },
+    {
+      "id": "mental_l03_007",
+      "type": "fill_blank",
+      "choices": [
+        "マインドフルネス",
+        "認知再構成",
+        "抑圧"
+      ],
+      "difficulty": "medium",
+      "xp": 5,
+      "question": "感情に気づき、受け入れることを［　］という",
+      "explanation": "判断せず観察することが受容の核心。\n\n💡 Try this: 苦しみが↓する。今の感情を見てあげて",
+      "correct_index": 0
+    },
+    {
+      "id": "mental_l03_008",
+      "type": "swipe_judgment",
+      "choices": [],
+      "difficulty": "medium",
+      "xp": 5,
+      "statement": "問題焦点型と情動焦点型は併用できない",
+      "is_true": false,
+      "question": "問題焦点型と情動焦点型は併用できない",
+      "explanation": "問題焦点と情動焦点は併用可能で、場面に応じて使い分けが鍵。迷った時は両方試してみて\n\n💡 Try this: 今日から実践してみよう。",
+      "correct_index": 0
+    },
+    {
+      "id": "mental_l03_009",
+      "type": "conversation",
+      "choices": [
+        "「科学的に効果実証されてるよ」",
+        "「君には合わないね」",
+        "「やらない人には分からない」"
+      ],
+      "difficulty": "medium",
+      "xp": 5,
+      "your_response_prompt": "どう返す？",
+      "question": "もう一度思い出してみよう、アドバイスの伝え方。押し付けない方法は？",
+      "explanation": "事実ベースで穏やかに伝えることが大切。\n\n💡 Try this: 押し付けずに提案する形で伝えてみてから、試してみよう",
+      "correct_index": 0
+    },
+    {
+      "id": "mental_l03_010",
+      "type": "multiple_choice",
+      "choices": [
+        "短期的にエネルギー動員",
+        "常に体に有害",
+        "リラックスホルモン"
+      ],
+      "answer_index": 0,
+      "difficulty": "medium",
+      "xp": 5,
+      "question": "コルチゾールの役割で正しいのは？",
+      "explanation": "急性ストレスは必要な適応反応だという理解が大切。\n\n💡 Try this: 慢性化だけが問題。深呼吸で毎日リセットしてみて"
+    },
+    {
+      "id": "mental_l03_011",
+      "type": "matching",
+      "choices": [],
+      "difficulty": "medium",
+      "xp": 5,
+      "left_items": [
+        "認知的再評価",
+        "注意転換",
+        "反応抑制"
+      ],
+      "right_items": [
+        "健康的",
+        "中程度",
+        "逆効果的"
+      ],
+      "correct_pairs": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          1
+        ],
+        [
+          2,
+          2
+        ]
+      ],
+      "question": "感情調整法とその特徴",
+      "explanation": "状況に応じて使い分けることが重要。\n\n💡 Try this: 固定せず柔軟に対応しよう",
+      "correct_index": 0
+    },
+    {
+      "id": "mental_l03_012",
+      "type": "true_false",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 1,
+      "difficulty": "medium",
+      "xp": 5,
+      "question": "覚えてる？BDNFだよ。何の運動で分泌される？",
+      "explanation": "有酸素運動で脳由来神経栄養因子（BDNF）が↑して脳の成長を促進する。\n\n💡 Try this: 今日から20分歩いてみよう"
+    },
+    {
+      "id": "mental_l03_013",
+      "type": "select_all",
+      "choices": [
+        "「失敗は学び」と捉える",
+        "感情を抑え込む",
+        "「緊張は準備完了のサイン」と考える",
+        "問題から逃げる"
+      ],
+      "difficulty": "medium",
+      "xp": 5,
+      "correct_answers": [
+        0,
+        2
+      ],
+      "question": "認知的再評価の例は？（複数選択）",
+      "explanation": "解釈を変えることで感情を調整できるという心理学の基本。\n\n💡 Try this: 視点変更で楽になれるから、試してみて",
+      "correct_index": 0
+    },
+    {
+      "id": "mental_l03_014",
+      "type": "fill_blank_tap",
+      "choices": [
+        "海馬",
+        "扁桃体",
+        "小脳",
+        "脊髄"
+      ],
+      "difficulty": "hard",
+      "xp": 5,
+      "statement": "感情ラベリングで活動低下する脳部位は［　］",
+      "explanation": "扁桃体は感情中枢だから言語化することで鎮静化するという仕組みがある。今の気持ちを言葉にして表現してみて\n\n💡 Try this: 今日から実践してみよう。",
+      "correct_index": 1
+    },
+    {
+      "id": "mental_l03_015",
+      "type": "scenario",
+      "choices": [
+        "気晴らしに飲みに行く",
+        "話し合いの場を設ける",
+        "我慢し続ける"
+      ],
+      "answer_index": 1,
+      "difficulty": "medium",
+      "xp": 5,
+      "source_id": "ED566260",
+      "question": "同僚との対立でストレス。問題焦点型対処は？",
+      "explanation": "根本原因に対処するのが問題焦点型コーピングで感情緩和が情動焦点型。\n\n💡 Try this: 場面に応じて使い分けよう"
     }
   ]
 }

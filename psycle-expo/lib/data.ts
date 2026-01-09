@@ -7,75 +7,29 @@ export const genres = [
   { id: "study", label: "学習法", icon: "book" },
 ];
 
+// Helper to generate trail nodes
+const generateTrail = (genreId: string, count: number) => {
+  const icons = ["leaf", "flower", "sparkles", "star", "heart-circle", "pulse", "school", "flask", "shield-checkmark", "trophy"];
+  return Array.from({ length: count }, (_, i) => {
+    const level = i + 1;
+    return {
+      id: `${genreId.charAt(0)}${level}`,
+      status: level === 1 ? "current" : "locked",
+      icon: icons[i % icons.length],
+      type: "lesson",
+      lessonFile: `${genreId}_l${String(level).padStart(2, '0')}`, // For mental (legacy format support)
+      lessonId: `${genreId}_lesson_${level}` // Standard format
+    };
+  });
+};
+
 export const trailsByGenre: Record<string, any[]> = {
-  mental: [
-    { id: "m1", status: "current", icon: "leaf", type: "lesson", lessonFile: "mental_l01" },
-    { id: "m2", status: "locked", icon: "flower", type: "lesson", lessonFile: "mental_l02" },
-    { id: "m3", status: "locked", icon: "sparkles", type: "lesson", lessonFile: "mental_l03" },
-    { id: "m4", status: "locked", icon: "star", type: "lesson", lessonFile: "mental_l04" },
-    { id: "m5", status: "locked", icon: "heart-circle", type: "lesson", lessonFile: "mental_l05" },
-    { id: "m6", status: "locked", icon: "pulse", type: "lesson", lessonFile: "mental_l06" },
-  ],
-  money: [
-    { id: "mo1", status: "current", icon: "cash", type: "lesson", lessonId: "money_lesson_1" },
-    { id: "mo2", status: "locked", icon: "card", type: "lesson", lessonId: "money_lesson_2" },
-    { id: "mo3", status: "locked", icon: "trending-up", type: "lesson", lessonId: "money_lesson_3" },
-    { id: "mo4", status: "locked", icon: "wallet", type: "lesson", lessonId: "money_lesson_4" },
-    { id: "mo5", status: "locked", icon: "calculator", type: "lesson", lessonId: "money_lesson_5" },
-    { id: "mo6", status: "locked", icon: "bar-chart", type: "lesson", lessonId: "money_lesson_6" },
-    { id: "mo7", status: "locked", icon: "pie-chart", type: "lesson", lessonId: "money_lesson_7" },
-    { id: "mo8", status: "locked", icon: "analytics", type: "lesson", lessonId: "money_lesson_8" },
-    { id: "mo9", status: "locked", icon: "stats-chart", type: "lesson", lessonId: "money_lesson_9" },
-    { id: "mo10", status: "locked", icon: "trophy", type: "lesson", lessonId: "money_lesson_10" },
-  ],
-  work: [
-    { id: "w1", status: "current", icon: "briefcase", type: "lesson", lessonId: "work_lesson_1" },
-    { id: "w2", status: "locked", icon: "calendar", type: "lesson", lessonId: "work_lesson_2" },
-    { id: "w3", status: "locked", icon: "clipboard", type: "lesson", lessonId: "work_lesson_3" },
-    { id: "w4", status: "locked", icon: "timer", type: "lesson", lessonId: "work_lesson_4" },
-    { id: "w5", status: "locked", icon: "checkmark-circle", type: "lesson", lessonId: "work_lesson_5" },
-    { id: "w6", status: "locked", icon: "list", type: "lesson", lessonId: "work_lesson_6" },
-    { id: "w7", status: "locked", icon: "create", type: "lesson", lessonId: "work_lesson_7" },
-    { id: "w8", status: "locked", icon: "rocket", type: "lesson", lessonId: "work_lesson_8" },
-    { id: "w9", status: "locked", icon: "flame", type: "lesson", lessonId: "work_lesson_9" },
-    { id: "w10", status: "locked", icon: "trophy", type: "lesson", lessonId: "work_lesson_10" },
-  ],
-  health: [
-    { id: "h1", status: "current", icon: "fitness", type: "lesson", lessonId: "health_lesson_1" },
-    { id: "h2", status: "locked", icon: "heart", type: "lesson", lessonId: "health_lesson_2" },
-    { id: "h3", status: "locked", icon: "nutrition", type: "lesson", lessonId: "health_lesson_3" },
-    { id: "h4", status: "locked", icon: "bed", type: "lesson", lessonId: "health_lesson_4" },
-    { id: "h5", status: "locked", icon: "water", type: "lesson", lessonId: "health_lesson_5" },
-    { id: "h6", status: "locked", icon: "footsteps", type: "lesson", lessonId: "health_lesson_6" },
-    { id: "h7", status: "locked", icon: "bicycle", type: "lesson", lessonId: "health_lesson_7" },
-    { id: "h8", status: "locked", icon: "body", type: "lesson", lessonId: "health_lesson_8" },
-    { id: "h9", status: "locked", icon: "medkit", type: "lesson", lessonId: "health_lesson_9" },
-    { id: "h10", status: "locked", icon: "trophy", type: "lesson", lessonId: "health_lesson_10" },
-  ],
-  social: [
-    { id: "s1", status: "current", icon: "people", type: "lesson", lessonId: "social_lesson_1" },
-    { id: "s2", status: "locked", icon: "chatbubbles", type: "lesson", lessonId: "social_lesson_2" },
-    { id: "s3", status: "locked", icon: "happy", type: "lesson", lessonId: "social_lesson_3" },
-    { id: "s4", status: "locked", icon: "hand-left", type: "lesson", lessonId: "social_lesson_4" },
-    { id: "s5", status: "locked", icon: "heart", type: "lesson", lessonId: "social_lesson_5" },
-    { id: "s6", status: "locked", icon: "ear", type: "lesson", lessonId: "social_lesson_6" },
-    { id: "s7", status: "locked", icon: "megaphone", type: "lesson", lessonId: "social_lesson_7" },
-    { id: "s8", status: "locked", icon: "git-network", type: "lesson", lessonId: "social_lesson_8" },
-    { id: "s9", status: "locked", icon: "ribbon", type: "lesson", lessonId: "social_lesson_9" },
-    { id: "s10", status: "locked", icon: "trophy", type: "lesson", lessonId: "social_lesson_10" },
-  ],
-  study: [
-    { id: "st1", status: "current", icon: "book", type: "lesson", lessonId: "study_lesson_1" },
-    { id: "st2", status: "locked", icon: "school", type: "lesson", lessonId: "study_lesson_2" },
-    { id: "st3", status: "locked", icon: "library", type: "lesson", lessonId: "study_lesson_3" },
-    { id: "st4", status: "locked", icon: "bulb", type: "lesson", lessonId: "study_lesson_4" },
-    { id: "st5", status: "locked", icon: "pencil", type: "lesson", lessonId: "study_lesson_5" },
-    { id: "st6", status: "locked", icon: "glasses", type: "lesson", lessonId: "study_lesson_6" },
-    { id: "st7", status: "locked", icon: "journal", type: "lesson", lessonId: "study_lesson_7" },
-    { id: "st8", status: "locked", icon: "newspaper", type: "lesson", lessonId: "study_lesson_8" },
-    { id: "st9", status: "locked", icon: "flash", type: "lesson", lessonId: "study_lesson_9" },
-    { id: "st10", status: "locked", icon: "trophy", type: "lesson", lessonId: "study_lesson_10" },
-  ],
+  mental: generateTrail("mental", 100),
+  money: generateTrail("money", 100),
+  work: generateTrail("work", 100),
+  health: generateTrail("health", 100),
+  social: generateTrail("social", 100),
+  study: generateTrail("study", 100),
 };
 
 export const league = [

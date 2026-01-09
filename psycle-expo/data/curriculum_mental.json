@@ -1,0 +1,504 @@
+{
+  "units": [
+    {
+      "level": 1,
+      "title": "Introduction to Stress: What it is and Why it Matters",
+      "source": "Lazarus, R. S., & Folkman, S. (1984). Stress, Appraisal, and Coping."
+    },
+    {
+      "level": 2,
+      "title": "The Physiology of Stress: Fight, Flight, or Freeze",
+      "source": "Lazarus, R. S., & Folkman, S. (1984). Stress, Appraisal, and Coping."
+    },
+    {
+      "level": 3,
+      "title": "Identifying Common Stressors: Internal and External",
+      "source": "Lazarus, R. S., & Folkman, S. (1984). Stress, Appraisal, and Coping."
+    },
+    {
+      "level": 4,
+      "title": "Cognitive Appraisal: How We Interpret Stress",
+      "source": "Lazarus, R. S., & Folkman, S. (1984). Stress, Appraisal, and Coping."
+    },
+    {
+      "level": 5,
+      "title": "Problem-Focused Coping Strategies",
+      "source": "Lazarus, R. S., & Folkman, S. (1984). Stress, Appraisal, and Coping."
+    },
+    {
+      "level": 6,
+      "title": "Emotion-Focused Coping Strategies",
+      "source": "Lazarus, R. S., & Folkman, S. (1984). Stress, Appraisal, and Coping."
+    },
+    {
+      "level": 7,
+      "title": "Understanding Resilience: Bouncing Back from Adversity",
+      "source": "Lazarus, R. S., & Folkman, S. (1984). Stress, Appraisal, and Coping."
+    },
+    {
+      "level": 8,
+      "title": "Recognizing and Preventing Burnout",
+      "source": "Lazarus, R. S., & Folkman, S. (1984). Stress, Appraisal, and Coping."
+    },
+    {
+      "level": 9,
+      "title": "Basic Stress Management Techniques",
+      "source": "Lazarus, R. S., & Folkman, S. (1984). Stress, Appraisal, and Coping."
+    },
+    {
+      "level": 10,
+      "title": "Developing a Personal Stress Resilience Plan",
+      "source": "Lazarus, R. S., & Folkman, S. (1984). Stress, Appraisal, and Coping."
+    },
+    {
+      "level": 11,
+      "title": "The Critical Importance of Sleep for Mental Health",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 12,
+      "title": "Exploring the Stages of Sleep: NREM and REM",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 13,
+      "title": "Understanding Your Body's Circadian Rhythm",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 14,
+      "title": "The Detrimental Effects of Sleep Deprivation",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 15,
+      "title": "Common Sleep Disorders: Insomnia and Sleep Apnea",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 16,
+      "title": "Principles of Effective Sleep Hygiene",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 17,
+      "title": "Creating an Optimal Sleep Environment",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 18,
+      "title": "Managing Sleep Disruptions: Jet Lag and Shift Work",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 19,
+      "title": "Mindfulness and Relaxation Techniques for Sleep",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 20,
+      "title": "Tracking and Improving Personal Sleep Quality",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 21,
+      "title": "Introduction to Cognitive Behavioral Therapy Principles",
+      "source": "Beck, J. S. (2011). Cognitive Behavior Therapy: Basics and Beyond."
+    },
+    {
+      "level": 22,
+      "title": "The Cognitive Model: Thoughts, Feelings, Behaviors",
+      "source": "Beck, J. S. (2011). Cognitive Behavior Therapy: Basics and Beyond."
+    },
+    {
+      "level": 23,
+      "title": "Identifying Automatic Negative Thoughts",
+      "source": "Beck, J. S. (2011). Cognitive Behavior Therapy: Basics and Beyond."
+    },
+    {
+      "level": 24,
+      "title": "Common Cognitive Distortions: Thinking Traps",
+      "source": "Beck, J. S. (2011). Cognitive Behavior Therapy: Basics and Beyond."
+    },
+    {
+      "level": 25,
+      "title": "Challenging and Restructuring Automatic Thoughts",
+      "source": "Beck, J. S. (2011). Cognitive Behavior Therapy: Basics and Beyond."
+    },
+    {
+      "level": 26,
+      "title": "Introduction to Behavioral Experiments",
+      "source": "Beck, J. S. (2011). Cognitive Behavior Therapy: Basics and Beyond."
+    },
+    {
+      "level": 27,
+      "title": "Activity Scheduling and Pleasant Event Logging",
+      "source": "Beck, J. S. (2011). Cognitive Behavior Therapy: Basics and Beyond."
+    },
+    {
+      "level": 28,
+      "title": "Basic Problem-Solving Skills in CBT",
+      "source": "Beck, J. S. (2011). Cognitive Behavior Therapy: Basics and Beyond."
+    },
+    {
+      "level": 29,
+      "title": "Understanding Core Beliefs: Foundations of Our Thoughts",
+      "source": "Beck, J. S. (2011). Cognitive Behavior Therapy: Basics and Beyond."
+    },
+    {
+      "level": 30,
+      "title": "Practical Application of CBT Skills in Daily Life",
+      "source": "Beck, J. S. (2011). Cognitive Behavior Therapy: Basics and Beyond."
+    },
+    {
+      "level": 31,
+      "title": "What is Mindfulness? An Introduction",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 32,
+      "title": "The Practice of Mindful Breathing",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 33,
+      "title": "The Body Scan Meditation Technique",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 34,
+      "title": "Cultivating Mindfulness through Eating",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 35,
+      "title": "Mindful Walking: Bringing Awareness to Movement",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 36,
+      "title": "Observing Thoughts and Emotions Mindfully",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 37,
+      "title": "Practicing Self-Compassion and Kindness",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 38,
+      "title": "Introduction to Mindfulness-Based Stress Reduction (MBSR)",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 39,
+      "title": "Integrating Mindfulness into Daily Activities",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 40,
+      "title": "Overcoming Common Challenges in Meditation Practice",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 41,
+      "title": "Understanding the Spectrum of Human Emotions",
+      "source": "Linehan, M. M. (2014). DBT Skills Training Manual: Second Edition."
+    },
+    {
+      "level": 42,
+      "title": "Introduction to Emotional Intelligence",
+      "source": "Linehan, M. M. (2014). DBT Skills Training Manual: Second Edition."
+    },
+    {
+      "level": 43,
+      "title": "Identifying Personal Emotional Triggers",
+      "source": "Linehan, M. M. (2014). DBT Skills Training Manual: Second Edition."
+    },
+    {
+      "level": 44,
+      "title": "Distress Tolerance Skills: Surviving Crises",
+      "source": "Linehan, M. M. (2014). DBT Skills Training Manual: Second Edition."
+    },
+    {
+      "level": 45,
+      "title": "The Practice of Radical Acceptance",
+      "source": "Linehan, M. M. (2014). DBT Skills Training Manual: Second Edition."
+    },
+    {
+      "level": 46,
+      "title": "Practical Strategies for Emotion Regulation",
+      "source": "Linehan, M. M. (2014). DBT Skills Training Manual: Second Edition."
+    },
+    {
+      "level": 47,
+      "title": "Coping with Intense and Difficult Emotions",
+      "source": "Linehan, M. M. (2014). DBT Skills Training Manual: Second Edition."
+    },
+    {
+      "level": 48,
+      "title": "Interpersonal Effectiveness: Assertiveness and Boundaries",
+      "source": "Linehan, M. M. (2014). DBT Skills Training Manual: Second Edition."
+    },
+    {
+      "level": 49,
+      "title": "Cultivating and Amplifying Positive Emotions",
+      "source": "Linehan, M. M. (2014). DBT Skills Training Manual: Second Edition."
+    },
+    {
+      "level": 50,
+      "title": "Building Long-Term Emotional Resilience",
+      "source": "Linehan, M. M. (2014). DBT Skills Training Manual: Second Edition."
+    },
+    {
+      "level": 51,
+      "title": "What Drives Us? Understanding Motivation",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 52,
+      "title": "Intrinsic vs. Extrinsic Motivation",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 53,
+      "title": "Setting Effective Goals: The SMART Framework",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 54,
+      "title": "Building Self-Efficacy and Belief in Your Abilities",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 55,
+      "title": "Developing a Growth Mindset vs. Fixed Mindset",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 56,
+      "title": "Willpower and Self-Control: Concepts and Limitations",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 57,
+      "title": "The Science of Habit Formation",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 58,
+      "title": "Strategies for Overcoming Procrastination",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 59,
+      "title": "Maintaining Motivation Through Challenges",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 60,
+      "title": "Finding Achievement and Personal Purpose",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 61,
+      "title": "Understanding Social Influence and Conformity",
+      "source": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion."
+    },
+    {
+      "level": 62,
+      "title": "Dynamics of Group Behavior and Identity",
+      "source": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion."
+    },
+    {
+      "level": 63,
+      "title": "Mastering Effective Communication Skills",
+      "source": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion."
+    },
+    {
+      "level": 64,
+      "title": "The Power of Active Listening",
+      "source": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion."
+    },
+    {
+      "level": 65,
+      "title": "Constructive Conflict Resolution Strategies",
+      "source": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion."
+    },
+    {
+      "level": 66,
+      "title": "Building and Maintaining Healthy Relationships",
+      "source": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion."
+    },
+    {
+      "level": 67,
+      "title": "Adult Attachment Styles and Their Impact",
+      "source": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion."
+    },
+    {
+      "level": 68,
+      "title": "Developing Empathy and Perspective-Taking",
+      "source": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion."
+    },
+    {
+      "level": 69,
+      "title": "Leveraging Social Support for Mental Well-being",
+      "source": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion."
+    },
+    {
+      "level": 70,
+      "title": "Navigating Challenging Social Interactions",
+      "source": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion."
+    },
+    {
+      "level": 71,
+      "title": "Introduction to the Science of Well-being: Positive Psychology",
+      "source": "Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being."
+    },
+    {
+      "level": 72,
+      "title": "The PERMA Model for Flourishing",
+      "source": "Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being."
+    },
+    {
+      "level": 73,
+      "title": "The Practice of Gratitude and Its Benefits",
+      "source": "Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being."
+    },
+    {
+      "level": 74,
+      "title": "Cultivating Optimism and Hope",
+      "source": "Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being."
+    },
+    {
+      "level": 75,
+      "title": "Discovering and Achieving Flow States",
+      "source": "Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being."
+    },
+    {
+      "level": 76,
+      "title": "Finding Meaning and Purpose in Life",
+      "source": "Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being."
+    },
+    {
+      "level": 77,
+      "title": "Strengths-Based Approach: Identifying Your Signature Strengths",
+      "source": "Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being."
+    },
+    {
+      "level": 78,
+      "title": "The Broaden-and-Build Theory of Positive Emotions",
+      "source": "Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being."
+    },
+    {
+      "level": 79,
+      "title": "Savoring Positive Experiences",
+      "source": "Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being."
+    },
+    {
+      "level": 80,
+      "title": "Designing Your Own Path to a Happy Life",
+      "source": "Seligman, M. E. P. (2011). Flourish: A Visionary New Understanding of Happiness and Well-being."
+    },
+    {
+      "level": 81,
+      "title": "Brain Basics: Neurons, Synapses, and Neurotransmitters",
+      "source": "Siegel, D. J. (2010). Mindsight: The New Science of Personal Transformation."
+    },
+    {
+      "level": 82,
+      "title": "Key Brain Regions and Their Functions",
+      "source": "Siegel, D. J. (2010). Mindsight: The New Science of Personal Transformation."
+    },
+    {
+      "level": 83,
+      "title": "Neuroplasticity: The Brain's Ability to Change",
+      "source": "Siegel, D. J. (2010). Mindsight: The New Science of Personal Transformation."
+    },
+    {
+      "level": 84,
+      "title": "The Brain's Response to Stress: The HPA Axis",
+      "source": "Siegel, D. J. (2010). Mindsight: The New Science of Personal Transformation."
+    },
+    {
+      "level": 85,
+      "title": "The Amygdala: Understanding Fear and Emotion Processing",
+      "source": "Siegel, D. J. (2010). Mindsight: The New Science of Personal Transformation."
+    },
+    {
+      "level": 86,
+      "title": "The Prefrontal Cortex: Executive Functions and Regulation",
+      "source": "Siegel, D. J. (2010). Mindsight: The New Science of Personal Transformation."
+    },
+    {
+      "level": 87,
+      "title": "Neurobiology of Depression and Mood Disorders",
+      "source": "Siegel, D. J. (2010). Mindsight: The New Science of Personal Transformation."
+    },
+    {
+      "level": 88,
+      "title": "Neurobiology of Anxiety and Fear Disorders",
+      "source": "Siegel, D. J. (2010). Mindsight: The New Science of Personal Transformation."
+    },
+    {
+      "level": 89,
+      "title": "Lifestyle Factors Influencing Brain Health",
+      "source": "Siegel, D. J. (2010). Mindsight: The New Science of Personal Transformation."
+    },
+    {
+      "level": 90,
+      "title": "Emerging Trends in Neuroscience and Mental Health",
+      "source": "Siegel, D. J. (2010). Mindsight: The New Science of Personal Transformation."
+    },
+    {
+      "level": 91,
+      "title": "Introduction to Acceptance and Commitment Therapy (ACT)",
+      "source": "Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2012). Acceptance and Commitment Therapy: An Experiential Approach to Behavior Change."
+    },
+    {
+      "level": 92,
+      "title": "Psychological Flexibility: Core of ACT",
+      "source": "Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2012). Acceptance and Commitment Therapy: An Experiential Approach to Behavior Change."
+    },
+    {
+      "level": 93,
+      "title": "Values Clarification in ACT: What Truly Matters",
+      "source": "Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2012). Acceptance and Commitment Therapy: An Experiential Approach to Behavior Change."
+    },
+    {
+      "level": 94,
+      "title": "Cognitive Defusion: Unhooking from Unhelpful Thoughts",
+      "source": "Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2012). Acceptance and Commitment Therapy: An Experiential Approach to Behavior Change."
+    },
+    {
+      "level": 95,
+      "title": "Self-as-Context: The Observing Self",
+      "source": "Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2012). Acceptance and Commitment Therapy: An Experiential Approach to Behavior Change."
+    },
+    {
+      "level": 96,
+      "title": "Overview of Schema Therapy Concepts",
+      "source": "Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2012). Acceptance and Commitment Therapy: An Experiential Approach to Behavior Change."
+    },
+    {
+      "level": 97,
+      "title": "Attachment-Based Therapy: Repairing Early Wounds",
+      "source": "Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2012). Acceptance and Commitment Therapy: An Experiential Approach to Behavior Change."
+    },
+    {
+      "level": 98,
+      "title": "Principles of Integrative Therapy Approaches",
+      "source": "Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2012). Acceptance and Commitment Therapy: An Experiential Approach to Behavior Change."
+    },
+    {
+      "level": 99,
+      "title": "The Importance of the Therapeutic Relationship",
+      "source": "Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2012). Acceptance and Commitment Therapy: An Experiential Approach to Behavior Change."
+    },
+    {
+      "level": 100,
+      "title": "Crafting Your Personalized Mental Wellness Journey",
+      "source": "Hayes, S. C., Strosahl, K. D., & Wilson, K. G. (2012). Acceptance and Commitment Therapy: An Experiential Approach to Behavior Change."
+    }
+  ]
+}

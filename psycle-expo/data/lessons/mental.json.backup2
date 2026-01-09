@@ -1,0 +1,1451 @@
+[
+  {
+    "id": "minicase_001",
+    "type": "scenario",
+    "stem": "【ミニケース】\n\n明日の面接を控えたAさん。夜中に何度も目が覚め、手が冷たくなり、呼吸が浅い。\n\n最優先で行うべき対処は？",
+    "choices": [
+      "深呼吸で生理反応を整える",
+      "面接の練習をもう一度する",
+      "不安な気持ちを紙に書き出す"
+    ],
+    "answer_index": 0,
+    "snack": "呼吸が浅いと脳に酸素が届かず、不安が増幅するよ。まず4秒吸って6秒吐く深呼吸を3回。体が落ち着いてから、次の対処を考えよう。",
+    "info": "生理反応の優先順位（呼吸→認知→行動）",
+    "difficulty": "easy",
+    "xp": 10
+  },
+  {
+    "id": "minicase_002",
+    "type": "scenario",
+    "stem": "【ミニケース】\n\nBさんは上司に叱られた直後。「自分はダメだ」と考えが止まらない。\n\nこの時、最も効果的な対処は？",
+    "choices": [
+      "「今回はミスしたけど、次はできる」と考え直す（認知再評価）",
+      "そのまま我慢して仕事を続ける（抑圧）",
+      "上司が悪いと考える（責任転嫁）"
+    ],
+    "answer_index": 0,
+    "snack": "「ダメだ」という極端な考えを、「今回はミスしたけど」と具体的に変えることで、感情が落ち着くよ。これが認知再評価。記憶定着率は通常の2-3倍！",
+    "info": "Gross (1998): 認知再評価の効果",
+    "difficulty": "easy",
+    "xp": 10
+  },
+  {
+    "id": "minicase_003",
+    "type": "scenario",
+    "stem": "【ミニケース】\n\nCさんは満員電車で急に息苦しくなり、手が震え始めた。\n\n今すぐできる対処は？",
+    "choices": [
+      "次の駅で降りて、深呼吸を5回する",
+      "気のせいだと思って我慢する",
+      "スマホで音楽を聴いて気を紛らわす"
+    ],
+    "answer_index": 0,
+    "snack": "パニック症状は、環境を変える+呼吸で9割改善するよ。我慢すると悪化するから、すぐに降りて外の空気を吸おう。行動変容率60%超え！",
+    "info": "Barlow (2002): パニック対処の即効性",
+    "difficulty": "easy",
+    "xp": 10
+  },
+  {
+    "id": "mental_l01_004",
+    "type": "swipe_judgment",
+    "stem": "深呼吸は即効性のあるストレス対策",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "迷走神経がONになって副交感神経が活性化するから、60秒試してみて #落ち着き",
+    "info": "Porges (2011): Polyvagal Theory",
+    "difficulty": "easy",
+    "xp": 5,
+    "statement": "深呼吸は即効性のあるストレス対策",
+    "is_true": true
+  },
+  {
+    "id": "mental_l01_005",
+    "type": "matching",
+    "stem": "リラックスを司る神経は？マッチさせよう",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "副交感神経をONにしてリラックスモードに切り替える方法だから、深呼吸を1回だけでいいので試してみよう #リラックス",
+    "info": "Benarroch (1993): The central autonomic network",
+    "difficulty": "easy",
+    "xp": 5,
+    "left_items": [
+      "交感神経",
+      "副交感神経"
+    ],
+    "right_items": [
+      "リラックス",
+      "緊張・興奮"
+    ],
+    "correct_pairs": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ]
+  },
+  {
+    "id": "mental_l01_006",
+    "type": "true_false",
+    "stem": "前にも出たね、呼吸法の効果ってどんな感じ？数週間後？それとも即効性？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "60秒で心拍が15%も↓する即効性があるから、深呼吸を試してみて。すぐに効果を実感できるはず #即効",
+    "info": "Laborde (2022): Psychophysiology of slow-paced breathing",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "mental_l01_007",
+    "type": "fill_blank",
+    "stem": "緊張で心臓ドキドキ...これ［　］神経が活性化",
+    "choices": [
+      "交感",
+      "副交感",
+      "迷走"
+    ],
+    "answer_index": 0,
+    "snack": "交感神経=ON、副交感神経=OFFの緊張状態だから、呼吸で切替可能から、深呼吸してスイッチを押してみて #切替",
+    "info": "McCorry (2007): Autonomic nervous system",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "mental_l01_008",
+    "type": "swipe_judgment",
+    "stem": "マインドフルネスは瞑想とは別物",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "「今ここ」への注意がマインドフルネスの核心だから、判断せず観察するだけ。不安な時こそ試してみて #シンプル",
+    "info": "Kabat-Zinn (2003): Mindfulness-based interventions",
+    "difficulty": "easy",
+    "xp": 5,
+    "statement": "マインドフルネスは瞑想とは別物",
+    "is_true": false
+  },
+  {
+    "id": "mental_l01_009",
+    "type": "conversation",
+    "stem": "もう一度思い出してみよう、友人へのアドバイスは？「眠れない」に何て返す？",
+    "choices": [
+      "「気にしすぎだよ」",
+      "「寝る前に深呼吸3回してみたら？」",
+      "「睡眠薬飲めば？」"
+    ],
+    "answer_index": 1,
+    "snack": "具体的な1分行動を提案すると副交感神経がONになるから、自分も今夜寝る前に試してみて。効果を実感できる #共感",
+    "info": "Harvey (2002): Cognitive model of insomnia",
+    "difficulty": "easy",
+    "xp": 5,
+    "your_response_prompt": "どう返す？"
+  },
+  {
+    "id": "mental_l01_011",
+    "type": "sort_order",
+    "stem": "緊張した時、どの順で対処する？",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "この順で実践すると効果的だと研究で証明されているから、認知→感情→行動の順で今から習慣化してみよう #習慣化",
+    "info": "Beck (1976): Cognitive therapy model",
+    "difficulty": "easy",
+    "xp": 5,
+    "items": [
+      "状況を認識する",
+      "感情に気づく",
+      "深呼吸で落ち着く",
+      "別の視点で捉え直す"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "id": "mental_l01_012",
+    "type": "true_false",
+    "stem": "覚えてる？感情の捉え方だよ。不安やイライラは避けるべき？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "感情に善悪はないという心理学の基本だから、観察して受け入れてみて。今の気持ちをただ見てあげよう #自己受容",
+    "info": "Hayes (2004): Acceptance and Commitment Therapy",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "mental_l01_013",
+    "type": "select_all",
+    "stem": "今日から始められるストレス対策は？（複数選択）",
+    "choices": [
+      "深呼吸",
+      "散歩",
+      "お酒",
+      "運動"
+    ],
+    "answer_index": 0,
+    "snack": "お酒は一時的で逆効果リスクがあるから、深呼吸・散歩・運動を試してみて。毎日続けて #健康",
+    "info": "APA (2020): Stress management techniques",
+    "difficulty": "easy",
+    "xp": 5,
+    "correct_answers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "id": "mental_l01_014",
+    "type": "fill_blank_tap",
+    "stem": "寝る前の4-7-8呼吸：4秒吸って7秒止めて［　］秒吐く",
+    "choices": [
+      "6",
+      "7",
+      "8",
+      "10"
+    ],
+    "answer_index": 2,
+    "snack": "入眠に効果的な4-7-8呼吸法があるから、今夜ベッドで試してみて #安眠",
+    "info": "Weil (2015): 4-7-8 breathing technique",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "practice_001",
+    "type": "sort_order",
+    "stem": "【実践】不安を感じた時の対処順序を正しく並び替えよう",
+    "choices": [],
+    "answer_index": 0,
+    "items": [
+      "①深呼吸で体を落ち着かせる",
+      "②不安の原因を特定する",
+      "③別の考え方を試す（認知再評価）",
+      "④具体的な行動を決める"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "initial_order": [
+      2,
+      0,
+      3,
+      1
+    ],
+    "snack": "正解！この順序を覚えると、不安への対処が自動化されるよ。①体→②頭→③考え方→④行動の流れ。習慣化率3-5倍！",
+    "info": "行動順序の運動記憶化",
+    "difficulty": "easy",
+    "xp": 15
+  },
+  {
+    "id": "practice_002",
+    "type": "quick_reflex",
+    "stem": "⏱️【実践】今、呼吸が浅くなっている？\n\n深呼吸を今すぐする？しない？",
+    "choices": [
+      "する（3秒以内）",
+      "しない"
+    ],
+    "answer_index": 0,
+    "snack": "正解！実際にやってみることで、知識が「運動記憶」に変わるよ。4秒吸って6秒吐く深呼吸を、今すぐ3回やってみよう。記憶保持率90%！",
+    "info": "即実践の効果（Do it now!）",
+    "difficulty": "easy",
+    "xp": 10,
+    "time_limit": 3000
+  },
+  {
+    "id": "mental_l02_001",
+    "type": "scenario",
+    "stem": "会議で批判された。まず何をする？",
+    "choices": [
+      "すぐ反論する",
+      "深呼吸して落ち着く",
+      "無視する"
+    ],
+    "answer_index": 1,
+    "snack": "感情より先に体が反応してしまうという仕組みだから、深呼吸で切り替えスイッチを押そうから、試してみて #即効",
+    "info": "Gross (2015): Emotion regulation",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "mental_l02_002",
+    "type": "true_false",
+    "stem": "マインドフルネスは宗教的な実践",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "科学的に効果が実証されている手法だから、宗教性ゼロで誰でもできる。今日から1分だけ瞑想を始めてみよう #科学的",
+    "info": "Kabat-Zinn (1990): MBSR secular approach",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "mental_l02_003",
+    "type": "multiple_choice",
+    "stem": "前にも出たね、「今ここ」への気づき。それって何だった？",
+    "choices": [
+      "過去を反省すること",
+      "今この瞬間に注意を向けること",
+      "未来を計画すること"
+    ],
+    "answer_index": 1,
+    "snack": "「今ここ」への気づきがマインドフルネスの核心だから、判断せず観察するだけでOK。1分間試してみよう #シンプル",
+    "info": "Bishop (2004): Mindfulness operational definition",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l02_004",
+    "type": "swipe_judgment",
+    "stem": "マインドフルネス瞑想で脳構造が変化する",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "脳構造が8週間で変化する証拠があるから、扁桃体縮小で不安が減る。10分瞑想してみて #脳科学",
+    "info": "Hölzel (2011): Mindfulness and brain structure",
+    "difficulty": "medium",
+    "xp": 5,
+    "statement": "マインドフルネス瞑想で脳構造が変化する",
+    "is_true": true
+  },
+  {
+    "id": "mental_l02_005",
+    "type": "scenario",
+    "stem": "不安で眠れない夜。マインドフルネスでは？",
+    "choices": [
+      "不安を無理に消そうとする",
+      "不安をただ観察する",
+      "気を紛らわす"
+    ],
+    "answer_index": 1,
+    "snack": "抵抗すると苦しみが増す心理法則があるから、あるがまま受け入れる。今の感情を観察してみて #受容",
+    "info": "Ong (2014): Mindfulness for insomnia",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l02_006",
+    "type": "true_false",
+    "stem": "HRV高い状態って何だった？リラックス？緊張？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "短期ストレスは生存に必要な適応反応だから、問題は慢性化だけ。深呼吸で日々リセットする習慣をつけよう #バランス",
+    "info": "Sapolsky (2000): Glucocorticoid effects",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l02_007",
+    "type": "fill_blank",
+    "stem": "HRV（心拍変動）が高い=［　］神経が優位",
+    "choices": [
+      "交感",
+      "副交感",
+      "運動"
+    ],
+    "answer_index": 1,
+    "snack": "HRV高い=リラックス状態でストレス耐性の指標になるから、深呼吸でHRVをUPさせてみて #測定可能",
+    "info": "Thayer (2012): Heart rate variability",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l02_008",
+    "type": "swipe_judgment",
+    "stem": "ボディスキャンは筋トレの一種",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "ボディスキャンは体の感覚を観察する瞑想法だから、筋トレとは別物。疲れてる部分に気づけるから試してみて #体感",
+    "info": "Ditto (2006): Body scan effectiveness",
+    "difficulty": "medium",
+    "xp": 5,
+    "statement": "ボディスキャンは筋トレの一種",
+    "is_true": false
+  },
+  {
+    "id": "mental_l02_009",
+    "type": "conversation",
+    "stem": "もう一度思い出してみよう、雑念に気づくのは成功？失敗？",
+    "choices": [
+      "「向いてないんだよ」",
+      "「雑念に気づくのが瞑想だよ」",
+      "「もっと集中して」"
+    ],
+    "answer_index": 1,
+    "snack": "雑念に気づくこと自体が成功だという考え方だから、戻ることが練習になる。今この瞬間に意識を向けてみて #成長",
+    "info": "Lutz (2008): Attention regulation in meditation",
+    "difficulty": "medium",
+    "xp": 5,
+    "your_response_prompt": "どう返す？"
+  },
+  {
+    "id": "mental_l02_010",
+    "type": "multiple_choice",
+    "stem": "感情調整で最も健康的なのは？",
+    "choices": [
+      "感情を完全に抑え込む",
+      "感情を認めて適切に対処する",
+      "感情に完全に身を任せる"
+    ],
+    "answer_index": 1,
+    "snack": "感情を抑圧すると逆効果を生んでしまうから、解釈を変えて感情を調整する方が有効。今の状況で試してみて #調整",
+    "info": "Gross & John (2003): Regulation strategies",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l02_011",
+    "type": "matching",
+    "stem": "ストレス対処法とその効果",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "問題焦点型は根本解決、情動焦点型は感情緩和だから、場面に応じて使い分けてみて #使い分け",
+    "info": "Lazarus & Folkman (1984): Coping strategies",
+    "difficulty": "medium",
+    "xp": 5,
+    "left_items": [
+      "問題焦点型",
+      "情動焦点型"
+    ],
+    "right_items": [
+      "感情を和らげる",
+      "問題を解決する"
+    ],
+    "correct_pairs": [
+      [
+        0,
+        1
+      ],
+      [
+        1,
+        0
+      ]
+    ]
+  },
+  {
+    "id": "mental_l02_012",
+    "type": "true_false",
+    "stem": "覚えてる？抑圧の影響だったよね。心身にどんな影響があった？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "抑圧は心身に悪影響を与えるという研究結果があるから、認知的再評価で解釈変更をから、視点を変えてみて #解放",
+    "info": "Gross (2002): Emotion regulation consequences",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l02_013",
+    "type": "select_all",
+    "stem": "マインドフルネスの要素は？（複数選択）",
+    "choices": [
+      "今ここへの注意",
+      "非評価的態度",
+      "未来予測",
+      "判断"
+    ],
+    "answer_index": 0,
+    "snack": "評価・判断が苦しみを生む原因になっているから、今に気づくだけでOK。1分間呼吸だけに集中してみよう #気づき",
+    "info": "Bishop (2004): Mindfulness components",
+    "difficulty": "medium",
+    "xp": 5,
+    "correct_answers": [
+      0,
+      1
+    ]
+  },
+  {
+    "id": "mental_l02_014",
+    "type": "fill_blank_tap",
+    "stem": "マインドフルネス瞑想は1日［　］分から効果",
+    "choices": [
+      "5",
+      "10",
+      "30",
+      "60"
+    ],
+    "answer_index": 1,
+    "snack": "10分×8週間で脳が物理的に変わるという研究成果があるから、短時間でもOK。今日から毎日続けてみて #継続",
+    "info": "Hölzel (2011): 27 min/day for 8 weeks",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l02_015",
+    "type": "scenario",
+    "stem": "渋滞でイライラ。認知的再評価では？",
+    "choices": [
+      "「時間の無駄だ」と嘆く",
+      "「音楽を楽しむ時間」と捉える",
+      "怒りをぶつける"
+    ],
+    "answer_index": 1,
+    "snack": "解釈次第で感情が大きく変わるという心理学の基本だから、視点を変えてコントロールできる。今試してみよう #コントロール",
+    "info": "McRae (2012): Cognitive reappraisal neural basis",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l03_001",
+    "type": "scenario",
+    "stem": "上司に理不尽に怒られた。感情調整の第一歩は？",
+    "choices": [
+      "怒りを即座に表現する",
+      "感情に名前をつける（ラベリング）",
+      "感情を無視する"
+    ],
+    "answer_index": 1,
+    "snack": "ラベリング（言語化）で扁桃体が鎮静するから、「不安だ」と声に出して言葉にしてみて #言語化",
+    "info": "Lieberman (2007): Affect labeling",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l03_002",
+    "type": "true_false",
+    "stem": "感情を言語化すると感情が強まる",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "言語化すると感情中枢が落ち着く研究結果があるから、逆に強まらない。口に出してみて #鎮静",
+    "info": "Lieberman (2007): Putting feelings into words",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l03_003",
+    "type": "multiple_choice",
+    "stem": "気づいて戻す繰り返し。これが何の訓練だった？",
+    "choices": [
+      "雑念を追いかける",
+      "「雑念だ」と気づいて呼吸に戻る",
+      "自分を責める"
+    ],
+    "answer_index": 1,
+    "snack": "気づいて戻す繰り返しが訓練の核だから、この反復で集中力UP。呼吸に意識を戻してみて #訓練",
+    "info": "Tang (2015): Mindfulness meditation training",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l03_004",
+    "type": "swipe_judgment",
+    "stem": "慢性ストレスは免疫システムを弱める",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "慢性ストレスでコルチゾール↑になると免疫↓の原因だから、毎日深呼吸でリセットしよう #予防",
+    "info": "Segerstrom & Miller (2004): Stress and immunity",
+    "difficulty": "medium",
+    "xp": 5,
+    "statement": "慢性ストレスは免疫システムを弱める",
+    "is_true": true
+  },
+  {
+    "id": "mental_l03_005",
+    "type": "scenario",
+    "stem": "試験前の不安。最も効果的な対処は？",
+    "choices": [
+      "不安を完全に消そうとする",
+      "「準備した」と自分に言い聞かせる",
+      "不安から目を背ける"
+    ],
+    "answer_index": 1,
+    "snack": "自己肯定的な再評価でパフォーマンスがUPするから、「できる」と心の中で唱えてみて #自己肯定",
+    "info": "Jamieson (2010): Reappraising stress arousal",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l03_006",
+    "type": "true_false",
+    "stem": "前にも出たね、即効性と継続効果。呼吸法はどっちだった？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "即効性があって継続すると自律神経バランスも改善するから、60秒で心拍が↓するから、深呼吸を3回試してみて #持続効果",
+    "info": "Zaccaro (2018): Diaphragmatic breathing",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l03_007",
+    "type": "fill_blank",
+    "stem": "感情に気づき、受け入れることを［　］という",
+    "choices": [
+      "マインドフルネス",
+      "認知再構成",
+      "抑圧"
+    ],
+    "answer_index": 0,
+    "snack": "判断せず観察することが受容の核心だから、苦しみが↓する。今の感情を見てあげて #観察",
+    "info": "Hayes (2006): Acceptance and Commitment Therapy",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l03_008",
+    "type": "swipe_judgment",
+    "stem": "問題焦点型と情動焦点型は併用できない",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "問題焦点と情動焦点は併用可能で、場面に応じて使い分けが鍵。迷った時は両方試してみて #柔軟性",
+    "info": "Aldao (2010): Emotion regulation flexibility",
+    "difficulty": "medium",
+    "xp": 5,
+    "statement": "問題焦点型と情動焦点型は併用できない",
+    "is_true": false
+  },
+  {
+    "id": "mental_l03_009",
+    "type": "conversation",
+    "stem": "もう一度思い出してみよう、アドバイスの伝え方。押し付けない方法は？",
+    "choices": [
+      "「科学的に効果実証されてるよ」",
+      "「君には合わないね」",
+      "「やらない人には分からない」"
+    ],
+    "answer_index": 0,
+    "snack": "事実ベースで穏やかに伝えることが大切だから、押し付けずに提案する形で伝えてみてから、試してみよう #配慮",
+    "info": "Goyal (2014): Meditation programs meta-analysis",
+    "difficulty": "medium",
+    "xp": 5,
+    "your_response_prompt": "どう返す？"
+  },
+  {
+    "id": "mental_l03_010",
+    "type": "multiple_choice",
+    "stem": "コルチゾールの役割で正しいのは？",
+    "choices": [
+      "短期的にエネルギー動員",
+      "常に体に有害",
+      "リラックスホルモン"
+    ],
+    "answer_index": 0,
+    "snack": "急性ストレスは必要な適応反応だという理解が大切だから、慢性化だけが問題。深呼吸で毎日リセットしてみて #適応",
+    "info": "de Kloet (2005): Stress hormones",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l03_011",
+    "type": "matching",
+    "stem": "感情調整法とその特徴",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "状況に応じて使い分けることが重要だから、固定せず柔軟に対応しよう #状況判断",
+    "info": "Gross (1998): Emotion regulation model",
+    "difficulty": "medium",
+    "xp": 5,
+    "left_items": [
+      "認知的再評価",
+      "注意転換",
+      "反応抑制"
+    ],
+    "right_items": [
+      "健康的",
+      "中程度",
+      "逆効果的"
+    ],
+    "correct_pairs": [
+      [
+        0,
+        0
+      ],
+      [
+        1,
+        1
+      ],
+      [
+        2,
+        2
+      ]
+    ]
+  },
+  {
+    "id": "mental_l03_012",
+    "type": "true_false",
+    "stem": "覚えてる？BDNFだよ。何の運動で分泌される？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "有酸素運動で脳由来神経栄養因子（BDNF）が↑して脳の成長を促進するから、今日から20分歩いてみよう #脳の成長",
+    "info": "Mikkelsen (2017): Exercise and anxiety",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l03_013",
+    "type": "select_all",
+    "stem": "認知的再評価の例は？（複数選択）",
+    "choices": [
+      "「失敗は学び」と捉える",
+      "感情を抑え込む",
+      "「緊張は準備完了のサイン」と考える",
+      "問題から逃げる"
+    ],
+    "answer_index": 0,
+    "snack": "解釈を変えることで感情を調整できるという心理学の基本だから、視点変更で楽になれるから、試してみて #視点変更",
+    "info": "Gross & John (2003): Reappraisal examples",
+    "difficulty": "medium",
+    "xp": 5,
+    "correct_answers": [
+      0,
+      2
+    ]
+  },
+  {
+    "id": "mental_l03_014",
+    "type": "fill_blank_tap",
+    "stem": "感情ラベリングで活動低下する脳部位は［　］",
+    "choices": [
+      "海馬",
+      "扁桃体",
+      "小脳",
+      "脊髄"
+    ],
+    "answer_index": 1,
+    "snack": "扁桃体は感情中枢だから言語化することで鎮静化するという仕組みがある。今の気持ちを言葉にして表現してみて #感情制御",
+    "info": "Lieberman (2007): fMRI affect labeling",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l03_015",
+    "type": "scenario",
+    "stem": "同僚との対立でストレス。問題焦点型対処は？",
+    "choices": [
+      "気晴らしに飲みに行く",
+      "話し合いの場を設ける",
+      "我慢し続ける"
+    ],
+    "answer_index": 1,
+    "snack": "根本原因に対処するのが問題焦点型コーピングで感情緩和が情動焦点型だから、場面に応じて使い分けよう #対処法",
+    "info": "Lazarus & Folkman (1984): Problem-focused coping",
+    "difficulty": "medium",
+    "xp": 5
+  },
+  {
+    "id": "mental_l04_001",
+    "type": "scenario",
+    "stem": "慢性ストレスの最大の問題は？",
+    "choices": [
+      "一時的な不快感",
+      "HPA軸の恒常的活性化",
+      "短期的なパフォーマンス低下"
+    ],
+    "answer_index": 1,
+    "snack": "視床下部-下垂体-副腎軸（HPA軸）が過活動すると健康被害の元凶になるから、深呼吸で軸をOFFにしてみて #健康管理",
+    "info": "McEwen (2007): Allostatic load",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l04_002",
+    "type": "true_false",
+    "stem": "マインドフルネスで前頭前皮質が厚くなる",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 0,
+    "snack": "8週間の瞑想で脳構造が変化する神経可塑性の証拠があるから、今日から10分瞑想してみて #可塑性",
+    "info": "Hölzel (2011): Mindfulness cortical thickness",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l04_003",
+    "type": "multiple_choice",
+    "stem": "前にも出たね、分散学習の話。詰め込みと比べてどっちが効果的？",
+    "choices": [
+      "急性ストレス反応",
+      "慢性ストレスによる体への累積ダメージ",
+      "ストレス耐性"
+    ],
+    "answer_index": 1,
+    "snack": "繰り返すストレスで体が摩耗していき老化が加速する原因になるから、深呼吸で日々修復する習慣をつけよう #アンチエイジング",
+    "info": "McEwen & Stellar (1993): Allostatic load",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l04_004",
+    "type": "swipe_judgment",
+    "stem": "迷走神経の緊張度はHRVで測定できる",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "迷走神経を刺激すると副交感神経がONになってリラックスモードに切り替わるから、深呼吸を1回試してみて #神経科学",
+    "info": "Porges (2011): Vagal tone regulation",
+    "difficulty": "hard",
+    "xp": 5,
+    "statement": "迷走神経の緊張度はHRVで測定できる",
+    "is_true": true
+  },
+  {
+    "id": "mental_l04_005",
+    "type": "scenario",
+    "stem": "感情抑制の長期的影響で最も深刻なのは？",
+    "choices": [
+      "社会的関係の悪化",
+      "心血管系への負担増加",
+      "一時的な不快感"
+    ],
+    "answer_index": 1,
+    "snack": "感情抑制で交感神経活動が↑して心臓に負担がかかるから、感情を受容しよう #心身健康",
+    "info": "Gross & Levenson (1997): Suppression physiology",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l04_006",
+    "type": "true_false",
+    "stem": "もう一度思い出してみよう、テロメア短縮。何が原因で起きるんだった？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 0,
+    "snack": "慢性ストレスがテロメアを短縮させて細胞老化を加速させる連鎖反応があるから、毎日深呼吸でストップさせよう #細胞レベル",
+    "info": "Epel (2004): Stress and telomere length",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l04_007",
+    "type": "fill_blank",
+    "stem": "ストレス時の「闘争・逃走反応」を提唱したのは［　］",
+    "choices": [
+      "Cannon",
+      "Selye",
+      "Lazarus"
+    ],
+    "answer_index": 0,
+    "snack": "Walter Cannon（1932）が闘争・逃走反応を発見したから、深呼吸で解除してみよう #歴史",
+    "info": "Cannon (1932): The Wisdom of the Body",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l04_008",
+    "type": "swipe_judgment",
+    "stem": "瞑想は毎日連続でやるより間隔を空けた方が良い",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "瞑想は毎日継続が効果的で、間隔を空けると効果が減るから、短時間でも毎日続けてみて。習慣化がカギ #継続",
+    "info": "Cepeda (2006): Distributed practice",
+    "difficulty": "hard",
+    "xp": 5,
+    "statement": "瞑想は毎日連続でやるより間隔を空けた方が良い",
+    "is_true": false
+  },
+  {
+    "id": "mental_l04_009",
+    "type": "conversation",
+    "stem": "覚えてる？ストレスと消化機能だったよね。交感神経が上がると消化は？",
+    "choices": [
+      "「気のせいだよ」",
+      "「交感神経で消化機能が低下してるね」",
+      "「食べ過ぎじゃない？」"
+    ],
+    "answer_index": 1,
+    "snack": "交感神経↑→消化機能↓の心身相関があるから、ストレス時は深呼吸で腹痛を緩和してみて #心身相関",
+    "info": "Mayer (2000): Gut-brain axis",
+    "difficulty": "hard",
+    "xp": 5,
+    "your_response_prompt": "どう説明する？"
+  },
+  {
+    "id": "mental_l04_010",
+    "type": "multiple_choice",
+    "stem": "認知的再評価が最も効果的なタイミングは？",
+    "choices": [
+      "感情が最高潮に達した後",
+      "感情が生じる前〜初期",
+      "感情が完全に収まった後"
+    ],
+    "answer_index": 1,
+    "snack": "早期介入がカギになるという研究結果があるから、感情生成プロセスの上流で対処するから、深呼吸で介入してみて #早期対処",
+    "info": "Gross (1998): Antecedent vs response-focused",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l04_011",
+    "type": "sort_order",
+    "stem": "ストレス反応の順序を並べよう",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "視床下部→下垂体→副腎→コルチゾール放出の順だから、深呼吸でこの軸をOFFにしてみて #システム理解",
+    "info": "Smith & Vale (2006): HPA axis",
+    "difficulty": "hard",
+    "xp": 5,
+    "items": [
+      "ストレッサー認知",
+      "視床下部活性化",
+      "ACTH分泌",
+      "コルチゾール放出"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "id": "mental_l04_012",
+    "type": "true_false",
+    "stem": "前にも出たね、脳構造変化の話。fMRIで確認されてる？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "fMRI研究で脳構造の変化が確認されているという実効果の証拠があるから、今日から瞑想を開始してみよう #実証済み",
+    "info": "Tang (2015): Neuroscience of mindfulness",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l04_013",
+    "type": "select_all",
+    "stem": "慢性ストレスの生理的影響は？（複数選択）",
+    "choices": [
+      "免疫機能低下",
+      "海馬萎縮",
+      "筋力増強",
+      "テロメア短縮"
+    ],
+    "answer_index": 0,
+    "snack": "慢性ストレスは多系統（心臓・免疫・消化器）への悪影響があるから、深呼吸でケアしよう #全身ケア",
+    "info": "McEwen (2007): Stress effects",
+    "difficulty": "hard",
+    "xp": 5,
+    "correct_answers": [
+      0,
+      1,
+      3
+    ]
+  },
+  {
+    "id": "mental_l04_014",
+    "type": "fill_blank_tap",
+    "stem": "感情調整の「プロセスモデル」を提唱したのは［　］",
+    "choices": [
+      "Lazarus",
+      "Gross",
+      "Ekman",
+      "James"
+    ],
+    "answer_index": 1,
+    "snack": "James Grossが5段階モデルを提唱したから、早期段階で呼吸介入してみて #モデル",
+    "info": "Gross (1998): Process model",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l04_015",
+    "type": "scenario",
+    "stem": "マインドフルネスの神経メカニズムは？",
+    "choices": [
+      "扁桃体活性化・前頭前皮質抑制",
+      "扁桃体抑制・前頭前皮質活性化",
+      "両方とも抑制"
+    ],
+    "answer_index": 1,
+    "snack": "トップダウン制御で理性が感情を調整するメカニズムだから、深呼吸＋再評価を試してみて #統合",
+    "info": "Taren (2015): Mindfulness neural mechanisms",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l05_001",
+    "type": "scenario",
+    "stem": "エピジェネティクスとストレスの関係は？",
+    "choices": [
+      "ストレスは遺伝子配列を変える",
+      "ストレスは遺伝子発現を調節する",
+      "無関係"
+    ],
+    "answer_index": 1,
+    "snack": "DNA配列は不変だけどメチル化で発現制御できるから、ストレス管理で遺伝子をOFFにしてみて #遺伝子",
+    "info": "Szyf (2013): Stress epigenetics",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l05_002",
+    "type": "true_false",
+    "stem": "慢性ストレスで海馬の神経新生が抑制される",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 0,
+    "snack": "コルチゾール過剰→海馬萎縮の悪循環を断つため、今日から深呼吸しよう #脳保護",
+    "info": "Gould (1998): Stress and hippocampal neurogenesis",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l05_003",
+    "type": "multiple_choice",
+    "stem": "もう一度思い出してみよう、慢性ストレスの影響。炎症性サイトカインって何？",
+    "choices": [
+      "アドレナリン",
+      "インターロイキン-6",
+      "セロトニン"
+    ],
+    "answer_index": 1,
+    "snack": "慢性ストレスでIL-6等の炎症性サイトカインが↑して全身炎症の原因になるから、深呼吸で炎症を抑えよう #炎症管理",
+    "info": "Steptoe (2007): Stress and inflammation",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l05_004",
+    "type": "swipe_judgment",
+    "stem": "運動は脳由来神経栄養因子（BDNF）を増やす",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "BDNF（脳由来神経栄養因子）で神経可塑性が↑するという抗うつ効果の一因があるから、運動で分泌を促して #神経栄養",
+    "info": "Erickson (2011): Exercise and BDNF",
+    "difficulty": "hard",
+    "xp": 5,
+    "statement": "運動は脳由来神経栄養因子（BDNF）を増やす",
+    "is_true": true
+  },
+  {
+    "id": "mental_l05_005",
+    "type": "scenario",
+    "stem": "社会的評価脅威と生理的ストレス反応の関係は？",
+    "choices": [
+      "無関係",
+      "最も強力なストレッサーの一つ",
+      "軽微な影響のみ"
+    ],
+    "answer_index": 1,
+    "snack": "TSST（社会的ストレステスト）という実験でコルチゾールが急上昇するから、評価場面前に深呼吸してみて #実験",
+    "info": "Dickerson (2004): Social evaluative threat",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l05_006",
+    "type": "true_false",
+    "stem": "覚えてる？扁桃体の反応性だよ。瞑想で上がる？下がる？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "扁桃体の反応性が↓すると感情的反応性も↓する好循環が生まれるから、瞑想8週間続けてみて #好循環",
+    "info": "Desbordes (2012): Meditation amygdala reactivity",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l05_007",
+    "type": "fill_blank",
+    "stem": "ストレス研究の「汎適応症候群」を提唱したのは［　］",
+    "choices": [
+      "Selye",
+      "Cannon",
+      "Lazarus"
+    ],
+    "answer_index": 0,
+    "snack": "Selye（1936）が警告→抵抗→疲憊の3段階を提唱したから、早期対処しよう #理論",
+    "info": "Selye (1936): General Adaptation Syndrome",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l05_008",
+    "type": "swipe_judgment",
+    "stem": "ストレス対処法に文化差はない",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "集団主義文化では社会的サポートを重視する文化差があるから、自分に合った方法を見つけてみて #多様性",
+    "info": "Taylor (2007): Cultural stress responses",
+    "difficulty": "hard",
+    "xp": 5,
+    "statement": "ストレス対処法に文化差はない",
+    "is_true": false
+  },
+  {
+    "id": "mental_l05_009",
+    "type": "conversation",
+    "stem": "前にも出たね、CBTとMBCTの違い。思考の「内容」を変えるのはどっち？",
+    "choices": [
+      "「同じものだよ」",
+      "「認知療法は思考変容、マインドフルネスは観察」",
+      "「全く別物で併用できない」"
+    ],
+    "answer_index": 1,
+    "snack": "CBTは思考の内容変更、MBCTは思考との関係変更だから、目的に応じて使い分けてみて #アプローチ",
+    "info": "Segal (2002): MBCT vs CBT",
+    "difficulty": "hard",
+    "xp": 5,
+    "your_response_prompt": "どう説明する？"
+  },
+  {
+    "id": "mental_l05_010",
+    "type": "multiple_choice",
+    "stem": "レジリエンスを高める最重要因子は？",
+    "choices": [
+      "遺伝的要因のみ",
+      "社会的サポート＋認知的柔軟性",
+      "ストレス回避"
+    ],
+    "answer_index": 1,
+    "snack": "複合的な要因で人とのつながり＋適応的思考が鍵になるから、孤立は×から、誰かと話してみよう #つながり",
+    "info": "Southwick & Charney (2012): Resilience factors",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l05_011",
+    "type": "sort_order",
+    "stem": "感情調整の発達順序（Grossモデル）を並べよう",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "早期介入ほど効果的でコストも低いという予防医学の基本があるから、予防が最善策。今日から習慣化してみて #予防医学",
+    "info": "Gross (2015): Emotion regulation development",
+    "difficulty": "hard",
+    "xp": 5,
+    "items": [
+      "状況選択",
+      "注意配分",
+      "認知的変容",
+      "反応調整"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "id": "mental_l05_012",
+    "type": "true_false",
+    "stem": "もう一度思い出してみよう、灰白質密度のこと。瞑想で上がる？下がる？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 0,
+    "snack": "灰白質密度が↑するという経験依存的可塑性の実例があるから、脳は何歳でも変われる。今日から瞑想を始めよう #脳可塑性",
+    "info": "Lazar (2005): Meditation cortical thickness",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l05_013",
+    "type": "select_all",
+    "stem": "HPA軸の構成要素は？（複数選択）",
+    "choices": [
+      "視床下部",
+      "下垂体",
+      "副腎",
+      "海馬"
+    ],
+    "answer_index": 0,
+    "snack": "海馬はフィードバック調節に関与するけど軸ではなく視床下部が司令塔だから、全体像を理解してみて #システム",
+    "info": "Herman (2016): HPA axis regulation",
+    "difficulty": "hard",
+    "xp": 5,
+    "correct_answers": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "id": "mental_l05_014",
+    "type": "fill_blank_tap",
+    "stem": "ストレス脆弱性を決める要因の一つ「早期逆境体験」の臨界期は主に［　］歳まで",
+    "choices": [
+      "3",
+      "5",
+      "10",
+      "18"
+    ],
+    "answer_index": 1,
+    "snack": "幼少期のストレスが生涯の反応性を規定するから、大人になっても呼吸で修正してみて #発達",
+    "info": "Lupien (2009): Early adversity effects",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l05_015",
+    "type": "scenario",
+    "stem": "ポリヴェーガル理論で最も進化的に新しい系は？",
+    "choices": [
+      "背側迷走神経複合体",
+      "交感神経系",
+      "腹側迷走神経複合体"
+    ],
+    "answer_index": 2,
+    "snack": "腹側迷走神経が社会的関与システムの基盤で哺乳類で発達したから、深呼吸で活性化してみて #進化",
+    "info": "Porges (2011): Polyvagal Theory",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l06_001",
+    "type": "scenario",
+    "stem": "トラウマ記憶の再固定化を利用した治療法は？",
+    "choices": [
+      "曝露療法のみ",
+      "記憶想起後の介入（薬理的・認知的）",
+      "回避"
+    ],
+    "answer_index": 1,
+    "snack": "想起で記憶が不安定化して再固定化を変容できるメカニズムだから、今思い出して紙に書いて #記憶再構築",
+    "info": "Nader (2000): Memory reconsolidation",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l06_002",
+    "type": "true_false",
+    "stem": "ストレスの認知的評価理論では客観的ストレッサーの大きさが最重要",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "主観的評価がストレス反応の鍵だから、同じ出来事でも反応は個人差。解釈を変えてみて #主観性",
+    "info": "Lazarus & Folkman (1984): Cognitive appraisal",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l06_003",
+    "type": "multiple_choice",
+    "stem": "覚えてる？セルフコンパッションだったよね。3つの要素は何だった？",
+    "choices": [
+      "自己批判の抑制",
+      "共通の人間性",
+      "マインドフルネス"
+    ],
+    "answer_index": 0,
+    "snack": "自己優しさ・共通人間性・マインドフルネスの3要素がコアだから、自分にも優しく接してみて #自己慈悲",
+    "info": "Neff (2003): Self-compassion components",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l06_004",
+    "type": "swipe_judgment",
+    "stem": "社会的拒絶の痛みと身体的痛みは脳の同じ部位で処理される",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "社会的痛みと身体的痛みは同じ脳領域（ACC）を活性化するから、孤独を軽視せず対処してみて #社会的痛み",
+    "info": "Eisenberger (2012): Social pain neural basis",
+    "difficulty": "hard",
+    "xp": 5,
+    "statement": "社会的拒絶の痛みと身体的痛みは脳の同じ部位で処理される",
+    "is_true": true
+  },
+  {
+    "id": "mental_l06_005",
+    "type": "scenario",
+    "stem": "デフォルトモードネットワーク（DMN）過活動と関連する状態は？",
+    "choices": [
+      "集中状態",
+      "反芻思考・うつ",
+      "睡眠"
+    ],
+    "answer_index": 1,
+    "snack": "DMN（デフォルトモードネットワーク）過活動が反芻の原因だから、瞑想でDMN↓させてみて #ネットワーク",
+    "info": "Raichle (2015): Default mode network",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l06_006",
+    "type": "true_false",
+    "stem": "前にも出たね、エピジェネティック変化。世代間伝達する？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 1,
+    "snack": "エピジェネティックな変化が世代間伝達される可能性があるから、親自身のストレス管理をしてみて #世代間影響",
+    "info": "Yehuda (2016): Intergenerational trauma transmission",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l06_007",
+    "type": "fill_blank",
+    "stem": "心理的ストレスと免疫の関係を体系化した理論は［　］",
+    "choices": [
+      "心身医学",
+      "精神神経免疫学",
+      "行動医学"
+    ],
+    "answer_index": 1,
+    "snack": "PNI（精神神経免疫学）は心・神経・内分泌・免疫の相互作用を研究する分野だから、心で体を変えてみて #統合科学",
+    "info": "Ader (1981): Psychoneuroimmunology",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l06_008",
+    "type": "swipe_judgment",
+    "stem": "感情抑制は短期的には有効だが長期的には健康リスク",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "感情抑制は短期的には有効だけど長期的には心血管リスク↑だから、受容＋呼吸で対処してみて。無理は禁物 #長期視点",
+    "info": "Consedine (2002): Emotion suppression health",
+    "difficulty": "hard",
+    "xp": 5,
+    "statement": "感情抑制は短期的には有効だが長期的には健康リスク",
+    "is_true": true
+  },
+  {
+    "id": "mental_l06_009",
+    "type": "conversation",
+    "stem": "もう一度思い出してみよう、マインドフルネスとメタ認知。完全に同一？",
+    "choices": [
+      "「同じだよ」",
+      "「マインドフルネスは観察、メタ認知は思考についての思考」",
+      "「無関係」"
+    ],
+    "answer_index": 1,
+    "snack": "マインドフルネスはメタ認知的気づきを含むけど同一ではないから、今観察してみて #メタ認知",
+    "info": "Jankowski & Holas (2014): Metacognition vs mindfulness",
+    "difficulty": "hard",
+    "xp": 5,
+    "your_response_prompt": "どう説明する？"
+  },
+  {
+    "id": "mental_l06_010",
+    "type": "multiple_choice",
+    "stem": "オキシトシンの「暗い側面」とは？",
+    "choices": [
+      "内集団びいきを強化し外集団への敵意を高める",
+      "常に向社会的行動を促す",
+      "ストレス反応を必ず高める"
+    ],
+    "answer_index": 0,
+    "snack": "オキシトシンは愛情ホルモンだけど状況依存的で内集団優遇の影もあるから、盲信せず活用してみて #複雑性",
+    "info": "De Dreu (2010): Oxytocin dark side",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l06_011",
+    "type": "sort_order",
+    "stem": "ACTの6つの核心プロセスを論理的順序で並べよう",
+    "choices": [],
+    "answer_index": 0,
+    "snack": "ACTでは価値に基づく行動選択が核心だから、回避は×で価値が○。行動してみて #価値",
+    "info": "Hayes (2006): ACT hexaflex",
+    "difficulty": "hard",
+    "xp": 5,
+    "items": [
+      "脱フュージョン",
+      "アクセプタンス",
+      "今この瞬間",
+      "価値の明確化"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "id": "mental_l06_012",
+    "type": "true_false",
+    "stem": "覚えてる？ベイズ的推論だよ。慢性ストレスは何の累積？",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 0,
+    "snack": "ベイズ的推論の視点で慢性ストレスは予測誤差の累積だという理解があるから、期待と現実のズレを修正してみて #予測",
+    "info": "Barrett (2017): Predictive processing emotions",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l06_013",
+    "type": "select_all",
+    "stem": "トラウマ記憶の特徴は？（複数選択）",
+    "choices": [
+      "文脈情報の欠如",
+      "感覚的・断片的",
+      "意図的想起の困難",
+      "時系列的統合性"
+    ],
+    "answer_index": 0,
+    "snack": "海馬機能不全で文脈処理↓→侵入的フラッシュバックの原因だから、瞑想で海馬を修復してみて #文脈処理",
+    "info": "Brewin (2014): Dual representation theory",
+    "difficulty": "hard",
+    "xp": 5,
+    "correct_answers": [
+      0,
+      1,
+      2
+    ]
+  },
+  {
+    "id": "mental_l06_014",
+    "type": "fill_blank_tap",
+    "stem": "ストレス誘発性うつの神経炎症仮説で中心的な細胞は［　］",
+    "choices": [
+      "ニューロン",
+      "アストロサイト",
+      "ミクログリア",
+      "オリゴデンドロサイト"
+    ],
+    "answer_index": 2,
+    "snack": "ミクログリア活性化→炎症性サイトカイン↑→うつ症状の連鎖だから、運動で炎症を抑制してみて #神経炎症",
+    "info": "Miller (2013): Inflammation depression",
+    "difficulty": "hard",
+    "xp": 5
+  },
+  {
+    "id": "mental_l06_015",
+    "type": "scenario",
+    "stem": "心理的安全性の神経基盤として最も重要なのは？",
+    "choices": [
+      "扁桃体の過活動",
+      "腹側迷走神経の適切な調整",
+      "交感神経の完全抑制"
+    ],
+    "answer_index": 1,
+    "snack": "ポリヴェーガル理論では腹側迷走神経が社会的関与システムの基盤だから、深呼吸で安全信号を送ってみて #安全信号",
+    "info": "Porges (2011): Safety neural platform",
+    "difficulty": "hard",
+    "xp": 5
+  }
+]

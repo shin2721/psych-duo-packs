@@ -1,0 +1,244 @@
+{
+  "id": "mental_w06",
+  "cards": [
+    {
+      "id": "mental_l06_001",
+      "type": "scenario",
+      "stem": "トラウマ記憶の再固定化を利用した治療法は？",
+      "choices": [
+        "曝露療法のみ",
+        "記憶想起後の介入（薬理的・認知的）",
+        "回避"
+      ],
+      "answer_index": 1,
+      "snack": "想起で記憶が不安定化して再固定化を変容できるメカニズムだから、今思い出して紙に書いて #記憶再構築",
+      "info": "Nader (2000): Memory reconsolidation",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l06_002",
+      "type": "true_false",
+      "stem": "ストレスの認知的評価理論では客観的ストレッサーの大きさが最重要",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 1,
+      "snack": "主観的評価がストレス反応の鍵だから、同じ出来事でも反応は個人差。解釈を変えてみて #主観性",
+      "info": "Lazarus & Folkman (1984): Cognitive appraisal",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l06_003",
+      "type": "multiple_choice",
+      "stem": "覚えてる？セルフコンパッションだったよね。3つの要素は何だった？",
+      "choices": [
+        "自己批判の抑制",
+        "共通の人間性",
+        "マインドフルネス"
+      ],
+      "answer_index": 0,
+      "snack": "自己優しさ・共通人間性・マインドフルネスの3要素がコアだから、自分にも優しく接してみて #自己慈悲",
+      "info": "Neff (2003): Self-compassion components",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l06_004",
+      "type": "swipe_judgment",
+      "stem": "社会的拒絶の痛みと身体的痛みは脳の同じ部位で処理される",
+      "choices": [],
+      "answer_index": 0,
+      "snack": "社会的痛みと身体的痛みは同じ脳領域（ACC）を活性化するから、孤独を軽視せず対処してみて #社会的痛み",
+      "info": "Eisenberger (2012): Social pain neural basis",
+      "difficulty": "hard",
+      "xp": 5,
+      "statement": "社会的拒絶の痛みと身体的痛みは脳の同じ部位で処理される",
+      "is_true": true
+    },
+    {
+      "id": "mental_l06_005",
+      "type": "scenario",
+      "stem": "デフォルトモードネットワーク（DMN）過活動と関連する状態は？",
+      "choices": [
+        "集中状態",
+        "反芻思考・うつ",
+        "睡眠"
+      ],
+      "answer_index": 1,
+      "snack": "DMN（デフォルトモードネットワーク）過活動が反芻の原因だから、瞑想でDMN↓させてみて #ネットワーク",
+      "info": "Raichle (2015): Default mode network",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l06_006",
+      "type": "true_false",
+      "stem": "前にも出たね、エピジェネティック変化。世代間伝達する？",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 1,
+      "snack": "エピジェネティックな変化が世代間伝達される可能性があるから、親自身のストレス管理をしてみて #世代間影響",
+      "info": "Yehuda (2016): Intergenerational trauma transmission",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l06_007",
+      "type": "fill_blank",
+      "stem": "心理的ストレスと免疫の関係を体系化した理論は［　］",
+      "choices": [
+        "心身医学",
+        "精神神経免疫学",
+        "行動医学"
+      ],
+      "answer_index": 1,
+      "snack": "PNI（精神神経免疫学）は心・神経・内分泌・免疫の相互作用を研究する分野だから、心で体を変えてみて #統合科学",
+      "info": "Ader (1981): Psychoneuroimmunology",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l06_008",
+      "type": "swipe_judgment",
+      "stem": "感情抑制は短期的には有効だが長期的には健康リスク",
+      "choices": [],
+      "answer_index": 0,
+      "snack": "感情抑制は短期的には有効だけど長期的には心血管リスク↑だから、受容＋呼吸で対処してみて。無理は禁物 #長期視点",
+      "info": "Consedine (2002): Emotion suppression health",
+      "difficulty": "hard",
+      "xp": 5,
+      "statement": "感情抑制は短期的には有効だが長期的には健康リスク",
+      "is_true": true,
+      "source_id": "ED662876"
+    },
+    {
+      "id": "mental_l06_009",
+      "type": "conversation",
+      "stem": "もう一度思い出してみよう、マインドフルネスとメタ認知。完全に同一？",
+      "choices": [
+        "「同じだよ」",
+        "「マインドフルネスは観察、メタ認知は思考についての思考」",
+        "「無関係」"
+      ],
+      "answer_index": 1,
+      "snack": "マインドフルネスはメタ認知的気づきを含むけど同一ではないから、今観察してみて #メタ認知",
+      "info": "Jankowski & Holas (2014): Metacognition vs mindfulness",
+      "difficulty": "hard",
+      "xp": 5,
+      "your_response_prompt": "どう説明する？"
+    },
+    {
+      "id": "mental_l06_010",
+      "type": "multiple_choice",
+      "stem": "オキシトシンの「暗い側面」とは？",
+      "choices": [
+        "内集団びいきを強化し外集団への敵意を高める",
+        "常に向社会的行動を促す",
+        "ストレス反応を必ず高める"
+      ],
+      "answer_index": 0,
+      "snack": "オキシトシンは愛情ホルモンだけど状況依存的で内集団優遇の影もあるから、盲信せず活用してみて #複雑性",
+      "info": "De Dreu (2010): Oxytocin dark side",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l06_011",
+      "type": "sort_order",
+      "stem": "ACTの6つの核心プロセスを論理的順序で並べよう",
+      "choices": [],
+      "answer_index": 0,
+      "snack": "ACTでは価値に基づく行動選択が核心だから、回避は×で価値が○。行動してみて #価値",
+      "info": "Hayes (2006): ACT hexaflex",
+      "difficulty": "hard",
+      "xp": 5,
+      "items": [
+        "脱フュージョン",
+        "アクセプタンス",
+        "今この瞬間",
+        "価値の明確化"
+      ],
+      "correct_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "mental_l06_012",
+      "type": "true_false",
+      "stem": "覚えてる？ベイズ的推論だよ。慢性ストレスは何の累積？",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 0,
+      "snack": "ベイズ的推論の視点で慢性ストレスは予測誤差の累積だという理解があるから、期待と現実のズレを修正してみて #予測",
+      "info": "Barrett (2017): Predictive processing emotions",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l06_013",
+      "type": "select_all",
+      "stem": "トラウマ記憶の特徴は？（複数選択）",
+      "choices": [
+        "文脈情報の欠如",
+        "感覚的・断片的",
+        "意図的想起の困難",
+        "時系列的統合性"
+      ],
+      "answer_index": 0,
+      "snack": "海馬機能不全で文脈処理↓→侵入的フラッシュバックの原因だから、瞑想で海馬を修復してみて #文脈処理",
+      "info": "Brewin (2014): Dual representation theory",
+      "difficulty": "hard",
+      "xp": 5,
+      "correct_answers": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "mental_l06_014",
+      "type": "fill_blank_tap",
+      "stem": "ストレス誘発性うつの神経炎症仮説で中心的な細胞は［　］",
+      "choices": [
+        "ニューロン",
+        "アストロサイト",
+        "ミクログリア",
+        "オリゴデンドロサイト"
+      ],
+      "answer_index": 2,
+      "snack": "ミクログリア活性化→炎症性サイトカイン↑→うつ症状の連鎖だから、運動で炎症を抑制してみて #神経炎症",
+      "info": "Miller (2013): Inflammation depression",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l06_015",
+      "type": "scenario",
+      "stem": "心理的安全性の神経基盤として最も重要なのは？",
+      "choices": [
+        "扁桃体の過活動",
+        "腹側迷走神経の適切な調整",
+        "交感神経の完全抑制"
+      ],
+      "answer_index": 1,
+      "snack": "ポリヴェーガル理論では腹側迷走神経が社会的関与システムの基盤だから、深呼吸で安全信号を送ってみて #安全信号",
+      "info": "Porges (2011): Safety neural platform",
+      "difficulty": "hard",
+      "xp": 5
+    }
+  ]
+}

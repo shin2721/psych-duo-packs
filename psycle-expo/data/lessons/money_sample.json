@@ -1,0 +1,322 @@
+[
+  {
+    "id": "money_l01_q01",
+    "type": "multiple_choice",
+    "question": "What is the primary focus of the field of money psychology?",
+    "choices": [
+      "Studying the historical evolution of currency systems.",
+      "Analyzing the economic principles of financial markets.",
+      "Examining the psychological meanings, attitudes, and behaviors associated with money.",
+      "Developing new financial products for consumers."
+    ],
+    "answer_index": 2,
+    "explanation": "Money psychology investigates the complex interplay between human psychology and financial behavior, exploring how individuals perceive, use, and relate to money (Furnham, 2014). It moves beyond purely economic models to consider emotional and cognitive factors influencing financial decisions.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "money_l01_q01"
+  },
+  {
+    "id": "money_l01_q02",
+    "type": "multiple_choice",
+    "question": "Beyond its practical function as a medium of exchange, what is a key psychological role that money often plays for individuals?",
+    "choices": [
+      "A universal symbol for political power structures.",
+      "A purely objective measure of social status.",
+      "A source of security, freedom, and self-esteem.",
+      "An immutable indicator of a person's intelligence."
+    ],
+    "answer_index": 2,
+    "explanation": "Money serves many psychological purposes beyond its economic utility, often representing security, freedom, power, love, or self-worth for individuals (Furnham, 2014). These symbolic meanings significantly influence financial behaviors and decisions.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "money_l01_q02"
+  },
+  {
+    "id": "money_l01_q03",
+    "type": "multiple_choice",
+    "question": "Which of the following best describes the nature of most individuals' financial decisions and behaviors from a psychological perspective?",
+    "choices": [
+      "Primarily rational, logical, and based on objective data.",
+      "Exclusively driven by external economic incentives.",
+      "Often influenced by emotions, biases, and subjective interpretations.",
+      "Predictable and uniform across all demographic groups."
+    ],
+    "answer_index": 2,
+    "explanation": "Contrary to traditional economic assumptions, money psychology posits that financial decisions are frequently swayed by emotions, cognitive biases, personal history, and subjective meanings, rather than being purely rational (Furnham, 2014). These influences lead to diverse and sometimes irrational behaviors.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "money_l01_q03"
+  },
+  {
+    "id": "money_l01_q04",
+    "type": "multiple_choice",
+    "question": "According to money psychology, which of the following best illustrates how money can act as a psychological symbol rather than just a financial asset?",
+    "choices": [
+      "Using money to pay for goods and services.",
+      "Saving money in a bank account to earn interest.",
+      "Viewing wealth as a measure of personal success, love, or power.",
+      "Investing money in the stock market for future growth."
+    ],
+    "answer_index": 2,
+    "explanation": "Money is not merely a practical tool; it frequently symbolizes deeper psychological constructs like success, power, security, love, or even freedom for individuals (Furnham, 2014). These symbolic meanings profoundly shape our attitudes and behaviors towards money.",
+    "difficulty": "medium",
+    "xp": 20,
+    "source_id": "money_l01_q04"
+  },
+  {
+    "id": "money_l01_q05",
+    "type": "multiple_choice",
+    "question": "How does early financial socialization, such as childhood experiences with money, typically influence an individual's adult financial behavior?",
+    "choices": [
+      "It has little to no lasting impact, as adult behavior is purely rational.",
+      "It primarily determines one's inherited wealth, not their spending habits.",
+      "It shapes enduring money scripts, attitudes, and emotional responses that guide adult decisions.",
+      "Its effects are entirely overridden by formal financial education in adulthood."
+    ],
+    "answer_index": 2,
+    "explanation": "Early experiences and observations about money during childhood significantly contribute to the formation of 'money scripts' and deeply ingrained attitudes, which then powerfully influence adult financial behaviors, sometimes unconsciously (Furnham, 2014). These foundational beliefs are often resistant to change.",
+    "difficulty": "medium",
+    "xp": 20,
+    "source_id": "money_l01_q05"
+  },
+  {
+    "id": "money_l01_q06",
+    "type": "multiple_choice",
+    "question": "From a psychological perspective, what is often a significant underlying factor contributing to impulsive spending behavior?",
+    "choices": [
+      "A thorough and rational cost-benefit analysis.",
+      "A conscious desire to maximize long-term financial stability.",
+      "Emotional regulation attempts, such as seeking pleasure, reducing stress, or coping with negative feelings.",
+      "A lack of available investment opportunities."
+    ],
+    "answer_index": 2,
+    "explanation": "Impulsive spending is often driven by emotional factors, serving as a coping mechanism or an attempt at emotional regulation, such as seeking immediate gratification, alleviating stress, or dealing with feelings of sadness or boredom (Furnham, 2014). It's less about rational choice and more about immediate psychological relief.",
+    "difficulty": "medium",
+    "xp": 20,
+    "source_id": "money_l01_q06"
+  },
+  {
+    "id": "money_l01_q07",
+    "type": "multiple_choice",
+    "question": "The phenomenon where people treat different sums of money differently depending on its source or intended use, even if the amounts are objectively identical, is known in psychology as:",
+    "choices": [
+      "Opportunity Cost Neglect.",
+      "Sunk Cost Fallacy.",
+      "Mental Accounting.",
+      "Anchoring Bias."
+    ],
+    "answer_index": 2,
+    "explanation": "Mental accounting describes how individuals categorize and treat money differently based on its perceived origin or purpose, leading to inconsistent financial decisions even when the objective value is the same (Furnham, 2014). For example, people might be more willing to spend a bonus than money from their regular salary.",
+    "difficulty": "medium",
+    "xp": 20,
+    "source_id": "money_l01_q07"
+  },
+  {
+    "id": "money_l01_q08",
+    "type": "multiple_choice",
+    "question": "How does an increase in income typically relate to subjective well-being, according to psychological research on money and happiness?",
+    "choices": [
+      "More income always leads to proportional increases in happiness, indefinitely.",
+      "Income has no impact on happiness; it's entirely unrelated.",
+      "Increased income boosts happiness up to a certain point, after which the gains diminish or plateau.",
+      "Higher income consistently decreases happiness due to increased stress."
+    ],
+    "answer_index": 2,
+    "explanation": "Research generally indicates that increased income significantly improves subjective well-being by meeting basic needs and providing security, but these gains tend to diminish or plateau once a comfortable income level is reached (Furnham, 2014). Beyond this point, other factors like relationships and purpose become more critical for happiness.",
+    "difficulty": "medium",
+    "xp": 20,
+    "source_id": "money_l01_q08"
+  },
+  {
+    "id": "money_l01_q09",
+    "type": "multiple_choice",
+    "question": "The 'psychology of affluence' explores how possessing significant wealth can paradoxically lead to certain psychological challenges or maladaptive behaviors. Which of the following is *least likely* to be a direct psychological challenge associated with affluence, according to this perspective?",
+    "choices": [
+      "Feelings of isolation or distrust towards others.",
+      "Increased pressure to maintain status and fear of loss.",
+      "Difficulty in experiencing authentic connections or identifying true motives of others.",
+      "A natural and automatic increase in empathy and generosity."
+    ],
+    "answer_index": 3,
+    "explanation": "While not universal, the 'psychology of affluence' suggests that great wealth can sometimes lead to psychological difficulties like isolation, distrust, increased social comparison, and a reduced sense of empathy (Furnham, 2014). The idea that wealth automatically increases empathy or generosity is often contradicted by research indicating a complex relationship between wealth and prosocial behavior.",
+    "difficulty": "hard",
+    "xp": 30,
+    "source_id": "money_l01_q09"
+  },
+  {
+    "id": "money_l01_q10",
+    "type": "multiple_choice",
+    "question": "Considering the role of culture in money psychology, which statement best reflects how cultural values might influence an individual's relationship with money?",
+    "choices": [
+      "Cultural values solely dictate the specific currency used, not underlying attitudes.",
+      "All cultures universally view money as a means to achieve individualistic status.",
+      "Cultural norms and values profoundly shape beliefs about saving, spending, debt, and the symbolic meaning of wealth.",
+      "Cultural differences are negligible; human financial behavior is biologically predetermined."
+    ],
+    "answer_index": 2,
+    "explanation": "Cultural values and norms play a crucial role in shaping an individual's financial socialization, influencing their attitudes towards saving, spending, debt, risk-taking, and the symbolic meaning attributed to money (Furnham, 2014). These cultural frameworks lead to diverse financial behaviors and priorities across societies.",
+    "difficulty": "hard",
+    "xp": 30,
+    "source_id": "money_l01_q10"
+  },
+  {
+    "id": "money_l02_q01",
+    "type": "multiple_choice",
+    "question": "What is a central argument presented by Viviana Zelizer in *The Social Meaning of Money*?",
+    "choices": [
+      "Money is a purely neutral and fungible medium of exchange.",
+      "Money's meaning is primarily determined by its intrinsic material value.",
+      "Money is deeply embedded in social relations and carries diverse cultural and moral meanings.",
+      "The psychological impact of money is solely dependent on an individual's net worth."
+    ],
+    "answer_index": 2,
+    "explanation": "Zelizer's core argument challenges traditional economic views by demonstrating that money is not simply a neutral, interchangeable medium. Instead, its meaning and use are shaped by social contexts, moral frameworks, and cultural practices (Zelizer, 1994). This makes money far more complex than a mere economic instrument.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "money_l02_q01"
+  },
+  {
+    "id": "money_l02_q02",
+    "type": "multiple_choice",
+    "question": "According to Zelizer, what does the concept of 'earmarking' money primarily suggest?",
+    "choices": [
+      "Money should only be used for necessary expenses.",
+      "People mentally designate specific funds for particular uses, limiting their fungibility.",
+      "All money is inherently interchangeable and lacks specific purpose.",
+      "Governments should regulate how individuals spend their income."
+    ],
+    "answer_index": 1,
+    "explanation": "Earmarking, as described by Zelizer, is the process by which individuals and groups mentally or formally assign specific purposes to different sums of money. This act limits money's fungibility, meaning that funds designated for one purpose are not readily interchangeable with funds designated for another, even if they are monetarily equal (Zelizer, 1994).",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "money_l02_q02"
+  },
+  {
+    "id": "money_l02_q03",
+    "type": "multiple_choice",
+    "question": "How does Zelizer's perspective on money challenge traditional economic views?",
+    "choices": [
+      "She argues money's value is fixed by international markets.",
+      "She emphasizes that money is rarely exchanged in real-world transactions.",
+      "She refutes the idea of money as a purely fungible, neutral medium.",
+      "She suggests that economic models accurately capture money's social complexities."
+    ],
+    "answer_index": 2,
+    "explanation": "Traditional economics often treats money as a perfectly fungible and neutral tool for exchange. Zelizer directly challenges this by illustrating how social and cultural contexts imbue money with different meanings, making it non-fungible in many real-world social applications (Zelizer, 1994).",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "money_l02_q03"
+  },
+  {
+    "id": "money_l02_q04",
+    "type": "multiple_choice",
+    "question": "Zelizer's analysis of 'special monies' (e.g., gift money, blood money, allowance) implies what about human financial behavior?",
+    "choices": [
+      "Individuals consistently prioritize maximizing utility regardless of money's source.",
+      "People often adhere to social and moral rules that dictate how certain monies can or cannot be used.",
+      "All forms of money are treated identically once received.",
+      "Economic rationality always overrides social sentiments in spending decisions."
+    ],
+    "answer_index": 1,
+    "explanation": "Zelizer demonstrates that people categorize and differentiate between various types of money based on its source, purpose, or symbolic meaning. This leads to distinct rules for how these 'special monies' can be spent or saved, reflecting underlying social and moral norms rather than purely economic logic (Zelizer, 1994).",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "money_l02_q04"
+  },
+  {
+    "id": "money_l02_q05",
+    "type": "multiple_choice",
+    "question": "How do social relations influence the meaning of money, according to Zelizer?",
+    "choices": [
+      "Social relations are irrelevant to money's meaning; its value is purely objective.",
+      "Money's meaning is determined solely by the amount exchanged, not the relationship between parties.",
+      "The nature of the relationship (e.g., family, friends, employer-employee) often dictates how money is given, received, and spent.",
+      "Social relations only affect non-monetary exchanges."
+    ],
+    "answer_index": 2,
+    "explanation": "Zelizer argues that the social context and relationships between individuals profoundly shape how money is perceived and utilized. For example, money exchanged between family members often carries different expectations and meanings than money exchanged in a commercial transaction (Zelizer, 1994).",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "money_l02_q05"
+  },
+  {
+    "id": "money_l02_q06",
+    "type": "multiple_choice",
+    "question": "Which of the following best exemplifies Zelizer's concept of 'moralizing' money?",
+    "choices": [
+      "Using money to purchase goods at the lowest possible price.",
+      "Investing money in a diverse portfolio for maximum returns.",
+      "Refusing to accept money from an illicit source, even if the amount is substantial.",
+      "Converting foreign currency to local currency for travel."
+    ],
+    "answer_index": 2,
+    "explanation": "Moralizing money involves attaching ethical judgments or social rules to its acquisition, possession, or expenditure. Refusing money from an 'unclean' or illicit source demonstrates that money's moral origins can significantly influence its acceptability and meaning, regardless of its purchasing power (Zelizer, 1994).",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "money_l02_q06"
+  },
+  {
+    "id": "money_l02_q07",
+    "type": "multiple_choice",
+    "question": "If money were treated as *purely* fungible in all social contexts, what might be a consequence according to Zelizer's framework?",
+    "choices": [
+      "Increased efficiency in all economic transactions.",
+      "Simplification of personal budgeting and financial planning.",
+      "Breakdown of social distinctions and moral boundaries associated with different types of money.",
+      "Greater individual autonomy in spending decisions without social pressure."
+    ],
+    "answer_index": 2,
+    "explanation": "Zelizer's work highlights that differentiating money helps maintain social order and moral distinctions. If all money were perfectly interchangeable, the social and moral boundaries people impose on 'blood money,' 'gift money,' or 'dirty money' would collapse, blurring important social categories (Zelizer, 1994).",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "money_l02_q07"
+  },
+  {
+    "id": "money_l02_q08",
+    "type": "multiple_choice",
+    "question": "Zelizer would likely argue that money received as a gift differs psychologically and socially from money earned through labor because:",
+    "choices": [
+      "Gift money is always of higher monetary value.",
+      "Earned money is inherently less valuable as it comes with effort.",
+      "Gift money often carries specific social obligations or symbolic meanings that earned money typically does not.",
+      "There is no significant difference once the money is in hand."
+    ],
+    "answer_index": 2,
+    "explanation": "Zelizer emphasizes that the source and context of money heavily influence its meaning and use. Gift money often comes with sentimental value, social expectations, or a sense of obligation to the giver, distinguishing it from the 'free' and fungible nature often associated with earned wages (Zelizer, 1994).",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "money_l02_q08"
+  },
+  {
+    "id": "money_l02_q09",
+    "type": "multiple_choice",
+    "question": "Zelizer's theory that money is not purely fungible has significant implications for understanding:",
+    "choices": [
+      "The precise exchange rates between different national currencies.",
+      "The mechanisms of global financial markets and commodity trading.",
+      "How social and moral boundaries are maintained or challenged through monetary exchanges and regulations.",
+      "The technical efficiency of banking and payment systems."
+    ],
+    "answer_index": 2,
+    "explanation": "By demonstrating that people assign distinct meanings and rules to different forms of money, Zelizer provides a framework for understanding how societies regulate social interactions and reinforce moral norms through monetary practices. This challenges purely economic or technical explanations of money (Zelizer, 1994).",
+    "difficulty": "hard",
+    "xp": 10,
+    "source_id": "money_l02_q09"
+  },
+  {
+    "id": "money_l02_q10",
+    "type": "multiple_choice",
+    "question": "By arguing that people differentiate and designate monies for specific purposes, Zelizer implicitly challenges the economic assumption of:",
+    "choices": [
+      "Diminishing marginal utility.",
+      "Perfect information in markets.",
+      "The rational, utility-maximizing agent whose preferences are stable and universally applicable across all forms of wealth.",
+      "The law of supply and demand."
+    ],
+    "answer_index": 2,
+    "explanation": "Zelizer's work directly counters the idea of a universal, rational economic agent who treats all forms of wealth identically in pursuit of maximum utility. Her findings show that individuals often act based on social and moral considerations that lead them to treat different sums of money as distinct and non-interchangeable, regardless of their monetary value (Zelizer, 1994).",
+    "difficulty": "hard",
+    "xp": 10,
+    "source_id": "money_l02_q10"
+  }
+]

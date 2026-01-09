@@ -36,11 +36,20 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="league"
+        name="leaderboard"
         options={{
-          title: "リーグ",
+          title: "ランキング",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="trophy" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="friends"
+        options={{
+          title: "フレンド",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="people" size={size} color={color} />
           ),
         }}
       />
@@ -50,6 +59,15 @@ export default function TabLayout() {
           title: "ショップ",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="storefront" size={size} color={color} />
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: "プロフィール",
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="person" size={size} color={color} />
           ),
         }}
       />

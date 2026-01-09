@@ -1,0 +1,504 @@
+{
+  "units": [
+    {
+      "level": 1,
+      "title": "Introduction to Social Psychology",
+      "source": "Allport, G. W. (1935). Attitudes. In C. Murchison (Ed.), A Handbook of Social Psychology."
+    },
+    {
+      "level": 2,
+      "title": "The Person and the Situation",
+      "source": "Ross, L., & Nisbett, R. E. (1991). The person and the situation: Perspectives of social psychology."
+    },
+    {
+      "level": 3,
+      "title": "Attribution Theory: Heider's Naive Psychology",
+      "source": "Heider, F. (1958). The psychology of interpersonal relations."
+    },
+    {
+      "level": 4,
+      "title": "Attribution Theory: Kelley's Covariation Model",
+      "source": "Kelley, H. H. (1967). Attribution theory in social psychology. In D. Levine (Ed.), Nebraska Symposium on Motivation."
+    },
+    {
+      "level": 5,
+      "title": "Cognitive Dissonance Theory",
+      "source": "Festinger, L. (1957). A theory of cognitive dissonance."
+    },
+    {
+      "level": 6,
+      "title": "Self-Perception Theory",
+      "source": "Bem, D. J. (1972). Self-perception theory. In L. Berkowitz (Ed.), Advances in experimental social psychology."
+    },
+    {
+      "level": 7,
+      "title": "Heuristics and Biases: Judgment Under Uncertainty",
+      "source": "Tversky, A., & Kahneman, D. (1974). Judgment under uncertainty: Heuristics and biases. Science."
+    },
+    {
+      "level": 8,
+      "title": "Fundamental Attribution Error",
+      "source": "Ross, L. (1977). The intuitive psychologist and his shortcomings: Distortions in the attribution process. In L. Berkowitz (Ed.), Advances in experimental social psychology."
+    },
+    {
+      "level": 9,
+      "title": "Social Cognition: General Framework",
+      "source": "Fiske, S. T., & Taylor, S. E. (1991). Social cognition."
+    },
+    {
+      "level": 10,
+      "title": "Schemas and Social Information Processing",
+      "source": "Markus, H. (1977). Self-schemata and processing information about the self. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 11,
+      "title": "Attitude Formation and Change",
+      "source": "Hovland, C. I., Janis, I. L., & Kelley, H. H. (1953). Communication and persuasion: Psychological studies of opinion change."
+    },
+    {
+      "level": 12,
+      "title": "The Elaboration Likelihood Model of Persuasion",
+      "source": "Petty, R. E., & Cacioppo, J. T. (1986). Communication and persuasion: Central and peripheral routes to attitude change."
+    },
+    {
+      "level": 13,
+      "title": "The Theory of Planned Behavior",
+      "source": "Ajzen, I. (1991). The theory of planned behavior. Organizational Behavior and Human Decision Processes."
+    },
+    {
+      "level": 14,
+      "title": "Implicit Attitudes and Measurement",
+      "source": "Greenwald, A. G., & Banaji, M. R. (1995). Implicit social cognition: Attitudes, self-esteem, and stereotypes. Psychological Review."
+    },
+    {
+      "level": 15,
+      "title": "Social Judgment Theory",
+      "source": "Sherif, C. W., Sherif, M., & Nebergall, R. R. (1965). Attitude and attitude change: The social judgment-involvement approach."
+    },
+    {
+      "level": 16,
+      "title": "Balance Theory",
+      "source": "Heider, F. (1946). Attitudes and cognitive organization. Journal of Psychology."
+    },
+    {
+      "level": 17,
+      "title": "The Mere Exposure Effect",
+      "source": "Zajonc, R. B. (1968). Attitudinal effects of mere exposure. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 18,
+      "title": "Resistance to Persuasion",
+      "source": "McGuire, W. J. (1964). Inducing resistance to persuasion: Some contemporary approaches. Advances in Experimental Social Psychology."
+    },
+    {
+      "level": 19,
+      "title": "Fear Appeals in Persuasion",
+      "source": "Leventhal, H. (1970). Findings and theory in the study of fear communications. Advances in Experimental Social Psychology."
+    },
+    {
+      "level": 20,
+      "title": "Source Credibility and Persuasion",
+      "source": "Hovland, C. I., & Weiss, W. (1951). The influence of source credibility on communication effectiveness. Public Opinion Quarterly."
+    },
+    {
+      "level": 21,
+      "title": "Conformity: Asch's Line Judgment Studies",
+      "source": "Asch, S. E. (1956). Studies of independence and conformity: A minority of one against a unanimous majority. Psychological Monographs."
+    },
+    {
+      "level": 22,
+      "title": "Obedience to Authority: Milgram's Experiments",
+      "source": "Milgram, S. (1974). Obedience to authority: An experimental view."
+    },
+    {
+      "level": 23,
+      "title": "Social Impact Theory",
+      "source": "Latané, B. (1981). The psychology of social impact. American Psychologist."
+    },
+    {
+      "level": 24,
+      "title": "Compliance Techniques: Cialdini's Principles",
+      "source": "Cialdini, R. B. (1984). Influence: The psychology of persuasion."
+    },
+    {
+      "level": 25,
+      "title": "Normative and Informational Social Influence",
+      "source": "Deutsch, M., & Gerard, H. B. (1955). A study of normative and informational social influences upon individual judgment. Journal of Abnormal and Social Psychology."
+    },
+    {
+      "level": 26,
+      "title": "Minority Influence",
+      "source": "Moscovici, S. (1976). Social influence and social change."
+    },
+    {
+      "level": 27,
+      "title": "The Stanford Prison Experiment (Critiques and Context)",
+      "source": "Zimbardo, P. G. (1971). The power and pathology of imprisonment. Naval Research Reviews."
+    },
+    {
+      "level": 28,
+      "title": "Social Roles and Behavior",
+      "source": "Goffman, E. (1959). The presentation of self in everyday life."
+    },
+    {
+      "level": 29,
+      "title": "Reactance Theory",
+      "source": "Brehm, J. W. (1966). A theory of psychological reactance."
+    },
+    {
+      "level": 30,
+      "title": "Autokinetic Effect and Norm Formation",
+      "source": "Sherif, M. (1936). The psychology of social norms."
+    },
+    {
+      "level": 31,
+      "title": "Social Facilitation and Inhibition",
+      "source": "Triplett, N. (1898). The dynamogenic factors in pacemaking and competition. American Journal of Psychology."
+    },
+    {
+      "level": 32,
+      "title": "Social Loafing",
+      "source": "Latané, B., Williams, K., & Harkins, S. (1979). Many hands make light the work: The causes and consequences of social loafing. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 33,
+      "title": "Deindividuation",
+      "source": "Zimbardo, P. G. (1970). The human dilemma of deindividuation: From anonymity to depersonalization. In J. Macaulay & L. Berkowitz (Eds.), Altruism and helping behavior."
+    },
+    {
+      "level": 34,
+      "title": "Groupthink",
+      "source": "Janis, I. L. (1972). Victims of groupthink: A psychological study of foreign policy decisions and fiascoes."
+    },
+    {
+      "level": 35,
+      "title": "Group Polarization",
+      "source": "Moscovici, S., & Zavalloni, M. (1969). The group as a polarizer of attitudes. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 36,
+      "title": "Social Identity Theory",
+      "source": "Tajfel, H., & Turner, J. C. (1979). An integrative theory of intergroup conflict. British Journal of Social Psychology."
+    },
+    {
+      "level": 37,
+      "title": "Realistic Group Conflict Theory",
+      "source": "Sherif, M., Harvey, O. J., White, B. J., Hood, W. R., & Sherif, C. W. (1961). Intergroup conflict and cooperation: The Robbers Cave experiment."
+    },
+    {
+      "level": 38,
+      "title": "Leadership Theories: Trait and Contingency",
+      "source": "Fiedler, F. E. (1967). A theory of leadership effectiveness."
+    },
+    {
+      "level": 39,
+      "title": "Transformational Leadership",
+      "source": "Bass, B. M. (1985). Leadership and performance beyond expectations."
+    },
+    {
+      "level": 40,
+      "title": "Social Dilemmas and Cooperation",
+      "source": "Dawes, R. M., Van de Kragt, A. J. C., & Orbell, J. M. (1988). Not getting out of hot water: The effect of group size on the way toward collective action. Journal of Experimental Social Psychology."
+    },
+    {
+      "level": 41,
+      "title": "The Nature of Prejudice",
+      "source": "Allport, G. W. (1954). The nature of prejudice."
+    },
+    {
+      "level": 42,
+      "title": "Stereotypes: Formation and Maintenance",
+      "source": "Devine, P. G. (1989). Stereotypes and prejudice: Their automatic and controlled components. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 43,
+      "title": "Discrimination: Types and Consequences",
+      "source": "Dovidio, J. F., & Gaertner, S. L. (2004). Aversive racism. In M. P. Zanna (Ed.), Advances in experimental social psychology."
+    },
+    {
+      "level": 44,
+      "title": "Implicit Association Test (IAT)",
+      "source": "Greenwald, A. G., McGhee, D. E., & Schwartz, J. L. K. (1998). Measuring individual differences in implicit cognition: The implicit association test. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 45,
+      "title": "Intergroup Contact Hypothesis",
+      "source": "Allport, G. W. (1954). The nature of prejudice (Chapter 16: Reducing Intergroup Tensions)."
+    },
+    {
+      "level": 46,
+      "title": "Social Dominance Theory",
+      "source": "Sidanius, J., & Pratto, F. (1999). Social dominance: An intergroup theory of social hierarchy and oppression."
+    },
+    {
+      "level": 47,
+      "title": "System Justification Theory",
+      "source": "Jost, J. T., & Banaji, M. R. (1994). Political legitimacy and the problem of social justice: An experimental perspective. In R. M. Sorrentino & E. T. Higgins (Eds.), Handbook of motivation and cognition."
+    },
+    {
+      "level": 48,
+      "title": "Stereotype Threat",
+      "source": "Steele, C. M., & Aronson, J. (1995). Stereotype threat and the intellectual test performance of African Americans. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 49,
+      "title": "Decategorization and Recategorization",
+      "source": "Gaertner, S. L., & Dovidio, J. F. (2000). Reducing intergroup bias: The common ingroup identity model. Psychology Press."
+    },
+    {
+      "level": 50,
+      "title": "Social Categorization and Ingroup Bias",
+      "source": "Tajfel, H. (1978). Differentiation between social groups: Studies in the social psychology of intergroup relations."
+    },
+    {
+      "level": 51,
+      "title": "Factors in Interpersonal Attraction",
+      "source": "Berscheid, E., & Walster, E. H. (1969). Interpersonal attraction."
+    },
+    {
+      "level": 52,
+      "title": "Love and Romantic Relationships",
+      "source": "Hatfield, E., & Walster, G. W. (1978). A new look at love."
+    },
+    {
+      "level": 53,
+      "title": "Social Exchange Theory in Relationships",
+      "source": "Thibaut, J. W., & Kelley, H. H. (1959). The social psychology of groups."
+    },
+    {
+      "level": 54,
+      "title": "Equity Theory in Relationships",
+      "source": "Walster, E., Berscheid, E., & Walster, G. W. (1973). New directions in equity research. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 55,
+      "title": "Attachment Theory in Adult Relationships",
+      "source": "Hazan, C., & Shaver, P. (1987). Romantic love conceptualized as an attachment process. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 56,
+      "title": "Investment Model of Commitment",
+      "source": "Rusbult, C. E. (1980). Commitment and satisfaction in romantic associations: A test of the investment model. Journal of Experimental Social Psychology."
+    },
+    {
+      "level": 57,
+      "title": "Communication in Relationships",
+      "source": "Gottman, J. M., & Levenson, R. W. (2000). The timing of divorce: Predicting when a couple will divorce over a 14-year period. Journal of Marriage and the Family."
+    },
+    {
+      "level": 58,
+      "title": "Loneliness and Social Exclusion",
+      "source": "Cacioppo, J. T., & Patrick, W. (2008). Loneliness: Human nature and the need for social connection."
+    },
+    {
+      "level": 59,
+      "title": "Proximity and Familiarity in Attraction",
+      "source": "Festinger, L., Schachter, S., & Back, K. W. (1950). Social pressures in informal groups: A study of human factors in housing."
+    },
+    {
+      "level": 60,
+      "title": "Evolutionary Psychology of Attraction",
+      "source": "Buss, D. M. (1989). Sex differences in human mate preferences: Evolutionary hypotheses tested in 37 cultures. Behavioral and Brain Sciences."
+    },
+    {
+      "level": 61,
+      "title": "Aggression: Causes and Theories",
+      "source": "Berkowitz, L. (1993). Aggression: Its causes, consequences, and control."
+    },
+    {
+      "level": 62,
+      "title": "Social Learning Theory of Aggression",
+      "source": "Bandura, A. (1973). Aggression: A social learning analysis."
+    },
+    {
+      "level": 63,
+      "title": "Frustration-Aggression Hypothesis",
+      "source": "Dollard, J., Doob, L. W., Miller, N. E., Mowrer, O. H., & Sears, R. R. (1939). Frustration and aggression."
+    },
+    {
+      "level": 64,
+      "title": "Prosocial Behavior and Altruism",
+      "source": "Batson, C. D. (1991). The altruism question: Toward a social-psychological answer."
+    },
+    {
+      "level": 65,
+      "title": "The Bystander Effect",
+      "source": "Darley, J. M., & Latané, B. (1968). Bystander intervention in emergencies: Diffusion of responsibility. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 66,
+      "title": "Empathy-Altruism Hypothesis",
+      "source": "Batson, C. D., Duncan, B. D., Ackerman, P., Buckley, T., & Birch, K. (1981). Is empathic emotion a source of altruistic motivation? Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 67,
+      "title": "Reciprocal Altruism",
+      "source": "Trivers, R. L. (1971). The evolution of reciprocal altruism. Quarterly Review of Biology."
+    },
+    {
+      "level": 68,
+      "title": "Moral Foundations Theory",
+      "source": "Haidt, J. (2012). The righteous mind: Why good people are divided by politics and religion."
+    },
+    {
+      "level": 69,
+      "title": "Social Responsibility and Helping",
+      "source": "Schwartz, S. H. (1977). Normative influences on altruism. In L. Berkowitz (Ed.), Advances in experimental social psychology."
+    },
+    {
+      "level": 70,
+      "title": "Dehumanization and its Consequences",
+      "source": "Haslam, N. (2006). Dehumanization: An integrative review. Personality and Social Psychology Review."
+    },
+    {
+      "level": 71,
+      "title": "Culture and Self-Concept",
+      "source": "Markus, H. R., & Kitayama, S. (1991). Culture and the self: Implications for cognition, emotion, and motivation. Psychological Review."
+    },
+    {
+      "level": 72,
+      "title": "Individualism and Collectivism",
+      "source": "Hofstede, G. (1980). Culture's consequences: International differences in work-related values."
+    },
+    {
+      "level": 73,
+      "title": "Cultural Dimensions Beyond Hofstede",
+      "source": "Schwartz, S. H. (1992). Universals in the content and structure of values: Theoretical advances and empirical tests in 20 countries. Advances in Experimental Social Psychology."
+    },
+    {
+      "level": 74,
+      "title": "Cultural Psychology: Methodological Approaches",
+      "source": "Shweder, R. A. (1990). Cultural psychology: What is it? In J. W. Stigler, R. A. Shweder, & G. Herdt (Eds.), Cultural psychology: Essays on comparative human development."
+    },
+    {
+      "level": 75,
+      "title": "Cultural Influences on Emotion",
+      "source": "Ekman, P. (1972). Universals and cultural differences in facial expressions of emotion. In J. R. Cole (Ed.), Nebraska symposium on motivation."
+    },
+    {
+      "level": 76,
+      "title": "Honor Cultures",
+      "source": "Nisbett, R. E., & Cohen, D. (1996). Culture of honor: The psychology of violence in the South."
+    },
+    {
+      "level": 77,
+      "title": "Cross-Cultural Research Challenges",
+      "source": "Smith, P. B., Fischer, R., Vignoles, V. L., & Bond, M. H. (2019). Understanding social psychology across cultures: Engaging with indigenous and global perspectives."
+    },
+    {
+      "level": 78,
+      "title": "Acculturation and Cultural Adaptation",
+      "source": "Berry, J. W. (1997). Immigration, acculturation, and adaptation. Applied Psychology: An International Review."
+    },
+    {
+      "level": 79,
+      "title": "Cultural Differences in Attribution",
+      "source": "Miller, J. G. (1984). Culture and the development of everyday social explanation. Journal of Personality and Social Psychology."
+    },
+    {
+      "level": 80,
+      "title": "Religion, Spirituality and Social Behavior",
+      "source": "Pargament, K. I. (1997). The psychology of religion and coping: Theory, research, practice."
+    },
+    {
+      "level": 81,
+      "title": "Environmental Psychology: Social Aspects",
+      "source": "Gifford, R. (2014). Environmental psychology: Principles and practice (5th ed.)."
+    },
+    {
+      "level": 82,
+      "title": "Political Psychology: Voter Behavior",
+      "source": "Kinder, D. R. (1998). Opinion and action in the realm of politics. In D. T. Gilbert, S. T. Fiske, & G. Lindzey (Eds.), The handbook of social psychology."
+    },
+    {
+      "level": 83,
+      "title": "Health Psychology: Social Determinants",
+      "source": "Taylor, S. E. (2015). Health psychology (9th ed.)."
+    },
+    {
+      "level": 84,
+      "title": "Social Psychology of Law: Eyewitness Testimony",
+      "source": "Loftus, E. F. (1979). Eyewitness testimony."
+    },
+    {
+      "level": 85,
+      "title": "Consumer Psychology: Social Influence in Marketing",
+      "source": "Cialdini, R. B. (2016). Pre-Suasion: A Revolutionary Way to Influence and Persuade."
+    },
+    {
+      "level": 86,
+      "title": "Organizational Psychology: Team Dynamics",
+      "source": "Hackman, J. R. (2002). Leading teams: Setting the stage for great performances."
+    },
+    {
+      "level": 87,
+      "title": "Social Justice and Activism",
+      "source": "Deutsch, M. (1985). Distributive justice: A social psychological perspective."
+    },
+    {
+      "level": 88,
+      "title": "Social Media and Digital Interactions",
+      "source": "Turkle, S. (2011). Alone together: Why we expect more from technology and less from each other."
+    },
+    {
+      "level": 89,
+      "title": "Conflict Resolution and Peace Psychology",
+      "source": "Pruitt, D. G., & Rubin, J. Z. (1986). Social conflict: Escalation, stalemate, and settlement."
+    },
+    {
+      "level": 90,
+      "title": "Promoting Prosocial Behavior: Applied Interventions",
+      "source": "Schroeder, D. A., Penner, L. A., Dovidio, J. F., & Piliavin, J. A. (1995). The psychology of helping and altruism: Problems and puzzles."
+    },
+    {
+      "level": 91,
+      "title": "Social Neuroscience: Brain and Social Behavior",
+      "source": "Cacioppo, J. T., & Decety, J. (2011). Social neuroscience: Challenges and opportunities. Psychological Inquiry."
+    },
+    {
+      "level": 92,
+      "title": "Embodied Cognition in Social Psychology",
+      "source": "Barsalou, L. W. (2008). Grounded cognition. Annual Review of Psychology."
+    },
+    {
+      "level": 93,
+      "title": "Theory of Mind and Social Cognition",
+      "source": "Baron-Cohen, S., Tager-Flusberg, H., & Lombardo, M. V. (Eds.). (2013). Understanding other minds: Perspectives from developmental social neuroscience."
+    },
+    {
+      "level": 94,
+      "title": "Neuroscience of Empathy and Mirror Neurons",
+      "source": "Gallese, V., Keysers, C., & Rizzolatti, G. (2004). A unifying view of the basis of social cognition. Trends in Cognitive Sciences."
+    },
+    {
+      "level": 95,
+      "title": "Hormones and Social Behavior (e.g., Oxytocin)",
+      "source": "De Dreu, C. K. W., & Kret, M. E. (2016). Oxytocin and intergroup relations: Test of the ingroup love and outgroup hate hypothesis. Psychological Science."
+    },
+    {
+      "level": 96,
+      "title": "The Replicability Crisis in Social Psychology",
+      "source": "Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. Science."
+    },
+    {
+      "level": 97,
+      "title": "Questionable Research Practices and Transparency",
+      "source": "Simmons, J. P., Nelson, L. D., & Simonsohn, U. (2011). False-positive psychology: Undisclosed flexibility in data collection and analysis allows presenting anything as significant. Psychological Science."
+    },
+    {
+      "level": 98,
+      "title": "Meta-Analysis and Cumulative Science",
+      "source": "Rosenthal, R., & DiMatteo, M. R. (2001). Meta-analysis. In N. J. Smelser & P. B. Baltes (Eds.), International Encyclopedia of the Social & Behavioral Sciences."
+    },
+    {
+      "level": 99,
+      "title": "Open Science Practices and Future Directions",
+      "source": "Nosek, B. A., Spies, J. R., & Motyl, M. (2012). Scientific Utopia: II. Restructuring incentives and practices to promote truth over publishability. Perspectives on Psychological Science."
+    },
+    {
+      "level": 100,
+      "title": "The Future of Social Psychology: Grand Challenges",
+      "source": "Fiske, S. T. (2018). Intergroup relations in a changing world. Annual Review of Psychology."
+    }
+  ]
+}

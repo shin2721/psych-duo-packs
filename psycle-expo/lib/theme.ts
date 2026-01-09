@@ -10,6 +10,8 @@ export const theme = {
     success: "#22c55e",
     warn: "#f59e0b",
     error: "#ef4444",
+    primary: "#3b82f6",
+    primaryLight: "#60a5fa",
   },
   radius: {
     md: 12,

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
 import { useAppState } from "../lib/state";
 import { QuestionRenderer } from "../components/QuestionRenderer";
@@ -10,9 +11,12 @@ import { loadLessons } from "../lib/lessons";
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
   const { completeLesson, addXp, incrementQuest } = useAppState();
+  const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
+  const [reviewQueue, setReviewQueue] = useState<any[]>([]);
+  const [isReviewRound, setIsReviewRound] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -49,6 +53,7 @@ export default function LessonScreen() {
       }
 
       console.log("Setting questions, count:", lesson.questions.length);
+      setOriginalQuestions(lesson.questions);
       setQuestions(lesson.questions);
       setLoading(false);
     } catch (error) {
@@ -59,18 +64,41 @@ export default function LessonScreen() {
   }
 
   function handleAnswer(isCorrect: boolean, xp: number) {
+    const currentQuestion = questions[currentIndex];
+
+    // If incorrect and not in review round, add to review queue
+    if (!isCorrect && !isReviewRound) {
+      const alreadyQueued = reviewQueue.find(q => q.id === currentQuestion.id);
+      if (!alreadyQueued) {
+        setReviewQueue(prev => [...prev, currentQuestion]);
+        console.log("Added to review queue:", currentQuestion.id);
+      }
+    }
+
     if (isCorrect) setCorrectCount(prev => prev + 1);
 
-    if (currentIndex < questions.length - 1) {
+    // Determine the total questions in current round
+    const totalInRound = isReviewRound ? questions.length : originalQuestions.length;
+
+    if (currentIndex < totalInRound - 1) {
+      // Move to next question
       setCurrentIndex(prev => prev + 1);
+    } else if (reviewQueue.length > 0 && !isReviewRound) {
+      // Start review round
+      console.log("Starting review round with", reviewQueue.length, "questions");
+      setIsReviewRound(true);
+      setQuestions(reviewQueue);
+      setReviewQueue([]);
+      setCurrentIndex(0);
     } else {
       // Lesson complete
+      const totalQuestions = originalQuestions.length + (isReviewRound ? questions.length : 0);
       completeLesson(params.file);
       addXp(10);
       incrementQuest("q_daily_3lessons");
       Alert.alert(
         "完了！",
-        `正解: ${correctCount + (isCorrect ? 1 : 0)}/${questions.length}\n+10 XP`,
+        `正解: ${correctCount + (isCorrect ? 1 : 0)}/${totalQuestions}\n+10 XP`,
         [{ text: "OK", onPress: () => router.push("/(tabs)/course") }]
       );
     }
@@ -97,6 +125,12 @@ export default function LessonScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <View style={styles.header}>
+        {isReviewRound && (
+          <View style={styles.reviewBadge}>
+            <Ionicons name="refresh" size={14} color="#fff" />
+            <Text style={styles.reviewText}>復習</Text>
+          </View>
+        )}
         <Text style={styles.progress}>
           {currentIndex + 1} / {questions.length}
         </Text>
@@ -121,16 +155,33 @@ const styles = StyleSheet.create({
     paddingVertical: theme.spacing.sm,
     borderBottomWidth: 1,
     borderBottomColor: "#e0e0e0",
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+  },
+  reviewBadge: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  reviewText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#fff",
   },
   progress: {
     fontSize: 16,
     fontWeight: "600",
     color: theme.colors.text,
-    textAlign: "center",
   },
   loading: {
     fontSize: 18,
-    color: theme.colors.textSecondary,
+    color: theme.colors.sub,
     textAlign: "center",
     marginTop: 100,
   },

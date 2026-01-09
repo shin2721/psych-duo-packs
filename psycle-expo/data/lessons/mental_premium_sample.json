@@ -1,0 +1,93 @@
+[
+    {
+        "id": "mental_l07_cbt_01",
+        "type": "swipe_judgment",
+        "difficulty": "hard",
+        "xp": 15,
+        "question": "認知の歪み：全か無かの思考",
+        "statement": "「一度失敗したら、もう全て終わりだ」と考えるのは、論理的で現実的な思考である。",
+        "is_true": false,
+        "explanation": "これは「全か無かの思考（All-or-Nothing Thinking）」と呼ばれる認知の歪みです。現実は白か黒かではなく、グラデーション（灰色）で構成されています。失敗はプロセスの一部であり、全否定する根拠にはなりません。",
+        "source_id": "Burns, D. D. (1980). Feeling Good: The New Mood Therapy."
+    },
+    {
+        "id": "mental_l07_cbt_02",
+        "type": "multiple_choice",
+        "difficulty": "hard",
+        "xp": 15,
+        "question": "「すべき思考」への対処法として、最も適切なリフレーミングは？",
+        "choices": [
+            "「〜した方が良いかもしれない」と言い換える",
+            "「絶対に〜しなければならない」と強く念じる",
+            "「〜できない自分はダメだ」と反省する",
+            "思考を完全に停止させる"
+        ],
+        "correct_index": 0,
+        "explanation": "「〜すべき（Should）」を「〜した方が良い（Prefer）」と言い換えることで、義務感によるプレッシャーを軽減し、自律的な選択へと変化させることができます（Ellis, A., 1962）。",
+        "source_id": "Ellis, A. (1962). Reason and Emotion in Psychotherapy."
+    },
+    {
+        "id": "mental_l08_neuro_01",
+        "type": "sort_order",
+        "difficulty": "expert",
+        "xp": 20,
+        "question": "恐怖反応の脳内プロセス（扁桃体ハイジャック）の順序",
+        "items": [
+            "感覚入力（視覚・聴覚）",
+            "視床（Thalamus）",
+            "扁桃体（Amygdala）",
+            "闘争・逃走反応（Fight or Flight）"
+        ],
+        "correct_order": [
+            0,
+            1,
+            2,
+            3
+        ],
+        "explanation": "感覚情報は視床を経由して、大脳皮質（思考）を通らずに直接扁桃体へ送られる「低次経路（Low Road）」があります。これが瞬時の恐怖反応を引き起こします（LeDoux, J. E., 1996）。",
+        "source_id": "LeDoux, J. E. (1996). The Emotional Brain."
+    },
+    {
+        "id": "mental_l08_neuro_02",
+        "type": "fill_blank",
+        "difficulty": "hard",
+        "xp": 15,
+        "question": "慢性的なストレスは、記憶を司る脳部位である[   ]を萎縮させることが知られている。",
+        "choices": [
+            "海馬",
+            "小脳",
+            "延髄",
+            "前頭葉"
+        ],
+        "correct_index": 0,
+        "explanation": "コルチゾール（ストレスホルモン）の過剰分泌は、海馬の神経細胞を損傷し、萎縮させることが多数の研究で示されています（Sapolsky, R. M., 1996）。",
+        "source_id": "Sapolsky, R. M. (1996). Why Zebras Don't Get Ulcers."
+    },
+    {
+        "id": "mental_l09_resilience_01",
+        "type": "multiple_choice",
+        "difficulty": "hard",
+        "xp": 15,
+        "question": "レジリエンス（回復力）を高める要因として、研究で最も支持されているのは？",
+        "choices": [
+            "ソーシャルサポート（社会的支援）の存在",
+            "高い知能指数（IQ）",
+            "過去に一度も失敗していないこと",
+            "感情を一切表に出さないこと"
+        ],
+        "correct_index": 0,
+        "explanation": "信頼できる他者とのつながり（ソーシャルサポート）は、レジリエンスの最も強力な予測因子の一つです。孤立はストレス耐性を著しく低下させます（Southwick, S. M., et al., 2012）。",
+        "source_id": "Southwick, S. M., & Charney, D. S. (2012). Resilience: The Science of Mastering Life's Greatest Challenges."
+    },
+    {
+        "id": "mental_l10_anxiety_01",
+        "type": "swipe_judgment",
+        "difficulty": "expert",
+        "xp": 20,
+        "question": "エクスポージャー療法（曝露療法）",
+        "statement": "不安を感じる状況に意図的に身を置き、回避せずに留まることで、不安は時間とともに自然に減少する。",
+        "is_true": true,
+        "explanation": "これは「馴化（Habituation）」と呼ばれるプロセスです。不安対象を回避し続けると不安は維持・強化されますが、直面し続けることで脳は「危険ではない」と学習し、不安反応が消去されます（Craske, M. G., et al., 2014）。",
+        "source_id": "Craske, M. G., et al. (2014). Maximizing exposure therapy: An inhibitory learning approach."
+    }
+]

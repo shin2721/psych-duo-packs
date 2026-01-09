@@ -6,9 +6,10 @@ import { useAppState } from "../../lib/state";
 import { Card, ProgressBar, SectionHeader } from "../../components/ui";
 import { Chest } from "../../components/Chest";
 import { GlobalHeader } from "../../components/GlobalHeader";
+import { StreakCalendar } from "../../components/StreakCalendar";
 
 export default function QuestsScreen() {
-  const { xp, quests, claimQuest } = useAppState();
+  const { xp, quests, claimQuest, streakHistory } = useAppState();
 
   const monthly = quests.filter((q) => q.type === "monthly");
   const daily = quests.filter((q) => q.type === "daily");
@@ -47,6 +48,9 @@ export default function QuestsScreen() {
           <Text style={styles.title}>10月のクエスト</Text>
           <Text style={styles.xpText}>{xp} XP</Text>
         </View>
+
+        {/* Streak Calendar */}
+        <StreakCalendar history={streakHistory} />
 
         {monthly.length > 0 && (
           <Card style={styles.monthlyCard}>

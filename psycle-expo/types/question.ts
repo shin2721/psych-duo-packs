@@ -28,7 +28,9 @@ export type QuestionType =
   | "swipe_judgment"    // スワイプ判定
   | "conversation"      // 会話問題
   | "matching"          // マッチング
-  | "scenario";         // シナリオ問題
+  | "scenario"          // シナリオ問題
+  | "quick_reflex"      // 反射型（2秒以内の即断）
+  | "micro_input";      // 入力型（1文字完成入力）
 
 // ========================================
 // レガシー形式（アプリが使用する形式）
@@ -59,6 +61,9 @@ export interface LegacyQuestion {
   left_items?: string[];      // matching用
   right_items?: string[];     // matching用
   correct_pairs?: number[][]; // matching用
+  time_limit?: number;        // quick_reflex用（ミリ秒、デフォルト2000）
+  input_answer?: string;      // micro_input用（正解の入力文字列）
+  placeholder?: string;       // micro_input用（入力プレースホルダー）
 }
 
 // ========================================
@@ -85,6 +90,11 @@ export interface DataQuestion {
   info: string;               // ソースID（source_idの代わり）
   difficulty: Difficulty;
   xp: number;
+
+  // 拡張フィールド（特定の問題タイプ用）
+  time_limit?: number;        // quick_reflex用（ミリ秒、デフォルト2000）
+  input_answer?: string;      // micro_input用（正解の入力文字列）
+  placeholder?: string;       // micro_input用（入力プレースホルダー）
 }
 
 // ========================================
@@ -135,19 +145,24 @@ export interface LessonComposition {
 /**
  * 標準レッスン構成
  *
- * L01: 2用語 + 4AB + 5MCQ3 + 2TF + 1穴埋め + 1方法 = 15問
- * L02-L06: 5AB + 5MCQ3 + 3TF + 1穴埋め + 1方法 = 15問
+ * L01: 新規問題タイプ導入 (Quick Reflex + Micro Input含む15問)
+ * L02-L06: 従来通り15問
  */
 export const LESSON_COMPOSITIONS: Record<number, LessonComposition> = {
   1: {
     level: 1,
     questions: [
-      { type: "multiple_choice", count: 2, difficulty: "easy" },   // 用語
-      { type: "true_false", count: 4, difficulty: "easy" },        // AB問題
-      { type: "multiple_choice", count: 5, difficulty: "easy" },   // MCQ3
-      { type: "true_false", count: 2, difficulty: "easy" },        // TF
-      { type: "fill_blank", count: 1, difficulty: "easy" },        // 穴埋め
-      { type: "multiple_choice", count: 1, difficulty: "medium" }, // 方法
+      { type: "scenario", count: 1, difficulty: "easy" },          // シナリオ
+      { type: "true_false", count: 3, difficulty: "easy" },        // TF (recall含む)
+      { type: "multiple_choice", count: 1, difficulty: "easy" },   // MCQ
+      { type: "swipe_judgment", count: 2, difficulty: "easy" },    // スワイプ
+      { type: "matching", count: 1, difficulty: "easy" },          // マッチング
+      { type: "fill_blank", count: 2, difficulty: "easy" },        // 穴埋め
+      { type: "conversation", count: 1, difficulty: "easy" },      // 会話
+      { type: "sort_order", count: 1, difficulty: "easy" },        // 並び替え
+      { type: "select_all", count: 1, difficulty: "easy" },        // 複数選択
+      { type: "quick_reflex", count: 1, difficulty: "easy" },      // 反射型 NEW
+      { type: "micro_input", count: 1, difficulty: "easy" },       // 入力型 NEW
     ],
     totalQuestions: 15,
   },
@@ -225,6 +240,9 @@ export function dataToLegacy(data: DataQuestion): LegacyQuestion {
     source_id: data.info || data.id,
     difficulty: data.difficulty,
     xp: data.xp,
+    time_limit: data.time_limit,
+    input_answer: data.input_answer,
+    placeholder: data.placeholder,
   };
 }
 

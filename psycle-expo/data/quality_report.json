@@ -1,0 +1,75 @@
+{
+  "sampleSize": 50,
+  "metrics": {
+    "structurePassRate": 100,
+    "citationPassRate": 96,
+    "choicesPassRate": 100,
+    "answerIndexPassRate": 100,
+    "idFormatPassRate": 100,
+    "contentLengthPassRate": 100
+  },
+  "failures": [
+    {
+      "id": "health_l81_q09",
+      "reasons": [
+        "No citation found in explanation"
+      ]
+    },
+    {
+      "id": "health_l92_q05",
+      "reasons": [
+        "No citation found in explanation"
+      ]
+    }
+  ],
+  "sampleQuestions": [
+    {
+      "id": "health_l55_q04",
+      "type": "multiple_choice",
+      "question": "How does a multidisciplinary pain treatment approach typically differ from a solely unimodal medical approach (e.g., relying only on medication or surgery) for chronic pain?",
+      "choices": [
+        "The multidisciplinary approach focuses exclusively on the physiological causes of pain.",
+        "The multidisciplinary approach integrates psychological and functional goals alongside pain reduction, while a unimodal approach is often narrower.",
+        "The unimodal approach always results in faster and more complete pain relief.",
+        "The multidisciplinary approach avoids any medical interventions."
+      ],
+      "answer_index": 1,
+      "explanation": "Multidisciplinary pain treatment differentiates itself by holistically addressing not only the physical aspects but also the psychological and social factors that perpetuate chronic pain, setting functional goals beyond mere pain reduction. In contrast, unimodal medical approaches often focus on singular interventions, potentially overlooking the broader impact of pain on a patient's life (Gatchel & Weisberg, 2008).",
+      "difficulty": "medium",
+      "xp": 20,
+      "source_id": "health_l55_q04"
+    },
+    {
+      "id": "health_l84_q08",
+      "type": "multiple_choice",
+      "question": "Jones (2000) emphasizes that 'race' is a social construct rather than a biological one. This understanding is critical to her framework because it highlights that:",
+      "choices": [
+        "Racial differences in health are primarily due to genetic predispositions.",
+        "Racism is a system of structuring opportunity and assigning value based on how one looks, not inherent biological traits.",
+        "Individuals can choose their racial identity to avoid discrimination.",
+        "All racial groups experience racism equally, regardless of social interpretation."
+      ],
+      "answer_index": 1,
+      "explanation": "By defining race as a social construct, Jones (2000) underscores that racism is a system based on perceived differences, not biological reality. This emphasizes that racial hierarchies and their health impacts are created and maintained by social systems, not inherent group characteristics.",
+      "difficulty": "medium",
+      "xp": 20,
+      "source_id": "health_l84_q08"
+    },
+    {
+      "id": "health_l86_q03",
+      "type": "multiple_choice",
+      "question": "Which action area of the Ottawa Charter focuses on empowering communities to take control over their own health initiatives and priorities?",
+      "choices": [
+        "Reorient health services",
+        "Develop personal skills",
+        "Strengthen community actions",
+        "Build healthy public policy"
+      ],
+      "answer_index": 2,
+      "explanation": "Strengthen community actions is a key action area of the Ottawa Charter that focuses on empowering communities to identify their own health priorities and take collective action to address them (World Health Organization, 1986). This involves community participation and control in health matters.",
+      "difficulty": "easy",
+      "xp": 10,
+      "source_id": "health_l86_q03"
+    }
+  ]
+}

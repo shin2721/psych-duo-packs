@@ -1,0 +1,2381 @@
+[
+  {
+    "id": "study_l01_pomodoro",
+    "type": "fill_blank_tap",
+    "question": "🍅 ポモドーロ・テクニックでは、25分集中した後、____分の休憩を取ることが推奨されています。",
+    "correct_answer": "5",
+    "explanation": "25分集中と5分休憩のサイクルは、脳の集中力を最も効率的に維持できることが研究で示されています。長すぎる休憩は、集中状態への復帰を難しくする可能性があります。",
+    "actionable_advice": "💡 Try this: タイマーを25分にセットして、1つのタスクに集中しましょう。終わったら5分間、スマホを見ずに立ち上がって伸びをします。",
+    "citation": "pomodoro_research_2024",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "study_l01_spaced_repetition",
+    "type": "multiple_choice",
+    "question": "📚 記憶を長期間保持するために最も効果的な復習タイミングは？",
+    "choices": [
+      "忘れかけた頃に復習する（間隔を空ける）",
+      "毎日同じ時間に復習する",
+      "完全に忘れてから復習する"
+    ],
+    "answer_index": 0,
+    "explanation": "「忘却曲線」に基づき、忘れかけたタイミングで復習すると記憶が強化されます。理想的な間隔は、学習効果を最大化するために徐々に広げることが推奨されています。",
+    "actionable_advice": "💡 Try this: Ankiなどのアプリを使うか、ノートに「次回復習日」を書き込んで、計画的に復習しましょう。",
+    "citation": "spaced_repetition_2024",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "study_l01_retrieval_practice",
+    "type": "swipe_judgment",
+    "question": "📖 教科書を何度も読み返すことが最も効果的な学習法であるという主張は、正しいでしょうか？",
+    "correct_answer": "誤り",
+    "explanation": "「読む」よりも「思い出す（検索する）」方が記憶定着率が高いことが実証されています。教科書を閉じて、自分で説明してみる「検索練習」が非常に効果的です。",
+    "actionable_advice": "💡 Try this: 教科書を読んだら閉じて、「今読んだ内容を誰かに説明するとしたら？」と自問し、声に出して説明してみましょう。",
+    "citation": "retrieval_practice_2024",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "study_l01_interleaving",
+    "type": "multiple_choice",
+    "question": "🔀 複数の科目を勉強する時、最も効果的な方法は？",
+    "choices": [
+      "科目を混ぜて交互に勉強する（インターリービング）",
+      "1科目を完璧にしてから次に進む",
+      "気分で好きな科目を選ぶ"
+    ],
+    "answer_index": 0,
+    "explanation": "異なる科目や問題タイプを混ぜて学習すると、脳が「違いを識別する力」を鍛えられ、応用力が高まります。これは「インターリービング効果」として知られています。",
+    "actionable_advice": "💡 Try this: 数学→英語→歴史のように、30分ごとに科目を切り替えて勉強してみましょう。",
+    "citation": "interleaving_learning_2024",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l01_sleep_consolidation",
+    "type": "multiple_choice",
+    "question": "😴 勉強した内容を記憶に定着させるために最も重要なのは？",
+    "choices": [
+      "勉強後に十分な睡眠を取る",
+      "勉強直後にもう一度復習する",
+      "勉強中にカフェインを摂取する"
+    ],
+    "answer_index": 0,
+    "explanation": "睡眠中、脳は学習した情報を整理し、長期記憶に移行させます（記憶の固定化）。特にレム睡眠とノンレム睡眠の両方が記憶定着に重要です。",
+    "actionable_advice": "💡 Try this: 試験前日は徹夜せず、早めに寝ましょう。睡眠が「最後の復習」になります。",
+    "citation": "sleep_memory_2024",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "study_l01_elaboration",
+    "type": "multiple_choice",
+    "question": "🤔 新しい概念を理解するために最も効果的な方法は？",
+    "choices": [
+      "既に知っている知識と結びつけて説明する",
+      "何度も繰り返し読む",
+      "重要な部分にマーカーを引く"
+    ],
+    "answer_index": 0,
+    "explanation": "新しい情報を既存の知識と結びつけると、脳内のネットワークが強化され、理解が深まります。この「精緻化学習」では、「これは○○に似ている」「なぜなら△△だから」と自問自答することが鍵です。",
+    "actionable_advice": "💡 Try this: 新しい概念を学んだら、「これは自分の経験で言うと？」「身近な例で言うと？」と3つ例を考えてみましょう。",
+    "citation": "elaboration_learning_2024",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "study_l01_metacognition",
+    "type": "swipe_judgment",
+    "question": "🧠 「分かったつもり」と「本当に分かっている」を区別できるメタ認知能力は、学習において非常に重要である、という主張は正しいでしょうか？",
+    "correct_answer": "正しい",
+    "explanation": "自分の理解度を正確に評価する能力（メタ認知）が、学習効率を大きく左右します。「分かったつもり」の錯覚（流暢性の錯覚）に気づくことが、真の理解への第一歩です。",
+    "actionable_advice": "💡 Try this: 勉強後、「この内容を5歳児に説明できるか？」と自問してみましょう。説明できなければ、まだ理解が浅い証拠です。",
+    "citation": "metacognition_2024",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l01_testing_effect",
+    "type": "multiple_choice",
+    "question": "📝 テストを受けることの最大の効果は？",
+    "choices": [
+      "記憶を強化する（学習効果がある）",
+      "自分の弱点を知る",
+      "先生に評価してもらう"
+    ],
+    "answer_index": 0,
+    "explanation": "テストは単なる評価ツールではなく、「最強の学習ツール」です。思い出す行為そのものが記憶を強化する「テスト効果」があり、復習よりも効果的な場合もあります。",
+    "actionable_advice": "💡 Try this: 勉強後、教科書を閉じて「ミニテスト」を自分で作って解いてみましょう。間違えた問題こそが、最高の学習材料です。",
+    "citation": "testing_effect_2024",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "study_l01_desirable_difficulties",
+    "type": "multiple_choice",
+    "question": "💪 学習を「少し難しく」することの効果は？",
+    "choices": [
+      "長期記憶が強化される（望ましい困難）",
+      "モチベーションが下がる",
+      "時間の無駄になる"
+    ],
+    "answer_index": 0,
+    "explanation": "簡単すぎる学習は短期的には楽ですが、長期記憶には残りません。適度な困難（例：ヒントなしで思い出す、問題を混ぜる）は、脳を鍛え、記憶を強化する「望ましい困難」として知られています。",
+    "actionable_advice": "💡 Try this: 答えをすぐ見ずに、まず10秒考えてから確認する習慣をつけましょう。この「苦労」が記憶を定着させます。",
+    "citation": "desirable_difficulties_2024",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l01_dual_coding",
+    "type": "multiple_choice",
+    "question": "🎨 文字情報を記憶するために効果的な方法は？",
+    "choices": [
+      "図やイラストと組み合わせる（二重符号化）",
+      "何度も書き写す",
+      "声に出して読む"
+    ],
+    "answer_index": 0,
+    "explanation": "言語情報（文字）と視覚情報（図）を組み合わせると、脳の異なる領域が活性化し、記憶経路が2倍になります。これが「二重符号化理論」であり、図解やマインドマップが効果的な理由です。",
+    "actionable_advice": "💡 Try this: ノートに文字だけでなく、簡単な図や矢印、色分けを加えて、視覚的に整理してみましょう。",
+    "citation": "dual_coding_2024",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "study_l01_environment",
+    "type": "swipe_judgment",
+    "question": "📍 いつも同じ場所で勉強する方が、記憶定着に良い",
+    "correct_answer": "False",
+    "explanation": "異なる場所で勉強する方が記憶は強化されます。脳は「場所」と「情報」を結びつけるため、複数の場所で学ぶことで、記憶の手がかりが増えて思い出しやすくなります。",
+    "actionable_advice": "💡 Try this: 図書館、カフェ、自宅など、3つの場所をローテーションして勉強してみましょう。",
+    "citation": null,
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "context_dependent_memory_2024"
+  },
+  {
+    "id": "study_l01_chunking",
+    "type": "multiple_choice",
+    "question": "🧩 大量の情報を覚えるために効果的な方法は？",
+    "choices": [
+      "情報を意味のあるまとまり（チャンク）に分ける",
+      "全てを一度に覚えようとする",
+      "ランダムな順番で覚える"
+    ],
+    "answer_index": 0,
+    "explanation": "脳の短期記憶は限られていますが、情報を意味のあるまとまり（チャンク）にグループ化することで、より多くの情報を記憶できます。電話番号の区切りもチャンキングの一例です。",
+    "actionable_advice": "💡 Try this: 覚えたい単語リストを、テーマや頭文字でグループ分けしてみましょう。",
+    "citation": null,
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "chunking_memory_2024"
+  },
+  {
+    "id": "study_l01_self_explanation",
+    "type": "multiple_choice",
+    "question": "💬 問題を解いた後、最も効果的な振り返り方は？",
+    "choices": [
+      "「なぜこの答えになるのか」を自分の言葉で説明する",
+      "答え合わせだけして次に進む",
+      "間違えた問題だけもう一度解く"
+    ],
+    "answer_index": 0,
+    "explanation": "「なぜ？」「どうやって？」と自問自答しながら学ぶ「自己説明」は、理解を深め応用力を高めます。これは受動的な学習に比べて効果が2倍あるとされています。",
+    "actionable_advice": "💡 Try this: 問題を解いたら、「この答えを友達に説明するとしたら？」と考えて、声に出して説明してみましょう。",
+    "citation": null,
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "self_explanation_2024"
+  },
+  {
+    "id": "study_l01_growth_mindset",
+    "type": "swipe_judgment",
+    "question": "🌱 「才能」よりも「努力」を褒める方が、学習意欲が高まる",
+    "correct_answer": "True",
+    "explanation": "キャロル・ドゥエックの研究によると、「頭がいいね」より「よく頑張ったね」と褒められた子どもは、難しい課題に挑戦し続ける傾向があります。能力は固定ではなく成長できると信じる「成長マインドセット」が重要です。",
+    "actionable_advice": "💡 Try this: 自分が何かできた時、「才能があった」ではなく「努力した結果だ」と捉え直してみましょう。",
+    "citation": null,
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "growth_mindset_2024"
+  },
+  {
+    "id": "study_l01_distributed_practice",
+    "type": "multiple_choice",
+    "question": "⏰ 試験1週間前、6時間勉強するなら最も効果的な配分は？",
+    "choices": [
+      "毎日1時間ずつ6日間",
+      "3日間で2時間ずつ",
+      "前日に6時間まとめて"
+    ],
+    "answer_index": 0,
+    "explanation": "同じ学習時間でも、間隔を空けて分散させた方が記憶の定着率が高まります。「一夜漬け」は短期記憶には有効ですが、長期記憶には残りにくいため、毎日少しずつ学ぶのが効果的です。",
+    "actionable_advice": "💡 Try this: 試験の2週間前から、毎日30分ずつ復習する習慣をつけましょう。前日は軽く見直すだけで十分です。",
+    "citation": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "distributed_practice_2024"
+  },
+  {
+    "id": "study_l02_001",
+    "type": "multiple_choice",
+    "question": "🏰 「記憶の宮殿」（場所法）の仕組みは？",
+    "choices": [
+      "馴染みのある場所に、覚えたいものを配置する",
+      "ひたすら書いて覚える",
+      "歌にして覚える"
+    ],
+    "answer_index": 0,
+    "explanation": "人間の脳は空間情報を覚えるのが得意です。馴染みのある場所に覚えたいものを配置するイメージを持つことで、記憶を強化できます。",
+    "actionable_advice": "💡 Try this: 買い物リスト5つを、自分の部屋の家具に置いて覚えてみましょう。",
+    "citation": null,
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "method_of_loci_maguire_2003"
+  },
+  {
+    "id": "study_l02_002",
+    "type": "swipe_judgment",
+    "question": "🧠 「デュアルコーディング」（二重符号化）とは、文字と画像をセットで覚えること",
+    "correct_answer": "True",
+    "explanation": "「文字だけ」よりも「文字と画像」を組み合わせるデュアルコーディングは、脳の異なる領域（言語野と視覚野）を使うため、記憶の定着率が2倍になると言われています。",
+    "actionable_advice": "💡 Try this: 単語帳を作る時は、意味だけでなく簡単なイラストも描き込みましょう。",
+    "citation": null,
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "dual_coding_paivio_1971"
+  },
+  {
+    "id": "study_l02_003",
+    "type": "multiple_choice",
+    "question": "🔢 数字を覚えるのに有効な「チャンク化」とは？",
+    "choices": [
+      "長い情報を意味のある塊（チャンク）に分ける",
+      "声に出して読む",
+      "逆から読む"
+    ],
+    "answer_index": 0,
+    "explanation": "ワーキングメモリの容量は限られています。長い情報を意味のある塊（チャンク）に分けることで、記憶しやすくなります。例えば、電話番号を区切って覚えるのもチャンク化の一種です。",
+    "actionable_advice": "💡 Try this: 長い英単語は、接頭辞・語根・接尾辞（例：un-believ-able）に分解して覚えましょう。",
+    "citation": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "chunking_miller_1956"
+  },
+  {
+    "id": "study_l02_004",
+    "type": "multiple_choice",
+    "question": "🗣️ 「精緻化リハーサル」とは？",
+    "choices": [
+      "新しい情報を、既知の知識と結びつけて深く考えること",
+      "ひたすら繰り返すこと（維持リハーサル）",
+      "寝る前に見ること"
+    ],
+    "answer_index": 0,
+    "explanation": "丸暗記は忘れやすいですが、「なぜそうなるのか？」「具体例は何か？」と情報を深く掘り下げ、既知の知識と結びつける「精緻化」により、長期記憶に定着しやすくなります。",
+    "actionable_advice": "💡 Try this: 新しい用語を覚える時、「これは〇〇に似ている」と自分の体験と結びつけましょう。",
+    "citation": null,
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "elaborative_rehearsal_craik_1972"
+  },
+  {
+    "id": "study_l02_005",
+    "type": "swipe_judgment",
+    "question": "💤 徹夜漬け（一夜漬け）は、長期記憶の形成に効果的である",
+    "correct_answer": "False",
+    "explanation": "記憶は寝ている間に整理・定着されます。徹夜はそのプロセスを阻害するため、一時的に情報を詰め込めても、長期的な記憶にはつながりません。",
+    "actionable_advice": "💡 Try this: テスト前日は最低6時間寝ましょう。寝ている間に脳が復習してくれます。",
+    "citation": null,
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "sleep_memory_consolidation_stickgold"
+  },
+  {
+    "id": "study_l02_006",
+    "type": "multiple_choice",
+    "question": "📝 「生成効果」（Generation Effect）とは？",
+    "choices": [
+      "自分で答えをひねり出すと記憶に残る",
+      "教科書を読むと記憶に残る",
+      "先生の話を聞くと記憶に残る"
+    ],
+    "answer_index": 0,
+    "explanation": "【生成効果】\n「読むだけ」より、穴埋め問題などで「自分で答えを作る」プロセスを経た方が、記憶強度は高まります。",
+    "actionable_advice": "💡 Try this: 教科書を読む時、重要な単語を隠して「何だっけ？」と思い出しながら読みましょう。",
+    "citation": "Slamecka, 1978",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "generation_effect_slamecka_1978"
+  },
+  {
+    "id": "study_l02_007",
+    "type": "multiple_choice",
+    "question": "🎨 「語呂合わせ」が有効な心理学的理由は？",
+    "choices": [
+      "無意味な情報に「意味」と「リズム」を与えるから",
+      "面白いから",
+      "短いから"
+    ],
+    "answer_index": 0,
+    "explanation": "【意味づけ】\n脳は「意味のある物語」を好みます。年号などの無機質な数字に、語呂合わせでストーリーを与えることで、強固なエピソード記憶に変換できます。",
+    "actionable_advice": "💡 Try this: 覚えにくい公式や年号は、無理やりでもいいので自作の語呂合わせを作りましょう。",
+    "citation": "Mnemonics Efficacy Review",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "mnemonics_efficacy_review"
+  },
+  {
+    "id": "study_l02_008",
+    "type": "swipe_judgment",
+    "question": "🚶 運動しながら暗記すると覚えやすい",
+    "correct_answer": "正しい",
+    "explanation": "【身体化された認知】\n歩きながら学習すると、血流が上がり覚醒度が高まるだけでなく、場所や動きと情報が結びつき、記憶の手がかりが増えます。",
+    "actionable_advice": "💡 Try this: 暗記カードを持って、部屋の中を歩き回りながら音読してみましょう。",
+    "citation": "Exercise Learning Review, 2017",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "exercise_learning_review_2017"
+  },
+  {
+    "id": "study_l02_009",
+    "type": "multiple_choice",
+    "question": "🔄 「分散学習」（Spaced Repetition）の対義語は？",
+    "choices": [
+      "集中学習（Massed Practice）",
+      "反復学習",
+      "適応学習"
+    ],
+    "answer_index": 0,
+    "explanation": "【集中学習の罠】\n一度にまとめてやる「集中学習（一夜漬け）」は、やった気になりますが定着率は低いです。間隔を空ける「分散学習」の方が圧倒的に効率的です。",
+    "actionable_advice": "💡 Try this: 1時間まとめてやるより、15分×4回（朝・昼・夕・寝る前）に分けましょう。",
+    "citation": "Ebbinghaus",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "spacing_effect_ebbinghaus"
+  },
+  {
+    "id": "study_l02_010",
+    "type": "multiple_choice",
+    "question": "🎭 「感情」と記憶の関係は？",
+    "choices": [
+      "感情が動いた出来事は強く記憶される",
+      "感情は記憶の邪魔になる",
+      "関係ない"
+    ],
+    "answer_index": 0,
+    "explanation": "【扁桃体の変調作用】\n「楽しい」「悔しい」などの感情を司る扁桃体が活性化すると、隣にある海馬（記憶の司令塔）に「これは重要だ！」と信号を送り、記憶を強化します。",
+    "actionable_advice": "💡 Try this: 勉強がつまらない時は、「もしこれがテストに出たら...！」とドキドキする状況を想像してみましょう。",
+    "citation": "Amygdala and Memory Research",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "emotion_memory_amygdala"
+  },
+  {
+    "id": "study_l02_011",
+    "type": "swipe_judgment",
+    "question": "🧠 「検索練習」（テスト）は、インプットより効果が高い",
+    "correct_answer": "正しい",
+    "explanation": "【テスト効果】\n情報を脳に入れる（インプット）時より、脳から取り出す（検索）時に、神経回路が強化されます。テストは「評価」ではなく「最強の学習法」です。",
+    "actionable_advice": "💡 Try this: 教科書を閉じ、白紙に「今読んだ内容」を書き出してみましょう（ブレインダンプ）。",
+    "citation": "Roediger, 2006",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "testing_effect_roediger_2006"
+  },
+  {
+    "id": "study_l02_012",
+    "type": "multiple_choice",
+    "question": "🧩 「インターリービング」（交互学習）とは？",
+    "choices": [
+      "異なる種類の問題を混ぜて解くこと",
+      "同じ問題を繰り返すこと",
+      "休憩を挟むこと"
+    ],
+    "answer_index": 0,
+    "explanation": "【交互学習】\n「AAA BBB CCC」とブロックでやるより、「ABC BCA CAB」と混ぜてやる方が、脳が「違い」を識別しようとするため、応用力がつきます。",
+    "actionable_advice": "💡 Try this: 数学の勉強では、単元ごとの問題だけでなく、全範囲のランダム問題集を解きましょう。",
+    "citation": "Bjork",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "interleaving_effect_bjork"
+  },
+  {
+    "id": "study_l02_013",
+    "type": "multiple_choice",
+    "question": "🗣️ 「ファインマン・テクニック」の核心は？",
+    "choices": [
+      "子供でも分かるようにシンプルに説明する",
+      "専門用語をたくさん使う",
+      "図をたくさん使う"
+    ],
+    "answer_index": 0,
+    "explanation": "【教えるつもり学習】\n「他人に教える」つもりで勉強すると、理解度が深まります。特に「子供に教える」と想定することで、本質的な理解が試されます。",
+    "actionable_advice": "💡 Try this: 勉強したことを、架空の小学生に向かって声に出して説明してみましょう。",
+    "citation": "Feynman Technique",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "feynman_technique"
+  },
+  {
+    "id": "study_l02_014",
+    "type": "swipe_judgment",
+    "question": "🎵 音楽を聴きながらの勉強（ながら勉強）は効率が良い",
+    "correct_answer": "誤り",
+    "explanation": "【マルチタスクのコスト】\n歌詞のある音楽は言語野を使うため、読書や暗記と競合し、効率を下げます。BGMにするなら「歌詞のない環境音」がベストです。",
+    "actionable_advice": "💡 Try this: 暗記や読書の時は無音か環境音（雨の音など）にし、単純作業の時だけ好きな音楽を聴きましょう。",
+    "citation": "Music Study Performance Review",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "music_study_performance_review"
+  },
+  {
+    "id": "study_l02_015",
+    "type": "multiple_choice",
+    "question": "💤 「睡眠学習」は本当に可能か？",
+    "choices": [
+      "新しい知識の獲得は難しいが、記憶の定着は行われる",
+      "寝ている間に外国語がペラペラになる",
+      "全く効果がない"
+    ],
+    "answer_index": 0,
+    "explanation": "【睡眠中の処理】\n寝ている間に新しい単語を覚えるのは困難ですが、昼間に学習した内容に関連する音や匂いを睡眠中に流すと、記憶が強化される（TMR法）ことは実証されています。",
+    "actionable_advice": "💡 Try this: 寝る直前に覚えた単語の音声を、小音量で流しながら寝てみましょう（効果には個人差があります）。",
+    "citation": "Targeted Memory Reactivation Research",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "targeted_memory_reactivation"
+  },
+  {
+    "id": "study_l03_001",
+    "type": "multiple_choice",
+    "question": "🍅 「ポモドーロ・テクニック」の基本サイクルは？",
+    "choices": [
+      "25分集中＋5分休憩",
+      "50分集中＋10分休憩",
+      "90分集中＋20分休憩"
+    ],
+    "answer_index": 0,
+    "explanation": "【時間枠】\n25分という短い時間は「心理的ハードル」を下げ、集中力を維持しやすくします。5分の休憩が脳の疲労回復を促します。",
+    "actionable_advice": "💡 Try this: タイマーを25分にセットし、「鳴るまではスマホを見ない」と決めて始めましょう。",
+    "citation": "Cirillo",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "pomodoro_technique_cirillo"
+  },
+  {
+    "id": "study_l03_002",
+    "type": "swipe_judgment",
+    "question": "🧠 人間は「マルチタスク」が得意である",
+    "correct_answer": "False",
+    "explanation": "【タスク・スイッチング】\n脳は同時に2つのことを処理できません。高速で切り替えているだけです。この切り替えには「スイッチング・コスト」がかかり、効率が40%低下し、IQも下がります。",
+    "actionable_advice": "💡 Try this: 勉強中はスマホを別室に置き、「シングルタスク」を徹底しましょう。",
+    "citation": "American Psychological Association (APA)",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "multitasking_cognitive_cost_apa"
+  },
+  {
+    "id": "study_l03_003",
+    "type": "multiple_choice",
+    "question": "🌊 「フロー状態」（ゾーン）に入るための条件は？",
+    "choices": [
+      "課題の難易度と自分のスキルが釣り合っていること",
+      "課題が簡単すぎること",
+      "課題が難しすぎること"
+    ],
+    "answer_index": 0,
+    "explanation": "【フローチャンネル】\n簡単すぎると退屈、難しすぎると不安。その中間の「ギリギリできるかできないか」のレベルで、人は没頭します。",
+    "actionable_advice": "💡 Try this: 問題が簡単すぎたら「制限時間を設ける」、難しすぎたら「基礎に戻る」などして難易度を調整しましょう。",
+    "citation": "Csikszentmihalyi, 1990",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "flow_csikszentmihalyi"
+  },
+  {
+    "id": "study_l03_004",
+    "type": "multiple_choice",
+    "question": "📱 スマホが視界にあるだけで集中力が下がる現象は？",
+    "choices": [
+      "ブレイン・ドレイン（脳の排出）効果",
+      "スマホ依存症",
+      "デジタル・デトックス"
+    ],
+    "answer_index": 0,
+    "explanation": "【ブレイン・ドレイン】\nテキサス大学の研究で、スマホが机の上にあるだけで（電源オフでも）、脳の一部が「スマホを無視すること」に使われ、認知能力が低下することが判明しました。",
+    "actionable_advice": "💡 Try this: 勉強中はスマホを「視界に入らない場所（カバンの中や別室）」に隠しましょう。",
+    "citation": "Ward et al., 2017",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "brain_drain_ward_2017"
+  },
+  {
+    "id": "study_l03_005",
+    "type": "multiple_choice",
+    "question": "👀 「一点を見つめる」と集中力が高まる",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 0,
+    "explanation": "【視覚と集中】\n視覚的な注意（どこを見るか）と精神的な注意（何を考えるか）は連動しています。一点を凝視することで、脳のノルアドレナリン系が活性化し、集中モードに入ります。",
+    "actionable_advice": "💡 Try this: 勉強を始める前に30秒間、壁の点などをじっと見つめてからスタートしましょう。",
+    "citation": "Huberman Lab",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "visual_focus_attention_huberman"
+  },
+  {
+    "id": "study_l03_006",
+    "type": "multiple_choice",
+    "question": "🧘 集中力が切れた時の最適な休憩法は？",
+    "choices": [
+      "ぼーっとする（デフォルト・モード・ネットワーク活性化）",
+      "スマホでSNSを見る",
+      "ゲームをする"
+    ],
+    "answer_index": 0,
+    "explanation": "【DMN】\nスマホを見ると脳は情報を処理し続け、休まりません。何もしないでぼーっとする時、脳は情報の整理（DMN）を行います。",
+    "actionable_advice": "💡 Try this: 休憩時間はスマホを見ず、窓の外を眺めたり、目を閉じて深呼吸しましょう。",
+    "citation": "Neuroscience Research",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "default_mode_network_rest"
+  },
+  {
+    "id": "study_l03_007",
+    "type": "multiple_choice",
+    "question": "⚡ 「ツァイガルニク効果」を勉強に活かすには？",
+    "choices": [
+      "キリの悪いところでわざと中断する",
+      "キリの良いところまで終わらせる",
+      "一度も中断しない"
+    ],
+    "answer_index": 0,
+    "explanation": "【未完了の課題】\n人間は「完了したもの」より「未完了のもの」を強く記憶し、気になります。あえて途中で止めることで、再開時のモチベーションが維持されます。",
+    "actionable_advice": "💡 Try this: 休憩に入る時、問題を解き終わってからではなく、「解いている途中」で席を立ちましょう。",
+    "citation": "Zeigarnik, 1927",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "zeigarnik_effect_1927"
+  },
+  {
+    "id": "study_l03_008",
+    "type": "multiple_choice",
+    "question": "🎧 ホワイトノイズ（「サー」という雑音）は集中を助ける",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 0,
+    "explanation": "【確率共鳴】\n適度なランダムノイズ（ホワイトノイズ）は、脳内の信号を増幅させ、特に注意欠陥傾向のある人の集中力を高めることが分かっています。",
+    "actionable_advice": "💡 Try this: 静かすぎて集中できない時は、YouTubeなどで「ホワイトノイズ」や「雨の音」を流してみましょう。",
+    "citation": "Psychology Research",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "white_noise_adhd_learning"
+  },
+  {
+    "id": "study_l03_009",
+    "type": "multiple_choice",
+    "question": "🚀 「5秒ルール」とは？",
+    "choices": [
+      "「やるぞ」と思ったら5秒以内に行動する",
+      "床に落ちた食べ物を5秒以内に拾う",
+      "5秒ごとに休憩する"
+    ],
+    "answer_index": 0,
+    "explanation": "【メル・ロビンス】\n脳は変化を嫌い、行動しない言い訳を5秒で作り始めます。その前に「5, 4, 3, 2, 1, GO!」とカウントダウンして動き出すことで、言い訳を遮断できます。",
+    "actionable_advice": "💡 Try this: 朝起きられない時、布団の中で「5, 4, 3, 2, 1, 起きる！」と唱えて飛び起きましょう。",
+    "citation": "Robbins, 2017",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "5_second_rule_robbins"
+  },
+  {
+    "id": "study_l03_010",
+    "type": "multiple_choice",
+    "question": "📝 「認知的不協和」を利用してやる気を出す方法は？",
+    "choices": [
+      "やる気がなくても、とりあえず机に向かって教科書を開く",
+      "やる気が出るまで待つ",
+      "自分を責める"
+    ],
+    "answer_index": 0,
+    "explanation": "【行動が先、感情が後】\n脳は「行動」と「感情」の矛盾を嫌います。「勉強している（行動）」のに「やる気がない（感情）」のは不快なので、脳は後から「やる気がある」状態に感情を修正します（作業興奮）。",
+    "actionable_advice": "💡 Try this: 「1分だけやる」と決めて始めましょう。気づいたら続いています。",
+    "citation": "Festinger, 1957",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "cognitive_dissonance_festinger"
+  },
+  {
+    "id": "study_l03_011",
+    "type": "swipe_judgment",
+    "question": "🍫 勉強前の高GI食品（甘いお菓子など）は集中力を持続させる",
+    "correct_answer": "False",
+    "explanation": "【血糖値クラッシュ】\n急激に血糖値が上がると、インスリンが出て急降下し、強い眠気や集中力低下を招きます。低GI食品（ナッツ、ヨーグルトなど）がおすすめです。",
+    "actionable_advice": "💡 Try this: おやつはチョコではなく、素焼きのアーモンドやカカオ高配合チョコを選びましょう。",
+    "citation": "Glycemic Index Research",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "glycemic_index_cognition"
+  },
+  {
+    "id": "study_l03_012",
+    "type": "multiple_choice",
+    "question": "🧘 「ヴィパッサナー瞑想」（気づきの瞑想）の学習効果は？",
+    "choices": [
+      "注意制御機能が向上し、気が散ってもすぐに戻れるようになる",
+      "記憶力が下がる",
+      "眠くなる"
+    ],
+    "answer_index": 0,
+    "explanation": "【注意の筋トレ】\n瞑想は「逸れた注意を呼吸に戻す」練習です。これを続けると、勉強中にスマホなどが気になっても、すぐに意識を勉強に戻せるようになります。",
+    "actionable_advice": "💡 Try this: 勉強前に3分間、呼吸に意識を向ける瞑想を行いましょう。",
+    "citation": "Mindfulness and Attention Research",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "mindfulness_attention_regulation"
+  },
+  {
+    "id": "study_l03_013",
+    "type": "multiple_choice",
+    "question": "🌡️ 勉強に最適な室温は？",
+    "choices": [
+      "少し涼しめ（22-25度）",
+      "暖かめ（28度以上）",
+      "寒め（15度以下）"
+    ],
+    "answer_index": 0,
+    "explanation": "【頭寒足熱】\n室温が高すぎると副交感神経が優位になり眠くなります。少し涼しいくらいが交感神経を刺激し、集中力を維持できます。",
+    "actionable_advice": "💡 Try this: 暖房を効かせすぎず、足元を温めて頭は涼しく保ちましょう。",
+    "citation": "Cornell University",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "temperature_productivity_cornel"
+  },
+  {
+    "id": "study_l03_014",
+    "type": "swipe_judgment",
+    "question": "💧 勉強中にガムを噛むと集中力が上がる",
+    "correct_answer": "True",
+    "explanation": "【咀嚼効果】\n噛むリズム運動はセロトニン神経を活性化し、脳への血流を増やします。メジャーリーガーがガムを噛むのも集中力維持のためです。",
+    "actionable_advice": "💡 Try this: 難問に取り組む時、ガムを噛んでリズムを作ってみましょう。",
+    "citation": "General Research, 2015",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "chewing_gum_attention_2015"
+  },
+  {
+    "id": "study_l03_015",
+    "type": "multiple_choice",
+    "question": "🛌 「パワーナップ」（仮眠）の前にコーヒーを飲むと良い理由は？",
+    "choices": [
+      "起きた直後にカフェインが効き始め、スッキリ目覚められるから",
+      "夢を見やすくなるから",
+      "味が良くなるから"
+    ],
+    "answer_index": 0,
+    "explanation": "【コーヒーナップ】\nカフェインの効果発現には20分かかります。飲んでから20分寝ると、ちょうど起きる頃に覚醒作用が現れ、睡眠慣性（だるさ）を防げます。",
+    "actionable_advice": "💡 Try this: 昼食後、コーヒーを飲んでから15分タイマーをかけて突っ伏して寝ましょう。",
+    "citation": "Driver Study on Coffee Naps",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "coffee_nap_driver_study"
+  },
+  {
+    "id": "study_l04_001",
+    "type": "multiple_choice",
+    "question": "📝 「コーネル式ノート術」の特徴は？",
+    "choices": [
+      "ページを「ノート」「キュー」「サマリー」の3領域に分ける",
+      "とにかく綺麗に書く",
+      "マインドマップを使う"
+    ],
+    "answer_index": 0,
+    "explanation": "【コーネル大学発】\n授業中に書く「ノート欄」、復習時にキーワードを書く「キュー欄」、最後に要約する「サマリー欄」に分けることで、ノートを取るだけで復習システムが完成します。",
+    "actionable_advice": "💡 Try this: ノートの左端5cmに線を引き、そこを復習用の「クイズ欄」にしましょう。",
+    "citation": "Pauk",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "cornell_note_taking_pauk"
+  },
+  {
+    "id": "study_l04_002",
+    "type": "swipe_judgment",
+    "question": "💻 PCでタイプするより、手書きでノートを取る方が記憶に残る",
+    "correct_answer": "True",
+    "explanation": "【手書きの優位性】\nプリンストン大の研究で、手書きは「情報の取捨選択」が必要なため、脳が深く処理し、概念理解が進むことが示されました。PCは「逐語記録」になりがちです。",
+    "actionable_advice": "💡 Try this: 講義や会議のメモは、あえて紙とペンを使ってみましょう。",
+    "citation": "Mueller, 2014",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "pen_is_mightier_mueller_2014"
+  },
+  {
+    "id": "study_l04_003",
+    "type": "fill_blank_tap",
+    "question": "🗂️ 「ツェッテルカステン」（Zettelkasten）とは、1枚のカードに1つのアイデアを書き、互いに______させる知識管理法である。",
+    "correct_answer": "リンク",
+    "explanation": "【社会学者ルーマンの秘密】\n知識を「ネットワーク」として管理する方法。断片的なアイデアをつなぎ合わせることで、独創的な論文や本を量産できます。",
+    "actionable_advice": "💡 Try this: 学んだことを「自分の言葉」で1枚のカードに書き、関連する他のカードとリンクさせましょう。",
+    "citation": "Luhmann",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "zettelkasten_luhmann"
+  },
+  {
+    "id": "study_l04_004",
+    "type": "multiple_choice",
+    "question": "🎨 「マインドマップ」が脳に優しい理由は？",
+    "choices": [
+      "放射思考（連想）という脳の自然な構造に近いから",
+      "カラフルだから",
+      "絵が描けるから"
+    ],
+    "answer_index": 0,
+    "explanation": "【トニー・ブザン】\n脳はリスト形式（箇条書き）ではなく、中心から放射状に連想を広げます。マインドマップはこの構造を模倣しているため、発想と記憶を助けます。",
+    "actionable_advice": "💡 Try this: 新しい企画を考える時、中心にテーマを書き、枝を伸ばして自由に発想してみましょう。",
+    "citation": "Buzan",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "mind_map_buzan"
+  },
+  {
+    "id": "study_l04_005",
+    "type": "multiple_choice",
+    "question": "🖍️ 教科書にハイライト（蛍光ペン）を引きすぎた場合に起こりやすい現象は？",
+    "choices": [
+      "内容を理解したと錯覚する（流暢性の錯覚）",
+      "集中力が高まる",
+      "記憶力が向上する"
+    ],
+    "answer_index": 0,
+    "explanation": "【ハイライトの罠】\n線を引くと「脳が満足」してしまい、実際には頭に入っていない現象（流暢性の錯覚）が起きます。重要なのは「線を引く」ことより「思い出す」ことです。",
+    "actionable_advice": "💡 Try this: ハイライトは「復習する時に見る場所」の目印程度にし、引いた後に必ず内容を自問自答しましょう。",
+    "citation": "Dunlosky, 2013",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "highlighting_inefficacy_dunlosky_2013"
+  },
+  {
+    "id": "study_l04_006",
+    "type": "multiple_choice",
+    "question": "🔄 ノートを見返す（再読）だけの復習効果は？",
+    "choices": [
+      "非常に低い（受動的学習）",
+      "非常に高い",
+      "中くらい"
+    ],
+    "answer_index": 0,
+    "explanation": "【能動的想起】\nただ眺めるだけでは脳は働きません。ノートを隠して「何が書いてあった？」と思い出す（検索練習）プロセスが不可欠です。",
+    "actionable_advice": "💡 Try this: ノートを見返すのではなく、ノートの内容を白紙に再現できるかテストしましょう。",
+    "citation": "",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "rereading_vs_retrieval"
+  },
+  {
+    "id": "study_l04_007",
+    "type": "multiple_choice",
+    "question": "🖼️ 「概念マップ」（コンセプトマップ）とは？",
+    "choices": [
+      "概念同士の関係（原因、結果など）を線で結んで可視化する図",
+      "地図を覚えること",
+      "絵を描くこと"
+    ],
+    "answer_index": 0,
+    "explanation": "【構造化】\n知識の「構造」を理解するのに最適です。単なる用語の暗記ではなく、「AがBを引き起こす」といった因果関係を整理できます。",
+    "actionable_advice": "💡 Try this: 複雑な理論を学んだら、要素を箱で囲み、矢印で関係性を図解してみましょう。",
+    "citation": "Novak",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "concept_mapping_novak"
+  },
+  {
+    "id": "study_l04_008",
+    "type": "swipe_judgment",
+    "question": "🗣️ 講義の録音を後で聞き直すのは、最も効率的な学習法である",
+    "correct_answer": "False",
+    "explanation": "【時間対効果】\n録音を聞き直すのは時間がかかりすぎます。その場で要点をメモし、不明点だけを聞き直す方が効率的です。",
+    "actionable_advice": "💡 Try this: 録音に頼らず、「今ここで理解してメモする」という集中力を持って講義に臨みましょう。",
+    "citation": "",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "recording_lectures_efficiency"
+  },
+  {
+    "id": "study_l04_009",
+    "type": "multiple_choice",
+    "question": "📝 「SQ3R法」の5つのステップは？",
+    "choices": [
+      "Survey（概観）, Question（質問）, Read（精読）, Recite（暗唱）, Review（復習）",
+      "Scan, Quick, Read, Repeat, Rest",
+      "Study, Quiz, Read, Relax, Repeat"
+    ],
+    "answer_index": 0,
+    "explanation": "【読書技法】\nいきなり読み始めず、まず目次を見て（S）、問いを立て（Q）、答えを探しながら読み（R）、要約し（R）、復習する（R）。これで理解度が劇的に上がります。",
+    "actionable_advice": "💡 Try this: 本を読む前に目次を見て、「この章から何を知りたいか？」と3つの質問を作ってみましょう。",
+    "citation": "Robinson, 1946",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "sq3r_robinson_1946"
+  },
+  {
+    "id": "study_l04_010",
+    "type": "multiple_choice",
+    "question": "🎨 「スケッチノート」（ビジュアルシンキング）の効果は？",
+    "choices": [
+      "抽象的な概念を具体的なイメージに変換し、理解を助ける",
+      "絵が上手くなる",
+      "ノートが綺麗になる"
+    ],
+    "answer_index": 0,
+    "explanation": "【視覚化】\n簡単なアイコンや図を使うことで、脳の処理負担を減らし、全体像を把握しやすくなります。絵心は不要です。",
+    "actionable_advice": "💡 Try this: 「成長」を矢印で、「対立」を雷マークで表すなど、自分なりの記号を使ってみましょう。",
+    "citation": "Rohde",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "sketchnoting_rohde"
+  },
+  {
+    "id": "study_l04_011",
+    "type": "swipe_judgment",
+    "question": "📱 ノートアプリ（Notionなど）は、検索性において紙より優れている",
+    "correct_answer": "True",
+    "explanation": "【デジタルの利点】\n大量の情報を蓄積・検索・再利用するにはデジタルが圧倒的に有利です。思考の整理はアナログ、保存はデジタルと使い分けるのが賢明です。",
+    "actionable_advice": "💡 Try this: 紙のメモをスマホで撮影し、OCR（文字認識）機能で検索できるように保存しましょう。",
+    "citation": "",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "digital_vs_analog_note_taking"
+  },
+  {
+    "id": "study_l04_012",
+    "type": "multiple_choice",
+    "question": "❓ ノートを取る時、最も重要なことは？",
+    "choices": [
+      "自分の言葉で言い換える（パラフレーズ）",
+      "先生の言葉をそのまま書く",
+      "色をたくさん使う"
+    ],
+    "answer_index": 0,
+    "explanation": "【処理の深さ】\nそのまま書き写すのは単なる「コピー」です。自分の言葉に翻訳することで、脳は意味を理解しようと働きます。",
+    "actionable_advice": "💡 Try this: 「つまり、こういうこと」と要約してノートに書きましょう。",
+    "citation": "",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "paraphrasing_learning_depth"
+  },
+  {
+    "id": "study_l04_013",
+    "type": "multiple_choice",
+    "question": "🔄 「忘却曲線」に対抗する最適な復習タイミングは？",
+    "choices": [
+      "翌日、1週間後、2週間後、1ヶ月後",
+      "毎日",
+      "試験直前"
+    ],
+    "answer_index": 0,
+    "explanation": "【分散効果】\nエビングハウスの忘却曲線に基づき、忘れかけた頃に復習するのが最も効率的です。間隔を徐々に広げていきます。",
+    "actionable_advice": "💡 Try this: カレンダーに「〇〇の復習」と予定を書き込みましょう。",
+    "citation": "Ebbinghaus",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "forgetting_curve_ebbinghaus"
+  },
+  {
+    "id": "study_l04_014",
+    "type": "swipe_judgment",
+    "question": "📉 授業直後の「1分間復習」は効果がある",
+    "correct_answer": "True",
+    "explanation": "【直後再生】\n授業や会議が終わった直後に、何も見ずに「今のポイントは何だった？」と思い出すだけで、記憶の定着率が大幅に上がります。",
+    "actionable_advice": "💡 Try this: 席を立つ前に1分だけ、目を閉じて内容を振り返りましょう。",
+    "citation": "",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "immediate_recall_effect"
+  },
+  {
+    "id": "study_l04_015",
+    "type": "multiple_choice",
+    "question": "🧩 「構造化ノート」とは？",
+    "choices": [
+      "情報の階層構造（大見出し、小見出し）を明確にしたノート",
+      "自由に書くノート",
+      "絵日記"
+    ],
+    "answer_index": 0,
+    "explanation": "【情報の整理】\n脳は情報を階層的に保存します。インデント（字下げ）を使って構造化することで、脳の保存形式に合わせることができます。",
+    "actionable_advice": "💡 Try this: 箇条書きを使う時は、必ずインデントを使って親子関係を明確にしましょう。",
+    "citation": "",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "structured_note_taking"
+  },
+  {
+    "id": "study_l05_001",
+    "type": "multiple_choice",
+    "question": "📖 「速読」の科学的な限界は？",
+    "choices": [
+      "読む速度を上げると、理解度は必ず下がる（トレードオフ）",
+      "訓練すれば理解度100%で超高速で読める",
+      "限界はない"
+    ],
+    "answer_index": 0,
+    "explanation": "眼球運動の限界と脳の処理速度から、理解度を維持したまま読めるのは分速300-400語程度です。「写真のように撮る」速読は科学的に否定されています。",
+    "actionable_advice": "💡 Try this: 「速く読む」ことより「必要な部分だけを読む（スキミング）」技術を磨きましょう。",
+    "citation": "Rayner, 2016",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "speed_reading_tradeoff_rayner_2016"
+  },
+  {
+    "id": "study_l05_002",
+    "type": "swipe_judgment",
+    "question": "👀 「指差し読み」（指で文字をなぞる）は読書速度を上げる",
+    "correct_answer": "True",
+    "explanation": "指やペンで視線を誘導することで、視線の迷い（回帰）を防ぎ、スムーズに読み進めることができます。",
+    "actionable_advice": "💡 Try this: 難解な本を読む時、ペン先で文字をなぞりながら読んでみましょう。",
+    "citation": "Pacer Reading Technique",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "pacer_reading_technique"
+  },
+  {
+    "id": "study_l05_003",
+    "type": "multiple_choice",
+    "question": "🔍 「スキミング」（拾い読み）のコツは？",
+    "choices": [
+      "見出し、太字、最初と最後の段落を読む",
+      "全ての文字を速く見る",
+      "真ん中だけ読む"
+    ],
+    "answer_index": 0,
+    "explanation": "文章の要点は「最初（導入）」と「最後（結論）」に集中しています。ここを押さえるだけで、全体の8割を理解できます。",
+    "actionable_advice": "💡 Try this: 本を買う前や読む前に、まず「目次」と「あとがき」を読みましょう。",
+    "citation": "Skimming Strategy",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "skimming_strategy"
+  },
+  {
+    "id": "study_l05_004",
+    "type": "fill_blank_tap",
+    "question": "読解とは「文字情報」と「自分の知識」の統合プロセスであり、この知識の枠組みを心理学では【　　　】と呼ぶ。",
+    "choices": [
+      "スキーマ",
+      "メンタルモデル",
+      "ワーキングメモリ",
+      "認知バイアス"
+    ],
+    "answer_index": 0,
+    "explanation": "読解とは「文字情報」と「自分の知識」の統合プロセスです。知識が多ければ推測が働き、読むのが速くなります。",
+    "actionable_advice": "💡 Try this: 難しい本を読む前に、入門書やWikiで「予備知識」を入れておきましょう。",
+    "citation": "Schema Theory",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "schema_theory_reading"
+  },
+  {
+    "id": "study_l05_005",
+    "type": "swipe_judgment",
+    "question": "🗣️ 頭の中で音読する癖（サブボーカリゼーション）は完全に消すべき？",
+    "correct_answer": "False",
+    "explanation": "頭の中の発音は、複雑な文章を理解するために必要です。無理に消そうとすると理解度が崩壊します。簡単な文章なら飛ばすことも可能です。",
+    "actionable_advice": "💡 Try this: 小説などは音読を楽しんで読み、ビジネス書は視覚的に情報を拾うなど、読み方を使い分けましょう。",
+    "citation": "Subvocalization Research",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "subvocalization_comprehension"
+  },
+  {
+    "id": "study_l05_006",
+    "type": "conversation",
+    "question": "「A先生の書いた本だけ読んでも、イマイチ全体像が見えないんだよね…」と悩む友人に、あなたはどんな読書方法を勧める？",
+    "choices": [
+      "「モーティマー・アドラーが提唱する『シントピカル・リーディング』を試してみたら？同じテーマの本を複数冊読み比べるんだよ。」",
+      "「一冊の本を何度も読み返して、完璧に理解するべきだよ。」",
+      "「もっと速く読めるようになるための速読術を学ぶのが良いよ。」"
+    ],
+    "answer_index": 0,
+    "explanation": "1冊だけでは著者のバイアスがかかります。複数冊を比較することで、共通点（本質）と相違点（議論の余地）が見えてきます。",
+    "actionable_advice": "💡 Try this: 何かを学ぶ時は、最低3冊の異なる著者の本を買いましょう。",
+    "citation": "Adler",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "syntopical_reading_adler"
+  },
+  {
+    "id": "study_l05_007",
+    "type": "multiple_choice",
+    "question": "📝 「要約」が読解力を高める理由は？",
+    "choices": [
+      "情報の優先順位をつけ、再構築する必要があるから",
+      "字を書く練習になるから",
+      "短くなるから"
+    ],
+    "answer_index": 0,
+    "explanation": "要約するには、完全に理解し、重要な部分を選び抜き、自分の言葉で再構成する必要があります。これは高度な知的作業です。",
+    "actionable_advice": "💡 Try this: 1章読み終わるごとに、「要するにどういうこと？」と一言でまとめてみましょう。",
+    "citation": "Summarization Strategy",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "summarization_comprehension_strategy"
+  },
+  {
+    "id": "study_l05_008",
+    "type": "swipe_judgment",
+    "question": "📖 紙の本より電子書籍の方が理解度が高い",
+    "correct_answer": "False",
+    "explanation": "多くの研究で、長文の理解や記憶に関しては、物理的な手触りや厚み（位置情報）がある紙の本の方が優れていることが示されています。",
+    "actionable_advice": "💡 Try this: 深く理解したい専門書は「紙」で、検索したい情報は「電子」でと使い分けましょう。",
+    "citation": "Meta-analysis, 2018",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "paper_vs_digital_reading_meta_2018"
+  },
+  {
+    "id": "study_l05_009",
+    "type": "multiple_choice",
+    "question": "❓ 「クリティカル・リーディング」（批判的読書）とは？",
+    "choices": [
+      "著者の主張を鵜呑みにせず、根拠や論理を検証しながら読む",
+      "著者の悪口を探す",
+      "批判的な本を読む"
+    ],
+    "answer_index": 0,
+    "explanation": "「本当にそうか？」「反例はないか？」「根拠は何か？」と著者と対話するように読むことで、深い理解と独自の視点が生まれます。",
+    "actionable_advice": "💡 Try this: 本に「？」や「！」などの書き込みをしながら読みましょう。",
+    "citation": "Critical Reading Strategies",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "critical_reading_strategies"
+  },
+  {
+    "id": "study_l05_010",
+    "type": "multiple_choice",
+    "question": "🎯 読書における「メタ認知」の役割は？",
+    "choices": [
+      "「今、自分は理解できているか？」をモニタリングする",
+      "文字を追う",
+      "ページをめくる"
+    ],
+    "answer_index": 0,
+    "explanation": "読書上手な人は、「ここが分からない」と気づき、読み返したりペースを落としたりして調整します。下手な人は分からなくても進んでしまいます。",
+    "actionable_advice": "💡 Try this: ページをめくる前に「今のページの内容分かった？」と自分に問いかけましょう。",
+    "citation": "Metacognition Research",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "metacognition_reading_comprehension"
+  },
+  {
+    "id": "study_l05_011",
+    "type": "swipe_judgment",
+    "question": "🎵 読書中に音楽を聴くと、読解速度が上がる",
+    "correct_answer": "誤り",
+    "explanation": "【認知資源の競合】読書と言語的な音楽（歌詞あり）は、脳の同じ領域（言語野）を取り合います。読書中は無音か、歌詞のない環境音がベストです。",
+    "actionable_advice": "💡 Try this: 読書に没頭したい時は、ノイズキャンセリングイヤホンで静寂を作りましょう。",
+    "citation": "",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "background_music_reading_performance"
+  },
+  {
+    "id": "study_l05_012",
+    "type": "multiple_choice",
+    "question": "👀 「周辺視野」を使った読書とは？",
+    "choices": [
+      "一点を凝視せず、視野を広げてブロック単位で文字を捉える",
+      "横目で読む",
+      "遠くを見る"
+    ],
+    "answer_index": 0,
+    "explanation": "【視覚情報処理】一文字ずつ追うのではなく、周辺視野を使って数単語〜数行を一度に捉えることで、眼球運動の回数を減らし、速度を上げられます。",
+    "actionable_advice": "💡 Try this: 行の最初と最後の数文字を見ずに、真ん中あたりを見て全体を把握する練習をしてみましょう。",
+    "citation": "",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "peripheral_vision_reading"
+  },
+  {
+    "id": "study_l05_013",
+    "type": "multiple_choice",
+    "question": "📚 積読（つんどく）の効用は？",
+    "choices": [
+      "知的好奇心を刺激し、「まだ知らないことがある」と謙虚になれる",
+      "お金の無駄",
+      "部屋が狭くなる"
+    ],
+    "answer_index": 0,
+    "explanation": "【アンチライブラリー】ナシーム・タレブは、未読の本の山（アンチライブラリー）こそが、自分の無知を思い出させ、知的探究心を維持するリマインダーになると説いています。",
+    "actionable_advice": "💡 Try this: 興味がある本はとりあえず買って、背表紙を眺めるだけでもOKとしましょう。",
+    "citation": "",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "antilibrary_taleb"
+  },
+  {
+    "id": "study_l05_014",
+    "type": "multiple_choice",
+    "question": "🧠 難しい本を読むことは、脳のトレーニングになる",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "answer_index": 0,
+    "explanation": "【認知的負荷】簡単な本ばかり読んでも脳は成長しません。少し背伸びが必要な難解な本を読むことで、脳の結合が強化され、知性が磨かれます。",
+    "actionable_advice": "💡 Try this: 年に数冊は、古典や専門書など「歯ごたえのある本」に挑戦しましょう。",
+    "citation": "",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "deep_reading_cognitive_benefits"
+  },
+  {
+    "id": "study_l05_015",
+    "type": "multiple_choice",
+    "question": "🔄 読んだ内容を忘れないための「40秒復習法」とは？",
+    "choices": [
+      "読み終わった直後に40秒かけて要点を思い出す",
+      "40秒ごとに休む",
+      "40秒で読む"
+    ],
+    "answer_index": 0,
+    "explanation": "【サセックス大学の研究】学習直後に40秒間の復習（想起）を行ったグループは、行わなかったグループより、2週間後の記憶定着率が大幅に高かったです。",
+    "actionable_advice": "💡 Try this: 本を閉じたら、スマホを触る前に40秒だけ「何が書いてあった？」と振り返りましょう。",
+    "citation": "",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "40_seconds_revision_study"
+  },
+  {
+    "id": "study_l06_001",
+    "type": "multiple_choice",
+    "question": "🎓 「自己調整学習」（Self-Regulated Learning）の3段階は？",
+    "choices": [
+      "予見（計画）→遂行（実行）→自己省察（振り返り）",
+      "予習→授業→復習",
+      "読む→書く→話す"
+    ],
+    "answer_index": 0,
+    "explanation": "【ジマーマンのモデル】優秀な学習者は、ただ勉強するのではなく、自分で計画を立て、実行中にモニタリングし、結果を振り返って次の計画に活かすサイクルを回しています。",
+    "actionable_advice": "💡 Try this: 勉強を始める前に「今日の目標」、終わった後に「何がうまくいったか」を記録しましょう。",
+    "citation": "",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "self_regulated_learning_zimmerman_2002"
+  },
+  {
+    "id": "study_l06_002",
+    "type": "fill_blank_tap",
+    "question": "🧠 （　　　　）マインドセットを持つ人は、失敗を恐れない",
+    "correct_answer": "成長",
+    "explanation": "【キャロル・ドゥエック】能力は生まれつき（硬直マインドセット）ではなく、努力で伸びる（成長マインドセット）と信じる人は、失敗を「能力不足」ではなく「学習の機会」と捉えます。",
+    "actionable_advice": "💡 Try this: 間違えた時、「私はダメだ」ではなく「まだ習得中だ（Not Yet）」と言い換えましょう。",
+    "citation": "",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "growth_mindset_dweck_2006"
+  },
+  {
+    "id": "study_l06_003",
+    "type": "multiple_choice",
+    "question": "🎯 「学習性無力感」を克服するには？",
+    "choices": [
+      "小さな成功体験を積み重ね、コントロール感を取り戻す",
+      "諦める",
+      "もっと高い目標を立てる"
+    ],
+    "answer_index": 0,
+    "explanation": "【セリグマン】「何をしても無駄だ」という無力感は、小さな「できた！」を積み重ねることで解除できます。スモールステップが鍵です。",
+    "actionable_advice": "💡 Try this: 絶対に達成できる低い目標（例：本を1行読む）から始め、自分への信頼を回復しましょう。",
+    "citation": "",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "learned_helplessness_seligman_1967"
+  },
+  {
+    "id": "study_l06_004",
+    "type": "multiple_choice",
+    "question": "⏳ 「パーキンソンの法則」への対策は？",
+    "choices": [
+      "あえて短い締め切りを設定する",
+      "時間をたっぷり確保する",
+      "締め切りを作らない"
+    ],
+    "answer_index": 0,
+    "explanation": "【仕事は膨張する】「仕事の量は、完成のために与えられた時間をすべて満たすまで膨張する」。1時間で終わる仕事も、1日あれば1日かけてしまいます。",
+    "actionable_advice": "💡 Try this: 「このタスクは30分で終わらせる」とタイマーをセットし、ゲーム感覚で挑みましょう。",
+    "citation": "",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "parkinsons_law_1955"
+  },
+  {
+    "id": "study_l06_005",
+    "type": "multiple_choice",
+    "question": "🧘 「セルフ・コンパッション」（自分への優しさ）は甘えである",
+    "choices": [
+      "誤り（再起力を高める）",
+      "正しい"
+    ],
+    "answer_index": 0,
+    "explanation": "【失敗からの回復】自分を責めるより、友人に接するように優しく励ます方が、失敗からの立ち直りが早く、次の挑戦へのモチベーションが高まります。",
+    "actionable_advice": "💡 Try this: 計画通りにいかなくても、「人間だからそんな日もある。次はどうしよう？」と優しく切り替えましょう。",
+    "citation": "",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "self_compassion_neff_2003"
+  },
+  {
+    "id": "study_l06_006",
+    "type": "multiple_choice",
+    "question": "🔄 「ダブル・ループ学習」とは？",
+    "choices": [
+      "行動だけでなく、前提（ルールや目標）そのものを見直す学習",
+      "同じ間違いを2回繰り返すこと",
+      "2倍勉強すること"
+    ],
+    "answer_index": 0,
+    "explanation": "「やり方を変える（シングル・ループ）」だけでなく、「そもそもなぜこれをやるのか？（ダブル・ループ）」と根本を問うことで、飛躍的な成長が起きます。",
+    "actionable_advice": "💡 Try this: 行き詰まったら、「もっと頑張る」のではなく「やり方や目標自体が間違っていないか？」と考えてみましょう。",
+    "citation": "Argyris",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "double_loop_learning_argyris"
+  },
+  {
+    "id": "study_l06_007",
+    "type": "multiple_choice",
+    "question": "🧩 「転移」（Transfer of Learning）を起こすには？",
+    "choices": [
+      "抽象的な原理・原則を理解し、他の事例に応用する",
+      "丸暗記する",
+      "一つのことだけ極める"
+    ],
+    "answer_index": 0,
+    "explanation": "Aで学んだことをBで活かすには、表面的な手順ではなく「背後にある原理」を理解する必要があります。",
+    "actionable_advice": "💡 Try this: 何かを学んだら、「これは他の分野（趣味や仕事）でどう使えるか？」と考えてみましょう。",
+    "citation": "Perkins",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "transfer_of_learning_perkins"
+  },
+  {
+    "id": "study_l06_008",
+    "type": "swipe_judgment",
+    "question": "🧠 「流動性知能」（地頭）は成人以降も伸ばせる",
+    "correct_answer": "True",
+    "explanation": "かつては固定と考えられていましたが、Nバック課題などのワーキングメモリトレーニングにより、流動性知能が向上する可能性が示されています。",
+    "actionable_advice": "💡 Try this: 慣れた作業だけでなく、脳に負荷のかかる新しい課題に挑戦し続けましょう。",
+    "citation": "(Jaeggi, 2008)",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "fluid_intelligence_training_jaeggi_2008"
+  },
+  {
+    "id": "study_l06_009",
+    "type": "multiple_choice",
+    "question": "🚀 「自己効力感」（Self-Efficacy）を高める4つの要因で最も強力なのは？",
+    "choices": [
+      "達成体験（自分でできた！）",
+      "代理体験（あの人にもできた）",
+      "言語的説得（君ならできる）"
+    ],
+    "answer_index": 0,
+    "explanation": "「自分には能力がある」という確信（自己効力感）を高める最強の方法は、実際にやって成功することです。小さな成功が大きな自信を作ります。",
+    "actionable_advice": "💡 Try this: 確実に達成できる「今日のToDo」を完了させ、完了のチェックマークをつける快感を味わいましょう。",
+    "citation": "(Bandura, 1977)",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "self_efficacy_bandura_1977"
+  },
+  {
+    "id": "study_l06_010",
+    "type": "multiple_choice",
+    "question": "🤝 「ピア・インストラクション」（仲間同士の教え合い）の効果は？",
+    "choices": [
+      "教える側も教わる側も理解が深まる",
+      "間違ったことを覚えるリスクがある",
+      "時間がかかるだけ"
+    ],
+    "answer_index": 0,
+    "explanation": "学生同士で議論させる授業は、講義形式よりも概念理解度が大幅に向上しました。近いレベルの仲間との対話は、思考の整理に最適です。",
+    "actionable_advice": "💡 Try this: 勉強仲間を見つけ、お互いに問題を出し合ったり、解説し合ったりしましょう。",
+    "citation": "(Mazur, 1997)",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "peer_instruction_mazur_1997"
+  },
+  {
+    "id": "study_l06_011",
+    "type": "swipe_judgment",
+    "question": "📅 「計画錯誤」（Planning Fallacy）とは、計画を悲観的に立てすぎること",
+    "correct_answer": "False",
+    "explanation": "人は自分の能力を過信し、トラブルを考慮せず、「最短で終わる時間」を計画しがちです。実際は予想の1.5〜2倍かかります。",
+    "actionable_advice": "💡 Try this: 計画を立てたら、それに「バッファ（予備日）」を50%追加しましょう。",
+    "citation": "(Kahneman, 1979)",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "planning_fallacy_kahneman_1979"
+  },
+  {
+    "id": "study_l06_012",
+    "type": "multiple_choice",
+    "question": "🧘 「意志力」（Willpower）の正しい使い方は？",
+    "choices": [
+      "意志力を使わなくて済むように「環境」や「習慣」を作る",
+      "気合で乗り切る",
+      "我慢する"
+    ],
+    "answer_index": 0,
+    "explanation": "意志力は筋肉のように疲労します（自我消耗）。成功者は意志力が強いのではなく、意志力を使わずに自動的に行動できる「仕組み」を作っています。",
+    "actionable_advice": "💡 Try this: 「勉強するぞ」と気合を入れるのではなく、「朝起きたら机に座る」という自動的なルーチンを作りましょう。",
+    "citation": "(Baumeister, 1998)",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "ego_depletion_baumeister_1998"
+  },
+  {
+    "id": "study_l06_013",
+    "type": "multiple_choice",
+    "question": "🔍 「確証バイアス」が学習を妨げる理由は？",
+    "choices": [
+      "自分の考えに合う情報ばかり集め、反証を無視するから",
+      "自信がなくなるから",
+      "記憶力が下がるから"
+    ],
+    "answer_index": 0,
+    "explanation": "人は「自分が正しい」と思いたい生き物です。しかし成長するには、「自分の間違い」や「知らないこと」に直面する必要があります。",
+    "actionable_advice": "💡 Try this: 自分の意見と反対の意見を持つ本や記事を、あえて読んでみましょう。",
+    "citation": "Confirmation Bias",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "confirmation_bias_learning"
+  },
+  {
+    "id": "study_l06_014",
+    "type": "swipe_judgment",
+    "question": "🧠 「アンラーニング」（学習棄却）とは、学んだことを忘れること",
+    "correct_answer": "True",
+    "explanation": "時代遅れになった知識や習慣を意識的に捨て（Unlearn）、新しいやり方を取り入れる（Relearn）能力が、変化の激しい時代には不可欠です。",
+    "actionable_advice": "💡 Try this: 「今までこうやってきたから」という理由で続けている習慣を、一度見直してみましょう。",
+    "citation": "Unlearning",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "unlearning_organizational_learning"
+  },
+  {
+    "id": "study_l06_015",
+    "type": "multiple_choice",
+    "question": "🌟 「熟達化」（Expertise）への近道は？",
+    "choices": [
+      "限界的練習（Deliberate Practice）を繰り返す",
+      "ただ長く続ける",
+      "才能に頼る"
+    ],
+    "answer_index": 0,
+    "explanation": "ただ漫然と繰り返しても上手くなりません。自分の限界ギリギリの課題を設定し、フィードバックを受けながら修正する「意図的な練習」だけが、達人を作ります。",
+    "actionable_advice": "💡 Try this: 「今日はここを改善する」と具体的なテーマを持って練習に取り組みましょう。",
+    "citation": "(Ericsson, 1993)",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "deliberate_practice_ericsson_1993"
+  },
+  {
+    "id": "study_l07_spaced_repetition_01",
+    "type": "swipe_judgment",
+    "question": "True or False: To maximize retention, it's best to review material immediately after initial learning and then never again.",
+    "correct_answer": "False",
+    "explanation": "Spaced repetition, based on the forgetting curve, demonstrates that memory retention improves significantly when reviews are spaced out over increasing intervals rather than being immediate and singular.",
+    "actionable_advice": "💡 Try this: Use a flashcard app with built-in spaced repetition (like Anki) to schedule your reviews efficiently and improve long-term recall.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_02",
+    "type": "multiple_choice",
+    "question": "Which of the following best describes the core principle of spaced repetition?",
+    "choices": [
+      "Reviewing material only once for maximum efficiency.",
+      "Decreasing the time between reviews as mastery increases.",
+      "Increasing the time between reviews as material becomes more familiar.",
+      "Ignoring previously learned material to focus on new concepts."
+    ],
+    "answer_index": 2,
+    "explanation": "Spaced repetition is an evidence-based learning technique that involves reviewing previously learned material at progressively longer intervals. This timing is crucial for moving information from short-term to long-term memory.",
+    "actionable_advice": "💡 Try this: When you're studying a new concept, plan to revisit it later that day, then a few days later, then a week later, gradually expanding the intervals.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_03",
+    "type": "fill_blank_tap",
+    "question": "The work of Hermann Ebbinghaus on the _________ curve provided early foundational insights into the effectiveness of spaced repetition.",
+    "choices": [
+      "learning",
+      "memory",
+      "forgetting",
+      "retention"
+    ],
+    "correct_answer": "forgetting",
+    "explanation": "Ebbinghaus's groundbreaking research highlighted that memories decay over time, but that strategically timed reviews can combat this natural forgetting process.",
+    "actionable_advice": "💡 Try this: Understand that forgetting is natural, but don't let it discourage you. Instead, use planned review sessions to reinforce learning.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_04",
+    "type": "multiple_choice",
+    "question": "Which factor is most critical for optimizing learning using spaced repetition according to cognitive psychology?",
+    "choices": [
+      "The total number of study hours.",
+      "The emotional intensity of the learning experience.",
+      "The optimal timing of review intervals.",
+      "The variety of study locations."
+    ],
+    "answer_index": 2,
+    "explanation": "While all listed factors can play a role in learning, the strategic adjustment of review intervals is the defining and most critical element of spaced repetition's efficacy, as it directly addresses the forgetting curve.",
+    "actionable_advice": "💡 Try this: Experiment with different review schedules (e.g., 1 day, 3 days, 7 days, 14 days) to find what works best for your personal learning style and the complexity of the material.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_05",
+    "type": "multiple_choice",
+    "question": "Which statement incorrectly describes a benefit of spaced repetition?",
+    "choices": [
+      "It enhances long-term memory retention.",
+      "It reduces the total amount of study time required for mastery.",
+      "It combats the natural process of forgetting.",
+      "It makes learning more efficient by preventing cramming."
+    ],
+    "answer_index": 1,
+    "explanation": "Spaced repetition makes learning more efficient by distributing study over time, thus improving long-term retention. While it prevents cramming, it doesn't necessarily reduce the *total time* for mastery, but rather optimizes the *effectiveness* of that time spent studying.",
+    "actionable_advice": "💡 Try this: Instead of cramming for an exam, distribute your study sessions over several weeks leading up to it, focusing on consistent, spaced reviews for better results.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_06",
+    "type": "multiple_choice",
+    "question": "What is the primary psychological phenomenon that spaced repetition aims to counteract?",
+    "choices": [
+      "Proactive interference.",
+      "Retroactive interference.",
+      "The serial position effect.",
+      "The forgetting curve."
+    ],
+    "answer_index": 3,
+    "explanation": "Spaced repetition is designed to specifically combat the forgetting curve, a concept introduced by Ebbinghaus, which illustrates how information is lost over time if there's no attempt to retain it.",
+    "actionable_advice": "💡 Try this: Recognize when you're starting to forget details (e.g., struggling to recall a fact) and use that as a cue to schedule a review session, rather than waiting until the information is completely gone.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_07",
+    "type": "conversation",
+    "question": "Imagine your friend, Alex, is studying for a big psychology exam. Alex tells you, 'I've been reviewing all my terms the night before, but I just can't seem to remember them long-term!' Based on the principles of spaced repetition, what's the best advice to offer Alex?",
+    "choices": [
+      "You should probably just study even harder and for longer sessions right before the test.",
+      "Try to review the terms over several days, increasing the time between each review as you get more confident.",
+      "Just focus on the most important terms; you can't remember everything anyway.",
+      "Make sure you get enough sleep, that's the most important thing for memory."
+    ],
+    "answer_index": 1,
+    "explanation": "Spaced repetition involves reviewing material at expanding intervals, which significantly boosts long-term retention compared to last-minute cramming. This approach aligns with how our brains consolidate memories and improves recall effectiveness.",
+    "actionable_advice": "💡 Try this: When helping a friend study, explain the 'why' behind spaced repetition – that the brain strengthens connections most effectively when material is recalled just before it's forgotten.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_08",
+    "type": "multiple_choice",
+    "question": "Which practical application most effectively utilizes the principle of spaced repetition?",
+    "choices": [
+      "Rereading textbook chapters multiple times in one sitting.",
+      "Using flashcards that reappear based on your recall performance.",
+      "Highlighting every sentence in a study guide.",
+      "Listening to lectures passively without taking notes."
+    ],
+    "answer_index": 1,
+    "explanation": "Flashcard systems that adapt review timing based on how well you remember the information are the quintessential example of spaced repetition in practice, directly applying Ebbinghaus's principles to optimize learning.",
+    "actionable_advice": "💡 Try this: Integrate a digital flashcard app that uses spaced repetition into your daily study routine. Commit to a few minutes of review each day to see significant memory gains.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_09",
+    "type": "multiple_choice",
+    "question": "A common misconception about spaced repetition is that it:",
+    "choices": [
+      "Requires more total study time than cramming.",
+      "Is only effective for rote memorization.",
+      "Is a recent invention with no historical basis.",
+      "Can be harmful to memory if not done perfectly."
+    ],
+    "answer_index": 0,
+    "explanation": "While spaced repetition might feel like it adds more study points initially, it makes the overall learning process more efficient by embedding information more deeply, often leading to less re-learning and more permanent retention later.",
+    "actionable_advice": "💡 Try this: Challenge the belief that more hours spent cramming necessarily equals better learning. Focus on the quality and timing of your study sessions using spaced repetition, rather than just raw quantity.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_10",
+    "type": "multiple_choice",
+    "question": "According to the principles of spaced repetition, what is the ideal timing for reviewing information you've just learned and found easy to recall?",
+    "choices": [
+      "Immediately, within minutes.",
+      "A few hours later on the same day.",
+      "A few days later, extending the interval further next time.",
+      "Never again, as it was easy."
+    ],
+    "answer_index": 2,
+    "explanation": "The strength of spaced repetition lies in extending review intervals for well-retained information. Reviewing easy material too frequently is inefficient, while reviewing it too late risks complete forgetting, which is precisely what Ebbinghaus observed.",
+    "actionable_advice": "💡 Try this: After successfully recalling a concept twice with a short interval (e.g., 10 minutes, 1 hour), try waiting 3-5 days before the next review. If you still remember it, extend the next interval even further.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_11",
+    "type": "fill_blank_tap",
+    "question": "The study method that involves revisiting material at progressively longer intervals to enhance long-term retention is known as ______.",
+    "choices": [
+      "spaced repetition",
+      "massed practice",
+      "active recall",
+      "interleaving"
+    ],
+    "answer_index": 0,
+    "explanation": "Spaced repetition is a highly effective learning strategy that capitalizes on the forgetting curve. By reviewing information just before you'd naturally forget it, you strengthen memory traces and improve recall efficiency.",
+    "actionable_advice": "💡 Try this: Utilize a digital flashcard system like Anki or Quizlet that automatically schedules your reviews, taking the guesswork out of optimal spacing intervals.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_12",
+    "type": "multiple_choice",
+    "question": "According to the principles of spaced repetition, which strategy is most beneficial for consolidating new information into long-term memory?",
+    "choices": [
+      "Reviewing material in increasing time intervals after initial learning.",
+      "Cramming all information into a single, extended study session.",
+      "Rereading notes immediately after every lecture without breaks.",
+      "Focusing only on the easiest topics to build confidence quickly."
+    ],
+    "answer_index": 0,
+    "explanation": "Spaced repetition works by leveraging the 'spacing effect,' which states that learning is more effective when study sessions are spread out over time. This distributed practice aids in memory consolidation, making information less prone to forgetting.",
+    "actionable_advice": "💡 Try this: When starting a new topic, review it briefly on day 1, then day 3, then day 7, and so on. This intentional spread helps solidify the concepts.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_13",
+    "type": "swipe_judgment",
+    "question": "Statement: Massed practice, such as cramming, is generally more effective than spaced repetition for long-term retention of academic material.",
+    "correct_answer": "False",
+    "explanation": "While cramming can lead to temporary recall, it is significantly less effective for long-term memory than spaced repetition. Distributed practice allows for deeper processing and stronger neural connections, resisting the forgetting curve.",
+    "actionable_advice": "💡 Try this: Break down large study tasks into smaller, manageable chunks spread across several days or weeks. Even 15-20 minutes of focused review a few times a week is better than a single long session.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_14",
+    "type": "multiple_choice",
+    "question": "Which of the following is a direct benefit of incorporating spaced repetition into your study routine?",
+    "choices": [
+      "Enhanced long-term memory retention and reduced forgetting.",
+      "Rapid, but short-lived, improvement in test scores.",
+      "Decreased need for active recall during study sessions.",
+      "Better ability to multitask while studying."
+    ],
+    "answer_index": 0,
+    "explanation": "Spaced repetition specifically targets the challenge of forgetting by strategically re-exposing you to information. This strengthens memory traces over time, making recall more robust and reducing the need for last-minute cramming.",
+    "actionable_advice": "💡 Try this: Schedule specific review times in your calendar for different subjects, ensuring you revisit concepts after a day, then a few days, then a week, rather than just before an exam.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l07_spaced_repetition_15",
+    "type": "fill_blank_tap",
+    "question": "The psychological phenomenon where memory is better for information studied in spaced intervals rather than in a single session is known as the _______ effect.",
+    "choices": [
+      "spacing",
+      "primacy",
+      "recency",
+      "interference"
+    ],
+    "answer_index": 0,
+    "explanation": "The spacing effect is a well-established cognitive phenomenon demonstrating that learning is more effective when study is spread out over time rather than concentrated in a single session. This principle underpins the effectiveness of spaced repetition.",
+    "actionable_advice": "💡 Try this: When learning a new skill or language, practice for short, regular periods rather than infrequent, long sessions. Your brain will consolidate the learning more effectively.",
+    "citation": "Ebbinghaus, H. (1885). Memory.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Ebbinghaus, H. (1885). Memory."
+  },
+  {
+    "id": "study_l08_metacognition_01",
+    "type": "swipe_judgment",
+    "question": "Statement: Metacognition primarily involves recalling information through rote memorization without reflecting on one's own comprehension.",
+    "correct_answer": "False",
+    "explanation": "Metacognition is 'thinking about thinking,' which involves active monitoring and regulation of one's cognitive processes. It's about self-awareness in learning, including assessing comprehension, planning strategies, and evaluating progress, not just memorizing.",
+    "actionable_advice": "💡 Try this: While studying, periodically pause and ask yourself: 'Do I truly understand this concept, or am I just recognizing the words?' Try to explain it in your own words or teach it to someone else.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Dunlosky, J., et al. (2013). Improving Students' Learning."
+  },
+  {
+    "id": "study_l08_metacognition_02",
+    "type": "multiple_choice",
+    "question": "Which of the following best describes the core concept of metacognition in learning?",
+    "choices": [
+      "An individual's awareness and understanding of their own thought processes.",
+      "The ability to memorize large amounts of information quickly.",
+      "The reliance on external sources for all learning validation.",
+      "A passive approach to absorbing new knowledge."
+    ],
+    "answer_index": 0,
+    "explanation": "Metacognition encompasses the knowledge and regulation of one's own cognitive processes. It's a crucial skill for effective learning, enabling individuals to plan, monitor, and evaluate their understanding and learning strategies.",
+    "actionable_advice": "💡 Try this: Before tackling a new chapter, mentally preview the content and set a learning goal. During reading, monitor your comprehension and adjust your pace or strategy if you get lost.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Dunlosky, J., et al. (2013). Improving Students' Learning."
+  },
+  {
+    "id": "study_l08_metacognition_03",
+    "type": "fill_blank_tap",
+    "question": "The process of consciously monitoring and controlling one's own cognitive processes, such as understanding, remembering, and problem-solving, is known as ______.",
+    "choices": [
+      "metacognition",
+      "cognitive load",
+      "elaboration",
+      "retrieval practice"
+    ],
+    "answer_index": 0,
+    "explanation": "Metacognition is essentially 'thinking about thinking.' It involves actively engaging with your learning, identifying what you know and don't know, and adapting your study methods to optimize comprehension and retention.",
+    "actionable_advice": "💡 Try this: During a study break, reflect on what you've just learned. Can you summarize it without looking at your notes? If not, identify the areas where your understanding is weak.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Dunlosky, J., et al. (2013). Improving Students' Learning."
+  },
+  {
+    "id": "study_l08_metacognition_04",
+    "type": "multiple_choice",
+    "question": "Which action best demonstrates metacognitive self-regulation during a study session?",
+    "choices": [
+      "Recognizing that you don't understand a topic and deciding to reread it with a different strategy.",
+      "Simply highlighting large sections of text without processing the information.",
+      "Assuming you understand everything because you've read the material once.",
+      "Avoiding challenging concepts in favor of easier ones."
+    ],
+    "answer_index": 0,
+    "explanation": "Metacognitive self-regulation involves actively monitoring your comprehension, identifying gaps in understanding, and then adjusting your learning strategies to address those gaps. This proactive approach is key to effective study.",
+    "actionable_advice": "💡 Try this: Before solving a problem or writing an essay, pause and plan your approach. As you work, check your understanding and strategy, and afterwards, reflect on what worked and what didn't.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Dunlosky, J., et al. (2013). Improving Students' Learning."
+  },
+  {
+    "id": "study_l08_metacognition_05",
+    "type": "swipe_judgment",
+    "question": "Statement: A student demonstrating strong metacognitive skills would assume they understand a complex topic after a single reading without further self-assessment.",
+    "correct_answer": "False",
+    "explanation": "Strong metacognitive skills involve actively evaluating one's comprehension, even for seemingly understood topics. A metacognitively aware student would question their understanding, seek clarification, or test themselves to confirm mastery, rather than making assumptions.",
+    "actionable_advice": "💡 Try this: After completing a challenging task or reading, pause and explicitly ask yourself: 'What did I learn? What was difficult? How could I have approached this differently?'",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15,
+    "source_id": "Dunlosky, J., et al. (2013). Improving Students' Learning."
+  },
+  {
+    "id": "study_l08_metacognition_06",
+    "type": "multiple_choice",
+    "question": "Which of the following best describes the core concept of metacognition?",
+    "choices": [
+      "Thinking about one's own thinking and learning processes.",
+      "The ability to memorize large amounts of information quickly.",
+      "A specific theory of cognitive development.",
+      "The process of acquiring new knowledge through observation."
+    ],
+    "answer_index": 0,
+    "explanation": "Metacognition is essentially 'cognition about cognition' or 'thinking about thinking'. It involves an awareness of one's own thought processes and the ability to monitor and regulate them to enhance learning.",
+    "actionable_advice": "💡 Try this: Before starting a new study session, take a moment to plan *how* you'll learn the material, not just *what* you'll learn. Consider what strategies will be most effective.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l08_metacognition_07",
+    "type": "fill_blank_tap",
+    "question": "Metacognitive monitoring involves students assessing their own comprehension and progress, often through the process of _____. (Tap the correct word to fill the blank)",
+    "correct_answer": "self-assessment",
+    "choices": [
+      "rote memorization",
+      "group study",
+      "self-assessment",
+      "external evaluation"
+    ],
+    "explanation": "Self-assessment is a crucial metacognitive skill where learners evaluate their own understanding and identify areas needing further study, rather than relying solely on external feedback.",
+    "actionable_advice": "💡 Try this: After reading a chapter, close the book and try to explain the main concepts aloud in your own words. This quickly reveals gaps in your understanding.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l08_metacognition_08",
+    "type": "conversation",
+    "question": "Imagine a student, Alex, is struggling to understand a complex psychology theory. How might an internal dialogue using metacognitive strategies help Alex?",
+    "conversation_blocks": [
+      {
+        "speaker": "Narrator",
+        "text": "Alex is feeling stuck with a difficult concept. What's the first metacognitive step?"
+      },
+      {
+        "speaker": "Alex's Inner Voice",
+        "text": "Okay, I'm not getting this. What exactly is confusing me? Is it the terminology, the examples, or the overall structure? I need to figure out the source of my confusion."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "Good start, Alex! Identifying the problem is key. What next, after pinpointing the source of confusion?"
+      },
+      {
+        "speaker": "Alex's Inner Voice",
+        "text": "It seems like I don't grasp the core terms. Maybe I should go back and define them precisely, then try to relate them to an example I *do* understand, or create a concept map."
+      },
+      {
+        "speaker": "Narrator",
+        "text": "Excellent! That's regulating your strategy. Now, how will you know if your new approach is working?"
+      },
+      {
+        "speaker": "Alex's Inner Voice",
+        "text": "After defining the terms and trying the example, I'll try to teach the concept to an imaginary friend or write a summary without looking at my notes. If I can do that effectively, I'm probably on track!"
+      }
+    ],
+    "explanation": "This conversation illustrates the three phases of metacognition: planning (identifying confusion), monitoring (choosing a strategy), and evaluating (checking if the strategy worked). Alex actively takes control of their learning by being aware of their mental state and adjusting their approach.",
+    "actionable_advice": "💡 Try this: The next time you're stuck, pause and ask yourself: 'What exactly is the problem here?' 'What strategies could I try?' and 'How will I know if it worked?'",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l08_metacognition_09",
+    "type": "swipe_judgment",
+    "question": "Is the following statement True or False regarding effective study strategies?",
+    "statement": "Repeatedly rereading lecture notes is generally the most effective metacognitive strategy for long-term retention.",
+    "correct_answer": "False",
+    "explanation": "Rereading often creates an 'illusion of knowing', where familiarity with the text is mistaken for genuine understanding. More active strategies like self-testing or elaborative interrogation are far more effective for deep learning and long-term retention.",
+    "actionable_advice": "💡 Try this: Instead of rereading, try the 'testing effect': quiz yourself frequently on the material using flashcards or practice questions, even if it feels harder at first.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l08_metacognition_10",
+    "type": "multiple_choice",
+    "question": "Which of these scenarios best exemplifies metacognitive regulation?",
+    "choices": [
+      "A student switches from highlighting to creating concept maps because they realize highlighting isn't helping them understand complex topics.",
+      "A student stays up all night cramming for an exam.",
+      "A student copies notes verbatim from a textbook during a lecture.",
+      "A student attributes their poor test performance solely to the teacher's difficult questions."
+    ],
+    "answer_index": 0,
+    "explanation": "Metacognitive regulation involves actively monitoring one's understanding and adjusting learning strategies based on that assessment. The student in scenario A is adapting their approach, which is a key aspect of regulation.",
+    "actionable_advice": "💡 Try this: Regularly ask yourself during study: 'Is this strategy actually working for me, or am I just going through the motions?' Be ready to switch tactics if needed.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l08_metacognition_11",
+    "type": "multiple_choice",
+    "question": "A student's ability to accurately predict how well they will perform on a future test for a specific topic is known as:",
+    "choices": [
+      "Retrieval practice",
+      "Judgments of Learning (JOLs)",
+      "Massed practice",
+      "Interleaving"
+    ],
+    "answer_index": 1,
+    "explanation": "Judgments of Learning (JOLs) are metacognitive predictions about future test performance. Developing accurate JOLs is a key aspect of effective metacognitive monitoring, allowing students to allocate study time wisely.",
+    "actionable_advice": "💡 Try this: After studying a section, predict your score if you were tested on it immediately. Then, test yourself. Compare your prediction to your actual score to improve your JOL accuracy.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l08_metacognition_12",
+    "type": "multiple_choice",
+    "question": "When planning to study for a difficult exam, which step is most indicative of effective metacognitive planning?",
+    "choices": [
+      "Starting to read the textbook from page one without a plan.",
+      "Creating a detailed study schedule that allocates time based on perceived difficulty and importance of topics.",
+      "Only reviewing the topics covered in the last two lectures.",
+      "Relying solely on memory during the exam without any prior review."
+    ],
+    "answer_index": 1,
+    "explanation": "Effective metacognitive planning involves strategically allocating resources (like time and effort) based on a realistic assessment of the task's demands and one's own knowledge gaps. This allows for a more efficient and targeted study approach.",
+    "actionable_advice": "💡 Try this: Before a major exam, create a 'knowledge inventory' – list all topics and rate your current understanding (1-5). Prioritize studying topics where your rating is lowest.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l08_metacognition_13",
+    "type": "swipe_judgment",
+    "question": "Is the following statement True or False regarding metacognition?",
+    "statement": "Students with strong metacognitive skills are better equipped to avoid the 'illusion of knowing' and identify their true comprehension gaps.",
+    "correct_answer": "True",
+    "explanation": "Metacognitively aware students are more adept at monitoring their comprehension and identifying when they only *think* they know something versus genuinely understanding it. This helps them direct their study efforts more effectively.",
+    "actionable_advice": "💡 Try this: When you feel confident about a topic, challenge that confidence. Try to explain it to someone else or solve a complex problem without referring to notes. If you struggle, you're experiencing the 'illusion of knowing' and need more practice.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l08_metacognition_14",
+    "type": "multiple_choice",
+    "question": "A student who regularly reflects on their learning process, identifies what they understand, and adjusts their study methods is primarily engaging in:",
+    "choices": [
+      "Passive learning",
+      "Rote memorization",
+      "Metacognition",
+      "Operant conditioning"
+    ],
+    "answer_index": 2,
+    "explanation": "This describes metacognition, which encompasses monitoring one's understanding and regulating learning strategies based on that monitoring. It's an active and self-directed process essential for effective learning.",
+    "actionable_advice": "💡 Try this: Keep a brief learning journal. At the end of each study session, write down: 'What did I learn today?' 'What was challenging?' 'How did I overcome it, or what will I try next?'",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l08_metacognition_15",
+    "type": "multiple_choice",
+    "question": "The ability to choose the most appropriate study strategy for a given task, such as using spaced practice for long-term retention versus cramming for immediate recall, is an example of strong metacognitive ____.",
+    "choices": [
+      "Monitoring",
+      "Regulation",
+      "Strategic knowledge",
+      "Cognitive load"
+    ],
+    "answer_index": 2,
+    "explanation": "Strategic knowledge, a key component of metacognition, involves understanding a variety of learning strategies and knowing when and how to apply them effectively based on the task and one's learning goals.",
+    "actionable_advice": "💡 Try this: Before tackling a new learning task, consider its nature. Is it concept heavy? Fact heavy? Does it require application? Then, consciously select a strategy known to be effective for that type of learning.",
+    "citation": "Dunlosky, J., et al. (2013). Improving Students' Learning.",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "study_l09_dual_coding_01",
+    "type": "swipe_judgment",
+    "question": "According to Dual Coding Theory, information is best remembered when it is only processed verbally.",
+    "correct_answer": false,
+    "explanation": "Dual Coding Theory posits that information is more effectively retained when it is encoded in two distinct ways: through verbal associations and visual imagery. This dual representation strengthens memory traces, making recall easier.",
+    "actionable_advice": "💡 Try this: When studying new vocabulary, draw a quick sketch related to each word in your notes, rather than just writing down the definition.",
+    "citation": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "difficulty": "expert",
+    "xp": 20
+  },
+  {
+    "id": "study_l09_dual_coding_02",
+    "type": "multiple_choice",
+    "question": "Which cognitive theory suggests that memory is enhanced when information is stored in both verbal and visual forms?",
+    "choices": [
+      "Dual Coding Theory",
+      "Levels of Processing Theory",
+      "Schema Theory",
+      "Information Processing Theory"
+    ],
+    "answer_index": 0,
+    "explanation": "Dual Coding Theory, developed by Allan Paivio, highlights that forming both a verbal and a nonverbal (e.g., visual) representation of information leads to stronger, more easily retrievable memories.",
+    "actionable_advice": "💡 Try this: For complex topics, create mind maps or flowcharts that visually link concepts together, reinforcing the verbal information you've read.",
+    "citation": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "difficulty": "expert",
+    "xp": 20
+  },
+  {
+    "id": "study_l09_dual_coding_03",
+    "type": "fill_blank_tap",
+    "question": "According to Paivio's Dual Coding Theory, memory is enhanced when information is encoded both verbally and ___.",
+    "choices": [
+      "visually",
+      "auditorily",
+      "kinesthetically",
+      "olfactorily"
+    ],
+    "answer_index": 0,
+    "explanation": "Dual Coding Theory emphasizes the importance of creating two types of mental codes—verbal and visual—to process and store information. Visual encoding involves forming mental images, while verbal encoding involves linguistic representations.",
+    "actionable_advice": "💡 Try this: When learning a new concept, picture a concrete example of it in your mind while simultaneously explaining it aloud to yourself.",
+    "citation": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "difficulty": "expert",
+    "xp": 20
+  },
+  {
+    "id": "study_l09_dual_coding_04",
+    "type": "multiple_choice",
+    "question": "Which of the following is NOT a core component or implication of Dual Coding Theory?",
+    "choices": [
+      "Information is processed in two independent systems.",
+      "Verbal and nonverbal systems can interact and support each other.",
+      "Memory for concrete words is often better than for abstract words.",
+      "Learning is primarily driven by classical conditioning principles."
+    ],
+    "answer_index": 3,
+    "explanation": "Dual Coding Theory focuses on the verbal and visual systems of memory, their interaction, and the benefits of dual encoding. Classical conditioning is a learning theory, not a core tenet of Dual Coding Theory.",
+    "actionable_advice": "💡 Try this: When reviewing, don't just reread notes. Instead, try to draw a diagram from memory and then verbally explain the concepts without looking at your text.",
+    "citation": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "difficulty": "expert",
+    "xp": 20
+  },
+  {
+    "id": "study_l09_dual_coding_05",
+    "type": "conversation",
+    "question": "Sarah is studying for her biology exam and finds it difficult to remember the different stages of cell division. Her friend, Tom, who just aced the exam, gives her advice based on effective memory strategies. What advice would Tom most likely give if he were applying Dual Coding Theory?",
+    "choices": [
+      "'Just reread your notes multiple times until they stick.'",
+      "'Try to create a mental picture for each stage and describe it out loud.'",
+      "'Focus solely on memorizing the definitions word-for-word.'",
+      "'Listen to a recording of your professor's lecture while you sleep.'"
+    ],
+    "answer_index": 1,
+    "explanation": "Applying Dual Coding Theory, Tom would advise Sarah to engage both verbal (describing aloud) and visual (mental picture) encoding processes. This creates a more robust memory trace than relying on a single mode of processing.",
+    "actionable_advice": "💡 Try this: When encountering complex processes, sketch out a flowchart or storyboard of the steps, adding brief descriptions to each visual component.",
+    "citation": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "difficulty": "expert",
+    "xp": 20
+  },
+  {
+    "id": "study_l09_dual_coding_06",
+    "type": "multiple_choice",
+    "question": "When a person creates a mental image of a word like 'apple' while also saying the word aloud, they are engaging in which memory strategy?",
+    "choices": [
+      "Rote Rehearsal",
+      "Chunking",
+      "Dual Coding",
+      "Elaborative Rehearsal"
+    ],
+    "answer_index": 2,
+    "explanation": "This act perfectly exemplifies dual coding, where information is processed and stored using both a visual code (mental image) and a verbal code (saying the word). This parallel processing strengthens memory.",
+    "actionable_advice": "💡 Try this: When learning new terminology, close your eyes and visualize the concept it represents, then articulate its definition in your own words.",
+    "citation": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "difficulty": "expert",
+    "xp": 20
+  },
+  {
+    "id": "study_l09_dual_coding_07",
+    "type": "multiple_choice",
+    "question": "Which type of words are generally more easily remembered due to their ability to evoke mental images, according to Dual Coding Theory?",
+    "choices": [
+      "Abstract words",
+      "Concrete words",
+      "Technical words",
+      "Infrequent words"
+    ],
+    "answer_index": 1,
+    "explanation": "Concrete words, like 'house' or 'tree,' are easier to form mental images for, allowing for both verbal and visual encoding. Abstract words, like 'justice' or 'freedom,' are harder to visualize and primarily rely on verbal encoding, making them generally harder to recall.",
+    "actionable_advice": "💡 Try this: For abstract concepts, try to find or create analogies that have a strong visual component to make them more concrete and dual-codable.",
+    "citation": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "difficulty": "expert",
+    "xp": 20
+  },
+  {
+    "id": "study_l09_dual_coding_08",
+    "type": "multiple_choice",
+    "question": "A key advantage of dual coding for memory retention is that it provides:",
+    "choices": [
+      "A single, very strong memory trace.",
+      "Multiple pathways for retrieval.",
+      "Faster initial encoding speed.",
+      "Reduced cognitive load during learning."
+    ],
+    "answer_index": 1,
+    "explanation": "Dual coding creates two distinct mental representations (verbal and visual), which means if one retrieval path fails, the other can still be used to access the information. This redundancy makes memory more robust.",
+    "actionable_advice": "💡 Try this: When you're stuck trying to recall something, try to remember not just the words you read, but also the page layout, any images, or even the color of the textbook cover.",
+    "citation": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "difficulty": "expert",
+    "xp": 20
+  },
+  {
+    "id": "study_l09_dual_coding_09",
+    "type": "swipe_judgment",
+    "question": "Dual Coding Theory primarily focuses on auditory and kinesthetic encoding.",
+    "correct_answer": false,
+    "explanation": "While other forms of encoding exist, Dual Coding Theory specifically emphasizes the interaction and benefits of verbal (linguistic) and nonverbal (imaginal/visual) coding systems for memory enhancement.",
+    "actionable_advice": "💡 Try this: Reflect on your study habits. Are you incorporating visual elements like diagrams, videos, or mental imagery, or are you primarily relying on reading and verbal repetition?",
+    "citation": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "difficulty": "expert",
+    "xp": 20
+  },
+  {
+    "id": "study_l09_dual_coding_10",
+    "type": "multiple_choice",
+    "question": "Which of the following activities best exemplifies the application of Dual Coding Theory in a learning context?",
+    "choices": [
+      "Repeatedly reciting a list of terms aloud.",
+      "Creating flashcards with only text definitions.",
+      "Drawing diagrams to represent complex concepts while explaining them.",
+      "Highlighting key sentences in a textbook."
+    ],
+    "answer_index": 2,
+    "explanation": "Drawing diagrams (visual encoding) and explaining them (verbal encoding) directly leverages both processing systems, leading to superior memory performance according to Dual Coding Theory. The other options are primarily verbal or visual only.",
+    "actionable_advice": "💡 Try this: When preparing for a presentation, instead of just memorizing your script, visualize yourself giving the presentation and imagine the flow of your slides and arguments.",
+    "citation": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "difficulty": "expert",
+    "xp": 20
+  },
+  {
+    "id": "study_l09_dual_coding_11",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "study L9 Q11: dual_coding",
+    "source_id": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "explanation": "Research-based explanation for dual_coding",
+    "choices": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correct_index": 0
+  },
+  {
+    "id": "study_l09_dual_coding_12",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "study L9 Q12: dual_coding",
+    "source_id": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "explanation": "Research-based explanation for dual_coding",
+    "items": [
+      "Step 1",
+      "Step 2",
+      "Step 3",
+      "Step 4"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "id": "study_l09_dual_coding_13",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "study L9 Q13: dual_coding",
+    "source_id": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "explanation": "Research-based explanation for dual_coding",
+    "statement": "Statement about dual_coding",
+    "is_true": false
+  },
+  {
+    "id": "study_l09_dual_coding_14",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "study L9 Q14: dual_coding",
+    "source_id": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "explanation": "Research-based explanation for dual_coding",
+    "choices": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correct_index": 0
+  },
+  {
+    "id": "study_l09_dual_coding_15",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "study L9 Q15: dual_coding",
+    "source_id": "Paivio, A. (1971). Imagery and Verbal Processes.",
+    "explanation": "Research-based explanation for dual_coding",
+    "choices": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correct_index": 0
+  },
+  {
+    "id": "study_l10_interleaved_practice_01",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "study L10 Q1: interleaved_practice",
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "explanation": "Research-based explanation for interleaved_practice",
+    "statement": "Statement about interleaved_practice",
+    "is_true": false
+  },
+  {
+    "id": "study_l10_interleaved_practice_02",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "study L10 Q2: interleaved_practice",
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "explanation": "Research-based explanation for interleaved_practice",
+    "choices": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correct_index": 0
+  },
+  {
+    "id": "study_l10_interleaved_practice_03",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "study L10 Q3: interleaved_practice",
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "explanation": "Research-based explanation for interleaved_practice",
+    "choices": [
+      "A",
+      "B",
+      "C",
+      "D"
+    ],
+    "correct_index": 0
+  },
+  {
+    "id": "study_l10_interleaved_practice_04",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "study L10 Q4: interleaved_practice",
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "explanation": "Research-based explanation for interleaved_practice",
+    "items": [
+      "Step 1",
+      "Step 2",
+      "Step 3",
+      "Step 4"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ]
+  },
+  {
+    "id": "study_l10_interleaved_practice_05",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "study L10 Q5: interleaved_practice",
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "explanation": "Research-based explanation for interleaved_practice",
+    "statement": "Statement about interleaved_practice",
+    "is_true": false
+  },
+  {
+    "id": "study_l10_interleaved_practice_06",
+    "type": "multiple_choice",
+    "question": "Which of the following best describes the principle of interleaved practice?",
+    "choices": [
+      "Mixing different types of problems or topics within a study session.",
+      "Practicing the same type of problem repeatedly until mastered.",
+      "Reviewing material immediately after it's presented.",
+      "Focusing on one topic entirely before moving to the next."
+    ],
+    "answer_index": 0,
+    "explanation": "Interleaved practice involves mixing different types of problems or topics within a single study session, rather than practicing one type exhaustively. This approach improves long-term retention and the ability to apply learning by forcing learners to discriminate between problem types and select appropriate strategies.",
+    "actionable_advice": "💡 Try this: When studying a subject with multiple problem types, like math or science, consciously shuffle the order of problems instead of doing all problems of one type, then all of another.",
+    "citation": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "difficulty": "expert",
+    "xp": 20,
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems."
+  },
+  {
+    "id": "study_l10_interleaved_practice_07",
+    "type": "fill_blank_tap",
+    "question": "Interleaved practice enhances learning by promoting ________, where learners must identify the correct strategy for each problem type.",
+    "correct_answer": "discrimination",
+    "explanation": "Interleaved practice requires learners to actively discriminate between different problem types and choose the appropriate solution strategy. This active engagement strengthens understanding and makes learning more robust than simply applying the same strategy repeatedly.",
+    "actionable_advice": "💡 Try this: Actively reflect on why you chose a particular strategy for a problem when it's mixed with others. This reinforces the 'discrimination' skill.",
+    "citation": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "difficulty": "expert",
+    "xp": 20,
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems."
+  },
+  {
+    "id": "study_l10_interleaved_practice_08",
+    "type": "multiple_choice",
+    "question": "Which of the following scenarios best exemplifies effective interleaved practice?",
+    "choices": [
+      "A student studies algebra, then geometry, then trigonometry in separate, consecutive blocks.",
+      "A student solves a mix of algebra, geometry, and trigonometry problems in a single study session.",
+      "A student reviews algebra problems multiple times before moving on to geometry.",
+      "A student revisits geometry concepts only after mastering algebra and trigonometry."
+    ],
+    "answer_index": 1,
+    "explanation": "Interleaved practice involves mixing different problem types or topics within the same study session. This helps students develop better problem-solving skills and distinguish between different concepts rather than just applying a learned procedure.",
+    "actionable_advice": "💡 Try this: Instead of dedicating an hour to just one topic, try cycling through 3-4 related topics within that hour, solving a few problems for each before switching.",
+    "citation": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "difficulty": "expert",
+    "xp": 20,
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems."
+  },
+  {
+    "id": "study_l10_interleaved_practice_09",
+    "type": "swipe_judgment",
+    "question": "Is the following statement True or False regarding interleaved practice?",
+    "statement": "Interleaved practice is most effective when learning highly similar concepts, as it reduces confusion.",
+    "correct_answer": "False",
+    "explanation": "Interleaved practice is particularly beneficial for distinguishing between similar concepts, as it highlights their differences and the conditions under which each applies. While it can initially feel more challenging, this cognitive effort leads to deeper learning and better retention.",
+    "actionable_advice": "💡 Try this: Embrace the initial difficulty of interleaved practice. It's a sign that your brain is working harder to form stronger connections and better discriminate between concepts.",
+    "citation": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "difficulty": "expert",
+    "xp": 20,
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems."
+  },
+  {
+    "id": "study_l10_interleaved_practice_10",
+    "type": "multiple_choice",
+    "question": "What is a primary advantage of interleaved practice over blocked practice?",
+    "choices": [
+      "It allows for faster initial mastery of individual topics.",
+      "It improves long-term retention and the ability to apply knowledge to new problems.",
+      "It requires less cognitive effort during the learning process.",
+      "It is preferred by students due to its perceived ease of learning."
+    ],
+    "answer_index": 1,
+    "explanation": "Studies show that while blocked practice can lead to faster short-term gains, interleaved practice significantly enhances long-term retention and the ability to transfer learned skills to novel situations. This is because it encourages more robust encoding of information.",
+    "actionable_advice": "💡 Try this: Prioritize interleaved practice for subjects you need to remember and apply over the long term, rather than just for an upcoming test.",
+    "citation": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "difficulty": "expert",
+    "xp": 20,
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems."
+  },
+  {
+    "id": "study_l10_interleaved_practice_11",
+    "type": "conversation",
+    "question": "A student is struggling with differentiating between different statistical tests (t-tests, ANOVA, chi-square). What advice, based on interleaved practice, would you offer?",
+    "choices": [
+      "Focus on mastering t-tests completely before moving to ANOVA, then chi-square.",
+      "Create flashcards for each test and review them separately every day.",
+      "Practice problems that require identifying and applying all three statistical tests in a mixed, unpredictable order.",
+      "Only study one test per week to avoid mental overload."
+    ],
+    "answer_index": 2,
+    "explanation": "For concepts that are easily confused, such as different statistical tests, interleaved practice is highly effective. By mixing problems that require different tests, the student is forced to actively distinguish between them, which strengthens their understanding of when and how to apply each one.",
+    "actionable_advice": "💡 Try this: When tackling similar concepts, design practice sessions where you're forced to decide which concept applies to a given problem. This builds a mental 'decision tree' for problem-solving.",
+    "citation": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "difficulty": "expert",
+    "xp": 20,
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems."
+  },
+  {
+    "id": "study_l10_interleaved_practice_12",
+    "type": "multiple_choice",
+    "question": "Which activity is least consistent with the principles of interleaved practice?",
+    "choices": [
+      "Working through a chapter on fractions, then a chapter on decimals, then a chapter on percentages.",
+      "Solving a mixed set of problems involving fractions, decimals, and percentages.",
+      "Alternating between studying historical events, mathematical equations, and literary analysis.",
+      "Practicing different chord progressions and melodies within a single music practice session."
+    ],
+    "answer_index": 0,
+    "explanation": "Interleaved practice advocates for mixing different topics or problem types within a single study session to enhance discrimination and long-term retention. Blocked practice, where one topic is completed before moving to the next, is the opposite approach and often leads to weaker long-term learning.",
+    "actionable_advice": "💡 Try this: Be mindful of 'blocked' study habits, especially in textbooks. Don't just do all problems at the end of a chapter; instead, mix them with problems from previous chapters or related topics.",
+    "citation": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "difficulty": "expert",
+    "xp": 20,
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems."
+  },
+  {
+    "id": "study_l10_interleaved_practice_13",
+    "type": "swipe_judgment",
+    "question": "Is the following statement True or False?",
+    "statement": "Students often initially perceive interleaved practice as more difficult than blocked practice, even though it leads to better long-term learning.",
+    "correct_answer": "True",
+    "explanation": "It's common for learners to find interleaved practice more challenging initially because it requires more cognitive effort to switch between problem types and strategies. However, this 'desirable difficulty' is precisely what makes it more effective for long-term retention and application compared to the seemingly easier blocked practice.",
+    "actionable_advice": "💡 Try this: Don't be discouraged if interleaved practice feels harder at first. This 'struggle' is a key part of deep learning. Trust the process for better long-term results.",
+    "citation": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "difficulty": "expert",
+    "xp": 20,
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems."
+  },
+  {
+    "id": "study_l10_interleaved_practice_14",
+    "type": "multiple_choice",
+    "question": "Which cognitive process is primarily enhanced by interleaved practice?",
+    "choices": [
+      "Automaticity of a single skill.",
+      "Discrimination between different concepts and problem-solving strategies.",
+      "Speed of initial information encoding.",
+      "Rote memorization of facts."
+    ],
+    "answer_index": 1,
+    "explanation": "Interleaved practice strengthens a learner's ability to discriminate between different problem types, recognize their underlying structures, and select the appropriate solution method. This active process of identifying and applying different strategies is crucial for deep learning.",
+    "actionable_advice": "💡 Try this: After practicing with interleaving, try to articulate the key differences between the concepts you've mixed. This verbalization further solidifies your discrimination skills.",
+    "citation": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "difficulty": "expert",
+    "xp": 20,
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems."
+  },
+  {
+    "id": "study_l10_interleaved_practice_15",
+    "type": "multiple_choice",
+    "question": "When designing a study schedule, incorporating interleaved practice means you should:",
+    "choices": [
+      "Allocate specific days for specific subjects, like Monday for math, Tuesday for history.",
+      "Work on a variety of subjects or problem types during each study session.",
+      "Complete all practice problems for one topic before starting another.",
+      "Only study one topic per day to avoid cognitive overload."
+    ],
+    "answer_index": 1,
+    "explanation": "To effectively implement interleaved practice, schedule your study sessions to include a mix of different subjects or problem types. This active switching between concepts trains your brain to identify patterns and choose the right approach, leading to more robust and flexible knowledge.",
+    "actionable_advice": "💡 Try this: Plan your study week by allocating slots for 'mixed practice' where you intentionally rotate through a few related topics, rather than dedicating an entire session to just one.",
+    "citation": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems.",
+    "difficulty": "expert",
+    "xp": 20,
+    "source_id": "Rohrer, D., & Taylor, K. (2007). The shuffling of mathematics problems."
+  }
+]

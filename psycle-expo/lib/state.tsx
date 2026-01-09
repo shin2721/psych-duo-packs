@@ -1,4 +1,8 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useAuth } from "./AuthContext";
+import { supabase } from "./supabase";
+import { BADGES, Badge, BadgeStats } from "./badges";
 import {
   canUseMistakesHub,
   consumeMistakesHub,
@@ -32,17 +36,36 @@ interface ReviewEvent {
   p?: number;
 }
 
+export interface MistakeItem {
+  id: string; // Question ID
+  lessonId: string;
+  timestamp: number;
+  questionType?: string;
+
+  // Spaced Repetition System (SRS) fields
+  box: number; // 1-5 (Current proficiency level, 6 = graduated/cleared)
+  nextReviewDate: number; // Timestamp when this item becomes available for review
+  interval: number; // Current interval in days
+}
+
 interface AppState {
   selectedGenre: string;
   setSelectedGenre: (id: string) => void;
   xp: number;
   addXp: (amount: number) => void;
+  skill: number; // Elo rating (default 1500)
+  skillConfidence: number; // Confidence in skill rating (0-100)
+  questionsAnswered: number; // Total questions answered
+  updateSkill: (isCorrect: boolean, itemDifficulty?: number) => void;
   quests: Quest[];
   incrementQuest: (id: string, step?: number) => void;
   claimQuest: (id: string) => void;
   // Streak system
   streak: number;
   lastStudyDate: string | null;
+  lastActivityDate: string | null; // ISO date string for streak calculation
+  streakHistory: { date: string; xp: number; lessonsCompleted: number }[]; // Last 30 days
+  updateStreakForToday: (currentXP?: number) => Promise<void>;
   freezeCount: number;
   useFreeze: () => boolean;
   // Currency system
@@ -77,6 +100,25 @@ interface AppState {
   // Lesson progress
   completedLessons: Set<string>;
   completeLesson: (lessonId: string) => void;
+  // Pack purchases (for paywall)
+  purchasedPacks: Set<string>;
+  purchasePack: (genreId: string) => void;
+  isPurchased: (genreId: string) => boolean;
+  // Adaptive difficulty tracking
+  recentQuestionTypes: string[]; // Last 5 question types
+  recentAccuracy: number; // Rolling accuracy (0-1) from last 10 questions
+  currentStreak: number; // Current correct answer streak
+  recordQuestionResult: (questionType: string, isCorrect: boolean) => void;
+  // Mistakes Hub (SRS)
+  mistakes: MistakeItem[];
+  addMistake: (questionId: string, lessonId: string, questionType?: string) => void;
+  processReviewResult: (questionId: string, isCorrect: boolean) => void; // Handle SRS transitions
+  getDueMistakes: () => MistakeItem[]; // Get items due for review
+  clearMistake: (questionId: string) => void; // Manually remove (for migration/cleanup)
+  // Badges
+  unlockedBadges: Set<string>; // Badge IDs
+  checkAndUnlockBadges: () => Promise<string[]>; // Returns newly unlocked badge IDs
+  mistakesCleared: number; // Track for badge unlock
 }
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
@@ -84,12 +126,19 @@ const AppStateContext = createContext<AppState | undefined>(undefined);
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [selectedGenre, setSelectedGenre] = useState("mental");
   const [xp, setXP] = useState(0);
+  const [skill, setSkill] = useState(1500); // Default Elo rating
+  const [skillConfidence, setSkillConfidence] = useState(100); // Start with low confidence
+  const [questionsAnswered, setQuestionsAnswered] = useState(0);
 
   // Plan & Entitlements
   const [planId, setPlanIdState] = useState<PlanId>("free");
   const [activeUntil, setActiveUntilState] = useState<string | null>(null);
   const [reviewEvents, setReviewEvents] = useState<ReviewEvent[]>([]);
-  const DUMMY_USER_ID = "user_local"; // In production, use actual user ID
+
+  const { user } = useAuth();
+  const userId = user?.id || "user_local";
+
+
 
   const [quests, setQuests] = useState<Quest[]>([
     { id: "q_monthly_50pts", type: "monthly", title: "50クエストポイントを獲得する", need: 50, progress: 12, rewardXp: 150, claimed: false, chestState: "closed" },
@@ -105,6 +154,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // Streak system
   const [streak, setStreak] = useState(0);
   const [lastStudyDate, setLastStudyDate] = useState<string | null>(null);
+  const [lastActivityDate, setLastActivityDate] = useState<string | null>(null);
+  const [streakHistory, setStreakHistory] = useState<{ date: string; xp: number; lessonsCompleted: number }[]>([]);
   const [freezeCount, setFreezeCount] = useState(2); // Start with 2 free freezes
 
   // Currency system
@@ -117,6 +168,210 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setCompletedLessons(prev => new Set(prev).add(lessonId));
   }
 
+  // Pack purchases (for paywall)
+  const [purchasedPacks, setPurchasedPacks] = useState<Set<string>>(new Set());
+
+  function purchasePack(genreId: string) {
+    setPurchasedPacks(prev => new Set(prev).add(genreId));
+    // TODO: Sync to Supabase when real payments are implemented
+  }
+
+  function isPurchased(genreId: string): boolean {
+    return purchasedPacks.has(genreId);
+  }
+
+  // Adaptive difficulty tracking
+  const [recentQuestionTypes, setRecentQuestionTypes] = useState<string[]>([]);
+  const [recentAccuracy, setRecentAccuracy] = useState(0.7); // Default 70%
+  const [currentStreak, setCurrentStreak] = useState(0);
+  const [recentResults, setRecentResults] = useState<boolean[]>([]); // Track last 10 results
+
+  function recordQuestionResult(questionType: string, isCorrect: boolean) {
+    // Update question type history (keep last 5)
+    setRecentQuestionTypes(prev => {
+      const updated = [...prev, questionType];
+      return updated.slice(-5);
+    });
+
+    // Update recent results (keep last 10)
+    setRecentResults(prev => {
+      const updated = [...prev, isCorrect];
+      const last10 = updated.slice(-10);
+
+      // Calculate new accuracy
+      const correctCount = last10.filter(r => r).length;
+      const newAccuracy = correctCount / last10.length;
+      setRecentAccuracy(newAccuracy);
+
+      return last10;
+    });
+
+    // Update streak
+    setCurrentStreak(prev => isCorrect ? prev + 1 : 0);
+  }
+
+  // Mistakes Hub Implementation (SRS)
+  const [mistakes, setMistakes] = useState<MistakeItem[]>([]);
+
+  // SRS Intervals (in days)
+  const SRS_INTERVALS = [0, 1, 3, 7, 14]; // Box 1-5
+
+  function addMistake(questionId: string, lessonId: string, questionType?: string) {
+    setMistakes(prev => {
+      // Check if already exists
+      const existing = prev.find(m => m.id === questionId);
+      if (existing) {
+        // Reset to Box 1 if re-added
+        return prev.map(m => m.id === questionId ? {
+          ...m,
+          box: 1,
+          nextReviewDate: Date.now(),
+          interval: 0
+        } : m);
+      }
+
+      return [...prev, {
+        id: questionId,
+        lessonId,
+        timestamp: Date.now(),
+        questionType,
+        box: 1,
+        nextReviewDate: Date.now(), // Available immediately
+        interval: 0
+      }];
+    });
+  }
+
+  function processReviewResult(questionId: string, isCorrect: boolean) {
+    setMistakes(prev => {
+      return prev.map(m => {
+        if (m.id !== questionId) return m;
+
+        if (isCorrect) {
+          const newBox = m.box + 1;
+
+          // Graduated (Box 6 = cleared)
+          if (newBox > 5) {
+            return null; // Will be filtered out
+          }
+
+          const newInterval = SRS_INTERVALS[newBox - 1];
+          const nextReview = Date.now() + (newInterval * 24 * 60 * 60 * 1000);
+
+          return {
+            ...m,
+            box: newBox,
+            interval: newInterval,
+            nextReviewDate: nextReview
+          };
+        } else {
+          // Incorrect: Reset to Box 1
+          return {
+            ...m,
+            box: 1,
+            interval: 0,
+            nextReviewDate: Date.now()
+          };
+        }
+      }).filter(Boolean) as MistakeItem[]; // Remove graduated items
+    });
+  }
+
+  function getDueMistakes(): MistakeItem[] {
+    const now = Date.now();
+    return mistakes.filter(m => m.nextReviewDate <= now);
+  }
+
+  function clearMistake(questionId: string) {
+    setMistakes(prev => prev.filter(m => m.id !== questionId));
+  }
+
+  // Badges Implementation
+  const [unlockedBadges, setUnlockedBadges] = useState<Set<string>>(new Set());
+  const [mistakesCleared, setMistakesCleared] = useState(0);
+
+  async function checkAndUnlockBadges(): Promise<string[]> {
+    if (!user) return [];
+
+    const stats: BadgeStats = {
+      completedLessons: completedLessons.size,
+      streak,
+      xp,
+      mistakesCleared,
+      friendCount: 0, // TODO: Implement friend count
+      leaderboardRank: 0, // TODO: Implement leaderboard rank
+    };
+
+    const newlyUnlocked: string[] = [];
+
+    for (const badge of BADGES) {
+      if (!unlockedBadges.has(badge.id) && badge.unlockCondition(stats)) {
+        // Unlock badge
+        try {
+          const { error } = await supabase
+            .from("user_badges")
+            .insert({ user_id: user.id, badge_id: badge.id });
+
+          if (!error) {
+            setUnlockedBadges(prev => new Set(prev).add(badge.id));
+            newlyUnlocked.push(badge.id);
+          }
+        } catch (err) {
+          console.error("Failed to unlock badge:", err);
+        }
+      }
+    }
+
+    return newlyUnlocked;
+  }
+
+  // Load user badges from Supabase
+  useEffect(() => {
+    if (!user) return;
+    supabase
+      .from("user_badges")
+      .select("badge_id")
+      .eq("user_id", user.id)
+      .then(({ data }) => {
+        if (data) {
+          setUnlockedBadges(new Set(data.map(b => b.badge_id)));
+        }
+      });
+  }, [user]);
+
+  // Load mistakes from AsyncStorage on mount
+  useEffect(() => {
+    if (!user) return;
+    AsyncStorage.getItem(`mistakes_${user.id}`).then((data) => {
+      if (data) {
+        const loadedMistakes = JSON.parse(data);
+
+        // Migration: Convert old format to new SRS format
+        const migratedMistakes = loadedMistakes.map((m: any) => {
+          if (m.box === undefined) {
+            // Old format detected, migrate to new format
+            return {
+              ...m,
+              box: 1,
+              nextReviewDate: Date.now(),
+              interval: 0
+            };
+          }
+          return m;
+        });
+
+        setMistakes(migratedMistakes);
+      }
+    });
+  }, [user]);
+
+  // Save mistakes to AsyncStorage whenever it changes
+  useEffect(() => {
+    if (!user) return;
+    AsyncStorage.setItem(`mistakes_${user.id}`, JSON.stringify(mistakes));
+  }, [mistakes, user]);
+
+
   // Daily goal system
   const [dailyGoal, setDailyGoalState] = useState(10); // Regular = 10 XP
   const [dailyXP, setDailyXP] = useState(0);
@@ -126,6 +381,82 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const MAX_LIVES = 5;
   const [lives, setLives] = useState(MAX_LIVES);
   const [lastLifeLostTime, setLastLifeLostTime] = useState<number | null>(null);
+
+  // Load persisted state on mount (Supabase + Local Fallback)
+  useEffect(() => {
+    if (!user) return;
+
+    const loadState = async () => {
+      try {
+        // 1. Try to fetch from Supabase first
+        const { data, error } = await supabase
+          .from('profiles')
+          .select('xp, gems, streak, level, plan_id, active_until')
+          .eq('id', user.id)
+          .single();
+
+        if (data && !error) {
+          console.log("Loaded profile from Supabase:", data);
+          setXP(data.xp ?? 0);
+          setGems(data.gems ?? 50);
+          setStreak(data.streak ?? 0);
+          // setLevel(data.level ?? 1); // If we had a setLevel
+          if (data.plan_id) setPlanIdState(data.plan_id as PlanId);
+          if (data.active_until) setActiveUntilState(data.active_until);
+        } else {
+          // 2. Fallback to local storage if Supabase fails or no profile yet
+          console.log("Supabase profile not found, checking local storage...");
+          const savedXp = await AsyncStorage.getItem(`xp_${user.id}`);
+          if (savedXp) setXP(parseInt(savedXp, 10));
+
+          const savedGems = await AsyncStorage.getItem(`gems_${user.id}`);
+          if (savedGems) setGems(parseInt(savedGems, 10));
+
+          const savedStreak = await AsyncStorage.getItem(`streak_${user.id}`);
+          if (savedStreak) setStreak(parseInt(savedStreak, 10));
+        }
+      } catch (e) {
+        console.error("Failed to load state", e);
+      }
+    };
+    loadState();
+  }, [user]);
+
+  // Persist state changes
+  // Persist state changes to Supabase (and Local Storage as backup)
+  useEffect(() => {
+    if (!user) return;
+    AsyncStorage.setItem(`xp_${user.id}`, xp.toString());
+
+    // Debounced update to Supabase to avoid too many requests
+    const timer = setTimeout(() => {
+      supabase.from('profiles').update({ xp }).eq('id', user.id).then(({ error }) => {
+        if (error) console.error("Failed to sync XP to Supabase", error);
+      });
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [xp, user]);
+
+  useEffect(() => {
+    if (!user) return;
+    AsyncStorage.setItem(`gems_${user.id}`, gems.toString());
+
+    const timer = setTimeout(() => {
+      supabase.from('profiles').update({ gems }).eq('id', user.id).then(({ error }) => {
+        if (error) console.error("Failed to sync Gems to Supabase", error);
+      });
+    }, 1000);
+    return () => clearTimeout(timer);
+  }, [gems, user]);
+
+  useEffect(() => {
+    if (!user) return;
+    AsyncStorage.setItem(`streak_${user.id}`, streak.toString());
+
+    supabase.from('profiles').update({ streak }).eq('id', user.id).then(({ error }) => {
+      if (error) console.error("Failed to sync Streak to Supabase", error);
+    });
+  }, [streak, user]);
 
   // Helper: Get today's date in YYYY-MM-DD format
   function getTodayDate(): string {
@@ -172,17 +503,71 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setFreezeCount((prev) => prev - 1);
         setStreak((prev) => prev + 1);
         setLastStudyDate(today);
-      } else {
-        // Streak lost, reset to 1
-        setStreak(1);
-        setLastStudyDate(today);
+      }
+    }
+  };
+
+  // Update streak for today with Supabase integration
+  const updateStreakForToday = async (currentXP?: number) => {
+    const today = new Date().toISOString().split('T')[0];
+    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+
+    if (lastActivityDate === today) {
+      // Already updated today
+      return;
+    }
+
+    let newStreak = streak;
+    if (lastActivityDate === yesterday) {
+      // Continue streak
+      newStreak = streak + 1;
+    } else if (lastActivityDate === null) {
+      // First time
+      newStreak = 1;
+    } else if (freezeCount > 0) {
+      // Use freeze item
+      setFreezeCount(freezeCount - 1);
+      newStreak = streak + 1;
+    } else {
+      // Break streak
+      newStreak = 1;
+    }
+
+    setStreak(newStreak);
+    setLastActivityDate(today);
+
+    // Update streak history in Supabase
+    if (user) {
+      try {
+        // Insert or update today's streak history
+        await supabase
+          .from('streak_history')
+          .upsert({
+            user_id: user.id,
+            date: today,
+            lessons_completed: 1,
+            xp_earned: 0, // Will be updated when XP is added
+          });
+
+        // Update leaderboard
+        await supabase
+          .from('leaderboard')
+          .upsert({
+            user_id: user.id,
+            username: user.email?.split('@')[0] || 'User',
+            total_xp: currentXP ?? xp,
+            current_streak: newStreak,
+          });
+      } catch (error) {
+        console.error('Error updating streak in Supabase:', error);
       }
     }
   };
 
   // Add XP and update daily progress + streak
   const addXp = (amount: number) => {
-    setXP((prev) => prev + amount);
+    const newXP = xp + amount;
+    setXP(newXP);
     setDailyXP((prev) => {
       const newDailyXP = prev + amount;
       // Award gems when daily goal is reached
@@ -191,7 +576,35 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       }
       return newDailyXP;
     });
-    updateStreak();
+    updateStreak(); // Keep old streak logic for backward compatibility
+    updateStreakForToday(newXP); // Update Supabase streak with latest XP
+  };
+
+  // Adaptive Difficulty (Enhanced Elo with IRT principles)
+  const updateSkill = (isCorrect: boolean, itemDifficulty = 1500) => {
+    // Dynamic K-factor: decreases as user gains experience
+    // New users: K = 40 (fast adaptation)
+    // Experienced users: K = 24 (stable ratings)
+    const baseK = 40;
+    const minK = 24;
+    const K = Math.max(minK, baseK - (questionsAnswered / 100) * (baseK - minK));
+
+    // Calculate expected score (probability of correct answer)
+    const expectedScore = 1 / (1 + Math.pow(10, (itemDifficulty - skill) / 400));
+    const actualScore = isCorrect ? 1 : 0;
+
+    // Update skill rating
+    const newSkill = skill + K * (actualScore - expectedScore);
+    setSkill(Math.round(newSkill));
+
+    // Update confidence: decreases when performance matches expectations
+    // Increases when performance surprises (very easy or very hard questions)
+    const surprise = Math.abs(actualScore - expectedScore);
+    const confidenceChange = surprise > 0.3 ? -5 : 2;
+    setSkillConfidence((prev) => Math.max(0, Math.min(100, prev + confidenceChange)));
+
+    // Increment questions answered counter
+    setQuestionsAnswered((prev) => prev + 1);
   };
 
   const incrementQuest = (id: string, step = 1) => {
@@ -295,14 +708,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   })();
 
   const hasProAccess = hasProItemAccess(planId);
-  const canAccessMistakesHub = canUseMistakesHub(DUMMY_USER_ID, planId);
-  const mistakesHubRemaining = getMistakesHubRemaining(DUMMY_USER_ID, planId);
+  const canAccessMistakesHub = canUseMistakesHub(userId, planId);
+  const mistakesHubRemaining = getMistakesHubRemaining(userId, planId);
 
   // MistakesHub methods
   const addReviewEventFunc = (event: Omit<ReviewEvent, "userId" | "ts">) => {
     const fullEvent: ReviewEvent = {
       ...event,
-      userId: DUMMY_USER_ID,
+      userId: userId,
       ts: Date.now(),
     };
     setReviewEvents((prev) => [...prev, fullEvent]);
@@ -314,7 +727,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const startMistakesHubSessionFunc = () => {
     if (canAccessMistakesHub) {
-      consumeMistakesHub(DUMMY_USER_ID);
+      consumeMistakesHub(userId);
       // TODO: Navigate to MistakesHub session screen
     }
   };
@@ -351,12 +764,19 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         setSelectedGenre,
         xp,
         addXp,
+        skill,
+        skillConfidence,
+        questionsAnswered,
+        updateSkill,
         quests,
         incrementQuest,
         claimQuest,
         // Streak system
         streak,
         lastStudyDate,
+        lastActivityDate,
+        streakHistory,
+        updateStreakForToday,
         freezeCount,
         useFreeze,
         // Currency system
@@ -388,9 +808,28 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         canAccessMistakesHub,
         mistakesHubRemaining,
         startMistakesHubSession: startMistakesHubSessionFunc,
+        // Mistakes Hub (SRS)
+        mistakes,
+        addMistake,
+        processReviewResult,
+        getDueMistakes,
+        clearMistake,
+        // Badges
+        unlockedBadges,
+        checkAndUnlockBadges,
+        mistakesCleared,
         // Lesson progress
         completedLessons,
         completeLesson,
+        // Pack purchases
+        purchasedPacks,
+        purchasePack,
+        isPurchased,
+        // Adaptive difficulty tracking
+        recentQuestionTypes,
+        recentAccuracy,
+        currentStreak,
+        recordQuestionResult,
       }}
     >
       {children}

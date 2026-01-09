@@ -1,0 +1,132 @@
+// Badge definitions
+export interface Badge {
+    id: string;
+    name: string;
+    description: string;
+    icon: string; // Ionicons name
+    category: 'progress' | 'streak' | 'performance' | 'social';
+    unlockCondition: (stats: BadgeStats) => boolean;
+}
+
+export interface BadgeStats {
+    completedLessons: number;
+    streak: number;
+    xp: number;
+    mistakesCleared: number;
+    friendCount: number;
+    leaderboardRank: number;
+}
+
+export const BADGES: Badge[] = [
+    // Progress Badges
+    {
+        id: 'first_lesson',
+        name: '初めの一歩',
+        description: '最初のレッスンを完了',
+        icon: 'rocket',
+        category: 'progress',
+        unlockCondition: (stats) => stats.completedLessons >= 1,
+    },
+    {
+        id: 'level_5',
+        name: 'レベル5到達',
+        description: 'レベル5に到達',
+        icon: 'star',
+        category: 'progress',
+        unlockCondition: (stats) => stats.completedLessons >= 5,
+    },
+    {
+        id: 'level_10',
+        name: 'レベル10到達',
+        description: 'レベル10に到達',
+        icon: 'star-half',
+        category: 'progress',
+        unlockCondition: (stats) => stats.completedLessons >= 10,
+    },
+    {
+        id: 'lessons_50',
+        name: '継続は力なり',
+        description: '50レッスンを完了',
+        icon: 'trophy',
+        category: 'progress',
+        unlockCondition: (stats) => stats.completedLessons >= 50,
+    },
+    {
+        id: 'lessons_100',
+        name: '百戦錬磨',
+        description: '100レッスンを完了',
+        icon: 'medal',
+        category: 'progress',
+        unlockCondition: (stats) => stats.completedLessons >= 100,
+    },
+
+    // Streak Badges
+    {
+        id: 'streak_3',
+        name: '3日連続',
+        description: '3日連続で学習',
+        icon: 'flame',
+        category: 'streak',
+        unlockCondition: (stats) => stats.streak >= 3,
+    },
+    {
+        id: 'streak_7',
+        name: '1週間連続',
+        description: '7日連続で学習',
+        icon: 'flame',
+        category: 'streak',
+        unlockCondition: (stats) => stats.streak >= 7,
+    },
+    {
+        id: 'streak_30',
+        name: '1ヶ月連続',
+        description: '30日連続で学習',
+        icon: 'flame',
+        category: 'streak',
+        unlockCondition: (stats) => stats.streak >= 30,
+    },
+
+    // Performance Badges
+    {
+        id: 'xp_1000',
+        name: 'XP 1000達成',
+        description: '総XP 1000に到達',
+        icon: 'flash',
+        category: 'performance',
+        unlockCondition: (stats) => stats.xp >= 1000,
+    },
+    {
+        id: 'xp_5000',
+        name: 'XP 5000達成',
+        description: '総XP 5000に到達',
+        icon: 'flash',
+        category: 'performance',
+        unlockCondition: (stats) => stats.xp >= 5000,
+    },
+    {
+        id: 'mistake_master',
+        name: 'ミステイク克服',
+        description: '10個のミスを克服',
+        icon: 'checkmark-circle',
+        category: 'performance',
+        unlockCondition: (stats) => stats.mistakesCleared >= 10,
+    },
+
+    // Social Badges
+    {
+        id: 'first_friend',
+        name: '初めての友達',
+        description: '最初のフレンドを追加',
+        icon: 'people',
+        category: 'social',
+        unlockCondition: (stats) => stats.friendCount >= 1,
+    },
+    {
+        id: 'top_10',
+        name: 'トップ10入り',
+        description: 'リーダーボードでトップ10に入る',
+        icon: 'podium',
+        category: 'social',
+        unlockCondition: (stats) => stats.leaderboardRank <= 10 && stats.leaderboardRank > 0,
+    },
+];

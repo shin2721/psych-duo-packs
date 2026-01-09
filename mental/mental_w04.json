@@ -1,132 +1,244 @@
 {
   "id": "mental_w04",
-  "meta": {
-    "theme": "メンタルスキル｜習慣化の基礎（1/4）",
-    "track": "mental",
-    "arc": "習慣化入門（全4週）",
-    "weekIndex": 1,
-    "arcTotal": 4
-  },
   "cards": [
     {
-      "type": "mcq",
-      "q": "習慣化に最も効果的な初期アプローチはどれですか？",
+      "id": "mental_l04_001",
+      "type": "scenario",
+      "stem": "慢性ストレスの最大の問題は？",
       "choices": [
-        "大きな目標から始める",
-        "小さな行動から始める",
-        "完璧な計画を立ててから始める",
-        "モチベーションが高い時だけ行動する"
+        "一時的な不快感",
+        "HPA軸の恒常的活性化",
+        "短期的なパフォーマンス低下"
       ],
-      "answerIndex": 1,
-      "explain": "習慣化は小さな行動から始めることで、心理的抵抗を減らし継続しやすくなります。"
+      "answer_index": 1,
+      "snack": "視床下部-下垂体-副腎軸（HPA軸）が過活動すると健康被害の元凶になるから、深呼吸で軸をOFFにしてみて #健康管理",
+      "info": "McEwen (2007): Allostatic load",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
     },
     {
-      "type": "mcq",
-      "q": "習慣のループで正しい順序はどれですか？",
+      "id": "mental_l04_002",
+      "type": "true_false",
+      "stem": "マインドフルネスで前頭前皮質が厚くなる",
       "choices": [
-        "報酬→きっかけ→ルーティン",
-        "ルーティン→報酬→きっかけ",
-        "きっかけ→ルーティン→報酬",
-        "報酬→ルーティン→きっかけ"
+        "正しい",
+        "誤り"
       ],
-      "answerIndex": 2,
-      "explain": "習慣のループは「きっかけ（トリガー）→ルーティン（行動）→報酬」の順で形成されます。"
+      "answer_index": 0,
+      "snack": "8週間の瞑想で脳構造が変化する神経可塑性の証拠があるから、今日から10分瞑想してみて #可塑性",
+      "info": "Hölzel (2011): Mindfulness cortical thickness",
+      "difficulty": "hard",
+      "xp": 5
     },
     {
-      "type": "mcq",
-      "q": "新しい習慣を定着させるのに平均的に必要な期間は？",
+      "id": "mental_l04_003",
+      "type": "multiple_choice",
+      "stem": "前にも出たね、分散学習の話。詰め込みと比べてどっちが効果的？",
       "choices": [
-        "7日間",
-        "21日間",
-        "66日間",
-        "100日間"
+        "急性ストレス反応",
+        "慢性ストレスによる体への累積ダメージ",
+        "ストレス耐性"
       ],
-      "answerIndex": 2,
-      "explain": "研究によると、新しい習慣が自動化されるまでには平均66日かかるとされています。"
+      "answer_index": 1,
+      "snack": "繰り返すストレスで体が摩耗していき老化が加速する原因になるから、深呼吸で日々修復する習慣をつけよう #アンチエイジング",
+      "info": "McEwen & Stellar (1993): Allostatic load",
+      "difficulty": "hard",
+      "xp": 5
     },
     {
-      "type": "mcq",
-      "q": "習慣化を妨げる最大の要因は何ですか？",
-      "choices": [
-        "時間不足",
-        "環境の変化",
-        "完璧主義",
-        "お金の不足"
-      ],
-      "answerIndex": 2,
-      "explain": "完璧主義は「0か100か」の思考を生み、小さな失敗で挫折しやすくなるため習慣化を妨げます。"
+      "id": "mental_l04_004",
+      "type": "swipe_judgment",
+      "stem": "迷走神経の緊張度はHRVで測定できる",
+      "choices": [],
+      "answer_index": 0,
+      "snack": "迷走神経を刺激すると副交感神経がONになってリラックスモードに切り替わるから、深呼吸を1回試してみて #神経科学",
+      "info": "Porges (2011): Vagal tone regulation",
+      "difficulty": "hard",
+      "xp": 5,
+      "statement": "迷走神経の緊張度はHRVで測定できる",
+      "is_true": true
     },
     {
-      "type": "mcq",
-      "q": "効果的な習慣のトリガー（きっかけ）として適切なものは？",
+      "id": "mental_l04_005",
+      "type": "scenario",
+      "stem": "感情抑制の長期的影響で最も深刻なのは？",
       "choices": [
-        "気分が良い時",
-        "既存の習慣の直後",
-        "週末だけ",
-        "思い出した時"
+        "社会的関係の悪化",
+        "心血管系への負担増加",
+        "一時的な不快感"
       ],
-      "answerIndex": 1,
-      "explain": "既存の習慣に新しい習慣を連鎖させることで、自然に行動を起こしやすくなります。"
+      "answer_index": 1,
+      "snack": "感情抑制で交感神経活動が↑して心臓に負担がかかるから、感情を受容しよう #心身健康",
+      "info": "Gross & Levenson (1997): Suppression physiology",
+      "difficulty": "hard",
+      "xp": 5
     },
     {
-      "type": "mcq",
-      "q": "習慣化における「2分ルール」とは何ですか？",
+      "id": "mental_l04_006",
+      "type": "true_false",
+      "stem": "もう一度思い出してみよう、テロメア短縮。何が原因で起きるんだった？",
       "choices": [
-        "2分間だけ集中する",
-        "2分以内にできることから始める",
-        "2分間の休憩を取る",
-        "2分間計画を立てる"
+        "正しい",
+        "誤り"
       ],
-      "answerIndex": 1,
-      "explain": "新しい習慣は2分以内でできる小さな行動から始めることで、心理的ハードルを下げられます。"
+      "answer_index": 0,
+      "snack": "慢性ストレスがテロメアを短縮させて細胞老化を加速させる連鎖反応があるから、毎日深呼吸でストップさせよう #細胞レベル",
+      "info": "Epel (2004): Stress and telomere length",
+      "difficulty": "hard",
+      "xp": 5
     },
     {
-      "type": "mcq",
-      "q": "習慣化の成功率を高める環境設計として効果的なのは？",
+      "id": "mental_l04_007",
+      "type": "fill_blank",
+      "stem": "ストレス時の「闘争・逃走反応」を提唱したのは［　］",
       "choices": [
-        "誘惑を完全に排除する",
-        "行動の手がかりを見えやすくする",
-        "他人に監視してもらう",
-        "罰則を設ける"
+        "Cannon",
+        "Selye",
+        "Lazarus"
       ],
-      "answerIndex": 1,
-      "explain": "実行したい行動の手がかりを視覚的に配置することで、自然に行動を促すことができます。"
+      "answer_index": 0,
+      "snack": "Walter Cannon（1932）が闘争・逃走反応を発見したから、深呼吸で解除してみよう #歴史",
+      "info": "Cannon (1932): The Wisdom of the Body",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
     },
     {
-      "type": "mcq",
-      "q": "習慣の継続が途切れた時の最適な対処法は？",
-      "choices": [
-        "最初からやり直す",
-        "失敗を分析して改善策を考える",
-        "すぐに次の日から再開する",
-        "しばらく休んでから再開する"
-      ],
-      "answerIndex": 2,
-      "explain": "習慣が途切れても、すぐに再開することで習慣の連鎖を維持しやすくなります。"
+      "id": "mental_l04_008",
+      "type": "swipe_judgment",
+      "stem": "瞑想は毎日連続でやるより間隔を空けた方が良い",
+      "choices": [],
+      "answer_index": 0,
+      "snack": "瞑想は毎日継続が効果的で、間隔を空けると効果が減るから、短時間でも毎日続けてみて。習慣化がカギ #継続",
+      "info": "Cepeda (2006): Distributed practice",
+      "difficulty": "hard",
+      "xp": 5,
+      "statement": "瞑想は毎日連続でやるより間隔を空けた方が良い",
+      "is_true": false
     },
     {
-      "type": "mcq",
-      "q": "内発的動機づけを高める方法として最も効果的なのは？",
+      "id": "mental_l04_009",
+      "type": "conversation",
+      "stem": "覚えてる？ストレスと消化機能だったよね。交感神経が上がると消化は？",
       "choices": [
-        "報酬を増やす",
-        "競争相手を作る",
-        "行動の意味を見つける",
-        "期限を設定する"
+        "「気のせいだよ」",
+        "「交感神経で消化機能が低下してるね」",
+        "「食べ過ぎじゃない？」"
       ],
-      "answerIndex": 2,
-      "explain": "行動の意味や価値を理解することで、外的報酬に頼らない持続的な動機づけが生まれます。"
+      "answer_index": 1,
+      "snack": "交感神経↑→消化機能↓の心身相関があるから、ストレス時は深呼吸で腹痛を緩和してみて #心身相関",
+      "info": "Mayer (2000): Gut-brain axis",
+      "difficulty": "hard",
+      "xp": 5,
+      "your_response_prompt": "どう説明する？",
+      "source_id": "ED566260"
     },
     {
-      "type": "mcq",
-      "q": "習慣のスタック（積み重ね）で重要なポイントは？",
+      "id": "mental_l04_010",
+      "type": "multiple_choice",
+      "stem": "認知的再評価が最も効果的なタイミングは？",
       "choices": [
-        "同時に複数の習慣を始める",
-        "一度に一つずつ追加する",
-        "似た習慣をまとめる",
-        "難しい習慣から始める"
+        "感情が最高潮に達した後",
+        "感情が生じる前〜初期",
+        "感情が完全に収まった後"
       ],
-      "answerIndex": 1,
-      "explain": "習慣は一つずつ定着させてから次を追加することで、無理なく積み重ねることができます。"
+      "answer_index": 1,
+      "snack": "早期介入がカギになるという研究結果があるから、感情生成プロセスの上流で対処するから、深呼吸で介入してみて #早期対処",
+      "info": "Gross (1998): Antecedent vs response-focused",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l04_011",
+      "type": "sort_order",
+      "stem": "ストレス反応の順序を並べよう",
+      "choices": [],
+      "answer_index": 0,
+      "snack": "視床下部→下垂体→副腎→コルチゾール放出の順だから、深呼吸でこの軸をOFFにしてみて #システム理解",
+      "info": "Smith & Vale (2006): HPA axis",
+      "difficulty": "hard",
+      "xp": 5,
+      "items": [
+        "ストレッサー認知",
+        "視床下部活性化",
+        "ACTH分泌",
+        "コルチゾール放出"
+      ],
+      "correct_order": [
+        0,
+        1,
+        2,
+        3
+      ],
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l04_012",
+      "type": "true_false",
+      "stem": "前にも出たね、脳構造変化の話。fMRIで確認されてる？",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 1,
+      "snack": "fMRI研究で脳構造の変化が確認されているという実効果の証拠があるから、今日から瞑想を開始してみよう #実証済み",
+      "info": "Tang (2015): Neuroscience of mindfulness",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l04_013",
+      "type": "select_all",
+      "stem": "慢性ストレスの生理的影響は？（複数選択）",
+      "choices": [
+        "免疫機能低下",
+        "海馬萎縮",
+        "筋力増強",
+        "テロメア短縮"
+      ],
+      "answer_index": 0,
+      "snack": "慢性ストレスは多系統（心臓・免疫・消化器）への悪影響があるから、深呼吸でケアしよう #全身ケア",
+      "info": "McEwen (2007): Stress effects",
+      "difficulty": "hard",
+      "xp": 5,
+      "correct_answers": [
+        0,
+        1,
+        3
+      ],
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l04_014",
+      "type": "fill_blank_tap",
+      "stem": "感情調整の「プロセスモデル」を提唱したのは［　］",
+      "choices": [
+        "Lazarus",
+        "Gross",
+        "Ekman",
+        "James"
+      ],
+      "answer_index": 1,
+      "snack": "James Grossが5段階モデルを提唱したから、早期段階で呼吸介入してみて #モデル",
+      "info": "Gross (1998): Process model",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l04_015",
+      "type": "scenario",
+      "stem": "マインドフルネスの神経メカニズムは？",
+      "choices": [
+        "扁桃体活性化・前頭前皮質抑制",
+        "扁桃体抑制・前頭前皮質活性化",
+        "両方とも抑制"
+      ],
+      "answer_index": 1,
+      "snack": "トップダウン制御で理性が感情を調整するメカニズムだから、深呼吸＋再評価を試してみて #統合",
+      "info": "Taren (2015): Mindfulness neural mechanisms",
+      "difficulty": "hard",
+      "xp": 5
     }
   ]
 }

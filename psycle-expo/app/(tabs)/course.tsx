@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, ScrollView, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
@@ -9,18 +9,37 @@ import { Pill } from "../../components/ui";
 import { Trail } from "../../components/trail";
 import { Modal } from "../../components/Modal";
 import { GlobalHeader } from "../../components/GlobalHeader";
+import { XPProgressBar } from "../../components/XPProgressBar";
+import { PaywallModal } from "../../components/PaywallModal";
+import { isLessonLocked, GenreId } from "../../lib/paywall";
 import { router } from "expo-router";
 
 export default function CourseScreen() {
-  const { selectedGenre, setSelectedGenre, addXp, incrementQuest, streak, dailyXP, dailyGoal, freezeCount, gems, completedLessons } = useAppState();
+  const { selectedGenre, setSelectedGenre, addXp, incrementQuest, streak, dailyXP, dailyGoal, freezeCount, gems, completedLessons, skill, xp, purchasedPacks, purchasePack, mistakes } = useAppState();
   const [modalNode, setModalNode] = useState<any>(null);
+  const [paywallVisible, setPaywallVisible] = useState(false);
+  const [paywallGenre, setPaywallGenre] = useState<GenreId>('mental');
 
   const baseTrail = trailsByGenre[selectedGenre] || trailsByGenre.mental;
+  console.log(`[CourseScreen] selectedGenre: ${selectedGenre}`);
+  console.log(`[CourseScreen] baseTrail length: ${baseTrail?.length}`);
+  console.log(`[CourseScreen] baseTrail first node: ${JSON.stringify(baseTrail?.[0])}`);
+  console.log(`[CourseScreen] baseTrail last node: ${JSON.stringify(baseTrail?.[baseTrail.length - 1])}`);
 
-  // Compute status based on completed lessons
+  // Compute status based on completed lessons and paywall
   const currentTrail = baseTrail.map((node, index) => {
     const lessonFile = node.lessonFile;
     if (!lessonFile) return node;
+
+    // Extract level from lessonFile (e.g., "mental_l07" -> 7)
+    const levelMatch = lessonFile.match(/_l(\d+)$/);
+    const level = levelMatch ? parseInt(levelMatch[1], 10) : 1;
+
+    // Check if lesson is locked by paywall
+    const locked = isLessonLocked(selectedGenre, level, purchasedPacks);
+    if (locked) {
+      return { ...node, status: "current", isLocked: true }; // Show as current but locked
+    }
 
     const isCompleted = completedLessons.has(lessonFile);
     if (isCompleted) return { ...node, status: "done" };
@@ -89,6 +108,21 @@ export default function CourseScreen() {
           )}
         </View>
 
+      </View>
+
+      {/* Skill & Gems Row */}
+      <View style={styles.statsContainer}>
+        {/* Skill Card */}
+        <View style={styles.statCard}>
+          <View style={styles.statIcon}>
+            <Ionicons name="trophy" size={24} color={theme.colors.warn} />
+          </View>
+          <View style={styles.statInfo}>
+            <Text style={styles.statValue}>{skill}</Text>
+            <Text style={styles.statLabel}>Skill Rating</Text>
+          </View>
+        </View>
+
         {/* Gems Card */}
         <View style={styles.statCard}>
           <View style={styles.statIcon}>
@@ -101,7 +135,33 @@ export default function CourseScreen() {
         </View>
       </View>
 
-      {/* Daily Goal Progress */}
+      {/* XP Progress Bar */}
+      <XPProgressBar currentXP={xp} currentLevel={Math.floor(xp / 100) + 1} />
+
+      {/* Mistakes Review Button */}
+      {mistakes.length > 0 && (
+        <View style={{ paddingHorizontal: theme.spacing.md, marginBottom: theme.spacing.md }}>
+          <Pressable
+            style={{
+              backgroundColor: theme.colors.error,
+              padding: theme.spacing.md,
+              borderRadius: theme.borderRadius.md,
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: theme.spacing.sm
+            }}
+            onPress={() => router.push("/review")}
+          >
+            <Ionicons name="warning" size={20} color="#fff" />
+            <Text style={{ color: "#fff", fontWeight: "bold", fontSize: 16 }}>
+              苦手克服 ({mistakes.length}問)
+            </Text>
+          </Pressable>
+        </View>
+      )}
+
+      {/* Daily Goal */}
       <View style={styles.dailyGoalCard}>
         <View style={styles.dailyGoalHeader}>
           <Text style={styles.dailyGoalTitle}>デイリーゴール</Text>
@@ -118,7 +178,15 @@ export default function CourseScreen() {
         )}
       </View>
 
-      <Trail trail={currentTrail} hideLabels onStart={(nodeId) => setModalNode(nodeId)} />
+      <Trail
+        trail={currentTrail}
+        hideLabels
+        onStart={(nodeId) => setModalNode(nodeId)}
+        onLockedPress={() => {
+          setPaywallGenre(selectedGenre as GenreId);
+          setPaywallVisible(true);
+        }}
+      />
 
       <Modal
         visible={!!modalNode}
@@ -127,6 +195,16 @@ export default function CourseScreen() {
         primaryLabel="開始"
         onPrimary={handleStart}
         onCancel={() => setModalNode(null)}
+      />
+
+      <PaywallModal
+        visible={paywallVisible}
+        genreId={paywallGenre}
+        onClose={() => setPaywallVisible(false)}
+        onPurchase={(genreId) => {
+          purchasePack(genreId);
+          setPaywallVisible(false);
+        }}
       />
     </SafeAreaView>
   );
@@ -178,7 +256,7 @@ const styles = StyleSheet.create({
   statLabel: {
     fontSize: 12,
     fontWeight: "600",
-    color: theme.colors.textSecondary,
+    color: theme.colors.sub,
   },
   freezeBadge: {
     flexDirection: "row",
@@ -222,7 +300,7 @@ const styles = StyleSheet.create({
   dailyGoalXP: {
     fontSize: 14,
     fontWeight: "600",
-    color: theme.colors.textSecondary,
+    color: theme.colors.sub,
   },
   progressBarBg: {
     height: 8,

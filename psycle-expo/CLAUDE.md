@@ -260,23 +260,42 @@ data/
 └── path/                     # Learning path metadata
 ```
 
-**Question Object Structure**:
+**Question Object Structure (DataQuestion)**:
 ```typescript
 {
-  id: string;              // Unique identifier
-  type: "ab" | "mcq3" | "truefalse" | "cloze1" | "method" | ...;
-  label: "用語" | "研究" | "研究デザイン" | "復習";
-  intro: string;           // Max 15 chars
-  stem: string;            // Max 40 chars
-  choices: string[];       // 2-3 options depending on type
-  answer_index: number;    // 0-indexed correct answer
-  snack: string;          // Max 20 chars explanation
-  info: string;           // Source citation or extra info
-  difficulty?: "easy" | "medium" | "hard";
+  id: string;                 // Unique identifier
+  type: QuestionType;         // See types/question.ts for valid types
+  stem: string;               // Question text
+  choices: string[];          // Answer options
+  answer_index: number;       // 0-indexed correct answer
+  snack: string;              // Short explanation
+  info: string;               // Source citation
+  difficulty: "easy" | "medium" | "hard";
+  xp: number;                 // Experience points
 }
 ```
 
-**Important**: Always read `QUESTION_FORMAT_RULES.md` before creating/modifying questions. It specifies exact choice counts, required fields, and lesson composition rules.
+**⚠️ CRITICAL: Valid QuestionType values (from types/question.ts)**:
+```typescript
+"true_false"      // 2 choices: ["正しい", "誤り"]
+"multiple_choice" // 2-4 choices
+"fill_blank"      // Fill-in-the-blank with choices
+"sort_order"      // Ordering task
+"select_all"      // Multiple correct answers
+"fill_blank_tap"  // Tap to fill blank
+"swipe_judgment"  // Swipe left/right judgment
+"conversation"    // Dialogue question
+"matching"        // Match pairs
+"scenario"        // Scenario-based question
+```
+
+**❌ DO NOT USE**: `"ab"`, `"mcq3"`, `"truefalse"`, `"cloze1"`, `label`, `intro` - these fields DO NOT EXIST in the type system!
+
+**Important**:
+- Always check `types/question.ts` for authoritative type definitions
+- Read `QUESTION_FORMAT_RULES.md` before creating/modifying questions
+- DataQuestion and LegacyQuestion use the SAME QuestionType values
+- Only field names differ (stem↔question, answer_index↔correct_index)
 
 ## Adding New Games
 
@@ -519,3 +538,29 @@ Lesson files must be **statically imported** at the top of `lib/lessons.ts`:
 import mentalQuestions from "../data/lessons/mental.json";
 ```
 Cannot use `require()` or dynamic imports with string interpolation - Metro bundler won't bundle them. This means adding a new unit requires code changes, not just data file additions.
+
+### Conversation Type Question Requirements
+The `conversation` type question (ミニケース) has strict requirements in `components/QuestionRenderer.tsx:774`:
+
+```typescript
+{question.type === "conversation" && question.your_response_prompt && (
+  <Conversation ... />
+)}
+```
+
+**Critical**: The `your_response_prompt` field is **required** for conversation questions to render. Without it, the condition evaluates to false and choices won't display.
+
+**Correct format**:
+```json
+{
+  "type": "conversation",
+  "stem": "【ミニケース】友達のAさん「明日面接なんだけど、緊張で眠れなくて...どうしよう」",
+  "your_response_prompt": "あなたならどう返す？",
+  "choices": [...],
+  "answer_index": 1
+}
+```
+
+**Common mistake**: Combining `stem` and prompt into one field will cause choices not to render.
+
+**Data flow**: `lib/lessons.ts` → `adaptQuestion()` checks for `raw.your_response_prompt || raw.content?.your_response_prompt` and passes it through to the Question object.

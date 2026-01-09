@@ -9,124 +9,231 @@
   },
   "cards": [
     {
-      "type": "mcq",
-      "q": "良い課題設定の第一歩は？",
-      "choices": [
-        "解決策から考える",
-        "現状把握と目的の明確化",
-        "すぐ実装する",
-        "関係者を増やす"
-      ],
-      "answerIndex": 1,
-      "explain": "As-Is/To-Beと成功基準を定義。"
+      "id": "work_l03_001",
+      "type": "swipe_judgment",
+      "question": "良い課題設定の第一歩は、解決策から考えることである。",
+      "is_true": false,
+      "explanation": "As-Is/To-Beと成功基準を定義することが先決。\n\n💡 Try this: 「現状は？」「理想は？」「どうなれば成功？」の3つを最初に書き出そう。",
+      "difficulty": "medium",
+      "xp": 10
     },
     {
-      "type": "mcq",
-      "q": "SMARTのMは？",
+      "id": "work_l03_002",
+      "type": "fill_blank_tap",
+      "statement": "SMARTのMは［　］（測定可能）を意味する。",
       "choices": [
-        "Manageable",
         "Measurable",
+        "Manageable",
         "Minimal",
         "Meaningful"
       ],
-      "answerIndex": 1,
-      "explain": "測定可能。客観評価できること。"
+      "correct_index": 0,
+      "explanation": "測定可能。客観評価できること。\n\n💡 Try this: 目標を「売上を上げる」ではなく「売上を20%上げる」と数値化しよう。",
+      "source_id": "book:smart",
+      "difficulty": "easy",
+      "xp": 10
     },
     {
-      "type": "mcq",
-      "q": "レビュー依頼で必須は？",
+      "id": "work_l03_003",
+      "type": "multiple_choice",
+      "question": "レビュー依頼で必須は？",
       "choices": [
         "挨拶のみ",
         "相手の好み",
         "観点と期限",
         "顔文字"
       ],
-      "answerIndex": 2,
-      "explain": "目的・観点・締切・責任者を明記。"
+      "answer_index": 2,
+      "explanation": "目的・観点・締切・責任者を明記。\n\n💡 Try this: PRに「セキュリティ観点で明日までにレビューお願いします」と具体的に書こう。",
+      "difficulty": "easy",
+      "xp": 10
     },
     {
-      "type": "mcq",
-      "q": "PRレビュー停滞の対策は？",
+      "id": "work_l03_004",
+      "type": "multiple_choice",
+      "question": "PRレビュー停滞の対策は？",
       "choices": [
         "レビュアを無限に増やす",
         "巨大PRをまとめて出す",
         "小さく分割し早めに出す",
         "依頼しない"
       ],
-      "answerIndex": 2,
-      "explain": "変更粒度を小さくしてフロー改善。"
+      "answer_index": 2,
+      "explanation": "変更粒度を小さくしてフロー改善。\n\n💡 Try this: 1つのPRは「200行以下」を目安に、機能を小さく分割しよう。",
+      "difficulty": "medium",
+      "xp": 10
     },
     {
-      "type": "mcq",
-      "q": "Single Source of Truth の利点は？",
+      "id": "work_l03_005",
+      "type": "multiple_choice",
+      "question": "Single Source of Truth の利点は？",
       "choices": [
         "重複配置",
         "唯一の最新参照点",
         "誰も編集不可",
         "印刷がしやすい"
       ],
-      "answerIndex": 1,
-      "explain": "更新場所を一本化して齟齬を防ぐ。"
+      "answer_index": 1,
+      "explanation": "更新場所を一本化して齟齬を防ぐ。\n\n💡 Try this: 仕様書を「Notion 1箇所」だけに書いて、他は全てそこへのリンクにしよう。",
+      "source_id": "book:ia",
+      "difficulty": "medium",
+      "xp": 10
     },
     {
-      "type": "mcq",
-      "q": "週次共有で含めたいのは？",
+      "id": "work_l03_006",
+      "type": "multiple_choice",
+      "question": "週次共有で含めたいのは？",
       "choices": [
         "詳細議事録",
         "雑談",
         "進捗/リスク/次アクション",
         "色彩ガイド"
       ],
-      "answerIndex": 2,
-      "explain": "Status・Risks・Nextで把握。"
+      "answer_index": 2,
+      "explanation": "Status・Risks・Nextで把握。\n\n💡 Try this: 毎週金曜に「今週やったこと」「困っていること」「来週やること」を3行で書こう。",
+      "difficulty": "easy",
+      "xp": 10
     },
     {
-      "type": "mcq",
-      "q": "情報共有チャンネル設計のコツ？",
+      "id": "work_l03_007",
+      "type": "quick_reflex",
+      "question": "情報共有チャンネル設計のコツは？（3秒以内！）",
       "choices": [
         "DM中心",
         "目的別チャンネルを定義",
         "通知を常時ミュート",
         "@here多用"
       ],
-      "answerIndex": 1,
-      "explain": "目的別に分けて検索性UP。"
+      "correct_index": 1,
+      "time_limit": 3000,
+      "explanation": "目的別に分けて検索性UP。\n\n💡 Try this: 「#dev-frontend」「#dev-backend」のように、目的別チャンネルを作ろう。",
+      "difficulty": "easy",
+      "xp": 10
     },
     {
-      "type": "mcq",
-      "q": "レビュー観点を明確にするには？",
+      "id": "work_l03_008",
+      "type": "multiple_choice",
+      "question": "レビュー観点を明確にするには？",
       "choices": [
         "「見ておいて」とだけ書く",
         "サンプルと非例を示す",
         "期限を曖昧にする",
         "観点は後で決める"
       ],
-      "answerIndex": 1,
-      "explain": "具体例で境界を可視化。"
+      "answer_index": 1,
+      "explanation": "具体例で境界を可視化。\n\n💡 Try this: 「このコードはOK、このコードはNG」と具体例を2つずつ示そう。",
+      "difficulty": "medium",
+      "xp": 10
     },
     {
-      "type": "mcq",
-      "q": "課題が大きすぎる時の対処は？",
+      "id": "work_l03_009",
+      "type": "conversation",
+      "question": "後輩: 「この課題、大きすぎて何から手をつければいいかわかりません...」",
+      "your_response_prompt": "あなた: 「まずは...」",
       "choices": [
-        "担当を増やす",
-        "締切を延ばす",
-        "次の具体的1手に分割",
-        "優先度を下げるだけ"
+        "担当を増やそう",
+        "締切を延ばそう",
+        "次の具体的1手に分割しよう",
+        "優先度を下げるだけでいいよ"
       ],
-      "answerIndex": 2,
-      "explain": "行動可能な単位に分解。"
+      "correct_index": 2,
+      "explanation": "行動可能な単位に分解。\n\n💡 Try this: 「5分でできる最初の1歩」を見つけて、そこから始めよう。",
+      "difficulty": "medium",
+      "xp": 10
     },
     {
-      "type": "mcq",
-      "q": "ドキュメント更新の基本？",
+      "id": "work_l03_010",
+      "type": "multiple_choice",
+      "question": "ドキュメント更新の基本？",
       "choices": [
         "年1回で十分",
         "変更時に即更新",
         "終了後まとめて",
         "口頭共有のみ"
       ],
-      "answerIndex": 1,
-      "explain": "変更と同時に更新。"
+      "answer_index": 1,
+      "explanation": "変更と同時に更新。\n\n💡 Try this: コードを変更したら、その場でREADMEも更新する習慣をつけよう。",
+      "difficulty": "easy",
+      "xp": 10
+    },
+    {
+      "id": "work_l03_011",
+      "type": "multiple_choice",
+      "question": "「サンドイッチ法」によるフィードバックとは？",
+      "choices": [
+        "批判だけを伝える",
+        "ポジティブ・ネガティブ・ポジティブの順で伝える",
+        "食事をしながら伝える",
+        "匿名で伝える"
+      ],
+      "answer_index": 1,
+      "explanation": "心理的抵抗を減らす手法だが、核心が伝わりにくいという批判もある。\n\n💡 Try this: 「良い点→改善点→期待」の順で伝えて、相手の心理的安全性を保とう。",
+      "difficulty": "medium",
+      "xp": 10
+    },
+    {
+      "id": "work_l03_012",
+      "type": "fill_blank_tap",
+      "statement": "SECIモデルにおける「表出化（Externalization）」とは、［　］を形式知に変換すること。",
+      "choices": [
+        "暗黙知",
+        "マニュアル",
+        "データ",
+        "コード"
+      ],
+      "correct_index": 0,
+      "explanation": "個人の直感やコツを言語化し、組織で共有可能にするプロセス。\n\n💡 Try this: 「なんとなくやっているコツ」を1つ選んで、文章化してみよう。",
+      "source_id": "book:seci",
+      "difficulty": "hard",
+      "xp": 15
+    },
+    {
+      "id": "work_l03_013",
+      "type": "multiple_choice",
+      "question": "「非難のないポストモーテム（Blameless Post-Mortem）」の目的は？",
+      "choices": [
+        "犯人を見つけ出す",
+        "システムの欠陥を特定し再発を防ぐ",
+        "責任者に謝罪させる",
+        "失敗を隠蔽する"
+      ],
+      "answer_index": 1,
+      "explanation": "個人を責めず仕組みに目を向けることで、心理的安全性を高め報告を促進する。\n\n💡 Try this: 障害が起きたら「誰が悪い？」ではなく「何が悪い？」と問おう。",
+      "source_id": "book:sre",
+      "difficulty": "medium",
+      "xp": 10
+    },
+    {
+      "id": "work_l03_014",
+      "type": "multiple_choice",
+      "question": "「バス係数（Bus Factor）が1」とはどういう状態？",
+      "choices": [
+        "バス通勤の人が1人いる",
+        "特定の1人が欠けるとプロジェクトが回らなくなる",
+        "チームワークが最高",
+        "予算が潤沢"
+      ],
+      "answer_index": 1,
+      "explanation": "属人化のリスクが高い状態。ドキュメント化やペアプロで係数を上げる必要がある。\n\n💡 Try this: 「自分しか知らない情報」を1つ選んで、ドキュメント化しよう。",
+      "source_id": "book:mythical",
+      "difficulty": "medium",
+      "xp": 10
+    },
+    {
+      "id": "work_l03_015",
+      "type": "multiple_choice",
+      "question": "リモートワークで「オーバーコミュニケーション」が推奨される理由は？",
+      "choices": [
+        "暇だから",
+        "非言語情報（表情や空気）が伝わりにくいから",
+        "監視するため",
+        "文字数を稼ぐため"
+      ],
+      "answer_index": 1,
+      "explanation": "文脈（コンテキスト）が共有されにくいため、意図を明示的に言語化する必要がある。\n\n💡 Try this: 「これ、どう思う？」ではなく「AとBで迷っています。理由は...」と背景を添えよう。",
+      "source_id": "book:remote",
+      "difficulty": "easy",
+      "xp": 10
     }
   ]
 }

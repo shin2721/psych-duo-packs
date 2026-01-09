@@ -7,11 +7,14 @@ import ConfettiCannon from "react-native-confetti-cannon";
 import { theme } from "../../lib/theme";
 import { useAppState } from "../../lib/state";
 import { loadLessons, calculateStars, Lesson } from "../../lib/lessons";
-import { QuestionRenderer } from "../../components/QuestionRenderer";
+import { QuestionRenderer, Question } from "../../components/QuestionRenderer";
+import { sortQuestionsByAdaptiveDifficulty } from "../../lib/adaptiveSelection";
+import { getDifficultyRating } from "../../lib/difficultyMapping";
+import { XPGainAnimation } from "../../components/XPGainAnimation";
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { addXp, incrementQuest, addGems } = useAppState();
+  const { addXp, incrementQuest, addGems, skill, skillConfidence, questionsAnswered, updateSkill, recentQuestionTypes, recentAccuracy, currentStreak, recordQuestionResult, addMistake } = useAppState();
 
   // Parse lesson ID: "{unit}_lesson_{level}"
   const [unit, lessonNum] = id?.split("_lesson_") || [];
@@ -25,14 +28,37 @@ export default function LessonScreen() {
   console.log(`[LessonScreen] Total lessons: ${lessons.length}`);
   if (lesson) {
     console.log(`[LessonScreen] Lesson questions (${lesson.questions.length}):`,
-      lesson.questions.map((q,i) => `${i+1}. ${q.question.substring(0,30)}`));
+      lesson.questions.map((q, i) => {
+        const qText = typeof q.question === 'string' ? q.question : JSON.stringify(q.question);
+        return `${i + 1}. ${qText.substring(0, 30)}`;
+      }));
   }
 
   // State
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+
+  // Initialize questions with adaptive sorting
+  useEffect(() => {
+    if (lesson) {
+      const sortedQuestions = sortQuestionsByAdaptiveDifficulty(
+        lesson.questions,
+        {
+          userSkill: skill,
+          skillConfidence,
+          recentlyAnswered: [],
+          recentQuestionTypes,
+          recentAccuracy,
+          currentStreak,
+        }
+      );
+      setQuestions(sortedQuestions);
+    }
+  }, [lesson, skill, skillConfidence, recentQuestionTypes, recentAccuracy, currentStreak]);
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [totalXP, setTotalXP] = useState(0);
   const [showResults, setShowResults] = useState(false);
+  const [xpAnimation, setXpAnimation] = useState<{ show: boolean; amount: number }>({ show: false, amount: 0 });
 
   // Confetti ref
   const confettiRef = useRef<any>(null);
@@ -51,7 +77,7 @@ export default function LessonScreen() {
     }
   }, [showResults]);
 
-  if (!lesson) {
+  if (!lesson || questions.length === 0) {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.errorContainer}>
@@ -64,9 +90,9 @@ export default function LessonScreen() {
     );
   }
 
-  const currentQuestion = lesson.questions[currentQuestionIndex];
+  const currentQuestion = questions[currentQuestionIndex];
   const progress = currentQuestionIndex + 1;
-  const total = lesson.questions.length;
+  const total = questions.length;
 
   const handleContinue = (isCorrect: boolean, xp: number) => {
     const newAnswers = [...answers, isCorrect];
@@ -75,11 +101,61 @@ export default function LessonScreen() {
     setAnswers(newAnswers);
     setTotalXP(newTotalXP);
 
-    // Move to next question or show results
-    if (currentQuestionIndex + 1 < lesson.questions.length) {
+    // Update user skill rating based on performance
+    const questionDifficulty = getDifficultyRating(currentQuestion.difficulty);
+    updateSkill(isCorrect, questionDifficulty);
+
+    // Record question result for adaptive difficulty tracking
+    recordQuestionResult(currentQuestion.type || 'unknown', isCorrect);
+
+    // If incorrect, add to mistakes hub
+    if (!isCorrect) {
+      addMistake(currentQuestion.source_id, id || "", currentQuestion.type);
+    }
+
+    // AI Adaptive Difficulty: Reorder remaining questions based on performance
+    if (currentQuestionIndex + 1 < questions.length) {
+      let nextQuestions = [...questions];
+      const nextIndex = currentQuestionIndex + 1;
+      const currentDifficulty = currentQuestion.difficulty;
+      let targetDifficulty = "medium";
+
+      // Determine target difficulty
+      if (isCorrect) {
+        // Increase difficulty
+        if (currentDifficulty === "easy") targetDifficulty = "medium";
+        else targetDifficulty = "hard";
+      } else {
+        // Decrease difficulty
+        if (currentDifficulty === "hard") targetDifficulty = "medium";
+        else targetDifficulty = "easy";
+      }
+
+      // Find a candidate in the remaining pool
+      const candidateIndex = nextQuestions.findIndex((q, i) => i >= nextIndex && q.difficulty === targetDifficulty);
+
+      if (candidateIndex !== -1 && candidateIndex !== nextIndex) {
+        console.log(`[Adaptive] Performance: ${isCorrect ? "Correct" : "Incorrect"} (${currentDifficulty}) -> Target: ${targetDifficulty}`);
+        console.log(`[Adaptive] Swapping Q${nextIndex + 1} (${nextQuestions[nextIndex].difficulty}) with Q${candidateIndex + 1} (${targetDifficulty})`);
+
+        // Swap
+        const temp = nextQuestions[nextIndex];
+        nextQuestions[nextIndex] = nextQuestions[candidateIndex];
+        nextQuestions[candidateIndex] = temp;
+
+        setQuestions(nextQuestions);
+      } else {
+        console.log(`[Adaptive] Performance: ${isCorrect ? "Correct" : "Incorrect"} (${currentDifficulty}) -> Target: ${targetDifficulty} (No swap needed/possible)`);
+      }
+
       setCurrentQuestionIndex(currentQuestionIndex + 1);
     } else {
       setShowResults(true);
+    }
+
+    // Trigger XP animation if correct
+    if (isCorrect) {
+      setXpAnimation({ show: true, amount: xp });
     }
   };
 
@@ -197,6 +273,16 @@ export default function LessonScreen() {
           onContinue={handleContinue}
         />
       </View>
+
+      {/* XP Gain Animation Overlay */}
+      {xpAnimation.show && (
+        <View style={styles.xpAnimationOverlay} pointerEvents="none">
+          <XPGainAnimation
+            amount={xpAnimation.amount}
+            onComplete={() => setXpAnimation({ show: false, amount: 0 })}
+          />
+        </View>
+      )}
     </SafeAreaView>
   );
 }
@@ -217,19 +303,19 @@ const styles = StyleSheet.create({
     width: 32,
     height: 32,
     borderRadius: 16,
-    backgroundColor: theme.colors.fg + "10",
+    backgroundColor: theme.colors.text + "10",
     alignItems: "center",
     justifyContent: "center",
   },
   closeText: {
     fontSize: 24,
-    color: theme.colors.fg,
+    color: theme.colors.text,
     fontWeight: "600",
   },
   progressBar: {
     flex: 1,
     height: 8,
-    backgroundColor: theme.colors.fg + "20",
+    backgroundColor: theme.colors.text + "20",
     borderRadius: 4,
     overflow: "hidden",
   },
@@ -241,7 +327,7 @@ const styles = StyleSheet.create({
   progressText: {
     fontSize: 14,
     fontWeight: "600",
-    color: theme.colors.fg,
+    color: theme.colors.text,
     minWidth: 48,
     textAlign: "right",
   },
@@ -257,7 +343,7 @@ const styles = StyleSheet.create({
   },
   errorText: {
     fontSize: 18,
-    color: theme.colors.fg,
+    color: theme.colors.text,
     marginBottom: 24,
   },
   resultsContainer: {
@@ -326,5 +412,13 @@ const styles = StyleSheet.create({
   secondaryButtonText: {
     color: theme.colors.primary,
     fontWeight: "700",
+  },
+  xpAnimationOverlay: {
+    ...StyleSheet.absoluteFillObject,
+    justifyContent: 'center',
+    alignItems: 'center',
+    zIndex: 1000,
+    // Adjust position to be slightly above center or near the answer area if preferred
+    paddingBottom: 100,
   },
 });

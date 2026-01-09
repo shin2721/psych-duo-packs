@@ -1,27 +1,27 @@
 {
   "expo": {
-    "name": "psycle-expo",
-    "slug": "psycle-expo",
+    "name": "Psycle",
+    "slug": "psycle",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#1a1b2e"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.psycle-expo"
+      "bundleIdentifier": "com.psycle.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
+        "backgroundColor": "#1a1b2e"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.psycleexpo"
+      "package": "com.psycle.app"
     },
     "web": {
       "favicon": "./assets/favicon.png"

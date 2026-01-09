@@ -1,0 +1,852 @@
+#!/usr/bin/env python3
+import json
+
+# Money Level 2: Spending Psychology (Pain of Paying)
+money_l02 = [
+    {
+        "id": "money_l02_001",
+        "type": "multiple_choice",
+        "question": "💳 「支払いの痛み」が最も小さい支払い方法は？",
+        "choices": ["クレジットカードや電子マネー", "現金", "小切手"],
+        "correct_index": 0,
+        "explanation": "【キャッシュレスの罠】\n現金を手放す時は脳の「痛み中枢（島皮質）」が反応しますが、カードやスマホ決済ではこの痛みが麻痺し、支出が平均20%増えると言われています。\n\n💡 Try this: 浪費を防ぎたい時は、あえて「現金払い」に戻してみましょう。",
+        "source_id": "pain_of_paying_ariely",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l02_002",
+        "type": "true_false",
+        "question": "🛍️ 「アンカリング効果」とは、最初に見た価格が基準になること",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【価格の錯覚】\n「通常価格1万円→セールで5千円」と書かれると、1万円がアンカー（錨）となり、5千円が安く感じます。最初から5千円なら安く感じません。\n\n💡 Try this: 「割引率」ではなく「最終価格」だけを見て、その価値があるか判断しましょう。",
+        "source_id": "anchoring_effect_tversky_kahneman",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l02_003",
+        "type": "multiple_choice",
+        "question": "🧠 「メンタル・アカウンティング」（心の家計簿）の例は？",
+        "choices": ["給料は大切に使うが、宝くじの当選金は散財してしまう", "全ての収入を同じ価値として扱う", "家計簿をつける"],
+        "correct_index": 0,
+        "explanation": "【お金の色分け】\nお金に色はついていないのに、人は入手経路によって「あぶく銭」や「苦労して稼いだ金」とラベルを貼り、使い道を変えてしまいます。\n\n💡 Try this: 臨時収入があった時も、いつもの給料口座に入れ、「労働の対価」と同じように扱いましょう。",
+        "source_id": "mental_accounting_thaler",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l02_004",
+        "type": "multiple_choice",
+        "question": "🎁 「保有効果」とは？",
+        "choices": ["自分が持っている物の価値を高く見積もりすぎること", "新しいものが欲しくなること", "お金持ちになること"],
+        "correct_index": 0,
+        "explanation": "【授かり効果】\n一度自分のものになると、手放すのが惜しくなり、客観的な市場価値よりも高く評価してしまいます。これが断捨離できない原因です。\n\n💡 Try this: 「もしこれを持っていなかったら、今いくらで買うか？」と自問してみましょう。",
+        "source_id": "endowment_effect_thaler",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l02_005",
+        "type": "true_false",
+        "question": "💸 「サンクコスト」（埋没費用）を気にすると、損切りができなくなる",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【コンコルド効果】\n「今までこれだけ投資したのだから」と、回収不能な過去のコストに縛られ、赤字プロジェクトやダメな人間関係を続けてしまう心理です。\n\n💡 Try this: 「今日初めてこのプロジェクトを知ったとしたら、投資するか？」とゼロベースで考えましょう。",
+        "source_id": "sunk_cost_fallacy",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l02_006",
+        "type": "multiple_choice",
+        "question": "🛒 スーパーで「ついで買い」を誘発する心理テクニックは？",
+        "choices": ["レジ横にガムやチョコを置く（決定疲労を狙う）", "入り口に野菜を置く", "音楽を流す"],
+        "correct_index": 0,
+        "explanation": "【決定疲労】\n買い物の最後（レジ）では、選択の連続で脳が疲れています（自我消耗）。この時、思考停止で買える安価な誘惑に弱くなります。\n\n💡 Try this: レジに並ぶ時はスマホを見るなどして、棚を見ないようにしましょう。",
+        "source_id": "decision_fatigue_shopping",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l02_007",
+        "type": "multiple_choice",
+        "question": "📉 「現状維持バイアス」が資産形成に与える悪影響は？",
+        "choices": ["手数料の高い保険や携帯プランを見直さず、損し続ける", "貯金が増える", "リスクが減る"],
+        "correct_index": 0,
+        "explanation": "【変化への抵抗】\n人間は「変化による得」より「変化による損や手間」を過大評価します。そのため、明らかに損な契約でも「変更が面倒」で放置します。\n\n💡 Try this: 固定費の見直しは「時給数万円の仕事」と考えて、年に1回必ず行いましょう。",
+        "source_id": "status_quo_bias_samuelson",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l02_008",
+        "type": "true_false",
+        "question": "💰 収入が増えれば増えるほど、幸福度は無限に上がり続ける",
+        "choices": ["誤り（一定額で頭打ちになる）", "正しい"],
+        "correct_index": 0,
+        "explanation": "【イースタリンのパラドックス】\n年収が一定（約800万円前後）を超えると、幸福度の上昇カーブは緩やかになります。お金は「不幸を減らす」道具ですが、「幸せを増やす」効果には限界があります。\n\n💡 Try this: 収入アップだけでなく、時間や人間関係への投資もバランス良く行いましょう。",
+        "source_id": "easterlin_paradox_happiness_income",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l02_009",
+        "type": "multiple_choice",
+        "question": "🎫 「サブスクリプション」（定額制）の心理的な罠は？",
+        "choices": ["「使わないと損」ではなく「払い続けていることを忘れる」", "高すぎる", "解約できない"],
+        "correct_index": 0,
+        "explanation": "【不注意盲目】\n毎月自動で引き落とされる少額の出費は、脳の意識から消えます。気づけば「全く使っていないサービス」に年間数万円払っています。\n\n💡 Try this: クレジットカードの明細を毎月チェックし、使っていないサブスクは即解約しましょう。",
+        "source_id": "subscription_model_psychology",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "money_l02_010",
+        "type": "multiple_choice",
+        "question": "🧠 「希少性の原理」とは？",
+        "choices": ["「残りわずか」「期間限定」と言われると欲しくなる", "高いものが良いもの", "珍しいものが嫌い"],
+        "correct_index": 0,
+        "explanation": "【リアクタンス】\n手に入らなくなる（自由が制限される）と感じると、脳は反発してその対象を過剰に求めます。マーケティングの常套手段です。\n\n💡 Try this: 「限定品」という言葉を見たら、「もし無制限に売られていても欲しいか？」と考えましょう。",
+        "source_id": "scarcity_principle_cialdini",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l02_011",
+        "type": "true_false",
+        "question": "🛍️ 買い物でストレス発散（リテールセラピー）は効果的である",
+        "choices": ["正しい（ただし一時的）", "誤り（全く効果なし）"],
+        "correct_index": 0,
+        "explanation": "【コントロール感の回復】\n買い物は「自分で選んで決める」行為なので、失われたコントロール感を回復させ、一時的に気分を上げます。ただし、後で罪悪感が来ます。\n\n💡 Try this: 買い物以外のストレス発散法（運動、カラオケなど）をリストアップしておきましょう。",
+        "source_id": "retail_therapy_psychology",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l02_012",
+        "type": "multiple_choice",
+        "question": "🎁 「フレーミング効果」の例は？",
+        "choices": ["「生存率90%」の手術は受けるが、「死亡率10%」の手術は拒否する", "高い額縁を買う", "写真を撮る"],
+        "correct_index": 0,
+        "explanation": "【枠組みの影響】\n同じ内容でも、ポジティブな枠組み（利益）で提示されるか、ネガティブな枠組み（損失）で提示されるかで、意思決定が逆転します。\n\n💡 Try this: 投資商品などの説明文は、逆の表現（成功率→失敗率）に言い換えて冷静に判断しましょう。",
+        "source_id": "framing_effect_tversky_kahneman",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l02_013",
+        "type": "multiple_choice",
+        "question": "🕰️ 「時間割引率」が高い人の特徴は？",
+        "choices": ["「将来の大きな利益」より「今の小さな利益」を優先する（せっかち）", "忍耐強い", "計画的"],
+        "correct_index": 0,
+        "explanation": "【双曲割引】\n時間割引率が高い人は、貯金ができず、借金をしやすく、肥満になりやすい傾向があります。将来の価値を過小評価してしまうのです。\n\n💡 Try this: 衝動買いしそうな時は「1週間待つ」ルールを設け、衝動を冷ましましょう。",
+        "source_id": "time_discounting_impulsivity",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l02_014",
+        "type": "true_false",
+        "question": "💳 クレジットカードの「リボ払い」は賢い支払い方法である",
+        "choices": ["誤り（複利で借金が膨らむ罠）", "正しい"],
+        "correct_index": 0,
+        "explanation": "【双曲割引の悪用】\n「月々の支払いが一定で楽」に見えますが、年利15%以上の高金利で、元金が減らずに利息だけ払い続ける地獄のシステムです。\n\n💡 Try this: リボ払いは絶対に利用せず、一括払いのみを使いましょう。",
+        "source_id": "revolving_credit_psychology",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l02_015",
+        "type": "multiple_choice",
+        "question": "🧠 「確証バイアス」が投資に与える影響は？",
+        "choices": ["自分の保有銘柄に都合の良いニュースばかり集める", "客観的に分析できる", "損切りが早くなる"],
+        "correct_index": 0,
+        "explanation": "【見たいものを見る】\n自分が買った株が下がっても、「一時的な調整だ」という楽観的な記事ばかり読み、「暴落の予兆」という警告を無視します。\n\n💡 Try this: 投資判断をする時は、あえて「売り推奨」のレポートも読み、反証を探しましょう。",
+        "source_id": "confirmation_bias_investing",
+        "difficulty": "hard",
+        "xp": 15
+    }
+]
+
+# Money Level 3: Saving & Goals (Future Self)
+money_l03 = [
+    {
+        "id": "money_l03_001",
+        "type": "multiple_choice",
+        "question": "👴 「未来の自分」をリアルに想像できる人はどうなる？",
+        "choices": ["貯蓄額が増える", "浪費が増える", "老ける"],
+        "correct_index": 0,
+        "explanation": "【未来の自己との連続性】\n脳スキャン実験では、未来の自分を「他人」と感じる人は貯金しません。未来の自分を「今の自分の延長」と感じる人は、将来のために行動します。\n\n💡 Try this: 老化アプリなどで自分の老後を可視化し、「この人を助けるために貯金する」と考えましょう。",
+        "source_id": "future_self_continuity_hershfield",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l03_002",
+        "type": "true_false",
+        "question": "🎯 目標は「100万円貯める」より「ハワイ旅行のために100万円貯める」の方が成功する",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【ゴール・ビジュアライゼーション】\n単なる数字（100万円）には感情が動きません。具体的な体験（ハワイ）と結びつけることで、ドーパミンが出てモチベーションが維持されます。\n\n💡 Try this: 貯金用口座に「マイホーム資金」など具体的な名前をつけましょう。",
+        "source_id": "goal_setting_visualization",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "money_l03_003",
+        "type": "multiple_choice",
+        "question": "🏦 「先取り貯蓄」が最強の貯金法である理由は？",
+        "choices": ["意志力を使わずに強制的に貯まるから", "金利が高いから", "銀行が喜ぶから"],
+        "correct_index": 0,
+        "explanation": "【デフォルト効果】\n給料が入った瞬間に自動で別口座に移す仕組みを作れば、「残ったお金で生活する」よう脳が適応します。意志力は不要です。\n\n💡 Try this: 給料日の翌日に、定額自動入金サービスを設定しましょう。",
+        "source_id": "pay_yourself_first_psychology",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l03_004",
+        "type": "multiple_choice",
+        "question": "📉 「ヘドニック・トレッドミル」（快楽のランニングマシン）とは？",
+        "choices": ["欲しいものを買っても、すぐに慣れて満足度が元に戻ること", "ジムの会費が無駄になること", "走るとお金が貯まること"],
+        "correct_index": 0,
+        "explanation": "【快楽順応】\n高級車を買っても、豪邸に住んでも、人間は環境にすぐ慣れます。物質的な幸福は長続きせず、もっと高いものを求め続ける無限ループに陥ります。\n\n💡 Try this: 「モノ」ではなく「体験（旅行、学習）」にお金を使うと、幸福感が長続きします。",
+        "source_id": "hedonic_treadmill_brickman",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l03_005",
+        "type": "true_false",
+        "question": "🧠 「ナッジ」（肘でつつく）理論は、強制せずに良い行動を促す",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【リチャード・セイラー】\n「貯金しなさい」と命令するのではなく、デフォルト設定を変えるなどの小さな工夫（ナッジ）で、人々の行動を望ましい方向に誘導できます。\n\n💡 Try this: 財布に「本当に必要？」と書いた付箋を貼るのも、自分へのナッジです。",
+        "source_id": "nudge_thaler_sunstein",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l03_006",
+        "type": "multiple_choice",
+        "question": "💰 「ラテ・ファクター」とは？",
+        "choices": ["毎日の小さな無駄遣い（ラテ一杯分）が、長期間で巨額になること", "コーヒー中毒", "カフェの経営戦略"],
+        "correct_index": 0,
+        "explanation": "【複利の効果】\n1日500円のラテも、30年で投資運用すれば数千万円の差になります。小さな習慣の積み重ねを侮ってはいけません。\n\n💡 Try this: 毎日何気なく買っているもの（コンビニなど）を1つ見つけ、水筒持参などに切り替えましょう。",
+        "source_id": "latte_factor_bach",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l03_007",
+        "type": "multiple_choice",
+        "question": "📊 「6つの財布」（ジャー・システム）の目的は？",
+        "choices": ["用途ごとに予算を分け、使いすぎを防ぐ", "財布をたくさん持ち歩く", "リスク分散"],
+        "correct_index": 0,
+        "explanation": "【予算管理】\n生活費、教育費、遊び費...と最初から枠を決めておけば（封筒分け）、罪悪感なくお金を使え、かつ貯金も守られます。\n\n💡 Try this: 銀行口座を「使う用」「貯める用」「増やす用」の3つに分けましょう。",
+        "source_id": "jar_system_money_management",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l03_008",
+        "type": "true_false",
+        "question": "🤝 夫婦でお金の価値観を共有することは、離婚率を下げる",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【金銭的対立】\nお金の問題は離婚原因の上位です。金額の多寡ではなく、「何にお金を使いたいか（価値観）」の不一致がストレスになります。\n\n💡 Try this: 月に1回「マネー会議」を開き、家計簿と将来の夢について話し合いましょう。",
+        "source_id": "financial_disagreement_divorce",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l03_009",
+        "type": "multiple_choice",
+        "question": "🧠 「コミットメント契約」とは？",
+        "choices": ["目標を達成できなかったら罰金を払うなど、自分を縛る契約", "結婚すること", "ジムに入会すること"],
+        "correct_index": 0,
+        "explanation": "【オデュッセウスの鎖】\n将来の意志の弱い自分を信用せず、今のうちに「行動せざるを得ない状況」を作ることです。\n\n💡 Try this: 友人に「今月無駄遣いしたらランチ奢る」と宣言しましょう。",
+        "source_id": "commitment_device_economics",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l03_010",
+        "type": "multiple_choice",
+        "question": "🎁 「経験的購入」が「物質的購入」より幸福度が高い理由は？",
+        "choices": ["思い出になり、比較されにくく、社会的なつながりを生むから", "形に残るから", "安いから"],
+        "correct_index": 0,
+        "explanation": "【経験の価値】\nモノは劣化し、他人の持ち物と比較して惨めになりますが、旅行や学習などの経験は、記憶の中で美化され、あなただけの財産になります。\n\n💡 Try this: ブランドバッグを買うお金で、家族旅行や新しい習い事を始めましょう。",
+        "source_id": "experiential_purchase_happiness_gilovich",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l03_011",
+        "type": "true_false",
+        "question": "💸 「見栄消費」（顕示的消費）は、自尊心の低さを補う行動である",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【地位財】\n自分に自信がない人ほど、高級ブランドなどで武装して「自分は価値がある」と周囲に示そうとします。本当に自信がある人は質素です。\n\n💡 Try this: 欲しいものがある時、「誰も見ていなくても、これを買うか？」と自問しましょう。",
+        "source_id": "conspicuous_consumption_veblen",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l03_012",
+        "type": "multiple_choice",
+        "question": "🔄 「習慣のループ」（きっかけ→ルーチン→報酬）を節約に応用するには？",
+        "choices": ["「きっかけ（ストレス）」を特定し、「ルーチン（浪費）」を別の行動（散歩）に置き換える", "気合で我慢する", "財布を捨てる"],
+        "correct_index": 0,
+        "explanation": "【習慣の書き換え】\n浪費はストレス解消などの「報酬」を得るための手段です。同じ報酬が得られる別の手段（お風呂、運動）に置き換えれば、無理なく節約できます。\n\n💡 Try this: コンビニに行きたくなったら、代わりにスクワットを10回してドーパミンを出しましょう。",
+        "source_id": "habit_loop_duhigg",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l03_013",
+        "type": "multiple_choice",
+        "question": "📉 「ディドロ効果」とは？",
+        "choices": ["新しい家具を買うと、それに合わせてカーテンや絨毯も買い替えたくなる連鎖反応", "フランスの哲学", "安物買いの銭失い"],
+        "correct_index": 0,
+        "explanation": "【統一性の追求】\n一つ高級なものを買うと、周りのものがみすぼらしく見え、全てをアップグレードしたくなります。これが生活レベルが際限なく上がる原因です。\n\n💡 Try this: 新しいものを買う時は、「それが引き起こす連鎖的な出費」まで想像しましょう。",
+        "source_id": "diderot_effect_consumption",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l03_014",
+        "type": "true_false",
+        "question": "💰 お金を使う「タイミング」を遅らせると、満足度が上がる",
+        "choices": ["正しい（待つ楽しみ）", "誤り（すぐ買った方がいい）"],
+        "correct_index": 0,
+        "explanation": "【期待効用】\n旅行や買い物は、計画してから実行するまでの「ワクワクしている期間」が最も幸福度が高いです。即時購入はこの楽しみを捨てています。\n\n💡 Try this: 旅行の予約は数ヶ月前に行い、準備期間を最大限楽しみましょう。",
+        "source_id": "anticipation_happiness_dunn",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l03_015",
+        "type": "multiple_choice",
+        "question": "🧠 「心理的財布」の紐を固くするには？",
+        "choices": ["千円札を崩さず、一万円札のまま持ち歩く", "小銭を持ち歩く", "カードを使う"],
+        "correct_index": 0,
+        "explanation": "【両替効果】\n人は「崩したお金」は簡単に使いますが、「ピン札の一万円」は崩すのに心理的抵抗を感じます。\n\n💡 Try this: 財布には常に新札の一万円を入れ、千円札はあまり入れないようにしましょう。",
+        "source_id": "denomination_effect_spending",
+        "difficulty": "easy",
+        "xp": 5
+    }
+]
+
+# Money Level 4: Investment Biases (Loss Aversion)
+money_l04 = [
+    {
+        "id": "money_l04_001",
+        "type": "multiple_choice",
+        "question": "📉 「損失回避性」（プロスペクト理論）によると、1万円失う悲しみは？",
+        "choices": ["1万円得る喜びの約2倍大きい", "1万円得る喜びと同じ", "1万円得る喜びより小さい"],
+        "correct_index": 0,
+        "explanation": "【損失の重み】\n人間は利益を得ることより、損失を避けることを極端に優先します。これが「損切りできずに塩漬け株を作る」最大の原因です。\n\n💡 Try this: 投資で含み損が出た時、「もし現金を持っていたら、今この株を買うか？」と考えましょう。",
+        "source_id": "loss_aversion_kahneman_tversky",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l04_002",
+        "type": "true_false",
+        "question": "📈 インデックス投資（市場平均）は、プロのアクティブ運用に勝つことが多い",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【効率的市場仮説】\n長期的には、手数料の高いアクティブファンドの9割以上が、手数料の安いインデックスファンドに負けることがデータで証明されています。\n\n💡 Try this: 投資の神様バフェットも推奨する「S&P500」などの低コストインデックスを選びましょう。",
+        "source_id": "index_vs_active_performance",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l04_003",
+        "type": "multiple_choice",
+        "question": "🧠 「後知恵バイアス」とは？",
+        "choices": ["結果を知った後で「最初から分かっていた」と思い込むこと", "予知能力", "反省すること"],
+        "correct_index": 0,
+        "explanation": "【予測の錯覚】\n暴落が起きた後で「やっぱり危ないと思ってた」と言うのは簡単です。しかし、事前にそれを予測して行動するのは不可能です。\n\n💡 Try this: 投資日記をつけ、購入時の理由を記録しておきましょう。後で自分の予測精度を客観視できます。",
+        "source_id": "hindsight_bias_investing",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l04_004",
+        "type": "multiple_choice",
+        "question": "🎰 「ギャンブラーの誤謬」の例は？",
+        "choices": ["「5回連続で赤が出たから、次は黒が出るはず」と考える", "確率を計算する", "運を信じない"],
+        "correct_index": 0,
+        "explanation": "【独立事象】\nコイン投げやルーレットに「流れ」はありません。前の結果に関わらず、確率は常に50%です。市場も同様に「下がり続けたから次は上がる」とは限りません。\n\n💡 Try this: 「そろそろ当たるはず」と思ったら、それは脳のバグだと気づきましょう。",
+        "source_id": "gamblers_fallacy_tversky",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l04_005",
+        "type": "true_false",
+        "question": "📉 「ドルコスト平均法」は、高値掴みのリスクを減らす",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【時間の分散】\n毎月定額を積み立てることで、価格が高い時は少なく、安い時は多く買うことになり、平均取得単価を下げられます。\n\n💡 Try this: 投資タイミングを測ろうとせず、機械的な積立設定をして放置しましょう。",
+        "source_id": "dollar_cost_averaging_benefits",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "money_l04_006",
+        "type": "multiple_choice",
+        "question": "🧠 「自信過剰バイアス」（オーバーコンフィデンス）の投資への影響は？",
+        "choices": ["頻繁に売買を繰り返し、手数料と税金でパフォーマンスを下げる", "慎重になりすぎる", "勉強熱心になる"],
+        "correct_index": 0,
+        "explanation": "【取引頻度とリターン】\n「自分は市場より賢い」と信じる投資家ほど頻繁に売買しますが、研究では取引回数が多いほどリターンが低いことが分かっています。\n\n💡 Try this: 売買したくなったら、一度画面を閉じて一晩寝かせましょう。",
+        "source_id": "overconfidence_trading_volume_odean",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l04_007",
+        "type": "multiple_choice",
+        "question": "📰 「利用可能性ヒューリスティック」とは？",
+        "choices": ["最近ニュースで見た暴落など、思い出しやすい情報を過大評価すること", "便利な道具を使うこと", "分析すること"],
+        "correct_index": 0,
+        "explanation": "【記憶の鮮明さ】\n大暴落のニュースは印象的なので、実際のリスク発生確率よりも「また起きる」と高く見積もってしまい、投資を怖がってしまいます。\n\n💡 Try this: ニュースの「印象」ではなく、過去100年の「長期データ」を見て判断しましょう。",
+        "source_id": "availability_heuristic_investing",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l04_008",
+        "type": "true_false",
+        "question": "🏠 持ち家は必ずしも「資産」ではない",
+        "choices": ["正しい（ポケットからお金を奪うなら負債）", "誤り（不動産は絶対正義）"],
+        "correct_index": 0,
+        "explanation": "【ロバート・キヨサキ】\n会計上の定義ではなく、キャッシュフローで見れば、ローン・税金・修繕費でお金が出ていく家は「負債」です。家賃収入を生む家だけが「資産」です。\n\n💡 Try this: 家を買う時は「住む場所」として消費するか、「投資」として買うかを明確に区別しましょう。",
+        "source_id": "rich_dad_poor_dad_asset_definition",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l04_009",
+        "type": "multiple_choice",
+        "question": "🔄 「リバランス」の重要性は？",
+        "choices": ["崩れた資産配分を元に戻すことで、自動的に「安く買って高く売る」ができる", "面倒なだけ", "手数料の無駄"],
+        "correct_index": 0,
+        "explanation": "【逆張り効果】\n株が上がって配分が増えたら売り、債券が下がって減ったら買う。リバランスをルール化すれば、感情に逆らって合理的な売買ができます。\n\n💡 Try this: 年に1回、誕生日などに資産配分をチェックし、リバランスを行いましょう。",
+        "source_id": "portfolio_rebalancing_benefits",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l04_010",
+        "type": "multiple_choice",
+        "question": "🧠 「ハウスマネー効果」とは？",
+        "choices": ["投資で儲けた利益を、自分の金ではないように感じてリスクを取りすぎること", "家を買うとお金が増えること", "カジノの経営術"],
+        "correct_index": 0,
+        "explanation": "【あぶく銭】\nカジノで勝ったチップ（ハウスマネー）は、大胆に賭けてしまいがちです。投資益も同様に、慎重さを欠いてハイリスク商品に突っ込み、溶かしてしまいます。\n\n💡 Try this: 利益が出ても、それは「汗水垂らして稼いだ給料」と同じ価値だと自分に言い聞かせましょう。",
+        "source_id": "house_money_effect_thaler",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l04_011",
+        "type": "true_false",
+        "question": "📉 「ホームバイアス」とは、自国の株ばかり買ってしまう傾向",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【親近感の罠】\n日本人は日本株、アメリカ人は米国株に偏りがちです。しかし分散投資の観点からは、世界中の資産に分散すべきです。\n\n💡 Try this: 自分のポートフォリオを見て、日本株の比率が高すぎないか（世界市場における日本のシェアは約6%）確認しましょう。",
+        "source_id": "home_bias_portfolio",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l04_012",
+        "type": "multiple_choice",
+        "question": "⏳ 「複利」の力を最大化する要素は？",
+        "choices": ["時間（どれだけ長く運用するか）", "元本", "金利"],
+        "correct_index": 0,
+        "explanation": "【アインシュタイン】\n複利は「人類最大の発明」です。期間が長ければ長いほど、指数関数的に増えます。早く始めることが何よりの武器です。\n\n💡 Try this: 少額でもいいので、今すぐ（20代のうちに）投資を始めましょう。",
+        "source_id": "compound_interest_time_horizon",
+        "difficulty": "easy",
+        "xp": 5
+    },
+    {
+        "id": "money_l04_013",
+        "type": "multiple_choice",
+        "question": "🧠 「群集心理」（バンドワゴン効果）への対策は？",
+        "choices": ["「みんなが買っている」時こそ警戒し、独自の基準を持つ", "みんなに乗っかる", "ニュースを見ない"],
+        "correct_index": 0,
+        "explanation": "【靴磨きの少年】\n投資に興味がない人まで「株は儲かる」と言い出したら、バブルの天井です。群衆と逆を行く勇気が必要です。\n\n💡 Try this: SNSで話題沸騰している銘柄には手を出さない、というルールを作りましょう。",
+        "source_id": "herd_behavior_finance",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l04_014",
+        "type": "true_false",
+        "question": "📊 過去のパフォーマンスが良いファンドは、将来も良い成績を出す",
+        "choices": ["誤り（平均への回帰）", "正しい"],
+        "correct_index": 0,
+        "explanation": "【ホットハンドの誤謬】\n過去の成績と将来の成績に相関はほとんどありません。むしろ、好調だったファンドはその後平均以下に落ち込むことが多いです。\n\n💡 Try this: ランキング上位のファンドを安易に買わず、コストと運用方針で選びましょう。",
+        "source_id": "past_performance_future_results",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l04_015",
+        "type": "multiple_choice",
+        "question": "🧠 「処分効果」とは？",
+        "choices": ["利益が出ている株はすぐに売り（利食い）、損している株はずっと持ち続ける（損切り遅れ）傾向", "ゴミを捨てること", "断捨離"],
+        "correct_index": 0,
+        "explanation": "【プライドの維持】\n利益確定は「自分の正しさ」の証明なので急ぎますが、損切りは「失敗」の確定なので先延ばしにします。これが「利小損大」の原因です。\n\n💡 Try this: 買う前に「いくら下がったら売る」と損切りラインを決めておきましょう（逆指値注文）。",
+        "source_id": "disposition_effect_shefrin",
+        "difficulty": "hard",
+        "xp": 15
+    }
+]
+
+# Money Level 5: Negotiation & Value
+money_l05 = [
+    {
+        "id": "money_l05_001",
+        "type": "multiple_choice",
+        "question": "🤝 交渉において「最初の提示額（アンカー）」を出すべきか？",
+        "choices": ["知識があるなら先に出すべき（アンカリング効果）", "相手に出させるべき", "どちらでもいい"],
+        "correct_index": 0,
+        "explanation": "【先手必勝】\n最初に提示された数字が基準（アンカー）となり、最終的な合意額を引っ張ります。相場観があるなら、強気の数字を先に出しましょう。\n\n💡 Try this: 給与交渉などでは、希望額より少し高めの数字を最初に提示しましょう。",
+        "source_id": "negotiation_anchoring_first_offer",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l05_002",
+        "type": "true_false",
+        "question": "🎁 「返報性の原理」を利用すると、譲歩を引き出せる",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【ドア・イン・ザ・フェイス】\n最初に無理な要求をして断らせ、次に譲歩した（本当の）要求を出すと、相手は「譲ってくれたから自分も譲らなきゃ」と罪悪感を感じ、承諾しやすくなります。\n\n💡 Try this: 交渉では、本命の条件より高い要求からスタートし、徐々に譲歩するふりをしましょう。",
+        "source_id": "reciprocity_negotiation_cialdini",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l05_003",
+        "type": "multiple_choice",
+        "question": "🧠 「BATNA（バトナ）」とは？",
+        "choices": ["交渉が決裂した時の「次善の策」（Best Alternative to a Negotiated Agreement）", "交渉の武器", "バナナの一種"],
+        "correct_index": 0,
+        "explanation": "【交渉力】\n「この交渉がダメでも、他がある」という選択肢（BATNA）を持っている人が最強です。BATNAがないと、足元を見られます。\n\n💡 Try this: 交渉に臨む前に、必ず「もしダメだったらどうするか？」という代替案を用意しておきましょう。",
+        "source_id": "batna_fisher_ury",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l05_004",
+        "type": "multiple_choice",
+        "question": "🤐 交渉における「沈黙」の効果は？",
+        "choices": ["相手にプレッシャーを与え、譲歩や情報を引き出す", "気まずくなるだけ", "交渉決裂の合図"],
+        "correct_index": 0,
+        "explanation": "【沈黙の活用】\n人は沈黙を埋めようと喋りすぎます。相手の提案が不満な時、黙って見つめるだけで、相手は勝手に条件を良くしてくれることがあります。\n\n💡 Try this: 提示額が低いと思ったら、即答せず、数秒間沈黙してみましょう。",
+        "source_id": "silence_negotiation_tactic",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l05_005",
+        "type": "true_false",
+        "question": "🤝 「Win-Win」とは、妥協して半分ずつ分けること",
+        "choices": ["誤り（パイを拡大すること）", "正しい"],
+        "correct_index": 0,
+        "explanation": "【統合的交渉】\n単なる分配（Win-Lose）ではなく、お互いの利害（興味）を探り合い、「私は皮が欲しい、あなたは実が欲しい」のように、両者が満足できる新しい解決策を見つけることです。\n\n💡 Try this: 「なぜそれが欲しいの？」と相手の動機を深掘りし、隠れたニーズを探しましょう。",
+        "source_id": "integrative_negotiation_win_win",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l05_006",
+        "type": "multiple_choice",
+        "question": "🧠 「公正世界仮説」が貧困への偏見を生む理由は？",
+        "choices": ["「世界は公平だ」と信じたいので、「貧しいのは努力不足（自業自得）だ」と被害者を責める", "貧しい人は優しいから", "金持ちは悪いから"],
+        "correct_index": 0,
+        "explanation": "【被害者非難】\n運や環境の要素を無視し、成功も失敗も全て「個人の責任」と帰属させるバイアスです。これが社会的な分断を生みます。\n\n💡 Try this: 成功者の話を聞く時は、「努力」だけでなく「運」の要素がどれだけあったか冷静に分析しましょう。",
+        "source_id": "just_world_hypothesis_lerner",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l05_007",
+        "type": "multiple_choice",
+        "question": "💰 「価格」と「価値」の違いは？",
+        "choices": ["価格は支払うもの、価値は受け取るもの（バフェット）", "同じもの", "価格が高いほど価値がある"],
+        "correct_index": 0,
+        "explanation": "【バリュー投資】\n市場価格は感情で変動しますが、本質的価値（将来生み出すキャッシュフローなど）は安定しています。価格が価値を下回った時が買い時です。\n\n💡 Try this: 買い物をする時、「これは価格以上の価値（喜びや実益）を私にもたらすか？」と考えましょう。",
+        "source_id": "price_vs_value_buffett",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l05_008",
+        "type": "true_false",
+        "question": "🧠 お金の話を避ける「マネー・タブー」は、金融リテラシーを低下させる",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【情報の非対称性】\nお金の話を「汚い」「恥ずかしい」として避けると、知識が共有されず、詐欺や搾取のカモになりやすくなります。\n\n💡 Try this: 信頼できる友人と、投資や節約についてオープンに話す機会を作りましょう。",
+        "source_id": "money_taboo_financial_literacy",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l05_009",
+        "type": "multiple_choice",
+        "question": "📉 「限界効用逓減の法則」とは？",
+        "choices": ["ビールも1杯目が一番うまく、2杯目、3杯目と満足度は下がっていく", "使えば使うほど満足度が上がる", "限界まで使うこと"],
+        "correct_index": 0,
+        "explanation": "【満足の飽和】\nお金も同様で、年収300万から400万へのアップは嬉しいですが、1億から1億100万へのアップは誤差に感じます。\n\n💡 Try this: 「足るを知る」。少ない量で最大の満足を得られるポイントを見極めましょう。",
+        "source_id": "diminishing_marginal_utility",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l05_010",
+        "type": "multiple_choice",
+        "question": "🧠 「心理的リアクタンス」を営業に利用されないためには？",
+        "choices": ["「今決めないと買えません」と言われたら、あえて買わない選択をする", "すぐ買う", "怒る"],
+        "correct_index": 0,
+        "explanation": "【自由の回復】\n売り手は選択の自由を奪うことで、焦らせて買わせようとします。その圧力を感じたら、一度店を出て冷静さを取り戻しましょう。\n\n💡 Try this: 即決を迫られたら、「即決できないなら買いません」と断る勇気を持ちましょう。",
+        "source_id": "psychological_reactance_sales",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l05_011",
+        "type": "true_false",
+        "question": "🎁 プレゼントは、高価なものほど相手は喜ぶ",
+        "choices": ["誤り（贈り手の自己満足）", "正しい"],
+        "correct_index": 0,
+        "explanation": "【ギフトの心理学】\n研究によると、受け取り手は「価格」よりも「実用性」や「自分のことを考えてくれたか」を重視します。高すぎる贈り物は逆に負担（返報性の圧力）になります。\n\n💡 Try this: 高価なカタログギフトより、相手が欲しがっていた千円の本を贈りましょう。",
+        "source_id": "gift_giving_psychology_price",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l05_012",
+        "type": "multiple_choice",
+        "question": "🧠 「保有効果」を逆手に取った「試着・試用」の罠は？",
+        "choices": ["一度身につけると「自分のもの」と感じ、買わないと損した気分になる", "サイズが分かる", "汚れる"],
+        "correct_index": 0,
+        "explanation": "【擬似的所有】\n試着や無料トライアルは、保有効果を発生させるための罠です。返す時に「喪失感」を感じさせ、購入させます。\n\n💡 Try this: 試着しても「これは店のものだ」と強く意識し、感情移入しないようにしましょう。",
+        "source_id": "endowment_effect_marketing",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l05_013",
+        "type": "multiple_choice",
+        "question": "🗣️ 「フット・イン・ザ・ドア」テクニックとは？",
+        "choices": ["小さな要求（署名など）を承諾させ、一貫性の原理を利用して大きな要求（寄付）を通す", "ドアを蹴破る", "足を引っ掛ける"],
+        "correct_index": 0,
+        "explanation": "【一貫性の原理】\n人は「自分の行動を一貫させたい」という欲求があります。一度小さなYESと言うと、次のNOが言いづらくなります。\n\n💡 Try this: 不要な勧誘は、最初の「挨拶」や「アンケート」の段階で完全に無視・拒否しましょう。",
+        "source_id": "foot_in_the_door_freedman",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l05_014",
+        "type": "true_false",
+        "question": "💰 「お金で時間は買える」",
+        "choices": ["正しい（家事代行やタクシーなど）", "誤り"],
+        "correct_index": 0,
+        "explanation": "【時間の購入】\n研究によると、家事代行などで「時間を買う」ことにお金を使う人は、モノを買う人より幸福度が高いです。時間は唯一取り戻せない資源です。\n\n💡 Try this: 嫌いな家事や移動時間を減らすために、積極的にお金を使いましょう。",
+        "source_id": "buying_time_happiness_whillans",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l05_015",
+        "type": "multiple_choice",
+        "question": "🧠 「権威バイアス」が投資詐欺に使われる例は？",
+        "choices": ["「有名大学教授」や「元官僚」の肩書きだけで信用してしまう", "警察官の格好をする", "偉そうな態度をとる"],
+        "correct_index": 0,
+        "explanation": "【ミルグラム実験】\n人は権威ある人物の指示や意見には、思考停止で従ってしまう傾向があります。詐欺師はこれを悪用します。\n\n💡 Try this: 「誰が言っているか」ではなく「何を言っているか（根拠）」だけを見ましょう。",
+        "source_id": "authority_bias_milgram",
+        "difficulty": "hard",
+        "xp": 15
+    }
+]
+
+# Money Level 6: Wealth Mindset
+money_l06 = [
+    {
+        "id": "money_l06_001",
+        "type": "multiple_choice",
+        "question": "🧠 「欠乏マインドセット」（Scarcity Mindset）の弊害は？",
+        "choices": ["IQが下がり、長期的視野を持てなくなる", "節約上手になる", "ハングリー精神が出る"],
+        "correct_index": 0,
+        "explanation": "【欠乏のトンネル】\n「お金がない」と常に悩んでいると、脳の処理能力（帯域幅）が奪われ、IQが最大13ポイント低下します。貧困が貧困を呼ぶ原因です。\n\n💡 Try this: お金の心配を減らすため、まずは少額でも「生活防衛資金」を貯め、心の余裕を作りましょう。",
+        "source_id": "scarcity_mullainathan_shafir",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l06_002",
+        "type": "true_false",
+        "question": "💰 お金持ちは「孤独」になりやすい",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【自立と孤立】\nお金を持つと「他人に頼る必要」がなくなるため、社会的つながりが希薄になり、共感能力が低下するという研究結果があります。\n\n💡 Try this: 経済的に自立しても、精神的には人と繋がり、助け合う姿勢を持ち続けましょう。",
+        "source_id": "wealth_isolation_empathy",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l06_003",
+        "type": "multiple_choice",
+        "question": "🎁 「向社会的支出」（他人のためにお金を使う）の効果は？",
+        "choices": ["自分のために使うより、幸福度が大きく長く続く", "お金が減って悲しくなる", "偽善だと思われる"],
+        "correct_index": 0,
+        "explanation": "【寄付の喜び】\nハーバード大の研究で、少額でも他人のために使うと、幸福度が上がることが世界中で確認されています。人間は「与える」ことに喜びを感じるように進化しました。\n\n💡 Try this: 今日のコーヒー代を、友人や同僚に奢ってみましょう。",
+        "source_id": "prosocial_spending_happiness_dunn",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l06_004",
+        "type": "multiple_choice",
+        "question": "🧠 「マシュマロ・テスト」が示唆する成功の鍵は？",
+        "choices": ["満足遅延耐性（今の快楽を我慢して、将来の大きな報酬を待てる力）", "マシュマロが好きかどうか", "IQの高さ"],
+        "correct_index": 0,
+        "explanation": "【自制心】\n子供の頃にマシュマロを我慢できた子は、将来の学歴や年収が高く、BMIが低い傾向がありました。自制心はIQ以上に成功を予測します。\n\n💡 Try this: 欲しいものがあっても「1週間待つ」トレーニングをして、自制心を鍛えましょう。",
+        "source_id": "marshmallow_test_mischel",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l06_005",
+        "type": "true_false",
+        "question": "📉 「相対的剥奪感」とは、他人と比べて貧しいと感じること",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【比較の罠】\n絶対的な生活水準が高くても、隣人がもっと金持ちだと不幸を感じます。SNSで他人のキラキラした生活を見ると幸福度が下がるのはこのためです。\n\n💡 Try this: SNSを見る時間を減らし、「昨日の自分」とだけ比較しましょう。",
+        "source_id": "relative_deprivation_happiness",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l06_006",
+        "type": "multiple_choice",
+        "question": "🧠 「富のスクリプト」（マネー・スクリプト）とは？",
+        "choices": ["幼少期に形成された、お金に対する無意識の信念", "お金の教科書", "投資の台本"],
+        "correct_index": 0,
+        "explanation": "【ブラッド・クロンツ】\n「お金は汚い」「お金があれば全て解決する」などの歪んだ信念が、大人になってからの金融行動（浪費、過度な節約など）を支配します。\n\n💡 Try this: 親がお金についてどう言っていたか思い出し、自分の信念がどこから来たか分析しましょう。",
+        "source_id": "money_scripts_klontz",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l06_007",
+        "type": "multiple_choice",
+        "question": "🔄 「ファイナンシャル・インディペンデンス（FI）」の本質は？",
+        "choices": ["働かなくても生きていける選択肢を持つことで、人生の主導権を取り戻すこと", "大金持ちになって豪遊すること", "仕事を辞めること"],
+        "correct_index": 0,
+        "explanation": "【FIREムーブメント】\n重要なのは「リタイア（RE）」より「自立（FI）」です。お金のために嫌な仕事を強いられない状態（F*ck You Money）が、精神的自由をもたらします。\n\n💡 Try this: 年間支出の25倍の資産を築くことを長期目標にしてみましょう。",
+        "source_id": "financial_independence_psychology",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l06_008",
+        "type": "true_false",
+        "question": "🧠 貧困は遺伝するだけでなく、脳の構造にも影響を与える",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【環境の影響】\n貧困家庭で育った子供は、慢性的なストレスにより海馬や前頭前野の発達が阻害され、学習能力や感情制御に不利になることが分かっています。\n\n💡 Try this: 環境は変えられます。教育や良質な人間関係への投資が、負の連鎖を断ち切る鍵です。",
+        "source_id": "poverty_brain_development_noble",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l06_009",
+        "type": "multiple_choice",
+        "question": "🤝 「ソーシャル・キャピタル」（社会関係資本）とは？",
+        "choices": ["信頼できる人間関係のネットワーク（人脈）", "SNSのフォロワー数", "会社の資本金"],
+        "correct_index": 0,
+        "explanation": "【見えない資産】\n困った時に助けてくれる人、情報をくれる人との繋がりは、お金以上のセーフティネットであり、幸福と健康の源泉です。\n\n💡 Try this: お金だけでなく、友人との信頼関係（クレジット）を積み立てることを意識しましょう。",
+        "source_id": "social_capital_putnam",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l06_010",
+        "type": "multiple_choice",
+        "question": "🧠 「エッセンシャル思考」をお金に応用すると？",
+        "choices": ["本当に大切な1%のものに集中投資し、残りの99%を切り捨てる", "全部買う", "全部我慢する"],
+        "correct_index": 0,
+        "explanation": "【より少なく、しかし良く】\n全てを手に入れようとすると、全てが中途半端になります。「自分にとって何が一番大切か？」を見極め、そこにお金を集中させましょう。\n\n💡 Try this: 家計簿を見て、満足度の低い支出（ラテマネーなど）を削り、大好きな趣味に回しましょう。",
+        "source_id": "essentialism_mckeown",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l06_011",
+        "type": "true_false",
+        "question": "💰 お金への執着が強すぎると、倫理観が低下する",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【ピフの実験】\nモノポリー実験などで、自分が有利な立場（金持ち）になると、人は横柄になり、ズルをしやすくなることが示されています。\n\n💡 Try this: お金を持つほど、謙虚さと感謝を意識的に持つようにしましょう（ノブレス・オブリージュ）。",
+        "source_id": "wealth_ethics_piff",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l06_012",
+        "type": "multiple_choice",
+        "question": "🧠 「十分（Enough）」という感覚を持つことの重要性は？",
+        "choices": ["終わりのない欲望の競争から降り、満足して生きられる", "成長が止まる", "貧乏になる"],
+        "correct_index": 0,
+        "explanation": "【足るを知る】\n「もっともっと」という渇望は苦しみを生みます。「自分にはこれで十分だ」というラインを持っていれば、外部環境に振り回されず幸せでいられます。\n\n💡 Try this: 自分の「十分な生活費」を計算し、それ以上稼いだ分は寄付や投資に回すなど、ゴールを決めましょう。",
+        "source_id": "psychology_of_enough",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l06_013",
+        "type": "multiple_choice",
+        "question": "📉 「双曲割引」を克服し、将来のために行動できる人の特徴は？",
+        "choices": ["ワーキングメモリ（脳の作業記憶）の容量が大きい", "計算が速い", "性格が暗い"],
+        "correct_index": 0,
+        "explanation": "【脳のCPU】\nワーキングメモリが高い人は、将来のシミュレーションを脳内で維持できるため、目先の誘惑に負けず、長期的な利益を選べます。\n\n💡 Try this: 暗算やNバック課題などでワーキングメモリを鍛え、衝動制御力を高めましょう。",
+        "source_id": "working_memory_discounting",
+        "difficulty": "hard",
+        "xp": 15
+    },
+    {
+        "id": "money_l06_014",
+        "type": "true_false",
+        "question": "🎁 「感謝」の気持ちを持つと、衝動買いが減る",
+        "choices": ["正しい", "誤り"],
+        "correct_index": 0,
+        "explanation": "【感謝の効用】\n感謝の感情は、脳の報酬系を満たし、忍耐力を高めます。実験では、感謝を感じたグループは、即時の報酬より将来の大きな報酬を選びました。\n\n💡 Try this: 買い物に行く前に、今持っているものへの感謝を3つ書き出してみましょう。",
+        "source_id": "gratitude_financial_patience_desteno",
+        "difficulty": "medium",
+        "xp": 10
+    },
+    {
+        "id": "money_l06_015",
+        "type": "multiple_choice",
+        "question": "🌟 真の「豊かさ」とは？",
+        "choices": ["お金、時間、健康、人間関係のバランスが取れている状態", "銀行口座の残高が最大の状態", "ブランド品を持っている状態"],
+        "correct_index": 0,
+        "explanation": "【ウェルビーイング】\nお金は重要ですが、要素の一つに過ぎません。お金があっても孤独で不健康なら不幸です。ポートフォリオ・ライフ（人生の資産配分）を最適化しましょう。\n\n💡 Try this: お金以外の資産（健康、スキル、友人）の「残高」も定期的にチェックしましょう。",
+        "source_id": "wealth_definition_wellbeing",
+        "difficulty": "easy",
+        "xp": 5
+    }
+]
+
+# Combine all levels
+all_questions = money_l02 + money_l03 + money_l04 + money_l05 + money_l06
+
+print(json.dumps(all_questions, ensure_ascii=False, indent=2))

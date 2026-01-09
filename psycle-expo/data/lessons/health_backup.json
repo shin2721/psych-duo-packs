@@ -1,0 +1,2229 @@
+[
+  {
+    "id": "health_l01_sleep_hygiene",
+    "type": "multiple_choice",
+    "question": "😴 寝る前にスマホを見ると眠れなくなるのはなぜ？",
+    "choices": [
+      "ブルーライトがメラトニン分泌を抑制するから",
+      "電磁波が脳を刺激するから",
+      "目が疲れて逆に覚醒するから"
+    ],
+    "correct_index": 0,
+    "explanation": "【科学的根拠】\nブルーライトは「覚醒ホルモン」であるメラトニンの分泌を抑制します。メラトニンは暗くなると分泌され、眠気を誘発するホルモンです。\n\n💡 Try this: 寝る1時間前からスマホを見ない「デジタルサンセット」を試してみましょう。代わりに紙の本を読むのがおすすめです。",
+    "source_id": "sleep_science_2024",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l01_habit_formation",
+    "type": "multiple_choice",
+    "question": "🏃 新しい運動習慣を定着させるために最も効果的な方法は？",
+    "choices": [
+      "「ジムに行ったら」という既存の習慣に紐づける",
+      "毎日違う時間に運動して飽きないようにする",
+      "最初から1時間の激しい運動を目標にする"
+    ],
+    "correct_index": 0,
+    "explanation": "【習慣化の科学】\n「ハビット・スタッキング（習慣の積み重ね）」という手法です。既存の習慣（例：朝のコーヒー）の後に新しい行動（例：スクワット10回）を紐づけると、脳が自動的に実行するようになります。\n\n💡 Try this: 「歯を磨いたら、スクワット10回」のように、既にある習慣の直後に小さな運動を追加してみましょう。",
+    "source_id": "atomic_habits_2023",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l01_stress_response",
+    "type": "true_false",
+    "question": "⚡ ストレスは常に悪いものである",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 1,
+    "explanation": "【ストレスの二面性】\n適度なストレス（ユーストレス）は、集中力や記憶力を高め、パフォーマンスを向上させます。問題なのは「慢性的な過度のストレス（ディストレス）」です。\n\n💡 Try this: プレゼン前の緊張を「体が準備している証拠」とポジティブに捉え直してみましょう。この認知的再評価がパフォーマンスを高めます。",
+    "source_id": "stress_psychology_2024",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l01_hydration",
+    "type": "multiple_choice",
+    "question": "💧 脱水状態になると最初に現れる症状は？",
+    "choices": [
+      "集中力の低下",
+      "激しい喉の渇き",
+      "頭痛"
+    ],
+    "correct_index": 0,
+    "explanation": "【水分と認知機能】\n体重の1-2%の水分が失われただけで、集中力、短期記憶、気分に悪影響が出ます。喉の渇きを感じる頃には、すでに軽度の脱水状態です。\n\n💡 Try this: デスクに水のボトルを置き、1時間ごとにコップ1杯（200ml）を飲む習慣をつけましょう。",
+    "source_id": "hydration_cognition_2023",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l01_sleep_debt",
+    "type": "multiple_choice",
+    "question": "😪 平日5時間睡眠で、週末に10時間寝れば「睡眠負債」は解消できる？",
+    "choices": [
+      "できない。慢性的な睡眠不足は週末だけでは回復しない",
+      "できる。トータルの睡眠時間が同じなら問題ない",
+      "できる。ただし2週間続ける必要がある"
+    ],
+    "correct_index": 0,
+    "explanation": "【睡眠負債の科学】\n睡眠負債は「借金」のように蓄積し、週末の寝だめでは完全に解消できません。認知機能の低下、免疫力の低下、肥満リスクの増加などが長期的に残ります。\n\n💡 Try this: 毎日同じ時間に寝起きする「睡眠スケジュール」を作りましょう。週末も±1時間以内に抑えるのが理想です。",
+    "source_id": "sleep_debt_research_2024",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l01_exercise_timing",
+    "type": "multiple_choice",
+    "question": "🌅 運動するのに最も効果的な時間帯は？",
+    "choices": [
+      "自分が続けられる時間帯（個人差が大きい）",
+      "必ず朝（代謝が上がるから）",
+      "必ず夜（成長ホルモンが出るから）"
+    ],
+    "correct_index": 0,
+    "explanation": "【運動のタイミング】\n研究では「朝型」「夜型」など個人の体内時計（クロノタイプ）によって最適な運動時間が異なることが分かっています。最も重要なのは「継続できる時間」を選ぶことです。\n\n💡 Try this: 1週間、朝・昼・夜の運動を試して、自分が最も気持ちよく感じる時間帯を見つけましょう。",
+    "source_id": "chronotype_exercise_2023",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l01_nutrition_mood",
+    "type": "multiple_choice",
+    "question": "🍫 甘いものを食べると一時的に気分が良くなるのはなぜ？",
+    "choices": [
+      "血糖値が急上昇してドーパミンが分泌されるから",
+      "糖分が直接セロトニンに変換されるから",
+      "甘味が記憶を刺激して幸せな気分になるから"
+    ],
+    "correct_index": 0,
+    "explanation": "【血糖値と気分】\n糖分摂取で血糖値が急上昇すると、脳内で「報酬ホルモン」のドーパミンが分泌されます。しかし、その後の急降下（血糖値スパイク）で逆にイライラや疲労感が増します。\n\n💡 Try this: 甘いものの代わりに、ナッツやギリシャヨーグルトなど「タンパク質＋脂質」のおやつを試してみましょう。血糖値が安定します。",
+    "source_id": "blood_sugar_mood_2024",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l01_posture",
+    "type": "true_false",
+    "question": "🪑 「正しい姿勢」を常に保つことが腰痛予防に最も重要である",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 1,
+    "explanation": "【姿勢の新常識】\n最新の研究では、「完璧な姿勢」よりも「姿勢を変え続けること」が重要だと分かっています。同じ姿勢を長時間続けることが、筋肉の緊張と痛みの原因です。\n\n💡 Try this: 30分ごとに立ち上がって伸びをする、または座り方を変える習慣をつけましょう。「次の姿勢が最高の姿勢」です。",
+    "source_id": "posture_research_2024",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l01_caffeine",
+    "type": "multiple_choice",
+    "question": "☕ カフェインの効果が最も長く続くのは何時間後？",
+    "choices": [
+      "摂取後5-6時間（半減期）",
+      "摂取後30分",
+      "摂取後12時間"
+    ],
+    "correct_index": 0,
+    "explanation": "【カフェインの半減期】\nカフェインの半減期（体内濃度が半分になる時間）は約5-6時間です。つまり、午後3時にコーヒーを飲むと、夜9時でもまだ半分のカフェインが体内に残っています。\n\n💡 Try this: 良質な睡眠のために、午後2時以降はカフェインを避けましょう。代わりにハーブティーやデカフェを試してみてください。",
+    "source_id": "caffeine_sleep_2023",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l01_breathing",
+    "type": "multiple_choice",
+    "question": "🫁 ストレス時に最も効果的な呼吸法は？",
+    "choices": [
+      "吸う時間より吐く時間を長くする（4秒吸って6秒吐く）",
+      "できるだけ速く深呼吸する",
+      "息を止めて我慢する"
+    ],
+    "correct_index": 0,
+    "explanation": "【呼吸と自律神経】\n吐く息を長くすると、副交感神経（リラックス神経）が優位になります。これは「生理学的ため息」と呼ばれ、即座にストレス反応を和らげます。\n\n💡 Try this: 緊張した時、4秒かけて鼻から吸い、6秒かけて口から吐く「4-6呼吸」を3回繰り返してみましょう。",
+    "source_id": "breathing_autonomic_2024",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l01_micronutrients",
+    "type": "multiple_choice",
+    "question": "🥗 ビタミンDが不足すると最も影響を受けるのは？",
+    "choices": [
+      "気分と免疫機能",
+      "視力",
+      "髪の成長"
+    ],
+    "correct_index": 0,
+    "explanation": "【ビタミンDの役割】\nビタミンDは「日光のビタミン」と呼ばれ、セロトニン合成と免疫細胞の活性化に関わります。不足するとうつ症状や風邪をひきやすくなります。\n\n💡 Try this: 1日15分、日光を浴びましょう（窓越しではなく直接）。冬場や日照時間が短い地域ではサプリメントも検討してください。",
+    "source_id": "vitamin_d_mental_2024",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l01_recovery",
+    "type": "true_false",
+    "question": "💪 筋トレ後は必ずプロテインを30分以内に摂取しないと効果がない",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 1,
+    "explanation": "【タンパク質摂取のタイミング】\n「30分ルール」は神話です。最新の研究では、運動後24時間の総タンパク質摂取量の方が重要だと分かっています。タイミングよりも「1日を通じて十分なタンパク質を摂る」ことが大切です。\n\n💡 Try this: 体重1kgあたり1.6-2.2gのタンパク質を、3-4回の食事に分けて摂りましょう。",
+    "source_id": "protein_timing_2024",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l01_gut_brain",
+    "type": "multiple_choice",
+    "question": "🦠 腸内環境が気分に影響するのはなぜ？",
+    "choices": [
+      "腸内細菌がセロトニンの前駆物質を作るから",
+      "腸が直接脳に電気信号を送るから",
+      "消化が良いと気分も良くなるという心理的効果"
+    ],
+    "correct_index": 0,
+    "explanation": "【腸脳相関】\n体内のセロトニン（幸せホルモン）の約90%は腸で作られます。腸内細菌がその前駆物質（トリプトファン）を代謝し、脳に影響を与えます。これを「腸脳軸」と呼びます。\n\n💡 Try this: 発酵食品（ヨーグルト、納豆、キムチ）と食物繊維（野菜、果物）を毎日摂って、腸内環境を整えましょう。",
+    "source_id": "gut_brain_axis_2024",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l01_cold_exposure",
+    "type": "multiple_choice",
+    "question": "🧊 冷水シャワーが健康に良いとされる理由は？",
+    "choices": [
+      "ストレスホルモンを一時的に上げて適応力を高めるから",
+      "体温を下げて代謝を上げるから",
+      "血管を収縮させて血圧を下げるから"
+    ],
+    "correct_index": 0,
+    "explanation": "【ホルミシス効果】\n適度なストレス（寒冷曝露）は、体の適応システムを活性化します。これにより、ストレス耐性、免疫機能、気分が改善されます。ただし、心臓疾患がある人は避けるべきです。\n\n💡 Try this: シャワーの最後30秒だけ冷水にする「コントラストシャワー」から始めましょう。徐々に時間を延ばしていきます。",
+    "source_id": "cold_therapy_2024",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l01_screen_time",
+    "type": "multiple_choice",
+    "question": "📱 長時間のスクリーンタイムが目に与える最大の影響は？",
+    "choices": [
+      "まばたきが減って目が乾燥する（ドライアイ）",
+      "ブルーライトで網膜が損傷する",
+      "視力が永久的に低下する"
+    ],
+    "correct_index": 0,
+    "explanation": "【デジタル眼精疲労】\n画面を見ている時、まばたきの回数が通常の1/3に減ります。これが目の乾燥、疲労、頭痛の主な原因です。ブルーライトの影響は誇張されており、主な問題は「まばたき不足」です。\n\n💡 Try this: 「20-20-20ルール」を実践しましょう。20分ごとに、20フィート（約6m）先を20秒間見ます。",
+    "source_id": "digital_eye_strain_2024",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l02_001",
+    "type": "multiple_choice",
+    "question": "🦉 「社会的ジェットラグ」とは？",
+    "choices": [
+      "平日と休日の睡眠時間のズレ",
+      "海外旅行の時差ボケ",
+      "夜更かしすること"
+    ],
+    "correct_index": 0,
+    "explanation": "【社会的ジェットラグ】\n平日は6時起き、休日は10時起き...この「4時間のズレ」は、海外旅行の時差ボケと同じ負担を脳と体にかけ、肥満やうつ病のリスクを高めます。\n\n💡 Try this: 休日の起床時間を、平日と「プラスマイナス2時間以内」に収めましょう。",
+    "source_id": "social_jetlag_roenneberg_2006",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l02_002",
+    "type": "true_false",
+    "question": "☕ コーヒーナップ（昼寝前のカフェイン）は効果的である",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【コーヒーナップ】\nカフェインの効果が出るのは摂取20分後。昼寝（15-20分）の直前に飲むと、起きる頃にカフェインが効き始め、スッキリ目覚められます。\n\n💡 Try this: 午後の眠気対策に「コーヒーを飲んでから20分寝る」を試してみましょう。",
+    "source_id": "coffee_nap_research_2003",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l02_003",
+    "type": "multiple_choice",
+    "question": "🌡️ 深い睡眠（徐波睡眠）を増やすのに最適な入浴タイミングは？",
+    "choices": [
+      "寝る90分前",
+      "寝る直前",
+      "朝"
+    ],
+    "correct_index": 0,
+    "explanation": "【深部体温のリズム】\nお風呂で体温を上げると、その後急激に下がります。この「体温の落差」が深い眠りを誘います。90分前がベストタイミングです。\n\n💡 Try this: 寝る90分前に、40度のお湯に15分浸かってみましょう。",
+    "source_id": "bath_sleep_timing_2019",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l02_004",
+    "type": "multiple_choice",
+    "question": "🍷 寝酒（アルコール）が睡眠に与える影響は？",
+    "choices": [
+      "入眠は早くなるが、睡眠の質は下がる",
+      "睡眠の質が上がる",
+      "影響はない"
+    ],
+    "correct_index": 0,
+    "explanation": "【アルコールと睡眠】\nアルコールは寝つきを良くしますが、後半の睡眠を浅くし、利尿作用で脱水を招きます。結果、疲れが取れません。\n\n💡 Try this: 寝る3-4時間前にはアルコールを切り上げましょう。",
+    "source_id": "alcohol_sleep_review_2013",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l02_005",
+    "type": "true_false",
+    "question": "🛌 ベッドでスマホをいじっても、眠れれば問題ない",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 1,
+    "explanation": "【条件付け】\nベッドでスマホを見ると、脳が「ベッド＝スマホを見る場所（覚醒）」と学習してしまいます。ベッドは「寝るためだけの場所」にするのが鉄則です。\n\n💡 Try this: 眠れない時は一度ベッドを出て、眠くなってから戻りましょう（刺激制御療法）。",
+    "source_id": "stimulus_control_therapy_1972",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l02_006",
+    "type": "multiple_choice",
+    "question": "🌞 朝起きてすぐに日光を浴びるべき理由は？",
+    "choices": [
+      "体内時計をリセットし、夜のメラトニン予約をするため",
+      "ビタミンDを作るため",
+      "目を覚ますため"
+    ],
+    "correct_index": 0,
+    "explanation": "【概日リズム】\n朝の光を浴びてから約14-16時間後に、眠気ホルモン（メラトニン）が分泌されます。朝の光が「夜の眠り」を作っているのです。\n\n💡 Try this: 起きたらすぐにカーテンを開け、窓際で1分間日光を浴びましょう。",
+    "source_id": "circadian_rhythm_light_2008",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l02_007",
+    "type": "multiple_choice",
+    "question": "💤 理想的な昼寝の長さは？",
+    "choices": [
+      "15-20分",
+      "60分",
+      "90分"
+    ],
+    "correct_index": 0,
+    "explanation": "【パワーナップ】\n20分を超えると深い睡眠に入り、起きた時に「睡眠慣性（ぼーっとする）」が起きます。15-20分が認知機能回復に最適です。\n\n💡 Try this: アラームを20分後にセットして昼寝しましょう。",
+    "source_id": "power_nap_duration_2009",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l02_008",
+    "type": "true_false",
+    "question": "🧠 睡眠中、脳は老廃物を洗い流している",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【グリンパティック・システム】\n睡眠中、脳細胞が縮んで隙間ができ、脳脊髄液がアミロイドベータなどの老廃物を洗い流します。睡眠不足は「脳のゴミ」を溜め込みます。\n\n💡 Try this: 「睡眠は脳の掃除時間」と意識し、7時間睡眠を確保しましょう。",
+    "source_id": "glymphatic_system_2013",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l02_009",
+    "type": "multiple_choice",
+    "question": "🌡️ 寝室の最適温度は？",
+    "choices": [
+      "18-20度（少し涼しい）",
+      "25度（暖かい）",
+      "15度（寒い）"
+    ],
+    "correct_index": 0,
+    "explanation": "【睡眠環境】\n人間は深部体温が下がる時に眠くなります。少し涼しい室温（18-20度）が、放熱を助け、入眠をスムーズにします。\n\n💡 Try this: 寝る前にエアコンで室温を調整し、通気性の良いパジャマを選びましょう。",
+    "source_id": "sleep_temperature_2012",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l02_010",
+    "type": "multiple_choice",
+    "question": "🍽️ 寝る前の食事は、睡眠の質をどう変える？",
+    "choices": [
+      "消化活動で深部体温が下がらず、質が悪化する",
+      "満腹でよく眠れる",
+      "関係ない"
+    ],
+    "correct_index": 0,
+    "explanation": "【食事と睡眠】\n消化にはエネルギーが必要で、体温が上がります。寝る直前に食べると、体温が下がらず、深い睡眠に入れません。\n\n💡 Try this: 夕食は就寝の3時間前までに済ませましょう。",
+    "source_id": "meal_timing_sleep_2020",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l02_011",
+    "type": "true_false",
+    "question": "🏃 夕方の軽い運動は睡眠に良い",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【運動と体温】\n夕方（16-19時）の運動は体温を一時的に上げ、その後の体温低下を促進するため、入眠を助けます。ただし寝る直前の激しい運動は逆効果です。\n\n💡 Try this: 夕方にウォーキングや軽いジョギングを取り入れましょう。",
+    "source_id": "exercise_timing_sleep_2014",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l02_012",
+    "type": "multiple_choice",
+    "question": "🧘 「4-7-8呼吸法」の目的は？",
+    "choices": [
+      "副交感神経を優位にし、リラックスする",
+      "肺活量を増やす",
+      "集中力を高める"
+    ],
+    "correct_index": 0,
+    "explanation": "【4-7-8呼吸法】\n4秒吸って、7秒止めて、8秒かけて吐く。このリズムが強制的に副交感神経を活性化させ、寝つきを良くします。\n\n💡 Try this: 布団に入って目が冴えている時、これを3セット行ってみましょう。",
+    "source_id": "weil_478_breathing",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l02_013",
+    "type": "multiple_choice",
+    "question": "🛌 「睡眠圧」とは？",
+    "choices": [
+      "起きている間に溜まる「眠気のもと」",
+      "布団の重さ",
+      "ストレスによる圧力"
+    ],
+    "correct_index": 0,
+    "explanation": "【アデノシン】\n覚醒中は脳内にアデノシン（睡眠圧）が蓄積し、眠気を引き起こします。昼寝をしすぎると、この圧が減ってしまい、夜眠れなくなります。\n\n💡 Try this: 夜ぐっすり眠りたいなら、昼寝は20分以内に抑えて「睡眠圧」を温存しましょう。",
+    "source_id": "adenosine_sleep_pressure",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l02_014",
+    "type": "true_false",
+    "question": "⏰ アラームのスヌーズ機能（二度寝）は脳に良い",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 1,
+    "explanation": "【睡眠慣性】\nスヌーズで断片的に眠ると、深い睡眠サイクルに入りかけたところで起こされるため、強い睡眠慣性（だるさ）が残ります。\n\n💡 Try this: アラームは「起きる時間」に1回だけセットし、スヌーズはオフにしましょう。",
+    "source_id": "snooze_button_effects_2014",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l02_015",
+    "type": "multiple_choice",
+    "question": "🌙 「レム睡眠」の特徴は？",
+    "choices": [
+      "脳が活発に動き、記憶の整理や感情処理を行う",
+      "脳が完全に休んでいる",
+      "成長ホルモンが出る"
+    ],
+    "correct_index": 0,
+    "explanation": "【レム睡眠】\n体は休んでいますが、脳は動いています。ここで記憶の定着や、嫌な記憶の感情処理（忘却）が行われます。\n\n💡 Try this: 嫌なことがあった日こそ、しっかり寝てレム睡眠を取りましょう。",
+    "source_id": "rem_sleep_emotion_2011",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l03_001",
+    "type": "multiple_choice",
+    "question": "🦠 「脳腸相関」（Gut-Brain Axis）とは？",
+    "choices": [
+      "脳と腸が迷走神経などで影響し合っていること",
+      "脳が腸を支配していること",
+      "腸が脳より賢いこと"
+    ],
+    "correct_index": 0,
+    "explanation": "【脳腸相関】\n腸は「第二の脳」と呼ばれ、セロトニン（幸せホルモン）の90%は腸で作られます。腸内環境が悪化すると、不安やうつリスクが高まります。\n\n💡 Try this: メンタル不調を感じたら、発酵食品（ヨーグルト、納豆）を意識的に摂ってみましょう。",
+    "source_id": "gut_brain_axis_review_2015",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l03_002",
+    "type": "true_false",
+    "question": "🐟 オメガ3脂肪酸（魚の油）は、うつ症状の改善に効果がある",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【抗炎症作用】\nオメガ3（DHA/EPA）には脳の炎症を抑える効果があり、うつ病の補助療法としても推奨されています。\n\n💡 Try this: 週に2-3回は青魚（サバ、イワシ、サケ）を食べるか、サプリを活用しましょう。",
+    "source_id": "omega3_depression_meta_2019",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l03_003",
+    "type": "multiple_choice",
+    "question": "📉 「血糖値スパイク」がメンタルに与える影響は？",
+    "choices": [
+      "急激な眠気、イライラ、集中力低下",
+      "テンションが上がり続ける",
+      "特にない"
+    ],
+    "correct_index": 0,
+    "explanation": "【反応性低血糖】\n糖質を摂りすぎて血糖値が急上昇すると、インスリンが出て急降下します。この時、脳がエネルギー不足になり、イライラや不安が生じます。\n\n💡 Try this: ランチは「野菜→タンパク質→炭水化物」の順で食べ（ベジファースト）、スパイクを防ぎましょう。",
+    "source_id": "glucose_fluctuation_mood_2018",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l03_004",
+    "type": "multiple_choice",
+    "question": "💧 水分不足が脳に与える影響は？",
+    "choices": [
+      "わずか1-2%の不足で認知機能と気分が低下する",
+      "5%減るまで影響はない",
+      "喉が渇かなければ大丈夫"
+    ],
+    "correct_index": 0,
+    "explanation": "【脱水と脳】\n脳の約80%は水です。軽度の脱水でも、集中力低下、頭痛、疲労感、不安感を引き起こします。\n\n💡 Try this: 仕事中はデスクに水を置き、「喉が渇く前に」こまめに飲みましょう。",
+    "source_id": "mild_dehydration_cognition_2011",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l03_005",
+    "type": "true_false",
+    "question": "🥦 「地中海式ダイエット」はメンタルヘルスに良い",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【SMILES試験】\n野菜、果物、全粒穀物、魚、オリーブオイル中心の地中海式食事が、うつ症状を改善することがランダム化比較試験で実証されました。\n\n💡 Try this: 今日の食事に「色の濃い野菜」と「オリーブオイル」を追加してみましょう。",
+    "source_id": "smiles_trial_diet_depression_2017",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l03_006",
+    "type": "multiple_choice",
+    "question": "🦠 プロバイオティクス（善玉菌）とプレバイオティクス（餌）の違いは？",
+    "choices": [
+      "プロ＝菌そのもの、プレ＝菌の餌（食物繊維など）",
+      "プロ＝餌、プレ＝菌",
+      "同じもの"
+    ],
+    "correct_index": 0,
+    "explanation": "【シンバイオティクス】\n菌（ヨーグルトなど）と餌（食物繊維、オリゴ糖）を一緒に摂ることで、腸内環境が効果的に改善します。\n\n💡 Try this: ヨーグルト（プロ）にバナナやハチミツ（プレ）を入れて食べましょう。",
+    "source_id": "probiotics_prebiotics_mental_2018",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l03_007",
+    "type": "multiple_choice",
+    "question": "☕ カフェインの半減期（体内から半分減る時間）は？",
+    "choices": [
+      "約5-8時間",
+      "約1時間",
+      "約24時間"
+    ],
+    "correct_index": 0,
+    "explanation": "【カフェインの代謝】\n個人差はありますが、昼12時に飲んだコーヒーのカフェインは、夜中まで体内に残ります。これが睡眠の質を下げる原因です。\n\n💡 Try this: カフェイン摂取は「午後2時まで」に切り上げましょう。",
+    "source_id": "caffeine_half_life_sleep_2013",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l03_008",
+    "type": "true_false",
+    "question": "🍫 高カカオチョコレートはストレス軽減に役立つ",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【カカオポリフェノール】\nカカオに含まれる成分が、ストレスホルモン（コルチゾール）を抑制し、BDNF（脳由来神経栄養因子）を増やす可能性があります。\n\n💡 Try this: 休憩時間にカカオ70%以上のチョコをひとかけら食べてリラックスしましょう。",
+    "source_id": "dark_chocolate_stress_2014",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l03_009",
+    "type": "multiple_choice",
+    "question": "🍺 アルコールが「うつ」に与える影響は？",
+    "choices": [
+      "中枢神経抑制作用があり、長期的にはうつを悪化させる",
+      "気分を高揚させ、うつを治す",
+      "関係ない"
+    ],
+    "correct_index": 0,
+    "explanation": "【アルコールとうつ】\n一時的に気分が晴れても、アルコールは脳の抑制系に働き、長期的にはセロトニン枯渇を招き、うつリスクを高めます。\n\n💡 Try this: ストレス発散のための飲酒は避け、運動や趣味など別の方法を見つけましょう。",
+    "source_id": "alcohol_depression_link_2011",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l03_010",
+    "type": "multiple_choice",
+    "question": "🧂 加工食品（超加工食品）の過剰摂取リスクは？",
+    "choices": [
+      "炎症を引き起こし、うつ病リスクを高める",
+      "便利で栄養価が高い",
+      "特にない"
+    ],
+    "correct_index": 0,
+    "explanation": "【超加工食品】\nスナック菓子、カップ麺などの超加工食品の摂取量が多い人は、うつ病リスクが高いという研究結果があります。添加物や質の悪い油が炎症の原因になります。\n\n💡 Try this: 「原材料名を見て、知らない成分が多いもの」は避け、原型に近い食品を選びましょう。",
+    "source_id": "ultra_processed_food_depression_2019",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l03_011",
+    "type": "true_false",
+    "question": "🥚 タンパク質（アミノ酸）は、メンタルヘルスに重要である",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【神経伝達物質の材料】\nセロトニン（トリプトファン）やドーパミン（チロシン）などの神経伝達物質は、タンパク質（アミノ酸）から作られます。不足するとメンタルが不安定になります。\n\n💡 Try this: 毎食、手のひら一枚分のタンパク質（肉、魚、卵、豆）を摂りましょう。",
+    "source_id": "amino_acids_neurotransmitters",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l03_012",
+    "type": "multiple_choice",
+    "question": "🌞 ビタミンD不足がメンタルに与える影響は？",
+    "choices": [
+      "季節性情動障害（冬季うつ）のリスクが高まる",
+      "特にない",
+      "視力が下がる"
+    ],
+    "correct_index": 0,
+    "explanation": "【サンシャインビタミン】\nビタミンDは脳内でセロトニン合成に関与します。日光不足になる冬場にうつっぽくなるのは、ビタミンD不足が一因です。\n\n💡 Try this: 冬場は意識的に日光浴をするか、ビタミンDサプリメントを活用しましょう。",
+    "source_id": "vitamin_d_depression_meta_2013",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l03_013",
+    "type": "multiple_choice",
+    "question": "🍵 緑茶に含まれる「テアニン」の効果は？",
+    "choices": [
+      "リラックス効果と集中力向上",
+      "興奮作用",
+      "眠気誘発"
+    ],
+    "correct_index": 0,
+    "explanation": "【テアニン】\nテアニンはカフェインの興奮作用を和らげ、リラックスしながら集中できる状態（α波）を作ります。\n\n💡 Try this: 集中したいがイライラしたくない時は、コーヒーではなく緑茶を選びましょう。",
+    "source_id": "theanine_stress_cognition_2016",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l03_014",
+    "type": "true_false",
+    "question": "🕰️ 「断続的断食」（16時間断食など）は脳に良い可能性がある",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【オートファジー】\n空腹時間が続くと、細胞内の浄化作用（オートファジー）が働き、BDNF（脳の栄養）が増えることが動物実験などで示唆されています。\n\n💡 Try this: 無理のない範囲で、夕食から翌日の朝食までの時間を12時間空けてみましょう。",
+    "source_id": "intermittent_fasting_bdnf_2019",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l03_015",
+    "type": "multiple_choice",
+    "question": "🌶️ 辛い食べ物（カプサイシン）の効果は？",
+    "choices": [
+      "エンドルフィン（快楽物質）を分泌させる",
+      "ストレスを増やす",
+      "記憶力を下げる"
+    ],
+    "correct_index": 0,
+    "explanation": "【カプサイシン】\n辛味は「痛み」として脳に伝わり、鎮痛作用としてエンドルフィンが分泌され、一時的な高揚感（ランナーズハイに近い）をもたらします。\n\n💡 Try this: 元気を出したい時、適度な辛さの料理を楽しんでみましょう。",
+    "source_id": "capsaicin_endorphin",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l04_001",
+    "type": "multiple_choice",
+    "question": "🧠 運動が「脳の肥料」と呼ばれる理由は？",
+    "choices": [
+      "BDNF（脳由来神経栄養因子）を増やすから",
+      "脳の血流が減るから",
+      "頭が揺れるから"
+    ],
+    "correct_index": 0,
+    "explanation": "【BDNF】\n有酸素運動は、海馬でのBDNF分泌を促し、新しい神経細胞の成長と記憶形成を助けます。まさに「脳の肥料」です。\n\n💡 Try this: 勉強や仕事の前に、20分の早歩きをしてみましょう。記憶力と集中力が上がります。",
+    "source_id": "ratey_spark_2008",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l04_002",
+    "type": "true_false",
+    "question": "🏋️ 筋トレ（レジスタンス運動）は不安軽減に効果がある",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【筋トレとメンタル】\nメタ分析により、筋トレは健常者および精神疾患患者の不安症状を有意に軽減することが示されています。\n\n💡 Try this: 不安を感じたら、スクワットや腕立て伏せを10回やってみましょう。",
+    "source_id": "resistance_training_anxiety_meta_2017",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l04_003",
+    "type": "multiple_choice",
+    "question": "🚶 「スタンディングデスク」の効果は？",
+    "choices": [
+      "座りすぎによる健康リスクを減らし、認知機能を維持する",
+      "足が疲れて集中できない",
+      "特にない"
+    ],
+    "correct_index": 0,
+    "explanation": "【座りすぎの害】\n長時間の座位は血流を悪化させ、脳への酸素供給を減らします。立つことで血流が改善し、覚醒度が上がります。\n\n💡 Try this: 1時間に1回は立ち上がり、5分間立って作業するかストレッチしましょう。",
+    "source_id": "sedentary_behavior_cognition_2018",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l04_004",
+    "type": "multiple_choice",
+    "question": "🌲 「グリーン・エクササイズ」とは？",
+    "choices": [
+      "自然の中で運動すること",
+      "緑色の服を着て運動すること",
+      "野菜を食べながら運動すること"
+    ],
+    "correct_index": 0,
+    "explanation": "【自然の効果】\n公園や森など、自然の中で運動すると、ジムでの運動以上にストレスホルモンが減少し、自尊心が向上します。\n\n💡 Try this: 休日はジムではなく、近くの公園や河川敷を散歩・ランニングしましょう。",
+    "source_id": "green_exercise_review_2011",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l04_005",
+    "type": "true_false",
+    "question": "🧘 ヨガはGABA（リラックス物質）を増やす",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【ヨガと脳】\n研究では、1時間のヨガセッション後に脳内のGABAレベルが有意に上昇することが確認されています。これは抗不安薬と同様の作用機序です。\n\n💡 Try this: 寝る前に10分間、簡単なヨガやストレッチを行いましょう。",
+    "source_id": "yoga_gaba_levels_2010",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l04_006",
+    "type": "multiple_choice",
+    "question": "🏃 「HIIT」（高強度インターバルトレーニング）の時短効果は？",
+    "choices": [
+      "短時間でミトコンドリア機能を高め、脳機能も向上させる",
+      "長時間やらないと意味がない",
+      "体に悪すぎる"
+    ],
+    "correct_index": 0,
+    "explanation": "【HIIT】\n「20秒全力＋10秒休憩」などを繰り返すHIITは、短時間で心肺機能とBDNFレベルを向上させます。忙しい人に最適です。\n\n💡 Try this: 時間がない日は、4分間の「タバタ式トレーニング」を試してみましょう。",
+    "source_id": "hiit_bdnf_cognitive_2019",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l04_007",
+    "type": "multiple_choice",
+    "question": "💃 ダンスが脳に良い特別な理由は？",
+    "choices": [
+      "有酸素運動＋認知的負荷（振付を覚える）の二重課題だから",
+      "音楽が楽しいから",
+      "仲間がいるから"
+    ],
+    "correct_index": 0,
+    "explanation": "【デュアルタスク】\n体を動かしながら、リズムに合わせ、振付を記憶するダンスは、脳の複数領域を同時に使い、認知症予防にも効果的です。\n\n💡 Try this: 好きな音楽に合わせて、即興で体を動かしてみましょう。",
+    "source_id": "dance_neuroplasticity_2017",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l04_008",
+    "type": "true_false",
+    "question": "🚶 散歩は「拡散的思考」（アイデア出し）を促進する",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【歩行と創造性】\nスタンフォード大の研究で、座っている時より歩いている時の方が、創造的アイデアの数が60%増加しました。\n\n💡 Try this: アイデアに詰まったら、PCを置いて外を歩きながら考えましょう。",
+    "source_id": "walking_creativity_oppezzo_2014",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l04_009",
+    "type": "multiple_choice",
+    "question": "🧠 運動直後に記憶力が上がるタイミングは？",
+    "choices": [
+      "学習の直後または直前",
+      "学習の10時間後",
+      "いつでも同じ"
+    ],
+    "correct_index": 0,
+    "explanation": "【運動と記憶】\n学習の直後に軽い運動をすると、記憶の定着（固定化）が促進されます。また、直前の運動は覚醒度を高め、学習準備を整えます。\n\n💡 Try this: 暗記科目の勉強をした後、軽く体を動かして記憶を定着させましょう。",
+    "source_id": "exercise_memory_consolidation_2012",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l04_010",
+    "type": "multiple_choice",
+    "question": "🧘 「NEAT」（非運動性熱産生）とは？",
+    "choices": [
+      "日常生活での活動（階段、掃除など）によるカロリー消費",
+      "ジムでの運動",
+      "寝ている時の代謝"
+    ],
+    "correct_index": 0,
+    "explanation": "【NEAT】\nジムに行かなくても、階段を使う、立って話す、掃除するなど、日常の活動量を増やすだけで、肥満や生活習慣病リスクが下がります。\n\n💡 Try this: エレベーターではなく階段を使うことを「毎日のルール」にしましょう。",
+    "source_id": "neat_levine_2002",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l04_011",
+    "type": "true_false",
+    "question": "💪 運動は「自己効力感」（自分ならできるという感覚）を高める",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【達成体験】\n「5km走れた」「重量が上がった」という身体的な達成感は、精神的な自信（自己効力感）に直結し、仕事や生活の他の分野にも波及します。\n\n💡 Try this: 小さな運動目標（例：毎日腕立て10回）を立て、達成記録をつけましょう。",
+    "source_id": "exercise_self_efficacy_review",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l04_012",
+    "type": "multiple_choice",
+    "question": "🧠 「海馬」はストレスで萎縮するが、運動でどうなる？",
+    "choices": [
+      "大きくなる（再生する）",
+      "変わらない",
+      "さらに萎縮する"
+    ],
+    "correct_index": 0,
+    "explanation": "【神経新生】\n海馬は生涯を通じて新しい神経細胞を生み出せる数少ない脳領域です。有酸素運動はこの神経新生を強力に促進し、ストレスによるダメージを修復します。\n\n💡 Try this: ストレスを感じる時期こそ、意識的に有酸素運動を取り入れましょう。",
+    "source_id": "exercise_hippocampus_volume_2011",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l04_013",
+    "type": "multiple_choice",
+    "question": "🤝 「ソーシャル・エクササイズ」（チームスポーツ）の利点は？",
+    "choices": [
+      "運動効果＋社会的つながりによるオキシトシン分泌",
+      "競争心がストレスになる",
+      "一人の方が集中できる"
+    ],
+    "correct_index": 0,
+    "explanation": "【社会的つながり】\n誰かと一緒に運動すると、幸福ホルモン（オキシトシン）が分泌され、運動の継続率も上がります。\n\n💡 Try this: 友人を誘ってウォーキングやスポーツをしてみましょう。",
+    "source_id": "group_exercise_quality_life_2017",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l04_014",
+    "type": "true_false",
+    "question": "🏃 運動不足は、喫煙と同じくらい健康リスクが高い",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【座りすぎの死亡リスク】\n「Sitting is the new smoking」と言われるように、運動不足は心疾患や糖尿病のリスクを高め、世界的な死亡原因の上位に位置します。\n\n💡 Try this: 「運動は薬」と考え、毎日少しでも体を動かすことを優先しましょう。",
+    "source_id": "inactivity_mortality_lancet_2012",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l04_015",
+    "type": "multiple_choice",
+    "question": "🧘 運動後の「クールダウン」の心理的効果は？",
+    "choices": [
+      "副交感神経への切り替えをスムーズにし、リラックスを促す",
+      "筋肉痛を防ぐだけ",
+      "特にない"
+    ],
+    "correct_index": 0,
+    "explanation": "【自律神経の調整】\n急に運動を止めると交感神経が高ぶったままになります。徐々に強度を落とすことで、心身をリラックスモードへ安全に移行させます。\n\n💡 Try this: 運動の最後は、深呼吸しながらゆっくりストレッチをして終わりましょう。",
+    "source_id": "cooldown_autonomic_recovery",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l05_001",
+    "type": "multiple_choice",
+    "question": "⚡ ストレスホルモン「コルチゾール」の役割は？",
+    "choices": [
+      "血糖値を上げ、闘争・逃走反応を準備する",
+      "眠気を誘う",
+      "筋肉をリラックスさせる"
+    ],
+    "correct_index": 0,
+    "explanation": "【コルチゾール】\n朝に分泌されて目覚めを促し、ストレス時にはエネルギーを動員します。しかし、夜に高いままだと不眠や脳の萎縮を招きます。\n\n💡 Try this: 夜のリラックスタイムを作り、コルチゾールを下げてから眠りにつきましょう。",
+    "source_id": "cortisol_function_review",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l05_002",
+    "type": "true_false",
+    "question": "💓 HRV（心拍変動）が高いほど、ストレス状態である",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 1,
+    "explanation": "【HRVと自律神経】\nHRV（心拍の間隔のゆらぎ）は「高い」方が良い状態です。リラックス（副交感神経優位）していると心拍はゆらぎ、ストレス（交感神経優位）だと一定になります。\n\n💡 Try this: スマートウォッチなどでHRVを計測し、自分のストレス状態を客観視してみましょう。",
+    "source_id": "hrv_stress_index_review",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l05_003",
+    "type": "multiple_choice",
+    "question": "🧠 「HPA軸」とは？",
+    "choices": [
+      "視床下部-下垂体-副腎によるストレス応答システム",
+      "脳と腸のつながり",
+      "睡眠のリズム"
+    ],
+    "correct_index": 0,
+    "explanation": "【HPA軸】\nストレスを感じると、脳（視床下部）から指令が出て、最終的に副腎からコルチゾールが出ます。慢性ストレスはこの軸を暴走させます。\n\n💡 Try this: 慢性ストレスを感じたら、マインドフルネスや自然接触でHPA軸を鎮静化させましょう。",
+    "source_id": "hpa_axis_stress_2011",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l05_004",
+    "type": "multiple_choice",
+    "question": "🔥 「慢性炎症」が万病の元と言われる理由は？",
+    "choices": [
+      "免疫系が常に攻撃状態になり、組織を傷つけるから",
+      "体温が上がりすぎるから",
+      "痛みが続くから"
+    ],
+    "correct_index": 0,
+    "explanation": "【慢性炎症】\nストレス、肥満、睡眠不足は体内で弱い炎症（ボヤ）を続かせます。これがうつ病、心疾患、認知症などの根本原因になります。\n\n💡 Try this: 抗炎症作用のある生活（十分な睡眠、運動、野菜摂取）を心がけましょう。",
+    "source_id": "chronic_inflammation_disease_2012",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l05_005",
+    "type": "true_false",
+    "question": "😭 涙を流す（情動的な涙）とストレス解消になる",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【涙の効用】\n感情による涙には、ACTH（ストレスホルモンの材料）が含まれており、泣くことで物理的にストレス物質を体外へ排出している説があります。\n\n💡 Try this: 辛い時は我慢せず、泣ける映画などを観て思いっきり泣く「涙活」をしましょう。",
+    "source_id": "crying_stress_relief_theory",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l05_006",
+    "type": "multiple_choice",
+    "question": "🧘 「迷走神経」を刺激するとどうなる？",
+    "choices": [
+      "副交感神経が活性化し、即座にリラックスする",
+      "心拍数が上がる",
+      "不安になる"
+    ],
+    "correct_index": 0,
+    "explanation": "【迷走神経】\n脳から内臓に伸びる最大の神経。ゆっくり吐く呼吸や、冷たい水で顔を洗うことで刺激でき、心拍を下げて落ち着きを取り戻せます。\n\n💡 Try this: パニックになりそうな時は、冷たい水を顔にかけるか、首筋を冷やしてみましょう（潜水反射）。",
+    "source_id": "vagus_nerve_stimulation_review",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l05_007",
+    "type": "multiple_choice",
+    "question": "🌲 「森林浴」の科学的効果は？",
+    "choices": [
+      "フィトンチッド（樹木の香り）がNK細胞を活性化し、ストレスを下げる",
+      "ただの気分転換",
+      "虫に刺されるだけ"
+    ],
+    "correct_index": 0,
+    "explanation": "【フィトンチッド】\n樹木が発散する化学物質には、人間の免疫機能を高め、コルチゾールを下げる効果が実証されています。\n\n💡 Try this: 月に1回は自然豊かな場所に行き、五感で森を感じましょう。",
+    "source_id": "forest_bathing_immunity_2010",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l05_008",
+    "type": "true_false",
+    "question": "🤝 オキシトシン（愛情ホルモン）はストレスを打ち消す",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【バッファー効果】\nオキシトシンはコルチゾールの分泌を抑制し、扁桃体の活動を鎮めます。スキンシップや親切な行動で分泌されます。\n\n💡 Try this: ペットを撫でたり、家族とハグしたり、誰かに親切にすることでオキシトシンを増やしましょう。",
+    "source_id": "oxytocin_stress_buffering_2003",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l05_009",
+    "type": "multiple_choice",
+    "question": "🧠 「アロスタティック負荷」とは？",
+    "choices": [
+      "慢性ストレスによる心身の摩耗・蓄積ダメージ",
+      "一時的なストレス反応",
+      "筋肉の負荷"
+    ],
+    "correct_index": 0,
+    "explanation": "【アロスタシス】\n体は環境に適応しようと頑張りますが（アロスタシス）、それが長く続くと負荷（ロード）がかかり、病気になります。\n\n💡 Try this: 「まだ頑張れる」と思っても、定期的に完全な休息（ダウンタイム）を取り、負荷をリセットしましょう。",
+    "source_id": "allostatic_load_mcewen_1998",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l05_010",
+    "type": "multiple_choice",
+    "question": "🌬️ 口呼吸より「鼻呼吸」が良い理由は？",
+    "choices": [
+      "一酸化窒素が産生され、酸素摂取効率が上がり、副交感神経が働く",
+      "口が乾かないからだけ",
+      "特に違いはない"
+    ],
+    "correct_index": 0,
+    "explanation": "【鼻呼吸のメリット】\n鼻腔で産生される一酸化窒素は血管を拡張し、酸素の取り込みを助けます。また、鼻呼吸は脳を冷却し、リラックス効果もあります。\n\n💡 Try this: 日中も寝る時も、意識的に口を閉じ、鼻呼吸を心がけましょう（マウステープも有効）。",
+    "source_id": "nasal_breathing_benefits_review",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l05_011",
+    "type": "true_false",
+    "question": "🔥 サウナ（温熱療法）はうつ症状を改善する可能性がある",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【温熱療法】\n深部体温を上げることで、抗うつ効果やリラックス効果が得られるという研究があります。サウナ後の「整う」感覚は自律神経のリセットです。\n\n💡 Try this: 週1回サウナに行き、温冷交代浴で自律神経を整えてみましょう（無理は禁物）。",
+    "source_id": "sauna_depression_study_2016",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l05_012",
+    "type": "multiple_choice",
+    "question": "🧘 「プログレッシブ筋弛緩法」のやり方は？",
+    "choices": [
+      "筋肉にわざと力を入れて緊張させ、一気に脱力する",
+      "ずっと力を抜く",
+      "マッサージを受ける"
+    ],
+    "correct_index": 0,
+    "explanation": "【筋弛緩法】\n「緊張→弛緩」の落差を作ることで、強制的に筋肉を緩め、リラックス状態を作ります。肩こりや不眠に有効です。\n\n💡 Try this: 肩を耳に近づけるようにギュッと力を入れ、ストンと落とす。これを3回繰り返しましょう。",
+    "source_id": "progressive_muscle_relaxation_jacobson",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l05_013",
+    "type": "multiple_choice",
+    "question": "🧠 ストレスで「前頭前野」が機能不全になるとどうなる？",
+    "choices": [
+      "衝動的になり、感情コントロールができなくなる",
+      "計算が速くなる",
+      "記憶力が良くなる"
+    ],
+    "correct_index": 0,
+    "explanation": "【理性の脳】\n前頭前野は「司令塔」ですが、ストレスに弱いです。強いストレス下では、原始的な脳（扁桃体など）に乗っ取られ、冷静な判断ができなくなります。\n\n💡 Try this: イライラして判断できない時は、「今は前頭前野がダウンしている」と自覚し、重要な決定を先送りしましょう。",
+    "source_id": "pfc_stress_arnsten_2009",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l05_014",
+    "type": "true_false",
+    "question": "🗣️ 独り言（セルフトーク）で自分を励ますのは効果がある",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【サードパーソン・セルフトーク】\n自分に対して「私はできる」ではなく、「〇〇（自分の名前）、君ならできる」と三人称で語りかけると、客観性が生まれ、ストレスが下がります。\n\n💡 Try this: プレッシャーがかかる場面で、自分の名前を使って心の中で励ましてみましょう。",
+    "source_id": "third_person_self_talk_2014",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l05_015",
+    "type": "multiple_choice",
+    "question": "🛌 「睡眠不足」と「不安」の関係は？",
+    "choices": [
+      "睡眠不足は、脳の「不安ブレーキ（前頭前野）」を弱める",
+      "関係ない",
+      "睡眠不足だと不安を感じなくなる"
+    ],
+    "correct_index": 0,
+    "explanation": "【睡眠と感情制御】\nカリフォルニア大学の研究で、睡眠不足の脳は、不安誘発画像に対して扁桃体が過剰反応し、前頭前野がそれを抑えられないことが示されました。\n\n💡 Try this: 不安が強い時こそ、何よりも「睡眠確保」を最優先事項にしましょう。",
+    "source_id": "sleep_loss_anxiety_walker_2019",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l06_001",
+    "type": "multiple_choice",
+    "question": "🌍 長寿地域「ブルーゾーン」の共通点は？",
+    "choices": [
+      "適度な運動、腹八分目、植物中心、強い社会的つながり",
+      "高価なサプリメント",
+      "激しいトレーニング"
+    ],
+    "correct_index": 0,
+    "explanation": "【ブルーゾーン】\n沖縄やサルデーニャ島などの長寿地域では、ジムではなく「生活の中での動き」、満腹まで食べない、孤独でないことなどが共通しています。\n\n💡 Try this: 「Power 9（健康長寿の9つのルール）」を参考に、生活の中に自然な運動とコミュニティを取り入れましょう。",
+    "source_id": "blue_zones_buettner",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l06_002",
+    "type": "true_false",
+    "question": "🧬 テロメア（染色体の端）は、生活習慣で伸び縮みする",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【細胞の老化】\nテロメアは老化とともに短くなりますが、ストレス管理、運動、良い食事によって短縮を防いだり、酵素（テロメラーゼ）活性化で修復できる可能性があります。\n\n💡 Try this: 健康的な生活は「遺伝子のスイッチ」を変えると信じ、良い習慣を続けましょう。",
+    "source_id": "telomere_lifestyle_blackburn_2009",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l06_003",
+    "type": "multiple_choice",
+    "question": "🧠 「神経可塑性」（ニューロプラスティシティ）とは？",
+    "choices": [
+      "脳は何歳になっても変化・成長できる性質",
+      "脳は子供の時しか成長しない",
+      "脳は硬い"
+    ],
+    "correct_index": 0,
+    "explanation": "【脳の可塑性】\nかつて脳細胞は減る一方と考えられていましたが、適切な刺激（学習、運動、新しい経験）があれば、高齢になっても回路を組み替えられます。\n\n💡 Try this: 「もう年だから」と言わず、新しいスキル（楽器、語学など）に挑戦し続けましょう。",
+    "source_id": "neuroplasticity_adult_review",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l06_004",
+    "type": "multiple_choice",
+    "question": "🔄 習慣化にかかる平均日数は？",
+    "choices": [
+      "約66日",
+      "21日",
+      "3日"
+    ],
+    "correct_index": 0,
+    "explanation": "【習慣化の期間】\nロンドン大学の研究では、行動が自動化するまで平均66日かかりました（幅は18〜254日）。「三日坊主」で諦めるのは早すぎます。\n\n💡 Try this: 少なくとも2ヶ月は「意識的な努力」が必要だと覚悟し、淡々と続けましょう。",
+    "source_id": "habit_formation_66days_lally_2010",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l06_005",
+    "type": "true_false",
+    "question": "📉 「20秒ルール」は悪い習慣を減らすのに役立つ",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【ショーン・エイカー】\n悪い習慣（スマホなど）を始める手間を20秒増やすだけで、実行頻度が激減します。逆に良い習慣は手間を20秒減らします。\n\n💡 Try this: スマホを別の部屋に置く、アプリをフォルダの奥に入れるなど、アクセスを面倒にしましょう。",
+    "source_id": "happiness_advantage_anchor_2010",
+    "difficulty": "easy",
+    "xp": 5
+  },
+  {
+    "id": "health_l06_006",
+    "type": "multiple_choice",
+    "question": "🧘 「マインドフル・イーティング」（食べる瞑想）の効果は？",
+    "choices": [
+      "過食を防ぎ、食事の満足度を高める",
+      "味がしなくなる",
+      "早食いになる"
+    ],
+    "correct_index": 0,
+    "explanation": "【マインドフル・イーティング】\nスマホを見ながらではなく、味、香り、食感に集中して食べることで、脳が「食べた」と認識しやすくなり、自然に量が減ります。\n\n💡 Try this: 最初の一口だけでも、目を閉じて30回噛み、素材の味を完全に感じ取ってみましょう。",
+    "source_id": "mindful_eating_review_2017",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l06_007",
+    "type": "multiple_choice",
+    "question": "🤝 「孤独」の健康リスクは？",
+    "choices": [
+      "1日タバコ15本分に相当し、死亡率を高める",
+      "特にない",
+      "一人が一番健康的"
+    ],
+    "correct_index": 0,
+    "explanation": "【孤独の害】\n社会的なつながりの欠如は、肥満や運動不足よりも死亡リスクが高いことがメタ分析で示されています。人間は社会的な動物です。\n\n💡 Try this: 週に1回は友人や家族と連絡を取り、質の高い会話（雑談ではなく感情の共有）をしましょう。",
+    "source_id": "loneliness_mortality_meta_2010",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l06_008",
+    "type": "true_false",
+    "question": "🧠 「認知予備能」が高いと、認知症の発症を遅らせられる",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【認知予備能】\n教育、知的活動、社会参加などで脳のネットワークを豊かにしておくと、脳に病変があっても機能を維持できます（予備タンクがある状態）。\n\n💡 Try this: 読書、パズル、新しい趣味など、脳に汗をかく活動を生涯続けましょう。",
+    "source_id": "cognitive_reserve_stern_2002",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l06_009",
+    "type": "multiple_choice",
+    "question": "🔥 「ホルミシス効果」とは？",
+    "choices": [
+      "微量の毒やストレスが、逆に体に良い刺激となること",
+      "毒は毒である",
+      "完全にストレスゼロが良い"
+    ],
+    "correct_index": 0,
+    "explanation": "【ホルミシス】\n適度な運動、断食、サウナ、野菜の苦味成分などは、体に軽いストレスを与え、防御機能を活性化させて健康にします。\n\n💡 Try this: 「楽なこと」ばかりでなく、あえて少しキツイこと（運動など）をして細胞を鍛えましょう。",
+    "source_id": "hormesis_aging_review",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l06_010",
+    "type": "multiple_choice",
+    "question": "🎯 「アイデンティティ・ベース」の習慣形成とは？",
+    "choices": [
+      "「私は健康な人だ」という自己像から行動を変える",
+      "目標（5kg痩せる）だけを追う",
+      "ご褒美で釣る"
+    ],
+    "correct_index": 0,
+    "explanation": "【ジェームズ・クリアー】\n「タバコを辞めようとしている人」ではなく「私は非喫煙者だ」と思うこと。行動はアイデンティティの投票です。\n\n💡 Try this: 「私はランナーだ」「私は読書家だ」と自分にラベルを貼り、それにふさわしい行動を選びましょう。",
+    "source_id": "atomic_habits_identity",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l06_011",
+    "type": "true_false",
+    "question": "🛌 睡眠薬は自然な睡眠と同じ効果がある",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 1,
+    "explanation": "【睡眠薬の限界】\n多くの睡眠薬は「鎮静（Sedation）」状態を作るもので、自然な睡眠の複雑な修復プロセス（特に深い睡眠やレム睡眠）を完全には再現しません。\n\n💡 Try this: 薬に頼る前に、CBT-I（睡眠のための認知行動療法）のアプローチを試してみましょう。",
+    "source_id": "sleep_medication_vs_cbti",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l06_012",
+    "type": "multiple_choice",
+    "question": "🧘 「コンパッション（慈悲）」が健康に良い理由は？",
+    "choices": [
+      "迷走神経を活性化し、炎症を抑えるから",
+      "良い人に見えるから",
+      "特にない"
+    ],
+    "correct_index": 0,
+    "explanation": "【慈悲と生理学】\n他者への思いやりや、自分への優しさ（セルフコンパッション）を持つと、オキシトシンが出て、心拍数が落ち着き、免疫系が整います。\n\n💡 Try this: 1日1回、誰かの幸せを心の中で願う「慈悲の瞑想」を1分間行ってみましょう。",
+    "source_id": "compassion_vagus_nerve_2010",
+    "difficulty": "hard",
+    "xp": 15
+  },
+  {
+    "id": "health_l06_013",
+    "type": "multiple_choice",
+    "question": "🌳 「バイオフィリア仮説」とは？",
+    "choices": [
+      "人間は本能的に自然を愛し、自然の中にいると健康になる",
+      "人間は機械が好き",
+      "人間は都会が好き"
+    ],
+    "correct_index": 0,
+    "explanation": "【E.O.ウィルソン】\n人類史の99.9%は自然の中で過ごしました。だから脳は自然環境でリラックスするようにできています。都会の喧騒は脳に負担です。\n\n💡 Try this: 部屋に観葉植物を置いたり、PCの壁紙を自然の風景にするだけでも効果があります。",
+    "source_id": "biophilia_hypothesis_1984",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l06_014",
+    "type": "true_false",
+    "question": "🧠 「主観的年齢」（自分を何歳だと思うか）は寿命に影響する",
+    "choices": [
+      "正しい",
+      "誤り"
+    ],
+    "correct_index": 0,
+    "explanation": "【気の持ちよう】\n実年齢より「自分は若い」と思っている人は、死亡率が低く、脳も若いという研究があります。ネガティブなエイジング・ステレオタイプは健康を害します。\n\n💡 Try this: 年齢を言い訳にせず、「今の自分が一番若い」と思って活動的に過ごしましょう。",
+    "source_id": "subjective_age_mortality_2018",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l06_015",
+    "type": "multiple_choice",
+    "question": "🌟 「イキガイ（Ikigai）」の健康効果は？",
+    "choices": [
+      "人生の目的を持つ人は、心血管疾患リスクが低く長生きする",
+      "日本だけの迷信",
+      "お金持ちになる"
+    ],
+    "correct_index": 0,
+    "explanation": "【生きがい】\n日本の「生きがい」概念は世界中で注目されています。朝起きる理由（目的）があることは、強力な健康因子です。\n\n💡 Try this: 小さなことでもいいので、自分の「生きがい（好きなこと×得意なこと×人の役に立つこと）」を探してみましょう。",
+    "source_id": "ikigai_longevity_study_2008",
+    "difficulty": "medium",
+    "xp": 10
+  },
+  {
+    "id": "health_l07_sleep_01",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "睡眠サイクル",
+    "statement": "一晩の睡眠は、約90分周期で繰り返されるREM睡眠とノンREM睡眠のサイクルから成る。",
+    "is_true": true,
+    "explanation": "睡眠は約90分（70-120分）のサイクルで、ノンREM睡眠（ステージ1-4）とREM睡眠を繰り返します。一晩で通常4-6サイクル経験します（Walker, M., 2017）。",
+    "source_id": "Walker, M. (2017). Why We Sleep."
+  },
+  {
+    "id": "health_l07_sleep_02",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "深い睡眠（ノンREM ステージ3-4）の主な機能は？",
+    "choices": [
+      "記憶の定着と脳の老廃物除去",
+      "夢を見ること",
+      "体温の上昇",
+      "エネルギー消費の増加"
+    ],
+    "correct_index": 0,
+    "explanation": "深い睡眠（徐波睡眠）は、記憶の長期保存、脳の老廃物（アミロイドβなど）の除去、成長ホルモンの分泌に重要です（Walker, 2017）。",
+    "source_id": "Walker, M. (2017). Why We Sleep."
+  },
+  {
+    "id": "health_l07_sleep_03",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "REM睡眠中、脳は活発に活動するが、筋肉は[   ]状態になり、夢の中の行動を実際に行うことを防ぐ。",
+    "choices": [
+      "麻痺",
+      "緊張",
+      "痙攣",
+      "収縮"
+    ],
+    "correct_index": 0,
+    "explanation": "REM睡眠中は「REM睡眠麻痺（REM atonia）」により、骨格筋が一時的に麻痺します。これにより夢の内容を実際に行動に移すことを防ぎます。",
+    "source_id": "Walker, M. (2017). Why We Sleep."
+  },
+  {
+    "id": "health_l07_sleep_04",
+    "type": "sort_order",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "睡眠サイクルの進行順序",
+    "items": [
+      "入眠（ステージ1）",
+      "浅い睡眠（ステージ2）",
+      "深い睡眠（ステージ3-4）",
+      "REM睡眠"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "睡眠は、入眠→浅い睡眠→深い睡眠→REM睡眠の順で進行し、これを一晩で複数回繰り返します。後半のサイクルほどREM睡眠が長くなります。",
+    "source_id": "Walker, M. (2017). Why We Sleep."
+  },
+  {
+    "id": "health_l07_sleep_05",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "睡眠負債",
+    "statement": "週末の寝だめで、平日の睡眠不足を完全に解消できる。",
+    "is_true": false,
+    "explanation": "睡眠負債は蓄積され、週末の寝だめでは完全には解消できません。慢性的な睡眠不足は、認知機能、免疫、代謝に長期的な悪影響を及ぼします（Walker, 2017）。",
+    "source_id": "Walker, M. (2017). Why We Sleep."
+  },
+  {
+    "id": "health_l07_sleep_06",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "睡眠不足が最も影響を与える認知機能は？",
+    "choices": [
+      "注意力と集中力",
+      "言語能力",
+      "視覚認識",
+      "聴覚処理"
+    ],
+    "correct_index": 0,
+    "explanation": "睡眠不足は、前頭前皮質の機能を低下させ、注意力、集中力、意思決定、感情調整に最も大きな影響を与えます。",
+    "source_id": "Walker, M. (2017). Why We Sleep."
+  },
+  {
+    "id": "health_l07_sleep_07",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "睡眠中、脳は[   ]系（グリンパティック系）を活性化し、老廃物を除去する。",
+    "choices": [
+      "リンパ",
+      "神経",
+      "血管",
+      "内分泌"
+    ],
+    "correct_index": 0,
+    "explanation": "睡眠中、グリンパティック系（glymphatic system）が活性化し、脳脊髄液が脳内を循環して、アミロイドβなどの老廃物を除去します（Xie et al., 2013）。",
+    "source_id": "Xie, L., et al. (2013). Sleep drives metabolite clearance from the adult brain."
+  },
+  {
+    "id": "health_l07_sleep_08",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "睡眠と記憶",
+    "statement": "睡眠は、学習した情報を長期記憶に定着させるために不可欠である。",
+    "is_true": true,
+    "explanation": "睡眠、特に深い睡眠とREM睡眠は、記憶の固定化（consolidation）に重要です。睡眠中に海馬から大脳皮質へ情報が転送されます（Walker, 2017）。",
+    "source_id": "Walker, M. (2017). Why We Sleep."
+  },
+  {
+    "id": "health_l07_sleep_09",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "睡眠の質を高めるために最も効果的な習慣は？",
+    "choices": [
+      "毎日同じ時刻に就寝・起床する",
+      "寝る直前に激しい運動をする",
+      "寝室を明るく保つ",
+      "寝る前にカフェインを摂取する"
+    ],
+    "correct_index": 0,
+    "explanation": "規則正しい睡眠スケジュールは、体内時計（概日リズム）を安定させ、睡眠の質を最も効果的に高めます。",
+    "source_id": "Walker, M. (2017). Why We Sleep."
+  },
+  {
+    "id": "health_l07_sleep_10",
+    "type": "sort_order",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "睡眠衛生の優先順位",
+    "items": [
+      "規則正しい睡眠時間",
+      "寝室を暗く涼しく保つ",
+      "カフェイン・アルコールを避ける",
+      "寝る前のスクリーンタイムを減らす"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "睡眠衛生では、まず規則正しいスケジュールを確立し、次に環境を整え、刺激物を避け、最後にブルーライトを減らすことが推奨されます。",
+    "source_id": "Walker, M. (2017). Why We Sleep."
+  },
+  {
+    "id": "health_l07_sleep_11",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "成人の推奨睡眠時間は、一晩あたり[   ]時間である。",
+    "choices": [
+      "7-9",
+      "5-6",
+      "9-11",
+      "4-5"
+    ],
+    "correct_index": 0,
+    "explanation": "米国睡眠医学会（AASM）は、成人に対して7-9時間の睡眠を推奨しています。個人差はありますが、7時間未満は健康リスクが高まります。",
+    "source_id": "Watson, N. F., et al. (2015). Recommended Amount of Sleep for a Healthy Adult."
+  },
+  {
+    "id": "health_l07_sleep_12",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "アルコールと睡眠",
+    "statement": "アルコールは入眠を助けるため、睡眠の質を向上させる。",
+    "is_true": false,
+    "explanation": "アルコールは入眠を早めますが、REM睡眠を抑制し、睡眠の後半で覚醒を増やすため、全体的な睡眠の質を低下させます（Walker, 2017）。",
+    "source_id": "Walker, M. (2017). Why We Sleep."
+  },
+  {
+    "id": "health_l07_sleep_13",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "ブルーライトが睡眠に与える影響は？",
+    "choices": [
+      "メラトニン分泌を抑制し、入眠を遅らせる",
+      "メラトニン分泌を促進し、入眠を早める",
+      "睡眠に影響を与えない",
+      "深い睡眠を増やす"
+    ],
+    "correct_index": 0,
+    "explanation": "ブルーライト（スマホ、PCなど）は、メラトニン（睡眠ホルモン）の分泌を抑制し、体内時計を遅らせ、入眠を困難にします（Chang et al., 2015）。",
+    "source_id": "Chang, A. M., et al. (2015). Evening use of light-emitting eReaders negatively affects sleep."
+  },
+  {
+    "id": "health_l07_sleep_14",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "睡眠不足は、食欲を増進させるホルモン[   ]を増加させ、肥満のリスクを高める。",
+    "choices": [
+      "グレリン",
+      "レプチン",
+      "インスリン",
+      "コルチゾール"
+    ],
+    "correct_index": 0,
+    "explanation": "睡眠不足はグレリン（食欲増進ホルモン）を増加させ、レプチン（満腹ホルモン）を減少させるため、過食と肥満のリスクが高まります（Taheri et al., 2004）。",
+    "source_id": "Taheri, S., et al. (2004). Short sleep duration is associated with reduced leptin, elevated ghrelin."
+  },
+  {
+    "id": "health_l07_sleep_15",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "昼寝の効果",
+    "statement": "20-30分の短い昼寝は、午後の認知機能とパフォーマンスを向上させる。",
+    "is_true": true,
+    "explanation": "20-30分の「パワーナップ」は、深い睡眠に入る前に目覚めるため、覚醒後のぼんやり感（睡眠慣性）を避けつつ、注意力と記憶を改善します（Mednick et al., 2003）。",
+    "source_id": "Mednick, S., et al. (2003). The restorative effect of naps on perceptual deterioration."
+  },
+  {
+    "id": "health_l08_circadian_01",
+    "type": "sort_order",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "概日リズムの調整プロセス",
+    "items": [
+      "光が網膜に入る",
+      "視交叉上核（SCN）が刺激される",
+      "松果体がメラトニン分泌を調整",
+      "睡眠・覚醒サイクルが調整される"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "光は網膜→視交叉上核（体内時計の中枢）→松果体の経路で、メラトニン分泌を調整し、概日リズムを同調させます（Roenneberg, 2012）。",
+    "source_id": "Roenneberg, T. (2012). Internal Time."
+  },
+  {
+    "id": "health_l08_circadian_02",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "人間の体内時計の自然な周期は、約[   ]時間である。",
+    "choices": [
+      "24.2",
+      "23.5",
+      "25.0",
+      "22.0"
+    ],
+    "correct_index": 0,
+    "explanation": "人間の概日リズムは、外部の光がない状態では約24.2時間（24-25時間）です。毎日、光によって24時間にリセットされます（Czeisler et al., 1999）。",
+    "source_id": "Czeisler, C. A., et al. (1999). Stability, precision, and near-24-hour period of the human circadian pacemaker."
+  },
+  {
+    "id": "health_l08_circadian_03",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "クロノタイプ（朝型・夜型）",
+    "statement": "クロノタイプは遺伝的に決まっており、意志の力では変えられない。",
+    "is_true": true,
+    "explanation": "クロノタイプは遺伝的要因が強く（約50%）、PER3などの遺伝子が関与します。完全に変えることは困難ですが、光療法などで部分的に調整可能です（Roenneberg, 2012）。",
+    "source_id": "Roenneberg, T. (2012). Internal Time."
+  },
+  {
+    "id": "health_l08_circadian_04",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "時差ぼけ（Jet Lag）を最も早く解消する方法は？",
+    "choices": [
+      "到着地の現地時間に合わせて光を浴びる",
+      "到着後すぐに寝る",
+      "カフェインを大量に摂取する",
+      "暗い部屋で過ごす"
+    ],
+    "correct_index": 0,
+    "explanation": "時差ぼけは、体内時計と現地時間のズレが原因です。到着地の朝に明るい光を浴びることで、体内時計を最も早くリセットできます（Eastman & Burgess, 2009）。",
+    "source_id": "Eastman, C. I., & Burgess, H. J. (2009). How to travel the world without jet lag."
+  },
+  {
+    "id": "health_l08_circadian_05",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "夜勤労働者は、[   ]のリスクが高まることが研究で示されている。",
+    "choices": [
+      "がん・心血管疾患",
+      "骨折",
+      "視力低下",
+      "聴力低下"
+    ],
+    "correct_index": 0,
+    "explanation": "夜勤による概日リズムの乱れは、がん（特に乳がん）、心血管疾患、糖尿病、肥満のリスクを高めることが多数の研究で示されています（Schernhammer et al., 2003）。",
+    "source_id": "Schernhammer, E. S., et al. (2003). Night-shift work and risk of colorectal cancer."
+  },
+  {
+    "id": "health_l08_circadian_06",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "社会的時差ぼけ（Social Jet Lag）",
+    "statement": "平日と週末の睡眠時間のズレは、健康に悪影響を与える。",
+    "is_true": true,
+    "explanation": "社会的時差ぼけ（平日と週末の睡眠時間の差）は、肥満、糖尿病、心血管疾患のリスクを高めます。2時間以上のズレは特に有害です（Roenneberg et al., 2012）。",
+    "source_id": "Roenneberg, T., et al. (2012). Social jetlag and obesity."
+  },
+  {
+    "id": "health_l08_circadian_07",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "メラトニンサプリメントの最も効果的な使用法は？",
+    "choices": [
+      "就寝の1-2時間前に少量（0.5-3mg）を摂取",
+      "就寝直前に大量（10mg以上）を摂取",
+      "朝起きた直後に摂取",
+      "昼食後に摂取"
+    ],
+    "correct_index": 0,
+    "explanation": "メラトニンは、就寝の1-2時間前に少量（0.5-3mg）摂取することで、体内時計を調整し、入眠を促進します。大量摂取は効果を高めません（Buscemi et al., 2006）。",
+    "source_id": "Buscemi, N., et al. (2006). Efficacy and safety of exogenous melatonin for secondary sleep disorders."
+  },
+  {
+    "id": "health_l08_circadian_08",
+    "type": "sort_order",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "光療法（Light Therapy）の手順",
+    "items": [
+      "朝起きてすぐに実施",
+      "10,000ルクスの光を使用",
+      "30分間光を浴びる",
+      "毎日同じ時刻に繰り返す"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "光療法は、朝起きてすぐに10,000ルクスの明るい光を30分間浴びることで、体内時計を前進させ、季節性うつ病や概日リズム障害を改善します（Terman & Terman, 2005）。",
+    "source_id": "Terman, M., & Terman, J. S. (2005). Light therapy for seasonal and nonseasonal depression."
+  },
+  {
+    "id": "health_l08_circadian_09",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "体温は、概日リズムに従って変動し、通常[   ]に最低となる。",
+    "choices": [
+      "早朝（午前4-6時）",
+      "正午",
+      "夕方",
+      "深夜0時"
+    ],
+    "correct_index": 0,
+    "explanation": "体温は概日リズムに従い、早朝（午前4-6時頃）に最低となり、夕方（午後4-6時頃）に最高となります。この体温低下が深い睡眠を促進します。",
+    "source_id": "Roenneberg, T. (2012). Internal Time."
+  },
+  {
+    "id": "health_l08_circadian_10",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "概日リズムと運動",
+    "statement": "運動のパフォーマンスは、夕方に最も高くなる。",
+    "is_true": true,
+    "explanation": "筋力、持久力、反応速度は、体温が最高となる夕方（午後4-6時頃）に最も高くなります。ただし、朝の運動も体内時計を前進させる効果があります（Drust et al., 2005）。",
+    "source_id": "Drust, B., et al. (2005). Circadian rhythms in sports performance."
+  },
+  {
+    "id": "health_l08_circadian_11",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "夜間のブルーライト曝露を減らす最も効果的な方法は？",
+    "choices": [
+      "ブルーライトカットメガネを使用する",
+      "画面の明るさを最大にする",
+      "白色光に切り替える",
+      "画面を近づける"
+    ],
+    "correct_index": 0,
+    "explanation": "ブルーライトカットメガネ（琥珀色レンズ）は、夜間のブルーライト曝露を効果的に減らし、メラトニン分泌を保護します。画面のナイトモードも有効です（Burkhart & Phelps, 2009）。",
+    "source_id": "Burkhart, K., & Phelps, J. R. (2009). Amber lenses to block blue light and improve sleep."
+  },
+  {
+    "id": "health_l08_circadian_12",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "概日リズムは、[   ]だけでなく、食事、運動、社会的活動によっても調整される。",
+    "choices": [
+      "光",
+      "音",
+      "温度",
+      "湿度"
+    ],
+    "correct_index": 0,
+    "explanation": "光は最も強力な同調因子（Zeitgeber）ですが、食事時間、運動、社会的活動も体内時計に影響を与えます。これらを組み合わせることで、より効果的にリズムを調整できます。",
+    "source_id": "Roenneberg, T. (2012). Internal Time."
+  },
+  {
+    "id": "health_l08_circadian_13",
+    "type": "swipe_judgment",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "朝型・夜型と生産性",
+    "statement": "朝型の人は、夜型の人よりも生産性が高い。",
+    "is_true": false,
+    "explanation": "朝型・夜型は単なる体内時計の違いであり、どちらが優れているわけではありません。重要なのは、自分のクロノタイプに合わせて活動時間を調整することです（Roenneberg, 2012）。",
+    "source_id": "Roenneberg, T. (2012). Internal Time."
+  },
+  {
+    "id": "health_l08_circadian_14",
+    "type": "multiple_choice",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "概日リズム睡眠障害（CRSD）の治療法として最も効果的なのは？",
+    "choices": [
+      "光療法とメラトニン療法の組み合わせ",
+      "睡眠薬のみ",
+      "カフェインの大量摂取",
+      "完全な暗闇での生活"
+    ],
+    "correct_index": 0,
+    "explanation": "概日リズム睡眠障害（遅延型、前進型など）は、光療法とメラトニン療法を組み合わせることで、体内時計を効果的にリセットできます（Auger et al., 2015）。",
+    "source_id": "Auger, R. R., et al. (2015). Clinical Practice Guideline for the Treatment of Intrinsic Circadian Rhythm Sleep-Wake Disorders."
+  },
+  {
+    "id": "health_l08_circadian_15",
+    "type": "fill_blank",
+    "difficulty": "hard",
+    "xp": 15,
+    "question": "夜勤労働者は、夜勤後に[   ]色の光を避けることで、帰宅後の入眠を促進できる。",
+    "choices": [
+      "青",
+      "赤",
+      "緑",
+      "黄"
+    ],
+    "correct_index": 0,
+    "explanation": "夜勤後は、青色光（ブルーライト）を避けることで、メラトニン分泌を抑制せず、帰宅後の入眠を促進できます。サングラスやブルーライトカットメガネが有効です。",
+    "source_id": "Eastman, C. I., et al. (1994). Bright light treatment of winter depression."
+  },
+  {
+    "id": "health_l09_gut_01",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "腸脳相関（Gut-Brain Axis）において、腸と脳を結ぶ主要な神経は？",
+    "choices": [
+      "迷走神経",
+      "坐骨神経",
+      "視神経",
+      "三叉神経"
+    ],
+    "correct_index": 0,
+    "explanation": "迷走神経は、腸と脳を双方向に結ぶ主要な神経で、腸内細菌の情報を脳に伝え、脳からの信号を腸に伝えます（Mayer, E., 2016）。",
+    "source_id": "Mayer, E. (2016). The Mind-Gut Connection."
+  },
+  {
+    "id": "health_l09_gut_02",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "腸内細菌とセロトニン",
+    "statement": "体内のセロトニンの約90%は、腸で産生される。",
+    "is_true": true,
+    "explanation": "セロトニンの約90%は腸内で産生され、腸の運動や感覚を調整します。腸内細菌はセロトニン産生に影響を与え、気分にも間接的に影響します（Yano et al., 2015）。",
+    "source_id": "Yano, J. M., et al. (2015). Indigenous bacteria from the gut microbiota regulate host serotonin biosynthesis."
+  },
+  {
+    "id": "health_l09_gut_03",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "腸内細菌の多様性を高めるために最も効果的な食事は、[   ]を多く含む食品である。",
+    "choices": [
+      "食物繊維",
+      "砂糖",
+      "飽和脂肪",
+      "塩分"
+    ],
+    "correct_index": 0,
+    "explanation": "食物繊維（野菜、果物、全粒穀物）は、腸内細菌の多様性を高め、有益な短鎖脂肪酸（SCFA）の産生を促進します（Sonnenburg & Sonnenburg, 2014）。",
+    "source_id": "Sonnenburg, E. D., & Sonnenburg, J. L. (2014). Starving our microbial self: the deleterious consequences of a diet deficient in microbiota-accessible carbohydrates."
+  },
+  {
+    "id": "health_l09_gut_04",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "腸内細菌が脳に影響を与える経路",
+    "items": [
+      "腸内細菌が代謝物を産生",
+      "代謝物が腸壁を通過",
+      "迷走神経または血流を介して脳に到達",
+      "脳の神経伝達物質や炎症に影響"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "腸内細菌は、短鎖脂肪酸（SCFA）などの代謝物を産生し、これが迷走神経や血流を介して脳に到達し、神経伝達物質、炎症、気分に影響を与えます（Cryan & Dinan, 2012）。",
+    "source_id": "Cryan, J. F., & Dinan, T. G. (2012). Mind-altering microorganisms: the impact of the gut microbiota on brain and behaviour."
+  },
+  {
+    "id": "health_l09_gut_05",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "プロバイオティクスとメンタルヘルス",
+    "statement": "特定のプロバイオティクス（サイコバイオティクス）は、不安やうつ症状を軽減する可能性がある。",
+    "is_true": true,
+    "explanation": "ラクトバチルスやビフィズス菌などの特定のプロバイオティクス（サイコバイオティクス）は、腸脳相関を介して不安やうつ症状を軽減することが研究で示されています（Dinan et al., 2013）。",
+    "source_id": "Dinan, T. G., et al. (2013). Psychobiotics: a novel class of psychotropic."
+  },
+  {
+    "id": "health_l09_gut_06",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "腸内細菌の多様性が低下する主な原因は？",
+    "choices": [
+      "抗生物質の過剰使用と低繊維食",
+      "運動不足",
+      "睡眠不足",
+      "ストレス"
+    ],
+    "correct_index": 0,
+    "explanation": "抗生物質の過剰使用と低繊維・高脂肪・高糖質の食事は、腸内細菌の多様性を著しく低下させます。運動、睡眠、ストレスも影響しますが、食事と抗生物質が最大の要因です。",
+    "source_id": "Mayer, E. (2016). The Mind-Gut Connection."
+  },
+  {
+    "id": "health_l09_gut_07",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "腸内細菌が産生する短鎖脂肪酸（SCFA）の一つである[   ]は、抗炎症作用を持つ。",
+    "choices": [
+      "酪酸",
+      "乳酸",
+      "クエン酸",
+      "リンゴ酸"
+    ],
+    "correct_index": 0,
+    "explanation": "酪酸（butyrate）は、腸内細菌が食物繊維を発酵させて産生する短鎖脂肪酸で、腸のバリア機能を強化し、抗炎症作用を持ちます（Koh et al., 2016）。",
+    "source_id": "Koh, A., et al. (2016). From Dietary Fiber to Host Physiology: Short-Chain Fatty Acids as Key Bacterial Metabolites."
+  },
+  {
+    "id": "health_l09_gut_08",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "リーキーガット症候群",
+    "statement": "腸のバリア機能が低下すると、細菌や毒素が血流に漏れ出し、全身性炎症を引き起こす可能性がある。",
+    "is_true": true,
+    "explanation": "リーキーガット（腸管透過性亢進）は、腸壁のタイトジャンクションが緩み、細菌や毒素が血流に漏れ出す状態です。これが全身性炎症、自己免疫疾患、メンタルヘルス問題に関連する可能性があります（Fasano, 2012）。",
+    "source_id": "Fasano, A. (2012). Leaky gut and autoimmune diseases."
+  },
+  {
+    "id": "health_l09_gut_09",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "発酵食品が腸内環境に与える効果は？",
+    "choices": [
+      "有益な乳酸菌を供給し、腸内細菌の多様性を高める",
+      "腸内細菌を完全に除去する",
+      "腸の運動を停止させる",
+      "炎症を悪化させる"
+    ],
+    "correct_index": 0,
+    "explanation": "ヨーグルト、キムチ、納豆などの発酵食品は、生きた乳酸菌を供給し、腸内細菌の多様性を高め、腸の健康を促進します（Tamang et al., 2016）。",
+    "source_id": "Tamang, J. P., et al. (2016). Fermented foods in a global age: East meets West."
+  },
+  {
+    "id": "health_l09_gut_10",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "腸内環境を改善する食事の優先順位",
+    "items": [
+      "食物繊維を増やす（野菜、果物、全粒穀物）",
+      "発酵食品を取り入れる（ヨーグルト、キムチ）",
+      "加工食品と砂糖を減らす",
+      "プロバイオティクスサプリメントを検討"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "腸内環境改善は、まず食物繊維を増やし、発酵食品を取り入れ、加工食品を減らすことが基本です。サプリメントは補助的に使用します。",
+    "source_id": "Mayer, E. (2016). The Mind-Gut Connection."
+  },
+  {
+    "id": "health_l09_gut_11",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "ストレスは、[   ]を介して腸内細菌の組成を変化させる。",
+    "choices": [
+      "HPA軸",
+      "視床下部",
+      "海馬",
+      "扁桃体"
+    ],
+    "correct_index": 0,
+    "explanation": "ストレスはHPA軸（視床下部-下垂体-副腎軸）を活性化し、コルチゾールを分泌させます。これが腸の運動、分泌、バリア機能に影響し、腸内細菌の組成を変化させます（Mayer, 2016）。",
+    "source_id": "Mayer, E. (2016). The Mind-Gut Connection."
+  },
+  {
+    "id": "health_l09_gut_12",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "腸内細菌と肥満",
+    "statement": "肥満者と痩せ型の人では、腸内細菌の組成が異なる。",
+    "is_true": true,
+    "explanation": "肥満者は、ファーミキューテス門の細菌が多く、バクテロイデーテス門が少ない傾向があります。腸内細菌は、エネルギー代謝、脂肪蓄積、炎症に影響を与えます（Turnbaugh et al., 2006）。",
+    "source_id": "Turnbaugh, P. J., et al. (2006). An obesity-associated gut microbiome with increased capacity for energy harvest."
+  },
+  {
+    "id": "health_l09_gut_13",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "プレバイオティクスとプロバイオティクスの違いは？",
+    "choices": [
+      "プレバイオティクスは腸内細菌の餌、プロバイオティクスは生きた菌",
+      "プレバイオティクスは生きた菌、プロバイオティクスは餌",
+      "両方とも同じもの",
+      "両方とも薬"
+    ],
+    "correct_index": 0,
+    "explanation": "プレバイオティクスは、腸内細菌の餌となる食物繊維（イヌリン、オリゴ糖など）です。プロバイオティクスは、生きた有益な菌（乳酸菌、ビフィズス菌など）です。",
+    "source_id": "Gibson, G. R., et al. (2017). Expert consensus document: The International Scientific Association for Probiotics and Prebiotics."
+  },
+  {
+    "id": "health_l09_gut_14",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "腸内細菌は、ビタミン[   ]を産生し、宿主に供給する。",
+    "choices": [
+      "K",
+      "C",
+      "D",
+      "A"
+    ],
+    "correct_index": 0,
+    "explanation": "腸内細菌は、ビタミンK、ビタミンB群（B12、葉酸など）を産生し、宿主の栄養状態に貢献します。",
+    "source_id": "LeBlanc, J. G., et al. (2013). Bacteria as vitamin suppliers to their host."
+  },
+  {
+    "id": "health_l09_gut_15",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "糞便移植（FMT）",
+    "statement": "健康なドナーの腸内細菌を移植することで、難治性のクロストリジウム・ディフィシル感染症を治療できる。",
+    "is_true": true,
+    "explanation": "糞便移植（FMT）は、健康なドナーの腸内細菌を患者に移植する治療法で、クロストリジウム・ディフィシル感染症に対して90%以上の治癒率を示します（van Nood et al., 2013）。",
+    "source_id": "van Nood, E., et al. (2013). Duodenal infusion of donor feces for recurrent Clostridium difficile."
+  },
+  {
+    "id": "health_l10_hiit_01",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIIT（高強度インターバルトレーニング）",
+    "statement": "HIITは、短時間で有酸素運動と同等以上の効果を得られる。",
+    "is_true": true,
+    "explanation": "HIITは、短時間（10-20分）の高強度運動で、長時間の有酸素運動と同等以上の心肺機能向上、脂肪燃焼、インスリン感受性改善効果を得られます（Gibala, M., 2017）。",
+    "source_id": "Gibala, M. (2017). The One-Minute Workout."
+  },
+  {
+    "id": "health_l10_hiit_02",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITが脂肪燃焼に効果的な理由は？",
+    "choices": [
+      "運動後も代謝が高い状態（EPOC）が続くため",
+      "運動中のカロリー消費が多いため",
+      "筋肉量が急激に増えるため",
+      "食欲が完全に抑制されるため"
+    ],
+    "correct_index": 0,
+    "explanation": "HIITは、運動後も酸素消費量が増加する「EPOC（運動後過剰酸素消費）」を引き起こし、24-48時間代謝が高い状態が続くため、脂肪燃焼効果が高いです（Borsheim & Bahr, 2003）。",
+    "source_id": "Borsheim, E., & Bahr, R. (2003). Effect of exercise intensity, duration and mode on post-exercise oxygen consumption."
+  },
+  {
+    "id": "health_l10_hiit_03",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITは、ミトコンドリアの数と機能を増加させる[   ]を活性化する。",
+    "choices": [
+      "PGC-1α",
+      "mTOR",
+      "AMPK",
+      "IGF-1"
+    ],
+    "correct_index": 0,
+    "explanation": "HIITは、PGC-1α（ペルオキシソーム増殖因子活性化受容体γコアクチベーター1α）を活性化し、ミトコンドリアの生合成（mitochondrial biogenesis）を促進します（Little et al., 2010）。",
+    "source_id": "Little, J. P., et al. (2010). A practical model of low-volume high-intensity interval training induces mitochondrial biogenesis."
+  },
+  {
+    "id": "health_l10_hiit_04",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITセッションの典型的な構成",
+    "items": [
+      "ウォームアップ（5分）",
+      "高強度インターバル（20-30秒）",
+      "低強度リカバリー（1-2分）",
+      "クールダウン（5分）"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "HIITは、ウォームアップ後、高強度運動（最大心拍数の80-95%）と低強度リカバリーを繰り返し、クールダウンで終了します。インターバルは4-8回繰り返します（Gibala, 2017）。",
+    "source_id": "Gibala, M. (2017). The One-Minute Workout."
+  },
+  {
+    "id": "health_l10_hiit_05",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITと心血管疾患",
+    "statement": "HIITは、心血管疾患患者にとって危険であり、推奨されない。",
+    "is_true": false,
+    "explanation": "適切に監督されたHIITは、心血管疾患患者にとっても安全で、心肺機能、血管機能、インスリン感受性を改善することが研究で示されています（Wisloff et al., 2007）。",
+    "source_id": "Wisloff, U., et al. (2007). Superior cardiovascular effect of aerobic interval training versus moderate continuous training."
+  },
+  {
+    "id": "health_l10_hiit_06",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITの最適な頻度は？",
+    "choices": [
+      "週2-3回",
+      "毎日",
+      "週1回",
+      "月1回"
+    ],
+    "correct_index": 0,
+    "explanation": "HIITは高強度のため、回復時間が必要です。週2-3回が最適で、過度なトレーニングは怪我やオーバートレーニングのリスクを高めます（Gibala, 2017）。",
+    "source_id": "Gibala, M. (2017). The One-Minute Workout."
+  },
+  {
+    "id": "health_l10_hiit_07",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITは、[   ]感受性を改善し、2型糖尿病のリスクを低減する。",
+    "choices": [
+      "インスリン",
+      "レプチン",
+      "グレリン",
+      "コルチゾール"
+    ],
+    "correct_index": 0,
+    "explanation": "HIITは、筋肉のグルコース取り込みを増加させ、インスリン感受性を改善します。これにより、2型糖尿病の予防と管理に効果的です（Little et al., 2011）。",
+    "source_id": "Little, J. P., et al. (2011). Low-volume high-intensity interval training reduces hyperglycemia and increases muscle mitochondrial capacity in patients with type 2 diabetes."
+  },
+  {
+    "id": "health_l10_hiit_08",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITと筋肉量",
+    "statement": "HIITは、筋肉量を増やすのに最も効果的なトレーニング方法である。",
+    "is_true": false,
+    "explanation": "HIITは心肺機能と代謝を改善しますが、筋肉量を増やすには、レジスタンストレーニング（筋力トレーニング）の方が効果的です。HIITは筋肉の質（ミトコンドリア密度）を向上させます。",
+    "source_id": "Gibala, M. (2017). The One-Minute Workout."
+  },
+  {
+    "id": "health_l10_hiit_09",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "タバタプロトコル（Tabata Protocol）の構成は？",
+    "choices": [
+      "20秒全力運動 + 10秒休憩 × 8セット",
+      "30秒全力運動 + 30秒休憩 × 10セット",
+      "1分全力運動 + 1分休憩 × 5セット",
+      "10秒全力運動 + 50秒休憩 × 20セット"
+    ],
+    "correct_index": 0,
+    "explanation": "タバタプロトコルは、20秒の全力運動と10秒の休憩を8セット（合計4分）行うHIITの一種で、有酸素・無酸素能力を同時に向上させます（Tabata et al., 1996）。",
+    "source_id": "Tabata, I., et al. (1996). Effects of moderate-intensity endurance and high-intensity intermittent training."
+  },
+  {
+    "id": "health_l10_hiit_10",
+    "type": "sort_order",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITによる代謝改善のメカニズム",
+    "items": [
+      "高強度運動が筋肉にストレスを与える",
+      "AMPK・PGC-1αが活性化",
+      "ミトコンドリアが増加",
+      "代謝能力が向上"
+    ],
+    "correct_order": [
+      0,
+      1,
+      2,
+      3
+    ],
+    "explanation": "HIITは、筋肉にストレスを与え、エネルギーセンサーであるAMPKとPGC-1αを活性化し、ミトコンドリアの生合成を促進し、代謝能力を向上させます（Gibala, 2017）。",
+    "source_id": "Gibala, M. (2017). The One-Minute Workout."
+  },
+  {
+    "id": "health_l10_hiit_11",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITは、[   ]を増加させ、心臓の健康を改善する。",
+    "choices": [
+      "VO2max",
+      "血圧",
+      "コレステロール",
+      "血糖値"
+    ],
+    "correct_index": 0,
+    "explanation": "VO2max（最大酸素摂取量）は、心肺機能の指標です。HIITは、VO2maxを効率的に増加させ、心臓の健康と持久力を改善します（Helgerud et al., 2007）。",
+    "source_id": "Helgerud, J., et al. (2007). Aerobic high-intensity intervals improve VO2max more than moderate training."
+  },
+  {
+    "id": "health_l10_hiit_12",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITと時間効率",
+    "statement": "週3回、各10分のHIITで、週150分の中強度有酸素運動と同等の健康効果を得られる。",
+    "is_true": true,
+    "explanation": "研究により、週3回、各10分（合計30分）のHIITで、週150分の中強度有酸素運動（WHOガイドライン）と同等の心肺機能、代謝、健康効果を得られることが示されています（Gibala et al., 2012）。",
+    "source_id": "Gibala, M. J., et al. (2012). Physiological adaptations to low-volume, high-intensity interval training in health and disease."
+  },
+  {
+    "id": "health_l10_hiit_13",
+    "type": "multiple_choice",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITを始める際の注意点は？",
+    "choices": [
+      "初心者は低強度から始め、徐々に強度を上げる",
+      "初日から最大強度で行う",
+      "ウォームアップは不要",
+      "毎日行う"
+    ],
+    "correct_index": 0,
+    "explanation": "HIITは高強度のため、初心者は低強度から始め、数週間かけて徐々に強度を上げることが推奨されます。ウォームアップとクールダウンも重要です（Gibala, 2017）。",
+    "source_id": "Gibala, M. (2017). The One-Minute Workout."
+  },
+  {
+    "id": "health_l10_hiit_14",
+    "type": "fill_blank",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITは、[   ]を増加させ、脳の健康と認知機能を改善する。",
+    "choices": [
+      "BDNF",
+      "コルチゾール",
+      "アドレナリン",
+      "インスリン"
+    ],
+    "correct_index": 0,
+    "explanation": "HIIT（および運動全般）は、BDNF（脳由来神経栄養因子）を増加させ、神経細胞の成長、記憶、学習能力を向上させます（Cotman & Berchtold, 2002）。",
+    "source_id": "Cotman, C. W., & Berchtold, N. C. (2002). Exercise: a behavioral intervention to enhance brain health and plasticity."
+  },
+  {
+    "id": "health_l10_hiit_15",
+    "type": "swipe_judgment",
+    "difficulty": "expert",
+    "xp": 20,
+    "question": "HIITと年齢",
+    "statement": "HIITは若者にのみ適しており、高齢者には推奨されない。",
+    "is_true": false,
+    "explanation": "適切に調整されたHIITは、高齢者にとっても安全で効果的です。心肺機能、筋力、バランス、認知機能を改善し、転倒リスクを低減します（Hwang et al., 2016）。",
+    "source_id": "Hwang, C. L., et al. (2016). Novel all-extremity high-intensity interval training improves aerobic fitness, cardiac function and insulin resistance in healthy older adults."
+  }
+]

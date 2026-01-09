@@ -1,0 +1,246 @@
+{
+  "id": "mental_w05",
+  "cards": [
+    {
+      "id": "mental_l05_001",
+      "type": "scenario",
+      "stem": "エピジェネティクスとストレスの関係は？",
+      "choices": [
+        "ストレスは遺伝子配列を変える",
+        "ストレスは遺伝子発現を調節する",
+        "無関係"
+      ],
+      "answer_index": 1,
+      "snack": "DNA配列は不変だけどメチル化で発現制御できるから、ストレス管理で遺伝子をOFFにしてみて #遺伝子",
+      "info": "Szyf (2013): Stress epigenetics",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l05_002",
+      "type": "true_false",
+      "stem": "慢性ストレスで海馬の神経新生が抑制される",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 0,
+      "snack": "コルチゾール過剰→海馬萎縮の悪循環を断つため、今日から深呼吸しよう #脳保護",
+      "info": "Gould (1998): Stress and hippocampal neurogenesis",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l05_003",
+      "type": "multiple_choice",
+      "stem": "もう一度思い出してみよう、慢性ストレスの影響。炎症性サイトカインって何？",
+      "choices": [
+        "アドレナリン",
+        "インターロイキン-6",
+        "セロトニン"
+      ],
+      "answer_index": 1,
+      "snack": "慢性ストレスでIL-6等の炎症性サイトカインが↑して全身炎症の原因になるから、深呼吸で炎症を抑えよう #炎症管理",
+      "info": "Steptoe (2007): Stress and inflammation",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l05_004",
+      "type": "swipe_judgment",
+      "stem": "運動は脳由来神経栄養因子（BDNF）を増やす",
+      "choices": [],
+      "answer_index": 0,
+      "snack": "BDNF（脳由来神経栄養因子）で神経可塑性が↑するという抗うつ効果の一因があるから、運動で分泌を促して #神経栄養",
+      "info": "Erickson (2011): Exercise and BDNF",
+      "difficulty": "hard",
+      "xp": 5,
+      "statement": "運動は脳由来神経栄養因子（BDNF）を増やす",
+      "is_true": true
+    },
+    {
+      "id": "mental_l05_005",
+      "type": "scenario",
+      "stem": "社会的評価脅威と生理的ストレス反応の関係は？",
+      "choices": [
+        "無関係",
+        "最も強力なストレッサーの一つ",
+        "軽微な影響のみ"
+      ],
+      "answer_index": 1,
+      "snack": "TSST（社会的ストレステスト）という実験でコルチゾールが急上昇するから、評価場面前に深呼吸してみて #実験",
+      "info": "Dickerson (2004): Social evaluative threat",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l05_006",
+      "type": "true_false",
+      "stem": "覚えてる？扁桃体の反応性だよ。瞑想で上がる？下がる？",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 1,
+      "snack": "扁桃体の反応性が↓すると感情的反応性も↓する好循環が生まれるから、瞑想8週間続けてみて #好循環",
+      "info": "Desbordes (2012): Meditation amygdala reactivity",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l05_007",
+      "type": "fill_blank",
+      "stem": "ストレス研究の「汎適応症候群」を提唱したのは［　］",
+      "choices": [
+        "Selye",
+        "Cannon",
+        "Lazarus"
+      ],
+      "answer_index": 0,
+      "snack": "Selye（1936）が警告→抵抗→疲憊の3段階を提唱したから、早期対処しよう #理論",
+      "info": "Selye (1936): General Adaptation Syndrome",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l05_008",
+      "type": "swipe_judgment",
+      "stem": "ストレス対処法に文化差はない",
+      "choices": [],
+      "answer_index": 0,
+      "snack": "集団主義文化では社会的サポートを重視する文化差があるから、自分に合った方法を見つけてみて #多様性",
+      "info": "Taylor (2007): Cultural stress responses",
+      "difficulty": "hard",
+      "xp": 5,
+      "statement": "ストレス対処法に文化差はない",
+      "is_true": false,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l05_009",
+      "type": "conversation",
+      "stem": "前にも出たね、CBTとMBCTの違い。思考の「内容」を変えるのはどっち？",
+      "choices": [
+        "「同じものだよ」",
+        "「認知療法は思考変容、マインドフルネスは観察」",
+        "「全く別物で併用できない」"
+      ],
+      "answer_index": 1,
+      "snack": "CBTは思考の内容変更、MBCTは思考との関係変更だから、目的に応じて使い分けてみて #アプローチ",
+      "info": "Segal (2002): MBCT vs CBT",
+      "difficulty": "hard",
+      "xp": 5,
+      "your_response_prompt": "どう説明する？"
+    },
+    {
+      "id": "mental_l05_010",
+      "type": "multiple_choice",
+      "stem": "レジリエンスを高める最重要因子は？",
+      "choices": [
+        "遺伝的要因のみ",
+        "社会的サポート＋認知的柔軟性",
+        "ストレス回避"
+      ],
+      "answer_index": 1,
+      "snack": "複合的な要因で人とのつながり＋適応的思考が鍵になるから、孤立は×から、誰かと話してみよう #つながり",
+      "info": "Southwick & Charney (2012): Resilience factors",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l05_011",
+      "type": "sort_order",
+      "stem": "感情調整の発達順序（Grossモデル）を並べよう",
+      "choices": [],
+      "answer_index": 0,
+      "snack": "早期介入ほど効果的でコストも低いという予防医学の基本があるから、予防が最善策。今日から習慣化してみて #予防医学",
+      "info": "Gross (2015): Emotion regulation development",
+      "difficulty": "hard",
+      "xp": 5,
+      "items": [
+        "状況選択",
+        "注意配分",
+        "認知的変容",
+        "反応調整"
+      ],
+      "correct_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "id": "mental_l05_012",
+      "type": "true_false",
+      "stem": "もう一度思い出してみよう、灰白質密度のこと。瞑想で上がる？下がる？",
+      "choices": [
+        "正しい",
+        "誤り"
+      ],
+      "answer_index": 0,
+      "snack": "灰白質密度が↑するという経験依存的可塑性の実例があるから、脳は何歳でも変われる。今日から瞑想を始めよう #脳可塑性",
+      "info": "Lazar (2005): Meditation cortical thickness",
+      "difficulty": "hard",
+      "xp": 5
+    },
+    {
+      "id": "mental_l05_013",
+      "type": "select_all",
+      "stem": "HPA軸の構成要素は？（複数選択）",
+      "choices": [
+        "視床下部",
+        "下垂体",
+        "副腎",
+        "海馬"
+      ],
+      "answer_index": 0,
+      "snack": "海馬はフィードバック調節に関与するけど軸ではなく視床下部が司令塔だから、全体像を理解してみて #システム",
+      "info": "Herman (2016): HPA axis regulation",
+      "difficulty": "hard",
+      "xp": 5,
+      "correct_answers": [
+        0,
+        1,
+        2
+      ]
+    },
+    {
+      "id": "mental_l05_014",
+      "type": "fill_blank_tap",
+      "stem": "ストレス脆弱性を決める要因の一つ「早期逆境体験」の臨界期は主に［　］歳まで",
+      "choices": [
+        "3",
+        "5",
+        "10",
+        "18"
+      ],
+      "answer_index": 1,
+      "snack": "幼少期のストレスが生涯の反応性を規定するから、大人になっても呼吸で修正してみて #発達",
+      "info": "Lupien (2009): Early adversity effects",
+      "difficulty": "hard",
+      "xp": 5,
+      "source_id": "ED566260"
+    },
+    {
+      "id": "mental_l05_015",
+      "type": "scenario",
+      "stem": "ポリヴェーガル理論で最も進化的に新しい系は？",
+      "choices": [
+        "背側迷走神経複合体",
+        "交感神経系",
+        "腹側迷走神経複合体"
+      ],
+      "answer_index": 2,
+      "snack": "腹側迷走神経が社会的関与システムの基盤で哺乳類で発達したから、深呼吸で活性化してみて #進化",
+      "info": "Porges (2011): Polyvagal Theory",
+      "difficulty": "hard",
+      "xp": 5
+    }
+  ]
+}

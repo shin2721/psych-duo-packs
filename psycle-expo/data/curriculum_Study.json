@@ -1,0 +1,504 @@
+{
+  "units": [
+    {
+      "level": 1,
+      "title": "Introduction to Cognitive Psychology",
+      "source": "Neisser, U. (1967). Cognitive Psychology."
+    },
+    {
+      "level": 2,
+      "title": "Attention: Selective & Divided",
+      "source": "Broadbent, D. E. (1958). Perception and Communication."
+    },
+    {
+      "level": 3,
+      "title": "Perception & Interpretation",
+      "source": "Gibson, J. J. (1979). The Ecological Approach to Visual Perception."
+    },
+    {
+      "level": 4,
+      "title": "Working Memory Model",
+      "source": "Baddeley, A. D., & Hitch, G. (1974). Working Memory."
+    },
+    {
+      "level": 5,
+      "title": "Sensory Memory",
+      "source": "Sperling, G. (1960). The information available in brief visual presentations."
+    },
+    {
+      "level": 6,
+      "title": "Long-Term Memory Systems",
+      "source": "Tulving, E. (1972). Episodic and semantic memory."
+    },
+    {
+      "level": 7,
+      "title": "Encoding Strategies",
+      "source": "Craik, F. I. M., & Lockhart, R. S. (1972). Levels of processing: A framework for memory research."
+    },
+    {
+      "level": 8,
+      "title": "Retrieval Processes",
+      "source": "Tulving, E., & Thomson, D. M. (1973). Encoding specificity and retrieval processes in episodic memory."
+    },
+    {
+      "level": 9,
+      "title": "The Forgetting Curve",
+      "source": "Ebbinghaus, H. (1885). Über das Gedächtnis. (Memory: A Contribution to Experimental Psychology)."
+    },
+    {
+      "level": 10,
+      "title": "Basic Metacognition",
+      "source": "Flavell, J. H. (1979). Metacognition and cognitive monitoring."
+    },
+    {
+      "level": 11,
+      "title": "Spaced Repetition",
+      "source": "Bjork, R. A., & Bjork, E. L. (1992). A new theory of disuse and an old theory of stimulation-dependent forgetting."
+    },
+    {
+      "level": 12,
+      "title": "Active Recall",
+      "source": "Roediger, H. L., & Karpicke, J. D. (2006). Test-enhanced learning: Taking memory tests improves long-term retention."
+    },
+    {
+      "level": 13,
+      "title": "Elaborative Interrogation",
+      "source": "Pressley, M., McDaniel, M. A., Turnure, J. E., Wood, E., & Ahmad, M. (1987). Generation and elaboration of knowledge in young children's comprehension and memory for actions."
+    },
+    {
+      "level": 14,
+      "title": "Interleaving Practice",
+      "source": "Rohrer, D. (2012). Interleaving helps students learn."
+    },
+    {
+      "level": 15,
+      "title": "Practice Testing",
+      "source": "Dunlosky, J., Rawson, K. A., Marsh, E. J., Nathan, M. J., & Willingham, D. T. (2013). Improving students' learning with effective learning techniques: Promising directions from cognitive and educational psychology."
+    },
+    {
+      "level": 16,
+      "title": "Note-Taking: Cornell Method & Beyond",
+      "source": "Pauk, W., & Owens, R. J. Q. (2019). How to Study in College."
+    },
+    {
+      "level": 17,
+      "title": "Summarization Techniques",
+      "source": "Brown, A. L., & Day, J. D. (1983). Macrorules for summarizing texts: The development of expertise."
+    },
+    {
+      "level": 18,
+      "title": "Concept Mapping",
+      "source": "Novak, J. D., & Cañas, A. J. (2008). The theory underlying concept maps and how to construct and use them."
+    },
+    {
+      "level": 19,
+      "title": "The Protege Effect (Teaching to Learn)",
+      "source": "Chase, C. C., Chin, M. A., & Kennedy, J. A. (1989). A case for using the 'protégé effect' in medical education."
+    },
+    {
+      "level": 20,
+      "title": "Self-Explanation",
+      "source": "Chi, M. T. H., Bassok, M., Lewis, M. W., Reimann, P., & Glaser, R. (1989). Self-explanations: How students study and use examples in learning to solve problems."
+    },
+    {
+      "level": 21,
+      "title": "Implicit vs. Explicit Memory",
+      "source": "Schacter, D. L. (1987). Implicit memory: History and current status."
+    },
+    {
+      "level": 22,
+      "title": "Memory Consolidation",
+      "source": "Squire, L. R., & Kandel, E. R. (2009). Memory: From Mind to Molecules."
+    },
+    {
+      "level": 23,
+      "title": "Schema Theory in Learning",
+      "source": "Bartlett, F. C. (1932). Remembering: A Study in Experimental and Social Psychology."
+    },
+    {
+      "level": 24,
+      "title": "Long-Term Potentiation (LTP) Basics",
+      "source": "Bliss, T. V. P., & Lømo, T. (1973). Long-lasting potentiation of synaptic transmission in the dentate area of the anaesthetized rabbit following stimulation of the perforant path."
+    },
+    {
+      "level": 25,
+      "title": "Mnemonics: Peg Word & Link Method",
+      "source": "Yates, F. A. (1966). The Art of Memory."
+    },
+    {
+      "level": 26,
+      "title": "Chunking Information",
+      "source": "Miller, G. A. (1956). The magical number seven, plus or minus two: Some limits on our capacity for processing information."
+    },
+    {
+      "level": 27,
+      "title": "Dual Coding Theory",
+      "source": "Paivio, A. (1986). Mental Representations: A Dual Coding Approach."
+    },
+    {
+      "level": 28,
+      "title": "Picture Superiority Effect",
+      "source": "Allan, L. G. (1998). The picture superiority effect."
+    },
+    {
+      "level": 29,
+      "title": "Method of Loci (Memory Palace)",
+      "source": "Spence, J. D. (2009). The Memory Palace."
+    },
+    {
+      "level": 30,
+      "title": "Story Method for Memory",
+      "source": "Bower, G. H., & Clark, M. C. (1969). Narrative stories as mediators for serial learning."
+    },
+    {
+      "level": 31,
+      "title": "Intrinsic vs. Extrinsic Motivation",
+      "source": "Deci, E. L., & Ryan, R. M. (1985). Intrinsic Motivation and Self-Determination in Human Behavior."
+    },
+    {
+      "level": 32,
+      "title": "Goal Setting Theory",
+      "source": "Locke, E. A., & Latham, G. P. (1990). A Theory of Goal Setting & Task Performance."
+    },
+    {
+      "level": 33,
+      "title": "Self-Efficacy in Learning",
+      "source": "Bandura, A. (1997). Self-efficacy: The exercise of control."
+    },
+    {
+      "level": 34,
+      "title": "Growth Mindset",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 35,
+      "title": "Understanding Procrastination",
+      "source": "Steel, P. (2007). The nature of procrastination: A meta-analytic and theoretical review of quintessential self-regulatory failure."
+    },
+    {
+      "level": 36,
+      "title": "Willpower & Self-Control",
+      "source": "Baumeister, R. F., & Tierney, J. (2011). Willpower: Rediscovering the Greatest Human Strength."
+    },
+    {
+      "level": 37,
+      "title": "Grit & Perseverance",
+      "source": "Duckworth, A. L. (2016). Grit: The Power of Passion and Perseverance."
+    },
+    {
+      "level": 38,
+      "title": "Regulatory Focus Theory",
+      "source": "Higgins, E. T. (1997). Beyond pleasure and pain."
+    },
+    {
+      "level": 39,
+      "title": "Flow State in Learning",
+      "source": "Csikszentmihalyi, M. (1990). Flow: The Psychology of Optimal Experience."
+    },
+    {
+      "level": 40,
+      "title": "Achievement Goal Theory",
+      "source": "Ames, C. (1992). Classrooms: Goals, structures, and student motivation."
+    },
+    {
+      "level": 41,
+      "title": "Introduction to Cognitive Biases",
+      "source": "Kahneman, D. (2011). Thinking, Fast and Slow."
+    },
+    {
+      "level": 42,
+      "title": "Confirmation Bias",
+      "source": "Nickerson, R. S. (1998). Confirmation bias: A ubiquitous phenomenon in many guises."
+    },
+    {
+      "level": 43,
+      "title": "Dunning-Kruger Effect",
+      "source": "Kruger, J., & Dunning, D. (1999). Unskilled and unaware of it: How difficulties in recognizing one's own incompetence lead to inflated self-assessments."
+    },
+    {
+      "level": 44,
+      "title": "Availability Heuristic",
+      "source": "Tversky, A., & Kahneman, D. (1973). Availability: A heuristic for judging frequency and probability."
+    },
+    {
+      "level": 45,
+      "title": "Anchoring Bias",
+      "source": "Tversky, A., & Kahneman, D. (1974). Judgment under uncertainty: Heuristics and biases."
+    },
+    {
+      "level": 46,
+      "title": "Sunk Cost Fallacy",
+      "source": "Arkes, H. R., & Blumer, C. (1985). The psychology of sunk cost."
+    },
+    {
+      "level": 47,
+      "title": "Fundamentals of Critical Thinking",
+      "source": "Ennis, R. H. (1987). A taxonomy of critical thinking dispositions and abilities."
+    },
+    {
+      "level": 48,
+      "title": "Identifying Logical Fallacies",
+      "source": "Walton, D. N. (1995). A Pragmatic Theory of Fallacy."
+    },
+    {
+      "level": 49,
+      "title": "Evaluating Evidence & Sources",
+      "source": "Shermer, M. (2002). Why People Believe Weird Things: Pseudoscience, Superstition, and Other Confusions of Our Time."
+    },
+    {
+      "level": 50,
+      "title": "Metacognitive Regulation for Bias",
+      "source": "Schraw, G., & Moshman, R. (1995). Metacognitive theories."
+    },
+    {
+      "level": 51,
+      "title": "Impact of Sleep on Memory",
+      "source": "Walker, M. (2017). Why We Sleep: Unlocking the Power of Sleep and Dreams."
+    },
+    {
+      "level": 52,
+      "title": "Nutrition for Brain Health",
+      "source": "Gomez-Pinilla, F. (2008). Brain foods: The effects of nutrients on brain function."
+    },
+    {
+      "level": 53,
+      "title": "Exercise and Cognitive Function",
+      "source": "Ratey, J. J., & Hagerman, E. (2008). Spark: The Revolutionary New Science of Exercise and the Brain."
+    },
+    {
+      "level": 54,
+      "title": "Stress and Performance (Yerkes-Dodson Law)",
+      "source": "Yerkes, R. M., & Dodson, J. D. (1908). The relation of strength of stimulus to rapidity of habit-formation."
+    },
+    {
+      "level": 55,
+      "title": "Mindfulness for Concentration",
+      "source": "Kabat-Zinn, J. (1990). Full Catastrophe Living: Using the Wisdom of Your Body and Mind to Face Stress, Pain, and Illness."
+    },
+    {
+      "level": 56,
+      "title": "Designing an Effective Study Space",
+      "source": "Newport, C. (2016). Deep Work: Rules for Focused Success in a Distracted World."
+    },
+    {
+      "level": 57,
+      "title": "Managing Digital Distractions",
+      "source": "Rosen, L. D. (2012). iDisorder: Understanding Our Obsession with Technology and Overcoming Its Hold on Us."
+    },
+    {
+      "level": 58,
+      "title": "Time Management: The Pomodoro Technique",
+      "source": "Cirillo, F. (2006). The Pomodoro Technique."
+    },
+    {
+      "level": 59,
+      "title": "Strategic Breaks and Rest",
+      "source": "Oppezzo, M., & Schwartz, D. L. (2014). Give your ideas some legs: The positive effect of walking on creative thinking."
+    },
+    {
+      "level": 60,
+      "title": "Digital Well-being and Learning",
+      "source": "Livingstone, S., & Helsper, E. J. (2008). Parental mediation of children's internet use."
+    },
+    {
+      "level": 61,
+      "title": "Effective Reading Strategies (SQ3R)",
+      "source": "Robinson, F. P. (1946). Effective Study."
+    },
+    {
+      "level": 62,
+      "title": "Skimming and Scanning",
+      "source": "Pearson, P. D., & Johnson, D. D. (1978). Teaching Reading Comprehension."
+    },
+    {
+      "level": 63,
+      "title": "Deep Reading & Comprehension",
+      "source": "Wolf, M. (2018). Reader, Come Home: The Reading Brain in a Digital World."
+    },
+    {
+      "level": 64,
+      "title": "Summarizing Complex Texts",
+      "source": "Kintsch, W., & van Dijk, T. A. (1978). Toward a model of text comprehension and production."
+    },
+    {
+      "level": 65,
+      "title": "Synthesizing Multiple Sources",
+      "source": "Bazerman, C. (2007). The writing of texts: A genre perspective."
+    },
+    {
+      "level": 66,
+      "title": "Coping with Information Overload",
+      "source": "Bawden, D., & Robinson, L. (2009). The dark side of information: Overload, anxiety and other paradoxes and pathologies."
+    },
+    {
+      "level": 67,
+      "title": "Cognitive Load Theory",
+      "source": "Sweller, J. (1988). Cognitive load theory, learning difficulty, and instructional design."
+    },
+    {
+      "level": 68,
+      "title": "Understanding Complex Diagrams",
+      "source": "Lohse, J. C., Biolsi, K., Walker, N., & Rueter, H. H. (1994). A classification of visual representations."
+    },
+    {
+      "level": 69,
+      "title": "Visual Literacy in Learning",
+      "source": "Avgerinou, M. D., & Ericson, J. R. (1997). A review of the concept of visual literacy."
+    },
+    {
+      "level": 70,
+      "title": "Reading for Retention: Strategic Approaches",
+      "source": "Adler, M. J., & Van Doren, C. (1940). How to Read a Book: The Classic Guide to Intelligent Reading."
+    },
+    {
+      "level": 71,
+      "title": "Defining & Structuring Problems",
+      "source": "Polya, G. (1945). How to Solve It: A New Aspect of Mathematical Method."
+    },
+    {
+      "level": 72,
+      "title": "Heuristics & Algorithms in Problem Solving",
+      "source": "Newell, A., & Simon, H. A. (1972). Human Problem Solving."
+    },
+    {
+      "level": 73,
+      "title": "Trial and Error Learning",
+      "source": "Thorndike, E. L. (1898). Animal intelligence: An experimental study of the associative processes in animals."
+    },
+    {
+      "level": 74,
+      "title": "Insight Learning",
+      "source": "Köhler, W. (1925). The Mentality of Apes."
+    },
+    {
+      "level": 75,
+      "title": "Creative Problem Solving",
+      "source": "Osborn, A. F. (1953). Applied Imagination: Principles and Procedures of Creative Thinking."
+    },
+    {
+      "level": 76,
+      "title": "Decision Making Models",
+      "source": "Simon, H. A. (1957). Models of Man, Social and Rational: Mathematical Essays on Rational Human Behavior in a Social Setting."
+    },
+    {
+      "level": 77,
+      "title": "Biases in Decision Making",
+      "source": "Slovic, P., Lichtenstein, S., & Fischhoff, B. (1988). Decision utility and experience utility."
+    },
+    {
+      "level": 78,
+      "title": "Group Problem Solving",
+      "source": "Janis, I. L. (1972). Victims of Groupthink: A Psychological Study of Foreign-Policy Decisions and Fiascoes."
+    },
+    {
+      "level": 79,
+      "title": "Transfer of Learning",
+      "source": "Barnett, S. M., & Ceci, S. J. (2002). When and where do we apply what we learn? A taxonomy for human learning and problem solving."
+    },
+    {
+      "level": 80,
+      "title": "Analogical Reasoning",
+      "source": "Gick, M. L., & Holyoak, K. J. (1983). Schema induction and analogical transfer."
+    },
+    {
+      "level": 81,
+      "title": "Formative vs. Summative Assessment",
+      "source": "Black, P., & Wiliam, D. (1998). Inside the Black Box: Raising Standards Through Classroom Assessment."
+    },
+    {
+      "level": 82,
+      "title": "Principles of Effective Feedback",
+      "source": "Hattie, J., & Timperley, H. (2007). The Power of Feedback."
+    },
+    {
+      "level": 83,
+      "title": "Self-Assessment & Reflection",
+      "source": "Boud, D. (2000). Sustainable assessment: Rethinking assessment for the learning society."
+    },
+    {
+      "level": 84,
+      "title": "Managing Test Anxiety",
+      "source": "Zeidner, M. (1998). Test Anxiety: The State of the Art."
+    },
+    {
+      "level": 85,
+      "title": "Retrieval Practice for Exam Success",
+      "source": "Agarwal, P. K., Nunes, L. D., & Blaha, J. (2016). Forgetting, fast and slow: The effect of pacing on elementary school children's learning."
+    },
+    {
+      "level": 86,
+      "title": "Deliberate Practice for Expertise",
+      "source": "Ericsson, K. A., Krampe, R. T., & Tesch-Römer, C. (1993). The role of deliberate practice in the acquisition of expert performance."
+    },
+    {
+      "level": 87,
+      "title": "Developing Expertise: Stages & Characteristics",
+      "source": "Dreyfus, S. E., & Dreyfus, H. L. (1986). Mind over Machine: The Power of Human Intuition and Expertise in the Era of the Computer."
+    },
+    {
+      "level": 88,
+      "title": "Pattern Recognition in Expertise",
+      "source": "Chase, W. G., & Simon, H. A. (1973). Perception in chess."
+    },
+    {
+      "level": 89,
+      "title": "Fluid vs. Crystallized Intelligence",
+      "source": "Cattell, R. B. (1963). Theory of fluid and crystallized intelligence: A critical experiment."
+    },
+    {
+      "level": 90,
+      "title": "Learning from Mistakes & Failure",
+      "source": "Dweck, C. S. (2006). Mindset: The New Psychology of Success."
+    },
+    {
+      "level": 91,
+      "title": "Neuroplasticity Basics",
+      "source": "Doidge, N. (2007). The Brain That Changes Itself: Stories of Brain Recovery from the Frontiers of Brain Science."
+    },
+    {
+      "level": 92,
+      "title": "Synaptic Plasticity & Learning",
+      "source": "Kandel, E. R. (2001). The Molecular Biology of Memory Storage: A Dialogue Between Genes and Synapses."
+    },
+    {
+      "level": 93,
+      "title": "Hippocampus and Memory Formation",
+      "source": "Scoville, W. B., & Milner, B. (1957). Loss of Recent Memory After Bilateral Hippocampal Lesions."
+    },
+    {
+      "level": 94,
+      "title": "Prefrontal Cortex and Executive Functions",
+      "source": "Diamond, A. (2013). Executive Functions."
+    },
+    {
+      "level": 95,
+      "title": "Role of Neurotransmitters in Learning (Dopamine, Acetylcholine)",
+      "source": "Gais, S., & Born, J. (2004). Low acetylcholine during slow-wave sleep is critical for declarative memory consolidation."
+    },
+    {
+      "level": 96,
+      "title": "Cognitive Basis of Dyslexia",
+      "source": "Shaywitz, S. E. (2003). Overcoming Dyslexia: A New and Complete Science-Based Program for Reading Problems at Any Level."
+    },
+    {
+      "level": 97,
+      "title": "ADHD and Attention Regulation",
+      "source": "Barkley, R. A. (1997). ADHD and the Nature of Self-Control."
+    },
+    {
+      "level": 98,
+      "title": "Advanced Sleep and Memory Consolidation",
+      "source": "Rasch, B., & Born, J. (2013). About the sleep's role in memory."
+    },
+    {
+      "level": 99,
+      "title": "Neurofeedback for Learning Enhancement",
+      "source": "Vernon, D. (2005). Electroencephalogram (EEG) neurofeedback: A brief review of the first 40 years."
+    },
+    {
+      "level": 100,
+      "title": "Future of Learning: AI & Personalized Education",
+      "source": "Luckin, R., Clark, W., Garnett, F., & Whitworth, A. (2016). Intelligence Unleashed: An Argument for AI in Education."
+    }
+  ]
+}
