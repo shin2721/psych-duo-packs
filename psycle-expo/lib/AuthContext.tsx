@@ -29,24 +29,31 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         const initSession = async () => {
-            // Check Supabase session first
-            const { data: { session: supabaseSession } } = await supabase.auth.getSession();
-
-            if (supabaseSession) {
-                setSession(supabaseSession);
-                setIsLoading(false);
-                return;
-            }
-
-            // Check for guest session if no Supabase session
+            // STEP 1: Check local guest session FIRST (instant)
             try {
                 const guestSessionStr = await AsyncStorage.getItem('guestSession');
                 if (guestSessionStr) {
                     setSession(JSON.parse(guestSessionStr));
+                    setIsLoading(false);
+                    // Continue to check Supabase in background...
                 }
             } catch (error) {
                 console.error('Error loading guest session:', error);
+            }
+
+            // STEP 2: Check Supabase in background (non-blocking)
+            try {
+                const { data: { session: supabaseSession } } = await supabase.auth.getSession();
+
+                if (supabaseSession) {
+                    setSession(supabaseSession);
+                    // Clear guest session if we have a real one
+                    AsyncStorage.removeItem('guestSession');
+                }
+            } catch (error) {
+                if (__DEV__) console.log('Supabase auth check failed (using local session)');
             } finally {
+                // Always ensure loading is complete
                 setIsLoading(false);
             }
         };

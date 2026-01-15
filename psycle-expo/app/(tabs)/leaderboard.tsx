@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../lib/AuthContext';
 import { theme } from '../../lib/theme';
+import { TrophyIcon, StreakIcon } from '../../components/CustomIcons';
+import { getMyLeague, LeagueInfo, LeagueMember, joinLeague, LEAGUE_TIERS } from '../../lib/league';
 
 interface LeaderboardEntry {
     id: string;
@@ -16,7 +18,8 @@ interface LeaderboardEntry {
 
 export default function LeaderboardScreen() {
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
-    const [view, setView] = useState<'global' | 'friends'>('global');
+    const [leagueInfo, setLeagueInfo] = useState<LeagueInfo | null>(null);
+    const [view, setView] = useState<'league' | 'global' | 'friends'>('league');
     const [loading, setLoading] = useState(true);
     const [friendIds, setFriendIds] = useState<Set<string>>(new Set());
     const [pendingRequestIds, setPendingRequestIds] = useState<Set<string>>(new Set());
@@ -24,7 +27,11 @@ export default function LeaderboardScreen() {
 
     useEffect(() => {
         fetchFriendStatus();
-        fetchLeaderboard();
+        if (view === 'league') {
+            fetchLeague();
+        } else {
+            fetchLeaderboard();
+        }
     }, [view]);
 
     const fetchFriendStatus = async () => {
@@ -77,6 +84,24 @@ export default function LeaderboardScreen() {
         } catch (error) {
             console.error('Error sending friend request:', error);
             Alert.alert('Error', 'Failed to send friend request');
+        }
+    };
+
+    const fetchLeague = async () => {
+        if (!user) return;
+        setLoading(true);
+        try {
+            let info = await getMyLeague(user.id);
+            if (!info) {
+                // Not in a league yet, try to join
+                await joinLeague(user.id, 0);
+                info = await getMyLeague(user.id);
+            }
+            setLeagueInfo(info);
+        } catch (error) {
+            console.error('Error fetching league:', error);
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -142,7 +167,10 @@ export default function LeaderboardScreen() {
                         {isCurrentUser && ' (You)'}
                     </Text>
                     <View style={styles.stats}>
-                        <Text style={styles.statText}>🔥 {item.current_streak} day streak</Text>
+                        <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
+                            <StreakIcon size={14} />
+                            <Text style={styles.statText}>{item.current_streak} days</Text>
+                        </View>
                         <Text style={styles.statText}>⭐ {item.total_xp} XP</Text>
                     </View>
                 </View>
@@ -169,8 +197,19 @@ export default function LeaderboardScreen() {
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                <Text style={styles.title}>Leaderboard</Text>
+                <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 }}>
+                    <TrophyIcon size={32} />
+                    <Text style={{ fontSize: 28, fontWeight: 'bold', color: theme.colors.text }}>Leaderboard</Text>
+                </View>
                 <View style={styles.segmentedControl}>
+                    <Pressable
+                        style={[styles.segment, view === 'league' && styles.activeSegment]}
+                        onPress={() => setView('league')}
+                    >
+                        <Text style={[styles.segmentText, view === 'league' && styles.activeSegmentText]}>
+                            League
+                        </Text>
+                    </Pressable>
                     <Pressable
                         style={[styles.segment, view === 'global' && styles.activeSegment]}
                         onPress={() => setView('global')}
@@ -194,6 +233,70 @@ export default function LeaderboardScreen() {
                 <View style={styles.loadingContainer}>
                     <ActivityIndicator size="large" color={theme.colors.primary} />
                 </View>
+            ) : view === 'league' ? (
+                // League view
+                leagueInfo ? (
+                    <View style={{ flex: 1 }}>
+                        {/* League Header */}
+                        <View style={styles.leagueHeader}>
+                            <Text style={styles.tierIcon}>{leagueInfo.tier_icon}</Text>
+                            <Text style={[styles.tierName, { color: leagueInfo.tier_color }]}>
+                                {leagueInfo.tier_name}リーグ
+                            </Text>
+                            <Text style={styles.weekId}>{leagueInfo.week_id}</Text>
+                        </View>
+
+                        {/* Zone Legend */}
+                        <View style={styles.zoneLegend}>
+                            <View style={styles.legendItem}>
+                                <View style={[styles.legendDot, { backgroundColor: '#4CAF50' }]} />
+                                <Text style={styles.legendText}>昇格 (上位20%)</Text>
+                            </View>
+                            <View style={styles.legendItem}>
+                                <View style={[styles.legendDot, { backgroundColor: '#F44336' }]} />
+                                <Text style={styles.legendText}>降格 (下位20%)</Text>
+                            </View>
+                        </View>
+
+                        {/* Members List */}
+                        <FlatList
+                            data={leagueInfo.members}
+                            renderItem={({ item }) => {
+                                const isPromotion = item.rank <= leagueInfo.promotion_zone;
+                                const isDemotion = item.rank >= leagueInfo.demotion_zone;
+                                const medal = item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : '';
+
+                                return (
+                                    <View style={[
+                                        styles.row,
+                                        item.is_self && styles.currentUserRow,
+                                        isPromotion && styles.promotionRow,
+                                        isDemotion && styles.demotionRow,
+                                    ]}>
+                                        <View style={styles.rankContainer}>
+                                            <Text style={styles.rankText}>{medal || `#${item.rank}`}</Text>
+                                        </View>
+                                        <View style={styles.userInfo}>
+                                            <Text style={[styles.username, item.is_self && styles.currentUsername]}>
+                                                {item.username}
+                                                {item.is_self && ' (You)'}
+                                            </Text>
+                                            <Text style={styles.statText}>⭐ {item.weekly_xp} XP</Text>
+                                        </View>
+                                        {isPromotion && <Ionicons name="arrow-up" size={20} color="#4CAF50" />}
+                                        {isDemotion && <Ionicons name="arrow-down" size={20} color="#F44336" />}
+                                    </View>
+                                );
+                            }}
+                            keyExtractor={(item) => item.user_id}
+                            contentContainerStyle={styles.list}
+                        />
+                    </View>
+                ) : (
+                    <View style={styles.emptyContainer}>
+                        <Text style={styles.emptyText}>リーグに参加中...</Text>
+                    </View>
+                )
             ) : leaderboard.length === 0 ? (
                 <View style={styles.emptyContainer}>
                     <Text style={styles.emptyText}>
@@ -217,7 +320,7 @@ export default function LeaderboardScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.colors.bg,
+        backgroundColor: "transparent",
     },
     header: {
         padding: 20,
@@ -234,7 +337,7 @@ const styles = StyleSheet.create({
     },
     segmentedControl: {
         flexDirection: 'row',
-        backgroundColor: theme.colors.bg,
+        backgroundColor: "transparent",
         borderRadius: 8,
         padding: 4,
     },
@@ -326,5 +429,57 @@ const styles = StyleSheet.create({
     },
     addFriendButtonDisabled: {
         opacity: 0.5,
+    },
+    // League styles
+    leagueHeader: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 16,
+        gap: 8,
+        backgroundColor: theme.colors.surface,
+    },
+    tierIcon: {
+        fontSize: 32,
+    },
+    tierName: {
+        fontSize: 24,
+        fontWeight: 'bold',
+    },
+    weekId: {
+        fontSize: 14,
+        color: theme.colors.sub,
+        marginLeft: 8,
+    },
+    zoneLegend: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        gap: 24,
+        padding: 12,
+        backgroundColor: theme.colors.surface,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.colors.line,
+    },
+    legendItem: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 6,
+    },
+    legendDot: {
+        width: 10,
+        height: 10,
+        borderRadius: 5,
+    },
+    legendText: {
+        fontSize: 12,
+        color: theme.colors.sub,
+    },
+    promotionRow: {
+        borderLeftWidth: 4,
+        borderLeftColor: '#4CAF50',
+    },
+    demotionRow: {
+        borderLeftWidth: 4,
+        borderLeftColor: '#F44336',
     },
 });

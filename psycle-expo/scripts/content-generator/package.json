@@ -1,0 +1,28 @@
+{
+    "name": "psycle-content-generator",
+    "version": "1.0.0",
+    "description": "AI-powered content generation pipeline for Psycle lessons",
+    "main": "src/pipeline.ts",
+    "scripts": {
+        "generate": "ts-node src/pipeline.ts",
+        "generate:seed": "ts-node src/generator.ts",
+        "validate": "ts-node src/critic.ts",
+        "watch": "ts-node src/watcher.ts",
+        "watch:ai": "ts-node src/watcher.ts --ai",
+        "patrol": "ts-node src/patrol.ts",
+        "patrol:dry": "ts-node src/patrol.ts --dry-run",
+        "validate:types": "ts-node src/validate_types.ts",
+        "bundle": "ts-node src/bundler.ts"
+    },
+    "dependencies": {
+        "@google/generative-ai": "^0.21.0",
+        "dotenv": "^16.4.5",
+        "rss-parser": "^3.13.0",
+        "zod": "^3.23.8"
+    },
+    "devDependencies": {
+        "@types/node": "^22.9.0",
+        "ts-node": "^10.9.2",
+        "typescript": "^5.6.3"
+    }
+}

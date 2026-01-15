@@ -1,75 +1,46 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, Pressable, StyleSheet, Animated, ScrollView, TextInput, TouchableOpacity } from "react-native";
+import { View, Text, Pressable, StyleSheet, Animated, ScrollView, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { HapticFeedback } from "../lib/HapticFeedback";
 import { useAppState } from "../lib/state";
 import { QuestionImage, QuestionAudio } from "./QuestionMedia";
-// import { Audio } from "expo-av";
+import { Audio } from "expo-av";
 import { theme } from "../lib/theme";
-import { SortOrder, SelectAll, FillBlankTap, SwipeJudgment, Conversation, Matching, SwipeChoice, AnimatedExplanation, RhythmTap, MultiSelectTriggers, QuickReflex, MicroInput, ConsequenceScenario } from "./QuestionTypes";
+import { AnimatedButton } from "./AnimatedButton";
+import { InsightText } from "./InsightText";
+import { Firefly } from "./Firefly";
+import { EvidenceBottomSheet } from "./EvidenceBottomSheet";
+import {
+  QuickReflex,
+  SelectAll,
+  FillBlankTap,
+  SwipeJudgment,
+  Conversation,
+  Matching,
+
+
+
+  MicroInput,
+  ConsequenceScenario,
+  SortOrder,
+} from "./QuestionTypes";
 import { ComboFeedback } from "./ComboFeedback";
 
-export interface Question {
-  type: "multiple_choice" | "true_false" | "fill_blank" | "scenario" | "sort_order" | "select_all" | "fill_blank_tap" | "swipe_judgment" | "conversation" | "matching" | "term_card" | "consequence_scenario" | "interactive_practice" | "commitment" | "swipe_choice" | "animated_explanation" | "rhythm_tap" | "multi_select_triggers" | "breathing_practice" | "quick_reflex" | "micro_input";
-  question: string;
-  choices: string[];
-  correct_index?: number;
-  correct_answers?: number[]; // For select_all
-  explanation: string | { correct: string; incorrect: Record<string, string> };
-  source_id: string;
-  difficulty: string;
-  xp: number;
-  // quick_reflex fields
-  time_limit?: number; // milliseconds
-  // micro_input fields
-  input_answer?: string;
-  placeholder?: string;
-  // sort_order fields
-  items?: string[];
-  correct_order?: number[];
-  initial_order?: number[];
-  // fill_blank_tap fields
-  statement?: string;
-  blank_options?: string[];
-  // swipe_judgment fields
-  is_true?: boolean;
-  // conversation fields
-  your_response_prompt?: string;
-  // matching fields
-  left_items?: string[];
-  right_items?: string[];
-  correct_pairs?: number[][];
-  // term_card fields
-  term?: string;
-  term_en?: string;
-  definition?: string;
-  key_points?: string[];
-  // consequence_scenario fields
-  consequence_type?: "negative" | "positive";
-  // interactive_practice fields
-  practice_config?: any;
-  feedback_prompt?: string;
-  snack_map?: Record<string, string>;
-  bonus_xp_if_effective?: number;
-  // commitment fields
-  commitment_setup?: {
-    reminder_time: string;
-    message: string;
-    streak_tracking: boolean;
-  };
-  social_proof?: string;
-  // Multimedia fields
-  image?: string;        // URL to image (Supabase Storage or external)
-  audio?: string;        // URL to audio file
-  imageCaption?: string; // Optional caption for accessibility
-}
+import { Question } from "../types/question";
+export { Question };
+
+
+import { sounds } from "../lib/sounds";
 
 interface Props {
   question: Question;
   onContinue: (isCorrect: boolean, xp: number) => void;
+  onComboChange?: (combo: number) => void;
+  onInterventionAttempted?: (questionId: string) => void;
+  onInterventionExecuted?: (questionId: string) => void;
 }
 
-export function QuestionRenderer({ question, onContinue }: Props) {
+export function QuestionRenderer({ question, onContinue, onComboChange, onInterventionAttempted, onInterventionExecuted }: Props) {
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]); // For select_all
   const [revealedIndexes, setRevealedIndexes] = useState<number[]>([]); // For select_all immediate feedback
@@ -80,7 +51,7 @@ export function QuestionRenderer({ question, onContinue }: Props) {
       const initial = question.initial_order && question.initial_order.length > 0
         ? question.initial_order
         : question.items.map((_, i) => i);
-      console.log("[QuestionRenderer] Initializing currentOrder:", initial);
+      if (__DEV__) console.log("[QuestionRenderer] Initializing currentOrder:", initial);
       return initial;
     }
     return [];
@@ -91,7 +62,7 @@ export function QuestionRenderer({ question, onContinue }: Props) {
   const [selectedResponse, setSelectedResponse] = useState<number | null>(null); // For conversation
   const [selectedPairs, setSelectedPairs] = useState<number[][]>([]); // For matching
   const [swipeChoiceDirection, setSwipeChoiceDirection] = useState<"left" | "right" | null>(null); // For swipe_choice
-  const [triggerIndexes, setTriggerIndexes] = useState<number[]>([]); // For multi_select_triggers
+
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null); // For quick_reflex
   const [inputText, setInputText] = useState<string>(""); // For micro_input
   const [consequenceSelection, setConsequenceSelection] = useState<boolean | null>(null); // For consequence_scenario
@@ -101,12 +72,18 @@ export function QuestionRenderer({ question, onContinue }: Props) {
   const slideAnim = useRef(new Animated.Value(30)).current;
   const [combo, setCombo] = useState(0);
   const [showCombo, setShowCombo] = useState(false);
+  const [showEvidenceSheet, setShowEvidenceSheet] = useState(false);
+  const [showExplanationDetails, setShowExplanationDetails] = useState(false); // 誤答時の詳細展開
+  const [hasAttempted, setHasAttempted] = useState(false); // 介入を試したか
+  const [attemptCountdown, setAttemptCountdown] = useState(0); // 10秒カウントダウン
+  const countdownRef = useRef<NodeJS.Timeout | null>(null);
 
   // Initialize state when question changes
   useEffect(() => {
-    console.log("[QuestionRenderer] Question object:", {
+    if (__DEV__) console.log("[QuestionRenderer] Question object:", {
       type: question.type,
       source_id: question.source_id,
+      prompt: question.prompt, // DEBUG
       question: typeof question.question === 'string' ? question.question.substring(0, 50) : 'Object/Array',
       hasItems: !!question.items,
       itemsLength: question.items?.length,
@@ -118,7 +95,7 @@ export function QuestionRenderer({ question, onContinue }: Props) {
       const initialOrder = question.initial_order && question.initial_order.length > 0
         ? question.initial_order
         : question.items.map((_, i) => i);
-      console.log("[QuestionRenderer] sort_order question:", {
+      if (__DEV__) console.log("[QuestionRenderer] sort_order question:", {
         items: question.items,
         itemsLength: question.items?.length,
         correct_order: question.correct_order,
@@ -137,14 +114,23 @@ export function QuestionRenderer({ question, onContinue }: Props) {
     setSelectedResponse(null);
     setSelectedPairs([]);
     setConsequenceSelection(null);
+    setShowExplanationDetails(false); // 誤答時の詳細展開をリセット
+    setHasAttempted(false); // 介入試行状態をリセット
+    setAttemptCountdown(0); // カウントダウンをリセット
+    if (countdownRef.current) {
+      clearInterval(countdownRef.current);
+      countdownRef.current = null;
+    }
   }, [question]);
 
   // select_all: Auto-show result when all correct answers are selected OR when wrong answer is selected
   useEffect(() => {
     if (question.type === "select_all" && question.correct_answers && !showResult) {
-      console.log("=== SELECT_ALL DEBUG ===");
-      console.log("selectedIndexes:", selectedIndexes);
-      console.log("correct_answers:", question.correct_answers);
+      if (__DEV__) {
+        console.log("=== SELECT_ALL DEBUG ===");
+        console.log("selectedIndexes:", selectedIndexes);
+        console.log("correct_answers:", question.correct_answers);
+      }
 
       const sortedSelected = [...selectedIndexes].sort();
       const sortedCorrect = [...question.correct_answers].sort();
@@ -152,14 +138,16 @@ export function QuestionRenderer({ question, onContinue }: Props) {
 
       // Check if any wrong answer is selected
       const hasWrongAnswer = selectedIndexes.some(idx => !question.correct_answers?.includes(idx));
-      console.log("hasWrongAnswer:", hasWrongAnswer);
-      console.log("allCorrectSelected:", allCorrectSelected);
+      if (__DEV__) {
+        console.log("hasWrongAnswer:", hasWrongAnswer);
+        console.log("allCorrectSelected:", allCorrectSelected);
+      }
 
       if (allCorrectSelected && selectedIndexes.length > 0) {
-        console.log("→ Setting showResult=true (all correct)");
+        if (__DEV__) console.log("→ Setting showResult=true (all correct)");
         setShowResult(true);
       } else if (hasWrongAnswer) {
-        console.log("→ Setting showResult=true (wrong answer)");
+        if (__DEV__) console.log("→ Setting showResult=true (wrong answer)");
         // Immediately show result if wrong answer is selected
         setShowResult(true);
       }
@@ -199,32 +187,6 @@ export function QuestionRenderer({ question, onContinue }: Props) {
     ]).start();
   }, []);
 
-  // TODO: Re-enable after rebuilding dev client with expo-av
-  // const playSound = async (isCorrect: boolean) => {
-  //   try {
-  //     await Audio.setAudioModeAsync({
-  //       playsInSilentModeIOS: true,
-  //       staysActiveInBackground: false,
-  //     });
-
-  //     const { sound } = await Audio.Sound.createAsync(
-  //       isCorrect
-  //         ? { uri: "https://actions.google.com/sounds/v1/alarms/beep_short.ogg" }
-  //         : { uri: "https://actions.google.com/sounds/v1/cartoon/clang_and_wobble.ogg" },
-  //       { shouldPlay: true, volume: 0.3 }
-  //     );
-
-  //     // Unload sound after playing
-  //     sound.setOnPlaybackStatusUpdate((status) => {
-  //       if (status.isLoaded && status.didJustFinish) {
-  //         sound.unloadAsync();
-  //       }
-  //     });
-  //   } catch (error) {
-  //     // Audio not available or failed to load
-  //   }
-  // };
-
   const handleSelect = (index: number) => {
     if (showResult) return;
 
@@ -235,18 +197,31 @@ export function QuestionRenderer({ question, onContinue }: Props) {
 
     if (isCorrect) {
       HapticFeedback.success();
+      sounds.play("correct");
     } else {
       HapticFeedback.error();
+      sounds.play("incorrect");
     }
-
-    // Sound feedback (TODO: Re-enable after rebuilding dev client)
-    // playSound(isCorrect);
   };
 
   const handleToggle = (index: number) => {
     if (showResult) return;
 
-    const isCorrect = question.correct_answers?.includes(index);
+    // Survey Mode (No correct answers defined)
+    if (!question.correct_answers) {
+      setSelectedIndexes(prev => {
+        if (prev.includes(index)) {
+          return prev.filter(i => i !== index);
+        } else {
+          return [...prev, index];
+        }
+      });
+      HapticFeedback.selection();
+      return;
+    }
+
+    // Quiz Mode (Instant feedback)
+    const isCorrect = question.correct_answers.includes(index);
 
     // Immediate feedback - keep showing both correct and incorrect choices
     setRevealedIndexes(prev => [...prev, index]);
@@ -268,8 +243,9 @@ export function QuestionRenderer({ question, onContinue }: Props) {
       const sortedSelected = [...selectedIndexes].sort();
       const sortedCorrect = [...question.correct_answers].sort();
       isCorrect = JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
-    } else if (question.type === "sort_order") {
-      isCorrect = JSON.stringify(currentOrder) === JSON.stringify(question.correct_order);
+    } else if (question.type === "sort_order" && question.items) {
+      const currentItems = currentOrder.map(idx => question.items![idx]);
+      isCorrect = JSON.stringify(currentItems) === JSON.stringify(question.correct_order);
     } else if (question.type === "fill_blank_tap") {
       isCorrect = selectedIndex === question.correct_index;
     } else if (question.type === "swipe_judgment") {
@@ -288,12 +264,17 @@ export function QuestionRenderer({ question, onContinue }: Props) {
 
 
     if (isCorrect) {
-      setCombo(prev => prev + 1);
+      setCombo(prev => {
+        const newCombo = prev + 1;
+        if (onComboChange) onComboChange(newCombo);
+        return newCombo;
+      });
       setShowCombo(true);
       // Hide combo after delay
       setTimeout(() => setShowCombo(false), 2000);
     } else {
       setCombo(0);
+      if (onComboChange) onComboChange(0);
       setShowCombo(false);
     }
 
@@ -360,18 +341,19 @@ export function QuestionRenderer({ question, onContinue }: Props) {
     } else if (question.type === "term_card") {
       // term_cardは学習コンテンツのため常に正解
       return true;
-    } else if (question.type === "animated_explanation" || question.type === "rhythm_tap" || question.type === "breathing_practice" || question.type === "commitment" || question.type === "multi_select_triggers") {
-      // これらは実践・体験型なので常に正解扱い
+
+
+    } else if (question.type === "select_all") {
+      if (question.correct_answers) {
+        const sortedSelected = [...selectedIndexes].sort();
+        const sortedCorrect = [...question.correct_answers].sort();
+        return JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
+      }
       return true;
-    } else if (question.type === "swipe_choice") {
-      // v8 data uses "answer" field with "right" or "left"
-      return swipeChoiceDirection === (question as any).answer;
-    } else if (question.type === "select_all" && question.correct_answers) {
-      const sortedSelected = [...selectedIndexes].sort();
-      const sortedCorrect = [...question.correct_answers].sort();
-      return JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
-    } else if (question.type === "sort_order") {
-      return JSON.stringify(currentOrder) === JSON.stringify(question.correct_order);
+
+    } else if (question.type === "sort_order" && question.items) {
+      const currentItems = currentOrder.map(idx => question.items![idx]);
+      return JSON.stringify(currentItems) === JSON.stringify(question.correct_order);
     } else if (question.type === "fill_blank_tap") {
       return selectedIndex === question.correct_index;
     } else if (question.type === "swipe_judgment") {
@@ -394,496 +376,588 @@ export function QuestionRenderer({ question, onContinue }: Props) {
       return question.explanation;
     }
     if (typeof question.explanation === 'object' && question.explanation) {
+      const mainExplanation = question.explanation.correct || '';
+
       if (isCorrect) {
-        return question.explanation.correct || '';
+        return mainExplanation;
       }
+
       // Incorrect case
+      let specificFeedback = '';
       if (question.type === 'swipe_judgment' && swipeDirection) {
-        return question.explanation.incorrect?.[swipeDirection] || question.explanation.incorrect?.default || '';
+        specificFeedback = question.explanation.incorrect?.[swipeDirection] || question.explanation.incorrect?.default || '';
+      } else {
+        // Default incorrect case for other types that might use object explanation
+        const indexKey = String(selectedIndex ?? 0);
+        specificFeedback = question.explanation.incorrect?.[indexKey] ||
+          question.explanation.incorrect?.default ||
+          question.explanation.incorrect?.['1'] ||
+          question.explanation.incorrect?.['0'] || '';
       }
-      // Default incorrect case
-      const indexKey = String(selectedIndex ?? 0);
-      return question.explanation.incorrect?.[indexKey] ||
-        question.explanation.incorrect?.default ||
-        question.explanation.incorrect?.['1'] ||
-        question.explanation.incorrect?.['0'] || '';
+
+      // If there is specific feedback, return it directly
+      if (specificFeedback) {
+        return specificFeedback;
+      }
+
+      return mainExplanation;
     }
     return '';
   })();
 
-  console.log("[QuestionRenderer] Received question:", {
-    type: question.type,
-    question: question.question,
-    time_limit: question.time_limit,
-    input_answer: question.input_answer,
-    placeholder: question.placeholder
-  });
-
   return (
-    <Animated.View
-      style={[
-        styles.container,
-        {
-          opacity: fadeAnim,
-          transform: [{ translateY: slideAnim }],
-        },
-      ]}
-    >
-
-      <ComboFeedback combo={combo} visible={showCombo} />
-      <ScrollView
-        style={styles.scrollView}
-        contentContainerStyle={styles.scrollContent}
-        showsVerticalScrollIndicator={true}
-        scrollEnabled={scrollEnabled}
+    <>
+      <Animated.View
+        style={[
+          styles.container,
+          {
+            opacity: fadeAnim,
+            transform: [{ translateY: slideAnim }],
+          },
+        ]}
       >
-        {(() => {
-          console.log("[QuestionRenderer] ========== FIRST SCROLLVIEW RENDERING ==========");
-          console.log("[QuestionRenderer] Question type:", question.type);
-          return null;
-        })()}
-        {/* 難易度バッジ */}
-        <View style={styles.difficultyBadge}>
-          <Text style={styles.difficultyText}>
-            {question.difficulty === "easy" ? "初級" : question.difficulty === "medium" ? "中級" : "上級"}
-          </Text>
-          <Text style={styles.xpText}>{question.xp} XP</Text>
-        </View>
 
-        {/* Multimedia Section */}
-        {question.image && (
-          <QuestionImage uri={question.image} caption={question.imageCaption} />
-        )}
-        {question.audio && (
-          <QuestionAudio uri={question.audio} />
-        )}
+        {/* Firefly temporarily disabled due to reanimated initialization issue
+      <Firefly
+        style={{ position: 'absolute', top: 0, right: 0, zIndex: 50 }}
+        scale={0.4}
+        state={showResult ? (isCorrect ? 'happy' : 'thinking') : 'idle'}
+      />
+      */}
 
-        {/* 問題文 */}
-        <Text style={styles.questionText}>{question.question}</Text>
+        <ComboFeedback combo={combo} visible={showCombo} />
+        <ScrollView
+          style={styles.scrollView}
+          contentContainerStyle={styles.scrollContent}
+          showsVerticalScrollIndicator={true}
+          scrollEnabled={scrollEnabled}
+        >
+          {(() => {
+            // Logging disabled for performance
+            return null;
+          })()}
 
-        {/* タイプ別レンダリング */}
-        {question.type === "multiple_choice" && (
-          <MultipleChoice
-            choices={question.choices}
-            selectedIndex={selectedIndex}
-            correctIndex={question.correct_index}
-            showResult={showResult}
-            onSelect={handleSelect}
-          />
-        )}
 
-        {question.type === "true_false" && (
-          <TrueFalse
-            choices={question.choices}
-            selectedIndex={selectedIndex}
-            correctIndex={question.correct_index}
-            showResult={showResult}
-            onSelect={handleSelect}
-          />
-        )}
+          {/* Multimedia Section */}
+          {question.image && (
+            <QuestionImage uri={question.image} caption={question.imageCaption} />
+          )}
+          {question.audio && (
+            <QuestionAudio uri={question.audio} />
+          )}
 
-        {question.type === "fill_blank" && (
-          <FillBlank
-            choices={question.choices}
-            selectedIndex={selectedIndex}
-            correctIndex={question.correct_index}
-            showResult={showResult}
-            onSelect={handleSelect}
-          />
-        )}
+          {/* 問題文 */}
+          {question.type === "conversation" ? (
+            <View style={styles.conversationBubble}>
+              <Text style={styles.conversationBubbleText}>{question.question}</Text>
+            </View>
+          ) : (
+            /* Question Text */
+            <Text style={styles.questionText}>{question.question}</Text>
+          )}
 
-        {question.type === "scenario" && (
-          <Scenario
-            choices={question.choices}
-            selectedIndex={selectedIndex}
-            correctIndex={question.correct_index || 0}
-            showResult={showResult}
-            onSelect={handleSelect}
-          />
-        )}
-
-        {question.type === "quick_reflex" && (() => {
-          console.log("[QuestionRenderer] Rendering quick_reflex:", {
-            type: question.type,
-            time_limit: question.time_limit,
-            choices: question.choices,
-            question: question.question
-          });
-          return (
-            <QuickReflex
+          {/* タイプ別レンダリング */}
+          {question.type === "multiple_choice" && (
+            <MultipleChoice
               choices={question.choices}
               selectedIndex={selectedIndex}
-              correctIndex={question.correct_index || 0}
+              correctIndex={question.correct_index}
               showResult={showResult}
               onSelect={handleSelect}
-              timeLimit={question.time_limit || 2000}
             />
-          );
-        })()}
+          )}
 
-        {question.type === "micro_input" && (() => {
-          console.log("[QuestionRenderer] Rendering micro_input:", {
-            type: question.type,
-            input_answer: question.input_answer,
-            placeholder: question.placeholder,
-            question: question.question
-          });
-          return (
-            <MicroInput
-              inputText={inputText}
-              setInputText={setInputText}
-              placeholder={question.placeholder || "答えを入力"}
+          {question.type === "true_false" && (
+            <TrueFalse
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index}
               showResult={showResult}
-              onSubmit={() => setShowResult(true)}
+              onSelect={handleSelect}
             />
-          );
-        })()}
+          )}
 
-        {question.type === "select_all" && question.correct_answers && (
-          <SelectAll
-            choices={question.choices}
-            selectedIndexes={selectedIndexes}
-            correctAnswers={question.correct_answers}
-            showResult={showResult}
-            onToggle={handleToggle}
-            revealedIndexes={revealedIndexes}
-          />
-        )}
-
-        {question.type === "sort_order" && question.items && question.correct_order && (
-          <>
-            <SortOrder
-              items={question.items}
-              currentOrder={currentOrder}
-              correctOrder={question.correct_order}
+          {question.type === "fill_blank" && (
+            <FillBlank
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index}
               showResult={showResult}
-              onReorder={handleReorder}
-              onDragStart={() => setScrollEnabled(false)}
-              onDragEnd={() => setScrollEnabled(true)}
+              onSelect={handleSelect}
             />
-            {!showResult && (
-              <Pressable style={styles.submitButton} onPress={handleSubmitOrder}>
-                <Text style={styles.submitButtonText}>答えを確認</Text>
-              </Pressable>
-            )}
-          </>
-        )}
-
-        {question.type === "fill_blank_tap" && (
-          <FillBlankTap
-            statement={question.statement}
-            choices={question.choices}
-            selectedIndex={selectedIndex}
-            correctIndex={question.correct_index ?? 0}
-            showResult={showResult}
-            onSelect={handleSelect}
-          />
-        )}
-
-        {question.type === "swipe_judgment" && (
-          <SwipeJudgment
-            statement={question.question}
-            selectedAnswer={swipeDirection}
-            correctAnswer={question.is_true ? "right" : "left"}
-            showResult={showResult}
-            onSwipe={handleSwipe}
-          />
-        )}
-
-        {question.type === "conversation" && question.your_response_prompt && (
-          <Conversation
-            prompt={question.question}
-            responsePrompt={question.your_response_prompt}
-            choices={question.choices}
-            selectedIndex={selectedResponse}
-            correctIndex={question.correct_index ?? 0}
-            showResult={showResult}
-            onSelect={handleSelectResponse}
-          />
-        )}
-
-        {question.type === "matching" && question.left_items && question.right_items && question.correct_pairs && (
-          <Matching
-            leftItems={question.left_items}
-            rightItems={question.right_items}
-            selectedPairs={selectedPairs}
-            correctPairs={question.correct_pairs}
-            showResult={showResult}
-            onMatch={handleMatch}
-          />
-        )}
-
-        {question.type === "swipe_choice" && (
-          <SwipeChoice
-            question={question.question}
-            onSwipe={(direction) => {
-              setSwipeChoiceDirection(direction);
-              setShowResult(true);
-            }}
-          />
-        )}
-
-        {question.type === "animated_explanation" && (
-          <AnimatedExplanation
-            onComplete={() => {
-              setShowResult(true);
-            }}
-          />
-        )}
-
-        {(question.type === "rhythm_tap" || question.type === "breathing_practice") && (
-          <RhythmTap
-            onComplete={() => {
-              setShowResult(true);
-            }}
-          />
-        )}
-
-        {question.type === "multi_select_triggers" && question.choices && (
-          <>
-            <MultiSelectTriggers
-              options={question.choices}
-              selectedIndexes={triggerIndexes}
-              onToggle={(index) => {
-                if (triggerIndexes.includes(index)) {
-                  setTriggerIndexes(triggerIndexes.filter(i => i !== index));
-                } else {
-                  setTriggerIndexes([...triggerIndexes, index]);
-                }
-              }}
-            />
-            {!showResult && triggerIndexes.length > 0 && (
-              <Pressable style={styles.submitButton} onPress={() => setShowResult(true)}>
-                <Text style={styles.submitButtonText}>決定</Text>
-              </Pressable>
-            )}
-          </>
-        )}
-
-        {question.type === "commitment" && (
-          <View style={styles.termCard}>
-            <Text style={styles.questionText}>{question.question}</Text>
-            {question.social_proof && (
-              <Text style={styles.termDefinition}>{question.social_proof}</Text>
-            )}
-            {!showResult && (
-              <Pressable style={styles.continueButton} onPress={() => setShowResult(true)}>
-                <Text style={styles.continueButtonText}>続ける</Text>
-                <Ionicons name="arrow-forward" size={20} color="#fff" />
-              </Pressable>
-            )}
-          </View>
-        )}
-
-        {question.type === "term_card" && (
-          <View style={styles.termCard}>
-            <Text style={styles.termTitle}>{question.term}</Text>
-            {question.term_en && (
-              <Text style={styles.termEn}>{question.term_en}</Text>
-            )}
-            {question.definition && (
-              <Text style={styles.termDefinition}>{question.definition}</Text>
-            )}
-            {question.key_points && question.key_points.length > 0 && (
-              <View style={styles.keyPointsContainer}>
-                {question.key_points.map((point, index) => (
-                  <Text key={index} style={styles.keyPoint}>• {point}</Text>
-                ))}
-              </View>
-            )}
-            {/* term_cardは自動的に続けるボタンを表示 */}
-            {!showResult && (
-              <Pressable style={styles.continueButton} onPress={() => setShowResult(true)}>
-                <Text style={styles.continueButtonText}>続ける</Text>
-                <Ionicons name="arrow-forward" size={20} color="#fff" />
-              </Pressable>
-            )}
-          </View>
-        )}
+          )}
 
 
 
-        {question.type === "sort_order" && question.items && question.correct_order && (
-          <>
-            <SortOrder
-              items={question.items}
-              currentOrder={currentOrder}
-              correctOrder={question.correct_order}
-              showResult={showResult}
-              onReorder={handleReorder}
-              onDragStart={() => setScrollEnabled(false)}
-              onDragEnd={() => setScrollEnabled(true)}
-            />
-            {!showResult && (
-              <Pressable style={styles.submitButton} onPress={handleSubmitOrder}>
-                <Text style={styles.submitButtonText}>答えを確認</Text>
-              </Pressable>
-            )}
-          </>
-        )}
-
-        {question.type === "fill_blank_tap" && (
-          <FillBlankTap
-            statement={question.statement}
-            choices={question.choices}
-            selectedIndex={selectedIndex}
-            correctIndex={question.correct_index ?? 0}
-            showResult={showResult}
-            onSelect={handleSelect}
-          />
-        )}
-
-        {question.type === "swipe_judgment" && (
-          <SwipeJudgment
-            statement={question.question}
-            selectedAnswer={swipeDirection}
-            correctAnswer={question.is_true ? "right" : "left"}
-            showResult={showResult}
-            onSwipe={handleSwipe}
-          />
-        )}
-
-
-        {question.type === "matching" && question.left_items && question.right_items && question.correct_pairs && (
-          <Matching
-            leftItems={question.left_items}
-            rightItems={question.right_items}
-            selectedPairs={selectedPairs}
-            correctPairs={question.correct_pairs}
-            showResult={showResult}
-            onMatch={handleMatch}
-          />
-        )}
-
-        {question.type === "swipe_choice" && (
-          <SwipeChoice
-            question={question.question}
-            onSwipe={(direction) => {
-              setSwipeChoiceDirection(direction);
-              setShowResult(true);
-            }}
-          />
-        )}
-
-        {question.type === "animated_explanation" && (
-          <AnimatedExplanation
-            onComplete={() => {
-              setShowResult(true);
-            }}
-          />
-        )}
-
-        {(question.type === "rhythm_tap" || question.type === "breathing_practice") && (
-          <RhythmTap
-            onComplete={() => {
-              setShowResult(true);
-            }}
-          />
-        )}
-
-        {question.type === "multi_select_triggers" && question.choices && (
-          <>
-            <MultiSelectTriggers
-              options={question.choices}
-              selectedIndexes={triggerIndexes}
-              onToggle={(index) => {
-                if (triggerIndexes.includes(index)) {
-                  setTriggerIndexes(triggerIndexes.filter(i => i !== index));
-                } else {
-                  setTriggerIndexes([...triggerIndexes, index]);
-                }
-              }}
-            />
-            {!showResult && triggerIndexes.length > 0 && (
-              <Pressable style={styles.submitButton} onPress={() => setShowResult(true)}>
-                <Text style={styles.submitButtonText}>決定</Text>
-              </Pressable>
-            )}
-          </>
-        )}
-
-        {question.type === "commitment" && (
-          <View style={styles.termCard}>
-            <Text style={styles.questionText}>{question.question}</Text>
-            {question.social_proof && (
-              <Text style={styles.termDefinition}>{question.social_proof}</Text>
-            )}
-            {!showResult && (
-              <Pressable style={styles.continueButton} onPress={() => setShowResult(true)}>
-                <Text style={styles.continueButtonText}>続ける</Text>
-                <Ionicons name="arrow-forward" size={20} color="#fff" />
-              </Pressable>
-            )}
-          </View>
-        )}
-
-        {question.type === "term_card" && (
-          <View style={styles.termCard}>
-            <Text style={styles.termTitle}>{question.term}</Text>
-            {question.term_en && (
-              <Text style={styles.termEn}>{question.term_en}</Text>
-            )}
-            {question.definition && (
-              <Text style={styles.termDefinition}>{question.definition}</Text>
-            )}
-            {question.key_points && question.key_points.length > 0 && (
-              <View style={styles.keyPointsContainer}>
-                {question.key_points.map((point, index) => (
-                  <Text key={index} style={styles.keyPoint}>• {point}</Text>
-                ))}
-              </View>
-            )}
-            {/* term_cardは自動的に続けるボタンを表示 */}
-            {!showResult && (
-              <Pressable style={styles.continueButton} onPress={() => setShowResult(true)}>
-                <Text style={styles.continueButtonText}>続ける</Text>
-                <Ionicons name="arrow-forward" size={20} color="#fff" />
-              </Pressable>
-            )}
-          </View>
-        )}
-
-        {question.type === "consequence_scenario" && question.consequence_type && (
-          <ConsequenceScenario
-            question={question.question}
-            consequenceType={question.consequence_type}
-            showResult={showResult}
-            onSelect={(isPositive) => {
-              setConsequenceSelection(isPositive);
-              setShowResult(true);
-            }}
-          />
-        )}
-
-        {/* 結果表示 */}
-        {showResult && (
-          <View style={[styles.resultBox, isCorrect ? styles.correctBox : styles.incorrectBox]}>
-            <View style={styles.resultHeader}>
-              <Ionicons
-                name={isCorrect ? "checkmark-circle" : "close-circle"}
-                size={32}
-                color={isCorrect ? theme.colors.success : theme.colors.error}
-
+          {question.type === "quick_reflex" && (() => {
+            if (__DEV__) console.log("[QuestionRenderer] Rendering quick_reflex:", {
+              type: question.type,
+              time_limit: question.time_limit,
+              choices: question.choices,
+              question: question.question
+            });
+            return (
+              <QuickReflex
+                choices={question.choices}
+                selectedIndex={selectedIndex}
+                correctIndex={question.correct_index || 0}
+                showResult={showResult}
+                onSelect={handleSelect}
+                timeLimit={question.time_limit || 2000}
               />
-              <Text style={[styles.resultTitle, isCorrect ? styles.correctText : styles.incorrectText]}>
-                {isCorrect ? "正解！" : "残念..."}
-              </Text>
-            </View>
+            );
+          })()}
 
-            {/* 次へボタン (Moved before explanation to ensure visibility) */}
-            <Pressable style={styles.continueButton} onPress={handleContinue}>
-              <Text style={styles.continueButtonText}>続ける</Text>
-              <Ionicons name="arrow-forward" size={20} color="#fff" />
+          {question.type === "micro_input" && (() => {
+            if (__DEV__) console.log("[QuestionRenderer] Rendering micro_input:", {
+              type: question.type,
+              input_answer: question.input_answer,
+              placeholder: question.placeholder,
+              question: question.question
+            });
+            return (
+              <MicroInput
+                inputText={inputText}
+                setInputText={setInputText}
+                placeholder={question.placeholder || "答えを入力"}
+                showResult={showResult}
+                onSubmit={() => setShowResult(true)}
+              />
+            );
+          })()}
+
+          {question.type === "select_all" && (
+            <SelectAll
+              choices={question.choices}
+              selectedIndexes={selectedIndexes}
+              correctAnswers={question.correct_answers}
+              showResult={showResult}
+              onToggle={handleToggle}
+              revealedIndexes={revealedIndexes}
+            />
+          )}
+
+          {/* SelectAll (Survey Mode) needs a submit button */}
+          {question.type === "select_all" && !showResult && (
+            <Pressable
+              style={[styles.submitButton, selectedIndexes.length === 0 && styles.submitButtonDisabled]}
+              onPress={() => {
+                if (selectedIndexes.length === 0) return; // Prevent empty submission? Or allow it? Let's require at least one.
+                setShowResult(true);
+              }}
+              disabled={selectedIndexes.length === 0}
+            >
+              <Text style={styles.submitButtonText}>決定</Text>
             </Pressable>
+          )}
 
-            <Text style={styles.explanation}>
-              {explanationText}
-            </Text>
-          </View>
-        )}
-      </ScrollView>
+          {question.type === "sort_order" && question.items && question.correct_order && (
+            <>
+              <SortOrder
+                items={question.items}
+                currentOrder={currentOrder}
+                correctOrder={
+                  question.correct_order && question.correct_order.length > 0 && typeof question.correct_order[0] === 'string'
+                    ? (question.correct_order as string[]).map((item) => question.items!.indexOf(item))
+                    : (question.correct_order as number[]) || []
+                }
+                showResult={showResult}
+                onReorder={handleReorder}
+                onDragStart={() => setScrollEnabled(false)}
+                onDragEnd={() => setScrollEnabled(true)}
+              />
+              {!showResult && (
+                <Pressable style={styles.submitButton} onPress={handleSubmitOrder}>
+                  <Text style={styles.submitButtonText}>答えを確認</Text>
+                </Pressable>
+              )}
+            </>
+          )}
 
-    </Animated.View>
+          {question.type === "fill_blank_tap" && (
+            <FillBlankTap
+              statement={question.statement}
+              choices={question.choices}
+              selectedIndex={selectedIndex}
+              correctIndex={question.correct_index ?? 0}
+              showResult={showResult}
+              onSelect={handleSelect}
+            />
+          )}
+
+          {question.type === "swipe_judgment" && (
+            <SwipeJudgment
+              statement={question.question}
+              selectedAnswer={swipeDirection}
+              correctAnswer={question.is_true ? "right" : "left"}
+              showResult={showResult}
+              onSwipe={handleSwipe}
+              labels={question.swipe_labels}
+            />
+          )}
+
+          {question.type === "conversation" && (
+            <Conversation
+              prompt={question.prompt || question.question}
+              responsePrompt={question.your_response_prompt || ""}
+              choices={question.choices}
+              selectedIndex={selectedResponse}
+              correctIndex={question.recommended_index ?? question.correct_index ?? 0}
+              showResult={showResult}
+              onSelect={handleSelectResponse}
+            />
+          )}
+
+          {question.type === "matching" && question.left_items && question.right_items && question.correct_pairs && (
+            <Matching
+              leftItems={question.left_items}
+              rightItems={question.right_items}
+              selectedPairs={selectedPairs}
+              correctPairs={question.correct_pairs}
+              showResult={showResult}
+              onMatch={handleMatch}
+            />
+          )}
+
+
+
+
+
+
+
+
+
+
+
+
+          {
+            question.type === "term_card" && (
+              <View style={styles.termCard}>
+                <Text style={styles.termTitle}>{question.term}</Text>
+                {question.term_en && (
+                  <Text style={styles.termEn}>{question.term_en}</Text>
+                )}
+                {question.definition && (
+                  <Text style={styles.termDefinition}>{question.definition}</Text>
+                )}
+                {question.key_points && question.key_points.length > 0 && (
+                  <View style={styles.keyPointsContainer}>
+                    {question.key_points.map((point, index) => (
+                      <Text key={index} style={styles.keyPoint}>• {point}</Text>
+                    ))}
+                  </View>
+                )}
+                {/* term_cardは自動的に続けるボタンを表示 */}
+                {!showResult && (
+                  <Pressable style={styles.continueButton} onPress={() => setShowResult(true)}>
+                    <Text style={styles.continueButtonText}>続ける</Text>
+                    <Ionicons name="arrow-forward" size={20} color="#fff" />
+                  </Pressable>
+                )}
+              </View>
+            )
+          }
+
+
+
+
+
+
+
+          {
+            question.type === "consequence_scenario" && question.consequence_type && (
+              <ConsequenceScenario
+                question={question.question}
+                consequenceType={question.consequence_type}
+                showResult={showResult}
+                onSelect={(isPositive) => {
+                  setConsequenceSelection(isPositive);
+                  setShowResult(true);
+                }}
+              />
+            )
+          }
+
+          {/* 結果表示 */}
+          {
+            showResult && (
+              <View style={[
+                styles.resultBox,
+                (question.type === "select_all" && !question.correct_answers)
+                  ? styles.termCard // Use neutral style
+                  : (isCorrect ? styles.correctBox : styles.incorrectBox)
+              ]}>
+                {/* Only show Result Header if NOT survey mode */}
+                {!(question.type === "select_all" && !question.correct_answers) && (
+                  <View style={styles.resultHeader}>
+                    <Ionicons
+                      name={isCorrect ? "checkmark-circle" : "close-circle"}
+                      size={32}
+                      color={isCorrect ? theme.colors.success : theme.colors.error}
+
+                    />
+                    <Text style={[styles.resultTitle, isCorrect ? styles.correctText : styles.incorrectText]}>
+                      {isCorrect ? (() => {
+                        const posFeedbacks = ["その通り", "鋭いね", "いい視点だね", "ナイス！", "素晴らしい"];
+                        return posFeedbacks[Math.floor(Math.random() * posFeedbacks.length)];
+                      })() : (() => {
+                        // Navigation style: Empathetic, not judgmental
+                        const navFeedbacks = ["なるほど", "この視点もあるね", "多くの人が迷うところ", "興味深い選択だね"];
+                        return navFeedbacks[Math.floor(Math.random() * navFeedbacks.length)];
+                      })()}
+                    </Text>
+                  </View>
+                )}
+
+                {!isCorrect && (() => {
+                  // 正解テキストを問題タイプごとに生成
+                  let correctAnswerText = "";
+
+                  if ((question.type === "multiple_choice" || question.type === "fill_blank_tap" || question.type === "conversation" || question.type === "quick_reflex" || question.type === "swipe_judgment" || question.type === "consequence_scenario" || question.type === "interactive_practice") && (question.choices && typeof question.correct_index === 'number')) {
+                    correctAnswerText = question.choices[question.correct_index];
+                  } else if (question.type === "select_all" && question.choices && question.correct_answers) {
+                    correctAnswerText = question.correct_answers.map(i => question.choices[i]).join("、");
+                  } else if (question.type === "swipe_judgment" && question.swipe_labels) {
+                    correctAnswerText = question.is_true ? `→ ${question.swipe_labels.right}` : `← ${question.swipe_labels.left}`;
+                  } else if (question.type === "sort_order" && question.correct_order) {
+                    correctAnswerText = question.correct_order.join(" → ");
+                  } else if (question.type === "consequence_scenario") {
+                    correctAnswerText = question.consequence_type === "positive" ? "ポジティブな結果" : "ネガティブな結果";
+                  } else if (question.type === "matching") {
+                    correctAnswerText = "上の緑色のペアが正解";
+                  }
+
+                  if (!correctAnswerText) return null;
+
+                  // ラベルを動的に決定
+                  let labelText = "正解:";
+                  if (
+                    question.type === "conversation" ||
+                    question.type === "consequence_scenario" ||
+                    question.type === "swipe_judgment"
+                  ) {
+                    labelText = "おすすめ:"; // Or "より良い選択:", "Better Choice:"
+                  }
+
+                  return (
+                    <View style={styles.correctAnswerBox}>
+                      <Text style={styles.correctAnswerLabel}>{labelText}</Text>
+                      <Text style={styles.correctAnswerText}>{correctAnswerText}</Text>
+                    </View>
+                  );
+                })()}
+
+                {/* 次へボタン (Moved before explanation to ensure visibility) */}
+                <AnimatedButton style={styles.continueButton} onPress={handleContinue}>
+                  <Text style={styles.continueButtonText}>続ける</Text>
+                  <Ionicons name="arrow-forward" size={20} color="#fff" />
+                </AnimatedButton>
+
+                {/* 正答時: 説明文を常に表示 */}
+                {isCorrect && (
+                  <InsightText
+                    text={explanationText}
+                    style={[
+                      styles.explanation,
+                      (question.type === "select_all" && !question.correct_answers) && { color: "#FFF" }
+                    ]}
+                  />
+                )}
+
+                {/* 誤答時: 1行actionHint + 「詳しく見る」で展開 */}
+                {!isCorrect && (() => {
+                  const details = (question as any).expanded_details;
+                  const hasEvidence = details?.claim_type || details?.evidence_type;
+                  const { getEvidenceSummary } = require('../lib/evidenceSummary');
+                  const summary = hasEvidence ? getEvidenceSummary(details) : null;
+
+                  return (
+                    <View style={styles.incorrectFeedbackContainer}>
+                      {/* 1行ヒント（常に表示） */}
+                      {summary && (
+                        <View style={styles.actionHintContainer}>
+                          <Text style={styles.actionHintText}>
+                            💡 {summary.actionHint}
+                          </Text>
+                        </View>
+                      )}
+
+                      {/* 介入問題: attempted/executed ボタン */}
+                      {details?.claim_type === 'intervention' && (
+                        <View style={styles.interventionButtonsContainer}>
+                          {!hasAttempted ? (
+                            <TouchableOpacity
+                              style={styles.attemptButton}
+                              onPress={() => {
+                                const questionId = question.id;
+                                setHasAttempted(true);
+                                setAttemptCountdown(10); // 10秒カウントダウン開始
+                                onInterventionAttempted?.(questionId);
+
+                                // 1秒ごとにカウントダウン
+                                countdownRef.current = setInterval(() => {
+                                  setAttemptCountdown(prev => {
+                                    if (prev <= 1) {
+                                      if (countdownRef.current) clearInterval(countdownRef.current);
+                                      return 0;
+                                    }
+                                    return prev - 1;
+                                  });
+                                }, 1000);
+                              }}
+                            >
+                              <Text style={styles.attemptButtonText}>⏱️ 10秒だけやる</Text>
+                            </TouchableOpacity>
+                          ) : attemptCountdown > 0 ? (
+                            // カウントダウン中：無効化されたボタン
+                            <View style={[styles.executeButton, { backgroundColor: '#374151', opacity: 0.7 }]}>
+                              <Text style={[styles.executeButtonText, { color: '#9ca3af' }]}>
+                                ⏱️ {attemptCountdown}秒...
+                              </Text>
+                            </View>
+                          ) : (
+                            // 10秒経過：有効化
+                            <TouchableOpacity
+                              style={styles.executeButton}
+                              onPress={() => {
+                                const questionId = question.id;
+                                onInterventionExecuted?.(questionId);
+                              }}
+                            >
+                              <Text style={styles.executeButtonText}>✅ やった！</Text>
+                            </TouchableOpacity>
+                          )}
+                        </View>
+                      )}
+
+                      {/* 「詳しく見る」展開ボタン */}
+                      <TouchableOpacity
+                        onPress={() => setShowExplanationDetails(!showExplanationDetails)}
+                        style={styles.detailsToggleButton}
+                      >
+                        <Text style={styles.detailsToggleButtonText}>
+                          {showExplanationDetails ? "▲ 閉じる" : "▼ 詳しく見る"}
+                        </Text>
+                      </TouchableOpacity>
+
+                      {/* 展開時のみ詳細を表示 */}
+                      {showExplanationDetails && (
+                        <View style={styles.expandedDetails}>
+                          <InsightText
+                            text={explanationText}
+                            style={[styles.explanation, { marginTop: 8 }]}
+                          />
+
+                          {/* interventionのみ: 根拠ラベル表示 */}
+                          {details?.claim_type === 'intervention' && summary && (
+                            <View style={styles.evidenceCompactRow}>
+                              <Text style={styles.evidenceCompactLabel}>
+                                {summary.valueLabel}：{summary.tryValue}
+                              </Text>
+                              <Text style={styles.evidenceCompactNote}>
+                                {summary.note}
+                              </Text>
+                            </View>
+                          )}
+                        </View>
+                      )}
+                    </View>
+                  );
+                })()}
+
+                {/* 正答時: BottomSheetリンク */}
+                {isCorrect && (() => {
+                  const details = (question as any).expanded_details;
+                  const hasEvidence = details?.claim_type || details?.evidence_type;
+
+                  if (!question.evidence_grade || !hasEvidence) return null;
+
+                  return (
+                    <Pressable
+                      onPress={() => {
+                        if (showEvidenceSheet) return;
+                        setShowEvidenceSheet(true);
+                      }}
+                      style={({ pressed }) => [
+                        styles.evidenceBadge,
+                        { backgroundColor: 'rgba(255,255,255,0.1)' },
+                        pressed && { opacity: 0.7 }
+                      ]}
+                    >
+                      <Text style={[styles.evidenceText, { fontSize: 11, color: '#aaa' }]}>
+                        📚 根拠あり (タップで詳細)
+                      </Text>
+                    </Pressable>
+                  );
+                })()}
+
+                {question.actionable_advice && (
+                  <View style={styles.actionAdviceContainer}>
+                    <Text style={styles.actionAdviceText}>
+                      {question.actionable_advice}
+                    </Text>
+                  </View>
+                )}
+
+                {/* 正答時: intervention用CTAボタン（計測精度向上） */}
+                {isCorrect && (question as any).expanded_details?.claim_type === 'intervention' && (
+                  <View style={styles.interventionButtonsContainer}>
+                    {!hasAttempted ? (
+                      <TouchableOpacity
+                        style={[styles.attemptButton, { backgroundColor: '#3b82f6' }]}
+                        onPress={() => {
+                          const questionId = question.id;
+                          setHasAttempted(true);
+                          setAttemptCountdown(10);
+                          onInterventionAttempted?.(questionId);
+
+                          countdownRef.current = setInterval(() => {
+                            setAttemptCountdown(prev => {
+                              if (prev <= 1) {
+                                if (countdownRef.current) clearInterval(countdownRef.current);
+                                return 0;
+                              }
+                              return prev - 1;
+                            });
+                          }, 1000);
+                        }}
+                      >
+                        <Text style={styles.attemptButtonText}>⏱️ 10秒だけやる</Text>
+                      </TouchableOpacity>
+                    ) : attemptCountdown > 0 ? (
+                      <View style={[styles.executeButton, { backgroundColor: '#374151', opacity: 0.7 }]}>
+                        <Text style={[styles.executeButtonText, { color: '#9ca3af' }]}>
+                          ⏱️ {attemptCountdown}秒...
+                        </Text>
+                      </View>
+                    ) : (
+                      <TouchableOpacity
+                        style={[styles.executeButton, { backgroundColor: '#22c55e' }]}
+                        onPress={() => {
+                          const questionId = question.id;
+                          onInterventionExecuted?.(questionId);
+                        }}
+                      >
+                        <Text style={styles.executeButtonText}>✅ やった！</Text>
+                      </TouchableOpacity>
+                    )}
+                  </View>
+                )}
+              </View>
+            )
+          }
+        </ScrollView >
+
+      </Animated.View >
+
+      {/* Evidence Bottom Sheet */}
+      <EvidenceBottomSheet
+        visible={showEvidenceSheet}
+        onClose={() => setShowEvidenceSheet(false)}
+        source_id={(question as any).source_id}
+        expandedDetails={(question as any).expanded_details}
+      />
+    </>
   );
 }
 
@@ -897,7 +971,7 @@ function MultipleChoice({
 }: {
   choices: string[];
   selectedIndex: number | null;
-  correctIndex: number;
+  correctIndex: number | null;
   showResult: boolean;
   onSelect: (index: number) => void;
 }) {
@@ -905,42 +979,65 @@ function MultipleChoice({
     <View style={styles.choicesContainer}>
       {choices.map((choice, index) => {
         const isSelected = selectedIndex === index;
-        const isCorrect = index === correctIndex;
-        const shouldShowCorrect = showResult && isCorrect;
-        const shouldShowIncorrect = showResult && isSelected && !isCorrect;
+        // correctIndex might be null/undefined in some cases but usually number
+        const isCorrect = correctIndex === index;
+
+        // Result display logic
+        // Result display logic - initialize with undefined to use styles
+        let borderColor: string | undefined;
+        let bg: string | undefined;
+        let showCheck = false;
+        let showCross = false;
+
+        if (showResult) {
+          if (index === correctIndex) {
+            borderColor = "rgba(34, 197, 94, 0.8)";
+            bg = "rgba(34, 197, 94, 0.15)";
+            showCheck = true;
+          } else if (isSelected) {
+            borderColor = "rgba(239, 68, 68, 0.8)";
+            bg = "rgba(239, 68, 68, 0.15)";
+            showCross = true;
+          }
+        } else {
+          if (isSelected) {
+            borderColor = theme.colors.primary;
+            bg = "rgba(6, 182, 212, 0.15)";
+          }
+        }
 
         return (
-          <Pressable
+          <AnimatedButton
             key={index}
             style={[
               styles.choiceButton,
-              isSelected && styles.selectedChoice,
-              shouldShowCorrect && styles.correctChoice,
-              shouldShowIncorrect && styles.incorrectChoice,
+              bg && { backgroundColor: bg },
+              borderColor && { borderColor },
+              showResult && !isSelected && index !== correctIndex && { opacity: 0.6 },
             ]}
             onPress={() => onSelect(index)}
             disabled={showResult}
           >
             <Text style={[
               styles.choiceText,
-              (isSelected || shouldShowCorrect || shouldShowIncorrect) && styles.selectedChoiceText
+              (isSelected || showCheck || showCross) && { fontWeight: "bold" }
             ]}>
               {choice}
             </Text>
-            {shouldShowCorrect && (
+            {showCheck && (
               <Ionicons name="checkmark-circle" size={24} color={theme.colors.success} />
             )}
-            {shouldShowIncorrect && (
+            {showCross && (
               <Ionicons name="close-circle" size={24} color={theme.colors.error} />
             )}
-          </Pressable>
+          </AnimatedButton>
         );
       })}
     </View>
   );
 }
 
-// 正誤判定
+// 2択判定 (Binary Choice)
 function TrueFalse({
   choices,
   selectedIndex,
@@ -955,36 +1052,38 @@ function TrueFalse({
   onSelect: (index: number) => void;
 }) {
   return (
-    <View style={styles.trueFalseContainer}>
-      {choices.map((choice, index) => {
-        const isSelected = selectedIndex === index;
-        const isCorrect = index === correctIndex;
-        const shouldShowCorrect = showResult && isCorrect;
-        const shouldShowIncorrect = showResult && isSelected && !isCorrect;
+    <View style={styles.choicesContainer}>
+      <View style={{ flexDirection: 'row', gap: 12, height: 180 }}>
+        {choices.map((choice, index) => {
+          const isSelected = selectedIndex === index;
+          const isCorrect = index === correctIndex;
+          const shouldShowCorrect = showResult && isCorrect;
+          const shouldShowIncorrect = showResult && isSelected && !isCorrect;
 
-        return (
-          <Pressable
-            key={index}
-            style={[
-              styles.tfButton,
-              isSelected && styles.selectedChoice,
-              shouldShowCorrect && styles.correctChoice,
-              shouldShowIncorrect && styles.incorrectChoice,
-            ]}
-            onPress={() => onSelect(index)}
-            disabled={showResult}
-          >
-            <Ionicons
-              name={choice === "正しい" || choice === "本当" ? "checkmark-circle-outline" : "close-circle-outline"}
-              size={48}
-              color={isSelected ? "#fff" : theme.colors.primary}
-            />
-            <Text style={[styles.tfText, isSelected && styles.selectedChoiceText]}>
-              {choice}
-            </Text>
-          </Pressable>
-        );
-      })}
+          return (
+            <AnimatedButton
+              key={index}
+              style={[
+                styles.tfButton,
+                // { flex: 1, backgroundColor: '#f0f4f8', borderBottomWidth: 4, borderColor: '#d9e2ec', justifyContent: 'center', alignItems: 'center' }, // REMOVED hardcoded light styles
+                isSelected && styles.selectedChoice,
+                shouldShowCorrect && styles.correctChoice,
+                shouldShowIncorrect && styles.incorrectChoice,
+              ]}
+              onPress={() => onSelect(index)}
+              disabled={showResult}
+            >
+              <Text style={[
+                styles.choiceText,
+                { fontSize: 18, textAlign: 'center', fontWeight: 'bold' },
+                (isSelected || shouldShowCorrect || shouldShowIncorrect) && styles.selectedChoiceText
+              ]}>
+                {choice}
+              </Text>
+            </AnimatedButton>
+          );
+        })}
+      </View>
     </View>
   );
 }
@@ -1012,7 +1111,7 @@ function FillBlank({
         const shouldShowIncorrect = showResult && isSelected && !isCorrect;
 
         return (
-          <Pressable
+          <AnimatedButton
             key={index}
             style={[
               styles.fillBlankButton,
@@ -1026,54 +1125,7 @@ function FillBlank({
             <Text style={[styles.choiceText, isSelected && styles.selectedChoiceText]}>
               {choice}
             </Text>
-          </Pressable>
-        );
-      })}
-    </View>
-  );
-}
-
-// シナリオ
-function Scenario({
-  choices,
-  selectedIndex,
-  correctIndex,
-  showResult,
-  onSelect,
-}: {
-  choices: string[];
-  selectedIndex: number | null;
-  correctIndex: number;
-  showResult: boolean;
-  onSelect: (index: number) => void;
-}) {
-  return (
-    <View style={styles.scenarioContainer}>
-      {choices.map((choice, index) => {
-        const isSelected = selectedIndex === index;
-        const isCorrect = index === correctIndex;
-        const shouldShowCorrect = showResult && isCorrect;
-        const shouldShowIncorrect = showResult && isSelected && !isCorrect;
-
-        return (
-          <Pressable
-            key={index}
-            style={[
-              styles.scenarioButton,
-              isSelected && styles.selectedChoice,
-              shouldShowCorrect && styles.correctChoice,
-              shouldShowIncorrect && styles.incorrectChoice,
-            ]}
-            onPress={() => onSelect(index)}
-            disabled={showResult}
-          >
-            <View style={styles.scenarioIcon}>
-              <Ionicons name="bulb-outline" size={24} color={isSelected ? "#fff" : theme.colors.primary} />
-            </View>
-            <Text style={[styles.scenarioText, isSelected && styles.selectedChoiceText]}>
-              {choice}
-            </Text>
-          </Pressable>
+          </AnimatedButton>
         );
       })}
     </View>
@@ -1116,43 +1168,51 @@ const styles = StyleSheet.create({
     fontSize: 24,
     fontWeight: "700",
     color: "#fff",
-    lineHeight: 34,
     marginBottom: 32,
+    lineHeight: 34,
+    textAlign: "left",
+  },
+  sectionTitle: { // Add a specific style if needed, or inline logic
   },
   choicesContainer: {
     gap: 12,
+    marginBottom: 24,
   },
   choiceButton: {
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: "#1e293b", // Solid Slate-800 for consistent visibility
+    borderWidth: 1.5,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+    borderRadius: 16,
+    padding: 20,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   selectedChoice: {
-    backgroundColor: theme.colors.primary,
+    backgroundColor: "rgba(6, 182, 212, 0.2)", // Primary Cyan tint
     borderColor: theme.colors.primary,
   },
   correctChoice: {
-    backgroundColor: theme.colors.success,
+    backgroundColor: "rgba(34, 197, 94, 0.2)",
     borderColor: theme.colors.success,
   },
   incorrectChoice: {
-    backgroundColor: theme.colors.error,
+    backgroundColor: "rgba(239, 68, 68, 0.2)",
     borderColor: theme.colors.error,
   },
   choiceText: {
     fontSize: 18,
-    color: "#1a1a1a",
+    color: "#fff", // White text
     flex: 1,
     lineHeight: 26,
     fontWeight: "600",
   },
   selectedChoiceText: {
-    color: "#fff",
+    color: "#a5f3fc", // Cyan 200
   },
   trueFalseContainer: {
     flexDirection: "row",
@@ -1162,9 +1222,9 @@ const styles = StyleSheet.create({
   },
   tfButton: {
     flex: 1,
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: theme.colors.primary,
+    backgroundColor: "#1e293b",
+    borderWidth: 1.5,
+    borderColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 16,
     padding: 24,
     alignItems: "center",
@@ -1173,12 +1233,12 @@ const styles = StyleSheet.create({
   tfText: {
     fontSize: 19,
     fontWeight: "700",
-    color: "#1a1a1a",
+    color: "#fff",
   },
   fillBlankButton: {
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
+    backgroundColor: "#1e293b",
+    borderWidth: 1.5,
+    borderColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 12,
     padding: 16,
   },
@@ -1186,9 +1246,9 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   scenarioButton: {
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
+    backgroundColor: "rgba(30, 41, 59, 0.6)",
+    borderWidth: 1.5,
+    borderColor: "rgba(255, 255, 255, 0.2)",
     borderRadius: 12,
     padding: 16,
     flexDirection: "row",
@@ -1217,10 +1277,14 @@ const styles = StyleSheet.create({
     marginBottom: 40, // Add margin bottom
   },
   correctBox: {
-    backgroundColor: "#e8f5e9",
+    backgroundColor: "rgba(34, 197, 94, 0.2)",
+    borderColor: "rgba(34, 197, 94, 0.5)",
+    borderWidth: 1,
   },
   incorrectBox: {
-    backgroundColor: "#ffebee",
+    backgroundColor: "rgba(239, 68, 68, 0.2)",
+    borderColor: "rgba(239, 68, 68, 0.5)",
+    borderWidth: 1,
   },
   resultHeader: {
     flexDirection: "row",
@@ -1240,10 +1304,56 @@ const styles = StyleSheet.create({
   },
   explanation: {
     fontSize: 16,
-    color: "#2c2c2c",
+    color: "#fff",
     lineHeight: 24,
-    marginBottom: 16,
+    marginTop: 16,
     fontWeight: "500",
+  },
+  actionAdviceContainer: {
+    marginTop: 20,
+    padding: 16,
+    backgroundColor: theme.colors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.primary,
+  },
+  actionAdviceText: {
+    fontSize: 16,
+    color: theme.colors.text,
+    lineHeight: 24,
+    fontWeight: "600",
+  },
+  evidenceBadge: {
+    alignSelf: 'flex-start',
+    paddingHorizontal: 12,
+    paddingVertical: 6,
+    borderRadius: 16,
+    marginTop: 12,
+    marginBottom: 8,
+  },
+  evidence_gold: {
+    backgroundColor: '#FFF8E1',
+    borderWidth: 1,
+    borderColor: '#FFC107',
+  },
+  evidence_silver: {
+    backgroundColor: '#F5F5F5',
+    borderWidth: 1,
+    borderColor: '#9E9E9E',
+  },
+  evidence_bronze: {
+    backgroundColor: '#EFEBE9',
+    borderWidth: 1,
+    borderColor: '#8D6E63',
+  },
+  evidenceText: {
+    fontSize: 12,
+    fontWeight: 'bold',
+    color: "#1a1a1a", // Keep dark text for badges as they have light bg
+  },
+  continueButtonDisabled: {
+    backgroundColor: "rgba(255, 255, 255, 0.2)",
+    opacity: 0.5,
   },
   continueButton: {
     backgroundColor: theme.colors.success,
@@ -1262,16 +1372,20 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   submitButton: {
-    backgroundColor: "#22d3ee",
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 16,
+    backgroundColor: theme.colors.primary,
+    paddingVertical: 14,
+    paddingHorizontal: 24,
+    borderRadius: 12,
     alignItems: "center",
-    marginTop: 20,
+    marginTop: 12,
+  },
+  submitButtonDisabled: {
+    backgroundColor: "#bdc3c7",
+    opacity: 0.6,
   },
   submitButtonText: {
-    fontSize: 17,
-    fontWeight: "700",
+    fontSize: 16,
+    fontWeight: "600",
     color: "#fff",
   },
   // term_card styles
@@ -1299,6 +1413,8 @@ const styles = StyleSheet.create({
     lineHeight: 26,
     marginBottom: 16,
   },
+
+
   keyPointsContainer: {
     marginTop: 8,
     marginBottom: 16,
@@ -1315,5 +1431,119 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: "#fff",
     textAlign: "right",
+  },
+  correctAnswerBox: {
+    backgroundColor: "#1e3a2f",
+    borderRadius: 12,
+    padding: 16,
+    marginVertical: 12,
+    borderWidth: 2,
+    borderColor: "#22c55e",
+  },
+  correctAnswerLabel: {
+    fontSize: 13,
+    color: "#4ade80",
+    fontWeight: "700",
+    marginBottom: 6,
+    letterSpacing: 1,
+  },
+  correctAnswerText: {
+    fontSize: 18,
+    color: "#fff",
+    fontWeight: "700",
+    lineHeight: 26,
+  },
+  // Conversation bubble styles
+  conversationBubble: {
+    backgroundColor: "#374151",
+    borderRadius: 16,
+    padding: 16,
+    marginBottom: 24,
+  },
+  conversationBubbleText: {
+    fontSize: 20,
+    fontWeight: "600",
+    color: "#fff",
+    lineHeight: 30,
+  },
+  // ActionHint styles (for incorrect answer feedback)
+  actionHintContainer: {
+    backgroundColor: "rgba(96, 165, 250, 0.15)",
+    borderRadius: 10,
+    padding: 12,
+    marginTop: 12,
+  },
+  actionHintText: {
+    fontSize: 14,
+    color: "#60a5fa",
+    lineHeight: 20,
+    fontWeight: "500",
+  },
+  // Incorrect feedback container styles (for collapsed/expanded view)
+  incorrectFeedbackContainer: {
+    marginTop: 8,
+  },
+  detailsToggleButton: {
+    paddingVertical: 10,
+    alignItems: "center",
+  },
+  detailsToggleButtonText: {
+    fontSize: 13,
+    color: "#a5b4fc",
+    fontWeight: "500",
+  },
+  expandedDetails: {
+    marginTop: 4,
+  },
+  evidenceCompactRow: {
+    marginTop: 12,
+    padding: 10,
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderRadius: 8,
+  },
+  evidenceCompactLabel: {
+    fontSize: 13,
+    color: "#60a5fa",
+    fontWeight: "600",
+    marginBottom: 4,
+  },
+  evidenceCompactNote: {
+    fontSize: 12,
+    color: "#94a3b8",
+  },
+  // Intervention attempted/executed buttons
+  interventionButtonsContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    marginVertical: 12,
+    gap: 12,
+  },
+  attemptButton: {
+    backgroundColor: "#3b82f6",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  attemptButtonText: {
+    color: "#fff",
+    fontSize: 15,
+    fontWeight: "600",
+  },
+  executeButton: {
+    backgroundColor: "#22c55e",
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 24,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  executeButtonText: {
+    color: "#fff",
+    fontSize: 15,
+    fontWeight: "600",
   },
 });

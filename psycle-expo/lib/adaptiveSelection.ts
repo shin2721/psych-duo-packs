@@ -43,6 +43,13 @@ function calculateLearningValue(
 }
 
 /**
+ * Helper to get unique ID from question
+ */
+function getQuestionId(q: { id?: string; source_id?: string }): string | undefined {
+    return q.source_id || q.id;
+}
+
+/**
  * Selects the next best question for the user based on adaptive difficulty.
  * 
  * Algorithm:
@@ -55,7 +62,7 @@ function calculateLearningValue(
  * @param context - User skill context
  * @returns Selected question, or null if no questions available
  */
-export function selectNextQuestion<T extends { id?: string; difficulty?: string; type?: string }>(
+export function selectNextQuestion<T extends { id?: string; source_id?: string; difficulty?: string; type?: string }>(
     questions: T[],
     context: SelectionContext
 ): T | null {
@@ -86,8 +93,9 @@ export function selectNextQuestion<T extends { id?: string; difficulty?: string;
         // Base learning value (now uses recentAccuracy for adaptive difficulty)
         let score = calculateLearningValue(difficulty, userSkill, recentAccuracy);
 
+        const qId = getQuestionId(q);
         // Penalize recently answered questions (50% reduction)
-        if (q.id && recentlyAnswered.includes(q.id)) {
+        if (qId && recentlyAnswered.includes(qId)) {
             score *= 0.5;
         }
 
@@ -121,7 +129,7 @@ export function selectNextQuestion<T extends { id?: string; difficulty?: string;
  * @param context - User skill context
  * @returns Sorted questions (best first)
  */
-export function sortQuestionsByAdaptiveDifficulty<T extends { id?: string; difficulty?: string; type?: string }>(
+export function sortQuestionsByAdaptiveDifficulty<T extends { id?: string; source_id?: string; difficulty?: string; type?: string }>(
     questions: T[],
     context: SelectionContext
 ): T[] {
@@ -138,11 +146,12 @@ export function sortQuestionsByAdaptiveDifficulty<T extends { id?: string; diffi
         if (!next) break;
 
         sorted.push(next);
-        if (next.id) {
-            recentIds.push(next.id);
+        const nextId = getQuestionId(next);
+        if (nextId) {
+            recentIds.push(nextId);
         }
 
-        const index = remaining.findIndex((q) => q.id === next.id);
+        const index = remaining.findIndex((q) => getQuestionId(q) === nextId);
         if (index !== -1) {
             remaining.splice(index, 1);
         }

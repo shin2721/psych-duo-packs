@@ -1,0 +1,376 @@
+[
+  {
+    "id": "social_l02_001",
+    "type": "swipe_judgment",
+    "question": "「ちょっと考えさせて」と言えれば楽なのに、言えなくて後悔したことがある。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "よくある",
+      "right": "あまりない"
+    },
+    "explanation": "「即答しなきゃ」というプレッシャーは、自分で作っていることがある。相手にとっても「少し考える時間」は普通。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "即答プレッシャーを感じやすい人"
+      ],
+      "limitations": [
+        "緊急の場面では使いにくい"
+      ],
+      "citation_role": "境界線設定における即答プレッシャーの影響を支持",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "self_awareness"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_002",
+    "type": "multiple_choice",
+    "question": "「断りにくい」と感じたとき、まず冷静になれる方法は？",
+    "choices": [
+      "スマホを持ち直して「ちょっと確認させて」と言う",
+      "笑顔で「いいよ！」と即答する",
+      "黙って考え込む"
+    ],
+    "correct_index": 0,
+    "explanation": "「持ち直す」という物理動作が脳に切り替えのサインを送る。言葉が出にくいときは、まず体を動かす。（「即答でいいよ」は後惔しやすい。「黙って考え込む」は気まずい）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "言葉が出てこない人"
+      ],
+      "limitations": [
+        "対面だと物理動作が難しい場合もある"
+      ],
+      "citation_role": "アサーティブネスと身体動作の関連を理論的に説明",
+      "claim_tags": [
+        "assertiveness",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_003",
+    "type": "multiple_choice",
+    "question": "「今決めなきゃ」と焦ったとき、10秒だけ手を止める方法として効果が報告されているのは？",
+    "choices": [
+      "スマホから指を離して「ちょっと待って」と言う",
+      "「わかった」と言って後から断る",
+      "既読無視する"
+    ],
+    "correct_index": 0,
+    "explanation": "物理的に「指を離す」ことで、即答のプレッシャーから一歩引ける。言葉より先に体を動かすのがコツ。できなくても普通。まず1回だけ。（「わかったと言って後から」は気まずい。「既読無視」は関係が悪化しやすい）",
+    "actionable_advice": "👉 「断りにくい」と感じたら → スマホから指を離して「10秒だけ確認させて」と打つ",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "LINEやDMで即レスしがちな人"
+      ],
+      "limitations": [
+        "対面では別のアプローチが必要"
+      ],
+      "citation_role": "境界線設定における保留技術を間接支持",
+      "try_this": "👉 断りにくいDMが来たら → 指を離して10秒待ってから「確認させて」と返す",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "physical_action"
+      ],
+      "tiny_metric": {
+        "before_prompt": "今の「即答しなきゃ」プレッシャーは？（0-10）",
+        "after_prompt": "指を離して10秒後は？",
+        "success_rule": "少しでも下がればOK",
+        "stop_rule": "変わらなければ今日は撤退"
+      },
+      "comparator": {
+        "baseline": "即レスで「いいよ」と返す",
+        "cost": "10秒 / 負荷は低い"
+      },
+      "fallback": {
+        "when": "10秒が無理",
+        "next": "「1秒だけ」指を離して深呼吸1回"
+      }
+    }
+  },
+  {
+    "id": "social_l02_004",
+    "type": "swipe_judgment",
+    "question": "「断る＝相手との関係が終わる」と思ってしまうことがある。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "心当たりある",
+      "right": "そうでもない"
+    },
+    "explanation": "実際は、1回の断りで関係が終わることは稀。むしろ無理を重ねて疲弊する方がリスク。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "関係悪化を恐れて断れない人"
+      ],
+      "limitations": [
+        "本当に関係が壊れるケースもゼロではない"
+      ],
+      "citation_role": "アサーティブネスと関係維持の観察研究を支持",
+      "claim_tags": [
+        "assertiveness",
+        "relationship",
+        "fear"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_005",
+    "type": "conversation",
+    "question": "「断りにくい」と感じる場面で、自分に一番当てはまるパターンは？",
+    "choices": [
+      "相手を傷つけそうで言えない",
+      "嫌われそうで言えない",
+      "断り方がわからない",
+      "特にパターンはない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。自分のパターンに気づくと、対策が選びやすくなる。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "アサーティブネスパターンの自己認識を支持",
+      "claim_tags": [
+        "self_awareness",
+        "assertiveness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_006",
+    "type": "multiple_choice",
+    "question": "「NO」を言いやすくするフレーズとして、どの形が言いやすい？",
+    "choices": [
+      "「○○なので、今回は難しいです」（理由＋断り）",
+      "「絶対イヤです」",
+      "「考えておく」（断らずに終わらせる）"
+    ],
+    "correct_index": 0,
+    "explanation": "「理由＋断り」は、相手を否定せず自分の状況を伝えられる。例：「今週は立て込んでて、今回は難しいです」。まず1回だけ。（「強い拒否」は言いにくい。「考えておく」は曖昧で終わりがち）",
+    "actionable_advice": "👉 断るとき → 「○○なので、今回は難しいです」を10秒唱えてから送る",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "断り方がわからない人"
+      ],
+      "limitations": [
+        "理由を求められると困る場合もある"
+      ],
+      "citation_role": "境界線設定のフレーズ技術を間接支持",
+      "try_this": "👉 断り文を送る前に → 指を止めて10秒だけ「○○なので難しいです」と唱える",
+      "claim_tags": [
+        "assertiveness",
+        "phrase_template",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "before_prompt": "断り文を送る前の不安は？（0-10）",
+        "after_prompt": "フレーズを唱えた後は？",
+        "success_rule": "少しでも下がればOK",
+        "stop_rule": "変わらなければ別のフレーズへ"
+      },
+      "comparator": {
+        "baseline": "どう言えばいいかわからず固まる",
+        "cost": "10秒 / 負荷は低い"
+      },
+      "fallback": {
+        "when": "理由が思いつかない",
+        "next": "「今回は難しいです」だけでOK"
+      }
+    }
+  },
+  {
+    "id": "social_l02_007",
+    "type": "swipe_judgment",
+    "question": "断るときに「謝らなきゃ」と思ってしまう傾向がある。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "心当たりある",
+      "right": "そうでもない"
+    },
+    "explanation": "断ること自体は謝る必要がない場合も多い。「ありがとう、でも今回は難しい」という形で、肯定から始めると楽になることがある。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "断るときに過度に謝る傾向がある人"
+      ],
+      "limitations": [
+        "文化や関係性によっては謝罪が適切な場合もある"
+      ],
+      "citation_role": "アサーティブネスと謝罪の関係を観察研究で支持",
+      "claim_tags": [
+        "assertiveness",
+        "apology",
+        "self_respect"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_008",
+    "type": "multiple_choice",
+    "question": "対面で「断りにくい」と感じたとき、まず体でできることは？",
+    "choices": [
+      "一歩後ろに下がって「ちょっと考えさせて」と言う",
+      "笑顔で「いいよ！」と言う",
+      "腕を組んで黙る"
+    ],
+    "correct_index": 0,
+    "explanation": "物理的に「一歩引く」ことで、心理的にも距離が取れる。言葉より先に体を動かすのがコツ。まず1回だけ。（「笑顔でいいよ」は後惔しやすい。「腕を組んで黙る」は攻撃的に見える）",
+    "actionable_advice": "👉 対面で断りにくいとき → 一歩後ろに下がって「ちょっと考えさせて」と言う",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "対面で即答を求められる場面が多い人"
+      ],
+      "limitations": [
+        "スペースがない場所では難しい"
+      ],
+      "citation_role": "身体動作と境界線設定の関連を間接支持",
+      "try_this": "👉 対面で断りにくいとき → 一歩下がって10秒だけ「考えさせて」と言う",
+      "claim_tags": [
+        "assertiveness",
+        "physical_action",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "before_prompt": "断りにくさは？（0-10）",
+        "after_prompt": "一歩下がった後は？",
+        "success_rule": "少しでも下がればOK",
+        "stop_rule": "変わらなければ別の方法へ"
+      },
+      "comparator": {
+        "baseline": "立ったまま即答する",
+        "cost": "1秒 / 負荷は低い"
+      },
+      "fallback": {
+        "when": "下がれない",
+        "next": "視線を外して「うーん」と言う"
+      }
+    }
+  },
+  {
+    "id": "social_l02_009",
+    "type": "conversation",
+    "question": "今日学んだテクで、明日から使えそうなのは？",
+    "choices": [
+      "「スマホから指を離して保留する」",
+      "「理由＋断り」フレーズを使う",
+      "「一歩下がって考える」物理動作",
+      "全部試してみる"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも試してみる価値がある。合わなければ別のを試す。それも学び。まず1回だけ。（「全部」は無理しなくてOK、どれか1つから始める）",
+    "actionable_advice": "👉 明日1回だけ「断りにくい」と感じたら → スマホから指を離して10秒待つ",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "新しい習慣を試したい人"
+      ],
+      "limitations": [
+        "練習なしでは忘れやすい"
+      ],
+      "citation_role": "境界線設定介入の選択肢を提案",
+      "try_this": "👉 明日1回「断りにくい」と感じたら → スマホから指を離して10秒待つ",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "assertiveness"
+      ],
+      "tiny_metric": {
+        "metric": "今週1回でも使えたか",
+        "stop_rule": "1週間使えなかったらやめる"
+      },
+      "comparator": {
+        "baseline": "何も試さず即レスし続ける",
+        "cost": "10秒 × 数回/週"
+      },
+      "fallback": {
+        "when": "どれも合わない",
+        "next": "「既読だけつけて1時間放置」に変更"
+      }
+    }
+  },
+  {
+    "id": "social_l02_010",
+    "type": "conversation",
+    "question": "このレッスンの「断り方テク」、使えそうでしたか？",
+    "choices": [
+      "使えそう",
+      "ちょっと合わなそう",
+      "まだわからない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。「合わなそう」なら別のアプローチを探すのも大事。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "個人差への配慮を支持",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

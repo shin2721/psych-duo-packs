@@ -1,0 +1,179 @@
+{
+  "manifest_version": 1,
+  "content_version": "2026.01.10.1",
+  "min_app_version": "1.0.0",
+  "generated_at": "2026-01-10T08:24:06.203Z",
+  "lessons": [
+    {
+      "id": "health_l01",
+      "domain": "health",
+      "level": 1,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/health_units/health_l01.ja.json",
+      "sha256": "cf1b9b5a4b2772964459c1dd5048439bee7a8b23e9a2f0cb7badf6193b1afc21",
+      "bytes": 14926,
+      "updated_at": "2026-01-06T07:17:06.261Z",
+      "question_count": 10
+    },
+    {
+      "id": "mental_l01",
+      "domain": "mental",
+      "level": 1,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/mental_units/mental_l01.ja.json",
+      "sha256": "d6d2c0bee97cba73975fb87c69d194e05f135ab17060dfdce7fc2898f114f563",
+      "bytes": 14312,
+      "updated_at": "2026-01-09T06:01:35.701Z",
+      "question_count": 10
+    },
+    {
+      "id": "mental_l02",
+      "domain": "mental",
+      "level": 2,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/mental_units/mental_l02.ja.json",
+      "sha256": "f95bdb963ea3eb041ba07b8131e132356933a277c2dbadaa08cc649185b65852",
+      "bytes": 12936,
+      "updated_at": "2026-01-08T07:07:34.388Z",
+      "question_count": 10
+    },
+    {
+      "id": "mental_l03",
+      "domain": "mental",
+      "level": 3,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/mental_units/mental_l03.ja.json",
+      "sha256": "b522576e65661e97974b11e41f190baee94875d139a559df31e493abfa3c56e5",
+      "bytes": 17012,
+      "updated_at": "2026-01-08T07:08:50.404Z",
+      "question_count": 10
+    },
+    {
+      "id": "mental_l04",
+      "domain": "mental",
+      "level": 4,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/mental_units/mental_l04.ja.json",
+      "sha256": "7079e263ff8dd354889139c27f0d7d3ee0f6b2587138e1bcb2a5086b25ae8d35",
+      "bytes": 12614,
+      "updated_at": "2026-01-08T07:10:09.584Z",
+      "question_count": 10
+    },
+    {
+      "id": "money_l01",
+      "domain": "money",
+      "level": 1,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/money_units/money_l01.ja.json",
+      "sha256": "8627ce41a8b11cc89d00fede46b8912c9b10a4d1c9bf0b242540f08d94f5d84d",
+      "bytes": 16645,
+      "updated_at": "2026-01-08T07:16:29.003Z",
+      "question_count": 10
+    },
+    {
+      "id": "social_l01",
+      "domain": "social",
+      "level": 1,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/social_units/social_l01.ja.json",
+      "sha256": "0d438bf6e50dd77f13c4fdd5e58f4dbcf56c0f9c1908ef2369eb837b31ec95c2",
+      "bytes": 15428,
+      "updated_at": "2026-01-08T07:32:38.555Z",
+      "question_count": 10
+    },
+    {
+      "id": "social_l02",
+      "domain": "social",
+      "level": 2,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/social_units/social_l02.ja.json",
+      "sha256": "e4fe8871edce9108e4252db267eb3d8392c57b60c982c3d67f72cee030f313e2",
+      "bytes": 14185,
+      "updated_at": "2026-01-08T07:32:38.555Z",
+      "question_count": 10
+    },
+    {
+      "id": "study_l01",
+      "domain": "study",
+      "level": 1,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/study_units/study_l01.ja.json",
+      "sha256": "0023c757248f8c5a53151dc711756eed5ed633916ad74b9a5e2b0986b072d417",
+      "bytes": 14698,
+      "updated_at": "2026-01-08T07:20:26.346Z",
+      "question_count": 10
+    },
+    {
+      "id": "work_l01",
+      "domain": "work",
+      "level": 1,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/work_units/work_l01.ja.json",
+      "sha256": "b88eb578fc38b256e93c9b085d2e9ab0b1f5bdc5209a6bcfde87acf9928f3e27",
+      "bytes": 15800,
+      "updated_at": "2026-01-08T07:24:20.427Z",
+      "question_count": 10
+    },
+    {
+      "id": "work_l02",
+      "domain": "work",
+      "level": 2,
+      "locale": "ja",
+      "file": "psycle-expo/data/lessons/work_units/work_l02.ja.json",
+      "sha256": "a4f0b6fe73d6225f79e58108396af194df7e9d7757804a2222c465efdb9cd34d",
+      "bytes": 13998,
+      "updated_at": "2026-01-09T06:02:17.436Z",
+      "question_count": 10
+    }
+  ],
+  "curricula": {
+    "mental": {
+      "file": "psycle-expo/data/curriculum_mental.json",
+      "sha256": "c564ad53c9fe04d79729e9529543c0b481eb8a9d94b48527ede382fa651f6046",
+      "updated_at": "2026-01-01T08:58:52.622Z"
+    },
+    "money": {
+      "file": "psycle-expo/data/curriculum_money.json",
+      "sha256": "65e4c8935b78f30f7983eab768d23bcf52c78c65acfb4e31ecb13033d836d1bc",
+      "updated_at": "2025-12-03T05:27:59.449Z"
+    },
+    "work": {
+      "file": "psycle-expo/data/curriculum_work.json",
+      "sha256": "2dd4aef1cde256e8766f44af0adbdc0a82ce8e0cd2b7eada81dd82a482172c83",
+      "updated_at": "2025-12-03T05:30:40.738Z"
+    },
+    "health": {
+      "file": "psycle-expo/data/curriculum_health.json",
+      "sha256": "09506a2fe330a5344a55b64b10b0d7fec2f9665e778845545fb51612df0f1ef7",
+      "updated_at": "2025-12-03T10:04:15.480Z"
+    },
+    "social": {
+      "file": "psycle-expo/data/curriculum_social.json",
+      "sha256": "b0ea982068c3d448f7dc11f09937715f3bbb5a4e813874ef19b053fcea6c13e1",
+      "updated_at": "2025-12-19T06:31:50.672Z"
+    },
+    "study": {
+      "file": "psycle-expo/data/curriculum_study.json",
+      "sha256": "c008b0fbee870d3124ea813a5054881d0365675bddea17520584bea3972516f9",
+      "updated_at": "2025-12-03T05:34:42.508Z"
+    }
+  },
+  "sources": {
+    "file": "psycle-expo/data/curated_sources.json",
+    "sha256": "7aa04980953c726608fc054a345c0872e49f0dbd1d884455caac703b29c2d4ab",
+    "updated_at": "2026-01-06T09:23:14.244Z"
+  },
+  "stats": {
+    "total_lessons": 11,
+    "domains": [
+      "health",
+      "mental",
+      "money",
+      "social",
+      "study",
+      "work"
+    ],
+    "total_questions": 110,
+    "total_bytes": 162554
+  }
+}

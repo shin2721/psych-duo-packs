@@ -11,7 +11,7 @@ export function QuestionImage({ uri, caption }: QuestionImageProps) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    console.log('[QuestionImage] Rendering with URI:', uri);
+    if (__DEV__) console.log('[QuestionImage] Rendering with URI:', uri);
 
     return (
         <View style={styles.imageContainer}>
@@ -135,7 +135,7 @@ const styles = StyleSheet.create({
         marginBottom: 16,
         borderRadius: 12,
         overflow: 'hidden',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'transparent',
     },
     loadingContainer: {
         position: 'absolute',
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     image: {
         width: '100%',
         height: 200,
-        backgroundColor: '#f5f5f5',
+        backgroundColor: 'transparent',
     },
     caption: {
         padding: 12,

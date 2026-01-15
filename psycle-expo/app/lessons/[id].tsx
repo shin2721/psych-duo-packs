@@ -1,12 +1,14 @@
 import React, { useState, useRef, useEffect } from "react";
-import { View, Text, StyleSheet, Pressable, Animated } from "react-native";
+import { View, Text, StyleSheet, Pressable, Animated, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import * as Haptics from "expo-haptics";
+import { Ionicons } from "@expo/vector-icons";
 import ConfettiCannon from "react-native-confetti-cannon";
 import { theme } from "../../lib/theme";
 import { useAppState } from "../../lib/state";
 import { loadLessons, calculateStars, Lesson } from "../../lib/lessons";
+import { StarBackground } from "../../components/StarBackground";
 import { QuestionRenderer, Question } from "../../components/QuestionRenderer";
 import { sortQuestionsByAdaptiveDifficulty } from "../../lib/adaptiveSelection";
 import { getDifficultyRating } from "../../lib/difficultyMapping";
@@ -20,27 +22,21 @@ export default function LessonScreen() {
   const [unit, lessonNum] = id?.split("_lesson_") || [];
   const lessonIndex = parseInt(lessonNum || "1", 10) - 1;
 
-  // Load lesson
-  const lessons = loadLessons(unit);
+  // Load lesson - memoized to prevent re-computation on every render
+  const lessons = React.useMemo(() => loadLessons(unit), [unit]);
   const lesson: Lesson | undefined = lessons[lessonIndex];
-
-  console.log(`[LessonScreen] Unit: ${unit}, LessonIndex: ${lessonIndex}`);
-  console.log(`[LessonScreen] Total lessons: ${lessons.length}`);
-  if (lesson) {
-    console.log(`[LessonScreen] Lesson questions (${lesson.questions.length}):`,
-      lesson.questions.map((q, i) => {
-        const qText = typeof q.question === 'string' ? q.question : JSON.stringify(q.question);
-        return `${i + 1}. ${qText.substring(0, 30)}`;
-      }));
-  }
 
   // State
   const [questions, setQuestions] = useState<Question[]>([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
 
-  // Initialize questions with adaptive sorting
+  // Initialize questions with adaptive sorting - ONLY ONCE per lesson
+  const hasInitializedRef = useRef<string | null>(null);
+
   useEffect(() => {
-    if (lesson) {
+    // Guard: Only initialize once per lesson id
+    if (lesson && id !== hasInitializedRef.current) {
+      hasInitializedRef.current = id || null;
       const sortedQuestions = sortQuestionsByAdaptiveDifficulty(
         lesson.questions,
         {
@@ -52,9 +48,22 @@ export default function LessonScreen() {
           currentStreak,
         }
       );
-      setQuestions(sortedQuestions);
+
+      // FAIL-SAFE: Enforce uniqueness by source_id
+      const uniqueIds = new Set();
+      const uniqueQuestions = sortedQuestions.filter(q => {
+        const id = q.source_id;
+        if (uniqueIds.has(id)) {
+          console.warn(`[LessonScreen] Duplicate detected and filtered: ${id}`);
+          return false;
+        }
+        uniqueIds.add(id);
+        return true;
+      });
+
+      setQuestions(uniqueQuestions);
     }
-  }, [lesson, skill, skillConfidence, recentQuestionTypes, recentAccuracy, currentStreak]);
+  }, [lesson, id]); // Only depend on lesson and id, not skill/accuracy which change frequently
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [totalXP, setTotalXP] = useState(0);
   const [showResults, setShowResults] = useState(false);
@@ -192,98 +201,147 @@ export default function LessonScreen() {
 
     return (
       <SafeAreaView style={styles.container}>
-        <View style={styles.resultsContainer}>
-          {/* Confetti for perfect lessons */}
-          {stars === 3 && (
-            <ConfettiCannon
-              ref={confettiRef}
-              count={150}
-              origin={{ x: -10, y: 0 }}
-              autoStart={false}
-              fadeOut
-            />
-          )}
+        <ScrollView contentContainerStyle={styles.resultsScrollContainer}>
+          <View style={styles.resultsContent}>
+            {/* Confetti for perfect lessons */}
+            {stars === 3 && (
+              <ConfettiCannon
+                ref={confettiRef}
+                count={150}
+                origin={{ x: -10, y: 0 }}
+                autoStart={false}
+                fadeOut
+              />
+            )}
 
-          <Text style={styles.resultsTitle}>
-            {stars === 3 ? "パーフェクト！" : "レッスン完了！"}
-          </Text>
+            <Text style={styles.resultsTitle}>
+              {stars === 3 ? "パーフェクト！" : "レッスン完了！"}
+            </Text>
 
-          <View style={styles.starsContainer}>
-            {[1, 2, 3].map((i) => (
-              <Text key={i} style={styles.star}>
-                {i <= stars ? "⭐" : "☆"}
-              </Text>
-            ))}
-          </View>
-
-          <View style={styles.statsContainer}>
-            <View style={styles.statItem}>
-              <Text style={styles.statLabel}>正答率</Text>
-              <Text style={styles.statValue}>{accuracy}%</Text>
+            <View style={styles.starsContainer}>
+              {[1, 2, 3].map((i) => (
+                <Text key={i} style={styles.star}>
+                  {i <= stars ? "⭐" : "☆"}
+                </Text>
+              ))}
             </View>
-            <View style={styles.statItem}>
-              <Text style={styles.statLabel}>獲得XP</Text>
-              <Text style={styles.statValue}>{totalXP}</Text>
+
+            <View style={styles.statsContainer}>
+              <View style={styles.statItem}>
+                <Text style={styles.statLabel}>正答率</Text>
+                <Text style={styles.statValue}>{accuracy}%</Text>
+              </View>
+              <View style={styles.statItem}>
+                <Text style={styles.statLabel}>獲得XP</Text>
+                <Text style={styles.statValue}>{totalXP}</Text>
+              </View>
+            </View>
+
+            {/* Background Research Section */}
+            {lesson?.references && lesson.references.length > 0 && (
+              <View style={styles.referencesContainer}>
+                <Text style={styles.refHeader}>📚 このユニットの背景研究</Text>
+
+                <View style={styles.refNoteContainer}>
+                  <Ionicons name="information-circle-outline" size={16} color="#666" />
+                  <Text style={styles.refNote}>心理学の研究結果は一般的な傾向を示すものであり、個人の状況や文化的背景によって異なる場合があります。</Text>
+                </View>
+
+                <View style={styles.refList}>
+                  {lesson.references.map((ref, i) => {
+                    // Badge logic
+                    let badgeColor = "#A0A9A9";
+                    let badgeLabel = "定説・古典";
+                    if (ref.level === "gold") {
+                      badgeColor = "#D4AF37";
+                      badgeLabel = "メタ分析";
+                    } else if (ref.level === "bronze") {
+                      badgeColor = "#CD7F32";
+                      badgeLabel = "示唆・仮説";
+                    }
+
+                    return (
+                      <View key={i} style={styles.refItem}>
+                        <View style={styles.refHeaderRow}>
+                          {ref.level && (
+                            <View style={[styles.badgeContainer, { backgroundColor: badgeColor + "20" }]}>
+                              <Text style={[styles.badgeText, { color: badgeColor }]}>
+                                {ref.level === "gold" ? "🥇 " : ref.level === "silver" ? "🥈 " : "🥉 "}
+                                {badgeLabel}
+                              </Text>
+                            </View>
+                          )}
+                          <Text style={styles.refCitation}>{ref.citation}</Text>
+                        </View>
+                        <Text style={styles.refNoteText}>└ {ref.note}</Text>
+                      </View>
+                    );
+                  })}
+                </View>
+              </View>
+            )}
+
+            <View style={styles.buttonRow}>
+              <Pressable
+                style={[styles.button, styles.secondaryButton]}
+                onPress={handleRetry}
+              >
+                <Text style={[styles.buttonText, styles.secondaryButtonText]}>
+                  もう一度
+                </Text>
+              </Pressable>
+              <Pressable style={styles.button} onPress={handleComplete}>
+                <Text style={styles.buttonText}>完了</Text>
+              </Pressable>
             </View>
           </View>
-
-          <View style={styles.buttonRow}>
-            <Pressable
-              style={[styles.button, styles.secondaryButton]}
-              onPress={handleRetry}
-            >
-              <Text style={[styles.buttonText, styles.secondaryButtonText]}>
-                もう一度
-              </Text>
-            </Pressable>
-            <Pressable style={styles.button} onPress={handleComplete}>
-              <Text style={styles.buttonText}>完了</Text>
-            </Pressable>
-          </View>
-        </View>
+        </ScrollView>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container}>
-      {/* Header */}
-      <View style={styles.header}>
-        <Pressable onPress={() => router.back()} style={styles.closeButton}>
-          <Text style={styles.closeText}>×</Text>
-        </Pressable>
-        <View style={styles.progressBar}>
-          <View
-            style={[
-              styles.progressFill,
-              { width: `${(progress / total) * 100}%` },
-            ]}
+    <View style={styles.container}>
+      <StarBackground combo={currentStreak} warpIn={true} />
+      <SafeAreaView style={{ flex: 1 }}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Pressable onPress={() => router.back()} style={styles.closeButton}>
+            <Text style={styles.closeText}>×</Text>
+          </Pressable>
+          <View style={styles.progressBar}>
+            <View
+              style={[
+                styles.progressFill,
+                { width: `${(progress / total) * 100}%` },
+              ]}
+            />
+          </View>
+          <Text style={styles.progressText}>
+            {progress} / {total}
+          </Text>
+        </View>
+
+        {/* Question */}
+        <View style={styles.questionContainer}>
+          <QuestionRenderer
+            key={currentQuestionIndex}
+            question={currentQuestion}
+            onContinue={handleContinue}
           />
         </View>
-        <Text style={styles.progressText}>
-          {progress} / {total}
-        </Text>
-      </View>
 
-      {/* Question */}
-      <View style={styles.questionContainer}>
-        <QuestionRenderer
-          key={currentQuestionIndex}
-          question={currentQuestion}
-          onContinue={handleContinue}
-        />
-      </View>
-
-      {/* XP Gain Animation Overlay */}
-      {xpAnimation.show && (
-        <View style={styles.xpAnimationOverlay} pointerEvents="none">
-          <XPGainAnimation
-            amount={xpAnimation.amount}
-            onComplete={() => setXpAnimation({ show: false, amount: 0 })}
-          />
-        </View>
-      )}
-    </SafeAreaView>
+        {/* XP Gain Animation Overlay */}
+        {xpAnimation.show && (
+          <View style={styles.xpAnimationOverlay} pointerEvents="none">
+            <XPGainAnimation
+              amount={xpAnimation.amount}
+              onComplete={() => setXpAnimation({ show: false, amount: 0 })}
+            />
+          </View>
+        )}
+      </SafeAreaView>
+    </View>
   );
 }
 
@@ -420,5 +478,85 @@ const styles = StyleSheet.create({
     zIndex: 1000,
     // Adjust position to be slightly above center or near the answer area if preferred
     paddingBottom: 100,
+  },
+  resultsScrollContainer: {
+    flexGrow: 1,
+  },
+  resultsContent: {
+    alignItems: "center",
+    justifyContent: "center",
+    padding: 24,
+    paddingBottom: 100,
+  },
+  referencesContainer: {
+    width: '100%',
+    backgroundColor: '#fff',
+    borderRadius: 16,
+    padding: 20,
+    marginBottom: 30,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 2,
+  },
+  refHeader: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+    marginBottom: 12,
+  },
+  refNoteContainer: {
+    flexDirection: 'row',
+    alignItems: 'flex-start',
+    gap: 6,
+    backgroundColor: '#f5f5f5',
+    padding: 10,
+    borderRadius: 8,
+    marginBottom: 16,
+  },
+  refNote: {
+    fontSize: 12,
+    color: '#666',
+    flex: 1,
+    lineHeight: 16,
+  },
+  refList: {
+    gap: 12,
+  },
+  refItem: {
+    marginBottom: 8,
+  },
+  refHeaderRow: {
+    flexDirection: 'column', // Citation below badge? Or row? Row wraps effectively. Let's do Citation below badge for cleanliness or Column. 
+    // Actually, badge then citation.
+    alignItems: 'flex-start',
+    gap: 4,
+    marginBottom: 2,
+  },
+  badgeContainer: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 4,
+    marginBottom: 2,
+    alignSelf: 'flex-start',
+  },
+  badgeText: {
+    fontSize: 10,
+    fontWeight: 'bold',
+  },
+  refCitation: {
+    fontSize: 13,
+    color: '#333',
+    fontWeight: '600',
+    lineHeight: 18,
+  },
+  refNoteText: {
+    fontSize: 12,
+    color: '#666',
+    paddingLeft: 4,
+    lineHeight: 16,
+    fontStyle: 'italic',
+    marginTop: 2,
   },
 });

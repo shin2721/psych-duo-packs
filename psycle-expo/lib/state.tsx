@@ -4,6 +4,11 @@ import { useAuth } from "./AuthContext";
 import { supabase } from "./supabase";
 import { BADGES, Badge, BadgeStats } from "./badges";
 import {
+  getStreakData,
+  addFreezes,
+  useFreeze as useFreezeStreak
+} from "../lib/streaks";
+import {
   canUseMistakesHub,
   consumeMistakesHub,
   getMistakesHubRemaining,
@@ -52,7 +57,7 @@ interface AppState {
   selectedGenre: string;
   setSelectedGenre: (id: string) => void;
   xp: number;
-  addXp: (amount: number) => void;
+  addXp: (amount: number) => Promise<void>;
   skill: number; // Elo rating (default 1500)
   skillConfidence: number; // Confidence in skill rating (0-100)
   questionsAnswered: number; // Total questions answered
@@ -71,8 +76,13 @@ interface AppState {
   // Currency system
   gems: number;
   addGems: (amount: number) => void;
+  setGemsDirectly: (amount: number) => void;
   spendGems: (amount: number) => boolean;
   buyFreeze: () => boolean;
+  // Double XP Boost
+  doubleXpEndTime: number | null;
+  buyDoubleXP: () => boolean;
+  isDoubleXpActive: boolean;
   // Daily goal system
   dailyGoal: number;
   dailyXP: number;
@@ -160,6 +170,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Currency system
   const [gems, setGems] = useState(50); // Start with 50 gems
+
+  // Double XP Boost
+  const [doubleXpEndTime, setDoubleXpEndTime] = useState<number | null>(null);
+
+  // Social stats (fetched from Supabase)
+  const [friendCount, setFriendCount] = useState(0);
+  const [leaderboardRank, setLeaderboardRank] = useState(0);
 
   // Lesson progress
   const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
@@ -298,8 +315,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       streak,
       xp,
       mistakesCleared,
-      friendCount: 0, // TODO: Implement friend count
-      leaderboardRank: 0, // TODO: Implement leaderboard rank
+      friendCount,
+      leaderboardRank,
     };
 
     const newlyUnlocked: string[] = [];
@@ -382,13 +399,35 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [lives, setLives] = useState(MAX_LIVES);
   const [lastLifeLostTime, setLastLifeLostTime] = useState<number | null>(null);
 
-  // Load persisted state on mount (Supabase + Local Fallback)
+  // Load persisted state on mount (LOCAL FIRST, then Supabase sync in background)
   useEffect(() => {
     if (!user) return;
 
     const loadState = async () => {
+      // STEP 1: Load from local storage FIRST (instant)
       try {
-        // 1. Try to fetch from Supabase first
+        const [savedXp, savedGems, savedStreak] = await Promise.all([
+          AsyncStorage.getItem(`xp_${user.id}`),
+          AsyncStorage.getItem(`gems_${user.id}`),
+          AsyncStorage.getItem(`streak_${user.id}`),
+        ]);
+
+        if (savedXp) setXP(parseInt(savedXp, 10));
+        if (savedGems) setGems(parseInt(savedGems, 10));
+        if (savedStreak) setStreak(parseInt(savedStreak, 10));
+
+        // Freeze一本化: streaks.tsから読み込み
+        const streakData = await getStreakData();
+        setFreezeCount(streakData.freezesRemaining);
+
+        if (__DEV__) console.log("Loaded from local storage (instant):", { savedXp, savedGems, savedStreak, freezes: streakData.freezesRemaining });
+      } catch (e) {
+        if (__DEV__) console.log("Local storage read failed:", e);
+      }
+
+      // STEP 2: Sync from Supabase in background (non-blocking)
+      // This will update state if Supabase has newer data
+      try {
         const { data, error } = await supabase
           .from('profiles')
           .select('xp, gems, streak, level, plan_id, active_until')
@@ -396,27 +435,30 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           .single();
 
         if (data && !error) {
-          console.log("Loaded profile from Supabase:", data);
-          setXP(data.xp ?? 0);
-          setGems(data.gems ?? 50);
-          setStreak(data.streak ?? 0);
-          // setLevel(data.level ?? 1); // If we had a setLevel
+          if (__DEV__) console.log("Background Supabase sync:", data);
+          // Only update if Supabase has different/newer values
+          if (data.xp !== undefined) setXP(data.xp);
+          if (data.gems !== undefined) setGems(data.gems);
+          if (data.streak !== undefined) setStreak(data.streak);
           if (data.plan_id) setPlanIdState(data.plan_id as PlanId);
           if (data.active_until) setActiveUntilState(data.active_until);
-        } else {
-          // 2. Fallback to local storage if Supabase fails or no profile yet
-          console.log("Supabase profile not found, checking local storage...");
-          const savedXp = await AsyncStorage.getItem(`xp_${user.id}`);
-          if (savedXp) setXP(parseInt(savedXp, 10));
 
-          const savedGems = await AsyncStorage.getItem(`gems_${user.id}`);
-          if (savedGems) setGems(parseInt(savedGems, 10));
+          // Fetch social stats (non-blocking)
+          supabase
+            .from("friendships")
+            .select("*", { count: "exact", head: true })
+            .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`)
+            .then(({ count }) => { if (count !== null) setFriendCount(count); });
 
-          const savedStreak = await AsyncStorage.getItem(`streak_${user.id}`);
-          if (savedStreak) setStreak(parseInt(savedStreak, 10));
+          supabase
+            .from("profiles")
+            .select("*", { count: "exact", head: true })
+            .gt("xp", data.xp ?? 0)
+            .then(({ count }) => { if (count !== null) setLeaderboardRank(count + 1); });
         }
       } catch (e) {
-        console.error("Failed to load state", e);
+        // Supabase failed - that's okay, we already have local data
+        if (__DEV__) console.log("Supabase sync failed (using local data):", e);
       }
     };
     loadState();
@@ -509,8 +551,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Update streak for today with Supabase integration
   const updateStreakForToday = async (currentXP?: number) => {
-    const today = new Date().toISOString().split('T')[0];
-    const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0];
+    const today = getTodayDate();
+    const yesterday = getYesterdayDate();
 
     if (lastActivityDate === today) {
       // Already updated today
@@ -564,12 +606,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  // Check if Double XP is active
+  const isDoubleXpActive = doubleXpEndTime !== null && Date.now() < doubleXpEndTime;
+
   // Add XP and update daily progress + streak
-  const addXp = (amount: number) => {
-    const newXP = xp + amount;
+  const addXp = async (amount: number) => {
+    // Apply Double XP boost if active
+    const effectiveAmount = isDoubleXpActive ? amount * 2 : amount;
+    const newXP = xp + effectiveAmount;
     setXP(newXP);
     setDailyXP((prev) => {
-      const newDailyXP = prev + amount;
+      const newDailyXP = prev + effectiveAmount;
       // Award gems when daily goal is reached
       if (prev < dailyGoal && newDailyXP >= dailyGoal) {
         addGems(5); // 5 gems for completing daily goal
@@ -578,6 +625,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     });
     updateStreak(); // Keep old streak logic for backward compatibility
     updateStreakForToday(newXP); // Update Supabase streak with latest XP
+
+    // 週次リーグXP加算
+    if (user) {
+      try {
+        const { addWeeklyXp } = await import('./league');
+        await addWeeklyXp(user.id, effectiveAmount);
+        if (__DEV__) console.log('[League] Weekly XP added:', effectiveAmount);
+      } catch (e) {
+        console.warn('[League] Failed to add weekly XP:', e);
+      }
+    }
   };
 
   // Adaptive Difficulty (Enhanced Elo with IRT principles)
@@ -641,6 +699,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setGems((prev) => prev + amount);
   };
 
+  const setGemsDirectly = (amount: number) => {
+    setGems(amount);
+  };
+
   const spendGems = (amount: number): boolean => {
     if (gems >= amount) {
       setGems((prev) => prev - amount);
@@ -653,6 +715,18 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const cost = 10; // 10 gems per freeze
     if (spendGems(cost)) {
       setFreezeCount((prev) => prev + 1);
+      // Action Streak側のFreezeも増やす（一本化）
+      addFreezes(1).catch(e => console.error("Failed to add freeze to streak data", e));
+      return true;
+    }
+    return false;
+  };
+
+  const buyDoubleXP = (): boolean => {
+    const cost = 20; // 20 gems for 15 minutes of double XP
+    if (spendGems(cost)) {
+      const DURATION_MS = 15 * 60 * 1000; // 15 minutes
+      setDoubleXpEndTime(Date.now() + DURATION_MS);
       return true;
     }
     return false;
@@ -661,6 +735,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const useFreeze = (): boolean => {
     if (freezeCount > 0) {
       setFreezeCount((prev) => prev - 1);
+      // Action Streak側のFreezeも減らす（一本化）
+      useFreezeStreak().catch(e => console.error("Failed to use freeze from streak data", e));
       return true;
     }
     return false;
@@ -752,86 +828,100 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           return newLives;
         });
       }
-    }, 60000); // Check every minute
+    }, 60000); // Check every minute (restoring the interval behavior correctly)
 
     return () => clearInterval(interval);
   }, [lives, lastLifeLostTime, MAX_LIVES]);
 
+  // Computed state
+  // hasProAccess is already calculated at the top level
+  // const hasProAccess = planId === "pro" || planId === "max"; 
+
+  // Determine actual purchased packs (packs + subscription unlock)
+  const effectivePurchasedPacks = new Set(purchasedPacks);
+  if (hasProAccess) {
+    effectivePurchasedPacks.add("all_access");
+    // Also unlock individual packs for UI consistency if needed, but all_access flag is cleaner
+    // effectivePurchasedPacks.add("health").add("work").add("money").add("social").add("study");
+  }
+
+  // Value object to provide
+  const value: AppState = {
+    selectedGenre,
+    setSelectedGenre,
+    xp,
+    addXp,
+    skill,
+    skillConfidence,
+    questionsAnswered,
+    updateSkill,
+    quests,
+    incrementQuest,
+    claimQuest,
+    streak,
+    lastStudyDate,
+    lastActivityDate,
+    streakHistory,
+    updateStreakForToday,
+    freezeCount,
+    useFreeze,
+    gems,
+    addGems,
+    setGemsDirectly,
+    spendGems,
+    buyFreeze,
+    buyDoubleXP,
+    isDoubleXpActive,
+    doubleXpEndTime,
+    dailyGoal,
+    dailyXP,
+    setDailyGoal,
+    lives,
+    maxLives: hasProAccess ? 999 : MAX_LIVES, // Unlimited lives for Pro
+    loseLife,
+    refillLives,
+    lastLifeLostTime,
+    planId,
+    setPlanId,
+    hasProAccess,
+    activeUntil,
+    setActiveUntil,
+    isSubscriptionActive: !!(planId !== "free" && activeUntil && new Date(activeUntil) > new Date()),
+    reviewEvents,
+    addReviewEvent: addReviewEventFunc,
+    getMistakesHubItems: getMistakesHubItemsFunc,
+    canAccessMistakesHub,
+    mistakesHubRemaining,
+    startMistakesHubSession: startMistakesHubSessionFunc,
+    // Mistakes Hub (SRS)
+    mistakes,
+    addMistake,
+    processReviewResult,
+    getDueMistakes,
+    clearMistake,
+    // Badges
+    unlockedBadges,
+    checkAndUnlockBadges,
+    mistakesCleared,
+    // Lesson progress
+    completedLessons,
+    completeLesson,
+    // Pack purchases
+    // Pass the effective purchased packs which includes subscription unlocks
+    // We cast to any because we are overriding the internal state with computed state for consumers
+    // In a real app, we might separate "ownedItems" from "accessRights"
+    purchasedPacks: effectivePurchasedPacks,
+    purchasePack,
+    isPurchased: (id) => effectivePurchasedPacks.has(id),
+    // Adaptive difficulty tracking
+    recentQuestionTypes,
+    recentAccuracy,
+    currentStreak,
+    recordQuestionResult,
+  };
+
   return (
-    <AppStateContext.Provider
-      value={{
-        selectedGenre,
-        setSelectedGenre,
-        xp,
-        addXp,
-        skill,
-        skillConfidence,
-        questionsAnswered,
-        updateSkill,
-        quests,
-        incrementQuest,
-        claimQuest,
-        // Streak system
-        streak,
-        lastStudyDate,
-        lastActivityDate,
-        streakHistory,
-        updateStreakForToday,
-        freezeCount,
-        useFreeze,
-        // Currency system
-        gems,
-        addGems,
-        spendGems,
-        buyFreeze,
-        // Daily goal system
-        dailyGoal,
-        dailyXP,
-        setDailyGoal,
-        // Life system
-        lives,
-        maxLives: MAX_LIVES,
-        loseLife,
-        refillLives,
-        lastLifeLostTime,
-        // Plan & Entitlements
-        planId,
-        setPlanId,
-        hasProAccess,
-        activeUntil,
-        setActiveUntil,
-        isSubscriptionActive,
-        // MistakesHub
-        reviewEvents,
-        addReviewEvent: addReviewEventFunc,
-        getMistakesHubItems: getMistakesHubItemsFunc,
-        canAccessMistakesHub,
-        mistakesHubRemaining,
-        startMistakesHubSession: startMistakesHubSessionFunc,
-        // Mistakes Hub (SRS)
-        mistakes,
-        addMistake,
-        processReviewResult,
-        getDueMistakes,
-        clearMistake,
-        // Badges
-        unlockedBadges,
-        checkAndUnlockBadges,
-        mistakesCleared,
-        // Lesson progress
-        completedLessons,
-        completeLesson,
-        // Pack purchases
-        purchasedPacks,
-        purchasePack,
-        isPurchased,
-        // Adaptive difficulty tracking
-        recentQuestionTypes,
-        recentAccuracy,
-        currentStreak,
-        recordQuestionResult,
-      }}
-    >
+    <AppStateContext.Provider value={value}>
       {children}
     </AppStateContext.Provider>
   );

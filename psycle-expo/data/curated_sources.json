@@ -1,0 +1,449 @@
+{
+    "_meta": {
+        "version": "1.1.0",
+        "description": "Curated Source Registry - コンテンツで使用するsource_id台帳。レッスンの根拠として参照される出典。",
+        "last_updated": "2026-01-06",
+        "required_fields": {
+            "core": [
+                "author",
+                "year",
+                "title",
+                "type",
+                "domain",
+                "evidence_strength"
+            ],
+            "quality": [
+                "one_line_why",
+                "allowed_claims"
+            ],
+            "optional": [
+                "construct_tags",
+                "notes",
+                "full_citation"
+            ]
+        }
+    },
+    "sources": {
+        "Gross_1998": {
+            "author": "Gross, J. J.",
+            "year": 1998,
+            "title": "The emerging field of emotion regulation: An integrative review",
+            "full_citation": "Gross, J. J. (1998). The emerging field of emotion regulation: An integrative review. Review of General Psychology, 2(3), 271-299.",
+            "type": "review",
+            "domain": [
+                "mental"
+            ],
+            "construct_tags": [
+                "emotion_regulation",
+                "suppression",
+                "reappraisal"
+            ],
+            "evidence_strength": "foundational",
+            "one_line_why": "感情調整の分類（抑制 vs リアプレイザル）と効果比較の基盤",
+            "allowed_claims": [
+                "感情調整には複数のストラテジーがある",
+                "リアプレイザルは抑制より長期的に有効な傾向がある",
+                "感情のラベリングは調整の第一歩になりうる"
+            ],
+            "notes": "感情調整分野の基礎レビュー。介入効果の直接検証ではない点に注意。"
+        },
+        "Jamieson_2012": {
+            "author": "Jamieson, J. P., Mendes, W. B., & Nock, M. K.",
+            "year": 2012,
+            "title": "Improving acute stress responses: The power of reappraisal",
+            "type": "intervention",
+            "domain": [
+                "mental"
+            ],
+            "construct_tags": [
+                "reappraisal",
+                "arousal",
+                "stress_response",
+                "performance"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "覚醒リアプレイザル（『この緊張は準備してる証拠』）の効果を実験検証",
+            "allowed_claims": [
+                "ストレス反応を『準備』と解釈し直すとパフォーマンスが上がる傾向がある",
+                "身体反応そのものより、その解釈が重要な場合がある"
+            ],
+            "notes": "覚醒リアプレイザル（「体が準備してくれてる」）の効果を実験で検証。"
+        },
+        "Lazarus_1984": {
+            "author": "Lazarus, R. S., & Folkman, S.",
+            "year": 1984,
+            "title": "Stress, Appraisal, and Coping",
+            "type": "theory",
+            "domain": [
+                "mental"
+            ],
+            "construct_tags": [
+                "stress",
+                "coping",
+                "appraisal",
+                "emotion_regulation"
+            ],
+            "evidence_strength": "foundational",
+            "one_line_why": "ストレス＝出来事×認知的評価の理論的基盤",
+            "allowed_claims": [
+                "同じ出来事でも解釈によって反応が変わる傾向がある",
+                "コーピングには問題焦点型と感情焦点型がある"
+            ],
+            "notes": "ストレス理論の古典。認知的評価とコーピングの枠組み。"
+        },
+        "Nolen-Hoeksema_1991": {
+            "author": "Nolen-Hoeksema, S.",
+            "year": 1991,
+            "title": "Responses to depression and their effects on the duration of depressive episodes",
+            "type": "observational",
+            "domain": [
+                "mental"
+            ],
+            "construct_tags": [
+                "rumination",
+                "depression",
+                "coping"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "反芻（グルグル考え続ける）は抑うつを悪化させる傾向がある",
+            "allowed_claims": [
+                "反芻は問題解決には役立たない傾向がある",
+                "反芻を止める工夫（注意転換など）が有効な場合がある"
+            ],
+            "notes": "反芻の害についての観察研究。反芻が抑うつを長引かせる傾向。"
+        },
+        "Baumeister_2002": {
+            "author": "Baumeister, R. F., & Vohs, K. D.",
+            "year": 2002,
+            "title": "Handbook of Self-Regulation: Research, Theory, and Applications",
+            "type": "review",
+            "domain": [
+                "money",
+                "mental"
+            ],
+            "construct_tags": [
+                "self_control",
+                "ego_depletion",
+                "delay_gratification"
+            ],
+            "evidence_strength": "foundational",
+            "one_line_why": "意志力は筋肉のように消耗する（自我消耗）モデルの提唱",
+            "allowed_claims": [
+                "自己制御（我慢や決断）を続けるとパフォーマンスが落ちる傾向がある",
+                "意志力は回復可能なリソースである可能性がある"
+            ],
+            "notes": "自己制御研究のハンドブック。意志力消耗モデルの提唱。"
+        },
+        "Cialdini_2006": {
+            "author": "Cialdini, R. B.",
+            "year": 2006,
+            "title": "Influence: The Psychology of Persuasion",
+            "type": "review",
+            "domain": [
+                "money",
+                "social"
+            ],
+            "construct_tags": [
+                "scarcity_bias",
+                "social_influence",
+                "persuasion"
+            ],
+            "evidence_strength": "foundational",
+            "one_line_why": "人が動かされる6つの原則（希少性や社会的証明など）の体系化",
+            "allowed_claims": [
+                "人は『残りわずか』と言われると欲しくなる傾向がある（希少性）",
+                "他人の行動につられる傾向がある（社会的証明）"
+            ],
+            "notes": "説得心理学の古典。希少性バイアス等6つの影響力原則。"
+        },
+        "Hershfield_2011": {
+            "author": "Hershfield, H. E., et al.",
+            "year": 2011,
+            "title": "Increasing saving behavior through age-progressed renderings of the future self",
+            "type": "intervention",
+            "domain": [
+                "money"
+            ],
+            "construct_tags": [
+                "future_self_continuity",
+                "decision_making",
+                "savings"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "未来の自分をリアルに感じると貯蓄が増える傾向があることを検証",
+            "allowed_claims": [
+                "未来の自分との『つながり』を感じる人ほど貯蓄する傾向がある",
+                "未来の自分をイメージする介入が有効な場合がある"
+            ],
+            "notes": "未来の自分を想像すると貯蓄行動が増える実験研究。"
+        },
+        "Rick_2014": {
+            "author": "Rick, S., Cryder, C. E., & Loewenstein, G.",
+            "year": 2014,
+            "title": "Tightwads and spendthrifts",
+            "type": "observational",
+            "domain": [
+                "money"
+            ],
+            "construct_tags": [
+                "emotional_spending",
+                "pain_of_paying",
+                "regret"
+            ],
+            "evidence_strength": "bronze",
+            "one_line_why": "『支払いの痛み』の感じ方には個人差（倹約家 vs 浪費家）がある",
+            "allowed_claims": [
+                "お金を使うことに強い痛みを感じるタイプがいる",
+                "支払いの痛みを減らすと浪費につながる可能性がある"
+            ],
+            "notes": "支出の痛み（pain of paying）と感情的消費の関連。"
+        },
+        "Thaler_1999": {
+            "author": "Thaler, R. H.",
+            "year": 1999,
+            "title": "Mental accounting matters",
+            "type": "theory",
+            "domain": [
+                "money"
+            ],
+            "construct_tags": [
+                "mental_accounting",
+                "budgeting",
+                "sunk_cost"
+            ],
+            "evidence_strength": "foundational",
+            "one_line_why": "人は心の中で予算をカテゴリー分けし、非合理な使い方をする傾向がある",
+            "allowed_claims": [
+                "あぶく銭は大切なお金より使いやすい傾向がある（メンタルアカウンティング）",
+                "心の会計簿を利用して貯蓄を促すことができる"
+            ],
+            "notes": "メンタルアカウンティング理論。人がお金を心理的に区分けする傾向。"
+        },
+        "Vohs_2008": {
+            "author": "Vohs, K. D., & Faber, R. J.",
+            "year": 2008,
+            "title": "Spent resources: Self-regulatory resource availability affects impulse buying",
+            "type": "intervention",
+            "domain": [
+                "money"
+            ],
+            "construct_tags": [
+                "self_control",
+                "impulse_buying",
+                "ego_depletion"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "意志力が減ると、衝動買いをしやすくなる",
+            "allowed_claims": [
+                "疲れているときや決断が続いた後は衝動買いしやすい傾向がある",
+                "買い物の前にリソースを回復させると予防になる可能性がある"
+            ],
+            "notes": "自己制御資源の消耗が衝動買いを増やす実験研究。"
+        },
+        "Steel_2007": {
+            "author": "Steel, P.",
+            "year": 2007,
+            "title": "The nature of procrastination: A meta-analytic and theoretical review of quintessential self-regulatory failure",
+            "type": "review",
+            "domain": [
+                "work"
+            ],
+            "construct_tags": [
+                "procrastination",
+                "self_regulation",
+                "task_management"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "先延ばしは意志力の問題より、タスクへの不快感や衝動性が主要因",
+            "allowed_claims": [
+                "先延ばしは『怠け』というより、目の前の気晴らしを選んでしまう衝動性の問題である傾向が強い",
+                "タスクの難易度や自分への期待度が低いと先延ばししやすい"
+            ],
+            "notes": "先延ばしのメタ分析。意志力より感情調整が重要という知見。"
+        },
+        "Gollwitzer_1999": {
+            "author": "Gollwitzer, P. M.",
+            "year": 1999,
+            "title": "Implementation intentions: Strong effects of simple plans",
+            "type": "intervention",
+            "domain": [
+                "work"
+            ],
+            "construct_tags": [
+                "implementation_intention",
+                "goal_setting",
+                "task_initiation"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "『いつ・どこで・何をする』を事前に決めると実行率が上がる",
+            "allowed_claims": [
+                "目標意図（～したい）より実行意図（～したら～する）の方が行動につながりやすい傾向がある",
+                "トリガーと行動をセットにすると自動化されやすい"
+            ],
+            "notes": "実行意図（if-then計画）の効果を検証した研究。"
+        },
+        "Sirois_2013": {
+            "author": "Sirois, F., & Pychyl, T.",
+            "year": 2013,
+            "title": "Procrastination and the priority of short-term mood regulation: Consequences for future self",
+            "type": "theory",
+            "domain": [
+                "work"
+            ],
+            "construct_tags": [
+                "procrastination",
+                "emotion_regulation",
+                "self_compassion"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "先延ばしは『今すぐ気分を良くしたい』という感情的な動機で起きる",
+            "allowed_claims": [
+                "先延ばしは将来の自分への共感が低いと起きやすい",
+                "ネガティブな気分を解消するために、タスク以外のことをしてしまう傾向がある"
+            ],
+            "notes": "先延ばしの感情調整モデル。短期的気分優先の傾向を説明。"
+        },
+        "Harvey_2002": {
+            "author": "Harvey, A. G.",
+            "year": 2002,
+            "title": "A cognitive model of insomnia",
+            "type": "theory",
+            "domain": [
+                "health"
+            ],
+            "construct_tags": [
+                "sleep",
+                "cognitive_arousal",
+                "insomnia"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "『眠れない』と焦ることが脳を覚醒させ、不眠を悪化させる",
+            "allowed_claims": [
+                "睡眠に対する不安や監視が、かえって睡眠を妨げる傾向がある",
+                "眠れないときは無理に寝ようとしない方が良い場合がある"
+            ],
+            "notes": "不眠症の認知モデル。「眠れない」への焦りが覚醒を高める悪循環を説明。"
+        },
+        "Cain_2010": {
+            "author": "Cain, N., & Gradisar, M.",
+            "year": 2010,
+            "title": "Electronic media use and sleep in school-aged children and adolescents: A review",
+            "type": "review",
+            "domain": [
+                "health"
+            ],
+            "construct_tags": [
+                "sleep",
+                "screen_time",
+                "blue_light"
+            ],
+            "evidence_strength": "bronze",
+            "one_line_why": "寝る前の電子メディア使用は睡眠の質を下げる傾向がある",
+            "allowed_claims": [
+                "ブルーライトだけでなく、コンテンツの興奮性が睡眠を妨げる",
+                "就寝前のスクリーンタイムを減らすと入眠が早まる可能性がある"
+            ],
+            "notes": "電子メディアと睡眠の関連をレビュー。ブルーライト以外の刺激効果も指摘。"
+        },
+        "Ma_2017": {
+            "author": "Ma, X., et al.",
+            "year": 2017,
+            "title": "The effect of diaphragmatic breathing on attention, negative affect and stress in healthy adults",
+            "type": "intervention",
+            "domain": [
+                "health"
+            ],
+            "construct_tags": [
+                "breathing",
+                "relaxation",
+                "stress"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "ゆっくりとした横隔膜呼吸は副交感神経を活性化し、ストレスを下げる",
+            "allowed_claims": [
+                "深い呼吸は心拍数やコルチゾールを下げる傾向がある",
+                "呼吸に注意を向けることでネガティブ感情が改善する場合がある"
+            ],
+            "notes": "ゆっくり呼吸法の効果を実験で検証。副交感神経活性化。"
+        },
+        "Jacobson_1938": {
+            "author": "Jacobson, E.",
+            "year": 1938,
+            "title": "Progressive Relaxation",
+            "type": "theory",
+            "domain": [
+                "health"
+            ],
+            "construct_tags": [
+                "muscle_relaxation",
+                "tension",
+                "relaxation"
+            ],
+            "evidence_strength": "foundational",
+            "one_line_why": "筋肉の緊張を緩めると、精神的な緊張（不安）も和らぐ",
+            "allowed_claims": [
+                "身体的なリラックスは精神的なリラックスを促進する傾向がある",
+                "筋肉の緊張と弛緩を繰り返すとリラックス感覚を掴みやすい"
+            ],
+            "notes": "漸進的筋弛緩法の古典。筋緊張とリラックスの関係を体系化。"
+        },
+        "Walker_2017": {
+            "author": "Walker, M.",
+            "year": 2017,
+            "title": "Why We Sleep: Unlocking the Power of Sleep and Dreams",
+            "type": "review",
+            "domain": [
+                "health"
+            ],
+            "construct_tags": [
+                "sleep",
+                "circadian_rhythm",
+                "sleep_debt"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "睡眠不足は短期的にアミロイドβの蓄積などを招く可能性がある",
+            "allowed_claims": [
+                "睡眠は脳の老廃物を除去する重要な時間である傾向がある",
+                "長期的な睡眠不足は健康リスクと関連することがある"
+            ],
+            "notes": "睡眠科学の包括的解説書。睡眠リズムの重要性を説明。"
+        },
+        "Alberti_2001": {
+            "author": "Alberti, R., & Emmons, M.",
+            "year": 2001,
+            "title": "Your Perfect Right: Assertiveness and Equality in Your Life and Relationships",
+            "type": "review",
+            "domain": [
+                "social"
+            ],
+            "construct_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "communication"
+            ],
+            "evidence_strength": "foundational",
+            "one_line_why": "アサーション（自分も相手も大切にする表現）は人間関係のストレスを減らす",
+            "allowed_claims": [
+                "Noと言うことは相手を否定することではない",
+                "自分の気持ちを伝える権利は誰にでもある（アサーション権）"
+            ],
+            "notes": "アサーティブネスの古典的テキスト。自己主張と関係性のバランスを説明。"
+        },
+        "Paterson_2000": {
+            "author": "Paterson, R. J.",
+            "year": 2000,
+            "title": "The Assertiveness Workbook: How to Express Your Ideas and Stand Up for Yourself at Work and in Relationships",
+            "type": "review",
+            "domain": [
+                "social"
+            ],
+            "construct_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "phrase_template"
+            ],
+            "evidence_strength": "bronze",
+            "notes": "アサーティブネスの実践ワークブック。具体的なフレーズと技術を提供。"
+        }
+    }
+}

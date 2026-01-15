@@ -8,6 +8,7 @@ import { useAuth } from "../../lib/AuthContext";
 import { useAppState } from "../../lib/state";
 import { BADGES } from "../../lib/badges";
 import { BadgeIcon } from "../../components/BadgeIcon";
+import { StreakIcon, TrophyIcon } from "../../components/CustomIcons";
 
 export default function ProfileScreen() {
     const router = useRouter();
@@ -55,13 +56,13 @@ export default function ProfileScreen() {
                 {/* Stats Grid */}
                 <View style={styles.statsGrid}>
                     <StatCard
-                        icon="flash"
+                        icon="star"
                         label="総XP"
                         value={xp.toString()}
-                        color={theme.colors.accent}
+                        color="#F59E0B"
                     />
                     <StatCard
-                        icon="flame"
+                        customIcon={<StreakIcon size={32} />}
                         label="連続日数"
                         value={`${streak}日`}
                         color="#FF6B6B"
@@ -73,7 +74,7 @@ export default function ProfileScreen() {
                         color="#4ECDC4"
                     />
                     <StatCard
-                        icon="trophy"
+                        customIcon={<TrophyIcon size={32} />}
                         label="リーグ"
                         value="シルバー"
                         color="#FFD93D"
@@ -113,10 +114,10 @@ export default function ProfileScreen() {
     );
 }
 
-function StatCard({ icon, label, value, color }: { icon: any; label: string; value: string; color: string }) {
+function StatCard({ icon, label, value, color, customIcon }: { icon?: any; label: string; value: string; color: string; customIcon?: React.ReactNode }) {
     return (
         <View style={styles.statCard}>
-            <Ionicons name={icon} size={32} color={color} />
+            {customIcon ? customIcon : <Ionicons name={icon} size={32} color={color} />}
             <Text style={styles.statValue}>{value}</Text>
             <Text style={styles.statLabel}>{label}</Text>
         </View>
@@ -138,7 +139,7 @@ function ActionRow({ icon, label, onPress }: { icon: any; label: string; onPress
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: theme.colors.bg,
+        backgroundColor: "transparent",
     },
     header: {
         flexDirection: "row",
@@ -168,7 +169,7 @@ const styles = StyleSheet.create({
         width: 100,
         height: 100,
         borderRadius: 50,
-        backgroundColor: theme.colors.bg,
+        backgroundColor: "transparent",
         justifyContent: "center",
         alignItems: "center",
         borderWidth: 3,

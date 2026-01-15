@@ -1,5 +1,6 @@
 // src/featureGate.ts
 import entitlements from "../config/entitlements.json";
+import { dateKey } from "../lib/streaks";
 
 type PlanId = "free" | "pro" | "max";
 
@@ -16,10 +17,10 @@ const mistakesHubUsage = new Map<string, { date: string; count: number }>();
 
 /**
  * 今日の日付キー（YYYY-MM-DD）を取得
- * @returns {string} 今日の日付文字列
+ * ローカル時間基準（UTCの朝9時境界問題を回避）
  */
 function getTodayKey(): string {
-  return new Date().toISOString().split("T")[0];
+  return dateKey();
 }
 
 /**

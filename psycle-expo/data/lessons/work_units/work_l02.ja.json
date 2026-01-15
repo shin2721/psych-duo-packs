@@ -1,0 +1,376 @@
+[
+  {
+    "id": "work_l02_001",
+    "type": "swipe_judgment",
+    "question": "タスクを始める前に「完璧にやらなきゃ」と思って、手が止まることがある。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "よくある",
+      "right": "あまりない"
+    },
+    "explanation": "完璧主義は先延ばしにつながりやすい要因の1つ。「まず1行だけ」「1クリックだけ」から始めると、着手抵抗が下がることがある。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "完璧主義傾向がある人"
+      ],
+      "limitations": [
+        "本当に質が求められる場面では適用しにくい"
+      ],
+      "citation_role": "先延ばしと完璧主義の関連を観察研究で支持",
+      "claim_tags": [
+        "perfectionism",
+        "procrastination",
+        "task_initiation"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_002",
+    "type": "multiple_choice",
+    "question": "「着手抵抗」を下げるのに、まずできることは？",
+    "choices": [
+      "パソコンを開いて、ファイルを1つ開くだけ",
+      "完璧な計画を立てる",
+      "やる気が出るまで待つ"
+    ],
+    "correct_index": 0,
+    "explanation": "「ファイルを開く」という物理動作が、脳を「作業モード」に切り替えるきっかけになることがある。（「完璧な計画」「やる気を待つ」は先延ばしになりやすい）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "始めるのが苦手な人"
+      ],
+      "limitations": [
+        "開いただけで止まる場合もある"
+      ],
+      "citation_role": "実行意図と物理動作の関連を理論的に説明",
+      "claim_tags": [
+        "implementation_intention",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_003",
+    "type": "multiple_choice",
+    "question": "「やらなきゃ」と思いながら動けないとき、10秒でできる最小動作は？",
+    "choices": [
+      "PCのカバーを開けて、電源ボタンを押す",
+      "タスクリストを全部書き出す",
+      "やる気が出るのを待つ"
+    ],
+    "correct_index": 0,
+    "explanation": "「カバーを開ける」「電源を押す」という物理動作だけで、タスクに切り替わりやすくなる傾向がある。考える前に体を動かす。まず1回だけ。（「リスト書き出し」「やる気待ち」は時間がかかる）",
+    "actionable_advice": "👉 動けないとき → PCのカバーを開けて電源ボタンを押す（それだけでOK）",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "始めるのが苦手な人"
+      ],
+      "limitations": [
+        "PCがすでに開いている場合は別の動作が必要"
+      ],
+      "citation_role": "先延ばし研究から最小動作の効果を間接支持",
+      "try_this": "👉 動けないとき → PCを開いて電源ボタンを押す（10秒）",
+      "claim_tags": [
+        "procrastination",
+        "physical_action",
+        "task_initiation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "今の「やりたくない度」は？（0-10）",
+        "after_prompt": "PC開いた後は？",
+        "success_rule": "少しでも下がればOK",
+        "stop_rule": "変わらなければ今日は撤退"
+      },
+      "comparator": {
+        "baseline": "やる気を待つ",
+        "cost": "10秒 / 負荷は低い"
+      },
+      "fallback": {
+        "when": "10秒でも無理",
+        "next": "スマホで作業アプリを開くだけ"
+      }
+    }
+  },
+  {
+    "id": "work_l02_004",
+    "type": "swipe_judgment",
+    "question": "「1ステップだけ」と決めると、気づいたら次のステップに進んでいることがある。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "そうかも",
+      "right": "なさそう"
+    },
+    "explanation": "脳は「始める」ときにエネルギーを使う。始まってしまえば、続けるハードルは低くなる傾向がある。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "着手抵抗が高い人"
+      ],
+      "limitations": [
+        "1ステップで止まる場合もある（それでもOK）"
+      ],
+      "citation_role": "実行意図研究から着手効果を支持",
+      "claim_tags": [
+        "implementation_intention",
+        "task_initiation",
+        "momentum"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_005",
+    "type": "conversation",
+    "question": "タスクを始められないとき、自分に一番当てはまるのは？",
+    "choices": [
+      "何から始めていいかわからない",
+      "完璧にやろうとして固まる",
+      "面倒くさくて動けない",
+      "特にパターンはない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。パターンに気づくと、対策が選びやすくなる。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "先延ばしパターンの自己認識を支持",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_006",
+    "type": "multiple_choice",
+    "question": "「今日やるタスク」を1つに絞るのが効果的な理由は？",
+    "choices": [
+      "選択の負荷が減って、着手しやすくなるから",
+      "複数やると疲れるから",
+      "1つしかやらないと決めると怠けられるから"
+    ],
+    "correct_index": 0,
+    "explanation": "「何から始めるか」を決める負荷が着手抵抗の大きな部分を占めている。朝の10秒で「今日はこれだけ」と決めると、動きやすくなる傾向がある。まず1回だけ。（「複数で疲れる」「怠けられる」より、選択負荷を減らすのがポイント）",
+    "actionable_advice": "👉 朝起きたら → スマホを持ってメモアプリで「今日の1タスク」を10秒で書く",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "タスクが多すぎて動けない人"
+      ],
+      "limitations": [
+        "複数タスクが本当に緊急な場合は使いにくい"
+      ],
+      "citation_role": "実行意図における焦点化の効果を間接支持",
+      "try_this": "👉 朝起きたら → メモアプリで「今日の1タスク」を10秒で書く",
+      "claim_tags": [
+        "focus",
+        "task_selection",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "今週「1タスク」を書けた日は？",
+        "after_prompt": "書けた日に着手できたか",
+        "success_rule": "週に2日でも書ければOK",
+        "stop_rule": "1週間書けなかったらやめる"
+      },
+      "comparator": {
+        "baseline": "やることリストを見て圧倒される",
+        "cost": "10秒 / 負荷は低い"
+      },
+      "fallback": {
+        "when": "朝が忙しい",
+        "next": "前夜に書いておく"
+      }
+    }
+  },
+  {
+    "id": "work_l02_007",
+    "type": "swipe_judgment",
+    "question": "タスクが終わらないことより、「始められなかった」ことの方がストレスになることがある。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "わかる",
+      "right": "わからない"
+    },
+    "explanation": "「やってないこと」が頭に残り続けるとストレスにつながりやすい（ツァイガルニク効果）。1ステップでも始めると、この負荷が軽減する傾向がある。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "「やってない」ストレスを感じる人"
+      ],
+      "limitations": [
+        "逆に始めると止まれない人には別の対応が必要"
+      ],
+      "citation_role": "未完了タスクの心理的負荷を観察研究で支持",
+      "claim_tags": [
+        "procrastination",
+        "stress",
+        "zeigarnik_effect"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_008",
+    "type": "multiple_choice",
+    "question": "「やる気が出ない」とき、まず体でできることは？",
+    "choices": [
+      "椅子に座って、デスクに手を置く",
+      "やる気が出るまで横になる",
+      "SNSでモチベーション動画を見る"
+    ],
+    "correct_index": 0,
+    "explanation": "「椅子に座る」「手を置く」という物理動作が、脳を作業モードに切り替えるきっかけになることがある。考えるより先に体を動かす。まず1回だけ。（「横になる」「SNS見る」は逆に動けなくなる）",
+    "actionable_advice": "👉 やる気が出ないとき → まず椅子に座ってデスクに手を置く（10秒だけ）",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "やる気待ちが長い人"
+      ],
+      "limitations": [
+        "座る場所がない場合は別の動作が必要"
+      ],
+      "citation_role": "身体動作と行動開始の関連を間接支持",
+      "try_this": "👉 やる気が出ないとき → 椅子に座ってデスクに手を置く（10秒）",
+      "claim_tags": [
+        "physical_action",
+        "task_initiation",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "やる気は？（0-10）",
+        "after_prompt": "座った後は？",
+        "success_rule": "少しでも上がればOK",
+        "stop_rule": "変わらなければ別の方法へ"
+      },
+      "comparator": {
+        "baseline": "やる気を待ち続ける",
+        "cost": "10秒 / 負荷は低い"
+      },
+      "fallback": {
+        "when": "座ってもダメ",
+        "next": "PCを開くだけに変更"
+      }
+    }
+  },
+  {
+    "id": "work_l02_009",
+    "type": "conversation",
+    "question": "今日学んだテクで、明日から使えそうなのは？",
+    "choices": [
+      "「PCのカバーを開けて電源を押す」最小動作",
+      "「今日の1タスク」を朝に書く",
+      "「椅子に座ってデスクに手を置く」物理動作",
+      "全部試してみる"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも試してみる価値がある。合わなければ別のを試す。それも学び。まず1回だけ。（「全部」は無理しなくてOK、どれか1つから始める）",
+    "actionable_advice": "👉 明日朝「今日の1タスク」をメモアプリに10秒で書く（書くだけでOK）",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "新しい習慣を試したい人"
+      ],
+      "limitations": [
+        "練習なしでは忘れやすい"
+      ],
+      "citation_role": "タスク開始介入の選択肢を提案",
+      "try_this": "👉 明日朝「今日の1タスク」をメモアプリに10秒で書く",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "今週1回でも書けたか",
+        "stop_rule": "1週間書けなかったらやめる"
+      },
+      "comparator": {
+        "baseline": "何も決めずに1日を始める",
+        "cost": "10秒 × 毎朝"
+      },
+      "fallback": {
+        "when": "どれも合わない",
+        "next": "「2分だけスマホで作業する」に変更"
+      }
+    }
+  },
+  {
+    "id": "work_l02_010",
+    "type": "conversation",
+    "question": "このレッスンの「着手テク」、使えそうでしたか？",
+    "choices": [
+      "使えそう",
+      "ちょっと合わなそう",
+      "まだわからない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。「合わなそう」なら別のアプローチを探すのも大事。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "個人差への配慮を支持",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

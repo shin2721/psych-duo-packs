@@ -1,6 +1,6 @@
 // components/PlanSelector.tsx
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useAppState } from "../lib/state";
 import { theme } from "../lib/theme";
 import { buyPlan } from "../lib/billing";

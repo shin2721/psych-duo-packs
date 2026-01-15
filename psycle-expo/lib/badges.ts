@@ -129,4 +129,54 @@ export const BADGES: Badge[] = [
         category: 'social',
         unlockCondition: (stats) => stats.leaderboardRank <= 10 && stats.leaderboardRank > 0,
     },
+
+    // League Badges
+    {
+        id: 'league_silver',
+        name: 'シルバー昇格',
+        description: 'シルバーリーグに昇格',
+        icon: 'medal',
+        category: 'social',
+        unlockCondition: () => false, // Manually awarded
+    },
+    {
+        id: 'league_gold',
+        name: 'ゴールド昇格',
+        description: 'ゴールドリーグに昇格',
+        icon: 'medal',
+        category: 'social',
+        unlockCondition: () => false,
+    },
+    {
+        id: 'league_platinum',
+        name: 'プラチナ昇格',
+        description: 'プラチナリーグに昇格',
+        icon: 'diamond',
+        category: 'social',
+        unlockCondition: () => false,
+    },
+    {
+        id: 'league_diamond',
+        name: 'ダイヤモンド昇格',
+        description: 'ダイヤモンドリーグに昇格',
+        icon: 'diamond',
+        category: 'social',
+        unlockCondition: () => false,
+    },
+    {
+        id: 'league_master',
+        name: 'マスター昇格',
+        description: 'マスターリーグに昇格',
+        icon: 'ribbon',
+        category: 'social',
+        unlockCondition: () => false,
+    },
+    {
+        id: 'league_first_place',
+        name: 'リーグ1位',
+        description: 'リーグで1位を獲得',
+        icon: 'trophy',
+        category: 'social',
+        unlockCondition: () => false,
+    },
 ];

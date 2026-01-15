@@ -1,0 +1,452 @@
+{
+  "tierA": [
+    {
+      "id": "health_l01_004",
+      "lesson_id": "health_l01",
+      "try_this": "4-7-8呼吸を2回だけ試す",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "health_l01_006",
+      "lesson_id": "health_l01",
+      "try_this": "顎の力を10秒だけ抜く",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "health_l01_009",
+      "lesson_id": "health_l01",
+      "try_this": "今夜から1つ試す",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "mental_l01_004",
+      "lesson_id": "mental_l01",
+      "try_this": "👉 次に心臓がドキドキしたら → 「体が準備運動してる」と10秒だけ唱える",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "mental_l01_009",
+      "lesson_id": "mental_l01",
+      "try_this": "👉 明日モヤっとしたら → 「今、何を脅威だと思ってる？」と10秒問いかける",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "mental_l03_003",
+      "lesson_id": "mental_l03",
+      "try_this": "次に緊張したら「体が準備してくれてる」と10秒だけ唱える",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "mental_l03_004",
+      "lesson_id": "mental_l03",
+      "try_this": "緊張したら「体が準備してくれてる」と10秒唱える",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "mental_l03_006",
+      "lesson_id": "mental_l03",
+      "try_this": "4秒吸って4秒吐くを1回だけ",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "mental_l03_009",
+      "lesson_id": "mental_l03",
+      "try_this": "選んだテクを1回（10秒）試す",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "money_l01_003",
+      "lesson_id": "money_l01",
+      "try_this": "👉 カートに入れたら → 一度画面を閉じてロック（そのまま24時間放置）",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "money_l01_004",
+      "lesson_id": "money_l01",
+      "try_this": "👉 「買いたい」と思ったら → 指を離して10秒だけ「1年後も使ってる？」と唱える",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "money_l01_007",
+      "lesson_id": "money_l01",
+      "try_this": "「限定」と言われたら10秒待つ",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "money_l01_009",
+      "lesson_id": "money_l01",
+      "try_this": "👉 「買いたい！」と思ったら → 指を離して10秒だけ数える（1...2...3...10）",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "money_l01_010",
+      "lesson_id": "money_l01",
+      "try_this": "👉 次の買いたい！で10秒… 無理なら1秒だけ指を離す",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "social_l01_004",
+      "lesson_id": "social_l01",
+      "try_this": "「今は決められない、後で返すね」と10秒言う",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "social_l01_008",
+      "lesson_id": "social_l01",
+      "try_this": "「今は難しいけど、○○ならできるよ」と10秒言う",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "social_l01_009",
+      "lesson_id": "social_l01",
+      "try_this": "明日1回「今は決められない」を使う",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "social_l02_003",
+      "lesson_id": "social_l02",
+      "try_this": "👉 断りにくいDMが来たら → 指を離して10秒待ってから「確認させて」と返す",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "social_l02_006",
+      "lesson_id": "social_l02",
+      "try_this": "👉 断り文を送る前に → 指を止めて10秒だけ「○○なので難しいです」と唱える",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "social_l02_008",
+      "lesson_id": "social_l02",
+      "try_this": "👉 対面で断りにくいとき → 一歩下がって10秒だけ「考えさせて」と言う",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "social_l02_009",
+      "lesson_id": "social_l02",
+      "try_this": "👉 明日1回「断りにくい」と感じたら → スマホから指を離して10秒待つ",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "study_l01_003",
+      "lesson_id": "study_l01",
+      "try_this": "「10秒だけ教材を開く」を試す",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "study_l01_006",
+      "lesson_id": "study_l01",
+      "try_this": "「○○したら、10秒だけ教材を開く」を1つ決める",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "study_l01_008",
+      "lesson_id": "study_l01",
+      "try_this": "👉 勉強を始める前に → 教材を開いて机に10秒だけ置く",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "study_l01_009",
+      "lesson_id": "study_l01",
+      "try_this": "明日1回「10秒だけ教材を開く」を使う",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "work_l01_003",
+      "lesson_id": "work_l01",
+      "try_this": "👉 タスクが重いとき → 10秒だけ「5分版」を書き出す",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "work_l01_004",
+      "lesson_id": "work_l01",
+      "try_this": "「○時に△で□する」を1つ決める",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "work_l01_006",
+      "lesson_id": "work_l01",
+      "try_this": "「次の1手」だけを書き出す",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "work_l01_007",
+      "lesson_id": "work_l01",
+      "try_this": "誰かに「5分だけやる」と宣言する",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "work_l01_009",
+      "lesson_id": "work_l01",
+      "try_this": "動けなくなったら10秒だけ手を動かす",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "work_l01_010",
+      "lesson_id": "work_l01",
+      "try_this": "次のタスクで「10秒だけ」を試す",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "work_l02_003",
+      "lesson_id": "work_l02",
+      "try_this": "👉 動けないとき → PCを開いて電源ボタンを押す（10秒）",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": false,
+      "tier": "A",
+      "missing": [
+        "物理アクション"
+      ]
+    },
+    {
+      "id": "work_l02_006",
+      "lesson_id": "work_l02",
+      "try_this": "👉 朝起きたら → メモアプリで「今日の1タスク」を10秒で書く",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "work_l02_008",
+      "lesson_id": "work_l02",
+      "try_this": "👉 やる気が出ないとき → 椅子に座ってデスクに手を置く（10秒）",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    },
+    {
+      "id": "work_l02_009",
+      "lesson_id": "work_l02",
+      "try_this": "👉 明日朝「今日の1タスク」をメモアプリに10秒で書く",
+      "has_fallback": true,
+      "has_tiny_metric": true,
+      "has_comparator": true,
+      "has_ten_seconds": true,
+      "is_physical_action": true,
+      "tier": "A",
+      "missing": []
+    }
+  ],
+  "tierB": [],
+  "tierC": []
+}

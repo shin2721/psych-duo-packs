@@ -1,4 +1,4 @@
-name: Update Academic Content
+name: Daily Content Patrol
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch: # Allow manual trigger
 
 jobs:
-  update-content:
+  patrol:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,17 +21,16 @@ jobs:
         with:
           node-version: '20'
 
-      - name: Install dependencies
+      - name: Install root dependencies
         run: npm ci
 
-      - name: Fetch sources and generate questions
+      - name: Install content-generator dependencies
+        run: cd scripts/content-generator && npm ci
+
+      - name: Run Patrol (Content Generation)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: npm run update-content
-
-      - name: Generate lite pack (single paper, 90 questions)
-        run: npm run pack:lite
-
-      - name: Generate multi-abstract pack (3-5 papers, 90 questions)
-        run: npm run pack:multi
 
       - name: Check for changes
         id: check_changes
@@ -47,14 +46,12 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/sources.json data/questions/ paper_packs/
-          git commit -m "chore: update academic content and learning packs
+          git add scripts/content-generator/output/ scripts/content-generator/history/ data/lessons/*/auto/
+          git commit -m "chore: daily content patrol
 
-          - Fetched latest papers from ERIC, PubMed, and Crossref
-          - Auto-generated questions from abstracts
-          - Generated new learning packs:
-            * Lite pack: 1 paper, 90 questions (3 units × 2 lessons × 15 questions)
-            * Multi-abstract pack: 3-5 papers, 90 questions (3 units × 2 lessons × 15 questions)
+          - Fetched latest psychology news from RSS feeds
+          - Generated Life-Scene First questions using Gemini 3 Flash Preview
+          - Evaluated with Gemini 2.5 Flash Critic
           - Updated: $(date +'%Y-%m-%d %H:%M:%S UTC')
 
           🤖 Automated by GitHub Actions"

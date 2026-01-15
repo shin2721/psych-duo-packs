@@ -2,8 +2,25 @@
   "units": [
     {
       "level": 1,
-      "title": "Introduction to Social Psychology",
-      "source": "Allport, G. W. (1935). Attitudes. In C. Murchison (Ed.), A Handbook of Social Psychology."
+      "title": "断る勇気と境界線 (Boundaries)",
+      "source": "Neff, K. D. (2003). Self-compassion.",
+      "references": [
+        {
+          "citation": "Wolpe, J. (1958). Psychotherapy by reciprocal inhibition. (Assertiveness)",
+          "note": "臨床で生まれ、数十年単位で否定されず使われ続けている標準的な技法。即効性より「安全に使える基本スキル」。",
+          "level": "silver"
+        },
+        {
+          "citation": "Kendall, S. B. (1975). Partial reinforcement logic.",
+          "note": "行動の仕組みを説明するために提案され、多くのモデルの前提として定着している。単独の解決策ではないが、理解の基礎となる。",
+          "level": "silver"
+        },
+        {
+          "citation": "Neff, K. D. (2003). Self-compassion.",
+          "note": "比較的新しいが、2000年代以降の再現研究で支持が厚い概念。現在は心理支援の現場で標準的に参照されている。",
+          "level": "silver"
+        }
+      ]
     },
     {
       "level": 2,

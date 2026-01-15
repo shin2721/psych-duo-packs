@@ -13,7 +13,7 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.psycle.app"
+      "bundleIdentifier": "com.shin27.psycle"
     },
     "android": {
       "adaptiveIcon": {
@@ -21,7 +21,7 @@
         "backgroundColor": "#1a1b2e"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.psycle.app"
+      "package": "com.shin27.psycle"
     },
     "web": {
       "favicon": "./assets/favicon.png"

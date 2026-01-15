@@ -90,7 +90,7 @@ export default function QuestsScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: theme.colors.bg },
+  container: { flex: 1, backgroundColor: "transparent" },
   scroll: { padding: theme.spacing.md },
   headerRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: theme.spacing.md },
   title: { fontSize: 24, fontWeight: "800", color: theme.colors.text },

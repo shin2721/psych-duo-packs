@@ -12,28 +12,17 @@ export interface PlanConfig {
 export const PLANS: PlanConfig[] = [
   {
     id: "pro",
-    name: "Pro",
+    name: "Psycle Pro",
     priceId: "price_1SJ82EJDXOz4c0ISSpJmO8sx",
     priceMonthly: 980,
     features: [
-      "全ユニット・全レッスン無制限",
-      "ミスハブ機能（復習）",
+      "全300+レッスン無制限アクセス",
+      "スマート復習（苦手克服モード）",
       "広告なし",
       "ライフ無制限",
+      "毎週末ダブルXPブースト",
     ],
     popular: true,
-  },
-  {
-    id: "max",
-    name: "Max",
-    priceId: "price_1SJ82FJDXOz4c0ISrrFASipQ",
-    priceMonthly: 1480,
-    features: [
-      "Proの全機能",
-      "パーソナライズAIコーチ",
-      "詳細な進捗分析",
-      "優先サポート",
-    ],
   },
 ];
 

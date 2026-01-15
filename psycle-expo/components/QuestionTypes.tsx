@@ -1,7 +1,9 @@
-import React, { useState, useRef, useMemo } from "react";
-import { View, Text, Pressable, StyleSheet, PanResponder, Animated, TextInput } from "react-native";
+import React, { useState, useRef, useMemo, useEffect } from "react";
+import { View, Text, Pressable, StyleSheet, PanResponder, Animated, TextInput, Image } from "react-native";
+import * as Haptics from 'expo-haptics';
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
+import { AnimatedButton } from "./AnimatedButton";
 
 // 複数選択（即座フィードバック）
 export function SelectAll({
@@ -14,39 +16,53 @@ export function SelectAll({
 }: {
   choices: string[];
   selectedIndexes: number[];
-  correctAnswers: number[];
+  correctAnswers?: number[];
   showResult: boolean;
   onToggle: (index: number) => void;
   revealedIndexes?: number[];
 }) {
+  const isSurvey = !correctAnswers;
+
   return (
     <View style={styles.choicesContainer}>
       {choices.map((choice, index) => {
         const isSelected = selectedIndexes.includes(index);
-        const isCorrect = correctAnswers.includes(index);
+        const isCorrect = correctAnswers?.includes(index) ?? false;
         const isRevealed = revealedIndexes.includes(index);
 
         // Show correct answers: selected correct or unselected correct (when showResult)
-        const shouldShowCorrect = isCorrect && (isSelected || showResult);
+        const shouldShowCorrect = isSurvey
+          ? isSelected // Survey: just show selection check
+          : isCorrect && (isSelected || showResult);
+
         // Show incorrect: revealed incorrect or showResult incorrect
-        const shouldShowIncorrect = !isCorrect && (isRevealed || showResult);
+        const shouldShowIncorrect = isSurvey
+          ? false // Survey: never incorrect
+          : !isCorrect && (isRevealed || showResult);
 
         return (
-          <Pressable
+          <AnimatedButton
             key={index}
             style={[
               styles.choiceButton,
               shouldShowCorrect && styles.correctChoice,
               shouldShowIncorrect && styles.incorrectChoice,
+              // Survey mode specific styling if needed
+              isSurvey && isSelected && { backgroundColor: theme.colors.primary + "20", borderColor: theme.colors.primary }
             ]}
-            onPress={() => onToggle(index)}
-            disabled={showResult || isSelected}
+            onPress={() => {
+              // Light impact on selection
+              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              onToggle(index);
+            }}
+            disabled={showResult && !isSurvey} // Allow changing selection in survey mode until submitted? Or disable if showResult implies submission
           >
             <View style={styles.checkboxContainer}>
               <View style={[
                 styles.checkbox,
                 shouldShowCorrect && styles.checkboxCorrect,
                 shouldShowIncorrect && styles.checkboxIncorrect,
+                isSurvey && isSelected && { backgroundColor: theme.colors.primary, borderColor: theme.colors.primary }
               ]}>
                 {shouldShowCorrect && (
                   <Ionicons name="checkmark" size={20} color="#fff" />
@@ -62,7 +78,7 @@ export function SelectAll({
             ]}>
               {choice}
             </Text>
-          </Pressable>
+          </AnimatedButton>
         );
       })}
     </View>
@@ -99,7 +115,7 @@ export function FillBlankTap({
           const shouldShowIncorrect = showResult && isSelected && !isCorrect;
 
           return (
-            <Pressable
+            <AnimatedButton
               key={index}
               style={[
                 styles.fillBlankButton,
@@ -113,7 +129,7 @@ export function FillBlankTap({
               <Text style={styles.fillBlankText}>
                 {choice}
               </Text>
-            </Pressable>
+            </AnimatedButton>
           );
         })}
       </View>
@@ -128,37 +144,91 @@ export function SwipeJudgment({
   correctAnswer,
   showResult,
   onSwipe,
+  labels,
 }: {
   statement: string;
   selectedAnswer: "left" | "right" | null;
   correctAnswer: string;
   showResult: boolean;
   onSwipe: (direction: "left" | "right") => void;
+  labels?: { left: string; right: string };
 }) {
   const pan = useState(new Animated.ValueXY())[0];
+  const scale = useRef(new Animated.Value(1)).current; // For squash/stretch
+  const floatAnim = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    // Idle Animation: Floating & Breathing
+    Animated.loop(
+      Animated.parallel([
+        Animated.sequence([
+          Animated.timing(floatAnim, { toValue: 1, duration: 2000, useNativeDriver: true }),
+          Animated.timing(floatAnim, { toValue: 0, duration: 2000, useNativeDriver: true }),
+        ]),
+        Animated.sequence([
+          Animated.timing(scale, { toValue: 1.05, duration: 2000, useNativeDriver: true }),
+          Animated.timing(scale, { toValue: 1.0, duration: 2000, useNativeDriver: true }),
+        ])
+      ])
+    ).start();
+  }, []);
+
+  const translateY = floatAnim.interpolate({
+    inputRange: [0, 1],
+    outputRange: [0, -10],
+  });
+
+  const rotate = pan.x.interpolate({
+    inputRange: [-200, 0, 200],
+    outputRange: ['-15deg', '0deg', '15deg'],
+    extrapolate: 'clamp',
+  });
 
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => !showResult,
+    onPanResponderGrant: () => {
+      // Squash effect on touch
+      Animated.spring(scale, {
+        toValue: 0.9,
+        speed: 50,
+        bounciness: 10,
+        useNativeDriver: true,
+      }).start();
+    },
     onPanResponderMove: (_, gestureState) => {
       pan.x.setValue(gestureState.dx);
     },
     onPanResponderRelease: (e, gesture) => {
+      // Release Scale
+      Animated.spring(scale, {
+        toValue: 1,
+        speed: 30,
+        bounciness: 20, // Extra bouncy release
+        useNativeDriver: true,
+      }).start();
+
       if (showResult) return;
-      const threshold = 30; // 感度を上げる（より軽く反応）
+      const threshold = 10;
       if (Math.abs(gesture.dx) > threshold) {
+        // Swipe committed
         const direction = gesture.dx > 0 ? "right" : "left";
+        const isSwipeCorrect = (direction === correctAnswer);
+
+        // Haptic Feedback based on result (simulated prediction or after-fact?
+        // Component logic: onSwipe triggers parent, which sets showResult/isCorrect.
+        // We can't know isCorrect HERE immediately unless passed or calculated.
+        // But visuals update fast. Let's trigger a 'Selection' impact first.
+        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+
         onSwipe(direction);
-        // スワイプ方向にカードを飛ばすアニメーション
         Animated.spring(pan, {
           toValue: { x: gesture.dx > 0 ? 300 : -300, y: 0 },
-          useNativeDriver: false,
+          useNativeDriver: true,
           speed: 20,
         }).start();
       } else {
-        // しきい値に達しなかった場合は元に戻す
         Animated.spring(pan, {
           toValue: { x: 0, y: 0 },
-          useNativeDriver: false,
+          useNativeDriver: true,
         }).start();
       }
     },
@@ -168,26 +238,67 @@ export function SwipeJudgment({
 
   return (
     <View style={styles.swipeContainer}>
+
       <View style={styles.swipeLabels}>
-        <Text style={styles.swipeLabel}>← 危険</Text>
-        <Text style={styles.swipeLabel}>大丈夫 →</Text>
+        <Text style={styles.swipeLabel}>← {labels?.left || "危険"}</Text>
+        <Text style={styles.swipeLabel}>{labels?.right || "大丈夫"} →</Text>
       </View>
 
       <Animated.View
         {...panResponder.panHandlers}
         style={[
           styles.swipeCard,
-          { transform: [{ translateX: pan.x }] },
-          selectedAnswer && (isCorrect ? styles.swipeCorrect : styles.swipeIncorrect),
+          {
+            transform: [
+              { translateX: pan.x },
+              { translateY: translateY },
+              { rotate: rotate },
+              { scaleY: scale },
+            ],
+            // Removed transparency override to ensure card is visible
+          },
         ]}
       >
-        <Ionicons name="swap-horizontal" size={24} color={selectedAnswer ? "#fff" : "#22d3ee"} />
-        <Text style={styles.swipeCardText}>
-          {statement}
-        </Text>
-        <Text style={[styles.swipeHint, selectedAnswer && styles.swipeHintSelected]}>
-          ← スワイプして判定 →
-        </Text>
+        {/* Creating a sprite window */}
+        <View style={{ width: 140, height: 140, overflow: 'hidden', alignItems: 'center', justifyContent: 'center' }}>
+          {/* Reactive Sprite Sheet via Native Interpolation */}
+          <Animated.Image
+            source={require('../assets/firefly_sprites.png')}
+            style={{
+              width: 280, height: 280,
+              resizeMode: 'stretch',
+              position: 'absolute',
+              top: 0, left: 0, // Base position
+              transform: [
+                {
+                  translateX: pan.x.interpolate({
+                    // Logic: Right Swipe (>20) -> Happy (TR, X=-140). Else 0.
+                    inputRange: [-300, 20, 20.1, 300],
+                    outputRange: [0, 0, -140, -140],
+                    extrapolate: 'clamp'
+                  })
+                },
+                {
+                  translateY: pan.x.interpolate({
+                    // Logic: Left Swipe (<-20) -> Sad (BL, Y=-140). Else 0.
+                    inputRange: [-300, -20.1, -20, 300],
+                    outputRange: [-140, -140, 0, 0],
+                    extrapolate: 'clamp'
+                  })
+                }
+              ]
+            }}
+          />
+        </View>
+        {selectedAnswer && (
+          <View style={{ position: 'absolute', top: -40 }}>
+            {isCorrect ? (
+              <Ionicons name="checkmark-circle" size={40} color="#22c55e" />
+            ) : (
+              <Ionicons name="close-circle" size={40} color="#ef4444" />
+            )}
+          </View>
+        )}
       </Animated.View>
     </View>
   );
@@ -213,9 +324,6 @@ export function Conversation({
 }) {
   return (
     <View>
-      <View style={styles.conversationPrompt}>
-        <Text style={styles.conversationText}>{prompt}</Text>
-      </View>
       <Text style={styles.conversationResponsePrompt}>{responsePrompt}</Text>
       <View style={styles.choicesContainer}>
         {choices.map((choice, index) => {
@@ -225,7 +333,7 @@ export function Conversation({
           const shouldShowIncorrect = showResult && isSelected && !isCorrect;
 
           return (
-            <Pressable
+            <AnimatedButton
               key={index}
               style={[
                 styles.conversationChoice,
@@ -245,7 +353,7 @@ export function Conversation({
               {shouldShowIncorrect && (
                 <Ionicons name="close-circle" size={24} color={"#ef4444"} />
               )}
-            </Pressable>
+            </AnimatedButton>
           );
         })}
       </View>
@@ -285,7 +393,7 @@ export function SortOrder({
     return dragYRefs.current.get(itemIndex)!;
   };
 
-  console.log("[SortOrder] Rendering with:", {
+  if (__DEV__) console.log("[SortOrder] Rendering with:", {
     items,
     currentOrder,
     correctOrder,
@@ -343,7 +451,7 @@ export function SortOrder({
         const movedPositions = Math.round(gestureState.dy / ITEM_HEIGHT);
         const newPosition = Math.max(0, Math.min(currentOrder.length - 1, currentPosition + movedPositions));
 
-        console.log('Drag release:', {
+        if (__DEV__) console.log('Drag release:', {
           itemIndex,
           currentPosition,
           newPosition,
@@ -363,7 +471,7 @@ export function SortOrder({
           const temp = newOrder[newPosition];
           newOrder[newPosition] = newOrder[currentPosition];
           newOrder[currentPosition] = temp;
-          console.log('New order (swapped):', newOrder);
+          if (__DEV__) console.log('New order (swapped):', newOrder);
           onReorder(newOrder);
         }
 
@@ -521,7 +629,7 @@ export function Matching({
             const isMatched = selectedPairs.some(([l, _]) => l === index);
             const isCurrentIncorrect = currentIncorrectLeft === index;
             return (
-              <Pressable
+              <AnimatedButton
                 key={index}
                 style={[
                   styles.matchingItem,
@@ -541,7 +649,7 @@ export function Matching({
                 {isCurrentIncorrect && (
                   <Ionicons name="close-circle" size={20} color={"#ef4444"} />
                 )}
-              </Pressable>
+              </AnimatedButton>
             );
           })}
         </View>
@@ -552,7 +660,7 @@ export function Matching({
             const isCurrentIncorrect = currentIncorrectRight === index;
 
             return (
-              <Pressable
+              <AnimatedButton
                 key={index}
                 style={[
                   styles.matchingItem,
@@ -572,7 +680,7 @@ export function Matching({
                 {isCurrentIncorrect && (
                   <Ionicons name="close-circle" size={20} color={"#ef4444"} />
                 )}
-              </Pressable>
+              </AnimatedButton>
             );
           })}
         </View>
@@ -581,242 +689,44 @@ export function Matching({
   );
 }
 
-// Swipe判定（Q1用）
-export function SwipeChoice({
-  question,
-  onSwipe,
-}: {
-  question: string;
-  onSwipe: (direction: "left" | "right") => void;
-}) {
-  const pan = useRef(new Animated.ValueXY()).current;
 
-  const panResponder = useRef(
-    PanResponder.create({
-      onMoveShouldSetPanResponder: (_, gestureState) => {
-        return Math.abs(gestureState.dx) > 10;
-      },
-      onPanResponderMove: Animated.event([null, { dx: pan.x }], {
-        useNativeDriver: false,
-      }),
-      onPanResponderRelease: (_, gestureState) => {
-        if (Math.abs(gestureState.dx) > 60) {
-          const direction = gestureState.dx > 0 ? "right" : "left";
-          Animated.timing(pan, {
-            toValue: { x: gestureState.dx > 0 ? 500 : -500, y: 0 },
-            duration: 200,
-            useNativeDriver: true,
-          }).start(() => {
-            onSwipe(direction);
-            pan.setValue({ x: 0, y: 0 });
-          });
-        } else {
-          Animated.spring(pan, {
-            toValue: { x: 0, y: 0 },
-            useNativeDriver: true,
-          }).start();
-        }
-      },
-    })
-  ).current;
 
-  return (
-    <View style={styles.swipeChoiceContainer}>
-      <Animated.View
-        style={[
-          styles.swipeChoiceCard,
-          {
-            transform: [{ translateX: pan.x }],
-          },
-        ]}
-        {...panResponder.panHandlers}
-      >
-        <Text style={styles.swipeQuestion}>{question}</Text>
-        <View style={styles.swipeHints}>
-          <Text style={styles.swipeHintLeft}>←  いいえ</Text>
-          <Text style={styles.swipeHintRight}>はい  →</Text>
-        </View>
-      </Animated.View>
-    </View>
-  );
-}
-
-// アニメーション説明（Q3用・簡略版）
+// アニメーション説明（汎用）
 export function AnimatedExplanation({
+  text,
   onComplete,
 }: {
+  text: string;
   onComplete: () => void;
 }) {
-  const [step, setStep] = React.useState(0);
-  const fadeAnim = useRef(new Animated.Value(1)).current;
+  const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  React.useEffect(() => {
-    if (step < 3) {
-      const timer = setTimeout(() => {
-        Animated.timing(fadeAnim, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: true,
-        }).start(() => {
-          setStep(step + 1);
-          fadeAnim.setValue(1);
-        });
-      }, 2000);
-      return () => clearTimeout(timer);
-    } else {
-      const timer = setTimeout(() => {
-        onComplete();
-      }, 1500);
-      return () => clearTimeout(timer);
-    }
-  }, [step]);
+  useEffect(() => {
+    Animated.timing(fadeAnim, {
+      toValue: 1,
+      duration: 1000,
+      useNativeDriver: true,
+    }).start();
 
-  const content = [
-    { icon: "heart", text: "心臓ドクドク", color: "#ef4444" },
-    { icon: "fitness", text: "ゆっくり呼吸", color: "#22d3ee" },
-    { icon: "heart", text: "心拍が落ち着く", color: "#10b981" },
-  ];
+    const timer = setTimeout(() => {
+      onComplete();
+    }, 4000); // 4秒読んで完了
+
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <View style={styles.animatedContainer}>
       <Animated.View style={[styles.animatedContent, { opacity: fadeAnim }]}>
-        {step < 3 && (
-          <>
-            <Ionicons name={content[step].icon as any} size={80} color={content[step].color} />
-            <Text style={styles.animatedText}>{content[step].text}</Text>
-          </>
-        )}
+        <Text style={styles.animatedText}>{text}</Text>
       </Animated.View>
-      {step === 3 && (
-        <View style={styles.animatedFinal}>
-          <Text style={styles.animatedFinalText}>60秒で心拍10-15%↓</Text>
-        </View>
-      )}
     </View>
   );
 }
 
-// リズムタップ（Q4用）
-export function RhythmTap({
-  onComplete,
-}: {
-  onComplete: () => void;
-}) {
-  const [phase, setPhase] = React.useState<"inhale" | "hold" | "exhale" | "done">("inhale");
-  const [counter, setCounter] = React.useState(4);
-  const scaleAnim = useRef(new Animated.Value(1)).current;
 
-  React.useEffect(() => {
-    if (phase === "done") {
-      setTimeout(() => onComplete(), 1000);
-      return;
-    }
 
-    if (phase === "inhale" && counter > 0) {
-      Animated.spring(scaleAnim, {
-        toValue: 1.2,
-        useNativeDriver: true,
-      }).start();
-      const timer = setTimeout(() => {
-        setCounter(counter - 1);
-        scaleAnim.setValue(1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
 
-    if (phase === "inhale" && counter === 0) {
-      setPhase("hold");
-      setCounter(7);
-    }
-
-    if (phase === "hold" && counter > 0) {
-      const timer = setTimeout(() => setCounter(counter - 1), 1000);
-      return () => clearTimeout(timer);
-    }
-
-    if (phase === "hold" && counter === 0) {
-      setPhase("exhale");
-      setCounter(8);
-    }
-
-    if (phase === "exhale" && counter > 0) {
-      Animated.spring(scaleAnim, {
-        toValue: 0.8,
-        useNativeDriver: true,
-      }).start();
-      const timer = setTimeout(() => {
-        setCounter(counter - 1);
-        scaleAnim.setValue(1);
-      }, 1000);
-      return () => clearTimeout(timer);
-    }
-
-    if (phase === "exhale" && counter === 0) {
-      setPhase("done");
-    }
-  }, [phase, counter]);
-
-  const phaseText = {
-    inhale: `鼻から吸って (${counter})`,
-    hold: `止めて (${counter})`,
-    exhale: `口から吐いて (${counter})`,
-    done: "完了！",
-  };
-
-  return (
-    <View style={styles.rhythmContainer}>
-      <Animated.View style={[styles.rhythmCircle, { transform: [{ scale: scaleAnim }] }]}>
-        <Text style={styles.rhythmCounter}>{phase === "done" ? "✓" : counter}</Text>
-      </Animated.View>
-      <Text style={styles.rhythmText}>{phaseText[phase]}</Text>
-    </View>
-  );
-}
-
-// 複数選択トリガー設定（Q9用）
-export function MultiSelectTriggers({
-  options,
-  selectedIndexes,
-  onToggle,
-}: {
-  options: string[];
-  selectedIndexes: number[];
-  onToggle: (index: number) => void;
-}) {
-  return (
-    <View style={styles.triggersContainer}>
-      <Text style={styles.triggersPrompt}>どんな時に使う？</Text>
-      {options.map((option, index) => {
-        const isSelected = selectedIndexes.includes(index);
-        return (
-          <Pressable
-            key={index}
-            style={[
-              styles.triggerOption,
-              isSelected && styles.triggerOptionSelected,
-            ]}
-            onPress={() => onToggle(index)}
-          >
-            <View style={[
-              styles.triggerCheckbox,
-              isSelected && styles.triggerCheckboxSelected,
-            ]}>
-              {isSelected && (
-                <Ionicons name="checkmark" size={16} color="#fff" />
-              )}
-            </View>
-            <Text style={[
-              styles.triggerText,
-              isSelected && styles.triggerTextSelected,
-            ]}>
-              {option}
-            </Text>
-          </Pressable>
-        );
-      })}
-    </View>
-  );
-}
 
 // ========================================
 // Quick Reflex（反射型：時間制限付き即答問題）
@@ -895,7 +805,7 @@ export function QuickReflex({
           const shouldShowIncorrect = showResult && isSelected && !isCorrect;
 
           return (
-            <Pressable
+            <AnimatedButton
               key={index}
               style={[
                 styles.choiceButton,
@@ -918,7 +828,7 @@ export function QuickReflex({
                 <Ionicons name="checkmark-circle" size={24} color="#fff" />
               )}
               {shouldShowIncorrect && <Ionicons name="close-circle" size={24} color="#fff" />}
-            </Pressable>
+            </AnimatedButton>
           );
         })}
       </View>
@@ -974,7 +884,7 @@ export function MicroInput({
       </View>
 
       {!showResult && (
-        <Pressable
+        <AnimatedButton
           style={[
             styles.submitButton,
             !inputText.trim() && styles.submitButtonDisabled,
@@ -985,7 +895,7 @@ export function MicroInput({
           <Text style={styles.submitButtonText}>
             {inputText.trim() ? "答えを確認" : "入力してください"}
           </Text>
-        </Pressable>
+        </AnimatedButton>
       )}
     </View>
   );
@@ -996,14 +906,18 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   choiceButton: {
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
+    backgroundColor: "#1e293b",
+    borderWidth: 1.5,
+    borderColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 12,
     padding: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.2,
+    shadowRadius: 4,
   },
   selectedChoice: {
     backgroundColor: "#22d3ee",
@@ -1023,7 +937,7 @@ const styles = StyleSheet.create({
   },
   choiceText: {
     fontSize: 18,
-    color: "#1a1a1a",
+    color: "#fff",
     flex: 1,
     lineHeight: 26,
     fontWeight: "600",
@@ -1043,7 +957,7 @@ const styles = StyleSheet.create({
     width: 28,
     height: 28,
     borderWidth: 2,
-    borderColor: "#e0e0e0",
+    borderColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 6,
     alignItems: "center",
     justifyContent: "center",
@@ -1087,16 +1001,16 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   fillBlankButton: {
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
+    backgroundColor: "#1e293b",
+    borderWidth: 1.5,
+    borderColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 20,
     paddingHorizontal: 20,
     paddingVertical: 12,
   },
   fillBlankText: {
     fontSize: 16,
-    color: "#1a1a1a",
+    color: "#fff",
     fontWeight: "600",
   },
 
@@ -1117,28 +1031,34 @@ const styles = StyleSheet.create({
     color: "#fff",
   },
   swipeCard: {
-    backgroundColor: "#fff",
+    backgroundColor: "#1e293b",
     borderRadius: 12,
-    padding: 16,
-    width: 240,
+    borderWidth: 1.5,
+    borderColor: "rgba(255, 255, 255, 0.3)",
+    padding: 24,
+    width: 260,
+    minHeight: 140,
     alignItems: "center",
+    justifyContent: "center",
     gap: 8,
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.3,
+    shadowRadius: 8,
+    elevation: 5,
   },
   swipeCorrect: {
     backgroundColor: theme.colors.success,
+    borderColor: theme.colors.success,
   },
   swipeIncorrect: {
     backgroundColor: "#ef4444",
+    borderColor: "#ef4444",
   },
   swipeCardText: {
-    fontSize: 15,
+    fontSize: 16,
     fontWeight: "600",
-    color: "#1a1a1a",
+    color: "#fff",
     textAlign: "center",
   },
   swipeHint: {
@@ -1170,9 +1090,9 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   conversationChoice: {
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
+    backgroundColor: "#1e293b",
+    borderWidth: 1.5,
+    borderColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 12,
     padding: 16,
     flexDirection: "row",
@@ -1212,9 +1132,9 @@ const styles = StyleSheet.create({
     opacity: 0.3,
   },
   sortItem: {
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
+    backgroundColor: "#1e293b",
+    borderWidth: 1.5,
+    borderColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 12,
     padding: 16,
     flexDirection: "row",
@@ -1240,7 +1160,7 @@ const styles = StyleSheet.create({
   },
   sortItemText: {
     fontSize: 16,
-    color: "#1a1a1a",
+    color: "#fff",
     flex: 1,
     fontWeight: "600",
   },
@@ -1263,9 +1183,9 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   matchingItem: {
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
+    backgroundColor: "#1e293b",
+    borderWidth: 1.5,
+    borderColor: "rgba(255, 255, 255, 0.3)",
     borderRadius: 12,
     padding: 12,
     minHeight: 60,
@@ -1274,57 +1194,19 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   matchingItemSelected: {
-    backgroundColor: "#22d3ee",
+    backgroundColor: "rgba(34, 211, 238, 0.3)",
     borderColor: "#22d3ee",
   },
   matchingItemMatched: {
-    backgroundColor: "#f5f5f5",
-    borderColor: "#d0d0d0",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    borderColor: "rgba(255, 255, 255, 0.1)",
+    opacity: 0.6,
   },
   matchingItemText: {
     fontSize: 14,
-    color: "#1a1a1a",
+    color: "#fff",
     fontWeight: "600",
     flex: 1,
-  },
-  // SwipeChoice styles
-  swipeChoiceContainer: {
-    height: 400,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  swipeChoiceCard: {
-    width: 300,
-    height: 350,
-    backgroundColor: "#fff",
-    borderRadius: 20,
-    padding: 24,
-    justifyContent: "space-between",
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 4 },
-    shadowOpacity: 0.3,
-    shadowRadius: 8,
-    elevation: 8,
-  },
-  swipeQuestion: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#1a1a1a",
-    textAlign: "center",
-  },
-  swipeHints: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
-  swipeHintLeft: {
-    fontSize: 16,
-    color: "#ef4444",
-    fontWeight: "600",
-  },
-  swipeHintRight: {
-    fontSize: 16,
-    color: "#10b981",
-    fontWeight: "600",
   },
   // AnimatedExplanation styles
   animatedContainer: {
@@ -1339,7 +1221,8 @@ const styles = StyleSheet.create({
   animatedText: {
     fontSize: 20,
     fontWeight: "700",
-    color: "#1a1a1a",
+    color: "#fff",
+    textAlign: "center",
   },
   animatedFinal: {
     alignItems: "center",
@@ -1372,51 +1255,6 @@ const styles = StyleSheet.create({
   rhythmText: {
     fontSize: 20,
     fontWeight: "600",
-    color: "#1a1a1a",
-  },
-  // MultiSelectTriggers styles
-  triggersContainer: {
-    gap: 12,
-  },
-  triggersPrompt: {
-    fontSize: 18,
-    fontWeight: "600",
-    color: "#1a1a1a",
-    marginBottom: 8,
-  },
-  triggerOption: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-    backgroundColor: "#fff",
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
-    borderRadius: 12,
-    padding: 16,
-  },
-  triggerOptionSelected: {
-    backgroundColor: "#22d3ee",
-    borderColor: "#22d3ee",
-  },
-  triggerCheckbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
-    borderWidth: 2,
-    borderColor: "#e0e0e0",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  triggerCheckboxSelected: {
-    backgroundColor: "#fff",
-    borderColor: "#fff",
-  },
-  triggerText: {
-    fontSize: 16,
-    color: "#1a1a1a",
-    flex: 1,
-  },
-  triggerTextSelected: {
     color: "#fff",
   },
   // Quick Reflex styles
@@ -1481,12 +1319,13 @@ const styles = StyleSheet.create({
     fontSize: 18,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: theme.colors.primary,
-    backgroundColor: "#fff",
+    borderColor: "rgba(255, 255, 255, 0.2)",
+    backgroundColor: "rgba(30, 41, 59, 0.8)",
+    color: "#fff",
   },
   textInputDisabled: {
-    borderColor: "#95a5a6",
-    backgroundColor: "#ecf0f1",
+    borderColor: "rgba(255, 255, 255, 0.1)",
+    backgroundColor: "rgba(30, 41, 59, 0.4)",
   },
   submitButton: {
     backgroundColor: theme.colors.primary,
@@ -1543,6 +1382,9 @@ const styles = StyleSheet.create({
     shadowRadius: 4,
     elevation: 3,
   },
+  neutralButton: {
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+  },
   positiveButton: {
     backgroundColor: theme.colors.success,
   },
@@ -1561,6 +1403,12 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     fontWeight: "bold",
+  },
+  questionText: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: theme.colors.text,
+    textAlign: "center",
   },
 });
 
@@ -1586,43 +1434,40 @@ export function ConsequenceScenario({
 
   return (
     <View style={styles.consequenceContainer}>
-      <Text style={styles.consequenceQuestion}>{question}</Text>
       <Text style={styles.consequencePrompt}>この行動の結果は？</Text>
 
       <View style={styles.consequenceButtons}>
-        <Pressable
+        <AnimatedButton
           style={[
             styles.consequenceButton,
-            styles.positiveButton,
+            styles.neutralButton,
             selected === "positive" && styles.selectedPositive,
             showResult && consequenceType === "positive" && styles.correctChoice,
             showResult && selected === "positive" && consequenceType !== "positive" && styles.incorrectChoice,
-            showResult && consequenceType !== "positive" && styles.disabledChoice, // Fade out wrong option if correct is negative
-            showResult && consequenceType === "positive" && styles.correctChoice, // Highlight correct
+            showResult && consequenceType !== "positive" && styles.disabledChoice,
           ]}
           onPress={() => handlePress("positive")}
           disabled={showResult}
         >
-          <Ionicons name="happy-outline" size={32} color="#fff" />
-          <Text style={styles.consequenceButtonText}>ポジティブ</Text>
-        </Pressable>
+          <Ionicons name="happy-outline" size={32} color={selected === "positive" || (showResult && consequenceType === "positive") ? "#fff" : "#cbd5e1"} />
+          <Text style={[styles.consequenceButtonText, { color: selected === "positive" || (showResult && consequenceType === "positive") ? "#fff" : "#cbd5e1" }]}>ポジティブ</Text>
+        </AnimatedButton>
 
-        <Pressable
+        <AnimatedButton
           style={[
             styles.consequenceButton,
-            styles.negativeButton,
+            styles.neutralButton,
             selected === "negative" && styles.selectedNegative,
             showResult && consequenceType === "negative" && styles.correctChoice,
             showResult && selected === "negative" && consequenceType !== "negative" && styles.incorrectChoice,
             showResult && consequenceType !== "negative" && styles.disabledChoice,
-            showResult && consequenceType === "negative" && styles.correctChoice,
           ]}
           onPress={() => handlePress("negative")}
           disabled={showResult}
         >
-          <Ionicons name="sad-outline" size={32} color="#fff" />
-          <Text style={styles.consequenceButtonText}>ネガティブ</Text>
-        </Pressable>
+          <Ionicons name="sad-outline" size={32} color={selected === "negative" || (showResult && consequenceType === "negative") ? "#fff" : "#cbd5e1"} />
+          <Text style={[styles.consequenceButtonText, { color: selected === "negative" || (showResult && consequenceType === "negative") ? "#fff" : "#cbd5e1" }]}>ネガティブ</Text>
+        </AnimatedButton>
       </View>
     </View>
   );

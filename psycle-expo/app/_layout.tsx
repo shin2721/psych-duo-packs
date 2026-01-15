@@ -3,7 +3,15 @@ import { AppStateProvider } from "../lib/state";
 import { AuthProvider, useAuth } from "../lib/AuthContext";
 import { OnboardingProvider, useOnboarding } from "../lib/OnboardingContext";
 import { useEffect } from "react";
-import { View, ActivityIndicator } from "react-native";
+import { View, ActivityIndicator, LogBox } from "react-native";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+
+// Suppress network errors during development
+LogBox.ignoreLogs([
+  "TypeError: Network request failed",
+  "AuthRetryableFetchError",
+  "Network request failed",
+]);
 
 function RootLayoutNav() {
   const { session, isLoading: authLoading } = useAuth();
@@ -14,6 +22,7 @@ function RootLayoutNav() {
   const isLoading = authLoading || onboardingLoading;
 
   useEffect(() => {
+    if (__DEV__) console.log("[RootLayoutNav] Effect triggered", { isLoading, hasSeenOnboarding, session: !!session, segment: segments[0] });
     if (isLoading || hasSeenOnboarding === null) return;
 
     const inAuthGroup = segments[0] === "auth";
@@ -53,10 +62,12 @@ function RootLayoutNav() {
 
 export default function RootLayout() {
   return (
-    <AuthProvider>
-      <OnboardingProvider>
-        <RootLayoutNav />
-      </OnboardingProvider>
-    </AuthProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <AuthProvider>
+        <OnboardingProvider>
+          <RootLayoutNav />
+        </OnboardingProvider>
+      </AuthProvider>
+    </GestureHandlerRootView>
   );
 }

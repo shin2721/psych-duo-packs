@@ -1,26 +1,40 @@
 export const genres = [
-  { id: "mental", label: "メンタル", icon: "brain" },
-  { id: "money", label: "お金", icon: "cash" },
-  { id: "work", label: "仕事術", icon: "briefcase" },
-  { id: "health", label: "健康", icon: "fitness" },
-  { id: "social", label: "人間関係", icon: "people" },
-  { id: "study", label: "学習法", icon: "book" },
+  { id: "mental", label: "メンタル", icon: "brain", emoji: "🧠" },
+  { id: "money", label: "お金", icon: "cash", emoji: "💰" },
+  { id: "work", label: "仕事術", icon: "briefcase", emoji: "💼" },
+  { id: "health", label: "健康", icon: "fitness", emoji: "❤️" },
+  { id: "social", label: "人間関係", icon: "people", emoji: "🤝" },
+  { id: "study", label: "学習法", icon: "book", emoji: "📚" },
 ];
 
 // Helper to generate trail nodes
 const generateTrail = (genreId: string, count: number) => {
   const icons = ["leaf", "flower", "sparkles", "star", "heart-circle", "pulse", "school", "flask", "shield-checkmark", "trophy"];
-  return Array.from({ length: count }, (_, i) => {
-    const level = i + 1;
-    return {
-      id: `${genreId.charAt(0)}${level}`,
-      status: level === 1 ? "current" : "locked",
-      icon: icons[i % icons.length],
+  const nodes = [];
+
+  for (let i = 1; i <= count; i++) {
+    // Inject Black Hole Node after lesson 5 (before lesson 6)
+    if (i === 6) {
+      nodes.push({
+        id: `${genreId}_bh1`,
+        status: "locked",
+        icon: "planet",
+        type: "review_blackhole",
+        lessonFile: `${genreId}_review_bh1`,
+        lessonId: `${genreId}_review_bh1`
+      });
+    }
+
+    nodes.push({
+      id: `${genreId.charAt(0)}${i}`,
+      status: i === 1 ? "current" : "locked",
+      icon: icons[(i - 1) % icons.length],
       type: "lesson",
-      lessonFile: `${genreId}_l${String(level).padStart(2, '0')}`, // For mental (legacy format support)
-      lessonId: `${genreId}_lesson_${level}` // Standard format
-    };
-  });
+      lessonFile: `${genreId}_l${String(i).padStart(2, '0')}`, // For mental (legacy format support)
+      lessonId: `${genreId}_lesson_${i}` // Standard format
+    });
+  }
+  return nodes;
 };
 
 export const trailsByGenre: Record<string, any[]> = {
@@ -28,6 +42,7 @@ export const trailsByGenre: Record<string, any[]> = {
   money: generateTrail("money", 100),
   work: generateTrail("work", 100),
   health: generateTrail("health", 100),
+  search: generateTrail("search", 100), // kept for reference
   social: generateTrail("social", 100),
   study: generateTrail("study", 100),
 };

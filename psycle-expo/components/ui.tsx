@@ -1,5 +1,6 @@
 import React, { ReactNode } from "react";
 import { View, Text, Pressable, StyleSheet, ViewStyle } from "react-native";
+import { LinearGradient } from "expo-linear-gradient";
 import { theme } from "../lib/theme";
 
 export function Card({ children, style }: { children: ReactNode; style?: ViewStyle }) {
@@ -10,7 +11,30 @@ export function ProgressBar({ value, max, style }: { value: number; max: number;
   const percent = Math.min((value / max) * 100, 100);
   return (
     <View style={[styles.progressTrack, style]}>
-      <View style={[styles.progressFill, { width: `${percent}%` }]} />
+      <LinearGradient
+        colors={["#00d4ff", "#00ffb3", "#a8ff60"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 1, y: 0 }}
+        style={[styles.progressFill, { width: `${percent}%` }]}
+      />
+      {/* Glow effect */}
+      {percent > 5 && (
+        <View
+          style={{
+            position: "absolute",
+            right: `${100 - percent}%`,
+            top: -2,
+            width: 12,
+            height: 12,
+            borderRadius: 6,
+            backgroundColor: "#a8ff60",
+            shadowColor: "#a8ff60",
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.8,
+            shadowRadius: 6,
+          }}
+        />
+      )}
     </View>
   );
 }

@@ -2,6 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { View, Text, Pressable, StyleSheet, Animated } from "react-native";
 import { theme } from "../lib/theme";
 
+import { ChestIcon } from "./CustomIcons";
+
 interface ChestProps {
   state: "closed" | "opening" | "opened";
   onOpen?: () => void;
@@ -39,22 +41,18 @@ export function Chest({ state, onOpen, size = "sm", label }: ChestProps) {
     outputRange: ["-12deg", "12deg"],
   });
 
-  const dimensions = size === "md" ? { width: 80, height: 80 } : { width: 56, height: 56 };
+  const iconSize = size === "md" ? 64 : 40;
   const disabled = state === "opened" || !onOpen;
 
   return (
     <Pressable onPress={onOpen} disabled={disabled} style={styles.container}>
       <Animated.View
         style={[
-          styles.chest,
-          dimensions,
-          state === "opened" && styles.chestOpened,
+          styles.chestWrapper,
           { transform: [{ scale: scaleAnim }, { rotate }] },
         ]}
       >
-        <Text style={[styles.icon, size === "md" && styles.iconMd]}>
-          {state === "opened" ? "📦" : "🎁"}
-        </Text>
+        <ChestIcon size={iconSize} open={state === "opened"} />
       </Animated.View>
       {label && <Text style={styles.label}>{label}</Text>}
     </Pressable>
@@ -63,16 +61,10 @@ export function Chest({ state, onOpen, size = "sm", label }: ChestProps) {
 
 const styles = StyleSheet.create({
   container: { alignItems: "center", gap: 4 },
-  chest: {
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.radius.md,
+  chestWrapper: {
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 2,
-    borderColor: theme.colors.warn,
-  },
-  chestOpened: {
-    borderColor: theme.colors.success,
+    // Removed background/border for cleaner SVG look
   },
   icon: {
     fontSize: 28,

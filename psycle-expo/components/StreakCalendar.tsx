@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { theme } from '../lib/theme';
+import { dateKey } from '../lib/streaks';
 
 interface StreakDay {
     date: string;
@@ -21,7 +22,7 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
         for (let i = 29; i >= 0; i--) {
             const date = new Date(today);
             date.setDate(date.getDate() - i);
-            const dateString = date.toISOString().split('T')[0];
+            const dateString = dateKey(date);  // ローカル時間基準
 
             const dayData = history.find(h => h.date === dateString);
             days.push({ date: dateString, data: dayData });
@@ -34,9 +35,19 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
 
     const getIntensityColor = (xp: number) => {
         if (xp === 0) return theme.colors.line;
-        if (xp < 20) return 'rgba(99, 102, 241, 0.3)';
-        if (xp < 50) return 'rgba(99, 102, 241, 0.6)';
-        return theme.colors.primary;
+        if (xp < 20) return 'rgba(168, 255, 96, 0.25)';
+        if (xp < 50) return 'rgba(168, 255, 96, 0.55)';
+        return '#a8ff60';
+    };
+
+    const getGlow = (xp: number) => {
+        if (xp >= 50) return {
+            shadowColor: '#a8ff60',
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.6,
+            shadowRadius: 4,
+        };
+        return {};
     };
 
     const getDayLabel = (dateString: string) => {
@@ -57,6 +68,7 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
                                 {
                                     backgroundColor: getIntensityColor(day.data?.xp || 0),
                                 },
+                                getGlow(day.data?.xp || 0),
                             ]}
                         />
                         {getDayLabel(day.date) && (
@@ -68,9 +80,9 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
             <View style={styles.legend}>
                 <Text style={styles.legendText}>Less</Text>
                 <View style={[styles.legendBox, { backgroundColor: theme.colors.line }]} />
-                <View style={[styles.legendBox, { backgroundColor: 'rgba(99, 102, 241, 0.3)' }]} />
-                <View style={[styles.legendBox, { backgroundColor: 'rgba(99, 102, 241, 0.6)' }]} />
-                <View style={[styles.legendBox, { backgroundColor: theme.colors.primary }]} />
+                <View style={[styles.legendBox, { backgroundColor: 'rgba(168, 255, 96, 0.25)' }]} />
+                <View style={[styles.legendBox, { backgroundColor: 'rgba(168, 255, 96, 0.55)' }]} />
+                <View style={[styles.legendBox, { backgroundColor: '#a8ff60' }]} />
                 <Text style={styles.legendText}>More</Text>
             </View>
         </View>

@@ -101,10 +101,26 @@ async function upgradeGenre(genreName) {
     let successCount = 0;
     let failCount = 0;
 
+    // Resume logic: Load existing progress if file exists
+    if (fs.existsSync(outputPath)) {
+        try {
+            const existingData = fs.readFileSync(outputPath, "utf8");
+            const parsed = JSON.parse(existingData);
+            if (Array.isArray(parsed) && parsed.length > 0) {
+                upgradedQuestions.push(...parsed);
+                console.log(`🔄 Resuming from ${upgradedQuestions.length} already processed questions.`);
+                successCount = upgradedQuestions.length; // Approximate count
+            }
+        } catch (e) {
+            console.log("⚠️ Could not read existing output file, starting fresh.");
+        }
+    }
+
     // Process in batches of 10 to respect rate limits
     const batchSize = 10;
+    const startIndex = upgradedQuestions.length;
 
-    for (let i = 0; i < existingQuestions.length; i += batchSize) {
+    for (let i = startIndex; i < existingQuestions.length; i += batchSize) {
         const batch = existingQuestions.slice(i, i + batchSize);
 
         console.log(`\nProcessing questions ${i + 1}-${Math.min(i + batchSize, existingQuestions.length)}...`);
@@ -122,6 +138,10 @@ async function upgradeGenre(genreName) {
             console.log(`❌ Failed, keeping original ${batch.length} questions`);
         }
 
+        // Incremental Save
+        fs.writeFileSync(outputPath, JSON.stringify(upgradedQuestions, null, 2));
+        console.log(`💾 Progress saved (${upgradedQuestions.length}/${existingQuestions.length})`);
+
         // Wait between batches to respect rate limits (10 RPM for Gemini)
         if (i + batchSize < existingQuestions.length) {
             console.log("Waiting 6 seconds before next batch...");
@@ -130,11 +150,7 @@ async function upgradeGenre(genreName) {
     }
 
     console.log(`\n=== ${genreName.toUpperCase()} Upgrade Complete ===`);
-    console.log(`✅ Success: ${successCount} questions`);
-    console.log(`❌ Failed: ${failCount} questions`);
-
-    // Save to file
-    fs.writeFileSync(outputPath, JSON.stringify(upgradedQuestions, null, 2));
+    console.log(`✅ Total questions: ${upgradedQuestions.length}`);
     console.log(`\n📁 Saved to: ${outputPath}`);
 }
 

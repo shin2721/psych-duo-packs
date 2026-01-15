@@ -22,7 +22,7 @@ interface RegionalPricing {
  * @returns {Region} 検出された地域コード
  */
 export function detectUserRegion(): Region {
-  const locale = Localization.locale; // e.g., "en-US", "ja-JP"
+  const locale = Localization.getLocales()[0]?.languageTag ?? "en-US"; // e.g., "en-US", "ja-JP"
   const countryCode = locale.split("-")[1]?.toUpperCase();
 
   // 地域マッピング

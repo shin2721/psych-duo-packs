@@ -45,3 +45,7 @@ yarn-error.*
 /ios
 /android
 .env
+.vscode/
+.kiro/
+.agent/
+.husky/

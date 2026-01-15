@@ -4,8 +4,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { useAppState } from "../../lib/state";
+import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { PLANS, SUPABASE_FUNCTION_URL, type PlanConfig } from "../../lib/plans";
+import i18n from "../../lib/i18n";
+import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
+
+// import { Firefly } from "../../components/Firefly"; // TODO: Re-enable after native rebuild
 
 interface ShopItem {
   id: string;
@@ -13,11 +18,13 @@ interface ShopItem {
   description: string;
   price: number;
   icon: keyof typeof Ionicons.glyphMap;
+  customIcon?: React.ReactNode;
   action: () => boolean;
 }
 
 export default function ShopScreen() {
-  const { gems, buyFreeze, freezeCount, planId, isSubscriptionActive, activeUntil } = useAppState();
+  const { gems, buyFreeze, freezeCount, planId, isSubscriptionActive, activeUntil, buyDoubleXP, isDoubleXpActive, doubleXpEndTime } = useAppState();
+  const { user } = useAuth();
   const [justPurchased, setJustPurchased] = useState<string | null>(null);
   const [isSubscribing, setIsSubscribing] = useState(false);
 
@@ -26,9 +33,9 @@ export default function ShopScreen() {
     if (success) {
       setJustPurchased(item.id);
       setTimeout(() => setJustPurchased(null), 2000);
-      Alert.alert("購入完了！", `${item.name}を購入しました`);
+      Alert.alert(i18n.t('common.ok'), `${item.name}`);
     } else {
-      Alert.alert("購入失敗", "Gemsが足りません");
+      Alert.alert(i18n.t('common.error'), i18n.t('shop.gems') + "...");
     }
   };
 
@@ -43,8 +50,8 @@ export default function ShopScreen() {
         },
         body: JSON.stringify({
           priceId: plan.priceId,
-          userId: "", // TODO: Add actual user ID when auth is implemented
-          email: "user@example.com", // TODO: Get from auth
+          userId: user?.id || "",
+          email: user?.email || "user@example.com",
         }),
       });
 
@@ -72,39 +79,42 @@ export default function ShopScreen() {
   const shopItems: ShopItem[] = [
     {
       id: "freeze",
-      name: "ストリークフリーズ",
-      description: "ストリークを1日守ることができます",
+      name: i18n.t('shop.items.freeze.name'),
+      description: i18n.t('shop.items.freeze.desc'),
       price: 10,
       icon: "snow-outline",
       action: buyFreeze,
     },
-    // Future items can be added here
-    // {
-    //   id: "double_xp",
-    //   name: "ダブルXPブースト",
-    //   description: "15分間XPが2倍になります",
-    //   price: 20,
-    //   icon: "flash-outline",
-    //   action: buyDoubleXP,
-    // },
+    {
+      id: "double_xp",
+      name: i18n.t('shop.items.doubleXP.name'),
+      description: isDoubleXpActive
+        ? `${i18n.t('shop.items.doubleXP.active')} ${Math.ceil((doubleXpEndTime! - Date.now()) / 60000)}m`
+        : i18n.t('shop.items.doubleXP.desc'),
+      price: 20,
+      icon: "flash-outline",
+      customIcon: <EnergyIcon size={36} />,
+      action: buyDoubleXP,
+    },
   ];
 
   return (
     <SafeAreaView style={styles.container}>
       <GlobalHeader />
-      {/* Header */}
       <View style={styles.header}>
         <Ionicons name="storefront" size={32} color={theme.colors.accent} />
-        <Text style={styles.title}>ショップ</Text>
+        <Text style={styles.title}>{i18n.t('shop.title')}</Text>
+
+        {/* Gems Display */}
+        <View style={styles.gemsContainer}>
+          <GemIcon size={20} />
+          <Text style={styles.gemsText}>{gems}</Text>
+        </View>
       </View>
 
-      {/* Gems Balance */}
-      <View style={styles.gemsCard}>
-        <Ionicons name="diamond" size={32} color={theme.colors.accent} />
-        <View style={styles.gemsInfo}>
-          <Text style={styles.gemsLabel}>所持Gems</Text>
-          <Text style={styles.gemsValue}>{gems}</Text>
-        </View>
+      {/* Firefly Character */}
+      <View style={{ alignItems: 'center', marginBottom: 20 }}>
+        {/* <Firefly /> */}{/* TODO: Re-enable after native rebuild */}
       </View>
 
       {/* Subscription Plans */}
@@ -131,7 +141,7 @@ export default function ShopScreen() {
 
         {/* Plan Cards */}
         <View style={styles.plansContainer}>
-          {PLANS.map((plan) => (
+          {PLANS.filter(p => p.id === 'pro').map((plan) => (
             <View key={plan.id} style={styles.planCard}>
               {plan.popular && (
                 <View style={styles.popularBadge}>
@@ -164,8 +174,8 @@ export default function ShopScreen() {
                   {isSubscribing
                     ? "処理中..."
                     : planId === plan.id && isSubscriptionActive
-                    ? "有効中"
-                    : "登録する"}
+                      ? "有効中"
+                      : "登録する"}
                 </Text>
               </Pressable>
             </View>
@@ -184,7 +194,11 @@ export default function ShopScreen() {
         {shopItems.map((item) => (
           <View key={item.id} style={styles.itemCard}>
             <View style={styles.itemIcon}>
-              <Ionicons name={item.icon} size={40} color={theme.colors.accent} />
+              {item.customIcon ? (
+                item.customIcon
+              ) : (
+                <Ionicons name={item.icon} size={40} color={theme.colors.accent} />
+              )}
             </View>
             <View style={styles.itemInfo}>
               <Text style={styles.itemName}>{item.name}</Text>
@@ -204,7 +218,7 @@ export default function ShopScreen() {
                 <Ionicons name="checkmark" size={20} color="#fff" />
               ) : (
                 <>
-                  <Ionicons name="diamond" size={16} color="#fff" />
+                  <GemIcon size={16} />
                   <Text style={styles.buyButtonText}>{item.price}</Text>
                 </>
               )}
@@ -231,7 +245,7 @@ export default function ShopScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: theme.colors.bg,
+    backgroundColor: "transparent",
   },
   header: {
     flexDirection: "row",
@@ -243,6 +257,20 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "800",
+    color: theme.colors.text,
+  },
+  gemsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.colors.card,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 4,
+    borderRadius: 999,
+    gap: 4,
+  },
+  gemsText: {
+    fontSize: 14,
+    fontWeight: 'bold',
     color: theme.colors.text,
   },
   gemsCard: {

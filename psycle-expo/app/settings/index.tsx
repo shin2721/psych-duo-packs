@@ -1,18 +1,42 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView, Switch, Alert } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView, Switch, Alert, Linking, Share } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
+import { restorePurchases } from "../../lib/billing";
+import { useAppState } from "../../lib/state";
+import { getExportableJSON } from "../../lib/dogfood";
 
 export default function SettingsScreen() {
     const router = useRouter();
     const { user, signOut } = useAuth();
+    const { setPlanId, setActiveUntil } = useAppState();
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [hapticsEnabled, setHapticsEnabled] = useState(true);
+    const [isRestoring, setIsRestoring] = useState(false);
+
+    const handleRestorePurchases = async () => {
+        if (!user?.id || !user?.email) {
+            Alert.alert("エラー", "購入を復元するにはログインが必要です。");
+            return;
+        }
+        setIsRestoring(true);
+        try {
+            const result = await restorePurchases(user.id, user.email);
+            if (result && result.restored && result.planId) {
+                setPlanId(result.planId);
+                if (result.activeUntil) {
+                    setActiveUntil(result.activeUntil);
+                }
+            }
+        } finally {
+            setIsRestoring(false);
+        }
+    };
 
     const handleSignOut = async () => {
         Alert.alert(
@@ -113,23 +137,43 @@ export default function SettingsScreen() {
                     <SettingRow
                         icon="help-circle"
                         label="ヘルプ・FAQ"
-                        onPress={() => { }}
+                        onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/help")}
                     />
                     <SettingRow
                         icon="shield-checkmark"
                         label="プライバシーポリシー"
-                        onPress={() => { }}
+                        onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/privacy")}
                     />
                     <SettingRow
                         icon="document-text"
                         label="利用規約"
-                        onPress={() => { }}
+                        onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/terms")}
+                    />
+                    <SettingRow
+                        icon="refresh-circle"
+                        label={isRestoring ? "復元中..." : "購入を復元"}
+                        onPress={handleRestorePurchases}
                     />
                 </View>
 
                 {/* Debug Section (Dev only) */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>デバッグ</Text>
+                    <SettingRow
+                        icon="analytics"
+                        label="Dogfoodデータをエクスポート"
+                        onPress={async () => {
+                            try {
+                                const json = await getExportableJSON();
+                                await Share.share({
+                                    message: json,
+                                    title: "Dogfood統計データ"
+                                });
+                            } catch (e) {
+                                Alert.alert("エラー", "エクスポートに失敗しました");
+                            }
+                        }}
+                    />
                     <SettingRow
                         icon="refresh"
                         label="オンボーディングをリセット"

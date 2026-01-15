@@ -1,14 +1,14 @@
-import { Question } from "../components/QuestionRenderer";
+import { Question } from "../types/question";
 
 // トップレベルでJSONファイルをインポート（Metro bundlerが確実に認識するため）
 // Force reload: 2025-11-13 21:20
-import mentalQuestions from "../data/lessons/mental.json";
-import moneyQuestions from "../data/lessons/money_platinum.json";
-import workQuestions from "../data/lessons/work.json";
-import healthQuestions from "../data/lessons/health_platinum.json";
-import socialQuestions from "../data/lessons/social_platinum.json";
-import studyQuestions from "../data/lessons/study_platinum.json";
-import testPlatinumQuestions from "../data/lessons/test_platinum.json";
+import { mentalData, mentalData_ja } from "../data/lessons/mental_units";
+import { moneyData, moneyData_ja } from "../data/lessons/money_units";
+import { workData } from "../data/lessons/work_units";
+import { healthData } from "../data/lessons/health_units";
+import { socialData, socialData_ja } from "../data/lessons/social_units";
+import { studyData } from "../data/lessons/study_units";
+import i18n from "./i18n";
 
 // Curriculum data for dynamic titles
 import mentalCurriculum from "../data/curriculum_mental.json";
@@ -18,6 +18,28 @@ import healthCurriculum from "../data/curriculum_Health.json";
 import socialCurriculum from "../data/curriculum_Social.json";
 import studyCurriculum from "../data/curriculum_Study.json";
 
+export interface Reference {
+  citation: string;
+  note: string;
+  level?: "gold" | "silver" | "bronze"; // 信頼度レベル
+}
+
+export interface ResearchMeta {
+  theory: string;
+  primary_authors: string[];
+  year: number;
+  evidence_level: "high" | "medium" | "low";
+  support: {
+    meta_analysis: boolean;
+    effect_size: string;
+    replication: "stable" | "mixed" | "failed";
+    years_in_use: number;
+  };
+  confidence_summary: string;
+  best_for?: string[];      // 向いているケース
+  limitations?: string[];   // 効きにくいケース
+}
+
 export interface Lesson {
   id: string;
   unit: string;
@@ -25,7 +47,13 @@ export interface Lesson {
   title: string;
   questions: Question[];
   totalXP: number;
+  references?: Reference[];
+  context_note?: string;
+  research_meta?: ResearchMeta;
+  nodeType?: 'lesson' | 'review_blackhole';
 }
+
+
 
 // 新しいデータ形式を古い形式に変換
 function adaptQuestion(raw: any): Question {
@@ -56,7 +84,12 @@ function adaptQuestion(raw: any): Question {
     // Multimedia fields
     image: raw.image,
     audio: raw.audio,
-    imageCaption: raw.imageCaption
+    imageCaption: raw.imageCaption,
+    actionable_advice: raw.actionable_advice,
+    evidence_grade: raw.evidence_grade,
+    evidence_text: raw.evidence_text,
+    // Expandable Depth fields
+    expanded_details: raw.expanded_details,
   };
 
   // select_all: correct_answers を追加
@@ -67,7 +100,8 @@ function adaptQuestion(raw: any): Question {
   // swipe_judgment: is_true と statement を追加
   if (raw.type === "swipe_judgment") {
     adapted.statement = raw.content?.statement || raw.statement || adapted.question;
-    adapted.is_true = raw.correct_answer === "right" || raw.correct_answer === "True";
+    adapted.is_true = raw.is_true !== undefined ? raw.is_true : (raw.correct_answer === "right" || raw.correct_answer === "True");
+    adapted.swipe_labels = raw.swipe_labels;
   }
 
   // sort_order: items と correct_order を追加
@@ -90,9 +124,10 @@ function adaptQuestion(raw: any): Question {
     adapted.correct_pairs = raw.correct_pairs || [];
   }
 
-  // conversation: your_response_prompt を追加
+  // conversation: your_response_prompt と prompt を追加
   if (raw.type === "conversation") {
     adapted.your_response_prompt = raw.content?.your_response_prompt || raw.your_response_prompt || "";
+    adapted.prompt = raw.content?.prompt || raw.prompt || ""; // Short prompt for chat bubble
   }
 
   // quick_reflex: time_limit を追加
@@ -133,27 +168,27 @@ export function loadLessons(unit: string): Lesson[] {
   try {
     // 事前にインポートされたJSONを使用
     let rawData: any = null;
+    const isJa = i18n.locale === 'ja' || i18n.locale.startsWith('ja');
+
     switch (unit) {
       case "mental":
-        rawData = mentalQuestions;
+        rawData = isJa && (mentalData_ja as any) ? mentalData_ja : mentalData;
         break;
       case "money":
-        rawData = moneyQuestions;
+        rawData = isJa && (moneyData_ja as any) ? moneyData_ja : moneyData;
         break;
       case "work":
-        rawData = workQuestions;
+        rawData = workData;
         break;
       case "health":
-        rawData = healthQuestions;
+        // rawData = isJa && (healthData_ja as any) ? healthData_ja : healthData;
+        rawData = healthData;
         break;
       case "social":
-        rawData = socialQuestions;
+        rawData = isJa && (socialData_ja as any) ? socialData_ja : socialData;
         break;
       case "study":
-        rawData = studyQuestions;
-        break;
-      case "test":
-        rawData = testPlatinumQuestions;
+        rawData = studyData;
         break;
       default:
         return [];
@@ -162,7 +197,7 @@ export function loadLessons(unit: string): Lesson[] {
     // 新しいフォーマット(questionsプロパティを持つオブジェクト)または古いフォーマット(配列)に対応
     const rawQuestions = Array.isArray(rawData) ? rawData : (rawData.questions || []);
 
-    const questions = rawQuestions.map(adaptQuestion);
+    const questions: Question[] = rawQuestions.map(adaptQuestion);
 
     console.log(`[loadLessons] ${unit}: ${questions.length} questions total`);
 
@@ -177,14 +212,12 @@ export function loadLessons(unit: string): Lesson[] {
       study: studyCurriculum
     };
 
-    if (unit === "test") {
-      maxLevels = 1;
-    } else if (curricula[unit]) {
+    if (curricula[unit]) {
       maxLevels = curricula[unit].units.length;
     }
 
     const lessons: Lesson[] = [];
-    const questionsPerLesson = 15; // 1レッスンあたりの問題数
+    const questionsPerLesson = 10; // 1レッスンあたりの問題数（原則10問）
 
     for (let level = 1; level <= maxLevels; level++) {
       // レベル専用の問題をIDでフィルタリング（例: mental_l01_xxx）
@@ -194,58 +227,92 @@ export function loadLessons(unit: string): Lesson[] {
       );
 
       // IDの降順でソート（新しいコンテンツ mental_l01_stress_... を mental_l01_001 より優先するため）
+      // User reported duplicates. Sort ascending now?
+      // I changed it to ascending in prev step but let's confirm.
+      // And log IDs.
       levelQuestions.sort((a, b) => {
         if (a.source_id && b.source_id) {
-          return b.source_id.localeCompare(a.source_id);
+          return a.source_id.localeCompare(b.source_id);
         }
         return 0;
       });
 
       let lessonQuestions: any[] = [];
+      console.log(`[loadLessons Debug] Unit: ${unit} Level: ${level}`);
+      console.log(`[loadLessons Debug] Level prefix: ${levelPrefix}`);
+      console.log(`[loadLessons Debug] Found level questions: ${levelQuestions.length}`);
+      levelQuestions.forEach(q => console.log(`  - ${q.source_id}`)); // Trace IDs
 
       // レベル専用の問題が15問ある場合はそれを使用
       if (levelQuestions.length >= questionsPerLesson) {
         lessonQuestions = levelQuestions.slice(0, questionsPerLesson);
-        // console.log(`[loadLessons] L${String(level).padStart(2, '0')}: Using ${lessonQuestions.length} level-specific questions`);
-      } else if (levelQuestions.length > 0) {
-        // 一部レベル専用の問題がある場合
+        console.log(`[loadLessons Debug] Case 1: Taking exact slice. Length: ${lessonQuestions.length}`);
+      } else {
+        // Case 2 (Partial) or Case 3 (Empty)
         lessonQuestions = levelQuestions;
-        // console.log(`[loadLessons] L${String(level).padStart(2, '0')}: Found ${levelQuestions.length} level-specific questions, need ${questionsPerLesson - levelQuestions.length} more`);
+        const needed = questionsPerLesson - lessonQuestions.length;
+        console.log(`[loadLessons Debug] Case 2/3: Partial/Empty. Count: ${lessonQuestions.length}, Need: ${needed}`);
+      }
 
-        // 足りない分を他の問題で補う
+      // Duplication check (Level questions only)
+      const ids = lessonQuestions.map(q => q.source_id);
+      const uniqueIds = new Set(ids);
+      if (ids.length !== uniqueIds.size) {
+        console.warn(`[loadLessons WARN] DUPLICATES DETECTED in L${level}!`, ids);
+      }
+
+      // 足りない分を他の問題で補う
+      if (lessonQuestions.length < questionsPerLesson) {
+        const needed = questionsPerLesson - lessonQuestions.length;
+
         const otherQuestions = questions.filter(q =>
           !q.source_id || !q.source_id.startsWith(levelPrefix)
         );
-        const needed = questionsPerLesson - lessonQuestions.length;
-        const shuffled = [...otherQuestions];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        lessonQuestions = lessonQuestions.concat(shuffled.slice(0, needed));
-      } else {
-        // レベル専用の問題がない場合は全問題からシャッフル
-        // console.log(`[loadLessons] L${String(level).padStart(2, '0')}: No level-specific questions, shuffling all questions`);
-        const shuffled = [...questions];
-        for (let i = shuffled.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
-        }
-        // 毎回違う問題が出るように、レベルをシードとして使う簡易的な擬似ランダム選択も考えられるが、
-        // ここでは単純にスライスする（ただし問題数が少ないと同じ問題ばかりになるので注意）
-        // 問題数が十分にあれば、異なる範囲をスライスする
-        const startIdx = ((level - 1) * questionsPerLesson) % shuffled.length;
-        lessonQuestions = shuffled.slice(startIdx, startIdx + questionsPerLesson);
 
-        // 足りない場合は最初から繰り返す
-        if (lessonQuestions.length < questionsPerLesson) {
-          const needed = questionsPerLesson - lessonQuestions.length;
-          lessonQuestions = lessonQuestions.concat(shuffled.slice(0, needed));
-        }
+        // Development: Use fixed order instead of random shuffle
+        // Sort by source_id for consistent ordering
+        const sorted = [...otherQuestions].sort((a, b) =>
+          (a.source_id || '').localeCompare(b.source_id || '')
+        );
+
+        lessonQuestions = lessonQuestions.concat(sorted.slice(0, needed));
+        console.log(`[loadLessons Debug] Filled ${needed} questions from pool (fixed order).`);
       }
 
       const totalXP = lessonQuestions.reduce((sum, q) => sum + q.xp, 0);
       const lessonTitle = getLessonTitle(unit, level);
+
+      // Get references, context_note, and research_meta from curriculum
+      let references: Reference[] = [];
+      let context_note: string | undefined;
+      let research_meta: ResearchMeta | undefined;
+
+      if (curricula[unit]) {
+        const curriculumUnit = curricula[unit].units.find((u: any) => u.level === level);
+        if (curriculumUnit) {
+          // Use curriculum source as reference
+          if (curriculumUnit.source) {
+            references = [{
+              citation: curriculumUnit.source,
+              note: "主要参照文献",
+              level: "silver"
+            }];
+            // Generate context_note from source (fallback)
+            context_note = `このレッスンは「${curriculumUnit.source.split('.')[0]}」の研究に基づいています。臨床や実践の現場で長年使用され、効果が確認されているアプローチです。`;
+          }
+          // If curriculum has explicit references, use those
+          if (curriculumUnit.references) {
+            references = curriculumUnit.references;
+          }
+          if (curriculumUnit.context_note) {
+            context_note = curriculumUnit.context_note;
+          }
+          // Load research_meta if available
+          if (curriculumUnit.research_meta) {
+            research_meta = curriculumUnit.research_meta;
+          }
+        }
+      }
 
       lessons.push({
         id: `${unit}_lesson_${level}`,
@@ -254,7 +321,31 @@ export function loadLessons(unit: string): Lesson[] {
         title: lessonTitle,
         questions: lessonQuestions,
         totalXP,
+        references,
+        context_note,
+        research_meta,
+        nodeType: 'lesson'
       });
+
+      // Inject Black Hole Review after Level 5
+      if (level === 5 && maxLevels > 5) {
+        // Pick random 5 questions from pool for review
+        // In a real app, this would be "mistakes"
+        const reviewPool = questions.filter(q => q.source_id && !q.source_id.startsWith(`${unit}_l05`)); // Exclude just finished
+        const reviewQuestions = [...reviewPool].sort(() => 0.5 - Math.random()).slice(0, 5);
+
+        lessons.push({
+          id: `${unit}_review_bh1`,
+          unit,
+          level: 5.5,
+          title: "ブラックホール復習",
+          questions: reviewQuestions,
+          totalXP: 100,
+          nodeType: 'review_blackhole',
+          // Use hard mode visuals?
+        });
+        console.log(`[loadLessons] Injected Black Hole Review after Level 5`);
+      }
     }
 
     console.log(`[loadLessons] Created ${lessons.length} lessons for ${unit}`);
