@@ -49,3 +49,6 @@ yarn-error.*
 .kiro/
 .agent/
 .husky/
+
+# Quality reports (machine-generated, use CI artifacts)
+docs/_reports/

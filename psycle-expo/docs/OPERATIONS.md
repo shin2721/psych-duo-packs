@@ -42,9 +42,57 @@
 2. Antigravity patterns are documented in prompts/templates
 3. Same I/O contract is maintained
 
+**Safety Requirements**:
+- All Mode B content goes to `_staging` first
+- Human approval required before production promotion
+- Use `scripts/promote-staged-lesson.sh` for promotion
+
 ---
 
-## 2. I/O Contract (Immutable)
+## 2. Quality Maintenance (Automated)
+
+### Daily Quality Checks
+
+**Local Development**:
+```bash
+# Three-point verification (must all PASS)
+npm run content:preflight
+npm run lint:lesson-authoring  
+npm run validate:lessons
+```
+
+**CI/CD Enforcement**:
+- PR/push triggers automatic quality checks
+- Core validations (validate:lessons, lint:lesson-authoring) FAIL CI
+- Quality checks (preflight components) generate WARNINGs
+- Reports uploaded as CI artifacts (30-day retention)
+
+### Quality Reports Management
+
+**Generated Reports** (machine-generated, not git-tracked):
+- `lesson_inventory.md` - レッスン棚卸し
+- `bronze_assertion_warnings.md` - Bronze断定表現警告  
+- `evidence_grade_inflation.md` - Evidence Grade インフレ警告
+- `citation_trackability.md` - 引用追跡可能性
+- `evidence_specificity.md` - Evidence薄さ警告
+- `claim_alignment.md` - Claim整合性警告
+
+**Access Methods**:
+- Local: `npm run content:preflight` generates latest reports
+- CI: Download from GitHub Actions artifacts
+- Manual commit only if permanent documentation needed
+
+### Failure Response
+
+**If Quality Checks Fail**:
+1. Identify failing component via individual scripts
+2. Fix content issues (not quality system)
+3. Re-run verification before merge
+4. Never bypass quality gates
+
+---
+
+## 3. I/O Contract (Immutable)
 
 Both modes MUST produce identical output structures.
 

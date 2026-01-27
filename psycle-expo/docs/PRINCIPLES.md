@@ -116,6 +116,22 @@
 
 **医療・治療に関する表現は一切使用禁止。**
 
+## 品質レポート管理
+
+**生成レポートポリシー:**
+- `docs/_reports/` は機械生成物のため git 管理対象外
+- レポートは CI artifact として保存・参照する
+- ローカル開発では `npm run content:preflight` で最新レポート生成
+- レポート内容の永続化が必要な場合のみ手動コミット
+
+**対象レポート:**
+- `lesson_inventory.md` - レッスン棚卸し
+- `bronze_assertion_warnings.md` - Bronze断定表現警告
+- `evidence_grade_inflation.md` - Evidence Grade インフレ警告
+- `citation_trackability.md` - 引用追跡可能性
+- `evidence_specificity.md` - Evidence薄さ警告
+- `claim_alignment.md` - Claim整合性警告
+
 ### 3. 禁止表現（Vocabulary Hygiene）
 
 #### FAIL（公開禁止）
