@@ -1,0 +1,21 @@
+{
+  "source_type": "systematic",
+  "citation": {
+    "doi": "10.1016/j.cpr.2010.07.005",
+    "pmid": "20832747",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/20832747/"
+  },
+  "claim": "破滅的思考（catastrophic thinking）は不安を増幅させる傾向がある。「本当にそうなるか？」と証拠を探す認知的再構成により、現実的な視点を取り戻しやすくなる可能性がある",
+  "limitations": "重度のうつ病や不安障害の場合は専門的な治療が必要。希死念慮や自傷のリスクがある場合は、アプリではなく直ちに専門機関・緊急窓口（いのちの電話: 0570-783-556 等）へ相談すること。軽度の不安対処用であり、パニック発作中には効果が限定的な場合がある",
+  "evidence_grade": "silver",
+  "generated_by": "mode_b",
+  "review": {
+    "critic_score": 7,
+    "human_approved": true,
+    "reviewer": "test_reviewer"
+  },
+  "source_label": "Hofmann et al. (2010) - Meta-analysis of CBT for anxiety disorders",
+  "confidence": "medium",
+  "status": "active",
+  "last_verified": "2026-01-24"
+}

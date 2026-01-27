@@ -140,9 +140,9 @@ Theme: 断れない誘い
 
 【不変の原則】
 - Life-Scene First（教科書禁止）
-- 5-Phase Structure（Phase4はBetter Choice、正解/不正解禁止）
+- 5-Phase Structure（詳細は [docs/PRINCIPLES.md](./PRINCIPLES.md) 参照）
 - Evidence Grade（Gold/Silver/Bronze 表現厳守）
-- 誇大表現・断定語禁止
+- 表現ルール（詳細は [docs/PRINCIPLES.md](./PRINCIPLES.md) 参照）
 - JSONはAPI互換形式で出力
 - 最後に必ず Audit Report を出す
 

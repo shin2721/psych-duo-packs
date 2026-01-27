@@ -10,16 +10,16 @@ import { join, basename } from "path";
 const OUTPUT_DIR = join(__dirname, "..", "output");
 const LESSONS_ROOT = join(__dirname, "..", "..", "..", "data", "lessons");
 
-// Domain to directory mapping
+// Domain to directory mapping (staging only for Mode B)
 const DOMAIN_PATHS: Record<string, string> = {
-    social: "social_units/auto",
-    mental: "mental_units/auto",
-    money: "money_units/auto",
-    health: "health_units/auto",
-    productivity: "study_units/auto",
-    study: "study_units/auto",
-    work: "work_units/auto",
-    relationships: "social_units/auto", // alias
+    social: "_staging/social_units",
+    mental: "_staging/mental_units",
+    money: "_staging/money_units",
+    health: "_staging/health_units",
+    productivity: "_staging/study_units",
+    study: "_staging/study_units",
+    work: "_staging/work_units",
+    relationships: "_staging/social_units", // alias
 };
 
 interface ImportResult {

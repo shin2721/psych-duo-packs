@@ -22,7 +22,7 @@ export function Modal({ visible, title, description, primaryLabel, onPrimary, on
             <Pressable style={[styles.button, styles.buttonSecondary]} onPress={onCancel}>
               <Text style={styles.buttonSecondaryText}>キャンセル</Text>
             </Pressable>
-            <Pressable style={[styles.button, styles.buttonPrimary]} onPress={onPrimary}>
+            <Pressable style={[styles.button, styles.buttonPrimary]} onPress={onPrimary} testID="modal-primary-button">
               <Text style={styles.buttonPrimaryText}>{primaryLabel}</Text>
             </Pressable>
           </View>

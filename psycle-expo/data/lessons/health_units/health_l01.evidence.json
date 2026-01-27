@@ -1,0 +1,20 @@
+{
+  "source_type": "peer_reviewed",
+  "citation": {
+    "doi": "10.1016/j.smrv.2014.10.001",
+    "pmid": "25454674",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/25454674/"
+  },
+  "source_label": "Irish et al. (2015) - The role of sleep hygiene in promoting public health",
+  "claim": "睡眠環境や習慣（スマホ利用、寝室環境など）が睡眠の質に影響する傾向がある。顎や顔の緊張を緩めるとリラックスしやすくなる可能性がある",
+  "limitations": "睡眠衛生だけでは根本的な睡眠障害（睡眠時無呼吸症候群、慢性不眠症など）は改善しない場合がある。2週間以上の睡眠問題が続く場合は専門医への相談を推奨。スマホが入眠儀式になっている人もいる。個人差が大きい",
+  "evidence_grade": "silver",
+  "confidence": "medium",
+  "status": "active",
+  "last_verified": "2026-01-27",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  }
+}

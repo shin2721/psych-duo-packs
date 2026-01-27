@@ -1,0 +1,20 @@
+{
+  "source_type": "peer_reviewed",
+  "citation": {
+    "doi": "10.1037/0003-066X.54.7.493",
+    "pmid": "10424155",
+    "url": "https://psycnet.apa.org/doi/10.1037/0003-066X.54.7.493"
+  },
+  "source_label": "Gollwitzer (1999) - Implementation Intentions: Strong Effects of Simple Plans",
+  "claim": "実行意図（いつ・どこで・何をするかを具体的に決めておくこと）が行動開始のハードルを下げる傾向がある。物理動作でタスクを開始すると心理的抵抗が減る可能性がある",
+  "limitations": "全員に効くわけではない。動機づけが低い場合は実行意図だけでは不十分な場合がある。複雑なタスクには効果が限定的な場合がある。本研究は1999年時点のものであり、現代のデジタル環境下での効果検証は限定的な可能性がある",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-27",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  }
+}

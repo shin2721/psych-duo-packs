@@ -1,0 +1,154 @@
+[
+  {
+    "id": "mental_l05_001",
+    "type": "swipe_judgment",
+    "question": "深夜2時、明日の会議資料がまだ半分。「もう間に合わない」と思った瞬間、さらに焦りが増した。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "よくある",
+      "right": "あまりない"
+    },
+    "explanation": "これは「破滅的思考」の典型例。「間に合わない」という予測が現実より先走って不安を増幅させている。※このレッスンは軽度の不安対処法を紹介しますが、希死念慮や自傷の傾向がある方は、アプリではなく専門機関（いのちの電話: 0570-783-556 等）へご相談ください。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_002",
+    "type": "multiple_choice",
+    "question": "「絶対に失敗する」「もうダメだ」のような極端な予測が頭に浮かんだとき、最も効果的な対処法は？",
+    "choices": [
+      "「本当にそうなのか？」と証拠を探してみる",
+      "「考えるな」と自分に言い聞かせる",
+      "とにかく気を紛らわす"
+    ],
+    "correct_index": 0,
+    "explanation": "破滅的思考には「証拠探し」が有効。完全に消そうとするより、現実的な視点を取り戻すことが大切。",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_003",
+    "type": "conversation",
+    "question": "最近、「最悪の結果」を想像して不安になったことはありますか？",
+    "your_response_prompt": "その時の気持ちを思い出してみてください",
+    "choices": [
+      "よくある",
+      "たまにある",
+      "あまりない"
+    ],
+    "recommended_index": null,
+    "explanation": "どの答えも正常な反応です。人間の脳は危険を予測するようにできているため、ネガティブな想像をするのは自然なこと。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_004",
+    "type": "multiple_choice",
+    "question": "プレゼン前に「きっと失敗する」と考えてしまう。この思考パターンを変えるとしたら？",
+    "choices": [
+      "「過去に成功した経験もある」と思い出す",
+      "「失敗してもいい」と開き直る",
+      "「絶対成功する」と言い聞かせる"
+    ],
+    "correct_index": 0,
+    "explanation": "極端から極端に振るより、バランスの取れた視点を見つけることが重要。過去の経験は現実的な根拠になる。",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_005",
+    "type": "swipe_judgment",
+    "question": "破滅的思考は「完全に消す」必要がある",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "そう思う",
+      "right": "そう思わない"
+    },
+    "explanation": "完全に消す必要はありません。むしろ「気づいて、現実的な視点を加える」ことが大切です。",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_006",
+    "type": "conversation",
+    "question": "「最悪の場合」を考えてしまったとき、どんな対処をしていますか？",
+    "your_response_prompt": "普段の自分の行動を振り返ってみてください",
+    "choices": [
+      "とにかく考えないようにする",
+      "友人や家族に相談する",
+      "現実的な対策を考える"
+    ],
+    "recommended_index": 2,
+    "explanation": "どの方法も時には有効ですが、現実的な対策を考えることで不安を行動に変換できます。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_007",
+    "type": "multiple_choice",
+    "question": "破滅的思考が起きやすいのはどんな時？",
+    "choices": [
+      "疲れているときや睡眠不足のとき",
+      "元気で調子がいいとき",
+      "時間帯は関係ない"
+    ],
+    "correct_index": 0,
+    "explanation": "疲労や睡眠不足は判断力を低下させ、ネガティブな思考に陥りやすくします。体調管理も重要な対策の一つ。",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_008",
+    "type": "conversation",
+    "question": "今日学んだ「証拠探し」の方法を、明日試してみるとしたら？",
+    "your_response_prompt": "具体的にどんな場面で使ってみたいですか？",
+    "choices": [
+      "仕事でのプレッシャーを感じたとき",
+      "人間関係で不安になったとき",
+      "まだ具体的には思い浮かばない"
+    ],
+    "recommended_index": null,
+    "explanation": "どの場面でも有効です。まずは小さな不安から試してみることをお勧めします。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_009",
+    "type": "multiple_choice",
+    "question": "破滅的思考への対処で最も大切なことは？",
+    "choices": [
+      "思考を完全にコントロールすること",
+      "現実的な視点を取り戻すこと",
+      "ポジティブに考えること"
+    ],
+    "correct_index": 1,
+    "explanation": "完全なコントロールや無理なポジティブ思考より、現実的でバランスの取れた視点を持つことが重要です。",
+    "difficulty": "hard",
+    "xp": 5,
+    "evidence_grade": "gold"
+  },
+  {
+    "id": "mental_l05_010",
+    "type": "conversation",
+    "question": "このレッスンで学んだ内容は、あなたにとって役立ちそうでしたか？",
+    "your_response_prompt": "正直な感想をお聞かせください",
+    "choices": [
+      "とても役立ちそう",
+      "少し役立ちそう",
+      "あまり役立たなそう"
+    ],
+    "recommended_index": null,
+    "explanation": "どの感想も貴重です。人それぞれに合う方法は違うので、自分に合うアプローチを見つけることが大切です。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  }
+]

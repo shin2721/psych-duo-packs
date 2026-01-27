@@ -1,0 +1,21 @@
+{
+  "source_type": "book",
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": "https://www.amazon.com/Influence-Psychology-Persuasion-Robert-Cialdini/dp/006124189X",
+    "isbn": "978-0061241895"
+  },
+  "source_label": "Cialdini (2006) - Influence: The Psychology of Persuasion",
+  "claim": "「希少性バイアス」により「残り3点」「限定」と表示されると実際より価値があるように感じやすい傾向がある。「○○するだけで痩せる」など効果を過大に伝える広告は冷静な判断を妨げやすい",
+  "limitations": "希少性が適切な購買判断を促すケースもある（本当に限定品など）。全ての衝動買いがバイアスによるものではない（必要な買い物もある）。文化や商品カテゴリによって影響度が異なる。ギャンブル依存や買い物依存の傾向がある場合は専門的な支援を推奨",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-27",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  }
+}

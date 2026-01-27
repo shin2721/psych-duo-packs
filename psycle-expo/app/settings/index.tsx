@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView, Switch, Alert, Linking, Share } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import * as Haptics from "expo-haptics";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
 import { restorePurchases } from "../../lib/billing";
@@ -18,6 +19,33 @@ export default function SettingsScreen() {
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [hapticsEnabled, setHapticsEnabled] = useState(true);
     const [isRestoring, setIsRestoring] = useState(false);
+
+    // Secret 5-tap entry for Analytics Debug (DEV only)
+    const titleTapCount = useRef(0);
+    const titleTapTimeout = useRef<NodeJS.Timeout | null>(null);
+
+    const handleTitleTap = () => {
+        if (!__DEV__) return; // No-op in Release
+
+        titleTapCount.current += 1;
+
+        // Reset timeout
+        if (titleTapTimeout.current) {
+            clearTimeout(titleTapTimeout.current);
+        }
+
+        if (titleTapCount.current >= 5) {
+            // Success! Navigate to debug screen
+            titleTapCount.current = 0;
+            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            router.push('/debug/analytics');
+        } else {
+            // Reset after 2 seconds of no taps
+            titleTapTimeout.current = setTimeout(() => {
+                titleTapCount.current = 0;
+            }, 2000);
+        }
+    };
 
     const handleRestorePurchases = async () => {
         if (!user?.id || !user?.email) {
@@ -87,7 +115,9 @@ export default function SettingsScreen() {
                     <Pressable onPress={() => router.back()} style={styles.backButton}>
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
-                    <Text style={styles.headerTitle}>設定</Text>
+                    <Pressable onPress={handleTitleTap}>
+                        <Text style={styles.headerTitle}>設定</Text>
+                    </Pressable>
                     <View style={{ width: 40 }} />
                 </View>
 
@@ -157,35 +187,43 @@ export default function SettingsScreen() {
                 </View>
 
                 {/* Debug Section (Dev only) */}
-                <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>デバッグ</Text>
-                    <SettingRow
-                        icon="analytics"
-                        label="Dogfoodデータをエクスポート"
-                        onPress={async () => {
-                            try {
-                                const json = await getExportableJSON();
-                                await Share.share({
-                                    message: json,
-                                    title: "Dogfood統計データ"
-                                });
-                            } catch (e) {
-                                Alert.alert("エラー", "エクスポートに失敗しました");
-                            }
-                        }}
-                    />
-                    <SettingRow
-                        icon="refresh"
-                        label="オンボーディングをリセット"
-                        onPress={handleResetOnboarding}
-                    />
-                    <SettingRow
-                        icon="trash"
-                        label="ローカルデータを削除"
-                        onPress={handleClearData}
-                        isDestructive
-                    />
-                </View>
+                {__DEV__ && (
+                    <View style={styles.section}>
+                        <Text style={styles.sectionTitle}>デバッグ</Text>
+                        <SettingRow
+                            icon="analytics"
+                            label="Analytics Debug"
+                            onPress={() => router.push('/debug/analytics')}
+                            testID="open-analytics-debug"
+                        />
+                        <SettingRow
+                            icon="analytics"
+                            label="Dogfoodデータをエクスポート"
+                            onPress={async () => {
+                                try {
+                                    const json = await getExportableJSON();
+                                    await Share.share({
+                                        message: json,
+                                        title: "Dogfood統計データ"
+                                    });
+                                } catch (e) {
+                                    Alert.alert("エラー", "エクスポートに失敗しました");
+                                }
+                            }}
+                        />
+                        <SettingRow
+                            icon="refresh"
+                            label="オンボーディングをリセット"
+                            onPress={handleResetOnboarding}
+                        />
+                        <SettingRow
+                            icon="trash"
+                            label="ローカルデータを削除"
+                            onPress={handleClearData}
+                            isDestructive
+                        />
+                    </View>
+                )}
 
                 {/* App Info */}
                 <View style={styles.appInfo}>
@@ -203,15 +241,17 @@ function SettingRow({
     value,
     onPress,
     isDestructive = false,
+    testID,
 }: {
     icon: any;
     label: string;
     value?: string;
     onPress: () => void;
     isDestructive?: boolean;
+    testID?: string;
 }) {
     return (
-        <Pressable style={styles.settingRow} onPress={onPress}>
+        <Pressable style={styles.settingRow} onPress={onPress} testID={testID}>
             <View style={styles.settingLeft}>
                 <Ionicons
                     name={icon}

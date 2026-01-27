@@ -1,0 +1,21 @@
+{
+  "source_type": "book",
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": "https://www.amazon.com/Assertiveness-Workbook-Express-Yourself-Relationships/dp/1572242094",
+    "isbn": "978-1572242098"
+  },
+  "source_label": "Paterson (2000) - The Assertiveness Workbook: How to Express Your Ideas and Stand Up for Yourself",
+  "claim": "「即答しなきゃ」というプレッシャーは自分で作っていることが多い。物理的に「指を離す」「一歩引く」ことで即答のプレッシャーから距離を取れる傾向がある。「理由＋断り」の形式が相手を否定せず自分の状況を伝えやすい",
+  "limitations": "緊急の場面や即答が必要な業務指示では使いにくい。対面とテキスト（LINE等）では別のアプローチが必要。文化や関係性によっては謝罪が適切な場合もある。上司・顧客など権力差がある相手には効果が限定的な場合がある",
+  "evidence_grade": "silver",
+  "confidence": "medium",
+  "status": "active",
+  "last_verified": "2026-01-27",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  }
+}

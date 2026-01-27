@@ -5,6 +5,7 @@ import { OnboardingProvider, useOnboarding } from "../lib/OnboardingContext";
 import { useEffect } from "react";
 import { View, ActivityIndicator, LogBox } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { Analytics } from "../lib/analytics";
 
 // Suppress network errors during development
 LogBox.ignoreLogs([
@@ -61,6 +62,23 @@ function RootLayoutNav() {
 }
 
 export default function RootLayout() {
+  // Analytics初期化（アプリ起動時に1回のみ）
+  useEffect(() => {
+    // 先に撃つ（lazy-initがキューするので初期化タイミングに依存しない）
+    Analytics.trackSessionStart();
+    Analytics.trackAppOpen(); // Promiseだけど待たなくてOK（内部でガードあり）
+
+    (async () => {
+      try {
+        await Analytics.initialize();
+        // app_readyは「初期化成功の証拠」なので成功時のみ
+        Analytics.trackAppReady();
+      } catch (error) {
+        console.error('[Analytics] Initialization failed:', error);
+      }
+    })();
+  }, []);
+
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>

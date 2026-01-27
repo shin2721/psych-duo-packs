@@ -17,6 +17,7 @@ import { recordActionExecution, recordStudyCompletion, addXP, XP_REWARDS } from 
 import { consumeFocus } from "../lib/focus";
 import { FirstExecutedCelebration } from "../components/FirstExecutedCelebration";
 import { hasCompletedFirstExecuted, markFirstExecutedComplete } from "../lib/onboarding";
+import { Analytics } from "../lib/analytics";
 
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
@@ -37,6 +38,8 @@ export default function LessonScreen() {
   const [lastShownInterventionId, setLastShownInterventionId] = useState<string | null>(null); // 最後にshownになった介入ID
   const [showFirstExecutedCelebration, setShowFirstExecutedCelebration] = useState(false); // 初回executed達成お祝い
   const hasLoadedRef = useRef<string | null>(null);
+  const lessonStartTrackedRef = useRef<string | null>(null); // lesson_start多重発火防止
+  const lessonCompleteTrackedRef = useRef<string | null>(null); // lesson_complete多重発火防止
 
   useEffect(() => {
     // Only load if file changed and we haven't loaded this file yet
@@ -89,6 +92,17 @@ export default function LessonScreen() {
       setOriginalQuestions(lesson.questions);
       setQuestions(lesson.questions);
       setLoading(false);
+
+      // Analytics: lesson_start (同一lessonIdで2回送らない)
+      if (lessonStartTrackedRef.current !== params.file) {
+        lessonStartTrackedRef.current = params.file;
+        const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
+        Analytics.track('lesson_start', {
+          lessonId: params.file,
+          genreId,
+        });
+        if (__DEV__) console.log('[Analytics] lesson_start:', params.file);
+      }
     } catch (error) {
       console.error("Failed to load lesson:", error);
       Alert.alert("エラー", `レッスンの読み込みに失敗しました: ${error.message}`);
@@ -163,6 +177,17 @@ export default function LessonScreen() {
       // ゲーミフィケーション: Study Streak + XP
       await recordStudyCompletion();
       await addXP(XP_REWARDS.LESSON_COMPLETE);
+
+      // Analytics: lesson_complete (同一lessonIdで2回送らない)
+      if (lessonCompleteTrackedRef.current !== params.file) {
+        lessonCompleteTrackedRef.current = params.file;
+        const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
+        Analytics.track('lesson_complete', {
+          lessonId: params.file,
+          genreId,
+        });
+        if (__DEV__) console.log('[Analytics] lesson_complete:', params.file);
+      }
 
       setIsComplete(true);
     }

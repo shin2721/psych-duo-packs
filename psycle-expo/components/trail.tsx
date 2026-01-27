@@ -591,6 +591,7 @@ function GlowingNode({ node, x, y, isMilestone, onPress, themeColor }: { node: T
           ]}
           onPress={node.isLocked || node.status === "current" ? onPress : undefined}
           disabled={!node.isLocked && node.status !== "current"}
+          testID={`lesson-node-${node.id}`}
         >
           {getIcon()}
         </Pressable>

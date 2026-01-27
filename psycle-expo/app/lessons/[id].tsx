@@ -13,6 +13,7 @@ import { QuestionRenderer, Question } from "../../components/QuestionRenderer";
 import { sortQuestionsByAdaptiveDifficulty } from "../../lib/adaptiveSelection";
 import { getDifficultyRating } from "../../lib/difficultyMapping";
 import { XPGainAnimation } from "../../components/XPGainAnimation";
+import { Analytics } from "../../lib/analytics";
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -64,6 +65,18 @@ export default function LessonScreen() {
       setQuestions(uniqueQuestions);
     }
   }, [lesson, id]); // Only depend on lesson and id, not skill/accuracy which change frequently
+  
+  // lesson_start イベント（レッスン画面入場時に1回のみ発火）
+  const hasTrackedLessonStartRef = useRef<string | null>(null);
+  useEffect(() => {
+    if (lesson && id && id !== hasTrackedLessonStartRef.current) {
+      hasTrackedLessonStartRef.current = id || null;
+      Analytics.track('lesson_start', {
+        lessonId: id || '',
+        genreId: unit || '',
+      });
+    }
+  }, [lesson, id, unit]);
   const [answers, setAnswers] = useState<boolean[]>([]);
   const [totalXP, setTotalXP] = useState(0);
   const [showResults, setShowResults] = useState(false);
@@ -184,6 +197,12 @@ export default function LessonScreen() {
       incrementQuest("q_monthly_perfect_lessons");
     }
 
+    // lesson_completeイベント（ドメインの確定地点で1回のみ発火）
+    Analytics.track('lesson_complete', {
+      lessonId: id || '',
+      genreId: unit || '',
+    });
+
     router.back();
   };
 
@@ -290,7 +309,7 @@ export default function LessonScreen() {
                   もう一度
                 </Text>
               </Pressable>
-              <Pressable style={styles.button} onPress={handleComplete}>
+              <Pressable style={styles.button} onPress={handleComplete} testID="lesson-complete">
                 <Text style={styles.buttonText}>完了</Text>
               </Pressable>
             </View>

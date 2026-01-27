@@ -90,6 +90,22 @@ Both modes MUST produce identical output structures.
 | productivity | `data/lessons/study_units/` |
 | work | `data/lessons/work_units/` |
 
+> **⚠️ Important**: After adding new lesson files (e.g., `mental_l05.ja.json`), run `npm run gen:units` to regenerate the index.ts files, then reload Metro bundler.
+
+### Units Index Generation
+
+When adding new lesson files to any domain:
+
+1. **Add the lesson file**: Place `{domain}_l{nn}.ja.json` in the appropriate `data/lessons/{domain}_units/` directory
+2. **Regenerate index files**: Run `npm run gen:units` to automatically update all `index.ts` files
+3. **Reload Metro**: Restart the Metro bundler to pick up the new imports
+
+The `gen:units` script automatically:
+- Scans all `*_units` directories for `*.ja.json` files
+- Generates proper import statements with JS-safe identifiers
+- Maintains consistent l01, l02, l03... ordering
+- Creates both `{domain}Data` and `{domain}Data_ja` exports
+
 ---
 
 ## 3. Quality Gate (Mandatory)
@@ -149,3 +165,94 @@ When transitioning to API automation:
 | Bundler | Lesson Bundler unchanged |
 
 **Migration is just swapping the "engine" while keeping everything else fixed.**
+
+---
+
+## 6. Mode B運用手順（事故防止）
+
+> **📋 仕様の正本は [docs/PRINCIPLES.md](./PRINCIPLES.md) です**  
+> 運用手順のみここに記載し、品質基準・仕様は正本を参照してください。
+
+### 基本フロー
+```
+自動生成 → staging → 監査 → 人間承認 → 昇格 → 本番
+```
+
+### 実行コマンド
+
+**1. 自動生成（staging配置）**
+```bash
+cd scripts/content-generator
+npm run patrol
+```
+- 出力先: `data/lessons/_staging/{domain}_units/`
+- 本番直入れは物理的に不可能
+
+**2. 監査・バリデーション**
+```bash
+npm run validate:lessons
+```
+- staging: warning可
+- 本番: error不可
+
+**3. 利用可能レッスン確認**
+```bash
+npm run promote:lesson
+```
+- 承認状態を一覧表示
+- 引数なしで実行
+
+**4. 人間承認**
+```bash
+# Evidence Card の human_approved を true に変更
+vi data/lessons/_staging/{domain}_units/{basename}.evidence.json
+```
+
+**5. 本番昇格**
+```bash
+npm run promote:lesson {domain} {basename}
+```
+- 自動実行: validate → move → gen:units → validate
+
+### 安全装置
+
+- **staging強制**: Mode B は staging にのみ出力
+- **承認ゲート**: human_approved=true 必須
+- **自動バリデーション**: 昇格時に2回チェック
+- **原子性**: 昇格は全工程成功時のみ完了
+
+---
+
+## 7. レッスン生成仕様（正本参照）
+
+> **📋 仕様の正本は [docs/PRINCIPLES.md](./PRINCIPLES.md) です**  
+> 運用手順のみここに記載し、品質基準・仕様は正本を参照してください。
+
+### Mode A運用（人間介在）
+```
+人間作成 → バリデーション → 本番配置 → gen:units
+```
+
+**手順**:
+1. [docs/PRINCIPLES.md](./PRINCIPLES.md) の仕様に従ってレッスン作成
+2. `data/lessons/{domain}_units/` に直接配置
+3. `npm run gen:units` でインデックス更新（バリデーション自動実行）
+
+### Mode B運用（自動生成）
+```
+自動生成 → staging → 監査 → 承認 → 昇格 → gen:units
+```
+
+**手順**:
+1. **生成**: `cd scripts/content-generator && npm run patrol`
+2. **監査**: `npm run validate:lessons`
+3. **承認**: Evidence Card の `review.human_approved` を `true` に変更
+4. **昇格**: `npm run promote:lesson {domain} {basename}`
+
+**注意**: 全ての仕様・ルールは [docs/PRINCIPLES.md](./PRINCIPLES.md) を参照してください。
+│   └── study_units/
+└── {domain}_units/        # 本番（承認済み）
+    ├── mental_l01.ja.json
+    ├── mental_l01.evidence.json
+    └── index.ts
+```

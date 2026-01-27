@@ -1,0 +1,20 @@
+{
+  "source_type": "peer_reviewed",
+  "citation": {
+    "doi": "10.1037/0033-2909.133.1.65",
+    "pmid": "17201571",
+    "url": "https://psycnet.apa.org/doi/10.1037/0033-2909.133.1.65"
+  },
+  "source_label": "Steel (2007) - The Nature of Procrastination: A Meta-Analytic Review",
+  "claim": "先延ばしは意志力の問題ではなく、タスクの不快さを避けようとする自然な傾向がある。タスクを細分化したり、始め方を工夫することで改善する可能性がある",
+  "limitations": "先延ばしが適応的なケースもある（情報待ち、優先度の自然な調整など）。ADHDや完璧主義が背景にある場合は別のアプローチが必要。バーンアウト傾向の場合は休息が最優先。職場環境や上司の指示による場合はテクニックでは解決しない",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-27",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  }
+}

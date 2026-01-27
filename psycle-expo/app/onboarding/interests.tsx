@@ -102,6 +102,7 @@ export default function InterestsScreen() {
                     ]}
                     onPress={handleContinue}
                     disabled={selectedGenres.length === 0}
+                    testID="onboarding-finish"
                 >
                     <Text style={styles.buttonText}>続ける</Text>
                     <Ionicons name="arrow-forward" size={20} color="#fff" />

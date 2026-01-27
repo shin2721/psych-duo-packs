@@ -1,0 +1,21 @@
+{
+  "source_type": "book",
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": "https://psycnet.apa.org/record/1984-11044-000",
+    "isbn": "978-0826141910"
+  },
+  "source_label": "Lazarus & Folkman (1984) - Stress, Appraisal, and Coping",
+  "claim": "同じ出来事でも「どう解釈するか（認知的評価）」によって心理的反応が変わる可能性がある。一次評価（脅威判定）と二次評価（対処可能性）の組み合わせがストレス強度に影響する傾向がある",
+  "limitations": "理論理解だけでは行動変容に直結しにくい。身体的な病気や生理的要因が強いケースでは認知アプローチだけでは不十分な場合がある。本理論は古典的で広く参照される一方、スマホ・SNSなど現代のデジタル環境下での外的妥当性や効果検証は限定的な可能性がある",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-27",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  }
+}

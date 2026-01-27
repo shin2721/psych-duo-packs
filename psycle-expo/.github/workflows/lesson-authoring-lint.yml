@@ -1,0 +1,50 @@
+name: Lesson Authoring Single Source Check
+
+on:
+  pull_request:
+    branches: [ main, master ]
+    paths:
+      - 'docs/**'
+      - 'scripts/**'
+      - '.agent/**'
+      - '**/*.md'
+  push:
+    branches: [ main, master ]
+    paths:
+      - 'docs/**'
+      - 'scripts/**'
+      - '.agent/**'
+      - '**/*.md'
+
+jobs:
+  check-single-source:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+        
+    - name: Install dependencies
+      run: npm ci
+      
+    - name: Check Lesson Authoring Single Source
+      run: npm run lint:lesson-authoring
+      
+    - name: Report success
+      if: success()
+      run: |
+        echo "✅ レッスン作成仕様の正本一本化が維持されています"
+        echo "📋 docs/PRINCIPLES.md が唯一の正本として機能しています"
+        
+    - name: Report failure
+      if: failure()
+      run: |
+        echo "❌ レッスン作成仕様の分裂が検出されました"
+        echo "💡 修正方法: 違反ファイルからルール本文を削除し、docs/PRINCIPLES.md への参照リンクに置換してください"
+        exit 1

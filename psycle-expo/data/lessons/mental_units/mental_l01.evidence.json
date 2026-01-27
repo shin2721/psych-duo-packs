@@ -1,0 +1,21 @@
+{
+  "source_type": "classic",
+  "citation": {
+    "doi": "10.1037/0003-066X.39.2.124",
+    "pmid": "",
+    "url": "https://psycnet.apa.org/record/1984-18621-001"
+  },
+  "claim": "ストレスは出来事そのものではなく、その出来事をどう解釈するかによって決まる傾向がある。「反芻思考」は脳の自動再生であり、意図的に止めようとしても難しいが、気づくことで距離を取りやすくなる可能性がある",
+  "source_label": "Beck (1979/1984) - Cognitive Therapy of Depression",
+  "limitations": "急性トラウマや生理的要因が強い場合には認知的アプローチだけでは不十分。本理論は古典的で広く参照される一方、スマホ・SNSなど現代のデジタル環境下での外的妥当性や効果検証は限定的な可能性がある",
+  "evidence_grade": "silver",
+  "generated_by": "mode_a",
+  "review": {
+    "critic_score": 8,
+    "human_approved": true,
+    "reviewer": "content_team"
+  },
+  "confidence": "medium",
+  "status": "active",
+  "last_verified": "2026-01-24"
+}

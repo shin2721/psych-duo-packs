@@ -35,22 +35,13 @@
 - **10問 = 1レッスン**
 - **2-3分で完了**
 - テキストは2-3行以内
-- 5-Phase Structure（3〜5フェーズ選択可、Phase4 How は必須）
 
-### 4. Phase 4 ルール
-- `Correct` / `Wrong` / `正解` / `不正解` **禁止**
-- 表示は `Better Choice` / `Recommended` のみ
+**詳細仕様**: [docs/PRINCIPLES.md](./PRINCIPLES.md) を参照
 
 ### 5. Critic（監査）
 **採点しない。違反監査（Yes/No）のみ。**
 
-| ルール | 違反条件 |
-|--------|----------|
-| Scientific Integrity | 断定語（絶対/必ず等）使用 |
-| UX Standards | Phase4で正解UI使用 |
-| Success Granularity | One Day Rule違反（人生が変わる等） |
-| Evidence Template | Gold/Silver/Bronze文言の改変 |
-| Life-Scene First | 教科書臭（生活シーン欠如） |
+**監査ルール**: [docs/PRINCIPLES.md](./PRINCIPLES.md) を参照
 
 ### 6. Domain Router
 - **domain未定義 → Fail Fast（インポートしない）**

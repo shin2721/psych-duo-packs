@@ -10,13 +10,7 @@ import { socialData, socialData_ja } from "../data/lessons/social_units";
 import { studyData } from "../data/lessons/study_units";
 import i18n from "./i18n";
 
-// Curriculum data for dynamic titles
-import mentalCurriculum from "../data/curriculum_mental.json";
-import moneyCurriculum from "../data/curriculum_Money.json";
-import workCurriculum from "../data/curriculum_Work.json";
-import healthCurriculum from "../data/curriculum_Health.json";
-import socialCurriculum from "../data/curriculum_Social.json";
-import studyCurriculum from "../data/curriculum_Study.json";
+// Legacy curriculum imports removed - now using lesson data directly
 
 export interface Reference {
   citation: string;
@@ -201,20 +195,18 @@ export function loadLessons(unit: string): Lesson[] {
 
     console.log(`[loadLessons] ${unit}: ${questions.length} questions total`);
 
-    // レベル数を決定 (Curriculumから取得)
-    let maxLevels = 10;
-    const curricula: Record<string, any> = {
-      mental: mentalCurriculum,
-      money: moneyCurriculum,
-      work: workCurriculum,
-      health: healthCurriculum,
-      social: socialCurriculum,
-      study: studyCurriculum
-    };
-
-    if (curricula[unit]) {
-      maxLevels = curricula[unit].units.length;
-    }
+    // レベル数を決定 (実際のレッスンデータから取得)
+    // Count unique prefixes like mental_l01_, mental_l02_, etc.
+    const levelPrefixes = new Set<number>();
+    questions.forEach(q => {
+      if (q.source_id) {
+        const match = q.source_id.match(new RegExp(`^${unit}_l(\\d+)_`));
+        if (match) {
+          levelPrefixes.add(parseInt(match[1], 10));
+        }
+      }
+    });
+    const maxLevels = levelPrefixes.size > 0 ? Math.max(...levelPrefixes) : 1;
 
     const lessons: Lesson[] = [];
     const questionsPerLesson = 10; // 1レッスンあたりの問題数（原則10問）
@@ -282,35 +274,21 @@ export function loadLessons(unit: string): Lesson[] {
       const totalXP = lessonQuestions.reduce((sum, q) => sum + q.xp, 0);
       const lessonTitle = getLessonTitle(unit, level);
 
-      // Get references, context_note, and research_meta from curriculum
+      // Get references from lesson questions' expanded_details
       let references: Reference[] = [];
       let context_note: string | undefined;
       let research_meta: ResearchMeta | undefined;
 
-      if (curricula[unit]) {
-        const curriculumUnit = curricula[unit].units.find((u: any) => u.level === level);
-        if (curriculumUnit) {
-          // Use curriculum source as reference
-          if (curriculumUnit.source) {
-            references = [{
-              citation: curriculumUnit.source,
-              note: "主要参照文献",
-              level: "silver"
-            }];
-            // Generate context_note from source (fallback)
-            context_note = `このレッスンは「${curriculumUnit.source.split('.')[0]}」の研究に基づいています。臨床や実践の現場で長年使用され、効果が確認されているアプローチです。`;
-          }
-          // If curriculum has explicit references, use those
-          if (curriculumUnit.references) {
-            references = curriculumUnit.references;
-          }
-          if (curriculumUnit.context_note) {
-            context_note = curriculumUnit.context_note;
-          }
-          // Load research_meta if available
-          if (curriculumUnit.research_meta) {
-            research_meta = curriculumUnit.research_meta;
-          }
+      // Extract source_id from first question as reference
+      const firstQuestion = lessonQuestions[0];
+      if (firstQuestion?.source_id) {
+        const sourceMatch = firstQuestion.source_id.match(/^[a-z]+_l\d+_(.+)$/);
+        if (sourceMatch) {
+          references = [{
+            citation: sourceMatch[1].replace(/_/g, ' '),
+            note: "主要参照",
+            level: (firstQuestion as any).evidence_grade || "silver"
+          }];
         }
       }
 
@@ -384,21 +362,6 @@ export function getQuestionFromId(lessonId: string, questionId: string): Questio
 
 // レッスンタイトルを生成
 function getLessonTitle(unit: string, level: number): string {
-  const curricula: Record<string, any> = {
-    mental: mentalCurriculum,
-    money: moneyCurriculum,
-    work: workCurriculum,
-    health: healthCurriculum,
-    social: socialCurriculum,
-    study: studyCurriculum
-  };
-
-  if (curricula[unit]) {
-    const curriculumUnit = curricula[unit].units.find((u: any) => u.level === level);
-    if (curriculumUnit) {
-      return curriculumUnit.title;
-    }
-  }
 
   // Fallback titles (legacy)
   const titles: Record<string, string[]> = {

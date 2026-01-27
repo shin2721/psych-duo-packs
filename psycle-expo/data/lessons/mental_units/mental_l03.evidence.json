@@ -1,0 +1,20 @@
+{
+  "source_type": "peer_reviewed",
+  "citation": {
+    "doi": "10.1037/0022-3514.74.1.224",
+    "pmid": "",
+    "url": "https://psycnet.apa.org/doi/10.1037/0022-3514.74.1.224"
+  },
+  "source_label": "Gross (1998) - Antecedent- and response-focused emotion regulation",
+  "claim": "感情調整には複数の戦略があり、ラベリングやリアプレイザルが焦りの軽減に寄与する可能性がある",
+  "limitations": "効果には個人差がある。慢性的な不安には別アプローチが必要な場合がある。呼吸法が苦手な人には逆効果になることもある。本研究は1998年時点のものであり、現代のデジタル環境下での効果検証は限定的な可能性がある",
+  "evidence_grade": "silver",
+  "confidence": "medium",
+  "status": "reviewed",
+  "last_verified": "2026-01-24",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  }
+}

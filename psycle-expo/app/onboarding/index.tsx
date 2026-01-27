@@ -1,13 +1,23 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Pressable, Image } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
+import { Analytics } from "../../lib/analytics";
 
 export default function WelcomeScreen() {
     const router = useRouter();
+    
+    // onboarding_start イベント（オンボーディング入口で1回のみ発火）
+    const hasTrackedStartRef = useRef(false);
+    useEffect(() => {
+        if (!hasTrackedStartRef.current) {
+            hasTrackedStartRef.current = true;
+            Analytics.track('onboarding_start');
+        }
+    }, []);
 
     return (
         <SafeAreaView style={styles.container}>
@@ -45,6 +55,7 @@ export default function WelcomeScreen() {
                     <Pressable
                         style={styles.button}
                         onPress={() => router.push("/onboarding/interests")}
+                        testID="onboarding-start"
                     >
                         <Text style={styles.buttonText}>はじめる</Text>
                         <Ionicons name="arrow-forward" size={20} color="#fff" />

@@ -1,0 +1,87 @@
+name: Content Quality Check
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  content-quality:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Setup Node.js
+      uses: actions/setup-node@v4
+      with:
+        node-version: '18'
+        cache: 'npm'
+    
+    - name: Install dependencies
+      run: npm ci
+    
+    # Core validation checks (FAIL on error)
+    - name: Validate Lessons Structure
+      run: npm run validate:lessons
+    
+    - name: Lesson Authoring Specification Check
+      run: npm run lint:lesson-authoring
+    
+    # Content quality checks (WARNING on issues, but don't fail CI yet)
+    - name: Content Preflight Check
+      run: npm run content:preflight
+      continue-on-error: true
+    
+    - name: Bronze Assertion Check
+      run: npm run lint:bronze-assertions
+      continue-on-error: true
+    
+    - name: Evidence Grade Inflation Check
+      run: npm run lint:evidence-grade
+      continue-on-error: true
+    
+    - name: Citation Trackability Check
+      run: npm run lint:trackability
+      continue-on-error: true
+    
+    - name: Evidence Specificity Check
+      run: npm run lint:evidence-specificity
+      continue-on-error: true
+    
+    - name: Claim Alignment Check
+      run: npm run lint:claim-alignment
+      continue-on-error: true
+    
+    # Generate summary report
+    - name: Generate Quality Summary
+      run: |
+        echo "## Content Quality Summary" >> $GITHUB_STEP_SUMMARY
+        echo "### Core Validation" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Lesson Structure: PASS" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Authoring Specification: PASS" >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Quality Checks (Warnings)" >> $GITHUB_STEP_SUMMARY
+        echo "See uploaded reports for detailed warnings." >> $GITHUB_STEP_SUMMARY
+        echo "" >> $GITHUB_STEP_SUMMARY
+        echo "### Next Steps" >> $GITHUB_STEP_SUMMARY
+        echo "1. Review quality reports in artifacts" >> $GITHUB_STEP_SUMMARY
+        echo "2. Fix any critical issues before merge" >> $GITHUB_STEP_SUMMARY
+        echo "3. Run \`npm run content:preflight\` locally to verify fixes" >> $GITHUB_STEP_SUMMARY
+    
+    - name: Upload Quality Reports
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: content-quality-reports
+        path: docs/_reports/
+        retention-days: 30
+    
+    # Final status check
+    - name: Quality Gate Status
+      run: |
+        echo "🎯 Content Quality Gate: PASS"
+        echo "📊 All core validations passed"
+        echo "⚠️  Quality warnings may exist - check reports"
+        echo "🔧 Run 'npm run content:preflight' to see full status"
