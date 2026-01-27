@@ -1,0 +1,329 @@
+[
+    {
+        "id": "mental_l06_001",
+        "type": "swipe_judgment",
+        "question": "「80点じゃダメだ。100点じゃないと意味がない」と思うことがある",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "よくある",
+            "right": "あまりない"
+        },
+        "explanation": "これは「完璧主義」の典型例。完璧を目指すこと自体は悪くないが、「100点以外は失敗」と捉えると自分を追い詰めやすくなる傾向がある。※このレッスンは完璧主義への理解を深めるものですが、希死念慮や自傷の傾向がある方は、アプリではなく専門機関（いのちの電話: 0570-783-556 等）へご相談ください。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "完璧主義傾向の自己認識"
+            ],
+            "limitations": [
+                "高い基準が成果に繋がるケースもある"
+            ],
+            "citation_role": "完璧主義の認知パターンを説明",
+            "claim_tags": [
+                "完璧主義",
+                "認知パターン"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_002",
+        "type": "multiple_choice",
+        "question": "完璧主義が強い人に見られやすい傾向は？",
+        "choices": [
+            "始める前から「失敗したらどうしよう」と不安になる",
+            "失敗しても気にせず次に進める",
+            "目標を低く設定して安心する"
+        ],
+        "correct_index": 0,
+        "explanation": "完璧主義の傾向がある人は、失敗への恐れから「取りかかれない」状態になりやすいと報告されている。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "完璧主義と行動抑制の関係理解"
+            ],
+            "limitations": [
+                "個人差が大きい"
+            ],
+            "citation_role": "完璧主義と不安の関連を説明",
+            "claim_tags": [
+                "完璧主義",
+                "不安",
+                "行動抑制"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_003",
+        "type": "swipe_judgment",
+        "question": "「自分のやったことに満足できない」と感じることがある",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "よくある",
+            "right": "あまりない"
+        },
+        "explanation": "どの答えも正常な反応です。自分に高い基準を持つことは成長の原動力にもなりますが、度が過ぎると疲弊しやすくなる可能性があります。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "高い基準の両面性を説明",
+            "claim_tags": [
+                "完璧主義",
+                "自己評価"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_004",
+        "type": "multiple_choice",
+        "question": "完璧主義を「適度に緩める」方法として効果的なのは？",
+        "choices": [
+            "「70点でもOK」と自分に許可を出す",
+            "「完璧を目指すな」と自分に言い聞かせる",
+            "目標を持たないようにする"
+        ],
+        "correct_index": 0,
+        "explanation": "「許容範囲を広げる」ことで、行動のハードルが下がりやすくなる傾向がある。完全に完璧主義をなくす必要はない。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "完璧主義で行動が止まりがちな人"
+            ],
+            "limitations": [
+                "高い基準が必要な場面では逆効果の可能性"
+            ],
+            "citation_role": "認知的再構成の一手法として",
+            "try_this": "今日の最初のタスクで「70点でOK」と唱えてから始める",
+            "claim_tags": [
+                "完璧主義",
+                "認知的再構成",
+                "許容範囲"
+            ],
+            "tiny_metric": {
+                "before_prompt": "タスクを始める前の不安度（1-10）",
+                "after_prompt": "タスク完了後の満足度（1-10）",
+                "success_rule": "不安度が3以上下がるか、タスクを開始できた",
+                "stop_rule": "かえって不安が増す場合"
+            },
+            "comparator": {
+                "baseline": "いつもの完璧を目指すやり方",
+                "cost": "時間や労力は同じか減少"
+            },
+            "fallback": {
+                "when": "「70点でもOK」と思えない場合",
+                "next": "「とりあえず5分だけ」と時間を区切る"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_005",
+        "type": "multiple_choice",
+        "question": "完璧主義は「完全になくす」べきものである",
+        "choices": [
+            "いいえ、柔軟に調整できることが大切",
+            "はい、完璧主義は害でしかない",
+            "どちらとも言えない"
+        ],
+        "correct_index": 0,
+        "explanation": "完璧主義には「健全な面」もあり、高い基準が成果につながることもある。問題になるのは「柔軟性を失ったとき」。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "適応的完璧主義と不適応的完璧主義の区別",
+            "claim_tags": [
+                "完璧主義",
+                "柔軟性",
+                "適応的"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_006",
+        "type": "conversation",
+        "question": "「完璧にできないなら、やらない方がいい」と思ったことはありますか？",
+        "your_response_prompt": "どんな場面だったか思い出してみてください",
+        "choices": [
+            "よくある",
+            "たまにある",
+            "あまりない"
+        ],
+        "recommended_index": null,
+        "explanation": "これは「all-or-nothing思考」と呼ばれるパターン。完璧でなくても「やる」ことで経験が積み重なる可能性がある。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "二分法的思考の例として",
+            "claim_tags": [
+                "完璧主義",
+                "二分法思考",
+                "回避"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_007",
+        "type": "swipe_judgment",
+        "question": "完璧主義が先延ばしにつながることがある",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "そう思う",
+            "right": "そう思わない"
+        },
+        "explanation": "完璧主義と先延ばしには関連があるという研究がある。「失敗回避」のために行動を避けてしまうことがある。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "完璧主義と先延ばしの関連を説明",
+            "claim_tags": [
+                "完璧主義",
+                "先延ばし",
+                "失敗回避"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_008",
+        "type": "multiple_choice",
+        "question": "完璧主義への対処で最も大切なことは？",
+        "choices": [
+            "柔軟性を持ち、許容範囲を広げること",
+            "完璧主義を完全になくすこと",
+            "目標を持たないようにすること"
+        ],
+        "correct_index": 0,
+        "explanation": "完璧主義を「なくす」のではなく、「柔軟に調整できるようになる」ことが重要。状況に応じて基準を変えられることが大切。",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "完璧主義との付き合い方を考える場面"
+            ],
+            "limitations": [
+                "すぐに柔軟になれるわけではない"
+            ],
+            "citation_role": "メタ分析に基づく推奨",
+            "claim_tags": [
+                "完璧主義",
+                "柔軟性",
+                "対処法"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_009",
+        "type": "conversation",
+        "question": "今日学んだ「70点でもOK」という考え方を、明日試してみるとしたら？",
+        "your_response_prompt": "具体的にどんな場面で使ってみたいですか？",
+        "choices": [
+            "仕事や勉強のタスクで",
+            "家事や日常の作業で",
+            "まだ具体的には思い浮かばない"
+        ],
+        "recommended_index": 0,
+        "explanation": "どの場面でも試す価値があります。まずは小さなタスクから「完璧でなくても進める」を試してみることをお勧めします。",
+        "actionable_advice": "明日の最初のタスクで「70点で十分」と3回唱えてから始めてみてください",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "日常のタスクで完璧主義が出やすい人"
+            ],
+            "limitations": [
+                "重要なタスクでは適用に注意"
+            ],
+            "citation_role": "実践への橋渡し",
+            "try_this": "明日の朝一のタスクで「70点でOK」と声に出す",
+            "claim_tags": [
+                "完璧主義",
+                "実践",
+                "行動変容"
+            ],
+            "tiny_metric": {
+                "before_prompt": "タスク開始前のためらい度（1-10）",
+                "after_prompt": "タスク開始後の気持ち（1-10）",
+                "success_rule": "ためらわずに開始できた",
+                "stop_rule": "かえってストレスが増える場合"
+            },
+            "comparator": {
+                "baseline": "普段のやり方",
+                "cost": "数秒の声出し"
+            },
+            "fallback": {
+                "when": "「70点」が受け入れられない場合",
+                "next": "「80点」から始める"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_010",
+        "type": "conversation",
+        "question": "このレッスンで学んだ内容は、あなたにとって役立ちそうでしたか？",
+        "your_response_prompt": "正直な感想をお聞かせください",
+        "choices": [
+            "とても役立ちそう",
+            "少し役立ちそう",
+            "あまり役立たなそう"
+        ],
+        "recommended_index": null,
+        "explanation": "どの感想も貴重です。完璧主義との付き合い方は人それぞれ。自分に合うペースで取り組むことが大切です。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "振り返りの促進",
+            "claim_tags": [
+                "振り返り",
+                "自己認識"
+            ]
+        }
+    }
+]

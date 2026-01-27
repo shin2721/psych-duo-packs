@@ -59,6 +59,19 @@ jobs:
       run: npm run lint:claim-alignment
       continue-on-error: true
     
+    # D-pack checks (WARNING on issues, but don't fail CI yet)
+    - name: Verification Staleness Check
+      run: npm run lint:verification-staleness
+      continue-on-error: true
+    
+    - name: Citation Format Check
+      run: npm run lint:citation-format
+      continue-on-error: true
+    
+    - name: Needs Review Check
+      run: npm run lint:needs-review
+      continue-on-error: true
+    
     # Generate summary report
     - name: Generate Quality Summary
       run: |

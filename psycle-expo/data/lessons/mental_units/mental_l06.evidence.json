@@ -1,0 +1,21 @@
+{
+  "source_type": "peer_reviewed",
+  "citation": {
+    "doi": "10.1016/j.cpr.2014.09.006",
+    "pmid": "25455783",
+    "url": "https://pubmed.ncbi.nlm.nih.gov/25455783/"
+  },
+  "source_label": "Smith et al. (2016) - Meta-analysis of perfectionism and anxiety/depression",
+  "claim": "完璧主義には「健全な追求型」と「不適応型」があり、後者は不安・抑うつと関連する傾向がある。認知的再構成や「許容範囲を広げる」アプローチにより、柔軟性が高まる可能性がある",
+  "limitations": "完璧主義のタイプや程度には個人差が大きい。自己批判が強く抑うつ傾向がある場合は専門家のサポートが推奨される。希死念慮や自傷のリスクがある場合は、アプリではなく直ちに専門機関・緊急窓口（いのちの電話: 0570-783-556 等）へ相談すること。本レッスンは軽度の完璧主義傾向への気づきを促すものであり、臨床レベルの治療を代替するものではない",
+  "evidence_grade": "silver",
+  "generated_by": "mode_a",
+  "review": {
+    "critic_score": 8,
+    "human_approved": true,
+    "reviewer": "owner"
+  },
+  "confidence": "medium",
+  "status": "active",
+  "last_verified": "2026-01-27"
+}

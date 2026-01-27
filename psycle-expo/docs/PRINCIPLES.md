@@ -131,6 +131,31 @@
 - `citation_trackability.md` - 引用追跡可能性
 - `evidence_specificity.md` - Evidence薄さ警告
 - `claim_alignment.md` - Claim整合性警告
+- `verification_staleness.md` - Evidence鮮度警告（D-pack）
+- `citation_format.md` - 引用形式エラー（D-pack）
+- `needs_review.md` - 要再監査ステータス（D-pack）
+
+## Evidence 鮮度管理（D-pack）
+
+**自動劣化検知システム:**
+- `last_verified` フィールドによる期限管理
+- 365日超過: WARNING（再検証推奨）
+- 730日超過: FAIL（要再検証）
+- 科学は変わることを前提とした自動監視
+
+**引用形式検証:**
+- DOI: `10.` で始まる形式必須
+- PMID: 数値のみ必須
+- ISBN: ISBN-10/13形式必須
+- URL: `http://` または `https://` 必須
+- 全引用情報が空欄の場合は警告
+
+**ステータス管理:**
+- `status: active` - 現在有効で使用中
+- `status: draft` - 作業中、未承認
+- `status: needs_review` - 人間による再監査が必要
+- `status: deprecated` - 無効、使用禁止
+- `needs_review` ステータスは preflight で警告表示
 
 ### 3. 禁止表現（Vocabulary Hygiene）
 

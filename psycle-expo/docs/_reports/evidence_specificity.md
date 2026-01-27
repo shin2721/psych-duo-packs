@@ -6,7 +6,7 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Evidence Files Checked | 12 |
+| Total Evidence Files Checked | 13 |
 | Thin Evidence Warnings | 0 |
 | Thin Evidence Rate | 0.0% |
 
@@ -19,11 +19,12 @@
 
 | Domain | Basename | Source Label | Claim Len | Limitations Len | Has Limitations | Trackable Type | Last Verified | Status | Warning |
 |--------|----------|--------------|-----------|-----------------|-----------------|----------------|---------------|--------|---------|
-| mental | mental_l01 | Y | 99 | 95 | Y | DOI,URL | 2026-01-24 | active | ✅ OK |
+| mental | mental_l01 | Y | 99 | 95 | Y | DOI,URL | 2026-01-27 | active | ✅ OK |
 | mental | mental_l02 | Y | 88 | 121 | Y | ISBN,URL | 2026-01-27 | active | ✅ OK |
-| mental | mental_l03 | Y | 45 | 102 | Y | DOI,URL | 2026-01-24 | reviewed | ✅ OK |
-| mental | mental_l04 | Y | 70 | 107 | Y | DOI,PMID,URL | 2026-01-24 | reviewed | ✅ OK |
-| mental | mental_l05 | Y | 92 | 127 | Y | DOI,PMID,URL | 2026-01-24 | active | ✅ OK |
+| mental | mental_l03 | Y | 45 | 102 | Y | DOI,URL | 2026-01-27 | active | ✅ OK |
+| mental | mental_l04 | Y | 70 | 107 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
+| mental | mental_l05 | Y | 92 | 127 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
+| mental | mental_l06 | Y | 84 | 171 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
 | money | money_l01 | Y | 89 | 116 | Y | ISBN,URL | 2026-01-27 | active | ✅ OK |
 | work | work_l01 | Y | 72 | 110 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
 | work | work_l02 | Y | 78 | 106 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |

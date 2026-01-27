@@ -6,7 +6,7 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Lessons Checked | 12 |
+| Total Lessons Checked | 13 |
 | Alignment Warnings | 0 |
 | Alignment Success Rate | 100.0% |
 
@@ -27,6 +27,7 @@
 | mental | mental_l03 | Y | None | ✅ OK |
 | mental | mental_l04 | Y | None | ✅ OK |
 | mental | mental_l05 | Y | None | ✅ OK |
+| mental | mental_l06 | Y | None | ✅ OK |
 | money | money_l01 | Y | None | ✅ OK |
 | work | work_l01 | Y | None | ✅ OK |
 | work | work_l02 | Y | None | ✅ OK |

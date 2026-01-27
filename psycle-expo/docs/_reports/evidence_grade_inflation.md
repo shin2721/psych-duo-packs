@@ -6,7 +6,7 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Evidence Files Checked | 12 |
+| Total Evidence Files Checked | 13 |
 | Gold Inflation Warnings | 0 |
 
 ## Inflation Detection Rules

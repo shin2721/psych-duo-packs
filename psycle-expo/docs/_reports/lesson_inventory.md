@@ -6,15 +6,15 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Lessons | 12 |
-| With Evidence | 12 |
+| Total Lessons | 13 |
+| With Evidence | 13 |
 | Without Evidence | 0 |
 | Evidence Coverage | 100.0% |
-| DOI Available | 8 (66.7%) |
-| PMID Available | 6 (50.0%) |
-| ISBN Available | 4 (33.3%) |
-| URL Available | 12 (100.0%) |
-| Citation Trackable | 12 (100.0%) |
+| DOI Available | 9 (69.2%) |
+| PMID Available | 7 (53.8%) |
+| ISBN Available | 4 (30.8%) |
+| URL Available | 13 (100.0%) |
+| Citation Trackable | 13 (100.0%) |
 | Unapproved Evidence | 0 (0.0%) |
 
 ## Detailed Inventory
@@ -26,6 +26,7 @@
 | mental | mental_l03 | 10 | Y | Y | N | N | Y | true | ✅ |
 | mental | mental_l04 | 10 | Y | Y | Y | N | Y | true | ✅ |
 | mental | mental_l05 | 10 | Y | Y | Y | N | Y | true | ✅ |
+| mental | mental_l06 | 10 | Y | Y | Y | N | Y | true | ✅ |
 | money | money_l01 | 10 | Y | N | N | Y | Y | true | ✅ |
 | work | work_l01 | 10 | Y | Y | Y | N | Y | true | ✅ |
 | work | work_l02 | 10 | Y | Y | Y | N | Y | true | ✅ |

@@ -6,7 +6,7 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Lessons Checked | 12 |
+| Total Lessons Checked | 13 |
 | Bronze Lessons | 0 |
 | Assertion Warnings | 0 |
 

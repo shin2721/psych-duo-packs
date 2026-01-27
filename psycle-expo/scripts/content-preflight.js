@@ -12,6 +12,9 @@ const { lintEvidenceGradeInflation } = require('./lint-evidence-grade-inflation.
 const { lintCitationTrackability } = require('./lint-citation-trackability.js');
 const { lintEvidenceSpecificity } = require('./lint-evidence-specificity.js');
 const { lintClaimAlignment } = require('./lint-claim-alignment.js');
+const { lintVerificationStaleness } = require('./lint-verification-staleness.js');
+const { lintCitationFormat } = require('./lint-citation-format.js');
+const { lintNeedsReview } = require('./lint-needs-review.js');
 
 async function runPreflight() {
     console.log('🚀 Content Preflight Check 開始...');
@@ -59,8 +62,26 @@ async function runPreflight() {
     
     console.log('\n' + '='.repeat(50) + '\n');
     
-    // 8. 未承認Evidence警告
-    console.log('⚠️  Step 8: 未承認Evidence警告...');
+    // 8. Verification Staleness チェック (D-pack D1)
+    console.log('🔍 Step 8: Verification Staleness チェック...');
+    const stalenessResult = lintVerificationStaleness();
+    
+    console.log('\n' + '='.repeat(50) + '\n');
+    
+    // 9. Citation Format チェック (D-pack D2)
+    console.log('🔍 Step 9: Citation Format チェック...');
+    const formatResult = lintCitationFormat();
+    
+    console.log('\n' + '='.repeat(50) + '\n');
+    
+    // 10. Needs Review チェック (D-pack D3)
+    console.log('🔍 Step 10: Needs Review チェック...');
+    const reviewResult = lintNeedsReview();
+    
+    console.log('\n' + '='.repeat(50) + '\n');
+    
+    // 11. 未承認Evidence警告
+    console.log('⚠️  Step 11: 未承認Evidence警告...');
     const unapproved = inventory.filter(item => item.humanApproved === 'false');
     
     if (unapproved.length > 0) {
@@ -76,7 +97,7 @@ async function runPreflight() {
     
     console.log('\n' + '='.repeat(50) + '\n');
     
-    // 9. 最終サマリー
+    // 12. 最終サマリー
     console.log('📊 Preflight Check 完了サマリー:');
     console.log(`  📄 総レッスン数: ${inventory.length}`);
     console.log(`  📋 Evidence網羅率: ${((inventory.filter(i => i.hasEvidence).length / inventory.length) * 100).toFixed(1)}%`);
@@ -86,6 +107,9 @@ async function runPreflight() {
     console.log(`  📎 追跡可能: ${trackabilityResult.trackableCount}/${trackabilityResult.totalChecked}`);
     console.log(`  📏 薄いEvidence警告: ${specificityResult.thinWarnings}個`);
     console.log(`  🎯 整合性警告: ${alignmentResult.alignmentWarnings}個`);
+    console.log(`  🕐 鮮度警告: ${stalenessResult.warnings.length + stalenessResult.failures.length}個`);
+    console.log(`  📝 形式エラー: ${formatResult.formatErrors.length + formatResult.allEmpty.length}個`);
+    console.log(`  🔍 要再監査: ${reviewResult.needsReview.length}個`);
     console.log(`  🚨 未承認Evidence: ${unapproved.length}個`);
     
     console.log('\n🎯 次のステップ:');
@@ -93,6 +117,9 @@ async function runPreflight() {
     console.log('  2. Bronze断定表現を修正する');
     console.log('  3. DOI/PMID情報を追加する');
     console.log('  4. Evidence承認（human_approved=true）');
+    console.log('  5. 鮮度期限切れのEvidence再検証');
+    console.log('  6. 引用形式エラーの修正');
+    console.log('  7. 要再監査ステータスの解決');
     
     return {
         inventory,
@@ -102,6 +129,9 @@ async function runPreflight() {
         trackabilityResult,
         specificityResult,
         alignmentResult,
+        stalenessResult,
+        formatResult,
+        reviewResult,
         unapproved
     };
 }

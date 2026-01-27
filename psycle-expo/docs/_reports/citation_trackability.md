@@ -6,8 +6,8 @@
 
 | Metric | Value |
 |--------|-------|
-| Total Evidence Files Checked | 12 |
-| Citation Trackable | 12 (100.0%) |
+| Total Evidence Files Checked | 13 |
+| Citation Trackable | 13 (100.0%) |
 | Not Trackable | 0 |
 
 ## Trackability Rules
