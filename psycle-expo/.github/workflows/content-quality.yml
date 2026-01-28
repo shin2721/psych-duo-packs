@@ -61,7 +61,7 @@ jobs:
     
     # D-pack checks (WARNING on issues, but don't fail CI yet)
     - name: Verification Staleness Check
-      run: npm run lint:verification-staleness
+      run: npm run lint:staleness
       continue-on-error: true
     
     - name: Citation Format Check
