@@ -20,29 +20,40 @@ function createReleaseZip() {
         console.log('🗑️  既存zipを削除');
     }
     
-    // zipコマンドで除外指定（.envファイルを確実に除外）
-    console.log('📦 zipコマンドで生成中（.env除外）...');
+    // git archiveで生成（.gitignoreを尊重し、.envファイルを確実に除外）
+    console.log('📦 git archiveで生成中（.gitignore準拠）...');
     
-    const excludePatterns = [
-        '*.env*',
-        '.env*',
-        '.expo-dev.pid',
-        'node_modules/*',
-        'scripts/content-generator/node_modules/*',
-        'ios/Pods/*',
-        'ios/build/*',
-        '.git/*',
-        '.expo/*',
-        'android/build/*',
-        'docs/_reports/*',
-        'scripts/content-generator/.env*'
-    ];
-    
-    const excludeArgs = excludePatterns.map(pattern => `-x "${pattern}"`).join(' ');
-    execSync(`zip -r ${OUTPUT_ZIP} . ${excludeArgs}`, {
-        stdio: 'inherit'
-    });
-    console.log(`✅ zip生成完了: ${OUTPUT_ZIP}`);
+    try {
+        execSync(`git archive --format=zip --output=${OUTPUT_ZIP} HEAD`, {
+            stdio: 'inherit'
+        });
+        console.log(`✅ zip生成完了: ${OUTPUT_ZIP}`);
+    } catch (error) {
+        console.error('❌ git archive失敗:', error.message);
+        console.log('🔄 フォールバック: zipコマンドで生成...');
+        
+        // フォールバック: zipコマンドで除外指定
+        const excludePatterns = [
+            '*.env*',
+            '.env*',
+            '.expo-dev.pid',
+            'node_modules/*',
+            'scripts/content-generator/node_modules/*',
+            'ios/Pods/*',
+            'ios/build/*',
+            '.git/*',
+            '.expo/*',
+            'android/build/*',
+            'docs/_reports/*',
+            'scripts/content-generator/.env*'
+        ];
+        
+        const excludeArgs = excludePatterns.map(pattern => `-x "${pattern}"`).join(' ');
+        execSync(`zip -r ${OUTPUT_ZIP} . ${excludeArgs}`, {
+            stdio: 'inherit'
+        });
+        console.log(`✅ zip生成完了（フォールバック）: ${OUTPUT_ZIP}`);
+    }
     
     return OUTPUT_ZIP;
 }
@@ -57,9 +68,9 @@ function checkZipContents(zipFile) {
         // 危険ファイルの検出
         const dangerousFiles = [];
         
-        // .envファイルの検出
+        // .envファイルの検出（.env.exampleは除外）
         const envFiles = contents.split('\n').filter(line => 
-            line.includes('.env') && !line.includes('example')
+            line.includes('.env') && !line.includes('.env.example')
         );
         dangerousFiles.push(...envFiles);
         
