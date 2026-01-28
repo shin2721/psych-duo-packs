@@ -33,7 +33,7 @@ function extractCitations(evidenceData) {
             role: 'primary',
             source_type: evidenceData.source_type || 'unknown'
         };
-        
+
         if (isValidCitation(normalizedCitation)) {
             result.citations.push(normalizedCitation);
             result.primaryCitation = normalizedCitation;
@@ -51,10 +51,10 @@ function extractCitations(evidenceData) {
                 role: citation.role || 'supporting',
                 source_type: citation.source_type || evidenceData.source_type || 'unknown'
             };
-            
+
             if (isValidCitation(normalizedCitation)) {
                 result.citations.push(normalizedCitation);
-                
+
                 // Primary citation detection
                 if (citation.role === 'primary' || (!result.primaryCitation && result.citations.length === 1)) {
                     result.primaryCitation = normalizedCitation;
@@ -65,7 +65,7 @@ function extractCitations(evidenceData) {
 
     // 統計計算
     result.citationCount = result.citations.length;
-    
+
     for (const citation of result.citations) {
         if (citation.doi) result.hasDoi = true;
         if (citation.pmid) result.hasPmid = true;
@@ -109,6 +109,7 @@ function classifyCitations(citations) {
                 result.systematic.push(citation);
                 break;
             case 'meta':
+            case 'meta_analysis':
                 result.meta.push(citation);
                 break;
             case 'book':
@@ -181,7 +182,7 @@ function loadCorrespondingLesson(evidencePath) {
     try {
         const basename = path.basename(evidencePath, '.evidence.json');
         const lessonPath = path.join(path.dirname(evidencePath), `${basename}.ja.json`);
-        
+
         if (!fs.existsSync(lessonPath)) {
             return null;
         }
@@ -210,7 +211,7 @@ function collectAllEvidenceCards(options = {}) {
 
     for (const domain of domains) {
         const domainDir = path.join(LESSONS_ROOT, `${domain}_units`);
-        
+
         if (!fs.existsSync(domainDir)) {
             continue;
         }
@@ -222,7 +223,7 @@ function collectAllEvidenceCards(options = {}) {
         for (const evidenceFile of evidenceFiles) {
             const evidencePath = path.join(domainDir, evidenceFile);
             const evidenceCard = parseEvidenceCard(evidencePath);
-            
+
             if (evidenceCard) {
                 evidenceCards.push(evidenceCard);
             }
@@ -235,7 +236,7 @@ function collectAllEvidenceCards(options = {}) {
         if (fs.existsSync(stagingDir)) {
             for (const domain of domains) {
                 const stagingDomainDir = path.join(stagingDir, `${domain}_units`);
-                
+
                 if (!fs.existsSync(stagingDomainDir)) {
                     continue;
                 }
@@ -247,7 +248,7 @@ function collectAllEvidenceCards(options = {}) {
                 for (const evidenceFile of evidenceFiles) {
                     const evidencePath = path.join(stagingDomainDir, evidenceFile);
                     const evidenceCard = parseEvidenceCard(evidencePath);
-                    
+
                     if (evidenceCard) {
                         evidenceCard.isStaging = true;
                         evidenceCards.push(evidenceCard);

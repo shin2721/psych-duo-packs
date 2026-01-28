@@ -18,6 +18,7 @@ import { consumeFocus } from "../lib/focus";
 import { FirstExecutedCelebration } from "../components/FirstExecutedCelebration";
 import { hasCompletedFirstExecuted, markFirstExecutedComplete } from "../lib/onboarding";
 import { Analytics } from "../lib/analytics";
+import { formatCitation } from "../lib/evidenceUtils";
 
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
@@ -520,7 +521,7 @@ export default function LessonScreen() {
                     <View style={styles.theorySection}>
                       <Text style={styles.theoryText}>
                         このレッスンは、{"\n"}
-                        {ref.citation.split('(')[0].trim()}の研究に基づいています。
+                        {formatCitation(ref)}の研究に基づいています。
                       </Text>
                     </View>
                   )}

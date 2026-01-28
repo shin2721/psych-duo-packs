@@ -10,23 +10,23 @@ const path = require('path');
 
 function lintCitationFormat() {
     console.log('🔍 Citation Format チェック開始...');
-    
+
     const warnings = [];
     const reportsDir = 'docs/_reports';
-    
+
     // レポートディレクトリ作成
     if (!fs.existsSync(reportsDir)) {
         fs.mkdirSync(reportsDir, { recursive: true });
     }
-    
+
     const unitsDir = 'data/lessons';
-    const domains = fs.readdirSync(unitsDir).filter(dir => 
-        dir.endsWith('_units') && 
+    const domains = fs.readdirSync(unitsDir).filter(dir =>
+        dir.endsWith('_units') &&
         fs.statSync(path.join(unitsDir, dir)).isDirectory()
     );
-    
+
     let totalChecked = 0;
-    
+
     // 形式チェック関数
     function validateDOI(doi) {
         if (!doi || doi.trim() === '') return { valid: true, message: 'empty' };
@@ -36,7 +36,7 @@ function lintCitationFormat() {
         }
         return { valid: true, message: 'valid' };
     }
-    
+
     function validatePMID(pmid) {
         if (!pmid || pmid.trim() === '') return { valid: true, message: 'empty' };
         // PMIDは数値のみ
@@ -45,7 +45,7 @@ function lintCitationFormat() {
         }
         return { valid: true, message: 'valid' };
     }
-    
+
     function validateISBN(isbn) {
         if (!isbn || isbn.trim() === '') return { valid: true, message: 'empty' };
         // ISBN-10またはISBN-13形式（ハイフンありなし両対応）
@@ -55,7 +55,7 @@ function lintCitationFormat() {
         }
         return { valid: true, message: 'valid' };
     }
-    
+
     function validateURL(url) {
         if (!url || url.trim() === '') return { valid: true, message: 'empty' };
         // 基本的なURL形式チェック
@@ -64,85 +64,118 @@ function lintCitationFormat() {
         }
         return { valid: true, message: 'valid' };
     }
-    
+
     for (const domain of domains) {
         const domainPath = path.join(unitsDir, domain);
-        const evidenceFiles = fs.readdirSync(domainPath).filter(file => 
+        const evidenceFiles = fs.readdirSync(domainPath).filter(file =>
             file.endsWith('.evidence.json')
         );
-        
+
         console.log(`\n📁 Checking ${domain.replace('_units', '')}: ${evidenceFiles.length} evidence files`);
-        
+
         for (const file of evidenceFiles) {
             const filePath = path.join(domainPath, file);
             const basename = file.replace('.evidence.json', '');
-            
+
             try {
                 const evidence = JSON.parse(fs.readFileSync(filePath, 'utf8'));
                 totalChecked++;
-                
-                if (!evidence.citation) {
+
+                if (!evidence.citation && (!evidence.citations || evidence.citations.length === 0)) {
                     warnings.push({
                         file: basename,
                         domain: domain.replace('_units', ''),
                         issue: 'missing_citation',
-                        message: 'citation フィールドが存在しません'
+                        message: 'citation または citations フィールドが存在しません'
                     });
                     console.log(`  ⚠️  WARNING: ${basename} (citation missing)`);
                     continue;
                 }
-                
+
                 const citation = evidence.citation;
+                const citations = evidence.citations; // 新形式
+
                 let hasValidCitation = false;
                 const issues = [];
-                
-                // DOI チェック
-                if (citation.doi) {
-                    const doiCheck = validateDOI(citation.doi);
-                    if (!doiCheck.valid) {
-                        issues.push(`DOI: ${doiCheck.message}`);
-                    } else if (doiCheck.message === 'valid') {
-                        hasValidCitation = true;
+
+                // 新形式 citations[] チェック
+                let allCitationsEmpty = true;
+
+                if (citations && Array.isArray(citations) && citations.length > 0) {
+                    allCitationsEmpty = false;
+                    for (const cit of citations) {
+                        let citIssues = [];
+                        let citHasValid = false;
+
+                        // 各フィールドチェック
+                        if (cit.doi) {
+                            const doiCheck = validateDOI(cit.doi);
+                            if (!doiCheck.valid) citIssues.push(`DOI: ${doiCheck.message}`);
+                            else if (doiCheck.message === 'valid') citHasValid = true;
+                        }
+                        if (cit.pmid) {
+                            const pmidCheck = validatePMID(cit.pmid);
+                            if (!pmidCheck.valid) citIssues.push(`PMID: ${pmidCheck.message}`);
+                            else if (pmidCheck.message === 'valid') citHasValid = true;
+                        }
+                        if (cit.isbn) {
+                            const isbnCheck = validateISBN(cit.isbn);
+                            if (!isbnCheck.valid) citIssues.push(`ISBN: ${isbnCheck.message}`);
+                            else if (isbnCheck.message === 'valid') citHasValid = true;
+                        }
+                        if (cit.url) {
+                            const urlCheck = validateURL(cit.url);
+                            if (!urlCheck.valid) citIssues.push(`URL: ${urlCheck.message}`);
+                            else if (urlCheck.message === 'valid') citHasValid = true;
+                        }
+
+                        // 1つでも有効ならOK
+                        if (citHasValid) hasValidCitation = true;
+                        if (citIssues.length > 0) issues.push(...citIssues);
+                    }
+                } else if (citation) {
+                    // Legacy citation チェック
+                    allCitationsEmpty = false;
+
+                    // DOI チェック
+                    if (citation.doi) {
+                        const doiCheck = validateDOI(citation.doi);
+                        if (!doiCheck.valid) issues.push(`DOI: ${doiCheck.message}`);
+                        else if (doiCheck.message === 'valid') hasValidCitation = true;
+                    }
+
+                    // PMID チェック
+                    if (citation.pmid) {
+                        const pmidCheck = validatePMID(citation.pmid);
+                        if (!pmidCheck.valid) issues.push(`PMID: ${pmidCheck.message}`);
+                        else if (pmidCheck.message === 'valid') hasValidCitation = true;
+                    }
+
+                    // ISBN チェック
+                    if (citation.isbn) {
+                        const isbnCheck = validateISBN(citation.isbn);
+                        if (!isbnCheck.valid) issues.push(`ISBN: ${isbnCheck.message}`);
+                        else if (isbnCheck.message === 'valid') hasValidCitation = true;
+                    }
+
+                    // URL チェック
+                    if (citation.url) {
+                        const urlCheck = validateURL(citation.url);
+                        if (!urlCheck.valid) issues.push(`URL: ${urlCheck.message}`);
+                        else if (urlCheck.message === 'valid') hasValidCitation = true;
+                    }
+
+                    // Legacy形式での "全空" チェック (後続の処理で確認されるが念のため)
+                    if ((!citation.doi || citation.doi.trim() === '') &&
+                        (!citation.pmid || citation.pmid.trim() === '') &&
+                        (!citation.isbn || citation.isbn.trim() === '') &&
+                        (!citation.url || citation.url.trim() === '')) {
+                        allCitationsEmpty = true;
                     }
                 }
-                
-                // PMID チェック
-                if (citation.pmid) {
-                    const pmidCheck = validatePMID(citation.pmid);
-                    if (!pmidCheck.valid) {
-                        issues.push(`PMID: ${pmidCheck.message}`);
-                    } else if (pmidCheck.message === 'valid') {
-                        hasValidCitation = true;
-                    }
-                }
-                
-                // ISBN チェック
-                if (citation.isbn) {
-                    const isbnCheck = validateISBN(citation.isbn);
-                    if (!isbnCheck.valid) {
-                        issues.push(`ISBN: ${isbnCheck.message}`);
-                    } else if (isbnCheck.message === 'valid') {
-                        hasValidCitation = true;
-                    }
-                }
-                
-                // URL チェック
-                if (citation.url) {
-                    const urlCheck = validateURL(citation.url);
-                    if (!urlCheck.valid) {
-                        issues.push(`URL: ${urlCheck.message}`);
-                    } else if (urlCheck.message === 'valid') {
-                        hasValidCitation = true;
-                    }
-                }
-                
-                // 全て空欄チェック
-                const allEmpty = (!citation.doi || citation.doi.trim() === '') &&
-                               (!citation.pmid || citation.pmid.trim() === '') &&
-                               (!citation.isbn || citation.isbn.trim() === '') &&
-                               (!citation.url || citation.url.trim() === '');
-                
-                if (allEmpty) {
+
+                // 結果判定
+                if (allCitationsEmpty) {
                     warnings.push({
                         file: basename,
                         domain: domain.replace('_units', ''),
@@ -161,7 +194,9 @@ function lintCitationFormat() {
                 } else {
                     console.log(`  ✅ OK: ${basename}`);
                 }
-                
+
+
+
             } catch (error) {
                 console.error(`  ❌ ERROR: ${basename} - ${error.message}`);
                 warnings.push({
@@ -173,19 +208,19 @@ function lintCitationFormat() {
             }
         }
     }
-    
+
     // レポート生成
     const reportPath = path.join(reportsDir, 'citation_format.md');
     let report = `# Citation Format Report\n\n`;
     report += `Generated: ${new Date().toISOString().split('T')[0]}\n\n`;
-    
+
     report += `## Summary\n\n`;
     report += `- Total Checked: ${totalChecked}\n`;
     report += `- Format Errors: ${warnings.filter(w => w.issue === 'format_error').length}\n`;
     report += `- All Citations Empty: ${warnings.filter(w => w.issue === 'all_citations_empty').length}\n`;
     report += `- Missing Citation Field: ${warnings.filter(w => w.issue === 'missing_citation').length}\n`;
     report += `- Parse Errors: ${warnings.filter(w => w.issue === 'parse_error').length}\n\n`;
-    
+
     if (warnings.filter(w => w.issue === 'format_error').length > 0) {
         report += `## ⚠️ Format Errors\n\n`;
         for (const warning of warnings.filter(w => w.issue === 'format_error')) {
@@ -193,7 +228,7 @@ function lintCitationFormat() {
         }
         report += `\n`;
     }
-    
+
     if (warnings.filter(w => w.issue === 'all_citations_empty').length > 0) {
         report += `## ⚠️ All Citations Empty\n\n`;
         for (const warning of warnings.filter(w => w.issue === 'all_citations_empty')) {
@@ -201,7 +236,7 @@ function lintCitationFormat() {
         }
         report += `\n`;
     }
-    
+
     if (warnings.filter(w => w.issue === 'missing_citation').length > 0) {
         report += `## ⚠️ Missing Citation Field\n\n`;
         for (const warning of warnings.filter(w => w.issue === 'missing_citation')) {
@@ -209,7 +244,7 @@ function lintCitationFormat() {
         }
         report += `\n`;
     }
-    
+
     if (warnings.filter(w => w.issue === 'parse_error').length > 0) {
         report += `## ❌ Parse Errors\n\n`;
         for (const warning of warnings.filter(w => w.issue === 'parse_error')) {
@@ -217,26 +252,26 @@ function lintCitationFormat() {
         }
         report += `\n`;
     }
-    
+
     report += `## Format Requirements\n\n`;
     report += `- **DOI**: Must start with "10." (e.g., 10.1037/0003-066X.39.2.124)\n`;
     report += `- **PMID**: Must be numeric only (e.g., 17201571)\n`;
     report += `- **ISBN**: Must be valid ISBN-10 or ISBN-13 format\n`;
     report += `- **URL**: Must start with http:// or https://\n\n`;
-    
+
     report += `## Next Steps\n\n`;
     report += `1. Fix format errors in citation fields\n`;
     report += `2. Add at least one valid citation (DOI/PMID/ISBN/URL) to each evidence file\n`;
     report += `3. Verify that citations are accessible and correct\n`;
-    
+
     fs.writeFileSync(reportPath, report);
-    
+
     console.log(`\n📊 Citation Format チェック完了:`);
     console.log(`  📄 総チェック: ${totalChecked}`);
     console.log(`  ⚠️  形式エラー: ${warnings.filter(w => w.issue === 'format_error').length}`);
     console.log(`  ⚠️  全引用空欄: ${warnings.filter(w => w.issue === 'all_citations_empty').length}`);
     console.log(`  📝 レポート: ${reportPath}`);
-    
+
     return {
         totalChecked,
         formatErrors: warnings.filter(w => w.issue === 'format_error'),

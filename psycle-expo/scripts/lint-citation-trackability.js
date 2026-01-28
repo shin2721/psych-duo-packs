@@ -13,49 +13,66 @@ const REPORT_PATH = 'docs/_reports/citation_trackability.md';
 
 function lintCitationTrackability() {
     console.log('🔍 Citation Trackability チェック開始...');
-    
+
     // レポートディレクトリ作成
     const reportDir = path.dirname(REPORT_PATH);
     if (!fs.existsSync(reportDir)) {
         fs.mkdirSync(reportDir, { recursive: true });
     }
-    
+
     const domains = ['mental', 'money', 'work', 'health', 'social', 'study'];
     const warnings = [];
     let totalChecked = 0;
     let trackableCount = 0;
-    
+
     for (const domain of domains) {
         const domainDir = path.join(LESSONS_ROOT, `${domain}_units`);
-        
+
         if (!fs.existsSync(domainDir)) {
             continue;
         }
-        
+
         const evidenceFiles = fs.readdirSync(domainDir)
             .filter(f => f.endsWith('.evidence.json'))
             .sort();
-        
+
         console.log(`\n📁 Checking ${domain}: ${evidenceFiles.length} evidence files`);
-        
+
         for (const evidenceFile of evidenceFiles) {
             const evidencePath = path.join(domainDir, evidenceFile);
             const basename = evidenceFile.replace('.evidence.json', '');
-            
+
             totalChecked++;
-            
+
             try {
                 const evidenceData = JSON.parse(fs.readFileSync(evidencePath, 'utf-8'));
-                const citation = evidenceData.citation || {};
                 const sourceType = evidenceData.source_type || 'unknown';
-                
-                const hasDoi = !!(citation.doi && citation.doi.trim());
-                const hasPmid = !!(citation.pmid && citation.pmid.trim());
-                const hasIsbn = !!(citation.isbn && citation.isbn.trim());
-                const hasUrl = !!(citation.url && citation.url.trim());
-                
+
+                // citations[] を優先、fallback で legacy citation
+                let hasDoi = false;
+                let hasPmid = false;
+                let hasIsbn = false;
+                let hasUrl = false;
+
+                if (evidenceData.citations && Array.isArray(evidenceData.citations) && evidenceData.citations.length > 0) {
+                    // 新形式: citations[] をチェック
+                    for (const cit of evidenceData.citations) {
+                        if (cit.doi && cit.doi.trim()) hasDoi = true;
+                        if (cit.pmid && cit.pmid.trim()) hasPmid = true;
+                        if (cit.isbn && cit.isbn.trim()) hasIsbn = true;
+                        if (cit.url && cit.url.trim()) hasUrl = true;
+                    }
+                } else {
+                    // Legacy: citation オブジェクトをチェック
+                    const citation = evidenceData.citation || {};
+                    hasDoi = !!(citation.doi && citation.doi.trim());
+                    hasPmid = !!(citation.pmid && citation.pmid.trim());
+                    hasIsbn = !!(citation.isbn && citation.isbn.trim());
+                    hasUrl = !!(citation.url && citation.url.trim());
+                }
+
                 const isTrackable = hasDoi || hasPmid || hasIsbn || hasUrl;
-                
+
                 if (isTrackable) {
                     trackableCount++;
                     const trackingMethods = [];
@@ -63,7 +80,7 @@ function lintCitationTrackability() {
                     if (hasPmid) trackingMethods.push('PMID');
                     if (hasIsbn) trackingMethods.push('ISBN');
                     if (hasUrl) trackingMethods.push('URL');
-                    
+
                     console.log(`  ✅ TRACKABLE: ${basename} (${sourceType} → ${trackingMethods.join(', ')})`);
                 } else {
                     warnings.push({
@@ -79,25 +96,25 @@ function lintCitationTrackability() {
             }
         }
     }
-    
+
     // レポート生成
     const reportContent = generateTrackabilityReport(warnings, totalChecked, trackableCount);
     fs.writeFileSync(REPORT_PATH, reportContent);
-    
+
     console.log(`\n📊 Citation Trackability チェック完了:`);
     console.log(`  📄 総チェック: ${totalChecked}`);
     console.log(`  ✅ 追跡可能: ${trackableCount}`);
     console.log(`  ❌ 追跡不可: ${warnings.length}`);
     console.log(`  📈 追跡可能率: ${((trackableCount / totalChecked) * 100).toFixed(1)}%`);
     console.log(`  📝 レポート: ${REPORT_PATH}`);
-    
+
     return { warnings, totalChecked, trackableCount };
 }
 
 function generateTrackabilityReport(warnings, totalChecked, trackableCount) {
     const warningCount = warnings.length;
     const trackabilityPercent = ((trackableCount / totalChecked) * 100).toFixed(1);
-    
+
     let markdown = `# Citation Trackability Report
 
 > Generated: ${new Date().toISOString().split('T')[0]}
@@ -125,7 +142,7 @@ function generateTrackabilityReport(warnings, totalChecked, trackableCount) {
         markdown += `✅ All evidence files have citation trackability.\n`;
     } else {
         markdown += `❌ Found ${warningCount} evidence files without citation trackability:\n\n`;
-        
+
         for (const warning of warnings) {
             markdown += `### ${warning.file}
 
@@ -138,7 +155,7 @@ function generateTrackabilityReport(warnings, totalChecked, trackableCount) {
 `;
         }
     }
-    
+
     markdown += `
 ## Recommended Actions
 

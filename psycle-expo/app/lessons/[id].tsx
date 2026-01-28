@@ -14,6 +14,7 @@ import { sortQuestionsByAdaptiveDifficulty } from "../../lib/adaptiveSelection";
 import { getDifficultyRating } from "../../lib/difficultyMapping";
 import { XPGainAnimation } from "../../components/XPGainAnimation";
 import { Analytics } from "../../lib/analytics";
+import { formatCitation } from "../../lib/evidenceUtils";
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -290,7 +291,7 @@ export default function LessonScreen() {
                               </Text>
                             </View>
                           )}
-                          <Text style={styles.refCitation}>{ref.citation}</Text>
+                          <Text style={styles.refCitation}>{formatCitation(ref)}</Text>
                         </View>
                         <Text style={styles.refNoteText}>└ {ref.note}</Text>
                       </View>
