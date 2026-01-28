@@ -29,9 +29,10 @@ function createReleaseZip() {
         '.expo-dev.pid',
         'node_modules/*',
         'scripts/content-generator/node_modules/*',
+        'ios/Pods/*',
+        'ios/build/*',
         '.git/*',
         '.expo/*',
-        'ios/build/*',
         'android/build/*',
         'docs/_reports/*',
         'scripts/content-generator/.env*'
