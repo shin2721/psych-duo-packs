@@ -43,7 +43,6 @@ npm run web        # Launch web version
 npm run tunnel
 
 # Content generation
-npm run fetch      # Fetch academic papers from PubMed/Crossref
 npm run questions  # Generate MCQ questions from papers
 ```
 
@@ -154,17 +153,6 @@ Example: When "認知的再評価" appears in a question, displays:
 To add new terms: Edit `conceptHints` Record in `lib/conceptHints.ts`.
 
 ## Content Generation Pipeline
-
-### Academic Source Fetching
-```bash
-node scripts/fetch_sources.mjs
-```
-Fetches peer-reviewed papers from PubMed and Crossref:
-- **Sources**: 645 papers across 6 units
-- **Filters**: 2012+, humans-only, excludes case reports/editorials
-- **Priority**: PubMed results (have abstracts) over Crossref
-- **Output**: `data/sources.json`
-- **Configuration**: `MAX_PER_UNIT`, `UNIT_QUERIES`, `FROM_YEAR` in script
 
 ### Automatic Question Generation (Recommended)
 ```bash
