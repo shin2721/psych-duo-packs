@@ -20,37 +20,28 @@ function createReleaseZip() {
         console.log('🗑️  既存zipを削除');
     }
     
-    // git archiveを使用してクリーンなzipを作成
-    // git管理されているファイルのみが含まれ、.gitignoreが適用される
-    try {
-        console.log('📦 git archiveでzip生成中...');
-        execSync(`git archive --format=zip --prefix=psycle-expo/ -o ${OUTPUT_ZIP} HEAD`, {
-            stdio: 'inherit'
-        });
-        console.log(`✅ zip生成完了: ${OUTPUT_ZIP}`);
-    } catch (error) {
-        console.error('❌ git archive失敗:', error.message);
-        console.log('📦 fallback: zipコマンドで生成中...');
-        
-        // fallback: zipコマンドで除外指定
-        const excludePatterns = [
-            '*.env*',
-            '.env*',
-            '.expo-dev.pid',
-            'node_modules/*',
-            '.git/*',
-            '.expo/*',
-            'ios/build/*',
-            'android/build/*',
-            'docs/_reports/*'
-        ];
-        
-        const excludeArgs = excludePatterns.map(pattern => `-x "${pattern}"`).join(' ');
-        execSync(`zip -r ${OUTPUT_ZIP} . ${excludeArgs}`, {
-            stdio: 'inherit'
-        });
-        console.log(`✅ zip生成完了: ${OUTPUT_ZIP}`);
-    }
+    // zipコマンドで除外指定（.envファイルを確実に除外）
+    console.log('📦 zipコマンドで生成中（.env除外）...');
+    
+    const excludePatterns = [
+        '*.env*',
+        '.env*',
+        '.expo-dev.pid',
+        'node_modules/*',
+        'scripts/content-generator/node_modules/*',
+        '.git/*',
+        '.expo/*',
+        'ios/build/*',
+        'android/build/*',
+        'docs/_reports/*',
+        'scripts/content-generator/.env*'
+    ];
+    
+    const excludeArgs = excludePatterns.map(pattern => `-x "${pattern}"`).join(' ');
+    execSync(`zip -r ${OUTPUT_ZIP} . ${excludeArgs}`, {
+        stdio: 'inherit'
+    });
+    console.log(`✅ zip生成完了: ${OUTPUT_ZIP}`);
     
     return OUTPUT_ZIP;
 }
