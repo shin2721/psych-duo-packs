@@ -1,14 +1,16 @@
 [
     {
         "id": "health_l01_001",
-        "type": "swipe_judgment",
-        "question": "布団に入ってから30分以上、なかなか眠れないことがある。",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "よくある",
-            "right": "あまりない"
-        },
-        "explanation": "入眠困難は珍しくない。問題は「眠ろう」と頑張るほど逆効果になる傾向があること。",
+        "type": "conversation",
+        "question": "最近、布団に入ってから「眠れない...」と感じる時間はどのくらい？",
+        "your_response_prompt": "体感でOKです",
+        "choices": [
+            "30分以上（焦ってくる）",
+            "10-20分くらい",
+            "5分以内（すぐ落ちる）"
+        ],
+        "recommended_index": null,
+        "explanation": "30分以上が続くと辛いですね。実は「眠ろう」と努力するほど、脳は覚醒して逆効果になることが分かっています。",
         "actionable_advice": null,
         "difficulty": "easy",
         "xp": 5,
@@ -76,8 +78,8 @@
             "left": "心当たりある",
             "right": "そうでもない"
         },
-        "explanation": "ブルーライトだけでなく、スマホの刺激的なコンテンツが認知的覚醒を高める傾向がある。ただし、スマホが入眠儀式になっている人もいるので、一概には言えない。",
-        "actionable_advice": null,
+        "explanation": "スマホのコンテンツは「もっと見たい」というドーパミンを出し、脳を覚醒させる。ブルーライト以上に、情報の刺激が眠りを妨げる。",
+        "actionable_advice": "💡 今夜だけ：ベッドに入る30分前にスマホを充電器に繋ぐ（手元に置かない）",
         "difficulty": "easy",
         "xp": 5,
         "source_id": "Cain_2010",

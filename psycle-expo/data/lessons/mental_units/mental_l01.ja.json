@@ -1,14 +1,16 @@
 [
     {
         "id": "mental_l01_001",
-        "type": "swipe_judgment",
-        "question": "金曜22:40、帰りの埼京線。上司の「それ、前も言ったよね」が頭でリピートしてる。",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "よくある",
-            "right": "あまりない"
-        },
-        "explanation": "これは「反芻思考」。実は'考えて解決'じゃなく、脳の自動再生のこともある。",
+        "type": "conversation",
+        "question": "今週、「あの時ああ言えばよかった...」と、同じ場面が頭の中で3回以上リピートしたことはある？",
+        "your_response_prompt": "直感で答えてください",
+        "choices": [
+            "3回以上ある（かなりモヤモヤ）",
+            "1-2回はある",
+            "ない（スッキリしている）"
+        ],
+        "recommended_index": null,
+        "explanation": "それを「反芻（はんすう）思考」と呼ぶ。実は「反省」とは別物で、脳がエラー音を自動再生している状態に近い。",
         "actionable_advice": null,
         "difficulty": "easy",
         "xp": 5,
@@ -40,8 +42,8 @@
             "性格的にイライラしやすいから"
         ],
         "correct_index": 0,
-        "explanation": "出来事より先に「脅威かも」という反応が起きやすいことがある。同じ遅延でも焦らない人がいるのはそのため。（「電車のせい」や「性格」と思いがちだけど、それだと万人同じ反応になるはず）",
-        "actionable_advice": null,
+        "explanation": "出来事より先に「脅威かも」という反応が起きやすいことがある。心拍数が上がり、焦りや不安が生まれるのは身体の自然な反応。（「電車のせい」や「性格」と思いがちだけど、それだと万人同じ反応になるはず）",
+        "actionable_advice": "💡 焦りを感じたら：「これは身体の反応だ」とラベルを貼るだけでいい",
         "difficulty": "easy",
         "xp": 5,
         "source_id": "Lazarus_1984",
@@ -73,8 +75,8 @@
             "left": "解釈にある",
             "right": "出来事にある"
         },
-        "explanation": "これが理論の核心。ただし、合わない人もいて当然。",
-        "actionable_advice": null,
+        "explanation": "これが理論の核心。出来事は変えられなくても、解釈（どう受け取るか）への介入余地は残されている。",
+        "actionable_advice": "💡 試してみる：不快な出来事を「カメラ越しに見ている」と想像してみる",
         "difficulty": "medium",
         "xp": 5,
         "source_id": "Lazarus_1984",

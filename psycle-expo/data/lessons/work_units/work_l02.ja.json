@@ -1,14 +1,16 @@
 [
   {
     "id": "work_l02_001",
-    "type": "swipe_judgment",
-    "question": "タスクを始める前に「完璧にやらなきゃ」と思って、手が止まることがある。",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "よくある",
-      "right": "あまりない"
-    },
-    "explanation": "完璧主義は先延ばしにつながりやすい要因の1つ。「まず1行だけ」「1クリックだけ」から始めると、着手抵抗が下がることがある。",
+    "type": "conversation",
+    "question": "今週、「やらなきゃ」と思いながら先延ばしにしたタスク、いくつ思い当たる？",
+    "your_response_prompt": "正直に数えてみよう",
+    "choices": [
+      "4個以上（けっこう溜めてる）",
+      "1-3個くらい",
+      "0個（即処理できてる）"
+    ],
+    "recommended_index": null,
+    "explanation": "実はその先延ばし、「意志の弱さ」ではなく「完璧主義」がブレーキをかけている可能性がある。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
@@ -41,8 +43,8 @@
       "やる気が出るまで待つ"
     ],
     "correct_index": 0,
-    "explanation": "「ファイルを開く」という物理動作が、脳を「作業モード」に切り替えるきっかけになることがある。（「完璧な計画」「やる気を待つ」は先延ばしになりやすい）",
-    "actionable_advice": null,
+    "explanation": "「ファイルを開く」という物理動作が、脳を「作業モード」に切り替えるきっかけになる。やる気を待つ必要はない。",
+    "actionable_advice": "💡 今すぐ：PCの前に座り、ドキュメントを1つ開くだけ（中身は書かなくていい）",
     "difficulty": "easy",
     "xp": 5,
     "source_id": "Gollwitzer_1999",
