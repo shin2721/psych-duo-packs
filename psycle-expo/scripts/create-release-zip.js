@@ -9,7 +9,7 @@ const { execSync } = require('child_process');
 const fs = require('fs');
 const path = require('path');
 
-const OUTPUT_ZIP = 'psycle-expo-release.zip';
+const OUTPUT_ZIP = process.env.HOME + '/Desktop/psycle-expo.zip';
 
 function createReleaseZip() {
     console.log('🚀 リリース用zip生成開始...');
