@@ -1,21 +1,48 @@
 {
-  "source_type": "book",
-  "citation": {
-    "doi": "",
-    "pmid": "",
-    "url": "https://www.amazon.com/Your-Perfect-Right-Assertiveness-Relationships/dp/1886230854",
-    "isbn": "978-1886230859"
-  },
-  "source_label": "Alberti & Emmons (2001) - Your Perfect Right: Assertiveness and Equality in Your Life",
-  "claim": "断れない傾向は「相手を傷つけたくない」「嫌われたくない」という気持ちの表れがある。「今は決められない」という保留の表現を使うことで即答のプレッシャーから解放されやすくなる傾向がある",
-  "limitations": "文化・関係性によって「断る」の適切さは異なる。1回の断りで関係が終わることは稀だが、ゼロではない。上司や権力関係がある場面では別のアプローチが必要。社交不安が強い場合は段階的な練習が有効な場合がある。DV等の危険な関係では専門機関（配偶者暴力相談支援センター等）への相談を優先",
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "systematic_review",
+      "doi": "10.1016/j.ijnurstu.2017.09.001",
+      "pmid": "28964979",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28964979/",
+      "label": "Omura et al. (2017) - Effectiveness of assertive communication training programs for healthcare professionals and students: A SR"
+    },
+    {
+      "role": "supporting",
+      "source_type": "rct",
+      "doi": "10.1186/s40359-023-01154-x",
+      "pmid": "37032337",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37032337/",
+      "label": "Ahmadi et al. (2023) - Assertiveness training RCT on self-esteem and mental health"
+    },
+    {
+      "role": "background",
+      "source_type": "classic",
+      "doi": "",
+      "pmid": "",
+      "url": "https://www.amazon.com/Your-Perfect-Right-Assertiveness-Relationships/dp/1886230854",
+      "isbn": "978-1886230859",
+      "label": "Alberti & Emmons (2001) - Your Perfect Right"
+    }
+  ],
+  "source_label": "Omura et al. (2017) SR + Ahmadi et al. (2023) RCT + Alberti & Emmons (2001)",
+  "claim": "断りにくいと感じたとき、「今は決められない」と保留の表現を使うと、即答プレッシャーから解放されやすくなる可能性がある。アサーティブ訓練は自己肯定感やコミュニケーション能力を高める傾向がある",
+  "limitations": "文化・関係性によって「断る」の適切さは異なる。1回の断りで関係が終わることは稀だが、ゼロではない。上司や権力関係がある場面では別のアプローチが必要。社交不安が強い場合は段階的な練習が有効。DV等の危険な関係では専門機関（配偶者暴力相談支援センター：0120-279-338）への相談を優先",
+  "effect_size_note": "アサーティブ訓練の効果は小〜中程度と報告されることが多い",
   "evidence_grade": "silver",
   "confidence": "medium",
   "status": "active",
-  "last_verified": "2026-01-27",
+  "last_verified": "2026-01-28",
   "generated_by": "mode_a",
   "review": {
     "human_approved": true,
     "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
   }
 }

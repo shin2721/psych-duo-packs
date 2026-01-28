@@ -1,20 +1,39 @@
 {
   "source_type": "peer_reviewed",
-  "citation": {
-    "doi": "10.1037/0033-2909.133.1.65",
-    "pmid": "17201571",
-    "url": "https://psycnet.apa.org/doi/10.1037/0033-2909.133.1.65"
-  },
-  "source_label": "Steel (2007) - The Nature of Procrastination: A Meta-Analytic Review",
-  "claim": "先延ばしは意志力の問題ではなく、タスクの不快さを避けようとする自然な傾向がある。タスクを細分化したり、始め方を工夫することで改善する可能性がある",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "meta_analysis",
+      "doi": "10.1037/0033-2909.133.1.65",
+      "pmid": "17201571",
+      "url": "https://psycnet.apa.org/doi/10.1037/0033-2909.133.1.65",
+      "label": "Steel (2007) - The Nature of Procrastination: A Meta-Analytic Review"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.3389/fpsyg.2018.01588",
+      "pmid": "30202353",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30202353/",
+      "label": "Rozental et al. (2018) - Targeting procrastination using psychological treatments: A SR and MA"
+    }
+  ],
+  "source_label": "Steel (2007) procrastination MA + Rozental et al. (2018) intervention MA",
+  "claim": "仕事に取りかかれないとき、「まず5分だけ」と決めてPCを開くだけで、その後も作業を続けやすくなる可能性がある。タスクを細分化することで心理的抵抗が減る傾向がある",
   "limitations": "先延ばしが適応的なケースもある（情報待ち、優先度の自然な調整など）。ADHDや完璧主義が背景にある場合は別のアプローチが必要。バーンアウト傾向の場合は休息が最優先。職場環境や上司の指示による場合はテクニックでは解決しない",
+  "effect_size_note": "先延ばしへのCBT介入の効果は中程度と報告されている",
   "evidence_grade": "silver",
   "confidence": "high",
   "status": "active",
-  "last_verified": "2026-01-27",
+  "last_verified": "2026-01-28",
   "generated_by": "mode_a",
   "review": {
     "human_approved": true,
     "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
   }
 }

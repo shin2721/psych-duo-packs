@@ -16,6 +16,24 @@ const { lintVerificationStaleness } = require('./lint-verification-staleness.js'
 const { lintCitationFormat } = require('./lint-citation-format.js');
 const { lintNeedsReview } = require('./lint-needs-review.js');
 
+/**
+ * Evidence Quality Automation実行（try-catchでエラーハンドリング）
+ */
+async function runEvidenceQualityWithErrorHandling() {
+    try {
+        const { lintEvidenceQuality } = require('./lint-evidence-quality.js');
+        return await lintEvidenceQuality();
+    } catch (error) {
+        console.error('⚠️  Evidence Quality Automation エラー:', error.message);
+        console.log('   既存のリンターは継続実行されます');
+        return {
+            multipleCitations: { warnings: 0, errors: 0 },
+            bookSources: { warnings: 0, errors: 0 },
+            safetyDisplay: { warnings: 0, errors: 0 }
+        };
+    }
+}
+
 async function runPreflight() {
     console.log('🚀 Content Preflight Check 開始...');
     console.log('=====================================\n');
@@ -80,8 +98,14 @@ async function runPreflight() {
     
     console.log('\n' + '='.repeat(50) + '\n');
     
-    // 11. 未承認Evidence警告
-    console.log('⚠️  Step 11: 未承認Evidence警告...');
+    // 11. Evidence Quality Automation (新規)
+    console.log('🔍 Step 11: Evidence Quality Automation...');
+    const evidenceQualityResult = await runEvidenceQualityWithErrorHandling();
+    
+    console.log('\n' + '='.repeat(50) + '\n');
+    
+    // 12. 未承認Evidence警告
+    console.log('⚠️  Step 12: 未承認Evidence警告...');
     const unapproved = inventory.filter(item => item.humanApproved === 'false');
     
     if (unapproved.length > 0) {
@@ -97,7 +121,7 @@ async function runPreflight() {
     
     console.log('\n' + '='.repeat(50) + '\n');
     
-    // 12. 最終サマリー
+    // 13. 最終サマリー
     console.log('📊 Preflight Check 完了サマリー:');
     console.log(`  📄 総レッスン数: ${inventory.length}`);
     console.log(`  📋 Evidence網羅率: ${((inventory.filter(i => i.hasEvidence).length / inventory.length) * 100).toFixed(1)}%`);
@@ -111,6 +135,10 @@ async function runPreflight() {
     console.log(`  📝 形式エラー: ${formatResult.formatErrors.length + formatResult.allEmpty.length}個`);
     console.log(`  🔍 要再監査: ${reviewResult.needsReview.length}個`);
     console.log(`  🚨 未承認Evidence: ${unapproved.length}個`);
+    console.log(`  📊 引用品質警告: ${(evidenceQualityResult.multipleCitations?.warnings || 0) + (evidenceQualityResult.bookSources?.warnings || 0) + (evidenceQualityResult.safetyDisplay?.warnings || 0)}個`);
+    console.log(`    - 単一ソース: ${evidenceQualityResult.multipleCitations?.singleSourceCount || 0}個`);
+    console.log(`    - 書籍偏重: ${evidenceQualityResult.bookSources?.bookHeavyCount || 0}個`);
+    console.log(`    - 確率言語不足: ${evidenceQualityResult.safetyDisplay?.missingProbabilityCount || 0}個`);
     
     console.log('\n🎯 次のステップ:');
     console.log('  1. 未承認Evidenceの中身を埋める（Antigravity担当）');
@@ -120,6 +148,9 @@ async function runPreflight() {
     console.log('  5. 鮮度期限切れのEvidence再検証');
     console.log('  6. 引用形式エラーの修正');
     console.log('  7. 要再監査ステータスの解決');
+    console.log('  8. 単一ソース依存の解消（2番目の引用追加）');
+    console.log('  9. 書籍偏重パターンの改善（peer-reviewed追加）');
+    console.log('  10. Bronze evidenceの確率言語追加');
     
     return {
         inventory,
@@ -132,7 +163,8 @@ async function runPreflight() {
         stalenessResult,
         formatResult,
         reviewResult,
-        unapproved
+        unapproved,
+        evidenceQualityResult
     };
 }
 

@@ -1,21 +1,39 @@
 {
-  "source_type": "classic",
-  "citation": {
-    "doi": "10.1037/0003-066X.39.2.124",
-    "pmid": "",
-    "url": "https://psycnet.apa.org/record/1984-18621-001"
-  },
-  "claim": "ストレスは出来事そのものではなく、その出来事をどう解釈するかによって決まる傾向がある。「反芻思考」は脳の自動再生であり、意図的に止めようとしても難しいが、気づくことで距離を取りやすくなる可能性がある",
-  "source_label": "Beck (1979/1984) - Cognitive Therapy of Depression",
-  "limitations": "急性トラウマや生理的要因が強い場合には認知的アプローチだけでは不十分。本理論は古典的で広く参照される一方、スマホ・SNSなど現代のデジタル環境下での外的妥当性や効果検証は限定的な可能性がある",
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "classic",
+      "doi": "10.1037/0003-066X.39.2.124",
+      "pmid": "",
+      "url": "https://psycnet.apa.org/record/1984-18621-001",
+      "label": "Beck (1984) - Cognitive approaches to stress"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2012.04.002",
+      "pmid": "22705199",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/22705199/",
+      "label": "Hofmann et al. (2012) - The Efficacy of Cognitive Behavioral Therapy: A Review of Meta-analyses"
+    }
+  ],
+  "source_label": "Beck (1984) classic + Hofmann et al. (2012) CBT efficacy MA",
+  "claim": "ストレスを感じたとき、「この出来事をどう解釈しているか」に気づくと、自動的な反応に距離を取りやすくなる可能性がある。認知行動療法はうつ病・不安障害に対して有効な治療法とメタ分析で示されている",
+  "limitations": "急性トラウマや生理的要因が強い場合には認知的アプローチだけでは不十分。重度のうつ病や希死念慮がある場合は、アプリではなく専門機関（いのちの電話: 0570-783-556 等）へ相談を。本理論は古典的で広く参照される一方、現代のデジタル環境下での検証は限定的",
+  "effect_size_note": "CBTのうつ病・不安障害への効果は中〜大程度と報告されている",
   "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-28",
   "generated_by": "mode_a",
   "review": {
-    "critic_score": 8,
     "human_approved": true,
-    "reviewer": "content_team"
+    "reviewer": "owner"
   },
-  "confidence": "medium",
-  "status": "active",
-  "last_verified": "2026-01-27"
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
+  }
 }

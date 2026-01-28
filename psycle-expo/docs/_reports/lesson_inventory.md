@@ -1,6 +1,6 @@
 # Lesson Inventory Report
 
-> Generated: 2026-01-27
+> Generated: 2026-01-28
 
 ## Summary
 
@@ -10,30 +10,30 @@
 | With Evidence | 13 |
 | Without Evidence | 0 |
 | Evidence Coverage | 100.0% |
-| DOI Available | 9 (69.2%) |
-| PMID Available | 7 (53.8%) |
-| ISBN Available | 4 (30.8%) |
-| URL Available | 13 (100.0%) |
-| Citation Trackable | 13 (100.0%) |
+| DOI Available | 0 (0.0%) |
+| PMID Available | 0 (0.0%) |
+| ISBN Available | 0 (0.0%) |
+| URL Available | 0 (0.0%) |
+| Citation Trackable | 0 (0.0%) |
 | Unapproved Evidence | 0 (0.0%) |
 
 ## Detailed Inventory
 
 | Domain | Basename | Questions | Evidence | DOI | PMID | ISBN | URL | Human Approved | Status |
 |--------|----------|-----------|----------|-----|------|------|-----|----------------|--------|
-| mental | mental_l01 | 10 | Y | Y | N | N | Y | true | ✅ |
-| mental | mental_l02 | 10 | Y | N | N | Y | Y | true | ✅ |
-| mental | mental_l03 | 10 | Y | Y | N | N | Y | true | ✅ |
-| mental | mental_l04 | 10 | Y | Y | Y | N | Y | true | ✅ |
-| mental | mental_l05 | 10 | Y | Y | Y | N | Y | true | ✅ |
-| mental | mental_l06 | 10 | Y | Y | Y | N | Y | true | ✅ |
-| money | money_l01 | 10 | Y | N | N | Y | Y | true | ✅ |
-| work | work_l01 | 10 | Y | Y | Y | N | Y | true | ✅ |
-| work | work_l02 | 10 | Y | Y | Y | N | Y | true | ✅ |
-| health | health_l01 | 10 | Y | Y | Y | N | Y | true | ✅ |
-| social | social_l01 | 10 | Y | N | N | Y | Y | true | ✅ |
-| social | social_l02 | 10 | Y | N | N | Y | Y | true | ✅ |
-| study | study_l01 | 10 | Y | Y | Y | N | Y | true | ✅ |
+| mental | mental_l01 | 10 | Y | N | N | N | N | true | ✅ |
+| mental | mental_l02 | 10 | Y | N | N | N | N | true | ✅ |
+| mental | mental_l03 | 10 | Y | N | N | N | N | true | ✅ |
+| mental | mental_l04 | 10 | Y | N | N | N | N | true | ✅ |
+| mental | mental_l05 | 10 | Y | N | N | N | N | true | ✅ |
+| mental | mental_l06 | 10 | Y | N | N | N | N | true | ✅ |
+| money | money_l01 | 10 | Y | N | N | N | N | true | ✅ |
+| work | work_l01 | 10 | Y | N | N | N | N | true | ✅ |
+| work | work_l02 | 10 | Y | N | N | N | N | true | ✅ |
+| health | health_l01 | 10 | Y | N | N | N | N | true | ✅ |
+| social | social_l01 | 10 | Y | N | N | N | N | true | ✅ |
+| social | social_l02 | 10 | Y | N | N | N | N | true | ✅ |
+| study | study_l01 | 10 | Y | N | N | N | N | true | ✅ |
 
 ## Missing Evidence Files
 
@@ -41,7 +41,20 @@
 
 ## Citation Status
 
-✅ All evidence files have citation trackability (DOI/PMID/ISBN/URL).
+❌ Evidence files missing citation trackability:
+- `data/lessons/mental_units/mental_l01.evidence.json`
+- `data/lessons/mental_units/mental_l02.evidence.json`
+- `data/lessons/mental_units/mental_l03.evidence.json`
+- `data/lessons/mental_units/mental_l04.evidence.json`
+- `data/lessons/mental_units/mental_l05.evidence.json`
+- `data/lessons/mental_units/mental_l06.evidence.json`
+- `data/lessons/money_units/money_l01.evidence.json`
+- `data/lessons/work_units/work_l01.evidence.json`
+- `data/lessons/work_units/work_l02.evidence.json`
+- `data/lessons/health_units/health_l01.evidence.json`
+- `data/lessons/social_units/social_l01.evidence.json`
+- `data/lessons/social_units/social_l02.evidence.json`
+- `data/lessons/study_units/study_l01.evidence.json`
 
 ## Approval Status
 

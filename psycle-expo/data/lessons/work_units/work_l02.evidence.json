@@ -1,20 +1,39 @@
 {
   "source_type": "peer_reviewed",
-  "citation": {
-    "doi": "10.1037/0003-066X.54.7.493",
-    "pmid": "10424155",
-    "url": "https://psycnet.apa.org/doi/10.1037/0003-066X.54.7.493"
-  },
-  "source_label": "Gollwitzer (1999) - Implementation Intentions: Strong Effects of Simple Plans",
-  "claim": "実行意図（いつ・どこで・何をするかを具体的に決めておくこと）が行動開始のハードルを下げる傾向がある。物理動作でタスクを開始すると心理的抵抗が減る可能性がある",
-  "limitations": "全員に効くわけではない。動機づけが低い場合は実行意図だけでは不十分な場合がある。複雑なタスクには効果が限定的な場合がある。本研究は1999年時点のものであり、現代のデジタル環境下での効果検証は限定的な可能性がある",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "foundational",
+      "doi": "10.1037/0003-066X.54.7.493",
+      "pmid": "10424155",
+      "url": "https://psycnet.apa.org/doi/10.1037/0003-066X.54.7.493",
+      "label": "Gollwitzer (1999) - Implementation Intentions: Strong Effects of Simple Plans"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/S0065-2601(06)38002-1",
+      "pmid": "",
+      "url": "https://doi.org/10.1016/S0065-2601(06)38002-1",
+      "label": "Gollwitzer & Sheeran (2006) - Implementation Intentions and Goal Achievement: A MA"
+    }
+  ],
+  "source_label": "Gollwitzer (1999) + Gollwitzer & Sheeran (2006) MA",
+  "claim": "「朝9時にデスクに座ったら、まずメールを開く」のように「いつ・どこで・何を」を具体的に決めておくと、行動を起こしやすくなる可能性がある。実行意図は目標達成率を高める傾向がメタ分析で示されている",
+  "limitations": "全員に効くわけではない。動機づけが低い場合は実行意図だけでは不十分な場合がある。複雑なタスクには効果が限定的な場合がある。習慣形成には繰り返しが必要",
+  "effect_size_note": "実行意図の目標達成への効果は中〜大程度（d≈0.65）と報告されている",
   "evidence_grade": "silver",
   "confidence": "high",
   "status": "active",
-  "last_verified": "2026-01-27",
+  "last_verified": "2026-01-28",
   "generated_by": "mode_a",
   "review": {
     "human_approved": true,
     "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
   }
 }

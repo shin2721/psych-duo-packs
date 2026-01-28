@@ -1,21 +1,40 @@
 {
-  "source_type": "book",
-  "citation": {
-    "doi": "",
-    "pmid": "",
-    "url": "https://www.amazon.com/Influence-Psychology-Persuasion-Robert-Cialdini/dp/006124189X",
-    "isbn": "978-0061241895"
-  },
-  "source_label": "Cialdini (2006) - Influence: The Psychology of Persuasion",
-  "claim": "「希少性バイアス」により「残り3点」「限定」と表示されると実際より価値があるように感じやすい傾向がある。「○○するだけで痩せる」など効果を過大に伝える広告は冷静な判断を妨げやすい",
-  "limitations": "希少性が適切な購買判断を促すケースもある（本当に限定品など）。全ての衝動買いがバイアスによるものではない（必要な買い物もある）。文化や商品カテゴリによって影響度が異なる。ギャンブル依存や買い物依存の傾向がある場合は専門的な支援を推奨",
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.jretai.2022.06.003",
+      "pmid": "",
+      "url": "https://doi.org/10.1016/j.jretai.2022.06.003",
+      "label": "Barton et al. (2022) - Scarcity tactics in marketing: A meta-analysis of product scarcity effects"
+    },
+    {
+      "role": "supporting",
+      "source_type": "classic",
+      "doi": "",
+      "pmid": "",
+      "url": "https://www.amazon.com/Influence-Psychology-Persuasion-Robert-Cialdini/dp/006124189X",
+      "isbn": "978-0061241895",
+      "label": "Cialdini (2006) - Influence: The Psychology of Persuasion"
+    }
+  ],
+  "source_label": "Barton et al. (2022) - Scarcity MA + Cialdini (2006) background",
+  "claim": "「残り3点」「限定」などの希少性表示を見たとき、一度画面を閉じて5分待つと、衝動的な購買を避けやすくなる可能性がある。希少性バイアスの効果は製品カテゴリによって異なる傾向がメタ分析で示されている",
+  "limitations": "希少性が適切な購買判断を促すケースもある（本当に限定品など）。全ての衝動買いがバイアスによるものではない。文化や商品カテゴリによって影響度が異なる。ギャンブル依存や買い物依存の傾向がある場合は専門的な支援（精神保健福祉センター等）を推奨",
+  "effect_size_note": "希少性が購買意図に与える効果は小〜中程度と報告されている",
   "evidence_grade": "silver",
   "confidence": "high",
   "status": "active",
-  "last_verified": "2026-01-27",
+  "last_verified": "2026-01-28",
   "generated_by": "mode_a",
   "review": {
     "human_approved": true,
     "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
   }
 }

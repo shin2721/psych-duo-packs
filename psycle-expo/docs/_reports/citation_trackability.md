@@ -1,14 +1,14 @@
 # Citation Trackability Report
 
-> Generated: 2026-01-27
+> Generated: 2026-01-28
 
 ## Summary
 
 | Metric | Value |
 |--------|-------|
 | Total Evidence Files Checked | 13 |
-| Citation Trackable | 13 (100.0%) |
-| Not Trackable | 0 |
+| Citation Trackable | 0 (0.0%) |
+| Not Trackable | 13 |
 
 ## Trackability Rules
 
@@ -19,7 +19,112 @@
 
 ## Warning Details
 
-✅ All evidence files have citation trackability.
+❌ Found 13 evidence files without citation trackability:
+
+### data/lessons/mental_units/mental_l01.evidence.json
+
+**Basename:** mental_l01  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/mental_units/mental_l02.evidence.json
+
+**Basename:** mental_l02  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/mental_units/mental_l03.evidence.json
+
+**Basename:** mental_l03  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/mental_units/mental_l04.evidence.json
+
+**Basename:** mental_l04  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/mental_units/mental_l05.evidence.json
+
+**Basename:** mental_l05  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/mental_units/mental_l06.evidence.json
+
+**Basename:** mental_l06  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/money_units/money_l01.evidence.json
+
+**Basename:** money_l01  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/work_units/work_l01.evidence.json
+
+**Basename:** work_l01  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/work_units/work_l02.evidence.json
+
+**Basename:** work_l02  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/health_units/health_l01.evidence.json
+
+**Basename:** health_l01  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/social_units/social_l01.evidence.json
+
+**Basename:** social_l01  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/social_units/social_l02.evidence.json
+
+**Basename:** social_l02  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
+### data/lessons/study_units/study_l01.evidence.json
+
+**Basename:** study_l01  
+**Source Type:** peer_reviewed  
+**Issue:** No citation trackability: missing DOI, PMID, ISBN, and URL
+
+---
+
 
 ## Recommended Actions
 

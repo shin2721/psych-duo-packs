@@ -1,6 +1,6 @@
 # Evidence Specificity Report
 
-> Generated: 2026-01-27
+> Generated: 2026-01-28
 
 ## Summary
 
@@ -19,19 +19,19 @@
 
 | Domain | Basename | Source Label | Claim Len | Limitations Len | Has Limitations | Trackable Type | Last Verified | Status | Warning |
 |--------|----------|--------------|-----------|-----------------|-----------------|----------------|---------------|--------|---------|
-| mental | mental_l01 | Y | 99 | 95 | Y | DOI,URL | 2026-01-27 | active | ✅ OK |
-| mental | mental_l02 | Y | 88 | 121 | Y | ISBN,URL | 2026-01-27 | active | ✅ OK |
-| mental | mental_l03 | Y | 45 | 102 | Y | DOI,URL | 2026-01-27 | active | ✅ OK |
-| mental | mental_l04 | Y | 70 | 107 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
-| mental | mental_l05 | Y | 92 | 127 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
-| mental | mental_l06 | Y | 84 | 171 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
-| money | money_l01 | Y | 89 | 116 | Y | ISBN,URL | 2026-01-27 | active | ✅ OK |
-| work | work_l01 | Y | 72 | 110 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
-| work | work_l02 | Y | 78 | 106 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
-| health | health_l01 | Y | 65 | 100 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
-| social | social_l01 | Y | 90 | 138 | Y | ISBN,URL | 2026-01-27 | active | ✅ OK |
-| social | social_l02 | Y | 103 | 103 | Y | ISBN,URL | 2026-01-27 | active | ✅ OK |
-| study | study_l01 | Y | 98 | 108 | Y | DOI,PMID,URL | 2026-01-27 | active | ✅ OK |
+| mental | mental_l01 | Y | 95 | 129 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| mental | mental_l02 | Y | 85 | 105 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| mental | mental_l03 | Y | 73 | 77 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| mental | mental_l04 | Y | 95 | 106 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| mental | mental_l05 | Y | 71 | 127 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| mental | mental_l06 | Y | 85 | 171 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| money | money_l01 | Y | 97 | 118 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| work | work_l01 | Y | 80 | 110 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| work | work_l02 | Y | 96 | 74 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| health | health_l01 | Y | 78 | 100 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| social | social_l01 | Y | 94 | 144 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| social | social_l02 | Y | 86 | 103 | Y | NONE | 2026-01-28 | active | ✅ OK |
+| study | study_l01 | Y | 83 | 108 | Y | NONE | 2026-01-28 | active | ✅ OK |
 
 ## Thin Evidence Details
 

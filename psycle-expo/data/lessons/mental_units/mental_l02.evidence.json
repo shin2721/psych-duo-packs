@@ -1,21 +1,40 @@
 {
-  "source_type": "book",
-  "citation": {
-    "doi": "",
-    "pmid": "",
-    "url": "https://psycnet.apa.org/record/1984-11044-000",
-    "isbn": "978-0826141910"
-  },
-  "source_label": "Lazarus & Folkman (1984) - Stress, Appraisal, and Coping",
-  "claim": "同じ出来事でも「どう解釈するか（認知的評価）」によって心理的反応が変わる可能性がある。一次評価（脅威判定）と二次評価（対処可能性）の組み合わせがストレス強度に影響する傾向がある",
-  "limitations": "理論理解だけでは行動変容に直結しにくい。身体的な病気や生理的要因が強いケースでは認知アプローチだけでは不十分な場合がある。本理論は古典的で広く参照される一方、スマホ・SNSなど現代のデジタル環境下での外的妥当性や効果検証は限定的な可能性がある",
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2009.11.004",
+      "pmid": "20015584",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20015584/",
+      "label": "Aldao et al. (2010) - Emotion-regulation strategies across psychopathology: A meta-analytic review"
+    },
+    {
+      "role": "supporting",
+      "source_type": "classic",
+      "doi": "",
+      "pmid": "",
+      "url": "https://psycnet.apa.org/record/1984-11044-000",
+      "isbn": "978-0826141910",
+      "label": "Lazarus & Folkman (1984) - Stress, Appraisal, and Coping"
+    }
+  ],
+  "source_label": "Aldao et al. (2010) - Emotion regulation MA + Lazarus & Folkman (1984) background",
+  "claim": "ストレスを感じたとき、その出来事の「解釈を変える（認知的再評価）」と、心理的反応が変わりやすくなる可能性がある。反芻や抑制より再評価が適応的な傾向がメタ分析で示されている",
+  "limitations": "理論理解だけでは行動変容に直結しにくい。身体的な病気や生理的要因が強いケースでは認知アプローチだけでは不十分な場合がある。重度のうつ病や不安障害では専門的な治療が必要。効果の大きさは中程度と報告されることが多い",
+  "effect_size_note": "再評価と精神病理症状の関連は中程度の負の相関（r≈−0.3）と報告されている",
   "evidence_grade": "silver",
   "confidence": "high",
   "status": "active",
-  "last_verified": "2026-01-27",
+  "last_verified": "2026-01-28",
   "generated_by": "mode_a",
   "review": {
     "human_approved": true,
     "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
   }
 }

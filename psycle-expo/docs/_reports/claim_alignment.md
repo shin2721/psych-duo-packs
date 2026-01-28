@@ -1,14 +1,14 @@
 # Claim Alignment Report
 
-> Generated: 2026-01-27
+> Generated: 2026-01-28
 
 ## Summary
 
 | Metric | Value |
 |--------|-------|
 | Total Lessons Checked | 13 |
-| Alignment Warnings | 0 |
-| Alignment Success Rate | 100.0% |
+| Alignment Warnings | 13 |
+| Alignment Success Rate | 0.0% |
 
 ## Alignment Rules
 
@@ -22,23 +22,115 @@
 
 | Domain | Basename | Evidence | Issues | Status |
 |--------|----------|----------|--------|--------|
-| mental | mental_l01 | Y | None | ✅ OK |
-| mental | mental_l02 | Y | None | ✅ OK |
-| mental | mental_l03 | Y | None | ✅ OK |
-| mental | mental_l04 | Y | None | ✅ OK |
-| mental | mental_l05 | Y | None | ✅ OK |
-| mental | mental_l06 | Y | None | ✅ OK |
-| money | money_l01 | Y | None | ✅ OK |
-| work | work_l01 | Y | None | ✅ OK |
-| work | work_l02 | Y | None | ✅ OK |
-| health | health_l01 | Y | None | ✅ OK |
-| social | social_l01 | Y | None | ✅ OK |
-| social | social_l02 | Y | None | ✅ OK |
-| study | study_l01 | Y | None | ✅ OK |
+| mental | mental_l01 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| mental | mental_l02 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| mental | mental_l03 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| mental | mental_l04 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| mental | mental_l05 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| mental | mental_l06 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| money | money_l01 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| work | work_l01 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| work | work_l02 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| health | health_l01 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| social | social_l01 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| social | social_l02 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
+| study | study_l01 | Y | No trackable citation (DOI/PMID/ISBN/URL) | ⚠️ WARNING |
 
 ## Alignment Issues Details
 
-✅ No alignment issues found.
+⚠️ Found 13 lessons with alignment issues:
+
+### mental/mental_l01
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### mental/mental_l02
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### mental/mental_l03
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### mental/mental_l04
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### mental/mental_l05
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### mental/mental_l06
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### money/money_l01
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### work/work_l01
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### work/work_l02
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### health/health_l01
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### social/social_l01
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### social/social_l02
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
+### study/study_l01
+
+**Issues:**
+- No trackable citation (DOI/PMID/ISBN/URL)
+
+---
+
 
 ## Recommended Actions
 

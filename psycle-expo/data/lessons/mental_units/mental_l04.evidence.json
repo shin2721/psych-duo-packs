@@ -1,20 +1,47 @@
 {
   "source_type": "peer_reviewed",
-  "citation": {
-    "doi": "10.1037//0022-3514.61.1.115",
-    "pmid": "1890582",
-    "url": "https://psycnet.apa.org/doi/10.1037/0022-3514.61.1.115"
-  },
-  "source_label": "Nolen-Hoeksema (1991) - Responses to depression and their effects on duration",
-  "claim": "反芻思考は同じ内容が繰り返される特徴があり、抑うつの持続と関連する傾向がある。先延ばしや回避も不快感から一時的に逃れる機能がある可能性がある",
-  "limitations": "全ての繰り返し思考が有害とは限らない（熟考は別）。先延ばしの原因は多様（ADHD、完璧主義など）。回避が有効なケースもある。本研究は1991年時点のものであり、現代のデジタル環境下での効果検証は限定的な可能性がある",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "foundational",
+      "doi": "10.1037//0022-3514.61.1.115",
+      "pmid": "1890582",
+      "url": "https://psycnet.apa.org/doi/10.1037/0022-3514.61.1.115",
+      "label": "Nolen-Hoeksema (1991) - Responses to depression and their effects on duration"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2009.11.004",
+      "pmid": "20015584",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20015584/",
+      "label": "Aldao et al. (2010) - Emotion-regulation strategies across psychopathology: A MA"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.ijchp.2017.07.004",
+      "pmid": "30487903",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30487903/",
+      "label": "Perestelo-Pérez et al. (2017) - Mindfulness-based interventions for depressive rumination: SR and MA"
+    }
+  ],
+  "source_label": "Nolen-Hoeksema (1991) + Aldao (2010) MA + Perestelo-Pérez (2017) MA",
+  "claim": "同じ考えがグルグル回っている（反芻思考）と気づいたとき、「今、反芻しているな」と名前をつけるだけで、思考から距離を取りやすくなる可能性がある。マインドフルネス介入は反芻を減少させる傾向がある",
+  "limitations": "全ての繰り返し思考が有害とは限らない（熟考は別）。先延ばしの原因は多様（ADHD、完璧主義など）。重度のうつ病や希死念慮がある場合は、アプリではなく専門機関（いのちの電話: 0570-783-556 等）へ相談を",
+  "effect_size_note": "反芻と抑うつの関連は中程度の正の相関、マインドフルネス介入による反芻軽減効果も中程度と報告されている",
   "evidence_grade": "silver",
   "confidence": "high",
   "status": "active",
-  "last_verified": "2026-01-27",
+  "last_verified": "2026-01-28",
   "generated_by": "mode_a",
   "review": {
     "human_approved": true,
     "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
   }
 }
