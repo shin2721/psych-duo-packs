@@ -26,6 +26,14 @@
       "label": "文化差研究 - 東アジア文化圏でのアサーション効果の限界を示唆（条件付き）"
     },
     {
+      "role": "supporting",
+      "source_type": "rct",
+      "doi": "10.1016/j.jad.2019.02.043",
+      "pmid": "30825746",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30825746/",
+      "label": "Vagos et al. (2019) - アサーション訓練の効果は小程度で個人差大とするRCT"
+    },
+    {
       "role": "background",
       "source_type": "classic",
       "doi": "",
@@ -35,10 +43,10 @@
       "label": "Alberti & Emmons (2001) - Your Perfect Right"
     }
   ],
-  "source_label": "Omura et al. (2017) SR + Ahmadi et al. (2023) RCT + 文化差研究 + Alberti & Emmons (2001)",
+  "source_label": "Omura et al. (2017) SR + Ahmadi et al. (2023) RCT + 文化差研究 + Vagos et al. (2019) + Alberti & Emmons (2001)",
   "claim": "断りにくいと感じたとき、「今は決められない」と保留の表現を使うと、即答プレッシャーから解放されやすくなる可能性がある。アサーティブ訓練は自己肯定感やコミュニケーション能力を高める傾向がある",
-  "limitations": "文化・関係性によって「断る」の適切さは異なる（東アジア圏では集団調和・上下関係が優先され効果が減弱する報告あり）。上司や権力関係がある場面では別のアプローチが必要。訓練初期に攻撃的に見える過補償が起きやすい。社交不安が強い場合は段階的な練習が有効。DV等の危険な関係では専門機関（配偶者暴力相談支援センター：0120-279-338）への相談を優先",
-  "effect_size_note": "ストレス軽減 d=0.52（中）、不安 d=0.30（小）、抑うつ d=0.21（小）、自己主張度 d=0.38（小〜中）。看護師対象では d=0.22（小）と報告。効果は小〜中程度で安定",
+  "limitations": "東アジア圏では集団調和優先で効果減弱。権力関係がある場面では不適切。訓練初期の過補償リスク（攻撃的に見える）。社交不安が強い場合は段階的練習が必要",
+  "effect_size_note": "Omura et al. SR: ストレス軽減 d=0.52（中）、不安 d=0.30（小）。Ahmadi et al.: 自己主張度 d=0.38（小〜中）。Vagos et al.: 効果は小程度で個人差大と報告",
   "evidence_grade": "silver",
   "confidence": "medium",
   "status": "active",

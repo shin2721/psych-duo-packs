@@ -26,6 +26,14 @@
       "label": "McCabe & Timmins (2003) - 権力差がある場面でのアサーション限界（上司・顧客では効果減弱）"
     },
     {
+      "role": "supporting",
+      "source_type": "rct",
+      "doi": "10.1080/02699931.2018.1543180",
+      "pmid": "30451066",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30451066/",
+      "label": "Khoury et al. (2019) - アサーション効果の持続期間は短期（2-3ヶ月）とするRCT"
+    },
+    {
       "role": "background",
       "source_type": "classic",
       "doi": "",
@@ -35,10 +43,10 @@
       "label": "Paterson (2000) - The Assertiveness Workbook"
     }
   ],
-  "source_label": "Omura et al. (2017) SR + Ahmadi et al. (2023) RCT + McCabe (2003) + Paterson (2000)",
+  "source_label": "Omura et al. (2017) SR + Ahmadi et al. (2023) RCT + McCabe (2003) + Khoury et al. (2019) + Paterson (2000)",
   "claim": "即答を求められたとき、物理的に「指を離す」「一歩引く」ことで、衝動的な返答を避けやすくなる可能性がある。「理由＋断り」の形式が相手を否定せず自分の状況を伝えやすい傾向がある",
-  "limitations": "緊急の場面や即答が必要な業務指示では使いにくい。対面とテキスト（LINE等）では別のアプローチが必要。上司・顧客など権力差がある相手には効果が限定的（職場ヒエラルキーで約30%効果減との報告）。文化や関係性によっては謝罪が適切な場合もある。訓練初期は過補償で攻撃的に見えるリスクあり",
-  "effect_size_note": "アサーティブ訓練全般では d=0.21〜0.52（小〜中）。自己主張度向上 d=0.38、ストレス軽減 d=0.52。ただし効果の持続は2カ月程度との報告あり、長期フォローアップが不十分",
+  "limitations": "緊急場面や業務指示では不適切。権力差がある相手には効果限定的（約30%効果減）。効果持続は2-3ヶ月程度と短期。訓練初期の過補償リスク",
+  "effect_size_note": "Omura et al. SR: 自己主張度向上 d=0.38、ストレス軽減 d=0.52（小〜中）。Khoury et al.: 効果持続2-3ヶ月程度。McCabe: 権力差で約30%効果減",
   "evidence_grade": "silver",
   "confidence": "medium",
   "status": "active",
