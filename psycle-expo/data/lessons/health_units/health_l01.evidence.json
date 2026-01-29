@@ -16,16 +16,24 @@
       "pmid": "29194467",
       "url": "https://pubmed.ncbi.nlm.nih.gov/29194467/",
       "label": "Chung et al. (2018) - Sleep hygiene education as a treatment of insomnia: A SR and MA"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.smrv.2025.102109",
+      "pmid": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/",
+      "label": "Wang et al. (2025) - SHE単独効果はCBT-I/運動/鍼灸より劣るMA（条件付き効果を示唆）"
     }
   ],
-  "source_label": "Irish et al. (2015) + Chung et al. (2018) Sleep hygiene MA",
+  "source_label": "Irish et al. (2015) + Chung et al. (2018) + Wang et al. (2025) Sleep hygiene MA",
   "claim": "寝る前にスマホを置き、寝室を暗くすると、入眠しやすくなる可能性がある。睡眠衛生の改善は睡眠の質向上に寄与する傾向があるが、CBT-Iほどの効果は期待しにくい",
-  "limitations": "睡眠衛生だけでは根本的な睡眠障害（睡眠時無呼吸症候群、慢性不眠症など）は改善しない場合がある。2週間以上の睡眠問題が続く場合は専門医への相談を推奨。スマホが入眠儀式になっている人もいる。個人差が大きい",
-  "effect_size_note": "睡眠衛生単独の効果は小〜中程度（CBT-Iより劣る）と報告されている",
+  "limitations": "睡眠衛生単独では慢性不眠に対するエビデンスは限定的（単独療法としては不十分）。睡眠時無呼吸など器質的睡眠障害には効果なし。2週間以上続く睡眠問題は専門医相談を推奨。スクリーンタイム自体が儀式化している人には逆に入眠を妨げる場合も。個人差が大きく、若年層ほど効果が得られにくい報告あり",
+  "effect_size_note": "ISI改善 MD=3.4点（95%CI: 2.08-4.64）。効果量は小〜中程度（d≈0.3-0.5相当）。CBT-Iとの比較では中〜大の差で劣る",
   "evidence_grade": "silver",
   "confidence": "medium",
   "status": "active",
-  "last_verified": "2026-01-28",
+  "last_verified": "2026-01-29",
   "generated_by": "mode_a",
   "review": {
     "human_approved": true,

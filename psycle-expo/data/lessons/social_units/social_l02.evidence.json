@@ -18,6 +18,14 @@
       "label": "Ahmadi et al. (2023) - Assertiveness training RCT on self-esteem and mental health"
     },
     {
+      "role": "supporting",
+      "source_type": "review",
+      "doi": "10.1111/j.1365-2648.2004.03173.x",
+      "pmid": "",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/",
+      "label": "McCabe & Timmins (2003) - 権力差がある場面でのアサーション限界（上司・顧客では効果減弱）"
+    },
+    {
       "role": "background",
       "source_type": "classic",
       "doi": "",
@@ -27,14 +35,14 @@
       "label": "Paterson (2000) - The Assertiveness Workbook"
     }
   ],
-  "source_label": "Omura et al. (2017) SR + Ahmadi et al. (2023) RCT + Paterson (2000)",
+  "source_label": "Omura et al. (2017) SR + Ahmadi et al. (2023) RCT + McCabe (2003) + Paterson (2000)",
   "claim": "即答を求められたとき、物理的に「指を離す」「一歩引く」ことで、衝動的な返答を避けやすくなる可能性がある。「理由＋断り」の形式が相手を否定せず自分の状況を伝えやすい傾向がある",
-  "limitations": "緊急の場面や即答が必要な業務指示では使いにくい。対面とテキスト（LINE等）では別のアプローチが必要。文化や関係性によっては謝罪が適切な場合もある。上司・顧客など権力差がある相手には効果が限定的な場合がある",
-  "effect_size_note": "アサーティブ訓練の効果は小〜中程度と報告されることが多い",
+  "limitations": "緊急の場面や即答が必要な業務指示では使いにくい。対面とテキスト（LINE等）では別のアプローチが必要。上司・顧客など権力差がある相手には効果が限定的（職場ヒエラルキーで約30%効果減との報告）。文化や関係性によっては謝罪が適切な場合もある。訓練初期は過補償で攻撃的に見えるリスクあり",
+  "effect_size_note": "アサーティブ訓練全般では d=0.21〜0.52（小〜中）。自己主張度向上 d=0.38、ストレス軽減 d=0.52。ただし効果の持続は2カ月程度との報告あり、長期フォローアップが不十分",
   "evidence_grade": "silver",
   "confidence": "medium",
   "status": "active",
-  "last_verified": "2026-01-28",
+  "last_verified": "2026-01-29",
   "generated_by": "mode_a",
   "review": {
     "human_approved": true,
