@@ -13,15 +13,15 @@
       "role": "supporting",
       "source_type": "meta_analysis",
       "doi": "10.3389/fpsyg.2018.01588",
-      "pmid": "30202353",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/30202353/",
-      "label": "Rozental et al. (2018) - Targeting procrastination using psychological treatments: A SR and MA"
+      "pmid": "30214421",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30214421/",
+      "label": "Rozental et al. (2018) - 心理的介入の効果は小程度（g=0.34）とするMA"
     }
   ],
   "source_label": "Steel (2007) procrastination MA + Rozental et al. (2018) intervention MA",
   "claim": "仕事に取りかかれないとき、「まず5分だけ」と決めてPCを開くだけで、その後も作業を続けやすくなる可能性がある。タスクを細分化することで心理的抵抗が減る傾向がある",
-  "limitations": "先延ばしが適応的なケースもある（情報待ち、優先度の自然な調整など）。ADHDや完璧主義が背景にある場合は別のアプローチが必要。バーンアウト傾向の場合は休息が最優先。職場環境や上司の指示による場合はテクニックでは解決しない",
-  "effect_size_note": "先延ばしへのCBT介入の効果は中程度と報告されている",
+  "limitations": "ADHDや完璧主義が背景にある場合は別のアプローチが必要。バーンアウト傾向の場合は休息が最優先。職場環境・上司の指示が原因の場合はテクニックでは解決しない",
+  "effect_size_note": "Rozental et al. (2018) MA: 介入 vs 統制で g=0.34（95%CI: 0.11-0.56, 小）。CBTサブグループでは g=0.55（95%CI: 0.32-0.77, 中）。[DOI:10.3389/fpsyg.2018.01588, PMID:30214421]",
   "evidence_grade": "silver",
   "confidence": "high",
   "status": "active",
