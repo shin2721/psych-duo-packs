@@ -21,7 +21,7 @@
   "source_label": "Sirois & Pychyl (2013) + Rozental et al. (2018) procrastination intervention MA",
   "claim": "勉強を始められないとき、「10秒だけやる」と決めて教科書を開くだけで、その後も続けやすくなる可能性がある。先延ばしは意志力の問題ではなく感情調整の問題という見方がある",
   "limitations": "慢性的な無気力や抑うつ傾向がある場合は別のアプローチが必要。本当に疲れているときは休息優先。ADHDなど注意制御に困難がある場合は専門的な支援が有効",
-  "effect_size_note": "Rozental et al. (2018) MA: 先延ばしへの心理的介入の効果は小〜中程度（g=0.34, 95%CI: 0.11-0.56）[DOI:10.3389/fpsyg.2018.01588]",
+  "effect_size_note": "Rozental et al. (2018) MA: 先延ばしへの心理的介入の効果は小〜中程度（g=0.34, 95%CI: 0.11-0.56）。ただし効果には個人差があり、重度の先延ばしには限定的 [DOI:10.3389/fpsyg.2018.01588, PMID:30214421]",
   "evidence_grade": "silver",
   "confidence": "high",
   "status": "active",
