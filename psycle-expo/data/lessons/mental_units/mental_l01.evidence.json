@@ -16,12 +16,20 @@
       "pmid": "22705199",
       "url": "https://pubmed.ncbi.nlm.nih.gov/22705199/",
       "label": "Hofmann et al. (2012) - The Efficacy of Cognitive Behavioral Therapy: A Review of Meta-analyses"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2024.102428",
+      "pmid": "38657292",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38657292/",
+      "label": "Webb et al. (2024) - 認知的再評価の効果は中程度だが個人差が大きいMA"
     }
   ],
-  "source_label": "Beck (1984) classic + Hofmann et al. (2012) CBT efficacy MA",
+  "source_label": "Beck (1984) classic + Hofmann et al. (2012) CBT efficacy MA + Webb et al. (2024) MA",
   "claim": "ストレスを感じたとき、「この出来事をどう解釈しているか」に気づくと、自動的な反応に距離を取りやすくなる可能性がある。認知行動療法はうつ病・不安障害に対して有効な治療法とメタ分析で示されている",
-  "limitations": "急性トラウマや生理的要因が強い場合には認知的アプローチだけでは不十分。重度のうつ病や希死念慮がある場合は、アプリではなく専門機関（いのちの電話: 0570-783-556 等）へ相談を。本理論は古典的で広く参照される一方、現代のデジタル環境下での検証は限定的",
-  "effect_size_note": "CBTのうつ病・不安障害への効果は中〜大程度と報告されている",
+  "limitations": "急性トラウマや生理的要因が強い場合には認知的アプローチだけでは不十分。重度のうつ病や希死念慮がある場合は専門機関（いのちの電話: 0570-783-556 等）へ相談を。現代のデジタル環境下での検証は限定的",
+  "effect_size_note": "Hofmann et al. (2012) MA: CBTのうつ病・不安障害への効果は中〜大程度。Webb et al. (2024)では認知的再評価の効果は中程度だが個人差が大きい [DOI:10.1016/j.cpr.2012.04.002, DOI:10.1016/j.cpr.2024.102428]",
   "evidence_grade": "silver",
   "confidence": "high",
   "status": "active",
