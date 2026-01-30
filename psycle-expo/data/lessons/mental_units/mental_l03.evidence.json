@@ -24,6 +24,14 @@
       "pmid": "38657292",
       "url": "https://pubmed.ncbi.nlm.nih.gov/38657292/",
       "label": "Webb et al. (2024) - Cognitive reappraisal and personal resilience: A MA"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1017/S2045796024000611",
+      "pmid": "39501660",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39501660/",
+      "label": "Cuijpers et al. (2024) - 心理療法の効果量は待機群比較で過大推定される傾向MA"
     }
   ],
   "source_label": "Gross (1998) + Lieberman (2007) fMRI + Webb (2024) MA",
