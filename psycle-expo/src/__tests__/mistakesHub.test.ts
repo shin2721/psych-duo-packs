@@ -6,11 +6,20 @@ import {
 } from "../features/mistakesHub";
 
 describe("mistakesHub", () => {
-  const now = Date.now();
+  const now = new Date("2026-01-31T00:00:00.000Z").getTime();
   const oneDayAgo = now - 24 * 60 * 60 * 1000;
   const twoDaysAgo = now - 2 * 24 * 60 * 60 * 1000;
   const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
   const thirtyOneDaysAgo = now - 31 * 24 * 60 * 60 * 1000;
+
+  beforeAll(() => {
+    jest.useFakeTimers();
+    jest.setSystemTime(now);
+  });
+
+  afterAll(() => {
+    jest.useRealTimers();
+  });
 
   describe("selectMistakesHubItems", () => {
     test("過去30日以内のイベントのみ対象", () => {
