@@ -57,7 +57,7 @@ for keyword in "${RULE_KEYWORDS[@]}"; do
     # 正本以外でキーワードを検索
     if command -v rg >/dev/null 2>&1; then
         # ripgrepが利用可能な場合
-        MATCHES=$(rg -l "$keyword" --type-not=json --glob="!$CANONICAL_SOURCE" --glob="!data/lessons/**" --glob="!node_modules/**" --glob="!.git/**" . 2>/dev/null || true)
+        MATCHES=$(rg -l "$keyword" --type-not=json --glob="!$CANONICAL_SOURCE" --glob="!data/lessons/**" --glob="!node_modules/**" --glob="!.git/**" data/lessons 2>/dev/null || true)
     else
         # grepを使用 (正本と自分自身は除外)
         MATCHES=$(grep -r -l -E "$keyword" . $EXCLUDE_ARGS --exclude="$(basename "$CANONICAL_SOURCE")" --exclude="$(basename "$0")" 2>/dev/null | grep -v "^\./$CANONICAL_SOURCE$" || true)

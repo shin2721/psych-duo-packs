@@ -40,7 +40,27 @@ interface Props {
   onInterventionExecuted?: (questionId: string) => void;
 }
 
+export const getQuestionText = (question: Question) => question.text ?? question.question ?? "";
+
+export const getQuestionChoices = (question: Question) => question.choices ?? [];
+
+export const isChoiceCorrect = (question: Question, index: number | null | undefined) => {
+  if (typeof index !== "number") return false;
+  if (typeof question.correct_index !== "number") return false;
+  return index === question.correct_index;
+};
+
+export const areSelectAllAnswersCorrect = (question: Question, selectedIndexes: number[]) => {
+  if (!question.correct_answers) return true;
+  const sortedSelected = [...selectedIndexes].sort();
+  const sortedCorrect = [...question.correct_answers].sort();
+  return JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
+};
+
 export function QuestionRenderer({ question, onContinue, onComboChange, onInterventionAttempted, onInterventionExecuted }: Props) {
+  const questionText = getQuestionText(question);
+  const questionChoices = getQuestionChoices(question);
+
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]); // For select_all
   const [revealedIndexes, setRevealedIndexes] = useState<number[]>([]); // For select_all immediate feedback
@@ -132,9 +152,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
         console.log("correct_answers:", question.correct_answers);
       }
 
-      const sortedSelected = [...selectedIndexes].sort();
-      const sortedCorrect = [...question.correct_answers].sort();
-      const allCorrectSelected = JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
+      const allCorrectSelected = areSelectAllAnswersCorrect(question, selectedIndexes);
 
       // Check if any wrong answer is selected
       const hasWrongAnswer = selectedIndexes.some(idx => !question.correct_answers?.includes(idx));
@@ -193,7 +211,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
     setSelectedIndex(index);
     setShowResult(true);
 
-    const isCorrect = index === question.correct_index;
+    const isCorrect = isChoiceCorrect(question, index);
 
     if (isCorrect) {
       HapticFeedback.success();
@@ -449,17 +467,17 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
           {/* 問題文 */}
           {question.type === "conversation" ? (
             <View style={styles.conversationBubble}>
-              <Text style={styles.conversationBubbleText}>{question.question}</Text>
+              <Text style={styles.conversationBubbleText}>{questionText}</Text>
             </View>
           ) : (
             /* Question Text */
-            <Text style={styles.questionText}>{question.question}</Text>
+            <Text style={styles.questionText}>{questionText}</Text>
           )}
 
           {/* タイプ別レンダリング */}
           {question.type === "multiple_choice" && (
             <MultipleChoice
-              choices={question.choices}
+              choices={questionChoices}
               selectedIndex={selectedIndex}
               correctIndex={question.correct_index}
               showResult={showResult}
@@ -469,7 +487,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
 
           {question.type === "true_false" && (
             <TrueFalse
-              choices={question.choices}
+              choices={questionChoices}
               selectedIndex={selectedIndex}
               correctIndex={question.correct_index}
               showResult={showResult}
@@ -479,7 +497,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
 
           {question.type === "fill_blank" && (
             <FillBlank
-              choices={question.choices}
+              choices={questionChoices}
               selectedIndex={selectedIndex}
               correctIndex={question.correct_index}
               showResult={showResult}
@@ -498,7 +516,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
             });
             return (
               <QuickReflex
-                choices={question.choices}
+                choices={questionChoices}
                 selectedIndex={selectedIndex}
                 correctIndex={question.correct_index || 0}
                 showResult={showResult}
@@ -528,7 +546,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
 
           {question.type === "select_all" && (
             <SelectAll
-              choices={question.choices}
+              choices={questionChoices}
               selectedIndexes={selectedIndexes}
               correctAnswers={question.correct_answers}
               showResult={showResult}
@@ -577,7 +595,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
           {question.type === "fill_blank_tap" && (
             <FillBlankTap
               statement={question.statement}
-              choices={question.choices}
+              choices={questionChoices}
               selectedIndex={selectedIndex}
               correctIndex={question.correct_index ?? 0}
               showResult={showResult}
@@ -587,7 +605,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
 
           {question.type === "swipe_judgment" && (
             <SwipeJudgment
-              statement={question.question}
+              statement={questionText}
               selectedAnswer={swipeDirection}
               correctAnswer={question.is_true ? "right" : "left"}
               showResult={showResult}
@@ -598,9 +616,9 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
 
           {question.type === "conversation" && (
             <Conversation
-              prompt={question.prompt || question.question}
+              prompt={question.prompt || questionText}
               responsePrompt={question.your_response_prompt || ""}
-              choices={question.choices}
+              choices={questionChoices}
               selectedIndex={selectedResponse}
               correctIndex={question.recommended_index ?? question.correct_index ?? 0}
               showResult={showResult}

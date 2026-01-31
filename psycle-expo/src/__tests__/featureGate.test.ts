@@ -15,9 +15,9 @@ describe("featureGate", () => {
       expect(getMistakesHubRemaining("user1", "free")).toBe(0);
     });
 
-    test("Pro プランは無制限", () => {
-      expect(canUseMistakesHub("user2", "pro")).toBe(true);
-      expect(getMistakesHubRemaining("user2", "pro")).toBe(null);
+    test("Pro プランは利用不可", () => {
+      expect(canUseMistakesHub("user2", "pro")).toBe(false);
+      expect(getMistakesHubRemaining("user2", "pro")).toBe(0);
     });
 
     test("Max プランは無制限", () => {
@@ -25,18 +25,18 @@ describe("featureGate", () => {
       expect(getMistakesHubRemaining("user3", "max")).toBe(null);
     });
 
-    test("Pro プランでの消費は無制限のまま", () => {
+    test("Pro プランでの消費は利用不可のまま", () => {
       const userId = "user_pro_test";
-      expect(canUseMistakesHub(userId, "pro")).toBe(true);
+      expect(canUseMistakesHub(userId, "pro")).toBe(false);
 
       // 複数回消費
       for (let i = 0; i < 10; i++) {
         consumeMistakesHub(userId);
       }
 
-      // まだ無制限
-      expect(canUseMistakesHub(userId, "pro")).toBe(true);
-      expect(getMistakesHubRemaining(userId, "pro")).toBe(null);
+      // まだ利用不可
+      expect(canUseMistakesHub(userId, "pro")).toBe(false);
+      expect(getMistakesHubRemaining(userId, "pro")).toBe(0);
     });
   });
 

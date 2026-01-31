@@ -303,7 +303,10 @@ class LessonValidator {
 }
 
 // 実行
-if (import.meta.url === `file://${process.argv[1]}`) {
+const mainFile = process.argv[1] ? path.basename(process.argv[1]) : "";
+const isMain = mainFile.startsWith("validate-lessons.");
+
+if (isMain) {
   const validator = new LessonValidator();
   const success = validator.validate();
   process.exit(success ? 0 : 1);
