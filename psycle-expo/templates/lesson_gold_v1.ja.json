@@ -1,0 +1,457 @@
+{
+    "_meta": {
+        "version": "1.0.0",
+        "description": "Gold Lesson Template - 最高品質レッスンの雛形。穴埋め形式で品質ブレを防ぐ。",
+        "based_on": "mental_l03.ja.json",
+        "last_updated": "2026-01-06"
+    },
+    "_structure_rules": {
+        "total_questions": 10,
+        "q1_q2": {
+            "difficulty": "easy",
+            "claim_type": [
+                "observation",
+                "theory"
+            ],
+            "purpose": "導入・共感獲得。interventionは禁止"
+        },
+        "q3_q8": {
+            "difficulty": [
+                "easy",
+                "medium"
+            ],
+            "claim_type": [
+                "intervention",
+                "observation",
+                "theory"
+            ],
+            "purpose": "介入3本を配置。interventionには4点セット必須"
+        },
+        "q9": {
+            "difficulty": [
+                "easy",
+                "medium"
+            ],
+            "claim_type": [
+                "intervention",
+                "observation"
+            ],
+            "purpose": "アクション決定。hardは禁止"
+        },
+        "q10": {
+            "difficulty": "easy",
+            "claim_type": [
+                "observation"
+            ],
+            "purpose": "振り返り・フィット確認"
+        },
+        "intervention_max": 3,
+        "claim_evidence_matrix": {
+            "theory": [
+                "theoretical"
+            ],
+            "observation": [
+                "direct",
+                "indirect"
+            ],
+            "intervention": [
+                "direct",
+                "indirect"
+            ]
+        }
+    },
+    "template": [
+        {
+            "_slot": "Q1",
+            "_purpose": "導入・共感獲得",
+            "id": "${lesson_id}_001",
+            "type": "swipe_judgment",
+            "question": "${Q1_situation_description}",
+            "is_true": true,
+            "swipe_labels": {
+                "left": "${yes_label}",
+                "right": "${no_label}"
+            },
+            "explanation": "${Q1_explanation}",
+            "actionable_advice": null,
+            "difficulty": "easy",
+            "xp": 5,
+            "source_id": "${source_id}",
+            "evidence_grade": "${grade}",
+            "expanded_details": {
+                "claim_type": "observation",
+                "evidence_type": "direct",
+                "best_for": [
+                    "${target_audience_1}",
+                    "${target_audience_2}"
+                ],
+                "limitations": [
+                    "${limitation_1}"
+                ],
+                "citation_role": "${citation_role}",
+                "claim_tags": [
+                    "${tag1}",
+                    "${tag2}"
+                ]
+            }
+        },
+        {
+            "_slot": "Q2",
+            "_purpose": "理論説明（非介入）",
+            "id": "${lesson_id}_002",
+            "type": "multiple_choice",
+            "question": "${Q2_why_question}",
+            "choices": [
+                "${correct_choice}",
+                "${wrong_choice_1}",
+                "${wrong_choice_2}"
+            ],
+            "correct_index": 0,
+            "explanation": "${Q2_explanation}",
+            "actionable_advice": null,
+            "difficulty": "easy",
+            "xp": 5,
+            "source_id": "${source_id}",
+            "evidence_grade": "${grade}",
+            "expanded_details": {
+                "claim_type": "theory",
+                "evidence_type": "theoretical",
+                "best_for": [
+                    "${target_1}",
+                    "${target_2}"
+                ],
+                "limitations": [
+                    "${limitation_1}"
+                ],
+                "citation_role": "${citation_role}",
+                "claim_tags": [
+                    "${tag1}",
+                    "${tag2}",
+                    "theory"
+                ]
+            }
+        },
+        {
+            "_slot": "Q3",
+            "_purpose": "介入A紹介",
+            "id": "${lesson_id}_003",
+            "type": "multiple_choice",
+            "question": "${Q3_intervention_question}",
+            "choices": [
+                "${intervention_A}",
+                "${wrong_1}",
+                "${wrong_2}"
+            ],
+            "correct_index": 0,
+            "explanation": "${Q3_explanation_with_hedge}",
+            "actionable_advice": "💡 ${try_this_A}",
+            "difficulty": "medium",
+            "xp": 5,
+            "source_id": "${source_id}",
+            "evidence_grade": "${grade}",
+            "expanded_details": {
+                "claim_type": "intervention",
+                "evidence_type": "indirect",
+                "best_for": [
+                    "${target_1}",
+                    "${target_2}"
+                ],
+                "limitations": [
+                    "${limitation_1}",
+                    "${limitation_2}"
+                ],
+                "citation_role": "${citation_role}",
+                "try_this": "${10sec_action}",
+                "claim_tags": [
+                    "${tag1}",
+                    "${tag2}"
+                ],
+                "tiny_metric": {
+                    "before_prompt": "${before_state_question}",
+                    "after_prompt": "${after_state_question}",
+                    "success_rule": "${success_condition}",
+                    "stop_rule": "${stop_condition}"
+                },
+                "comparator": {
+                    "baseline": "${what_if_do_nothing}",
+                    "cost": "${time_and_effort}"
+                },
+                "fallback": {
+                    "when": "${when_doesnt_work}",
+                    "next": "${alternative_action}"
+                }
+            }
+        },
+        {
+            "_slot": "Q4",
+            "_purpose": "観察・理論補強",
+            "id": "${lesson_id}_004",
+            "type": "swipe_judgment",
+            "question": "${Q4_supporting_observation}",
+            "is_true": true,
+            "swipe_labels": {
+                "left": "${yes_label}",
+                "right": "${no_label}"
+            },
+            "explanation": "${Q4_explanation}",
+            "actionable_advice": null,
+            "difficulty": "easy",
+            "xp": 5,
+            "source_id": "${source_id}",
+            "evidence_grade": "${grade}",
+            "expanded_details": {
+                "claim_type": "observation",
+                "evidence_type": "direct",
+                "best_for": [
+                    "${target_1}"
+                ],
+                "limitations": [
+                    "${limitation_1}"
+                ],
+                "citation_role": "${citation_role}",
+                "claim_tags": [
+                    "${tag1}",
+                    "${tag2}"
+                ]
+            }
+        },
+        {
+            "_slot": "Q5",
+            "_purpose": "個人差確認",
+            "id": "${lesson_id}_005",
+            "type": "conversation",
+            "question": "${Q5_personal_pattern_question}",
+            "choices": [
+                "${option_1}",
+                "${option_2}",
+                "${option_3}",
+                "${option_4}"
+            ],
+            "recommended_index": null,
+            "explanation": "${Q5_all_valid_explanation}",
+            "actionable_advice": null,
+            "difficulty": "easy",
+            "xp": 5,
+            "source_id": "${source_id}",
+            "evidence_grade": "${grade}",
+            "expanded_details": {
+                "claim_type": "observation",
+                "evidence_type": "indirect",
+                "citation_role": "${citation_role}",
+                "claim_tags": [
+                    "self_awareness",
+                    "${tag1}"
+                ]
+            }
+        },
+        {
+            "_slot": "Q6",
+            "_purpose": "介入B紹介",
+            "id": "${lesson_id}_006",
+            "type": "multiple_choice",
+            "question": "${Q6_intervention_question}",
+            "choices": [
+                "${intervention_B}",
+                "${wrong_1}",
+                "${wrong_2}"
+            ],
+            "correct_index": 0,
+            "explanation": "${Q6_explanation_with_hedge}",
+            "actionable_advice": "💡 ${try_this_B}",
+            "difficulty": "medium",
+            "xp": 5,
+            "source_id": "${source_id}",
+            "evidence_grade": "${grade}",
+            "expanded_details": {
+                "claim_type": "intervention",
+                "evidence_type": "indirect",
+                "best_for": [
+                    "${target_1}",
+                    "${target_2}"
+                ],
+                "limitations": [
+                    "${limitation_1}"
+                ],
+                "citation_role": "${citation_role}",
+                "try_this": "${10sec_action}",
+                "claim_tags": [
+                    "${tag1}",
+                    "${tag2}"
+                ],
+                "tiny_metric": {
+                    "before_prompt": "${before_state_question}",
+                    "after_prompt": "${after_state_question}",
+                    "success_rule": "${success_condition}",
+                    "stop_rule": "${stop_condition}"
+                },
+                "comparator": {
+                    "baseline": "${what_if_do_nothing}",
+                    "cost": "${time_and_effort}"
+                },
+                "fallback": {
+                    "when": "${when_doesnt_work}",
+                    "next": "${alternative_action}"
+                }
+            }
+        },
+        {
+            "_slot": "Q7",
+            "_purpose": "限界説明 or debunking",
+            "id": "${lesson_id}_007",
+            "type": "swipe_judgment",
+            "question": "${Q7_limitation_or_myth}",
+            "is_true": "${true_or_false}",
+            "swipe_labels": {
+                "left": "${yes_label}",
+                "right": "${no_label}"
+            },
+            "explanation": "${Q7_nuanced_explanation}",
+            "actionable_advice": null,
+            "difficulty": "medium",
+            "xp": 5,
+            "source_id": "${source_id}",
+            "evidence_grade": "${grade}",
+            "expanded_details": {
+                "claim_type": "observation",
+                "evidence_type": "direct",
+                "best_for": [
+                    "${target_1}"
+                ],
+                "limitations": [
+                    "${limitation_1}"
+                ],
+                "citation_role": "${citation_role}",
+                "claim_tags": [
+                    "${tag1}",
+                    "${tag2}"
+                ]
+            }
+        },
+        {
+            "_slot": "Q8",
+            "_purpose": "介入C紹介",
+            "id": "${lesson_id}_008",
+            "type": "multiple_choice",
+            "question": "${Q8_intervention_question}",
+            "choices": [
+                "${intervention_C}",
+                "${wrong_1}",
+                "${wrong_2}"
+            ],
+            "correct_index": 0,
+            "explanation": "${Q8_explanation_with_hedge}",
+            "actionable_advice": "💡 ${try_this_C}",
+            "difficulty": "medium",
+            "xp": 5,
+            "source_id": "${source_id}",
+            "evidence_grade": "${grade}",
+            "expanded_details": {
+                "claim_type": "intervention",
+                "evidence_type": "indirect",
+                "best_for": [
+                    "${target_1}",
+                    "${target_2}"
+                ],
+                "limitations": [
+                    "${limitation_1}"
+                ],
+                "citation_role": "${citation_role}",
+                "try_this": "${10sec_action}",
+                "claim_tags": [
+                    "${tag1}",
+                    "${tag2}"
+                ],
+                "tiny_metric": {
+                    "before_prompt": "${before_state_question}",
+                    "after_prompt": "${after_state_question}",
+                    "success_rule": "${success_condition}",
+                    "stop_rule": "${stop_condition}"
+                },
+                "comparator": {
+                    "baseline": "${what_if_do_nothing}",
+                    "cost": "${time_and_effort}"
+                },
+                "fallback": {
+                    "when": "${when_doesnt_work}",
+                    "next": "${alternative_action}"
+                }
+            }
+        },
+        {
+            "_slot": "Q9",
+            "_purpose": "アクション決定",
+            "id": "${lesson_id}_009",
+            "type": "conversation",
+            "question": "${Q9_which_will_you_try}",
+            "choices": [
+                "${intervention_A_short}",
+                "${intervention_B_short}",
+                "${intervention_C_short}",
+                "${try_all}"
+            ],
+            "recommended_index": null,
+            "explanation": "${Q9_all_valid_explanation}",
+            "actionable_advice": "💡 ${tomorrow_action}",
+            "difficulty": "easy",
+            "xp": 10,
+            "source_id": "${source_id}",
+            "evidence_grade": "${grade}",
+            "expanded_details": {
+                "claim_type": "intervention",
+                "evidence_type": "indirect",
+                "best_for": [
+                    "${target_1}"
+                ],
+                "limitations": [
+                    "${limitation_1}"
+                ],
+                "citation_role": "${citation_role}",
+                "try_this": "${tomorrow_first_step}",
+                "claim_tags": [
+                    "implementation",
+                    "habit_formation"
+                ],
+                "tiny_metric": {
+                    "metric": "${weekly_success_metric}",
+                    "stop_rule": "${weekly_stop_rule}"
+                },
+                "comparator": {
+                    "baseline": "${do_nothing_outcome}",
+                    "cost": "${weekly_cost}"
+                },
+                "fallback": {
+                    "when": "${if_none_fit}",
+                    "next": "${alternative_approach}"
+                }
+            }
+        },
+        {
+            "_slot": "Q10",
+            "_purpose": "振り返り・フィット確認",
+            "id": "${lesson_id}_010",
+            "type": "conversation",
+            "question": "${Q10_fit_check}",
+            "choices": [
+                "${fit_yes}",
+                "${fit_maybe_not}",
+                "${fit_unsure}"
+            ],
+            "recommended_index": null,
+            "explanation": "${Q10_all_valid_and_safe_explanation}",
+            "actionable_advice": null,
+            "difficulty": "easy",
+            "xp": 5,
+            "source_id": "${source_id}",
+            "evidence_grade": "${grade}",
+            "expanded_details": {
+                "claim_type": "observation",
+                "evidence_type": "indirect",
+                "citation_role": "${citation_role}",
+                "claim_tags": [
+                    "individual_differences",
+                    "fit"
+                ]
+            }
+        }
+    ]
+}

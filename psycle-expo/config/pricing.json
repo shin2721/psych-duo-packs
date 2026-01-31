@@ -1,0 +1,86 @@
+{
+  "pricing": {
+    "US": {
+      "currency": "USD",
+      "symbol": "$",
+      "pro_monthly": 9.99,
+      "max_monthly": 19.99,
+      "pro_yearly": 69.99,
+      "max_yearly": 199.99,
+      "note": "$10以下のプレミアム価格"
+    },
+    "CA": {
+      "currency": "CAD",
+      "symbol": "CA$",
+      "pro_monthly": 12.99,
+      "max_monthly": 19.99,
+      "pro_yearly": 89.99,
+      "max_yearly": 199.99,
+      "note": "US準拠"
+    },
+    "EU": {
+      "currency": "EUR",
+      "symbol": "€",
+      "pro_monthly": 9.99,
+      "max_monthly": 19.99,
+      "pro_yearly": 69.99,
+      "max_yearly": 199.99,
+      "note": "€10以下"
+    },
+    "GB": {
+      "currency": "GBP",
+      "symbol": "£",
+      "pro_monthly": 8.99,
+      "max_monthly": 14.99,
+      "pro_yearly": 59.99,
+      "max_yearly": 149.99,
+      "note": "£9以下"
+    },
+    "JP": {
+      "currency": "JPY",
+      "symbol": "¥",
+      "pro_monthly": 980,
+      "max_monthly": 1980,
+      "pro_yearly": 7800,
+      "max_yearly": 19800,
+      "note": "1000円の壁を割る絶対防衛線"
+    },
+    "KR": {
+      "currency": "KRW",
+      "symbol": "₩",
+      "pro_monthly": 9900,
+      "max_monthly": 19900,
+      "pro_yearly": 79000,
+      "max_yearly": 199000,
+      "note": "1万ウォン以下"
+    },
+    "IN": {
+      "currency": "INR",
+      "symbol": "₹",
+      "pro_monthly": 199,
+      "max_monthly": 499,
+      "pro_yearly": 1999,
+      "max_yearly": 4999,
+      "note": "Netflix等と同水準の現地価格"
+    },
+    "BR": {
+      "currency": "BRL",
+      "symbol": "R$",
+      "pro_monthly": 34.90,
+      "max_monthly": 49.90,
+      "pro_yearly": 249.00,
+      "max_yearly": 499.00,
+      "note": "現地物価適応"
+    },
+    "MX": {
+      "currency": "MXN",
+      "symbol": "MX$",
+      "pro_monthly": 129,
+      "max_monthly": 199,
+      "pro_yearly": 899,
+      "max_yearly": 1999,
+      "note": "適正価格"
+    }
+  },
+  "default_region": "JP"
+}

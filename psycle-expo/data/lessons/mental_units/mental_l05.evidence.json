@@ -1,0 +1,47 @@
+{
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2010.07.005",
+      "pmid": "20832747",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20832747/",
+      "label": "Hofmann et al. (2010) - The Efficacy of Cognitive Behavioral Therapy: A MA"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2024.102428",
+      "pmid": "38657292",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38657292/",
+      "label": "Webb et al. (2024) - Cognitive reappraisal and personal resilience: A MA"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2009.11.004",
+      "pmid": "20015584",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20015584/",
+      "label": "Aldao et al. (2010) - 認知的再評価の効果は中程度だが個人差が大きいMA"
+    }
+  ],
+  "source_label": "Hofmann et al. (2010) CBT MA + Webb et al. (2024) reappraisal MA + Aldao et al. (2010) MA",
+  "claim": "不安が高まったとき、「本当にそうなる確率は？」「最悪の場合でも対処できることは？」と自問すると、破滅的思考から距離を取りやすくなる可能性がある",
+  "limitations": "重度のうつ病や不安障害の場合は専門的な治療が必要。希死念慮や自傷のリスクがある場合は直ちに専門機関へ相談すること。軽度の不安対処用であり、パニック発作中には効果が限定的",
+  "effect_size_note": "Hofmann et al. (2010) MA: CBTの不安障害への効果は中〜大程度。Aldao et al. (2010): 認知的再評価の効果は中程度だが個人差が大きい [DOI:10.1016/j.cpr.2010.07.005, DOI:10.1016/j.cpr.2009.11.004]。ただしWebb et al. (2024)は認知的再評価の効果は中程度だが個人差が大きいことも示している [DOI:10.1016/j.cpr.2024.102428]",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-28",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
+  }
+}

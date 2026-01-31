@@ -1,0 +1,48 @@
+{
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2009.11.004",
+      "pmid": "20015584",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/20015584/",
+      "label": "Aldao et al. (2010) - Emotion-regulation strategies across psychopathology: A meta-analytic review"
+    },
+    {
+      "role": "supporting",
+      "source_type": "classic",
+      "doi": "",
+      "pmid": "",
+      "url": "https://psycnet.apa.org/record/1984-11044-000",
+      "isbn": "978-0826141910",
+      "label": "Lazarus & Folkman (1984) - Stress, Appraisal, and Coping"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2024.102428",
+      "pmid": "38657292",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38657292/",
+      "label": "Webb et al. (2024) - 認知的再評価の効果は中程度だが個人差が大きいMA"
+    }
+  ],
+  "source_label": "Aldao et al. (2010) - Emotion regulation MA + Lazarus & Folkman (1984) background + Webb et al. (2024) MA",
+  "claim": "ストレスを感じたとき、その出来事の「解釈を変える（認知的再評価）」と、心理的反応が変わりやすくなる可能性がある。反芻や抑制より再評価が適応的な傾向がメタ分析で示されている",
+  "limitations": "理論理解だけでは行動変容に直結しにくい。身体的な病気や生理的要因が強いケースでは認知アプローチだけでは不十分。重度のうつ病や不安障害では専門的な治療が必要",
+  "effect_size_note": "Aldao et al. (2010) MA: 再評価と精神病理症状の関連は中程度の負の相関（r≈−0.3）。Webb et al. (2024)では認知的再評価の効果は中程度だが個人差が大きい [DOI:10.1016/j.cpr.2009.11.004, DOI:10.1016/j.cpr.2024.102428]",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-28",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
+  }
+}

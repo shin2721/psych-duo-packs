@@ -1,0 +1,60 @@
+# Learn more https://docs.github.com/en/get-started/getting-started-with-git/ignoring-files
+
+# dependencies
+node_modules/
+
+# Expo
+.expo/
+dist/
+web-build/
+expo-env.d.ts
+.expo-dev.pid
+
+# Native
+.kotlin/
+*.orig.*
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+
+# Metro
+.metro-health-check*
+
+# debug
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+
+# macOS
+.DS_Store
+*.pem
+
+# local env files - NEVER commit secrets
+.env
+.env.*
+.env*.local
+
+# Claude settings - contains API keys
+.claude/
+
+# typescript
+*.tsbuildinfo
+
+# generated native folders
+/ios
+/android
+.env
+.vscode/
+.kiro/
+.agent/
+.husky/
+
+# Quality reports (machine-generated, use CI artifacts)
+docs/_reports/
+
+# IMPORTANT: When creating distribution archives (zip/tar), ensure .env files are excluded
+# Example exclusion patterns for common archive tools:
+# zip -r app.zip . -x "*.env*" ".env*"
+# tar --exclude="*.env*" --exclude=".env*" -czf app.tar.gz .

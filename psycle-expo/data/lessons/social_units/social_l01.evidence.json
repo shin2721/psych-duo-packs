@@ -1,0 +1,64 @@
+{
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "systematic_review",
+      "doi": "10.1016/j.ijnurstu.2017.09.001",
+      "pmid": "28964979",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/28964979/",
+      "label": "Omura et al. (2017) - Effectiveness of assertive communication training programs for healthcare professionals and students: A SR"
+    },
+    {
+      "role": "supporting",
+      "source_type": "rct",
+      "doi": "10.1186/s40359-023-01154-x",
+      "pmid": "37032337",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37032337/",
+      "label": "Ahmadi et al. (2023) - Assertiveness training RCT on self-esteem and mental health"
+    },
+    {
+      "role": "supporting",
+      "source_type": "rct",
+      "doi": "10.3389/fpsyg.2023.1063612",
+      "pmid": "",
+      "url": "https://www.frontiersin.org/articles/10.3389/fpsyg.2023.1063612",
+      "label": "文化差研究 - 東アジア文化圏でのアサーション効果の限界を示唆（条件付き）"
+    },
+    {
+      "role": "supporting",
+      "source_type": "rct",
+      "doi": "10.1016/j.jad.2019.02.043",
+      "pmid": "30825746",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30825746/",
+      "label": "Vagos et al. (2019) - アサーション訓練の効果は小程度で個人差大とするRCT"
+    },
+    {
+      "role": "background",
+      "source_type": "classic",
+      "doi": "",
+      "pmid": "",
+      "url": "https://www.amazon.com/Your-Perfect-Right-Assertiveness-Relationships/dp/1886230854",
+      "isbn": "978-1886230859",
+      "label": "Alberti & Emmons (2001) - Your Perfect Right"
+    }
+  ],
+  "source_label": "Omura et al. (2017) SR + Ahmadi et al. (2023) RCT + 文化差研究 + Vagos et al. (2019) + Alberti & Emmons (2001)",
+  "claim": "断りにくいと感じたとき、「今は決められない」と保留の表現を使うと、即答プレッシャーから解放されやすくなる可能性がある。アサーティブ訓練は自己肯定感やコミュニケーション能力を高める傾向がある",
+  "limitations": "東アジア圏では集団調和優先で効果減弱。権力関係がある場面では不適切。訓練初期の過補償リスク（攻撃的に見える）。社交不安が強い場合は段階的練習が必要",
+  "effect_size_note": "Omura et al. SR: ストレス軽減 d=0.52（中）、不安 d=0.30（小）。Ahmadi et al.: 自己主張度 d=0.38（小〜中）。Vagos et al.: 効果は小程度で個人差大と報告",
+  "evidence_grade": "silver",
+  "confidence": "medium",
+  "status": "active",
+  "last_verified": "2026-01-29",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
+  }
+}

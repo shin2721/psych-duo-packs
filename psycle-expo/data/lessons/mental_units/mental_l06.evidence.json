@@ -1,0 +1,47 @@
+{
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2014.09.006",
+      "pmid": "25455783",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/25455783/",
+      "label": "Smith et al. (2016) - Meta-analysis of perfectionism and anxiety/depression"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1080/16506073.2023.2274191",
+      "pmid": "37950796",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37950796/",
+      "label": "Limburg et al. (2023) - Perfectionism and symptoms of depression, anxiety and OCD in adults: A SR and MA"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2024.102428",
+      "pmid": "38657292",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38657292/",
+      "label": "Webb et al. (2024) - 認知的再評価の効果は中程度だが個人差が大きいMA"
+    }
+  ],
+  "source_label": "Smith et al. (2016) MA + Limburg et al. (2023) MA + Webb et al. (2024) MA",
+  "claim": "「100点でないと意味がない」と感じたとき、「70点でも十分」と自分に許可を出すと、行動を起こしやすくなる可能性がある。完璧主義的な懸念は不安・抑うつと中程度の関連がある",
+  "limitations": "完璧主義のタイプや程度には個人差が大きい。自己批判が強く抑うつ傾向がある場合は専門家のサポートが推奨される。希死念慮や自傷のリスクがある場合は直ちに専門機関へ相談すること",
+  "effect_size_note": "Smith et al. (2016) + Limburg et al. (2023): 完璧主義的懸念と不安・抑うつの関連は中程度の正の相関（r≈0.4）。Webb et al. (2024): 認知的再評価の効果は中程度だが個人差が大きい [DOI:10.1016/j.cpr.2014.09.006, DOI:10.1080/16506073.2023.2274191, DOI:10.1016/j.cpr.2024.102428]",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-28",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
+  }
+}

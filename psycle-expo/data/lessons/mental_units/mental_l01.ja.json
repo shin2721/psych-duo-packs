@@ -1,0 +1,333 @@
+[
+    {
+        "id": "mental_l01_001",
+        "type": "conversation",
+        "question": "今週、「あの時ああ言えばよかった...」と、同じ場面が頭の中で3回以上リピートしたことはある？",
+        "your_response_prompt": "直感で答えてください",
+        "choices": [
+            "3回以上ある（かなりモヤモヤ）",
+            "1-2回はある",
+            "ない（スッキリしている）"
+        ],
+        "recommended_index": null,
+        "explanation": "それを「反芻（はんすう）思考」と呼ぶ。実は「反省」とは別物で、脳がエラー音を自動再生している状態に近い。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "ネガティブ思考のループに気づきたい人"
+            ],
+            "limitations": [
+                "強い落ち込みが続くとき"
+            ],
+            "citation_role": "反芻思考の定義とメカニズムを支持",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_002",
+        "type": "multiple_choice",
+        "question": "電車が15分遅延。「あと10分で着く？」ってLINEが来た。心拍数が上がって焦る。\n\nこの「焦り」が生まれる仕組みとして、最も近いのは？",
+        "choices": [
+            "「これは脅威かも」という反応が起きた",
+            "電車が遅れたことが直接の原因",
+            "性格的にイライラしやすいから"
+        ],
+        "correct_index": 0,
+        "explanation": "出来事より先に「脅威かも」という反応が起きやすいことがある。心拍数が上がり、焦りや不安が生まれるのは身体の自然な反応。（「電車のせい」や「性格」と思いがちだけど、それだと万人同じ反応になるはず）",
+        "actionable_advice": "💡 焦りを感じたら：「これは身体の反応だ」とラベルを貼るだけでいい",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "日常的なストレス",
+                "コントロール感が低い状況"
+            ],
+            "limitations": [
+                "急性トラウマ直後",
+                "生理的要因が強いケース"
+            ],
+            "citation_role": "認知的評価理論の核心メカニズムを支持",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress_response"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_003",
+        "type": "swipe_judgment",
+        "question": "認知的評価理論では、ストレスの原因は「出来事」と「解釈」のどっちにあると考える？",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "解釈にある",
+            "right": "出来事にある"
+        },
+        "explanation": "これが理論の核心。出来事は変えられなくても、解釈（どう受け取るか）への介入余地は残されている。",
+        "actionable_advice": "💡 試してみる：不快な出来事を「カメラ越しに見ている」と想像してみる",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "認知的評価理論の核心を確認",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_004",
+        "type": "multiple_choice",
+        "question": "面接開始まで残り3分。待合室で心臓がバクバク。手のひらに汗。\n\nこの身体反応を、別の言葉で捉え直すとしたら？",
+        "choices": [
+            "「体が準備運動をしてくれている」",
+            "「自分はダメだ」",
+            "「これは悪い兆候だ」"
+        ],
+        "correct_index": 0,
+        "explanation": "逆に、心臓のドキドキは「体の準備運動」とも解釈できる。ただし、体調不良のときは無理せず休む。できなくても普通。まず1回だけ。（「ダメだ」「悪い兆候」はつい考えがちだけど、それ自体が焦りを強める）",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jamieson_2012",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "プレゼンや面接前の編張",
+                "短期的なパフォーマンス場面"
+            ],
+            "limitations": [
+                "体調不良時",
+                "慢性的な強い不安"
+            ],
+            "citation_role": "リアプレイザル（解釈の変換）の効果を支持",
+            "try_this": "👉 次に心臓がドキドキしたら → 「体が準備運動してる」と10秒だけ唱える",
+            "claim_tags": [
+                "reappraisal",
+                "arousal",
+                "stress_response"
+            ],
+            "tiny_metric": {
+                "before_prompt": "今の緊張は？（0-10）",
+                "after_prompt": "10秒後の緊張は？（0-10）",
+                "success_rule": "1だけ下がればOK",
+                "stop_rule": "変わらなければ今日は撤退でOK"
+            },
+            "comparator": {
+                "baseline": "落ち着こうと頑張る（無理やり抑える）",
+                "cost": "10秒 / 効果は弱めだが負荷も低い"
+            },
+            "fallback": {
+                "when": "10秒やって逆に焦ったら",
+                "next": "深呼吸に切り替える（4秒吸って4秒吐く）"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_005",
+        "type": "multiple_choice",
+        "question": "17時の会議で上司に詰められた。21時、まだあの一言がリピートしてる。\n\nこの後、ストレスが長引きやすい傾向があるのは？",
+        "choices": [
+            "「なぜ自分がこんな目に...」とずっと考え続ける",
+            "「まあ、そういう日もある」と切り替える",
+            "どちらも同じくらい"
+        ],
+        "correct_index": 0,
+        "explanation": "出来事より「その後どう考え続けるか」が持続時間に影響する。切り替えられない自分を責める必要はない。（「切り替える」は理想だけど、実際には難しいことが多い）",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "認知的評価理論の枠組みで、反芻思考の持続メカニズムを理論的に説明",
+            "claim_tags": [
+                "rumination",
+                "stress_duration"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_006",
+        "type": "conversation",
+        "question": "今週、一番ストレスを感じた場面を思い出してください。",
+        "your_response_prompt": "その時、頭の中でどんな言葉が浮かんでいた？",
+        "choices": [
+            "「最悪だ」「どうしよう」系の言葉",
+            "「まあいいか」「なんとかなる」系の言葉",
+            "特に言葉は浮かんでいなかった"
+        ],
+        "recommended_index": null,
+        "explanation": "どれも正解。自分の「内なる声」に気づくだけで十分。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "自己認識の効果を間接支持",
+            "claim_tags": [
+                "self_awareness",
+                "mindfulness"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_007",
+        "type": "swipe_judgment",
+        "question": "「ストレスは考え方次第で消える」と言われると、ちょっとモヤっとする",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "わかる",
+            "right": "わからない"
+        },
+        "explanation": "実は「考え方を変えればゼロになる」とは言っていない。急性トラウマや身体要因には別アプローチが必要。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "理論の限界を明確化",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "limitations"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_008",
+        "type": "multiple_choice",
+        "question": "認知的評価理論が「向いている」のは、どんな場面？",
+        "choices": [
+            "慢性的なストレスや、コントロール感が低い状況",
+            "事故直後のパニック状態",
+            "身体の病気が主な原因のケース"
+        ],
+        "correct_index": 0,
+        "explanation": "日常のストレスに向いている。急性トラウマ直後や生理的要因が強いケースには別アプローチも検討。（「事故直後」「身体の病気」は認知だけでは対応しきれないことがある）",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "慢性的なストレス",
+                "コントロール感が低い状況"
+            ],
+            "limitations": [
+                "事故直後のパニック状態",
+                "身体の病気が主な原因のケース"
+            ],
+            "citation_role": "認知的評価理論の適用範囲を明確化",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "applicability"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_009",
+        "type": "conversation",
+        "question": "今日学んだ「解釈がストレスに影響する」という考え方。",
+        "your_response_prompt": "明日、ストレスを感じた瞬間に一度だけ試してみるとしたら？",
+        "choices": [
+            "「自分は今、これをどう解釈している？」と問いかけてみる",
+            "特に試さない（それも一つの選択）",
+            "まだピンと来ていないので保留"
+        ],
+        "recommended_index": 0,
+        "explanation": "試してみる価値はある。合わなくても別の方法でOK。まず1回だけ。",
+        "actionable_advice": "👉 明日モヤっとしたら → 「今、何を脅威だと思ってる？」と10秒問いかける",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "日常のちょっとした焦り",
+                "自己理解を深めたい人"
+            ],
+            "limitations": [
+                "深刻な精神的危機",
+                "考えること自体がつらい状態"
+            ],
+            "citation_role": "認知的評価理論の実践応用を支持",
+            "try_this": "👉 明日モヤっとしたら → 「今、何を脅威だと思ってる？」と10秒問いかける",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "self_awareness"
+            ],
+            "tiny_metric": {
+                "before_prompt": "今の焦りは？（0-10）",
+                "after_prompt": "10秒後の焦りは？（0-10）",
+                "success_rule": "1だけ下がればOK",
+                "stop_rule": "変わらなければ今日は撤退でOK"
+            },
+            "comparator": {
+                "baseline": "とにかく気を紛らわす（SNS、動画など）",
+                "cost": "10秒 / 効果は弱めだが自己理解が深まる可能性"
+            },
+            "fallback": {
+                "when": "問いかけが逆に焦りを増幅したら",
+                "next": "「今、焦ってるな」とラベリングするだけ（内容は放置）"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_010",
+        "type": "conversation",
+        "question": "このスナックレッスンの考え方、自分には合いそうでしたか？",
+        "your_response_prompt": "直感で答えてみてください",
+        "choices": [
+            "合いそうだと思った",
+            "ちょっと合わなそう",
+            "まだわからない"
+        ],
+        "recommended_index": null,
+        "explanation": "どれも正解。合わなそうなら、別のアプローチがあなたに合うかもしれない。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "個人差への配慮を支持",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

@@ -1,0 +1,245 @@
+[
+    {
+        "id": "seed_001",
+        "domain": "social",
+        "core_principle": "返報性の原理",
+        "core_principle_en": "Reciprocity Principle",
+        "counter_intuitive_insight": "「先に与える」人は損をするように見えて、実は最も人間関係で得をする",
+        "common_misconception": "人間関係はGive & Takeの等価交換が基本",
+        "actionable_tactic": "今日、見返りを期待せずに誰かに小さな親切をしてみる",
+        "academic_reference": "Cialdini, R. B. (2006). Influence: The Psychology of Persuasion",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "swipe_judgment",
+            "multiple_choice",
+            "consequence_scenario"
+        ],
+        "cultural_notes": "日本では「お返し文化」が強いため、返報性の原理は特に強く作用する"
+    },
+    {
+        "id": "seed_002",
+        "domain": "social",
+        "core_principle": "単純接触効果",
+        "core_principle_en": "Mere Exposure Effect",
+        "counter_intuitive_insight": "「深い会話」より「短い接触回数」の方が好感度を上げやすい",
+        "common_misconception": "仲良くなるには長時間一緒にいる必要がある",
+        "actionable_tactic": "気になる人には深い会話を狙わず、毎日の挨拶や短いやり取りを増やす",
+        "academic_reference": "Zajonc, R. B. (1968). Attitudinal effects of mere exposure. Journal of Personality and Social Psychology",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "multiple_choice",
+            "quick_reflex"
+        ],
+        "cultural_notes": "日本の「顔を売る」文化と親和性が高い"
+    },
+    {
+        "id": "seed_003",
+        "domain": "social",
+        "core_principle": "ピーク・エンドの法則",
+        "core_principle_en": "Peak-End Rule",
+        "counter_intuitive_insight": "体験全体の平均ではなく「最高潮」と「終わり方」だけで印象が決まる",
+        "common_misconception": "良い体験を長く続けるほど満足度が上がる",
+        "actionable_tactic": "デートや会議は「終わり方」を最も意識して設計する",
+        "academic_reference": "Kahneman, D. (1999). Objective happiness. Well-being: The foundations of hedonic psychology",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "consequence_scenario",
+            "sort_order"
+        ],
+        "cultural_notes": "日本の「有終の美」「締めが大事」という価値観と一致"
+    },
+    {
+        "id": "seed_004",
+        "domain": "money",
+        "core_principle": "メンタル・アカウンティング",
+        "core_principle_en": "Mental Accounting",
+        "counter_intuitive_insight": "同じ1万円でも「どこから来たか」で使い方が変わる（ボーナス vs 給料）",
+        "common_misconception": "お金に色はない、すべて同じ価値を持つ",
+        "actionable_tactic": "臨時収入が入ったら、まず貯蓄口座に移動してから使途を考える",
+        "academic_reference": "Thaler, R. H. (1999). Mental accounting matters. Journal of Behavioral Decision Making",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "swipe_judgment",
+            "multiple_choice",
+            "fill_blank_tap"
+        ],
+        "cultural_notes": "「あぶく銭」という概念が日本にもあり理解しやすい"
+    },
+    {
+        "id": "seed_005",
+        "domain": "money",
+        "core_principle": "サンクコスト・ファラシー",
+        "core_principle_en": "Sunk Cost Fallacy",
+        "counter_intuitive_insight": "「ここまで投資したから」は撤退しない最悪の理由",
+        "common_misconception": "過去の投資（時間・お金）を無駄にしないために続けるべき",
+        "actionable_tactic": "意思決定時に「今日からゼロスタートだったらどうする？」と自問する",
+        "academic_reference": "Arkes, H. R., & Blumer, C. (1985). The psychology of sunk cost. Organizational behavior and human decision processes",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "consequence_scenario",
+            "swipe_judgment"
+        ],
+        "cultural_notes": "日本の「もったいない」精神が逆効果になるケースを説明"
+    },
+    {
+        "id": "seed_006",
+        "domain": "mental",
+        "core_principle": "成長マインドセット",
+        "core_principle_en": "Growth Mindset",
+        "counter_intuitive_insight": "「能力を褒める」より「努力を褒める」方が子供の成績が伸びる",
+        "common_misconception": "「頭がいいね」と褒めると自信がつく",
+        "actionable_tactic": "自分や他人を褒めるとき、結果ではなくプロセス（努力・戦略）を褒める",
+        "academic_reference": "Dweck, C. S. (2006). Mindset: The New Psychology of Success",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "multiple_choice",
+            "conversation",
+            "fill_blank_tap"
+        ],
+        "cultural_notes": "日本の「努力は報われる」文化と親和性が高いが、結果主義の弊害も指摘"
+    },
+    {
+        "id": "seed_007",
+        "domain": "mental",
+        "core_principle": "自己効力感",
+        "core_principle_en": "Self-Efficacy",
+        "counter_intuitive_insight": "「やればできる」は根性論ではなく、「小さな成功体験の積み重ね」で科学的に構築できる",
+        "common_misconception": "自信は性格や才能で決まる／ポジティブシンキングで生まれる",
+        "actionable_tactic": "大きな目標を「今日できる小さなタスク」に分解し、達成を記録する",
+        "academic_reference": "Bandura, A. (1977). Self-efficacy: Toward a unifying theory of behavioral change. Psychological Review",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "sort_order",
+            "consequence_scenario"
+        ],
+        "cultural_notes": "日本の「千里の道も一歩から」と同じ概念として紹介可能"
+    },
+    {
+        "id": "seed_008",
+        "domain": "health",
+        "core_principle": "習慣のスタッキング",
+        "core_principle_en": "Habit Stacking",
+        "counter_intuitive_insight": "新習慣を「意志力」で続けようとするより、既存習慣に「くっつける」方が定着率が高い",
+        "common_misconception": "新しい習慣は意志力と努力で身につける",
+        "actionable_tactic": "新習慣は「〇〇した後に」と既存の行動にリンクさせる（例：歯磨き後にスクワット）",
+        "academic_reference": "Clear, J. (2018). Atomic Habits",
+        "evidence_grade": "silver",
+        "suggested_question_types": [
+            "fill_blank_tap",
+            "conversation"
+        ],
+        "cultural_notes": "日本の「ついで」文化と親和性が高い"
+    },
+    {
+        "id": "seed_009",
+        "domain": "work",
+        "core_principle": "パーキンソンの法則",
+        "core_principle_en": "Parkinson's Law",
+        "counter_intuitive_insight": "締め切りが遠いほど仕事は膨張する。短い締め切りの方が生産性が上がる",
+        "common_misconception": "時間に余裕があるほど良い仕事ができる",
+        "actionable_tactic": "自分で「人工的な締め切り」を設定し、誰かに宣言する",
+        "academic_reference": "Parkinson, C. N. (1957). Parkinson's Law, and Other Studies in Administration",
+        "evidence_grade": "silver",
+        "suggested_question_types": [
+            "swipe_judgment",
+            "quick_reflex"
+        ],
+        "cultural_notes": "日本の「前倒し」文化と関連づけて説明"
+    },
+    {
+        "id": "seed_010",
+        "domain": "study",
+        "core_principle": "分散学習効果",
+        "core_principle_en": "Spacing Effect",
+        "counter_intuitive_insight": "まとめて長時間勉強するより、短時間を何日かに分けた方が記憶に残る",
+        "common_misconception": "集中して一気に勉強した方が効率が良い",
+        "actionable_tactic": "同じ内容を3日に分けて15分ずつ復習する（1時間×1日より効果的）",
+        "academic_reference": "Cepeda, N. J., et al. (2006). Distributed practice in verbal recall tasks. Psychological Bulletin",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "multiple_choice",
+            "consequence_scenario"
+        ],
+        "cultural_notes": "日本の「一夜漬け」文化に対するカウンターとして提示"
+    },
+    {
+        "id": "seed_011",
+        "domain": "social",
+        "core_principle": "同期行動の効果",
+        "core_principle_en": "Synchrony Effect",
+        "counter_intuitive_insight": "会話の内容よりも「動きやタイミングを合わせる」方が親密度が爆上がりする",
+        "common_misconception": "相手と仲良くなるには面白い話をしなければならない",
+        "actionable_tactic": "会話中、相手が飲み物を飲んだら自分も飲む（ミラーリング）",
+        "academic_reference": "Wiltermuth, S. S., & Heath, C. (2009). Synchrony and cooperation. Psychological Science",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "quick_reflex",
+            "conversation"
+        ],
+        "cultural_notes": "「空気を読む」文化の日本において、非言語的な同期は非常に強力な武器になる"
+    },
+    {
+        "id": "seed_012",
+        "domain": "social",
+        "core_principle": "近接の原理（単純接触の強化版）",
+        "core_principle_en": "Proximity Principle",
+        "counter_intuitive_insight": "「性格の相性」より「物理的な距離の近さ」の方が友人関係の維持に重要",
+        "common_misconception": "本当の友情なら、遠く離れていても自然と続く",
+        "actionable_tactic": "用がなくても、特定のコミュニティや場所に物理的に顔を出す頻度を増やす",
+        "academic_reference": "Festinger, L., Schachter, S., & Back, K. (1950). Social Pressures in Informal Groups",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "swipe_judgment",
+            "multiple_choice"
+        ],
+        "cultural_notes": "「遠くの親戚より近くの他人」ということわざとリンクさせやすい"
+    },
+    {
+        "id": "seed_013",
+        "domain": "social",
+        "core_principle": "ベン・フランクリン効果",
+        "core_principle_en": "Ben Franklin Effect",
+        "counter_intuitive_insight": "好かれたければ「親切にする」のではなく「小さなお願いをして助けてもらう」べき",
+        "common_misconception": "相手に好かれるためには、尽くさなければならない",
+        "actionable_tactic": "意中の相手に「ちょっとペン貸して？」と頼んでみる。その後、お礼を言う。",
+        "academic_reference": "Jecker, J., & Landy, D. (1969). Liking a person as a function of doing him a favor. Human Relations",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "swipe_judgment",
+            "consequence_scenario"
+        ],
+        "cultural_notes": "日本人は「迷惑をかけない」文化があるため、あえて「小さな迷惑（頼み事）」をかけるテクニックは強烈なギャップになる"
+    },
+    {
+        "id": "seed_014",
+        "domain": "mental",
+        "core_principle": "スポットライト効果",
+        "core_principle_en": "Spotlight Effect",
+        "counter_intuitive_insight": "あなたが気にする「今日の髪型の失敗」に気づいている人は、統計的にほぼゼロである",
+        "common_misconception": "他人は自分のことを常に見ているし、細かい変化にも気づくはずだ",
+        "actionable_tactic": "恥ずかしい失敗をしたら「他人の記憶は2秒でリセットされる」と唱えてスルーする",
+        "academic_reference": "Gilovich, T., Medvec, V. H., & Savitsky, K. (2000). The spotlight effect in social judgment. JPSP",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "multiple_choice",
+            "swipe_judgment"
+        ],
+        "cultural_notes": "「他人の目」を極度に気にする日本社会において、最強のメンタル防衛術になる"
+    },
+    {
+        "id": "seed_015",
+        "domain": "social",
+        "core_principle": "ドア・イン・ザ・フェイス",
+        "core_principle_en": "Door-in-the-Face Technique",
+        "counter_intuitive_insight": "本命の要求を通したいなら、まず「絶対に断られる無理な要求」をしてから譲歩しろ",
+        "common_misconception": "お願いごとは最初から誠実に、可能な範囲で頼むべき",
+        "actionable_tactic": "「週末1日手伝って」と頼んで断られた直後に、「じゃあ1時間だけ」と頼む",
+        "academic_reference": "Cialdini, R. B., et al. (1975). Reciprocal concessions procedure for inducing compliance. JPSP",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "consequence_scenario",
+            "conversation"
+        ],
+        "cultural_notes": "「断って申し訳ない」という罪悪感を利用する。日本の「察し・譲り合い」文化で強力に作用する"
+    }
+]

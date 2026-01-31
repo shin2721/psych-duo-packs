@@ -1,0 +1,385 @@
+[
+  {
+    "id": "study_l01_001",
+    "type": "swipe_judgment",
+    "question": "「やらなきゃ」と思いながら、なかなか勉強を始められないことがある。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "よくある",
+      "right": "あまりない"
+    },
+    "explanation": "始められないのは「怠け」ではなく、不快感を避けようとする自然な反応という見方がある。まずは「始められない自分」を責めなくてOK。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "勉強を始められない人",
+        "先延ばしで自分を責めがちな人"
+      ],
+      "limitations": [
+        "慢性的な無気力には別の対応が必要"
+      ],
+      "citation_role": "先延ばしの感情調整モデルを観察研究で支持",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_002",
+    "type": "multiple_choice",
+    "question": "「やる気が出たら始めよう」と待っていると、何が起きやすい？",
+    "choices": [
+      "やる気は出ないまま時間だけが過ぎる傾向がある",
+      "自然とやる気が湧いてくる",
+      "リラックスできて効率が上がる"
+    ],
+    "correct_index": 0,
+    "explanation": "やる気は「待つもの」より「やり始めると出てくる」という特性が報告されている。これを行動活性化という。（「自然と湧く」「リラックスで効率UP」は稀。待っても出ないことが多い）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "やる気待ちが長い人",
+        "始めるのが苦手な人"
+      ],
+      "limitations": [
+        "本当に疲れているときは休息が必要"
+      ],
+      "citation_role": "先延ばし研究における行動活性化理論を説明",
+      "claim_tags": [
+        "procrastination",
+        "motivation",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_003",
+    "type": "multiple_choice",
+    "question": "勉強を始めるハードルを下げるのに、効果が報告されている方法は？",
+    "choices": [
+      "「10秒だけ」と決めて教材を開く",
+      "長時間集中できる環境を整える",
+      "やる気が出るまで待つ"
+    ],
+    "correct_index": 0,
+    "explanation": "10秒でも「始める」と、タスクに切り替わりやすくなる傾向がある。10秒で終わってもOK。合わなければ別の方法を試す。まず1回。（「環境を整える」「やる気を待つ」は時間がかかる）",
+    "actionable_advice": "💡 次に勉強を始められないとき、「10秒だけ教材を開く」を試してみる。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "始めるのが苦手な人",
+        "完璧主義傾向がある人"
+      ],
+      "limitations": [
+        "本当に疲れているときは休息が必要",
+        "10秒でも動けないときは無理しない"
+      ],
+      "citation_role": "先延ばし研究から10秒ルールの有効性を間接支持",
+      "try_this": "「10秒だけ教材を開く」を試す",
+      "claim_tags": [
+        "procrastination",
+        "task_initiation",
+        "implementation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "今の「やりたくない度」は？（0-10）",
+        "after_prompt": "10秒後は？",
+        "success_rule": "少しでも下がればOK",
+        "stop_rule": "変わらない or 上がったら今日は撤退"
+      },
+      "comparator": {
+        "baseline": "やる気が出るのを待つ",
+        "cost": "10秒 / 負荷は低い"
+      },
+      "fallback": {
+        "when": "10秒でも動けない",
+        "next": "If-Thenプランニングを試す"
+      }
+    }
+  },
+  {
+    "id": "study_l01_004",
+    "type": "swipe_judgment",
+    "question": "「○○したら、△△する」と事前に決めておくと、実行率が上がる傾向がある。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "そうかも",
+      "right": "そうでもない"
+    },
+    "explanation": "これを「実行意図」や「If-Thenプランニング」という。例：「夕食後、机に座る」。研究では計画なしより実行率が上がる傾向が報告されている。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "計画は立てるが実行できない人",
+        "習慣化したい人"
+      ],
+      "limitations": [
+        "トリガーが曖昧だと効果が薄い"
+      ],
+      "citation_role": "実行意図（If-Then計画）の効果を直接検証した研究",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_005",
+    "type": "conversation",
+    "question": "勉強を始められないとき、自分に一番当てはまるのは？",
+    "choices": [
+      "何から始めていいかわからない",
+      "面倒くさくて動けない",
+      "完璧にやろうとして固まる",
+      "特にパターンはない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。自分のパターンに気づくと、対策が選びやすくなる傾向がある。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "先延ばしパターンの自己認識を支持",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_006",
+    "type": "multiple_choice",
+    "question": "「If-Thenプランニング」を使うなら、どの形が実行しやすい？",
+    "choices": [
+      "「○○したら（トリガー）、△△する（行動）」の形で決める",
+      "「頑張る」と決意する",
+      "「いつか勉強する」と思っておく"
+    ],
+    "correct_index": 0,
+    "explanation": "トリガー（いつ・どこで）と行動（何をする）をセットで決めると、自動的に実行されやすくなる傾向がある。まず1回だけ。（「頑張る」「いつか」は曖昧で実行されにくい）",
+    "actionable_advice": "💡 今日の If-Then を1つ決める：「○○したら、10秒だけ教材を開く」",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "計画倒れしやすい人",
+        "習慣化したい人"
+      ],
+      "limitations": [
+        "トリガーが日常にないと効果が薄い",
+        "複数のIf-Thenは負荷が高い"
+      ],
+      "citation_role": "実行意図の具体的なフォーマットを間接支持",
+      "try_this": "「○○したら、10秒だけ教材を開く」を1つ決める",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ],
+      "tiny_metric": {
+        "before_prompt": "今週If-Thenを実行できたか",
+        "after_prompt": "実行できた回数",
+        "success_rule": "週に1回でも実行できればOK",
+        "stop_rule": "2週間実行できなければ別の方法へ"
+      },
+      "comparator": {
+        "baseline": "「頑張る」と決意するだけ",
+        "cost": "計画に30秒 / 実行は10秒"
+      },
+      "fallback": {
+        "when": "トリガーが見つからない",
+        "next": "「スマホを見たくなったら」をトリガーにする"
+      }
+    }
+  },
+  {
+    "id": "study_l01_007",
+    "type": "swipe_judgment",
+    "question": "勉強の先延ばしは「意志が弱いから」だけではない、という見方がある。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "そうかも",
+      "right": "違うと思う"
+    },
+    "explanation": "研究では、先延ばしは意志力より「不快感の回避」や「タスクの曖昧さ」が原因になることが多いと報告されている。自分を責めるより、仕組みで対処する方がうまくいく傾向がある。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "自分を責めがちな人",
+        "意志力に頼りすぎている人"
+      ],
+      "limitations": [
+        "すべての先延ばしが同じ原因ではない"
+      ],
+      "citation_role": "先延ばしの感情調整モデルを支持",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_008",
+    "type": "multiple_choice",
+    "question": "勉強を始める「環境摩擦」を減らすのに、やりやすいのは？",
+    "choices": [
+      "教材を机の上に開いた状態で置いておく",
+      "完璧な環境を整えてから始める",
+      "やる気が出るまで待つ"
+    ],
+    "correct_index": 0,
+    "explanation": "「始めるまでの手間」が少ないほど、行動が起きやすい傾向がある。教材を開いた状態で置くことで、開始ハードルが下がることがある。まず1回。（「完璧な環境」「やる気を待つ」は先延ばしになりやすい）",
+    "actionable_advice": "💡 今日寝る前に、明日の教材を机の上に開いて置いておく。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "始めるのが苦手な人",
+        "環境整備で時間を使いすぎる人"
+      ],
+      "limitations": [
+        "散らかった環境だと逆効果の場合もある"
+      ],
+      "citation_role": "環境摩擦と行動開始の関連を間接支持",
+      "try_this": "👉 勉強を始める前に → 教材を開いて机に10秒だけ置く",
+      "claim_tags": [
+        "environment_design",
+        "friction_reduction",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "朝、教材が開いていたか",
+        "after_prompt": "開いていた場合、勉強を始められたか",
+        "success_rule": "開いた状態で始められればOK",
+        "stop_rule": "1週間効果がなければやめる"
+      },
+      "comparator": {
+        "baseline": "教材をしまった状態から始める",
+        "cost": "寝る前10秒"
+      },
+      "fallback": {
+        "when": "教材を出しておくスペースがない",
+        "next": "スマホのホーム画面に教材アプリを置く"
+      }
+    }
+  },
+  {
+    "id": "study_l01_009",
+    "type": "conversation",
+    "question": "今日学んだテクで、明日から使えそうなのは？",
+    "choices": [
+      "「10秒だけ教材を開く」",
+      "「If-Thenプランニング」で事前に決める",
+      "「教材を開いた状態で置く」環境設計",
+      "全部試してみる"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも試してみる価値がある。合わなければ別のを試す。それも学び。まず1回だけ。（「全部」は無理しなくてOK、どれか1つから始める）",
+    "actionable_advice": "💡 明日1回だけ試す：勉強を始められないとき「10秒だけ教材を開く」。",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "新しい習慣を始めたい人"
+      ],
+      "limitations": [
+        "練習なしでは忘れやすいことがある"
+      ],
+      "citation_role": "先延ばし介入の選択肢を提案",
+      "try_this": "明日1回「10秒だけ教材を開く」を使う",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "今週1回でも使えたか",
+        "stop_rule": "1週間使えなかったらやめる"
+      },
+      "comparator": {
+        "baseline": "何も試さず先延ばしし続ける",
+        "cost": "10秒 × 数回/週"
+      },
+      "fallback": {
+        "when": "どれも合わない",
+        "next": "最小タスク（1問だけ解く）に縮小"
+      }
+    }
+  },
+  {
+    "id": "study_l01_010",
+    "type": "conversation",
+    "question": "このレッスンの「勉強の始め方テク」、使えそうでしたか？",
+    "choices": [
+      "使えそう",
+      "ちょっと合わなそう",
+      "まだわからない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。「合わなそう」なら別のアプローチを探すのも大事。先延ばしは人によって原因が違うので、自分に合う方法を見つけるプロセス自体が価値。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "個人差への配慮を支持",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

@@ -1,0 +1,48 @@
+{
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.jretai.2022.06.003",
+      "pmid": "",
+      "url": "https://doi.org/10.1016/j.jretai.2022.06.003",
+      "label": "Barton et al. (2022) - Scarcity tactics in marketing: A meta-analysis of product scarcity effects"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1002/mar.21816",
+      "pmid": "",
+      "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/mar.21816",
+      "label": "Ladeira et al. (2023) - Product scarcity効果のメタ分析（条件差・異質性）"
+    },
+    {
+      "role": "supporting",
+      "source_type": "classic",
+      "doi": "",
+      "pmid": "",
+      "url": "https://www.amazon.com/Influence-Psychology-Persuasion-Robert-Cialdini/dp/006124189X",
+      "isbn": "978-0061241895",
+      "label": "Cialdini (2006) - Influence: The Psychology of Persuasion"
+    }
+  ],
+  "source_label": "Barton et al. (2022) - Scarcity MA + Ladeira et al. (2023) MA + Cialdini (2006) background",
+  "claim": "「残り3点」「限定」などの希少性表示を見たとき、一度画面を閉じて5分待つと、衝動的な購買を避けやすくなる可能性がある。希少性バイアスの効果は製品カテゴリによって異なる傾向がメタ分析で示されている",
+  "limitations": "本当に限定の価値がある場合は適切判断になることもある。文化・商品カテゴリで効き方が変わる。買い物依存傾向が強い場合は支援を優先。",
+  "effect_size_note": "Barton et al. (2022) MA: 購買意図への効果は小〜中程度で、手法や状況で差が出る。Ladeira et al. (2023)も希少性効果の異質性（条件差）を示す。",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-28",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
+  }
+}

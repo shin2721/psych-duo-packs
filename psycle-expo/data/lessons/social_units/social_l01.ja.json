@@ -1,0 +1,361 @@
+[
+    {
+        "id": "social_l01_001",
+        "type": "swipe_judgment",
+        "question": "頼まれると断れず、後から「なんで引き受けたんだろう」と後悔することがある。",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "よくある",
+            "right": "あまりない"
+        },
+        "explanation": "断れない傾向は「相手を傷つけたくない」「嫌われたくない」という気持ちの表れ。問題は、自分の時間やエネルギーが削られること。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "断れない傾向がある人",
+                "自己犠牲的になりやすい人"
+            ],
+            "limitations": [
+                "文化・関係性によって「断る」の適切さは異なる"
+            ],
+            "citation_role": "非主張性の特徴と影響を観察研究で支持",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "self_care"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_002",
+        "type": "multiple_choice",
+        "question": "「断る」ことへの抵抗感が生まれやすいのは、なぜ？",
+        "choices": [
+            "「断る＝相手を否定する」と無意識に結びつけている",
+            "断ると損をするから",
+            "断る方法を知らないから"
+        ],
+        "correct_index": 0,
+        "explanation": "多くの場合、「断る＝相手を傷つける」という認知の型がある。でも、断っているのは「依頼」であって「相手そのもの」ではない。この区別がカギになることがある。（「損するから」「方法を知らない」より、認知の型が大きい）",
+        "actionable_advice": "💡 次に断りにくいとき、「断っているのは依頼であって相手じゃない」と10秒だけ思い出す。",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "断ると罪悪感を感じる人",
+                "自己犠牲的な傾向がある人"
+            ],
+            "limitations": [
+                "認知を変えても感情はすぐに変わらないことがある"
+            ],
+            "citation_role": "アサーティブネス研究から断りと拒絶の区別を理論的に説明",
+            "claim_tags": [
+                "assertiveness",
+                "cognitive_reframe",
+                "theory"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_003",
+        "type": "swipe_judgment",
+        "question": "その場で「Yes/No」を決めないといけない、という思い込みがある。",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "心当たりある",
+            "right": "そうでもない"
+        },
+        "explanation": "実は「今すぐ決めなくていい」ケースは多い。「10秒保留」することで、冷静に判断できることがある。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "即答しがちな人",
+                "断るタイミングを逃しやすい人"
+            ],
+            "limitations": [
+                "即答が必要な緊急事態もある"
+            ],
+            "citation_role": "境界線設定の技術として保留の効果を間接支持",
+            "claim_tags": [
+                "assertiveness",
+                "decision_making",
+                "boundary_setting"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_004",
+        "type": "multiple_choice",
+        "question": "断りにくい依頼に、まず言えると楽になるフレーズは？",
+        "choices": [
+            "「今は決められない、後で返すね」",
+            "「絶対イヤ」",
+            "「考えておく」（曖昧に終わらせる）"
+        ],
+        "correct_index": 0,
+        "explanation": "「今は決められない」は、断りでもYesでもない「保留」。これにより即答のプレッシャーから解放されることがある。できなくても普通。まず1回。（「強い拒否」は言いにくい。「考えておく」は曖昧で終わりがち）",
+        "actionable_advice": "💡 次に断りにくいとき、「今は決められない、後で返すね」と10秒だけ言ってみる。",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "即答を求められる場面が多い人",
+                "断る言葉が出てこない人"
+            ],
+            "limitations": [
+                "「後で」が曖昧になり関係が悪化するリスクもある"
+            ],
+            "citation_role": "境界線設定における保留技術を間接支持",
+            "try_this": "「今は決められない、後で返すね」と10秒言う",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "phrase_template"
+            ],
+            "tiny_metric": {
+                "metric": "保留フレーズを使えたか",
+                "stop_rule": "3回連続で使えなかったらやめる"
+            },
+            "comparator": {
+                "baseline": "即答でYesと言う",
+                "cost": "10秒 / 負荷は低い"
+            },
+            "fallback": {
+                "when": "保留フレーズが言いにくい",
+                "next": "「ちょっと確認させて」と代用"
+            }
+        }
+    },
+    {
+        "id": "social_l01_005",
+        "type": "conversation",
+        "question": "あなたが断りにくい相手は誰ですか？",
+        "choices": [
+            "上司・先輩",
+            "友人・同僚",
+            "家族",
+            "特に思い当たらない"
+        ],
+        "recommended_index": null,
+        "explanation": "どれも正解。断りにくい相手を知っておくと、対策が立てやすくなる傾向がある。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "自己認識を支持",
+            "claim_tags": [
+                "self_awareness",
+                "assertiveness",
+                "relationships"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_006",
+        "type": "multiple_choice",
+        "question": "「断る」と「拒絶する」の違いは？",
+        "choices": [
+            "断る＝依頼を断る、拒絶する＝相手を否定する",
+            "同じ意味",
+            "断る方が攻撃的"
+        ],
+        "correct_index": 0,
+        "explanation": "「断る」は依頼という行為への対応。「拒絶」は相手そのものを否定する感覚。断りにくい人は、この2つを混同していることが多い。（「同じ意味」「断る方が攻撃的」は誤解。区別が大事）",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "断ると罪悪感を感じる人"
+            ],
+            "limitations": [
+                "相手が「拒絶された」と感じるかどうかは別問題"
+            ],
+            "citation_role": "アサーティブネスにおける認知の区別を理論的に説明",
+            "claim_tags": [
+                "assertiveness",
+                "cognitive_distinction",
+                "guilt"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_007",
+        "type": "swipe_judgment",
+        "question": "「今は難しい」と言うだけでは、相手を傷つけると感じる。",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "わかる",
+            "right": "そうでもない"
+        },
+        "explanation": "「今は難しい」は実はソフトな断り方。代替案（「○○ならできる」）を添えると、さらに受け入れられやすくなる傾向がある。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "断り方がわからない人"
+            ],
+            "limitations": [
+                "代替案が出せない時もある"
+            ],
+            "citation_role": "境界線設定のソフトな表現を間接支持",
+            "claim_tags": [
+                "assertiveness",
+                "communication",
+                "boundary_setting"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_008",
+        "type": "multiple_choice",
+        "question": "断りながら関係を壊さないために、言葉に添えると言いやすいのは？",
+        "choices": [
+            "代替案（「○○ならできるよ」）",
+            "謝罪（「ごめんなさい」を繰り返す）",
+            "理由の詳細な説明"
+        ],
+        "correct_index": 0,
+        "explanation": "代替案を添えると「協力したい意志はある」と伝わりやすい傾向がある。過度な謝罪や詳細な言い訳は、かえって自分を追い詰めることがある。まず1回だけ。（「謝罪を繰り返す」「理由を詳細に」は逆効果になりやすい）",
+        "actionable_advice": "💡 次に断るとき、「今は難しいけど、○○ならできるよ」と10秒言ってみる。",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "断ると関係が壊れると心配する人"
+            ],
+            "limitations": [
+                "代替案が出せない依頼もある"
+            ],
+            "citation_role": "境界線設定において代替案提示の効果を間接支持",
+            "try_this": "「今は難しいけど、○○ならできるよ」と10秒言う",
+            "claim_tags": [
+                "assertiveness",
+                "alternative_offer",
+                "boundary_setting"
+            ],
+            "tiny_metric": {
+                "metric": "代替案つきで断れたか",
+                "stop_rule": "3回連続で言えなかったらやめる"
+            },
+            "comparator": {
+                "baseline": "言い訳を長々と説明する",
+                "cost": "10秒 / 負荷は中程度"
+            },
+            "fallback": {
+                "when": "代替案が思いつかない",
+                "next": "「今は難しい」だけでOK"
+            }
+        }
+    },
+    {
+        "id": "social_l01_009",
+        "type": "conversation",
+        "question": "今日学んだテクで、明日から使えそうなのは？",
+        "choices": [
+            "「今は決められない、後で返すね」（保留フレーズ）",
+            "「今は難しいけど、○○ならできるよ」（代替案）",
+            "「断っているのは依頼で相手じゃない」（認知の型）",
+            "全部試してみる"
+        ],
+        "recommended_index": null,
+        "explanation": "どれも試してみる価値がある。合わなければ別のを試す。断り方は人によって合う・合わないがある。まず1回だけ。（「全部」は無理しなくてOK、どれか1つから始める）",
+        "actionable_advice": "💡 明日1回だけ試す：断りにくいとき「今は決められない」と10秒言う。",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "新しいコミュニケーションスキルを試したい人"
+            ],
+            "limitations": [
+                "練習なしでは言葉が出にくいことがある"
+            ],
+            "citation_role": "アサーティブネス介入の選択肢を提案",
+            "try_this": "明日1回「今は決められない」を使う",
+            "claim_tags": [
+                "assertiveness",
+                "implementation",
+                "habit_formation"
+            ],
+            "tiny_metric": {
+                "metric": "今週1回でも使えたか",
+                "stop_rule": "1週間使えなかったらやめる"
+            },
+            "comparator": {
+                "baseline": "何も試さず引き受け続ける",
+                "cost": "10秒 × 数回/週"
+            },
+            "fallback": {
+                "when": "どれも言いにくい",
+                "next": "まず頭の中で練習してから"
+            }
+        }
+    },
+    {
+        "id": "social_l01_010",
+        "type": "conversation",
+        "question": "このレッスンの「断り方テク」、使えそうでしたか？",
+        "choices": [
+            "使えそう",
+            "ちょっと合わなそう",
+            "まだわからない"
+        ],
+        "recommended_index": null,
+        "explanation": "どれも正解。「合わなそう」なら別のアプローチを探すのも大事。断り方は文化・関係性によって正解が違う。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "個人差への配慮を支持",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

@@ -1,0 +1,55 @@
+{
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "foundational",
+      "doi": "10.1037/0022-3514.74.1.224",
+      "pmid": "",
+      "url": "https://psycnet.apa.org/doi/10.1037/0022-3514.74.1.224",
+      "label": "Gross (1998) - Antecedent- and response-focused emotion regulation"
+    },
+    {
+      "role": "supporting",
+      "source_type": "fmri_study",
+      "doi": "10.1111/j.1467-9280.2007.01916.x",
+      "pmid": "17576282",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/17576282/",
+      "label": "Lieberman et al. (2007) - Putting Feelings Into Words: Affect Labeling Disrupts Amygdala Activity"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/j.cpr.2024.102428",
+      "pmid": "38657292",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/38657292/",
+      "label": "Webb et al. (2024) - Cognitive reappraisal and personal resilience: A MA"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1017/S2045796024000611",
+      "pmid": "39501660",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39501660/",
+      "label": "Cuijpers et al. (2024) - 心理療法の効果量は待機群比較で過大推定される傾向MA"
+    }
+  ],
+  "source_label": "Gross (1998) + Lieberman (2007) fMRI + Webb (2024) MA",
+  "claim": "焦りやイライラを感じたとき、その感情に名前をつける（「今、焦っているな」と言語化する）と、扁桃体の活動が低下し感情が落ち着きやすくなる可能性がある",
+  "limitations": "効果には個人差がある。慢性的な不安には別アプローチが必要な場合がある。パニック発作中は効果が限定的な場合がある",
+  "effect_size_note": "Lieberman et al. (2007): 感情ラベリングによる扁桃体活動の低下はfMRI研究で確認。Webb et al. (2024): 認知的再評価の主観的効果は中程度 [DOI:10.1111/j.1467-9280.2007.01916.x, DOI:10.1016/j.cpr.2024.102428]",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-28",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
+  }
+}

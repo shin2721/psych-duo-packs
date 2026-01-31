@@ -1,0 +1,24 @@
+{
+    "version": 1,
+    "xp_rewards": {
+        "correct_answer": 5,
+        "lesson_complete": 20,
+        "attempted": 10,
+        "executed": 25,
+        "felt_better_positive": 10
+    },
+    "freeze": {
+        "weekly_refill": 2,
+        "purchase_cost_gems": 10,
+        "max_cap": 10
+    },
+    "streak": {
+        "action_per_day_limit": 1,
+        "study_per_day_limit": 1
+    },
+    "focus": {
+        "max": 25,
+        "lesson_cost": 1,
+        "recovery_rate_per_hour": 1
+    }
+}

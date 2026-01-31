@@ -1,0 +1,47 @@
+{
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "theoretical",
+      "doi": "10.1016/j.cpr.2013.01.001",
+      "pmid": "23395729",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/23395729/",
+      "label": "Sirois & Pychyl (2013) - Procrastination and the Priority of Short-Term Mood Regulation"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.3389/fpsyg.2018.01588",
+      "pmid": "30214421",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30214421/",
+      "label": "Rozental et al. (2018) - Targeting procrastination using psychological treatments: A SR and MA"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1017/S2045796024000611",
+      "pmid": "39501660",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39501660/",
+      "label": "Cuijpers et al. (2024) - 心理療法の効果量は待機群比較で過大推定される傾向MA"
+    }
+  ],
+  "source_label": "Sirois & Pychyl (2013) + Rozental et al. (2018) procrastination intervention MA",
+  "claim": "勉強を始められないとき、「10秒だけやる」と決めて教科書を開くだけで、その後も続けやすくなる可能性がある。先延ばしは意志力の問題ではなく感情調整の問題という見方がある",
+  "limitations": "慢性的な無気力や抑うつ傾向がある場合は別のアプローチが必要。本当に疲れているときは休息優先。ADHDなど注意制御に困難がある場合は専門的な支援が有効",
+  "effect_size_note": "Rozental et al. (2018) MA: 先延ばしへの心理的介入の効果は小〜中程度（g=0.34, 95%CI: 0.11-0.56）。ただし効果には個人差があり、重度の先延ばしには限定的 [DOI:10.3389/fpsyg.2018.01588, PMID:30214421]",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-28",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
+  }
+}

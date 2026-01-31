@@ -1,0 +1,143 @@
+{
+    "_meta": {
+        "schema_version": "2.0",
+        "exported_at": "2026-01-10T09:00:00.000Z",
+        "entry_count": 5
+    },
+    "byIntervention": {
+        "mental_l01_004": {
+            "shown": 25,
+            "attempted": 8,
+            "executed": 5,
+            "felt_better_count": 4,
+            "felt_better_sum": 5,
+            "felt_better_avg": 1.25,
+            "attempt_rate": 32,
+            "execute_rate": 63,
+            "variant_breakdown": {
+                "original": {
+                    "shown": 25,
+                    "attempted": 8,
+                    "executed": 5
+                }
+            }
+        },
+        "work_l01_003": {
+            "shown": 22,
+            "attempted": 5,
+            "executed": 3,
+            "felt_better_count": 2,
+            "felt_better_sum": 3,
+            "felt_better_avg": 1.5,
+            "attempt_rate": 23,
+            "execute_rate": 60,
+            "variant_breakdown": {
+                "original": {
+                    "shown": 22,
+                    "attempted": 5,
+                    "executed": 3
+                }
+            }
+        },
+        "study_l01_002": {
+            "shown": 15,
+            "attempted": 2,
+            "executed": 1,
+            "felt_better_count": 1,
+            "felt_better_sum": 0,
+            "felt_better_avg": 0,
+            "attempt_rate": 13,
+            "execute_rate": 50,
+            "variant_breakdown": {
+                "original": {
+                    "shown": 15,
+                    "attempted": 2,
+                    "executed": 1
+                }
+            }
+        }
+    },
+    "byLesson": {
+        "mental_units/mental_l01.ja.json": {
+            "shown": 5,
+            "attempted": 3,
+            "executed": 2
+        },
+        "work_units/work_l01.ja.json": {
+            "shown": 4,
+            "attempted": 2,
+            "executed": 1
+        },
+        "study_units/study_l01.ja.json": {
+            "shown": 3,
+            "attempted": 1,
+            "executed": 1
+        }
+    },
+    "mental_l01_004": {
+        "shown": 25,
+        "attempted": 8,
+        "executed": 5,
+        "felt_better_count": 4,
+        "felt_better_sum": 5,
+        "felt_better_avg": 1.25,
+        "attempt_rate": 32,
+        "execute_rate": 63,
+        "variant_breakdown": {
+            "original": {
+                "shown": 25,
+                "attempted": 8,
+                "executed": 5
+            }
+        }
+    },
+    "work_l01_003": {
+        "shown": 22,
+        "attempted": 5,
+        "executed": 3,
+        "felt_better_count": 2,
+        "felt_better_sum": 3,
+        "felt_better_avg": 1.5,
+        "attempt_rate": 23,
+        "execute_rate": 60,
+        "variant_breakdown": {
+            "original": {
+                "shown": 22,
+                "attempted": 5,
+                "executed": 3
+            }
+        }
+    },
+    "study_l01_002": {
+        "shown": 15,
+        "attempted": 2,
+        "executed": 1,
+        "felt_better_count": 1,
+        "felt_better_sum": 0,
+        "felt_better_avg": 0,
+        "attempt_rate": 13,
+        "execute_rate": 50,
+        "variant_breakdown": {
+            "original": {
+                "shown": 15,
+                "attempted": 2,
+                "executed": 1
+            }
+        }
+    },
+    "mental_units/mental_l01.ja.json": {
+        "shown": 5,
+        "attempted": 3,
+        "executed": 2
+    },
+    "work_units/work_l01.ja.json": {
+        "shown": 4,
+        "attempted": 2,
+        "executed": 1
+    },
+    "study_units/study_l01.ja.json": {
+        "shown": 3,
+        "attempted": 1,
+        "executed": 1
+    }
+}

@@ -1,0 +1,515 @@
+import React, { useState } from "react";
+import { View, Text, StyleSheet, Pressable, ScrollView, Alert, Linking } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
+import { theme } from "../../lib/theme";
+import { useAppState } from "../../lib/state";
+import { useAuth } from "../../lib/AuthContext";
+import { GlobalHeader } from "../../components/GlobalHeader";
+import { PLANS, SUPABASE_FUNCTION_URL, type PlanConfig } from "../../lib/plans";
+import i18n from "../../lib/i18n";
+import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
+
+// import { Firefly } from "../../components/Firefly"; // TODO: Re-enable after native rebuild
+
+interface ShopItem {
+  id: string;
+  name: string;
+  description: string;
+  price: number;
+  icon: keyof typeof Ionicons.glyphMap;
+  customIcon?: React.ReactNode;
+  action: () => boolean;
+}
+
+export default function ShopScreen() {
+  const { gems, buyFreeze, freezeCount, planId, isSubscriptionActive, activeUntil, buyDoubleXP, isDoubleXpActive, doubleXpEndTime } = useAppState();
+  const { user } = useAuth();
+  const [justPurchased, setJustPurchased] = useState<string | null>(null);
+  const [isSubscribing, setIsSubscribing] = useState(false);
+
+  const handlePurchase = (item: ShopItem) => {
+    const success = item.action();
+    if (success) {
+      setJustPurchased(item.id);
+      setTimeout(() => setJustPurchased(null), 2000);
+      Alert.alert(i18n.t('common.ok'), `${item.name}`);
+    } else {
+      Alert.alert(i18n.t('common.error'), i18n.t('shop.gems') + "...");
+    }
+  };
+
+  const handleSubscribe = async (plan: PlanConfig) => {
+    setIsSubscribing(true);
+    try {
+      // Call Supabase Function to create checkout session
+      const response = await fetch(`${SUPABASE_FUNCTION_URL}/create-checkout-session`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          priceId: plan.priceId,
+          userId: user?.id || "",
+          email: user?.email || "user@example.com",
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.url) {
+        // Open Stripe Checkout in browser
+        const supported = await Linking.canOpenURL(data.url);
+        if (supported) {
+          await Linking.openURL(data.url);
+        } else {
+          Alert.alert("エラー", "決済ページを開けませんでした");
+        }
+      } else {
+        Alert.alert("エラー", "決済セッションの作成に失敗しました");
+      }
+    } catch (error) {
+      console.error("Checkout error:", error);
+      Alert.alert("エラー", "決済処理中にエラーが発生しました");
+    } finally {
+      setIsSubscribing(false);
+    }
+  };
+
+  const shopItems: ShopItem[] = [
+    {
+      id: "freeze",
+      name: i18n.t('shop.items.freeze.name'),
+      description: i18n.t('shop.items.freeze.desc'),
+      price: 10,
+      icon: "snow-outline",
+      action: buyFreeze,
+    },
+    {
+      id: "double_xp",
+      name: i18n.t('shop.items.doubleXP.name'),
+      description: isDoubleXpActive
+        ? `${i18n.t('shop.items.doubleXP.active')} ${Math.ceil((doubleXpEndTime! - Date.now()) / 60000)}m`
+        : i18n.t('shop.items.doubleXP.desc'),
+      price: 20,
+      icon: "flash-outline",
+      customIcon: <EnergyIcon size={36} />,
+      action: buyDoubleXP,
+    },
+  ];
+
+  return (
+    <SafeAreaView style={styles.container}>
+      <GlobalHeader />
+      <View style={styles.header}>
+        <Ionicons name="storefront" size={32} color={theme.colors.accent} />
+        <Text style={styles.title}>{i18n.t('shop.title')}</Text>
+
+        {/* Gems Display */}
+        <View style={styles.gemsContainer}>
+          <GemIcon size={20} />
+          <Text style={styles.gemsText}>{gems}</Text>
+        </View>
+      </View>
+
+      {/* Firefly Character */}
+      <View style={{ alignItems: 'center', marginBottom: 20 }}>
+        {/* <Firefly /> */}{/* TODO: Re-enable after native rebuild */}
+      </View>
+
+      {/* Subscription Plans */}
+      <ScrollView style={styles.scrollView} contentContainerStyle={styles.itemsContainer}>
+        <View style={styles.sectionHeader}>
+          <Ionicons name="sparkles" size={24} color={theme.colors.accent} />
+          <Text style={styles.sectionTitle}>プレミアムプラン</Text>
+        </View>
+
+        {/* Current Subscription Status */}
+        {isSubscriptionActive && activeUntil && (
+          <View style={styles.activeSubscriptionCard}>
+            <Ionicons name="checkmark-circle" size={24} color={theme.colors.success} />
+            <View style={styles.subscriptionInfo}>
+              <Text style={styles.activeSubscriptionText}>
+                {planId === "pro" ? "Pro" : "Max"}プラン有効中
+              </Text>
+              <Text style={styles.activeSubscriptionDate}>
+                有効期限: {new Date(activeUntil).toLocaleDateString("ja-JP")}
+              </Text>
+            </View>
+          </View>
+        )}
+
+        {/* Plan Cards */}
+        <View style={styles.plansContainer}>
+          {PLANS.filter(p => p.id === 'pro').map((plan) => (
+            <View key={plan.id} style={styles.planCard}>
+              {plan.popular && (
+                <View style={styles.popularBadge}>
+                  <Text style={styles.popularText}>人気</Text>
+                </View>
+              )}
+              <View style={styles.planHeader}>
+                <Text style={styles.planName}>{plan.name}</Text>
+                <Text style={styles.planPrice}>¥{plan.priceMonthly.toLocaleString()}</Text>
+                <Text style={styles.planPeriod}>/月</Text>
+              </View>
+              <View style={styles.planFeatures}>
+                {plan.features.map((feature, index) => (
+                  <View key={index} style={styles.featureRow}>
+                    <Ionicons name="checkmark-circle" size={18} color={theme.colors.accent} />
+                    <Text style={styles.featureText}>{feature}</Text>
+                  </View>
+                ))}
+              </View>
+              <Pressable
+                style={[
+                  styles.subscribeButton,
+                  planId === plan.id && isSubscriptionActive && styles.subscribeButtonActive,
+                  isSubscribing && styles.subscribeButtonDisabled,
+                ]}
+                onPress={() => handleSubscribe(plan)}
+                disabled={isSubscribing || (planId === plan.id && isSubscriptionActive)}
+              >
+                <Text style={styles.subscribeButtonText}>
+                  {isSubscribing
+                    ? "処理中..."
+                    : planId === plan.id && isSubscriptionActive
+                      ? "有効中"
+                      : "登録する"}
+                </Text>
+              </Pressable>
+            </View>
+          ))}
+        </View>
+
+        {/* Divider */}
+        <View style={styles.divider} />
+
+        <View style={styles.sectionHeader}>
+          <Ionicons name="diamond" size={24} color={theme.colors.accent} />
+          <Text style={styles.sectionTitle}>アイテム</Text>
+        </View>
+
+        {/* Shop Items */}
+        {shopItems.map((item) => (
+          <View key={item.id} style={styles.itemCard}>
+            <View style={styles.itemIcon}>
+              {item.customIcon ? (
+                item.customIcon
+              ) : (
+                <Ionicons name={item.icon} size={40} color={theme.colors.accent} />
+              )}
+            </View>
+            <View style={styles.itemInfo}>
+              <Text style={styles.itemName}>{item.name}</Text>
+              <Text style={styles.itemDescription}>{item.description}</Text>
+              {item.id === "freeze" && (
+                <Text style={styles.itemOwned}>所持数: {freezeCount}</Text>
+              )}
+            </View>
+            <Pressable
+              style={[
+                styles.buyButton,
+                justPurchased === item.id && styles.buyButtonSuccess,
+              ]}
+              onPress={() => handlePurchase(item)}
+            >
+              {justPurchased === item.id ? (
+                <Ionicons name="checkmark" size={20} color="#fff" />
+              ) : (
+                <>
+                  <GemIcon size={16} />
+                  <Text style={styles.buyButtonText}>{item.price}</Text>
+                </>
+              )}
+            </Pressable>
+          </View>
+        ))}
+
+        {/* Placeholder for future items */}
+        <View style={styles.comingSoonCard}>
+          <Ionicons name="time-outline" size={32} color={theme.colors.sub} />
+          <Text style={styles.comingSoonText}>さらなるアイテムが近日公開！</Text>
+        </View>
+      </ScrollView>
+
+      {/* Info Footer */}
+      <View style={styles.footer}>
+        <Ionicons name="information-circle-outline" size={20} color={theme.colors.sub} />
+        <Text style={styles.footerText}>Gemsはレッスンやクエストで獲得できます</Text>
+      </View>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: "transparent",
+  },
+  header: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "800",
+    color: theme.colors.text,
+  },
+  gemsContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    backgroundColor: theme.colors.card,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 4,
+    borderRadius: 999,
+    gap: 4,
+  },
+  gemsText: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    color: theme.colors.text,
+  },
+  gemsCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: theme.colors.surface,
+    marginHorizontal: 20,
+    marginBottom: 20,
+    padding: 20,
+    borderRadius: 16,
+    gap: 16,
+  },
+  gemsInfo: {
+    flex: 1,
+  },
+  gemsLabel: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: theme.colors.sub,
+    marginBottom: 4,
+  },
+  gemsValue: {
+    fontSize: 32,
+    fontWeight: "800",
+    color: theme.colors.accent,
+  },
+  scrollView: {
+    flex: 1,
+  },
+  itemsContainer: {
+    paddingHorizontal: 20,
+    paddingBottom: 20,
+  },
+  itemCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: theme.colors.card,
+    padding: 16,
+    borderRadius: 16,
+    marginBottom: 12,
+    gap: 16,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+  },
+  itemIcon: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    backgroundColor: theme.colors.surface,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  itemInfo: {
+    flex: 1,
+  },
+  itemName: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: theme.colors.text,
+    marginBottom: 4,
+  },
+  itemDescription: {
+    fontSize: 14,
+    color: theme.colors.sub,
+    lineHeight: 20,
+  },
+  itemOwned: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: theme.colors.accent,
+    marginTop: 4,
+  },
+  buyButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    backgroundColor: theme.colors.accent,
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    minWidth: 70,
+    justifyContent: "center",
+  },
+  buyButtonSuccess: {
+    backgroundColor: theme.colors.success,
+  },
+  buyButtonText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#fff",
+  },
+  comingSoonCard: {
+    alignItems: "center",
+    padding: 32,
+    backgroundColor: theme.colors.surface,
+    borderRadius: 16,
+    marginTop: 8,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+  },
+  comingSoonText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: theme.colors.sub,
+    marginTop: 12,
+  },
+  footer: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingHorizontal: 20,
+    paddingVertical: 16,
+    backgroundColor: theme.colors.surface,
+  },
+  footerText: {
+    fontSize: 13,
+    color: theme.colors.sub,
+    flex: 1,
+  },
+  // Subscription styles
+  sectionHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 16,
+  },
+  sectionTitle: {
+    fontSize: 20,
+    fontWeight: "700",
+    color: theme.colors.text,
+  },
+  activeSubscriptionCard: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    backgroundColor: theme.colors.surface,
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: theme.colors.success,
+  },
+  subscriptionInfo: {
+    flex: 1,
+  },
+  activeSubscriptionText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: theme.colors.text,
+    marginBottom: 4,
+  },
+  activeSubscriptionDate: {
+    fontSize: 13,
+    color: theme.colors.sub,
+  },
+  plansContainer: {
+    flexDirection: "row",
+    gap: 12,
+    marginBottom: 24,
+  },
+  planCard: {
+    flex: 1,
+    backgroundColor: theme.colors.surface,
+    borderRadius: 16,
+    padding: 20,
+    borderWidth: 2,
+    borderColor: theme.colors.line,
+    position: "relative",
+  },
+  popularBadge: {
+    position: "absolute",
+    top: -8,
+    right: 16,
+    backgroundColor: theme.colors.accent,
+    paddingHorizontal: 12,
+    paddingVertical: 4,
+    borderRadius: 12,
+  },
+  popularText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#fff",
+  },
+  planHeader: {
+    marginBottom: 16,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.line,
+    paddingBottom: 16,
+  },
+  planName: {
+    fontSize: 24,
+    fontWeight: "800",
+    color: theme.colors.text,
+    marginBottom: 8,
+  },
+  planPrice: {
+    fontSize: 32,
+    fontWeight: "800",
+    color: theme.colors.accent,
+  },
+  planPeriod: {
+    fontSize: 14,
+    color: theme.colors.sub,
+    marginTop: 4,
+  },
+  planFeatures: {
+    marginBottom: 20,
+  },
+  featureRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 10,
+  },
+  featureText: {
+    fontSize: 14,
+    color: theme.colors.text,
+    flex: 1,
+  },
+  subscribeButton: {
+    backgroundColor: theme.colors.accent,
+    paddingVertical: 14,
+    borderRadius: 12,
+    alignItems: "center",
+  },
+  subscribeButtonActive: {
+    backgroundColor: theme.colors.success,
+  },
+  subscribeButtonDisabled: {
+    backgroundColor: theme.colors.line,
+  },
+  subscribeButtonText: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#fff",
+  },
+  divider: {
+    height: 1,
+    backgroundColor: theme.colors.line,
+    marginVertical: 24,
+  },
+});

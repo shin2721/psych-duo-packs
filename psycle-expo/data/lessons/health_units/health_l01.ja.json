@@ -1,0 +1,368 @@
+[
+    {
+        "id": "health_l01_001",
+        "type": "conversation",
+        "question": "最近、布団に入ってから「眠れない...」と感じる時間はどのくらい？",
+        "your_response_prompt": "体感でOKです",
+        "choices": [
+            "30分以上（焦ってくる）",
+            "10-20分くらい",
+            "5分以内（すぐ落ちる）"
+        ],
+        "recommended_index": null,
+        "explanation": "30分以上が続くと辛いですね。実は「眠ろう」と努力するほど、脳は覚醒して逆効果になることが分かっています。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "入眠困難がある人",
+                "夜に考え事が止まらない人"
+            ],
+            "limitations": [
+                "慢性的に眠れない状態が続く場合は専門家への相談を推奨"
+            ],
+            "citation_role": "入眠困難と認知的覚醒の関連を観察研究で支持",
+            "claim_tags": [
+                "sleep",
+                "cognitive_arousal",
+                "insomnia"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_002",
+        "type": "multiple_choice",
+        "question": "「眠れない...」と焦るほど、何が起きやすい？",
+        "choices": [
+            "覚醒状態が維持されやすくなる",
+            "自然と眠くなる",
+            "疲れて眠りにつく"
+        ],
+        "correct_index": 0,
+        "explanation": "「眠らなきゃ」という焦りが認知的覚醒を引き起こし、逆に目が冴える傾向がある。まずは「眠れなくてもいい」と受け入れることが第一歩かもしれない。",
+        "actionable_advice": "💡 眠れない夜は「眠れなくてもOK」と10秒だけ呟いてみる。嫌なら即やめてOK。",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "眠れないことへの焦りが強い人",
+                "パフォーマンス不安がある人"
+            ],
+            "limitations": [
+                "身体的な不眠原因には効果が薄い",
+                "慢性不眠には専門治療が必要"
+            ],
+            "citation_role": "認知的覚醒理論から焦りと覚醒の関連を説明",
+            "claim_tags": [
+                "sleep",
+                "cognitive_arousal",
+                "theory"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_003",
+        "type": "swipe_judgment",
+        "question": "寝る直前までスマホを見ている日は、眠りにつきにくいことがある。",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "心当たりある",
+            "right": "そうでもない"
+        },
+        "explanation": "スマホのコンテンツは「もっと見たい」というドーパミンを出し、脳を覚醒させる。ブルーライト以上に、情報の刺激が眠りを妨げる。",
+        "actionable_advice": "💡 今夜だけ：ベッドに入る30分前にスマホを充電器に繋ぐ（手元に置かない）",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Cain_2010",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "就寝前スマホ習慣がある人"
+            ],
+            "limitations": [
+                "スマホが入眠儀式として機能している場合は例外"
+            ],
+            "citation_role": "電子メディアと睡眠の関連を観察研究で支持",
+            "claim_tags": [
+                "sleep",
+                "screen_time",
+                "blue_light"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_004",
+        "type": "multiple_choice",
+        "question": "眠れない夜に「4秒吸って、7秒止めて、8秒吐く」呼吸法を試すと、何が起きやすい？",
+        "choices": [
+            "副交感神経が優位になり、リラックスしやすくなる傾向がある",
+            "すぐに眠れる",
+            "かえって目が覚める"
+        ],
+        "correct_index": 0,
+        "explanation": "4-7-8呼吸法は副交感神経を刺激する可能性がある。すぐ眠れるとは限らないが、リラックス効果が報告されている。合わない人もいるので、無理に続けなくてOK。",
+        "actionable_advice": "💡 次に眠れない夜は、4-7-8呼吸を2回だけ試す。合わなければ即やめてOK。",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Ma_2017",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "身体の緊張が強い人",
+                "考え事が止まらない人"
+            ],
+            "limitations": [
+                "呼吸に意識を向けること自体がストレスになる人には逆効果",
+                "呼吸器疾患がある人は注意"
+            ],
+            "citation_role": "ゆっくり呼吸法のリラックス効果を間接支持",
+            "try_this": "4-7-8呼吸を2回だけ試す",
+            "claim_tags": [
+                "sleep",
+                "breathing",
+                "relaxation"
+            ],
+            "tiny_metric": {
+                "before_prompt": "今の緊張は？（0-10）",
+                "after_prompt": "2回後は？",
+                "success_rule": "少しでも下がればOK",
+                "stop_rule": "変わらない or 苦しければ撤退"
+            },
+            "comparator": {
+                "baseline": "何もせず横になる",
+                "cost": "30秒程度 / 負荷は低い"
+            },
+            "fallback": {
+                "when": "呼吸法が合わない",
+                "next": "「眠れなくてもOK」と呟く逆説的意図"
+            }
+        }
+    },
+    {
+        "id": "health_l01_005",
+        "type": "swipe_judgment",
+        "question": "眠れない夜に時計を見ると、かえって焦りが増すことがある。",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "わかる",
+            "right": "そうでもない"
+        },
+        "explanation": "時計確認は「あと何時間しか眠れない」という計算を引き起こし、認知的覚醒を高める傾向がある。時計を見ない方がいい人は多い。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "時計を見る習慣がある人"
+            ],
+            "limitations": [
+                "時計を見ないと不安になる人もいる"
+            ],
+            "citation_role": "時計監視行動と入眠困難の関連を観察研究で支持",
+            "claim_tags": [
+                "sleep",
+                "cognitive_arousal",
+                "clock_watching"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_006",
+        "type": "multiple_choice",
+        "question": "眠れない夜に「体の力を抜く」ことを意識するなら、どこから始めるのが効率的？",
+        "choices": [
+            "顔・顎の力を抜く",
+            "足の指から順番に",
+            "腕を上げて脱力"
+        ],
+        "correct_index": 0,
+        "explanation": "顔と顎の緊張は全身のリラックスに影響しやすい傾向がある。特に無意識に噛みしめている人は多い。10秒で顎の力を抜くことで変化を感じる人がいる。",
+        "actionable_advice": "💡 今すぐ試す：顎の力を10秒だけ抜いてみる。",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jacobson_1938",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "無意識に力が入っている人",
+                "歯ぎしり・噛みしめ傾向がある人"
+            ],
+            "limitations": [
+                "身体感覚への意識自体がストレスになる人には不向き"
+            ],
+            "citation_role": "漸進的筋弛緩法から顔・顎リラックスの効果を間接支持",
+            "try_this": "顎の力を10秒だけ抜く",
+            "claim_tags": [
+                "sleep",
+                "muscle_relaxation",
+                "tension"
+            ],
+            "tiny_metric": {
+                "before_prompt": "顎の緊張は？（高/中/低）",
+                "after_prompt": "10秒後は？",
+                "success_rule": "少しでも緩めばOK",
+                "stop_rule": "変わらなければ撤退"
+            },
+            "comparator": {
+                "baseline": "特に意識しない",
+                "cost": "10秒 / 負荷は低い"
+            },
+            "fallback": {
+                "when": "顎リラックスが意識しにくい",
+                "next": "肩を3秒上げて、一気に落とす"
+            }
+        }
+    },
+    {
+        "id": "health_l01_007",
+        "type": "conversation",
+        "question": "眠れない夜、一番多いパターンは？",
+        "choices": [
+            "考え事が止まらない",
+            "身体が緊張している",
+            "眠れないこと自体への焦り",
+            "特にパターンはない"
+        ],
+        "recommended_index": null,
+        "explanation": "どれも正解。自分のパターンに気づくことで、対策が選びやすくなる傾向がある。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "入眠困難のパターン認識を支持",
+            "claim_tags": [
+                "sleep",
+                "self_awareness",
+                "pattern_recognition"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_008",
+        "type": "swipe_judgment",
+        "question": "週末に寝だめをすると、平日の睡眠リズムが乱れることがある。",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "そうかも",
+            "right": "そうでもない"
+        },
+        "explanation": "睡眠リズムは一定に保つ方が質が上がる傾向がある。ただし、慢性的な睡眠不足がある場合は週末の回復睡眠も必要。バランスが大事。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Walker_2017",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "週末に寝だめ習慣がある人"
+            ],
+            "limitations": [
+                "慢性睡眠不足の場合は回復睡眠も必要"
+            ],
+            "citation_role": "睡眠リズムの乱れと睡眠の質の関連を支持",
+            "claim_tags": [
+                "sleep",
+                "circadian_rhythm",
+                "sleep_debt"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_009",
+        "type": "multiple_choice",
+        "question": "今日学んだテクで、明日から使えそうなのは？",
+        "choices": [
+            "「眠れなくてもOK」と10秒呟く",
+            "4-7-8呼吸法を2回試す",
+            "顎の力を10秒抜く",
+            "全部試してみる"
+        ],
+        "correct_index": 3,
+        "explanation": "どれも試してみる価値がある。合わなければ別のを試す。それも学び。ただし、慢性的な不眠が続く場合は専門家への相談を推奨。",
+        "actionable_advice": "💡 今夜から1つだけ試す：眠れなかったら「眠れなくてもOK」と10秒呟く。",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "新しい習慣を始めたい人"
+            ],
+            "limitations": [
+                "慢性不眠には専門治療が必要"
+            ],
+            "citation_role": "入眠介入の選択肢を提案",
+            "try_this": "今夜から1つ試す",
+            "claim_tags": [
+                "sleep",
+                "implementation",
+                "habit_formation"
+            ],
+            "tiny_metric": {
+                "metric": "今週1回でも試せたか",
+                "stop_rule": "1週間試せなかったらやめる"
+            },
+            "comparator": {
+                "baseline": "何も試さない",
+                "cost": "10秒 × 数回/週"
+            },
+            "fallback": {
+                "when": "どれも合わない",
+                "next": "専門家への相談を検討"
+            }
+        }
+    },
+    {
+        "id": "health_l01_010",
+        "type": "conversation",
+        "question": "このレッスンの「睡眠テク」、使えそうでしたか？",
+        "choices": [
+            "使えそう",
+            "ちょっと合わなそう",
+            "まだわからない"
+        ],
+        "recommended_index": null,
+        "explanation": "どれも正解。「合わなそう」なら別のアプローチを探すのも大事。睡眠は個人差が大きいので、自分に合う方法を見つけるプロセス自体が価値。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "個人差への配慮を支持",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

@@ -1,0 +1,58 @@
+name: Daily Content Patrol
+
+on:
+  schedule:
+    # Run daily at 9:00 AM UTC (6:00 PM JST)
+    - cron: '0 9 * * *'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  patrol:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install root dependencies
+        run: npm ci
+
+      - name: Install content-generator dependencies
+        run: cd scripts/content-generator && npm ci
+
+      - name: Run Patrol (Content Generation)
+        env:
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+        run: npm run update-content
+
+      - name: Check for changes
+        id: check_changes
+        run: |
+          if git diff --quiet; then
+            echo "changes=false" >> $GITHUB_OUTPUT
+          else
+            echo "changes=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit and push changes
+        if: steps.check_changes.outputs.changes == 'true'
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          git add scripts/content-generator/output/ scripts/content-generator/history/ data/lessons/*/auto/
+          git commit -m "chore: daily content patrol
+
+          - Fetched latest psychology news from RSS feeds
+          - Generated Life-Scene First questions using Gemini 3 Flash Preview
+          - Evaluated with Gemini 2.5 Flash Critic
+          - Updated: $(date +'%Y-%m-%d %H:%M:%S UTC')
+
+          🤖 Automated by GitHub Actions"
+          git push

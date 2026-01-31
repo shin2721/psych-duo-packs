@@ -1,0 +1,39 @@
+{
+  "source_type": "peer_reviewed",
+  "citations": [
+    {
+      "role": "primary",
+      "source_type": "meta_analysis",
+      "doi": "10.1037/0033-2909.133.1.65",
+      "pmid": "17201571",
+      "url": "https://psycnet.apa.org/doi/10.1037/0033-2909.133.1.65",
+      "label": "Steel (2007) - The Nature of Procrastination: A Meta-Analytic Review"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.3389/fpsyg.2018.01588",
+      "pmid": "30214421",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30214421/",
+      "label": "Rozental et al. (2018) - 心理的介入の効果は小程度（g=0.34）とするMA"
+    }
+  ],
+  "source_label": "Steel (2007) procrastination MA + Rozental et al. (2018) intervention MA",
+  "claim": "仕事に取りかかれないとき、「まず5分だけ」と決めてPCを開くだけで、その後も作業を続けやすくなる可能性がある。タスクを細分化することで心理的抵抗が減る傾向がある",
+  "limitations": "ADHDや完璧主義が背景にある場合は別のアプローチが必要。バーンアウト傾向の場合は休息が最優先。職場環境・上司の指示が原因の場合はテクニックでは解決しない",
+  "effect_size_note": "Rozental et al. (2018) MA: 介入 vs 統制で g=0.34（95%CI: 0.11-0.56, 小）。CBTサブグループでは g=0.55（95%CI: 0.32-0.77, 中）。[DOI:10.3389/fpsyg.2018.01588, PMID:30214421]",
+  "evidence_grade": "silver",
+  "confidence": "high",
+  "status": "active",
+  "last_verified": "2026-01-28",
+  "generated_by": "mode_a",
+  "review": {
+    "human_approved": true,
+    "reviewer": "owner"
+  },
+  "citation": {
+    "doi": "",
+    "pmid": "",
+    "url": ""
+  }
+}
