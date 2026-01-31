@@ -24,9 +24,7 @@ jobs:
       - name: content:preflight
         run: npm run content:preflight
       - name: validate:lessons
-        run: npm run validate:lessons
-        env:
-          TS_NODE_COMPILER_OPTIONS: '{"module":"node20"}'
+        run: node --loader ts-node/esm scripts/validate-lessons.ts
       - name: lint:lesson-authoring
         run: npm run lint:lesson-authoring
       - name: unit tests
