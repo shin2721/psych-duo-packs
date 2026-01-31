@@ -25,6 +25,8 @@ jobs:
         run: npm run content:preflight
       - name: validate:lessons
         run: npm run validate:lessons
+        env:
+          TS_NODE_COMPILER_OPTIONS: '{"module":"CommonJS"}'
       - name: lint:lesson-authoring
         run: npm run lint:lesson-authoring
       - name: unit tests
