@@ -21,15 +21,13 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: sudo apt-get update && sudo apt-get install -y jq
-      - name: Validate JSON
+      - name: Validate content (psycle-expo)
+        working-directory: psycle-expo
         run: |
-          if [ -x scripts/validate.sh ]; then
-            bash scripts/validate.sh
-          else
-            echo "scripts/validate.sh not found; running minimal checks"
-            jq -e . catalog.json >/dev/null
-          fi
-  publish:
+          npm ci
+          npm run content:preflight
+          npm run validate:lessons
+          npm run lint:lesson-authoring
     # 手動or週次だけで動かす（pushでは動かさない）
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
