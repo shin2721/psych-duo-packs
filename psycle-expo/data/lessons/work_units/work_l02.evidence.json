@@ -29,7 +29,7 @@
   "source_label": "Gollwitzer (1999) + Gollwitzer & Sheeran (2006) MA + Webb et al. (2009)",
   "claim": "「朝9時にデスクに座ったら、まずメールを開く」のように「いつ・どこで・何を」を具体的に決めておくと、行動を起こしやすくなる可能性がある。実行意図は目標達成率を高める傾向がメタ分析で示されている",
   "limitations": "強い習慣がある場合は効果が弱まる（Webb 2009）。動機づけ・コミットメントが低い場合は効果なし。習慣形成には繰り返しが必要で単発では定着しにくい",
-  "effect_size_note": "Gollwitzer & Sheeran (2006) MA: 目標達成に d=0.65（中〜大）。ただしWebb et al. (2009)では強い習慣があると効果が減弱。",
+  "effect_size_note": "Gollwitzer & Sheeran (2006) MA: 目標達成に d=0.65（中〜大）。ただしWebb et al. (2009)では強い習慣があると効果が減弱 [DOI:10.1016/S0065-2601(06)38002-1, DOI:10.1348/014466608X370591, PMID:18851764]",
   "evidence_grade": "silver",
   "confidence": "high",
   "status": "active",
