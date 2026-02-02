@@ -30,7 +30,7 @@ jobs:
           npm run content:preflight
           npm run validate:lessons
           npm run lint:lesson-authoring
-publish:
+  publish:
     # 手動or週次だけで動かす（pushでは動かさない）
     if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
     runs-on: ubuntu-latest
@@ -52,4 +52,4 @@ publish:
           for t in "${tracks[@]}"; do
             [ -d "queue/$t" ] && bash scripts/auto_publish.sh "$t" || true
           done
-# trigger refresh
+    # trigger refresh
