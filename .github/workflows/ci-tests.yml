@@ -3,9 +3,9 @@ name: Tests
 on:
   workflow_dispatch:
   push:
-    branches: [main, メイン, fix/question-renderer-safe]
+    branches: [main, fix/question-renderer-safe]
   pull_request:
-    branches: [main, メイン]
+    branches: [main]
 
 jobs:
   test:

@@ -1,9 +1,9 @@
 name: Validate & Auto Publish
 on:
   pull_request:
-    branches: [ main, メイン ]
+    branches: [ main ]
   push:
-    branches: [ main, メイン ]
+    branches: [ main ]
   workflow_dispatch:
     inputs:
       track:
