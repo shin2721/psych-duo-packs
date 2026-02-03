@@ -1,0 +1,13 @@
+psycle-expo/data/lessons/money_units/money_l01.evidence.json
+psycle-expo/data/lessons/mental_units/mental_l04.evidence.json
+psycle-expo/data/lessons/mental_units/mental_l03.evidence.json
+psycle-expo/data/lessons/mental_units/mental_l06.evidence.json
+psycle-expo/data/lessons/mental_units/mental_l02.evidence.json
+psycle-expo/data/lessons/mental_units/mental_l05.evidence.json
+psycle-expo/data/lessons/mental_units/mental_l01.evidence.json
+psycle-expo/data/lessons/social_units/social_l02.evidence.json
+psycle-expo/data/lessons/social_units/social_l01.evidence.json
+psycle-expo/data/lessons/health_units/health_l01.evidence.json
+psycle-expo/data/lessons/study_units/study_l01.evidence.json
+psycle-expo/data/lessons/work_units/work_l01.evidence.json
+psycle-expo/data/lessons/work_units/work_l02.evidence.json

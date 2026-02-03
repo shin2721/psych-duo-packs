@@ -1,6 +1,10 @@
 # Claim Alignment Report
 
+<<<<<<< HEAD
+> Generated: 2026-02-03
+=======
 > Generated: 2026-01-28
+>>>>>>> origin/メイン
 
 ## Summary
 

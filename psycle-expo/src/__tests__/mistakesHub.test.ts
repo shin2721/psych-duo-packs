@@ -6,18 +6,19 @@ import {
 } from "../features/mistakesHub";
 
 describe("mistakesHub", () => {
-  const now = new Date("2026-01-01T00:00:00Z").getTime();
+  const now = new Date("2026-01-31T00:00:00.000Z").getTime();
   const oneDayAgo = now - 24 * 60 * 60 * 1000;
   const twoDaysAgo = now - 2 * 24 * 60 * 60 * 1000;
   const thirtyDaysAgo = now - 30 * 24 * 60 * 60 * 1000;
   const thirtyOneDaysAgo = now - 31 * 24 * 60 * 60 * 1000;
 
   beforeAll(() => {
-    jest.spyOn(Date, "now").mockReturnValue(now);
+    jest.useFakeTimers();
+    jest.setSystemTime(now);
   });
 
   afterAll(() => {
-    (Date.now as jest.Mock).mockRestore();
+    jest.useRealTimers();
   });
 
   describe("selectMistakesHubItems", () => {

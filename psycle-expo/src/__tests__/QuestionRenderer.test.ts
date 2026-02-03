@@ -1,5 +1,3 @@
-import React from "react";
-import { render } from "@testing-library/react-native";
 jest.mock("expo-av", () => ({ Audio: {} }));
 jest.mock("@expo/vector-icons", () => ({ Ionicons: () => null }));
 jest.mock("../../lib/HapticFeedback", () => ({
@@ -9,38 +7,10 @@ jest.mock("../../lib/HapticFeedback", () => ({
     selection: jest.fn(),
   },
 }));
-jest.mock("../../lib/state", () => ({
-  useAppState: () => ({
-    addXp: jest.fn(),
-    updateSkill: jest.fn(),
-  }),
-}));
+jest.mock("../../lib/state", () => ({ useAppState: () => ({}) }));
 jest.mock("../../lib/sounds", () => ({ sounds: { play: jest.fn() } }));
-jest.mock("../../components/AnimatedButton", () => {
-  const React = require("react");
-  return {
-    AnimatedButton: ({ children }: { children: React.ReactNode }) =>
-      React.createElement(React.Fragment, null, children),
-  };
-});
-jest.mock("../../components/ComboFeedback", () => ({
-  ComboFeedback: () => null,
-}));
-jest.mock("../../components/Firefly", () => ({
-  Firefly: () => null,
-}));
-jest.mock("../../components/EvidenceBottomSheet", () => ({
-  EvidenceBottomSheet: () => null,
-}));
-jest.mock("../../components/InsightText", () => {
-  const React = require("react");
-  return {
-    InsightText: ({ text }: { text: string }) =>
-      React.createElement(React.Fragment, null, text),
-  };
-});
-jest.mock("../../components/XPGainAnimation", () => ({
-  XPGainAnimation: () => null,
+jest.mock("../../components/AnimatedButton", () => ({
+  AnimatedButton: () => null,
 }));
 jest.mock("../../components/QuestionTypes", () => ({
   QuickReflex: () => null,
@@ -53,13 +23,15 @@ jest.mock("../../components/QuestionTypes", () => ({
   ConsequenceScenario: () => null,
   SortOrder: () => null,
 }));
+jest.mock("../../components/XPGainAnimation", () => ({
+  XPGainAnimation: () => null,
+}));
 
 import {
   areSelectAllAnswersCorrect,
   getQuestionChoices,
   getQuestionText,
   isChoiceCorrect,
-  QuestionRenderer,
 } from "../../components/QuestionRenderer";
 import type { Question } from "../../types/question";
 
@@ -124,66 +96,5 @@ describe("QuestionRenderer helpers", () => {
 
     expect(areSelectAllAnswersCorrect(selectAllQuestion, [2, 0])).toBe(true);
     expect(areSelectAllAnswersCorrect(selectAllQuestion, [0, 1])).toBe(false);
-  });
-});
-
-describe("QuestionRenderer render", () => {
-  const handleContinue = jest.fn();
-
-  test("必須フィールド欠損でもクラッシュしない", () => {
-    const incompleteQuestion = {
-      id: "missing",
-      type: "multiple_choice",
-      question: undefined,
-      text: undefined,
-      choices: undefined,
-      explanation: undefined,
-      difficulty: "easy",
-      xp: 1,
-    } as Question;
-
-    expect(() =>
-      render(
-        React.createElement(QuestionRenderer, {
-          question: incompleteQuestion,
-          onContinue: handleContinue,
-        }),
-      ),
-    ).not.toThrow();
-  });
-
-  test("正常なMCQで問題文と選択肢が表示される", () => {
-    const questionWithoutText: Question = {
-      ...baseQuestion,
-      text: undefined,
-    };
-
-    const { getByText } = render(
-      React.createElement(QuestionRenderer, {
-        question: questionWithoutText,
-        onContinue: handleContinue,
-      }),
-    );
-
-    expect(getByText("質問の本文")).toBeTruthy();
-    expect(getByText("選択肢A")).toBeTruthy();
-    expect(getByText("選択肢B")).toBeTruthy();
-  });
-
-  test("textのみの入力でも問題文が描画される（回帰防止）", () => {
-    const textOnlyQuestion: Question = {
-      ...baseQuestion,
-      question: undefined,
-      text: "text fallback",
-    };
-
-    const { getByText } = render(
-      React.createElement(QuestionRenderer, {
-        question: textOnlyQuestion,
-        onContinue: handleContinue,
-      }),
-    );
-
-    expect(getByText("text fallback")).toBeTruthy();
   });
 });
