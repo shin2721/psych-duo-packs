@@ -33,7 +33,7 @@
     "check:staging-empty:ci": "FAIL_ON_STAGING=1 node scripts/check-staging-empty.js",
     "create:release-zip": "node scripts/create-release-zip.js",
     "content:preflight": "node scripts/content-preflight.js",
-    "validate:lessons": "npx ts-node scripts/validate-lessons.ts",
+    "validate:lessons": "tsx scripts/validate-lessons.ts",
     "promote:lesson": "bash scripts/promote-staged-lesson.sh",
     "lint:lesson-authoring": "bash scripts/check-lesson-authoring-single-source.sh",
     "e2e:analytics": "bash scripts/run-analytics-e2e.sh",
@@ -83,7 +83,9 @@
         "maxWorkers": 1
       },
       "jest": {
-        "setupFilesAfterEnv": ["<rootDir>/e2e/init.js"]
+        "setupFilesAfterEnv": [
+          "<rootDir>/e2e/init.js"
+        ]
       }
     },
     "apps": {
@@ -116,6 +118,7 @@
     "detox": "^20.27.3",
     "eas-cli": "^16.20.0",
     "jest": "^29.7.0",
-    "typescript": "^5.9.3"
+    "typescript": "^5.9.3",
+    "tsx": "^4.19.0"
   }
 }
