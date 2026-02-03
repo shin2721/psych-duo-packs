@@ -1,23 +1,14 @@
 # Evidence Specificity Report
 
-<<<<<<< HEAD
 > Generated: 2026-02-03
-=======
-> Generated: 2026-01-28
->>>>>>> origin/メイン
 
 ## Summary
 
 | Metric | Value |
 |--------|-------|
 | Total Evidence Files Checked | 13 |
-<<<<<<< HEAD
 | Thin Evidence Warnings | 1 |
 | Thin Evidence Rate | 7.7% |
-=======
-| Thin Evidence Warnings | 0 |
-| Thin Evidence Rate | 0.0% |
->>>>>>> origin/メイン
 
 ## Specificity Rules
 
@@ -28,7 +19,6 @@
 
 | Domain | Basename | Source Label | Claim Len | Limitations Len | Has Limitations | Trackable Type | Last Verified | Status | Warning |
 |--------|----------|--------------|-----------|-----------------|-----------------|----------------|---------------|--------|---------|
-<<<<<<< HEAD
 | mental | mental_l01 | Y | 95 | 79 | Y | NONE | 2026-01-28 | active | ✅ OK |
 | mental | mental_l02 | Y | 85 | 77 | Y | NONE | 2026-01-28 | active | ✅ OK |
 | mental | mental_l03 | Y | 73 | 55 | Y | NONE | 2026-01-28 | active | ⚠️ THIN |
@@ -55,25 +45,6 @@
 
 ---
 
-=======
-| mental | mental_l01 | Y | 95 | 129 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| mental | mental_l02 | Y | 85 | 105 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| mental | mental_l03 | Y | 73 | 77 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| mental | mental_l04 | Y | 95 | 106 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| mental | mental_l05 | Y | 71 | 127 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| mental | mental_l06 | Y | 85 | 171 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| money | money_l01 | Y | 97 | 118 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| work | work_l01 | Y | 80 | 110 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| work | work_l02 | Y | 96 | 74 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| health | health_l01 | Y | 78 | 100 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| social | social_l01 | Y | 94 | 144 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| social | social_l02 | Y | 86 | 103 | Y | NONE | 2026-01-28 | active | ✅ OK |
-| study | study_l01 | Y | 83 | 108 | Y | NONE | 2026-01-28 | active | ✅ OK |
-
-## Thin Evidence Details
-
-✅ No thin evidence warnings found.
->>>>>>> origin/メイン
 
 ## Recommended Actions
 
