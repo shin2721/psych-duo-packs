@@ -1,6 +1,6 @@
 # Evidence Grade Inflation Report
 
-> Generated: 2026-01-28
+> Generated: 2026-02-03
 
 ## Summary
 

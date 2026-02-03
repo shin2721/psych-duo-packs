@@ -18,7 +18,7 @@
       "label": "Ladeira et al. (2023) - Product scarcity効果のメタ分析（条件差・異質性）"
     },
     {
-      "role": "supporting",
+      "role": "primary",
       "source_type": "classic",
       "doi": "",
       "pmid": "",
@@ -30,7 +30,7 @@
   "source_label": "Barton et al. (2022) - Scarcity MA + Ladeira et al. (2023) MA + Cialdini (2006) background",
   "claim": "「残り3点」「限定」などの希少性表示を見たとき、一度画面を閉じて5分待つと、衝動的な購買を避けやすくなる可能性がある。希少性バイアスの効果は製品カテゴリによって異なる傾向がメタ分析で示されている",
   "limitations": "本当に限定の価値がある場合は適切判断になることもある。文化・商品カテゴリで効き方が変わる。買い物依存傾向が強い場合は支援を優先。",
-  "effect_size_note": "Barton et al. (2022) MA: 購買意図への効果は小〜中程度で、手法や状況で差が出る。Ladeira et al. (2023)も希少性効果の異質性（条件差）を示す。",
+  "effect_size_note": "Barton et al. (2022) MA: 購買意図への効果は小〜中程度で、手法や状況で差が出る。Ladeira et al. (2023)も希少性効果の異質性（条件差）を示す [DOI:10.1016/j.jretai.2022.06.003, DOI:10.1002/mar.21816]",
   "evidence_grade": "silver",
   "confidence": "high",
   "status": "active",
