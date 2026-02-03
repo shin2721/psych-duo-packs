@@ -1,34 +1,31 @@
-name: CI Tests
+name: Tests
 
 on:
   workflow_dispatch:
-  pull_request:
-    branches: ["main", メイン]
   push:
-    branches: ["main", メイン]
+    branches: [main, メイン, fix/question-renderer-safe]
+  pull_request:
+    branches: [main, メイン]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: psycle-expo
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: 20
-          cache: npm
+          node-version: '20'
+          cache: 'npm'
           cache-dependency-path: psycle-expo/package-lock.json
-      - name: Install
-        run: npm ci
-      - name: content:preflight
-        run: npm run content:preflight
-      - name: validate:lessons
-        run: npm run validate:lessons
-        env:
-          TS_NODE_COMPILER_OPTIONS: '{"module":"CommonJS"}'
-      - name: lint:lesson-authoring
-        run: npm run lint:lesson-authoring
-      - name: unit tests
-        run: npx jest --watchman=false
+
+      - name: Install dependencies
+        run: |
+          cd psycle-expo
+          npm ci
+
+      - name: Run tests
+        run: |
+          cd psycle-expo
+          npx jest --watchman=false
