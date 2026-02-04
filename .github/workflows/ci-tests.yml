@@ -34,3 +34,8 @@ jobs:
         run: |
           cd psycle-expo
           npm run i18n:report
+
+      - name: Validate lesson content locales
+        run: |
+          cd psycle-expo
+          npm run content:i18n:check
