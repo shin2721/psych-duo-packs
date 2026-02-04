@@ -29,3 +29,8 @@ jobs:
         run: |
           cd psycle-expo
           npx jest --watchman=false
+
+      - name: Validate i18n locales
+        run: |
+          cd psycle-expo
+          npm run i18n:report
