@@ -39,3 +39,18 @@ jobs:
         run: |
           cd psycle-expo
           npm run content:i18n:check
+
+      - name: Generate content quality reports
+        continue-on-error: true
+        run: |
+          cd psycle-expo
+          npm run content:preflight
+
+      - name: Upload content quality reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: content-quality-reports
+          path: psycle-expo/docs/_reports/
+          if-no-files-found: ignore
+          retention-days: 14
