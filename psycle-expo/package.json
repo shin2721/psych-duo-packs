@@ -36,6 +36,7 @@
     "validate:lessons": "tsx scripts/validate-lessons.ts",
     "promote:lesson": "bash scripts/promote-staged-lesson.sh",
     "lint:lesson-authoring": "bash scripts/check-lesson-authoring-single-source.sh",
+    "i18n:report": "node scripts/lint-i18n.js",
     "e2e:analytics": "bash scripts/run-analytics-e2e.sh",
     "e2e:ios": "detox test --configuration ios.sim.debug",
     "e2e:build:ios": "detox build --configuration ios.sim.debug"
