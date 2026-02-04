@@ -18,6 +18,9 @@ const path = require('path');
 const LOCALES_DIR = path.join(__dirname, '..', 'lib', 'locales');
 const BASE_LOCALE = 'ja';
 
+// Keys allowed to have duplicate values (e.g., same UI text appears in multiple places)
+const ALLOW_DUPLICATE_KEYS = new Set(['shop.subscription.restore', 'settings.restorePurchases']);
+
 // Simple placeholder pattern: {{variableName}}
 const PLACEHOLDER_PATTERN = /\{\{[^}]+\}\}/g;
 
@@ -215,7 +218,11 @@ function validate() {
 
     for (const [value, keys] of valueToKeys.entries()) {
       if (keys.length > 1) {
-        warnings.push(`[${localeName}] Duplicate value "${value.substring(0, 30)}..." at: ${keys.join(', ')}`);
+        // Skip if all duplicate keys are in the allowlist
+        const allAllowed = keys.every(k => ALLOW_DUPLICATE_KEYS.has(k));
+        if (!allAllowed) {
+          warnings.push(`[${localeName}] Duplicate value "${value.substring(0, 30)}..." at: ${keys.join(', ')}`);
+        }
       }
     }
   }
