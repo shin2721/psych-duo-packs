@@ -3,7 +3,7 @@ name: Tests
 on:
   workflow_dispatch:
   push:
-    branches: [main, fix/question-renderer-safe]
+    branches: [main]
   pull_request:
     branches: [main]
 
