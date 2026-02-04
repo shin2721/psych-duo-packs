@@ -20,6 +20,11 @@ on:
           - Work
           - Mental
 
+permissions:
+  contents: write
+  pull-requests: write
+  actions: read
+
 jobs:
   generate-content:
     runs-on: ubuntu-latest
@@ -50,7 +55,7 @@ jobs:
           if [ "${{ github.event.inputs.genre }}" = "all" ] || [ -z "${{ github.event.inputs.genre }}" ]; then
             # Generate one genre per day in rotation
             DAY_OF_YEAR=$(date +%j)
-            GENRES=("Health" "Social" "Study")
+            GENRES=("Health" "Social" "Study" "Money" "Work" "Mental")
             INDEX=$((DAY_OF_YEAR % ${#GENRES[@]}))
             GENRE=${GENRES[$INDEX]}
             echo "genre=$GENRE" >> $GITHUB_OUTPUT
