@@ -1,13 +1,7 @@
 name: Auto Publish Packs
 on:
   schedule:
-    - cron: "0 0 * * MON"  # UTC 00:00 = JST 09:00 月曜
-  workflow_dispatch:
-    inputs:
-      track:
-        description: publish track (mental|money|work|all)
-        required: false
-        default: all
+    - cron: "0 0 * * MON"  # UTC 00:00 = JST 09:00 Monday
 permissions:
   contents: write
 concurrency:
@@ -24,13 +18,10 @@ jobs:
           git config user.name "pack-bot"
           git config user.email "bot@users.noreply.github.com"
       - name: run auto publish
-        env:
-          TRACK_INPUT: ${{ github.event.inputs.track }}
         run: |
           set -e
           chmod +x scripts/ops.sh scripts/auto_publish.sh || true
           tracks=(mental money work)
-          if [ -n "${TRACK_INPUT}" ] && [ "${TRACK_INPUT}" != "all" ]; then tracks=("${TRACK_INPUT}"); fi
           for t in "${tracks[@]}"; do
             [ -d "queue/$t" ] && bash scripts/auto_publish.sh "$t" || true
           done
