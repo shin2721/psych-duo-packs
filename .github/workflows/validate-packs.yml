@@ -4,18 +4,10 @@ on:
     branches: [ main ]
   push:
     branches: [ main ]
-  workflow_dispatch:
-    inputs:
-      track:
-        description: publish track (mental|money|work|all)
-        required: false
-        default: all
-  schedule:
-    - cron: "0 0 * * MON"   # UTC 00:00 = JST 09:00
 permissions:
-  contents: write
+  contents: read
 concurrency:
-  group: validate-and-publish
+  group: validate-packs
   cancel-in-progress: false
 jobs:
   validate:
@@ -35,26 +27,3 @@ jobs:
             echo "scripts/validate.sh not found; running minimal checks"
             jq -e . catalog.json >/dev/null
           fi
-  publish:
-    # 手動or週次だけで動かす（pushでは動かさない）
-    if: github.event_name == 'workflow_dispatch' || github.event_name == 'schedule'
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y jq
-      - name: git config
-        run: |
-          git config user.name "pack-bot"
-          git config user.email "bot@users.noreply.github.com"
-      - name: Auto publish from queue
-        env:
-          TRACK_INPUT: ${{ github.event.inputs.track }}
-        run: |
-          set -e
-          chmod +x scripts/ops.sh scripts/auto_publish.sh || true
-          tracks=(mental money work)
-          if [ -n "${TRACK_INPUT}" ] && [ "${TRACK_INPUT}" != "all" ]; then tracks=("${TRACK_INPUT}"); fi
-          for t in "${tracks[@]}"; do
-            [ -d "queue/$t" ] && bash scripts/auto_publish.sh "$t" || true
-          done
-# trigger refresh
