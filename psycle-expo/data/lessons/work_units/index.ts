@@ -2,11 +2,36 @@
 import work_l01_ja from "./work_l01.ja.json";
 import work_l02_ja from "./work_l02.ja.json";
 
+// English translations (fallback to ja if not available)
+import work_l01_en from "./work_l01.en.json";
+import work_l02_en from "./work_l02.en.json";
+
 // Japanese (base) - always available
 export const workData_ja = [
   ...work_l01_ja,
   ...work_l02_ja,
 ];
 
+// English - uses en where available, falls back to ja
+export const workData_en = [
+  ...work_l01_en,
+  ...work_l02_en,
+];
+
 // Default export (ja for backward compatibility)
 export const workData = workData_ja;
+
+/**
+ * Get work data for specified locale with fallback
+ * Fallback order: requested -> en -> ja
+ */
+export function getWorkDataForLocale(locale: string): any[] {
+  const lang = locale.split('-')[0].toLowerCase();
+
+  if (lang === 'en') {
+    return workData_en;
+  }
+
+  // All other languages fall back to ja for now
+  return workData_ja;
+}
