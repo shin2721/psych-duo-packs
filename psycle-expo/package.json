@@ -39,7 +39,7 @@
     "i18n:report": "node scripts/lint-i18n.js",
     "content:i18n:gen": "node scripts/gen-lesson-locale-index.js",
     "content:i18n:report": "node scripts/validate-lesson-locales.js",
-    "content:i18n:check": "node scripts/gen-lesson-locale-index.js && git diff --exit-code data/lessons/mental_units/index.ts && node scripts/validate-lesson-locales.js --check",
+    "content:i18n:check": "node scripts/gen-lesson-locale-index.js && git diff --exit-code data/lessons/mental_units/index.ts data/lessons/health_units/index.ts data/lessons/money_units/index.ts data/lessons/social_units/index.ts data/lessons/study_units/index.ts data/lessons/work_units/index.ts && node scripts/validate-lesson-locales.js --check",
     "e2e:analytics": "bash scripts/run-analytics-e2e.sh",
     "e2e:ios": "detox test --configuration ios.sim.debug",
     "e2e:build:ios": "detox build --configuration ios.sim.debug"
