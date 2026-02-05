@@ -17,3 +17,4 @@ This repo intentionally separates validation, scheduled publish, and manual publ
 - psycle-billing submodule: `../docs/RUNBOOK_SUBMODULE_PSYCLE_BILLING.md`
 - Pages re-enable decision: `../docs/PAGES_REENABLE_DECISION.md`
 - Release smoke test: `../docs/RUNBOOK_RELEASE_SMOKE_TEST.md`
+- i18n quality review: `../docs/RUNBOOK_I18N_QUALITY_REVIEW.md`
