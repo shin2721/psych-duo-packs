@@ -1,378 +1,378 @@
 [
-    {
-        "id": "work_l02_001",
-        "type": "conversation",
-        "question": "How many tasks can you think of that you've been putting off this week, even though you kept thinking \"I need to do this\"?",
-        "your_response_prompt": "Count them honestly",
-        "choices": [
-            "4 or more (quite a backlog)",
-            "About 1-3",
-            "0 (I've been handling them right away)"
-        ],
-        "recommended_index": null,
-        "explanation": "That procrastination might not be \"weak willpower\" - it could be perfectionism hitting the brakes.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Steel_2007",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "People with perfectionist tendencies"
-            ],
-            "limitations": [
-                "Hard to apply in situations that genuinely demand high quality"
-            ],
-            "citation_role": "Supports the link between procrastination and perfectionism through observational research",
-            "claim_tags": [
-                "perfectionism",
-                "procrastination",
-                "task_initiation"
-            ]
-        }
-    },
-    {
-        "id": "work_l02_002",
-        "type": "multiple_choice",
-        "question": "What's the first thing you can do to lower \"initiation resistance\"?",
-        "choices": [
-            "Open your laptop and just open one file",
-            "Create a perfect plan",
-            "Wait until you feel motivated"
-        ],
-        "correct_index": 0,
-        "explanation": "The physical act of \"opening a file\" can be the trigger that switches your brain into \"work mode.\" You don't need to wait for motivation.",
-        "actionable_advice": "💡 Right now: Sit down at your PC and just open one document (you don't have to write anything)",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gollwitzer_1999",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "People who struggle to get started"
-            ],
-            "limitations": [
-                "Sometimes you open the file and still stop there"
-            ],
-            "citation_role": "Theoretically explains the connection between implementation intentions and physical actions",
-            "claim_tags": [
-                "implementation_intention",
-                "physical_action",
-                "theory"
-            ]
-        }
-    },
-    {
-        "id": "work_l02_003",
-        "type": "multiple_choice",
-        "question": "When you're stuck thinking \"I need to do this\" but can't move, what's the smallest action you can do in 10 seconds?",
-        "choices": [
-            "Open your laptop lid and press the power button",
-            "Write out your entire task list",
-            "Wait until you feel motivated"
-        ],
-        "correct_index": 0,
-        "explanation": "Physical actions like \"opening the lid\" and \"pressing the power button\" tend to make it easier to switch into task mode. Move your body before you think. Just once. (\"Writing out the full list\" and \"waiting for motivation\" take too long.)",
-        "actionable_advice": "👉 When you're stuck: Open your laptop lid and press the power button (that's the first step)",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Steel_2007",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "People who struggle to get started"
-            ],
-            "limitations": [
-                "If your PC is already open, you'll need a different minimum action"
-            ],
-            "citation_role": "Indirectly supports the effect of minimum actions from procrastination research",
-            "try_this": "👉 When you're stuck: Open your laptop and press the power button (10 seconds)",
-            "claim_tags": [
-                "procrastination",
-                "physical_action",
-                "task_initiation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "How much do you \"not want to do it\" right now? (0-10)",
-                "after_prompt": "After opening your PC?",
-                "success_rule": "Any decrease at all is OK",
-                "stop_rule": "If no change, retreat for today"
-            },
-            "comparator": {
-                "baseline": "Waiting for motivation",
-                "cost": "10 seconds / Low burden"
-            },
-            "fallback": {
-                "when": "Even 10 seconds feels impossible",
-                "next": "Just open a work app on your phone"
-            }
-        }
-    },
-    {
-        "id": "work_l02_004",
-        "type": "swipe_judgment",
-        "question": "When you decide to do \"just one step,\" you sometimes find yourself moving on to the next step without realizing it.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "That happens",
-            "right": "Unlikely"
-        },
-        "explanation": "The brain uses energy to \"start.\" Once you've started, the barrier to continue tends to be lower.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gollwitzer_1999",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "People with high initiation resistance"
-            ],
-            "limitations": [
-                "Sometimes you stop after one step (and that's still OK)"
-            ],
-            "citation_role": "Supports the initiation effect from implementation intention research",
-            "claim_tags": [
-                "implementation_intention",
-                "task_initiation",
-                "momentum"
-            ]
-        }
-    },
-    {
-        "id": "work_l02_005",
-        "type": "conversation",
-        "question": "When you can't start a task, which of these fits you best?",
-        "choices": [
-            "I don't know where to begin",
-            "I freeze trying to do it perfectly",
-            "It's too much hassle to move",
-            "No particular pattern"
-        ],
-        "recommended_index": null,
-        "explanation": "All answers are valid. Noticing your pattern makes it easier to choose the right strategy.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Steel_2007",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Supports self-awareness of procrastination patterns",
-            "claim_tags": [
-                "self_awareness",
-                "procrastination",
-                "pattern_recognition"
-            ]
-        }
-    },
-    {
-        "id": "work_l02_006",
-        "type": "multiple_choice",
-        "question": "Why is it effective to narrow \"today's tasks\" down to just one?",
-        "choices": [
-            "It reduces choice overload, making it easier to get started",
-            "Doing multiple things is tiring",
-            "Committing to just one lets you slack off"
-        ],
-        "correct_index": 0,
-        "explanation": "The burden of deciding \"what to start with\" is a major component of initiation resistance. Spending 10 seconds in the morning to decide \"just this today\" tends to make it easier to move. Just once. (\"Getting tired from multiple tasks\" and \"slacking off\" miss the point - reducing decision fatigue is key.)",
-        "actionable_advice": "👉 When you wake up: Grab your phone and write \"today's 1 task\" in a notes app in 10 seconds",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Gollwitzer_1999",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "People who can't move because they have too many tasks"
-            ],
-            "limitations": [
-                "Hard to apply when multiple tasks are genuinely urgent"
-            ],
-            "citation_role": "Indirectly supports the focusing effect in implementation intentions",
-            "try_this": "👉 When you wake up: Write \"today's 1 task\" in a notes app in 10 seconds",
-            "claim_tags": [
-                "focus",
-                "task_selection",
-                "implementation_intention"
-            ],
-            "tiny_metric": {
-                "before_prompt": "How many days this week did you write \"1 task\"?",
-                "after_prompt": "On those days, were you able to get started?",
-                "success_rule": "Even 2 days a week is OK",
-                "stop_rule": "If you can't write it for a whole week, stop"
-            },
-            "comparator": {
-                "baseline": "Looking at your to-do list and feeling overwhelmed",
-                "cost": "10 seconds / Low burden"
-            },
-            "fallback": {
-                "when": "Mornings are too busy",
-                "next": "Write it the night before"
-            }
-        }
-    },
-    {
-        "id": "work_l02_007",
-        "type": "swipe_judgment",
-        "question": "Not finishing a task can be less stressful than \"not having started it at all.\"",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "I get that",
-            "right": "I don't get that"
-        },
-        "explanation": "When \"things you haven't done\" keep lingering in your mind, it tends to cause stress (Zeigarnik effect). Even taking one step to start can reduce this mental burden.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Steel_2007",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "People who feel stressed about \"things they haven't done\""
-            ],
-            "limitations": [
-                "Some people can't stop once they start - they may need a different approach"
-            ],
-            "citation_role": "Supports the psychological burden of incomplete tasks through observational research",
-            "claim_tags": [
-                "procrastination",
-                "stress",
-                "zeigarnik_effect"
-            ]
-        }
-    },
-    {
-        "id": "work_l02_008",
-        "type": "multiple_choice",
-        "question": "When you \"don't feel motivated,\" what's the first physical thing you can do?",
-        "choices": [
-            "Sit in your chair and place your hands on the desk",
-            "Lie down until motivation comes",
-            "Watch motivational videos on social media"
-        ],
-        "correct_index": 0,
-        "explanation": "Physical actions like \"sitting in the chair\" and \"placing your hands on the desk\" can sometimes trigger your brain to switch into work mode. Move your body before you think. Just once. (\"Lying down\" and \"watching social media\" tend to make it harder to move.)",
-        "actionable_advice": "👉 When you don't feel motivated: Just sit in your chair and place your hands on the desk (10 seconds only)",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Gollwitzer_1999",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "People who spend a long time waiting for motivation"
-            ],
-            "limitations": [
-                "If there's no chair available, you'll need a different action"
-            ],
-            "citation_role": "Indirectly supports the connection between physical movement and task initiation",
-            "try_this": "👉 When you don't feel motivated: Sit in your chair and place your hands on the desk (10 seconds)",
-            "claim_tags": [
-                "physical_action",
-                "task_initiation",
-                "implementation_intention"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Motivation level? (0-10)",
-                "after_prompt": "After sitting down?",
-                "success_rule": "Any increase at all is OK",
-                "stop_rule": "If no change, try a different method"
-            },
-            "comparator": {
-                "baseline": "Waiting endlessly for motivation",
-                "cost": "10 seconds / Low burden"
-            },
-            "fallback": {
-                "when": "Even sitting down doesn't help",
-                "next": "Switch to just opening your PC"
-            }
-        }
-    },
-    {
-        "id": "work_l02_009",
-        "type": "conversation",
-        "question": "Of the techniques you learned today, which one could you use starting tomorrow?",
-        "choices": [
-            "\"Open laptop lid and press power\" minimum action",
-            "Write \"today's 1 task\" in the morning",
-            "\"Sit in chair and place hands on desk\" physical action",
-            "Try all of them"
-        ],
-        "recommended_index": null,
-        "explanation": "All of them are worth trying. If one doesn't fit, try another. That's learning too. Just once. (\"All of them\" is fine too, but no need to push yourself - start with just one.)",
-        "actionable_advice": "👉 Tomorrow morning, write \"today's 1 task\" in a notes app in 10 seconds (writing it is the first step)",
-        "difficulty": "easy",
-        "xp": 10,
-        "source_id": "Gollwitzer_1999",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "People who want to try new habits"
-            ],
-            "limitations": [
-                "Easy to forget without practice"
-            ],
-            "citation_role": "Presents task initiation intervention options",
-            "try_this": "👉 Tomorrow morning, write \"today's 1 task\" in a notes app in 10 seconds",
-            "claim_tags": [
-                "implementation",
-                "habit_formation",
-                "procrastination"
-            ],
-            "tiny_metric": {
-                "metric": "Did you manage to write it at least once this week?",
-                "stop_rule": "If you can't write it for a whole week, stop"
-            },
-            "comparator": {
-                "baseline": "Starting the day without deciding anything",
-                "cost": "10 seconds x every morning"
-            },
-            "fallback": {
-                "when": "None of them fit",
-                "next": "Switch to \"just work on your phone for 2 minutes\""
-            }
-        }
-    },
-    {
-        "id": "work_l02_010",
-        "type": "conversation",
-        "question": "Did the \"getting started techniques\" in this lesson seem useful to you?",
-        "choices": [
-            "Seems useful",
-            "Might not be for me",
-            "Not sure yet"
-        ],
-        "recommended_index": null,
-        "explanation": "Any answer is correct. If it \"might not be for you,\" then looking for a different approach is also important.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Steel_2007",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Supports consideration of individual differences",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+  {
+    "id": "work_l02_001",
+    "type": "conversation",
+    "question": "This week, how many tasks did you think \"I should do this\" but ended up putting off?",
+    "your_response_prompt": "Be honest and count",
+    "choices": [
+      "4 or more (quite a backlog)",
+      "About 1-3",
+      "0 (handled them right away)"
+    ],
+    "recommended_index": null,
+    "explanation": "That procrastination might not be \"weak willpower\" \u2014 \"perfectionism\" could be putting on the brakes.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "People with perfectionist tendencies"
+      ],
+      "limitations": [
+        "Hard to apply in situations where quality is genuinely required"
+      ],
+      "citation_role": "Supports the link between procrastination and perfectionism through observational research",
+      "claim_tags": [
+        "perfectionism",
+        "procrastination",
+        "task_initiation"
+      ]
     }
+  },
+  {
+    "id": "work_l02_002",
+    "type": "multiple_choice",
+    "question": "What can you do first to lower your \"initiation resistance\"?",
+    "choices": [
+      "Just open your computer and open one file",
+      "Create a perfect plan",
+      "Wait until you feel motivated"
+    ],
+    "correct_index": 0,
+    "explanation": "The physical action of \"opening a file\" can trigger the brain to switch into \"work mode.\" No need to wait for motivation.",
+    "actionable_advice": "\uD83D\uDCA1 Right now: sit in front of your PC and just open one document (you don't have to write anything)",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People who struggle to start"
+      ],
+      "limitations": [
+        "Sometimes you just stop after opening"
+      ],
+      "citation_role": "Theoretically explains the link between implementation intention and physical action",
+      "claim_tags": [
+        "implementation_intention",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_003",
+    "type": "multiple_choice",
+    "question": "When you think \"I should do it\" but can't move, what's the minimum action you can take in 10 seconds?",
+    "choices": [
+      "Open your laptop lid and press the power button",
+      "Write out your entire task list",
+      "Wait for motivation to come"
+    ],
+    "correct_index": 0,
+    "explanation": "Physical actions like \"opening the lid\" and \"pressing the button\" tend to help switch you into task mode. Move your body before thinking. Try it just once. (\"Writing the whole list\" and \"waiting for motivation\" take too long.)",
+    "actionable_advice": "\uD83D\uDC49 When you can't move \u2192 open your laptop lid and press the power button (that's the first step)",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "People who struggle to start"
+      ],
+      "limitations": [
+        "If the PC is already open, a different action is needed"
+      ],
+      "citation_role": "Indirectly supports the effect of minimum action from procrastination research",
+      "try_this": "\uD83D\uDC49 When you can't move \u2192 open the PC and press the power button (10 seconds)",
+      "claim_tags": [
+        "procrastination",
+        "physical_action",
+        "task_initiation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "How much do you \"not want to\" right now? (0-10)",
+        "after_prompt": "After opening the PC?",
+        "success_rule": "Any decrease is OK",
+        "stop_rule": "If no change, retreat for today"
+      },
+      "comparator": {
+        "baseline": "Waiting for motivation",
+        "cost": "10 seconds / low effort"
+      },
+      "fallback": {
+        "when": "Can't do even 10 seconds",
+        "next": "Just open a work app on your phone"
+      }
+    }
+  },
+  {
+    "id": "work_l02_004",
+    "type": "swipe_judgment",
+    "question": "When you decide \"just one step,\" you sometimes find yourself moving on to the next step without realizing it.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Maybe so",
+      "right": "Probably not"
+    },
+    "explanation": "The brain uses energy when \"starting.\" Once started, the barrier to continuing tends to be lower.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "People with high initiation resistance"
+      ],
+      "limitations": [
+        "Sometimes you do stop after one step (and that's OK)"
+      ],
+      "citation_role": "Supports the initiation effect from implementation intention research",
+      "claim_tags": [
+        "implementation_intention",
+        "task_initiation",
+        "momentum"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_005",
+    "type": "conversation",
+    "question": "When you can't start a task, which fits you best?",
+    "choices": [
+      "Don't know where to begin",
+      "Freeze trying to do it perfectly",
+      "Too much trouble to move",
+      "No particular pattern"
+    ],
+    "recommended_index": null,
+    "explanation": "All are valid answers. Noticing your pattern makes it easier to choose a strategy.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Supports self-awareness of procrastination patterns",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_006",
+    "type": "multiple_choice",
+    "question": "Why is narrowing down to one \"task for today\" effective?",
+    "choices": [
+      "Reducing choice overload makes it easier to start",
+      "Because doing multiple things is tiring",
+      "Because deciding to do only one lets you slack off"
+    ],
+    "correct_index": 0,
+    "explanation": "The cognitive load of deciding \"what to start with\" is a major part of initiation resistance. Deciding \"just this one today\" in the morning in 10 seconds tends to make it easier to move. Try it just once. (It's not about \"getting tired\" or \"slacking\" \u2014 reducing choice overload is the point.)",
+    "actionable_advice": "\uD83D\uDC49 When you wake up \u2192 grab your phone and write \"today's 1 task\" in a memo app in 10 seconds",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "People who can't move because they have too many tasks"
+      ],
+      "limitations": [
+        "Hard to use when multiple tasks are genuinely urgent"
+      ],
+      "citation_role": "Indirectly supports the effect of focusing in implementation intention",
+      "try_this": "\uD83D\uDC49 When you wake up \u2192 write \"today's 1 task\" in a memo app in 10 seconds",
+      "claim_tags": [
+        "focus",
+        "task_selection",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "How many days this week did you write the \"1 task\"?",
+        "after_prompt": "On days you wrote it, were you able to start?",
+        "success_rule": "Even 2 days a week is OK",
+        "stop_rule": "If you can't write it for a week, stop"
+      },
+      "comparator": {
+        "baseline": "Looking at your task list and feeling overwhelmed",
+        "cost": "10 seconds / low effort"
+      },
+      "fallback": {
+        "when": "Mornings are too busy",
+        "next": "Write it the night before"
+      }
+    }
+  },
+  {
+    "id": "work_l02_007",
+    "type": "swipe_judgment",
+    "question": "\"Not having started\" can be more stressful than \"not having finished.\"",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "I get it",
+      "right": "I don't get it"
+    },
+    "explanation": "\"Undone things\" lingering in your mind tend to cause stress (Zeigarnik effect). Even starting with one step can reduce this burden.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who feel the stress of \"haven't done it\""
+      ],
+      "limitations": [
+        "For people who can't stop once they start, a different approach is needed"
+      ],
+      "citation_role": "Supports the psychological burden of incomplete tasks through observational research",
+      "claim_tags": [
+        "procrastination",
+        "stress",
+        "zeigarnik_effect"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_008",
+    "type": "multiple_choice",
+    "question": "When \"motivation won't come,\" what can you do with your body first?",
+    "choices": [
+      "Sit in the chair and place your hands on the desk",
+      "Lie down until motivation comes",
+      "Watch motivational videos on social media"
+    ],
+    "correct_index": 0,
+    "explanation": "Physical actions like \"sitting down\" and \"placing your hands\" can trigger the brain to switch into work mode. Move your body before thinking. Try it just once. (\"Lying down\" and \"watching social media\" tend to make you even less likely to move.)",
+    "actionable_advice": "\uD83D\uDC49 When motivation won't come \u2192 first, sit in the chair and place your hands on the desk (just 10 seconds)",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "People who wait a long time for motivation"
+      ],
+      "limitations": [
+        "If there's no chair available, a different action is needed"
+      ],
+      "citation_role": "Indirectly supports the link between physical action and task initiation",
+      "try_this": "\uD83D\uDC49 When motivation won't come \u2192 sit in the chair and place your hands on the desk (10 seconds)",
+      "claim_tags": [
+        "physical_action",
+        "task_initiation",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Motivation level? (0-10)",
+        "after_prompt": "After sitting down?",
+        "success_rule": "Any increase is OK",
+        "stop_rule": "If no change, try a different method"
+      },
+      "comparator": {
+        "baseline": "Continuing to wait for motivation",
+        "cost": "10 seconds / low effort"
+      },
+      "fallback": {
+        "when": "Sitting doesn't work",
+        "next": "Switch to just opening the PC"
+      }
+    }
+  },
+  {
+    "id": "work_l02_009",
+    "type": "conversation",
+    "question": "Of the techniques you learned today, which could you use starting tomorrow?",
+    "choices": [
+      "\"Open laptop lid and press power\" minimum action",
+      "Write \"today's 1 task\" in the morning",
+      "\"Sit in chair and place hands on desk\" physical action",
+      "Try all of them"
+    ],
+    "recommended_index": null,
+    "explanation": "All are worth trying. If one doesn't work, try another. That's learning too. Try it just once. (\"All\" is fine but don't push yourself \u2014 start with just one.)",
+    "actionable_advice": "\uD83D\uDC49 Tomorrow morning, write \"today's 1 task\" in a memo app in 10 seconds (writing it is the first step)",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "People who want to try new habits"
+      ],
+      "limitations": [
+        "Easy to forget without practice"
+      ],
+      "citation_role": "Proposes options for task initiation interventions",
+      "try_this": "\uD83D\uDC49 Tomorrow morning, write \"today's 1 task\" in a memo app in 10 seconds",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "Did you manage to write it at least once this week?",
+        "stop_rule": "If you can't write it for a week, stop"
+      },
+      "comparator": {
+        "baseline": "Starting the day without deciding anything",
+        "cost": "10 seconds \u00d7 every morning"
+      },
+      "fallback": {
+        "when": "None of them work",
+        "next": "Switch to \"just 2 minutes of work on your phone\""
+      }
+    }
+  },
+  {
+    "id": "work_l02_010",
+    "type": "conversation",
+    "question": "Were the \"getting started\" techniques from this lesson likely to be useful for you?",
+    "choices": [
+      "Likely useful",
+      "Probably not a great fit",
+      "Not sure yet"
+    ],
+    "recommended_index": null,
+    "explanation": "All answers are valid. If it \"didn't feel like a fit,\" exploring a different approach is also important.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Supports consideration of individual differences",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

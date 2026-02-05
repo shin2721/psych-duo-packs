@@ -2,13 +2,13 @@
   {
     "id": "work_l01_001",
     "type": "swipe_judgment",
-    "question": "Tasks you think \"I'll do it later\" often end up never getting done.",
+    "question": "Tasks you thought \"I'll do it later\" often end up never getting done.",
     "is_true": true,
     "swipe_labels": {
-      "left": "Relatable",
+      "left": "I get it",
       "right": "Not really"
     },
-    "explanation": "Procrastination isn't a willpower problem -- it's a natural tendency to avoid discomfort. Changing how you start a task may help improve this.",
+    "explanation": "Procrastination isn't a willpower problem \u2014 it's a natural tendency to avoid \"discomfort.\" Changing how you start a task may help improve things.",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
@@ -19,12 +19,12 @@
       "evidence_type": "direct",
       "best_for": [
         "People who tend to procrastinate",
-        "People whose tasks tend to pile up"
+        "People whose tasks pile up"
       ],
       "limitations": [
-        "There are cases where procrastination is adaptive (e.g., waiting for more information)"
+        "There are cases where procrastination is adaptive (e.g., waiting for information)"
       ],
-      "citation_role": "Observation from a meta-analysis of procrastination behavior",
+      "citation_role": "Observation from meta-analysis of procrastination behavior",
       "claim_tags": [
         "procrastination",
         "self_regulation",
@@ -35,15 +35,15 @@
   {
     "id": "work_l01_002",
     "type": "multiple_choice",
-    "question": "When you're waiting for motivation to strike before starting, what might actually be happening?",
+    "question": "When you're waiting for \"motivation to kick in,\" what might actually be happening?",
     "choices": [
       "You're continuously avoiding discomfort",
       "Your body is asking for rest",
-      "The task isn't truly necessary"
+      "The task isn't really necessary"
     ],
     "correct_index": 0,
-    "explanation": "Motivation isn't something you wait for -- it tends to emerge once you start. Moving your hands for just 10 seconds can switch you into task mode. (We tend to think \"I need rest\" or \"it's not important,\" but it's often just avoidance.)",
-    "actionable_advice": "\ud83d\udca1 Next time you catch yourself waiting for motivation, try moving your hands for just 10 seconds. If you hate it, stop right away -- that's OK.",
+    "explanation": "Motivation tends to \"come after you start\" rather than being something you \"wait for.\" Moving your hands for just 10 seconds can switch you into task mode. (You might think \"I need rest\" or \"it's not necessary,\" but often it's just avoidance.)",
+    "actionable_advice": "\uD83D\uDCA1 Next time you're \"waiting for motivation,\" try moving your hands for just 10 seconds. Stop immediately if it doesn't feel right.",
     "difficulty": "easy",
     "xp": 5,
     "source_id": "Steel_2007",
@@ -52,11 +52,11 @@
       "claim_type": "theory",
       "evidence_type": "theoretical",
       "best_for": [
-        "People who spend a long time waiting for motivation",
-        "People who struggle to get started"
+        "People who wait a long time for motivation",
+        "People who struggle to start"
       ],
       "limitations": [
-        "When you're genuinely tired, rest is necessary",
+        "When genuinely tired, rest is needed",
         "Chronic lack of motivation may require a different approach"
       ],
       "citation_role": "Explains behavioral activation theory in procrastination research",
@@ -70,13 +70,13 @@
   {
     "id": "work_l01_003",
     "type": "swipe_judgment",
-    "question": "If you decide to \"just do 5 minutes,\" you often end up continuing beyond 5 minutes.",
+    "question": "When you decide \"just 5 minutes,\" you often end up continuing past 5 minutes.",
     "is_true": true,
     "swipe_labels": {
       "left": "Maybe so",
-      "right": "Unlikely"
+      "right": "Probably not"
     },
-    "explanation": "Lowering the barrier to start tends to make it easier to get into the flow of a task. It's perfectly fine if you actually stop at 5 minutes. It's also normal if you can't do it. Just try once.",
+    "explanation": "Lowering the starting barrier tends to make it easier to \"get into\" the task. Ending at exactly 5 minutes is also fine. It's normal if you can't do this. Try it just once.",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
@@ -86,45 +86,45 @@
       "claim_type": "intervention",
       "evidence_type": "indirect",
       "best_for": [
-        "People who feel overwhelmed by big tasks",
+        "People overwhelmed by big tasks",
         "People with perfectionist tendencies"
       ],
       "limitations": [
-        "Tasks that can't be done in 5 minutes may need additional steps"
+        "Tasks that can't be done in 5 minutes need additional steps"
       ],
-      "citation_role": "Indirectly supports the 5-minute rule based on implementation intention research",
-      "try_this": "\ud83d\udc49 When a task feels heavy, spend just 10 seconds writing down a \"5-minute version\"",
+      "citation_role": "Indirectly supports the 5-minute rule from implementation intention research",
+      "try_this": "\uD83D\uDC49 When a task feels heavy \u2192 write out a \"5-minute version\" in just 10 seconds",
       "claim_tags": [
         "implementation_intention",
         "procrastination",
         "task_initiation"
       ],
       "tiny_metric": {
-        "metric": "Were you able to press the 5-minute timer and start?",
+        "metric": "Did you press the 5-minute timer and start?",
         "stop_rule": "If you can't press it 3 times in a row, stop"
       },
       "comparator": {
-        "baseline": "Looking at the entire task and feeling overwhelmed",
+        "baseline": "Looking at the whole task and feeling overwhelmed",
         "cost": "5 minutes / low effort"
       },
       "fallback": {
-        "when": "Even 5 minutes feels too long",
-        "next": "Shrink it to a 2-minute version"
+        "when": "Even 5 minutes is too long",
+        "next": "Shrink to a 2-minute version"
       }
     }
   },
   {
     "id": "work_l01_004",
     "type": "multiple_choice",
-    "question": "Which method has been reported to reduce procrastination?",
+    "question": "What method has been reported as effective for reducing procrastination?",
     "choices": [
-      "Decide \"when, where, and what to do\" in advance",
+      "Decide \"when, where, and what\" in advance",
       "Set shorter deadlines",
       "Prepare a reward"
     ],
     "correct_index": 0,
-    "explanation": "\"Implementation intentions\" (if-then planning) have been suggested to reduce procrastination. Effectiveness varies by individual. Just try once. (\"Shorter deadlines\" and \"rewards\" can work too, but deciding \"when and where\" first tends to be more effective.)",
-    "actionable_advice": "\ud83d\udca1 For your next task, decide one thing: \"At [time], at [place], I will [do this].\"",
+    "explanation": "\"Implementation intention\" (If-Then planning) has been suggested to reduce procrastination. Effectiveness varies by person. Try it just once. (\"Shorter deadlines\" and \"rewards\" also work, but deciding \"when, where, and what\" first is more effective.)",
+    "actionable_advice": "\uD83D\uDCA1 For your next task, try deciding \"At X o'clock, at Y, I'll do Z.\"",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Gollwitzer_1999",
@@ -133,41 +133,41 @@
       "claim_type": "intervention",
       "evidence_type": "direct",
       "best_for": [
-        "People who like making plans",
-        "People who can't act when tasks are vague"
+        "People who like planning",
+        "People stuck on vague tasks"
       ],
       "limitations": [
         "Not going according to plan can cause stress",
-        "Not suited for situations requiring flexibility"
+        "Not suitable for situations requiring flexibility"
       ],
-      "citation_role": "Directly supports the effectiveness of implementation intentions",
-      "try_this": "\ud83d\udc49 In the next 10 seconds, decide just one: \"At [time], at [place], I will [do this]\"",
+      "citation_role": "Directly supports the effect of implementation intention",
+      "try_this": "\uD83D\uDC49 In 10 seconds, decide just one: \"At X o'clock, at Y, I'll do Z\"",
       "claim_tags": [
         "implementation_intention",
         "procrastination",
         "goal_setting"
       ],
       "tiny_metric": {
-        "metric": "Were you able to create one if-then plan?",
+        "metric": "Did you create one If-Then plan?",
         "stop_rule": "If you can't create one 3 times in a row, stop"
       },
       "comparator": {
-        "baseline": "Just thinking \"I need to do it\"",
+        "baseline": "Just thinking \"I have to do it\"",
         "cost": "30 seconds / low effort"
       },
       "fallback": {
-        "when": "The plan gets too complex",
-        "next": "Simplify to \"When [X] happens, I'll do [Y]\""
+        "when": "Plan is too complex",
+        "next": "Simplify to \"When X happens, I'll do Y\""
       }
     }
   },
   {
     "id": "work_l01_005",
     "type": "swipe_judgment",
-    "question": "The more you think \"I have to do it perfectly,\" the more likely you are to procrastinate.",
+    "question": "The more you think \"I have to do it perfectly,\" the more you tend to procrastinate.",
     "is_true": true,
     "swipe_labels": {
-      "left": "Relatable",
+      "left": "I get it",
       "right": "Not really"
     },
     "explanation": "A link between perfectionism and procrastination has been reported. Deciding \"70% is good enough\" tends to make it easier to get moving.",
@@ -184,9 +184,9 @@
         "People who overthink before starting"
       ],
       "limitations": [
-        "In situations where quality truly matters, perfectionism may be necessary"
+        "In some situations where quality truly matters, perfectionism may be necessary"
       ],
-      "citation_role": "Supports the link between perfectionism and procrastination through observational studies",
+      "citation_role": "Supports the link between perfectionism and procrastination through observational research",
       "claim_tags": [
         "perfectionism",
         "procrastination",
@@ -197,15 +197,15 @@
   {
     "id": "work_l01_006",
     "type": "multiple_choice",
-    "question": "When a task feels \"too big to start,\" what helps you get moving?",
+    "question": "When \"the task is too big to move,\" what helps you get going?",
     "choices": [
       "Focus on just the next single step",
-      "Keep the deadline in mind",
+      "Be mindful of the deadline",
       "Ask someone else to do it"
     ],
     "correct_index": 0,
-    "explanation": "Breaking a large task into smaller pieces tends to make it easier to process. Deciding \"just the next move\" can help you get started. Just try once. (\"Being aware of deadlines\" and \"asking for help\" also work, but breaking it down is the best first step.)",
-    "actionable_advice": "\ud83d\udca1 Write down just the \"next one step\" for a big task you're currently facing.",
+    "explanation": "Big tasks tend to become easier to handle when \"broken down.\" Deciding \"just the next move\" can get you started. Try it just once. (\"Deadline awareness\" and \"asking others\" are also valid, but breaking it down is the first step.)",
+    "actionable_advice": "\uD83D\uDCA1 Write out just \"the next single step\" for the big task you're currently holding.",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Gollwitzer_1999",
@@ -214,44 +214,44 @@
       "claim_type": "intervention",
       "evidence_type": "indirect",
       "best_for": [
-        "People dealing with big projects",
+        "People with big projects",
         "People overwhelmed by the big picture"
       ],
       "limitations": [
-        "Over-dividing tasks can make things more complex"
+        "Over-breaking-down can make things complex"
       ],
       "citation_role": "Indirectly supports the effect of task decomposition from implementation intention research",
-      "try_this": "\ud83d\udc49 In 10 seconds, write down just \"the next one step\"",
+      "try_this": "\uD83D\uDC49 Write out \"the next single step\" in 10 seconds",
       "claim_tags": [
         "task_decomposition",
         "procrastination",
         "goal_setting"
       ],
       "tiny_metric": {
-        "metric": "Were you able to write down \"the next one step\"?",
-        "stop_rule": "If you can't write it down 3 times in a row, stop"
+        "metric": "Were you able to write out \"the next single step\"?",
+        "stop_rule": "If you can't write it out 3 times in a row, stop"
       },
       "comparator": {
-        "baseline": "Looking at the whole task and freezing up",
+        "baseline": "Looking at the whole task and freezing",
         "cost": "30 seconds / low effort"
       },
       "fallback": {
-        "when": "You can't think of even one step",
-        "next": "Start with \"just open [the file/app]\""
+        "when": "Can't think of even one step",
+        "next": "Start with \"just open X\""
       }
     }
   },
   {
     "id": "work_l01_007",
     "type": "conversation",
-    "question": "A colleague says, \"You still haven't finished that task?\" How do you respond?",
+    "question": "A coworker says \"You still haven't finished that task?\" How do you respond?",
     "choices": [
-      "\"I was just about to start. I'll try doing just 5 minutes.\"",
-      "\"No, but I'll get it done by the end of the week.\"",
-      "\"Leave me alone.\""
+      "\"I'm just about to start. Let me try 5 minutes\"",
+      "\"I'll get to it by the end of the week\"",
+      "\"Leave me alone\""
     ],
     "recommended_index": 0,
-    "explanation": "Declaring your intention can become a \"social commitment\" that makes it easier to take action. However, this can backfire for people sensitive to pressure. Just try once.",
+    "explanation": "Declaring it out loud creates a \"social commitment\" that tends to make it easier to start. It can backfire for people sensitive to pressure. Try it just once.",
     "actionable_advice": null,
     "difficulty": "hard",
     "xp": 10,
@@ -261,8 +261,8 @@
       "claim_type": "intervention",
       "evidence_type": "indirect",
       "best_for": [
-        "People who are motivated by commitments to others",
-        "People for whom extrinsic motivation works well"
+        "People who get going with commitments to others",
+        "People for whom external motivation works"
       ],
       "limitations": [
         "Can backfire for people sensitive to pressure"
@@ -273,17 +273,17 @@
         "procrastination",
         "accountability"
       ],
-      "try_this": "\ud83d\udc49 In 10 seconds, tell someone \"I'll just do 5 minutes\"",
+      "try_this": "\uD83D\uDC49 In 10 seconds, declare to someone \"I'll do just 5 minutes\"",
       "tiny_metric": {
-        "metric": "Were you able to work for 5 minutes after declaring?",
-        "stop_rule": "If you can't get moving 3 times in a row, stop"
+        "metric": "After declaring, were you able to move for 5 minutes?",
+        "stop_rule": "If you can't move 3 times in a row, stop"
       },
       "comparator": {
         "baseline": "Procrastinating without telling anyone",
-        "cost": "Just a declaration / low effort"
+        "cost": "Just making a declaration / low effort"
       },
       "fallback": {
-        "when": "Declaring feels like too much pressure",
+        "when": "Declaring creates pressure",
         "next": "Switch to the 10-second rule without declaring"
       }
     }
@@ -291,13 +291,13 @@
   {
     "id": "work_l01_008",
     "type": "swipe_judgment",
-    "question": "There's a view that procrastination is not \"laziness\" but an \"emotion regulation\" issue.",
+    "question": "There's a view that procrastination is an \"emotion regulation\" issue, not \"laziness.\"",
     "is_true": true,
     "swipe_labels": {
       "left": "Maybe so",
       "right": "I disagree"
     },
-    "explanation": "Recent research tends to understand procrastination as a behavior of \"avoiding unpleasant emotions.\" In other words, emotion regulation may be more key than willpower.",
+    "explanation": "Recent research tends to understand procrastination as behavior to \"avoid unpleasant emotions.\" In other words, emotion regulation rather than willpower may be the key.",
     "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
@@ -308,7 +308,7 @@
       "evidence_type": "theoretical",
       "best_for": [
         "People who tend to blame themselves",
-        "People who experience self-loathing from procrastinating"
+        "People who feel self-loathing from procrastination"
       ],
       "limitations": [
         "Not all procrastination is about emotion regulation"
@@ -324,15 +324,15 @@
   {
     "id": "work_l01_009",
     "type": "multiple_choice",
-    "question": "What specific method has been reported to be effective for reducing procrastination?",
+    "question": "What specific method has been reported as effective for reducing procrastination?",
     "choices": [
       "Decide \"just 10 seconds\" and move your hands",
-      "Make a to-do list",
-      "Put the deadline on the calendar"
+      "Create a to-do list",
+      "Put the deadline on your calendar"
     ],
     "correct_index": 0,
-    "explanation": "The 10-second rule has been suggested as effective for lowering the \"barrier to starting.\" To-do lists and deadlines work too, but the 10-second rule has the lowest effort. Just try once. (\"To-do lists\" and \"calendars\" require preparation.)",
-    "actionable_advice": "\ud83d\udca1 Try this just once tomorrow: when you feel stuck, move your hands for just 10 seconds.",
+    "explanation": "The 10-second rule has been suggested as a way to lower the \"starting barrier.\" To-do lists and calendars are also effective, but the 10-second rule has the lowest effort. Try it just once. (\"To-do lists\" and \"calendars\" require preparation.)",
+    "actionable_advice": "\uD83D\uDCA1 Try just once tomorrow: when you can't move, just move your hands for 10 seconds.",
     "difficulty": "medium",
     "xp": 10,
     "source_id": "Steel_2007",
@@ -342,23 +342,23 @@
       "evidence_type": "indirect",
       "best_for": [
         "People who procrastinate a lot",
-        "People who want an easy way to start"
+        "People who want to start easily"
       ],
       "limitations": [
-        "May have limited effect on chronic lack of motivation"
+        "May be less effective for chronic lack of motivation"
       ],
-      "citation_role": "Indirectly supports the 10-second rule from a procrastination meta-analysis",
-      "try_this": "When you feel stuck, move your hands for just 10 seconds",
+      "citation_role": "Indirectly supports the 10-second rule from procrastination meta-analysis",
+      "try_this": "When you can't move, just move your hands for 10 seconds",
       "claim_tags": [
         "procrastination",
         "task_initiation",
         "self_regulation"
       ],
       "tiny_metric": {
-        "before_prompt": "How much do you NOT want to do this right now? (0-10)",
-        "after_prompt": "How about after 10 seconds?",
-        "success_rule": "Any decrease at all counts as a win",
-        "stop_rule": "If it stays the same or goes up, retreat for today"
+        "before_prompt": "How much do you \"not want to\" right now? (0-10)",
+        "after_prompt": "After 10 seconds?",
+        "success_rule": "Any decrease is OK",
+        "stop_rule": "If no change or it increases, retreat for today"
       },
       "comparator": {
         "baseline": "Waiting for motivation to come",
@@ -366,23 +366,23 @@
       },
       "fallback": {
         "when": "Can't move even for 10 seconds",
-        "next": "Break the task down to its smallest unit"
+        "next": "Break the task into the \"smallest unit\""
       }
     }
   },
   {
     "id": "work_l01_010",
     "type": "multiple_choice",
-    "question": "From what you learned today, which could you use starting tomorrow?",
+    "question": "Of what you learned today, which could you use starting tomorrow?",
     "choices": [
       "Decide \"just 10 seconds\" and move your hands",
       "Start with \"just 5 minutes\"",
-      "Decide only \"the next one step\"",
+      "Decide only \"the next single step\"",
       "Try all of them"
     ],
     "correct_index": 3,
-    "explanation": "All of them are worth trying. With procrastination, finding ways to \"live with it\" may matter more than trying to \"overcome\" it. If something doesn't fit, try a different method. Just try once. (Each individual option is also valid -- the easiest is the 10-second rule.)",
-    "actionable_advice": "\ud83d\udca1 Today's action: try \"just 10 seconds\" on your next task.",
+    "explanation": "All are worth trying. With procrastination, finding \"how to live with it\" may matter more than \"overcoming\" it. Switch to another method if one doesn't work. Try it just once. (Individual options are also effective; the simplest is the 10-second rule.)",
+    "actionable_advice": "\uD83D\uDCA1 Today's action: try \"just 10 seconds\" on your next task.",
     "difficulty": "easy",
     "xp": 10,
     "source_id": "Steel_2007",
@@ -391,10 +391,10 @@
       "claim_type": "intervention",
       "evidence_type": "indirect",
       "best_for": [
-        "People who want to start a new habit"
+        "People who want to start new habits"
       ],
       "limitations": [
-        "You might not be able to keep all of them up"
+        "You might not keep up all of them"
       ],
       "citation_role": "Indirectly supports the effectiveness of procrastination interventions",
       "try_this": "Try \"just 10 seconds\" on your next task",
@@ -404,16 +404,16 @@
         "self_regulation"
       ],
       "tiny_metric": {
-        "metric": "Did you use the 10-second rule at least once this week?",
-        "stop_rule": "If you can't remember to do it once in a week, stop"
+        "metric": "Did you manage to use the 10-second rule at least once this week?",
+        "stop_rule": "If you can't remember to try even once in a week, stop"
       },
       "comparator": {
         "baseline": "Not trying anything",
-        "cost": "10 seconds x a few times/week"
+        "cost": "10 seconds \u00d7 a few times/week"
       },
       "fallback": {
-        "when": "The 10-second rule doesn't fit",
-        "next": "Switch to the 5-minute rule or if-then planning"
+        "when": "10-second rule doesn't work",
+        "next": "Switch to 5-minute rule or If-Then planning"
       }
     }
   }
