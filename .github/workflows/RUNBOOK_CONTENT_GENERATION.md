@@ -47,3 +47,15 @@ Run the Autonomous Content Generation workflow in a repeatable, low-risk way and
 ## Operational Notes
 1. Concurrency is enforced. If a run is in progress, new runs will queue.
 2. Cancel a run from the Actions UI if it is no longer needed.
+
+## Logging
+- 実行ログ確認: GitHub Actions run URL（workflow run詳細）
+- 失敗時は `Setup Node.js` / `Generate` / `Create PR` の3ステップを優先確認
+- 記録対象: run URL, commit SHA, 失敗ステップ名, 再実行有無
+
+## Quality Gate (minimum)
+- 生成後に以下がPASSであること
+  - `node scripts/gen-lesson-locale-index.js`
+  - `node scripts/validate-lesson-locales.js --check`
+  - `npm run content:i18n:check`
+- 自動PR作成時は差分が「対象ユニットの翻訳 + index再生成」に閉じていること
