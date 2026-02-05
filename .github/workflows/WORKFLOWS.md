@@ -9,3 +9,7 @@ This repo intentionally separates validation, scheduled publish, and manual publ
 | `auto-publish.yml` | `schedule` | Weekly automatic publish from queue |
 | `publish-manual.yml` | `workflow_dispatch` | On-demand manual publish |
 | `content-generation.yml` | `schedule`, `workflow_dispatch` | Autonomous content generation |
+
+## Runbooks
+
+- Content generation: `RUNBOOK_CONTENT_GENERATION.md`
