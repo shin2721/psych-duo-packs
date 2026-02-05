@@ -2,12 +2,12 @@ import { Question } from "../types/question";
 
 // トップレベルでJSONファイルをインポート（Metro bundlerが確実に認識するため）
 // Force reload: 2025-11-13 21:20
-import { mentalData, mentalData_ja } from "../data/lessons/mental_units";
-import { moneyData, moneyData_ja } from "../data/lessons/money_units";
-import { workData } from "../data/lessons/work_units";
-import { healthData } from "../data/lessons/health_units";
-import { socialData, socialData_ja } from "../data/lessons/social_units";
-import { studyData } from "../data/lessons/study_units";
+import { getMentalDataForLocale } from "../data/lessons/mental_units";
+import { getMoneyDataForLocale } from "../data/lessons/money_units";
+import { getWorkDataForLocale } from "../data/lessons/work_units";
+import { getHealthDataForLocale } from "../data/lessons/health_units";
+import { getSocialDataForLocale } from "../data/lessons/social_units";
+import { getStudyDataForLocale } from "../data/lessons/study_units";
 import i18n from "./i18n";
 
 // Legacy curriculum imports removed - now using lesson data directly
@@ -162,27 +162,26 @@ export function loadLessons(unit: string): Lesson[] {
   try {
     // 事前にインポートされたJSONを使用
     let rawData: any = null;
-    const isJa = i18n.locale === 'ja' || i18n.locale.startsWith('ja');
+    const locale = i18n.locale || 'ja';
 
     switch (unit) {
       case "mental":
-        rawData = isJa && (mentalData_ja as any) ? mentalData_ja : mentalData;
+        rawData = getMentalDataForLocale(locale);
         break;
       case "money":
-        rawData = isJa && (moneyData_ja as any) ? moneyData_ja : moneyData;
+        rawData = getMoneyDataForLocale(locale);
         break;
       case "work":
-        rawData = workData;
+        rawData = getWorkDataForLocale(locale);
         break;
       case "health":
-        // rawData = isJa && (healthData_ja as any) ? healthData_ja : healthData;
-        rawData = healthData;
+        rawData = getHealthDataForLocale(locale);
         break;
       case "social":
-        rawData = isJa && (socialData_ja as any) ? socialData_ja : socialData;
+        rawData = getSocialDataForLocale(locale);
         break;
       case "study":
-        rawData = studyData;
+        rawData = getStudyDataForLocale(locale);
         break;
       default:
         return [];
