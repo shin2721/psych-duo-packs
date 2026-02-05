@@ -1,0 +1,376 @@
+[
+    {
+        "id": "social_l02_001",
+        "type": "swipe_judgment",
+        "question": "I've regretted not being able to say \"Let me think about it,\" even though it would have been easier if I could.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Happens often",
+            "right": "Rarely happens"
+        },
+        "explanation": "The pressure to \"respond immediately\" is sometimes self-imposed. For the other person too, \"taking a moment to think\" is perfectly normal.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who tend to feel pressure to respond immediately"
+            ],
+            "limitations": [
+                "Hard to use in genuinely urgent situations"
+            ],
+            "citation_role": "Supports the impact of immediate-response pressure in boundary setting",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "self_awareness"
+            ]
+        }
+    },
+    {
+        "id": "social_l02_002",
+        "type": "multiple_choice",
+        "question": "When you feel \"it's hard to say no,\" what can help you stay calm first?",
+        "choices": [
+            "Shift your phone in your hand and say \"Let me check something real quick\"",
+            "Smile and immediately say \"Sure!\"",
+            "Go silent and think hard"
+        ],
+        "correct_index": 0,
+        "explanation": "The physical action of \"shifting your grip\" sends a switching signal to your brain. When words won't come, start by moving your body. (\"Immediately saying sure\" often leads to regret. \"Going silent\" creates awkwardness.)",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "People who struggle to find the right words"
+            ],
+            "limitations": [
+                "Physical actions may be difficult in some face-to-face situations"
+            ],
+            "citation_role": "Theoretically explains the connection between assertiveness and physical action",
+            "claim_tags": [
+                "assertiveness",
+                "physical_action",
+                "theory"
+            ]
+        }
+    },
+    {
+        "id": "social_l02_003",
+        "type": "multiple_choice",
+        "question": "When you feel the urge to \"decide right now,\" what technique has been reported effective for pausing just 10 seconds?",
+        "choices": [
+            "Take your finger off the phone and say \"Hold on a sec\"",
+            "Say \"Got it\" and decline later",
+            "Leave them on read"
+        ],
+        "correct_index": 0,
+        "explanation": "Physically \"lifting your finger\" lets you step back from the pressure to respond instantly. The key is to move your body before trying to find words. It's normal if you can't do it. Just try once. (\"Agreeing then declining later\" is awkward. \"Leaving on read\" tends to damage the relationship.)",
+        "actionable_advice": "\ud83d\udc49 When you feel \"hard to say no\" \u2192 Take your finger off the phone and type \"Give me just 10 seconds to check\"",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who tend to instantly reply on messaging apps"
+            ],
+            "limitations": [
+                "A different approach is needed for face-to-face situations"
+            ],
+            "citation_role": "Indirectly supports the put-on-hold technique in boundary setting",
+            "try_this": "\ud83d\udc49 When you get a hard-to-decline message \u2192 Lift your finger, wait 10 seconds, then reply \"Let me check\"",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "physical_action"
+            ],
+            "tiny_metric": {
+                "before_prompt": "How strong is your \"must respond now\" pressure? (0-10)",
+                "after_prompt": "How about 10 seconds after lifting your finger?",
+                "success_rule": "Any decrease is a win",
+                "stop_rule": "If no change, retreat for today"
+            },
+            "comparator": {
+                "baseline": "Instantly replying \"Sure\" without thinking",
+                "cost": "10 seconds / low effort"
+            },
+            "fallback": {
+                "when": "10 seconds feels impossible",
+                "next": "Lift your finger for \"just 1 second\" and take one deep breath"
+            }
+        }
+    },
+    {
+        "id": "social_l02_004",
+        "type": "swipe_judgment",
+        "question": "I sometimes think \"saying no = the relationship is over.\"",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Sounds familiar",
+            "right": "Not really"
+        },
+        "explanation": "In reality, it's rare for a single \"no\" to end a relationship. Pushing yourself until you're exhausted is actually the bigger risk.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who can't say no out of fear of damaging relationships"
+            ],
+            "limitations": [
+                "There are cases where relationships genuinely do break down, though rare"
+            ],
+            "citation_role": "Supports observational research on assertiveness and relationship maintenance",
+            "claim_tags": [
+                "assertiveness",
+                "relationship",
+                "fear"
+            ]
+        }
+    },
+    {
+        "id": "social_l02_005",
+        "type": "conversation",
+        "question": "When you feel \"it's hard to say no,\" which pattern fits you the most?",
+        "choices": [
+            "I can't say it because I might hurt the other person",
+            "I can't say it because they might dislike me",
+            "I don't know how to say no",
+            "No particular pattern"
+        ],
+        "recommended_index": null,
+        "explanation": "All answers are valid. Recognizing your own pattern makes it easier to choose the right strategy.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Supports self-awareness of assertiveness patterns",
+            "claim_tags": [
+                "self_awareness",
+                "assertiveness",
+                "pattern_recognition"
+            ]
+        }
+    },
+    {
+        "id": "social_l02_006",
+        "type": "multiple_choice",
+        "question": "Which phrasing makes it easiest to say \"no\"?",
+        "choices": [
+            "\"Because of [reason], I can't this time\" (reason + decline)",
+            "\"Absolutely not\"",
+            "\"I'll think about it\" (ending without actually declining)"
+        ],
+        "correct_index": 0,
+        "explanation": "\"Reason + decline\" lets you communicate your situation without rejecting the person. Example: \"I'm swamped this week, so I can't this time.\" Just try once. (\"A strong refusal\" is hard to say. \"I'll think about it\" tends to end ambiguously.)",
+        "actionable_advice": "\ud83d\udc49 When declining \u2192 Rehearse \"Because of [reason], I can't this time\" for 10 seconds before sending",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who don't know how to decline"
+            ],
+            "limitations": [
+                "Can be difficult when pressed for a reason"
+            ],
+            "citation_role": "Indirectly supports phrase techniques for boundary setting",
+            "try_this": "\ud83d\udc49 Before sending a decline \u2192 Pause and rehearse \"Because of [reason], I can't\" for 10 seconds",
+            "claim_tags": [
+                "assertiveness",
+                "phrase_template",
+                "boundary_setting"
+            ],
+            "tiny_metric": {
+                "before_prompt": "How anxious are you before sending the decline? (0-10)",
+                "after_prompt": "How about after rehearsing the phrase?",
+                "success_rule": "Any decrease is a win",
+                "stop_rule": "If no change, try a different phrase"
+            },
+            "comparator": {
+                "baseline": "Freezing up because you don't know what to say",
+                "cost": "10 seconds / low effort"
+            },
+            "fallback": {
+                "when": "Can't think of a reason",
+                "next": "Just \"I can't this time\" is fine on its own"
+            }
+        }
+    },
+    {
+        "id": "social_l02_007",
+        "type": "swipe_judgment",
+        "question": "I tend to feel like \"I have to apologize\" when declining.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Sounds familiar",
+            "right": "Not really"
+        },
+        "explanation": "In many cases, declining itself doesn't require an apology. Starting with a positive like \"Thanks, but I can't this time\" can make it easier.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who tend to over-apologize when declining"
+            ],
+            "limitations": [
+                "In some cultures or relationships, an apology may be appropriate"
+            ],
+            "citation_role": "Supports observational research on the relationship between assertiveness and apology",
+            "claim_tags": [
+                "assertiveness",
+                "apology",
+                "self_respect"
+            ]
+        }
+    },
+    {
+        "id": "social_l02_008",
+        "type": "multiple_choice",
+        "question": "When you feel \"hard to say no\" in a face-to-face situation, what can you do with your body first?",
+        "choices": [
+            "Take a step back and say \"Let me think about it\"",
+            "Smile and say \"Sure!\"",
+            "Cross your arms and stay silent"
+        ],
+        "correct_index": 0,
+        "explanation": "Physically \"stepping back\" helps create psychological distance too. The key is to move your body before trying to find words. Just try once. (\"Smiling and agreeing\" often leads to regret. \"Crossing arms and staying silent\" can come across as aggressive.)",
+        "actionable_advice": "\ud83d\udc49 When it's hard to say no face-to-face \u2192 Take a step back and say \"Let me think about it\"",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who are frequently asked for immediate answers in person"
+            ],
+            "limitations": [
+                "Difficult in tight spaces"
+            ],
+            "citation_role": "Indirectly supports the connection between physical action and boundary setting",
+            "try_this": "\ud83d\udc49 When it's hard to decline face-to-face \u2192 Step back and say \"Let me think about it\" for 10 seconds",
+            "claim_tags": [
+                "assertiveness",
+                "physical_action",
+                "boundary_setting"
+            ],
+            "tiny_metric": {
+                "before_prompt": "How hard is it to say no? (0-10)",
+                "after_prompt": "How about after stepping back?",
+                "success_rule": "Any decrease is a win",
+                "stop_rule": "If no change, try a different approach"
+            },
+            "comparator": {
+                "baseline": "Standing still and answering immediately",
+                "cost": "1 second / low effort"
+            },
+            "fallback": {
+                "when": "Can't step back",
+                "next": "Look away and say \"Hmm...\""
+            }
+        }
+    },
+    {
+        "id": "social_l02_009",
+        "type": "conversation",
+        "question": "Which technique from today's lesson could you use starting tomorrow?",
+        "choices": [
+            "\"Lift my finger off the phone and put it on hold\"",
+            "Use the \"reason + decline\" phrase",
+            "\"Step back and think\" physical action",
+            "Try all of them"
+        ],
+        "recommended_index": null,
+        "explanation": "All of them are worth trying. If one doesn't fit, try another. That's learning too. Just try once. (\"All of them\" is fine, but no need to push it\u2014start with just one.)",
+        "actionable_advice": "\ud83d\udc49 Tomorrow, just once when you feel \"hard to say no\" \u2192 Take your finger off the phone and wait 10 seconds",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who want to try building new habits"
+            ],
+            "limitations": [
+                "Easy to forget without practice"
+            ],
+            "citation_role": "Proposes options for boundary setting interventions",
+            "try_this": "\ud83d\udc49 Tomorrow, once when you feel \"hard to say no\" \u2192 Lift your finger off the phone and wait 10 seconds",
+            "claim_tags": [
+                "implementation",
+                "habit_formation",
+                "assertiveness"
+            ],
+            "tiny_metric": {
+                "metric": "Did you use it at least once this week?",
+                "stop_rule": "If you didn't use it for a week, stop"
+            },
+            "comparator": {
+                "baseline": "Doing nothing and continuing to instantly reply",
+                "cost": "10 seconds x a few times/week"
+            },
+            "fallback": {
+                "when": "None of them fit",
+                "next": "Switch to \"Just leave it on read and wait 1 hour\""
+            }
+        }
+    },
+    {
+        "id": "social_l02_010",
+        "type": "conversation",
+        "question": "Did the \"techniques for saying no\" in this lesson feel useful?",
+        "choices": [
+            "Seems useful",
+            "Doesn't quite fit me",
+            "Not sure yet"
+        ],
+        "recommended_index": null,
+        "explanation": "All answers are valid. If it \"doesn't fit,\" it's important to look for a different approach.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Supports consideration of individual differences",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

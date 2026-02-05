@@ -2,11 +2,36 @@
 import social_l01_ja from "./social_l01.ja.json";
 import social_l02_ja from "./social_l02.ja.json";
 
+// English translations (fallback to ja if not available)
+import social_l01_en from "./social_l01.en.json";
+import social_l02_en from "./social_l02.en.json";
+
 // Japanese (base) - always available
 export const socialData_ja = [
   ...social_l01_ja,
   ...social_l02_ja,
 ];
 
+// English - uses en where available, falls back to ja
+export const socialData_en = [
+  ...social_l01_en,
+  ...social_l02_en,
+];
+
 // Default export (ja for backward compatibility)
 export const socialData = socialData_ja;
+
+/**
+ * Get social data for specified locale with fallback
+ * Fallback order: requested -> en -> ja
+ */
+export function getSocialDataForLocale(locale: string): any[] {
+  const lang = locale.split('-')[0].toLowerCase();
+
+  if (lang === 'en') {
+    return socialData_en;
+  }
+
+  // All other languages fall back to ja for now
+  return socialData_ja;
+}
