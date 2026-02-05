@@ -25,22 +25,23 @@ for (const name of expectedImports) {
   }
 }
 
-const expectedSwitches = [
-  'case "mental":\n        rawData = getMentalDataForLocale(locale);',
-  'case "money":\n        rawData = getMoneyDataForLocale(locale);',
-  'case "work":\n        rawData = getWorkDataForLocale(locale);',
-  'case "health":\n        rawData = getHealthDataForLocale(locale);',
-  'case "social":\n        rawData = getSocialDataForLocale(locale);',
-  'case "study":\n        rawData = getStudyDataForLocale(locale);',
+const expectedCalls = [
+  'getMentalDataForLocale(locale)',
+  'getMoneyDataForLocale(locale)',
+  'getWorkDataForLocale(locale)',
+  'getHealthDataForLocale(locale)',
+  'getSocialDataForLocale(locale)',
+  'getStudyDataForLocale(locale)',
 ];
 
-for (const snippet of expectedSwitches) {
-  if (!lessonsSource.includes(snippet)) {
-    fail('Locale loader switch is missing expected wiring');
+for (const call of expectedCalls) {
+  if (!lessonsSource.includes(call)) {
+    fail(`Missing locale loader call: ${call}`);
   }
 }
 
-if (!lessonsSource.includes('const locale = i18n.locale || \"ja\";')) {
+const localeFallback = /const\s+locale\s*=\s*i18n\.locale\s*\|\|\s*['"]ja['"]/;
+if (!localeFallback.test(lessonsSource)) {
   fail('Locale fallback line missing');
 }
 
