@@ -1,0 +1,361 @@
+[
+    {
+        "id": "social_l01_001",
+        "type": "swipe_judgment",
+        "question": "When someone asks you for something, you can't say no - and later think \"why did I agree to that?\"",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Happens often",
+            "right": "Not really"
+        },
+        "explanation": "The tendency to not say no reflects feelings like \"I don't want to hurt them\" or \"I don't want to be disliked.\" The problem is that it drains your own time and energy.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who tend to have trouble saying no",
+                "People who tend to be self-sacrificing"
+            ],
+            "limitations": [
+                "What counts as appropriate refusal varies by culture and relationship"
+            ],
+            "citation_role": "Supports the characteristics and impact of non-assertiveness through observational research",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "self_care"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_002",
+        "type": "multiple_choice",
+        "question": "Why does resistance to saying \"no\" tend to arise?",
+        "choices": [
+            "You unconsciously equate \"declining = rejecting the person\"",
+            "Because saying no leads to a loss",
+            "Because you don't know how to say no"
+        ],
+        "correct_index": 0,
+        "explanation": "In many cases, there's a cognitive pattern of \"declining = hurting them.\" But what you're declining is the request, not the person themselves. This distinction can be key. (\"It leads to a loss\" and \"don't know how\" matter less than this cognitive pattern.)",
+        "actionable_advice": "\ud83d\udca1 Next time it's hard to say no, spend 10 seconds reminding yourself: \"I'm declining the request, not the person.\"",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "People who feel guilty when saying no",
+                "People who tend to be self-sacrificing"
+            ],
+            "limitations": [
+                "Changing cognition doesn't always change emotions right away"
+            ],
+            "citation_role": "Theoretically explains the distinction between declining and rejection from assertiveness research",
+            "claim_tags": [
+                "assertiveness",
+                "cognitive_reframe",
+                "theory"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_003",
+        "type": "swipe_judgment",
+        "question": "You feel like you have to decide \"Yes or No\" on the spot.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "I can relate",
+            "right": "Not really"
+        },
+        "explanation": "In reality, there are many cases where you don't need to decide right away. Taking a \"10-second pause\" can help you think more clearly.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who tend to answer immediately",
+                "People who often miss the chance to say no"
+            ],
+            "limitations": [
+                "There are emergencies that require an immediate answer"
+            ],
+            "citation_role": "Indirectly supports the effect of pausing as a boundary-setting technique",
+            "claim_tags": [
+                "assertiveness",
+                "decision_making",
+                "boundary_setting"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_004",
+        "type": "multiple_choice",
+        "question": "When facing a request that's hard to decline, what's a phrase that can make things easier?",
+        "choices": [
+            "\"I can't decide right now - I'll get back to you\"",
+            "\"Absolutely not\"",
+            "\"I'll think about it\" (leaving it vague)"
+        ],
+        "correct_index": 0,
+        "explanation": "\"I can't decide right now\" is neither a no nor a yes - it's a \"pause.\" This can relieve the pressure of answering immediately. It's normal if you can't manage it. Just try once. (\"A strong refusal\" is hard to say. \"I'll think about it\" tends to end vaguely.)",
+        "actionable_advice": "\ud83d\udca1 Next time it's hard to say no, try saying \"I can't decide right now - I'll get back to you\" for 10 seconds.",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who are often expected to answer immediately",
+                "People who can't find the words to decline"
+            ],
+            "limitations": [
+                "There's a risk that \"later\" stays vague and damages the relationship"
+            ],
+            "citation_role": "Indirectly supports the pausing technique in boundary setting",
+            "try_this": "Say \"I can't decide right now - I'll get back to you\" for 10 seconds",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "phrase_template"
+            ],
+            "tiny_metric": {
+                "metric": "Were you able to use the pause phrase?",
+                "stop_rule": "If you couldn't use it 3 times in a row, take a break"
+            },
+            "comparator": {
+                "baseline": "Saying yes immediately",
+                "cost": "10 seconds / Low burden"
+            },
+            "fallback": {
+                "when": "The pause phrase is hard to say",
+                "next": "Substitute with \"Let me check on that\""
+            }
+        }
+    },
+    {
+        "id": "social_l01_005",
+        "type": "conversation",
+        "question": "Who is the person you find hardest to say no to?",
+        "choices": [
+            "Boss or senior colleague",
+            "Friends or coworkers",
+            "Family",
+            "No one in particular"
+        ],
+        "recommended_index": null,
+        "explanation": "Any answer is valid. Knowing who you find hard to refuse tends to make it easier to plan ahead.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Supports self-awareness",
+            "claim_tags": [
+                "self_awareness",
+                "assertiveness",
+                "relationships"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_006",
+        "type": "multiple_choice",
+        "question": "What's the difference between \"declining\" and \"rejecting\"?",
+        "choices": [
+            "Declining = turning down a request; Rejecting = dismissing the person",
+            "They mean the same thing",
+            "Declining is more aggressive"
+        ],
+        "correct_index": 0,
+        "explanation": "\"Declining\" is a response to an action - the request. \"Rejecting\" feels like dismissing the person themselves. People who struggle to say no often conflate the two. (\"They mean the same\" and \"declining is more aggressive\" are misconceptions. The distinction matters.)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "People who feel guilty when saying no"
+            ],
+            "limitations": [
+                "Whether the other person feels \"rejected\" is a separate issue"
+            ],
+            "citation_role": "Theoretically explains the cognitive distinction in assertiveness",
+            "claim_tags": [
+                "assertiveness",
+                "cognitive_distinction",
+                "guilt"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_007",
+        "type": "swipe_judgment",
+        "question": "You feel that just saying \"I can't right now\" would hurt the other person.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "I get it",
+            "right": "Not really"
+        },
+        "explanation": "\"I can't right now\" is actually a soft way to decline. Adding an alternative (\"I could do X instead\") tends to make it even more acceptable.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who don't know how to decline"
+            ],
+            "limitations": [
+                "Sometimes you can't offer an alternative"
+            ],
+            "citation_role": "Indirectly supports soft expressions in boundary setting",
+            "claim_tags": [
+                "assertiveness",
+                "communication",
+                "boundary_setting"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_008",
+        "type": "multiple_choice",
+        "question": "To decline without damaging the relationship, what's helpful to add to your words?",
+        "choices": [
+            "An alternative (\"I could do X instead\")",
+            "Repeated apologies (\"I'm so sorry\" over and over)",
+            "A detailed explanation of your reasons"
+        ],
+        "correct_index": 0,
+        "explanation": "Offering an alternative tends to convey \"I do want to help.\" Excessive apologies or detailed excuses can actually corner yourself. Just try once. (\"Repeating apologies\" and \"explaining in detail\" tend to backfire.)",
+        "actionable_advice": "\ud83d\udca1 Next time you decline, try saying \"I can't right now, but I could do X\" for 10 seconds.",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who worry that declining will ruin the relationship"
+            ],
+            "limitations": [
+                "Some requests don't have an alternative to offer"
+            ],
+            "citation_role": "Indirectly supports the effect of offering alternatives in boundary setting",
+            "try_this": "Say \"I can't right now, but I could do X\" for 10 seconds",
+            "claim_tags": [
+                "assertiveness",
+                "alternative_offer",
+                "boundary_setting"
+            ],
+            "tiny_metric": {
+                "metric": "Were you able to decline with an alternative?",
+                "stop_rule": "If you couldn't do it 3 times in a row, take a break"
+            },
+            "comparator": {
+                "baseline": "Giving a long-winded excuse",
+                "cost": "10 seconds / Moderate burden"
+            },
+            "fallback": {
+                "when": "You can't think of an alternative",
+                "next": "Just \"I can't right now\" is OK"
+            }
+        }
+    },
+    {
+        "id": "social_l01_009",
+        "type": "conversation",
+        "question": "Which technique from today's lesson could you use starting tomorrow?",
+        "choices": [
+            "\"I can't decide right now - I'll get back to you\" (pause phrase)",
+            "\"I can't right now, but I could do X\" (alternative offer)",
+            "\"I'm declining the request, not the person\" (cognitive reframe)",
+            "I'll try all of them"
+        ],
+        "recommended_index": null,
+        "explanation": "All of them are worth trying. If one doesn't fit, try another. Different approaches work for different people. Just try once. (\"All of them\" is fine too - but no need to push yourself. Start with just one.)",
+        "actionable_advice": "\ud83d\udca1 Try just once tomorrow: when it's hard to say no, say \"I can't decide right now\" for 10 seconds.",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who want to try new communication skills"
+            ],
+            "limitations": [
+                "Without practice, the words may not come out naturally"
+            ],
+            "citation_role": "Proposes options for assertiveness interventions",
+            "try_this": "Use \"I can't decide right now\" once tomorrow",
+            "claim_tags": [
+                "assertiveness",
+                "implementation",
+                "habit_formation"
+            ],
+            "tiny_metric": {
+                "metric": "Were you able to use it at least once this week?",
+                "stop_rule": "If you couldn't use it for a week, take a break"
+            },
+            "comparator": {
+                "baseline": "Not trying anything and keeping on saying yes",
+                "cost": "10 seconds x a few times/week"
+            },
+            "fallback": {
+                "when": "None of them feel right to say",
+                "next": "Practice in your head first"
+            }
+        }
+    },
+    {
+        "id": "social_l01_010",
+        "type": "conversation",
+        "question": "Did the \"how to say no\" techniques from this lesson seem useful to you?",
+        "choices": [
+            "Seems useful",
+            "Might not be for me",
+            "Not sure yet"
+        ],
+        "recommended_index": null,
+        "explanation": "Any answer is valid. If it doesn't seem to fit, exploring a different approach is also important. The right way to decline varies by culture and relationship.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Supports consideration of individual differences",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]
