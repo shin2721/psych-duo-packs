@@ -1,0 +1,154 @@
+[
+  {
+    "id": "mental_l05_001",
+    "type": "swipe_judgment",
+    "question": "2 AM. Tomorrow's meeting slides are only half done. The moment you think \"I'll never make it,\" anxiety spikes even more.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Happens often",
+      "right": "Rarely happens"
+    },
+    "explanation": "This is a classic \"catastrophic thinking\" example. The prediction \"I won't make it\" races ahead of reality, amplifying anxiety. *This lesson introduces coping methods for mild anxiety. If you experience suicidal thoughts or self-harm tendencies, please consult a professional support service rather than relying on an app.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_002",
+    "type": "multiple_choice",
+    "question": "When extreme predictions like \"I'll definitely fail\" or \"It's all over\" pop into your head, what's the most effective response?",
+    "choices": [
+      "Ask \"Is that really true?\" and look for evidence",
+      "Tell yourself \"Stop thinking about it\"",
+      "Just distract yourself"
+    ],
+    "correct_index": 0,
+    "explanation": "\"Evidence-checking\" works well for catastrophic thinking. Rather than trying to eliminate the thought, regaining a realistic perspective is key.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_003",
+    "type": "conversation",
+    "question": "Have you recently felt anxious imagining the \"worst-case scenario\"?",
+    "your_response_prompt": "Try to recall how you felt at that time",
+    "choices": [
+      "Often",
+      "Sometimes",
+      "Rarely"
+    ],
+    "recommended_index": null,
+    "explanation": "Any answer is a normal response. Our brains are wired to predict danger, so imagining negative outcomes is natural.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_004",
+    "type": "multiple_choice",
+    "question": "Before a presentation, you think \"I'm going to fail for sure.\" How would you change this thought pattern?",
+    "choices": [
+      "Remind yourself \"I've succeeded in the past too\"",
+      "Just accept it and say \"It's fine even if I fail\"",
+      "Tell yourself \"I'll definitely succeed\""
+    ],
+    "correct_index": 0,
+    "explanation": "Rather than swinging from one extreme to another, finding a balanced perspective is important. Past experience provides realistic evidence.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_005",
+    "type": "swipe_judgment",
+    "question": "Catastrophic thinking needs to be \"completely eliminated\"",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "I think so",
+      "right": "I don't think so"
+    },
+    "explanation": "You don't need to eliminate it completely. What matters is \"noticing it and adding a realistic perspective.\"",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_006",
+    "type": "conversation",
+    "question": "When you catch yourself thinking about the \"worst case,\" how do you cope?",
+    "your_response_prompt": "Reflect on your usual behavior",
+    "choices": [
+      "Try not to think about it",
+      "Talk to friends or family",
+      "Think of realistic solutions"
+    ],
+    "recommended_index": 2,
+    "explanation": "Each method can be effective at times, but thinking of realistic solutions can transform anxiety into action.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_007",
+    "type": "multiple_choice",
+    "question": "When is catastrophic thinking most likely to occur?",
+    "choices": [
+      "When tired or sleep-deprived",
+      "When feeling energetic and in good shape",
+      "Time of day doesn't matter"
+    ],
+    "correct_index": 0,
+    "explanation": "Fatigue and sleep deprivation reduce judgment and make negative thinking more likely. Physical health management is an important countermeasure too.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_008",
+    "type": "conversation",
+    "question": "If you were to try the \"evidence-checking\" method you learned today tomorrow?",
+    "your_response_prompt": "What situation would you use it in?",
+    "choices": [
+      "When feeling pressured at work",
+      "When feeling anxious about relationships",
+      "Can't think of a specific situation yet"
+    ],
+    "recommended_index": null,
+    "explanation": "It works in any situation. We recommend starting with small anxieties first.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_009",
+    "type": "multiple_choice",
+    "question": "What's the most important thing in dealing with catastrophic thinking?",
+    "choices": [
+      "Completely controlling your thoughts",
+      "Regaining a realistic perspective",
+      "Thinking positively"
+    ],
+    "correct_index": 1,
+    "explanation": "Rather than complete control or forced positive thinking, having a realistic and balanced perspective is what matters.",
+    "difficulty": "hard",
+    "xp": 5,
+    "evidence_grade": "gold"
+  },
+  {
+    "id": "mental_l05_010",
+    "type": "conversation",
+    "question": "Was what you learned in this lesson likely to be useful for you?",
+    "your_response_prompt": "Please share your honest impression",
+    "choices": [
+      "Very likely to be useful",
+      "Somewhat useful",
+      "Probably not useful"
+    ],
+    "recommended_index": null,
+    "explanation": "Every impression is valuable. Different methods work for different people, so finding the approach that fits you is what matters.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  }
+]

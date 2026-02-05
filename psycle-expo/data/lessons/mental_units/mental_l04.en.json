@@ -1,0 +1,308 @@
+[
+    {
+        "id": "mental_l04_001",
+        "type": "swipe_judgment",
+        "question": "Sunday night. You start thinking about tomorrow, and the same worries loop over and over.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Happens often",
+            "right": "Rarely happens"
+        },
+        "explanation": "This is a sign of \"rumination.\" You think you're thinking, but your brain is actually just auto-replaying.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who want to notice rumination patterns"
+            ],
+            "limitations": [
+                "When feeling deeply down, self-observation itself can be a burden"
+            ],
+            "citation_role": "Supports rumination characteristics and persistence through empirical research",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking",
+                "depression"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_002",
+        "type": "multiple_choice",
+        "question": "Which is a characteristic of \"rumination\"?",
+        "choices": [
+            "The same content goes around and around in circles",
+            "The more you think, the more solutions you find",
+            "It naturally subsides over time"
+        ],
+        "correct_index": 0,
+        "explanation": "Rumination looks like \"thinking\" but is actually just repeating the same content. Breaking out usually requires a different approach. (\"Finding solutions\" is problem-solving thinking. \"Naturally subsiding\" is rare.)",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who want to know the difference between rumination and problem-solving"
+            ],
+            "limitations": [
+                "Not all repetitive thinking is harmful (deliberation is different)"
+            ],
+            "citation_role": "Defines the repetitive nature of rumination",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_003",
+        "type": "swipe_judgment",
+        "question": "You have something to do, but you find yourself starting something else instead.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Happens often",
+            "right": "Rarely happens"
+        },
+        "explanation": "This is a sign of \"procrastination.\" It's not weakness of will — it's a natural response to avoid discomfort.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who want to notice procrastination patterns"
+            ],
+            "limitations": [
+                "Causes of procrastination are diverse (ADHD, perfectionism, etc.) and can't be generalized"
+            ],
+            "citation_role": "Indirectly explains procrastination as avoidance behavior within cognitive appraisal framework",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_004",
+        "type": "multiple_choice",
+        "question": "In what situation is procrastination most likely to occur?",
+        "choices": [
+            "When the task involves discomfort (difficult, boring, anxiety-inducing)",
+            "When the task is too easy",
+            "When you have plenty of time"
+        ],
+        "correct_index": 0,
+        "explanation": "Procrastination is \"discomfort avoidance\" behavior. When a task itself feels unpleasant, attention unconsciously shifts elsewhere. (It's more likely with discomfort than when \"too easy\" or \"plenty of time.\")",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who want to understand the cause of procrastination"
+            ],
+            "limitations": [
+                "Not all procrastination is discomfort avoidance (sometimes it's a priority issue)"
+            ],
+            "citation_role": "Explains procrastination as stress avoidance within cognitive appraisal framework",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_005",
+        "type": "conversation",
+        "question": "Is there something you've been procrastinating on recently?",
+        "your_response_prompt": "Choose what comes to mind",
+        "choices": [
+            "Work or study related",
+            "Relationships or communication",
+            "Health or lifestyle habits",
+            "Nothing in particular / Can't think of anything"
+        ],
+        "recommended_index": null,
+        "explanation": "Any answer is correct. \"Can't think of anything\" is also a valid answer. If you're not procrastinating, that's great.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Supports self-awareness",
+            "claim_tags": [
+                "self_awareness",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_006",
+        "type": "swipe_judgment",
+        "question": "When about to recall a stressful situation, you deliberately think about something else.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "I do this often",
+            "right": "Rarely"
+        },
+        "explanation": "This is a sign of \"avoidance.\" It provides short-term relief but can leave problems unresolved long-term.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who want to notice avoidance patterns"
+            ],
+            "limitations": [
+                "Avoidance can be effective in some cases (e.g., temporary avoidance right after trauma)"
+            ],
+            "citation_role": "Explains avoidant coping within cognitive appraisal framework",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_007",
+        "type": "multiple_choice",
+        "question": "Why does \"avoidance\" tend to become a long-term problem?",
+        "choices": [
+            "Problems remain unsolved and anxiety is maintained or intensified",
+            "Problems get solved quickly",
+            "Avoidance itself becomes stressful"
+        ],
+        "correct_index": 0,
+        "explanation": "Avoidance provides short-term relief, but the problem remains. As a result, anxiety tends to persist. (\"Solved quickly\" doesn't happen with avoidance. \"Avoidance itself being stressful\" is a secondary issue.)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who want to understand the long-term impact of avoidance"
+            ],
+            "limitations": [
+                "Not all avoidance is problematic (strategic avoidance can be appropriate)"
+            ],
+            "citation_role": "Explains long-term effects of avoidant coping in stress research context",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_008",
+        "type": "conversation",
+        "question": "Of the 3 signs you learned today (rumination, procrastination, avoidance), which fits you most?",
+        "your_response_prompt": "Choose based on your gut feeling",
+        "choices": [
+            "Rumination (same worries looping)",
+            "Procrastination (putting off what needs to be done)",
+            "Avoidance (trying not to think about it)",
+            "None of them apply"
+        ],
+        "recommended_index": null,
+        "explanation": "Any answer is correct. \"None apply\" is also valid. Simply noticing your patterns is a meaningful first step.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Supports pattern recognition",
+            "claim_tags": [
+                "self_awareness",
+                "pattern_recognition"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_009",
+        "type": "multiple_choice",
+        "question": "What do \"rumination,\" \"procrastination,\" and \"avoidance\" have in common?",
+        "choices": [
+            "They all serve to temporarily escape discomfort",
+            "They're caused by weak willpower",
+            "They're problems that should be fixed immediately"
+        ],
+        "correct_index": 0,
+        "explanation": "All three function as \"discomfort avoidance.\" Rather than blaming yourself, noticing the pattern is the first step. (\"Weak willpower\" is a misconception. \"Fix immediately\" tends to backfire.)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who want to understand common ground across patterns"
+            ],
+            "limitations": [
+                "Grouping all three too closely can obscure each one's unique coping strategies"
+            ],
+            "citation_role": "Suggests common function across rumination, procrastination, and avoidance",
+            "claim_tags": [
+                "rumination",
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_010",
+        "type": "conversation",
+        "question": "Did you notice any of your own patterns in this lesson?",
+        "your_response_prompt": "Answer honestly",
+        "choices": [
+            "I had some insights",
+            "I already knew this",
+            "I'm not sure"
+        ],
+        "recommended_index": null,
+        "explanation": "Any answer is correct. \"Already knew\" means it was a good review. \"Not sure\" means a different approach might work better for you.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Supports consideration of individual differences",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]
