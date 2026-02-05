@@ -1,0 +1,329 @@
+[
+    {
+        "id": "mental_l06_001",
+        "type": "swipe_judgment",
+        "question": "\"80 points isn't good enough. It's meaningless unless it's 100.\"",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Happens often",
+            "right": "Rarely happens"
+        },
+        "explanation": "This is a classic example of \"perfectionism.\" Aiming for perfection isn't bad in itself, but seeing \"anything less than 100 as failure\" can push you into a corner. *This lesson deepens understanding of perfectionism. If you experience suicidal thoughts or self-harm tendencies, please consult a professional support service rather than relying on an app.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Self-awareness of perfectionist tendencies"
+            ],
+            "limitations": [
+                "High standards can lead to achievement in some cases"
+            ],
+            "citation_role": "Explains cognitive patterns of perfectionism",
+            "claim_tags": [
+                "完璧主義",
+                "認知パターン"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_002",
+        "type": "multiple_choice",
+        "question": "What tendency is often seen in people with strong perfectionism?",
+        "choices": [
+            "Becoming anxious about \"what if I fail\" before even starting",
+            "Not worrying about failure and moving on",
+            "Setting low goals to feel safe"
+        ],
+        "correct_index": 0,
+        "explanation": "People with perfectionist tendencies are reported to easily fall into a \"can't get started\" state due to fear of failure.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Understanding the relationship between perfectionism and behavioral inhibition"
+            ],
+            "limitations": [
+                "Individual differences are large"
+            ],
+            "citation_role": "Explains the connection between perfectionism and anxiety",
+            "claim_tags": [
+                "完璧主義",
+                "不安",
+                "行動抑制"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_003",
+        "type": "swipe_judgment",
+        "question": "\"I can't feel satisfied with what I've done\"",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Happens often",
+            "right": "Rarely happens"
+        },
+        "explanation": "Any answer is a normal response. Having high standards can drive growth, but going too far can lead to exhaustion.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explains the dual nature of high standards",
+            "claim_tags": [
+                "完璧主義",
+                "自己評価"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_004",
+        "type": "multiple_choice",
+        "question": "What's an effective way to \"moderately ease\" perfectionism?",
+        "choices": [
+            "Give yourself permission: \"70 points is OK too\"",
+            "Tell yourself \"Don't aim for perfection\"",
+            "Try not to have any goals"
+        ],
+        "correct_index": 0,
+        "explanation": "\"Widening your acceptable range\" tends to lower the barrier to action. You don't need to completely eliminate perfectionism.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "People whose perfectionism stops them from taking action"
+            ],
+            "limitations": [
+                "May backfire in situations requiring high standards"
+            ],
+            "citation_role": "As a cognitive restructuring technique",
+            "try_this": "Before today's first task, say \"70 points is OK\" then start",
+            "claim_tags": [
+                "完璧主義",
+                "認知的再構成",
+                "許容範囲"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Anxiety before starting the task (1-10)",
+                "after_prompt": "Satisfaction after completing the task (1-10)",
+                "success_rule": "Anxiety drops by 3+ or you managed to start the task",
+                "stop_rule": "If anxiety increases instead"
+            },
+            "comparator": {
+                "baseline": "Your usual approach of aiming for perfection",
+                "cost": "Same or less time and effort"
+            },
+            "fallback": {
+                "when": "If you can't accept \"70 points is OK\"",
+                "next": "Try \"just 5 minutes\" by setting a time limit"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_005",
+        "type": "multiple_choice",
+        "question": "Should perfectionism be \"completely eliminated\"?",
+        "choices": [
+            "No, being able to flexibly adjust is what matters",
+            "Yes, perfectionism is nothing but harmful",
+            "Hard to say either way"
+        ],
+        "correct_index": 0,
+        "explanation": "Perfectionism has a \"healthy side\" too — high standards can lead to achievement. The problem arises when flexibility is lost.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Distinguishes adaptive and maladaptive perfectionism",
+            "claim_tags": [
+                "完璧主義",
+                "柔軟性",
+                "適応的"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_006",
+        "type": "conversation",
+        "question": "Have you ever thought \"If I can't do it perfectly, it's better not to do it at all\"?",
+        "your_response_prompt": "Try to recall what situation it was",
+        "choices": [
+            "Often",
+            "Sometimes",
+            "Rarely"
+        ],
+        "recommended_index": null,
+        "explanation": "This is a pattern called \"all-or-nothing thinking.\" Even when not perfect, \"doing it\" can build experience over time.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "As an example of dichotomous thinking",
+            "claim_tags": [
+                "完璧主義",
+                "二分法思考",
+                "回避"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_007",
+        "type": "swipe_judgment",
+        "question": "Perfectionism can lead to procrastination",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "I think so",
+            "right": "I don't think so"
+        },
+        "explanation": "Research suggests a link between perfectionism and procrastination. \"Failure avoidance\" can lead to avoiding action altogether.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explains the relationship between perfectionism and procrastination",
+            "claim_tags": [
+                "完璧主義",
+                "先延ばし",
+                "失敗回避"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_008",
+        "type": "multiple_choice",
+        "question": "What's the most important thing in dealing with perfectionism?",
+        "choices": [
+            "Having flexibility and widening your acceptable range",
+            "Completely eliminating perfectionism",
+            "Not having any goals"
+        ],
+        "correct_index": 0,
+        "explanation": "Rather than \"eliminating\" perfectionism, becoming able to \"flexibly adjust\" is key. Being able to change your standards based on the situation matters.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Considering how to live with perfectionism"
+            ],
+            "limitations": [
+                "Becoming flexible doesn't happen overnight"
+            ],
+            "citation_role": "Recommendation based on meta-analysis",
+            "claim_tags": [
+                "完璧主義",
+                "柔軟性",
+                "対処法"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_009",
+        "type": "conversation",
+        "question": "If you were to try the \"70 points is OK\" mindset you learned today tomorrow?",
+        "your_response_prompt": "What situation would you try it in?",
+        "choices": [
+            "Work or study tasks",
+            "Housework or daily chores",
+            "Can't think of anything specific yet"
+        ],
+        "recommended_index": 0,
+        "explanation": "Any situation is worth trying. We recommend starting with small tasks — practicing \"moving forward even if it's not perfect.\"",
+        "actionable_advice": "Try saying \"70 points is enough\" three times before your first task tomorrow",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who tend to be perfectionistic about daily tasks"
+            ],
+            "limitations": [
+                "Use caution when applying to important tasks"
+            ],
+            "citation_role": "Bridge to practice",
+            "try_this": "Say \"70 points is OK\" out loud before your first morning task",
+            "claim_tags": [
+                "完璧主義",
+                "実践",
+                "行動変容"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Hesitation before starting task (1-10)",
+                "after_prompt": "How you feel after starting (1-10)",
+                "success_rule": "Managed to start without hesitation",
+                "stop_rule": "If stress increases instead"
+            },
+            "comparator": {
+                "baseline": "Your usual approach",
+                "cost": "A few seconds of speaking"
+            },
+            "fallback": {
+                "when": "If you can't accept \"70 points\"",
+                "next": "Start with \"80 points\" instead"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_010",
+        "type": "conversation",
+        "question": "Was what you learned in this lesson likely to be useful for you?",
+        "your_response_prompt": "Please share your honest impression",
+        "choices": [
+            "Very likely to be useful",
+            "Somewhat useful",
+            "Probably not useful"
+        ],
+        "recommended_index": null,
+        "explanation": "Every impression is valuable. How you deal with perfectionism varies from person to person. Taking things at your own pace is what matters.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Promotes reflection",
+            "claim_tags": [
+                "振り返り",
+                "自己認識"
+            ]
+        }
+    }
+]

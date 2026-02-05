@@ -9,6 +9,10 @@ import mental_l06_ja from "./mental_l06.ja.json";
 // English translations (fallback to ja if not available)
 import mental_l01_en from "./mental_l01.en.json";
 import mental_l02_en from "./mental_l02.en.json";
+import mental_l03_en from "./mental_l03.en.json";
+import mental_l04_en from "./mental_l04.en.json";
+import mental_l05_en from "./mental_l05.en.json";
+import mental_l06_en from "./mental_l06.en.json";
 
 // Japanese (base) - always available
 export const mentalData_ja = [
@@ -24,10 +28,10 @@ export const mentalData_ja = [
 export const mentalData_en = [
   ...mental_l01_en,
   ...mental_l02_en,
-  ...mental_l03_ja, // fallback to ja
-  ...mental_l04_ja, // fallback to ja
-  ...mental_l05_ja, // fallback to ja
-  ...mental_l06_ja, // fallback to ja
+  ...mental_l03_en,
+  ...mental_l04_en,
+  ...mental_l05_en,
+  ...mental_l06_en,
 ];
 
 // Default export (ja for backward compatibility)
