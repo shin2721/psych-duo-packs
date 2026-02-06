@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert, Text } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/AuthContext';
+import i18n from '../lib/i18n';
 
 export default function AuthScreen() {
     const [email, setEmail] = useState('');
@@ -28,20 +29,20 @@ export default function AuthScreen() {
         });
 
         if (error) Alert.alert(error.message);
-        else Alert.alert('Check your inbox for email verification!');
+        else Alert.alert(i18n.t('auth.verifyEmail'));
         setLoading(false);
     }
 
     return (
         <View style={styles.container}>
-            <Text style={styles.header}>Psycle Login</Text>
+            <Text style={styles.header}>{i18n.t('auth.title')}</Text>
 
             <View style={styles.inputContainer}>
                 <TextInput
                     style={styles.input}
                     onChangeText={(text) => setEmail(text)}
                     value={email}
-                    placeholder="email@address.com"
+                    placeholder={i18n.t('auth.emailPlaceholder')}
                     autoCapitalize="none"
                     keyboardType="email-address"
                 />
@@ -50,20 +51,20 @@ export default function AuthScreen() {
                     onChangeText={(text) => setPassword(text)}
                     value={password}
                     secureTextEntry={true}
-                    placeholder="Password"
+                    placeholder={i18n.t('auth.passwordPlaceholder')}
                     autoCapitalize="none"
                 />
             </View>
 
             <View style={styles.buttonContainer}>
                 <View style={styles.primaryButton}>
-                    <Button title={loading ? "Loading..." : "Sign in"} disabled={loading} onPress={signInWithEmail} />
+                    <Button title={loading ? i18n.t('common.loading') : i18n.t('auth.signIn')} disabled={loading} onPress={signInWithEmail} />
                 </View>
-                <Button title="Sign up" disabled={loading} onPress={signUpWithEmail} color="#2e78b7" />
+                <Button title={i18n.t('auth.signUp')} disabled={loading} onPress={signUpWithEmail} color="#2e78b7" />
             </View>
 
             <View style={styles.guestButtonContainer}>
-                <Button title="Guest Login (Dev)" onPress={signInAsGuest} color="#888" disabled={loading} testID="auth-guest-login" />
+                <Button title={i18n.t('auth.guestLogin')} onPress={signInAsGuest} color="#888" disabled={loading} testID="auth-guest-login" />
             </View>
         </View>
     );
