@@ -37,5 +37,36 @@ export const fr = {
         restorePurchases: 'Restaurer les achats',
         privacy: 'Politique de confidentialité',
         terms: 'Conditions d\'utilisation'
+    },
+    onboarding: {
+        subtitle: 'Renforce ton mental en seulement 3 minutes par jour.',
+        start: 'Commencer',
+        interests: {
+            title: 'Que veux-tu apprendre ?',
+            subtitle: 'Sélectionne les thèmes qui t\'intéressent (choix multiples possibles)',
+            continue: 'Continuer',
+        },
+        features: {
+            evidenceBased: 'Psychologie fondée sur les preuves',
+            gameBased: 'Apprendre avec une dynamique de jeu',
+            personalized: 'Difficulté adaptée à ton niveau',
+        },
+        genres: {
+            mental: 'Mental',
+            money: 'Argent',
+            work: 'Compétences pro',
+            health: 'Santé',
+            social: 'Relations',
+            study: 'Apprentissage',
+        },
+    },
+    auth: {
+        title: 'Connexion Psycle',
+        emailPlaceholder: 'email@address.com',
+        passwordPlaceholder: 'Mot de passe',
+        signIn: 'Se connecter',
+        signUp: 'Créer un compte',
+        guestLogin: 'Connexion invité (Dev)',
+        verifyEmail: 'Vérifie ta boîte mail pour confirmer ton adresse !',
     }
 };

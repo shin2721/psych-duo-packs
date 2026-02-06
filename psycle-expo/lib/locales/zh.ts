@@ -37,5 +37,36 @@ export const zh = {
         restorePurchases: '恢复购买',
         privacy: '隐私政策',
         terms: '服务条款'
+    },
+    onboarding: {
+        subtitle: '每天只需3分钟，强化你的心理韧性。',
+        start: '开始',
+        interests: {
+            title: '你想学习什么？',
+            subtitle: '请选择你感兴趣的主题（可多选）',
+            continue: '继续',
+        },
+        features: {
+            evidenceBased: '基于证据的心理学',
+            gameBased: '以游戏化节奏学习',
+            personalized: '为你调整的难度',
+        },
+        genres: {
+            mental: '心态',
+            money: '金钱',
+            work: '职场技能',
+            health: '健康',
+            social: '人际关系',
+            study: '学习',
+        },
+    },
+    auth: {
+        title: 'Psycle 登录',
+        emailPlaceholder: 'email@address.com',
+        passwordPlaceholder: '密码',
+        signIn: '登录',
+        signUp: '注册',
+        guestLogin: '访客登录 (Dev)',
+        verifyEmail: '请检查你的收件箱以完成邮箱验证！',
     }
 };

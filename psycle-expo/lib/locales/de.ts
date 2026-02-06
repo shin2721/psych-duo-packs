@@ -37,5 +37,36 @@ export const de = {
         restorePurchases: 'Käufe wiederherstellen',
         privacy: 'Datenschutz',
         terms: 'Nutzungsbedingungen'
+    },
+    onboarding: {
+        subtitle: 'Baue in nur 3 Minuten am Tag mentale Stärke auf.',
+        start: 'Los geht\'s',
+        interests: {
+            title: 'Was möchtest du lernen?',
+            subtitle: 'Wähle Themen aus, die dich interessieren (Mehrfachauswahl möglich)',
+            continue: 'Weiter',
+        },
+        features: {
+            evidenceBased: 'Evidenzbasierte Psychologie',
+            gameBased: 'Lernen im Spielfluss',
+            personalized: 'Schwierigkeit auf dich abgestimmt',
+        },
+        genres: {
+            mental: 'Mindset',
+            money: 'Geld',
+            work: 'Arbeitstechniken',
+            health: 'Gesundheit',
+            social: 'Beziehungen',
+            study: 'Lernen',
+        },
+    },
+    auth: {
+        title: 'Psycle Login',
+        emailPlaceholder: 'email@address.com',
+        passwordPlaceholder: 'Passwort',
+        signIn: 'Anmelden',
+        signUp: 'Registrieren',
+        guestLogin: 'Gast-Login (Dev)',
+        verifyEmail: 'Bitte prüfe dein Postfach für die E-Mail-Bestätigung!',
     }
 };
