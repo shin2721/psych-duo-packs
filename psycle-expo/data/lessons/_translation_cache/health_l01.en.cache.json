@@ -1,0 +1,52 @@
+{
+  "health_l01_001": {
+    "ja_hash": "dcc5a57adb8f96ac",
+    "en_generated_hash": "f5323b9d9f3f3326",
+    "last_updated": "2026-02-06T06:01:13.211Z"
+  },
+  "health_l01_002": {
+    "ja_hash": "b56f5d91776055a0",
+    "en_generated_hash": "3c429ba0252942eb",
+    "last_updated": "2026-02-06T06:01:13.215Z"
+  },
+  "health_l01_003": {
+    "ja_hash": "69d0dc476ceea06e",
+    "en_generated_hash": "b07947b080cf1c09",
+    "last_updated": "2026-02-06T06:01:13.215Z"
+  },
+  "health_l01_004": {
+    "ja_hash": "45c73be99f5f0b30",
+    "en_generated_hash": "ac025e1d4377cc9a",
+    "last_updated": "2026-02-06T06:01:13.215Z"
+  },
+  "health_l01_005": {
+    "ja_hash": "17003d7581c042d9",
+    "en_generated_hash": "6c45aed8271a5ca0",
+    "last_updated": "2026-02-06T06:01:13.215Z"
+  },
+  "health_l01_006": {
+    "ja_hash": "028b0aa70190ffba",
+    "en_generated_hash": "8a75f36fd1bf7651",
+    "last_updated": "2026-02-06T06:01:13.215Z"
+  },
+  "health_l01_007": {
+    "ja_hash": "60a8f5d10c334e0c",
+    "en_generated_hash": "35d487a6225d1255",
+    "last_updated": "2026-02-06T06:01:13.215Z"
+  },
+  "health_l01_008": {
+    "ja_hash": "3b0f08be9c73fa55",
+    "en_generated_hash": "fd9933aed452cf01",
+    "last_updated": "2026-02-06T06:01:13.215Z"
+  },
+  "health_l01_009": {
+    "ja_hash": "2cf77f6c8f214da6",
+    "en_generated_hash": "dd7bf0b6967c9617",
+    "last_updated": "2026-02-06T06:01:13.215Z"
+  },
+  "health_l01_010": {
+    "ja_hash": "6d4c1a48f240b7dc",
+    "en_generated_hash": "df95ce7d192d626c",
+    "last_updated": "2026-02-06T06:01:13.215Z"
+  }
+}

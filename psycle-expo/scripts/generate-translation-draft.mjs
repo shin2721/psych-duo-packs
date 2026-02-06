@@ -12,6 +12,7 @@
  *   OPENAI_API_KEY=sk-... node scripts/generate-translation-draft.mjs
  *   OPENAI_API_KEY=sk-... node scripts/generate-translation-draft.mjs --dry-run
  *   OPENAI_API_KEY=sk-... node scripts/generate-translation-draft.mjs --force
+ *   node scripts/generate-translation-draft.mjs --init-cache  # Initialize cache from existing EN files
  */
 
 import fs from 'fs/promises';
@@ -45,11 +46,12 @@ const HASH_FIELDS = [
 const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
 const FORCE = args.includes('--force');
+const INIT_CACHE = args.includes('--init-cache');
 
 // === OpenAI Setup (lazy load) ===
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-if (!OPENAI_API_KEY && !DRY_RUN) {
-  console.error('❌ OPENAI_API_KEY is required (unless --dry-run)');
+if (!OPENAI_API_KEY && !DRY_RUN && !INIT_CACHE) {
+  console.error('❌ OPENAI_API_KEY is required (unless --dry-run or --init-cache)');
   process.exit(1);
 }
 
@@ -301,7 +303,106 @@ async function processLesson(jaPath) {
   return { basename, translatedCount, skippedCount, manualEditWarnings };
 }
 
+// === Init Cache Mode ===
+async function initCacheForLesson(jaPath) {
+  const basename = path.basename(jaPath, '.ja.json');
+  const dir = path.dirname(jaPath);
+  const enPath = path.join(dir, `${basename}.en.json`);
+
+  // Check if EN file exists
+  let enData;
+  try {
+    enData = JSON.parse(await fs.readFile(enPath, 'utf-8'));
+  } catch {
+    console.log(`  ⏭️ ${basename}: No EN file, skipping`);
+    return { basename, initialized: 0, skipped: true };
+  }
+
+  // Load JA source
+  const jaData = JSON.parse(await fs.readFile(jaPath, 'utf-8'));
+  const jaMap = new Map(jaData.map(item => [item.id, item]));
+
+  // Build cache from existing files
+  const newCache = {};
+  let initialized = 0;
+
+  for (const enItem of enData) {
+    const id = enItem.id;
+    const jaItem = jaMap.get(id);
+
+    if (!jaItem) {
+      console.log(`  ⚠️ ${id}: No matching JA item`);
+      continue;
+    }
+
+    const jaHash = computeHash(extractHashableContent(jaItem));
+    const enHash = computeHash(extractHashableContent(enItem));
+
+    newCache[id] = {
+      ja_hash: jaHash,
+      en_generated_hash: enHash,
+      last_updated: new Date().toISOString()
+    };
+    initialized++;
+  }
+
+  await saveCache(basename, newCache);
+  console.log(`  ✅ ${basename}: Initialized ${initialized} items`);
+
+  return { basename, initialized, skipped: false };
+}
+
+async function runInitCache() {
+  console.log('🔧 Initializing translation cache from existing EN files');
+  console.log('');
+
+  const units = ['mental_units', 'health_units', 'money_units', 'social_units', 'study_units', 'work_units'];
+  const jaFiles = [];
+
+  for (const unit of units) {
+    const unitDir = path.join(LESSONS_ROOT, unit);
+    try {
+      const files = await fs.readdir(unitDir);
+      for (const f of files) {
+        if (f.endsWith('.ja.json')) {
+          jaFiles.push(path.join(unitDir, f));
+        }
+      }
+    } catch {
+      // Unit doesn't exist
+    }
+  }
+
+  console.log(`📁 Found ${jaFiles.length} JA lesson files\n`);
+
+  let totalInitialized = 0;
+  let totalSkipped = 0;
+
+  for (const jaFile of jaFiles.sort()) {
+    const result = await initCacheForLesson(jaFile);
+    if (result.skipped) {
+      totalSkipped++;
+    } else {
+      totalInitialized += result.initialized;
+    }
+  }
+
+  console.log('\n' + '='.repeat(50));
+  console.log('📊 Init Cache Summary');
+  console.log('='.repeat(50));
+  console.log(`   Total items cached: ${totalInitialized}`);
+  console.log(`   Lessons skipped (no EN): ${totalSkipped}`);
+  console.log(`   Cache dir: ${CACHE_DIR}`);
+  console.log('\n✅ Cache initialized! Future runs will only translate changed items.');
+}
+
 async function main() {
+  // Handle --init-cache mode
+  if (INIT_CACHE) {
+    await runInitCache();
+    return;
+  }
+
   console.log('🚀 Translation Draft Generator');
   console.log(`   Mode: ${DRY_RUN ? 'DRY-RUN' : FORCE ? 'FORCE' : 'DIFFERENTIAL'}`);
   console.log('');

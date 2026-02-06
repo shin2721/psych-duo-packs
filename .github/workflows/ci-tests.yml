@@ -40,6 +40,12 @@ jobs:
           cd psycle-expo
           npm run content:i18n:check
 
+      - name: Lint translation glossary (warning-only)
+        continue-on-error: true
+        run: |
+          cd psycle-expo
+          npm run content:i18n:glossary
+
       - name: Generate content quality reports
         continue-on-error: true
         run: |
