@@ -56,6 +56,12 @@ jobs:
           cd psycle-expo
           npm run content:i18n:glossary
 
+      - name: Lint hardcoded strings (warning-only)
+        continue-on-error: true
+        run: |
+          cd psycle-expo
+          npm run lint:hardcoded-strings
+
       - name: Generate content quality reports
         continue-on-error: true
         run: |
