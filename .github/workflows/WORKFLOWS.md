@@ -4,7 +4,7 @@ This repo intentionally separates validation, scheduled publish, and manual publ
 
 | Workflow file | Trigger(s) | Responsibility |
 | --- | --- | --- |
-| `ci-tests.yml` | `pull_request`, `push` (`main` only), `workflow_dispatch` | Test and content quality checks |
+| `ci-tests.yml` | `pull_request`, `push` (`main` only), `workflow_dispatch` | Test, web smoke, and content quality checks |
 | `validate-packs.yml` | `pull_request`, `push` (`main` only) | Catalog/pack validation only |
 | `auto-publish.yml` | `schedule` | Weekly automatic publish from queue |
 | `publish-manual.yml` | `workflow_dispatch` | On-demand manual publish |
