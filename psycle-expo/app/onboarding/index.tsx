@@ -6,6 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { Analytics } from "../../lib/analytics";
+import i18n from "../../lib/i18n";
 
 export default function WelcomeScreen() {
     const router = useRouter();
@@ -33,21 +34,21 @@ export default function WelcomeScreen() {
 
                     {/* Title */}
                     <Text style={styles.title}>Psycle</Text>
-                    <Text style={styles.subtitle}>1日3分で、心を強くする。</Text>
+                    <Text style={styles.subtitle} testID="onboarding-subtitle">{i18n.t("onboarding.subtitle")}</Text>
 
                     {/* Value Propositions */}
                     <View style={styles.features}>
                         <FeatureItem
                             icon="school"
-                            text="科学的根拠に基づいた心理学"
+                            text={i18n.t("onboarding.features.evidenceBased")}
                         />
                         <FeatureItem
                             icon="game-controller"
-                            text="ゲーム感覚で楽しく学習"
+                            text={i18n.t("onboarding.features.gameBased")}
                         />
                         <FeatureItem
                             icon="trending-up"
-                            text="あなたに最適化された難易度"
+                            text={i18n.t("onboarding.features.personalized")}
                         />
                     </View>
 
@@ -57,7 +58,7 @@ export default function WelcomeScreen() {
                         onPress={() => router.push("/onboarding/interests")}
                         testID="onboarding-start"
                     >
-                        <Text style={styles.buttonText}>はじめる</Text>
+                        <Text style={styles.buttonText}>{i18n.t("onboarding.start")}</Text>
                         <Ionicons name="arrow-forward" size={20} color="#fff" />
                     </Pressable>
                 </View>

@@ -37,5 +37,36 @@ export const pt = {
         restorePurchases: 'Restaurar compras',
         privacy: 'Política de privacidade',
         terms: 'Termos de serviço'
+    },
+    onboarding: {
+        subtitle: 'Fortaleça sua mente em apenas 3 minutos por dia.',
+        start: 'Começar',
+        interests: {
+            title: 'O que você quer aprender?',
+            subtitle: 'Selecione os temas que mais interessam (múltipla escolha)',
+            continue: 'Continuar',
+        },
+        features: {
+            evidenceBased: 'Psicologia baseada em evidências',
+            gameBased: 'Aprenda com ritmo de jogo',
+            personalized: 'Dificuldade ajustada para você',
+        },
+        genres: {
+            mental: 'Mentalidade',
+            money: 'Dinheiro',
+            work: 'Habilidades de trabalho',
+            health: 'Saúde',
+            social: 'Relacionamentos',
+            study: 'Aprendizado',
+        },
+    },
+    auth: {
+        title: 'Login Psycle',
+        emailPlaceholder: 'email@address.com',
+        passwordPlaceholder: 'Senha',
+        signIn: 'Entrar',
+        signUp: 'Cadastrar',
+        guestLogin: 'Login como convidado (Dev)',
+        verifyEmail: 'Confira sua caixa de entrada para confirmar o e-mail!',
     }
 };

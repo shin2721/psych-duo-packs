@@ -37,5 +37,36 @@ export const en = {
         restorePurchases: 'Restore Purchases',
         privacy: 'Privacy Policy',
         terms: 'Terms of Service'
+    },
+    onboarding: {
+        subtitle: 'Build mental strength in just 3 minutes a day.',
+        start: 'Get Started',
+        interests: {
+            title: 'What do you want to learn?',
+            subtitle: 'Select the themes you are interested in (multiple choices allowed)',
+            continue: 'Continue',
+        },
+        features: {
+            evidenceBased: 'Evidence-based psychology',
+            gameBased: 'Learn with game-like flow',
+            personalized: 'Difficulty adapted to you',
+        },
+        genres: {
+            mental: 'Mindset',
+            money: 'Money',
+            work: 'Work Skills',
+            health: 'Health',
+            social: 'Relationships',
+            study: 'Learning',
+        },
+    },
+    auth: {
+        title: 'Psycle Login',
+        emailPlaceholder: 'email@address.com',
+        passwordPlaceholder: 'Password',
+        signIn: 'Sign in',
+        signUp: 'Sign up',
+        guestLogin: 'Guest Login (Dev)',
+        verifyEmail: 'Check your inbox for email verification!',
     }
 };

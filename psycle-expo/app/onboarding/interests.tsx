@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
 import { genres } from "../../lib/data";
 import { useOnboarding } from "../../lib/OnboardingContext";
+import i18n from "../../lib/i18n";
 
 export default function InterestsScreen() {
     const router = useRouter();
@@ -44,6 +45,12 @@ export default function InterestsScreen() {
         book: "book",
     };
 
+    const getGenreLabel = (genreId: string, fallback: string) => {
+        const key = `onboarding.genres.${genreId}`;
+        const translated = i18n.t(key);
+        return translated === key ? fallback : translated;
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
@@ -53,9 +60,9 @@ export default function InterestsScreen() {
             </View>
 
             <ScrollView style={styles.content} contentContainerStyle={styles.contentContainer}>
-                <Text style={styles.title}>何を学びたいですか？</Text>
+                <Text style={styles.title} testID="onboarding-interests-title">{i18n.t("onboarding.interests.title")}</Text>
                 <Text style={styles.subtitle}>
-                    興味のあるテーマを選んでください（複数選択可）
+                    {i18n.t("onboarding.interests.subtitle")}
                 </Text>
 
                 <View style={styles.grid}>
@@ -82,7 +89,7 @@ export default function InterestsScreen() {
                                         isSelected && styles.genreLabelSelected,
                                     ]}
                                 >
-                                    {genre.label}
+                                    {getGenreLabel(genre.id, genre.label)}
                                 </Text>
                                 {isSelected && (
                                     <View style={styles.checkmark}>
@@ -105,7 +112,7 @@ export default function InterestsScreen() {
                     disabled={selectedGenres.length === 0}
                     testID="onboarding-finish"
                 >
-                    <Text style={styles.buttonText}>続ける</Text>
+                    <Text style={styles.buttonText}>{i18n.t("onboarding.interests.continue")}</Text>
                     <Ionicons name="arrow-forward" size={20} color="#fff" />
                 </Pressable>
             </View>

@@ -87,9 +87,12 @@ async function run() {
   try {
     await page.goto(baseUrl);
 
+    await expect(page.locator('[data-testid="onboarding-subtitle"]')).toContainText("Build mental strength in just 3 minutes a day.");
     await page.locator('[data-testid="onboarding-start"]').click();
+    await expect(page.locator('[data-testid="onboarding-interests-title"]')).toContainText("What do you want to learn?");
     await page.locator('[data-testid="onboarding-genre-mental"]').click();
     await page.locator('[data-testid="onboarding-finish"]').click();
+    await expect(page.getByText("Sign in")).toBeVisible();
     await page.locator('[data-testid="auth-guest-login"]').click();
 
     const firstLessonNode = page.locator('[data-testid="lesson-node-m1"]');
