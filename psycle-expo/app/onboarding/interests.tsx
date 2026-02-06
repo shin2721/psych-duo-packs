@@ -69,6 +69,7 @@ export default function InterestsScreen() {
                                     isSelected && styles.genreCardSelected,
                                 ]}
                                 onPress={() => toggleGenre(genre.id)}
+                                testID={`onboarding-genre-${genre.id}`}
                             >
                                 <Ionicons
                                     name={iconMap[genre.icon]}

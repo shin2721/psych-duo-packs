@@ -63,7 +63,7 @@ export default function AuthScreen() {
             </View>
 
             <View style={styles.guestButtonContainer}>
-                <Button title="Guest Login (Dev)" onPress={signInAsGuest} color="#888" disabled={loading} />
+                <Button title="Guest Login (Dev)" onPress={signInAsGuest} color="#888" disabled={loading} testID="auth-guest-login" />
             </View>
         </View>
     );
