@@ -1,0 +1,79 @@
+{
+  "_comment": "Translation glossary rules for lint-translation-glossary.js",
+  "_version": "1.0.0",
+
+  "glossary": [
+    { "ja": "反芻思考", "en": "rumination" },
+    { "ja": "認知的評価", "en": "cognitive appraisal" },
+    { "ja": "実行意図", "en": "implementation intention" },
+    { "ja": "If-Thenプラン", "en": "If-Then plan" },
+    { "ja": "先延ばし", "en": "procrastination" },
+    { "ja": "認知的覚醒", "en": "cognitive arousal" },
+    { "ja": "扁桃体", "en": "amygdala" },
+    { "ja": "リアプレイザル", "en": "reappraisal" },
+    { "ja": "衝動買い", "en": "impulse buying" },
+    { "ja": "希少性バイアス", "en": "scarcity bias" },
+    { "ja": "アサーティブ", "en": "assertive" },
+    { "ja": "断る", "en": "say no|decline|refuse" }
+  ],
+
+  "banned_expressions": {
+    "en": [
+      {
+        "pattern": "will definitely",
+        "flags": "i",
+        "message": "Too assertive: 'will definitely' should use hedging like 'may' or 'tends to'"
+      },
+      {
+        "pattern": "always works",
+        "flags": "i",
+        "message": "Too assertive: 'always works' implies 100% efficacy"
+      },
+      {
+        "pattern": "guaranteed",
+        "flags": "i",
+        "message": "Too assertive: 'guaranteed' makes unwarranted claims"
+      },
+      {
+        "pattern": "proven to",
+        "flags": "i",
+        "message": "Too assertive: 'proven to' overstates evidence"
+      },
+      {
+        "pattern": "scientifically proven",
+        "flags": "i",
+        "message": "Too assertive: 'scientifically proven' is too strong a claim"
+      },
+      {
+        "pattern": "never fails",
+        "flags": "i",
+        "message": "Too assertive: 'never fails' implies 100% success rate"
+      },
+      {
+        "pattern": "100%",
+        "flags": "i",
+        "message": "Too assertive: Avoid absolute percentages for psychological effects"
+      }
+    ],
+    "ja": [
+      {
+        "pattern": "必ず効く",
+        "message": "断定的すぎ: '必ず効く'は100%の効果を暗示"
+      },
+      {
+        "pattern": "絶対に",
+        "message": "断定的すぎ: '絶対に'は過剰な確信を示す"
+      }
+    ]
+  },
+
+  "hedging_pairs": [
+    { "ja": "傾向がある", "en": "tends? to|tendency" },
+    { "ja": "可能性がある", "en": "may|might|could|possible" },
+    { "ja": "報告されている", "en": "has been reported|studies show|research suggests" },
+    { "ja": "とされている", "en": "is considered|is thought|is believed" },
+    { "ja": "効果が期待できる", "en": "may help|can help|might" },
+    { "ja": "かもしれない", "en": "may|might|could" },
+    { "ja": "場合がある", "en": "in some cases|sometimes|may" }
+  ]
+}
