@@ -38,6 +38,14 @@ export const es = {
         privacy: 'Política de privacidad',
         terms: 'Términos de servicio'
     },
+    tabs: {
+        learn: 'Aprender',
+        quests: 'Misiones',
+        ranking: 'Ranking',
+        friends: 'Amigos',
+        shop: 'Tienda',
+        profile: 'Perfil',
+    },
     onboarding: {
         subtitle: 'Fortalece tu mente en solo 3 minutos al día.',
         start: 'Comenzar',

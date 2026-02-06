@@ -3,6 +3,7 @@ import { View, Animated, Easing } from "react-native";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
+import i18n from "../../lib/i18n";
 import { StarBackground } from "../../components/StarBackground";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
 
@@ -118,7 +119,7 @@ export default function TabLayout() {
           <Tabs.Screen
             name="course"
             options={{
-              title: "学ぶ",
+              title: i18n.t("tabs.learn"),
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="leaf" size={size} color={color} focused={focused} />
               ),
@@ -127,7 +128,7 @@ export default function TabLayout() {
           <Tabs.Screen
             name="quests"
             options={{
-              title: "クエスト",
+              title: i18n.t("tabs.quests"),
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="home" size={size} color={color} focused={focused} />
               ),
@@ -136,7 +137,7 @@ export default function TabLayout() {
           <Tabs.Screen
             name="leaderboard"
             options={{
-              title: "ランキング",
+              title: i18n.t("tabs.ranking"),
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="trophy" size={size} color={color} focused={focused} />
               ),
@@ -145,7 +146,7 @@ export default function TabLayout() {
           <Tabs.Screen
             name="friends"
             options={{
-              title: "フレンド",
+              title: i18n.t("tabs.friends"),
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="people" size={size} color={color} focused={focused} />
               ),
@@ -154,7 +155,7 @@ export default function TabLayout() {
           <Tabs.Screen
             name="shop"
             options={{
-              title: "ショップ",
+              title: i18n.t("tabs.shop"),
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="storefront" size={size} color={color} focused={focused} />
               ),
@@ -163,7 +164,7 @@ export default function TabLayout() {
           <Tabs.Screen
             name="profile"
             options={{
-              title: "プロフィール",
+              title: i18n.t("tabs.profile"),
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="person" size={size} color={color} focused={focused} />
               ),

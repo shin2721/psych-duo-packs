@@ -38,6 +38,14 @@ export const ko = {
         privacy: '개인정보 처리방침',
         terms: '이용 약관'
     },
+    tabs: {
+        learn: '학습',
+        quests: '퀘스트',
+        ranking: '랭킹',
+        friends: '친구',
+        shop: '상점',
+        profile: '프로필',
+    },
     onboarding: {
         subtitle: '하루 3분으로 마음의 근력을 키우세요.',
         start: '시작하기',

@@ -38,6 +38,14 @@ export const de = {
         privacy: 'Datenschutz',
         terms: 'Nutzungsbedingungen'
     },
+    tabs: {
+        learn: 'Lernen',
+        quests: 'Quests',
+        ranking: 'Rangliste',
+        friends: 'Freunde',
+        shop: 'Shop',
+        profile: 'Profil',
+    },
     onboarding: {
         subtitle: 'Baue in nur 3 Minuten am Tag mentale Stärke auf.',
         start: 'Los geht\'s',
