@@ -223,7 +223,7 @@
   {
     "id": "social_l02_007",
     "type": "swipe_judgment",
-    "question": "You tend to feel like you \"have to apologize\" when declining.",
+    "question": "You tend to feel like you \"have to apologize\" when you decline and say no.",
     "is_true": true,
     "swipe_labels": {
       "left": "I can relate",
