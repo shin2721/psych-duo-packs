@@ -38,6 +38,14 @@ export const ja = {
         privacy: 'プライバシーポリシー',
         terms: '利用規約'
     },
+    tabs: {
+        learn: '学ぶ',
+        quests: 'クエスト',
+        ranking: 'ランキング',
+        friends: 'フレンド',
+        shop: 'ショップ',
+        profile: 'プロフィール',
+    },
     onboarding: {
         subtitle: '1日3分で、心を強くする。',
         start: 'はじめる',

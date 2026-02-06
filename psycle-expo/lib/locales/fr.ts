@@ -38,6 +38,14 @@ export const fr = {
         privacy: 'Politique de confidentialité',
         terms: 'Conditions d\'utilisation'
     },
+    tabs: {
+        learn: 'Apprendre',
+        quests: 'Quêtes',
+        ranking: 'Classement',
+        friends: 'Amis',
+        shop: 'Boutique',
+        profile: 'Profil',
+    },
     onboarding: {
         subtitle: 'Renforce ton mental en seulement 3 minutes par jour.',
         start: 'Commencer',

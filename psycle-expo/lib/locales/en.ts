@@ -38,6 +38,14 @@ export const en = {
         privacy: 'Privacy Policy',
         terms: 'Terms of Service'
     },
+    tabs: {
+        learn: 'Learn',
+        quests: 'Quests',
+        ranking: 'Ranking',
+        friends: 'Friends',
+        shop: 'Shop',
+        profile: 'Profile',
+    },
     onboarding: {
         subtitle: 'Build mental strength in just 3 minutes a day.',
         start: 'Get Started',
