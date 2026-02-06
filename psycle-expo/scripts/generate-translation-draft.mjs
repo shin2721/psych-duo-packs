@@ -2,17 +2,21 @@
 /**
  * generate-translation-draft.mjs
  *
- * Generates EN translation drafts from JA source files.
+ * Generates translation drafts from JA source files to any target language.
  * Features:
  * - Differential update: Only regenerates questions where JA content changed
- * - Manual edit protection: Warns if EN was hand-edited since last generation
+ * - Manual edit protection: Warns if target was hand-edited since last generation
  * - Cache-based change detection via SHA256 hash
+ * - Multi-language support via --lang option
  *
  * Usage:
- *   OPENAI_API_KEY=sk-... node scripts/generate-translation-draft.mjs
+ *   OPENAI_API_KEY=sk-... node scripts/generate-translation-draft.mjs              # Default: en
+ *   OPENAI_API_KEY=sk-... node scripts/generate-translation-draft.mjs --lang=es    # Spanish
+ *   OPENAI_API_KEY=sk-... node scripts/generate-translation-draft.mjs --lang=zh    # Chinese
  *   OPENAI_API_KEY=sk-... node scripts/generate-translation-draft.mjs --dry-run
  *   OPENAI_API_KEY=sk-... node scripts/generate-translation-draft.mjs --force
- *   node scripts/generate-translation-draft.mjs --init-cache  # Initialize cache from existing EN files
+ *   node scripts/generate-translation-draft.mjs --init-cache                       # Init EN cache
+ *   node scripts/generate-translation-draft.mjs --init-cache --lang=es             # Init ES cache
  */
 
 import fs from 'fs/promises';
@@ -22,7 +26,17 @@ import crypto from 'crypto';
 // === Configuration ===
 const LESSONS_ROOT = 'data/lessons';
 const CACHE_DIR = 'data/lessons/_translation_cache';
-const TARGET_LANG = 'en';
+
+// Language configuration
+const LANG_CONFIG = {
+  en: { name: 'English', instruction: 'Translate Japanese to English.' },
+  es: { name: 'Spanish', instruction: 'Translate Japanese to Spanish (Latin American).' },
+  zh: { name: 'Chinese (Simplified)', instruction: 'Translate Japanese to Simplified Chinese.' },
+  ko: { name: 'Korean', instruction: 'Translate Japanese to Korean.' },
+  fr: { name: 'French', instruction: 'Translate Japanese to French.' },
+  de: { name: 'German', instruction: 'Translate Japanese to German.' },
+  pt: { name: 'Portuguese', instruction: 'Translate Japanese to Portuguese (Brazilian).' },
+};
 
 // Fields to translate
 const TRANSLATABLE_FIELDS = [
@@ -47,6 +61,23 @@ const args = process.argv.slice(2);
 const DRY_RUN = args.includes('--dry-run');
 const FORCE = args.includes('--force');
 const INIT_CACHE = args.includes('--init-cache');
+
+// Parse --lang=XX option
+function parseLang() {
+  const langArg = args.find(a => a.startsWith('--lang='));
+  if (langArg) {
+    const lang = langArg.split('=')[1];
+    if (!LANG_CONFIG[lang]) {
+      console.error(`❌ Unsupported language: ${lang}`);
+      console.error(`   Supported: ${Object.keys(LANG_CONFIG).join(', ')}`);
+      process.exit(1);
+    }
+    return lang;
+  }
+  return 'en'; // Default
+}
+
+const TARGET_LANG = parseLang();
 
 // === OpenAI Setup (lazy load) ===
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
@@ -102,12 +133,13 @@ async function translateText(text, context = '') {
   const client = await getOpenAI();
   if (!client) return `[DRAFT] ${text}`;
 
+  const langConfig = LANG_CONFIG[TARGET_LANG];
   const systemPrompt = `You are a professional translator for a psychology learning app called "Psycle".
-Translate Japanese to English. Guidelines:
+${langConfig.instruction} Guidelines:
 - Keep the tone educational but accessible and warm
 - Preserve any emojis
-- Use natural, conversational English
-- Keep technical psychology terms accurate (e.g., "rumination", "cognitive appraisal")
+- Use natural, conversational ${langConfig.name}
+- Keep technical psychology terms accurate (e.g., "rumination", "cognitive appraisal" - use standard translations for these terms in ${langConfig.name})
 - Maintain the supportive, non-judgmental tone
 ${context ? `Context: ${context}` : ''}`;
 
@@ -128,68 +160,68 @@ ${context ? `Context: ${context}` : ''}`;
 }
 
 async function translateItem(jaItem) {
-  const enItem = { ...jaItem };
+  const targetItem = { ...jaItem };
 
   for (const field of TRANSLATABLE_FIELDS) {
     if (jaItem[field] === undefined || jaItem[field] === null) continue;
 
     if (field === 'choices' && Array.isArray(jaItem[field])) {
-      enItem[field] = [];
+      targetItem[field] = [];
       for (const choice of jaItem[field]) {
-        enItem[field].push(await translateText(choice, 'This is a quiz choice option'));
+        targetItem[field].push(await translateText(choice, 'This is a quiz choice option'));
       }
     } else if (typeof jaItem[field] === 'string' && jaItem[field].trim()) {
-      enItem[field] = await translateText(jaItem[field], `Field: ${field}`);
+      targetItem[field] = await translateText(jaItem[field], `Field: ${field}`);
     }
   }
 
   // Translate nested expanded_details fields if present
   if (jaItem.expanded_details) {
-    enItem.expanded_details = { ...jaItem.expanded_details };
+    targetItem.expanded_details = { ...jaItem.expanded_details };
 
     const nestedFields = ['try_this', 'best_for', 'limitations'];
     for (const nf of nestedFields) {
       if (jaItem.expanded_details[nf]) {
         if (Array.isArray(jaItem.expanded_details[nf])) {
-          enItem.expanded_details[nf] = [];
+          targetItem.expanded_details[nf] = [];
           for (const item of jaItem.expanded_details[nf]) {
-            enItem.expanded_details[nf].push(await translateText(item));
+            targetItem.expanded_details[nf].push(await translateText(item));
           }
         } else if (typeof jaItem.expanded_details[nf] === 'string') {
-          enItem.expanded_details[nf] = await translateText(jaItem.expanded_details[nf]);
+          targetItem.expanded_details[nf] = await translateText(jaItem.expanded_details[nf]);
         }
       }
     }
 
     // tiny_metric, comparator, fallback
     if (jaItem.expanded_details.tiny_metric) {
-      enItem.expanded_details.tiny_metric = {};
+      targetItem.expanded_details.tiny_metric = {};
       for (const [k, v] of Object.entries(jaItem.expanded_details.tiny_metric)) {
-        enItem.expanded_details.tiny_metric[k] = typeof v === 'string' ? await translateText(v) : v;
+        targetItem.expanded_details.tiny_metric[k] = typeof v === 'string' ? await translateText(v) : v;
       }
     }
     if (jaItem.expanded_details.comparator) {
-      enItem.expanded_details.comparator = {};
+      targetItem.expanded_details.comparator = {};
       for (const [k, v] of Object.entries(jaItem.expanded_details.comparator)) {
-        enItem.expanded_details.comparator[k] = typeof v === 'string' ? await translateText(v) : v;
+        targetItem.expanded_details.comparator[k] = typeof v === 'string' ? await translateText(v) : v;
       }
     }
     if (jaItem.expanded_details.fallback) {
-      enItem.expanded_details.fallback = {};
+      targetItem.expanded_details.fallback = {};
       for (const [k, v] of Object.entries(jaItem.expanded_details.fallback)) {
-        enItem.expanded_details.fallback[k] = typeof v === 'string' ? await translateText(v) : v;
+        targetItem.expanded_details.fallback[k] = typeof v === 'string' ? await translateText(v) : v;
       }
     }
   }
 
-  return enItem;
+  return targetItem;
 }
 
 // === Main Processing ===
 async function processLesson(jaPath) {
   const basename = path.basename(jaPath, '.ja.json');
   const dir = path.dirname(jaPath);
-  const enPath = path.join(dir, `${basename}.en.json`);
+  const targetPath = path.join(dir, `${basename}.${TARGET_LANG}.json`);
 
   console.log(`\n📄 Processing: ${basename}`);
 
@@ -197,11 +229,11 @@ async function processLesson(jaPath) {
   const jaData = JSON.parse(await fs.readFile(jaPath, 'utf-8'));
 
   // Load existing EN (if any)
-  let enData = [];
-  let enExists = false;
+  let targetData = [];
+  let targetExists = false;
   try {
-    enData = JSON.parse(await fs.readFile(enPath, 'utf-8'));
-    enExists = true;
+    targetData = JSON.parse(await fs.readFile(targetPath, 'utf-8'));
+    targetExists = true;
   } catch {
     // EN file doesn't exist yet
   }
@@ -210,10 +242,10 @@ async function processLesson(jaPath) {
   const cache = await loadCache(basename);
 
   // Build EN item map for quick lookup
-  const enMap = new Map(enData.map(item => [item.id, item]));
+  const targetMap = new Map(targetData.map(item => [item.id, item]));
 
   // Process each item
-  const newEnData = [];
+  const newTargetData = [];
   const newCache = {};
   let translatedCount = 0;
   let skippedCount = 0;
@@ -225,58 +257,58 @@ async function processLesson(jaPath) {
     const jaHash = computeHash(jaHashable);
 
     const cachedEntry = cache[id];
-    const existingEn = enMap.get(id);
+    const existingTarget = targetMap.get(id);
 
     // Check if JA content changed
     const jaChanged = !cachedEntry || cachedEntry.ja_hash !== jaHash;
 
     // Check if EN was manually edited (EN hash differs from cached generated hash)
     let manuallyEdited = false;
-    if (cachedEntry && existingEn && cachedEntry.en_generated_hash) {
-      const currentEnHash = computeHash(extractHashableContent(existingEn));
+    if (cachedEntry && existingTarget && cachedEntry.en_generated_hash) {
+      const currentEnHash = computeHash(extractHashableContent(existingTarget));
       manuallyEdited = currentEnHash !== cachedEntry.en_generated_hash;
     }
 
     // Decision logic
-    let enItem;
+    let targetItem;
     if (FORCE) {
       // Force regeneration
       console.log(`  🔄 ${id}: Force regenerating...`);
-      enItem = await translateItem(jaItem);
+      targetItem = await translateItem(jaItem);
       translatedCount++;
-    } else if (!jaChanged && existingEn && !manuallyEdited) {
+    } else if (!jaChanged && existingTarget && !manuallyEdited) {
       // No change, keep existing
       console.log(`  ✅ ${id}: No change, keeping existing`);
-      enItem = existingEn;
+      targetItem = existingTarget;
       skippedCount++;
     } else if (jaChanged && manuallyEdited) {
       // JA changed but EN was manually edited - warn and skip
       console.log(`  ⚠️ ${id}: JA changed but EN was manually edited - NEEDS REVIEW`);
       manualEditWarnings.push({ id, reason: 'JA changed but EN was hand-edited' });
-      enItem = existingEn; // Keep manual edit
+      targetItem = existingTarget; // Keep manual edit
       skippedCount++;
     } else if (jaChanged) {
       // JA changed, regenerate
       console.log(`  🔄 ${id}: JA changed, regenerating...`);
-      enItem = await translateItem(jaItem);
+      targetItem = await translateItem(jaItem);
       translatedCount++;
-    } else if (!existingEn) {
+    } else if (!existingTarget) {
       // New item
       console.log(`  🆕 ${id}: New item, generating...`);
-      enItem = await translateItem(jaItem);
+      targetItem = await translateItem(jaItem);
       translatedCount++;
     } else {
       // Keep existing
-      enItem = existingEn;
+      targetItem = existingTarget;
       skippedCount++;
     }
 
-    newEnData.push(enItem);
+    newTargetData.push(targetItem);
 
     // Update cache entry
     newCache[id] = {
       ja_hash: jaHash,
-      en_generated_hash: computeHash(extractHashableContent(enItem)),
+      en_generated_hash: computeHash(extractHashableContent(targetItem)),
       last_updated: new Date().toISOString()
     };
   }
@@ -293,11 +325,11 @@ async function processLesson(jaPath) {
 
   // Write output (unless dry-run)
   if (!DRY_RUN) {
-    await fs.writeFile(enPath, JSON.stringify(newEnData, null, 4));
+    await fs.writeFile(targetPath, JSON.stringify(newTargetData, null, 4));
     await saveCache(basename, newCache);
-    console.log(`  💾 Saved: ${enPath}`);
+    console.log(`  💾 Saved: ${targetPath}`);
   } else {
-    console.log(`  🔍 DRY-RUN: Would write to ${enPath}`);
+    console.log(`  🔍 DRY-RUN: Would write to ${targetPath}`);
   }
 
   return { basename, translatedCount, skippedCount, manualEditWarnings };
@@ -307,14 +339,14 @@ async function processLesson(jaPath) {
 async function initCacheForLesson(jaPath) {
   const basename = path.basename(jaPath, '.ja.json');
   const dir = path.dirname(jaPath);
-  const enPath = path.join(dir, `${basename}.en.json`);
+  const targetPath = path.join(dir, `${basename}.${TARGET_LANG}.json`);
 
-  // Check if EN file exists
-  let enData;
+  // Check if target language file exists
+  let targetData;
   try {
-    enData = JSON.parse(await fs.readFile(enPath, 'utf-8'));
+    targetData = JSON.parse(await fs.readFile(targetPath, 'utf-8'));
   } catch {
-    console.log(`  ⏭️ ${basename}: No EN file, skipping`);
+    console.log(`  ⏭️ ${basename}: No ${TARGET_LANG.toUpperCase()} file, skipping`);
     return { basename, initialized: 0, skipped: true };
   }
 
@@ -326,8 +358,8 @@ async function initCacheForLesson(jaPath) {
   const newCache = {};
   let initialized = 0;
 
-  for (const enItem of enData) {
-    const id = enItem.id;
+  for (const targetItem of targetData) {
+    const id = targetItem.id;
     const jaItem = jaMap.get(id);
 
     if (!jaItem) {
@@ -336,11 +368,11 @@ async function initCacheForLesson(jaPath) {
     }
 
     const jaHash = computeHash(extractHashableContent(jaItem));
-    const enHash = computeHash(extractHashableContent(enItem));
+    const targetHash = computeHash(extractHashableContent(targetItem));
 
     newCache[id] = {
       ja_hash: jaHash,
-      en_generated_hash: enHash,
+      en_generated_hash: targetHash,
       last_updated: new Date().toISOString()
     };
     initialized++;
@@ -353,7 +385,8 @@ async function initCacheForLesson(jaPath) {
 }
 
 async function runInitCache() {
-  console.log('🔧 Initializing translation cache from existing EN files');
+  const langConfig = LANG_CONFIG[TARGET_LANG];
+  console.log(`🔧 Initializing translation cache for ${langConfig.name} (${TARGET_LANG})`);
   console.log('');
 
   const units = ['mental_units', 'health_units', 'money_units', 'social_units', 'study_units', 'work_units'];
@@ -391,7 +424,7 @@ async function runInitCache() {
   console.log('📊 Init Cache Summary');
   console.log('='.repeat(50));
   console.log(`   Total items cached: ${totalInitialized}`);
-  console.log(`   Lessons skipped (no EN): ${totalSkipped}`);
+  console.log(`   Lessons skipped (no ${TARGET_LANG.toUpperCase()}): ${totalSkipped}`);
   console.log(`   Cache dir: ${CACHE_DIR}`);
   console.log('\n✅ Cache initialized! Future runs will only translate changed items.');
 }
@@ -403,7 +436,9 @@ async function main() {
     return;
   }
 
+  const langConfig = LANG_CONFIG[TARGET_LANG];
   console.log('🚀 Translation Draft Generator');
+  console.log(`   Target: ${langConfig.name} (${TARGET_LANG})`);
   console.log(`   Mode: ${DRY_RUN ? 'DRY-RUN' : FORCE ? 'FORCE' : 'DIFFERENTIAL'}`);
   console.log('');
 
