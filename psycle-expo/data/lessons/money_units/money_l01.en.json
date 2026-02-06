@@ -1,424 +1,424 @@
 [
-  {
-    "id": "money_l01_001",
-    "type": "swipe_judgment",
-    "question": "When you added something to your cart online, you felt the urge \"I have to buy it now or it'll be gone.\"",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "Yes",
-      "right": "No"
+    {
+        "id": "money_l01_001",
+        "type": "swipe_judgment",
+        "question": "When you added something to your cart online, you felt the urge \"I have to buy it now or it'll be gone.\"",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Yes",
+            "right": "No"
+        },
+        "explanation": "This is called \"scarcity bias.\" When you see \"Only 3 left\" or \"Limited edition,\" things tend to feel more valuable than they actually are. Understanding this bias can help you stay calm.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Cialdini_2006",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Feeling rushed while shopping online",
+                "People who are weak to \"limited\" labels"
+            ],
+            "limitations": [
+                "When something is genuinely scarce, it may be a rational decision"
+            ],
+            "citation_role": "Supports the existence of scarcity bias through observational research",
+            "claim_tags": [
+                "scarcity_bias",
+                "impulse_buying",
+                "cognitive_bias"
+            ]
+        }
     },
-    "explanation": "This is called \"scarcity bias.\" When you see \"Only 3 left\" or \"Limited edition,\" things tend to feel more valuable than they actually are. Understanding this bias can help you stay calm.",
-    "actionable_advice": null,
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Cialdini_2006",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "indirect",
-      "best_for": [
-        "Feeling rushed while shopping online",
-        "People who are weak to \"limited\" labels"
-      ],
-      "limitations": [
-        "When something is genuinely scarce, it may be a rational decision"
-      ],
-      "citation_role": "Supports the existence of scarcity bias through observational research",
-      "claim_tags": [
-        "scarcity_bias",
-        "impulse_buying",
-        "cognitive_bias"
-      ]
-    }
-  },
-  {
-    "id": "money_l01_002",
-    "type": "multiple_choice",
-    "question": "When you think \"I want to buy this now!\", what method has been reported to help control the urge?",
-    "choices": [
-      "Wait 10 seconds before deciding",
-      "Look for something cheaper",
-      "Read all the reviews"
-    ],
-    "correct_index": 0,
-    "explanation": "The 10-second rule has been suggested as an effective brief intervention. The peak of the urge tends to pass while you wait. It doesn't work for everyone, so it's OK not to force it. (\"Looking for cheaper options\" and \"reading all reviews\" take too long.)",
-    "actionable_advice": "\uD83D\uDCA1 Next time you think \"I want to buy it!\", just pause for 10 seconds. Stop immediately if it doesn't feel right.",
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Vohs_2008",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
-      "best_for": [
-        "Urges during online shopping",
-        "People who frequently make small impulse purchases"
-      ],
-      "limitations": [
-        "May be less effective for expensive items",
-        "Can backfire for people who find waiting painful"
-      ],
-      "citation_role": "Theoretically explains the relationship between impulse and time from self-control resource research",
-      "claim_tags": [
-        "self_control",
-        "impulse_buying",
-        "theory"
-      ]
-    }
-  },
-  {
-    "id": "money_l01_003",
-    "type": "swipe_judgment",
-    "question": "If you leave items in your cart for 24 hours, many turn into \"I don't need this after all.\"",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "Probably",
-      "right": "Probably not"
+    {
+        "id": "money_l01_002",
+        "type": "multiple_choice",
+        "question": "When you think \"I want to buy this now!\" (impulse buying), what method has been reported to help control the urge?",
+        "choices": [
+            "Wait 10 seconds before deciding",
+            "Look for something cheaper",
+            "Read all the reviews"
+        ],
+        "correct_index": 0,
+        "explanation": "The 10-second rule has been suggested as an effective brief intervention. The peak of the urge tends to pass while you wait. It doesn't work for everyone, so it's OK not to force it. (\"Looking for cheaper options\" and \"reading all reviews\" take too long.)",
+        "actionable_advice": "💡 Next time you think \"I want to buy it!\", just pause for 10 seconds. Stop immediately if it doesn't feel right.",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Vohs_2008",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Urges during online shopping",
+                "People who frequently make small impulse purchases"
+            ],
+            "limitations": [
+                "May be less effective for expensive items",
+                "Can backfire for people who find waiting painful"
+            ],
+            "citation_role": "Theoretically explains the relationship between impulse and time from self-control resource research",
+            "claim_tags": [
+                "self_control",
+                "impulse_buying",
+                "theory"
+            ]
+        }
     },
-    "explanation": "It's been reported that the urge for impulse purchases tends to naturally decrease with time. Just be careful not to forget things you actually need. It's normal if you can't do this. Try it just once.",
-    "actionable_advice": null,
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Baumeister_2002",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
-      "best_for": [
-        "Impulse buying during online shopping",
-        "People who can \"think about it later\""
-      ],
-      "limitations": [
-        "Hard to use when sales have deadlines",
-        "Risk of forgetting things you actually need"
-      ],
-      "citation_role": "Indirectly supports the recovery effect of self-control",
-      "try_this": "\uD83D\uDC49 After adding to cart \u2192 close the screen and lock it (leave it for 24 hours)",
-      "claim_tags": [
-        "delay_gratification",
-        "impulse_buying",
-        "self_control"
-      ],
-      "tiny_metric": {
-        "metric": "After 24 hours, did you think \"I don't need this after all\"?",
-        "stop_rule": "If you end up buying everything 3 times in a row, stop"
-      },
-      "comparator": {
-        "baseline": "Buying on the spot immediately",
-        "cost": "Just waiting 24 hours"
-      },
-      "fallback": {
-        "when": "Can't wait 24 hours",
-        "next": "[1-hour version] Close the browser and check again after 1 hour"
-      }
-    }
-  },
-  {
-    "id": "money_l01_004",
-    "type": "multiple_choice",
-    "question": "Why is asking yourself \"Will I still be using this in a year?\" effective?",
-    "choices": [
-      "Imagining your future self tends to reduce impulsive decisions",
-      "Guilt stops you from buying",
-      "The calculation is too much trouble so you give up"
-    ],
-    "correct_index": 0,
-    "explanation": "Imagining your future self (future-self continuity) has been reported to reduce impulsive decisions. It may be less effective for people who have difficulty imagining the future. Try it just once. (It's not about \"guilt\" or \"too much trouble\" \u2014 the key is feeling connected to your future self.)",
-    "actionable_advice": "\uD83D\uDCA1 Next time you want to buy something, ask yourself \"Will I still be using this in a year?\"",
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Hershfield_2011",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "direct",
-      "best_for": [
-        "People who can think from a long-term perspective",
-        "People who often regret purchases"
-      ],
-      "limitations": [
-        "Less effective for people who have difficulty imagining the future",
-        "Hard to apply to consumables"
-      ],
-      "citation_role": "Directly supports the link between future-self continuity and decision-making",
-      "try_this": "\uD83D\uDC49 When you think \"I want to buy this\" \u2192 take your finger off and say \"Will I still use this in a year?\" for just 10 seconds",
-      "claim_tags": [
-        "future_self_continuity",
-        "impulse_buying",
-        "decision_making"
-      ],
-      "tiny_metric": {
-        "before_prompt": "How strong is your \"want to buy\" urge? (0-10)",
-        "after_prompt": "After the future question?",
-        "success_rule": "Any decrease is OK",
-        "stop_rule": "If no change or it increases, retreat for today"
-      },
-      "comparator": {
-        "baseline": "Buying without thinking",
-        "cost": "5 seconds / low effort"
-      },
-      "fallback": {
-        "when": "Urge doesn't go away even after imagining the future",
-        "next": "Switch to the 24-hour cart abandonment method"
-      }
-    }
-  },
-  {
-    "id": "money_l01_005",
-    "type": "swipe_judgment",
-    "question": "\"Buying it because it's cheap\" often ends up costing more in the long run.",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "Maybe so",
-      "right": "Not really"
+    {
+        "id": "money_l01_003",
+        "type": "swipe_judgment",
+        "question": "If you leave items in your cart for 24 hours, many turn into \"I don't need this after all.\"",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Probably",
+            "right": "Probably not"
+        },
+        "explanation": "It's been reported that the urge for impulse purchases tends to naturally decrease with time. Just be careful not to forget things you actually need. It's normal if you can't do this. Try it just once.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Baumeister_2002",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Impulse buying during online shopping",
+                "People who can \"think about it later\""
+            ],
+            "limitations": [
+                "Hard to use when sales have deadlines",
+                "Risk of forgetting things you actually need"
+            ],
+            "citation_role": "Indirectly supports the recovery effect of self-control",
+            "try_this": "👉 After adding to cart → close the screen and lock it (leave it for 24 hours)",
+            "claim_tags": [
+                "delay_gratification",
+                "impulse_buying",
+                "self_control"
+            ],
+            "tiny_metric": {
+                "metric": "After 24 hours, did you think \"I don't need this after all\"?",
+                "stop_rule": "If you end up buying everything 3 times in a row, stop"
+            },
+            "comparator": {
+                "baseline": "Buying on the spot immediately",
+                "cost": "Just waiting 24 hours"
+            },
+            "fallback": {
+                "when": "Can't wait 24 hours",
+                "next": "[1-hour version] Close the browser and check again after 1 hour"
+            }
+        }
     },
-    "explanation": "Things bought for the \"good deal\" feeling often go unused, resulting in a net loss. However, stocking up on consumables can be rational in some cases.",
-    "actionable_advice": null,
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Thaler_1999",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "direct",
-      "best_for": [
-        "People weak to sales",
-        "People who often \"buy just in case\""
-      ],
-      "limitations": [
-        "Stocking consumables can be rational in some cases"
-      ],
-      "citation_role": "Supports the irrationality of mental accounting through observational research",
-      "claim_tags": [
-        "mental_accounting",
-        "sunk_cost",
-        "impulse_buying"
-      ]
-    }
-  },
-  {
-    "id": "money_l01_006",
-    "type": "multiple_choice",
-    "question": "Why does setting a budget like \"I have X left this month\" tend to reduce impulse buying?",
-    "choices": [
-      "Having a budget \"rule\" makes decisions easier",
-      "Because you run out of money",
-      "Because calculating is tiring"
-    ],
-    "correct_index": 0,
-    "explanation": "When you have a budget constraint, the decision cost of \"buy or not buy\" goes down. If the budget is too strict, there can be a rebound effect of overspending. (The point is that decisions become easier, not \"running out of money\" or \"getting tired from calculating.\")",
-    "actionable_advice": "\uD83D\uDCA1 Set your \"free spending amount\" for this week (e.g., $50/week). If it's too tight, it's OK to raise it.",
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Thaler_1999",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
-      "best_for": [
-        "People who follow rules well",
-        "People who want to start managing finances"
-      ],
-      "limitations": [
-        "A budget that's too strict can cause a rebound",
-        "Hard to handle unexpected expenses"
-      ],
-      "citation_role": "Indirectly supports budget effects from mental accounting theory",
-      "try_this": "Set your \"free spending\" for this week (e.g., $50/week)",
-      "claim_tags": [
-        "mental_accounting",
-        "budgeting",
-        "self_control"
-      ],
-      "tiny_metric": {
-        "metric": "Did you stay within budget by the end of the week?",
-        "stop_rule": "If you significantly overshoot 2 weeks in a row, stop"
-      },
-      "comparator": {
-        "baseline": "Spending without a set budget",
-        "cost": "5 minutes once a week to set up"
-      },
-      "fallback": {
-        "when": "Budget feels too restrictive",
-        "next": "Multiply the budget by 1.5 and try again"
-      }
-    }
-  },
-  {
-    "id": "money_l01_007",
-    "type": "conversation",
-    "question": "A friend says \"This is limited edition! Aren't you going to buy it?\" How do you respond?",
-    "choices": [
-      "\"'Limited edition' does make me want it. But let me wait 10 seconds\"",
-      "\"Limited!? I'm buying it!\"",
-      "\"I can't afford it\""
-    ],
-    "recommended_index": 0,
-    "explanation": "\"Limited\" triggers scarcity bias. Waiting 10 seconds can sometimes help you step back from the bias. If you truly want it, buying is fine. Try it just once.",
-    "actionable_advice": null,
-    "difficulty": "hard",
-    "xp": 10,
-    "source_id": "Cialdini_2006",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
-      "best_for": [
-        "People easily influenced by friends",
-        "People weak to \"limited\" labels"
-      ],
-      "limitations": [
-        "Can be hard to resist in social situations"
-      ],
-      "citation_role": "Indirectly supports the 10-second rule as a countermeasure for scarcity bias",
-      "claim_tags": [
-        "scarcity_bias",
-        "social_influence",
-        "impulse_buying"
-      ],
-      "try_this": "Wait 10 seconds when someone says \"limited\"",
-      "tiny_metric": {
-        "metric": "After waiting 10 seconds, did you think \"I don't need this after all\"?",
-        "stop_rule": "If you end up buying 3 times in a row, stop"
-      },
-      "comparator": {
-        "baseline": "Hearing \"Limited!\" and buying immediately",
-        "cost": "10 seconds / low effort"
-      },
-      "fallback": {
-        "when": "Hard to resist on the spot",
-        "next": "Say \"I'll get back to you\" and put it on hold"
-      }
-    }
-  },
-  {
-    "id": "money_l01_008",
-    "type": "swipe_judgment",
-    "question": "\"Retail therapy\" works temporarily but tends to lead to regret in the long run.",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "Maybe so",
-      "right": "Not really"
+    {
+        "id": "money_l01_004",
+        "type": "multiple_choice",
+        "question": "Why is asking yourself \"Will I still be using this in a year?\" effective?",
+        "choices": [
+            "Imagining your future self tends to reduce impulsive decisions",
+            "Guilt stops you from buying",
+            "The calculation is too much trouble so you give up"
+        ],
+        "correct_index": 0,
+        "explanation": "Imagining your future self (future-self continuity) has been reported to reduce impulsive decisions. It may be less effective for people who have difficulty imagining the future. Try it just once. (It's not about \"guilt\" or \"too much trouble\" — the key is feeling connected to your future self.)",
+        "actionable_advice": "💡 Next time you want to buy something, ask yourself \"Will I still be using this in a year?\"",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Hershfield_2011",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who can think from a long-term perspective",
+                "People who often regret purchases"
+            ],
+            "limitations": [
+                "Less effective for people who have difficulty imagining the future",
+                "Hard to apply to consumables"
+            ],
+            "citation_role": "Directly supports the link between future-self continuity and decision-making",
+            "try_this": "👉 When you think \"I want to buy this\" → take your finger off and say \"Will I still use this in a year?\" for just 10 seconds",
+            "claim_tags": [
+                "future_self_continuity",
+                "impulse_buying",
+                "decision_making"
+            ],
+            "tiny_metric": {
+                "before_prompt": "How strong is your \"want to buy\" urge? (0-10)",
+                "after_prompt": "After the future question?",
+                "success_rule": "Any decrease is OK",
+                "stop_rule": "If no change or it increases, retreat for today"
+            },
+            "comparator": {
+                "baseline": "Buying without thinking",
+                "cost": "5 seconds / low effort"
+            },
+            "fallback": {
+                "when": "Urge doesn't go away even after imagining the future",
+                "next": "Switch to the 24-hour cart abandonment method"
+            }
+        }
     },
-    "explanation": "Stress-buying triggers temporary dopamine release that feels good, but tends to lead to regret afterward. However, an occasional treat isn't a problem for most people.",
-    "actionable_advice": null,
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Rick_2014",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "direct",
-      "best_for": [
-        "People who shop more when stressed",
-        "People who often regret purchases"
-      ],
-      "limitations": [
-        "An occasional reward is fine for many people"
-      ],
-      "citation_role": "Supports the link between emotional spending and regret through observational research",
-      "claim_tags": [
-        "emotional_spending",
-        "regret",
-        "stress"
-      ]
+    {
+        "id": "money_l01_005",
+        "type": "swipe_judgment",
+        "question": "\"Buying it because it's cheap\" often ends up costing more in the long run.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Maybe so",
+            "right": "Not really"
+        },
+        "explanation": "Things bought for the \"good deal\" feeling often go unused, resulting in a net loss. However, stocking up on consumables can be rational in some cases.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Thaler_1999",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People weak to sales",
+                "People who often \"buy just in case\""
+            ],
+            "limitations": [
+                "Stocking consumables can be rational in some cases"
+            ],
+            "citation_role": "Supports the irrationality of mental accounting through observational research",
+            "claim_tags": [
+                "mental_accounting",
+                "sunk_cost",
+                "impulse_buying"
+            ]
+        }
+    },
+    {
+        "id": "money_l01_006",
+        "type": "multiple_choice",
+        "question": "Why does setting a budget like \"I have X left this month\" tend to reduce impulse buying?",
+        "choices": [
+            "Having a budget \"rule\" makes decisions easier",
+            "Because you run out of money",
+            "Because calculating is tiring"
+        ],
+        "correct_index": 0,
+        "explanation": "When you have a budget constraint, the decision cost of \"buy or not buy\" goes down. If the budget is too strict, there can be a rebound effect of overspending. (The point is that decisions become easier, not \"running out of money\" or \"getting tired from calculating.\")",
+        "actionable_advice": "💡 Set your \"free spending amount\" for this week (e.g., $50/week). If it's too tight, it's OK to raise it.",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Thaler_1999",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "People who follow rules well",
+                "People who want to start managing finances"
+            ],
+            "limitations": [
+                "A budget that's too strict can cause a rebound",
+                "Hard to handle unexpected expenses"
+            ],
+            "citation_role": "Indirectly supports budget effects from mental accounting theory",
+            "try_this": "Set your \"free spending\" for this week (e.g., $50/week)",
+            "claim_tags": [
+                "mental_accounting",
+                "budgeting",
+                "self_control"
+            ],
+            "tiny_metric": {
+                "metric": "Did you stay within budget by the end of the week?",
+                "stop_rule": "If you significantly overshoot 2 weeks in a row, stop"
+            },
+            "comparator": {
+                "baseline": "Spending without a set budget",
+                "cost": "5 minutes once a week to set up"
+            },
+            "fallback": {
+                "when": "Budget feels too restrictive",
+                "next": "Multiply the budget by 1.5 and try again"
+            }
+        }
+    },
+    {
+        "id": "money_l01_007",
+        "type": "conversation",
+        "question": "A friend says \"This is limited edition! Aren't you going to buy it?\" How do you respond?",
+        "choices": [
+            "\"'Limited edition' does make me want it. But let me wait 10 seconds\"",
+            "\"Limited!? I'm buying it!\"",
+            "\"I can't afford it\""
+        ],
+        "recommended_index": 0,
+        "explanation": "\"Limited\" triggers scarcity bias. Waiting 10 seconds can sometimes help you step back from the bias. If you truly want it, buying is fine. Try it just once.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 10,
+        "source_id": "Cialdini_2006",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People easily influenced by friends",
+                "People weak to \"limited\" labels"
+            ],
+            "limitations": [
+                "Can be hard to resist in social situations"
+            ],
+            "citation_role": "Indirectly supports the 10-second rule as a countermeasure for scarcity bias",
+            "claim_tags": [
+                "scarcity_bias",
+                "social_influence",
+                "impulse_buying"
+            ],
+            "try_this": "Wait 10 seconds when someone says \"limited\"",
+            "tiny_metric": {
+                "metric": "After waiting 10 seconds, did you think \"I don't need this after all\"?",
+                "stop_rule": "If you end up buying 3 times in a row, stop"
+            },
+            "comparator": {
+                "baseline": "Hearing \"Limited!\" and buying immediately",
+                "cost": "10 seconds / low effort"
+            },
+            "fallback": {
+                "when": "Hard to resist on the spot",
+                "next": "Say \"I'll get back to you\" and put it on hold"
+            }
+        }
+    },
+    {
+        "id": "money_l01_008",
+        "type": "swipe_judgment",
+        "question": "\"Retail therapy\" works temporarily but tends to lead to regret in the long run.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Maybe so",
+            "right": "Not really"
+        },
+        "explanation": "Stress-buying triggers temporary dopamine release that feels good, but tends to lead to regret afterward. However, an occasional treat isn't a problem for most people.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Rick_2014",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who shop more when stressed",
+                "People who often regret purchases"
+            ],
+            "limitations": [
+                "An occasional reward is fine for many people"
+            ],
+            "citation_role": "Supports the link between emotional spending and regret through observational research",
+            "claim_tags": [
+                "emotional_spending",
+                "regret",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "money_l01_009",
+        "type": "multiple_choice",
+        "question": "What method has been reported as effective for reducing impulse buying?",
+        "choices": [
+            "Wait 10 seconds before buying",
+            "Create a wishlist",
+            "Only carry cash in your wallet"
+        ],
+        "correct_index": 0,
+        "explanation": "The 10-second rule has been suggested as potentially effective in experiments. Wishlists and cash-only approaches also work, but the 10-second rule is popular for its simplicity. It doesn't work for everyone. Try it just once. (\"Wishlists\" and \"cash-only\" require more preparation.)",
+        "actionable_advice": "💡 Try just once tomorrow: when you feel the urge to buy, wait 10 seconds. Switch to another method if it doesn't work.",
+        "difficulty": "medium",
+        "xp": 10,
+        "source_id": "Vohs_2008",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who impulse buy often",
+                "People who want to start easily"
+            ],
+            "limitations": [
+                "May be less effective for expensive items"
+            ],
+            "citation_role": "Indirectly supports the 10-second rule from self-control resource research",
+            "try_this": "👉 When you think \"I want to buy it!\" → take your finger off and count to 10 (1...2...3...10)",
+            "claim_tags": [
+                "self_control",
+                "impulse_buying",
+                "delay_gratification"
+            ],
+            "tiny_metric": {
+                "before_prompt": "How strong is your \"want to buy\" urge? (0-10)",
+                "after_prompt": "After 10 seconds?",
+                "success_rule": "Any decrease is OK",
+                "stop_rule": "If no change or it increases, retreat for today"
+            },
+            "comparator": {
+                "baseline": "Pressing the cart button on impulse",
+                "cost": "10 seconds / low effort"
+            },
+            "fallback": {
+                "when": "10 seconds isn't enough",
+                "next": "Switch to the 24-hour cart abandonment method"
+            }
+        }
+    },
+    {
+        "id": "money_l01_010",
+        "type": "multiple_choice",
+        "question": "Of what you learned today, which could you use starting tomorrow?",
+        "choices": [
+            "Wait 10 seconds when you want to buy",
+            "Leave items in cart for 24 hours",
+            "Ask yourself \"Will I still use this in a year?\"",
+            "Try all of them"
+        ],
+        "correct_index": 3,
+        "explanation": "All are worth trying. You may not change all at once, but you might gradually change your \"buying habits.\" Switch to another method if one doesn't work. Try it just once. (Individual options are also effective; the simplest is the 10-second rule.)",
+        "actionable_advice": "💡 Today's action: wait 10 seconds on your next \"I want to buy!\" urge.",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Vohs_2008",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who want to start new habits"
+            ],
+            "limitations": [
+                "You might not keep up all of them"
+            ],
+            "citation_role": "Indirectly supports the effectiveness of self-control interventions",
+            "try_this": "👉 On your next \"I want to buy!\" wait 10 seconds... if that's too hard, just take your finger off for 1 second",
+            "claim_tags": [
+                "self_control",
+                "habit_formation",
+                "impulse_buying"
+            ],
+            "tiny_metric": {
+                "metric": "Did you manage to wait 10 seconds at least once this week?",
+                "stop_rule": "If you can't remember to try even once in a week, stop"
+            },
+            "comparator": {
+                "baseline": "Not trying anything",
+                "cost": "10 seconds × a few times/week"
+            },
+            "fallback": {
+                "when": "10-second rule doesn't work",
+                "next": "Switch to cart abandonment or future question"
+            }
+        }
     }
-  },
-  {
-    "id": "money_l01_009",
-    "type": "multiple_choice",
-    "question": "What method has been reported as effective for reducing impulse buying?",
-    "choices": [
-      "Wait 10 seconds before buying",
-      "Create a wishlist",
-      "Only carry cash in your wallet"
-    ],
-    "correct_index": 0,
-    "explanation": "The 10-second rule has been suggested as potentially effective in experiments. Wishlists and cash-only approaches also work, but the 10-second rule is popular for its simplicity. It doesn't work for everyone. Try it just once. (\"Wishlists\" and \"cash-only\" require more preparation.)",
-    "actionable_advice": "\uD83D\uDCA1 Try just once tomorrow: when you feel the urge to buy, wait 10 seconds. Switch to another method if it doesn't work.",
-    "difficulty": "medium",
-    "xp": 10,
-    "source_id": "Vohs_2008",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
-      "best_for": [
-        "People who impulse buy often",
-        "People who want to start easily"
-      ],
-      "limitations": [
-        "May be less effective for expensive items"
-      ],
-      "citation_role": "Indirectly supports the 10-second rule from self-control resource research",
-      "try_this": "\uD83D\uDC49 When you think \"I want to buy it!\" \u2192 take your finger off and count to 10 (1...2...3...10)",
-      "claim_tags": [
-        "self_control",
-        "impulse_buying",
-        "delay_gratification"
-      ],
-      "tiny_metric": {
-        "before_prompt": "How strong is your \"want to buy\" urge? (0-10)",
-        "after_prompt": "After 10 seconds?",
-        "success_rule": "Any decrease is OK",
-        "stop_rule": "If no change or it increases, retreat for today"
-      },
-      "comparator": {
-        "baseline": "Pressing the cart button on impulse",
-        "cost": "10 seconds / low effort"
-      },
-      "fallback": {
-        "when": "10 seconds isn't enough",
-        "next": "Switch to the 24-hour cart abandonment method"
-      }
-    }
-  },
-  {
-    "id": "money_l01_010",
-    "type": "multiple_choice",
-    "question": "Of what you learned today, which could you use starting tomorrow?",
-    "choices": [
-      "Wait 10 seconds when you want to buy",
-      "Leave items in cart for 24 hours",
-      "Ask yourself \"Will I still use this in a year?\"",
-      "Try all of them"
-    ],
-    "correct_index": 3,
-    "explanation": "All are worth trying. You may not change all at once, but you might gradually change your \"buying habits.\" Switch to another method if one doesn't work. Try it just once. (Individual options are also effective; the simplest is the 10-second rule.)",
-    "actionable_advice": "\uD83D\uDCA1 Today's action: wait 10 seconds on your next \"I want to buy!\" urge.",
-    "difficulty": "easy",
-    "xp": 10,
-    "source_id": "Vohs_2008",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
-      "best_for": [
-        "People who want to start new habits"
-      ],
-      "limitations": [
-        "You might not keep up all of them"
-      ],
-      "citation_role": "Indirectly supports the effectiveness of self-control interventions",
-      "try_this": "\uD83D\uDC49 On your next \"I want to buy!\" wait 10 seconds... if that's too hard, just take your finger off for 1 second",
-      "claim_tags": [
-        "self_control",
-        "habit_formation",
-        "impulse_buying"
-      ],
-      "tiny_metric": {
-        "metric": "Did you manage to wait 10 seconds at least once this week?",
-        "stop_rule": "If you can't remember to try even once in a week, stop"
-      },
-      "comparator": {
-        "baseline": "Not trying anything",
-        "cost": "10 seconds \u00d7 a few times/week"
-      },
-      "fallback": {
-        "when": "10-second rule doesn't work",
-        "next": "Switch to cart abandonment or future question"
-      }
-    }
-  }
 ]

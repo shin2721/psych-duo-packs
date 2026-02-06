@@ -129,7 +129,7 @@
     {
         "id": "mental_l04_005",
         "type": "conversation",
-        "question": "Is there something you've been procrastinating on recently?",
+        "question": "Is there something you have been putting off (procrastination) recently?",
         "your_response_prompt": "Choose what comes to mind",
         "choices": [
             "Work or study related",

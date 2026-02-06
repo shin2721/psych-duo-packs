@@ -1,385 +1,385 @@
 [
-  {
-    "id": "study_l01_001",
-    "type": "swipe_judgment",
-    "question": "You think \"I should study\" but can't seem to start.",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "Often",
-      "right": "Not really"
+    {
+        "id": "study_l01_001",
+        "type": "swipe_judgment",
+        "question": "You think \"I should study\" but can't seem to start.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Often",
+            "right": "Not really"
+        },
+        "explanation": "This kind of procrastination is not \"laziness\". There is a view that it is a natural reaction to avoid discomfort. First, it is okay not to blame yourself for not starting.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Sirois_2013",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who can't start studying",
+                "People who tend to blame themselves for procrastinating"
+            ],
+            "limitations": [
+                "Chronic lack of motivation may require a different approach"
+            ],
+            "citation_role": "Supports the emotion regulation model of procrastination through observational research",
+            "claim_tags": [
+                "procrastination",
+                "emotion_regulation",
+                "self_compassion"
+            ]
+        }
     },
-    "explanation": "Not being able to start isn't \"laziness\" \u2014 there's a view that it's a natural reaction to avoid discomfort. First, it's OK not to blame yourself for not starting.",
-    "actionable_advice": null,
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Sirois_2013",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "direct",
-      "best_for": [
-        "People who can't start studying",
-        "People who tend to blame themselves for procrastinating"
-      ],
-      "limitations": [
-        "Chronic lack of motivation may require a different approach"
-      ],
-      "citation_role": "Supports the emotion regulation model of procrastination through observational research",
-      "claim_tags": [
-        "procrastination",
-        "emotion_regulation",
-        "self_compassion"
-      ]
-    }
-  },
-  {
-    "id": "study_l01_002",
-    "type": "multiple_choice",
-    "question": "When you wait for \"motivation to kick in\" before starting, what tends to happen?",
-    "choices": [
-      "Motivation doesn't come and time just passes",
-      "Motivation naturally emerges",
-      "You relax and become more efficient"
-    ],
-    "correct_index": 0,
-    "explanation": "Motivation has been reported to \"come after you start\" rather than being something you \"wait for.\" This is called behavioral activation. (\"Naturally emerging\" and \"relaxing for efficiency\" are rare \u2014 waiting usually doesn't help.)",
-    "actionable_advice": null,
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Steel_2007",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
-      "best_for": [
-        "People who wait a long time for motivation",
-        "People who struggle to start"
-      ],
-      "limitations": [
-        "When genuinely tired, rest is needed"
-      ],
-      "citation_role": "Explains behavioral activation theory in procrastination research",
-      "claim_tags": [
-        "procrastination",
-        "motivation",
-        "theory"
-      ]
-    }
-  },
-  {
-    "id": "study_l01_003",
-    "type": "multiple_choice",
-    "question": "What method has been reported to lower the barrier to starting studying?",
-    "choices": [
-      "Decide \"just 10 seconds\" and open your materials",
-      "Set up an environment for long concentration",
-      "Wait until you feel motivated"
-    ],
-    "correct_index": 0,
-    "explanation": "Even \"starting\" for 10 seconds tends to make it easier to switch into the task. Ending at 10 seconds is fine. Try a different method if it doesn't work. Try it just once. (\"Setting up the environment\" and \"waiting for motivation\" take too long.)",
-    "actionable_advice": "\uD83D\uDCA1 Next time you can't start studying, try \"just open your materials for 10 seconds.\"",
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Steel_2007",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
-      "best_for": [
-        "People who struggle to start",
-        "People with perfectionist tendencies"
-      ],
-      "limitations": [
-        "When genuinely tired, rest is needed",
-        "If you can't move even for 10 seconds, don't force it"
-      ],
-      "citation_role": "Indirectly supports the 10-second rule from procrastination research",
-      "try_this": "Try \"just open your materials for 10 seconds\"",
-      "claim_tags": [
-        "procrastination",
-        "task_initiation",
-        "implementation"
-      ],
-      "tiny_metric": {
-        "before_prompt": "How much do you \"not want to\" right now? (0-10)",
-        "after_prompt": "After 10 seconds?",
-        "success_rule": "Any decrease is OK",
-        "stop_rule": "If no change or it increases, retreat for today"
-      },
-      "comparator": {
-        "baseline": "Waiting for motivation to come",
-        "cost": "10 seconds / low effort"
-      },
-      "fallback": {
-        "when": "Can't move even for 10 seconds",
-        "next": "Try If-Then planning"
-      }
-    }
-  },
-  {
-    "id": "study_l01_004",
-    "type": "swipe_judgment",
-    "question": "Deciding in advance \"When X happens, I'll do Y\" tends to increase follow-through.",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "Maybe so",
-      "right": "Not really"
+    {
+        "id": "study_l01_002",
+        "type": "multiple_choice",
+        "question": "When you wait for \"motivation to kick in\" before starting, what tends to happen?",
+        "choices": [
+            "Motivation doesn't come and time just passes",
+            "Motivation naturally emerges",
+            "You relax and become more efficient"
+        ],
+        "correct_index": 0,
+        "explanation": "Motivation has been reported to \"come after you start\" rather than being something you \"wait for.\" This is called behavioral activation. (\"Naturally emerging\" and \"relaxing for efficiency\" are rare — waiting usually doesn't help.)",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Steel_2007",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "People who wait a long time for motivation",
+                "People who struggle to start"
+            ],
+            "limitations": [
+                "When genuinely tired, rest is needed"
+            ],
+            "citation_role": "Explains behavioral activation theory in procrastination research",
+            "claim_tags": [
+                "procrastination",
+                "motivation",
+                "theory"
+            ]
+        }
     },
-    "explanation": "This is called \"implementation intention\" or \"If-Then planning.\" Example: \"After dinner, I'll sit at my desk.\" Research has reported higher follow-through rates compared to having no plan.",
-    "actionable_advice": null,
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Gollwitzer_1999",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "direct",
-      "best_for": [
-        "People who plan but can't execute",
-        "People who want to build habits"
-      ],
-      "limitations": [
-        "Less effective if the trigger is vague"
-      ],
-      "citation_role": "Research directly testing the effect of implementation intention (If-Then planning)",
-      "claim_tags": [
-        "implementation_intention",
-        "habit_formation",
-        "planning"
-      ]
-    }
-  },
-  {
-    "id": "study_l01_005",
-    "type": "conversation",
-    "question": "When you can't start studying, which fits you best?",
-    "choices": [
-      "Don't know where to begin",
-      "Too much trouble to move",
-      "Freeze trying to do it perfectly",
-      "No particular pattern"
-    ],
-    "recommended_index": null,
-    "explanation": "All are valid answers. Noticing your pattern tends to make it easier to choose the right strategy.",
-    "actionable_advice": null,
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Steel_2007",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "indirect",
-      "citation_role": "Supports self-awareness of procrastination patterns",
-      "claim_tags": [
-        "self_awareness",
-        "procrastination",
-        "pattern_recognition"
-      ]
-    }
-  },
-  {
-    "id": "study_l01_006",
-    "type": "multiple_choice",
-    "question": "When using \"If-Then planning,\" which format is easiest to follow through on?",
-    "choices": [
-      "Decide in the format \"When X (trigger), I'll do Y (action)\"",
-      "Just decide to \"try harder\"",
-      "Think \"I'll study someday\""
-    ],
-    "correct_index": 0,
-    "explanation": "Setting a trigger (when/where) paired with an action (what to do) tends to make execution more automatic. Try it just once. (\"Try harder\" and \"someday\" are too vague to follow through on.)",
-    "actionable_advice": "\uD83D\uDCA1 Set one If-Then for today: \"When X happens, I'll open my materials for just 10 seconds\"",
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Gollwitzer_1999",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
-      "best_for": [
-        "People whose plans tend to fall through",
-        "People who want to build habits"
-      ],
-      "limitations": [
-        "Less effective if the trigger isn't part of daily routine",
-        "Multiple If-Thens can be overwhelming"
-      ],
-      "citation_role": "Indirectly supports the specific format of implementation intention",
-      "try_this": "Set one: \"When X happens, I'll open my materials for 10 seconds\"",
-      "claim_tags": [
-        "implementation_intention",
-        "habit_formation",
-        "planning"
-      ],
-      "tiny_metric": {
-        "before_prompt": "Did you execute your If-Then this week?",
-        "after_prompt": "Number of times executed",
-        "success_rule": "Even once a week is OK",
-        "stop_rule": "If you can't execute for 2 weeks, try a different method"
-      },
-      "comparator": {
-        "baseline": "Just deciding to \"try harder\"",
-        "cost": "30 seconds to plan / 10 seconds to execute"
-      },
-      "fallback": {
-        "when": "Can't find a trigger",
-        "next": "Use \"When I feel like checking my phone\" as the trigger"
-      }
-    }
-  },
-  {
-    "id": "study_l01_007",
-    "type": "swipe_judgment",
-    "question": "There's a view that procrastination isn't just about \"weak willpower.\"",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "Maybe so",
-      "right": "I disagree"
+    {
+        "id": "study_l01_003",
+        "type": "multiple_choice",
+        "question": "What method has been reported to lower the barrier to starting studying?",
+        "choices": [
+            "Decide \"just 10 seconds\" and open your materials",
+            "Set up an environment for long concentration",
+            "Wait until you feel motivated"
+        ],
+        "correct_index": 0,
+        "explanation": "Even \"starting\" for 10 seconds tends to make it easier to switch into the task. Ending at 10 seconds is fine. Try a different method if it doesn't work. Try it just once. (\"Setting up the environment\" and \"waiting for motivation\" take too long.)",
+        "actionable_advice": "💡 Next time you can't start studying, try \"just open your materials for 10 seconds.\"",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Steel_2007",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who struggle to start",
+                "People with perfectionist tendencies"
+            ],
+            "limitations": [
+                "When genuinely tired, rest is needed",
+                "If you can't move even for 10 seconds, don't force it"
+            ],
+            "citation_role": "Indirectly supports the 10-second rule from procrastination research",
+            "try_this": "Try \"just open your materials for 10 seconds\"",
+            "claim_tags": [
+                "procrastination",
+                "task_initiation",
+                "implementation"
+            ],
+            "tiny_metric": {
+                "before_prompt": "How much do you \"not want to\" right now? (0-10)",
+                "after_prompt": "After 10 seconds?",
+                "success_rule": "Any decrease is OK",
+                "stop_rule": "If no change or it increases, retreat for today"
+            },
+            "comparator": {
+                "baseline": "Waiting for motivation to come",
+                "cost": "10 seconds / low effort"
+            },
+            "fallback": {
+                "when": "Can't move even for 10 seconds",
+                "next": "Try If-Then planning"
+            }
+        }
     },
-    "explanation": "Research reports that procrastination is often caused by \"avoidance of discomfort\" or \"task ambiguity\" rather than willpower. Addressing it through systems tends to work better than blaming yourself.",
-    "actionable_advice": null,
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Sirois_2013",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "direct",
-      "best_for": [
-        "People who tend to blame themselves",
-        "People who rely too much on willpower"
-      ],
-      "limitations": [
-        "Not all procrastination has the same cause"
-      ],
-      "citation_role": "Supports the emotion regulation model of procrastination",
-      "claim_tags": [
-        "procrastination",
-        "emotion_regulation",
-        "self_compassion"
-      ]
+    {
+        "id": "study_l01_004",
+        "type": "swipe_judgment",
+        "question": "Deciding in advance \"When X happens, I'll do Y\" tends to increase follow-through.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Maybe so",
+            "right": "Not really"
+        },
+        "explanation": "This is called \"implementation intention\" or \"If-Then planning.\" Example: \"After dinner, I'll sit at my desk.\" Research has reported higher follow-through rates compared to having no plan.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Gollwitzer_1999",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who plan but can't execute",
+                "People who want to build habits"
+            ],
+            "limitations": [
+                "Less effective if the trigger is vague"
+            ],
+            "citation_role": "Research directly testing the effect of implementation intention (If-Then planning)",
+            "claim_tags": [
+                "implementation_intention",
+                "habit_formation",
+                "planning"
+            ]
+        }
+    },
+    {
+        "id": "study_l01_005",
+        "type": "conversation",
+        "question": "When you can't start studying, which fits you best?",
+        "choices": [
+            "Don't know where to begin",
+            "Too much trouble to move",
+            "Freeze trying to do it perfectly",
+            "No particular pattern"
+        ],
+        "recommended_index": null,
+        "explanation": "All are valid answers. Noticing your pattern tends to make it easier to choose the right strategy.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Steel_2007",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Supports self-awareness of procrastination patterns",
+            "claim_tags": [
+                "self_awareness",
+                "procrastination",
+                "pattern_recognition"
+            ]
+        }
+    },
+    {
+        "id": "study_l01_006",
+        "type": "multiple_choice",
+        "question": "When using \"If-Then planning,\" which format is easiest to follow through on?",
+        "choices": [
+            "Decide in the format \"When X (trigger), I'll do Y (action)\"",
+            "Just decide to \"try harder\"",
+            "Think \"I'll study someday\""
+        ],
+        "correct_index": 0,
+        "explanation": "Setting a trigger (when/where) paired with an action (what to do) tends to make execution more automatic. Try it just once. (\"Try harder\" and \"someday\" are too vague to follow through on.)",
+        "actionable_advice": "💡 Set one If-Then for today: \"When X happens, I'll open my materials for just 10 seconds\"",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Gollwitzer_1999",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People whose plans tend to fall through",
+                "People who want to build habits"
+            ],
+            "limitations": [
+                "Less effective if the trigger isn't part of daily routine",
+                "Multiple If-Thens can be overwhelming"
+            ],
+            "citation_role": "Indirectly supports the specific format of implementation intention",
+            "try_this": "Set one: \"When X happens, I'll open my materials for 10 seconds\"",
+            "claim_tags": [
+                "implementation_intention",
+                "habit_formation",
+                "planning"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Did you execute your If-Then this week?",
+                "after_prompt": "Number of times executed",
+                "success_rule": "Even once a week is OK",
+                "stop_rule": "If you can't execute for 2 weeks, try a different method"
+            },
+            "comparator": {
+                "baseline": "Just deciding to \"try harder\"",
+                "cost": "30 seconds to plan / 10 seconds to execute"
+            },
+            "fallback": {
+                "when": "Can't find a trigger",
+                "next": "Use \"When I feel like checking my phone\" as the trigger"
+            }
+        }
+    },
+    {
+        "id": "study_l01_007",
+        "type": "swipe_judgment",
+        "question": "There's a view that procrastination isn't just about \"weak willpower.\"",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Maybe so",
+            "right": "I disagree"
+        },
+        "explanation": "Research reports that procrastination is often caused by \"avoidance of discomfort\" or \"task ambiguity\" rather than willpower. Addressing it through systems tends to work better than blaming yourself.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Sirois_2013",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "People who tend to blame themselves",
+                "People who rely too much on willpower"
+            ],
+            "limitations": [
+                "Not all procrastination has the same cause"
+            ],
+            "citation_role": "Supports the emotion regulation model of procrastination",
+            "claim_tags": [
+                "procrastination",
+                "emotion_regulation",
+                "self_compassion"
+            ]
+        }
+    },
+    {
+        "id": "study_l01_008",
+        "type": "multiple_choice",
+        "question": "What's an easy way to reduce the \"environmental friction\" of starting to study?",
+        "choices": [
+            "Leave your study materials open on your desk",
+            "Set up the perfect environment before starting",
+            "Wait until you feel motivated"
+        ],
+        "correct_index": 0,
+        "explanation": "The less effort it takes to \"get started,\" the more likely action is to occur. Leaving materials open can lower the starting barrier. Try it just once. (\"Perfect environment\" and \"waiting for motivation\" tend to lead to more procrastination.)",
+        "actionable_advice": "💡 Before bed tonight, leave tomorrow's study materials open on your desk.",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Steel_2007",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who struggle to start",
+                "People who spend too much time setting up their environment"
+            ],
+            "limitations": [
+                "Can backfire in a messy environment"
+            ],
+            "citation_role": "Indirectly supports the link between environmental friction and action initiation",
+            "try_this": "👉 Before starting to study → open your materials and place them on your desk for just 10 seconds",
+            "claim_tags": [
+                "environment_design",
+                "friction_reduction",
+                "habit_formation"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Were the materials open in the morning?",
+                "after_prompt": "If open, were you able to start studying?",
+                "success_rule": "Starting with them open is OK",
+                "stop_rule": "If no effect after a week, stop"
+            },
+            "comparator": {
+                "baseline": "Starting from materials stored away",
+                "cost": "10 seconds before bed"
+            },
+            "fallback": {
+                "when": "No space to leave materials out",
+                "next": "Put the study app on your phone's home screen"
+            }
+        }
+    },
+    {
+        "id": "study_l01_009",
+        "type": "conversation",
+        "question": "Of the techniques you learned today, which could you use starting tomorrow?",
+        "choices": [
+            "\"Just open my materials for 10 seconds\"",
+            "\"If-Then planning\" to decide in advance",
+            "\"Leave materials open\" environment design",
+            "Try all of them"
+        ],
+        "recommended_index": null,
+        "explanation": "All are worth trying. If one doesn't work, try another. That's learning too. Try it just once. (\"All\" is fine but don't push yourself — start with just one.)",
+        "actionable_advice": "💡 Try just once tomorrow: when you can't start studying, \"just open your materials for 10 seconds.\"",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Gollwitzer_1999",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "People who want to start new habits"
+            ],
+            "limitations": [
+                "Can be easy to forget without practice"
+            ],
+            "citation_role": "Proposes options for procrastination interventions",
+            "try_this": "Use \"just open my materials for 10 seconds\" once tomorrow",
+            "claim_tags": [
+                "implementation",
+                "habit_formation",
+                "procrastination"
+            ],
+            "tiny_metric": {
+                "metric": "Did you manage to use it at least once this week?",
+                "stop_rule": "If you can't use it for a week, stop"
+            },
+            "comparator": {
+                "baseline": "Continuing to procrastinate without trying",
+                "cost": "10 seconds × a few times/week"
+            },
+            "fallback": {
+                "when": "None of them work",
+                "next": "Shrink to the minimum task (solve just 1 problem)"
+            }
+        }
+    },
+    {
+        "id": "study_l01_010",
+        "type": "conversation",
+        "question": "Were the \"how to start studying\" techniques from this lesson likely to be useful for you?",
+        "choices": [
+            "Likely useful",
+            "Probably not a great fit",
+            "Not sure yet"
+        ],
+        "recommended_index": null,
+        "explanation": "All answers are valid. If it \"didn't feel like a fit,\" exploring a different approach is also important. Procrastination has different causes for different people, so the process of finding what works for you is itself valuable.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Steel_2007",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Supports consideration of individual differences",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
     }
-  },
-  {
-    "id": "study_l01_008",
-    "type": "multiple_choice",
-    "question": "What's an easy way to reduce the \"environmental friction\" of starting to study?",
-    "choices": [
-      "Leave your study materials open on your desk",
-      "Set up the perfect environment before starting",
-      "Wait until you feel motivated"
-    ],
-    "correct_index": 0,
-    "explanation": "The less effort it takes to \"get started,\" the more likely action is to occur. Leaving materials open can lower the starting barrier. Try it just once. (\"Perfect environment\" and \"waiting for motivation\" tend to lead to more procrastination.)",
-    "actionable_advice": "\uD83D\uDCA1 Before bed tonight, leave tomorrow's study materials open on your desk.",
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Steel_2007",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
-      "best_for": [
-        "People who struggle to start",
-        "People who spend too much time setting up their environment"
-      ],
-      "limitations": [
-        "Can backfire in a messy environment"
-      ],
-      "citation_role": "Indirectly supports the link between environmental friction and action initiation",
-      "try_this": "\uD83D\uDC49 Before starting to study \u2192 open your materials and place them on your desk for just 10 seconds",
-      "claim_tags": [
-        "environment_design",
-        "friction_reduction",
-        "habit_formation"
-      ],
-      "tiny_metric": {
-        "before_prompt": "Were the materials open in the morning?",
-        "after_prompt": "If open, were you able to start studying?",
-        "success_rule": "Starting with them open is OK",
-        "stop_rule": "If no effect after a week, stop"
-      },
-      "comparator": {
-        "baseline": "Starting from materials stored away",
-        "cost": "10 seconds before bed"
-      },
-      "fallback": {
-        "when": "No space to leave materials out",
-        "next": "Put the study app on your phone's home screen"
-      }
-    }
-  },
-  {
-    "id": "study_l01_009",
-    "type": "conversation",
-    "question": "Of the techniques you learned today, which could you use starting tomorrow?",
-    "choices": [
-      "\"Just open my materials for 10 seconds\"",
-      "\"If-Then planning\" to decide in advance",
-      "\"Leave materials open\" environment design",
-      "Try all of them"
-    ],
-    "recommended_index": null,
-    "explanation": "All are worth trying. If one doesn't work, try another. That's learning too. Try it just once. (\"All\" is fine but don't push yourself \u2014 start with just one.)",
-    "actionable_advice": "\uD83D\uDCA1 Try just once tomorrow: when you can't start studying, \"just open your materials for 10 seconds.\"",
-    "difficulty": "easy",
-    "xp": 10,
-    "source_id": "Gollwitzer_1999",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
-      "best_for": [
-        "People who want to start new habits"
-      ],
-      "limitations": [
-        "Can be easy to forget without practice"
-      ],
-      "citation_role": "Proposes options for procrastination interventions",
-      "try_this": "Use \"just open my materials for 10 seconds\" once tomorrow",
-      "claim_tags": [
-        "implementation",
-        "habit_formation",
-        "procrastination"
-      ],
-      "tiny_metric": {
-        "metric": "Did you manage to use it at least once this week?",
-        "stop_rule": "If you can't use it for a week, stop"
-      },
-      "comparator": {
-        "baseline": "Continuing to procrastinate without trying",
-        "cost": "10 seconds \u00d7 a few times/week"
-      },
-      "fallback": {
-        "when": "None of them work",
-        "next": "Shrink to the minimum task (solve just 1 problem)"
-      }
-    }
-  },
-  {
-    "id": "study_l01_010",
-    "type": "conversation",
-    "question": "Were the \"how to start studying\" techniques from this lesson likely to be useful for you?",
-    "choices": [
-      "Likely useful",
-      "Probably not a great fit",
-      "Not sure yet"
-    ],
-    "recommended_index": null,
-    "explanation": "All answers are valid. If it \"didn't feel like a fit,\" exploring a different approach is also important. Procrastination has different causes for different people, so the process of finding what works for you is itself valuable.",
-    "actionable_advice": null,
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Steel_2007",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "indirect",
-      "citation_role": "Supports consideration of individual differences",
-      "claim_tags": [
-        "individual_differences",
-        "fit"
-      ]
-    }
-  }
 ]
