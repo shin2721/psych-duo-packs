@@ -25,10 +25,20 @@ jobs:
           cd psycle-expo
           npm ci
 
+      - name: Install Playwright Chromium
+        run: |
+          cd psycle-expo
+          npx playwright install --with-deps chromium
+
       - name: Run tests
         run: |
           cd psycle-expo
           npx jest --watchman=false
+
+      - name: Run web smoke test
+        run: |
+          cd psycle-expo
+          npm run e2e:web:smoke
 
       - name: Validate i18n locales
         run: |
