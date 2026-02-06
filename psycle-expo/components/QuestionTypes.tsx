@@ -56,6 +56,7 @@ export function SelectAll({
               onToggle(index);
             }}
             disabled={showResult && !isSurvey} // Allow changing selection in survey mode until submitted? Or disable if showResult implies submission
+            testID={`answer-choice-${index}`}
           >
             <View style={styles.checkboxContainer}>
               <View style={[
@@ -125,6 +126,7 @@ export function FillBlankTap({
               ]}
               onPress={() => onSelect(index)}
               disabled={showResult}
+              testID={`answer-choice-${index}`}
             >
               <Text style={styles.fillBlankText}>
                 {choice}
@@ -343,6 +345,7 @@ export function Conversation({
               ]}
               onPress={() => onSelect(index)}
               disabled={showResult}
+              testID={`answer-choice-${index}`}
             >
               <Text style={styles.choiceText}>
                 {choice}
@@ -815,6 +818,7 @@ export function QuickReflex({
               ]}
               onPress={() => !isTimeUp && onSelect(index)}
               disabled={showResult || isTimeUp}
+              testID={`answer-choice-${index}`}
             >
               <Text
                 style={[
@@ -891,6 +895,7 @@ export function MicroInput({
           ]}
           onPress={onSubmit}
           disabled={!inputText.trim()}
+          testID="answer-choice-submit"
         >
           <Text style={styles.submitButtonText}>
             {inputText.trim() ? "答えを確認" : "入力してください"}
@@ -1448,6 +1453,7 @@ export function ConsequenceScenario({
           ]}
           onPress={() => handlePress("positive")}
           disabled={showResult}
+          testID="answer-choice-positive"
         >
           <Ionicons name="happy-outline" size={32} color={selected === "positive" || (showResult && consequenceType === "positive") ? "#fff" : "#cbd5e1"} />
           <Text style={[styles.consequenceButtonText, { color: selected === "positive" || (showResult && consequenceType === "positive") ? "#fff" : "#cbd5e1" }]}>ポジティブ</Text>
@@ -1464,6 +1470,7 @@ export function ConsequenceScenario({
           ]}
           onPress={() => handlePress("negative")}
           disabled={showResult}
+          testID="answer-choice-negative"
         >
           <Ionicons name="sad-outline" size={32} color={selected === "negative" || (showResult && consequenceType === "negative") ? "#fff" : "#cbd5e1"} />
           <Text style={[styles.consequenceButtonText, { color: selected === "negative" || (showResult && consequenceType === "negative") ? "#fff" : "#cbd5e1" }]}>ネガティブ</Text>

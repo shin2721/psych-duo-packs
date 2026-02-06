@@ -233,7 +233,7 @@ export default function LessonScreen() {
 
   if (isComplete) {
     return (
-      <View style={{ flex: 1, backgroundColor: theme.colors.bg }}>
+      <View style={{ flex: 1, backgroundColor: theme.colors.bg }} testID="lesson-complete-screen">
         {/* Background Effects */}
         <StarBackground />
         <VictoryConfetti />
@@ -529,7 +529,7 @@ export default function LessonScreen() {
               );
             })()}
 
-            <TouchableOpacity onPress={() => router.replace("/(tabs)/course")} style={styles.continueButton}>
+            <TouchableOpacity onPress={() => router.replace("/(tabs)/course")} style={styles.continueButton} testID="lesson-complete-continue">
               <Text style={styles.continueText}>続ける</Text>
             </TouchableOpacity>
           </ScrollView>
@@ -540,7 +540,7 @@ export default function LessonScreen() {
 
   if (loading) {
     return (
-      <View style={{ flex: 1, backgroundColor: theme.colors.bg, alignItems: "center", justifyContent: "center" }}>
+      <View style={{ flex: 1, backgroundColor: theme.colors.bg, alignItems: "center", justifyContent: "center" }} testID="lesson-loading-screen">
         <StarBackground />
         <FireflyLoader />
         <Text style={[styles.loading, { marginTop: 20 }]}>読み込み中...</Text>
@@ -550,14 +550,14 @@ export default function LessonScreen() {
 
   if (!currentQuestion) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container} testID="lesson-error-screen">
         <Text style={styles.loading}>エラー: 質問が見つかりません</Text>
       </SafeAreaView>
     );
   }
 
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
+    <SafeAreaView style={styles.container} edges={["top"]} testID="lesson-screen">
       {/* Background with Fever Effect */}
       <View style={StyleSheet.absoluteFill} pointerEvents="none">
         <StarBackground combo={combo} />
@@ -570,7 +570,7 @@ export default function LessonScreen() {
             <Text style={styles.reviewText}>復習</Text>
           </View>
         )}
-        <Text style={styles.progress}>
+        <Text style={styles.progress} testID="lesson-progress">
           {currentIndex + 1} / {questions.length}
         </Text>
       </View>

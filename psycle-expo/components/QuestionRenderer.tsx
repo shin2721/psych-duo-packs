@@ -467,11 +467,11 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
           {/* 問題文 */}
           {question.type === "conversation" ? (
             <View style={styles.conversationBubble}>
-              <Text style={styles.conversationBubbleText}>{questionText}</Text>
+              <Text style={styles.conversationBubbleText} testID="question-text">{questionText}</Text>
             </View>
           ) : (
             /* Question Text */
-            <Text style={styles.questionText}>{questionText}</Text>
+            <Text style={styles.questionText} testID="question-text">{questionText}</Text>
           )}
 
           {/* タイプ別レンダリング */}
@@ -667,7 +667,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                 )}
                 {/* term_cardは自動的に続けるボタンを表示 */}
                 {!showResult && (
-                  <Pressable style={styles.continueButton} onPress={() => setShowResult(true)}>
+                  <Pressable style={styles.continueButton} onPress={() => setShowResult(true)} testID="question-continue">
                     <Text style={styles.continueButtonText}>続ける</Text>
                     <Ionicons name="arrow-forward" size={20} color="#fff" />
                   </Pressable>
@@ -766,7 +766,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                 })()}
 
                 {/* 次へボタン (Moved before explanation to ensure visibility) */}
-                <AnimatedButton style={styles.continueButton} onPress={handleContinue}>
+                <AnimatedButton style={styles.continueButton} onPress={handleContinue} testID="question-continue">
                   <Text style={styles.continueButtonText}>続ける</Text>
                   <Ionicons name="arrow-forward" size={20} color="#fff" />
                 </AnimatedButton>
@@ -1035,6 +1035,7 @@ function MultipleChoice({
             ]}
             onPress={() => onSelect(index)}
             disabled={showResult}
+            testID={`answer-choice-${index}`}
           >
             <Text style={[
               styles.choiceText,
@@ -1090,6 +1091,7 @@ function TrueFalse({
               ]}
               onPress={() => onSelect(index)}
               disabled={showResult}
+              testID={`answer-choice-${index}`}
             >
               <Text style={[
                 styles.choiceText,
@@ -1139,6 +1141,7 @@ function FillBlank({
             ]}
             onPress={() => onSelect(index)}
             disabled={showResult}
+            testID={`answer-choice-${index}`}
           >
             <Text style={[styles.choiceText, isSelected && styles.selectedChoiceText]}>
               {choice}

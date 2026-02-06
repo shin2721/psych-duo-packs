@@ -8,9 +8,10 @@ interface Props {
     style?: StyleProp<ViewStyle>;
     scaleTo?: number;
     disabled?: boolean;
+    testID?: string;
 }
 
-export function AnimatedButton({ onPress, children, style, scaleTo = 0.96, disabled = false }: Props) {
+export function AnimatedButton({ onPress, children, style, scaleTo = 0.96, disabled = false, testID }: Props) {
     const scale = useRef(new Animated.Value(1)).current;
 
     const handlePressIn = () => {
@@ -44,6 +45,7 @@ export function AnimatedButton({ onPress, children, style, scaleTo = 0.96, disab
             onPressOut={handlePressOut}
             onPress={handlePress}
             disabled={disabled}
+            testID={testID}
         >
             <Animated.View style={[style, { transform: [{ scale }] }]}>
                 {children}
