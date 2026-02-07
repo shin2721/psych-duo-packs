@@ -330,6 +330,20 @@ export const de = {
         diff: 'Differenz: ¥%{amount}',
         remaining: 'Noch ¥%{amount}',
     },
+    gameBreathTempo: {
+        phases: {
+            inhale: 'Einatmen',
+            hold: 'Halten',
+            exhale: 'Ausatmen',
+        },
+        seconds: '%{count}s',
+        tap: 'Tippen',
+        finish: 'Beenden',
+    },
+    gameEchoSteps: {
+        round: 'Runde %{round}/3',
+        mistakes: 'Fehler: %{count}',
+    },
     leaderboard: {
         tabs: {
             league: 'Liga',

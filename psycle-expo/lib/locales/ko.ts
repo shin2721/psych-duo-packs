@@ -330,6 +330,20 @@ export const ko = {
         diff: '차이: ¥%{amount}',
         remaining: '남은 금액 ¥%{amount}',
     },
+    gameBreathTempo: {
+        phases: {
+            inhale: '들이쉬기',
+            hold: '멈추기',
+            exhale: '내쉬기',
+        },
+        seconds: '%{count}초',
+        tap: '탭',
+        finish: '종료',
+    },
+    gameEchoSteps: {
+        round: '%{round}/3 라운드',
+        mistakes: '실수: %{count}',
+    },
     leaderboard: {
         tabs: {
             league: '리그',

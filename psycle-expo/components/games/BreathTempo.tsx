@@ -2,12 +2,12 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Pressable, StyleSheet, Animated } from "react-native";
 import { theme } from "../../lib/theme";
 import { GameResult } from "../../lib/games.extra";
+import i18n from "../../lib/i18n";
 
 interface Props {
   onDone: (result: GameResult) => void;
 }
 
-const PHASES = ["吸う", "止める", "吐く"] as const;
 const PHASE_DURATIONS = [4000, 2000, 6000];
 const TARGET_INTERVAL = 1000;
 
@@ -18,6 +18,11 @@ export function BreathTempo({ onDone }: Props) {
   const [timeLeft, setTimeLeft] = useState(60);
   const [phaseProgress, setPhaseProgress] = useState(0);
   const scaleAnim = useRef(new Animated.Value(1)).current;
+  const phases = [
+    String(i18n.t("gameBreathTempo.phases.inhale")),
+    String(i18n.t("gameBreathTempo.phases.hold")),
+    String(i18n.t("gameBreathTempo.phases.exhale")),
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -78,12 +83,12 @@ export function BreathTempo({ onDone }: Props) {
     });
   };
 
-  const currentPhase = PHASES[phase % 3];
+  const currentPhase = phases[phase % 3];
   const arcAngle = (phaseProgress / 100) * 360;
 
   return (
     <View style={styles.container}>
-      <Text style={styles.timer}>{timeLeft}秒</Text>
+      <Text style={styles.timer}>{i18n.t("gameBreathTempo.seconds", { count: timeLeft })}</Text>
       <Text style={styles.phaseLabel}>{currentPhase}</Text>
 
       <View style={styles.circle}>
@@ -94,11 +99,11 @@ export function BreathTempo({ onDone }: Props) {
       </View>
 
       <Pressable style={styles.tapButton} onPress={handleTap}>
-        <Text style={styles.tapText}>タップ</Text>
+        <Text style={styles.tapText}>{i18n.t("gameBreathTempo.tap")}</Text>
       </Pressable>
 
       <Pressable style={styles.skipButton} onPress={finish}>
-        <Text style={styles.skipText}>終了</Text>
+        <Text style={styles.skipText}>{i18n.t("gameBreathTempo.finish")}</Text>
       </Pressable>
     </View>
   );

@@ -3,6 +3,7 @@ import { View, Text, Pressable, StyleSheet, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { GameResult } from "../../lib/games.extra";
+import i18n from "../../lib/i18n";
 
 interface Props {
   onDone: (result: GameResult) => void;
@@ -78,8 +79,8 @@ export function EchoSteps({ onDone }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>ラウンド {round}/3</Text>
-      <Text style={styles.subtitle}>間違い: {mistakes}</Text>
+      <Text style={styles.title}>{i18n.t("gameEchoSteps.round", { round })}</Text>
+      <Text style={styles.subtitle}>{i18n.t("gameEchoSteps.mistakes", { count: mistakes })}</Text>
 
       <Animated.View style={[styles.sequenceBox, { transform: [{ translateX: shakeAnim }] }]}>
         {showing ? (
