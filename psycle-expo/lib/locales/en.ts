@@ -256,6 +256,27 @@ export const en = {
             box4: 'in 14 days',
         },
     },
+    profile: {
+        title: 'Profile',
+        userFallback: 'User',
+        editButton: 'Edit Profile',
+        stats: {
+            totalXp: 'Total XP',
+            streakDays: 'Streak',
+            streakValue: '%{count} days',
+            completedLessons: 'Completed Lessons',
+            league: 'League',
+            leagueSilver: 'Silver',
+        },
+        sections: {
+            badges: 'Badges',
+            quickActions: 'Quick Actions',
+        },
+        actions: {
+            learningHistory: 'Learning History',
+            detailedStats: 'Detailed Stats',
+        },
+    },
     onboarding: {
         subtitle: 'Build mental strength in just 3 minutes a day.',
         start: 'Get Started',

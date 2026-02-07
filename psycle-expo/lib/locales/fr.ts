@@ -256,6 +256,27 @@ export const fr = {
             box4: 'dans 14 jours',
         },
     },
+    profile: {
+        title: 'Profil',
+        userFallback: 'Utilisateur',
+        editButton: 'Modifier le profil',
+        stats: {
+            totalXp: 'XP total',
+            streakDays: 'Série',
+            streakValue: '%{count} jours',
+            completedLessons: 'Leçons terminées',
+            league: 'Ligue',
+            leagueSilver: 'Argent',
+        },
+        sections: {
+            badges: 'Badges obtenus',
+            quickActions: 'Actions rapides',
+        },
+        actions: {
+            learningHistory: "Historique d'apprentissage",
+            detailedStats: 'Statistiques détaillées',
+        },
+    },
     onboarding: {
         subtitle: 'Renforce ton mental en seulement 3 minutes par jour.',
         start: 'Commencer',

@@ -256,6 +256,27 @@ export const ko = {
             box4: '14일 후',
         },
     },
+    profile: {
+        title: '프로필',
+        userFallback: '사용자',
+        editButton: '프로필 편집',
+        stats: {
+            totalXp: '총 XP',
+            streakDays: '연속 일수',
+            streakValue: '%{count}일',
+            completedLessons: '완료 레슨',
+            league: '리그',
+            leagueSilver: '실버',
+        },
+        sections: {
+            badges: '획득 배지',
+            quickActions: '빠른 작업',
+        },
+        actions: {
+            learningHistory: '학습 기록',
+            detailedStats: '상세 통계',
+        },
+    },
     onboarding: {
         subtitle: '하루 3분으로 마음의 근력을 키우세요.',
         start: '시작하기',
