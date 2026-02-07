@@ -10,6 +10,7 @@
  *
  * Usage:
  *   node scripts/lint-translation-glossary.js
+ *   node scripts/lint-translation-glossary.js --lang=es
  *   node scripts/lint-translation-glossary.js --strict  # Treat warnings as errors
  */
 
@@ -19,8 +20,9 @@ const path = require('path');
 // === Configuration ===
 const LESSONS_ROOT = 'data/lessons';
 const RULES_PATH = 'scripts/translation-glossary.rules.json';
-const REPORT_PATH = 'docs/_reports/translation_glossary.md';
+const DEFAULT_REPORT_PATH = 'docs/_reports/translation_glossary.md';
 const DEFAULT_BASELINE_PATH = 'scripts/translation-glossary-baseline.json';
+const SUPPORTED_LANGS = ['en', 'es', 'zh', 'ko', 'fr', 'de', 'pt'];
 
 function parseArgs(argv) {
   const flags = new Set();
@@ -28,6 +30,15 @@ function parseArgs(argv) {
 
   for (let i = 0; i < argv.length; i++) {
     const token = argv[i];
+    if (token.startsWith('--') && token.includes('=')) {
+      const [key, value] = token.split('=');
+      if (value !== undefined && value !== '') {
+        options[key] = value;
+      } else {
+        flags.add(key);
+      }
+      continue;
+    }
     if (!token.startsWith('--')) continue;
     const next = argv[i + 1];
     if (next && !next.startsWith('--')) {
@@ -50,11 +61,13 @@ function ensureParentDir(filePath) {
 
 function issueKey(issue) {
   return [
+    issue.lang || '',
     issue.lesson || '',
     issue.id || '',
     issue.field || '',
     issue.type || '',
     issue.ja_term || '',
+    issue.target_expected || '',
     issue.en_expected || '',
     issue.ja_hedge || '',
     issue.matched || '',
@@ -91,6 +104,16 @@ function saveBaseline(filePath, warningIssues) {
   };
   ensureParentDir(filePath);
   fs.writeFileSync(filePath, JSON.stringify(payload, null, 2) + '\n');
+}
+
+function parseTargetLang(options) {
+  const lang = options['--lang'] || 'en';
+  if (!SUPPORTED_LANGS.includes(lang)) {
+    console.error(`❌ Unsupported --lang: ${lang}`);
+    console.error(`   Supported: ${SUPPORTED_LANGS.join(', ')}`);
+    process.exit(1);
+  }
+  return lang;
 }
 
 // === Load Rules ===
@@ -156,25 +179,29 @@ function checkBannedExpressions(text, lang, rules) {
   return issues;
 }
 
-function checkGlossaryTerms(jaTexts, enTexts, rules) {
+function checkGlossaryTerms(jaTexts, targetTexts, rules, targetLang) {
   const issues = [];
   const glossary = rules.glossary || [];
 
   for (const term of glossary) {
+    const targetPattern = term[targetLang] || term.en;
+    if (!targetPattern) continue;
+
     // Check if JA contains the term
     const jaHasTerm = jaTexts.some(t => t.text.includes(term.ja));
-    const enHasTerm = enTexts.some(t => {
-      const regex = new RegExp(term.en, 'i');
+    const targetHasTerm = targetTexts.some(t => {
+      const flags = targetLang === 'zh' || targetLang === 'ko' ? '' : 'i';
+      const regex = new RegExp(targetPattern, flags);
       return regex.test(t.text);
     });
 
-    if (jaHasTerm && !enHasTerm) {
+    if (jaHasTerm && !targetHasTerm) {
       issues.push({
         type: 'glossary_missing',
         severity: 'warning',
-        message: `JA has "${term.ja}" but EN missing expected translation "${term.en}"`,
+        message: `JA has "${term.ja}" but ${targetLang.toUpperCase()} missing expected translation "${targetPattern}"`,
         ja_term: term.ja,
-        en_expected: term.en
+        target_expected: targetPattern
       });
     }
   }
@@ -182,25 +209,29 @@ function checkGlossaryTerms(jaTexts, enTexts, rules) {
   return issues;
 }
 
-function checkHedgingPairs(jaTexts, enTexts, rules) {
+function checkHedgingPairs(jaTexts, targetTexts, rules, targetLang) {
   const issues = [];
   const hedging = rules.hedging_pairs || [];
 
   for (const pair of hedging) {
+    const targetPattern = pair[targetLang] || pair.en;
+    if (!targetPattern) continue;
+
     const jaHas = jaTexts.some(t => t.text.includes(pair.ja));
-    const enHas = enTexts.some(t => {
-      const regex = new RegExp(pair.en, 'i');
+    const targetHas = targetTexts.some(t => {
+      const flags = targetLang === 'zh' || targetLang === 'ko' ? '' : 'i';
+      const regex = new RegExp(targetPattern, flags);
       return regex.test(t.text);
     });
 
-    // If JA has hedging but EN doesn't, warn
-    if (jaHas && !enHas) {
+    // If JA has hedging but target language doesn't, warn
+    if (jaHas && !targetHas) {
       issues.push({
         type: 'hedging_missing',
         severity: 'warning',
-        message: `JA has hedging "${pair.ja}" but EN missing equivalent "${pair.en}"`,
+        message: `JA has hedging "${pair.ja}" but ${targetLang.toUpperCase()} missing equivalent "${targetPattern}"`,
         ja_hedge: pair.ja,
-        en_expected: pair.en
+        target_expected: targetPattern
       });
     }
   }
@@ -209,10 +240,10 @@ function checkHedgingPairs(jaTexts, enTexts, rules) {
 }
 
 // === Main Processing ===
-function lintLessonPair(jaPath, enPath, lessonId) {
+function lintLessonPair(jaPath, targetPath, lessonId, targetLang) {
   const issues = [];
 
-  let jaData, enData;
+  let jaData, targetData;
   try {
     jaData = JSON.parse(fs.readFileSync(jaPath, 'utf-8'));
   } catch (err) {
@@ -220,47 +251,47 @@ function lintLessonPair(jaPath, enPath, lessonId) {
   }
 
   try {
-    enData = JSON.parse(fs.readFileSync(enPath, 'utf-8'));
+    targetData = JSON.parse(fs.readFileSync(targetPath, 'utf-8'));
   } catch (err) {
-    return [{ type: 'parse_error', severity: 'error', message: `Failed to parse EN: ${err.message}` }];
+    return [{ type: 'parse_error', severity: 'error', message: `Failed to parse ${targetLang.toUpperCase()}: ${err.message}` }];
   }
 
   // Build maps by ID
   const jaMap = new Map(jaData.map(item => [item.id, item]));
-  const enMap = new Map(enData.map(item => [item.id, item]));
+  const targetMap = new Map(targetData.map(item => [item.id, item]));
 
   // Check each item pair
   for (const [id, jaItem] of jaMap) {
-    const enItem = enMap.get(id);
-    if (!enItem) {
+    const targetItem = targetMap.get(id);
+    if (!targetItem) {
       issues.push({
         id,
         type: 'missing_translation',
         severity: 'error',
-        message: `EN translation missing for ${id}`
+        message: `${targetLang.toUpperCase()} translation missing for ${id}`
       });
       continue;
     }
 
     const jaTexts = extractTextFields(jaItem);
-    const enTexts = extractTextFields(enItem);
+    const targetTexts = extractTextFields(targetItem);
 
-    // Check banned expressions in EN
-    for (const { field, text } of enTexts) {
-      const bannedIssues = checkBannedExpressions(text, 'en', RULES);
+    // Check banned expressions in target language
+    for (const { field, text } of targetTexts) {
+      const bannedIssues = checkBannedExpressions(text, targetLang, RULES);
       for (const issue of bannedIssues) {
         issues.push({ id, field, ...issue });
       }
     }
 
     // Check glossary terms
-    const glossaryIssues = checkGlossaryTerms(jaTexts, enTexts, RULES);
+    const glossaryIssues = checkGlossaryTerms(jaTexts, targetTexts, RULES, targetLang);
     for (const issue of glossaryIssues) {
       issues.push({ id, ...issue });
     }
 
     // Check hedging pairs
-    const hedgingIssues = checkHedgingPairs(jaTexts, enTexts, RULES);
+    const hedgingIssues = checkHedgingPairs(jaTexts, targetTexts, RULES, targetLang);
     for (const issue of hedgingIssues) {
       issues.push({ id, ...issue });
     }
@@ -273,6 +304,7 @@ function generateReport(allIssues, stats) {
   let md = `# Translation Glossary Lint Report
 
 > Generated: ${new Date().toISOString().split('T')[0]}
+> Target language: ${stats.targetLang}
 
 ## Summary
 
@@ -290,7 +322,7 @@ function generateReport(allIssues, stats) {
 | banned | ${stats.byType.banned || 0} | Too assertive expressions |
 | glossary_missing | ${stats.byType.glossary_missing || 0} | Expected translation term missing |
 | hedging_missing | ${stats.byType.hedging_missing || 0} | Hedging expression inconsistency |
-| missing_translation | ${stats.byType.missing_translation || 0} | EN item missing for JA item |
+| missing_translation | ${stats.byType.missing_translation || 0} | Target item missing for JA item |
 | parse_error | ${stats.byType.parse_error || 0} | JSON parse failures |
 
 `;
@@ -331,6 +363,9 @@ See \`scripts/translation-glossary.rules.json\` for the full ruleset.
 # Re-run after fixes
 node scripts/lint-translation-glossary.js
 
+# Run target language
+node scripts/lint-translation-glossary.js --lang=es
+
 # Run in strict mode (fail on warnings)
 node scripts/lint-translation-glossary.js --strict
 
@@ -347,12 +382,20 @@ node scripts/lint-translation-glossary.js --update-baseline --baseline scripts/t
 
 function main() {
   const { flags, options } = parseArgs(process.argv.slice(2));
+  const TARGET_LANG = parseTargetLang(options);
   const STRICT_MODE = flags.has('--strict');
   const FAIL_ON_NEW = flags.has('--fail-on-new');
   const UPDATE_BASELINE = flags.has('--update-baseline');
-  const baselinePath = path.resolve(process.cwd(), options['--baseline'] || DEFAULT_BASELINE_PATH);
+  const defaultBaseline = TARGET_LANG === 'en'
+    ? DEFAULT_BASELINE_PATH
+    : `scripts/translation-glossary-baseline.${TARGET_LANG}.json`;
+  const baselinePath = path.resolve(process.cwd(), options['--baseline'] || defaultBaseline);
+  const reportPath = TARGET_LANG === 'en'
+    ? DEFAULT_REPORT_PATH
+    : `docs/_reports/translation_glossary.${TARGET_LANG}.md`;
 
   console.log('🔍 Translation Glossary Lint');
+  console.log(`   Target: ${TARGET_LANG.toUpperCase()}`);
   console.log(`   Mode: ${STRICT_MODE ? 'STRICT' : FAIL_ON_NEW ? 'FAIL-ON-NEW' : 'WARNING-ONLY'}`);
   console.log('');
 
@@ -369,19 +412,20 @@ function main() {
     for (const jaFile of files) {
       const lessonId = jaFile.replace('.ja.json', '');
       const jaPath = path.join(unitDir, jaFile);
-      const enPath = path.join(unitDir, `${lessonId}.en.json`);
+      const targetPath = path.join(unitDir, `${lessonId}.${TARGET_LANG}.json`);
 
-      if (!fs.existsSync(enPath)) {
-        console.log(`  ⏭️ ${lessonId}: No EN file, skipping`);
+      if (!fs.existsSync(targetPath)) {
+        console.log(`  ⏭️ ${lessonId}: No ${TARGET_LANG.toUpperCase()} file, skipping`);
         continue;
       }
 
       console.log(`  📄 ${lessonId}`);
       lessonsChecked++;
 
-      const issues = lintLessonPair(jaPath, enPath, lessonId);
+      const issues = lintLessonPair(jaPath, targetPath, lessonId, TARGET_LANG);
       for (const issue of issues) {
         issue.lesson = lessonId;
+        issue.lang = TARGET_LANG;
         allIssues.push(issue);
 
         const icon = issue.severity === 'error' ? '❌' : '⚠️';
@@ -396,6 +440,7 @@ function main() {
 
   // Stats
   const stats = {
+    targetLang: TARGET_LANG.toUpperCase(),
     lessonsChecked,
     totalIssues: allIssues.length,
     errors: allIssues.filter(i => i.severity === 'error').length,
@@ -420,12 +465,12 @@ function main() {
   }
 
   // Generate report
-  const reportDir = path.dirname(REPORT_PATH);
+  const reportDir = path.dirname(reportPath);
   if (!fs.existsSync(reportDir)) {
     fs.mkdirSync(reportDir, { recursive: true });
   }
   const report = generateReport(allIssues, stats);
-  fs.writeFileSync(REPORT_PATH, report);
+  fs.writeFileSync(reportPath, report);
 
   // Summary
   console.log('\n' + '='.repeat(50));
@@ -436,7 +481,7 @@ function main() {
   console.log(`   Errors: ${stats.errors}`);
   console.log(`   Warnings: ${stats.warnings}`);
   console.log(`   New warnings vs baseline: ${newWarnings.length}`);
-  console.log(`   Report: ${REPORT_PATH}`);
+  console.log(`   Report: ${reportPath}`);
   if (FAIL_ON_NEW || UPDATE_BASELINE) {
     console.log(`   Baseline: ${path.relative(process.cwd(), baselinePath)}`);
   }
