@@ -50,6 +50,11 @@ jobs:
           cd psycle-expo
           npm run content:i18n:check
 
+      - name: Lint EN lesson purity (no Japanese chars)
+        run: |
+          cd psycle-expo
+          npm run content:i18n:en-purity
+
       - name: Lint translation glossary (fail on new only)
         run: |
           cd psycle-expo
