@@ -60,6 +60,58 @@ async function stopExpo() {
   }
 }
 
+const LOCALE_SMOKE_CASES = [
+  {
+    locale: "en-US",
+    onboardingSubtitle: "Build mental strength in just 3 minutes a day.",
+    interestsTitle: "What do you want to learn?",
+    questionRegex: /[A-Za-z]/,
+  },
+  {
+    locale: "ja-JP",
+    onboardingSubtitle: "1日3分で、心を強くする。",
+    interestsTitle: "何を学びたいですか？",
+    questionRegex: /[\u3040-\u30ff\u3400-\u9fff]/,
+  },
+];
+
+async function runLocaleSmokeCase(browser, testCase) {
+  const context = await browser.newContext({ locale: testCase.locale });
+  const page = await context.newPage();
+
+  await page.goto(baseUrl);
+
+  await expect(page.locator('[data-testid="onboarding-subtitle"]')).toContainText(testCase.onboardingSubtitle);
+  await page.locator('[data-testid="onboarding-start"]').click();
+  await expect(page.locator('[data-testid="onboarding-interests-title"]')).toContainText(testCase.interestsTitle);
+  await page.locator('[data-testid="onboarding-genre-mental"]').click();
+  await page.locator('[data-testid="onboarding-finish"]').click();
+  await expect(page.locator('[data-testid="auth-guest-login"]')).toBeVisible();
+  await page.locator('[data-testid="auth-guest-login"]').click();
+
+  const firstLessonNode = page.locator('[data-testid="lesson-node-m1"]');
+  await expect(firstLessonNode).toBeVisible({ timeout: 30_000 });
+  await firstLessonNode.click({ force: true });
+
+  await page.locator('[data-testid="modal-primary-button"]').click();
+
+  const progress = page.locator('[data-testid="lesson-progress"]');
+  await expect(progress).toContainText("1 / 10", { timeout: 30_000 });
+
+  const questionText = page.locator('[data-testid="question-text"]').first();
+  await expect(questionText).toBeVisible();
+  const text = (await questionText.textContent()) ?? "";
+  if (!testCase.questionRegex.test(text)) {
+    throw new Error(`Expected ${testCase.locale} question text, got: ${text}`);
+  }
+
+  await page.locator('[data-testid="answer-choice-0"]').first().click();
+  await page.locator('[data-testid="question-continue"]').click();
+  await expect(progress).toContainText("2 / 10");
+
+  await context.close();
+}
+
 async function run() {
   usingExistingServer = await isServerRunning(baseUrl);
   if (!usingExistingServer) {
@@ -81,42 +133,14 @@ async function run() {
   }
 
   const browser = await chromium.launch({ headless: true });
-  const context = await browser.newContext({ locale: "en-US" });
-  const page = await context.newPage();
 
   try {
-    await page.goto(baseUrl);
-
-    await expect(page.locator('[data-testid="onboarding-subtitle"]')).toContainText("Build mental strength in just 3 minutes a day.");
-    await page.locator('[data-testid="onboarding-start"]').click();
-    await expect(page.locator('[data-testid="onboarding-interests-title"]')).toContainText("What do you want to learn?");
-    await page.locator('[data-testid="onboarding-genre-mental"]').click();
-    await page.locator('[data-testid="onboarding-finish"]').click();
-    await expect(page.getByText("Sign in")).toBeVisible();
-    await page.locator('[data-testid="auth-guest-login"]').click();
-
-    const firstLessonNode = page.locator('[data-testid="lesson-node-m1"]');
-    await expect(firstLessonNode).toBeVisible({ timeout: 30_000 });
-    await firstLessonNode.click({ force: true });
-
-    await page.locator('[data-testid="modal-primary-button"]').click();
-
-    const progress = page.locator('[data-testid="lesson-progress"]');
-    await expect(progress).toContainText("1 / 10", { timeout: 30_000 });
-
-    const questionText = page.locator('[data-testid="question-text"]').first();
-    await expect(questionText).toBeVisible();
-    const text = (await questionText.textContent()) ?? "";
-    if (!/[A-Za-z]/.test(text)) {
-      throw new Error(`Expected EN question text, got: ${text}`);
+    for (const testCase of LOCALE_SMOKE_CASES) {
+      await runLocaleSmokeCase(browser, testCase);
     }
 
-    await page.locator('[data-testid="answer-choice-0"]').first().click();
-    await page.locator('[data-testid="question-continue"]').click();
-    await expect(progress).toContainText("2 / 10");
-
     await browser.close();
-    console.log("Web smoke passed: onboarding -> guest login -> lesson progression.");
+    console.log("Web smoke passed: EN/JA onboarding -> guest login -> lesson progression.");
   } catch (error) {
     await browser.close();
     throw error;
