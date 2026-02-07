@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Modal, View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
 import { getPackInfo, GenreId } from '../lib/paywall';
+import i18n from '../lib/i18n';
 
 interface PaywallModalProps {
     visible: boolean;
@@ -13,12 +14,11 @@ interface PaywallModalProps {
 
 export function PaywallModal({ visible, genreId, onClose, onPurchase }: PaywallModalProps) {
     const packInfo = getPackInfo(genreId);
-
     const benefits = [
-        '全10レベルのコンテンツにアクセス',
-        '学術論文ベースの高度な問題',
-        '実践的なスキルを習得',
-        '永久アクセス（買い切り）'
+        i18n.t('paywallModal.benefits.accessAllLevels'),
+        i18n.t('paywallModal.benefits.advancedEvidenceQuestions'),
+        i18n.t('paywallModal.benefits.practicalSkills'),
+        i18n.t('paywallModal.benefits.lifetimeAccess'),
     ];
 
     const handlePurchase = () => {
@@ -44,12 +44,12 @@ export function PaywallModal({ visible, genreId, onClose, onPurchase }: PaywallM
                     <View style={styles.header}>
                         <Text style={styles.emoji}>{packInfo.emoji}</Text>
                         <Text style={styles.title}>{packInfo.name}</Text>
-                        <Text style={styles.subtitle}>Level 4-10 を解放</Text>
+                        <Text style={styles.subtitle}>{i18n.t('paywallModal.unlockLevels')}</Text>
                     </View>
 
                     {/* Benefits */}
                     <ScrollView style={styles.benefitsContainer}>
-                        <Text style={styles.benefitsTitle}>このパックに含まれるもの:</Text>
+                        <Text style={styles.benefitsTitle}>{i18n.t('paywallModal.benefitsTitle')}</Text>
                         {benefits.map((benefit, index) => (
                             <View key={index} style={styles.benefitItem}>
                                 <Ionicons name="checkmark-circle" size={20} color={theme.colors.primary} />
@@ -61,15 +61,15 @@ export function PaywallModal({ visible, genreId, onClose, onPurchase }: PaywallM
                     {/* Price and Purchase Button */}
                     <View style={styles.footer}>
                         <Text style={styles.price}>¥{Math.round(packInfo.price * 150)}</Text>
-                        <Text style={styles.priceSubtext}>買い切り（サブスクではありません）</Text>
+                        <Text style={styles.priceSubtext}>{i18n.t('paywallModal.oneTimePurchase')}</Text>
 
                         <TouchableOpacity style={styles.purchaseButton} onPress={handlePurchase}>
-                            <Text style={styles.purchaseButtonText}>パックを購入</Text>
+                            <Text style={styles.purchaseButtonText}>{i18n.t('paywallModal.purchasePack')}</Text>
                         </TouchableOpacity>
 
                         {/* Dev note */}
                         <Text style={styles.devNote}>
-                            ※ 現在はモック版です。タップすると即座に解放されます。
+                            {i18n.t('paywallModal.devNote')}
                         </Text>
                     </View>
                 </View>

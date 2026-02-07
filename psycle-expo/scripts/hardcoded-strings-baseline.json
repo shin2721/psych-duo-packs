@@ -1,16 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-02-07T09:54:49.182Z",
-  "total": 9,
-  "entries": [
-    "components/LeagueResultModal.tsx:115:受け取り中...",
-    "components/LeagueResultModal.tsx:115:受け取る",
-    "components/LeagueResultModal.tsx:74:昇格！",
-    "components/LeagueResultModal.tsx:74:週終了！",
-    "components/LeagueResultModal.tsx:74:降格...",
-    "components/PaywallModal.tsx:18:全10レベルのコンテンツにアクセス",
-    "components/PaywallModal.tsx:19:学術論文ベースの高度な問題",
-    "components/PaywallModal.tsx:20:実践的なスキルを習得",
-    "components/PaywallModal.tsx:21:永久アクセス（買い切り）"
-  ]
+  "generatedAt": "2026-02-07T10:01:40.573Z",
+  "total": 0,
+  "entries": []
 }
