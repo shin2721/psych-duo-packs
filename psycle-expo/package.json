@@ -43,6 +43,8 @@
     "content:i18n:smoke": "node scripts/check-lesson-locale-routing.js",
     "content:i18n:glossary": "node scripts/lint-translation-glossary.js",
     "lint:hardcoded-strings": "node scripts/lint-hardcoded-strings.js",
+    "lint:hardcoded-strings:ci": "node scripts/lint-hardcoded-strings.js --fail-on-new --baseline scripts/hardcoded-strings-baseline.json",
+    "lint:hardcoded-strings:update-baseline": "node scripts/lint-hardcoded-strings.js --update-baseline --baseline scripts/hardcoded-strings-baseline.json",
     "content:i18n:draft": "node scripts/generate-translation-draft.mjs",
     "content:i18n:init-cache": "node scripts/generate-translation-draft.mjs --init-cache",
     "e2e:analytics": "bash scripts/run-analytics-e2e.sh",
