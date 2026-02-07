@@ -256,6 +256,27 @@ export const ja = {
             box4: '14日後',
         },
     },
+    profile: {
+        title: 'プロフィール',
+        userFallback: 'ユーザー',
+        editButton: 'プロフィールを編集',
+        stats: {
+            totalXp: '総XP',
+            streakDays: '連続日数',
+            streakValue: '%{count}日',
+            completedLessons: '完了レッスン',
+            league: 'リーグ',
+            leagueSilver: 'シルバー',
+        },
+        sections: {
+            badges: '獲得バッジ',
+            quickActions: 'クイックアクション',
+        },
+        actions: {
+            learningHistory: '学習履歴',
+            detailedStats: '詳細統計',
+        },
+    },
     onboarding: {
         subtitle: '1日3分で、心を強くする。',
         start: 'はじめる',

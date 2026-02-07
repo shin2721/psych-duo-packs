@@ -256,6 +256,27 @@ export const zh = {
             box4: '14天后',
         },
     },
+    profile: {
+        title: '个人资料',
+        userFallback: '用户',
+        editButton: '编辑个人资料',
+        stats: {
+            totalXp: '总 XP',
+            streakDays: '连续天数',
+            streakValue: '%{count} 天',
+            completedLessons: '已完成课程',
+            league: '联赛',
+            leagueSilver: '白银',
+        },
+        sections: {
+            badges: '已获得徽章',
+            quickActions: '快捷操作',
+        },
+        actions: {
+            learningHistory: '学习记录',
+            detailedStats: '详细统计',
+        },
+    },
     onboarding: {
         subtitle: '每天只需3分钟，强化你的心理韧性。',
         start: '开始',

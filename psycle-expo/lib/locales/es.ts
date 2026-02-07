@@ -256,6 +256,27 @@ export const es = {
             box4: 'en 14 días',
         },
     },
+    profile: {
+        title: 'Perfil',
+        userFallback: 'Usuario',
+        editButton: 'Editar perfil',
+        stats: {
+            totalXp: 'XP total',
+            streakDays: 'Racha',
+            streakValue: '%{count} días',
+            completedLessons: 'Lecciones completadas',
+            league: 'Liga',
+            leagueSilver: 'Plata',
+        },
+        sections: {
+            badges: 'Insignias obtenidas',
+            quickActions: 'Acciones rápidas',
+        },
+        actions: {
+            learningHistory: 'Historial de aprendizaje',
+            detailedStats: 'Estadísticas detalladas',
+        },
+    },
     onboarding: {
         subtitle: 'Fortalece tu mente en solo 3 minutos al día.',
         start: 'Comenzar',

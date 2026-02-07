@@ -9,20 +9,21 @@ import { useAppState } from "../../lib/state";
 import { BADGES } from "../../lib/badges";
 import { BadgeIcon } from "../../components/BadgeIcon";
 import { StreakIcon, TrophyIcon } from "../../components/CustomIcons";
+import i18n from "../../lib/i18n";
 
 export default function ProfileScreen() {
     const router = useRouter();
     const { user } = useAuth();
     const { xp, streak, completedLessons, unlockedBadges } = useAppState();
 
-    const username = user?.email?.split("@")[0] || "ユーザー";
+    const username = user?.email?.split("@")[0] || String(i18n.t("profile.userFallback"));
 
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
                 {/* Header */}
                 <View style={styles.header}>
-                    <Text style={styles.headerTitle}>プロフィール</Text>
+                    <Text style={styles.headerTitle}>{i18n.t("profile.title")}</Text>
                     <Pressable
                         style={styles.settingsButton}
                         onPress={() => router.push("/settings")}
@@ -49,7 +50,7 @@ export default function ProfileScreen() {
                         style={styles.editButton}
                         onPress={() => router.push("/settings/edit-profile")}
                     >
-                        <Text style={styles.editButtonText}>プロフィールを編集</Text>
+                        <Text style={styles.editButtonText}>{i18n.t("profile.editButton")}</Text>
                     </Pressable>
                 </View>
 
@@ -57,33 +58,33 @@ export default function ProfileScreen() {
                 <View style={styles.statsGrid}>
                     <StatCard
                         icon="star"
-                        label="総XP"
+                        label={String(i18n.t("profile.stats.totalXp"))}
                         value={xp.toString()}
                         color="#F59E0B"
                     />
                     <StatCard
                         customIcon={<StreakIcon size={32} />}
-                        label="連続日数"
-                        value={`${streak}日`}
+                        label={String(i18n.t("profile.stats.streakDays"))}
+                        value={String(i18n.t("profile.stats.streakValue", { count: streak }))}
                         color="#FF6B6B"
                     />
                     <StatCard
                         icon="checkmark-circle"
-                        label="完了レッスン"
+                        label={String(i18n.t("profile.stats.completedLessons"))}
                         value={completedLessons.size.toString()}
                         color="#4ECDC4"
                     />
                     <StatCard
                         customIcon={<TrophyIcon size={32} />}
-                        label="リーグ"
-                        value="シルバー"
+                        label={String(i18n.t("profile.stats.league"))}
+                        value={String(i18n.t("profile.stats.leagueSilver"))}
                         color="#FFD93D"
                     />
                 </View>
 
                 {/* Badges Section */}
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>獲得バッジ</Text>
+                    <Text style={styles.sectionTitle}>{i18n.t("profile.sections.badges")}</Text>
                     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.badgeScroll}>
                         {BADGES.map(badge => (
                             <BadgeIcon
@@ -97,15 +98,15 @@ export default function ProfileScreen() {
 
                 {/* Quick Actions */}
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>クイックアクション</Text>
+                    <Text style={styles.sectionTitle}>{i18n.t("profile.sections.quickActions")}</Text>
                     <ActionRow
                         icon="calendar"
-                        label="学習履歴"
+                        label={String(i18n.t("profile.actions.learningHistory"))}
                         onPress={() => { }}
                     />
                     <ActionRow
                         icon="stats-chart"
-                        label="詳細統計"
+                        label={String(i18n.t("profile.actions.detailedStats"))}
                         onPress={() => { }}
                     />
                 </View>
