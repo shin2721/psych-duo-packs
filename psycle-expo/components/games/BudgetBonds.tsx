@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { theme } from "../../lib/theme";
 import { GameResult } from "../../lib/games.extra";
+import i18n from "../../lib/i18n";
 
 interface Props {
   onDone: (result: GameResult) => void;
@@ -61,12 +62,16 @@ export function BudgetBonds({ onDone }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>予算の絆</Text>
-      <Text style={styles.target}>目標: ¥{TARGET.toLocaleString()}</Text>
-      <Text style={[styles.total, perfect && styles.totalPerfect, good && styles.totalGood]}>
-        現在: ¥{total.toLocaleString()}
+      <Text style={styles.title}>{i18n.t("gameBudgetBonds.title")}</Text>
+      <Text style={styles.target}>
+        {i18n.t("gameBudgetBonds.target", { amount: TARGET.toLocaleString() })}
       </Text>
-      <Text style={styles.diff}>差: ¥{diff.toLocaleString()}</Text>
+      <Text style={[styles.total, perfect && styles.totalPerfect, good && styles.totalGood]}>
+        {i18n.t("gameBudgetBonds.current", { amount: total.toLocaleString() })}
+      </Text>
+      <Text style={styles.diff}>
+        {i18n.t("gameBudgetBonds.diff", { amount: diff.toLocaleString() })}
+      </Text>
 
       <View style={styles.grid}>
         {cards.map((card) => (
@@ -91,7 +96,11 @@ export function BudgetBonds({ onDone }: Props) {
       </View>
 
       <Pressable style={[styles.submitButton, good && styles.submitButtonActive]} onPress={handleSubmit}>
-        <Text style={styles.submitText}>{good ? "完了" : `あと ¥${diff.toLocaleString()}`}</Text>
+        <Text style={styles.submitText}>
+          {good
+            ? i18n.t("lessonScreen.complete")
+            : i18n.t("gameBudgetBonds.remaining", { amount: diff.toLocaleString() })}
+        </Text>
       </Pressable>
     </View>
   );

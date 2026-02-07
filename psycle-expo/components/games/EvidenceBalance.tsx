@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { theme } from "../../lib/theme";
 import { GameResult } from "../../lib/games.extra";
+import i18n from "../../lib/i18n";
 
 interface Props {
   onDone: (result: GameResult) => void;
@@ -14,17 +15,15 @@ interface Chip {
   side: "left" | "right" | "pool";
 }
 
-const INITIAL_CHIPS: Chip[] = [
-  { id: "c1", text: "データA", weight: 3, side: "pool" },
-  { id: "c2", text: "証言B", weight: 2, side: "pool" },
-  { id: "c3", text: "記録C", weight: 4, side: "pool" },
-  { id: "c4", text: "証拠D", weight: 3, side: "pool" },
-  { id: "c5", text: "事実E", weight: 2, side: "pool" },
-  { id: "c6", text: "情報F", weight: 4, side: "pool" },
-];
-
 export function EvidenceBalance({ onDone }: Props) {
-  const [chips, setChips] = useState<Chip[]>(INITIAL_CHIPS);
+  const [chips, setChips] = useState<Chip[]>(() => [
+    { id: "c1", text: String(i18n.t("gameEvidenceBalance.chips.dataA")), weight: 3, side: "pool" },
+    { id: "c2", text: String(i18n.t("gameEvidenceBalance.chips.testimonyB")), weight: 2, side: "pool" },
+    { id: "c3", text: String(i18n.t("gameEvidenceBalance.chips.recordC")), weight: 4, side: "pool" },
+    { id: "c4", text: String(i18n.t("gameEvidenceBalance.chips.evidenceD")), weight: 3, side: "pool" },
+    { id: "c5", text: String(i18n.t("gameEvidenceBalance.chips.factE")), weight: 2, side: "pool" },
+    { id: "c6", text: String(i18n.t("gameEvidenceBalance.chips.infoF")), weight: 4, side: "pool" },
+  ]);
   const [mistakes, setMistakes] = useState(0);
   const [startTime] = useState(Date.now());
 
@@ -55,7 +54,7 @@ export function EvidenceBalance({ onDone }: Props) {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>証拠のバランス</Text>
+      <Text style={styles.title}>{i18n.t("gameEvidenceBalance.title")}</Text>
 
       <View style={styles.scale}>
         <View style={[styles.beam, { transform: [{ rotate: `${scaleRotation}deg` }] }]}>
@@ -71,7 +70,7 @@ export function EvidenceBalance({ onDone }: Props) {
 
       <View style={styles.columns}>
         <View style={styles.column}>
-          <Text style={styles.columnLabel}>賛</Text>
+          <Text style={styles.columnLabel}>{i18n.t("gameEvidenceBalance.support")}</Text>
           {chips.filter((c) => c.side === "left").map((chip) => (
             <Pressable key={chip.id} style={styles.chip} onPress={() => moveChip(chip.id, "pool")}>
               <Text style={styles.chipText}>{chip.text}</Text>
@@ -80,7 +79,7 @@ export function EvidenceBalance({ onDone }: Props) {
         </View>
 
         <View style={styles.column}>
-          <Text style={styles.columnLabel}>否</Text>
+          <Text style={styles.columnLabel}>{i18n.t("gameEvidenceBalance.oppose")}</Text>
           {chips.filter((c) => c.side === "right").map((chip) => (
             <Pressable key={chip.id} style={styles.chip} onPress={() => moveChip(chip.id, "pool")}>
               <Text style={styles.chipText}>{chip.text}</Text>
@@ -90,15 +89,19 @@ export function EvidenceBalance({ onDone }: Props) {
       </View>
 
       <View style={styles.pool}>
-        <Text style={styles.poolLabel}>プール</Text>
+        <Text style={styles.poolLabel}>{i18n.t("gameEvidenceBalance.pool")}</Text>
         <View style={styles.poolChips}>
           {chips.filter((c) => c.side === "pool").map((chip) => (
             <View key={chip.id} style={styles.poolChipRow}>
               <Pressable style={styles.poolChip} onPress={() => moveChip(chip.id, "left")}>
-                <Text style={styles.chipText}>{chip.text} → 賛</Text>
+                <Text style={styles.chipText}>
+                  {i18n.t("gameEvidenceBalance.moveToSupport", { text: chip.text })}
+                </Text>
               </Pressable>
               <Pressable style={styles.poolChip} onPress={() => moveChip(chip.id, "right")}>
-                <Text style={styles.chipText}>{chip.text} → 否</Text>
+                <Text style={styles.chipText}>
+                  {i18n.t("gameEvidenceBalance.moveToOppose", { text: chip.text })}
+                </Text>
               </Pressable>
             </View>
           ))}
@@ -106,7 +109,9 @@ export function EvidenceBalance({ onDone }: Props) {
       </View>
 
       <Pressable style={[styles.finishButton, balanced && styles.finishButtonActive]} onPress={handleFinish}>
-        <Text style={styles.finishText}>{balanced ? "完了" : "バランスが必要"}</Text>
+        <Text style={styles.finishText}>
+          {balanced ? i18n.t("lessonScreen.complete") : i18n.t("gameEvidenceBalance.needsBalance")}
+        </Text>
       </Pressable>
     </View>
   );
