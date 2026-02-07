@@ -15,6 +15,7 @@ import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
 import { getStreakData } from "../../lib/streaks";
 import { useAuth } from "../../lib/AuthContext";
 import { router } from "expo-router";
+import i18n from "../../lib/i18n";
 
 
 
@@ -141,9 +142,9 @@ export default function CourseScreen() {
           } else {
             // 条件未達成：もう少し使ってみてメッセージ
             Alert.alert(
-              "もう少しだけ使ってみて！",
-              "あと数レッスン完了するか、行動の実践を記録すると、このコンテンツが解放されます。",
-              [{ text: "OK" }]
+              i18n.t("course.keepUsingTitle"),
+              i18n.t("course.keepUsingMessage"),
+              [{ text: i18n.t("common.ok") }]
             );
           }
         }}
@@ -152,9 +153,9 @@ export default function CourseScreen() {
 
       <Modal
         visible={!!modalNode}
-        title="レッスンを開始"
-        description="このレッスンで 10 XP 獲得できます。"
-        primaryLabel="開始"
+        title={i18n.t("course.startLessonTitle")}
+        description={i18n.t("course.startLessonDescription", { xp: 10 })}
+        primaryLabel={i18n.t("course.startButton")}
         onPrimary={handleStart}
         onCancel={() => setModalNode(null)}
       />
@@ -179,7 +180,10 @@ export default function CourseScreen() {
             if (newBalance !== undefined) {
               setGemsDirectly(newBalance);
             }
-            Alert.alert("報酬を受け取りました！", `${claimedGems} Gems と ${claimedBadges.length}個のバッジを獲得しました。`);
+            Alert.alert(
+              i18n.t("course.rewardClaimedTitle"),
+              i18n.t("course.rewardClaimedMessage", { gems: claimedGems, badges: claimedBadges.length })
+            );
           }}
           onDismiss={() => setShowLeagueResult(false)}
         />
