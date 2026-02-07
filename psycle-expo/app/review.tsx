@@ -9,6 +9,7 @@ import { useAppState } from "../lib/state";
 import { getQuestionFromId } from "../lib/lessons";
 import { QuestionRenderer, Question } from "../components/QuestionRenderer";
 import { XPGainAnimation } from "../components/XPGainAnimation";
+import i18n from "../lib/i18n";
 
 export default function ReviewScreen() {
     const { mistakes, getDueMistakes, processReviewResult, addXp } = useAppState();
@@ -58,13 +59,16 @@ export default function ReviewScreen() {
             // Check the mistake's new box to determine next review time
             const mistake = mistakes.find(m => m.id === currentQ.source_id);
             if (mistake) {
-                const intervals = ["すぐに", "1日後", "3日後", "7日後", "14日後", "完全にマスター！"];
                 const nextBox = mistake.box + 1;
-                if (nextBox > 5) {
-                    setNextReviewInfo("完全にマスター！");
+                if (nextBox >= 5) {
+                    setNextReviewInfo(i18n.t("review.mastered"));
                     setClearedCount(prev => prev + 1);
                 } else {
-                    setNextReviewInfo(`次の復習: ${intervals[nextBox]}`);
+                    setNextReviewInfo(
+                        i18n.t("review.nextReview", {
+                            interval: i18n.t(`review.interval.box${nextBox}`),
+                        })
+                    );
                 }
             }
 
@@ -80,7 +84,7 @@ export default function ReviewScreen() {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             // Reset to Box 1
             processReviewResult(currentQ.source_id, false);
-            setNextReviewInfo("もう一度復習が必要です");
+            setNextReviewInfo(i18n.t("review.reviewAgainNeeded"));
             setTimeout(() => setNextReviewInfo(null), 2000);
         }
 
@@ -104,14 +108,14 @@ export default function ReviewScreen() {
                     <Pressable onPress={() => router.back()} style={styles.backButton}>
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
-                    <Text style={styles.title}>苦手克服</Text>
+                    <Text style={styles.title}>{i18n.t("review.title")}</Text>
                 </View>
                 <View style={styles.emptyState}>
                     <Ionicons name="checkmark-circle-outline" size={80} color={theme.colors.success} />
-                    <Text style={styles.emptyTitle}>素晴らしい！</Text>
-                    <Text style={styles.emptyText}>現在、復習が必要な問題はありません。</Text>
+                    <Text style={styles.emptyTitle}>{i18n.t("review.emptyTitle")}</Text>
+                    <Text style={styles.emptyText}>{i18n.t("review.emptyText")}</Text>
                     <Pressable style={styles.button} onPress={() => router.back()}>
-                        <Text style={styles.buttonText}>コースに戻る</Text>
+                        <Text style={styles.buttonText}>{i18n.t("review.backToCourse")}</Text>
                     </Pressable>
                 </View>
             </SafeAreaView>
@@ -122,12 +126,15 @@ export default function ReviewScreen() {
         return (
             <SafeAreaView style={styles.container}>
                 <View style={styles.resultContainer}>
-                    <Text style={styles.resultTitle}>復習完了！</Text>
+                    <Text style={styles.resultTitle}>{i18n.t("review.doneTitle")}</Text>
                     <Text style={styles.resultText}>
-                        {sessionQuestions.length}問中、{clearedCount}問を克服しました！
+                        {i18n.t("review.resultSummary", {
+                            total: sessionQuestions.length,
+                            cleared: clearedCount,
+                        })}
                     </Text>
                     <Pressable style={styles.button} onPress={() => router.back()}>
-                        <Text style={styles.buttonText}>完了</Text>
+                        <Text style={styles.buttonText}>{i18n.t("review.backToCourse")}</Text>
                     </Pressable>
                 </View>
             </SafeAreaView>
@@ -141,19 +148,20 @@ export default function ReviewScreen() {
                     <Pressable onPress={() => router.back()} style={styles.backButton}>
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
-                    <Text style={styles.title}>苦手克服</Text>
+                    <Text style={styles.title}>{i18n.t("review.title")}</Text>
                 </View>
                 <View style={styles.introContainer}>
                     <View style={styles.statsCard}>
                         <Text style={styles.statsNumber}>{dueCount}</Text>
-                        <Text style={styles.statsLabel}>復習待ちの問題</Text>
+                        <Text style={styles.statsLabel}>{i18n.t("review.pendingLabel")}</Text>
                     </View>
                     <Text style={styles.description}>
-                        間違えた問題を復習して、知識を定着させましょう。
-                        2回連続で正解すると「克服」とみなされます。
+                        {i18n.t("review.description")}
                     </Text>
                     <Pressable style={styles.button} onPress={handleStart}>
-                        <Text style={styles.buttonText}>復習を開始 ({Math.min(dueCount, 10)}問)</Text>
+                        <Text style={styles.buttonText}>
+                            {i18n.t("review.startButton", { count: Math.min(dueCount, 10) })}
+                        </Text>
                     </Pressable>
                 </View>
             </SafeAreaView>
