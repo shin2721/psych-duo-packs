@@ -93,6 +93,15 @@ export const ja = {
         shop: 'ショップ',
         profile: 'プロフィール',
     },
+    evidenceBottomSheet: {
+        sourceLabel: '📖 出典',
+        sourceType: {
+            intervention: '実験研究',
+            observational: '観察研究',
+            theory: '理論',
+            review: 'レビュー',
+        },
+    },
     lesson: {
         errorTitle: 'エラー',
         loadFailed: 'レッスンの読み込みに失敗しました: %{message}',

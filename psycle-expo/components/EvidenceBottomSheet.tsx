@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity, Dimensions, TouchableWithoutF
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
 import { getEvidenceSummary, getTryValueColor } from '../lib/evidenceSummary';
+import i18n from '../lib/i18n';
 
 // Import curated sources for bibliographic info
 import curatedSourcesData from '../data/curated_sources.json';
@@ -141,7 +142,10 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                                     <Text style={styles.tryValueText}>{evidenceSummary.tryValue}</Text>
                                 </View>
                             </View>
-                            <Text style={styles.basisLabel}>根拠：{evidenceSummary.basisLabel}</Text>
+                            <Text style={styles.basisLabel}>
+                                {i18n.t('lesson.basisLabelPrefix')}
+                                {evidenceSummary.basisLabel}
+                            </Text>
                         </>
                     )}
                     <Text style={styles.safetyNote}>{evidenceSummary.note}</Text>
@@ -153,7 +157,7 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                     style={styles.detailsToggle}
                 >
                     <Text style={styles.detailsToggleText}>
-                        {showDetails ? "▲ 閉じる" : "▼ 詳しく見る"}
+                        {showDetails ? i18n.t('lesson.closeDetails') : i18n.t('lesson.showDetails')}
                     </Text>
                 </TouchableOpacity>
 
@@ -162,14 +166,14 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                     <>
                         {expandedDetails?.best_for && expandedDetails.best_for.length > 0 && (
                             <View style={styles.section}>
-                                <Text style={styles.sectionLabel}>✅ 向いているケース</Text>
+                                <Text style={styles.sectionLabel}>{i18n.t('lesson.bestForHeader')}</Text>
                                 <Text style={styles.sectionText}>{expandedDetails.best_for.join('、')}</Text>
                             </View>
                         )}
 
                         {expandedDetails?.limitations && expandedDetails.limitations.length > 0 && (
                             <View style={styles.section}>
-                                <Text style={styles.sectionLabel}>⚠️ 限界</Text>
+                                <Text style={styles.sectionLabel}>{i18n.t('lesson.limitationsHeader')}</Text>
                                 <Text style={styles.sectionText}>{expandedDetails.limitations.join('、')}</Text>
                             </View>
                         )}
@@ -180,15 +184,15 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                             if (!sourceInfo) return null;
 
                             const typeLabel = {
-                                'intervention': '実験研究',
-                                'observational': '観察研究',
-                                'theory': '理論',
-                                'review': 'レビュー',
+                                intervention: i18n.t('evidenceBottomSheet.sourceType.intervention'),
+                                observational: i18n.t('evidenceBottomSheet.sourceType.observational'),
+                                theory: i18n.t('evidenceBottomSheet.sourceType.theory'),
+                                review: i18n.t('evidenceBottomSheet.sourceType.review'),
                             }[sourceInfo.type] || sourceInfo.type;
 
                             return (
                                 <View style={styles.sourceBox}>
-                                    <Text style={styles.sourceLabel}>📖 出典</Text>
+                                    <Text style={styles.sourceLabel}>{i18n.t('evidenceBottomSheet.sourceLabel')}</Text>
                                     <Text style={styles.sourceAuthor}>{sourceInfo.author} ({sourceInfo.year})</Text>
                                     <View style={styles.sourceTypeChip}>
                                         <Text style={styles.sourceTypeText}>{typeLabel}</Text>
@@ -199,7 +203,7 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
 
                         {/* Disclaimer */}
                         <Text style={styles.disclaimer}>
-                            ※ 効果の大きさは状況・個人差が大きいため、断定はしていません。
+                            {i18n.t('lesson.disclaimerEffectSize')}
                         </Text>
                     </>
                 )}

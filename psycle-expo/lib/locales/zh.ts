@@ -93,6 +93,15 @@ export const zh = {
         shop: '商店',
         profile: '个人资料',
     },
+    evidenceBottomSheet: {
+        sourceLabel: '📖 来源',
+        sourceType: {
+            intervention: '实验研究',
+            observational: '观察研究',
+            theory: '理论',
+            review: '综述',
+        },
+    },
     lesson: {
         errorTitle: '错误',
         loadFailed: '加载课程失败：%{message}',
