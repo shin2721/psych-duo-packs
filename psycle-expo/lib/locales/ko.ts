@@ -93,6 +93,15 @@ export const ko = {
         shop: '상점',
         profile: '프로필',
     },
+    evidenceBottomSheet: {
+        sourceLabel: '📖 출처',
+        sourceType: {
+            intervention: '실험 연구',
+            observational: '관찰 연구',
+            theory: '이론',
+            review: '리뷰',
+        },
+    },
     lesson: {
         errorTitle: '오류',
         loadFailed: '레슨을 불러오지 못했습니다: %{message}',

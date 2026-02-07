@@ -1,14 +1,8 @@
 {
   "version": 1,
-  "generatedAt": "2026-02-07T09:48:29.121Z",
-  "total": 15,
+  "generatedAt": "2026-02-07T09:54:49.182Z",
+  "total": 9,
   "entries": [
-    "components/EvidenceBottomSheet.tsx:156:▲ 閉じる",
-    "components/EvidenceBottomSheet.tsx:156:▼ 詳しく見る",
-    "components/EvidenceBottomSheet.tsx:183:実験研究",
-    "components/EvidenceBottomSheet.tsx:184:観察研究",
-    "components/EvidenceBottomSheet.tsx:185:理論",
-    "components/EvidenceBottomSheet.tsx:186:レビュー",
     "components/LeagueResultModal.tsx:115:受け取り中...",
     "components/LeagueResultModal.tsx:115:受け取る",
     "components/LeagueResultModal.tsx:74:昇格！",

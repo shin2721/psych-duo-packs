@@ -93,6 +93,15 @@ export const pt = {
         shop: 'Loja',
         profile: 'Perfil',
     },
+    evidenceBottomSheet: {
+        sourceLabel: '📖 Fonte',
+        sourceType: {
+            intervention: 'Estudo experimental',
+            observational: 'Estudo observacional',
+            theory: 'Teoria',
+            review: 'Revisão',
+        },
+    },
     lesson: {
         errorTitle: 'Erro',
         loadFailed: 'Falha ao carregar a lição: %{message}',
