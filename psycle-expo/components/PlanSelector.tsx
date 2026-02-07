@@ -5,6 +5,7 @@ import { useAppState } from "../lib/state";
 import { theme } from "../lib/theme";
 import { buyPlan } from "../lib/billing";
 import { getPlanPrice, detectUserRegion } from "../lib/pricing";
+import i18n from "../lib/i18n";
 
 /**
  * プラン選択UI（Free/Pro/Max）
@@ -38,54 +39,55 @@ export function PlanSelector() {
   const plans = [
     {
       id: "free" as const,
-      name: "Free",
-      price: "¥0 / 月",
+      name: i18n.t("planSelector.freeName"),
+      price: i18n.t("planSelector.freePrice", { suffix: i18n.t("planSelector.monthlySuffix") }),
       features: [
-        "毎日5エネルギー・自動回復",
-        "Lite問題アクセス",
-        "❌ ミス復習なし",
+        i18n.t("planSelector.featureDailyEnergy"),
+        i18n.t("planSelector.featureLiteAccess"),
+        i18n.t("planSelector.featureNoMistakesReview"),
       ],
     },
     {
       id: "pro" as const,
-      name: "Pro",
-      price: `${getPlanPrice("pro", "monthly", userRegion)} / 月`,
+      name: i18n.t("planSelector.proName"),
+      price: `${getPlanPrice("pro", "monthly", userRegion)} ${i18n.t("planSelector.monthlySuffix")}`,
       features: [
-        "無制限エネルギー",
-        "Lite問題フルアクセス",
-        "❌ ミス復習なし",
+        i18n.t("planSelector.featureUnlimitedEnergy"),
+        i18n.t("planSelector.featureLiteFullAccess"),
+        i18n.t("planSelector.featureNoMistakesReview"),
       ],
     },
     {
       id: "max" as const,
-      name: "Max",
-      price: `${getPlanPrice("max", "monthly", userRegion)} / 月`,
+      name: i18n.t("planSelector.maxName"),
+      price: `${getPlanPrice("max", "monthly", userRegion)} ${i18n.t("planSelector.monthlySuffix")}`,
       features: [
-        "無制限エネルギー",
-        "✅ Pro問題アクセス",
-        "✅ ミス復習無制限",
+        i18n.t("planSelector.featureUnlimitedEnergy"),
+        i18n.t("planSelector.featureProAccess"),
+        i18n.t("planSelector.featureMistakesUnlimited"),
       ],
     },
   ];
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>プラン選択</Text>
+      <Text style={styles.title}>{i18n.t("planSelector.title")}</Text>
       <Text style={styles.subtitle}>
-        現在のプラン: <Text style={styles.currentPlan}>{planId.toUpperCase()}</Text>
+        {i18n.t("planSelector.currentPlanLabel")}{" "}
+        <Text style={styles.currentPlan}>{planId.toUpperCase()}</Text>
       </Text>
 
       <View style={styles.statusContainer}>
-        <Text style={styles.statusLabel}>Pro問題アクセス:</Text>
+        <Text style={styles.statusLabel}>{i18n.t("planSelector.proAccess")}:</Text>
         <Text style={[styles.statusValue, hasProAccess && styles.statusActive]}>
-          {hasProAccess ? "✅ 利用可能" : "❌ 利用不可"}
+          {hasProAccess ? i18n.t("planSelector.available") : i18n.t("planSelector.unavailable")}
         </Text>
       </View>
 
       <View style={styles.statusContainer}>
-        <Text style={styles.statusLabel}>ミス復習:</Text>
+        <Text style={styles.statusLabel}>{i18n.t("planSelector.mistakesReview")}:</Text>
         <Text style={[styles.statusValue, canAccessMistakesHub && styles.statusActive]}>
-          {canAccessMistakesHub ? "✅ 利用可能" : "❌ 利用不可"}
+          {canAccessMistakesHub ? i18n.t("planSelector.available") : i18n.t("planSelector.unavailable")}
         </Text>
       </View>
 
@@ -110,12 +112,12 @@ export function PlanSelector() {
             </View>
             {planId === plan.id && (
               <View style={styles.activeBadge}>
-                <Text style={styles.activeBadgeText}>現在のプラン</Text>
+                <Text style={styles.activeBadgeText}>{i18n.t("planSelector.currentPlanBadge")}</Text>
               </View>
             )}
             {plan.id !== "free" && planId !== plan.id && (
               <View style={styles.purchaseButton}>
-                <Text style={styles.purchaseButtonText}>購入する →</Text>
+                <Text style={styles.purchaseButtonText}>{i18n.t("planSelector.buy")}</Text>
               </View>
             )}
           </TouchableOpacity>
@@ -123,7 +125,7 @@ export function PlanSelector() {
       </View>
 
       <Text style={styles.disclaimer}>
-        ※ Pro/Maxプランの購入にはStripe決済が使用されます
+        {i18n.t("planSelector.disclaimer")}
       </Text>
     </View>
   );
