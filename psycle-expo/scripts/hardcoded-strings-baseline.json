@@ -1,12 +1,8 @@
 {
   "version": 1,
-  "generatedAt": "2026-02-07T08:58:57.496Z",
-  "total": 22,
+  "generatedAt": "2026-02-07T09:48:29.121Z",
+  "total": 15,
   "entries": [
-    "components/BreathingExercise.tsx:116:吸う",
-    "components/BreathingExercise.tsx:117:止める",
-    "components/BreathingExercise.tsx:118:吐く",
-    "components/BreathingExercise.tsx:119:休憩",
     "components/EvidenceBottomSheet.tsx:156:▲ 閉じる",
     "components/EvidenceBottomSheet.tsx:156:▼ 詳しく見る",
     "components/EvidenceBottomSheet.tsx:183:実験研究",
@@ -21,9 +17,6 @@
     "components/PaywallModal.tsx:18:全10レベルのコンテンツにアクセス",
     "components/PaywallModal.tsx:19:学術論文ベースの高度な問題",
     "components/PaywallModal.tsx:20:実践的なスキルを習得",
-    "components/PaywallModal.tsx:21:永久アクセス（買い切り）",
-    "components/QuestionMedia.tsx:121:音声の読み込みに失敗しました",
-    "components/QuestionMedia.tsx:123:再生中...",
-    "components/QuestionMedia.tsx:124:音声を再生"
+    "components/PaywallModal.tsx:21:永久アクセス（買い切り）"
   ]
 }
