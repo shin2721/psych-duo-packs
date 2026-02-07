@@ -3,6 +3,7 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useAppState } from "../lib/state";
 import { theme } from "../lib/theme";
+import i18n from "../lib/i18n";
 
 /**
  * MistakesHub（個別化復習）へのアクセスボタン
@@ -24,27 +25,23 @@ export function MistakesHubButton() {
 
   const handlePress = () => {
     if (!canAccessMistakesHub) {
-      // Show upsell modal for Max
-      alert(
-        "Maxプランで\"ミス復習\"が使えます\n\n" +
-          "✓ 直近のミスを10問厳選\n" +
-          "✓ 無制限で何度でも復習可能\n" +
-          "✓ タグ配分を自動最適化\n\n" +
-          "今すぐアップグレード →"
-      );
+      alert(String(i18n.t("mistakesHubButton.upsellMessage")));
       return;
     }
 
     if (!hasEnoughData) {
-      alert(
-        "復習データがまだ十分ではありません\n" +
-          "もう少し問題を解いてから試してください"
-      );
+      alert(String(i18n.t("mistakesHubButton.notEnoughData")));
       return;
     }
 
     startMistakesHubSession();
-    alert(`復習セッション開始（${mistakesItems.length}問）`);
+    alert(
+      String(
+        i18n.t("mistakesHubButton.sessionStarted", {
+          count: mistakesItems.length,
+        })
+      )
+    );
   };
 
   return (
@@ -59,24 +56,30 @@ export function MistakesHubButton() {
         disabled={!hasEnoughData}
       >
         <Text style={styles.buttonTitle}>
-          {canAccessMistakesHub ? "ミスだけ5分で復習" : "🔒 ミスだけ5分で復習（Max）"}
+          {canAccessMistakesHub
+            ? i18n.t("mistakesHubButton.titleAvailable")
+            : i18n.t("mistakesHubButton.titleLocked")}
         </Text>
-        <Text style={styles.buttonSubtitle}>直近のつまずきを10問だけ</Text>
+        <Text style={styles.buttonSubtitle}>{i18n.t("mistakesHubButton.subtitle")}</Text>
       </TouchableOpacity>
 
       {canAccessMistakesHub ? (
         <Text style={styles.statusText}>
           {mistakesHubRemaining === null
-            ? "復習セッション: 無制限"
-            : `本日の復習セッション: 残り ${mistakesHubRemaining}/1`}
+            ? i18n.t("mistakesHubButton.statusUnlimited")
+            : i18n.t("mistakesHubButton.statusRemaining", {
+                remaining: mistakesHubRemaining,
+              })}
         </Text>
       ) : (
-        <Text style={styles.statusText}>ミス復習は Max プランで利用できます</Text>
+        <Text style={styles.statusText}>{i18n.t("mistakesHubButton.statusLocked")}</Text>
       )}
 
       {hasEnoughData && (
         <Text style={styles.itemCount}>
-          {mistakesItems.length}問の復習問題が準備されています
+          {i18n.t("mistakesHubButton.itemCountReady", {
+            count: mistakesItems.length,
+          })}
         </Text>
       )}
     </View>
