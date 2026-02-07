@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { View, ActivityIndicator, LogBox } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Analytics } from "../lib/analytics";
+import { LocaleProvider, useLocale } from "../lib/LocaleContext";
 
 // Suppress network errors during development
 LogBox.ignoreLogs([
@@ -17,10 +18,11 @@ LogBox.ignoreLogs([
 function RootLayoutNav() {
   const { session, isLoading: authLoading } = useAuth();
   const { hasSeenOnboarding, isLoading: onboardingLoading } = useOnboarding();
+  const { locale, isReady: localeReady } = useLocale();
   const segments = useSegments();
   const router = useRouter();
 
-  const isLoading = authLoading || onboardingLoading;
+  const isLoading = authLoading || onboardingLoading || !localeReady;
 
   useEffect(() => {
     if (__DEV__) console.log("[RootLayoutNav] Effect triggered", { isLoading, hasSeenOnboarding, session: !!session, segment: segments[0] });
@@ -53,7 +55,7 @@ function RootLayoutNav() {
 
   return (
     <AppStateProvider>
-      <Stack screenOptions={{ headerShown: false }}>
+      <Stack key={`locale-${locale}`} screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="onboarding" />
       </Stack>
@@ -83,7 +85,9 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <AuthProvider>
         <OnboardingProvider>
-          <RootLayoutNav />
+          <LocaleProvider>
+            <RootLayoutNav />
+          </LocaleProvider>
         </OnboardingProvider>
       </AuthProvider>
     </GestureHandlerRootView>

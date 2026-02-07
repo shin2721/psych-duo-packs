@@ -61,6 +61,8 @@ export const ko = {
         notifications: '알림',
         sound: '사운드',
         haptics: '햅틱',
+        language: '언어',
+        languagePickerTitle: '언어 선택',
         support: '지원',
         helpFaq: '도움말 및 FAQ',
         restorePurchases: '구매 복원',

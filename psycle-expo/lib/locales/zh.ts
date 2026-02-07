@@ -61,6 +61,8 @@ export const zh = {
         notifications: '通知',
         sound: '声音',
         haptics: '触觉反馈',
+        language: '语言',
+        languagePickerTitle: '选择语言',
         support: '支持',
         helpFaq: '帮助与常见问题',
         restorePurchases: '恢复购买',

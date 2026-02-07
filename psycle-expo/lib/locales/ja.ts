@@ -61,6 +61,8 @@ export const ja = {
         notifications: '通知',
         sound: 'サウンド',
         haptics: 'ハプティクス',
+        language: '言語',
+        languagePickerTitle: '言語を選択',
         support: 'サポート',
         helpFaq: 'ヘルプ・FAQ',
         restorePurchases: '購入を復元',

@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView, Switch, Alert, Linking, Share } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView, Switch, Alert, Linking, Share, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -11,15 +11,18 @@ import { restorePurchases } from "../../lib/billing";
 import { useAppState } from "../../lib/state";
 import { getExportableJSON } from "../../lib/dogfood";
 import i18n from "../../lib/i18n";
+import { useLocale } from "../../lib/LocaleContext";
 
 export default function SettingsScreen() {
     const router = useRouter();
     const { user, signOut } = useAuth();
     const { setPlanId, setActiveUntil } = useAppState();
+    const { locale, options: localeOptions, setLocale } = useLocale();
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [hapticsEnabled, setHapticsEnabled] = useState(true);
     const [isRestoring, setIsRestoring] = useState(false);
+    const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
 
     // Secret 5-tap entry for Analytics Debug (DEV only)
     const titleTapCount = useRef(0);
@@ -108,6 +111,13 @@ export default function SettingsScreen() {
         );
     };
 
+    const selectedLanguage = localeOptions.find((item) => item.code === locale)?.label ?? locale;
+
+    const handleSelectLanguage = async (next: typeof locale) => {
+        await setLocale(next);
+        setIsLanguageModalVisible(false);
+    };
+
     return (
         <SafeAreaView style={styles.container}>
             <ScrollView>
@@ -159,6 +169,12 @@ export default function SettingsScreen() {
                         label={i18n.t("settings.haptics")}
                         value={hapticsEnabled}
                         onValueChange={setHapticsEnabled}
+                    />
+                    <SettingRow
+                        icon="language"
+                        label={i18n.t("settings.language")}
+                        value={selectedLanguage}
+                        onPress={() => setIsLanguageModalVisible(true)}
                     />
                 </View>
 
@@ -232,6 +248,34 @@ export default function SettingsScreen() {
                     <Text style={styles.appInfoText}>© 2024 Psycle</Text>
                 </View>
             </ScrollView>
+
+            <Modal
+                visible={isLanguageModalVisible}
+                transparent
+                animationType="fade"
+                onRequestClose={() => setIsLanguageModalVisible(false)}
+            >
+                <Pressable style={styles.modalBackdrop} onPress={() => setIsLanguageModalVisible(false)}>
+                    <Pressable style={styles.modalCard} onPress={() => { }}>
+                        <Text style={styles.modalTitle}>{i18n.t("settings.languagePickerTitle")}</Text>
+                        {localeOptions.map((item) => (
+                            <Pressable
+                                key={item.code}
+                                style={styles.languageOption}
+                                onPress={() => handleSelectLanguage(item.code)}
+                            >
+                                <Text style={styles.languageLabel}>{item.label}</Text>
+                                {locale === item.code && (
+                                    <Ionicons name="checkmark" size={18} color={theme.colors.primary} />
+                                )}
+                            </Pressable>
+                        ))}
+                        <Pressable style={styles.modalCloseButton} onPress={() => setIsLanguageModalVisible(false)}>
+                            <Text style={styles.modalCloseText}>{i18n.t("common.close")}</Text>
+                        </Pressable>
+                    </Pressable>
+                </Pressable>
+            </Modal>
         </SafeAreaView>
     );
 }
@@ -364,5 +408,45 @@ const styles = StyleSheet.create({
         fontSize: 12,
         color: theme.colors.sub,
         marginBottom: theme.spacing.xs,
+    },
+    modalBackdrop: {
+        flex: 1,
+        backgroundColor: "rgba(0,0,0,0.5)",
+        justifyContent: "center",
+        padding: theme.spacing.lg,
+    },
+    modalCard: {
+        backgroundColor: theme.colors.surface,
+        borderRadius: 14,
+        padding: theme.spacing.lg,
+        borderWidth: 1,
+        borderColor: theme.colors.line,
+    },
+    modalTitle: {
+        fontSize: 16,
+        fontWeight: "700",
+        color: theme.colors.text,
+        marginBottom: theme.spacing.md,
+    },
+    languageOption: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "space-between",
+        paddingVertical: theme.spacing.sm,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.colors.line,
+    },
+    languageLabel: {
+        fontSize: 15,
+        color: theme.colors.text,
+    },
+    modalCloseButton: {
+        marginTop: theme.spacing.md,
+        alignItems: "center",
+    },
+    modalCloseText: {
+        fontSize: 14,
+        color: theme.colors.primary,
+        fontWeight: "600",
     },
 });

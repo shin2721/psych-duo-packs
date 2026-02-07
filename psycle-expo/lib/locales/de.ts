@@ -61,6 +61,8 @@ export const de = {
         notifications: 'Benachrichtigungen',
         sound: 'Ton',
         haptics: 'Haptik',
+        language: 'Sprache',
+        languagePickerTitle: 'Sprache auswählen',
         support: 'Hilfe',
         helpFaq: 'Hilfe & FAQ',
         restorePurchases: 'Käufe wiederherstellen',

@@ -61,6 +61,8 @@ export const fr = {
         notifications: 'Notifications',
         sound: 'Son',
         haptics: 'Haptique',
+        language: 'Langue',
+        languagePickerTitle: 'Choisir la langue',
         support: 'Support',
         helpFaq: 'Aide & FAQ',
         restorePurchases: 'Restaurer les achats',
