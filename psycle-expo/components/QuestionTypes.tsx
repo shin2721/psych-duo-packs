@@ -4,6 +4,7 @@ import * as Haptics from 'expo-haptics';
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
 import { AnimatedButton } from "./AnimatedButton";
+import i18n from "../lib/i18n";
 
 // 複数選択（即座フィードバック）
 export function SelectAll({
@@ -107,7 +108,7 @@ export function FillBlankTap({
       {statement && (
         <Text style={styles.fillBlankStatement}>{statement}</Text>
       )}
-      <Text style={styles.fillBlankPrompt}>タップして選ぼう:</Text>
+      <Text style={styles.fillBlankPrompt}>{i18n.t("questionTypes.fillBlankTapPrompt")}</Text>
       <View style={styles.fillBlankChoices}>
         {choices.map((choice, index) => {
           const isSelected = selectedIndex === index;
@@ -242,8 +243,8 @@ export function SwipeJudgment({
     <View style={styles.swipeContainer}>
 
       <View style={styles.swipeLabels}>
-        <Text style={styles.swipeLabel}>← {labels?.left || "危険"}</Text>
-        <Text style={styles.swipeLabel}>{labels?.right || "大丈夫"} →</Text>
+        <Text style={styles.swipeLabel}>← {labels?.left || i18n.t("questionTypes.swipeLeftFallback")}</Text>
+        <Text style={styles.swipeLabel}>{labels?.right || i18n.t("questionTypes.swipeRightFallback")} →</Text>
       </View>
 
       <Animated.View
@@ -407,7 +408,7 @@ export function SortOrder({
   if (!items || items.length === 0) {
     return (
       <View style={styles.sortContainer}>
-        <Text style={{ color: 'red', fontSize: 18 }}>エラー: items配列が空です</Text>
+        <Text style={{ color: 'red', fontSize: 18 }}>{i18n.t("questionTypes.sortItemsEmptyError")}</Text>
       </View>
     );
   }
@@ -415,7 +416,7 @@ export function SortOrder({
   if (!currentOrder || currentOrder.length === 0) {
     return (
       <View style={styles.sortContainer}>
-        <Text style={{ color: 'red', fontSize: 18 }}>エラー: currentOrderが空です</Text>
+        <Text style={{ color: 'red', fontSize: 18 }}>{i18n.t("questionTypes.sortOrderEmptyError")}</Text>
       </View>
     );
   }
@@ -493,7 +494,7 @@ export function SortOrder({
 
   return (
     <View style={styles.sortContainer} pointerEvents={showResult ? "none" : "auto"}>
-      <Text style={styles.sortHint}>≡ をドラッグして並び替えよう</Text>
+      <Text style={styles.sortHint}>{i18n.t("questionTypes.sortHint")}</Text>
       {currentOrder.map((itemIndex, position) => {
         const isCorrectPosition = showResult && correctOrder[position] === itemIndex;
         const isIncorrectPosition = showResult && !isCorrectPosition;
@@ -532,7 +533,7 @@ export function SortOrder({
                 </View>
               )}
               <Text style={styles.sortItemText}>
-                {itemText || `アイテム${position + 1}`}
+                {itemText || i18n.t("questionTypes.sortItemFallback", { index: position + 1 })}
               </Text>
               {isCorrectPosition && (
                 <Ionicons name="checkmark-circle" size={24} color={theme.colors.success} />
@@ -625,7 +626,7 @@ export function Matching({
 
   return (
     <View style={styles.matchingContainer}>
-      <Text style={styles.matchingHint}>左右どちらからでも選べます（2つタップで結ぶ）</Text>
+      <Text style={styles.matchingHint}>{i18n.t("questionTypes.matchingHint")}</Text>
       <View style={styles.matchingColumns}>
         <View style={styles.matchingColumn}>
           {leftItems.map((item, index) => {
@@ -795,7 +796,9 @@ export function QuickReflex({
           />
         </View>
         <Text style={styles.timerText}>
-          {isTimeUp ? "⏰ 時間切れ！" : `⏱ ${(timeRemaining / 1000).toFixed(1)}秒`}
+          {isTimeUp
+            ? i18n.t("questionTypes.timeUp")
+            : i18n.t("questionTypes.timerSeconds", { seconds: (timeRemaining / 1000).toFixed(1) })}
         </Text>
       </View>
 
@@ -838,7 +841,7 @@ export function QuickReflex({
       </View>
 
       {isTimeUp && !showResult && (
-        <Text style={styles.timeUpMessage}>時間内に答えられませんでした</Text>
+        <Text style={styles.timeUpMessage}>{i18n.t("questionTypes.timeUpMessage")}</Text>
       )}
     </View>
   );
@@ -863,7 +866,7 @@ export function MicroInput({
   return (
     <View style={styles.microInputContainer}>
       <View style={styles.inputWrapper}>
-        <Text style={styles.inputLabel}>答えを入力してください：</Text>
+        <Text style={styles.inputLabel}>{i18n.t("questionTypes.microInputLabel")}</Text>
         <View style={styles.textInputContainer}>
           <Text style={styles.inputPrefix}>👉</Text>
           <TextInput
@@ -898,7 +901,7 @@ export function MicroInput({
           testID="answer-choice-submit"
         >
           <Text style={styles.submitButtonText}>
-            {inputText.trim() ? "答えを確認" : "入力してください"}
+            {inputText.trim() ? i18n.t("questionTypes.microInputCheckAnswer") : i18n.t("questionTypes.microInputPleaseInput")}
           </Text>
         </AnimatedButton>
       )}
@@ -1439,7 +1442,7 @@ export function ConsequenceScenario({
 
   return (
     <View style={styles.consequenceContainer}>
-      <Text style={styles.consequencePrompt}>この行動の結果は？</Text>
+      <Text style={styles.consequencePrompt}>{i18n.t("questionTypes.consequencePrompt")}</Text>
 
       <View style={styles.consequenceButtons}>
         <AnimatedButton
@@ -1456,7 +1459,7 @@ export function ConsequenceScenario({
           testID="answer-choice-positive"
         >
           <Ionicons name="happy-outline" size={32} color={selected === "positive" || (showResult && consequenceType === "positive") ? "#fff" : "#cbd5e1"} />
-          <Text style={[styles.consequenceButtonText, { color: selected === "positive" || (showResult && consequenceType === "positive") ? "#fff" : "#cbd5e1" }]}>ポジティブ</Text>
+          <Text style={[styles.consequenceButtonText, { color: selected === "positive" || (showResult && consequenceType === "positive") ? "#fff" : "#cbd5e1" }]}>{i18n.t("questionTypes.consequencePositive")}</Text>
         </AnimatedButton>
 
         <AnimatedButton
@@ -1473,7 +1476,7 @@ export function ConsequenceScenario({
           testID="answer-choice-negative"
         >
           <Ionicons name="sad-outline" size={32} color={selected === "negative" || (showResult && consequenceType === "negative") ? "#fff" : "#cbd5e1"} />
-          <Text style={[styles.consequenceButtonText, { color: selected === "negative" || (showResult && consequenceType === "negative") ? "#fff" : "#cbd5e1" }]}>ネガティブ</Text>
+          <Text style={[styles.consequenceButtonText, { color: selected === "negative" || (showResult && consequenceType === "negative") ? "#fff" : "#cbd5e1" }]}>{i18n.t("questionTypes.consequenceNegative")}</Text>
         </AnimatedButton>
       </View>
     </View>
