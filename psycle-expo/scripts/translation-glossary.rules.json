@@ -68,12 +68,12 @@
   },
 
   "hedging_pairs": [
-    { "ja": "傾向がある", "en": "tends? to|tendency" },
-    { "ja": "可能性がある", "en": "may|might|could|possible" },
-    { "ja": "報告されている", "en": "has been reported|studies show|research suggests" },
+    { "ja": "傾向がある", "en": "tends? to|tendency|tendencies" },
+    { "ja": "可能性がある", "en": "may|might|could|possible|can" },
+    { "ja": "報告されている", "en": "has been reported|studies show|research suggests|reported|reports" },
     { "ja": "とされている", "en": "is considered|is thought|is believed" },
     { "ja": "効果が期待できる", "en": "may help|can help|might" },
     { "ja": "かもしれない", "en": "may|might|could" },
-    { "ja": "場合がある", "en": "in some cases|sometimes|may" }
+    { "ja": "場合がある", "en": "in some cases|sometimes|may|can" }
   ]
 }
