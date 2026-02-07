@@ -19,6 +19,7 @@ import { FirstExecutedCelebration } from "../components/FirstExecutedCelebration
 import { hasCompletedFirstExecuted, markFirstExecutedComplete } from "../lib/onboarding";
 import { Analytics } from "../lib/analytics";
 import { formatCitation } from "../lib/evidenceUtils";
+import i18n from "../lib/i18n";
 
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
@@ -106,7 +107,8 @@ export default function LessonScreen() {
       }
     } catch (error) {
       console.error("Failed to load lesson:", error);
-      Alert.alert("エラー", `レッスンの読み込みに失敗しました: ${error.message}`);
+      const message = error instanceof Error ? error.message : String(error);
+      Alert.alert(i18n.t("lesson.errorTitle"), i18n.t("lesson.loadFailed", { message }));
       router.back();
     }
   }
@@ -125,7 +127,7 @@ export default function LessonScreen() {
         markShownLogged(questionId);
 
         // バリアント情報（デフォルトでoriginal）
-        const variant = details.variant || { id: 'original', label: 'オリジナル' };
+        const variant = details.variant || { id: "original", label: i18n.t("lesson.originalVariantLabel") };
 
         logInterventionInteraction(
           params.file,
@@ -199,7 +201,7 @@ export default function LessonScreen() {
 
   async function handleInterventionAttempted(questionId: string) {
     const details = currentQuestion?.expanded_details;
-    const variant = details?.variant || { id: 'original', label: 'オリジナル' };
+    const variant = details?.variant || { id: 'original', label: i18n.t("lesson.originalVariantLabel") };
 
     logInterventionInteraction(params.file, questionId, variant, 'attempted');
     setActiveInterventionId(questionId); // felt_better帰属用
@@ -213,7 +215,7 @@ export default function LessonScreen() {
   // Intervention: executed ハンドラ
   async function handleInterventionExecuted(questionId: string) {
     const details = currentQuestion?.expanded_details;
-    const variant = details?.variant || { id: 'original', label: 'オリジナル' };
+    const variant = details?.variant || { id: 'original', label: i18n.t("lesson.originalVariantLabel") };
 
     logInterventionInteraction(params.file, questionId, variant, 'executed');
 
@@ -240,20 +242,20 @@ export default function LessonScreen() {
 
         <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
           <ScrollView contentContainerStyle={styles.completionContainer}>
-            <Text style={styles.completionTitle}>レッスン完了！</Text>
+            <Text style={styles.completionTitle}>{i18n.t("lesson.completeTitle")}</Text>
             <Text style={styles.completionSub}>+{currentLesson?.nodeType === 'review_blackhole' ? 50 : 10} XP</Text>
 
             {/* Felt Better Rating */}
             {!feltBetterSubmitted && lastShownInterventionId && (
               <View style={styles.feltBetterContainer}>
-                <Text style={styles.feltBetterTitle}>今の気分は？</Text>
+                <Text style={styles.feltBetterTitle}>{i18n.t("lesson.howDoYouFeelNow")}</Text>
                 <View style={styles.feltBetterRow}>
                   {[
-                    { value: -2 as const, emoji: '😢', label: '悪い' },
-                    { value: -1 as const, emoji: '😕', label: '少し' },
-                    { value: 0 as const, emoji: '😐', label: '変わらない' },
-                    { value: 1 as const, emoji: '😊', label: '少し良い' },
-                    { value: 2 as const, emoji: '😄', label: '良い！' },
+                    { value: -2 as const, emoji: "😢", label: i18n.t("lesson.mood.veryBad") },
+                    { value: -1 as const, emoji: "😕", label: i18n.t("lesson.mood.aLittleBad") },
+                    { value: 0 as const, emoji: "😐", label: i18n.t("lesson.mood.noChange") },
+                    { value: 1 as const, emoji: "😊", label: i18n.t("lesson.mood.aLittleBetter") },
+                    { value: 2 as const, emoji: "😄", label: i18n.t("lesson.mood.good") },
                   ].map((item) => (
                     <TouchableOpacity
                       key={item.value}
@@ -276,7 +278,7 @@ export default function LessonScreen() {
 
             {feltBetterSubmitted && (
               <View style={styles.feltBetterThanks}>
-                <Text style={styles.feltBetterThanksText}>🙏 フィードバックありがとう！</Text>
+                <Text style={styles.feltBetterThanksText}>{i18n.t("lesson.feedbackThanks")}</Text>
               </View>
             )}
 
@@ -294,16 +296,16 @@ export default function LessonScreen() {
 
               // Claim type labels (Japanese)
               const claimTypeLabels: Record<string, string> = {
-                observation: "観察",
-                theory: "理論説明",
-                intervention: "介入提案"
+                observation: i18n.t("lesson.claimType.observation"),
+                theory: i18n.t("lesson.claimType.theory"),
+                intervention: i18n.t("lesson.claimType.intervention"),
               };
 
               // Evidence type labels (Japanese)
               const evidenceTypeLabels: Record<string, string> = {
-                direct: "直接エビデンス",
-                indirect: "間接エビデンス",
-                theoretical: "理論的背景"
+                direct: i18n.t("lesson.evidenceType.direct"),
+                indirect: i18n.t("lesson.evidenceType.indirect"),
+                theoretical: i18n.t("lesson.evidenceType.theoretical"),
               };
 
               return (
@@ -322,7 +324,10 @@ export default function LessonScreen() {
                             <Text style={styles.tryValueText}>{evidenceSummary.tryValue}</Text>
                           </View>
                         </View>
-                        <Text style={styles.basisLabel}>根拠：{evidenceSummary.basisLabel}</Text>
+                        <Text style={styles.basisLabel}>
+                          {i18n.t("lesson.basisLabelPrefix")}
+                          {evidenceSummary.basisLabel}
+                        </Text>
                       </>
                     )}
                     <Text style={styles.safetyNote}>{evidenceSummary.note}</Text>
@@ -334,7 +339,7 @@ export default function LessonScreen() {
                     style={styles.detailsToggle}
                   >
                     <Text style={styles.detailsToggleText}>
-                      {showResearchDetails ? "▲ 閉じる" : "▼ 詳しく見る"}
+                      {showResearchDetails ? i18n.t("lesson.closeDetails") : i18n.t("lesson.showDetails")}
                     </Text>
                   </TouchableOpacity>
 
@@ -342,14 +347,12 @@ export default function LessonScreen() {
                   {showResearchDetails && expandedDetails && (
                     <>
                       {/* Reading Guide */}
-                      <Text style={styles.readingGuide}>
-                        理論＝仕組みの説明 / 介入＝効く可能性（個人差あり）
-                      </Text>
+                      <Text style={styles.readingGuide}>{i18n.t("lesson.readingGuide")}</Text>
 
                       {/* Best For - FIRST (users want to know "is this relevant to me?") */}
                       {expandedDetails.best_for && expandedDetails.best_for.length > 0 && (
                         <View style={styles.applicabilitySection}>
-                          <Text style={styles.applicabilityHeader}>✅ 向いているケース</Text>
+                          <Text style={styles.applicabilityHeader}>{i18n.t("lesson.bestForHeader")}</Text>
                           <Text style={styles.applicabilityText}>
                             {expandedDetails.best_for.join("、")}
                           </Text>
@@ -359,7 +362,7 @@ export default function LessonScreen() {
                       {/* Limitations - SECOND */}
                       {expandedDetails.limitations && expandedDetails.limitations.length > 0 && (
                         <View style={styles.limitationsSection}>
-                          <Text style={styles.limitationsHeader}>⚠️ 限界</Text>
+                          <Text style={styles.limitationsHeader}>{i18n.t("lesson.limitationsHeader")}</Text>
                           <Text style={styles.limitationsText}>
                             {expandedDetails.limitations.join("、")}
                           </Text>
@@ -383,18 +386,18 @@ export default function LessonScreen() {
                       {/* Intervention-specific: Tiny Metric */}
                       {expandedDetails.tiny_metric && (
                         <View style={styles.interventionSection}>
-                          <Text style={styles.interventionHeader}>📊 効果の見方</Text>
+                          <Text style={styles.interventionHeader}>{i18n.t("lesson.intervention.effectHeader")}</Text>
                           <Text style={styles.interventionText}>
-                            Before: {expandedDetails.tiny_metric.before_prompt}
+                            {i18n.t("lesson.intervention.beforePrefix")} {expandedDetails.tiny_metric.before_prompt}
                           </Text>
                           <Text style={styles.interventionText}>
-                            After: {expandedDetails.tiny_metric.after_prompt}
+                            {i18n.t("lesson.intervention.afterPrefix")} {expandedDetails.tiny_metric.after_prompt}
                           </Text>
                           <Text style={[styles.interventionText, { color: theme.colors.success }]}>
-                            ✓ 成功：{expandedDetails.tiny_metric.success_rule}
+                            {i18n.t("lesson.intervention.successPrefix")} {expandedDetails.tiny_metric.success_rule}
                           </Text>
                           <Text style={[styles.interventionText, { color: theme.colors.warn }]}>
-                            ⏹ 撤退：{expandedDetails.tiny_metric.stop_rule}
+                            {i18n.t("lesson.intervention.stopPrefix")} {expandedDetails.tiny_metric.stop_rule}
                           </Text>
                         </View>
                       )}
@@ -402,12 +405,12 @@ export default function LessonScreen() {
                       {/* Intervention-specific: Comparator */}
                       {expandedDetails.comparator && (
                         <View style={styles.interventionSection}>
-                          <Text style={styles.interventionHeader}>⚖️ 比較軸</Text>
+                          <Text style={styles.interventionHeader}>{i18n.t("lesson.intervention.comparatorHeader")}</Text>
                           <Text style={styles.interventionText}>
-                            今回の提案 vs {expandedDetails.comparator.baseline}
+                            {i18n.t("lesson.intervention.comparatorPrefix")} {expandedDetails.comparator.baseline}
                           </Text>
                           <Text style={[styles.interventionText, { color: theme.colors.sub }]}>
-                            コスト：{expandedDetails.comparator.cost}
+                            {i18n.t("lesson.intervention.costPrefix")} {expandedDetails.comparator.cost}
                           </Text>
                         </View>
                       )}
@@ -415,7 +418,7 @@ export default function LessonScreen() {
                       {/* Intervention-specific: Fallback */}
                       {expandedDetails.fallback && (
                         <View style={styles.interventionSection}>
-                          <Text style={styles.interventionHeader}>🔄 効かなかったら</Text>
+                          <Text style={styles.interventionHeader}>{i18n.t("lesson.intervention.fallbackHeader")}</Text>
                           <Text style={styles.interventionText}>
                             {expandedDetails.fallback.when}
                           </Text>
@@ -431,7 +434,7 @@ export default function LessonScreen() {
                         style={styles.detailsToggle}
                       >
                         <Text style={styles.detailsToggleText}>
-                          {showResearchDetails ? "▲ 閉じる" : "▼ 引用の役割を見る"}
+                          {showResearchDetails ? i18n.t("lesson.closeDetails") : i18n.t("lesson.showCitationRole")}
                         </Text>
                       </TouchableOpacity>
 
@@ -441,16 +444,16 @@ export default function LessonScreen() {
                           <View style={{ flex: 1 }}>
                             {expandedDetails.citation_role && (
                               <Text style={styles.disclaimerText}>
-                                📚 引用の役割：{expandedDetails.citation_role}
+                                {i18n.t("lesson.citationRolePrefix")} {expandedDetails.citation_role}
                               </Text>
                             )}
                             {expandedDetails.try_this && (
                               <Text style={[styles.disclaimerText, { marginTop: 8 }]}>
-                                💡 試すなら：{expandedDetails.try_this}
+                                {i18n.t("lesson.tryThisPrefix")} {expandedDetails.try_this}
                               </Text>
                             )}
                             <Text style={[styles.disclaimerText, { marginTop: 8, color: '#888' }]}>
-                              ※ 効果の大きさは状況・個人差が大きいため、数値での断定はしていません。
+                              {i18n.t("lesson.disclaimerEffectSize")}
                             </Text>
                           </View>
                         </View>
@@ -470,16 +473,16 @@ export default function LessonScreen() {
 
                       <View style={styles.supportList}>
                         <Text style={styles.supportItem}>
-                          ✓ {meta.support.years_in_use}年以上、臨床・研究で使用
+                          {i18n.t("lesson.metaSupportYears", { years: meta.support.years_in_use })}
                         </Text>
                         <Text style={styles.supportItem}>
-                          ✓ 多数の研究で支持されている理論
+                          {i18n.t("lesson.metaSupportTheory")}
                         </Text>
                       </View>
 
                       {meta.best_for && meta.best_for.length > 0 && (
                         <View style={styles.applicabilitySection}>
-                          <Text style={styles.applicabilityHeader}>✅ 向いているケース</Text>
+                          <Text style={styles.applicabilityHeader}>{i18n.t("lesson.bestForHeader")}</Text>
                           <Text style={styles.applicabilityText}>
                             {meta.best_for.join("、")}
                           </Text>
@@ -488,7 +491,7 @@ export default function LessonScreen() {
 
                       {meta.limitations && meta.limitations.length > 0 && (
                         <View style={styles.limitationsSection}>
-                          <Text style={styles.limitationsHeader}>⚠️ 限界</Text>
+                          <Text style={styles.limitationsHeader}>{i18n.t("lesson.limitationsHeader")}</Text>
                           <Text style={styles.limitationsText}>
                             {meta.limitations.join("、")}
                           </Text>
@@ -500,7 +503,7 @@ export default function LessonScreen() {
                         style={styles.detailsToggle}
                       >
                         <Text style={styles.detailsToggleText}>
-                          {showResearchDetails ? "▲ 閉じる" : "▼ 詳しく見る"}
+                          {showResearchDetails ? i18n.t("lesson.closeDetails") : i18n.t("lesson.showDetails")}
                         </Text>
                       </TouchableOpacity>
 
@@ -508,8 +511,9 @@ export default function LessonScreen() {
                         <View style={styles.disclaimerBox}>
                           <Ionicons name="information-circle-outline" size={16} color="#999" />
                           <Text style={styles.disclaimerText}>
-                            ※ 効果の大きさは状況・個人差が大きいため、数値での断定はしていません。{"\n"}
-                            ※ 研究結果は一般的な傾向であり、あなたに合うかは試してみるまでわかりません。
+                            {i18n.t("lesson.disclaimerEffectSize")}
+                            {"\n"}
+                            {i18n.t("lesson.disclaimerGeneralTrend")}
                           </Text>
                         </View>
                       )}
@@ -520,8 +524,10 @@ export default function LessonScreen() {
                   {!expandedDetails && !meta && ref && (
                     <View style={styles.theorySection}>
                       <Text style={styles.theoryText}>
-                        このレッスンは、{"\n"}
-                        {formatCitation(ref)}の研究に基づいています。
+                        {i18n.t("lesson.basedOnResearchPrefix")}
+                        {"\n"}
+                        {formatCitation(ref)}
+                        {i18n.t("lesson.basedOnResearchSuffix")}
                       </Text>
                     </View>
                   )}
@@ -530,7 +536,7 @@ export default function LessonScreen() {
             })()}
 
             <TouchableOpacity onPress={() => router.replace("/(tabs)/course")} style={styles.continueButton} testID="lesson-complete-continue">
-              <Text style={styles.continueText}>続ける</Text>
+              <Text style={styles.continueText}>{i18n.t("lesson.continue")}</Text>
             </TouchableOpacity>
           </ScrollView>
         </SafeAreaView>
@@ -543,7 +549,7 @@ export default function LessonScreen() {
       <View style={{ flex: 1, backgroundColor: theme.colors.bg, alignItems: "center", justifyContent: "center" }} testID="lesson-loading-screen">
         <StarBackground />
         <FireflyLoader />
-        <Text style={[styles.loading, { marginTop: 20 }]}>読み込み中...</Text>
+        <Text style={[styles.loading, { marginTop: 20 }]}>{i18n.t("common.loading")}</Text>
       </View>
     );
   }
@@ -551,7 +557,7 @@ export default function LessonScreen() {
   if (!currentQuestion) {
     return (
       <SafeAreaView style={styles.container} testID="lesson-error-screen">
-        <Text style={styles.loading}>エラー: 質問が見つかりません</Text>
+        <Text style={styles.loading}>{i18n.t("lesson.questionNotFound")}</Text>
       </SafeAreaView>
     );
   }
@@ -567,7 +573,7 @@ export default function LessonScreen() {
         {isReviewRound && (
           <View style={styles.reviewBadge}>
             <Ionicons name="refresh" size={14} color="#fff" />
-            <Text style={styles.reviewText}>復習</Text>
+            <Text style={styles.reviewText}>{i18n.t("lesson.reviewBadge")}</Text>
           </View>
         )}
         <Text style={styles.progress} testID="lesson-progress">
