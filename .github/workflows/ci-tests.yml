@@ -50,11 +50,10 @@ jobs:
           cd psycle-expo
           npm run content:i18n:check
 
-      - name: Lint translation glossary (warning-only)
-        continue-on-error: true
+      - name: Lint translation glossary (fail on new only)
         run: |
           cd psycle-expo
-          npm run content:i18n:glossary
+          npm run content:i18n:glossary:ci
 
       - name: Lint hardcoded strings (fail on new only)
         run: |

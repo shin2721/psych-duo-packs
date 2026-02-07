@@ -42,6 +42,8 @@
     "content:i18n:check": "node scripts/gen-lesson-locale-index.js && git diff --exit-code data/lessons/mental_units/index.ts data/lessons/health_units/index.ts data/lessons/money_units/index.ts data/lessons/social_units/index.ts data/lessons/study_units/index.ts data/lessons/work_units/index.ts && node scripts/validate-lesson-locales.js --check && npm run content:i18n:smoke",
     "content:i18n:smoke": "node scripts/check-lesson-locale-routing.js",
     "content:i18n:glossary": "node scripts/lint-translation-glossary.js",
+    "content:i18n:glossary:ci": "node scripts/lint-translation-glossary.js --fail-on-new --baseline scripts/translation-glossary-baseline.json",
+    "content:i18n:glossary:update-baseline": "node scripts/lint-translation-glossary.js --update-baseline --baseline scripts/translation-glossary-baseline.json",
     "lint:hardcoded-strings": "node scripts/lint-hardcoded-strings.js",
     "lint:hardcoded-strings:ci": "node scripts/lint-hardcoded-strings.js --fail-on-new --baseline scripts/hardcoded-strings-baseline.json",
     "lint:hardcoded-strings:update-baseline": "node scripts/lint-hardcoded-strings.js --update-baseline --baseline scripts/hardcoded-strings-baseline.json",
