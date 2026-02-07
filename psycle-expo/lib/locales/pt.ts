@@ -170,6 +170,15 @@ export const pt = {
         consequencePositive: 'Positivo',
         consequenceNegative: 'Negativo',
     },
+    course: {
+        keepUsingTitle: 'Keep going a little longer!',
+        keepUsingMessage: 'Complete a few more lessons or log an action to unlock this content.',
+        startLessonTitle: 'Start Lesson',
+        startLessonDescription: 'You can earn %{xp} XP in this lesson.',
+        startButton: 'Start',
+        rewardClaimedTitle: 'Reward claimed!',
+        rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+    },
     onboarding: {
         subtitle: 'Fortaleça sua mente em apenas 3 minutos por dia.',
         start: 'Começar',

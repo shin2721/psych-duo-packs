@@ -170,6 +170,15 @@ export const zh = {
         consequencePositive: '积极',
         consequenceNegative: '消极',
     },
+    course: {
+        keepUsingTitle: 'Keep going a little longer!',
+        keepUsingMessage: 'Complete a few more lessons or log an action to unlock this content.',
+        startLessonTitle: 'Start Lesson',
+        startLessonDescription: 'You can earn %{xp} XP in this lesson.',
+        startButton: 'Start',
+        rewardClaimedTitle: 'Reward claimed!',
+        rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+    },
     onboarding: {
         subtitle: '每天只需3分钟，强化你的心理韧性。',
         start: '开始',

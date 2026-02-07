@@ -170,6 +170,15 @@ export const de = {
         consequencePositive: 'Positiv',
         consequenceNegative: 'Negativ',
     },
+    course: {
+        keepUsingTitle: 'Keep going a little longer!',
+        keepUsingMessage: 'Complete a few more lessons or log an action to unlock this content.',
+        startLessonTitle: 'Start Lesson',
+        startLessonDescription: 'You can earn %{xp} XP in this lesson.',
+        startButton: 'Start',
+        rewardClaimedTitle: 'Reward claimed!',
+        rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+    },
     onboarding: {
         subtitle: 'Baue in nur 3 Minuten am Tag mentale Stärke auf.',
         start: 'Los geht\'s',

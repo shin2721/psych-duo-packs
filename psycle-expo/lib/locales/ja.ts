@@ -170,6 +170,15 @@ export const ja = {
         consequencePositive: 'ポジティブ',
         consequenceNegative: 'ネガティブ',
     },
+    course: {
+        keepUsingTitle: 'もう少しだけ使ってみて！',
+        keepUsingMessage: 'あと数レッスン完了するか、行動の実践を記録すると、このコンテンツが解放されます。',
+        startLessonTitle: 'レッスンを開始',
+        startLessonDescription: 'このレッスンで %{xp} XP 獲得できます。',
+        startButton: '開始',
+        rewardClaimedTitle: '報酬を受け取りました！',
+        rewardClaimedMessage: '%{gems} Gems と %{badges}個のバッジを獲得しました。',
+    },
     onboarding: {
         subtitle: '1日3分で、心を強くする。',
         start: 'はじめる',

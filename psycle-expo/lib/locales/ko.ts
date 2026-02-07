@@ -170,6 +170,15 @@ export const ko = {
         consequencePositive: '긍정적',
         consequenceNegative: '부정적',
     },
+    course: {
+        keepUsingTitle: 'Keep going a little longer!',
+        keepUsingMessage: 'Complete a few more lessons or log an action to unlock this content.',
+        startLessonTitle: 'Start Lesson',
+        startLessonDescription: 'You can earn %{xp} XP in this lesson.',
+        startButton: 'Start',
+        rewardClaimedTitle: 'Reward claimed!',
+        rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+    },
     onboarding: {
         subtitle: '하루 3분으로 마음의 근력을 키우세요.',
         start: '시작하기',
