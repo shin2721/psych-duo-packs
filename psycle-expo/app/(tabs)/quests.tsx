@@ -7,9 +7,11 @@ import { Card, ProgressBar, SectionHeader } from "../../components/ui";
 import { Chest } from "../../components/Chest";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { StreakCalendar } from "../../components/StreakCalendar";
+import i18n from "../../lib/i18n";
 
 export default function QuestsScreen() {
   const { xp, quests, claimQuest, streakHistory } = useAppState();
+  const currentMonth = new Date().getMonth() + 1;
 
   const monthly = quests.filter((q) => q.type === "monthly");
   const daily = quests.filter((q) => q.type === "daily");
@@ -45,7 +47,7 @@ export default function QuestsScreen() {
       <GlobalHeader />
       <ScrollView contentContainerStyle={styles.scroll}>
         <View style={styles.headerRow}>
-          <Text style={styles.title}>10月のクエスト</Text>
+          <Text style={styles.title}>{i18n.t("quests.monthTitle", { month: currentMonth })}</Text>
           <Text style={styles.xpText}>{xp} XP</Text>
         </View>
 
@@ -54,7 +56,7 @@ export default function QuestsScreen() {
 
         {monthly.length > 0 && (
           <Card style={styles.monthlyCard}>
-            <Text style={styles.monthlyLabel}>マンスリークエスト</Text>
+            <Text style={styles.monthlyLabel}>{i18n.t("quests.monthly")}</Text>
             {monthly.map((q) => (
               <View key={q.id} style={styles.monthlyRow}>
                 <View style={styles.monthlyInfo}>
@@ -75,12 +77,12 @@ export default function QuestsScreen() {
           </Card>
         )}
 
-        <SectionHeader title="デイリークエスト" />
+        <SectionHeader title={String(i18n.t("quests.daily"))} />
         {daily.map(renderQuest)}
 
         {weekly.length > 0 && (
           <>
-            <SectionHeader title="ウィークリークエスト" />
+            <SectionHeader title={String(i18n.t("quests.weekly"))} />
             {weekly.map(renderQuest)}
           </>
         )}
