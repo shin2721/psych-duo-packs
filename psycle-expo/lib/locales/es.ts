@@ -10,6 +10,10 @@ export const es = {
     shop: {
         title: 'Tienda',
         gems: 'Gemas',
+        sections: {
+            premiumPlans: 'Planes premium',
+            items: 'Objetos',
+        },
         subscription: {
             pro: {
                 name: 'Psycle Pro',
@@ -17,6 +21,13 @@ export const es = {
                 price: '$9.99/mes',
             },
             restore: 'Restaurar compras',
+            monthlySuffix: '/mes',
+            popular: 'Popular',
+            processing: 'Procesando...',
+            active: 'Activo',
+            subscribe: 'Suscribirse',
+            activePlan: 'Plan %{plan} activo',
+            expiresOn: 'Vence el: %{date}',
         },
         items: {
             freeze: {
@@ -27,8 +38,19 @@ export const es = {
                 name: 'Doble XP',
                 desc: 'Doble XP por 15 minutos',
                 active: '¡Activo! Restante:',
+                activeWithMinutes: '¡Activo! Quedan %{minutes} min',
             }
-        }
+            ,
+            ownedCount: 'En posesión: %{count}',
+        },
+        comingSoon: '¡Pronto llegarán más objetos!',
+        gemsHint: 'Puedes ganar Gemas en lecciones y misiones',
+        errors: {
+            notEnoughGems: 'No tienes suficientes Gemas',
+            openCheckoutFailed: 'No se pudo abrir la página de pago',
+            checkoutSessionFailed: 'No se pudo crear la sesión de pago',
+            checkoutProcessFailed: 'Se produjo un error durante el pago',
+        },
     },
     settings: {
         title: 'Ajustes',

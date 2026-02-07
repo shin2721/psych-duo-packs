@@ -10,6 +10,10 @@ export const en = {
     shop: {
         title: 'Shop',
         gems: 'Gems',
+        sections: {
+            premiumPlans: 'Premium Plans',
+            items: 'Items',
+        },
         subscription: {
             pro: {
                 name: 'Psycle Pro',
@@ -17,6 +21,13 @@ export const en = {
                 price: '$9.99/mo',
             },
             restore: 'Restore Purchases',
+            monthlySuffix: '/mo',
+            popular: 'Popular',
+            processing: 'Processing...',
+            active: 'Active',
+            subscribe: 'Subscribe',
+            activePlan: '%{plan} plan active',
+            expiresOn: 'Expires on: %{date}',
         },
         items: {
             freeze: {
@@ -27,8 +38,19 @@ export const en = {
                 name: 'Double XP Boost',
                 desc: 'Double XP for 15 minutes',
                 active: 'Active! Remaining:',
+                activeWithMinutes: 'Active! %{minutes}m left',
             }
-        }
+            ,
+            ownedCount: 'Owned: %{count}',
+        },
+        comingSoon: 'More items coming soon!',
+        gemsHint: 'You can earn Gems from lessons and quests',
+        errors: {
+            notEnoughGems: 'Not enough Gems',
+            openCheckoutFailed: 'Could not open the checkout page',
+            checkoutSessionFailed: 'Failed to create checkout session',
+            checkoutProcessFailed: 'An error occurred during checkout',
+        },
     },
     settings: {
         title: 'Settings',

@@ -10,6 +10,10 @@ export const de = {
     shop: {
         title: 'Shop',
         gems: 'Edelsteine',
+        sections: {
+            premiumPlans: 'Premium-Pläne',
+            items: 'Items',
+        },
         subscription: {
             pro: {
                 name: 'Psycle Pro',
@@ -17,6 +21,13 @@ export const de = {
                 price: '9,99 €/Monat',
             },
             restore: 'Käufe wiederherstellen',
+            monthlySuffix: '/Monat',
+            popular: 'Beliebt',
+            processing: 'Wird verarbeitet...',
+            active: 'Aktiv',
+            subscribe: 'Abonnieren',
+            activePlan: '%{plan}-Plan aktiv',
+            expiresOn: 'Gültig bis: %{date}',
         },
         items: {
             freeze: {
@@ -27,8 +38,19 @@ export const de = {
                 name: 'Doppel-XP',
                 desc: 'Doppelte XP für 15 Minuten',
                 active: 'Aktiv! Verbleibend:',
+                activeWithMinutes: 'Aktiv! Noch %{minutes} Min.',
             }
-        }
+            ,
+            ownedCount: 'Besitz: %{count}',
+        },
+        comingSoon: 'Weitere Items erscheinen in Kürze!',
+        gemsHint: 'Edelsteine erhältst du durch Lektionen und Quests',
+        errors: {
+            notEnoughGems: 'Nicht genug Edelsteine',
+            openCheckoutFailed: 'Die Bezahlseite konnte nicht geöffnet werden',
+            checkoutSessionFailed: 'Checkout-Sitzung konnte nicht erstellt werden',
+            checkoutProcessFailed: 'Beim Bezahlvorgang ist ein Fehler aufgetreten',
+        },
     },
     settings: {
         title: 'Einstellungen',

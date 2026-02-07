@@ -10,6 +10,10 @@ export const zh = {
     shop: {
         title: '商店',
         gems: '宝石',
+        sections: {
+            premiumPlans: '高级套餐',
+            items: '道具',
+        },
         subscription: {
             pro: {
                 name: 'Psycle Pro',
@@ -17,6 +21,13 @@ export const zh = {
                 price: '¥980/月',
             },
             restore: '恢复购买',
+            monthlySuffix: '/月',
+            popular: '热门',
+            processing: '处理中...',
+            active: '生效中',
+            subscribe: '订阅',
+            activePlan: '%{plan} 套餐生效中',
+            expiresOn: '有效期至：%{date}',
         },
         items: {
             freeze: {
@@ -27,8 +38,19 @@ export const zh = {
                 name: '双倍经验',
                 desc: '15分钟内经验值翻倍',
                 active: '激活中！剩余：',
+                activeWithMinutes: '激活中！剩余 %{minutes} 分钟',
             }
-        }
+            ,
+            ownedCount: '持有数：%{count}',
+        },
+        comingSoon: '更多道具即将上线！',
+        gemsHint: '宝石可通过课程和任务获得',
+        errors: {
+            notEnoughGems: '宝石不足',
+            openCheckoutFailed: '无法打开支付页面',
+            checkoutSessionFailed: '创建支付会话失败',
+            checkoutProcessFailed: '支付处理中发生错误',
+        },
     },
     settings: {
         title: '设置',
