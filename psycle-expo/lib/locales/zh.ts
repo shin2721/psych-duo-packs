@@ -38,6 +38,14 @@ export const zh = {
         privacy: '隐私政策',
         terms: '服务条款'
     },
+    tabs: {
+        learn: '学习',
+        quests: '任务',
+        ranking: '排行榜',
+        friends: '好友',
+        shop: '商店',
+        profile: '个人资料',
+    },
     onboarding: {
         subtitle: '每天只需3分钟，强化你的心理韧性。',
         start: '开始',
