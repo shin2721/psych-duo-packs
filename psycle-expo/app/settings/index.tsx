@@ -10,6 +10,7 @@ import { useAuth } from "../../lib/AuthContext";
 import { restorePurchases } from "../../lib/billing";
 import { useAppState } from "../../lib/state";
 import { getExportableJSON } from "../../lib/dogfood";
+import i18n from "../../lib/i18n";
 
 export default function SettingsScreen() {
     const router = useRouter();
@@ -49,7 +50,7 @@ export default function SettingsScreen() {
 
     const handleRestorePurchases = async () => {
         if (!user?.id || !user?.email) {
-            Alert.alert("エラー", "購入を復元するにはログインが必要です。");
+            Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.loginRequiredForRestore"));
             return;
         }
         setIsRestoring(true);
@@ -68,12 +69,12 @@ export default function SettingsScreen() {
 
     const handleSignOut = async () => {
         Alert.alert(
-            "ログアウト",
-            "本当にログアウトしますか？",
+            i18n.t("settings.signOutTitle"),
+            i18n.t("settings.signOutConfirm"),
             [
-                { text: "キャンセル", style: "cancel" },
+                { text: i18n.t("common.cancel"), style: "cancel" },
                 {
-                    text: "ログアウト",
+                    text: i18n.t("settings.logout"),
                     style: "destructive",
                     onPress: async () => {
                         await signOut();
@@ -86,21 +87,21 @@ export default function SettingsScreen() {
 
     const handleResetOnboarding = async () => {
         await AsyncStorage.removeItem("hasSeenOnboarding");
-        Alert.alert("リセット完了", "アプリを再起動すると、オンボーディングが表示されます。");
+        Alert.alert(i18n.t("settings.resetDoneTitle"), i18n.t("settings.resetDoneMessage"));
     };
 
     const handleClearData = async () => {
         Alert.alert(
-            "データ削除",
-            "ローカルデータを削除しますか？この操作は取り消せません。",
+            i18n.t("settings.clearDataTitle"),
+            i18n.t("settings.clearDataConfirm"),
             [
-                { text: "キャンセル", style: "cancel" },
+                { text: i18n.t("common.cancel"), style: "cancel" },
                 {
-                    text: "削除",
+                    text: i18n.t("settings.delete"),
                     style: "destructive",
                     onPress: async () => {
                         await AsyncStorage.clear();
-                        Alert.alert("完了", "ローカルデータを削除しました。");
+                        Alert.alert(i18n.t("settings.completed"), i18n.t("settings.localDataDeleted"));
                     },
                 },
             ]
@@ -116,23 +117,23 @@ export default function SettingsScreen() {
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
                     <Pressable onPress={handleTitleTap}>
-                        <Text style={styles.headerTitle}>設定</Text>
+                        <Text style={styles.headerTitle}>{i18n.t("settings.title")}</Text>
                     </Pressable>
                     <View style={{ width: 40 }} />
                 </View>
 
                 {/* Account Section */}
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>アカウント</Text>
+                    <Text style={styles.sectionTitle}>{i18n.t("settings.account")}</Text>
                     <SettingRow
                         icon="mail"
-                        label="メールアドレス"
+                        label={i18n.t("settings.emailAddress")}
                         value={user?.email || ""}
                         onPress={() => { }}
                     />
                     <SettingRow
                         icon="log-out"
-                        label="ログアウト"
+                        label={i18n.t("settings.logout")}
                         onPress={handleSignOut}
                         isDestructive
                     />
@@ -140,22 +141,22 @@ export default function SettingsScreen() {
 
                 {/* Preferences Section */}
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>設定</Text>
+                    <Text style={styles.sectionTitle}>{i18n.t("settings.preferences")}</Text>
                     <SettingToggle
                         icon="notifications"
-                        label="通知"
+                        label={i18n.t("settings.notifications")}
                         value={notificationsEnabled}
                         onValueChange={setNotificationsEnabled}
                     />
                     <SettingToggle
                         icon="volume-high"
-                        label="サウンド"
+                        label={i18n.t("settings.sound")}
                         value={soundEnabled}
                         onValueChange={setSoundEnabled}
                     />
                     <SettingToggle
                         icon="phone-portrait"
-                        label="ハプティクス"
+                        label={i18n.t("settings.haptics")}
                         value={hapticsEnabled}
                         onValueChange={setHapticsEnabled}
                     />
@@ -163,25 +164,25 @@ export default function SettingsScreen() {
 
                 {/* Support Section */}
                 <View style={styles.section}>
-                    <Text style={styles.sectionTitle}>サポート</Text>
+                    <Text style={styles.sectionTitle}>{i18n.t("settings.support")}</Text>
                     <SettingRow
                         icon="help-circle"
-                        label="ヘルプ・FAQ"
+                        label={i18n.t("settings.helpFaq")}
                         onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/help")}
                     />
                     <SettingRow
                         icon="shield-checkmark"
-                        label="プライバシーポリシー"
+                        label={i18n.t("settings.privacy")}
                         onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/privacy")}
                     />
                     <SettingRow
                         icon="document-text"
-                        label="利用規約"
+                        label={i18n.t("settings.terms")}
                         onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/terms")}
                     />
                     <SettingRow
                         icon="refresh-circle"
-                        label={isRestoring ? "復元中..." : "購入を復元"}
+                        label={isRestoring ? i18n.t("settings.restoring") : i18n.t("settings.restorePurchases")}
                         onPress={handleRestorePurchases}
                     />
                 </View>
@@ -189,7 +190,7 @@ export default function SettingsScreen() {
                 {/* Debug Section (Dev only) */}
                 {__DEV__ && (
                     <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>デバッグ</Text>
+                        <Text style={styles.sectionTitle}>{i18n.t("settings.debug")}</Text>
                         <SettingRow
                             icon="analytics"
                             label="Analytics Debug"
@@ -198,27 +199,27 @@ export default function SettingsScreen() {
                         />
                         <SettingRow
                             icon="analytics"
-                            label="Dogfoodデータをエクスポート"
+                            label={i18n.t("settings.exportDogfoodData")}
                             onPress={async () => {
                                 try {
                                     const json = await getExportableJSON();
                                     await Share.share({
                                         message: json,
-                                        title: "Dogfood統計データ"
+                                        title: i18n.t("settings.dogfoodDataTitle")
                                     });
                                 } catch (e) {
-                                    Alert.alert("エラー", "エクスポートに失敗しました");
+                                    Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.exportFailed"));
                                 }
                             }}
                         />
                         <SettingRow
                             icon="refresh"
-                            label="オンボーディングをリセット"
+                            label={i18n.t("settings.resetOnboarding")}
                             onPress={handleResetOnboarding}
                         />
                         <SettingRow
                             icon="trash"
-                            label="ローカルデータを削除"
+                            label={i18n.t("settings.clearLocalData")}
                             onPress={handleClearData}
                             isDestructive
                         />
