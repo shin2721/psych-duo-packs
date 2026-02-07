@@ -1,79 +1,252 @@
 {
   "_comment": "Translation glossary rules for lint-translation-glossary.js",
-  "_version": "1.0.0",
+  "_version": "2.0.0",
 
   "glossary": [
-    { "ja": "反芻思考", "en": "rumination" },
-    { "ja": "認知的評価", "en": "cognitive appraisal" },
-    { "ja": "実行意図", "en": "implementation intention" },
-    { "ja": "If-Thenプラン", "en": "If-Then plan" },
-    { "ja": "先延ばし", "en": "procrastination" },
-    { "ja": "認知的覚醒", "en": "cognitive arousal" },
-    { "ja": "扁桃体", "en": "amygdala" },
-    { "ja": "リアプレイザル", "en": "reappraisal" },
-    { "ja": "衝動買い", "en": "impulse buying" },
-    { "ja": "希少性バイアス", "en": "scarcity bias" },
-    { "ja": "アサーティブ", "en": "assertive" },
-    { "ja": "断る", "en": "say no|decline|refuse" }
+    {
+      "ja": "反芻思考",
+      "en": "rumination",
+      "es": "rumiación",
+      "fr": "rumination",
+      "de": "Grübeln",
+      "pt": "ruminação",
+      "zh": "反刍思维",
+      "ko": "반추사고"
+    },
+    {
+      "ja": "認知的評価",
+      "en": "cognitive appraisal",
+      "es": "evaluación cognitiva",
+      "fr": "évaluation cognitive",
+      "de": "kognitive Bewertung",
+      "pt": "avaliação cognitiva",
+      "zh": "认知评估",
+      "ko": "인지적 평가"
+    },
+    {
+      "ja": "実行意図",
+      "en": "implementation intention",
+      "es": "intención de implementación",
+      "fr": "intention d'implémentation",
+      "de": "Implementierungsabsicht",
+      "pt": "intenção de implementação",
+      "zh": "执行意图",
+      "ko": "실행 의도"
+    },
+    {
+      "ja": "If-Thenプラン",
+      "en": "If-Then plan",
+      "es": "plan Si-Entonces",
+      "fr": "plan Si-Alors",
+      "de": "Wenn-Dann-Plan",
+      "pt": "plano Se-Então",
+      "zh": "如果-那么计划",
+      "ko": "만약-그러면 계획"
+    },
+    {
+      "ja": "先延ばし",
+      "en": "procrastination",
+      "es": "procrastinación",
+      "fr": "procrastination",
+      "de": "Prokrastination",
+      "pt": "procrastinação",
+      "zh": "拖延",
+      "ko": "미루기"
+    },
+    {
+      "ja": "認知的覚醒",
+      "en": "cognitive arousal",
+      "es": "activación cognitiva",
+      "fr": "activation cognitive",
+      "de": "kognitive Erregung",
+      "pt": "ativação cognitiva",
+      "zh": "认知唤醒",
+      "ko": "인지적 각성"
+    },
+    {
+      "ja": "扁桃体",
+      "en": "amygdala",
+      "es": "amígdala",
+      "fr": "amygdale",
+      "de": "Amygdala",
+      "pt": "amígdala",
+      "zh": "杏仁核",
+      "ko": "편도체"
+    },
+    {
+      "ja": "リアプレイザル",
+      "en": "reappraisal",
+      "es": "reevaluación",
+      "fr": "réévaluation",
+      "de": "Neubewertung",
+      "pt": "reavaliação",
+      "zh": "重新评估",
+      "ko": "재평가"
+    },
+    {
+      "ja": "衝動買い",
+      "en": "impulse buying",
+      "es": "compra impulsiva",
+      "fr": "achat impulsif",
+      "de": "Impulskauf",
+      "pt": "compra por impulso",
+      "zh": "冲动购物",
+      "ko": "충동구매"
+    },
+    {
+      "ja": "希少性バイアス",
+      "en": "scarcity bias",
+      "es": "sesgo de escasez",
+      "fr": "biais de rareté",
+      "de": "Knappheitsbias",
+      "pt": "viés de escassez",
+      "zh": "稀缺性偏见",
+      "ko": "희소성 편향"
+    },
+    {
+      "ja": "アサーティブ",
+      "en": "assertive",
+      "es": "asertivo",
+      "fr": "assertif",
+      "de": "assertiv",
+      "pt": "assertivo",
+      "zh": "自信的",
+      "ko": "자기주장적"
+    },
+    {
+      "ja": "断る",
+      "en": "say no|decline|refuse",
+      "es": "decir no|rechazar|negarse",
+      "fr": "dire non|refuser|décliner",
+      "de": "nein sagen|ablehnen|verweigern",
+      "pt": "dizer não|recusar|negar",
+      "zh": "拒绝|说不",
+      "ko": "거절하다|안 된다고 하다"
+    }
   ],
 
   "banned_expressions": {
     "en": [
-      {
-        "pattern": "will definitely",
-        "flags": "i",
-        "message": "Too assertive: 'will definitely' should use hedging like 'may' or 'tends to'"
-      },
-      {
-        "pattern": "always works",
-        "flags": "i",
-        "message": "Too assertive: 'always works' implies 100% efficacy"
-      },
-      {
-        "pattern": "guaranteed",
-        "flags": "i",
-        "message": "Too assertive: 'guaranteed' makes unwarranted claims"
-      },
-      {
-        "pattern": "proven to",
-        "flags": "i",
-        "message": "Too assertive: 'proven to' overstates evidence"
-      },
-      {
-        "pattern": "scientifically proven",
-        "flags": "i",
-        "message": "Too assertive: 'scientifically proven' is too strong a claim"
-      },
-      {
-        "pattern": "never fails",
-        "flags": "i",
-        "message": "Too assertive: 'never fails' implies 100% success rate"
-      },
-      {
-        "pattern": "100%",
-        "flags": "i",
-        "message": "Too assertive: Avoid absolute percentages for psychological effects"
-      }
+      { "pattern": "will definitely", "flags": "i", "message": "Too assertive: use hedging like 'may' or 'tends to'" },
+      { "pattern": "always works", "flags": "i", "message": "Too assertive: implies 100% efficacy" },
+      { "pattern": "guaranteed", "flags": "i", "message": "Too assertive: makes unwarranted claims" },
+      { "pattern": "proven to", "flags": "i", "message": "Too assertive: overstates evidence" },
+      { "pattern": "scientifically proven", "flags": "i", "message": "Too assertive: too strong a claim" },
+      { "pattern": "never fails", "flags": "i", "message": "Too assertive: implies 100% success rate" },
+      { "pattern": "100%", "flags": "i", "message": "Too assertive: avoid absolute percentages" }
     ],
     "ja": [
-      {
-        "pattern": "必ず効く",
-        "message": "断定的すぎ: '必ず効く'は100%の効果を暗示"
-      },
-      {
-        "pattern": "絶対に",
-        "message": "断定的すぎ: '絶対に'は過剰な確信を示す"
-      }
+      { "pattern": "必ず効く", "message": "断定的すぎ: 100%の効果を暗示" },
+      { "pattern": "絶対に", "message": "断定的すぎ: 過剰な確信を示す" }
+    ],
+    "es": [
+      { "pattern": "definitivamente", "flags": "i", "message": "Demasiado asertivo: use 'puede' o 'tiende a'" },
+      { "pattern": "siempre funciona", "flags": "i", "message": "Demasiado asertivo: implica 100% eficacia" },
+      { "pattern": "garantizado", "flags": "i", "message": "Demasiado asertivo: afirmación sin fundamento" },
+      { "pattern": "100%", "flags": "i", "message": "Demasiado asertivo: evitar porcentajes absolutos" }
+    ],
+    "fr": [
+      { "pattern": "définitivement", "flags": "i", "message": "Trop assertif: utilisez 'peut' ou 'tend à'" },
+      { "pattern": "fonctionne toujours", "flags": "i", "message": "Trop assertif: implique 100% d'efficacité" },
+      { "pattern": "garanti", "flags": "i", "message": "Trop assertif: affirmation non fondée" },
+      { "pattern": "100%", "flags": "i", "message": "Trop assertif: éviter les pourcentages absolus" }
+    ],
+    "de": [
+      { "pattern": "definitiv", "flags": "i", "message": "Zu bestimmt: verwenden Sie 'kann' oder 'neigt dazu'" },
+      { "pattern": "funktioniert immer", "flags": "i", "message": "Zu bestimmt: impliziert 100% Wirksamkeit" },
+      { "pattern": "garantiert", "flags": "i", "message": "Zu bestimmt: unbegründete Behauptung" },
+      { "pattern": "100%", "flags": "i", "message": "Zu bestimmt: absolute Prozentsätze vermeiden" }
+    ],
+    "pt": [
+      { "pattern": "definitivamente", "flags": "i", "message": "Muito assertivo: use 'pode' ou 'tende a'" },
+      { "pattern": "sempre funciona", "flags": "i", "message": "Muito assertivo: implica 100% de eficácia" },
+      { "pattern": "garantido", "flags": "i", "message": "Muito assertivo: afirmação sem fundamento" },
+      { "pattern": "100%", "flags": "i", "message": "Muito assertivo: evitar porcentagens absolutas" }
+    ],
+    "zh": [
+      { "pattern": "绝对", "message": "过于断定: 使用'可能'或'倾向于'" },
+      { "pattern": "一定有效", "message": "过于断定: 暗示100%效果" },
+      { "pattern": "保证", "message": "过于断定: 没有根据的声明" },
+      { "pattern": "100%", "message": "过于断定: 避免使用绝对百分比" }
+    ],
+    "ko": [
+      { "pattern": "확실히", "message": "너무 단정적: '할 수 있다' 또는 '경향이 있다' 사용" },
+      { "pattern": "항상 효과", "message": "너무 단정적: 100% 효과를 암시" },
+      { "pattern": "보장", "message": "너무 단정적: 근거 없는 주장" },
+      { "pattern": "100%", "message": "너무 단정적: 절대 백분율 피하기" }
     ]
   },
 
   "hedging_pairs": [
-    { "ja": "傾向がある", "en": "tends? to|tendency|tendencies" },
-    { "ja": "可能性がある", "en": "may|might|could|possible|can" },
-    { "ja": "報告されている", "en": "has been reported|studies show|research suggests|reported|reports" },
-    { "ja": "とされている", "en": "is considered|is thought|is believed" },
-    { "ja": "効果が期待できる", "en": "may help|can help|might" },
-    { "ja": "かもしれない", "en": "may|might|could" },
-    { "ja": "場合がある", "en": "in some cases|sometimes|may|can" }
+    {
+      "ja": "傾向がある",
+      "en": "tends? to|tendency|tendencies",
+      "es": "tiende a|tendencia",
+      "fr": "tend à|tendance",
+      "de": "neigt dazu|Tendenz",
+      "pt": "tende a|tendência",
+      "zh": "倾向于|趋势",
+      "ko": "경향이 있다|경향"
+    },
+    {
+      "ja": "可能性がある",
+      "en": "may|might|could|possible|can",
+      "es": "puede|podría|posible",
+      "fr": "peut|pourrait|possible",
+      "de": "kann|könnte|möglich",
+      "pt": "pode|poderia|possível",
+      "zh": "可能|也许|或许",
+      "ko": "할 수 있다|가능하다|수도 있다"
+    },
+    {
+      "ja": "報告されている",
+      "en": "has been reported|studies show|research suggests|reported|reports",
+      "es": "se ha reportado|estudios muestran|investigaciones sugieren",
+      "fr": "a été rapporté|études montrent|recherches suggèrent",
+      "de": "wurde berichtet|Studien zeigen|Forschung legt nahe",
+      "pt": "foi relatado|estudos mostram|pesquisas sugerem",
+      "zh": "有报告|研究显示|研究表明",
+      "ko": "보고되었다|연구에 따르면|연구가 보여준다"
+    },
+    {
+      "ja": "とされている",
+      "en": "is considered|is thought|is believed",
+      "es": "se considera|se cree|se piensa",
+      "fr": "est considéré|on pense|on croit",
+      "de": "gilt als|man denkt|man glaubt",
+      "pt": "é considerado|acredita-se|pensa-se",
+      "zh": "被认为|被视为",
+      "ko": "여겨진다|생각된다"
+    },
+    {
+      "ja": "効果が期待できる",
+      "en": "may help|can help|might",
+      "es": "puede ayudar|podría ayudar",
+      "fr": "peut aider|pourrait aider",
+      "de": "kann helfen|könnte helfen",
+      "pt": "pode ajudar|poderia ajudar",
+      "zh": "可能有帮助|或许有效",
+      "ko": "도움이 될 수 있다|효과가 있을 수 있다"
+    },
+    {
+      "ja": "かもしれない",
+      "en": "may|might|could",
+      "es": "puede|podría|quizás",
+      "fr": "peut|pourrait|peut-être",
+      "de": "kann|könnte|vielleicht",
+      "pt": "pode|poderia|talvez",
+      "zh": "可能|也许",
+      "ko": "수도 있다|일지도 모른다"
+    },
+    {
+      "ja": "場合がある",
+      "en": "in some cases|sometimes|may|can",
+      "es": "en algunos casos|a veces|puede",
+      "fr": "dans certains cas|parfois|peut",
+      "de": "in manchen Fällen|manchmal|kann",
+      "pt": "em alguns casos|às vezes|pode",
+      "zh": "有时|在某些情况下",
+      "ko": "경우가 있다|때때로"
+    }
   ]
 }
