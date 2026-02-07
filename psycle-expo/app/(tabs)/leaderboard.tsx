@@ -5,7 +5,8 @@ import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../lib/AuthContext';
 import { theme } from '../../lib/theme';
 import { TrophyIcon, StreakIcon } from '../../components/CustomIcons';
-import { getMyLeague, LeagueInfo, LeagueMember, joinLeague, LEAGUE_TIERS } from '../../lib/league';
+import { getMyLeague, LeagueInfo, joinLeague } from '../../lib/league';
+import i18n from '../../lib/i18n';
 
 interface LeaderboardEntry {
     id: string;
@@ -24,6 +25,14 @@ export default function LeaderboardScreen() {
     const [friendIds, setFriendIds] = useState<Set<string>>(new Set());
     const [pendingRequestIds, setPendingRequestIds] = useState<Set<string>>(new Set());
     const { user } = useAuth();
+    const tierNames: Record<number, string> = {
+        0: String(i18n.t('leaderboard.tiers.bronze')),
+        1: String(i18n.t('leaderboard.tiers.silver')),
+        2: String(i18n.t('leaderboard.tiers.gold')),
+        3: String(i18n.t('leaderboard.tiers.platinum')),
+        4: String(i18n.t('leaderboard.tiers.diamond')),
+        5: String(i18n.t('leaderboard.tiers.master')),
+    };
 
     useEffect(() => {
         fetchFriendStatus();
@@ -73,17 +82,26 @@ export default function LeaderboardScreen() {
 
             if (error) {
                 if (error.code === '23505') {
-                    Alert.alert('Already Sent', 'Friend request already sent');
+                    Alert.alert(
+                        String(i18n.t('leaderboard.alerts.alreadySentTitle')),
+                        String(i18n.t('leaderboard.alerts.alreadySentMessage'))
+                    );
                 } else {
                     throw error;
                 }
             } else {
                 setPendingRequestIds(prev => new Set(prev).add(toUserId));
-                Alert.alert('Success', 'Friend request sent!');
+                Alert.alert(
+                    String(i18n.t('leaderboard.alerts.successTitle')),
+                    String(i18n.t('leaderboard.alerts.successMessage'))
+                );
             }
         } catch (error) {
             console.error('Error sending friend request:', error);
-            Alert.alert('Error', 'Failed to send friend request');
+            Alert.alert(
+                String(i18n.t('common.error')),
+                String(i18n.t('leaderboard.alerts.failedToSend'))
+            );
         }
     };
 
@@ -164,12 +182,14 @@ export default function LeaderboardScreen() {
                 <View style={styles.userInfo}>
                     <Text style={[styles.username, isCurrentUser && styles.currentUsername]}>
                         {item.username}
-                        {isCurrentUser && ' (You)'}
+                        {isCurrentUser && ` ${i18n.t('leaderboard.youSuffix')}`}
                     </Text>
                     <View style={styles.stats}>
                         <View style={{ flexDirection: 'row', alignItems: 'center', gap: 4 }}>
                             <StreakIcon size={14} />
-                            <Text style={styles.statText}>{item.current_streak} days</Text>
+                            <Text style={styles.statText}>
+                                {i18n.t('profile.stats.streakValue', { count: item.current_streak })}
+                            </Text>
                         </View>
                         <Text style={styles.statText}>⭐ {item.total_xp} XP</Text>
                     </View>
@@ -199,7 +219,9 @@ export default function LeaderboardScreen() {
             <View style={styles.header}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 }}>
                     <TrophyIcon size={32} />
-                    <Text style={{ fontSize: 28, fontWeight: 'bold', color: theme.colors.text }}>Leaderboard</Text>
+                    <Text style={{ fontSize: 28, fontWeight: 'bold', color: theme.colors.text }}>
+                        {i18n.t('tabs.ranking')}
+                    </Text>
                 </View>
                 <View style={styles.segmentedControl}>
                     <Pressable
@@ -207,7 +229,7 @@ export default function LeaderboardScreen() {
                         onPress={() => setView('league')}
                     >
                         <Text style={[styles.segmentText, view === 'league' && styles.activeSegmentText]}>
-                            League
+                            {i18n.t('leaderboard.tabs.league')}
                         </Text>
                     </Pressable>
                     <Pressable
@@ -215,7 +237,7 @@ export default function LeaderboardScreen() {
                         onPress={() => setView('global')}
                     >
                         <Text style={[styles.segmentText, view === 'global' && styles.activeSegmentText]}>
-                            Global
+                            {i18n.t('leaderboard.tabs.global')}
                         </Text>
                     </Pressable>
                     <Pressable
@@ -223,7 +245,7 @@ export default function LeaderboardScreen() {
                         onPress={() => setView('friends')}
                     >
                         <Text style={[styles.segmentText, view === 'friends' && styles.activeSegmentText]}>
-                            Friends
+                            {i18n.t('leaderboard.tabs.friends')}
                         </Text>
                     </Pressable>
                 </View>
@@ -241,7 +263,7 @@ export default function LeaderboardScreen() {
                         <View style={styles.leagueHeader}>
                             <Text style={styles.tierIcon}>{leagueInfo.tier_icon}</Text>
                             <Text style={[styles.tierName, { color: leagueInfo.tier_color }]}>
-                                {leagueInfo.tier_name}リーグ
+                                {tierNames[leagueInfo.tier] || leagueInfo.tier_name} {i18n.t('leaderboard.leagueSuffix')}
                             </Text>
                             <Text style={styles.weekId}>{leagueInfo.week_id}</Text>
                         </View>
@@ -250,11 +272,11 @@ export default function LeaderboardScreen() {
                         <View style={styles.zoneLegend}>
                             <View style={styles.legendItem}>
                                 <View style={[styles.legendDot, { backgroundColor: '#4CAF50' }]} />
-                                <Text style={styles.legendText}>昇格 (上位20%)</Text>
+                                <Text style={styles.legendText}>{i18n.t('leaderboard.promotionZone')}</Text>
                             </View>
                             <View style={styles.legendItem}>
                                 <View style={[styles.legendDot, { backgroundColor: '#F44336' }]} />
-                                <Text style={styles.legendText}>降格 (下位20%)</Text>
+                                <Text style={styles.legendText}>{i18n.t('leaderboard.demotionZone')}</Text>
                             </View>
                         </View>
 
@@ -279,7 +301,7 @@ export default function LeaderboardScreen() {
                                         <View style={styles.userInfo}>
                                             <Text style={[styles.username, item.is_self && styles.currentUsername]}>
                                                 {item.username}
-                                                {item.is_self && ' (You)'}
+                                                {item.is_self && ` ${i18n.t('leaderboard.youSuffix')}`}
                                             </Text>
                                             <Text style={styles.statText}>⭐ {item.weekly_xp} XP</Text>
                                         </View>
@@ -294,15 +316,15 @@ export default function LeaderboardScreen() {
                     </View>
                 ) : (
                     <View style={styles.emptyContainer}>
-                        <Text style={styles.emptyText}>リーグに参加中...</Text>
+                        <Text style={styles.emptyText}>{i18n.t('leaderboard.joiningLeague')}</Text>
                     </View>
                 )
             ) : leaderboard.length === 0 ? (
                 <View style={styles.emptyContainer}>
                     <Text style={styles.emptyText}>
                         {view === 'friends'
-                            ? 'No friends yet. Add friends to compete!'
-                            : 'No data available'}
+                            ? i18n.t('leaderboard.emptyFriends')
+                            : i18n.t('leaderboard.emptyData')}
                     </Text>
                 </View>
             ) : (
