@@ -10,6 +10,10 @@ export const ko = {
     shop: {
         title: '상점',
         gems: '젬',
+        sections: {
+            premiumPlans: '프리미엄 플랜',
+            items: '아이템',
+        },
         subscription: {
             pro: {
                 name: 'Psycle Pro',
@@ -17,6 +21,13 @@ export const ko = {
                 price: '₩9,900/월',
             },
             restore: '구매 복원',
+            monthlySuffix: '/월',
+            popular: '인기',
+            processing: '처리 중...',
+            active: '이용 중',
+            subscribe: '구독하기',
+            activePlan: '%{plan} 플랜 이용 중',
+            expiresOn: '유효기간: %{date}',
         },
         items: {
             freeze: {
@@ -27,8 +38,19 @@ export const ko = {
                 name: '더블 XP',
                 desc: '15분 동안 XP 2배 획득',
                 active: '활성화됨! 남은 시간:',
+                activeWithMinutes: '활성화됨! %{minutes}분 남음',
             }
-        }
+            ,
+            ownedCount: '보유 수량: %{count}',
+        },
+        comingSoon: '더 많은 아이템이 곧 공개됩니다!',
+        gemsHint: '젬은 레슨과 퀘스트로 획득할 수 있습니다',
+        errors: {
+            notEnoughGems: '젬이 부족합니다',
+            openCheckoutFailed: '결제 페이지를 열 수 없습니다',
+            checkoutSessionFailed: '결제 세션 생성에 실패했습니다',
+            checkoutProcessFailed: '결제 처리 중 오류가 발생했습니다',
+        },
     },
     settings: {
         title: '설정',

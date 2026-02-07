@@ -27,6 +27,18 @@ export default function ShopScreen() {
   const { user } = useAuth();
   const [justPurchased, setJustPurchased] = useState<string | null>(null);
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const dateLocaleByLanguage: Record<string, string> = {
+    ja: "ja-JP",
+    en: "en-US",
+    es: "es-ES",
+    zh: "zh-CN",
+    fr: "fr-FR",
+    de: "de-DE",
+    ko: "ko-KR",
+    pt: "pt-BR",
+  };
+  const languageCode = String(i18n.locale || "ja").split("-")[0];
+  const dateLocale = dateLocaleByLanguage[languageCode];
 
   const handlePurchase = (item: ShopItem) => {
     const success = item.action();
@@ -35,7 +47,7 @@ export default function ShopScreen() {
       setTimeout(() => setJustPurchased(null), 2000);
       Alert.alert(i18n.t('common.ok'), `${item.name}`);
     } else {
-      Alert.alert(i18n.t('common.error'), i18n.t('shop.gems') + "...");
+      Alert.alert(i18n.t('common.error'), i18n.t("shop.errors.notEnoughGems"));
     }
   };
 
@@ -63,14 +75,14 @@ export default function ShopScreen() {
         if (supported) {
           await Linking.openURL(data.url);
         } else {
-          Alert.alert("エラー", "決済ページを開けませんでした");
+          Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.openCheckoutFailed"));
         }
       } else {
-        Alert.alert("エラー", "決済セッションの作成に失敗しました");
+        Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutSessionFailed"));
       }
     } catch (error) {
       console.error("Checkout error:", error);
-      Alert.alert("エラー", "決済処理中にエラーが発生しました");
+      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
     } finally {
       setIsSubscribing(false);
     }
@@ -89,7 +101,9 @@ export default function ShopScreen() {
       id: "double_xp",
       name: i18n.t('shop.items.doubleXP.name'),
       description: isDoubleXpActive
-        ? `${i18n.t('shop.items.doubleXP.active')} ${Math.ceil((doubleXpEndTime! - Date.now()) / 60000)}m`
+        ? i18n.t("shop.items.doubleXP.activeWithMinutes", {
+          minutes: Math.ceil((doubleXpEndTime! - Date.now()) / 60000),
+        })
         : i18n.t('shop.items.doubleXP.desc'),
       price: 20,
       icon: "flash-outline",
@@ -121,7 +135,7 @@ export default function ShopScreen() {
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.itemsContainer}>
         <View style={styles.sectionHeader}>
           <Ionicons name="sparkles" size={24} color={theme.colors.accent} />
-          <Text style={styles.sectionTitle}>プレミアムプラン</Text>
+          <Text style={styles.sectionTitle}>{i18n.t("shop.sections.premiumPlans")}</Text>
         </View>
 
         {/* Current Subscription Status */}
@@ -130,10 +144,12 @@ export default function ShopScreen() {
             <Ionicons name="checkmark-circle" size={24} color={theme.colors.success} />
             <View style={styles.subscriptionInfo}>
               <Text style={styles.activeSubscriptionText}>
-                {planId === "pro" ? "Pro" : "Max"}プラン有効中
+                {i18n.t("shop.subscription.activePlan", { plan: planId === "pro" ? "Pro" : "Max" })}
               </Text>
               <Text style={styles.activeSubscriptionDate}>
-                有効期限: {new Date(activeUntil).toLocaleDateString("ja-JP")}
+                {i18n.t("shop.subscription.expiresOn", {
+                  date: new Date(activeUntil).toLocaleDateString(dateLocale),
+                })}
               </Text>
             </View>
           </View>
@@ -145,13 +161,13 @@ export default function ShopScreen() {
             <View key={plan.id} style={styles.planCard}>
               {plan.popular && (
                 <View style={styles.popularBadge}>
-                  <Text style={styles.popularText}>人気</Text>
+                  <Text style={styles.popularText}>{i18n.t("shop.subscription.popular")}</Text>
                 </View>
               )}
               <View style={styles.planHeader}>
                 <Text style={styles.planName}>{plan.name}</Text>
                 <Text style={styles.planPrice}>¥{plan.priceMonthly.toLocaleString()}</Text>
-                <Text style={styles.planPeriod}>/月</Text>
+                <Text style={styles.planPeriod}>{i18n.t("shop.subscription.monthlySuffix")}</Text>
               </View>
               <View style={styles.planFeatures}>
                 {plan.features.map((feature, index) => (
@@ -172,10 +188,10 @@ export default function ShopScreen() {
               >
                 <Text style={styles.subscribeButtonText}>
                   {isSubscribing
-                    ? "処理中..."
+                    ? i18n.t("shop.subscription.processing")
                     : planId === plan.id && isSubscriptionActive
-                      ? "有効中"
-                      : "登録する"}
+                      ? i18n.t("shop.subscription.active")
+                      : i18n.t("shop.subscription.subscribe")}
                 </Text>
               </Pressable>
             </View>
@@ -187,7 +203,7 @@ export default function ShopScreen() {
 
         <View style={styles.sectionHeader}>
           <Ionicons name="diamond" size={24} color={theme.colors.accent} />
-          <Text style={styles.sectionTitle}>アイテム</Text>
+          <Text style={styles.sectionTitle}>{i18n.t("shop.sections.items")}</Text>
         </View>
 
         {/* Shop Items */}
@@ -204,7 +220,9 @@ export default function ShopScreen() {
               <Text style={styles.itemName}>{item.name}</Text>
               <Text style={styles.itemDescription}>{item.description}</Text>
               {item.id === "freeze" && (
-                <Text style={styles.itemOwned}>所持数: {freezeCount}</Text>
+                <Text style={styles.itemOwned}>
+                  {i18n.t("shop.items.ownedCount", { count: freezeCount })}
+                </Text>
               )}
             </View>
             <Pressable
@@ -229,14 +247,14 @@ export default function ShopScreen() {
         {/* Placeholder for future items */}
         <View style={styles.comingSoonCard}>
           <Ionicons name="time-outline" size={32} color={theme.colors.sub} />
-          <Text style={styles.comingSoonText}>さらなるアイテムが近日公開！</Text>
+          <Text style={styles.comingSoonText}>{i18n.t("shop.comingSoon")}</Text>
         </View>
       </ScrollView>
 
       {/* Info Footer */}
       <View style={styles.footer}>
         <Ionicons name="information-circle-outline" size={20} color={theme.colors.sub} />
-        <Text style={styles.footerText}>Gemsはレッスンやクエストで獲得できます</Text>
+        <Text style={styles.footerText}>{i18n.t("shop.gemsHint")}</Text>
       </View>
     </SafeAreaView>
   );

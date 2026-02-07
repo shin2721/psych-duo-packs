@@ -10,6 +10,10 @@ export const ja = {
     shop: {
         title: 'ショップ',
         gems: 'ジェム',
+        sections: {
+            premiumPlans: 'プレミアムプラン',
+            items: 'アイテム',
+        },
         subscription: {
             pro: {
                 name: 'Psycle Pro',
@@ -17,6 +21,13 @@ export const ja = {
                 price: '¥980/月',
             },
             restore: '購入を復元',
+            monthlySuffix: '/月',
+            popular: '人気',
+            processing: '処理中...',
+            active: '有効中',
+            subscribe: '登録する',
+            activePlan: '%{plan}プラン有効中',
+            expiresOn: '有効期限: %{date}',
         },
         items: {
             freeze: {
@@ -27,8 +38,19 @@ export const ja = {
                 name: 'ダブルXPブースト',
                 desc: '15分間、獲得XPが2倍になります',
                 active: '発動中！残り',
+                activeWithMinutes: '発動中！残り %{minutes}分',
             }
-        }
+            ,
+            ownedCount: '所持数: %{count}',
+        },
+        comingSoon: 'さらなるアイテムが近日公開！',
+        gemsHint: 'Gemsはレッスンやクエストで獲得できます',
+        errors: {
+            notEnoughGems: 'ジェムが足りません',
+            openCheckoutFailed: '決済ページを開けませんでした',
+            checkoutSessionFailed: '決済セッションの作成に失敗しました',
+            checkoutProcessFailed: '決済処理中にエラーが発生しました',
+        },
     },
     settings: {
         title: '設定',
