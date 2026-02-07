@@ -173,6 +173,12 @@ export const ko = {
         executed: '✅ Done!',
         evidenceAvailable: '📚 Evidence available (tap for details)',
     },
+    questionMedia: {
+        imageLoadFailed: '이미지를 불러오지 못했습니다',
+        audioLoadFailed: '오디오를 불러오지 못했습니다',
+        playing: '재생 중...',
+        playAudio: '오디오 재생',
+    },
     questionTypes: {
         fillBlankTapPrompt: '탭해서 선택하세요:',
         swipeLeftFallback: '위험',

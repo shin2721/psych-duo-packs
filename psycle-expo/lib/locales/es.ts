@@ -173,6 +173,12 @@ export const es = {
         executed: '✅ Done!',
         evidenceAvailable: '📚 Evidence available (tap for details)',
     },
+    questionMedia: {
+        imageLoadFailed: 'No se pudo cargar la imagen',
+        audioLoadFailed: 'No se pudo cargar el audio',
+        playing: 'Reproduciendo...',
+        playAudio: 'Reproducir audio',
+    },
     questionTypes: {
         fillBlankTapPrompt: 'Toca para elegir:',
         swipeLeftFallback: 'Peligroso',

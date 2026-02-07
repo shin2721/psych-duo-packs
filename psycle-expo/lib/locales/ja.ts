@@ -173,6 +173,12 @@ export const ja = {
         executed: '✅ やった！',
         evidenceAvailable: '📚 根拠あり (タップで詳細)',
     },
+    questionMedia: {
+        imageLoadFailed: '画像の読み込みに失敗しました',
+        audioLoadFailed: '音声の読み込みに失敗しました',
+        playing: '再生中...',
+        playAudio: '音声を再生',
+    },
     questionTypes: {
         fillBlankTapPrompt: 'タップして選ぼう:',
         swipeLeftFallback: '危険',
