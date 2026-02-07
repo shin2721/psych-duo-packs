@@ -330,6 +330,20 @@ export const ja = {
         diff: '差: ¥%{amount}',
         remaining: 'あと ¥%{amount}',
     },
+    gameBreathTempo: {
+        phases: {
+            inhale: '吸う',
+            hold: '止める',
+            exhale: '吐く',
+        },
+        seconds: '%{count}秒',
+        tap: 'タップ',
+        finish: '終了',
+    },
+    gameEchoSteps: {
+        round: 'ラウンド %{round}/3',
+        mistakes: '間違い: %{count}',
+    },
     leaderboard: {
         tabs: {
             league: 'リーグ',

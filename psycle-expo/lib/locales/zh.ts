@@ -330,6 +330,20 @@ export const zh = {
         diff: '差值: ¥%{amount}',
         remaining: '还差 ¥%{amount}',
     },
+    gameBreathTempo: {
+        phases: {
+            inhale: '吸气',
+            hold: '屏住',
+            exhale: '呼气',
+        },
+        seconds: '%{count}秒',
+        tap: '点击',
+        finish: '结束',
+    },
+    gameEchoSteps: {
+        round: '第 %{round}/3 轮',
+        mistakes: '错误: %{count}',
+    },
     leaderboard: {
         tabs: {
             league: '联赛',
