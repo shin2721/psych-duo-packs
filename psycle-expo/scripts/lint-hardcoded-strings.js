@@ -2,13 +2,12 @@
 /**
  * lint-hardcoded-strings.js
  *
- * app/ と components/ 内のハードコードされた日本語文字列を検出
- * CI warning用（fail しない）
+ * app/ と components/ 内のハードコードされた日本語文字列を検出。
+ * 既定では warning-only。--fail-on-new でベースラインとの差分のみ fail 可能。
  */
 
 const fs = require('fs');
 const path = require('path');
-const glob = require('glob');
 
 // 検出対象ディレクトリ
 const TARGET_DIRS = ['app', 'components'];
@@ -45,7 +44,52 @@ function isAllowlisted(text) {
     return ALLOWLIST.some(allowed => text.includes(allowed));
 }
 
-function scanFile(filePath) {
+function parseArgs(argv) {
+    const flags = new Set();
+    const options = {};
+    for (let i = 0; i < argv.length; i++) {
+        const token = argv[i];
+        if (!token.startsWith('--')) continue;
+        const next = argv[i + 1];
+        if (next && !next.startsWith('--')) {
+            options[token] = next;
+            i++;
+            continue;
+        }
+        flags.add(token);
+    }
+    return { flags, options };
+}
+
+function collectSourceFiles(rootDir, targetDir) {
+    const startDir = path.join(rootDir, targetDir);
+    if (!fs.existsSync(startDir)) return [];
+
+    const files = [];
+    const stack = [startDir];
+
+    while (stack.length > 0) {
+        const current = stack.pop();
+        const entries = fs.readdirSync(current, { withFileTypes: true });
+
+        for (const entry of entries) {
+            const fullPath = path.join(current, entry.name);
+            if (entry.isDirectory()) {
+                if (entry.name === 'node_modules' || entry.name === '.git') continue;
+                stack.push(fullPath);
+                continue;
+            }
+
+            if (!entry.isFile()) continue;
+            if (!/\.(tsx|ts|jsx|js)$/.test(entry.name)) continue;
+            files.push(fullPath);
+        }
+    }
+
+    return files;
+}
+
+function scanFile(cwd, filePath) {
     const content = fs.readFileSync(filePath, 'utf8');
     const lines = content.split('\n');
     const warnings = [];
@@ -65,11 +109,13 @@ function scanFile(filePath) {
             // i18n.t() 内なら OK
             if (line.includes('i18n.t(')) continue;
 
+            const relPath = path.relative(cwd, filePath);
             warnings.push({
-                file: filePath,
+                file: relPath,
                 line: index + 1,
                 text: text.substring(0, 50) + (text.length > 50 ? '...' : ''),
                 fullLine: line.trim().substring(0, 80),
+                key: `${relPath}:${index + 1}:${text}`,
             });
         }
     });
@@ -77,78 +123,145 @@ function scanFile(filePath) {
     return warnings;
 }
 
-function main() {
-    console.log('🔍 ハードコード文字列検出開始...\n');
+function ensureParentDir(filePath) {
+    const dir = path.dirname(filePath);
+    if (!fs.existsSync(dir)) {
+        fs.mkdirSync(dir, { recursive: true });
+    }
+}
 
-    const cwd = process.cwd();
-    let allWarnings = [];
-
-    TARGET_DIRS.forEach(dir => {
-        const pattern = path.join(cwd, dir, '**/*.{tsx,ts,jsx,js}');
-        const files = glob.sync(pattern, { ignore: ['**/node_modules/**'] });
-
-        files.forEach(file => {
-            const warnings = scanFile(file);
-            allWarnings = allWarnings.concat(warnings);
-        });
-    });
-
-    // 結果出力
-    if (allWarnings.length === 0) {
-        console.log('✅ ハードコードされた日本語文字列は検出されませんでした\n');
-        process.exit(0);
+function loadBaseline(filePath) {
+    if (!fs.existsSync(filePath)) {
+        return { version: 1, generatedAt: null, entries: [] };
     }
 
-    console.log(`⚠️  ${allWarnings.length}件のハードコード文字列を検出:\n`);
+    try {
+        const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+        const entries = Array.isArray(parsed.entries) ? parsed.entries : [];
+        return {
+            version: parsed.version || 1,
+            generatedAt: parsed.generatedAt || null,
+            entries: entries.filter((x) => typeof x === 'string'),
+        };
+    } catch (error) {
+        console.warn(`⚠️  Failed to parse baseline file: ${filePath}`);
+        return { version: 1, generatedAt: null, entries: [] };
+    }
+}
 
-    // ファイル別にグループ化
-    const grouped = {};
-    allWarnings.forEach(w => {
-        const relPath = path.relative(cwd, w.file);
-        if (!grouped[relPath]) grouped[relPath] = [];
-        grouped[relPath].push(w);
-    });
+function saveBaseline(filePath, warnings) {
+    const uniqueKeys = [...new Set(warnings.map((w) => w.key))].sort();
+    const payload = {
+        version: 1,
+        generatedAt: new Date().toISOString(),
+        total: uniqueKeys.length,
+        entries: uniqueKeys,
+    };
+    ensureParentDir(filePath);
+    fs.writeFileSync(filePath, JSON.stringify(payload, null, 2) + '\n');
+}
 
-    Object.entries(grouped).forEach(([file, warnings]) => {
-        console.log(`📄 ${file}`);
-        warnings.forEach(w => {
-            console.log(`   L${w.line}: "${w.text}"`);
-        });
-        console.log('');
-    });
-
-    // Markdown レポート生成
+function writeMarkdownReport(cwd, warnings, newWarnings) {
     const reportPath = path.join(cwd, 'docs/_reports/hardcoded_strings.md');
-    const reportDir = path.dirname(reportPath);
-    if (!fs.existsSync(reportDir)) {
-        fs.mkdirSync(reportDir, { recursive: true });
+    ensureParentDir(reportPath);
+
+    const grouped = {};
+    for (const warning of warnings) {
+        if (!grouped[warning.file]) grouped[warning.file] = [];
+        grouped[warning.file].push(warning);
     }
 
+    const newKeys = new Set(newWarnings.map((w) => w.key));
     const reportLines = [
         '# ハードコード文字列レポート',
         '',
         `生成日時: ${new Date().toISOString()}`,
         '',
-        `## 検出数: ${allWarnings.length}件`,
+        `## 検出数: ${warnings.length}件`,
+        `## ベースライン差分: ${newWarnings.length}件`,
         '',
     ];
 
-    Object.entries(grouped).forEach(([file, warnings]) => {
+    for (const [file, fileWarnings] of Object.entries(grouped)) {
         reportLines.push(`### ${file}`);
         reportLines.push('');
-        reportLines.push('| 行 | テキスト |');
-        reportLines.push('|----|----------|');
-        warnings.forEach(w => {
-            reportLines.push(`| ${w.line} | \`${w.text.replace(/\|/g, '\\|')}\` |`);
-        });
+        reportLines.push('| 行 | テキスト | 差分 |');
+        reportLines.push('|----|----------|------|');
+        for (const w of fileWarnings) {
+            const delta = newKeys.has(w.key) ? 'NEW' : '-';
+            reportLines.push(`| ${w.line} | \`${w.text.replace(/\|/g, '\\|')}\` | ${delta} |`);
+        }
         reportLines.push('');
-    });
+    }
 
     fs.writeFileSync(reportPath, reportLines.join('\n'));
     console.log(`📝 レポート生成: ${path.relative(cwd, reportPath)}`);
+}
 
-    // CI用: warning として終了（exit 0）
-    // fail させたい場合は exit 1 に変更
+function printGroupedSummary(warnings) {
+    const grouped = {};
+    for (const warning of warnings) {
+        if (!grouped[warning.file]) grouped[warning.file] = [];
+        grouped[warning.file].push(warning);
+    }
+
+    for (const [file, fileWarnings] of Object.entries(grouped)) {
+        console.log(`📄 ${file}`);
+        for (const w of fileWarnings) {
+            console.log(`   L${w.line}: "${w.text}"`);
+        }
+        console.log('');
+    }
+}
+
+function main() {
+    const { flags, options } = parseArgs(process.argv.slice(2));
+    const failOnNew = flags.has('--fail-on-new');
+    const updateBaseline = flags.has('--update-baseline');
+    const cwd = process.cwd();
+    const baselinePath = path.resolve(
+        cwd,
+        options['--baseline'] || 'scripts/hardcoded-strings-baseline.json'
+    );
+
+    console.log('🔍 ハードコード文字列検出開始...\n');
+
+    let allWarnings = [];
+
+    TARGET_DIRS.forEach(dir => {
+        const files = collectSourceFiles(cwd, dir);
+
+        files.forEach(file => {
+            const warnings = scanFile(cwd, file);
+            allWarnings = allWarnings.concat(warnings);
+        });
+    });
+
+    const baseline = loadBaseline(baselinePath);
+    const baselineSet = new Set(baseline.entries);
+    const newWarnings = allWarnings.filter((w) => !baselineSet.has(w.key));
+
+    if (updateBaseline) {
+        saveBaseline(baselinePath, allWarnings);
+        console.log(`✅ ベースライン更新: ${path.relative(cwd, baselinePath)} (${allWarnings.length} entries)`);
+    }
+
+    writeMarkdownReport(cwd, allWarnings, newWarnings);
+
+    if (allWarnings.length === 0) {
+        console.log('✅ ハードコードされた日本語文字列は検出されませんでした\n');
+        process.exit(0);
+    }
+
+    console.log(`⚠️  ${allWarnings.length}件のハードコード文字列を検出`);
+    console.log(`📈 ベースラインとの差分: ${newWarnings.length}件\n`);
+    printGroupedSummary(allWarnings);
+
+    if (failOnNew && newWarnings.length > 0) {
+        console.log('❌ 新規ハードコード文字列が追加されました。');
+        process.exit(1);
+    }
+
     process.exit(0);
 }
 
