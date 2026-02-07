@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
 import { supabase } from "../../lib/supabase";
+import i18n from "../../lib/i18n";
 
 export default function EditProfileScreen() {
     const router = useRouter();
@@ -25,10 +26,10 @@ export default function EditProfileScreen() {
 
             if (error) throw error;
 
-            Alert.alert("成功", "プロフィールを更新しました。");
+            Alert.alert(String(i18n.t("editProfile.successTitle")), String(i18n.t("editProfile.successMessage")));
             router.back();
         } catch (error: any) {
-            Alert.alert("エラー", error.message);
+            Alert.alert(String(i18n.t("common.error")), error.message);
         } finally {
             setIsSaving(false);
         }
@@ -41,17 +42,17 @@ export default function EditProfileScreen() {
                 <Pressable onPress={() => router.back()} style={styles.backButton}>
                     <Ionicons name="close" size={24} color={theme.colors.text} />
                 </Pressable>
-                <Text style={styles.headerTitle}>プロフィール編集</Text>
+                <Text style={styles.headerTitle}>{i18n.t("profile.editButton")}</Text>
                 <Pressable onPress={handleSave} disabled={isSaving}>
                     <Text style={[styles.saveButton, isSaving && styles.saveButtonDisabled]}>
-                        保存
+                        {i18n.t("common.save")}
                     </Text>
                 </Pressable>
             </View>
 
             {/* Avatar Selection */}
             <View style={styles.section}>
-                <Text style={styles.sectionTitle}>アバター</Text>
+                <Text style={styles.sectionTitle}>{i18n.t("editProfile.avatar")}</Text>
                 <View style={styles.avatarGrid}>
                     {["person", "happy", "star", "heart", "flash", "leaf"].map((icon) => (
                         <Pressable key={icon} style={styles.avatarOption}>
@@ -63,12 +64,12 @@ export default function EditProfileScreen() {
 
             {/* Username Input */}
             <View style={styles.section}>
-                <Text style={styles.sectionTitle}>ユーザー名</Text>
+                <Text style={styles.sectionTitle}>{i18n.t("editProfile.username")}</Text>
                 <TextInput
                     style={styles.input}
                     value={username}
                     onChangeText={setUsername}
-                    placeholder="ユーザー名を入力"
+                    placeholder={String(i18n.t("editProfile.usernamePlaceholder"))}
                     placeholderTextColor={theme.colors.sub}
                 />
             </View>

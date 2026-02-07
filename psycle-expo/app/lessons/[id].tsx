@@ -15,6 +15,7 @@ import { getDifficultyRating } from "../../lib/difficultyMapping";
 import { XPGainAnimation } from "../../components/XPGainAnimation";
 import { Analytics } from "../../lib/analytics";
 import { formatCitation } from "../../lib/evidenceUtils";
+import i18n from "../../lib/i18n";
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
@@ -104,9 +105,9 @@ export default function LessonScreen() {
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.errorContainer}>
-          <Text style={styles.errorText}>レッスンが見つかりません</Text>
+          <Text style={styles.errorText}>{i18n.t("lessonScreen.lessonNotFound")}</Text>
           <Pressable style={styles.button} onPress={() => router.back()}>
-            <Text style={styles.buttonText}>戻る</Text>
+            <Text style={styles.buttonText}>{i18n.t("lessonScreen.back")}</Text>
           </Pressable>
         </View>
       </SafeAreaView>
@@ -235,7 +236,7 @@ export default function LessonScreen() {
             )}
 
             <Text style={styles.resultsTitle}>
-              {stars === 3 ? "パーフェクト！" : "レッスン完了！"}
+              {stars === 3 ? i18n.t("lessonScreen.perfectTitle") : i18n.t("lesson.completeTitle")}
             </Text>
 
             <View style={styles.starsContainer}>
@@ -248,11 +249,11 @@ export default function LessonScreen() {
 
             <View style={styles.statsContainer}>
               <View style={styles.statItem}>
-                <Text style={styles.statLabel}>正答率</Text>
+                <Text style={styles.statLabel}>{i18n.t("lessonScreen.accuracyLabel")}</Text>
                 <Text style={styles.statValue}>{accuracy}%</Text>
               </View>
               <View style={styles.statItem}>
-                <Text style={styles.statLabel}>獲得XP</Text>
+                <Text style={styles.statLabel}>{i18n.t("lessonScreen.xpLabel")}</Text>
                 <Text style={styles.statValue}>{totalXP}</Text>
               </View>
             </View>
@@ -260,24 +261,24 @@ export default function LessonScreen() {
             {/* Background Research Section */}
             {lesson?.references && lesson.references.length > 0 && (
               <View style={styles.referencesContainer}>
-                <Text style={styles.refHeader}>📚 このユニットの背景研究</Text>
+                <Text style={styles.refHeader}>{i18n.t("lessonScreen.referencesHeader")}</Text>
 
                 <View style={styles.refNoteContainer}>
                   <Ionicons name="information-circle-outline" size={16} color="#666" />
-                  <Text style={styles.refNote}>心理学の研究結果は一般的な傾向を示すものであり、個人の状況や文化的背景によって異なる場合があります。</Text>
+                  <Text style={styles.refNote}>{i18n.t("lessonScreen.referencesNote")}</Text>
                 </View>
 
                 <View style={styles.refList}>
                   {lesson.references.map((ref, i) => {
                     // Badge logic
                     let badgeColor = "#A0A9A9";
-                    let badgeLabel = "定説・古典";
+                    let badgeLabel = String(i18n.t("lessonScreen.badges.classic"));
                     if (ref.level === "gold") {
                       badgeColor = "#D4AF37";
-                      badgeLabel = "メタ分析";
+                      badgeLabel = String(i18n.t("lessonScreen.badges.metaAnalysis"));
                     } else if (ref.level === "bronze") {
                       badgeColor = "#CD7F32";
-                      badgeLabel = "示唆・仮説";
+                      badgeLabel = String(i18n.t("lessonScreen.badges.suggestive"));
                     }
 
                     return (
@@ -307,11 +308,11 @@ export default function LessonScreen() {
                 onPress={handleRetry}
               >
                 <Text style={[styles.buttonText, styles.secondaryButtonText]}>
-                  もう一度
+                  {i18n.t("lessonScreen.retry")}
                 </Text>
               </Pressable>
               <Pressable style={styles.button} onPress={handleComplete} testID="lesson-complete">
-                <Text style={styles.buttonText}>完了</Text>
+                <Text style={styles.buttonText}>{i18n.t("lessonScreen.complete")}</Text>
               </Pressable>
             </View>
           </View>
