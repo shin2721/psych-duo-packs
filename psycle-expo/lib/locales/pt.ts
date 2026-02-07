@@ -61,6 +61,8 @@ export const pt = {
         notifications: 'Notificações',
         sound: 'Som',
         haptics: 'Hápticos',
+        language: 'Idioma',
+        languagePickerTitle: 'Selecionar idioma',
         support: 'Suporte',
         helpFaq: 'Ajuda e FAQ',
         restorePurchases: 'Restaurar compras',
