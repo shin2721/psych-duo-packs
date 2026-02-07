@@ -20,9 +20,78 @@ const path = require('path');
 const LESSONS_ROOT = 'data/lessons';
 const RULES_PATH = 'scripts/translation-glossary.rules.json';
 const REPORT_PATH = 'docs/_reports/translation_glossary.md';
+const DEFAULT_BASELINE_PATH = 'scripts/translation-glossary-baseline.json';
 
-const args = process.argv.slice(2);
-const STRICT_MODE = args.includes('--strict');
+function parseArgs(argv) {
+  const flags = new Set();
+  const options = {};
+
+  for (let i = 0; i < argv.length; i++) {
+    const token = argv[i];
+    if (!token.startsWith('--')) continue;
+    const next = argv[i + 1];
+    if (next && !next.startsWith('--')) {
+      options[token] = next;
+      i++;
+      continue;
+    }
+    flags.add(token);
+  }
+
+  return { flags, options };
+}
+
+function ensureParentDir(filePath) {
+  const dir = path.dirname(filePath);
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir, { recursive: true });
+  }
+}
+
+function issueKey(issue) {
+  return [
+    issue.lesson || '',
+    issue.id || '',
+    issue.field || '',
+    issue.type || '',
+    issue.ja_term || '',
+    issue.en_expected || '',
+    issue.ja_hedge || '',
+    issue.matched || '',
+    issue.message || '',
+  ].join('|');
+}
+
+function loadBaseline(filePath) {
+  if (!fs.existsSync(filePath)) {
+    return { version: 1, generatedAt: null, entries: [] };
+  }
+
+  try {
+    const parsed = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+    const entries = Array.isArray(parsed.entries) ? parsed.entries : [];
+    return {
+      version: parsed.version || 1,
+      generatedAt: parsed.generatedAt || null,
+      entries: entries.filter((x) => typeof x === 'string'),
+    };
+  } catch (err) {
+    console.warn(`⚠️ Failed to parse baseline file: ${filePath}`);
+    return { version: 1, generatedAt: null, entries: [] };
+  }
+}
+
+function saveBaseline(filePath, warningIssues) {
+  const uniqueEntries = [...new Set(warningIssues.map(issueKey))].sort();
+  const payload = {
+    version: 1,
+    generatedAt: new Date().toISOString(),
+    total: uniqueEntries.length,
+    entries: uniqueEntries,
+  };
+  ensureParentDir(filePath);
+  fs.writeFileSync(filePath, JSON.stringify(payload, null, 2) + '\n');
+}
 
 // === Load Rules ===
 let RULES;
@@ -264,6 +333,12 @@ node scripts/lint-translation-glossary.js
 
 # Run in strict mode (fail on warnings)
 node scripts/lint-translation-glossary.js --strict
+
+# Fail only when new warnings appear (vs baseline)
+node scripts/lint-translation-glossary.js --fail-on-new --baseline scripts/translation-glossary-baseline.json
+
+# Update baseline after intentional changes
+node scripts/lint-translation-glossary.js --update-baseline --baseline scripts/translation-glossary-baseline.json
 \`\`\`
 `;
 
@@ -271,8 +346,14 @@ node scripts/lint-translation-glossary.js --strict
 }
 
 function main() {
+  const { flags, options } = parseArgs(process.argv.slice(2));
+  const STRICT_MODE = flags.has('--strict');
+  const FAIL_ON_NEW = flags.has('--fail-on-new');
+  const UPDATE_BASELINE = flags.has('--update-baseline');
+  const baselinePath = path.resolve(process.cwd(), options['--baseline'] || DEFAULT_BASELINE_PATH);
+
   console.log('🔍 Translation Glossary Lint');
-  console.log(`   Mode: ${STRICT_MODE ? 'STRICT' : 'WARNING-ONLY'}`);
+  console.log(`   Mode: ${STRICT_MODE ? 'STRICT' : FAIL_ON_NEW ? 'FAIL-ON-NEW' : 'WARNING-ONLY'}`);
   console.log('');
 
   const units = ['mental_units', 'health_units', 'money_units', 'social_units', 'study_units', 'work_units'];
@@ -326,6 +407,18 @@ function main() {
     stats.byType[issue.type] = (stats.byType[issue.type] || 0) + 1;
   }
 
+  const warningIssues = allIssues.filter((issue) => issue.severity === 'warning');
+  const errorIssues = allIssues.filter((issue) => issue.severity === 'error');
+
+  const baseline = loadBaseline(baselinePath);
+  const baselineSet = new Set(baseline.entries);
+  const newWarnings = warningIssues.filter((issue) => !baselineSet.has(issueKey(issue)));
+
+  if (UPDATE_BASELINE) {
+    saveBaseline(baselinePath, warningIssues);
+    console.log(`✅ Baseline updated: ${path.relative(process.cwd(), baselinePath)} (${warningIssues.length} entries)`);
+  }
+
   // Generate report
   const reportDir = path.dirname(REPORT_PATH);
   if (!fs.existsSync(reportDir)) {
@@ -342,14 +435,21 @@ function main() {
   console.log(`   Total issues: ${allIssues.length}`);
   console.log(`   Errors: ${stats.errors}`);
   console.log(`   Warnings: ${stats.warnings}`);
+  console.log(`   New warnings vs baseline: ${newWarnings.length}`);
   console.log(`   Report: ${REPORT_PATH}`);
+  if (FAIL_ON_NEW || UPDATE_BASELINE) {
+    console.log(`   Baseline: ${path.relative(process.cwd(), baselinePath)}`);
+  }
 
   // Exit code
   if (STRICT_MODE && allIssues.length > 0) {
     console.log('\n❌ FAIL: Issues found in strict mode');
     process.exit(1);
-  } else if (stats.errors > 0) {
+  } else if (errorIssues.length > 0) {
     console.log('\n❌ FAIL: Errors found');
+    process.exit(1);
+  } else if (FAIL_ON_NEW && newWarnings.length > 0) {
+    console.log('\n❌ FAIL: New warnings found vs baseline');
     process.exit(1);
   } else {
     console.log('\n✅ PASS');
