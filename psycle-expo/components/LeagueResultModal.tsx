@@ -16,6 +16,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
 import { LEAGUE_TIERS } from '../lib/league';
 import { LeagueResult, claimReward } from '../lib/leagueReward';
+import i18n from '../lib/i18n';
 
 interface LeagueResultModalProps {
     visible: boolean;
@@ -71,35 +72,46 @@ export function LeagueResultModal({
 
                     {/* Title */}
                     <Text style={styles.title}>
-                        {result.promoted ? '昇格！' : result.demoted ? '降格...' : '週終了！'}
+                        {result.promoted
+                            ? i18n.t('leagueResultModal.titlePromoted')
+                            : result.demoted
+                                ? i18n.t('leagueResultModal.titleDemoted')
+                                : i18n.t('leagueResultModal.titleWeeklyEnd')}
                     </Text>
 
                     {/* Rank */}
                     <Text style={styles.rank}>
-                        #{result.finalRank}位でフィニッシュ
+                        {i18n.t('leagueResultModal.rankFinish', { rank: result.finalRank })}
                     </Text>
 
                     {/* Tier Change */}
                     {(result.promoted || result.demoted) && (
                         <View style={styles.tierChange}>
                             <Text style={[styles.tierName, { color: tierInfo.color }]}>
-                                {tierInfo.icon} {tierInfo.name}リーグへ
+                                {i18n.t('leagueResultModal.tierChangeToLeague', {
+                                    icon: tierInfo.icon,
+                                    tier: tierInfo.name,
+                                })}
                             </Text>
                         </View>
                     )}
 
                     {/* Rewards */}
                     <View style={styles.rewardsContainer}>
-                        <Text style={styles.rewardsTitle}>報酬</Text>
+                        <Text style={styles.rewardsTitle}>{i18n.t('leagueResultModal.rewardsTitle')}</Text>
                         <View style={styles.rewardRow}>
                             <Ionicons name="diamond" size={24} color="#00BCD4" />
-                            <Text style={styles.rewardText}>+{result.reward.gems} Gems</Text>
+                            <Text style={styles.rewardText}>
+                                {i18n.t('leagueResultModal.rewardGems', { count: result.reward.gems })}
+                            </Text>
                         </View>
                         {result.reward.badges.length > 0 && (
                             <View style={styles.rewardRow}>
                                 <Ionicons name="medal" size={24} color="#FFD700" />
                                 <Text style={styles.rewardText}>
-                                    +{result.reward.badges.length} バッジ
+                                    {i18n.t('leagueResultModal.rewardBadges', {
+                                        count: result.reward.badges.length,
+                                    })}
                                 </Text>
                             </View>
                         )}
@@ -112,7 +124,9 @@ export function LeagueResultModal({
                         disabled={claiming}
                     >
                         <Text style={styles.buttonText}>
-                            {claiming ? '受け取り中...' : '受け取る'}
+                            {claiming
+                                ? i18n.t('leagueResultModal.claiming')
+                                : i18n.t('leagueResultModal.claim')}
                         </Text>
                     </Pressable>
                 </View>
