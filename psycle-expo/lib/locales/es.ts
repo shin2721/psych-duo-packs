@@ -202,6 +202,18 @@ export const es = {
         buy: 'Comprar →',
         disclaimer: 'Stripe se usa para compras de Pro/Max.',
     },
+    mistakesHubButton: {
+        upsellMessage: 'Desbloquea "Revisión de errores" con Max\n\n✓ Selecciona 10 errores recientes\n✓ Revisa sin límite cuantas veces quieras\n✓ Optimiza automáticamente el balance por etiquetas\n\nMejorar ahora →',
+        notEnoughData: 'Aún no hay suficientes datos para repasar.\nResuelve algunas preguntas más e inténtalo de nuevo.',
+        sessionStarted: 'Sesión de repaso iniciada (%{count} preguntas)',
+        titleAvailable: 'Repasa errores en 5 minutos',
+        titleLocked: '🔒 Repasa errores en 5 minutos (Max)',
+        subtitle: 'Enfócate en 10 tropiezos recientes',
+        statusUnlimited: 'Sesiones de repaso: Ilimitadas',
+        statusRemaining: 'Sesiones de repaso de hoy: quedan %{remaining}/1',
+        statusLocked: 'La revisión de errores está disponible en el plan Max',
+        itemCountReady: '%{count} preguntas de repaso están listas',
+    },
     review: {
         title: 'Repaso de puntos débiles',
         emptyTitle: '¡Excelente!',

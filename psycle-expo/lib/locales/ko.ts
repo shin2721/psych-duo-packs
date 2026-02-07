@@ -202,6 +202,18 @@ export const ko = {
         buy: '구매하기 →',
         disclaimer: 'Pro/Max 구매에는 Stripe 결제가 사용됩니다.',
     },
+    mistakesHubButton: {
+        upsellMessage: 'Max 플랜에서 "실수 복습"을 사용할 수 있습니다\n\n✓ 최근 실수 10문항을 엄선\n✓ 횟수 제한 없이 반복 복습 가능\n✓ 태그 비율을 자동 최적화\n\n지금 업그레이드 →',
+        notEnoughData: '아직 복습 데이터가 충분하지 않습니다.\n문제를 조금 더 풀고 다시 시도해 주세요.',
+        sessionStarted: '복습 세션 시작 (%{count}문항)',
+        titleAvailable: '실수만 5분 복습',
+        titleLocked: '🔒 실수만 5분 복습 (Max)',
+        subtitle: '최근 막힌 지점 10문항만 집중',
+        statusUnlimited: '복습 세션: 무제한',
+        statusRemaining: '오늘의 복습 세션: %{remaining}/1회 남음',
+        statusLocked: '실수 복습은 Max 플랜에서 이용할 수 있습니다',
+        itemCountReady: '%{count}개의 복습 문제가 준비되었습니다',
+    },
     review: {
         title: '약점 복습',
         emptyTitle: '훌륭해요!',

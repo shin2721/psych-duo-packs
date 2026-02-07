@@ -202,6 +202,18 @@ export const pt = {
         buy: 'Comprar →',
         disclaimer: 'Stripe é usado para compras Pro/Max.',
     },
+    mistakesHubButton: {
+        upsellMessage: 'Desbloqueie a "Revisão de Erros" com Max\n\n✓ Seleciona 10 erros recentes\n✓ Revise sem limite, quantas vezes quiser\n✓ Otimiza automaticamente a distribuição por tags\n\nFazer upgrade agora →',
+        notEnoughData: 'Ainda não há dados suficientes para revisão.\nResolva mais algumas perguntas e tente novamente.',
+        sessionStarted: 'Sessão de revisão iniciada (%{count} perguntas)',
+        titleAvailable: 'Revise erros em 5 minutos',
+        titleLocked: '🔒 Revise erros em 5 minutos (Max)',
+        subtitle: 'Foque em 10 dificuldades recentes',
+        statusUnlimited: 'Sessões de revisão: Ilimitadas',
+        statusRemaining: 'Sessões de revisão de hoje: %{remaining}/1 restantes',
+        statusLocked: 'A revisão de erros está disponível no plano Max',
+        itemCountReady: '%{count} perguntas de revisão estão prontas',
+    },
     review: {
         title: 'Revisão de pontos fracos',
         emptyTitle: 'Ótimo!',

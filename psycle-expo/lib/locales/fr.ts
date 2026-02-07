@@ -202,6 +202,18 @@ export const fr = {
         buy: 'Acheter →',
         disclaimer: 'Stripe est utilisé pour les achats Pro/Max.',
     },
+    mistakesHubButton: {
+        upsellMessage: 'Débloquez la "Révision des erreurs" avec Max\n\n✓ Sélectionne 10 erreurs récentes\n✓ Révisions illimitées, autant de fois que vous voulez\n✓ Optimise automatiquement la répartition des tags\n\nMettre à niveau maintenant →',
+        notEnoughData: 'Il n’y a pas encore assez de données de révision.\nRésolvez quelques questions de plus puis réessayez.',
+        sessionStarted: 'Session de révision démarrée (%{count} questions)',
+        titleAvailable: 'Réviser les erreurs en 5 minutes',
+        titleLocked: '🔒 Réviser les erreurs en 5 minutes (Max)',
+        subtitle: 'Concentrez-vous sur 10 blocages récents',
+        statusUnlimited: 'Sessions de révision : illimitées',
+        statusRemaining: 'Sessions de révision du jour : %{remaining}/1 restantes',
+        statusLocked: 'La révision des erreurs est disponible avec le plan Max',
+        itemCountReady: '%{count} questions de révision sont prêtes',
+    },
     review: {
         title: 'Révision des points faibles',
         emptyTitle: 'Excellent !',

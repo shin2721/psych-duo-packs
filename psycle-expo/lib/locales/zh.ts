@@ -202,6 +202,18 @@ export const zh = {
         buy: '购买 →',
         disclaimer: 'Pro/Max 购买使用 Stripe 支付。',
     },
+    mistakesHubButton: {
+        upsellMessage: '升级到 Max 即可使用“错题复习”\n\n✓ 精选最近 10 道错题\n✓ 可无限次反复复习\n✓ 自动优化标签分布\n\n立即升级 →',
+        notEnoughData: '当前复习数据还不够。\n请再做一些题目后重试。',
+        sessionStarted: '复习会话已开始（%{count}题）',
+        titleAvailable: '5 分钟只复习错题',
+        titleLocked: '🔒 5 分钟只复习错题（Max）',
+        subtitle: '仅聚焦最近 10 个卡点',
+        statusUnlimited: '复习会话：不限次数',
+        statusRemaining: '今日复习会话：剩余 %{remaining}/1',
+        statusLocked: '错题复习仅限 Max 套餐使用',
+        itemCountReady: '已准备好 %{count} 道复习题',
+    },
     review: {
         title: '薄弱点复习',
         emptyTitle: '太棒了！',

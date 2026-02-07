@@ -202,6 +202,18 @@ export const de = {
         buy: 'Kaufen →',
         disclaimer: 'Stripe wird für Pro/Max-Käufe verwendet.',
     },
+    mistakesHubButton: {
+        upsellMessage: 'Schalte mit Max die „Fehler-Wiederholung“ frei\n\n✓ Wählt 10 aktuelle Fehler aus\n✓ Beliebig oft und ohne Limit wiederholen\n✓ Optimiert die Tag-Verteilung automatisch\n\nJetzt upgraden →',
+        notEnoughData: 'Es gibt noch nicht genug Wiederholungsdaten.\nLöse noch ein paar Fragen und versuche es erneut.',
+        sessionStarted: 'Wiederholungssitzung gestartet (%{count} Fragen)',
+        titleAvailable: 'Fehler in 5 Minuten wiederholen',
+        titleLocked: '🔒 Fehler in 5 Minuten wiederholen (Max)',
+        subtitle: 'Fokussiere dich auf 10 aktuelle Stolperstellen',
+        statusUnlimited: 'Wiederholungssitzungen: Unbegrenzt',
+        statusRemaining: 'Heutige Wiederholungssitzungen: %{remaining}/1 übrig',
+        statusLocked: 'Die Fehler-Wiederholung ist im Max-Plan verfügbar',
+        itemCountReady: '%{count} Wiederholungsfragen sind bereit',
+    },
     review: {
         title: 'Schwächen-Review',
         emptyTitle: 'Stark!',
