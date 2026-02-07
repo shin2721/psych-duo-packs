@@ -1,4 +1,3 @@
-import { getLocales } from 'expo-localization';
 import { I18n } from 'i18n-js';
 import { ja } from './locales/ja';
 import { en } from './locales/en';
@@ -24,8 +23,14 @@ const i18n = new I18n({
 i18n.enableFallback = true;
 i18n.defaultLocale = 'ja';
 
-// Get device locale
-const deviceLocale = getLocales()[0]?.languageCode ?? 'ja';
+// Resolve locale at runtime. In Jest, expo-localization may not be transformable.
+let deviceLocale = 'ja';
+try {
+    const localization = require('expo-localization');
+    deviceLocale = localization.getLocales?.()[0]?.languageCode ?? 'ja';
+} catch {
+    deviceLocale = 'ja';
+}
 i18n.locale = deviceLocale;
 
 export default i18n;

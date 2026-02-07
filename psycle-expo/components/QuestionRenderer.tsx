@@ -25,6 +25,7 @@ import {
   SortOrder,
 } from "./QuestionTypes";
 import { ComboFeedback } from "./ComboFeedback";
+import i18n from "../lib/i18n";
 
 import { Question } from "../types/question";
 export { Question };
@@ -423,6 +424,21 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
     return '';
   })();
 
+  const positiveFeedbacks = [
+    i18n.t("questionRenderer.feedback.correct1"),
+    i18n.t("questionRenderer.feedback.correct2"),
+    i18n.t("questionRenderer.feedback.correct3"),
+    i18n.t("questionRenderer.feedback.correct4"),
+    i18n.t("questionRenderer.feedback.correct5"),
+  ];
+
+  const navigationFeedbacks = [
+    i18n.t("questionRenderer.feedback.incorrect1"),
+    i18n.t("questionRenderer.feedback.incorrect2"),
+    i18n.t("questionRenderer.feedback.incorrect3"),
+    i18n.t("questionRenderer.feedback.incorrect4"),
+  ];
+
   return (
     <>
       <Animated.View
@@ -537,7 +553,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
               <MicroInput
                 inputText={inputText}
                 setInputText={setInputText}
-                placeholder={question.placeholder || "答えを入力"}
+                placeholder={question.placeholder || i18n.t("questionRenderer.inputPlaceholder")}
                 showResult={showResult}
                 onSubmit={() => setShowResult(true)}
               />
@@ -565,7 +581,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
               }}
               disabled={selectedIndexes.length === 0}
             >
-              <Text style={styles.submitButtonText}>決定</Text>
+              <Text style={styles.submitButtonText}>{i18n.t("questionRenderer.submit")}</Text>
             </Pressable>
           )}
 
@@ -586,7 +602,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
               />
               {!showResult && (
                 <Pressable style={styles.submitButton} onPress={handleSubmitOrder}>
-                  <Text style={styles.submitButtonText}>答えを確認</Text>
+                  <Text style={styles.submitButtonText}>{i18n.t("questionRenderer.checkAnswer")}</Text>
                 </Pressable>
               )}
             </>
@@ -668,7 +684,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                 {/* term_cardは自動的に続けるボタンを表示 */}
                 {!showResult && (
                   <Pressable style={styles.continueButton} onPress={() => setShowResult(true)} testID="question-continue">
-                    <Text style={styles.continueButtonText}>続ける</Text>
+                    <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
                     <Ionicons name="arrow-forward" size={20} color="#fff" />
                   </Pressable>
                 )}
@@ -716,12 +732,10 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                     />
                     <Text style={[styles.resultTitle, isCorrect ? styles.correctText : styles.incorrectText]}>
                       {isCorrect ? (() => {
-                        const posFeedbacks = ["その通り", "鋭いね", "いい視点だね", "ナイス！", "素晴らしい"];
-                        return posFeedbacks[Math.floor(Math.random() * posFeedbacks.length)];
+                        return positiveFeedbacks[Math.floor(Math.random() * positiveFeedbacks.length)];
                       })() : (() => {
                         // Navigation style: Empathetic, not judgmental
-                        const navFeedbacks = ["なるほど", "この視点もあるね", "多くの人が迷うところ", "興味深い選択だね"];
-                        return navFeedbacks[Math.floor(Math.random() * navFeedbacks.length)];
+                        return navigationFeedbacks[Math.floor(Math.random() * navigationFeedbacks.length)];
                       })()}
                     </Text>
                   </View>
@@ -734,27 +748,29 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                   if ((question.type === "multiple_choice" || question.type === "fill_blank_tap" || question.type === "conversation" || question.type === "quick_reflex" || question.type === "swipe_judgment" || question.type === "consequence_scenario" || question.type === "interactive_practice") && (question.choices && typeof question.correct_index === 'number')) {
                     correctAnswerText = question.choices[question.correct_index];
                   } else if (question.type === "select_all" && question.choices && question.correct_answers) {
-                    correctAnswerText = question.correct_answers.map(i => question.choices[i]).join("、");
+                    correctAnswerText = question.correct_answers.map(i => question.choices[i]).join(i18n.t("questionRenderer.listSeparator"));
                   } else if (question.type === "swipe_judgment" && question.swipe_labels) {
                     correctAnswerText = question.is_true ? `→ ${question.swipe_labels.right}` : `← ${question.swipe_labels.left}`;
                   } else if (question.type === "sort_order" && question.correct_order) {
                     correctAnswerText = question.correct_order.join(" → ");
                   } else if (question.type === "consequence_scenario") {
-                    correctAnswerText = question.consequence_type === "positive" ? "ポジティブな結果" : "ネガティブな結果";
+                    correctAnswerText = question.consequence_type === "positive"
+                      ? i18n.t("questionRenderer.consequencePositive")
+                      : i18n.t("questionRenderer.consequenceNegative");
                   } else if (question.type === "matching") {
-                    correctAnswerText = "上の緑色のペアが正解";
+                    correctAnswerText = i18n.t("questionRenderer.matchingCorrectAnswer");
                   }
 
                   if (!correctAnswerText) return null;
 
                   // ラベルを動的に決定
-                  let labelText = "正解:";
+                  let labelText = i18n.t("questionRenderer.correctLabel");
                   if (
                     question.type === "conversation" ||
                     question.type === "consequence_scenario" ||
                     question.type === "swipe_judgment"
                   ) {
-                    labelText = "おすすめ:"; // Or "より良い選択:", "Better Choice:"
+                    labelText = i18n.t("questionRenderer.recommendedLabel");
                   }
 
                   return (
@@ -767,7 +783,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
 
                 {/* 次へボタン (Moved before explanation to ensure visibility) */}
                 <AnimatedButton style={styles.continueButton} onPress={handleContinue} testID="question-continue">
-                  <Text style={styles.continueButtonText}>続ける</Text>
+                  <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
                   <Ionicons name="arrow-forward" size={20} color="#fff" />
                 </AnimatedButton>
 
@@ -824,13 +840,13 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                                 }, 1000);
                               }}
                             >
-                              <Text style={styles.attemptButtonText}>⏱️ 10秒だけやる</Text>
+                              <Text style={styles.attemptButtonText}>{i18n.t("questionRenderer.attempt10sec")}</Text>
                             </TouchableOpacity>
                           ) : attemptCountdown > 0 ? (
                             // カウントダウン中：無効化されたボタン
                             <View style={[styles.executeButton, { backgroundColor: '#374151', opacity: 0.7 }]}>
                               <Text style={[styles.executeButtonText, { color: '#9ca3af' }]}>
-                                ⏱️ {attemptCountdown}秒...
+                                {i18n.t("questionRenderer.countdown", { seconds: attemptCountdown })}
                               </Text>
                             </View>
                           ) : (
@@ -842,7 +858,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                                 onInterventionExecuted?.(questionId);
                               }}
                             >
-                              <Text style={styles.executeButtonText}>✅ やった！</Text>
+                              <Text style={styles.executeButtonText}>{i18n.t("questionRenderer.executed")}</Text>
                             </TouchableOpacity>
                           )}
                         </View>
@@ -854,7 +870,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                         style={styles.detailsToggleButton}
                       >
                         <Text style={styles.detailsToggleButtonText}>
-                          {showExplanationDetails ? "▲ 閉じる" : "▼ 詳しく見る"}
+                          {showExplanationDetails ? i18n.t("lesson.closeDetails") : i18n.t("lesson.showDetails")}
                         </Text>
                       </TouchableOpacity>
 
@@ -903,7 +919,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                       ]}
                     >
                       <Text style={[styles.evidenceText, { fontSize: 11, color: '#aaa' }]}>
-                        📚 根拠あり (タップで詳細)
+                        {i18n.t("questionRenderer.evidenceAvailable")}
                       </Text>
                     </Pressable>
                   );
@@ -940,12 +956,12 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                           }, 1000);
                         }}
                       >
-                        <Text style={styles.attemptButtonText}>⏱️ 10秒だけやる</Text>
+                        <Text style={styles.attemptButtonText}>{i18n.t("questionRenderer.attempt10sec")}</Text>
                       </TouchableOpacity>
                     ) : attemptCountdown > 0 ? (
                       <View style={[styles.executeButton, { backgroundColor: '#374151', opacity: 0.7 }]}>
                         <Text style={[styles.executeButtonText, { color: '#9ca3af' }]}>
-                          ⏱️ {attemptCountdown}秒...
+                          {i18n.t("questionRenderer.countdown", { seconds: attemptCountdown })}
                         </Text>
                       </View>
                     ) : (
@@ -956,7 +972,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
                           onInterventionExecuted?.(questionId);
                         }}
                       >
-                        <Text style={styles.executeButtonText}>✅ やった！</Text>
+                        <Text style={styles.executeButtonText}>{i18n.t("questionRenderer.executed")}</Text>
                       </TouchableOpacity>
                     )}
                   </View>
