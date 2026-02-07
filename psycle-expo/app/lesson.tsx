@@ -42,6 +42,7 @@ export default function LessonScreen() {
   const hasLoadedRef = useRef<string | null>(null);
   const lessonStartTrackedRef = useRef<string | null>(null); // lesson_start多重発火防止
   const lessonCompleteTrackedRef = useRef<string | null>(null); // lesson_complete多重発火防止
+  const listSeparator = i18n.locale.startsWith("ja") ? "、" : ", ";
 
   useEffect(() => {
     // Only load if file changed and we haven't loaded this file yet
@@ -354,7 +355,7 @@ export default function LessonScreen() {
                         <View style={styles.applicabilitySection}>
                           <Text style={styles.applicabilityHeader}>{i18n.t("lesson.bestForHeader")}</Text>
                           <Text style={styles.applicabilityText}>
-                            {expandedDetails.best_for.join("、")}
+                            {expandedDetails.best_for.join(listSeparator)}
                           </Text>
                         </View>
                       )}
@@ -364,7 +365,7 @@ export default function LessonScreen() {
                         <View style={styles.limitationsSection}>
                           <Text style={styles.limitationsHeader}>{i18n.t("lesson.limitationsHeader")}</Text>
                           <Text style={styles.limitationsText}>
-                            {expandedDetails.limitations.join("、")}
+                            {expandedDetails.limitations.join(listSeparator)}
                           </Text>
                         </View>
                       )}
@@ -484,7 +485,7 @@ export default function LessonScreen() {
                         <View style={styles.applicabilitySection}>
                           <Text style={styles.applicabilityHeader}>{i18n.t("lesson.bestForHeader")}</Text>
                           <Text style={styles.applicabilityText}>
-                            {meta.best_for.join("、")}
+                            {meta.best_for.join(listSeparator)}
                           </Text>
                         </View>
                       )}
@@ -493,7 +494,7 @@ export default function LessonScreen() {
                         <View style={styles.limitationsSection}>
                           <Text style={styles.limitationsHeader}>{i18n.t("lesson.limitationsHeader")}</Text>
                           <Text style={styles.limitationsText}>
-                            {meta.limitations.join("、")}
+                            {meta.limitations.join(listSeparator)}
                           </Text>
                         </View>
                       )}

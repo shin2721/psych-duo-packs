@@ -25,8 +25,8 @@
             ],
             "citation_role": "Explains cognitive patterns of perfectionism",
             "claim_tags": [
-                "完璧主義",
-                "認知パターン"
+                "perfectionism",
+                "cognitive patterns"
             ]
         }
     },
@@ -57,9 +57,9 @@
             ],
             "citation_role": "Explains the connection between perfectionism and anxiety",
             "claim_tags": [
-                "完璧主義",
-                "不安",
-                "行動抑制"
+                "perfectionism",
+                "anxiety",
+                "behavioral inhibition"
             ]
         }
     },
@@ -83,8 +83,8 @@
             "evidence_type": "theoretical",
             "citation_role": "Explains the dual nature of high standards",
             "claim_tags": [
-                "完璧主義",
-                "自己評価"
+                "perfectionism",
+                "self-evaluation"
             ]
         }
     },
@@ -116,9 +116,9 @@
             "citation_role": "As a cognitive restructuring technique",
             "try_this": "Before today's first task, say \"70 points is OK\" then start",
             "claim_tags": [
-                "完璧主義",
-                "認知的再構成",
-                "許容範囲"
+                "perfectionism",
+                "cognitive restructuring",
+                "acceptable range"
             ],
             "tiny_metric": {
                 "before_prompt": "Anxiety before starting the task (1-10)",
@@ -157,9 +157,9 @@
             "evidence_type": "theoretical",
             "citation_role": "Distinguishes adaptive and maladaptive perfectionism",
             "claim_tags": [
-                "完璧主義",
-                "柔軟性",
-                "適応的"
+                "perfectionism",
+                "flexibility",
+                "adaptive traits"
             ]
         }
     },
@@ -185,9 +185,9 @@
             "evidence_type": "indirect",
             "citation_role": "As an example of dichotomous thinking",
             "claim_tags": [
-                "完璧主義",
-                "二分法思考",
-                "回避"
+                "perfectionism",
+                "all-or-nothing thinking",
+                "avoidance"
             ]
         }
     },
@@ -211,9 +211,9 @@
             "evidence_type": "theoretical",
             "citation_role": "Explains the relationship between perfectionism and procrastination",
             "claim_tags": [
-                "完璧主義",
-                "先延ばし",
-                "失敗回避"
+                "perfectionism",
+                "procrastination",
+                "failure avoidance"
             ]
         }
     },
@@ -244,9 +244,9 @@
             ],
             "citation_role": "Recommendation based on meta-analysis",
             "claim_tags": [
-                "完璧主義",
-                "柔軟性",
-                "対処法"
+                "perfectionism",
+                "flexibility",
+                "coping strategies"
             ]
         }
     },
@@ -279,9 +279,9 @@
             "citation_role": "Bridge to practice",
             "try_this": "Say \"70 points is OK\" out loud before your first morning task",
             "claim_tags": [
-                "完璧主義",
-                "実践",
-                "行動変容"
+                "perfectionism",
+                "practice",
+                "behavior change"
             ],
             "tiny_metric": {
                 "before_prompt": "Hesitation before starting task (1-10)",
@@ -321,8 +321,8 @@
             "evidence_type": "indirect",
             "citation_role": "Promotes reflection",
             "claim_tags": [
-                "振り返り",
-                "自己認識"
+                "reflection",
+                "self-awareness"
             ]
         }
     }

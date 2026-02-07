@@ -107,6 +107,7 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
     // Get evidence summary for "まず試す価値" display
     const evidenceSummary = getEvidenceSummary(expandedDetails);
     const tryValueColor = getTryValueColor(evidenceSummary.tryValue);
+    const listSeparator = i18n.locale.startsWith('ja') ? '、' : ', ';
 
     return (
         <View style={StyleSheet.absoluteFill} pointerEvents="auto">
@@ -167,14 +168,14 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                         {expandedDetails?.best_for && expandedDetails.best_for.length > 0 && (
                             <View style={styles.section}>
                                 <Text style={styles.sectionLabel}>{i18n.t('lesson.bestForHeader')}</Text>
-                                <Text style={styles.sectionText}>{expandedDetails.best_for.join('、')}</Text>
+                                <Text style={styles.sectionText}>{expandedDetails.best_for.join(listSeparator)}</Text>
                             </View>
                         )}
 
                         {expandedDetails?.limitations && expandedDetails.limitations.length > 0 && (
                             <View style={styles.section}>
                                 <Text style={styles.sectionLabel}>{i18n.t('lesson.limitationsHeader')}</Text>
-                                <Text style={styles.sectionText}>{expandedDetails.limitations.join('、')}</Text>
+                                <Text style={styles.sectionText}>{expandedDetails.limitations.join(listSeparator)}</Text>
                             </View>
                         )}
 
