@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Image, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { Audio } from 'expo-av';
+import i18n from '../lib/i18n';
 
 interface QuestionImageProps {
     uri: string;
@@ -32,7 +33,7 @@ export function QuestionImage({ uri, caption }: QuestionImageProps) {
                 }}
             />
             {error && (
-                <Text style={styles.errorText}>画像の読み込みに失敗しました</Text>
+                <Text style={styles.errorText}>{i18n.t('questionMedia.imageLoadFailed')}</Text>
             )}
             {caption && !error && (
                 <Text style={styles.caption}>{caption}</Text>
@@ -118,10 +119,10 @@ export function QuestionAudio({ uri }: QuestionAudioProps) {
                     </Text>
                     <Text style={styles.audioText}>
                         {error
-                            ? '音声の読み込みに失敗しました'
+                            ? i18n.t('questionMedia.audioLoadFailed')
                             : isPlaying
-                                ? '再生中...'
-                                : '音声を再生'}
+                                ? i18n.t('questionMedia.playing')
+                                : i18n.t('questionMedia.playAudio')}
                     </Text>
                 </>
             )}

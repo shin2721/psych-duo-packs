@@ -173,6 +173,12 @@ export const zh = {
         executed: '✅ Done!',
         evidenceAvailable: '📚 Evidence available (tap for details)',
     },
+    questionMedia: {
+        imageLoadFailed: '图片加载失败',
+        audioLoadFailed: '音频加载失败',
+        playing: '播放中...',
+        playAudio: '播放音频',
+    },
     questionTypes: {
         fillBlankTapPrompt: '点击选择：',
         swipeLeftFallback: '危险',
