@@ -1,0 +1,361 @@
+[
+    {
+        "id": "social_l01_001",
+        "type": "swipe_judgment",
+        "question": "Cuando te piden algo, no puedes decir no, y luego te arrepientes pensando \"por que habr\u00e9 aceptado...\"",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Me pasa seguido",
+            "right": "No tanto"
+        },
+        "explanation": "La tendencia a no poder rechazar suele ser una expresi\u00f3n de \"no quiero lastimar al otro\" o \"no quiero caerle mal\". El problema es que tu propio tiempo y energ\u00eda se van desgastando.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas que tienden a no poder decir no",
+                "Personas que tienden a sacrificarse por los dem\u00e1s"
+            ],
+            "limitations": [
+                "Lo apropiado de rechazar var\u00eda seg\u00fan la cultura y la relaci\u00f3n"
+            ],
+            "citation_role": "Apoya las caracter\u00edsticas e impacto de la no-asertividad a trav\u00e9s de estudios observacionales",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "self_care"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_002",
+        "type": "multiple_choice",
+        "question": "\u00bfPor qu\u00e9 tiende a surgir la resistencia a \"decir no\"?",
+        "choices": [
+            "Inconscientemente asociamos \"decir no = rechazar a la persona\"",
+            "Porque decir no nos perjudica",
+            "Porque no sabemos c\u00f3mo decir no"
+        ],
+        "correct_index": 0,
+        "explanation": "En muchos casos, existe un patr\u00f3n cognitivo de \"decir no = lastimar al otro\". Pero lo que rechazas es \"la solicitud\", no \"a la persona\". Esta distinci\u00f3n puede ser clave. (\"Porque nos perjudica\" o \"porque no sabemos c\u00f3mo\" influyen menos que el patr\u00f3n cognitivo)",
+        "actionable_advice": "\ud83d\udca1 La pr\u00f3xima vez que te cueste decir no, recuerda por solo 10 segundos: \"lo que rechazo es la solicitud, no a la persona\".",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas que sienten culpa al decir no",
+                "Personas con tendencia a sacrificarse por los dem\u00e1s"
+            ],
+            "limitations": [
+                "Cambiar el patr\u00f3n cognitivo no necesariamente cambia las emociones de inmediato"
+            ],
+            "citation_role": "Explica te\u00f3ricamente la distinci\u00f3n entre rechazar y negarse, desde la investigaci\u00f3n sobre asertividad",
+            "claim_tags": [
+                "assertiveness",
+                "cognitive_reframe",
+                "theory"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_003",
+        "type": "swipe_judgment",
+        "question": "Sientes la creencia de que tienes que decidir \"S\u00ed/No\" en el momento.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Me identifico",
+            "right": "No tanto"
+        },
+        "explanation": "En realidad, hay muchos casos en los que \"no necesitas decidir ahora mismo\". Tomarte \"10 segundos de pausa\" puede ayudarte a tomar una decisi\u00f3n m\u00e1s tranquila.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que tienden a responder de inmediato",
+                "Personas que suelen perder el momento para decir no"
+            ],
+            "limitations": [
+                "Hay situaciones de emergencia que requieren una respuesta inmediata"
+            ],
+            "citation_role": "Apoya indirectamente el efecto de la pausa como t\u00e9cnica para establecer l\u00edmites",
+            "claim_tags": [
+                "assertiveness",
+                "decision_making",
+                "boundary_setting"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_004",
+        "type": "multiple_choice",
+        "question": "Ante una solicitud dif\u00edcil de rechazar, \u00bfqu\u00e9 frase podr\u00eda ayudarte a sentirte m\u00e1s tranquilo/a?",
+        "choices": [
+            "\"Ahora no puedo decidir, te respondo despu\u00e9s\"",
+            "\"De ninguna manera\"",
+            "\"Lo voy a pensar\" (dejar las cosas en el aire)"
+        ],
+        "correct_index": 0,
+        "explanation": "\"Ahora no puedo decidir\" no es un no ni un s\u00ed: es una \"pausa\". Esto puede liberarte de la presi\u00f3n de responder de inmediato. Est\u00e1 bien si no te sale. Solo int\u00e9ntalo una vez. (\"Un rechazo fuerte\" es dif\u00edcil de decir. \"Lo voy a pensar\" tiende a quedar en el aire)",
+        "actionable_advice": "\ud83d\udca1 La pr\u00f3xima vez que te cueste decir no, intenta decir por solo 10 segundos: \"Ahora no puedo decidir, te respondo despu\u00e9s\".",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que se enfrentan a menudo a situaciones que exigen respuesta inmediata",
+                "Personas a quienes no les salen las palabras para decir no"
+            ],
+            "limitations": [
+                "El \"despu\u00e9s\" puede quedar ambiguo y deteriorar la relaci\u00f3n"
+            ],
+            "citation_role": "Apoya indirectamente la t\u00e9cnica de pausa para establecer l\u00edmites",
+            "try_this": "Decir \"Ahora no puedo decidir, te respondo despu\u00e9s\" por 10 segundos",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "phrase_template"
+            ],
+            "tiny_metric": {
+                "metric": "\u00bfPudiste usar la frase de pausa?",
+                "stop_rule": "Si no pudiste usarla 3 veces seguidas, d\u00e9jalo"
+            },
+            "comparator": {
+                "baseline": "Responder \"S\u00ed\" de inmediato",
+                "cost": "10 segundos / La carga es baja"
+            },
+            "fallback": {
+                "when": "Si la frase de pausa es dif\u00edcil de decir",
+                "next": "Sustituir con \"D\u00e9jame verificar un momento\""
+            }
+        }
+    },
+    {
+        "id": "social_l01_005",
+        "type": "conversation",
+        "question": "\u00bfQui\u00e9n es la persona a la que m\u00e1s te cuesta decirle no?",
+        "choices": [
+            "Jefe/superior",
+            "Amigos/compa\u00f1eros de trabajo",
+            "Familia",
+            "No se me ocurre nadie en particular"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas las respuestas son v\u00e1lidas. Saber a qui\u00e9n te cuesta decirle no tiende a facilitar la b\u00fasqueda de estrategias.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Apoya el autoconocimiento",
+            "claim_tags": [
+                "self_awareness",
+                "assertiveness",
+                "relationships"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_006",
+        "type": "multiple_choice",
+        "question": "\u00bfCu\u00e1l es la diferencia entre \"decir no\" y \"rechazar a alguien\"?",
+        "choices": [
+            "Decir no = rechazar la solicitud. Rechazar a alguien = negar a la persona",
+            "Significan lo mismo",
+            "Decir no es m\u00e1s agresivo"
+        ],
+        "correct_index": 0,
+        "explanation": "\"Decir no\" es una respuesta ante una acci\u00f3n: la solicitud. \"Rechazar a alguien\" es la sensaci\u00f3n de negar a la persona misma. Las personas a quienes les cuesta decir no suelen confundir estas dos cosas. (\"Significan lo mismo\" y \"decir no es m\u00e1s agresivo\" son ideas err\u00f3neas. La distinci\u00f3n es lo importante)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas que sienten culpa al decir no"
+            ],
+            "limitations": [
+                "Es un tema aparte si la otra persona siente que fue rechazada"
+            ],
+            "citation_role": "Explica te\u00f3ricamente la distinci\u00f3n cognitiva en la asertividad",
+            "claim_tags": [
+                "assertiveness",
+                "cognitive_distinction",
+                "guilt"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_007",
+        "type": "swipe_judgment",
+        "question": "Sientes que decir \"ahora me resulta dif\u00edcil\" podr\u00eda lastimar al otro.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Lo entiendo",
+            "right": "No tanto"
+        },
+        "explanation": "\"Ahora me resulta dif\u00edcil\" es en realidad una forma suave de decir no. Si adem\u00e1s ofreces una alternativa (\"si fuera X, podr\u00eda hacerlo\"), tiende a ser a\u00fan mejor recibido.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que no saben c\u00f3mo decir no"
+            ],
+            "limitations": [
+                "A veces no es posible ofrecer una alternativa"
+            ],
+            "citation_role": "Apoya indirectamente expresiones suaves para establecer l\u00edmites",
+            "claim_tags": [
+                "assertiveness",
+                "communication",
+                "boundary_setting"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_008",
+        "type": "multiple_choice",
+        "question": "Para decir no sin da\u00f1ar la relaci\u00f3n, \u00bfqu\u00e9 puedes agregar a tus palabras?",
+        "choices": [
+            "Una alternativa (\"Si fuera X, podr\u00eda hacerlo\")",
+            "Disculpas (repetir \"lo siento\" varias veces)",
+            "Una explicaci\u00f3n detallada de tus razones"
+        ],
+        "correct_index": 0,
+        "explanation": "Ofrecer una alternativa tiende a transmitir que \"tienes la voluntad de cooperar\". Disculparte excesivamente o dar explicaciones demasiado detalladas puede terminar presion\u00e1ndote m\u00e1s. Solo int\u00e9ntalo una vez. (\"Repetir disculpas\" o \"explicar en detalle\" tienden a ser contraproducentes)",
+        "actionable_advice": "\ud83d\udca1 La pr\u00f3xima vez que necesites decir no, intenta decir por solo 10 segundos: \"Ahora me resulta dif\u00edcil, pero si fuera X, podr\u00eda hacerlo\".",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que temen que decir no arruine la relaci\u00f3n"
+            ],
+            "limitations": [
+                "Hay solicitudes para las que no se puede ofrecer una alternativa"
+            ],
+            "citation_role": "Apoya indirectamente el efecto de ofrecer alternativas al establecer l\u00edmites",
+            "try_this": "Decir \"Ahora me resulta dif\u00edcil, pero si fuera X, podr\u00eda hacerlo\" por 10 segundos",
+            "claim_tags": [
+                "assertiveness",
+                "alternative_offer",
+                "boundary_setting"
+            ],
+            "tiny_metric": {
+                "metric": "\u00bfPudiste decir no ofreciendo una alternativa?",
+                "stop_rule": "Si no pudiste hacerlo 3 veces seguidas, d\u00e9jalo"
+            },
+            "comparator": {
+                "baseline": "Dar excusas largas y detalladas",
+                "cost": "10 segundos / La carga es moderada"
+            },
+            "fallback": {
+                "when": "Si no se te ocurre una alternativa",
+                "next": "Solo decir \"Ahora me resulta dif\u00edcil\" est\u00e1 bien"
+            }
+        }
+    },
+    {
+        "id": "social_l01_009",
+        "type": "conversation",
+        "question": "De las t\u00e9cnicas que aprendiste hoy, \u00bfcu\u00e1l podr\u00edas usar a partir de ma\u00f1ana?",
+        "choices": [
+            "\"Ahora no puedo decidir, te respondo despu\u00e9s\" (frase de pausa)",
+            "\"Ahora me resulta dif\u00edcil, pero si fuera X, podr\u00eda hacerlo\" (alternativa)",
+            "\"Lo que rechazo es la solicitud, no a la persona\" (patr\u00f3n cognitivo)",
+            "Intentar todas"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas valen la pena intentarlas. Si alguna no te funciona, prueba otra. La forma de decir no var\u00eda seg\u00fan la persona. Solo int\u00e9ntalo una vez. (\"Todas\" no es necesario forzarlo, empieza con una sola)",
+        "actionable_advice": "\ud83d\udca1 Ma\u00f1ana intenta solo una vez: cuando te cueste decir no, di \"Ahora no puedo decidir\" por 10 segundos.",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que quieren probar nuevas habilidades de comunicaci\u00f3n"
+            ],
+            "limitations": [
+                "Sin pr\u00e1ctica, puede ser dif\u00edcil que las palabras salgan"
+            ],
+            "citation_role": "Propone opciones de intervenci\u00f3n basadas en asertividad",
+            "try_this": "Ma\u00f1ana usar \"Ahora no puedo decidir\" una sola vez",
+            "claim_tags": [
+                "assertiveness",
+                "implementation",
+                "habit_formation"
+            ],
+            "tiny_metric": {
+                "metric": "\u00bfPudiste usarla al menos una vez esta semana?",
+                "stop_rule": "Si no pudiste usarla en una semana, d\u00e9jalo"
+            },
+            "comparator": {
+                "baseline": "No intentar nada y seguir aceptando todo",
+                "cost": "10 segundos \u00d7 unas pocas veces/semana"
+            },
+            "fallback": {
+                "when": "Si todas son dif\u00edciles de decir",
+                "next": "Primero practica mentalmente antes de decirlo"
+            }
+        }
+    },
+    {
+        "id": "social_l01_010",
+        "type": "conversation",
+        "question": "\u00bfLas \"t\u00e9cnicas para decir no\" de esta lecci\u00f3n te parecieron \u00fatiles?",
+        "choices": [
+            "Creo que podr\u00edan servirme",
+            "Creo que no son para m\u00ed",
+            "Todav\u00eda no lo s\u00e9"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas las respuestas son v\u00e1lidas. Si sientes que \"no son para ti\", buscar otro enfoque tambi\u00e9n es importante. La forma de decir no var\u00eda seg\u00fan la cultura y la relaci\u00f3n.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Apoya la consideraci\u00f3n de las diferencias individuales",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

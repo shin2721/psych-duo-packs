@@ -1,0 +1,304 @@
+[
+    {
+        "id": "mental_l02_001",
+        "type": "swipe_judgment",
+        "question": "Lundi 8h, dans le train pour le travail. La pensee suivante surgit : « J'ai le sentiment que ma presentation d'aujourd'hui ne va pas bien se passer. »",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Ca m'arrive souvent",
+            "right": "Ca m'arrive rarement"
+        },
+        "explanation": "Il s'agit d'un declenchement automatique de « l'evaluation de menace ». Alors que rien ne s'est encore produit, la reaction « c'est peut-etre dangereux » se manifeste deja.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Les personnes qui souhaitent prendre conscience de leurs schemas de pensees automatiques"
+            ],
+            "limitations": [
+                "La seule comprehension theorique tend a ne pas conduire directement a un changement de comportement"
+            ],
+            "citation_role": "Explique l'evaluation primaire (evaluation de menace) dans la theorie de l'evaluation cognitive",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "primary_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_002",
+        "type": "multiple_choice",
+        "question": "Face au meme « feedback de leur superieur », A se sent abattu tandis que B le percoit comme « une occasion de comprendre ce qu'il peut ameliorer ».\n\nQuelle theorie explique le mieux cette difference ?",
+        "choices": [
+            "La theorie de l'evaluation cognitive (les differences d'interpretation influencent le stress)",
+            "La theorie des traits de personnalite (le temperament inne determine tout)",
+            "La theorie stimulus-reponse (l'evenement determine directement la reaction)"
+        ],
+        "correct_index": 0,
+        "explanation": "Meme face au meme evenement, la reaction change selon « comment on l'interprete ». C'est le coeur de la theorie de l'evaluation cognitive. (On a tendance a penser que « c'est la personnalite » ou « c'est l'evenement qui est en cause », mais cela n'explique pas les differences individuelles.)",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Les personnes qui veulent comprendre le contexte theorique",
+                "Les personnes qui veulent savoir pourquoi les reactions different selon les individus"
+            ],
+            "limitations": [
+                "Connaitre la theorie ne change pas automatiquement l'interpretation (la pratique est necessaire)"
+            ],
+            "citation_role": "Explique le mecanisme fondamental de la theorie de l'evaluation cognitive",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress",
+                "individual_differences"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_003",
+        "type": "swipe_judgment",
+        "question": "« L'evaluation primaire » consiste a juger automatiquement un evenement comme « menace ou inoffensif ».",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Je pense que oui",
+            "right": "Je pense que non"
+        },
+        "explanation": "Correct. L'evaluation primaire est le processus qui determine instantanement « est-ce une menace pour moi ? ». Elle se produit souvent de maniere automatique plutot que consciente.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Les personnes qui veulent comprendre precisement la terminologie theorique"
+            ],
+            "limitations": [
+                "Connaitre les termes necessite une pratique separee pour la mise en application"
+            ],
+            "citation_role": "Definit l'evaluation primaire",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "primary_appraisal"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_004",
+        "type": "multiple_choice",
+        "question": "Que juge le processus de « l'evaluation secondaire » ?",
+        "choices": [
+            "« Ai-je les ressources pour faire face a cette situation ? »",
+            "« Cet evenement est-il une menace ? »",
+            "« Ai-je deja vecu une experience similaire dans le passe ? »"
+        ],
+        "correct_index": 0,
+        "explanation": "L'evaluation secondaire est le processus qui evalue « puis-je y faire face ? ». Elle se produit apres que l'evaluation primaire a juge la situation comme « menace ». (« Est-ce une menace ? » releve de l'evaluation primaire. « L'experience passee » est un processus de memoire distinct.)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Les personnes qui veulent saisir la vue d'ensemble de la theorie"
+            ],
+            "limitations": [
+                "La seule comprehension theorique n'ameliore pas les capacites d'adaptation"
+            ],
+            "citation_role": "Definit l'evaluation secondaire",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "secondary_appraisal",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_005",
+        "type": "conversation",
+        "question": "Repensez a une situation recente ou vous avez ressenti une « menace ».",
+        "your_response_prompt": "A ce moment-la, avez-vous eu le sentiment de « pouvoir y faire face » ou de « c'est peut-etre impossible » ?",
+        "choices": [
+            "J'ai senti que je pouvais y faire face",
+            "J'ai senti que c'etait peut-etre impossible",
+            "Ni l'un ni l'autre / Je ne m'en souviens pas"
+        ],
+        "recommended_index": null,
+        "explanation": "Toutes les reponses sont valables. Ce sentiment de « pouvoir y faire face ou non » est precisement l'evaluation secondaire.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Soutient la prise de conscience de l'evaluation secondaire",
+            "claim_tags": [
+                "secondary_appraisal",
+                "self_awareness"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_006",
+        "type": "multiple_choice",
+        "question": "Que tend-il a se produire lorsque l'evaluation primaire juge « menace » et l'evaluation secondaire juge « impossible d'y faire face » ?",
+        "choices": [
+            "Une forte reaction de stress (agitation, anxiete, symptomes physiques)",
+            "Une action calme orientee vers la resolution du probleme",
+            "Rien de particulier"
+        ],
+        "correct_index": 0,
+        "explanation": "La combinaison « menace + incapacite d'y faire face » tend a intensifier la reaction de stress. A l'inverse, « menace + capacite d'y faire face » peut etre percu comme un defi. (« Agir calmement » et « rien ne se passe » sont ideaux, mais difficiles quand on a un sentiment d'incapacite.)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Les personnes qui veulent comprendre les mecanismes de la reaction au stress"
+            ],
+            "limitations": [
+                "Meme en comprenant, la reaction se produit automatiquement (le controle conscient a ses limites)"
+            ],
+            "citation_role": "Explique le mecanisme selon lequel la combinaison evaluation primaire x secondaire determine l'intensite du stress",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_007",
+        "type": "swipe_judgment",
+        "question": "« L'evaluation de menace » est instinctive et ne peut pas etre modifiee.",
+        "is_true": false,
+        "swipe_labels": {
+            "left": "Je pense que oui",
+            "right": "Je pense que non"
+        },
+        "explanation": "La modifier completement est difficile, mais il est possible de devenir plus apte a reinterpreter les situations (avec des differences individuelles). Cependant, il vaut mieux ne pas se forcer quand on est fatigue ou qu'on manque de ressources.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explique theoriquement la variabilite de l'evaluation",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "flexibility"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_008",
+        "type": "multiple_choice",
+        "question": "Dans quel cas la theorie de l'evaluation cognitive est-elle « moins adaptee » ?",
+        "choices": [
+            "Le stress principalement cause par une maladie physique",
+            "Le stress lie aux relations au travail",
+            "L'anxiete diffuse face a l'avenir"
+        ],
+        "correct_index": 0,
+        "explanation": "Lorsque des maladies physiques ou des facteurs physiologiques sont dominants, il convient d'envisager une approche medicale en plus de « changer l'interpretation ». (Les « relations interpersonnelles » et « l'anxiete face a l'avenir » peuvent parfois beneficier de l'approche cognitive.)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Les personnes qui veulent comprendre correctement le champ d'application de la theorie"
+            ],
+            "limitations": [
+                "Cette theorie elle-meme n'est pas detaillee sur « l'identification des cas limites »"
+            ],
+            "citation_role": "Explique les limites du champ d'application de la theorie de l'evaluation cognitive",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_009",
+        "type": "conversation",
+        "question": "Aujourd'hui, vous avez appris « l'evaluation primaire (evaluation de menace) » et « l'evaluation secondaire (capacite d'adaptation) ».",
+        "your_response_prompt": "La prochaine fois que vous ressentirez du stress, laquelle aimeriez-vous essayer de pratiquer ?",
+        "choices": [
+            "L'evaluation primaire : me demander « est-ce vraiment une menace ? »",
+            "L'evaluation secondaire : reflechir a « que puis-je faire ? »",
+            "Essayer les deux",
+            "Passer cette fois (c'est aussi un choix)"
+        ],
+        "recommended_index": null,
+        "explanation": "Toutes les reponses sont valables. Commencer par l'approche qui vous convient le mieux est ce qui dure le plus longtemps.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Propose un point d'entree pour la pratique",
+            "claim_tags": [
+                "implementation",
+                "practice"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_010",
+        "type": "conversation",
+        "question": "Le « mecanisme d'evaluation de menace » appris dans cette lecon vous a-t-il parle ?",
+        "your_response_prompt": "Repondez selon votre intuition",
+        "choices": [
+            "Ca m'a parle",
+            "J'ai un leger doute",
+            "Je ne comprends pas encore bien"
+        ],
+        "recommended_index": null,
+        "explanation": "Toutes les reponses sont valables. Le « doute » est une information precieuse. Si cette theorie ne vous convient pas, une autre approche pourrait peut-etre mieux vous correspondre.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Soutient la prise en compte des differences individuelles",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

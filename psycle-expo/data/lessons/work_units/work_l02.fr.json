@@ -1,0 +1,378 @@
+[
+  {
+    "id": "work_l02_001",
+    "type": "conversation",
+    "question": "Cette semaine, combien de taches as-tu remises a plus tard en te disant \"je devrais le faire\" ?",
+    "your_response_prompt": "Compte honnetement",
+    "choices": [
+      "4 ou plus (ca s'accumule pas mal)",
+      "1 a 3 environ",
+      "0 (je traite tout immediatement)"
+    ],
+    "recommended_index": null,
+    "explanation": "En fait, cette procrastination pourrait etre causee par le perfectionnisme plutot que par un manque de volonte.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "personnes ayant des tendances perfectionnistes"
+      ],
+      "limitations": [
+        "difficile a appliquer dans les situations ou la qualite est vraiment importante"
+      ],
+      "citation_role": "soutient le lien entre procrastination et perfectionnisme par des etudes observationnelles",
+      "claim_tags": [
+        "perfectionism",
+        "procrastination",
+        "task_initiation"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_002",
+    "type": "multiple_choice",
+    "question": "Que peut-on faire en premier pour reduire la \"resistance a commencer\" ?",
+    "choices": [
+      "Ouvrir l'ordinateur et simplement ouvrir un fichier",
+      "Elaborer un plan parfait",
+      "Attendre que la motivation vienne"
+    ],
+    "correct_index": 0,
+    "explanation": "L'action physique d'\"ouvrir un fichier\" peut devenir le declencheur qui met le cerveau en \"mode travail\". Pas besoin d'attendre la motivation.",
+    "actionable_advice": "Essaie maintenant : Assieds-toi devant ton PC et ouvre juste un document (pas besoin d'ecrire quoi que ce soit)",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "personnes qui ont du mal a commencer"
+      ],
+      "limitations": [
+        "il peut arriver qu'on s'arrete apres avoir juste ouvert le fichier"
+      ],
+      "citation_role": "explique theoriquement le lien entre intention d'implementation et action physique",
+      "claim_tags": [
+        "implementation_intention",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_003",
+    "type": "multiple_choice",
+    "question": "Quand tu te dis \"je devrais\" mais que tu n'arrives pas a bouger, quelle est la plus petite action que tu peux faire en 10 secondes ?",
+    "choices": [
+      "Ouvrir le couvercle du PC et appuyer sur le bouton d'alimentation",
+      "Ecrire toute la liste des taches",
+      "Attendre que la motivation vienne"
+    ],
+    "correct_index": 0,
+    "explanation": "Les actions physiques comme \"ouvrir le couvercle\" et \"appuyer sur le bouton\" tendent a faciliter le passage a la tache. Bouger le corps avant de reflechir. Juste une fois. (\"Faire la liste\" et \"attendre la motivation\" prennent trop de temps)",
+    "actionable_advice": "Quand tu n'arrives pas a bouger : Ouvre le couvercle du PC et appuie sur le bouton d'alimentation (c'est le premier pas)",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "personnes qui ont du mal a commencer"
+      ],
+      "limitations": [
+        "si le PC est deja ouvert, une autre action est necessaire"
+      ],
+      "citation_role": "soutient indirectement l'effet des actions minimales a partir de la recherche sur la procrastination",
+      "try_this": "Quand tu n'arrives pas a bouger : Ouvre le PC et appuie sur le bouton d'alimentation (10 secondes)",
+      "claim_tags": [
+        "procrastination",
+        "physical_action",
+        "task_initiation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Quel est ton niveau de \"pas envie\" actuel ? (0-10)",
+        "after_prompt": "Et apres avoir ouvert le PC ?",
+        "success_rule": "C'est bon si ca baisse meme un peu",
+        "stop_rule": "Si ca ne change pas, on arrete pour aujourd'hui"
+      },
+      "comparator": {
+        "baseline": "Attendre que la motivation vienne",
+        "cost": "10 secondes / effort faible"
+      },
+      "fallback": {
+        "when": "Meme 10 secondes c'est trop",
+        "next": "Ouvre juste l'appli de travail sur ton telephone"
+      }
+    }
+  },
+  {
+    "id": "work_l02_004",
+    "type": "swipe_judgment",
+    "question": "Quand on decide de faire \"juste une etape\", on se retrouve parfois a enchainer sur l'etape suivante sans s'en rendre compte.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Ca se peut",
+      "right": "Pas vraiment"
+    },
+    "explanation": "Le cerveau utilise de l'energie pour \"commencer\". Une fois qu'on a commence, l'obstacle pour continuer tend a diminuer.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "personnes avec une forte resistance au demarrage"
+      ],
+      "limitations": [
+        "il peut arriver qu'on s'arrete apres une seule etape (et c'est OK)"
+      ],
+      "citation_role": "soutient l'effet du demarrage a partir de la recherche sur l'intention d'implementation",
+      "claim_tags": [
+        "implementation_intention",
+        "task_initiation",
+        "momentum"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_005",
+    "type": "conversation",
+    "question": "Quand tu n'arrives pas a commencer une tache, qu'est-ce qui te correspond le plus ?",
+    "choices": [
+      "Je ne sais pas par ou commencer",
+      "Je me bloque en voulant faire parfaitement",
+      "C'est trop penible, je n'arrive pas a bouger",
+      "Pas de schema particulier"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes les reponses sont valables. Reconnaitre son propre schema aide a choisir une strategie adaptee.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "soutient la prise de conscience de ses propres schemas de procrastination",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_006",
+    "type": "multiple_choice",
+    "question": "Pourquoi est-il efficace de se limiter a une seule tache pour aujourd'hui ?",
+    "choices": [
+      "Parce que ca reduit la charge de choix et facilite le demarrage",
+      "Parce que faire plusieurs choses fatigue",
+      "Parce que decider de ne faire qu'une chose permet de paresser"
+    ],
+    "correct_index": 0,
+    "explanation": "La charge de \"decider par quoi commencer\" represente une grande partie de la resistance au demarrage. Decider en 10 secondes le matin \"aujourd'hui je fais juste ca\" tend a faciliter l'action. Juste une fois. (Reduire la charge de choix est plus important que \"fatigue\" ou \"paresse\")",
+    "actionable_advice": "Au reveil : Prends ton telephone et ecris \"la tache du jour\" dans l'appli de notes en 10 secondes",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "personnes submergees par trop de taches"
+      ],
+      "limitations": [
+        "difficile a utiliser quand plusieurs taches sont vraiment urgentes"
+      ],
+      "citation_role": "soutient indirectement l'effet de la focalisation dans l'intention d'implementation",
+      "try_this": "Au reveil : Ecris \"la tache du jour\" dans l'appli de notes en 10 secondes",
+      "claim_tags": [
+        "focus",
+        "task_selection",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Combien de jours cette semaine as-tu note \"1 tache\" ?",
+        "after_prompt": "As-tu reussi a commencer les jours ou tu l'as note ?",
+        "success_rule": "C'est bon si tu l'ecris meme 2 jours par semaine",
+        "stop_rule": "Arrete si tu n'arrives pas a ecrire pendant une semaine"
+      },
+      "comparator": {
+        "baseline": "Regarder la liste des choses a faire et etre submerge",
+        "cost": "10 secondes / effort faible"
+      },
+      "fallback": {
+        "when": "Le matin est charge",
+        "next": "L'ecrire la veille au soir"
+      }
+    }
+  },
+  {
+    "id": "work_l02_007",
+    "type": "swipe_judgment",
+    "question": "Le stress peut venir davantage de \"ne pas avoir commence\" que de \"ne pas avoir termine\".",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Je comprends",
+      "right": "Je ne comprends pas"
+    },
+    "explanation": "Les \"choses non faites\" qui restent en tete tendent a creer du stress (effet Zeigarnik). Commencer meme une petite etape peut reduire cette charge.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "personnes qui ressentent le stress des choses non faites"
+      ],
+      "limitations": [
+        "pour ceux qui n'arrivent pas a s'arreter une fois qu'ils ont commence, une autre approche est necessaire"
+      ],
+      "citation_role": "soutient la charge psychologique des taches non terminees par des etudes observationnelles",
+      "claim_tags": [
+        "procrastination",
+        "stress",
+        "zeigarnik_effect"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_008",
+    "type": "multiple_choice",
+    "question": "Quand tu n'as \"pas envie\", quelle action physique peux-tu faire en premier ?",
+    "choices": [
+      "S'asseoir sur la chaise et poser les mains sur le bureau",
+      "Rester allonge en attendant que la motivation vienne",
+      "Regarder des videos de motivation sur les reseaux sociaux"
+    ],
+    "correct_index": 0,
+    "explanation": "Les actions physiques comme \"s'asseoir sur la chaise\" et \"poser les mains\" peuvent declencher le passage du cerveau en mode travail. Bouger le corps avant de reflechir. Juste une fois. (\"Rester allonge\" et \"regarder les reseaux\" ont tendance a rendre l'action encore plus difficile)",
+    "actionable_advice": "Quand tu n'as pas envie : Assieds-toi d'abord sur la chaise et pose les mains sur le bureau (juste 10 secondes)",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "personnes qui attendent longtemps la motivation"
+      ],
+      "limitations": [
+        "si tu n'as pas d'endroit pour t'asseoir, une autre action est necessaire"
+      ],
+      "citation_role": "soutient indirectement le lien entre action physique et demarrage de l'action",
+      "try_this": "Quand tu n'as pas envie : Assieds-toi sur la chaise et pose les mains sur le bureau (10 secondes)",
+      "claim_tags": [
+        "physical_action",
+        "task_initiation",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Ton niveau de motivation ? (0-10)",
+        "after_prompt": "Et apres t'etre assis ?",
+        "success_rule": "C'est bon si ca monte meme un peu",
+        "stop_rule": "Si ca ne change pas, essaie une autre methode"
+      },
+      "comparator": {
+        "baseline": "Continuer a attendre la motivation",
+        "cost": "10 secondes / effort faible"
+      },
+      "fallback": {
+        "when": "Meme assis ca ne marche pas",
+        "next": "Change pour juste ouvrir le PC"
+      }
+    }
+  },
+  {
+    "id": "work_l02_009",
+    "type": "conversation",
+    "question": "Parmi les techniques apprises aujourd'hui, laquelle pourrais-tu utiliser des demain ?",
+    "choices": [
+      "L'action minimale : \"Ouvrir le couvercle du PC et appuyer sur le bouton\"",
+      "Ecrire \"la tache du jour\" le matin",
+      "L'action physique : \"S'asseoir sur la chaise et poser les mains sur le bureau\"",
+      "Essayer toutes"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes valent la peine d'etre essayees. Si l'une ne convient pas, on en essaie une autre. C'est aussi un apprentissage. Juste une fois. (Pas besoin de \"tout\" faire, commence par une seule)",
+    "actionable_advice": "Demain matin : Ecris \"la tache du jour\" dans l'appli de notes en 10 secondes (l'ecrire est le premier pas)",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "personnes qui veulent essayer de nouvelles habitudes"
+      ],
+      "limitations": [
+        "facile a oublier sans pratique"
+      ],
+      "citation_role": "propose des options d'interventions pour commencer les taches",
+      "try_this": "Demain matin : Ecris \"la tache du jour\" dans l'appli de notes en 10 secondes",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "As-tu reussi a ecrire au moins une fois cette semaine ?",
+        "stop_rule": "Arrete si tu n'arrives pas a ecrire pendant une semaine"
+      },
+      "comparator": {
+        "baseline": "Commencer la journee sans rien decider",
+        "cost": "10 secondes x chaque matin"
+      },
+      "fallback": {
+        "when": "Aucune technique ne convient",
+        "next": "Change pour \"travailler juste 2 minutes sur le telephone\""
+      }
+    }
+  },
+  {
+    "id": "work_l02_010",
+    "type": "conversation",
+    "question": "Les \"techniques de demarrage\" de cette lecon, ca t'a semble utile ?",
+    "choices": [
+      "Ca semble utile",
+      "Ca ne me correspond pas trop",
+      "Je ne sais pas encore"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes les reponses sont valables. Si \"ca ne correspond pas\", c'est important de chercher une autre approche.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "soutient la prise en compte des differences individuelles",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

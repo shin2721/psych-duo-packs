@@ -1,0 +1,368 @@
+[
+    {
+        "id": "health_l01_001",
+        "type": "conversation",
+        "question": "Últimamente, cuando te metes en la cama, ¿cuánto tiempo sientes que no puedes dormir?",
+        "your_response_prompt": "Con tu percepción está bien",
+        "choices": [
+            "Más de 30 minutos (empiezo a sentir ansiedad)",
+            "Entre 10-20 minutos",
+            "Menos de 5 minutos (me duermo enseguida)"
+        ],
+        "recommended_index": null,
+        "explanation": "Si llevas más de 30 minutos así, puede ser agotador. En realidad, se ha observado que cuanto más te esfuerzas por dormir, más tiende el cerebro a activarse, generando el efecto contrario.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas con dificultad para conciliar el sueño",
+                "Personas que no pueden dejar de pensar por la noche"
+            ],
+            "limitations": [
+                "Si la dificultad para dormir persiste de forma crónica, se recomienda consultar a un profesional"
+            ],
+            "citation_role": "入眠困難と認知的覚醒の関連を観察研究で支持",
+            "claim_tags": [
+                "sleep",
+                "cognitive_arousal",
+                "insomnia"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_002",
+        "type": "multiple_choice",
+        "question": "Cuanto más te angustias pensando \"no puedo dormir...\", ¿qué tiende a pasar?",
+        "choices": [
+            "El estado de activación cognitiva tiende a mantenerse",
+            "Te da sueño naturalmente",
+            "Te cansas y te quedas dormido/a"
+        ],
+        "correct_index": 0,
+        "explanation": "La angustia de \"tengo que dormir\" puede provocar activación cognitiva, lo que tiende a hacer que, al contrario, estés más despierto/a. Quizás el primer paso sea aceptar que \"está bien si no puedo dormir\".",
+        "actionable_advice": "💡 En una noche sin sueño, prueba decirte \"está bien si no puedo dormir\" durante solo 10 segundos. Si no te gusta, puedes dejarlo de inmediato.",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas con mucha angustia por no poder dormir",
+                "Personas con ansiedad por el rendimiento"
+            ],
+            "limitations": [
+                "Tiene poca eficacia para causas físicas de insomnio",
+                "El insomnio crónico requiere tratamiento profesional"
+            ],
+            "citation_role": "認知的覚醒理論から焦りと覚醒の関連を説明",
+            "claim_tags": [
+                "sleep",
+                "cognitive_arousal",
+                "theory"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_003",
+        "type": "swipe_judgment",
+        "question": "Los días que miras el celular hasta justo antes de dormir, puede ser más difícil conciliar el sueño.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Me identifico",
+            "right": "No tanto"
+        },
+        "explanation": "El contenido del celular libera dopamina que dice \"quiero ver más\", activando el cerebro. Más que la luz azul, es la estimulación de la información lo que puede interferir con el sueño.",
+        "actionable_advice": "💡 Solo por esta noche: conecta el celular al cargador 30 minutos antes de acostarte (no lo dejes a tu alcance)",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Cain_2010",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas con hábito de usar el celular antes de dormir"
+            ],
+            "limitations": [
+                "Excepción cuando el celular funciona como ritual para dormir"
+            ],
+            "citation_role": "電子メディアと睡眠の関連を観察研究で支持",
+            "claim_tags": [
+                "sleep",
+                "screen_time",
+                "blue_light"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_004",
+        "type": "multiple_choice",
+        "question": "Si en una noche sin sueño pruebas la técnica de respiración \"inhalar 4 segundos, mantener 7 segundos, exhalar 8 segundos\", ¿qué tiende a pasar?",
+        "choices": [
+            "El sistema nervioso parasimpático tiende a activarse, facilitando la relajación",
+            "Te duermes inmediatamente",
+            "Al contrario, te despiertas más"
+        ],
+        "correct_index": 0,
+        "explanation": "La respiración 4-7-8 puede estimular el sistema nervioso parasimpático. No significa que te vayas a dormir de inmediato, pero se han reportado efectos de relajación. No funciona para todas las personas, así que si no te sienta bien, está bien dejarlo.",
+        "actionable_advice": "💡 La próxima noche que no puedas dormir, prueba la respiración 4-7-8 solo 2 veces. Si no te va bien, déjalo sin problema.",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Ma_2017",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas con mucha tensión corporal",
+                "Personas que no pueden dejar de pensar"
+            ],
+            "limitations": [
+                "Puede ser contraproducente para quienes prestar atención a la respiración les genera estrés",
+                "Precaución en personas con enfermedades respiratorias"
+            ],
+            "citation_role": "ゆっくり呼吸法のリラックス効果を間接支持",
+            "try_this": "Probar la respiración 4-7-8 solo 2 veces",
+            "claim_tags": [
+                "sleep",
+                "breathing",
+                "relaxation"
+            ],
+            "tiny_metric": {
+                "before_prompt": "¿Cuál es tu nivel de tensión ahora? (0-10)",
+                "after_prompt": "¿Y después de las 2 veces?",
+                "success_rule": "Si baja aunque sea un poco, está bien",
+                "stop_rule": "Si no cambia o te resulta incómodo, déjalo"
+            },
+            "comparator": {
+                "baseline": "Quedarse acostado/a sin hacer nada",
+                "cost": "Aproximadamente 30 segundos / La carga es baja"
+            },
+            "fallback": {
+                "when": "Si la técnica de respiración no te va bien",
+                "next": "Decirte \"está bien si no puedo dormir\" (intención paradójica)"
+            }
+        }
+    },
+    {
+        "id": "health_l01_005",
+        "type": "swipe_judgment",
+        "question": "En una noche sin sueño, mirar el reloj puede aumentar la angustia.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Me pasa",
+            "right": "No tanto"
+        },
+        "explanation": "Revisar el reloj tiende a provocar cálculos como \"solo me quedan X horas para dormir\", lo que puede aumentar la activación cognitiva. Para muchas personas, puede ser mejor no mirar el reloj.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas con hábito de mirar el reloj"
+            ],
+            "limitations": [
+                "Algunas personas se sienten más ansiosas si no miran el reloj"
+            ],
+            "citation_role": "時計監視行動と入眠困難の関連を観察研究で支持",
+            "claim_tags": [
+                "sleep",
+                "cognitive_arousal",
+                "clock_watching"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_006",
+        "type": "multiple_choice",
+        "question": "Si en una noche sin sueño quieres \"soltar la tensión del cuerpo\", ¿por dónde podría ser más efectivo empezar?",
+        "choices": [
+            "Soltar la tensión de la cara y la mandíbula",
+            "Empezar por los dedos de los pies en orden",
+            "Levantar los brazos y dejarlos caer"
+        ],
+        "correct_index": 0,
+        "explanation": "La tensión en la cara y la mandíbula tiende a influir en la relajación de todo el cuerpo. En particular, muchas personas aprietan la mandíbula sin darse cuenta. Algunas personas notan un cambio al soltar la mandíbula durante solo 10 segundos.",
+        "actionable_advice": "💡 Pruébalo ahora: suelta la tensión de la mandíbula durante solo 10 segundos.",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jacobson_1938",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que tienen tensión corporal inconsciente",
+                "Personas con tendencia a rechinar los dientes o apretar la mandíbula"
+            ],
+            "limitations": [
+                "No es adecuado para quienes prestar atención a las sensaciones corporales les genera estrés"
+            ],
+            "citation_role": "漸進的筋弛緩法から顔・顎リラックスの効果を間接支持",
+            "try_this": "Soltar la mandíbula durante solo 10 segundos",
+            "claim_tags": [
+                "sleep",
+                "muscle_relaxation",
+                "tension"
+            ],
+            "tiny_metric": {
+                "before_prompt": "¿Cuál es tu nivel de tensión en la mandíbula? (alto/medio/bajo)",
+                "after_prompt": "¿Y después de 10 segundos?",
+                "success_rule": "Si se afloja aunque sea un poco, está bien",
+                "stop_rule": "Si no cambia, déjalo"
+            },
+            "comparator": {
+                "baseline": "No prestarle atención particular",
+                "cost": "10 segundos / La carga es baja"
+            },
+            "fallback": {
+                "when": "Si te cuesta notar la relajación de la mandíbula",
+                "next": "Sube los hombros 3 segundos y déjalos caer de golpe"
+            }
+        }
+    },
+    {
+        "id": "health_l01_007",
+        "type": "conversation",
+        "question": "En las noches que no puedes dormir, ¿cuál es tu patrón más común?",
+        "choices": [
+            "No puedo dejar de pensar",
+            "Mi cuerpo está tenso",
+            "La angustia de no poder dormir en sí",
+            "No tengo un patrón particular"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas las respuestas son válidas. Darte cuenta de tu propio patrón tiende a facilitar la elección de estrategias.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "入眠困難のパターン認識を支持",
+            "claim_tags": [
+                "sleep",
+                "self_awareness",
+                "pattern_recognition"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_008",
+        "type": "swipe_judgment",
+        "question": "Recuperar sueño los fines de semana puede alterar el ritmo de sueño entre semana.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Puede ser",
+            "right": "No tanto"
+        },
+        "explanation": "Mantener un ritmo de sueño constante tiende a mejorar la calidad del sueño. Sin embargo, si tienes falta de sueño crónica, el sueño de recuperación los fines de semana también puede ser necesario. El equilibrio es importante.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Walker_2017",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas con hábito de dormir mucho los fines de semana"
+            ],
+            "limitations": [
+                "En casos de falta de sueño crónica, el sueño de recuperación también puede ser necesario"
+            ],
+            "citation_role": "睡眠リズムの乱れと睡眠の質の関連を支持",
+            "claim_tags": [
+                "sleep",
+                "circadian_rhythm",
+                "sleep_debt"
+            ]
+        }
+    },
+    {
+        "id": "health_l01_009",
+        "type": "multiple_choice",
+        "question": "De las técnicas que aprendiste hoy, ¿cuál podrías usar a partir de mañana?",
+        "choices": [
+            "Decirme \"está bien si no puedo dormir\" durante 10 segundos",
+            "Probar la respiración 4-7-8 dos veces",
+            "Soltar la mandíbula durante 10 segundos",
+            "Probar todas"
+        ],
+        "correct_index": 3,
+        "explanation": "Todas valen la pena intentarlas. Si alguna no te funciona, prueba otra. Eso también es aprendizaje. Sin embargo, si el insomnio persiste de forma crónica, se recomienda consultar a un profesional.",
+        "actionable_advice": "💡 A partir de esta noche, prueba solo una: si no puedes dormir, dite \"está bien si no puedo dormir\" durante 10 segundos.",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que quieren empezar un nuevo hábito"
+            ],
+            "limitations": [
+                "El insomnio crónico requiere tratamiento profesional"
+            ],
+            "citation_role": "入眠介入の選択肢を提案",
+            "try_this": "Probar una a partir de esta noche",
+            "claim_tags": [
+                "sleep",
+                "implementation",
+                "habit_formation"
+            ],
+            "tiny_metric": {
+                "metric": "¿Pudiste probar al menos una vez esta semana?",
+                "stop_rule": "Si en una semana no pudiste probar, déjalo"
+            },
+            "comparator": {
+                "baseline": "No probar nada",
+                "cost": "10 segundos x unas veces por semana"
+            },
+            "fallback": {
+                "when": "Si ninguna te funciona",
+                "next": "Considerar consultar a un profesional"
+            }
+        }
+    },
+    {
+        "id": "health_l01_010",
+        "type": "conversation",
+        "question": "Las \"técnicas para dormir\" de esta lección, ¿te parecieron útiles?",
+        "choices": [
+            "Creo que pueden servirme",
+            "Creo que no son para mí",
+            "Todavía no lo sé"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas las respuestas son válidas. Si sientes que no son para ti, buscar otro enfoque también es importante. El sueño varía mucho de persona a persona, así que el proceso mismo de encontrar lo que te funciona tiene valor.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Harvey_2002",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "個人差への配慮を支持",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

@@ -1,0 +1,385 @@
+[
+  {
+    "id": "study_l01_001",
+    "type": "swipe_judgment",
+    "question": "Il m'arrive de penser « je devrais m'y mettre » tout en ayant du mal a commencer a etudier.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Souvent",
+      "right": "Rarement"
+    },
+    "explanation": "Ne pas reussir a commencer n'est pas de la paresse : cela pourrait etre une reaction naturelle pour eviter l'inconfort. Pas besoin de te culpabiliser.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Ceux qui ont du mal a commencer a etudier",
+        "Ceux qui ont tendance a se culpabiliser pour la procrastination"
+      ],
+      "limitations": [
+        "Un manque chronique de motivation peut necessiter une approche differente"
+      ],
+      "citation_role": "Soutient le modele de regulation emotionnelle de la procrastination par une etude observationnelle",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_002",
+    "type": "multiple_choice",
+    "question": "Que se passe-t-il generalement quand on attend que la motivation vienne ?",
+    "choices": [
+      "La motivation ne vient pas et le temps passe",
+      "La motivation vient naturellement",
+      "On se detend et on devient plus efficace"
+    ],
+    "correct_index": 0,
+    "explanation": "La recherche suggere que la motivation tend a venir une fois qu'on commence, plutot qu'avant. C'est ce qu'on appelle l'activation comportementale. (La motivation spontanee et l'efficacite par la detente sont rares. Attendre n'apporte souvent rien.)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Ceux qui attendent longtemps la motivation",
+        "Ceux qui ont du mal a demarrer"
+      ],
+      "limitations": [
+        "Quand on est vraiment fatigue, le repos est necessaire"
+      ],
+      "citation_role": "Explique la theorie de l'activation comportementale dans la recherche sur la procrastination",
+      "claim_tags": [
+        "procrastination",
+        "motivation",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_003",
+    "type": "multiple_choice",
+    "question": "Quelle methode a montre des resultats pour reduire la barriere au demarrage des etudes ?",
+    "choices": [
+      "Decider de n'ouvrir ses documents que pendant 10 secondes",
+      "Preparer l'environnement parfait pour se concentrer longtemps",
+      "Attendre que la motivation vienne"
+    ],
+    "correct_index": 0,
+    "explanation": "Meme 10 secondes de « commencement » peuvent aider a basculer vers la tache. S'arreter apres 10 secondes est acceptable. Si ca ne fonctionne pas, essaie une autre methode. Juste une fois. (« Preparer l'environnement parfait » et « attendre la motivation » prennent du temps.)",
+    "actionable_advice": "Astuce : La prochaine fois que tu n'arrives pas a commencer, essaie d'ouvrir tes documents pendant seulement 10 secondes.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Ceux qui ont du mal a demarrer",
+        "Ceux avec des tendances perfectionnistes"
+      ],
+      "limitations": [
+        "Quand on est vraiment fatigue, le repos est necessaire",
+        "Ne te force pas si tu ne peux pas bouger meme en 10 secondes"
+      ],
+      "citation_role": "Soutient indirectement l'efficacite de la regle des 10 secondes par la recherche sur la procrastination",
+      "try_this": "Essaie d'ouvrir tes documents pendant seulement 10 secondes",
+      "claim_tags": [
+        "procrastination",
+        "task_initiation",
+        "implementation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Quel est ton niveau de resistance actuel ? (0-10)",
+        "after_prompt": "Et apres 10 secondes ?",
+        "success_rule": "Toute baisse est une reussite",
+        "stop_rule": "Si ca ne change pas ou augmente, laisse tomber pour aujourd'hui"
+      },
+      "comparator": {
+        "baseline": "Attendre que la motivation vienne",
+        "cost": "10 secondes / faible effort"
+      },
+      "fallback": {
+        "when": "Tu ne peux pas bouger meme en 10 secondes",
+        "next": "Essaie le If-Then Planning"
+      }
+    }
+  },
+  {
+    "id": "study_l01_004",
+    "type": "swipe_judgment",
+    "question": "Decider a l'avance « quand X arrive, je fais Y » tend a augmenter le taux de realisation.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Peut-etre",
+      "right": "Pas vraiment"
+    },
+    "explanation": "C'est ce qu'on appelle l'« intention de mise en oeuvre » ou « If-Then Planning ». Exemple : « Apres le diner, je m'assieds a mon bureau ». Les etudes montrent que cela tend a augmenter le taux de realisation par rapport a l'absence de plan.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Ceux qui font des plans mais n'arrivent pas a les executer",
+        "Ceux qui veulent creer des habitudes"
+      ],
+      "limitations": [
+        "L'effet est reduit si le declencheur est vague"
+      ],
+      "citation_role": "Etude qui teste directement l'effet de l'intention de mise en oeuvre (If-Then Planning)",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_005",
+    "type": "conversation",
+    "question": "Quand tu n'arrives pas a commencer a etudier, qu'est-ce qui te correspond le mieux ?",
+    "choices": [
+      "Je ne sais pas par ou commencer",
+      "C'est trop penible pour bouger",
+      "Je me bloque en voulant faire parfaitement",
+      "Pas de schema particulier"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes les reponses sont valables. Reconnaitre ton propre schema peut t'aider a choisir la bonne strategie.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Soutient la conscience de soi des schemas de procrastination",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_006",
+    "type": "multiple_choice",
+    "question": "Quelle forme est la plus facile a mettre en pratique avec le « If-Then Planning » ?",
+    "choices": [
+      "Decider sous la forme « Quand X (declencheur), je fais Y (action) »",
+      "Se promettre de « faire des efforts »",
+      "Penser « j'etudierai un jour »"
+    ],
+    "correct_index": 0,
+    "explanation": "Associer un declencheur (quand/ou) et une action (quoi faire) tend a automatiser l'execution. Juste une fois. (« Faire des efforts » et « un jour » sont trop vagues pour etre executes.)",
+    "actionable_advice": "Astuce : Decide un If-Then pour aujourd'hui : « Quand X, j'ouvre mes documents pendant 10 secondes »",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Ceux qui ont tendance a abandonner leurs plans",
+        "Ceux qui veulent creer des habitudes"
+      ],
+      "limitations": [
+        "L'effet est reduit si le declencheur ne fait pas partie du quotidien",
+        "Plusieurs If-Then peuvent etre trop lourds"
+      ],
+      "citation_role": "Soutient indirectement le format specifique de l'intention de mise en oeuvre",
+      "try_this": "Decide un plan : « Quand X, j'ouvre mes documents pendant 10 secondes »",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ],
+      "tiny_metric": {
+        "before_prompt": "As-tu reussi a executer le If-Then cette semaine ?",
+        "after_prompt": "Combien de fois l'as-tu execute ?",
+        "success_rule": "Meme une fois par semaine est une reussite",
+        "stop_rule": "Si tu n'y arrives pas pendant 2 semaines, essaie une autre methode"
+      },
+      "comparator": {
+        "baseline": "Juste se promettre de « faire des efforts »",
+        "cost": "30 secondes pour planifier / 10 secondes pour executer"
+      },
+      "fallback": {
+        "when": "Tu ne trouves pas de declencheur",
+        "next": "Utilise « Quand j'ai envie de regarder mon telephone » comme declencheur"
+      }
+    }
+  },
+  {
+    "id": "study_l01_007",
+    "type": "swipe_judgment",
+    "question": "Il existe un point de vue selon lequel la procrastination n'est pas seulement une question de manque de volonte.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Peut-etre",
+      "right": "Je ne pense pas"
+    },
+    "explanation": "Les recherches indiquent que la procrastination est souvent causee par l'evitement de l'inconfort ou l'ambiguite de la tache, plutot que par la volonte. Se concentrer sur les systemes plutot que de se culpabiliser tend a mieux fonctionner.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Ceux qui ont tendance a se culpabiliser",
+        "Ceux qui comptent trop sur la volonte"
+      ],
+      "limitations": [
+        "Toutes les procrastinations n'ont pas la meme cause"
+      ],
+      "citation_role": "Soutient le modele de regulation emotionnelle de la procrastination",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_008",
+    "type": "multiple_choice",
+    "question": "Quelle est une methode facile pour reduire la « friction environnementale » au demarrage des etudes ?",
+    "choices": [
+      "Laisser ses documents ouverts sur le bureau",
+      "Preparer l'environnement parfait avant de commencer",
+      "Attendre que la motivation vienne"
+    ],
+    "correct_index": 0,
+    "explanation": "Moins il y a d'etapes pour commencer, plus il tend a etre facile d'agir. Laisser les documents ouverts peut reduire la barriere au demarrage. Juste une fois. (« L'environnement parfait » et « attendre la motivation » menent souvent a la procrastination.)",
+    "actionable_advice": "Astuce : Ce soir avant de te coucher, laisse les documents de demain ouverts sur ton bureau.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Ceux qui ont du mal a demarrer",
+        "Ceux qui passent trop de temps a preparer leur environnement"
+      ],
+      "limitations": [
+        "Peut etre contre-productif dans un environnement desordonne"
+      ],
+      "citation_role": "Soutient indirectement le lien entre friction environnementale et demarrage d'action",
+      "try_this": "Avant d'etudier, laisse tes documents ouverts sur le bureau pendant 10 secondes",
+      "claim_tags": [
+        "environment_design",
+        "friction_reduction",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Les documents etaient-ils ouverts ce matin ?",
+        "after_prompt": "Si oui, as-tu reussi a commencer a etudier ?",
+        "success_rule": "Reussite si tu as commence avec les documents ouverts",
+        "stop_rule": "Arrete si ca n'a aucun effet apres une semaine"
+      },
+      "comparator": {
+        "baseline": "Commencer avec les documents ranges",
+        "cost": "10 secondes avant de se coucher"
+      },
+      "fallback": {
+        "when": "Pas d'espace pour laisser les documents sortis",
+        "next": "Mets l'application d'etude sur l'ecran d'accueil de ton telephone"
+      }
+    }
+  },
+  {
+    "id": "study_l01_009",
+    "type": "conversation",
+    "question": "Parmi les techniques apprises aujourd'hui, laquelle pourrais-tu utiliser des demain ?",
+    "choices": [
+      "« Ouvrir mes documents pendant seulement 10 secondes »",
+      "Decider a l'avance avec le « If-Then Planning »",
+      "Design environnemental : « Laisser les documents ouverts »",
+      "Tout essayer"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes valent la peine d'etre essayees. Si l'une ne fonctionne pas, essaie une autre. C'est aussi un apprentissage. Juste une fois. (Pas besoin de tout faire - commence par une seule.)",
+    "actionable_advice": "Astuce : Demain, essaie juste une fois : quand tu n'arrives pas a commencer, « ouvre tes documents pendant 10 secondes ».",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Ceux qui veulent commencer de nouvelles habitudes"
+      ],
+      "limitations": [
+        "Peut etre facile a oublier sans pratique"
+      ],
+      "citation_role": "Propose des options d'intervention contre la procrastination",
+      "try_this": "Demain, utilise « ouvrir les documents pendant 10 secondes » une fois",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "As-tu reussi a l'utiliser au moins une fois cette semaine ?",
+        "stop_rule": "Arrete si tu n'y arrives pas pendant une semaine"
+      },
+      "comparator": {
+        "baseline": "Ne rien essayer et continuer a procrastiner",
+        "cost": "10 secondes x quelques fois par semaine"
+      },
+      "fallback": {
+        "when": "Aucune technique ne convient",
+        "next": "Reduis a la tache minimale (resoudre un seul probleme)"
+      }
+    }
+  },
+  {
+    "id": "study_l01_010",
+    "type": "conversation",
+    "question": "Les « techniques pour commencer a etudier » de cette lecon t'ont-elles semble utiles ?",
+    "choices": [
+      "Elles semblent utiles",
+      "Elles ne me conviennent pas vraiment",
+      "Je ne sais pas encore"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes les reponses sont valables. Si elles ne te conviennent pas, il est important de chercher une autre approche. Comme les causes de la procrastination varient selon les personnes, le processus de trouver ce qui te convient a lui-meme de la valeur.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Soutient la prise en compte des differences individuelles",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

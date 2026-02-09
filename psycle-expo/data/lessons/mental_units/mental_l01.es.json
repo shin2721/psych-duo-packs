@@ -1,0 +1,333 @@
+[
+    {
+        "id": "mental_l01_001",
+        "type": "conversation",
+        "question": "Esta semana, ¿has tenido pensamientos como \"debería haber dicho eso en ese momento...\" repitiéndose en tu mente más de 3 veces sobre la misma situación?",
+        "your_response_prompt": "Responde con tu intuición",
+        "choices": [
+            "Más de 3 veces (bastante inquieto/a)",
+            "1-2 veces",
+            "No (me siento tranquilo/a)"
+        ],
+        "recommended_index": null,
+        "explanation": "Esto se llama \"rumiación\". En realidad es diferente de la \"reflexión\" - es más como si tu cerebro estuviera reproduciendo automáticamente un sonido de error.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas que quieren notar los ciclos de pensamiento negativo"
+            ],
+            "limitations": [
+                "Cuando persiste una tristeza intensa"
+            ],
+            "citation_role": "反芻思考の定義とメカニズムを支持",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_002",
+        "type": "multiple_choice",
+        "question": "El tren se retrasó 15 minutos. Te llega un mensaje: \"¿Llegas en 10 minutos?\" Tu corazón se acelera y te sientes ansioso/a.\n\n¿Cuál es el mecanismo más cercano a cómo surge esta \"ansiedad\"?",
+        "choices": [
+            "Ocurrió una reacción de \"esto podría ser una amenaza\"",
+            "El retraso del tren es la causa directa",
+            "Es porque mi personalidad tiende a irritarse fácilmente"
+        ],
+        "correct_index": 0,
+        "explanation": "A veces, la reacción de \"esto podría ser una amenaza\" puede ocurrir antes que el evento mismo. El aumento del ritmo cardíaco y los sentimientos de ansiedad son reacciones naturales del cuerpo. (Aunque tendemos a pensar \"es culpa del tren\" o \"es mi personalidad\", si fuera así, todos tendrían la misma reacción)",
+        "actionable_advice": "💡 Cuando sientas ansiedad: Solo etiquétalo como \"esta es una reacción corporal\"",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Estrés cotidiano",
+                "Situaciones con bajo sentido de control"
+            ],
+            "limitations": [
+                "Justo después de un trauma agudo",
+                "Casos donde los factores fisiológicos son dominantes"
+            ],
+            "citation_role": "認知的評価理論の核心メカニズムを支持",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress_response"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_003",
+        "type": "swipe_judgment",
+        "question": "Según la teoría de la evaluación cognitiva, ¿la causa del estrés está en el \"evento\" o en la \"interpretación\"?",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "En la interpretación",
+            "right": "En el evento"
+        },
+        "explanation": "Este es el núcleo de la teoría. Aunque no puedas cambiar el evento, queda espacio para intervenir en la interpretación (cómo lo percibes).",
+        "actionable_advice": "💡 Intenta esto: Imagina que estás viendo un evento desagradable \"a través de una cámara\"",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "認知的評価理論の核心を確認",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_004",
+        "type": "multiple_choice",
+        "question": "Faltan 3 minutos para que empiece la entrevista. En la sala de espera, tu corazón late fuerte. Tus palmas están sudando.\n\n¿Cómo podrías reinterpretar esta reacción corporal con otras palabras?",
+        "choices": [
+            "\"Mi cuerpo está haciendo un calentamiento\"",
+            "\"Soy un fracaso\"",
+            "\"Esta es una mala señal\""
+        ],
+        "correct_index": 0,
+        "explanation": "Por el contrario, los latidos del corazón también pueden interpretarse como \"el calentamiento del cuerpo\". Sin embargo, si no te sientes bien físicamente, no te fuerces y descansa. Está bien si no puedes hacerlo. Solo inténtalo una vez. (\"Soy un fracaso\" o \"mala señal\" son pensamientos comunes, pero ellos mismos intensifican la ansiedad)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jamieson_2012",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Nervios antes de presentaciones o entrevistas",
+                "Situaciones de rendimiento a corto plazo"
+            ],
+            "limitations": [
+                "Cuando no te sientes bien físicamente",
+                "Ansiedad crónica intensa"
+            ],
+            "citation_role": "リアプレイザル（解釈の変換）の効果を支持",
+            "try_this": "👉 La próxima vez que tu corazón lata rápido → Repite \"mi cuerpo está calentando\" por solo 10 segundos",
+            "claim_tags": [
+                "reappraisal",
+                "arousal",
+                "stress_response"
+            ],
+            "tiny_metric": {
+                "before_prompt": "¿Cuál es tu nivel de tensión ahora? (0-10)",
+                "after_prompt": "¿Cuál es tu nivel de tensión después de 10 segundos? (0-10)",
+                "success_rule": "Si baja solo 1 punto, está bien",
+                "stop_rule": "Si no cambia, está bien retirarse por hoy"
+            },
+            "comparator": {
+                "baseline": "Intentar calmarse (suprimirlo a la fuerza)",
+                "cost": "10 segundos / El efecto puede ser menor pero la carga también es baja"
+            },
+            "fallback": {
+                "when": "Si después de 10 segundos te sientes más ansioso/a",
+                "next": "Cambia a respiración profunda (inhala 4 segundos, exhala 4 segundos)"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_005",
+        "type": "multiple_choice",
+        "question": "En la reunión de las 5pm tu jefe te presionó. Son las 9pm y todavía esas palabras se repiten en tu mente.\n\n¿Qué tiende a prolongar el estrés después de esto?",
+        "choices": [
+            "Seguir pensando \"¿por qué me pasa esto a mí...?\"",
+            "Cambiar de tema pensando \"bueno, hay días así\"",
+            "Ambos tienen el mismo efecto"
+        ],
+        "correct_index": 0,
+        "explanation": "Más que el evento en sí, \"cómo sigues pensando después\" afecta cuánto dura el estrés. No necesitas culparte por no poder cambiar de tema. (\"Cambiar de tema\" es ideal, pero en realidad suele ser difícil)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "認知的評価理論の枠組みで、反芻思考の持続メカニズムを理論的に説明",
+            "claim_tags": [
+                "rumination",
+                "stress_duration"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_006",
+        "type": "conversation",
+        "question": "Recuerda la situación más estresante de esta semana.",
+        "your_response_prompt": "¿Qué palabras pasaban por tu mente en ese momento?",
+        "choices": [
+            "Palabras como \"esto es terrible\" o \"¿qué hago?\"",
+            "Palabras como \"bueno, está bien\" o \"de alguna manera funcionará\"",
+            "No había palabras particulares en mi mente"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas las respuestas son correctas. Solo notar tu \"voz interior\" es suficiente.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "自己認識の効果を間接支持",
+            "claim_tags": [
+                "self_awareness",
+                "mindfulness"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_007",
+        "type": "swipe_judgment",
+        "question": "Cuando te dicen \"el estrés puede desaparecer dependiendo de cómo pienses\", ¿sientes un poco de incomodidad?",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Lo entiendo",
+            "right": "No lo entiendo"
+        },
+        "explanation": "En realidad, no dice que \"si cambias tu forma de pensar, el estrés desaparecerá por completo\". Para traumas agudos o factores físicos, se necesitan enfoques diferentes.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "理論の限界を明確化",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "limitations"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_008",
+        "type": "multiple_choice",
+        "question": "¿En qué situaciones es \"adecuada\" la teoría de la evaluación cognitiva?",
+        "choices": [
+            "Estrés crónico o situaciones con bajo sentido de control",
+            "Estado de pánico justo después de un accidente",
+            "Casos donde una enfermedad física es la causa principal"
+        ],
+        "correct_index": 0,
+        "explanation": "Es adecuada para el estrés cotidiano. Para casos justo después de un trauma agudo o donde los factores fisiológicos son dominantes, considera también otros enfoques. (\"Justo después de un accidente\" o \"enfermedad física\" puede que no se manejen solo con lo cognitivo)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Estrés crónico",
+                "Situaciones con bajo sentido de control"
+            ],
+            "limitations": [
+                "Estado de pánico justo después de un accidente",
+                "Casos donde una enfermedad física es la causa principal"
+            ],
+            "citation_role": "認知的評価理論の適用範囲を明確化",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "applicability"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_009",
+        "type": "conversation",
+        "question": "La idea que aprendiste hoy: \"la interpretación afecta el estrés\".",
+        "your_response_prompt": "Si intentaras probar esto una vez mañana cuando sientas estrés, ¿qué harías?",
+        "choices": [
+            "Preguntarme \"¿cómo estoy interpretando esto ahora?\"",
+            "No probar nada en particular (esa también es una opción)",
+            "Todavía no me queda claro, así que lo dejo pendiente"
+        ],
+        "recommended_index": 0,
+        "explanation": "Vale la pena intentarlo. Si no funciona para ti, otros métodos también están bien. Solo inténtalo una vez.",
+        "actionable_advice": "👉 Mañana cuando te sientas inquieto/a → Pregúntate \"¿qué estoy percibiendo como amenaza ahora?\" por 10 segundos",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Pequeñas ansiedades cotidianas",
+                "Personas que quieren profundizar su autoconocimiento"
+            ],
+            "limitations": [
+                "Crisis mentales graves",
+                "Estados donde pensar en sí mismo es doloroso"
+            ],
+            "citation_role": "認知的評価理論の実践応用を支持",
+            "try_this": "👉 Mañana cuando te sientas inquieto/a → Pregúntate \"¿qué estoy percibiendo como amenaza ahora?\" por 10 segundos",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "self_awareness"
+            ],
+            "tiny_metric": {
+                "before_prompt": "¿Cuál es tu nivel de ansiedad ahora? (0-10)",
+                "after_prompt": "¿Cuál es tu nivel de ansiedad después de 10 segundos? (0-10)",
+                "success_rule": "Si baja solo 1 punto, está bien",
+                "stop_rule": "Si no cambia, está bien retirarse por hoy"
+            },
+            "comparator": {
+                "baseline": "Simplemente distraerse (redes sociales, videos, etc.)",
+                "cost": "10 segundos / El efecto puede ser menor pero puede profundizar el autoconocimiento"
+            },
+            "fallback": {
+                "when": "Si preguntarte amplifica la ansiedad",
+                "next": "Solo etiquétalo como \"ahora estoy ansioso/a\" (deja el contenido de lado)"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_010",
+        "type": "conversation",
+        "question": "¿Sientes que el enfoque de esta mini-lección podría funcionar para ti?",
+        "your_response_prompt": "Responde con tu intuición",
+        "choices": [
+            "Creo que podría funcionar para mí",
+            "Creo que no es para mí",
+            "Todavía no lo sé"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas las respuestas son correctas. Si sientes que no es para ti, puede que otro enfoque sea más adecuado.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "個人差への配慮を支持",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

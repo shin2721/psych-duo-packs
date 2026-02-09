@@ -1,0 +1,154 @@
+[
+  {
+    "id": "mental_l05_001",
+    "type": "swipe_judgment",
+    "question": "Il est 2h du matin, les documents pour la réunion de demain ne sont qu'à moitié terminés. Au moment où j'ai pensé « je n'y arriverai jamais », mon anxiété a encore augmenté.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Ça m'arrive souvent",
+      "right": "Ça m'arrive rarement"
+    },
+    "explanation": "C'est un exemple typique de « pensée catastrophique ». La prédiction « je n'y arriverai pas » devance la réalité et tend à amplifier l'anxiété. ※Cette leçon présente des techniques pour gérer une anxiété légère. Si vous avez des pensées suicidaires ou des tendances à l'automutilation, veuillez consulter un professionnel de santé plutôt que de vous fier uniquement à cette application.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_002",
+    "type": "multiple_choice",
+    "question": "Quand des prédictions extrêmes comme « je vais certainement échouer » ou « c'est fichu » vous viennent à l'esprit, quelle est la stratégie qui tend à être la plus efficace ?",
+    "choices": [
+      "Se demander « est-ce vraiment le cas ? » et chercher des preuves",
+      "Se dire « arrête d'y penser »",
+      "Essayer de se distraire à tout prix"
+    ],
+    "correct_index": 0,
+    "explanation": "La « recherche de preuves » peut être efficace contre les pensées catastrophiques. Plutôt que d'essayer de les éliminer complètement, il est important de retrouver une perspective réaliste.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_003",
+    "type": "conversation",
+    "question": "Avez-vous récemment imaginé « le pire scénario » et ressenti de l'anxiété ?",
+    "your_response_prompt": "Essayez de vous souvenir de ce que vous avez ressenti à ce moment-là",
+    "choices": [
+      "Ça m'arrive souvent",
+      "Ça m'arrive parfois",
+      "Ça m'arrive rarement"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes ces réponses sont normales. Le cerveau humain est conçu pour anticiper les dangers, donc il est naturel d'avoir des pensées négatives.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_004",
+    "type": "multiple_choice",
+    "question": "Avant une présentation, vous pensez « je vais sûrement échouer ». Si vous deviez changer ce schéma de pensée, que pourriez-vous faire ?",
+    "choices": [
+      "Se souvenir « j'ai aussi réussi par le passé »",
+      "Se dire « ce n'est pas grave si j'échoue »",
+      "Se répéter « je vais absolument réussir »"
+    ],
+    "correct_index": 0,
+    "explanation": "Plutôt que de passer d'un extrême à l'autre, il est important de trouver une perspective équilibrée. Les expériences passées peuvent constituer une base réaliste.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_005",
+    "type": "swipe_judgment",
+    "question": "Il faut « éliminer complètement » les pensées catastrophiques",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "D'accord",
+      "right": "Pas d'accord"
+    },
+    "explanation": "Il n'est pas nécessaire de les éliminer complètement. Ce qui compte plutôt, c'est de « les remarquer et d'y ajouter une perspective réaliste ».",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_006",
+    "type": "conversation",
+    "question": "Quand vous imaginez « le pire des cas », comment réagissez-vous habituellement ?",
+    "your_response_prompt": "Réfléchissez à votre comportement habituel",
+    "choices": [
+      "J'essaie de ne pas y penser",
+      "J'en parle à des amis ou à ma famille",
+      "Je réfléchis à des solutions réalistes"
+    ],
+    "recommended_index": 2,
+    "explanation": "Chacune de ces méthodes peut être utile selon les moments. Cependant, réfléchir à des solutions réalistes permet de transformer l'anxiété en action.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_007",
+    "type": "multiple_choice",
+    "question": "Dans quelles circonstances les pensées catastrophiques ont-elles tendance à apparaître plus facilement ?",
+    "choices": [
+      "Quand on est fatigué ou en manque de sommeil",
+      "Quand on est en pleine forme",
+      "L'heure n'a pas d'importance"
+    ],
+    "correct_index": 0,
+    "explanation": "La fatigue et le manque de sommeil diminuent le jugement et peuvent rendre plus susceptible aux pensées négatives. Prendre soin de sa santé est aussi une mesure préventive importante.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_008",
+    "type": "conversation",
+    "question": "Si vous deviez essayer demain la technique de « recherche de preuves » apprise aujourd'hui, dans quelle situation l'utiliseriez-vous ?",
+    "your_response_prompt": "Dans quelle situation concrète aimeriez-vous l'essayer ?",
+    "choices": [
+      "Quand je ressens de la pression au travail",
+      "Quand je suis anxieux dans mes relations",
+      "Je n'ai pas encore d'idée précise"
+    ],
+    "recommended_index": null,
+    "explanation": "Cette technique peut être efficace dans toutes ces situations. Nous vous recommandons de commencer par de petites inquiétudes.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_009",
+    "type": "multiple_choice",
+    "question": "Quelle est la chose la plus importante pour faire face aux pensées catastrophiques ?",
+    "choices": [
+      "Contrôler complètement ses pensées",
+      "Retrouver une perspective réaliste",
+      "Penser positivement"
+    ],
+    "correct_index": 1,
+    "explanation": "Plutôt qu'un contrôle total ou une pensée positive forcée, il est important d'adopter une perspective réaliste et équilibrée.",
+    "difficulty": "hard",
+    "xp": 5,
+    "evidence_grade": "gold"
+  },
+  {
+    "id": "mental_l05_010",
+    "type": "conversation",
+    "question": "Le contenu de cette leçon vous a-t-il semblé utile ?",
+    "your_response_prompt": "Donnez-nous votre avis sincère",
+    "choices": [
+      "Très utile",
+      "Un peu utile",
+      "Pas vraiment utile"
+    ],
+    "recommended_index": null,
+    "explanation": "Tous les avis sont précieux. Les approches qui conviennent varient selon les personnes, donc l'important est de trouver ce qui vous correspond.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  }
+]

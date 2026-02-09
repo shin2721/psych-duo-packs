@@ -1,0 +1,420 @@
+[
+  {
+    "id": "work_l01_001",
+    "type": "swipe_judgment",
+    "question": "Les taches que l'on se dit de faire plus tard finissent souvent par ne jamais etre faites.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Je comprends",
+      "right": "Pas vraiment"
+    },
+    "explanation": "La procrastination n'est pas un probleme de volonte, mais plutot une tendance naturelle a eviter l'inconfort. Il est possible d'ameliorer cela en changeant sa maniere de commencer une tache.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Les personnes ayant tendance a procrastiner",
+        "Les personnes dont les taches s'accumulent facilement"
+      ],
+      "limitations": [
+        "Il existe des cas ou la procrastination peut etre adaptative (par exemple, attendre des informations)"
+      ],
+      "citation_role": "Observation basee sur une meta-analyse des comportements de procrastination",
+      "claim_tags": [
+        "procrastination",
+        "self_regulation",
+        "task_management"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_002",
+    "type": "multiple_choice",
+    "question": "Quand on attend que la motivation vienne, que pourrait-il se passer ?",
+    "choices": [
+      "On continue d'eviter l'inconfort",
+      "Le corps demande du repos",
+      "Ce n'est pas vraiment une tache necessaire"
+    ],
+    "correct_index": 0,
+    "explanation": "La motivation n'est pas quelque chose que l'on attend, mais qui tend a apparaitre une fois qu'on commence. En bougeant les mains pendant seulement 10 secondes, on peut parfois basculer en mode tache. (On a tendance a penser qu'on a besoin de repos ou que ce n'est pas necessaire, mais c'est souvent une envie d'eviter)",
+    "actionable_advice": "La prochaine fois que vous attendez la motivation, essayez de bouger les mains pendant seulement 10 secondes. Si ca ne vous plait pas, arretez tout de suite.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Les personnes qui attendent longtemps la motivation",
+        "Les personnes qui ont du mal a commencer"
+      ],
+      "limitations": [
+        "Quand on est vraiment fatigue, le repos est necessaire",
+        "L'apathie chronique necessite une approche differente"
+      ],
+      "citation_role": "Explication de la theorie de l'activation comportementale dans la recherche sur la procrastination",
+      "claim_tags": [
+        "procrastination",
+        "motivation",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_003",
+    "type": "swipe_judgment",
+    "question": "Quand on decide de ne faire que 5 minutes, on finit souvent par continuer plus longtemps.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Peut-etre",
+      "right": "Peu probable"
+    },
+    "explanation": "Abaisser le seuil pour commencer tend a faciliter l'engagement dans la tache. C'est tout a fait acceptable de s'arreter vraiment apres 5 minutes. Ne pas y arriver est normal aussi. Essayez juste une fois.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes submergees par de grandes taches",
+        "Les personnes ayant des tendances perfectionnistes"
+      ],
+      "limitations": [
+        "Des etapes supplementaires sont necessaires pour les taches qui ne peuvent pas etre terminees en 5 minutes"
+      ],
+      "citation_role": "Soutien indirect de l'effet de la regle des 5 minutes par la recherche sur les intentions d'implementation",
+      "try_this": "Quand une tache semble lourde, prenez 10 secondes pour ecrire une version de 5 minutes",
+      "claim_tags": [
+        "implementation_intention",
+        "procrastination",
+        "task_initiation"
+      ],
+      "tiny_metric": {
+        "metric": "Avez-vous reussi a appuyer sur le minuteur de 5 minutes et a commencer ?",
+        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite"
+      },
+      "comparator": {
+        "baseline": "Etre submerge en regardant la tache dans son ensemble",
+        "cost": "5 minutes / charge faible"
+      },
+      "fallback": {
+        "when": "Meme 5 minutes semblent trop longues",
+        "next": "Reduisez a une version de 2 minutes"
+      }
+    }
+  },
+  {
+    "id": "work_l01_004",
+    "type": "multiple_choice",
+    "question": "Quelle methode a ete rapportee comme efficace pour reduire la procrastination ?",
+    "choices": [
+      "Decider a l'avance quand, ou et quoi faire",
+      "Fixer des delais plus courts",
+      "Preparer une recompense"
+    ],
+    "correct_index": 0,
+    "explanation": "Les intentions d'implementation (plans si-alors) pourraient reduire la procrastination. L'efficacite varie selon les individus. Essayez juste une fois. (Des delais plus courts et des recompenses peuvent aussi aider, mais decider quand et ou d'abord tend a etre plus efficace)",
+    "actionable_advice": "Pour votre prochaine tache, decidez d'une chose : a quelle heure, ou et quoi faire.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Les personnes qui aiment planifier",
+        "Les personnes qui ne peuvent pas agir sur des taches vagues"
+      ],
+      "limitations": [
+        "Ne pas suivre le plan peut causer du stress",
+        "Pas adapte aux situations qui necessitent de la flexibilite"
+      ],
+      "citation_role": "Soutien direct de l'efficacite des intentions d'implementation",
+      "try_this": "En 10 secondes maintenant, decidez une chose : a quelle heure, a quel endroit, quoi faire",
+      "claim_tags": [
+        "implementation_intention",
+        "procrastination",
+        "goal_setting"
+      ],
+      "tiny_metric": {
+        "metric": "Avez-vous reussi a creer un plan si-alors ?",
+        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite"
+      },
+      "comparator": {
+        "baseline": "Penser seulement qu'il faut le faire",
+        "cost": "30 secondes / charge faible"
+      },
+      "fallback": {
+        "when": "Le plan est trop complexe",
+        "next": "Simplifiez en : quand X arrive, faire Y"
+      }
+    }
+  },
+  {
+    "id": "work_l01_005",
+    "type": "swipe_judgment",
+    "question": "Plus on pense qu'il faut faire les choses parfaitement, plus on a tendance a procrastiner.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Je comprends",
+      "right": "Pas vraiment"
+    },
+    "explanation": "Un lien entre le perfectionnisme et la procrastination a ete rapporte. Decider que 70% est acceptable tend a faciliter l'action.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Les personnes ayant des tendances perfectionnistes",
+        "Les personnes qui reflechissent trop avant de commencer"
+      ],
+      "limitations": [
+        "Le perfectionnisme peut etre necessaire dans certaines situations ou la qualite est vraiment importante"
+      ],
+      "citation_role": "Soutien par des etudes observationnelles sur le lien entre perfectionnisme et procrastination",
+      "claim_tags": [
+        "perfectionism",
+        "procrastination",
+        "anxiety"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_006",
+    "type": "multiple_choice",
+    "question": "Quand une tache est trop grande pour bouger, que pourrait-on faire pour se mettre en mouvement ?",
+    "choices": [
+      "Se concentrer uniquement sur la prochaine etape",
+      "Etre conscient du delai",
+      "Demander de l'aide a quelqu'un"
+    ],
+    "correct_index": 0,
+    "explanation": "Les grandes taches tendent a devenir plus faciles a gerer quand on les divise. Decider seulement de la prochaine action peut parfois aider a demarrer. Essayez juste une fois. (La conscience du delai et demander de l'aide sont aussi efficaces, mais la division est la premiere etape)",
+    "actionable_advice": "Notez seulement la prochaine action pour la grande tache que vous avez en ce moment.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes avec de grands projets",
+        "Les personnes submergees par la vue d'ensemble"
+      ],
+      "limitations": [
+        "Trop diviser peut au contraire compliquer les choses"
+      ],
+      "citation_role": "Soutien indirect de l'effet de la decomposition des taches par la recherche sur les intentions d'implementation",
+      "try_this": "En 10 secondes, notez seulement la prochaine action",
+      "claim_tags": [
+        "task_decomposition",
+        "procrastination",
+        "goal_setting"
+      ],
+      "tiny_metric": {
+        "metric": "Avez-vous reussi a noter la prochaine action ?",
+        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite"
+      },
+      "comparator": {
+        "baseline": "Etre fige en regardant la tache entiere",
+        "cost": "30 secondes / charge faible"
+      },
+      "fallback": {
+        "when": "Impossible de penser a une seule action",
+        "next": "Commencez par ouvrir quelque chose"
+      }
+    }
+  },
+  {
+    "id": "work_l01_007",
+    "type": "conversation",
+    "question": "Un collegue vous dit : Tu n'as pas encore fini ce travail ? Comment repondez-vous ?",
+    "choices": [
+      "Je m'appretais justement a commencer. Je vais essayer pendant 5 minutes.",
+      "Non, je le ferai dans la semaine.",
+      "Ca ne te regarde pas."
+    ],
+    "recommended_index": 0,
+    "explanation": "Declarer ses intentions peut devenir un engagement social qui tend a faciliter l'action. Cela peut avoir l'effet inverse pour les personnes sensibles a la pression. Essayez juste une fois.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes qui peuvent agir grace a des promesses aux autres",
+        "Les personnes pour qui la motivation externe est efficace"
+      ],
+      "limitations": [
+        "Peut avoir l'effet inverse pour les personnes sensibles a la pression"
+      ],
+      "citation_role": "Soutien indirect de l'effet de l'engagement social",
+      "claim_tags": [
+        "social_commitment",
+        "procrastination",
+        "accountability"
+      ],
+      "try_this": "En 10 secondes, declarez a quelqu'un que vous allez faire juste 5 minutes",
+      "tiny_metric": {
+        "metric": "Avez-vous reussi a bouger pendant 5 minutes apres avoir declare ?",
+        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite"
+      },
+      "comparator": {
+        "baseline": "Procrastiner sans rien dire a personne",
+        "cost": "Juste declarer / charge faible"
+      },
+      "fallback": {
+        "when": "La declaration devient une pression",
+        "next": "Passez a la regle des 10 secondes sans declaration"
+      }
+    }
+  },
+  {
+    "id": "work_l01_008",
+    "type": "swipe_judgment",
+    "question": "Il existe une perspective selon laquelle la procrastination n'est pas de la paresse mais un probleme de regulation emotionnelle.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Peut-etre",
+      "right": "Je ne pense pas"
+    },
+    "explanation": "Les recherches recentes tendent a comprendre la procrastination comme un comportement d'evitement des emotions desagreables. Autrement dit, la regulation emotionnelle pourrait etre plus importante que la volonte.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Les personnes qui ont tendance a se blamer",
+        "Les personnes qui ressentent de l'auto-degout a cause de la procrastination"
+      ],
+      "limitations": [
+        "Toute procrastination n'est pas liee a la regulation emotionnelle"
+      ],
+      "citation_role": "Soutien theorique du modele de regulation emotionnelle de la procrastination",
+      "claim_tags": [
+        "emotion_regulation",
+        "procrastination",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_009",
+    "type": "multiple_choice",
+    "question": "Quelle methode concrete a ete rapportee comme efficace pour reduire la procrastination ?",
+    "choices": [
+      "Decider de bouger les mains pendant seulement 10 secondes",
+      "Faire une liste de taches",
+      "Mettre les delais dans le calendrier"
+    ],
+    "correct_index": 0,
+    "explanation": "La regle des 10 secondes pourrait etre efficace pour abaisser le seuil de demarrage. Les listes de taches et les delais sont aussi utiles, mais la regle des 10 secondes est celle avec la charge la plus faible. Essayez juste une fois. (Les listes et les calendriers necessitent de la preparation)",
+    "actionable_advice": "Action de demain : Quand vous etes bloque, bougez les mains pendant seulement 10 secondes.",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes qui procrastinent beaucoup",
+        "Les personnes qui veulent commencer facilement"
+      ],
+      "limitations": [
+        "Peut etre moins efficace pour l'apathie chronique"
+      ],
+      "citation_role": "Soutien indirect de l'effet de la regle des 10 secondes par la meta-analyse sur la procrastination",
+      "try_this": "Quand vous etes bloque, bougez les mains pendant seulement 10 secondes",
+      "claim_tags": [
+        "procrastination",
+        "task_initiation",
+        "self_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Quel est votre niveau d'envie de ne pas le faire maintenant ? (0-10)",
+        "after_prompt": "Et apres 10 secondes ?",
+        "success_rule": "C'est OK si ca diminue ne serait-ce qu'un peu",
+        "stop_rule": "Si ca ne change pas ou augmente, arretez pour aujourd'hui"
+      },
+      "comparator": {
+        "baseline": "Attendre que la motivation vienne",
+        "cost": "10 secondes / charge faible"
+      },
+      "fallback": {
+        "when": "Impossible de bouger meme pendant 10 secondes",
+        "next": "Decomposez la tache en unite minimale"
+      }
+    }
+  },
+  {
+    "id": "work_l01_010",
+    "type": "multiple_choice",
+    "question": "Parmi ce que vous avez appris aujourd'hui, qu'est-ce qui pourrait etre utile des demain ?",
+    "choices": [
+      "Decider de bouger les mains pendant seulement 10 secondes",
+      "Commencer avec juste 5 minutes",
+      "Decider seulement de la prochaine action",
+      "Essayer tout"
+    ],
+    "correct_index": 3,
+    "explanation": "Tout vaut la peine d'etre essaye. Pour la procrastination, trouver une facon de vivre avec plutot que de la surmonter pourrait etre important. Si ca ne convient pas, passez a une autre methode. Essayez juste une fois. (Les options individuelles sont aussi valides, la plus simple est la regle des 10 secondes)",
+    "actionable_advice": "Action d'aujourd'hui : Essayez la regle des 10 secondes pour votre prochaine tache.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes qui veulent commencer de nouvelles habitudes"
+      ],
+      "limitations": [
+        "Il se peut que tout ne continue pas"
+      ],
+      "citation_role": "Soutien indirect de l'efficacite des interventions contre la procrastination",
+      "try_this": "Essayez la regle des 10 secondes pour votre prochaine tache",
+      "claim_tags": [
+        "procrastination",
+        "habit_formation",
+        "self_regulation"
+      ],
+      "tiny_metric": {
+        "metric": "Avez-vous utilise la regle des 10 secondes au moins une fois cette semaine ?",
+        "stop_rule": "Arretez si vous ne vous en etes pas souvenu une seule fois en une semaine"
+      },
+      "comparator": {
+        "baseline": "Ne rien essayer",
+        "cost": "10 secondes x quelques fois par semaine"
+      },
+      "fallback": {
+        "when": "La regle des 10 secondes ne convient pas",
+        "next": "Passez a la regle des 5 minutes ou au plan si-alors"
+      }
+    }
+  }
+]
