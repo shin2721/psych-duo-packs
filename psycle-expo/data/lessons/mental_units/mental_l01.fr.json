@@ -1,0 +1,333 @@
+[
+    {
+        "id": "mental_l01_001",
+        "type": "conversation",
+        "question": "Cette semaine, as-tu eu une scène qui s'est rejouée plus de 3 fois dans ta tête, du genre : \"J'aurais dû dire ça...\" ?",
+        "your_response_prompt": "Réponds instinctivement",
+        "choices": [
+            "Plus de 3 fois (ça me travaille beaucoup)",
+            "1-2 fois",
+            "Non (je me sens tranquille)"
+        ],
+        "recommended_index": null,
+        "explanation": "C'est ce qu'on appelle la \"rumination\". En fait, c'est différent de la réflexion constructive : c'est comme si le cerveau rejouait automatiquement un signal d'erreur.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Ceux qui veulent prendre conscience de leurs boucles de pensées négatives"
+            ],
+            "limitations": [
+                "Lors de périodes de grande tristesse prolongée"
+            ],
+            "citation_role": "Soutient la définition et le mécanisme de la rumination",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_002",
+        "type": "multiple_choice",
+        "question": "Le train a 15 minutes de retard. Tu reçois un message : \"Tu arrives dans 10 min ?\" Ton cœur s'accélère et tu paniques.\n\nQu'est-ce qui explique le mieux cette montée de stress ?",
+        "choices": [
+            "Une réaction \"c'est peut-être une menace\" s'est déclenchée",
+            "Le retard du train en est directement la cause",
+            "C'est une question de personnalité, tu t'énerves facilement"
+        ],
+        "correct_index": 0,
+        "explanation": "Une réaction de type \"menace potentielle\" tend à se déclencher avant même l'événement. L'accélération du cœur et la panique sont des réactions naturelles du corps. (On a tendance à penser que c'est \"à cause du train\" ou \"de notre personnalité\", mais alors tout le monde réagirait pareil.)",
+        "actionable_advice": "Quand tu ressens de la panique : essaie simplement de te dire \"c'est une réaction de mon corps\"",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Stress quotidien",
+                "Situations où l'on a peu de contrôle"
+            ],
+            "limitations": [
+                "Juste après un traumatisme aigu",
+                "Cas où les facteurs physiologiques sont prédominants"
+            ],
+            "citation_role": "Soutient le mécanisme central de la théorie de l'évaluation cognitive",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress_response"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_003",
+        "type": "swipe_judgment",
+        "question": "Selon la théorie de l'évaluation cognitive, la cause du stress se trouve dans \"l'événement\" ou dans \"l'interprétation\" ?",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Dans l'interprétation",
+            "right": "Dans l'événement"
+        },
+        "explanation": "C'est le cœur de cette théorie. Même si on ne peut pas changer les événements, il reste une marge d'intervention sur l'interprétation (la façon dont on perçoit les choses).",
+        "actionable_advice": "Essaie ceci : imagine que tu observes l'événement désagréable à travers une caméra",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Confirme le cœur de la théorie de l'évaluation cognitive",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_004",
+        "type": "multiple_choice",
+        "question": "Plus que 3 minutes avant l'entretien. Dans la salle d'attente, ton cœur bat très fort. Tes paumes sont moites.\n\nComment pourrais-tu réinterpréter ces réactions corporelles ?",
+        "choices": [
+            "\"Mon corps se prépare à l'action\"",
+            "\"Je suis nul(le)\"",
+            "\"C'est mauvais signe\""
+        ],
+        "correct_index": 0,
+        "explanation": "On peut aussi interpréter ces battements de cœur comme \"le corps qui s'échauffe\". Cependant, si tu ne te sens pas bien physiquement, repose-toi. C'est normal de ne pas y arriver. Essaie juste une fois. (\"Je suis nul\" ou \"c'est mauvais signe\" sont des pensées courantes, mais elles tendent à amplifier le stress.)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jamieson_2012",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Nervosité avant une présentation ou un entretien",
+                "Situations de performance à court terme"
+            ],
+            "limitations": [
+                "Quand on ne se sent pas bien physiquement",
+                "Anxiété chronique intense"
+            ],
+            "citation_role": "Soutient l'efficacité de la réévaluation (changer l'interprétation)",
+            "try_this": "La prochaine fois que ton cœur bat fort : dis-toi pendant 10 secondes \"mon corps s'échauffe\"",
+            "claim_tags": [
+                "reappraisal",
+                "arousal",
+                "stress_response"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Ta tension actuelle ? (0-10)",
+                "after_prompt": "Ta tension après 10 secondes ? (0-10)",
+                "success_rule": "Une baisse de 1 suffit",
+                "stop_rule": "Si ça ne change rien, c'est ok d'arrêter pour aujourd'hui"
+            },
+            "comparator": {
+                "baseline": "Essayer de se calmer (réprimer)",
+                "cost": "10 secondes / effet léger mais effort minimal"
+            },
+            "fallback": {
+                "when": "Si au bout de 10 secondes le stress augmente",
+                "next": "Passe à la respiration profonde (inspire 4 sec, expire 4 sec)"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_005",
+        "type": "multiple_choice",
+        "question": "À 17h, ton supérieur t'a fait des reproches en réunion. À 21h, cette remarque tourne encore dans ta tête.\n\nQuels types de pensées ont tendance à prolonger le stress ?",
+        "choices": [
+            "Continuer à se demander \"pourquoi ça m'arrive à moi...\"",
+            "Se dire \"bon, c'était juste une mauvaise journée\" et passer à autre chose",
+            "Les deux ont le même effet"
+        ],
+        "correct_index": 0,
+        "explanation": "C'est davantage \"comment on continue à y penser après\" que l'événement lui-même qui influence la durée du stress. Pas besoin de te culpabiliser si tu n'arrives pas à passer à autre chose. (\"Passer à autre chose\" est l'idéal, mais c'est souvent difficile en pratique.)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explique théoriquement le mécanisme de persistance de la rumination dans le cadre de la théorie de l'évaluation cognitive",
+            "claim_tags": [
+                "rumination",
+                "stress_duration"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_006",
+        "type": "conversation",
+        "question": "Rappelle-toi le moment cette semaine où tu as ressenti le plus de stress.",
+        "your_response_prompt": "Quels mots te venaient à l'esprit à ce moment-là ?",
+        "choices": [
+            "Des mots comme \"c'est terrible\", \"qu'est-ce que je vais faire\"",
+            "Des mots comme \"bon, tant pis\", \"ça ira\"",
+            "Aucun mot particulier ne me venait"
+        ],
+        "recommended_index": null,
+        "explanation": "Toutes les réponses sont bonnes. Il suffit de prendre conscience de ta \"voix intérieure\".",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Soutient indirectement l'effet de la prise de conscience de soi",
+            "claim_tags": [
+                "self_awareness",
+                "mindfulness"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_007",
+        "type": "swipe_judgment",
+        "question": "Quand on te dit \"le stress, c'est juste une question de perspective\", ça te laisse un peu perplexe",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Je comprends ce sentiment",
+            "right": "Je ne comprends pas"
+        },
+        "explanation": "En fait, la théorie ne dit pas que \"changer de perspective fait disparaître le stress\". Pour un traumatisme aigu ou des causes physiques, d'autres approches sont nécessaires.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Clarifie les limites de la théorie",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "limitations"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_008",
+        "type": "multiple_choice",
+        "question": "Dans quel type de situation la théorie de l'évaluation cognitive est-elle particulièrement adaptée ?",
+        "choices": [
+            "Stress chronique ou situations où l'on a peu de contrôle",
+            "État de panique juste après un accident",
+            "Cas où une maladie physique est la cause principale"
+        ],
+        "correct_index": 0,
+        "explanation": "Elle est bien adaptée au stress quotidien. Pour les situations juste après un traumatisme aigu ou quand les facteurs physiologiques sont prédominants, d'autres approches peuvent être à envisager. (Les cas d'\"accident\" ou de \"maladie physique\" ne peuvent pas toujours être gérés uniquement par la cognition.)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Stress chronique",
+                "Situations où l'on a peu de contrôle"
+            ],
+            "limitations": [
+                "État de panique juste après un accident",
+                "Cas où une maladie physique est la cause principale"
+            ],
+            "citation_role": "Clarifie le champ d'application de la théorie de l'évaluation cognitive",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "applicability"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_009",
+        "type": "conversation",
+        "question": "L'idée apprise aujourd'hui : \"l'interprétation influence le stress\".",
+        "your_response_prompt": "Si tu devais essayer une seule fois demain quand tu ressens du stress ?",
+        "choices": [
+            "Me demander \"comment est-ce que j'interprète ça en ce moment ?\"",
+            "Ne pas essayer pour l'instant (c'est aussi un choix valide)",
+            "Ça ne me parle pas encore, je mets en pause"
+        ],
+        "recommended_index": 0,
+        "explanation": "Ça vaut la peine d'essayer. Si ça ne te convient pas, d'autres méthodes existent. Essaie juste une fois.",
+        "actionable_advice": "Demain, quand tu ressens un malaise, pose-toi cette question pendant 10 secondes : \"Qu'est-ce que je perçois comme une menace ?\"",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Petites frustrations du quotidien",
+                "Ceux qui veulent mieux se comprendre"
+            ],
+            "limitations": [
+                "Crise psychologique grave",
+                "États où penser est douloureux en soi"
+            ],
+            "citation_role": "Soutient l'application pratique de la théorie de l'évaluation cognitive",
+            "try_this": "Demain, quand tu ressens un malaise, pose-toi cette question pendant 10 secondes : \"Qu'est-ce que je perçois comme une menace ?\"",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "self_awareness"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Ton agitation actuelle ? (0-10)",
+                "after_prompt": "Ton agitation après 10 secondes ? (0-10)",
+                "success_rule": "Une baisse de 1 suffit",
+                "stop_rule": "Si ça ne change rien, c'est ok d'arrêter pour aujourd'hui"
+            },
+            "comparator": {
+                "baseline": "Se distraire (réseaux sociaux, vidéos, etc.)",
+                "cost": "10 secondes / effet léger mais peut approfondir la compréhension de soi"
+            },
+            "fallback": {
+                "when": "Si le questionnement amplifie le stress",
+                "next": "Se contenter de nommer \"je suis stressé(e) là\" (sans analyser le contenu)"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_010",
+        "type": "conversation",
+        "question": "L'approche de cette micro-leçon te semble-t-elle adaptée pour toi ?",
+        "your_response_prompt": "Réponds instinctivement",
+        "choices": [
+            "Je pense que ça pourrait me convenir",
+            "Ça ne me semble pas vraiment adapté",
+            "Je ne sais pas encore"
+        ],
+        "recommended_index": null,
+        "explanation": "Toutes les réponses sont bonnes. Si ça ne te convient pas, une autre approche pourrait mieux te correspondre.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Soutient la prise en compte des différences individuelles",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

@@ -1,0 +1,376 @@
+[
+    {
+        "id": "social_l02_001",
+        "type": "swipe_judgment",
+        "question": "Ojalá pudiera decir \"déjame pensarlo un momento\", pero no pude y me arrepentí.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Me pasa seguido",
+            "right": "No tanto"
+        },
+        "explanation": "La presión de \"tengo que responder de inmediato\" a veces la creamos nosotros mismos. Para la otra persona, \"un momento para pensar\" también es algo normal.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas que tienden a sentir presión por responder de inmediato"
+            ],
+            "limitations": [
+                "En situaciones urgentes puede ser difícil de aplicar"
+            ],
+            "citation_role": "Apoya el impacto de la presión de responder inmediatamente en el establecimiento de límites",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "self_awareness"
+            ]
+        }
+    },
+    {
+        "id": "social_l02_002",
+        "type": "multiple_choice",
+        "question": "Cuando sientes que \"es difícil decir no\", ¿cuál es un método que puede ayudarte a mantener la calma primero?",
+        "choices": [
+            "Tomar tu celular y decir \"déjame verificar un momento\"",
+            "Sonreír y responder \"¡claro!\" de inmediato",
+            "Quedarte en silencio pensando"
+        ],
+        "correct_index": 0,
+        "explanation": "El movimiento físico de \"agarrar algo\" puede enviar una señal de cambio al cerebro. Cuando las palabras no salen, primero intenta mover el cuerpo. (Responder \"¡claro!\" de inmediato tiende a generar arrepentimiento. \"Quedarte en silencio\" puede volverse incómodo)",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas a quienes les cuesta encontrar las palabras"
+            ],
+            "limitations": [
+                "En persona, el movimiento físico puede ser difícil en algunos casos"
+            ],
+            "citation_role": "Explica teóricamente la relación entre la asertividad y el movimiento corporal",
+            "claim_tags": [
+                "assertiveness",
+                "physical_action",
+                "theory"
+            ]
+        }
+    },
+    {
+        "id": "social_l02_003",
+        "type": "multiple_choice",
+        "question": "Cuando sientes la urgencia de \"tengo que decidir ahora\", ¿qué método se ha reportado como efectivo para pausar solo 10 segundos?",
+        "choices": [
+            "Soltar el celular y decir \"espera un momento\"",
+            "Decir \"está bien\" y rechazar después",
+            "Dejar en visto y no responder"
+        ],
+        "correct_index": 0,
+        "explanation": "Al \"soltar\" físicamente el celular, puedes dar un paso atrás de la presión de responder al instante. El truco es mover el cuerpo antes que las palabras. Está bien si no puedes hacerlo. Solo inténtalo una vez. (Decir \"está bien\" y rechazar después puede volverse incómodo. \"Dejar en visto\" tiende a dañar la relación)",
+        "actionable_advice": "👉 Cuando sientas que \"es difícil decir no\" → Suelta el celular y escribe \"déjame verificar solo 10 segundos\"",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que tienden a responder de inmediato por mensaje"
+            ],
+            "limitations": [
+                "En persona se necesita un enfoque diferente"
+            ],
+            "citation_role": "Apoya indirectamente las técnicas de pausa en el establecimiento de límites",
+            "try_this": "👉 Cuando recibas un mensaje difícil de rechazar → Suelta el celular, espera 10 segundos y responde \"déjame verificar\"",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "physical_action"
+            ],
+            "tiny_metric": {
+                "before_prompt": "¿Cuál es tu presión de \"tengo que responder ya\"? (0-10)",
+                "after_prompt": "¿Cómo te sientes después de soltar el celular y esperar 10 segundos?",
+                "success_rule": "Si baja aunque sea un poco, está bien",
+                "stop_rule": "Si no cambia, está bien retirarse por hoy"
+            },
+            "comparator": {
+                "baseline": "Responder al instante con \"está bien\"",
+                "cost": "10 segundos / La carga es baja"
+            },
+            "fallback": {
+                "when": "Si 10 segundos es demasiado",
+                "next": "Suelta el celular \"solo 1 segundo\" y haz una respiración profunda"
+            }
+        }
+    },
+    {
+        "id": "social_l02_004",
+        "type": "swipe_judgment",
+        "question": "A veces pienso que \"decir no = la relación se acaba\".",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Me identifico",
+            "right": "No tanto"
+        },
+        "explanation": "En realidad, es poco común que una relación termine por un solo \"no\". Más bien, forzarte continuamente tiende a ser un mayor riesgo de desgaste.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas que no pueden decir no por miedo a dañar la relación"
+            ],
+            "limitations": [
+                "No se puede descartar que en algunos casos la relación sí se dañe"
+            ],
+            "citation_role": "Apoya el estudio observacional sobre asertividad y mantenimiento de relaciones",
+            "claim_tags": [
+                "assertiveness",
+                "relationship",
+                "fear"
+            ]
+        }
+    },
+    {
+        "id": "social_l02_005",
+        "type": "conversation",
+        "question": "En situaciones donde sientes que \"es difícil decir no\", ¿cuál es el patrón que más se aplica a ti?",
+        "choices": [
+            "No puedo decirlo porque podría lastimar a la otra persona",
+            "No puedo decirlo porque podrían dejar de quererme",
+            "No sé cómo rechazar",
+            "No tengo un patrón en particular"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas las respuestas son válidas. Cuando notas tu propio patrón, puede ser más fácil elegir una estrategia.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Apoya el autoconocimiento de patrones de asertividad",
+            "claim_tags": [
+                "self_awareness",
+                "assertiveness",
+                "pattern_recognition"
+            ]
+        }
+    },
+    {
+        "id": "social_l02_006",
+        "type": "multiple_choice",
+        "question": "Como frase para facilitar decir \"NO\", ¿cuál forma puede ser más fácil de usar?",
+        "choices": [
+            "\"Por [razón], esta vez no me es posible\" (razón + rechazo)",
+            "\"No quiero, para nada\"",
+            "\"Lo voy a pensar\" (terminar sin rechazar)"
+        ],
+        "correct_index": 0,
+        "explanation": "\"Razón + rechazo\" permite comunicar tu situación sin negar a la otra persona. Ejemplo: \"Esta semana estoy muy ocupado/a, así que esta vez no me es posible\". Solo inténtalo una vez. (Un \"rechazo fuerte\" puede ser difícil de decir. \"Lo voy a pensar\" tiende a quedar en la ambigüedad)",
+        "actionable_advice": "👉 Cuando vayas a rechazar → Repite \"por [razón], esta vez no me es posible\" por 10 segundos antes de enviar",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que no saben cómo rechazar"
+            ],
+            "limitations": [
+                "En algunos casos puede ser difícil cuando te piden explicaciones"
+            ],
+            "citation_role": "Apoya indirectamente las técnicas de frases para establecer límites",
+            "try_this": "👉 Antes de enviar un mensaje de rechazo → Detente y repite \"por [razón], no me es posible\" por 10 segundos",
+            "claim_tags": [
+                "assertiveness",
+                "phrase_template",
+                "boundary_setting"
+            ],
+            "tiny_metric": {
+                "before_prompt": "¿Cuál es tu ansiedad antes de enviar el rechazo? (0-10)",
+                "after_prompt": "¿Cómo te sientes después de repetir la frase?",
+                "success_rule": "Si baja aunque sea un poco, está bien",
+                "stop_rule": "Si no cambia, prueba con otra frase"
+            },
+            "comparator": {
+                "baseline": "No saber qué decir y quedarse paralizado/a",
+                "cost": "10 segundos / La carga es baja"
+            },
+            "fallback": {
+                "when": "Si no se te ocurre una razón",
+                "next": "Solo \"esta vez no me es posible\" está bien"
+            }
+        }
+    },
+    {
+        "id": "social_l02_007",
+        "type": "swipe_judgment",
+        "question": "Tengo la tendencia de sentir que \"tengo que disculparme\" cuando rechazo algo.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Me identifico",
+            "right": "No tanto"
+        },
+        "explanation": "En muchos casos, rechazar algo no requiere una disculpa. Comenzar con algo positivo como \"gracias, pero esta vez no me es posible\" puede hacer que se sienta más fácil.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas que tienden a disculparse excesivamente al rechazar"
+            ],
+            "limitations": [
+                "Según la cultura o la relación, a veces disculparse puede ser lo apropiado"
+            ],
+            "citation_role": "Apoya mediante estudios observacionales la relación entre asertividad y disculpas",
+            "claim_tags": [
+                "assertiveness",
+                "apology",
+                "self_respect"
+            ]
+        }
+    },
+    {
+        "id": "social_l02_008",
+        "type": "multiple_choice",
+        "question": "Cuando sientes que \"es difícil decir no\" en persona, ¿qué puedes hacer primero con tu cuerpo?",
+        "choices": [
+            "Dar un paso atrás y decir \"déjame pensarlo un momento\"",
+            "Sonreír y decir \"¡claro!\"",
+            "Cruzar los brazos y quedarte en silencio"
+        ],
+        "correct_index": 0,
+        "explanation": "Al \"dar un paso atrás\" físicamente, también puedes tomar distancia psicológica. El truco es mover el cuerpo antes que las palabras. Solo inténtalo una vez. (\"Sonreír y decir claro\" tiende a generar arrepentimiento. \"Cruzar los brazos y quedarte en silencio\" puede parecer agresivo)",
+        "actionable_advice": "👉 Cuando sea difícil decir no en persona → Da un paso atrás y di \"déjame pensarlo un momento\"",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que frecuentemente enfrentan presión de responder al instante en persona"
+            ],
+            "limitations": [
+                "Puede ser difícil en lugares con poco espacio"
+            ],
+            "citation_role": "Apoya indirectamente la relación entre movimiento corporal y establecimiento de límites",
+            "try_this": "👉 Cuando sea difícil decir no en persona → Da un paso atrás y di \"déjame pensarlo\" por 10 segundos",
+            "claim_tags": [
+                "assertiveness",
+                "physical_action",
+                "boundary_setting"
+            ],
+            "tiny_metric": {
+                "before_prompt": "¿Qué tan difícil se siente rechazar? (0-10)",
+                "after_prompt": "¿Cómo te sientes después de dar un paso atrás?",
+                "success_rule": "Si baja aunque sea un poco, está bien",
+                "stop_rule": "Si no cambia, prueba con otro método"
+            },
+            "comparator": {
+                "baseline": "Quedarte de pie y responder al instante",
+                "cost": "1 segundo / La carga es baja"
+            },
+            "fallback": {
+                "when": "Si no puedes dar un paso atrás",
+                "next": "Desvía la mirada y di \"mmm\""
+            }
+        }
+    },
+    {
+        "id": "social_l02_009",
+        "type": "conversation",
+        "question": "De las técnicas que aprendiste hoy, ¿cuál crees que podrías usar a partir de mañana?",
+        "choices": [
+            "\"Soltar el celular y hacer una pausa\"",
+            "Usar la frase \"razón + rechazo\"",
+            "El movimiento físico de \"dar un paso atrás y pensar\"",
+            "Probar todas"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas valen la pena intentar. Si alguna no te funciona, prueba otra. Eso también es aprendizaje. Solo inténtalo una vez. (\"Todas\" no necesitas forzarte, empieza por una sola)",
+        "actionable_advice": "👉 Mañana, solo una vez, cuando sientas que \"es difícil decir no\" → Suelta el celular y espera 10 segundos",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que quieren probar un nuevo hábito"
+            ],
+            "limitations": [
+                "Sin práctica, es fácil olvidarlo"
+            ],
+            "citation_role": "Propone opciones de intervención para el establecimiento de límites",
+            "try_this": "👉 Mañana, solo una vez, cuando sientas que \"es difícil decir no\" → Suelta el celular y espera 10 segundos",
+            "claim_tags": [
+                "implementation",
+                "habit_formation",
+                "assertiveness"
+            ],
+            "tiny_metric": {
+                "metric": "¿Pudiste usarlo al menos una vez esta semana?",
+                "stop_rule": "Si no lo usaste en una semana, déjalo ir"
+            },
+            "comparator": {
+                "baseline": "No intentar nada y seguir respondiendo al instante",
+                "cost": "10 segundos x unas veces por semana"
+            },
+            "fallback": {
+                "when": "Si ninguna te funciona",
+                "next": "Cambia a \"solo dejar en visto y esperar 1 hora\""
+            }
+        }
+    },
+    {
+        "id": "social_l02_010",
+        "type": "conversation",
+        "question": "Las \"técnicas para decir no\" de esta lección, ¿te parecieron útiles?",
+        "choices": [
+            "Creo que me pueden servir",
+            "Creo que no son para mí",
+            "Todavía no lo sé"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas las respuestas son válidas. Si sientes que \"no son para ti\", buscar otro enfoque también es importante.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Apoya la consideración de las diferencias individuales",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

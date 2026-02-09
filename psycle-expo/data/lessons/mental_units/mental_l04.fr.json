@@ -1,0 +1,308 @@
+[
+    {
+        "id": "mental_l04_001",
+        "type": "swipe_judgment",
+        "question": "Dimanche soir. Quand je commence à penser à demain, les mêmes inquiétudes tournent en boucle.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Souvent",
+            "right": "Rarement"
+        },
+        "explanation": "C'est un signe de rumination. On croit réfléchir, mais en réalité, le cerveau tend à rejouer automatiquement les mêmes pensées.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Les personnes qui souhaitent reconnaître leurs schémas de rumination"
+            ],
+            "limitations": [
+                "En cas de tristesse intense et prolongée, l'auto-observation peut parfois devenir un fardeau"
+            ],
+            "citation_role": "Recherche empirique soutenant les caractéristiques et la persistance de la rumination",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking",
+                "depression"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_002",
+        "type": "multiple_choice",
+        "question": "Quelle est une caractéristique de la rumination ?",
+        "choices": [
+            "Les mêmes pensées tournent en boucle",
+            "Plus on réfléchit, plus on trouve de solutions",
+            "Cela se calme naturellement avec le temps"
+        ],
+        "correct_index": 0,
+        "explanation": "La rumination semble être de la réflexion, mais en réalité, elle tend à répéter le même contenu. Une approche différente est souvent nécessaire pour résoudre le problème. (« Trouver des solutions » correspond à la pensée orientée vers la résolution de problèmes. « Se calmer naturellement » est rare.)",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Les personnes qui veulent comprendre la différence entre rumination et pensée orientée vers la résolution de problèmes"
+            ],
+            "limitations": [
+                "Toutes les pensées répétitives ne sont pas nuisibles (la réflexion approfondie est différente)"
+            ],
+            "citation_role": "Définition des caractéristiques répétitives de la rumination",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_003",
+        "type": "swipe_judgment",
+        "question": "J'ai quelque chose à faire, mais je me retrouve à commencer autre chose sans savoir pourquoi.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Souvent",
+            "right": "Rarement"
+        },
+        "explanation": "C'est un signe de procrastination. Ce n'est pas un manque de volonté, mais plutôt une réaction naturelle pour éviter l'inconfort.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Les personnes qui souhaitent reconnaître leurs schémas de procrastination"
+            ],
+            "limitations": [
+                "Les causes de la procrastination sont diverses (TDAH, perfectionnisme, etc.) et ne peuvent pas être généralisées"
+            ],
+            "citation_role": "Explication de la procrastination comme comportement d'évitement dans le cadre de l'évaluation cognitive",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_004",
+        "type": "multiple_choice",
+        "question": "Dans quelle situation la procrastination a-t-elle tendance à se produire ?",
+        "choices": [
+            "Quand la tâche provoque un inconfort (difficile, ennuyeuse, anxiogène)",
+            "Quand la tâche est trop facile",
+            "Quand on a suffisamment de temps"
+        ],
+        "correct_index": 0,
+        "explanation": "La procrastination est un comportement d'évitement de l'inconfort. Quand la tâche elle-même est désagréable, notre attention tend inconsciemment à se tourner vers autre chose. (Cela arrive plus souvent en cas d'inconfort qu'avec des tâches « trop faciles » ou « quand on a du temps ».)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Les personnes qui veulent comprendre les causes de la procrastination"
+            ],
+            "limitations": [
+                "Toute procrastination n'est pas liée à l'évitement de l'inconfort (il peut aussi s'agir d'un problème de priorisation)"
+            ],
+            "citation_role": "Explication de la procrastination comme évitement du stress dans le cadre de l'évaluation cognitive",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_005",
+        "type": "conversation",
+        "question": "Y a-t-il quelque chose que vous avez tendance à remettre à plus tard ces derniers temps ?",
+        "your_response_prompt": "Choisissez ce qui vous vient à l'esprit",
+        "choices": [
+            "Travail ou études",
+            "Relations ou communication",
+            "Santé ou habitudes de vie",
+            "Rien en particulier / Je ne sais pas"
+        ],
+        "recommended_index": null,
+        "explanation": "Toutes les réponses sont valides. « Je ne sais pas » est aussi une réponse acceptable. Si vous n'avez pas de procrastination, c'est une bonne chose.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Soutien à la prise de conscience de soi",
+            "claim_tags": [
+                "self_awareness",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_006",
+        "type": "swipe_judgment",
+        "question": "Quand un souvenir stressant me revient, je pense consciemment à autre chose.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Souvent",
+            "right": "Rarement"
+        },
+        "explanation": "C'est un signe d'évitement. Cela peut soulager à court terme, mais le problème tend à persister à long terme.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Les personnes qui souhaitent reconnaître leurs schémas d'évitement"
+            ],
+            "limitations": [
+                "L'évitement peut parfois être efficace (comme l'évitement temporaire juste après un traumatisme)"
+            ],
+            "citation_role": "Explication des caractéristiques du coping évitant dans le cadre de l'évaluation cognitive",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_007",
+        "type": "multiple_choice",
+        "question": "Pourquoi l'évitement tend-il à devenir problématique à long terme ?",
+        "choices": [
+            "Le problème reste non résolu et l'anxiété se maintient ou se renforce",
+            "Parce que le problème est résolu rapidement",
+            "Parce que l'évitement lui-même devient stressant"
+        ],
+        "correct_index": 0,
+        "explanation": "L'évitement apporte un soulagement à court terme, mais le problème demeure intact. En conséquence, l'anxiété tend à se maintenir. (« Résolution rapide » ne se produit pas avec l'évitement. « L'évitement devient stressant » est un problème secondaire.)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Les personnes qui veulent comprendre les effets à long terme de l'évitement"
+            ],
+            "limitations": [
+                "Tout évitement n'est pas problématique (il peut y avoir un évitement approprié en termes de priorités)"
+            ],
+            "citation_role": "Explication des effets à long terme du coping évitant dans le contexte de la recherche sur le stress",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_008",
+        "type": "conversation",
+        "question": "Parmi les trois signes appris aujourd'hui (rumination, procrastination, évitement), lequel vous correspond le plus ?",
+        "your_response_prompt": "Choisissez intuitivement",
+        "choices": [
+            "Rumination (les mêmes inquiétudes en boucle)",
+            "Procrastination (remettre à plus tard ce qu'on doit faire)",
+            "Évitement (essayer de ne pas y penser)",
+            "Aucun ne me correspond"
+        ],
+        "recommended_index": null,
+        "explanation": "Toutes les réponses sont valides. « Aucun ne me correspond » est aussi une réponse acceptable. Reconnaître son propre schéma est déjà un premier pas important.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Soutien à la reconnaissance des schémas",
+            "claim_tags": [
+                "self_awareness",
+                "pattern_recognition"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_009",
+        "type": "multiple_choice",
+        "question": "Qu'ont en commun la rumination, la procrastination et l'évitement ?",
+        "choices": [
+            "Ils ont tous une fonction d'échapper temporairement à l'inconfort",
+            "Ils sont causés par un manque de volonté",
+            "Ce sont des problèmes à corriger immédiatement"
+        ],
+        "correct_index": 0,
+        "explanation": "Les trois ont une fonction d'évitement de l'inconfort. Plutôt que de se blâmer, reconnaître le schéma est la première étape. (« Manque de volonté » est une idée fausse. « Corriger immédiatement » en se blâmant tend à être contre-productif.)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Les personnes qui veulent comprendre les points communs entre ces schémas"
+            ],
+            "limitations": [
+                "Trop assimiler les trois peut masquer les approches spécifiques à chacun"
+            ],
+            "citation_role": "Suggestion de la fonction commune de la rumination, de la procrastination et de l'évitement",
+            "claim_tags": [
+                "rumination",
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_010",
+        "type": "conversation",
+        "question": "Avez-vous pris conscience de vos propres schémas grâce à cette leçon ?",
+        "your_response_prompt": "Répondez honnêtement",
+        "choices": [
+            "J'ai eu une prise de conscience",
+            "Je le savais déjà",
+            "Je n'ai pas bien compris"
+        ],
+        "recommended_index": null,
+        "explanation": "Toutes les réponses sont valides. Si « vous le saviez déjà », cela aura servi de révision. Si « vous n'avez pas bien compris », une autre approche pourrait mieux vous convenir.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Prise en compte des différences individuelles",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

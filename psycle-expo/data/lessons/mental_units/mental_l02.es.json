@@ -1,0 +1,304 @@
+[
+    {
+        "id": "mental_l02_001",
+        "type": "swipe_judgment",
+        "question": "Lunes 8am, en el tren camino al trabajo. Surge el pensamiento: \"Siento que la presentación de hoy no va a salir bien\".",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Me pasa seguido",
+            "right": "No tanto"
+        },
+        "explanation": "Esto es un \"disparo automático de evaluación de amenaza\". Aunque todavía no ha pasado nada, la reacción de \"podría ser peligroso\" ocurre primero.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas que quieren notar patrones de pensamientos automáticos"
+            ],
+            "limitations": [
+                "Solo entender la teoría puede no llevar directamente al cambio de comportamiento"
+            ],
+            "citation_role": "Explica la evaluación primaria (determinación de amenaza) en la teoría de la evaluación cognitiva",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "primary_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_002",
+        "type": "multiple_choice",
+        "question": "Ante el mismo \"feedback del jefe\", la persona A se deprime mientras que la persona B lo recibe como \"ahora sé qué mejorar\".\n\n¿Cuál es la teoría que mejor explica esta diferencia?",
+        "choices": [
+            "Teoría de la evaluación cognitiva (la interpretación influye en el estrés)",
+            "Teoría de rasgos de personalidad (el temperamento innato lo determina)",
+            "Teoría estímulo-respuesta (el evento determina directamente la reacción)"
+        ],
+        "correct_index": 0,
+        "explanation": "Aunque sea el mismo evento, la reacción cambia según \"cómo lo interpretas\". Este es el núcleo de la teoría de la evaluación cognitiva. (Aunque tendemos a pensar \"es toda mi personalidad\" o \"es culpa del evento\", eso no explicaría las diferencias individuales)",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas que quieren entender el trasfondo teórico",
+                "Quienes quieren saber por qué las personas reaccionan diferente"
+            ],
+            "limitations": [
+                "Conocer la teoría no cambia automáticamente la interpretación (se necesita práctica)"
+            ],
+            "citation_role": "Explica el mecanismo básico de la teoría de la evaluación cognitiva",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress",
+                "individual_differences"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_003",
+        "type": "swipe_judgment",
+        "question": "La \"evaluación primaria\" es juzgar automáticamente un evento como \"amenaza o inofensivo\".",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Creo que sí",
+            "right": "Creo que no"
+        },
+        "explanation": "Correcto. La evaluación primaria es el proceso de juzgar instantáneamente \"¿es esto una amenaza para mí?\". Suele ocurrir más automáticamente que conscientemente.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas que quieren entender los términos teóricos con precisión"
+            ],
+            "limitations": [
+                "Conocer los términos requiere práctica separada para aplicarlos"
+            ],
+            "citation_role": "Explica la definición de evaluación primaria",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "primary_appraisal"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_004",
+        "type": "multiple_choice",
+        "question": "¿Qué evalúa el proceso de \"evaluación secundaria\"?",
+        "choices": [
+            "\"¿Tengo recursos para manejar esta situación?\"",
+            "\"¿Es este evento una amenaza?\"",
+            "\"¿He tenido la misma experiencia en el pasado?\""
+        ],
+        "correct_index": 0,
+        "explanation": "La evaluación secundaria es el proceso de evaluar \"¿puedo manejar esto?\". Ocurre después de que la evaluación primaria determina que es una \"amenaza\". (\"¿Es una amenaza?\" es la evaluación primaria. \"Experiencias pasadas\" es un proceso de memoria diferente)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas que quieren entender el panorama completo de la teoría"
+            ],
+            "limitations": [
+                "Entender la teoría no mejora automáticamente la capacidad de afrontamiento"
+            ],
+            "citation_role": "Explica la definición de evaluación secundaria",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "secondary_appraisal",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_005",
+        "type": "conversation",
+        "question": "Recuerda una situación reciente que sentiste como \"amenaza\".",
+        "your_response_prompt": "En ese momento, ¿sentiste que \"podías manejarlo\" o que \"tal vez no podía\"?",
+        "choices": [
+            "Sentí que podía manejarlo",
+            "Sentí que tal vez no podía",
+            "Ninguno / No recuerdo"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas las respuestas son correctas. Esta sensación de \"si puedo o no manejarlo\" es la evaluación secundaria en sí.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Apoya la autoconciencia de la evaluación secundaria",
+            "claim_tags": [
+                "secondary_appraisal",
+                "self_awareness"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_006",
+        "type": "multiple_choice",
+        "question": "Cuando la evaluación primaria determina \"amenaza\" y la evaluación secundaria determina \"no puedo manejarlo\", ¿qué tiende a ocurrir?",
+        "choices": [
+            "Respuesta fuerte de estrés (ansiedad, preocupación, síntomas físicos)",
+            "Acción calmada para resolver el problema",
+            "No pasa nada"
+        ],
+        "correct_index": 0,
+        "explanation": "La combinación de \"amenaza + no puedo manejarlo\" intensifica la respuesta de estrés. Por el contrario, \"amenaza + puedo manejarlo\" puede percibirse como un desafío. (\"Acción calmada\" o \"no pasa nada\" son ideales, pero difíciles cuando hay sensación de no poder manejar)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas que quieren entender el mecanismo de la respuesta al estrés"
+            ],
+            "limitations": [
+                "Aunque lo entiendas, la reacción ocurre automáticamente (hay límites en el control consciente)"
+            ],
+            "citation_role": "Explica el mecanismo por el cual la combinación de evaluación primaria y secundaria determina la intensidad del estrés",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_007",
+        "type": "swipe_judgment",
+        "question": "La \"evaluación de amenaza\" es instintiva y no se puede cambiar.",
+        "is_true": false,
+        "swipe_labels": {
+            "left": "Creo que sí",
+            "right": "Creo que no"
+        },
+        "explanation": "Es difícil cambiarla por completo, pero puede volverse más fácil reinterpretarla (con diferencias individuales). Sin embargo, cuando estás cansado/a o sin recursos, es mejor no forzarte.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explica teóricamente la variabilidad de la evaluación",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "flexibility"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_008",
+        "type": "multiple_choice",
+        "question": "¿En qué casos la teoría de la evaluación cognitiva \"no es adecuada\"?",
+        "choices": [
+            "Estrés causado principalmente por una enfermedad física",
+            "Estrés por relaciones en el trabajo",
+            "Ansiedad vaga sobre el futuro"
+        ],
+        "correct_index": 0,
+        "explanation": "Cuando hay enfermedades físicas o factores fisiológicos dominantes, además de \"cambiar la interpretación\", se debe considerar un enfoque médico. (\"Relaciones\" y \"ansiedad sobre el futuro\" pueden beneficiarse del enfoque cognitivo)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas que quieren entender correctamente el alcance de la teoría"
+            ],
+            "limitations": [
+                "Esta teoría no profundiza en la identificación de casos límite"
+            ],
+            "citation_role": "Explica los límites del alcance de aplicación de la teoría de la evaluación cognitiva",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_009",
+        "type": "conversation",
+        "question": "Lo que aprendiste hoy: \"evaluación primaria (evaluación de amenaza)\" y \"evaluación secundaria (posibilidad de afrontamiento)\".",
+        "your_response_prompt": "La próxima vez que sientas estrés, ¿cuál te gustaría tener más presente?",
+        "choices": [
+            "Evaluación primaria: Preguntarme \"¿es esto realmente una amenaza?\"",
+            "Evaluación secundaria: Pensar \"¿qué puedo hacer yo?\"",
+            "Probar ambas",
+            "Paso esta vez (eso también es una opción)"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas son correctas. Es más sostenible probar desde el punto de entrada que te funcione mejor.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Propone un punto de entrada para la práctica",
+            "claim_tags": [
+                "implementation",
+                "practice"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_010",
+        "type": "conversation",
+        "question": "¿Te pareció coherente el \"mecanismo de evaluación de amenaza\" que aprendiste en esta lección?",
+        "your_response_prompt": "Responde con tu intuición",
+        "choices": [
+            "Me pareció coherente",
+            "Siento algo de incomodidad",
+            "Todavía no lo entiendo bien"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas son correctas. La \"incomodidad\" es información valiosa. Si esta teoría no te funciona, puede que otro enfoque sea mejor para ti.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Apoya la consideración de las diferencias individuales",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

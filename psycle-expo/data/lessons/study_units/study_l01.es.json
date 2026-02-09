@@ -1,0 +1,385 @@
+[
+  {
+    "id": "study_l01_001",
+    "type": "swipe_judgment",
+    "question": "Hay veces en las que piensas \"tengo que hacerlo\" pero no logras empezar a estudiar.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Me pasa seguido",
+      "right": "No tanto"
+    },
+    "explanation": "No poder empezar no es \"pereza\"; existe la perspectiva de que se trata de una reacción natural para evitar la incomodidad. Para empezar, no necesitas culparte por \"no poder comenzar\".",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personas que no logran empezar a estudiar",
+        "Personas que tienden a culparse por la procrastinación"
+      ],
+      "limitations": [
+        "La falta crónica de motivación puede requerir un enfoque diferente"
+      ],
+      "citation_role": "Estudio observacional que apoya el modelo de regulación emocional de la procrastinación",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_002",
+    "type": "multiple_choice",
+    "question": "Si esperas a que \"te llegue la motivación\", ¿qué tiende a pasar?",
+    "choices": [
+      "La motivación no llega y solo pasa el tiempo",
+      "La motivación surge naturalmente",
+      "Te relajas y la eficiencia mejora"
+    ],
+    "correct_index": 0,
+    "explanation": "Se ha reportado que la motivación tiende a aparecer más al \"empezar a hacer algo\" que al \"esperar\". Esto se conoce como activación conductual. (\"Surgir naturalmente\" o \"relajarse y mejorar la eficiencia\" son casos poco frecuentes. La mayoría de las veces, esperar no funciona)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Personas que esperan mucho a que llegue la motivación",
+        "Personas a las que les cuesta empezar"
+      ],
+      "limitations": [
+        "Cuando realmente estás agotado/a, descansar es necesario"
+      ],
+      "citation_role": "Explica la teoría de activación conductual en la investigación sobre procrastinación",
+      "claim_tags": [
+        "procrastination",
+        "motivation",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_003",
+    "type": "multiple_choice",
+    "question": "Para reducir la barrera de empezar a estudiar, ¿qué método se ha reportado como efectivo?",
+    "choices": [
+      "Decidir \"solo 10 segundos\" y abrir el material",
+      "Preparar un ambiente perfecto para concentrarse por largo tiempo",
+      "Esperar hasta que llegue la motivación"
+    ],
+    "correct_index": 0,
+    "explanation": "Incluso con solo 10 segundos, \"empezar\" tiende a facilitar el cambio hacia la tarea. Si terminas en 10 segundos, está bien. Si no te funciona, prueba otro método. Solo inténtalo una vez. (\"Preparar el ambiente\" o \"esperar la motivación\" lleva tiempo)",
+    "actionable_advice": "💡 La próxima vez que no puedas empezar a estudiar, prueba \"abrir el material por solo 10 segundos\".",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas a las que les cuesta empezar",
+        "Personas con tendencia al perfeccionismo"
+      ],
+      "limitations": [
+        "Cuando realmente estás agotado/a, descansar es necesario",
+        "Si no puedes moverte ni en 10 segundos, no te fuerces"
+      ],
+      "citation_role": "Apoyo indirecto a la efectividad de la regla de 10 segundos desde la investigación sobre procrastinación",
+      "try_this": "Prueba \"abrir el material por solo 10 segundos\"",
+      "claim_tags": [
+        "procrastination",
+        "task_initiation",
+        "implementation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "¿Cuál es tu nivel de \"no quiero hacerlo\" ahora? (0-10)",
+        "after_prompt": "¿Y después de 10 segundos?",
+        "success_rule": "Si baja aunque sea un poco, está bien",
+        "stop_rule": "Si no cambia o sube, mejor retirarse por hoy"
+      },
+      "comparator": {
+        "baseline": "Esperar a que llegue la motivación",
+        "cost": "10 segundos / La carga es baja"
+      },
+      "fallback": {
+        "when": "No puedes moverte ni en 10 segundos",
+        "next": "Prueba la planificación con plan Si-Entonces"
+      }
+    }
+  },
+  {
+    "id": "study_l01_004",
+    "type": "swipe_judgment",
+    "question": "Decidir de antemano \"cuando haga ○○, haré △△\" tiende a aumentar la tasa de ejecución.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Puede ser",
+      "right": "No tanto"
+    },
+    "explanation": "Esto se llama \"intención de implementación\" o \"planificación con plan Si-Entonces\". Ejemplo: \"Después de cenar, me siento en el escritorio\". Investigaciones sugieren que tiende a aumentar la tasa de ejecución comparado con no tener un plan.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personas que hacen planes pero no logran ejecutarlos",
+        "Personas que quieren crear hábitos"
+      ],
+      "limitations": [
+        "Si el disparador es ambiguo, el efecto puede ser menor"
+      ],
+      "citation_role": "Estudio que verifica directamente el efecto de la intención de implementación (planificación Si-Entonces)",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_005",
+    "type": "conversation",
+    "question": "Cuando no puedes empezar a estudiar, ¿qué es lo que más te describe?",
+    "choices": [
+      "No sé por dónde empezar",
+      "Me da flojera y no puedo moverme",
+      "Me paralizo al querer hacerlo perfecto",
+      "No tengo un patrón en particular"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas son respuestas válidas. Notar tu propio patrón tiende a facilitar la elección de una estrategia adecuada.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoya el autorreconocimiento de patrones de procrastinación",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_006",
+    "type": "multiple_choice",
+    "question": "Si usas la \"planificación con plan Si-Entonces\", ¿qué formato es más fácil de ejecutar?",
+    "choices": [
+      "Decidir con el formato \"Cuando haga ○○ (disparador), haré △△ (acción)\"",
+      "Decidir \"voy a esforzarme\"",
+      "Pensar \"algún día voy a estudiar\""
+    ],
+    "correct_index": 0,
+    "explanation": "Cuando decides en conjunto un disparador (cuándo/dónde) y una acción (qué hacer), tiende a ejecutarse de forma más automática. Solo inténtalo una vez. (\"Esforzarme\" o \"algún día\" son demasiado vagos y tienden a no ejecutarse)",
+    "actionable_advice": "💡 Decide un plan Si-Entonces para hoy: \"Cuando haga ○○, abriré el material por solo 10 segundos\"",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas cuyos planes tienden a quedarse en intenciones",
+        "Personas que quieren crear hábitos"
+      ],
+      "limitations": [
+        "Si el disparador no forma parte de tu rutina diaria, el efecto puede ser menor",
+        "Múltiples planes Si-Entonces pueden ser una carga alta"
+      ],
+      "citation_role": "Apoyo indirecto al formato específico de la intención de implementación",
+      "try_this": "Decide uno: \"Cuando haga ○○, abriré el material por solo 10 segundos\"",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ],
+      "tiny_metric": {
+        "before_prompt": "¿Pudiste ejecutar el plan Si-Entonces esta semana?",
+        "after_prompt": "Número de veces que lo ejecutaste",
+        "success_rule": "Si lo ejecutas al menos una vez a la semana, está bien",
+        "stop_rule": "Si no lo ejecutas en 2 semanas, prueba otro método"
+      },
+      "comparator": {
+        "baseline": "Solo decidir \"voy a esforzarme\"",
+        "cost": "30 segundos para planificar / 10 segundos para ejecutar"
+      },
+      "fallback": {
+        "when": "No encuentras un disparador",
+        "next": "Usa \"cuando tenga ganas de ver el celular\" como disparador"
+      }
+    }
+  },
+  {
+    "id": "study_l01_007",
+    "type": "swipe_judgment",
+    "question": "Existe la perspectiva de que la procrastinación en el estudio no se debe solo a \"falta de voluntad\".",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Puede ser",
+      "right": "No lo creo"
+    },
+    "explanation": "Investigaciones sugieren que la procrastinación se relaciona más con \"evitar la incomodidad\" o \"la ambigüedad de la tarea\" que con la fuerza de voluntad. En lugar de culparte, tiende a funcionar mejor abordarlo con estrategias prácticas.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personas que tienden a culparse a sí mismas",
+        "Personas que dependen demasiado de la fuerza de voluntad"
+      ],
+      "limitations": [
+        "No toda procrastinación tiene la misma causa"
+      ],
+      "citation_role": "Apoya el modelo de regulación emocional de la procrastinación",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_008",
+    "type": "multiple_choice",
+    "question": "Para reducir la \"fricción ambiental\" al empezar a estudiar, ¿qué es más fácil de hacer?",
+    "choices": [
+      "Dejar el material de estudio abierto sobre el escritorio",
+      "Preparar un ambiente perfecto antes de empezar",
+      "Esperar hasta que llegue la motivación"
+    ],
+    "correct_index": 0,
+    "explanation": "Cuanto menos esfuerzo se necesita para empezar, más fácil tiende a ser que ocurra la acción. Dejar el material abierto puede reducir la barrera de inicio. Solo inténtalo una vez. (\"Ambiente perfecto\" o \"esperar la motivación\" tienden a llevar a la procrastinación)",
+    "actionable_advice": "💡 Antes de dormir hoy, deja el material de mañana abierto sobre el escritorio.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas a las que les cuesta empezar",
+        "Personas que gastan mucho tiempo preparando el ambiente"
+      ],
+      "limitations": [
+        "En un ambiente desordenado, puede tener el efecto contrario en algunos casos"
+      ],
+      "citation_role": "Apoyo indirecto a la relación entre fricción ambiental e inicio de la acción",
+      "try_this": "👉 Antes de empezar a estudiar → Deja el material abierto sobre el escritorio por solo 10 segundos",
+      "claim_tags": [
+        "environment_design",
+        "friction_reduction",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "¿El material estaba abierto por la mañana?",
+        "after_prompt": "Si estaba abierto, ¿pudiste empezar a estudiar?",
+        "success_rule": "Si pudiste empezar con el material abierto, está bien",
+        "stop_rule": "Si no funciona en una semana, déjalo"
+      },
+      "comparator": {
+        "baseline": "Empezar con el material guardado",
+        "cost": "10 segundos antes de dormir"
+      },
+      "fallback": {
+        "when": "No tienes espacio para dejar el material afuera",
+        "next": "Pon la app de estudio en la pantalla principal del celular"
+      }
+    }
+  },
+  {
+    "id": "study_l01_009",
+    "type": "conversation",
+    "question": "De las técnicas que aprendiste hoy, ¿cuál podrías usar a partir de mañana?",
+    "choices": [
+      "\"Abrir el material por solo 10 segundos\"",
+      "Decidir de antemano con un \"plan Si-Entonces\"",
+      "\"Dejar el material abierto\" como diseño del ambiente",
+      "Probar todas"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas valen la pena intentarlas. Si una no te funciona, prueba otra. Eso también es aprendizaje. Solo inténtalo una vez. (\"Probar todas\" no es obligatorio; está bien empezar con solo una)",
+    "actionable_advice": "💡 Mañana prueba solo una vez: cuando no puedas empezar a estudiar, \"abre el material por solo 10 segundos\".",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que quieren comenzar un nuevo hábito"
+      ],
+      "limitations": [
+        "Sin práctica, puede ser fácil olvidarlo"
+      ],
+      "citation_role": "Propone opciones de intervención para la procrastinación",
+      "try_this": "Mañana usa \"abrir el material por solo 10 segundos\" una vez",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "¿Pudiste usarlo al menos una vez esta semana?",
+        "stop_rule": "Si no lo usaste en una semana, déjalo"
+      },
+      "comparator": {
+        "baseline": "No intentar nada y seguir procrastinando",
+        "cost": "10 segundos x unas pocas veces/semana"
+      },
+      "fallback": {
+        "when": "Ninguna te funciona",
+        "next": "Reduce a la tarea mínima (resolver solo 1 ejercicio)"
+      }
+    }
+  },
+  {
+    "id": "study_l01_010",
+    "type": "conversation",
+    "question": "Las \"técnicas para empezar a estudiar\" de esta lección, ¿te parecieron útiles?",
+    "choices": [
+      "Creo que me pueden servir",
+      "Creo que no son para mí",
+      "Todavía no lo sé"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas las respuestas son válidas. Si sientes que no son para ti, buscar otro enfoque también es importante. La procrastinación tiene causas diferentes para cada persona, así que el proceso de encontrar lo que te funciona tiene valor en sí mismo.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoya la consideración de las diferencias individuales",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

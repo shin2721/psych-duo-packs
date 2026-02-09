@@ -1,0 +1,424 @@
+[
+    {
+        "id": "money_l01_001",
+        "type": "swipe_judgment",
+        "question": "Al agregar algo al carrito en internet, alguna vez sentiste la urgencia de \"si no lo compro ahora, se va a agotar\".",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Me ha pasado",
+            "right": "No me ha pasado"
+        },
+        "explanation": "Esto se llama \"sesgo de escasez\". Cuando ves \"solo quedan 3\" o \"edicion limitada\", tiende a parecer mas valioso de lo que realmente es. Entender este sesgo puede ser un primer paso para tomar decisiones con mas calma.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Cialdini_2006",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Ansiedad al comprar en linea",
+                "Personas sensibles a lo \"limitado\""
+            ],
+            "limitations": [
+                "Cuando algo realmente es escaso, puede ser una decision racional"
+            ],
+            "citation_role": "Estudio observacional que respalda la existencia del sesgo de escasez",
+            "claim_tags": [
+                "scarcity_bias",
+                "impulse_buying",
+                "cognitive_bias"
+            ]
+        }
+    },
+    {
+        "id": "money_l01_002",
+        "type": "multiple_choice",
+        "question": "Cuando piensas \"quiero comprarlo ya!\", se ha reportado que una de estas opciones puede ayudar a controlar el impulso. Cual es?",
+        "choices": [
+            "Esperar 10 segundos antes de decidir",
+            "Buscar algo mas barato",
+            "Leer todas las resenas"
+        ],
+        "correct_index": 0,
+        "explanation": "La regla de los 10 segundos se ha sugerido como una intervencion breve que podria ser efectiva. Durante la espera, el pico del impulso tiende a pasar. No funciona para todos, asi que no te fuerces a usarla. (\"Buscar algo mas barato\" o \"leer todas las resenas\" tienen el inconveniente de tomar mucho tiempo)",
+        "actionable_advice": "💡 La proxima vez que pienses \"quiero comprarlo!\", intenta detenerte solo 10 segundos. Si no te funciona, dejalo sin problema.",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Vohs_2008",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Impulsos al comprar en linea",
+                "Personas con compras impulsivas frecuentes de montos pequenos"
+            ],
+            "limitations": [
+                "Puede tener menos efecto en compras de montos altos",
+                "Puede ser contraproducente para quienes sufren al esperar"
+            ],
+            "citation_role": "Explicacion teorica de la relacion entre impulso y tiempo basada en investigacion sobre recursos de autocontrol",
+            "claim_tags": [
+                "self_control",
+                "impulse_buying",
+                "theory"
+            ]
+        }
+    },
+    {
+        "id": "money_l01_003",
+        "type": "swipe_judgment",
+        "question": "Si dejas algo en el carrito por 24 horas, muchas veces terminas pensando \"en realidad no lo necesito\".",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Es probable",
+            "right": "No tanto"
+        },
+        "explanation": "Se ha reportado que, al dejar pasar el tiempo, el deseo de compra impulsiva tiende a disminuir naturalmente. Ten cuidado de no olvidar las cosas que realmente necesitas. Si no puedes hacerlo, esta bien. Pruebalo solo una vez.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Baumeister_2002",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Compra impulsiva en linea",
+                "Personas que pueden pensar \"lo decido despues\""
+            ],
+            "limitations": [
+                "Dificil de usar cuando hay ofertas con tiempo limitado",
+                "Riesgo de olvidar cosas que realmente necesitas"
+            ],
+            "citation_role": "Apoyo indirecto al efecto de recuperacion del autocontrol",
+            "try_this": "👉 Cuando agregues algo al carrito → Cierra la pantalla y dejalo 24 horas",
+            "claim_tags": [
+                "delay_gratification",
+                "impulse_buying",
+                "self_control"
+            ],
+            "tiny_metric": {
+                "metric": "Despues de 24 horas, pensaste \"en realidad no lo necesito\"?",
+                "stop_rule": "Si 3 veces seguidas terminas comprando todo, dejalo"
+            },
+            "comparator": {
+                "baseline": "Comprar en el momento",
+                "cost": "Solo esperar 24 horas"
+            },
+            "fallback": {
+                "when": "No puedes esperar 24 horas",
+                "next": "【Version 1 hora】Cierra el navegador y revisalo despues de 1 hora"
+            }
+        }
+    },
+    {
+        "id": "money_l01_004",
+        "type": "multiple_choice",
+        "question": "Preguntarte \"yo de dentro de un ano, seguiria usando esto?\", por que podria ser efectivo?",
+        "choices": [
+            "Imaginar tu yo futuro tiende a reducir las decisiones impulsivas",
+            "La culpa te hace no comprar",
+            "Calcular te cansa y desistes"
+        ],
+        "correct_index": 0,
+        "explanation": "Se ha reportado que imaginar tu yo futuro (continuidad del yo futuro) tiende a reducir las decisiones impulsivas. Puede tener menos efecto en personas a quienes les cuesta imaginar el futuro. Pruebalo solo una vez. (No es la \"culpa\" ni el \"cansancio de calcular\", sino la sensacion de conectar con tu yo futuro lo que puede ser clave)",
+        "actionable_advice": "💡 La proxima vez que quieras comprar algo, preguntate: \"en un ano, seguiria usandolo?\"",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Hershfield_2011",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas que pueden pensar a largo plazo",
+                "Personas que suelen arrepentirse despues de comprar"
+            ],
+            "limitations": [
+                "Puede tener menos efecto en personas a quienes les cuesta imaginar el futuro",
+                "Dificil de aplicar a productos de consumo"
+            ],
+            "citation_role": "Apoyo directo a la relacion entre continuidad del yo futuro y toma de decisiones",
+            "try_this": "👉 Cuando quieras comprar algo → Suelta el telefono y repite por 10 segundos: \"en un ano, seguiria usandolo?\"",
+            "claim_tags": [
+                "future_self_continuity",
+                "impulse_buying",
+                "decision_making"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Tu deseo de comprar ahora? (0-10)",
+                "after_prompt": "Despues de la pregunta sobre el futuro?",
+                "success_rule": "Si baja aunque sea un poco, esta bien",
+                "stop_rule": "Si no cambia o sube, mejor retirarse por hoy"
+            },
+            "comparator": {
+                "baseline": "Comprar sin pensarlo",
+                "cost": "5 segundos / carga baja"
+            },
+            "fallback": {
+                "when": "Aunque imagines el futuro, el deseo no desaparece",
+                "next": "Cambia a dejar el carrito 24 horas"
+            }
+        }
+    },
+    {
+        "id": "money_l01_005",
+        "type": "swipe_judgment",
+        "question": "\"Comprarlo porque esta barato\" muchas veces termina saliendo mas caro.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Puede ser",
+            "right": "No tanto"
+        },
+        "explanation": "Las cosas que compras por la sensacion de \"oferta\" muchas veces no se usan, y al final tienden a ser una perdida. Sin embargo, en algunos casos como el stock de productos de consumo, puede ser una decision racional.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Thaler_1999",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas sensibles a las ofertas",
+                "Personas que suelen comprar \"por si acaso\""
+            ],
+            "limitations": [
+                "El stock de productos de consumo puede ser racional en algunos casos"
+            ],
+            "citation_role": "Estudio observacional que respalda la irracionalidad de la contabilidad mental",
+            "claim_tags": [
+                "mental_accounting",
+                "sunk_cost",
+                "impulse_buying"
+            ]
+        }
+    },
+    {
+        "id": "money_l01_006",
+        "type": "multiple_choice",
+        "question": "Definir \"este mes puedo gastar hasta X pesos\" tiende a reducir las compras impulsivas. Por que?",
+        "choices": [
+            "Tener un presupuesto como \"regla\" facilita tomar decisiones",
+            "Porque se acaba el dinero",
+            "Porque calcular te cansa"
+        ],
+        "correct_index": 0,
+        "explanation": "Cuando hay un presupuesto, el costo de decidir entre \"comprar o no\" tiende a bajar. Si el presupuesto es demasiado estricto, puede haber un efecto rebote de gastar de mas. (Mas que \"se acaba el dinero\" o \"calcular cansa\", lo clave es que facilita la decision)",
+        "actionable_advice": "💡 Define cuanto puedes gastar libremente esta semana (ejemplo: $500 MXN). Si es muy poco, sube el monto sin problema.",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Thaler_1999",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personas que funcionan mejor con reglas",
+                "Personas que quieren empezar a administrar sus finanzas"
+            ],
+            "limitations": [
+                "Si el presupuesto es muy estricto, puede haber efecto rebote",
+                "Dificil de manejar gastos de emergencia"
+            ],
+            "citation_role": "Apoyo indirecto al efecto del presupuesto basado en la teoria de contabilidad mental",
+            "try_this": "Define tu \"monto libre\" de la semana (ejemplo: $500 MXN)",
+            "claim_tags": [
+                "mental_accounting",
+                "budgeting",
+                "self_control"
+            ],
+            "tiny_metric": {
+                "metric": "Al final de la semana, te mantuviste dentro del presupuesto?",
+                "stop_rule": "Si 2 semanas seguidas te pasas mucho, dejalo"
+            },
+            "comparator": {
+                "baseline": "Gastar sin definir un presupuesto",
+                "cost": "5 minutos una vez a la semana"
+            },
+            "fallback": {
+                "when": "El presupuesto se siente demasiado estricto",
+                "next": "Multiplica el presupuesto por 1.5 e intentalo de nuevo"
+            }
+        }
+    },
+    {
+        "id": "money_l01_007",
+        "type": "conversation",
+        "question": "Un amigo te dice: \"Es edicion limitada! No lo vas a comprar?\"  Como le respondes?",
+        "choices": [
+            "\"Cuando dicen 'limitado' dan ganas de comprarlo, no? Pero voy a esperar 10 segundos\"",
+            "\"Limitado!? Lo compro, lo compro!\"",
+            "\"No tengo dinero, no puedo\""
+        ],
+        "recommended_index": 0,
+        "explanation": "\"Limitado\" estimula el sesgo de escasez. Esperar 10 segundos puede ayudar a distanciarte un poco del sesgo. Si realmente lo quieres, esta bien comprarlo. Pruebalo solo una vez.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 10,
+        "source_id": "Cialdini_2006",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que se dejan llevar por amigos",
+                "Personas sensibles a lo \"limitado\""
+            ],
+            "limitations": [
+                "En situaciones sociales puede ser dificil decir que no"
+            ],
+            "citation_role": "Apoyo indirecto a la regla de los 10 segundos como estrategia ante el sesgo de escasez",
+            "claim_tags": [
+                "scarcity_bias",
+                "social_influence",
+                "impulse_buying"
+            ],
+            "try_this": "Cuando te digan \"limitado\", espera 10 segundos",
+            "tiny_metric": {
+                "metric": "Despues de esperar 10 segundos, pensaste \"en realidad no lo necesito\"?",
+                "stop_rule": "Si 3 veces seguidas terminas comprando, dejalo"
+            },
+            "comparator": {
+                "baseline": "Escuchar \"limitado!\" y comprar al instante",
+                "cost": "10 segundos / carga baja"
+            },
+            "fallback": {
+                "when": "Es dificil decir que no en el momento",
+                "next": "Di \"despues te aviso\" y dejalo pendiente"
+            }
+        }
+    },
+    {
+        "id": "money_l01_008",
+        "type": "swipe_judgment",
+        "question": "\"Comprar para desestresarse\" puede funcionar a corto plazo, pero tiende a generar arrepentimiento a largo plazo.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Puede ser",
+            "right": "No tanto"
+        },
+        "explanation": "Las compras por estres generan una liberacion temporal de dopamina que mejora el animo, pero se ha reportado una tendencia a arrepentirse despues. Sin embargo, para muchas personas, hacerlo de vez en cuando no es un problema.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Rick_2014",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas que compran mas cuando estan estresadas",
+                "Personas que suelen arrepentirse despues de comprar"
+            ],
+            "limitations": [
+                "Un premio ocasional puede no ser un problema para muchas personas"
+            ],
+            "citation_role": "Estudio observacional que respalda la relacion entre consumo emocional y arrepentimiento",
+            "claim_tags": [
+                "emotional_spending",
+                "regret",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "money_l01_009",
+        "type": "multiple_choice",
+        "question": "De los siguientes, cual se ha reportado como un metodo que puede ayudar a reducir la compra impulsiva?",
+        "choices": [
+            "Esperar 10 segundos antes de comprar",
+            "Hacer una lista de deseos",
+            "Llevar solo efectivo en la cartera"
+        ],
+        "correct_index": 0,
+        "explanation": "Se ha sugerido que la regla de los 10 segundos podria ser efectiva en experimentos. La lista de deseos y el pago en efectivo tambien pueden funcionar, pero la regla de los 10 segundos es popular por su facilidad. No funciona para todos. Pruebalo solo una vez. (\"La lista\" y \"el efectivo\" tambien son buenas opciones, pero requieren preparacion)",
+        "actionable_advice": "💡 Manana, prueba solo una vez: cuando sientas el impulso de comprar, espera 10 segundos. Si no te funciona, prueba otro metodo.",
+        "difficulty": "medium",
+        "xp": 10,
+        "source_id": "Vohs_2008",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas con compras impulsivas frecuentes",
+                "Personas que quieren empezar con algo facil"
+            ],
+            "limitations": [
+                "Puede tener menos efecto en compras de montos altos"
+            ],
+            "citation_role": "Apoyo indirecto a la efectividad de la regla de los 10 segundos basado en investigacion sobre recursos de autocontrol",
+            "try_this": "👉 Cuando pienses \"quiero comprarlo!\" → Suelta el telefono y cuenta 10 segundos (1...2...3...10)",
+            "claim_tags": [
+                "self_control",
+                "impulse_buying",
+                "delay_gratification"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Tu deseo de comprar ahora? (0-10)",
+                "after_prompt": "Despues de 10 segundos?",
+                "success_rule": "Si baja aunque sea un poco, esta bien",
+                "stop_rule": "Si no cambia o sube, mejor retirarse por hoy"
+            },
+            "comparator": {
+                "baseline": "Seguir el impulso y comprar",
+                "cost": "10 segundos / carga baja"
+            },
+            "fallback": {
+                "when": "10 segundos no son suficientes",
+                "next": "Cambia a dejar el carrito 24 horas"
+            }
+        }
+    },
+    {
+        "id": "money_l01_010",
+        "type": "multiple_choice",
+        "question": "De lo que aprendiste hoy, que podrias empezar a usar manana?",
+        "choices": [
+            "Esperar 10 segundos cuando quiera comprar",
+            "Dejar el carrito 24 horas",
+            "Preguntarme \"en un ano, seguiria usandolo?\"",
+            "Probar todas"
+        ],
+        "correct_index": 3,
+        "explanation": "Todas valen la pena probarlas. Aunque no cambies de golpe, poco a poco podrias ir cambiando tus habitos de compra. Si algo no te funciona, prueba otro metodo. Pruebalo solo una vez. (Cada opcion individual tambien es valida; la mas facil es la regla de los 10 segundos)",
+        "actionable_advice": "💡 Accion de hoy: la proxima vez que pienses \"quiero comprarlo!\", espera solo 10 segundos.",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Vohs_2008",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que quieren empezar nuevos habitos"
+            ],
+            "limitations": [
+                "Puede que no sea posible mantener todas"
+            ],
+            "citation_role": "Apoyo indirecto a la efectividad de las intervenciones de autocontrol",
+            "try_this": "👉 En tu proximo impulso de compra, espera 10 segundos... Si no puedes, solo suelta el telefono por 1 segundo",
+            "claim_tags": [
+                "self_control",
+                "habit_formation",
+                "impulse_buying"
+            ],
+            "tiny_metric": {
+                "metric": "Esta semana, lograste esperar 10 segundos al menos una vez?",
+                "stop_rule": "Si en una semana no lo recordaste ni una vez, dejalo"
+            },
+            "comparator": {
+                "baseline": "No probar nada",
+                "cost": "10 segundos x algunas veces por semana"
+            },
+            "fallback": {
+                "when": "La regla de los 10 segundos no te funciona",
+                "next": "Cambia a dejar el carrito 24 horas o a la pregunta sobre el futuro"
+            }
+        }
+    }
+]

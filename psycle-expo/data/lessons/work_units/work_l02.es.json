@@ -1,0 +1,378 @@
+[
+  {
+    "id": "work_l02_001",
+    "type": "conversation",
+    "question": "Esta semana, ¿cuántas tareas te vinieron a la mente pensando \"tengo que hacerlo\" pero terminaste postergando?",
+    "your_response_prompt": "Cuenta con honestidad",
+    "choices": [
+      "4 o más (tengo bastantes acumuladas)",
+      "Alrededor de 1-3",
+      "0 (las resuelvo al momento)"
+    ],
+    "recommended_index": null,
+    "explanation": "En realidad, esa procrastinación puede no ser \"falta de voluntad\", sino que el \"perfeccionismo\" podría estar frenándote.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personas con tendencia al perfeccionismo"
+      ],
+      "limitations": [
+        "Difícil de aplicar en situaciones donde realmente se exige calidad"
+      ],
+      "citation_role": "Estudio observacional que respalda la relación entre procrastinación y perfeccionismo",
+      "claim_tags": [
+        "perfectionism",
+        "procrastination",
+        "task_initiation"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_002",
+    "type": "multiple_choice",
+    "question": "Para reducir la \"resistencia a comenzar\", ¿qué puedes hacer primero?",
+    "choices": [
+      "Abrir la computadora y solo abrir un archivo",
+      "Crear un plan perfecto",
+      "Esperar hasta que llegue la motivación"
+    ],
+    "correct_index": 0,
+    "explanation": "La acción física de \"abrir un archivo\" puede servir como disparador para cambiar tu cerebro al \"modo de trabajo\". No necesitas esperar a que llegue la motivación.",
+    "actionable_advice": "💡 Ahora mismo: Siéntate frente a la computadora y solo abre un documento (no necesitas escribir nada)",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Personas a quienes les cuesta empezar"
+      ],
+      "limitations": [
+        "En algunos casos, puede que solo abras el archivo y te detengas ahí"
+      ],
+      "citation_role": "Explicación teórica de la relación entre intención de implementación y acción física",
+      "claim_tags": [
+        "implementation_intention",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_003",
+    "type": "multiple_choice",
+    "question": "Cuando piensas \"tengo que hacerlo\" pero no puedes moverte, ¿cuál es la acción mínima que puedes hacer en 10 segundos?",
+    "choices": [
+      "Abrir la tapa de la laptop y presionar el botón de encendido",
+      "Escribir toda la lista de tareas",
+      "Esperar a que llegue la motivación"
+    ],
+    "correct_index": 0,
+    "explanation": "Las acciones físicas como \"abrir la tapa\" y \"presionar el botón de encendido\" tienden a facilitar el cambio hacia la tarea. Mueve el cuerpo antes de pensar. Solo una vez. (\"Escribir la lista\" y \"esperar la motivación\" toman más tiempo)",
+    "actionable_advice": "👉 Cuando no puedas moverte → Abre la tapa de la laptop y presiona el botón de encendido (ese es el primer paso)",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas a quienes les cuesta empezar"
+      ],
+      "limitations": [
+        "Si la computadora ya está abierta, se necesita otra acción"
+      ],
+      "citation_role": "Respaldo indirecto del efecto de la acción mínima desde la investigación sobre procrastinación",
+      "try_this": "👉 Cuando no puedas moverte → Abre la laptop y presiona el botón de encendido (10 segundos)",
+      "claim_tags": [
+        "procrastination",
+        "physical_action",
+        "task_initiation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "¿Cuánto \"no quieres hacerlo\" ahora? (0-10)",
+        "after_prompt": "¿Y después de abrir la computadora?",
+        "success_rule": "Si baja aunque sea un poco, está bien",
+        "stop_rule": "Si no cambia, está bien retirarse por hoy"
+      },
+      "comparator": {
+        "baseline": "Esperar a que llegue la motivación",
+        "cost": "10 segundos / La carga es baja"
+      },
+      "fallback": {
+        "when": "Si ni siquiera 10 segundos son posibles",
+        "next": "Solo abre la app de trabajo en el celular"
+      }
+    }
+  },
+  {
+    "id": "work_l02_004",
+    "type": "swipe_judgment",
+    "question": "Cuando decides hacer \"solo un paso\", a veces te das cuenta de que ya estás avanzando al siguiente.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Puede ser",
+      "right": "No creo"
+    },
+    "explanation": "El cerebro usa energía al \"comenzar\". Una vez que empiezas, la barrera para continuar tiende a ser más baja.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personas con alta resistencia a comenzar"
+      ],
+      "limitations": [
+        "En algunos casos, puede que te detengas en el primer paso (y eso también está bien)"
+      ],
+      "citation_role": "Respaldo del efecto de inicio desde la investigación sobre intención de implementación",
+      "claim_tags": [
+        "implementation_intention",
+        "task_initiation",
+        "momentum"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_005",
+    "type": "conversation",
+    "question": "Cuando no puedes empezar una tarea, ¿cuál de estas te describe mejor?",
+    "choices": [
+      "No sé por dónde empezar",
+      "Quiero hacerlo perfecto y me paralizo",
+      "Me da pereza y no puedo moverme",
+      "No tengo un patrón en particular"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas son respuestas válidas. Cuando notas tu patrón, se vuelve más fácil elegir una estrategia.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Respaldo del auto-reconocimiento de patrones de procrastinación",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_006",
+    "type": "multiple_choice",
+    "question": "¿Por qué puede ser efectivo reducir las tareas del día a solo una?",
+    "choices": [
+      "Porque se reduce la carga de elección y es más fácil empezar",
+      "Porque hacer varias cansa",
+      "Porque si decides hacer solo una, puedes holgazanear"
+    ],
+    "correct_index": 0,
+    "explanation": "La carga de decidir \"por dónde empezar\" ocupa una gran parte de la resistencia a comenzar. Si por la mañana decides en 10 segundos \"hoy solo esto\", tiende a ser más fácil ponerte en movimiento. Solo una vez. (Más que \"cansarse con varias\" o \"holgazanear\", el punto es reducir la carga de elección)",
+    "actionable_advice": "👉 Al despertar → Toma el celular y escribe \"la tarea de hoy\" en la app de notas en 10 segundos",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que no pueden moverse porque tienen demasiadas tareas"
+      ],
+      "limitations": [
+        "Difícil de usar cuando varias tareas son realmente urgentes"
+      ],
+      "citation_role": "Respaldo indirecto del efecto de enfoque en la intención de implementación",
+      "try_this": "👉 Al despertar → Escribe \"la tarea de hoy\" en la app de notas en 10 segundos",
+      "claim_tags": [
+        "focus",
+        "task_selection",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "¿Cuántos días esta semana pudiste escribir \"la tarea del día\"?",
+        "after_prompt": "¿Pudiste empezar los días que la escribiste?",
+        "success_rule": "Si pudiste escribirla aunque sea 2 días a la semana, está bien",
+        "stop_rule": "Si no pudiste escribirla en una semana, déjalo"
+      },
+      "comparator": {
+        "baseline": "Ver la lista de pendientes y sentirse abrumado/a",
+        "cost": "10 segundos / La carga es baja"
+      },
+      "fallback": {
+        "when": "Si la mañana es muy agitada",
+        "next": "Escríbela la noche anterior"
+      }
+    }
+  },
+  {
+    "id": "work_l02_007",
+    "type": "swipe_judgment",
+    "question": "A veces, más que no terminar una tarea, lo que genera más estrés es \"no haber podido empezarla\".",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Lo entiendo",
+      "right": "No lo entiendo"
+    },
+    "explanation": "Cuando \"lo que no has hecho\" se queda dando vueltas en tu mente, tiende a generar estrés (efecto Zeigarnik). Empezar aunque sea un paso puede ayudar a reducir esa carga.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personas que sienten estrés por \"lo que no han hecho\""
+      ],
+      "limitations": [
+        "Para personas que una vez que empiezan no pueden parar, se necesita un enfoque diferente"
+      ],
+      "citation_role": "Estudio observacional que respalda la carga psicológica de tareas incompletas",
+      "claim_tags": [
+        "procrastination",
+        "stress",
+        "zeigarnik_effect"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_008",
+    "type": "multiple_choice",
+    "question": "Cuando \"no te llega la motivación\", ¿qué puedes hacer primero con tu cuerpo?",
+    "choices": [
+      "Sentarte en la silla y poner las manos sobre el escritorio",
+      "Quedarte acostado/a hasta que llegue la motivación",
+      "Ver videos motivacionales en redes sociales"
+    ],
+    "correct_index": 0,
+    "explanation": "Las acciones físicas de \"sentarte en la silla\" y \"poner las manos sobre el escritorio\" pueden servir como disparador para cambiar tu cerebro al modo de trabajo. Mueve el cuerpo antes de pensar. Solo una vez. (\"Quedarte acostado/a\" y \"ver redes sociales\" pueden hacer que sea más difícil moverte)",
+    "actionable_advice": "👉 Cuando no te llegue la motivación → Primero siéntate en la silla y pon las manos sobre el escritorio (solo 10 segundos)",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que pasan mucho tiempo esperando la motivación"
+      ],
+      "limitations": [
+        "Si no tienes un lugar para sentarte, se necesita otra acción"
+      ],
+      "citation_role": "Respaldo indirecto de la relación entre movimiento físico e inicio de acción",
+      "try_this": "👉 Cuando no te llegue la motivación → Siéntate en la silla y pon las manos sobre el escritorio (10 segundos)",
+      "claim_tags": [
+        "physical_action",
+        "task_initiation",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "¿Cuánta motivación tienes? (0-10)",
+        "after_prompt": "¿Y después de sentarte?",
+        "success_rule": "Si sube aunque sea un poco, está bien",
+        "stop_rule": "Si no cambia, prueba otro método"
+      },
+      "comparator": {
+        "baseline": "Seguir esperando la motivación",
+        "cost": "10 segundos / La carga es baja"
+      },
+      "fallback": {
+        "when": "Si sentarte no funciona",
+        "next": "Cambia a solo abrir la computadora"
+      }
+    }
+  },
+  {
+    "id": "work_l02_009",
+    "type": "conversation",
+    "question": "De las técnicas que aprendiste hoy, ¿cuál crees que podrías usar a partir de mañana?",
+    "choices": [
+      "La acción mínima de \"abrir la laptop y presionar el botón de encendido\"",
+      "Escribir \"la tarea de hoy\" por la mañana",
+      "La acción física de \"sentarme en la silla y poner las manos en el escritorio\"",
+      "Probar todas"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas valen la pena intentar. Si alguna no te funciona, prueba otra. Eso también es aprendizaje. Solo una vez. (\"Todas\" está bien, pero no te exijas demasiado; empieza con una)",
+    "actionable_advice": "👉 Mañana por la mañana, escribe \"la tarea de hoy\" en la app de notas en 10 segundos (escribirla ya es el primer paso)",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que quieren probar nuevos hábitos"
+      ],
+      "limitations": [
+        "Sin práctica, es fácil olvidarlas"
+      ],
+      "citation_role": "Propuesta de opciones de intervención para iniciar tareas",
+      "try_this": "👉 Mañana por la mañana, escribe \"la tarea de hoy\" en la app de notas en 10 segundos",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "¿Pudiste escribirla al menos una vez esta semana?",
+        "stop_rule": "Si no pudiste escribirla en una semana, déjalo"
+      },
+      "comparator": {
+        "baseline": "Empezar el día sin decidir nada",
+        "cost": "10 segundos x cada mañana"
+      },
+      "fallback": {
+        "when": "Si ninguna te funciona",
+        "next": "Cambia a \"trabajar solo 2 minutos desde el celular\""
+      }
+    }
+  },
+  {
+    "id": "work_l02_010",
+    "type": "conversation",
+    "question": "Las \"técnicas para empezar\" de esta lección, ¿te parecieron útiles?",
+    "choices": [
+      "Creo que podría usarlas",
+      "Creo que no son para mí",
+      "Todavía no lo sé"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas las respuestas son válidas. Si sientes que no son para ti, buscar otro enfoque también es importante.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Respaldo de la consideración de diferencias individuales",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

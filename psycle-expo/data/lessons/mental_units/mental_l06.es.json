@@ -1,0 +1,329 @@
+[
+    {
+        "id": "mental_l06_001",
+        "type": "swipe_judgment",
+        "question": "\"80 puntos no es suficiente. Si no es 100, no tiene sentido\" - ¿alguna vez has pensado algo así?",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Con frecuencia",
+            "right": "Casi nunca"
+        },
+        "explanation": "Este es un ejemplo típico de \"perfeccionismo\". Aspirar a la perfección no es malo en sí mismo, pero cuando se interpreta que \"todo lo que no sea 100 es un fracaso\", puede tender a generarte mucha presión. ※Esta lección busca profundizar la comprensión del perfeccionismo. Si tienes pensamientos suicidas o tendencias de autolesión, en lugar de esta app, por favor busca ayuda profesional (Línea de la Vida: 800-911-2000, etc.).",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Autoconciencia de tendencias perfeccionistas"
+            ],
+            "limitations": [
+                "Hay casos en que los estándares altos pueden llevar a buenos resultados"
+            ],
+            "citation_role": "Explica los patrones cognitivos del perfeccionismo",
+            "claim_tags": [
+                "perfectionism",
+                "cognitive_pattern"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_002",
+        "type": "multiple_choice",
+        "question": "¿Cuál es una tendencia que suele observarse en personas con fuerte perfeccionismo?",
+        "choices": [
+            "Sentir ansiedad pensando \"¿y si fallo?\" antes de empezar",
+            "No preocuparse por los errores y seguir adelante",
+            "Fijar metas bajas para sentirse seguro/a"
+        ],
+        "correct_index": 0,
+        "explanation": "Se ha reportado que las personas con tendencia al perfeccionismo pueden llegar a un estado de \"no poder empezar\" debido al miedo al fracaso.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Comprender la relación entre perfeccionismo e inhibición conductual"
+            ],
+            "limitations": [
+                "Las diferencias individuales son grandes"
+            ],
+            "citation_role": "Explica la relación entre perfeccionismo y ansiedad",
+            "claim_tags": [
+                "perfectionism",
+                "anxiety",
+                "behavioral_inhibition"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_003",
+        "type": "swipe_judgment",
+        "question": "\"No puedo sentirme satisfecho/a con lo que hago\" - ¿alguna vez te has sentido así?",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Con frecuencia",
+            "right": "Casi nunca"
+        },
+        "explanation": "Cualquier respuesta es una reacción normal. Tener estándares altos para ti mismo/a puede ser un motor de crecimiento, pero cuando se lleva al extremo, existe la posibilidad de que genere agotamiento.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explica la dualidad de los estándares altos",
+            "claim_tags": [
+                "perfectionism",
+                "self_evaluation"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_004",
+        "type": "multiple_choice",
+        "question": "¿Cuál podría ser un método eficaz para \"flexibilizar moderadamente\" el perfeccionismo?",
+        "choices": [
+            "Darte permiso de que \"con 70 puntos está bien\"",
+            "Decirte \"no busques la perfección\"",
+            "Dejar de ponerte metas"
+        ],
+        "correct_index": 0,
+        "explanation": "Al \"ampliar el rango de lo aceptable\", la barrera para actuar tiende a reducirse. No es necesario eliminar el perfeccionismo por completo.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personas cuya acción tiende a detenerse por el perfeccionismo"
+            ],
+            "limitations": [
+                "En situaciones que requieren estándares altos, podría tener un efecto contrario"
+            ],
+            "citation_role": "Como técnica de reestructuración cognitiva",
+            "try_this": "En tu primera tarea de hoy, repite \"con 70 puntos está bien\" antes de empezar",
+            "claim_tags": [
+                "perfectionism",
+                "cognitive_restructuring",
+                "acceptance_range"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Nivel de ansiedad antes de empezar la tarea (1-10)",
+                "after_prompt": "Nivel de satisfacción después de completar la tarea (1-10)",
+                "success_rule": "La ansiedad baja 3 o más puntos, o pudiste empezar la tarea",
+                "stop_rule": "Si por el contrario la ansiedad aumenta"
+            },
+            "comparator": {
+                "baseline": "Tu forma habitual de buscar la perfección",
+                "cost": "El tiempo y esfuerzo es igual o menor"
+            },
+            "fallback": {
+                "when": "Si no puedes aceptar \"con 70 puntos está bien\"",
+                "next": "Intenta \"solo 5 minutos\" poniendo un límite de tiempo"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_005",
+        "type": "multiple_choice",
+        "question": "El perfeccionismo es algo que se debe \"eliminar por completo\"",
+        "choices": [
+            "No, lo importante es poder ajustarlo con flexibilidad",
+            "Sí, el perfeccionismo solo causa daño",
+            "No se puede decir ninguna de las dos"
+        ],
+        "correct_index": 0,
+        "explanation": "El perfeccionismo también tiene un \"lado saludable\", y los estándares altos pueden llevar a buenos resultados. El problema tiende a surgir cuando \"se pierde la flexibilidad\".",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Distinción entre perfeccionismo adaptativo y desadaptativo",
+            "claim_tags": [
+                "perfectionism",
+                "flexibility",
+                "adaptive"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_006",
+        "type": "conversation",
+        "question": "¿Alguna vez has pensado \"si no puedo hacerlo perfecto, mejor no lo hago\"?",
+        "your_response_prompt": "Intenta recordar en qué situación fue",
+        "choices": [
+            "Con frecuencia",
+            "De vez en cuando",
+            "Casi nunca"
+        ],
+        "recommended_index": null,
+        "explanation": "Esto se conoce como un patrón de \"pensamiento todo-o-nada\". Aunque no sea perfecto, \"hacerlo\" puede permitir que la experiencia se acumule.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Como ejemplo de pensamiento dicotómico",
+            "claim_tags": [
+                "perfectionism",
+                "all_or_nothing_thinking",
+                "avoidance"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_007",
+        "type": "swipe_judgment",
+        "question": "El perfeccionismo puede llevar a la procrastinación",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Estoy de acuerdo",
+            "right": "No estoy de acuerdo"
+        },
+        "explanation": "Existen investigaciones que sugieren una relación entre el perfeccionismo y la procrastinación. Puede ocurrir que se evite actuar por \"miedo al fracaso\".",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explica la relación entre perfeccionismo y procrastinación",
+            "claim_tags": [
+                "perfectionism",
+                "procrastination",
+                "failure_avoidance"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_008",
+        "type": "multiple_choice",
+        "question": "¿Qué es lo más importante para manejar el perfeccionismo?",
+        "choices": [
+            "Tener flexibilidad y ampliar el rango de lo aceptable",
+            "Eliminar el perfeccionismo por completo",
+            "Dejar de ponerse metas"
+        ],
+        "correct_index": 0,
+        "explanation": "En lugar de \"eliminar\" el perfeccionismo, lo importante es \"poder ajustarlo con flexibilidad\". Poder cambiar los estándares según la situación es lo que más cuenta.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Momentos para reflexionar sobre cómo relacionarse con el perfeccionismo"
+            ],
+            "limitations": [
+                "Volverse flexible no sucede de inmediato"
+            ],
+            "citation_role": "Recomendación basada en metaanálisis",
+            "claim_tags": [
+                "perfectionism",
+                "flexibility",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_009",
+        "type": "conversation",
+        "question": "Si mañana intentaras aplicar la idea de \"con 70 puntos está bien\" que aprendiste hoy, ¿cómo lo harías?",
+        "your_response_prompt": "¿En qué situación concreta te gustaría probarlo?",
+        "choices": [
+            "En tareas del trabajo o estudio",
+            "En quehaceres del hogar o actividades cotidianas",
+            "Todavía no se me ocurre algo concreto"
+        ],
+        "recommended_index": 0,
+        "explanation": "Vale la pena intentarlo en cualquier situación. Te sugerimos comenzar con una tarea pequeña y probar \"avanzar aunque no sea perfecto\".",
+        "actionable_advice": "Mañana, antes de tu primera tarea, repite \"con 70 puntos es suficiente\" 3 veces y luego empieza",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personas que tienden a mostrar perfeccionismo en tareas cotidianas"
+            ],
+            "limitations": [
+                "En tareas importantes, aplicar con precaución"
+            ],
+            "citation_role": "Puente hacia la práctica",
+            "try_this": "Mañana en tu primera tarea, di en voz alta \"con 70 puntos está bien\"",
+            "claim_tags": [
+                "perfectionism",
+                "practice",
+                "behavior_change"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Nivel de indecisión antes de empezar la tarea (1-10)",
+                "after_prompt": "Cómo te sientes después de empezar la tarea (1-10)",
+                "success_rule": "Pudiste empezar sin dudar",
+                "stop_rule": "Si por el contrario el estrés aumenta"
+            },
+            "comparator": {
+                "baseline": "Tu forma habitual",
+                "cost": "Unos segundos de decirlo en voz alta"
+            },
+            "fallback": {
+                "when": "Si no puedes aceptar \"70 puntos\"",
+                "next": "Empieza con \"80 puntos\""
+            }
+        }
+    },
+    {
+        "id": "mental_l06_010",
+        "type": "conversation",
+        "question": "¿Sientes que lo que aprendiste en esta lección podría serte útil?",
+        "your_response_prompt": "Comparte tu opinión sincera",
+        "choices": [
+            "Creo que podría ser muy útil",
+            "Creo que podría ser algo útil",
+            "Creo que no me será muy útil"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas las opiniones son valiosas. La forma de relacionarse con el perfeccionismo es diferente para cada persona. Lo importante es avanzar a tu propio ritmo.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Promoción de la reflexión",
+            "claim_tags": [
+                "reflection",
+                "self_awareness"
+            ]
+        }
+    }
+]

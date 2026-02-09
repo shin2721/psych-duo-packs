@@ -1,0 +1,376 @@
+[
+  {
+    "id": "social_l02_001",
+    "type": "swipe_judgment",
+    "question": "Ce serait plus facile si je pouvais dire « laisse-moi y réfléchir », mais il m'arrive de le regretter parce que je n'ai pas osé le dire.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Souvent",
+      "right": "Rarement"
+    },
+    "explanation": "La pression de « devoir répondre immédiatement » est parfois auto-imposée. Pour l'autre personne aussi, « prendre un moment pour réfléchir » est tout à fait normal.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Les personnes qui ont tendance à ressentir la pression de répondre immédiatement"
+      ],
+      "limitations": [
+        "Difficile à utiliser dans les situations urgentes"
+      ],
+      "citation_role": "Soutient l'impact de la pression de réponse immédiate sur l'établissement de limites",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "self_awareness"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_002",
+    "type": "multiple_choice",
+    "question": "Quand vous avez du mal à refuser, quelle méthode peut vous aider à retrouver votre calme ?",
+    "choices": [
+      "Reprendre son téléphone en main et dire « laisse-moi vérifier un instant »",
+      "Répondre immédiatement avec le sourire « D'accord ! »",
+      "Rester silencieux et réfléchir intensément"
+    ],
+    "correct_index": 0,
+    "explanation": "L'action physique de « reprendre en main » envoie un signal de changement au cerveau. Quand les mots ne viennent pas, commencez par bouger votre corps. (« Dire oui tout de suite » peut mener à des regrets. « Rester silencieux » crée une gêne.)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Les personnes qui n'arrivent pas à trouver leurs mots"
+      ],
+      "limitations": [
+        "En face-à-face, l'action physique peut être parfois difficile"
+      ],
+      "citation_role": "Explique théoriquement le lien entre assertivité et mouvement corporel",
+      "claim_tags": [
+        "assertiveness",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_003",
+    "type": "multiple_choice",
+    "question": "Quand vous ressentez l'urgence de « devoir décider maintenant », quelle méthode a été rapportée efficace pour faire une pause de 10 secondes ?",
+    "choices": [
+      "Retirer ses doigts du téléphone et dire « attends un instant »",
+      "Dire « d'accord » puis refuser plus tard",
+      "Laisser le message en vu sans répondre"
+    ],
+    "correct_index": 0,
+    "explanation": "En « retirant physiquement vos doigts », vous pouvez prendre du recul par rapport à la pression de répondre immédiatement. L'astuce est de bouger son corps avant de parler. C'est normal si vous n'y arrivez pas. Essayez juste une fois. (« Dire d'accord puis refuser » crée une gêne. « Laisser en vu » tend à détériorer la relation.)",
+    "actionable_advice": "Conseil : Quand vous avez du mal à refuser, retirez vos doigts du téléphone et écrivez « laisse-moi vérifier 10 secondes »",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes qui ont tendance à répondre instantanément sur LINE ou en DM"
+      ],
+      "limitations": [
+        "Une autre approche est nécessaire en face-à-face"
+      ],
+      "citation_role": "Soutient indirectement la technique de mise en attente dans l'établissement de limites",
+      "try_this": "Conseil : Quand vous recevez un DM difficile à refuser, retirez vos doigts et attendez 10 secondes avant de répondre « laisse-moi vérifier »",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "physical_action"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Quelle est votre pression actuelle de « devoir répondre immédiatement » ? (0-10)",
+        "after_prompt": "Et après avoir retiré vos doigts pendant 10 secondes ?",
+        "success_rule": "C'est OK si ça diminue même un peu",
+        "stop_rule": "Si ça ne change pas, laissez tomber pour aujourd'hui"
+      },
+      "comparator": {
+        "baseline": "Répondre instantanément « d'accord »",
+        "cost": "10 secondes / effort minimal"
+      },
+      "fallback": {
+        "when": "Si 10 secondes c'est trop",
+        "next": "Retirez vos doigts « juste 1 seconde » et prenez une respiration profonde"
+      }
+    }
+  },
+  {
+    "id": "social_l02_004",
+    "type": "swipe_judgment",
+    "question": "Il m'arrive de penser que « refuser = la fin de la relation ».",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Ça me parle",
+      "right": "Pas vraiment"
+    },
+    "explanation": "En réalité, il est rare qu'une relation se termine à cause d'un seul refus. Au contraire, accumuler les efforts excessifs et s'épuiser présente un plus grand risque.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Les personnes qui n'arrivent pas à refuser par peur de détériorer la relation"
+      ],
+      "limitations": [
+        "Il peut y avoir des cas où la relation se brise vraiment"
+      ],
+      "citation_role": "Soutient la recherche observationnelle sur l'assertivité et le maintien des relations",
+      "claim_tags": [
+        "assertiveness",
+        "relationship",
+        "fear"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_005",
+    "type": "conversation",
+    "question": "Dans les situations où vous avez du mal à refuser, quel schéma vous correspond le mieux ?",
+    "choices": [
+      "Je n'arrive pas à le dire parce que je pourrais blesser l'autre",
+      "Je n'arrive pas à le dire parce que je pourrais être mal vu",
+      "Je ne sais pas comment refuser",
+      "Je n'ai pas de schéma particulier"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes les réponses sont valables. Prendre conscience de votre schéma facilite le choix des stratégies.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Soutient la prise de conscience des schémas d'assertivité",
+      "claim_tags": [
+        "self_awareness",
+        "assertiveness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_006",
+    "type": "multiple_choice",
+    "question": "Quelle formulation rend le « NON » plus facile à dire ?",
+    "choices": [
+      "« Comme [raison], cette fois c'est difficile » (raison + refus)",
+      "« C'est absolument non »",
+      "« Je vais y réfléchir » (terminer sans refuser)"
+    ],
+    "correct_index": 0,
+    "explanation": "« Raison + refus » permet de communiquer votre situation sans rejeter l'autre personne. Exemple : « Cette semaine je suis débordé, cette fois c'est difficile ». Essayez juste une fois. (« Un refus fort » est difficile à dire. « Je vais y réfléchir » tend à rester vague.)",
+    "actionable_advice": "Conseil : Quand vous refusez, répétez mentalement « Comme [raison], cette fois c'est difficile » pendant 10 secondes avant d'envoyer",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes qui ne savent pas comment refuser"
+      ],
+      "limitations": [
+        "Peut être difficile quand on vous demande la raison"
+      ],
+      "citation_role": "Soutient indirectement les techniques de formulation pour l'établissement de limites",
+      "try_this": "Conseil : Avant d'envoyer un refus, arrêtez-vous et répétez mentalement « Comme [raison], c'est difficile » pendant 10 secondes",
+      "claim_tags": [
+        "assertiveness",
+        "phrase_template",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Quelle est votre anxiété avant d'envoyer le refus ? (0-10)",
+        "after_prompt": "Et après avoir répété la formule ?",
+        "success_rule": "C'est OK si ça diminue même un peu",
+        "stop_rule": "Si ça ne change pas, essayez une autre formule"
+      },
+      "comparator": {
+        "baseline": "Rester bloqué sans savoir quoi dire",
+        "cost": "10 secondes / effort minimal"
+      },
+      "fallback": {
+        "when": "Si vous ne trouvez pas de raison",
+        "next": "Juste « cette fois c'est difficile » suffit"
+      }
+    }
+  },
+  {
+    "id": "social_l02_007",
+    "type": "swipe_judgment",
+    "question": "J'ai tendance à penser que « je dois m'excuser » quand je refuse.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Ça me parle",
+      "right": "Pas vraiment"
+    },
+    "explanation": "Refuser en soi ne nécessite souvent pas d'excuses. Commencer par une affirmation comme « Merci, mais cette fois c'est difficile » peut parfois soulager.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Les personnes qui ont tendance à trop s'excuser quand elles refusent"
+      ],
+      "limitations": [
+        "Selon la culture ou la relation, les excuses peuvent parfois être appropriées"
+      ],
+      "citation_role": "Soutient la recherche observationnelle sur le lien entre assertivité et excuses",
+      "claim_tags": [
+        "assertiveness",
+        "apology",
+        "self_respect"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_008",
+    "type": "multiple_choice",
+    "question": "En face-à-face, quand vous avez du mal à refuser, que pouvez-vous faire physiquement d'abord ?",
+    "choices": [
+      "Faire un pas en arrière et dire « laisse-moi y réfléchir »",
+      "Dire « D'accord ! » avec le sourire",
+      "Croiser les bras et rester silencieux"
+    ],
+    "correct_index": 0,
+    "explanation": "En « faisant physiquement un pas en arrière », vous pouvez aussi créer une distance psychologique. L'astuce est de bouger son corps avant de parler. Essayez juste une fois. (« Dire oui avec le sourire » peut mener à des regrets. « Croiser les bras et rester silencieux » peut paraître agressif.)",
+    "actionable_advice": "Conseil : Quand c'est difficile de refuser en face-à-face, faites un pas en arrière et dites « laisse-moi y réfléchir »",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes souvent confrontées à des situations où on leur demande une réponse immédiate en face-à-face"
+      ],
+      "limitations": [
+        "Difficile dans les espaces restreints"
+      ],
+      "citation_role": "Soutient indirectement le lien entre mouvement corporel et établissement de limites",
+      "try_this": "Conseil : Quand c'est difficile de refuser en face-à-face, faites un pas en arrière et dites « laisse-moi y réfléchir 10 secondes »",
+      "claim_tags": [
+        "assertiveness",
+        "physical_action",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "before_prompt": "À quel point avez-vous du mal à refuser ? (0-10)",
+        "after_prompt": "Et après avoir fait un pas en arrière ?",
+        "success_rule": "C'est OK si ça diminue même un peu",
+        "stop_rule": "Si ça ne change pas, essayez une autre méthode"
+      },
+      "comparator": {
+        "baseline": "Répondre immédiatement en restant sur place",
+        "cost": "1 seconde / effort minimal"
+      },
+      "fallback": {
+        "when": "Si vous ne pouvez pas reculer",
+        "next": "Détournez le regard et dites « hmm »"
+      }
+    }
+  },
+  {
+    "id": "social_l02_009",
+    "type": "conversation",
+    "question": "Parmi les techniques apprises aujourd'hui, laquelle pourriez-vous utiliser dès demain ?",
+    "choices": [
+      "« Retirer ses doigts du téléphone et mettre en attente »",
+      "Utiliser la formule « raison + refus »",
+      "Le mouvement physique « faire un pas en arrière pour réfléchir »",
+      "Tout essayer"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes valent la peine d'être essayées. Si ça ne convient pas, essayez-en une autre. C'est aussi un apprentissage. Essayez juste une fois. (« Tout » n'est pas obligatoire, commencez par une seule.)",
+    "actionable_advice": "Conseil : Demain, si vous avez du mal à refuser ne serait-ce qu'une fois, retirez vos doigts du téléphone et attendez 10 secondes",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes qui veulent essayer de nouvelles habitudes"
+      ],
+      "limitations": [
+        "Facile à oublier sans pratique"
+      ],
+      "citation_role": "Propose des options d'interventions pour l'établissement de limites",
+      "try_this": "Conseil : Demain, si vous avez du mal à refuser ne serait-ce qu'une fois, retirez vos doigts du téléphone et attendez 10 secondes",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "assertiveness"
+      ],
+      "tiny_metric": {
+        "metric": "Avez-vous pu l'utiliser au moins une fois cette semaine ?",
+        "stop_rule": "Si vous ne l'avez pas utilisé pendant une semaine, arrêtez"
+      },
+      "comparator": {
+        "baseline": "Continuer à répondre instantanément sans rien essayer",
+        "cost": "10 secondes × quelques fois/semaine"
+      },
+      "fallback": {
+        "when": "Si aucune ne convient",
+        "next": "Passez à « juste laisser en vu et attendre 1 heure »"
+      }
+    }
+  },
+  {
+    "id": "social_l02_010",
+    "type": "conversation",
+    "question": "Les « techniques pour refuser » de cette leçon vous semblent-elles utiles ?",
+    "choices": [
+      "Ça a l'air utile",
+      "Ça ne me correspond pas trop",
+      "Je ne sais pas encore"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes les réponses sont valables. Si « ça ne correspond pas », il est important de chercher une autre approche.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Soutient la prise en compte des différences individuelles",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

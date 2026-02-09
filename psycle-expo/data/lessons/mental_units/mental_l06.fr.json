@@ -1,0 +1,329 @@
+[
+    {
+        "id": "mental_l06_001",
+        "type": "swipe_judgment",
+        "question": "Je me surprends parfois a penser : '80 points, ce n'est pas suffisant. Seul 100 points compte vraiment'",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Souvent",
+            "right": "Rarement"
+        },
+        "explanation": "Ceci est un exemple typique de perfectionnisme. Viser la perfection n'est pas mauvais en soi, mais considerer que 'tout ce qui n'est pas 100 points est un echec' peut tendre a exercer une pression excessive sur soi-meme. *Cette lecon vise a approfondir la comprehension du perfectionnisme. Si vous avez des pensees suicidaires ou des tendances a l'automutilation, veuillez consulter un professionnel de sante plutot que cette application.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Prise de conscience des tendances perfectionnistes"
+            ],
+            "limitations": [
+                "Des standards eleves peuvent parfois conduire a de bons resultats"
+            ],
+            "citation_role": "Explication des schemas cognitifs du perfectionnisme",
+            "claim_tags": [
+                "perfectionnisme",
+                "schemas_cognitifs"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_002",
+        "type": "multiple_choice",
+        "question": "Quelle tendance observe-t-on souvent chez les personnes ayant un fort perfectionnisme ?",
+        "choices": [
+            "Ressentir de l'anxiete avant meme de commencer, en pensant 'Et si j'echoue ?'",
+            "Ne pas se soucier des echecs et passer facilement a autre chose",
+            "Se rassurer en fixant des objectifs peu eleves"
+        ],
+        "correct_index": 0,
+        "explanation": "Il a ete rapporte que les personnes ayant des tendances perfectionnistes peuvent avoir du mal a passer a l'action par peur de l'echec.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Comprendre le lien entre perfectionnisme et inhibition comportementale"
+            ],
+            "limitations": [
+                "Les differences individuelles sont importantes"
+            ],
+            "citation_role": "Explication du lien entre perfectionnisme et anxiete",
+            "claim_tags": [
+                "perfectionnisme",
+                "anxiete",
+                "inhibition_comportementale"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_003",
+        "type": "swipe_judgment",
+        "question": "Il m'arrive de me sentir insatisfait(e) de ce que j'ai accompli",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Souvent",
+            "right": "Rarement"
+        },
+        "explanation": "Toutes les reponses sont normales. Avoir des standards eleves pour soi-meme peut etre un moteur de croissance, mais l'exces peut conduire a l'epuisement.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explication de la double nature des standards eleves",
+            "claim_tags": [
+                "perfectionnisme",
+                "auto_evaluation"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_004",
+        "type": "multiple_choice",
+        "question": "Quelle est une methode efficace pour 'assouplir moderement' le perfectionnisme ?",
+        "choices": [
+            "Se donner la permission d'accepter '70 points, c'est OK'",
+            "Se repeter 'Ne vise pas la perfection'",
+            "Eviter de se fixer des objectifs"
+        ],
+        "correct_index": 0,
+        "explanation": "Elargir sa zone de tolerance tend a reduire les obstacles a l'action. Il n'est pas necessaire d'eliminer completement le perfectionnisme.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Personnes dont le perfectionnisme bloque l'action"
+            ],
+            "limitations": [
+                "Peut etre contre-productif dans les situations necessitant des standards eleves"
+            ],
+            "citation_role": "En tant que technique de restructuration cognitive",
+            "try_this": "Repetez '70 points, c'est OK' avant de commencer votre premiere tache de la journee",
+            "claim_tags": [
+                "perfectionnisme",
+                "restructuration_cognitive",
+                "marge_tolerance"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Niveau d'anxiete avant de commencer la tache (1-10)",
+                "after_prompt": "Niveau de satisfaction apres avoir termine la tache (1-10)",
+                "success_rule": "L'anxiete diminue de 3 ou plus, ou vous avez pu commencer la tache",
+                "stop_rule": "Si l'anxiete augmente au contraire"
+            },
+            "comparator": {
+                "baseline": "Votre methode habituelle visant la perfection",
+                "cost": "Le temps et l'effort restent identiques ou diminuent"
+            },
+            "fallback": {
+                "when": "Si vous n'arrivez pas a penser '70 points, c'est OK'",
+                "next": "Limitez-vous a 'juste 5 minutes'"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_005",
+        "type": "multiple_choice",
+        "question": "Le perfectionnisme doit-il etre completement elimine ?",
+        "choices": [
+            "Non, l'important est de pouvoir l'ajuster avec flexibilite",
+            "Oui, le perfectionnisme n'apporte que du mal",
+            "Difficile a dire"
+        ],
+        "correct_index": 0,
+        "explanation": "Le perfectionnisme a aussi un 'cote sain', et des standards eleves peuvent parfois mener a de bons resultats. Le probleme survient 'quand on perd en flexibilite'.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Distinction entre perfectionnisme adaptatif et inadaptatif",
+            "claim_tags": [
+                "perfectionnisme",
+                "flexibilite",
+                "adaptatif"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_006",
+        "type": "conversation",
+        "question": "Vous etes-vous deja dit 'Si je ne peux pas le faire parfaitement, autant ne pas le faire' ?",
+        "your_response_prompt": "Essayez de vous souvenir dans quelle situation c'etait",
+        "choices": [
+            "Souvent",
+            "Parfois",
+            "Rarement"
+        ],
+        "recommended_index": null,
+        "explanation": "C'est ce qu'on appelle la 'pensee tout-ou-rien'. Meme sans etre parfait, 'agir' peut permettre d'accumuler de l'experience.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Exemple de pensee dichotomique",
+            "claim_tags": [
+                "perfectionnisme",
+                "pensee_dichotomique",
+                "evitement"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_007",
+        "type": "swipe_judgment",
+        "question": "Le perfectionnisme peut conduire a la procrastination",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "D'accord",
+            "right": "Pas d'accord"
+        },
+        "explanation": "Des recherches suggerent un lien entre perfectionnisme et procrastination. Pour 'eviter l'echec', on peut parfois eviter l'action.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explication du lien entre perfectionnisme et procrastination",
+            "claim_tags": [
+                "perfectionnisme",
+                "procrastination",
+                "evitement_echec"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_008",
+        "type": "multiple_choice",
+        "question": "Quel est l'element le plus important pour gerer le perfectionnisme ?",
+        "choices": [
+            "Avoir de la flexibilite et elargir sa zone de tolerance",
+            "Eliminer completement le perfectionnisme",
+            "Eviter de se fixer des objectifs"
+        ],
+        "correct_index": 0,
+        "explanation": "Il ne s'agit pas d''eliminer' le perfectionnisme, mais de 'pouvoir l'ajuster avec flexibilite'. L'important est de pouvoir adapter ses standards selon les situations.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Reflechir a sa relation avec le perfectionnisme"
+            ],
+            "limitations": [
+                "Devenir flexible ne se fait pas du jour au lendemain"
+            ],
+            "citation_role": "Recommandation basee sur une meta-analyse",
+            "claim_tags": [
+                "perfectionnisme",
+                "flexibilite",
+                "strategies_adaptation"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_009",
+        "type": "conversation",
+        "question": "Si vous deviez essayer demain le concept '70 points, c'est OK' appris aujourd'hui ?",
+        "your_response_prompt": "Dans quelle situation concrete aimeriez-vous l'essayer ?",
+        "choices": [
+            "Pour une tache de travail ou d'etudes",
+            "Pour les taches menageres ou quotidiennes",
+            "Je ne sais pas encore concretement"
+        ],
+        "recommended_index": 0,
+        "explanation": "Toutes les situations valent la peine d'essayer. Nous vous recommandons de commencer par une petite tache pour tester 'avancer meme sans etre parfait'.",
+        "actionable_advice": "Demain, avant votre premiere tache, repetez 3 fois '70 points, c'est suffisant' avant de commencer",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Personnes dont le perfectionnisme apparait facilement dans les taches quotidiennes"
+            ],
+            "limitations": [
+                "A appliquer avec prudence pour les taches importantes"
+            ],
+            "citation_role": "Passerelle vers la pratique",
+            "try_this": "Demain matin, dites a voix haute '70 points, c'est OK' avant votre premiere tache",
+            "claim_tags": [
+                "perfectionnisme",
+                "pratique",
+                "changement_comportemental"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Niveau d'hesitation avant de commencer la tache (1-10)",
+                "after_prompt": "Ressenti apres avoir commence la tache (1-10)",
+                "success_rule": "Vous avez pu commencer sans hesiter",
+                "stop_rule": "Si le stress augmente au contraire"
+            },
+            "comparator": {
+                "baseline": "Votre methode habituelle",
+                "cost": "Quelques secondes pour le dire a voix haute"
+            },
+            "fallback": {
+                "when": "Si '70 points' est inacceptable",
+                "next": "Commencez par '80 points'"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_010",
+        "type": "conversation",
+        "question": "Le contenu de cette lecon vous a-t-il semble utile ?",
+        "your_response_prompt": "Partagez vos impressions en toute honnetete",
+        "choices": [
+            "Tres utile",
+            "Assez utile",
+            "Pas vraiment utile"
+        ],
+        "recommended_index": null,
+        "explanation": "Toutes les impressions sont precieuses. La facon de gerer le perfectionnisme varie d'une personne a l'autre. L'important est d'avancer a votre propre rythme.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Encourager la reflexion",
+            "claim_tags": [
+                "reflexion",
+                "conscience_de_soi"
+            ]
+        }
+    }
+]

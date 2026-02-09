@@ -1,0 +1,424 @@
+[
+  {
+    "id": "money_l01_001",
+    "type": "swipe_judgment",
+    "question": "En faisant du shopping en ligne, j'ai ressenti l'urgence de « acheter maintenant ou il sera trop tard » au moment d'ajouter un article au panier.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Oui",
+      "right": "Non"
+    },
+    "explanation": "C'est ce qu'on appelle le « biais de rareté ». Quand on voit « Plus que 3 en stock » ou « Edition limitée », on tend à percevoir l'objet comme plus précieux qu'il ne l'est. Comprendre ce biais peut être un premier pas vers plus de recul.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Cialdini_2006",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Sentiment d'urgence lors du shopping en ligne",
+        "Personnes sensibles aux offres « limitées »"
+      ],
+      "limitations": [
+        "Quand l'article est vraiment rare, cela peut être un choix rationnel"
+      ],
+      "citation_role": "Soutient l'existence du biais de rareté par des études observationnelles",
+      "claim_tags": [
+        "scarcity_bias",
+        "impulse_buying",
+        "cognitive_bias"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_002",
+    "type": "multiple_choice",
+    "question": "Quand on pense « Je veux acheter ça tout de suite ! », quelle méthode a montré une efficacité pour freiner l'impulsion ?",
+    "choices": [
+      "Attendre 10 secondes avant de décider",
+      "Chercher quelque chose de moins cher",
+      "Lire tous les avis"
+    ],
+    "correct_index": 0,
+    "explanation": "La règle des 10 secondes pourrait être efficace comme intervention courte. Pendant ce temps d'attente, le pic de l'impulsion tend à diminuer. Cela ne convient pas à tout le monde, donc pas besoin de forcer. (« Chercher moins cher » ou « Lire tous les avis » prennent trop de temps)",
+    "actionable_advice": "Conseil : La prochaine fois que tu veux acheter quelque chose, essaie juste de faire une pause de 10 secondes. Si ça ne te convient pas, laisse tomber.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Impulsions lors du shopping en ligne",
+        "Personnes qui font souvent de petits achats impulsifs"
+      ],
+      "limitations": [
+        "Peut être moins efficace pour les articles coûteux",
+        "Peut avoir l'effet inverse pour ceux qui trouvent l'attente pénible"
+      ],
+      "citation_role": "Explique théoriquement la relation entre impulsion et temps à partir de la recherche sur les ressources d'autocontrôle",
+      "claim_tags": [
+        "self_control",
+        "impulse_buying",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_003",
+    "type": "swipe_judgment",
+    "question": "Quand on laisse un article dans le panier pendant 24 heures, on tend souvent à se dire « finalement, je n'en ai pas besoin ».",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Probable",
+      "right": "Peu probable"
+    },
+    "explanation": "Des études montrent que l'envie d'achat impulsif tend à diminuer naturellement avec le temps. Attention à ne pas oublier ce dont tu as vraiment besoin. Si tu n'y arrives pas, c'est normal. Essaie juste une fois.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Baumeister_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Achats impulsifs en ligne",
+        "Personnes capables de se dire « j'y réfléchirai plus tard »"
+      ],
+      "limitations": [
+        "Difficile à utiliser quand il y a une date limite de promotion",
+        "Risque d'oublier les articles vraiment nécessaires"
+      ],
+      "citation_role": "Soutient indirectement l'effet de récupération de l'autocontrôle",
+      "try_this": "Ajoute au panier puis ferme l'écran et verrouille (laisse reposer 24 heures)",
+      "claim_tags": [
+        "delay_gratification",
+        "impulse_buying",
+        "self_control"
+      ],
+      "tiny_metric": {
+        "metric": "Après 24 heures, as-tu pensé « finalement, je n'en ai pas besoin » ?",
+        "stop_rule": "Arrête si tu as tout acheté 3 fois de suite"
+      },
+      "comparator": {
+        "baseline": "Acheter immédiatement sur place",
+        "cost": "Juste attendre 24 heures"
+      },
+      "fallback": {
+        "when": "Tu ne peux pas attendre 24 heures",
+        "next": "【Version 1 heure】Ferme le navigateur et revérifie après 1 heure"
+      }
+    }
+  },
+  {
+    "id": "money_l01_004",
+    "type": "multiple_choice",
+    "question": "Pourquoi se demander « Est-ce que je l'utiliserai encore dans un an ? » peut être efficace ?",
+    "choices": [
+      "Imaginer son futur soi tend à calmer l'impulsion",
+      "Le sentiment de culpabilité empêche d'acheter",
+      "Les calculs sont trop compliqués, alors on abandonne"
+    ],
+    "correct_index": 0,
+    "explanation": "Des études montrent qu'imaginer son futur soi (continuité du soi futur) tend à réduire les décisions impulsives. Cela peut être moins efficace pour les personnes qui ont du mal à imaginer le futur. Essaie juste une fois. (Ce n'est pas la « culpabilité » ni les « calculs compliqués », mais le sentiment de connexion avec son futur soi qui est la clé)",
+    "actionable_advice": "Conseil : La prochaine fois que tu veux acheter quelque chose, demande-toi « Est-ce que je l'utiliserai encore dans un an ? »",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Hershfield_2011",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personnes capables de réfléchir à long terme",
+        "Personnes qui regrettent souvent après un achat"
+      ],
+      "limitations": [
+        "Moins efficace pour ceux qui ont du mal à imaginer le futur",
+        "Difficile à appliquer aux consommables"
+      ],
+      "citation_role": "Soutient directement le lien entre continuité du soi futur et prise de décision",
+      "try_this": "Quand tu penses « Je veux acheter » - lâche le téléphone pendant 10 secondes et répète « Est-ce que je l'utiliserai encore dans un an ? »",
+      "claim_tags": [
+        "future_self_continuity",
+        "impulse_buying",
+        "decision_making"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Ton envie d'acheter actuelle ? (0-10)",
+        "after_prompt": "Après la question sur le futur ?",
+        "success_rule": "C'est OK si ça diminue un peu",
+        "stop_rule": "Si ça ne change pas ou augmente, abandonne pour aujourd'hui"
+      },
+      "comparator": {
+        "baseline": "Acheter sans réfléchir",
+        "cost": "5 secondes / faible effort"
+      },
+      "fallback": {
+        "when": "L'envie ne disparaît pas même en imaginant le futur",
+        "next": "Passe à la méthode du panier abandonné pendant 24 heures"
+      }
+    }
+  },
+  {
+    "id": "money_l01_005",
+    "type": "swipe_judgment",
+    "question": "« J'achète parce que c'est pas cher » finit souvent par coûter plus cher au final.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Peut-être",
+      "right": "Pas vraiment"
+    },
+    "explanation": "Les choses achetées pour leur côté « bonne affaire » restent souvent inutilisées, ce qui tend à entraîner une perte au final. Cependant, faire des stocks de consommables peut être rationnel dans certains cas.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Thaler_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personnes sensibles aux soldes",
+        "Personnes qui achètent souvent « au cas où »"
+      ],
+      "limitations": [
+        "Faire des stocks de consommables peut être rationnel"
+      ],
+      "citation_role": "Soutient l'irrationalité de la comptabilité mentale par des études observationnelles",
+      "claim_tags": [
+        "mental_accounting",
+        "sunk_cost",
+        "impulse_buying"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_006",
+    "type": "multiple_choice",
+    "question": "Pourquoi fixer « ce mois-ci, je peux dépenser jusqu'à X euros » tend à réduire les achats impulsifs ?",
+    "choices": [
+      "Avoir un budget comme « règle » facilite la prise de décision",
+      "Parce qu'on manque d'argent",
+      "Parce qu'on se fatigue à calculer"
+    ],
+    "correct_index": 0,
+    "explanation": "Quand on a une contrainte budgétaire, le coût de décision « acheter ou pas » diminue. Si le budget est trop strict, cela peut provoquer un effet rebond et des dépenses excessives. (Ce n'est pas « manque d'argent » ni « fatigue des calculs », mais la facilité de décision qui compte)",
+    "actionable_advice": "Conseil : Fixe un montant « à dépenser librement » cette semaine (par ex. : 50 euros/semaine). Si c'est trop difficile, augmente le montant.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Thaler_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Personnes qui suivent mieux les règles",
+        "Personnes qui veulent commencer à gérer leur budget"
+      ],
+      "limitations": [
+        "Un budget trop strict peut provoquer un effet rebond",
+        "Difficile de gérer les dépenses imprévues"
+      ],
+      "citation_role": "Soutient indirectement l'effet du budget à partir de la théorie de la comptabilité mentale",
+      "try_this": "Fixe ton « budget libre » de la semaine (par ex. : 50 euros/semaine)",
+      "claim_tags": [
+        "mental_accounting",
+        "budgeting",
+        "self_control"
+      ],
+      "tiny_metric": {
+        "metric": "As-tu respecté ton budget en fin de semaine ?",
+        "stop_rule": "Arrête si tu dépasses largement 2 semaines de suite"
+      },
+      "comparator": {
+        "baseline": "Dépenser sans fixer de budget",
+        "cost": "5 minutes de planification par semaine"
+      },
+      "fallback": {
+        "when": "Le budget est trop contraignant",
+        "next": "Multiplie le budget par 1,5 et réessaie"
+      }
+    }
+  },
+  {
+    "id": "money_l01_007",
+    "type": "conversation",
+    "question": "Un ami te dit « C'est une édition limitée ! Tu ne l'achètes pas ? » Comment répondre ?",
+    "choices": [
+      "« C'est vrai que 'limité' donne envie. Mais je vais attendre 10 secondes d'abord »",
+      "« Limité !? J'achète, j'achète ! »",
+      "« J'ai pas d'argent, donc non »"
+    ],
+    "recommended_index": 0,
+    "explanation": "« Limité » stimule le biais de rareté. Attendre 10 secondes peut parfois aider à prendre du recul par rapport au biais. Si tu le veux vraiment, tu peux l'acheter. Essaie juste une fois.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 10,
+    "source_id": "Cialdini_2006",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personnes facilement influencées par leurs amis",
+        "Personnes sensibles aux offres « limitées »"
+      ],
+      "limitations": [
+        "Peut être difficile de refuser dans des situations sociales"
+      ],
+      "citation_role": "Soutient indirectement la règle des 10 secondes comme moyen de contrer le biais de rareté",
+      "claim_tags": [
+        "scarcity_bias",
+        "social_influence",
+        "impulse_buying"
+      ],
+      "try_this": "Quand on te dit « limité », attends 10 secondes",
+      "tiny_metric": {
+        "metric": "Après avoir attendu 10 secondes, as-tu pensé « finalement, je n'en ai pas besoin » ?",
+        "stop_rule": "Arrête si tu as quand même acheté 3 fois de suite"
+      },
+      "comparator": {
+        "baseline": "Acheter immédiatement en entendant « limité ! »",
+        "cost": "10 secondes / faible effort"
+      },
+      "fallback": {
+        "when": "C'est difficile de refuser sur le moment",
+        "next": "Dis « Je te recontacte plus tard » et reporte la décision"
+      }
+    }
+  },
+  {
+    "id": "money_l01_008",
+    "type": "swipe_judgment",
+    "question": "« Le shopping pour évacuer le stress » fonctionne temporairement mais tend à provoquer des regrets à long terme.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Peut-être",
+      "right": "Pas vraiment"
+    },
+    "explanation": "Le shopping de stress procure une sensation agréable grâce à une libération temporaire de dopamine, mais tend à entraîner des regrets par la suite. Cependant, de temps en temps, ce n'est pas un problème pour beaucoup de gens.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Rick_2014",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personnes qui font plus de shopping quand elles sont stressées",
+        "Personnes qui regrettent souvent après un achat"
+      ],
+      "limitations": [
+        "Une petite récompense occasionnelle ne pose souvent pas de problème"
+      ],
+      "citation_role": "Soutient le lien entre consommation émotionnelle et regret par des études observationnelles",
+      "claim_tags": [
+        "emotional_spending",
+        "regret",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_009",
+    "type": "multiple_choice",
+    "question": "Quelle méthode a montré une efficacité pour réduire les achats impulsifs ?",
+    "choices": [
+      "Attendre 10 secondes avant d'acheter",
+      "Faire une liste de souhaits",
+      "Ne mettre que du liquide dans son portefeuille"
+    ],
+    "correct_index": 0,
+    "explanation": "Des expériences suggèrent que la règle des 10 secondes pourrait être efficace. La liste de souhaits et le paiement en liquide peuvent aussi être efficaces, mais la règle des 10 secondes est populaire pour sa simplicité. Cela ne convient pas à tout le monde. Essaie juste une fois. (« Liste » et « liquide » sont bons aussi mais demandent de la préparation)",
+    "actionable_advice": "Conseil : Essaie une fois demain : quand l'envie d'acheter surgit, attends 10 secondes. Si ça ne te convient pas, passe à une autre méthode.",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personnes qui font beaucoup d'achats impulsifs",
+        "Personnes qui veulent commencer facilement"
+      ],
+      "limitations": [
+        "Peut être moins efficace pour les articles coûteux"
+      ],
+      "citation_role": "Soutient indirectement l'efficacité de la règle des 10 secondes à partir de la recherche sur les ressources d'autocontrôle",
+      "try_this": "Quand tu penses « Je veux acheter ! » - lâche le téléphone et compte 10 secondes (1...2...3...10)",
+      "claim_tags": [
+        "self_control",
+        "impulse_buying",
+        "delay_gratification"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Ton envie d'acheter actuelle ? (0-10)",
+        "after_prompt": "Après 10 secondes ?",
+        "success_rule": "C'est OK si ça diminue un peu",
+        "stop_rule": "Si ça ne change pas ou augmente, abandonne pour aujourd'hui"
+      },
+      "comparator": {
+        "baseline": "Cliquer sur le panier sous l'impulsion",
+        "cost": "10 secondes / faible effort"
+      },
+      "fallback": {
+        "when": "10 secondes ne suffisent pas",
+        "next": "Passe à la méthode du panier abandonné pendant 24 heures"
+      }
+    }
+  },
+  {
+    "id": "money_l01_010",
+    "type": "multiple_choice",
+    "question": "Parmi ce que tu as appris aujourd'hui, qu'est-ce que tu pourrais utiliser dès demain ?",
+    "choices": [
+      "Attendre 10 secondes quand tu veux acheter",
+      "Laisser l'article dans le panier pendant 24 heures",
+      "Se demander « Est-ce que je l'utiliserai encore dans un an ? »",
+      "Tout essayer"
+    ],
+    "correct_index": 3,
+    "explanation": "Toutes ces méthodes valent la peine d'être essayées. Même si tu ne changes pas du jour au lendemain, tu peux peut-être modifier petit à petit tes « habitudes d'achat ». Si ça ne te convient pas, passe à une autre méthode. Essaie juste une fois. (Chaque option est valable individuellement, la règle des 10 secondes étant la plus simple)",
+    "actionable_advice": "Conseil : Action du jour : attends juste 10 secondes la prochaine fois que tu penses « Je veux acheter ! »",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personnes qui veulent prendre de nouvelles habitudes"
+      ],
+      "limitations": [
+        "Il est possible de ne pas tout maintenir"
+      ],
+      "citation_role": "Soutient indirectement l'efficacité des interventions d'autocontrôle",
+      "try_this": "La prochaine envie d'acheter - 10 secondes... Si c'est trop dur, juste 1 seconde de pause",
+      "claim_tags": [
+        "self_control",
+        "habit_formation",
+        "impulse_buying"
+      ],
+      "tiny_metric": {
+        "metric": "As-tu réussi à attendre 10 secondes au moins une fois cette semaine ?",
+        "stop_rule": "Arrête si tu ne t'en es pas souvenu une seule fois en une semaine"
+      },
+      "comparator": {
+        "baseline": "Ne rien essayer",
+        "cost": "10 secondes x quelques fois/semaine"
+      },
+      "fallback": {
+        "when": "La règle des 10 secondes ne te convient pas",
+        "next": "Passe au panier abandonné ou à la question sur le futur"
+      }
+    }
+  }
+]

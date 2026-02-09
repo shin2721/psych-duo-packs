@@ -1,0 +1,154 @@
+[
+  {
+    "id": "mental_l05_001",
+    "type": "swipe_judgment",
+    "question": "Son las 2 de la madrugada y el material para la reunión de mañana está a medio terminar. En el momento en que pensaste \"ya no voy a alcanzar\", la ansiedad aumentó aún más.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Me pasa seguido",
+      "right": "No tanto"
+    },
+    "explanation": "Este es un ejemplo típico de \"pensamiento catastrófico\". La predicción de \"no voy a alcanzar\" se adelanta a la realidad y puede amplificar la ansiedad. ※Esta lección presenta técnicas para manejar la ansiedad leve. Si experimentas pensamientos suicidas o tendencias de autolesión, te recomendamos contactar una línea de crisis profesional en lugar de depender de la app (Línea de la Vida: 800-911-2000 en México, o el servicio de tu país).",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_002",
+    "type": "multiple_choice",
+    "question": "Cuando surgen predicciones extremas como \"seguro voy a fracasar\" o \"ya no hay nada que hacer\", ¿cuál podría ser la forma más efectiva de manejarlas?",
+    "choices": [
+      "Preguntarte \"¿realmente es así?\" y buscar evidencia",
+      "Decirte \"no pienses en eso\"",
+      "Distraerte con cualquier cosa"
+    ],
+    "correct_index": 0,
+    "explanation": "Para el pensamiento catastrófico, la \"búsqueda de evidencia\" puede ser útil. En lugar de intentar eliminarlo por completo, lo importante es recuperar una perspectiva más realista.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_003",
+    "type": "conversation",
+    "question": "Últimamente, ¿te ha pasado que imaginas \"el peor escenario posible\" y eso te genera ansiedad?",
+    "your_response_prompt": "Intenta recordar cómo te sentiste en ese momento",
+    "choices": [
+      "Me pasa seguido",
+      "A veces",
+      "No tanto"
+    ],
+    "recommended_index": null,
+    "explanation": "Cualquier respuesta es una reacción normal. El cerebro humano está diseñado para anticipar peligros, por lo que imaginar escenarios negativos es algo natural.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_004",
+    "type": "multiple_choice",
+    "question": "Antes de una presentación piensas \"seguro me va a ir mal\". Si quisieras cambiar este patrón de pensamiento, ¿qué podrías hacer?",
+    "choices": [
+      "Recordar que \"también he tenido experiencias exitosas en el pasado\"",
+      "Resignarte pensando \"no importa si fracaso\"",
+      "Repetirte \"seguro me va a ir bien\""
+    ],
+    "correct_index": 0,
+    "explanation": "Más que ir de un extremo al otro, lo importante es encontrar una perspectiva equilibrada. Las experiencias pasadas pueden servir como una base realista.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_005",
+    "type": "swipe_judgment",
+    "question": "El pensamiento catastrófico es algo que \"hay que eliminar por completo\"",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "De acuerdo",
+      "right": "No estoy de acuerdo"
+    },
+    "explanation": "No es necesario eliminarlo por completo. Lo que más puede ayudar es \"notarlo y agregar una perspectiva más realista\".",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_006",
+    "type": "conversation",
+    "question": "Cuando imaginas \"el peor escenario\", ¿qué haces para manejarlo?",
+    "your_response_prompt": "Reflexiona sobre tu comportamiento habitual",
+    "choices": [
+      "Trato de no pensar en ello",
+      "Hablo con amigos o familiares",
+      "Pienso en soluciones realistas"
+    ],
+    "recommended_index": 2,
+    "explanation": "Todos estos métodos pueden ser útiles en ciertos momentos, pero pensar en soluciones realistas puede ayudar a transformar la ansiedad en acción.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_007",
+    "type": "multiple_choice",
+    "question": "¿En qué momentos tiende a aparecer con más facilidad el pensamiento catastrófico?",
+    "choices": [
+      "Cuando estás cansado/a o no has dormido bien",
+      "Cuando estás con energía y de buen ánimo",
+      "El horario no tiene relación"
+    ],
+    "correct_index": 0,
+    "explanation": "El cansancio y la falta de sueño pueden reducir la capacidad de juicio y facilitar los pensamientos negativos. Cuidar tu estado físico también es una medida importante.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_008",
+    "type": "conversation",
+    "question": "Si mañana intentaras usar el método de \"buscar evidencia\" que aprendiste hoy, ¿en qué situación lo aplicarías?",
+    "your_response_prompt": "¿En qué situación concreta te gustaría probarlo?",
+    "choices": [
+      "Cuando sienta presión en el trabajo",
+      "Cuando me sienta ansioso/a en mis relaciones",
+      "Todavía no se me ocurre una situación concreta"
+    ],
+    "recommended_index": null,
+    "explanation": "Puede ser útil en cualquier situación. Te recomendamos empezar probándolo con una ansiedad pequeña.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_009",
+    "type": "multiple_choice",
+    "question": "¿Qué es lo más importante al manejar el pensamiento catastrófico?",
+    "choices": [
+      "Controlar los pensamientos por completo",
+      "Recuperar una perspectiva realista",
+      "Pensar en positivo"
+    ],
+    "correct_index": 1,
+    "explanation": "Más que buscar un control total o forzar el pensamiento positivo, lo importante es tener una perspectiva realista y equilibrada.",
+    "difficulty": "hard",
+    "xp": 5,
+    "evidence_grade": "gold"
+  },
+  {
+    "id": "mental_l05_010",
+    "type": "conversation",
+    "question": "¿Sientes que lo que aprendiste en esta lección podría serte útil?",
+    "your_response_prompt": "Comparte tu opinión sincera",
+    "choices": [
+      "Creo que puede ser muy útil",
+      "Creo que puede ser algo útil",
+      "Creo que no me resulta tan útil"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas las opiniones son valiosas. Cada persona tiene métodos diferentes que le funcionan, así que lo importante es encontrar el enfoque que mejor se adapte a ti.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  }
+]
