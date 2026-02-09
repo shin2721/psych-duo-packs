@@ -22,6 +22,7 @@
 import fs from 'fs/promises';
 import path from 'path';
 import crypto from 'crypto';
+import { fileURLToPath } from 'url';
 
 // === Configuration ===
 const LESSONS_ROOT = 'data/lessons';
@@ -39,12 +40,26 @@ const LANG_CONFIG = {
 };
 
 // Fields to translate
-const TRANSLATABLE_FIELDS = [
+export const TOP_LEVEL_TRANSLATABLE_FIELDS = [
   'question',
   'your_response_prompt',
   'choices',
   'explanation',
   'actionable_advice',
+];
+
+export const EXPANDED_DETAILS_TRANSLATABLE_FIELDS = [
+  'try_this',
+  'best_for',
+  'limitations',
+  'citation_role',
+  'claim_tags',
+];
+
+export const EXPANDED_DETAILS_OBJECT_TRANSLATABLE_FIELDS = [
+  'tiny_metric',
+  'comparator',
+  'fallback',
 ];
 
 // Fields included in hash for change detection (JA side)
@@ -81,13 +96,14 @@ const TARGET_LANG = parseLang();
 
 // === OpenAI Setup (lazy load) ===
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-if (!OPENAI_API_KEY && !DRY_RUN && !INIT_CACHE) {
-  console.error('❌ OPENAI_API_KEY is required (unless --dry-run or --init-cache)');
-  process.exit(1);
-}
 
 let openai = null;
 async function getOpenAI() {
+  if (!OPENAI_API_KEY) {
+    if (DRY_RUN || INIT_CACHE) return null;
+    throw new Error('OPENAI_API_KEY is required (unless --dry-run or --init-cache)');
+  }
+
   if (!openai && OPENAI_API_KEY) {
     const { default: OpenAI } = await import('openai');
     openai = new OpenAI({ apiKey: OPENAI_API_KEY });
@@ -159,62 +175,71 @@ ${context ? `Context: ${context}` : ''}`;
   }
 }
 
-async function translateItem(jaItem) {
+function clone(value) {
+  return JSON.parse(JSON.stringify(value));
+}
+
+async function translateMixedValue(value, translateFn, context) {
+  if (typeof value === 'string') {
+    return value.trim() ? translateFn(value, context) : value;
+  }
+  if (Array.isArray(value)) {
+    const translated = [];
+    for (const item of value) {
+      if (typeof item === 'string') {
+        translated.push(item.trim() ? await translateFn(item, context) : item);
+      } else {
+        translated.push(clone(item));
+      }
+    }
+    return translated;
+  }
+  return clone(value);
+}
+
+export async function translateItemWithPolicy(jaItem, translateFn) {
   const targetItem = { ...jaItem };
 
-  for (const field of TRANSLATABLE_FIELDS) {
+  for (const field of TOP_LEVEL_TRANSLATABLE_FIELDS) {
     if (jaItem[field] === undefined || jaItem[field] === null) continue;
-
-    if (field === 'choices' && Array.isArray(jaItem[field])) {
-      targetItem[field] = [];
-      for (const choice of jaItem[field]) {
-        targetItem[field].push(await translateText(choice, 'This is a quiz choice option'));
-      }
-    } else if (typeof jaItem[field] === 'string' && jaItem[field].trim()) {
-      targetItem[field] = await translateText(jaItem[field], `Field: ${field}`);
-    }
+    targetItem[field] = await translateMixedValue(
+      jaItem[field],
+      translateFn,
+      field === 'choices' ? 'This is a quiz choice option' : `Field: ${field}`
+    );
   }
 
-  // Translate nested expanded_details fields if present
+  // Explicit translation policy for nested expanded_details fields.
   if (jaItem.expanded_details) {
     targetItem.expanded_details = { ...jaItem.expanded_details };
 
-    const nestedFields = ['try_this', 'best_for', 'limitations'];
-    for (const nf of nestedFields) {
+    for (const nf of EXPANDED_DETAILS_TRANSLATABLE_FIELDS) {
       if (jaItem.expanded_details[nf]) {
-        if (Array.isArray(jaItem.expanded_details[nf])) {
-          targetItem.expanded_details[nf] = [];
-          for (const item of jaItem.expanded_details[nf]) {
-            targetItem.expanded_details[nf].push(await translateText(item));
-          }
-        } else if (typeof jaItem.expanded_details[nf] === 'string') {
-          targetItem.expanded_details[nf] = await translateText(jaItem.expanded_details[nf]);
-        }
+        targetItem.expanded_details[nf] = await translateMixedValue(
+          jaItem.expanded_details[nf],
+          translateFn,
+          `expanded_details.${nf}`
+        );
       }
     }
 
-    // tiny_metric, comparator, fallback
-    if (jaItem.expanded_details.tiny_metric) {
-      targetItem.expanded_details.tiny_metric = {};
-      for (const [k, v] of Object.entries(jaItem.expanded_details.tiny_metric)) {
-        targetItem.expanded_details.tiny_metric[k] = typeof v === 'string' ? await translateText(v) : v;
-      }
-    }
-    if (jaItem.expanded_details.comparator) {
-      targetItem.expanded_details.comparator = {};
-      for (const [k, v] of Object.entries(jaItem.expanded_details.comparator)) {
-        targetItem.expanded_details.comparator[k] = typeof v === 'string' ? await translateText(v) : v;
-      }
-    }
-    if (jaItem.expanded_details.fallback) {
-      targetItem.expanded_details.fallback = {};
-      for (const [k, v] of Object.entries(jaItem.expanded_details.fallback)) {
-        targetItem.expanded_details.fallback[k] = typeof v === 'string' ? await translateText(v) : v;
+    for (const nf of EXPANDED_DETAILS_OBJECT_TRANSLATABLE_FIELDS) {
+      if (jaItem.expanded_details[nf]) {
+        targetItem.expanded_details[nf] = {};
+        for (const [k, v] of Object.entries(jaItem.expanded_details[nf])) {
+          targetItem.expanded_details[nf][k] = typeof v === 'string'
+            ? await translateFn(v, `expanded_details.${nf}.${k}`)
+            : clone(v);
+        }
       }
     }
   }
 
   return targetItem;
+}
+
+async function translateItem(jaItem) {
+  return translateItemWithPolicy(jaItem, translateText);
 }
 
 // === Main Processing ===
@@ -430,6 +455,11 @@ async function runInitCache() {
 }
 
 async function main() {
+  if (!OPENAI_API_KEY && !DRY_RUN && !INIT_CACHE) {
+    console.error('❌ OPENAI_API_KEY is required (unless --dry-run or --init-cache)');
+    process.exit(1);
+  }
+
   // Handle --init-cache mode
   if (INIT_CACHE) {
     await runInitCache();
@@ -504,7 +534,12 @@ async function main() {
   console.log('\n✅ Done!');
 }
 
-main().catch(err => {
-  console.error('❌ Fatal error:', err);
-  process.exit(1);
-});
+const isDirectRun = process.argv[1]
+  && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url);
+
+if (isDirectRun) {
+  main().catch(err => {
+    console.error('❌ Fatal error:', err);
+    process.exit(1);
+  });
+}
