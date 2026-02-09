@@ -25,7 +25,7 @@
       "limitations": [
         "Difícil de aplicar en situaciones donde realmente se exige calidad"
       ],
-      "citation_role": "先延ばしと完璧主義の関連を観察研究で支持",
+      "citation_role": "Estudio observacional que respalda la relación entre procrastinación y perfeccionismo",
       "claim_tags": [
         "perfectionism",
         "procrastination",
@@ -58,7 +58,7 @@
       "limitations": [
         "En algunos casos, puede que solo abras el archivo y te detengas ahí"
       ],
-      "citation_role": "実行意図と物理動作の関連を理論的に説明",
+      "citation_role": "Explicación teórica de la relación entre intención de implementación y acción física",
       "claim_tags": [
         "implementation_intention",
         "physical_action",
@@ -91,7 +91,7 @@
       "limitations": [
         "Si la computadora ya está abierta, se necesita otra acción"
       ],
-      "citation_role": "先延ばし研究から最小動作の効果を間接支持",
+      "citation_role": "Respaldo indirecto del efecto de la acción mínima desde la investigación sobre procrastinación",
       "try_this": "👉 Cuando no puedas moverte → Abre la laptop y presiona el botón de encendido (10 segundos)",
       "claim_tags": [
         "procrastination",
@@ -138,7 +138,7 @@
       "limitations": [
         "En algunos casos, puede que te detengas en el primer paso (y eso también está bien)"
       ],
-      "citation_role": "実行意図研究から着手効果を支持",
+      "citation_role": "Respaldo del efecto de inicio desde la investigación sobre intención de implementación",
       "claim_tags": [
         "implementation_intention",
         "task_initiation",
@@ -166,7 +166,7 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
-      "citation_role": "先延ばしパターンの自己認識を支持",
+      "citation_role": "Respaldo del auto-reconocimiento de patrones de procrastinación",
       "claim_tags": [
         "self_awareness",
         "procrastination",
@@ -199,7 +199,7 @@
       "limitations": [
         "Difícil de usar cuando varias tareas son realmente urgentes"
       ],
-      "citation_role": "実行意図における焦点化の効果を間接支持",
+      "citation_role": "Respaldo indirecto del efecto de enfoque en la intención de implementación",
       "try_this": "👉 Al despertar → Escribe \"la tarea de hoy\" en la app de notas en 10 segundos",
       "claim_tags": [
         "focus",
@@ -246,7 +246,7 @@
       "limitations": [
         "Para personas que una vez que empiezan no pueden parar, se necesita un enfoque diferente"
       ],
-      "citation_role": "未完了タスクの心理的負荷を観察研究で支持",
+      "citation_role": "Estudio observacional que respalda la carga psicológica de tareas incompletas",
       "claim_tags": [
         "procrastination",
         "stress",
@@ -279,7 +279,7 @@
       "limitations": [
         "Si no tienes un lugar para sentarte, se necesita otra acción"
       ],
-      "citation_role": "身体動作と行動開始の関連を間接支持",
+      "citation_role": "Respaldo indirecto de la relación entre movimiento físico e inicio de acción",
       "try_this": "👉 Cuando no te llegue la motivación → Siéntate en la silla y pon las manos sobre el escritorio (10 segundos)",
       "claim_tags": [
         "physical_action",
@@ -328,7 +328,7 @@
       "limitations": [
         "Sin práctica, es fácil olvidarlas"
       ],
-      "citation_role": "タスク開始介入の選択肢を提案",
+      "citation_role": "Propuesta de opciones de intervención para iniciar tareas",
       "try_this": "👉 Mañana por la mañana, escribe \"la tarea de hoy\" en la app de notas en 10 segundos",
       "claim_tags": [
         "implementation",
@@ -368,7 +368,7 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
-      "citation_role": "個人差への配慮を支持",
+      "citation_role": "Respaldo de la consideración de diferencias individuales",
       "claim_tags": [
         "individual_differences",
         "fit"

@@ -23,7 +23,7 @@
             "limitations": [
                 "En situaciones urgentes puede ser difícil de aplicar"
             ],
-            "citation_role": "境界線設定における即答プレッシャーの影響を支持",
+            "citation_role": "Apoya el impacto de la presión de responder inmediatamente en el establecimiento de límites",
             "claim_tags": [
                 "assertiveness",
                 "boundary_setting",
@@ -56,7 +56,7 @@
             "limitations": [
                 "En persona, el movimiento físico puede ser difícil en algunos casos"
             ],
-            "citation_role": "アサーティブネスと身体動作の関連を理論的に説明",
+            "citation_role": "Explica teóricamente la relación entre la asertividad y el movimiento corporal",
             "claim_tags": [
                 "assertiveness",
                 "physical_action",
@@ -89,7 +89,7 @@
             "limitations": [
                 "En persona se necesita un enfoque diferente"
             ],
-            "citation_role": "境界線設定における保留技術を間接支持",
+            "citation_role": "Apoya indirectamente las técnicas de pausa en el establecimiento de límites",
             "try_this": "👉 Cuando recibas un mensaje difícil de rechazar → Suelta el celular, espera 10 segundos y responde \"déjame verificar\"",
             "claim_tags": [
                 "assertiveness",
@@ -136,7 +136,7 @@
             "limitations": [
                 "No se puede descartar que en algunos casos la relación sí se dañe"
             ],
-            "citation_role": "アサーティブネスと関係維持の観察研究を支持",
+            "citation_role": "Apoya el estudio observacional sobre asertividad y mantenimiento de relaciones",
             "claim_tags": [
                 "assertiveness",
                 "relationship",
@@ -164,7 +164,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "アサーティブネスパターンの自己認識を支持",
+            "citation_role": "Apoya el autoconocimiento de patrones de asertividad",
             "claim_tags": [
                 "self_awareness",
                 "assertiveness",
@@ -197,7 +197,7 @@
             "limitations": [
                 "En algunos casos puede ser difícil cuando te piden explicaciones"
             ],
-            "citation_role": "境界線設定のフレーズ技術を間接支持",
+            "citation_role": "Apoya indirectamente las técnicas de frases para establecer límites",
             "try_this": "👉 Antes de enviar un mensaje de rechazo → Detente y repite \"por [razón], no me es posible\" por 10 segundos",
             "claim_tags": [
                 "assertiveness",
@@ -244,7 +244,7 @@
             "limitations": [
                 "Según la cultura o la relación, a veces disculparse puede ser lo apropiado"
             ],
-            "citation_role": "アサーティブネスと謝罪の関係を観察研究で支持",
+            "citation_role": "Apoya mediante estudios observacionales la relación entre asertividad y disculpas",
             "claim_tags": [
                 "assertiveness",
                 "apology",
@@ -277,7 +277,7 @@
             "limitations": [
                 "Puede ser difícil en lugares con poco espacio"
             ],
-            "citation_role": "身体動作と境界線設定の関連を間接支持",
+            "citation_role": "Apoya indirectamente la relación entre movimiento corporal y establecimiento de límites",
             "try_this": "👉 Cuando sea difícil decir no en persona → Da un paso atrás y di \"déjame pensarlo\" por 10 segundos",
             "claim_tags": [
                 "assertiveness",
@@ -326,7 +326,7 @@
             "limitations": [
                 "Sin práctica, es fácil olvidarlo"
             ],
-            "citation_role": "境界線設定介入の選択肢を提案",
+            "citation_role": "Propone opciones de intervención para el establecimiento de límites",
             "try_this": "👉 Mañana, solo una vez, cuando sientas que \"es difícil decir no\" → Suelta el celular y espera 10 segundos",
             "claim_tags": [
                 "implementation",
@@ -366,7 +366,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "個人差への配慮を支持",
+            "citation_role": "Apoya la consideración de las diferencias individuales",
             "claim_tags": [
                 "individual_differences",
                 "fit"

@@ -25,8 +25,8 @@
             ],
             "citation_role": "Explication des schemas cognitifs du perfectionnisme",
             "claim_tags": [
-                "完璧主義",
-                "認知パターン"
+                "perfectionnisme",
+                "schemas_cognitifs"
             ]
         }
     },
@@ -57,9 +57,9 @@
             ],
             "citation_role": "Explication du lien entre perfectionnisme et anxiete",
             "claim_tags": [
-                "完璧主義",
-                "不安",
-                "行動抑制"
+                "perfectionnisme",
+                "anxiete",
+                "inhibition_comportementale"
             ]
         }
     },
@@ -83,8 +83,8 @@
             "evidence_type": "theoretical",
             "citation_role": "Explication de la double nature des standards eleves",
             "claim_tags": [
-                "完璧主義",
-                "自己評価"
+                "perfectionnisme",
+                "auto_evaluation"
             ]
         }
     },
@@ -116,9 +116,9 @@
             "citation_role": "En tant que technique de restructuration cognitive",
             "try_this": "Repetez '70 points, c'est OK' avant de commencer votre premiere tache de la journee",
             "claim_tags": [
-                "完璧主義",
-                "認知的再構成",
-                "許容範囲"
+                "perfectionnisme",
+                "restructuration_cognitive",
+                "marge_tolerance"
             ],
             "tiny_metric": {
                 "before_prompt": "Niveau d'anxiete avant de commencer la tache (1-10)",
@@ -157,9 +157,9 @@
             "evidence_type": "theoretical",
             "citation_role": "Distinction entre perfectionnisme adaptatif et inadaptatif",
             "claim_tags": [
-                "完璧主義",
-                "柔軟性",
-                "適応的"
+                "perfectionnisme",
+                "flexibilite",
+                "adaptatif"
             ]
         }
     },
@@ -185,9 +185,9 @@
             "evidence_type": "indirect",
             "citation_role": "Exemple de pensee dichotomique",
             "claim_tags": [
-                "完璧主義",
-                "二分法思考",
-                "回避"
+                "perfectionnisme",
+                "pensee_dichotomique",
+                "evitement"
             ]
         }
     },
@@ -211,9 +211,9 @@
             "evidence_type": "theoretical",
             "citation_role": "Explication du lien entre perfectionnisme et procrastination",
             "claim_tags": [
-                "完璧主義",
-                "先延ばし",
-                "失敗回避"
+                "perfectionnisme",
+                "procrastination",
+                "evitement_echec"
             ]
         }
     },
@@ -244,9 +244,9 @@
             ],
             "citation_role": "Recommandation basee sur une meta-analyse",
             "claim_tags": [
-                "完璧主義",
-                "柔軟性",
-                "対処法"
+                "perfectionnisme",
+                "flexibilite",
+                "strategies_adaptation"
             ]
         }
     },
@@ -279,9 +279,9 @@
             "citation_role": "Passerelle vers la pratique",
             "try_this": "Demain matin, dites a voix haute '70 points, c'est OK' avant votre premiere tache",
             "claim_tags": [
-                "完璧主義",
-                "実践",
-                "行動変容"
+                "perfectionnisme",
+                "pratique",
+                "changement_comportemental"
             ],
             "tiny_metric": {
                 "before_prompt": "Niveau d'hesitation avant de commencer la tache (1-10)",
@@ -321,8 +321,8 @@
             "evidence_type": "indirect",
             "citation_role": "Encourager la reflexion",
             "claim_tags": [
-                "振り返り",
-                "自己認識"
+                "reflexion",
+                "conscience_de_soi"
             ]
         }
     }

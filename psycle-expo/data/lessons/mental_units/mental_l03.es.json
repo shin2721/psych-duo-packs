@@ -23,7 +23,7 @@
             "limitations": [
                 "La supresión puede ser útil en algunos casos (a corto plazo o en situaciones sociales)"
             ],
-            "citation_role": "感情調整の枠組みとして、抑圧の逆効果メカニズムを理論的に説明",
+            "citation_role": "Explica teoricamente el mecanismo contraproducente de la supresion dentro del marco de regulacion emocional",
             "claim_tags": [
                 "emotion_regulation",
                 "suppression"
@@ -57,7 +57,7 @@
                 "Para la ansiedad crónica intensa, los efectos pueden ser limitados",
                 "En algunas personas puede aumentar la rumiación"
             ],
-            "citation_role": "感情調整の枠組みとして、ラベリングのメカニズムを理論的に説明",
+            "citation_role": "Explica teoricamente el mecanismo del etiquetado dentro del marco de regulacion emocional",
             "try_this": "La próxima vez que sientas ansiedad, di \"ansiedad\" en tu mente (10 segundos)",
             "claim_tags": [
                 "emotion_regulation",
@@ -105,7 +105,7 @@
                 "Puede tener el efecto contrario cuando no te sientes bien físicamente",
                 "Para la ansiedad crónica, los efectos pueden ser limitados"
             ],
-            "citation_role": "覚醒リアプレイザルのパフォーマンス効果を直接支持",
+            "citation_role": "Apoya directamente los efectos de la reevaluacion de la activacion sobre el rendimiento",
             "claim_tags": [
                 "reappraisal",
                 "arousal",
@@ -150,7 +150,7 @@
                 "No te fuerces si no te sientes bien físicamente",
                 "Puede no funcionar para personas que sienten resistencia al \"pensamiento positivo\""
             ],
-            "citation_role": "覚醒リアプレイザルの実践的効果を支持",
+            "citation_role": "Apoya los efectos practicos de la reevaluacion de la activacion",
             "try_this": "Cuando sientas nervios, repite \"mi cuerpo se está preparando\" por 10 segundos",
             "claim_tags": [
                 "reappraisal",
@@ -194,7 +194,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "個人差の考慮を支持",
+            "citation_role": "Apoya la consideracion de las diferencias individuales",
             "claim_tags": [
                 "emotion_regulation",
                 "individual_differences"
@@ -228,7 +228,7 @@
                 "Para algunas personas, las técnicas de respiración pueden tener el efecto contrario",
                 "En ataques de pánico, se necesita apoyo profesional"
             ],
-            "citation_role": "呼吸法の自律神経への影響を間接的に支持",
+            "citation_role": "Apoya indirectamente los efectos de las tecnicas de respiracion sobre el sistema nervioso autonomo",
             "try_this": "Inhala 4 segundos, exhala 4 segundos, solo una vez",
             "claim_tags": [
                 "emotion_regulation"
@@ -267,7 +267,7 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
-            "citation_role": "個人差を理論的に説明",
+            "citation_role": "Explica teoricamente las diferencias individuales",
             "claim_tags": [
                 "emotion_regulation",
                 "limitations"
@@ -294,7 +294,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "介入の選択指針を提供",
+            "citation_role": "Proporciona directrices para la seleccion de intervenciones",
             "claim_tags": [
                 "breathing",
                 "implementation"
@@ -328,7 +328,7 @@
             "limitations": [
                 "Puede no ser suficiente si la ansiedad intensa persiste"
             ],
-            "citation_role": "感情調整戦略の選択肢を提示",
+            "citation_role": "Presenta opciones de estrategias de regulacion emocional",
             "try_this": "Prueba la técnica que elegiste una vez (10 segundos)",
             "claim_tags": [
                 "emotion_regulation"
@@ -369,7 +369,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "個人差への配慮を支持",
+            "citation_role": "Apoya la atencion a las diferencias individuales",
             "claim_tags": [
                 "individual_differences",
                 "fit"

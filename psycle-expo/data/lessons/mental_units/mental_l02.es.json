@@ -23,7 +23,7 @@
             "limitations": [
                 "Solo entender la teoría puede no llevar directamente al cambio de comportamiento"
             ],
-            "citation_role": "認知的評価理論における一次評価（脅威判定）を説明",
+            "citation_role": "Explica la evaluación primaria (determinación de amenaza) en la teoría de la evaluación cognitiva",
             "claim_tags": [
                 "cognitive_appraisal",
                 "primary_appraisal",
@@ -57,7 +57,7 @@
             "limitations": [
                 "Conocer la teoría no cambia automáticamente la interpretación (se necesita práctica)"
             ],
-            "citation_role": "認知的評価理論の基本メカニズムを説明",
+            "citation_role": "Explica el mecanismo básico de la teoría de la evaluación cognitiva",
             "claim_tags": [
                 "cognitive_appraisal",
                 "stress",
@@ -89,7 +89,7 @@
             "limitations": [
                 "Conocer los términos requiere práctica separada para aplicarlos"
             ],
-            "citation_role": "一次評価の定義を説明",
+            "citation_role": "Explica la definición de evaluación primaria",
             "claim_tags": [
                 "cognitive_appraisal",
                 "primary_appraisal"
@@ -121,7 +121,7 @@
             "limitations": [
                 "Entender la teoría no mejora automáticamente la capacidad de afrontamiento"
             ],
-            "citation_role": "二次評価の定義を説明",
+            "citation_role": "Explica la definición de evaluación secundaria",
             "claim_tags": [
                 "cognitive_appraisal",
                 "secondary_appraisal",
@@ -149,7 +149,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "二次評価の自己認識を支持",
+            "citation_role": "Apoya la autoconciencia de la evaluación secundaria",
             "claim_tags": [
                 "secondary_appraisal",
                 "self_awareness"
@@ -181,7 +181,7 @@
             "limitations": [
                 "Aunque lo entiendas, la reacción ocurre automáticamente (hay límites en el control consciente)"
             ],
-            "citation_role": "一次×二次評価の組み合わせがストレス強度を決めるメカニズムを説明",
+            "citation_role": "Explica el mecanismo por el cual la combinación de evaluación primaria y secundaria determina la intensidad del estrés",
             "claim_tags": [
                 "cognitive_appraisal",
                 "stress",
@@ -207,7 +207,7 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
-            "citation_role": "評価の可変性を理論的に説明",
+            "citation_role": "Explica teóricamente la variabilidad de la evaluación",
             "claim_tags": [
                 "cognitive_appraisal",
                 "flexibility"
@@ -239,7 +239,7 @@
             "limitations": [
                 "Esta teoría no profundiza en la identificación de casos límite"
             ],
-            "citation_role": "認知的評価理論の適用範囲の限界を説明",
+            "citation_role": "Explica los límites del alcance de aplicación de la teoría de la evaluación cognitiva",
             "claim_tags": [
                 "cognitive_appraisal",
                 "stress"
@@ -267,7 +267,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "実践の入口を提案",
+            "citation_role": "Propone un punto de entrada para la práctica",
             "claim_tags": [
                 "implementation",
                 "practice"
@@ -294,7 +294,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "個人差の考慮を支持",
+            "citation_role": "Apoya la consideración de las diferencias individuales",
             "claim_tags": [
                 "individual_differences",
                 "fit"

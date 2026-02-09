@@ -26,7 +26,7 @@
             "limitations": [
                 "Si la dificultad para dormir persiste de forma crónica, se recomienda consultar a un profesional"
             ],
-            "citation_role": "入眠困難と認知的覚醒の関連を観察研究で支持",
+            "citation_role": "Apoya mediante estudios observacionales la relación entre dificultad para conciliar el sueño y activación cognitiva",
             "claim_tags": [
                 "sleep",
                 "cognitive_arousal",
@@ -61,7 +61,7 @@
                 "Tiene poca eficacia para causas físicas de insomnio",
                 "El insomnio crónico requiere tratamiento profesional"
             ],
-            "citation_role": "認知的覚醒理論から焦りと覚醒の関連を説明",
+            "citation_role": "Explica la relación entre ansiedad y activación desde la teoría de activación cognitiva",
             "claim_tags": [
                 "sleep",
                 "cognitive_arousal",
@@ -93,7 +93,7 @@
             "limitations": [
                 "Excepción cuando el celular funciona como ritual para dormir"
             ],
-            "citation_role": "電子メディアと睡眠の関連を観察研究で支持",
+            "citation_role": "Apoya mediante estudios observacionales la relación entre medios electrónicos y sueño",
             "claim_tags": [
                 "sleep",
                 "screen_time",
@@ -128,7 +128,7 @@
                 "Puede ser contraproducente para quienes prestar atención a la respiración les genera estrés",
                 "Precaución en personas con enfermedades respiratorias"
             ],
-            "citation_role": "ゆっくり呼吸法のリラックス効果を間接支持",
+            "citation_role": "Apoya indirectamente el efecto relajante de la respiración lenta",
             "try_this": "Probar la respiración 4-7-8 solo 2 veces",
             "claim_tags": [
                 "sleep",
@@ -175,7 +175,7 @@
             "limitations": [
                 "Algunas personas se sienten más ansiosas si no miran el reloj"
             ],
-            "citation_role": "時計監視行動と入眠困難の関連を観察研究で支持",
+            "citation_role": "Apoya mediante estudios observacionales la relación entre vigilar el reloj y dificultad para dormir",
             "claim_tags": [
                 "sleep",
                 "cognitive_arousal",
@@ -209,7 +209,7 @@
             "limitations": [
                 "No es adecuado para quienes prestar atención a las sensaciones corporales les genera estrés"
             ],
-            "citation_role": "漸進的筋弛緩法から顔・顎リラックスの効果を間接支持",
+            "citation_role": "Apoya indirectamente el efecto de relajar la cara y mandíbula desde la relajación muscular progresiva",
             "try_this": "Soltar la mandíbula durante solo 10 segundos",
             "claim_tags": [
                 "sleep",
@@ -252,7 +252,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "入眠困難のパターン認識を支持",
+            "citation_role": "Apoya el reconocimiento de patrones de dificultad para conciliar el sueño",
             "claim_tags": [
                 "sleep",
                 "self_awareness",
@@ -284,7 +284,7 @@
             "limitations": [
                 "En casos de falta de sueño crónica, el sueño de recuperación también puede ser necesario"
             ],
-            "citation_role": "睡眠リズムの乱れと睡眠の質の関連を支持",
+            "citation_role": "Apoya la relación entre alteración del ritmo de sueño y calidad del sueño",
             "claim_tags": [
                 "sleep",
                 "circadian_rhythm",
@@ -318,7 +318,7 @@
             "limitations": [
                 "El insomnio crónico requiere tratamiento profesional"
             ],
-            "citation_role": "入眠介入の選択肢を提案",
+            "citation_role": "Propone opciones de intervención para conciliar el sueño",
             "try_this": "Probar una a partir de esta noche",
             "claim_tags": [
                 "sleep",
@@ -358,7 +358,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "個人差への配慮を支持",
+            "citation_role": "Apoya la consideración de las diferencias individuales",
             "claim_tags": [
                 "individual_differences",
                 "fit"

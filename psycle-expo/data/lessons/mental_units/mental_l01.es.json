@@ -25,7 +25,7 @@
             "limitations": [
                 "Cuando persiste una tristeza intensa"
             ],
-            "citation_role": "反芻思考の定義とメカニズムを支持",
+            "citation_role": "Respalda la definición y mecanismo de la rumiación",
             "claim_tags": [
                 "rumination",
                 "repetitive_thinking"
@@ -59,7 +59,7 @@
                 "Justo después de un trauma agudo",
                 "Casos donde los factores fisiológicos son dominantes"
             ],
-            "citation_role": "認知的評価理論の核心メカニズムを支持",
+            "citation_role": "Respalda el mecanismo central de la teoría de evaluación cognitiva",
             "claim_tags": [
                 "cognitive_appraisal",
                 "stress_response"
@@ -84,7 +84,7 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
-            "citation_role": "認知的評価理論の核心を確認",
+            "citation_role": "Confirma el núcleo de la teoría de evaluación cognitiva",
             "claim_tags": [
                 "cognitive_appraisal",
                 "stress"
@@ -118,7 +118,7 @@
                 "Cuando no te sientes bien físicamente",
                 "Ansiedad crónica intensa"
             ],
-            "citation_role": "リアプレイザル（解釈の変換）の効果を支持",
+            "citation_role": "Respalda la efectividad de la reevaluación (reinterpretación)",
             "try_this": "👉 La próxima vez que tu corazón lata rápido → Repite \"mi cuerpo está calentando\" por solo 10 segundos",
             "claim_tags": [
                 "reappraisal",
@@ -160,7 +160,7 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
-            "citation_role": "認知的評価理論の枠組みで、反芻思考の持続メカニズムを理論的に説明",
+            "citation_role": "Explica teóricamente el mecanismo de persistencia de la rumiación en el marco de la teoría de evaluación cognitiva",
             "claim_tags": [
                 "rumination",
                 "stress_duration"
@@ -187,7 +187,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "自己認識の効果を間接支持",
+            "citation_role": "Respalda indirectamente la efectividad del autoconocimiento",
             "claim_tags": [
                 "self_awareness",
                 "mindfulness"
@@ -212,7 +212,7 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
-            "citation_role": "理論の限界を明確化",
+            "citation_role": "Clarifica las limitaciones de la teoría",
             "claim_tags": [
                 "cognitive_appraisal",
                 "limitations"
@@ -246,7 +246,7 @@
                 "Estado de pánico justo después de un accidente",
                 "Casos donde una enfermedad física es la causa principal"
             ],
-            "citation_role": "認知的評価理論の適用範囲を明確化",
+            "citation_role": "Clarifica el ámbito de aplicación de la teoría de evaluación cognitiva",
             "claim_tags": [
                 "cognitive_appraisal",
                 "applicability"
@@ -281,7 +281,7 @@
                 "Crisis mentales graves",
                 "Estados donde pensar en sí mismo es doloroso"
             ],
-            "citation_role": "認知的評価理論の実践応用を支持",
+            "citation_role": "Respalda la aplicación práctica de la teoría de evaluación cognitiva",
             "try_this": "👉 Mañana cuando te sientas inquieto/a → Pregúntate \"¿qué estoy percibiendo como amenaza ahora?\" por 10 segundos",
             "claim_tags": [
                 "cognitive_appraisal",
@@ -323,7 +323,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "個人差への配慮を支持",
+            "citation_role": "Respalda la consideración de las diferencias individuales",
             "claim_tags": [
                 "individual_differences",
                 "fit"

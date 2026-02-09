@@ -23,7 +23,7 @@
             "limitations": [
                 "Hay casos en que los estándares altos pueden llevar a buenos resultados"
             ],
-            "citation_role": "完璧主義の認知パターンを説明",
+            "citation_role": "Explica los patrones cognitivos del perfeccionismo",
             "claim_tags": [
                 "perfectionism",
                 "cognitive_pattern"
@@ -55,7 +55,7 @@
             "limitations": [
                 "Las diferencias individuales son grandes"
             ],
-            "citation_role": "完璧主義と不安の関連を説明",
+            "citation_role": "Explica la relación entre perfeccionismo y ansiedad",
             "claim_tags": [
                 "perfectionism",
                 "anxiety",
@@ -81,7 +81,7 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
-            "citation_role": "高い基準の両面性を説明",
+            "citation_role": "Explica la dualidad de los estándares altos",
             "claim_tags": [
                 "perfectionism",
                 "self_evaluation"
@@ -113,7 +113,7 @@
             "limitations": [
                 "En situaciones que requieren estándares altos, podría tener un efecto contrario"
             ],
-            "citation_role": "認知的再構成の一手法として",
+            "citation_role": "Como técnica de reestructuración cognitiva",
             "try_this": "En tu primera tarea de hoy, repite \"con 70 puntos está bien\" antes de empezar",
             "claim_tags": [
                 "perfectionism",
@@ -155,7 +155,7 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
-            "citation_role": "適応的完璧主義と不適応的完璧主義の区別",
+            "citation_role": "Distinción entre perfeccionismo adaptativo y desadaptativo",
             "claim_tags": [
                 "perfectionism",
                 "flexibility",
@@ -183,7 +183,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "二分法的思考の例として",
+            "citation_role": "Como ejemplo de pensamiento dicotómico",
             "claim_tags": [
                 "perfectionism",
                 "all_or_nothing_thinking",
@@ -209,7 +209,7 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
-            "citation_role": "完璧主義と先延ばしの関連を説明",
+            "citation_role": "Explica la relación entre perfeccionismo y procrastinación",
             "claim_tags": [
                 "perfectionism",
                 "procrastination",
@@ -242,7 +242,7 @@
             "limitations": [
                 "Volverse flexible no sucede de inmediato"
             ],
-            "citation_role": "メタ分析に基づく推奨",
+            "citation_role": "Recomendación basada en metaanálisis",
             "claim_tags": [
                 "perfectionism",
                 "flexibility",
@@ -276,7 +276,7 @@
             "limitations": [
                 "En tareas importantes, aplicar con precaución"
             ],
-            "citation_role": "実践への橋渡し",
+            "citation_role": "Puente hacia la práctica",
             "try_this": "Mañana en tu primera tarea, di en voz alta \"con 70 puntos está bien\"",
             "claim_tags": [
                 "perfectionism",
@@ -319,7 +319,7 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
-            "citation_role": "振り返りの促進",
+            "citation_role": "Promoción de la reflexión",
             "claim_tags": [
                 "reflection",
                 "self_awareness"

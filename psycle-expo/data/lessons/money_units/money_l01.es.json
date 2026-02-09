@@ -24,7 +24,7 @@
             "limitations": [
                 "Cuando algo realmente es escaso, puede ser una decision racional"
             ],
-            "citation_role": "希少性バイアスの存在を観察研究で支持",
+            "citation_role": "Estudio observacional que respalda la existencia del sesgo de escasez",
             "claim_tags": [
                 "scarcity_bias",
                 "impulse_buying",
@@ -59,7 +59,7 @@
                 "Puede tener menos efecto en compras de montos altos",
                 "Puede ser contraproducente para quienes sufren al esperar"
             ],
-            "citation_role": "自己制御資源の研究から衝動と時間の関係を理論的に説明",
+            "citation_role": "Explicacion teorica de la relacion entre impulso y tiempo basada en investigacion sobre recursos de autocontrol",
             "claim_tags": [
                 "self_control",
                 "impulse_buying",
@@ -93,7 +93,7 @@
                 "Dificil de usar cuando hay ofertas con tiempo limitado",
                 "Riesgo de olvidar cosas que realmente necesitas"
             ],
-            "citation_role": "自己制御の回復効果を間接支持",
+            "citation_role": "Apoyo indirecto al efecto de recuperacion del autocontrol",
             "try_this": "👉 Cuando agregues algo al carrito → Cierra la pantalla y dejalo 24 horas",
             "claim_tags": [
                 "delay_gratification",
@@ -141,7 +141,7 @@
                 "Puede tener menos efecto en personas a quienes les cuesta imaginar el futuro",
                 "Dificil de aplicar a productos de consumo"
             ],
-            "citation_role": "未来自己連続性と意思決定の関連を直接支持",
+            "citation_role": "Apoyo directo a la relacion entre continuidad del yo futuro y toma de decisiones",
             "try_this": "👉 Cuando quieras comprar algo → Suelta el telefono y repite por 10 segundos: \"en un ano, seguiria usandolo?\"",
             "claim_tags": [
                 "future_self_continuity",
@@ -189,7 +189,7 @@
             "limitations": [
                 "El stock de productos de consumo puede ser racional en algunos casos"
             ],
-            "citation_role": "メンタルアカウンティングの非合理性を観察研究で支持",
+            "citation_role": "Estudio observacional que respalda la irracionalidad de la contabilidad mental",
             "claim_tags": [
                 "mental_accounting",
                 "sunk_cost",
@@ -224,7 +224,7 @@
                 "Si el presupuesto es muy estricto, puede haber efecto rebote",
                 "Dificil de manejar gastos de emergencia"
             ],
-            "citation_role": "メンタルアカウンティング理論から予算効果を間接支持",
+            "citation_role": "Apoyo indirecto al efecto del presupuesto basado en la teoria de contabilidad mental",
             "try_this": "Define tu \"monto libre\" de la semana (ejemplo: $500 MXN)",
             "claim_tags": [
                 "mental_accounting",
@@ -271,7 +271,7 @@
             "limitations": [
                 "En situaciones sociales puede ser dificil decir que no"
             ],
-            "citation_role": "希少性バイアスへの対処として10秒ルールを間接支持",
+            "citation_role": "Apoyo indirecto a la regla de los 10 segundos como estrategia ante el sesgo de escasez",
             "claim_tags": [
                 "scarcity_bias",
                 "social_influence",
@@ -317,7 +317,7 @@
             "limitations": [
                 "Un premio ocasional puede no ser un problema para muchas personas"
             ],
-            "citation_role": "感情的消費と後悔の関連を観察研究で支持",
+            "citation_role": "Estudio observacional que respalda la relacion entre consumo emocional y arrepentimiento",
             "claim_tags": [
                 "emotional_spending",
                 "regret",
@@ -351,7 +351,7 @@
             "limitations": [
                 "Puede tener menos efecto en compras de montos altos"
             ],
-            "citation_role": "自己制御資源の研究から10秒ルールの効果を間接支持",
+            "citation_role": "Apoyo indirecto a la efectividad de la regla de los 10 segundos basado en investigacion sobre recursos de autocontrol",
             "try_this": "👉 Cuando pienses \"quiero comprarlo!\" → Suelta el telefono y cuenta 10 segundos (1...2...3...10)",
             "claim_tags": [
                 "self_control",
@@ -400,7 +400,7 @@
             "limitations": [
                 "Puede que no sea posible mantener todas"
             ],
-            "citation_role": "自己制御介入の有効性を間接支持",
+            "citation_role": "Apoyo indirecto a la efectividad de las intervenciones de autocontrol",
             "try_this": "👉 En tu proximo impulso de compra, espera 10 segundos... Si no puedes, solo suelta el telefono por 1 segundo",
             "claim_tags": [
                 "self_control",
