@@ -46,6 +46,7 @@
     "content:i18n:glossary": "node scripts/lint-translation-glossary.js",
     "content:i18n:glossary:ci": "node scripts/lint-translation-glossary.js --fail-on-new --baseline scripts/translation-glossary-baseline.json",
     "content:i18n:glossary:update-baseline": "node scripts/lint-translation-glossary.js --update-baseline --baseline scripts/translation-glossary-baseline.json",
+    "content:i18n:draft:policy-check": "node --test scripts/__tests__/translation-draft-policy.test.mjs",
     "lint:hardcoded-strings": "node scripts/lint-hardcoded-strings.js",
     "lint:hardcoded-strings:ci": "node scripts/lint-hardcoded-strings.js --fail-on-new --baseline scripts/hardcoded-strings-baseline.json",
     "lint:hardcoded-strings:update-baseline": "node scripts/lint-hardcoded-strings.js --update-baseline --baseline scripts/hardcoded-strings-baseline.json",

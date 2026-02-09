@@ -50,6 +50,11 @@ jobs:
           cd psycle-expo
           npm run content:i18n:check
 
+      - name: Check translation draft field policy
+        run: |
+          cd psycle-expo
+          npm run content:i18n:draft:policy-check
+
       - name: Lint locale lesson purity
         run: |
           cd psycle-expo
