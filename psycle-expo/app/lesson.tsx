@@ -24,7 +24,7 @@ import i18n from "../lib/i18n";
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
   const fileParam = params.file; // Extract to primitive string
-  const { completeLesson, addXp, incrementQuest, consumeEnergy, addEnergy: addEnergyResource, isSubscriptionActive } = useAppState();
+  const { completeLesson, addXp, incrementQuest, consumeEnergy, tryTriggerStreakEnergyBonus } = useAppState();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
@@ -177,12 +177,11 @@ export default function LessonScreen() {
       const nextStreak = correctStreak + 1;
       setCorrectStreak(nextStreak);
 
-      // Every 5 consecutive correct answers: 40% chance to recover 1 energy.
-      if (!isSubscriptionActive && nextStreak % 5 === 0) {
-        const roll = Math.random();
-        if (roll < 0.4) {
-          addEnergyResource(1);
-          if (__DEV__) console.log(`[Energy] streak bonus recovered +1 (roll=${roll.toFixed(3)})`);
+      // Every 5 consecutive correct answers: 10% chance to recover +1 energy (max once/day).
+      if (nextStreak % 5 === 0) {
+        const recovered = tryTriggerStreakEnergyBonus(nextStreak);
+        if (__DEV__ && recovered) {
+          console.log("[Energy] streak bonus recovered +1");
         }
       }
     } else {
