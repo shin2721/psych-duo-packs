@@ -129,7 +129,7 @@
   {
     "id": "mental_l04_005",
     "type": "conversation",
-    "question": "Gibt es etwas, das du in letzter Zeit vor dir herschiebst?",
+    "question": "Gibt es etwas, das du in letzter Zeit aufschiebst (Prokrastination)?",
     "your_response_prompt": "Waehle aus, was dir in den Sinn kommt",
     "choices": [
       "Arbeit oder Lernen",

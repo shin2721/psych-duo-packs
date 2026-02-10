@@ -106,7 +106,7 @@
     "type": "multiple_choice",
     "question": "Was passiert eher, wenn du in einer schlaflosen Nacht die Atemtechnik '4 Sekunden einatmen, 7 Sekunden halten, 8 Sekunden ausatmen' ausprobierst?",
     "choices": [
-      "Das parasympathische Nervensystem wird aktiviert, was zur Entspannung beitragen kann",
+      "Das parasympathische Nervensystem wird aktiviert und neigt dazu, zur Entspannung beizutragen",
       "Man schlaeft sofort ein",
       "Man wird eher wacher"
     ],
@@ -243,7 +243,7 @@
       "Kein bestimmtes Muster"
     ],
     "recommended_index": null,
-    "explanation": "Alle Antworten sind richtig. Wenn du dein Muster erkennst, neigt es dazu, die Auswahl der richtigen Strategie zu erleichtern.",
+    "explanation": "Alle Antworten sind richtig. Wenn du dein Muster erkennst, neigt dazu, die Auswahl der richtigen Strategie zu erleichtern.",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,

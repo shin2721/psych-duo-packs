@@ -70,7 +70,7 @@
     "question": "Wenn du das Gefuehl hast 'Ich muss mich jetzt entscheiden', welche Methode wurde als wirksam berichtet, um 10 Sekunden innezuhalten?",
     "choices": [
       "Den Finger vom Handy nehmen und 'Moment mal' sagen",
-      "'Okay' sagen und spaeter absagen",
+      "'Okay' sagen und spaeter ablehnen",
       "Die Nachricht lesen und nicht antworten"
     ],
     "correct_index": 0,
@@ -223,7 +223,7 @@
   {
     "id": "social_l02_007",
     "type": "swipe_judgment",
-    "question": "Ich neige dazu, das Gefuehl zu haben, dass ich mich entschuldigen muss, wenn ich ablehne.",
+    "question": "Bei mir gibt es oft eine Tendenz, zu denken, ich muss mich beim Ablehnen entschuldigen.",
     "is_true": true,
     "swipe_labels": {
       "left": "Kommt mir bekannt vor",

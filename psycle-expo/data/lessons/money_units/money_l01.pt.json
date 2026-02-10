@@ -53,7 +53,7 @@
       "evidence_type": "theoretical",
       "best_for": [
         "Impulsos durante compras online",
-        "Pessoas que fazem muitas compras por impulso de pequeno valor"
+        "Pessoas que fazem muitas compras impulsivas de pequeno valor"
       ],
       "limitations": [
         "Pode ser menos eficaz para itens de alto valor",
@@ -203,7 +203,7 @@
   {
     "id": "money_l01_006",
     "type": "multiple_choice",
-    "question": "Por que decidir 'Este mês só posso gastar até X reais' tende a reduzir compras por impulso?",
+    "question": "Por que decidir \"Este mês só posso gastar até X reais\" tende a reduzir compras impulsivas?",
     "choices": [
       "Ter uma 'regra' de orçamento facilita a tomada de decisão",
       "Porque o dinheiro acaba",
@@ -334,7 +334,7 @@
   {
     "id": "money_l01_009",
     "type": "multiple_choice",
-    "question": "Qual método foi relatado como eficaz para reduzir compras por impulso?",
+    "question": "Qual método foi relatado como eficaz para reduzir compras impulsivas?",
     "choices": [
       "Esperar 10 segundos antes de comprar",
       "Fazer uma lista de desejos",

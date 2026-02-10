@@ -98,7 +98,7 @@
             "Versuchen, keine Ziele zu haben"
         ],
         "correct_index": 0,
-        "explanation": "Durch die 'Erweiterung des Toleranzbereichs' neigt die Huerде zum Handeln dazu, niedriger zu werden. Es ist nicht notwendig, Perfektionismus vollstaendig zu eliminieren.",
+        "explanation": "Durch die 'Erweiterung des Toleranzbereichs' neigt dazu, die Huerde zum Handeln zu senken. Es ist nicht notwendig, Perfektionismus vollstaendig zu eliminieren.",
         "actionable_advice": null,
         "difficulty": "medium",
         "xp": 5,
@@ -194,7 +194,7 @@
     {
         "id": "mental_l06_007",
         "type": "swipe_judgment",
-        "question": "Perfektionismus kann zu Aufschieben fuehren.",
+        "question": "Perfektionismus kann zu Aufschieben (Prokrastination) fuehren.",
         "is_true": true,
         "swipe_labels": {
             "left": "Stimme zu",

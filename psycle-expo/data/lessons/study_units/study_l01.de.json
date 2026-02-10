@@ -19,7 +19,7 @@
       "evidence_type": "direct",
       "best_for": [
         "Personen, die nicht mit dem Lernen beginnen koennen",
-        "Personen, die sich wegen Aufschieben selbst kritisieren"
+        "Personen, die sich wegen Prokrastination selbst kritisieren"
       ],
       "limitations": [
         "Chronische Antriebslosigkeit erfordert einen anderen Ansatz"
@@ -119,13 +119,13 @@
   {
     "id": "study_l01_004",
     "type": "swipe_judgment",
-    "question": "Wenn man vorher entscheidet 'Wenn XX, dann mache ich YY', neigt die Ausfuehrungsrate dazu zu steigen.",
+    "question": "Wenn man vorher entscheidet 'Wenn XX, dann mache ich YY', neigt dazu, die Ausfuehrungsrate zu steigern.",
     "is_true": true,
     "swipe_labels": {
       "left": "Koennte sein",
       "right": "Eher nicht"
     },
-    "explanation": "Dies nennt man 'Implementierungsabsicht' oder 'Wenn-Dann-Planung'. Beispiel: 'Nach dem Abendessen setze ich mich an den Schreibtisch.' Studien berichten, dass die Ausfuehrungsrate hoeher ist als ohne Plan.",
+    "explanation": "Dies nennt man 'Implementierungsabsicht' oder 'Wenn-Dann-Planung'. Beispiel: 'Nach dem Abendessen setze ich mich an den Schreibtisch.' Studien zeigen, dass die Ausfuehrungsrate hoeher ist als ohne Plan.",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
@@ -160,7 +160,7 @@
       "Ich habe kein bestimmtes Muster"
     ],
     "recommended_index": null,
-    "explanation": "Alle Antworten sind richtig. Wenn du dein eigenes Muster erkennst, neigt es dazu, die Wahl der Gegenmassnahmen zu erleichtern.",
+    "explanation": "Alle Antworten sind richtig. Wenn du dein eigenes Muster erkennst, neigt dazu, die Wahl der Gegenmassnahmen zu erleichtern.",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
@@ -187,7 +187,7 @@
       "Denke 'Irgendwann werde ich lernen'"
     ],
     "correct_index": 0,
-    "explanation": "Wenn du Ausloeser (wann/wo) und Handlung (was tun) zusammen festlegst, neigt die Ausfuehrung dazu, automatischer zu werden. Erstmal einmal versuchen. ('Hart arbeiten' und 'irgendwann' sind vage und werden selten umgesetzt.)",
+    "explanation": "Wenn du Ausloeser (wann/wo) und Handlung (was tun) zusammen festlegst, neigt dazu, die Ausfuehrung automatischer zu machen. Erstmal einmal versuchen. ('Hart arbeiten' und 'irgendwann' sind vage und werden selten umgesetzt.)",
     "actionable_advice": "Tipp: Entscheide heute einen Wenn-Dann-Plan: 'Wenn XX, dann oeffne ich 10 Sekunden lang die Lernmaterialien'",
     "difficulty": "medium",
     "xp": 5,
@@ -230,7 +230,7 @@
   {
     "id": "study_l01_007",
     "type": "swipe_judgment",
-    "question": "Es gibt die Ansicht, dass Aufschieben beim Lernen nicht nur an 'schwachem Willen' liegt.",
+    "question": "Es gibt die Ansicht, dass Prokrastination beim Lernen nicht nur an 'schwachem Willen' liegt.",
     "is_true": true,
     "swipe_labels": {
       "left": "Koennte sein",
@@ -270,7 +270,7 @@
       "Warte, bis du motiviert bist"
     ],
     "correct_index": 0,
-    "explanation": "Je weniger 'Aufwand bis zum Start', desto eher neigt die Handlung dazu, zu passieren. Das Offenlassen der Lernmaterialien kann die Starthuerde senken. Erstmal einmal versuchen. ('Perfekte Umgebung' und 'auf Motivation warten' fuehren oft zu Aufschieben.)",
+    "explanation": "Je weniger 'Aufwand bis zum Start', desto eher entsteht eine Tendenz zum Handeln. Das Offenlassen der Lernmaterialien kann die Starthuerde senken. Erstmal einmal versuchen. ('Perfekte Umgebung' und 'auf Motivation warten' fuehren oft zu Prokrastination.)",
     "actionable_advice": "Tipp: Lege heute Abend vor dem Schlafen die Lernmaterialien fuer morgen geoeffnet auf den Schreibtisch.",
     "difficulty": "medium",
     "xp": 5,
@@ -369,7 +369,7 @@
       "Weiss ich noch nicht"
     ],
     "recommended_index": null,
-    "explanation": "Alle Antworten sind richtig. Wenn etwas 'nicht zu passen scheint', ist es auch wichtig, andere Ansaetze zu suchen. Da die Ursachen fuer Aufschieben je nach Person unterschiedlich sind, ist der Prozess selbst, eine passende Methode zu finden, wertvoll.",
+    "explanation": "Alle Antworten sind richtig. Wenn etwas \"nicht zu passen scheint\", ist es auch wichtig, andere Ansaetze zu suchen. Da die Ursachen fuer Prokrastination je nach Person unterschiedlich sind, ist der Prozess selbst, eine passende Methode zu finden, wertvoll.",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
