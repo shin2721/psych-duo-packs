@@ -13,6 +13,17 @@ export interface Citation {
   label?: string;
 }
 
+export interface LegacyReference {
+  citation: string;
+  note?: string;
+  level?: "gold" | "silver" | "bronze";
+  label?: string;
+  doi?: string;
+  pmid?: string;
+  isbn?: string;
+  url?: string;
+}
+
 export interface EvidenceCard {
   source_type?: string;
   citations?: Citation[];
@@ -40,7 +51,11 @@ export interface EvidenceCard {
 /**
  * 引用情報を表示用文字列に変換
  */
-export function formatCitation(citation: Citation): string {
+export function formatCitation(citation: Citation | LegacyReference): string {
+  if ("citation" in citation && typeof citation.citation === "string") {
+    return citation.citation;
+  }
+
   if (citation.label) return citation.label;
   if (citation.doi) return `DOI: ${citation.doi}`;
   if (citation.pmid) return `PMID: ${citation.pmid}`;
