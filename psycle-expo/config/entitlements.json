@@ -70,6 +70,10 @@
     }
   },
   "defaults": {
+    "energy_refill_minutes": 30,
+    "lesson_energy_cost": 1,
+    "energy_streak_bonus_every": 5,
+    "energy_streak_bonus_chance": 0.4,
     "mistakes_hub_size": 10,
     "long_think_threshold_seconds": 25,
     "past_days_window": 30,
