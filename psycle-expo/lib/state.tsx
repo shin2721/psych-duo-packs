@@ -110,10 +110,6 @@ interface AppState {
   // Lesson progress
   completedLessons: Set<string>;
   completeLesson: (lessonId: string) => void;
-  // Pack purchases (for paywall)
-  purchasedPacks: Set<string>;
-  purchasePack: (genreId: string) => void;
-  isPurchased: (genreId: string) => boolean;
   // Adaptive difficulty tracking
   recentQuestionTypes: string[]; // Last 5 question types
   recentAccuracy: number; // Rolling accuracy (0-1) from last 10 questions
@@ -183,18 +179,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   function completeLesson(lessonId: string) {
     setCompletedLessons(prev => new Set(prev).add(lessonId));
-  }
-
-  // Pack purchases (for paywall)
-  const [purchasedPacks, setPurchasedPacks] = useState<Set<string>>(new Set());
-
-  function purchasePack(genreId: string) {
-    setPurchasedPacks(prev => new Set(prev).add(genreId));
-    // TODO: Sync to Supabase when real payments are implemented
-  }
-
-  function isPurchased(genreId: string): boolean {
-    return purchasedPacks.has(genreId);
   }
 
   // Adaptive difficulty tracking
@@ -837,14 +821,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // hasProAccess is already calculated at the top level
   // const hasProAccess = planId === "pro" || planId === "max"; 
 
-  // Determine actual purchased packs (packs + subscription unlock)
-  const effectivePurchasedPacks = new Set(purchasedPacks);
-  if (hasProAccess) {
-    effectivePurchasedPacks.add("all_access");
-    // Also unlock individual packs for UI consistency if needed, but all_access flag is cleaner
-    // effectivePurchasedPacks.add("health").add("work").add("money").add("social").add("study");
-  }
-
   // Value object to provide
   const value: AppState = {
     selectedGenre,
@@ -906,13 +882,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     // Lesson progress
     completedLessons,
     completeLesson,
-    // Pack purchases
-    // Pass the effective purchased packs which includes subscription unlocks
-    // We cast to any because we are overriding the internal state with computed state for consumers
-    // In a real app, we might separate "ownedItems" from "accessRights"
-    purchasedPacks: effectivePurchasedPacks,
-    purchasePack,
-    isPurchased: (id) => effectivePurchasedPacks.has(id),
     // Adaptive difficulty tracking
     recentQuestionTypes,
     recentAccuracy,

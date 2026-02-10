@@ -116,19 +116,6 @@ export const ko = {
         claiming: '수령 중...',
         claim: '수령하기',
     },
-    paywallModal: {
-        unlockLevels: '레벨 4-10 잠금 해제',
-        benefitsTitle: '이 팩에 포함된 내용:',
-        oneTimePurchase: '일회성 구매 (구독 아님)',
-        purchasePack: '팩 구매',
-        devNote: '현재 mock 모드입니다. 탭하면 즉시 해제됩니다.',
-        benefits: {
-            accessAllLevels: '전체 10레벨 콘텐츠 이용',
-            advancedEvidenceQuestions: '연구 기반 고급 문제',
-            practicalSkills: '실전형 스킬 습득',
-            lifetimeAccess: '영구 이용권 (일회성 구매)',
-        },
-    },
     lesson: {
         errorTitle: '오류',
         loadFailed: '레슨을 불러오지 못했습니다: %{message}',

@@ -116,19 +116,6 @@ export const de = {
         claiming: 'Wird eingelost...',
         claim: 'Einlösen',
     },
-    paywallModal: {
-        unlockLevels: 'Level 4-10 freischalten',
-        benefitsTitle: 'In diesem Paket enthalten:',
-        oneTimePurchase: 'Einmalkauf (kein Abo)',
-        purchasePack: 'Paket kaufen',
-        devNote: 'Mock-Modus: Tippen schaltet sofort frei.',
-        benefits: {
-            accessAllLevels: 'Zugang zu allen 10 Leveln',
-            advancedEvidenceQuestions: 'Fortgeschrittene evidenzbasierte Fragen',
-            practicalSkills: 'Praktische Fähigkeiten aufbauen',
-            lifetimeAccess: 'Lebenslanger Zugriff (Einmalkauf)',
-        },
-    },
     lesson: {
         errorTitle: 'Fehler',
         loadFailed: 'Lektion konnte nicht geladen werden: %{message}',

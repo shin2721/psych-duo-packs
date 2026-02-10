@@ -8,9 +8,8 @@ import { useAppState } from "../../lib/state";
 import { Trail } from "../../components/trail";
 import { Modal } from "../../components/Modal";
 import { GlobalHeader } from "../../components/GlobalHeader";
-import { PaywallModal } from "../../components/PaywallModal";
 import { LeagueResultModal } from "../../components/LeagueResultModal";
-import { isLessonLocked, GenreId, shouldShowPaywall } from "../../lib/paywall";
+import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
 import { getStreakData } from "../../lib/streaks";
 import { useAuth } from "../../lib/AuthContext";
@@ -30,11 +29,9 @@ const GENRE_COLORS: Record<string, string> = {
 };
 
 export default function CourseScreen() {
-  const { selectedGenre, setSelectedGenre, addXp, incrementQuest, streak, dailyXP, dailyGoal, freezeCount, gems, completedLessons, skill, xp, purchasedPacks, purchasePack, mistakes, addGems, setGemsDirectly } = useAppState();
+  const { selectedGenre, completedLessons, setGemsDirectly, isSubscriptionActive } = useAppState();
   const { user } = useAuth();
   const [modalNode, setModalNode] = useState<any>(null);
-  const [paywallVisible, setPaywallVisible] = useState(false);
-  const [paywallGenre, setPaywallGenre] = useState<GenreId>('mental');
   const [leagueResult, setLeagueResult] = useState<LeagueResult | null>(null);
   const [showLeagueResult, setShowLeagueResult] = useState(false);
 
@@ -70,7 +67,7 @@ export default function CourseScreen() {
     const level = levelMatch ? parseInt(levelMatch[1], 10) : 1;
 
     // Check if lesson is locked by paywall
-    const locked = isLessonLocked(selectedGenre, level, purchasedPacks);
+    const locked = isLessonLocked(selectedGenre, level, isSubscriptionActive);
     if (locked) {
       return { ...node, status: "current", isLocked: true }; // Show as current but locked
     }
@@ -106,8 +103,6 @@ export default function CourseScreen() {
     setModalNode(null);
   };
 
-  const dailyProgress = Math.min((dailyXP / dailyGoal) * 100, 100);
-
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <GlobalHeader />
@@ -137,8 +132,7 @@ export default function CourseScreen() {
           }
 
           if (shouldShowPaywall(executedCount, lessonCompleteCount)) {
-            setPaywallGenre(selectedGenre as GenreId);
-            setPaywallVisible(true);
+            router.push("/(tabs)/shop");
           } else {
             // 条件未達成：もう少し使ってみてメッセージ
             Alert.alert(
@@ -158,16 +152,6 @@ export default function CourseScreen() {
         primaryLabel={i18n.t("course.startButton")}
         onPrimary={handleStart}
         onCancel={() => setModalNode(null)}
-      />
-
-      <PaywallModal
-        visible={paywallVisible}
-        genreId={paywallGenre}
-        onClose={() => setPaywallVisible(false)}
-        onPurchase={(genreId) => {
-          purchasePack(genreId);
-          setPaywallVisible(false);
-        }}
       />
 
       {/* リーグ結果モーダル（週明け表示） */}

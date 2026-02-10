@@ -116,19 +116,6 @@ export const ja = {
         claiming: '受け取り中...',
         claim: '受け取る',
     },
-    paywallModal: {
-        unlockLevels: 'Level 4-10 を解放',
-        benefitsTitle: 'このパックに含まれるもの:',
-        oneTimePurchase: '買い切り（サブスクではありません）',
-        purchasePack: 'パックを購入',
-        devNote: '※ 現在はモック版です。タップすると即座に解放されます。',
-        benefits: {
-            accessAllLevels: '全10レベルのコンテンツにアクセス',
-            advancedEvidenceQuestions: '学術論文ベースの高度な問題',
-            practicalSkills: '実践的なスキルを習得',
-            lifetimeAccess: '永久アクセス（買い切り）',
-        },
-    },
     lesson: {
         errorTitle: 'エラー',
         loadFailed: 'レッスンの読み込みに失敗しました: %{message}',

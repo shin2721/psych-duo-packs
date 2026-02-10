@@ -74,13 +74,14 @@ app/
 │   ├── index.tsx        # Home tab (genre selection)
 │   ├── course.tsx       # Learning trail view
 │   ├── quests.tsx       # Quest tracking
-│   └── league.tsx       # Leaderboard
+│   ├── leaderboard.tsx  # Leaderboard
+│   ├── friends.tsx      # Friends
+│   ├── profile.tsx      # Profile
+│   └── shop.tsx         # Subscription plans and in-app item shop
 ├── games/
 │   └── [id].tsx         # Dynamic route for mini-games
-├── lessons/
-│   └── [id].tsx         # Dynamic route for MCQ lessons (format: {unit}_lesson_{level})
-└── checkout/
-    └── [planId].tsx     # Stripe Checkout for premium packs
+└── lessons/
+    └── [id].tsx         # Dynamic route for MCQ lessons (format: {unit}_lesson_{level})
 ```
 
 ### Game System
@@ -454,7 +455,7 @@ consumeMistakesHub(userId)               // Decrements daily counter
 
 ### Stripe Integration
 - **Mode**: Test mode (sandbox keys)
-- **Flow**: `app/checkout/[planId].tsx` → Stripe Checkout → webhook → update `planId` + `activeUntil`
+- **Flow**: `app/(tabs)/shop.tsx` → `create-checkout-session` (Supabase Function) → Stripe Checkout → webhook → update `planId` + `activeUntil`
 - **Price IDs** (test):
   - Pro: `price_1SJ82EJDXOz4c0ISSpJmO8sx`
   - Max: `price_1SJ82FJDXOz4c0ISrrFASipQ`

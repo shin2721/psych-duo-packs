@@ -22,7 +22,7 @@ PRICE_PRO=$(stripe prices create \
 echo "▶︎ Max 商品を作成…"
 PROD_MAX=$(stripe products create \
   --name "Psycle Max (Monthly)" \
-  --description "Everything in Pro + priority packs" \
+  --description "Everything in Pro + advanced review features" \
   -d "metadata[plan]=max" | jq -r .id)
 
 echo "▶︎ Max 価格を作成…"
@@ -49,7 +49,7 @@ else
       plans: {
         free:{plan:"free",features:["lite_questions","daily_energy_5"]},
         pro:{plan:"pro",stripe_price_id:$pro,features:["unlimited_energy","lite+pro_questions","mistakes_hub"]},
-        max:{plan:"max",stripe_price_id:$max,features:["everything_in_pro","priority_packs"]}
+        max:{plan:"max",stripe_price_id:$max,features:["everything_in_pro","advanced_review"]}
       }
     }
   ' > "$TMP"

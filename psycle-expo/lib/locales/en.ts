@@ -116,19 +116,6 @@ export const en = {
         claiming: 'Claiming...',
         claim: 'Claim',
     },
-    paywallModal: {
-        unlockLevels: 'Unlock Levels 4-10',
-        benefitsTitle: 'Included in this pack:',
-        oneTimePurchase: 'One-time purchase (not a subscription)',
-        purchasePack: 'Buy Pack',
-        devNote: 'Mock mode: tapping unlocks immediately.',
-        benefits: {
-            accessAllLevels: 'Access all 10 levels of content',
-            advancedEvidenceQuestions: 'Advanced evidence-based questions',
-            practicalSkills: 'Build practical skills',
-            lifetimeAccess: 'Lifetime access (one-time purchase)',
-        },
-    },
     lesson: {
         errorTitle: 'Error',
         loadFailed: 'Failed to load lesson: %{message}',

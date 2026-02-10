@@ -116,19 +116,6 @@ export const fr = {
         claiming: 'Réclamation...',
         claim: 'Réclamer',
     },
-    paywallModal: {
-        unlockLevels: 'Débloquer les niveaux 4-10',
-        benefitsTitle: 'Ce pack inclut :',
-        oneTimePurchase: 'Achat unique (pas un abonnement)',
-        purchasePack: 'Acheter le pack',
-        devNote: 'Mode mock : un appui débloque immédiatement.',
-        benefits: {
-            accessAllLevels: 'Accès aux 10 niveaux de contenu',
-            advancedEvidenceQuestions: 'Questions avancées basées sur la recherche',
-            practicalSkills: 'Développez des compétences pratiques',
-            lifetimeAccess: 'Accès à vie (achat unique)',
-        },
-    },
     lesson: {
         errorTitle: 'Erreur',
         loadFailed: 'Échec du chargement de la leçon : %{message}',

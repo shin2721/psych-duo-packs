@@ -116,19 +116,6 @@ export const zh = {
         claiming: '领取中...',
         claim: '领取',
     },
-    paywallModal: {
-        unlockLevels: '解锁 Level 4-10',
-        benefitsTitle: '此礼包包含：',
-        oneTimePurchase: '一次性购买（非订阅）',
-        purchasePack: '购买礼包',
-        devNote: '当前为 mock 模式，点击后会立即解锁。',
-        benefits: {
-            accessAllLevels: '访问全部 10 个等级内容',
-            advancedEvidenceQuestions: '基于学术证据的进阶题目',
-            practicalSkills: '掌握实用技能',
-            lifetimeAccess: '永久访问（一次性购买）',
-        },
-    },
     lesson: {
         errorTitle: '错误',
         loadFailed: '加载课程失败：%{message}',

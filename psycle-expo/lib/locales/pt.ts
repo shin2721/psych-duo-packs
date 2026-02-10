@@ -116,19 +116,6 @@ export const pt = {
         claiming: 'Resgatando...',
         claim: 'Resgatar',
     },
-    paywallModal: {
-        unlockLevels: 'Desbloquear níveis 4-10',
-        benefitsTitle: 'Este pacote inclui:',
-        oneTimePurchase: 'Compra única (não é assinatura)',
-        purchasePack: 'Comprar pacote',
-        devNote: 'Modo mock: tocar desbloqueia imediatamente.',
-        benefits: {
-            accessAllLevels: 'Acesso aos 10 níveis de conteúdo',
-            advancedEvidenceQuestions: 'Perguntas avançadas baseadas em evidências',
-            practicalSkills: 'Desenvolva habilidades práticas',
-            lifetimeAccess: 'Acesso vitalício (compra única)',
-        },
-    },
     lesson: {
         errorTitle: 'Erro',
         loadFailed: 'Falha ao carregar a lição: %{message}',

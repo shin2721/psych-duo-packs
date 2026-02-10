@@ -116,19 +116,6 @@ export const es = {
         claiming: 'Canjeando...',
         claim: 'Canjear',
     },
-    paywallModal: {
-        unlockLevels: 'Desbloquea niveles 4-10',
-        benefitsTitle: 'Incluye este paquete:',
-        oneTimePurchase: 'Pago único (no suscripción)',
-        purchasePack: 'Comprar paquete',
-        devNote: 'Modo mock: al tocar, se desbloquea de inmediato.',
-        benefits: {
-            accessAllLevels: 'Acceso a los 10 niveles de contenido',
-            advancedEvidenceQuestions: 'Preguntas avanzadas basadas en evidencia',
-            practicalSkills: 'Desarrolla habilidades prácticas',
-            lifetimeAccess: 'Acceso de por vida (pago único)',
-        },
-    },
     lesson: {
         errorTitle: 'Error',
         loadFailed: 'No se pudo cargar la lección: %{message}',
