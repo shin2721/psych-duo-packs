@@ -1,0 +1,420 @@
+[
+  {
+    "id": "work_l01_001",
+    "type": "swipe_judgment",
+    "question": "Tarefas que penso 'vou fazer depois' frequentemente acabam nao sendo feitas.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Entendo",
+      "right": "Nao e bem assim"
+    },
+    "explanation": "Procrastinacao nao e problema de forca de vontade, mas uma tendencia natural de evitar 'desconforto'. Mudar a forma de comecar tarefas pode melhorar isso.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas com tendencia a procrastinar",
+        "Pessoas que acumulam tarefas facilmente"
+      ],
+      "limitations": [
+        "Ha casos em que procrastinar e adaptativo (esperando informacoes, etc.)"
+      ],
+      "citation_role": "Observacao de meta-analise sobre comportamento de procrastinacao",
+      "claim_tags": [
+        "procrastination",
+        "self_regulation",
+        "task_management"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_002",
+    "type": "multiple_choice",
+    "question": "Quando voce fica esperando 'vou fazer quando tiver vontade', o que possivelmente esta acontecendo?",
+    "choices": [
+      "Estado de continua evitacao do desconforto",
+      "O corpo esta pedindo descanso",
+      "Nao e uma tarefa realmente necessaria"
+    ],
+    "correct_index": 0,
+    "explanation": "A motivacao tende a 'surgir quando voce comeca' mais do que 'esperar'. Se mover as maos por 10 segundos, pode mudar para o modo tarefa. (Tendemos a pensar 'preciso descansar' ou 'nao e necessario', mas na maioria das vezes e vontade de evitar)",
+    "actionable_advice": "Dica: Da proxima vez que estiver 'esperando motivacao', mova as maos por so 10 segundos. Se nao gostar, pode parar.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que esperam muito pela motivacao",
+        "Pessoas que tem dificuldade em comecar"
+      ],
+      "limitations": [
+        "Quando esta realmente cansado, descanso e necessario",
+        "Falta de motivacao cronica requer outra abordagem"
+      ],
+      "citation_role": "Explica a teoria da ativacao comportamental na pesquisa sobre procrastinacao",
+      "claim_tags": [
+        "procrastination",
+        "motivation",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_003",
+    "type": "swipe_judgment",
+    "question": "Quando decido 'so 5 minutos', acabo continuando mais de 5 minutos.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Talvez sim",
+      "right": "Acho que nao"
+    },
+    "explanation": "Diminuir a barreira para comecar tende a facilitar 'entrar no ritmo' da tarefa. Terminar realmente em 5 minutos tambem esta OK. Nao conseguir e normal. Primeiro, uma vez.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que se sentem sobrecarregadas por tarefas grandes",
+        "Pessoas com tendencia perfeccionista"
+      ],
+      "limitations": [
+        "Tarefas que nao terminam em 5 minutos precisam de passos adicionais"
+      ],
+      "citation_role": "Apoia indiretamente o efeito da regra dos 5 minutos na pesquisa sobre intencao de implementacao",
+      "try_this": "Quando a tarefa parecer pesada, escreva a 'versao de 5 minutos' por 10 segundos",
+      "claim_tags": [
+        "implementation_intention",
+        "procrastination",
+        "task_initiation"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu apertar o timer de 5 minutos e comecar?",
+        "stop_rule": "Se nao conseguir 3 vezes seguidas, pare"
+      },
+      "comparator": {
+        "baseline": "Olhar a tarefa inteira e se sentir sobrecarregado",
+        "cost": "5 minutos / baixa carga"
+      },
+      "fallback": {
+        "when": "Se 5 minutos ainda for muito",
+        "next": "Reduza para versao de 2 minutos"
+      }
+    }
+  },
+  {
+    "id": "work_l01_004",
+    "type": "multiple_choice",
+    "question": "Para reduzir a procrastinacao, qual metodo tem efeito relatado?",
+    "choices": [
+      "Decidir antecipadamente 'quando, onde e o que fazer'",
+      "Definir prazos mais curtos",
+      "Preparar recompensas"
+    ],
+    "correct_index": 0,
+    "explanation": "Estudos sugerem que 'intencao de implementacao' (plano se-entao) pode reduzir a procrastinacao. Ha diferenca individual no efeito. Primeiro, uma vez. ('Prazos curtos' e 'recompensas' tambem funcionam, mas decidir 'quando/onde' primeiro e mais eficaz)",
+    "actionable_advice": "Dica: Para a proxima tarefa, decida 'as X horas, em Y, farei Z'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que gostam de fazer planos",
+        "Pessoas que nao conseguem se mover com tarefas ambiguas"
+      ],
+      "limitations": [
+        "Pode causar estresse se nao seguir o plano",
+        "Nao adequado para situacoes que precisam de flexibilidade"
+      ],
+      "citation_role": "Apoia diretamente o efeito da intencao de implementacao",
+      "try_this": "Decida em 10 segundos 'as X horas, em Y, farei Z'",
+      "claim_tags": [
+        "implementation_intention",
+        "procrastination",
+        "goal_setting"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu criar 1 plano se-entao?",
+        "stop_rule": "Se nao conseguir 3 vezes seguidas, pare"
+      },
+      "comparator": {
+        "baseline": "Apenas pensar 'preciso fazer'",
+        "cost": "30 segundos / baixa carga"
+      },
+      "fallback": {
+        "when": "Se o plano ficar complicado demais",
+        "next": "Simplifique para 'Quando acontecer X, farei Y'"
+      }
+    }
+  },
+  {
+    "id": "work_l01_005",
+    "type": "swipe_judgment",
+    "question": "Quanto mais penso 'precisa ser perfeito', mais facil e procrastinar.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Entendo",
+      "right": "Nao e bem assim"
+    },
+    "explanation": "Foi relatada uma relacao entre perfeccionismo e procrastinacao. Decidir '70% esta OK' tende a facilitar o movimento.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas com tendencia perfeccionista",
+        "Pessoas que pensam demais antes de comecar"
+      ],
+      "limitations": [
+        "Ha situacoes onde qualidade e realmente importante e perfeccionismo e necessario"
+      ],
+      "citation_role": "Apoia a relacao entre perfeccionismo e procrastinacao em estudos observacionais",
+      "claim_tags": [
+        "perfectionism",
+        "procrastination",
+        "anxiety"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_006",
+    "type": "multiple_choice",
+    "question": "Quando 'a tarefa e grande demais e nao consigo me mover', o que facilita o movimento?",
+    "choices": [
+      "Focar so no proximo 1 passo",
+      "Estar consciente do prazo",
+      "Pedir para alguem"
+    ],
+    "correct_index": 0,
+    "explanation": "Tarefas grandes tendem a ficar mais faceis de processar quando 'divididas'. Decidir so 'o proximo passo' pode ajudar a comecar. Primeiro, uma vez. ('Consciente do prazo' e 'pedir para alguem' tambem sao validos, mas dividir e o primeiro passo)",
+    "actionable_advice": "Dica: Escreva so 'o proximo passo' da grande tarefa que voce tem",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas com grandes projetos",
+        "Pessoas que se sentem sobrecarregadas pela visao geral"
+      ],
+      "limitations": [
+        "Dividir demais pode ficar complicado"
+      ],
+      "citation_role": "Apoia indiretamente o efeito da divisao de tarefas na pesquisa sobre intencao de implementacao",
+      "try_this": "Escreva 'o proximo passo' em 10 segundos",
+      "claim_tags": [
+        "task_decomposition",
+        "procrastination",
+        "goal_setting"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu escrever 'o proximo passo'?",
+        "stop_rule": "Se nao conseguir 3 vezes seguidas, pare"
+      },
+      "comparator": {
+        "baseline": "Olhar a tarefa inteira e travar",
+        "cost": "30 segundos / baixa carga"
+      },
+      "fallback": {
+        "when": "Se nao conseguir pensar em nenhum passo",
+        "next": "Comece com 'por enquanto, abrir X'"
+      }
+    }
+  },
+  {
+    "id": "work_l01_007",
+    "type": "conversation",
+    "question": "Um colega disse: 'Ainda nao terminou esse trabalho?' Como voce responde?",
+    "choices": [
+      "'Estava prestes a comecar. Vou fazer so 5 minutos'",
+      "'Sim, vou fazer essa semana'",
+      "'Nao enche'"
+    ],
+    "recommended_index": 0,
+    "explanation": "Declarar cria um 'compromisso social' e tende a facilitar o movimento. Pessoas sensiveis a pressao podem ter efeito contrario. Primeiro, uma vez.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que conseguem se mover com compromissos",
+        "Pessoas para quem motivacao externa funciona"
+      ],
+      "limitations": [
+        "Pode ter efeito contrario para pessoas sensiveis a pressao"
+      ],
+      "citation_role": "Apoia indiretamente o efeito do compromisso social",
+      "claim_tags": [
+        "social_commitment",
+        "procrastination",
+        "accountability"
+      ],
+      "try_this": "Declare para alguem em 10 segundos 'vou fazer so 5 minutos'",
+      "tiny_metric": {
+        "metric": "Conseguiu se mover por 5 minutos depois de declarar?",
+        "stop_rule": "Se nao conseguir 3 vezes seguidas, pare"
+      },
+      "comparator": {
+        "baseline": "Procrastinar sem falar para ninguem",
+        "cost": "Apenas declarar / baixa carga"
+      },
+      "fallback": {
+        "when": "Se declarar virar pressao",
+        "next": "Mude para regra dos 10 segundos sem declaracao"
+      }
+    }
+  },
+  {
+    "id": "work_l01_008",
+    "type": "swipe_judgment",
+    "question": "Ha uma visao de que procrastinacao nao e 'preguica' mas sim um problema de 'regulacao emocional'.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Talvez sim",
+      "right": "Acho que nao"
+    },
+    "explanation": "Pesquisas recentes mostram uma tendencia de entender a procrastinacao como um comportamento de 'evitar emocoes desconfortaveis'. Ou seja, regulacao emocional pode ser mais importante que forca de vontade.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que tendem a se culpar",
+        "Pessoas que sentem autoaversao por procrastinar"
+      ],
+      "limitations": [
+        "Nem toda procrastinacao e regulacao emocional"
+      ],
+      "citation_role": "Apoia teoricamente o modelo de regulacao emocional da procrastinacao",
+      "claim_tags": [
+        "emotion_regulation",
+        "procrastination",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_009",
+    "type": "multiple_choice",
+    "question": "Para reduzir a procrastinacao, qual metodo concreto tem efeito relatado?",
+    "choices": [
+      "Decidir 'so 10 segundos' e mover as maos",
+      "Fazer uma lista de tarefas",
+      "Colocar prazos no calendario"
+    ],
+    "correct_index": 0,
+    "explanation": "Estudos sugerem que a regra dos 10 segundos pode 'diminuir a barreira para comecar'. Lista de tarefas e prazos tambem sao validos, mas a regra dos 10 segundos tem a menor carga. Primeiro, uma vez. ('Lista' e 'calendario' precisam de preparacao)",
+    "actionable_advice": "Dica: Amanha, tente uma vez: quando travar, mova as maos por so 10 segundos",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que procrastinam muito",
+        "Pessoas que querem comecar de forma simples"
+      ],
+      "limitations": [
+        "Pode ser menos eficaz para falta de motivacao cronica"
+      ],
+      "citation_role": "Apoia indiretamente o efeito da regra dos 10 segundos na meta-analise sobre procrastinacao",
+      "try_this": "Quando travar, mova as maos por so 10 segundos",
+      "claim_tags": [
+        "procrastination",
+        "task_initiation",
+        "self_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Qual seu nivel de 'nao quero fazer' agora? (0-10)",
+        "after_prompt": "E depois de 10 segundos?",
+        "success_rule": "OK se diminuir um pouco",
+        "stop_rule": "Se nao mudar ou aumentar, recue hoje"
+      },
+      "comparator": {
+        "baseline": "Esperar a motivacao surgir",
+        "cost": "10 segundos / baixa carga"
+      },
+      "fallback": {
+        "when": "Se nao conseguir se mover nem em 10 segundos",
+        "next": "Divida a tarefa em 'unidade minima'"
+      }
+    }
+  },
+  {
+    "id": "work_l01_010",
+    "type": "multiple_choice",
+    "question": "Das coisas que aprendeu hoje, qual parece util para amanha?",
+    "choices": [
+      "Decidir 'so 10 segundos' e mover as maos",
+      "Comecar com 'so 5 minutos'",
+      "Decidir so 'o proximo passo'",
+      "Experimentar todas"
+    ],
+    "correct_index": 3,
+    "explanation": "Todas valem a pena experimentar. Procrastinacao talvez seja mais sobre 'encontrar uma forma de conviver' do que 'superar'. Se nao funcionar, tente outro metodo. Primeiro, uma vez. (Opcoes individuais tambem sao validas, a mais simples e a regra dos 10 segundos)",
+    "actionable_advice": "Dica: Acao de hoje: Na proxima tarefa, tente 'so 10 segundos'",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem comecar novos habitos"
+      ],
+      "limitations": [
+        "Talvez nao consiga continuar todas"
+      ],
+      "citation_role": "Apoia indiretamente a eficacia de intervencoes para procrastinacao",
+      "try_this": "Na proxima tarefa, tente 'so 10 segundos'",
+      "claim_tags": [
+        "procrastination",
+        "habit_formation",
+        "self_regulation"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu usar a regra dos 10 segundos pelo menos uma vez esta semana?",
+        "stop_rule": "Se nao conseguir lembrar nenhuma vez em uma semana, pare"
+      },
+      "comparator": {
+        "baseline": "Nao tentar nada",
+        "cost": "10 segundos x algumas vezes/semana"
+      },
+      "fallback": {
+        "when": "Se a regra dos 10 segundos nao funcionar",
+        "next": "Mude para regra dos 5 minutos ou plano se-entao"
+      }
+    }
+  }
+]

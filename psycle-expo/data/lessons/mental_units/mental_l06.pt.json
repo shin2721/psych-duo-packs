@@ -1,0 +1,329 @@
+[
+    {
+        "id": "mental_l06_001",
+        "type": "swipe_judgment",
+        "question": "Costumo pensar: 'Se nao tirar 100, nao vale a pena. 80 pontos nao e suficiente'",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Com frequencia",
+            "right": "Raramente"
+        },
+        "explanation": "Este e um exemplo tipico de 'perfeccionismo'. Buscar a perfeicao nao e algo ruim em si, mas quando pensamos que 'qualquer coisa menos que 100 pontos e um fracasso', tendemos a nos pressionar demais. *Esta licao visa aprofundar a compreensao sobre o perfeccionismo. Se voce estiver tendo pensamentos suicidas ou comportamentos de automutilacao, por favor procure ajuda profissional (CVV: 188) em vez de usar este aplicativo.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Reconhecimento da propria tendencia ao perfeccionismo"
+            ],
+            "limitations": [
+                "Ha casos em que padroes elevados levam a bons resultados"
+            ],
+            "citation_role": "Explica o padrao cognitivo do perfeccionismo",
+            "claim_tags": [
+                "perfectionism",
+                "cognitive_pattern"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_002",
+        "type": "multiple_choice",
+        "question": "Qual tendencia e frequentemente observada em pessoas com forte perfeccionismo?",
+        "choices": [
+            "Ficar ansioso antes mesmo de comecar, pensando 'e se eu falhar?'",
+            "Nao se importar com falhas e seguir em frente",
+            "Definir metas baixas para se sentir seguro"
+        ],
+        "correct_index": 0,
+        "explanation": "Foi relatado que pessoas com tendencia ao perfeccionismo tendem a ficar 'paralisadas' devido ao medo de falhar.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Compreender a relacao entre perfeccionismo e inibicao comportamental"
+            ],
+            "limitations": [
+                "Ha grande variacao individual"
+            ],
+            "citation_role": "Explica a relacao entre perfeccionismo e ansiedade",
+            "claim_tags": [
+                "perfectionism",
+                "anxiety",
+                "behavioral_inhibition"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_003",
+        "type": "swipe_judgment",
+        "question": "Tenho dificuldade em me sentir satisfeito com o que fiz",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Com frequencia",
+            "right": "Raramente"
+        },
+        "explanation": "Qualquer resposta e uma reacao normal. Ter padroes elevados para si mesmo pode ser um motor de crescimento, mas quando excessivo, pode levar a exaustao.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explica os dois lados de ter padroes elevados",
+            "claim_tags": [
+                "perfectionism",
+                "self_evaluation"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_004",
+        "type": "multiple_choice",
+        "question": "Qual e uma forma eficaz de 'suavizar moderadamente' o perfeccionismo?",
+        "choices": [
+            "Permitir-se aceitar '70 pontos esta bom'",
+            "Dizer a si mesmo 'nao busque a perfeicao'",
+            "Evitar ter metas"
+        ],
+        "correct_index": 0,
+        "explanation": "'Ampliar a faixa de aceitacao' tende a reduzir a barreira para agir. Nao e necessario eliminar completamente o perfeccionismo.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Pessoas que tendem a ficar paralisadas pelo perfeccionismo"
+            ],
+            "limitations": [
+                "Pode ser contraproducente em situacoes que exigem padroes elevados"
+            ],
+            "citation_role": "Como uma tecnica de reestruturacao cognitiva",
+            "try_this": "Antes da primeira tarefa de hoje, repita '70 pontos esta bom' antes de comecar",
+            "claim_tags": [
+                "perfectionism",
+                "cognitive_restructuring",
+                "acceptance_range"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Nivel de ansiedade antes de comecar a tarefa (1-10)",
+                "after_prompt": "Nivel de satisfacao apos completar a tarefa (1-10)",
+                "success_rule": "A ansiedade diminuiu 3 ou mais pontos, ou conseguiu iniciar a tarefa",
+                "stop_rule": "Se a ansiedade aumentar"
+            },
+            "comparator": {
+                "baseline": "Sua abordagem usual buscando a perfeicao",
+                "cost": "O tempo e esforco permanecem iguais ou diminuem"
+            },
+            "fallback": {
+                "when": "Se nao conseguir aceitar '70 pontos esta bom'",
+                "next": "Defina um limite de tempo: 'so 5 minutos por enquanto'"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_005",
+        "type": "multiple_choice",
+        "question": "O perfeccionismo deve ser 'completamente eliminado'",
+        "choices": [
+            "Nao, o importante e poder ajustar com flexibilidade",
+            "Sim, o perfeccionismo so traz prejuizos",
+            "Nao da para dizer"
+        ],
+        "correct_index": 0,
+        "explanation": "O perfeccionismo tem um 'lado saudavel', e padroes elevados podem levar a bons resultados. O problema surge 'quando se perde a flexibilidade'.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Distincao entre perfeccionismo adaptativo e desadaptativo",
+            "claim_tags": [
+                "perfectionism",
+                "flexibility",
+                "adaptive"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_006",
+        "type": "conversation",
+        "question": "Voce ja pensou: 'Se nao posso fazer perfeitamente, e melhor nao fazer'?",
+        "your_response_prompt": "Tente lembrar em qual situacao isso aconteceu",
+        "choices": [
+            "Com frequencia",
+            "As vezes",
+            "Raramente"
+        ],
+        "recommended_index": null,
+        "explanation": "Isso e chamado de 'pensamento tudo-ou-nada'. Mesmo nao sendo perfeito, 'fazer' pode permitir que experiencias se acumulem.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Como exemplo de pensamento dicotomico",
+            "claim_tags": [
+                "perfectionism",
+                "dichotomous_thinking",
+                "avoidance"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_007",
+        "type": "swipe_judgment",
+        "question": "O perfeccionismo pode levar a procrastinacao",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Concordo",
+            "right": "Discordo"
+        },
+        "explanation": "Existem estudos que mostram uma relacao entre perfeccionismo e procrastinacao. As vezes evitamos agir para 'evitar o fracasso'.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explica a relacao entre perfeccionismo e procrastinacao",
+            "claim_tags": [
+                "perfectionism",
+                "procrastination",
+                "failure_avoidance"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_008",
+        "type": "multiple_choice",
+        "question": "O que e mais importante ao lidar com o perfeccionismo?",
+        "choices": [
+            "Ter flexibilidade e ampliar a faixa de aceitacao",
+            "Eliminar completamente o perfeccionismo",
+            "Evitar ter metas"
+        ],
+        "correct_index": 0,
+        "explanation": "O importante nao e 'eliminar' o perfeccionismo, mas 'conseguir ajustar com flexibilidade'. Ser capaz de mudar os padroes conforme a situacao e fundamental.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Situacoes para pensar em como lidar com o perfeccionismo"
+            ],
+            "limitations": [
+                "Nao se consegue flexibilidade imediatamente"
+            ],
+            "citation_role": "Recomendacao baseada em meta-analise",
+            "claim_tags": [
+                "perfectionism",
+                "flexibility",
+                "coping_strategy"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_009",
+        "type": "conversation",
+        "question": "Se voce fosse experimentar a ideia de '70 pontos esta bom' que aprendeu hoje, como seria?",
+        "your_response_prompt": "Em que situacao especifica voce gostaria de tentar?",
+        "choices": [
+            "Em tarefas de trabalho ou estudo",
+            "Em tarefas domesticas e do dia a dia",
+            "Ainda nao consigo pensar em algo especifico"
+        ],
+        "recommended_index": 0,
+        "explanation": "Vale a pena tentar em qualquer situacao. Recomendo comecar com tarefas pequenas e experimentar 'avancar mesmo nao sendo perfeito'.",
+        "actionable_advice": "Antes da sua primeira tarefa amanha, repita '70 pontos e suficiente' tres vezes antes de comecar",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Pessoas que tendem ao perfeccionismo em tarefas do dia a dia"
+            ],
+            "limitations": [
+                "Cuidado ao aplicar em tarefas importantes"
+            ],
+            "citation_role": "Ponte para a pratica",
+            "try_this": "Na primeira tarefa da manha, diga em voz alta '70 pontos esta bom'",
+            "claim_tags": [
+                "perfectionism",
+                "practice",
+                "behavior_change"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Nivel de hesitacao antes de iniciar a tarefa (1-10)",
+                "after_prompt": "Como se sente apos iniciar a tarefa (1-10)",
+                "success_rule": "Conseguiu iniciar sem hesitacao",
+                "stop_rule": "Se o estresse aumentar"
+            },
+            "comparator": {
+                "baseline": "Sua forma usual de fazer as coisas",
+                "cost": "Alguns segundos para falar em voz alta"
+            },
+            "fallback": {
+                "when": "Se nao conseguir aceitar '70 pontos'",
+                "next": "Comece com '80 pontos'"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_010",
+        "type": "conversation",
+        "question": "O conteudo que voce aprendeu nesta licao parece ser util para voce?",
+        "your_response_prompt": "Por favor, compartilhe sua opiniao sincera",
+        "choices": [
+            "Parece muito util",
+            "Parece um pouco util",
+            "Parece pouco util"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas as opinioes sao valiosas. A forma de lidar com o perfeccionismo varia de pessoa para pessoa. O importante e trabalhar no seu proprio ritmo.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Promover a reflexao",
+            "claim_tags": [
+                "reflection",
+                "self_awareness"
+            ]
+        }
+    }
+]

@@ -1,0 +1,329 @@
+[
+    {
+        "id": "mental_l06_001",
+        "type": "swipe_judgment",
+        "question": "Ich denke manchmal: 'Mit 80 Punkten ist es nicht gut genug. Nur 100 Punkte haben einen Sinn.'",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Oft",
+            "right": "Selten"
+        },
+        "explanation": "Dies ist ein typisches Beispiel fuer Perfektionismus. Es ist nicht schlecht, nach Perfektion zu streben, aber wenn man denkt, dass alles ausser 100 Punkten ein Misserfolg ist, neigt man dazu, sich selbst unter Druck zu setzen. *Diese Lektion vertieft das Verstaendnis von Perfektionismus. Wenn Sie Suizidgedanken oder Selbstverletzungstendenzen haben, wenden Sie sich bitte nicht an diese App, sondern an eine Fachberatung (z.B. Telefonseelsorge: 0800 111 0 111).",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Selbsterkennung perfektionistischer Tendenzen"
+            ],
+            "limitations": [
+                "Hohe Standards koennen in manchen Faellen zu guten Ergebnissen fuehren"
+            ],
+            "citation_role": "Erklaerung kognitiver Muster des Perfektionismus",
+            "claim_tags": [
+                "perfectionism",
+                "cognitive_pattern"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_002",
+        "type": "multiple_choice",
+        "question": "Welche Tendenz zeigt sich bei Menschen mit starkem Perfektionismus?",
+        "choices": [
+            "Bevor man anfaengt, macht man sich Sorgen: 'Was ist, wenn ich versage?'",
+            "Man kann Misserfolge ignorieren und weitermachen",
+            "Man setzt sich niedrige Ziele, um sich sicher zu fuehlen"
+        ],
+        "correct_index": 0,
+        "explanation": "Es wurde berichtet, dass Menschen mit perfektionistischen Tendenzen aufgrund der Angst vor Misserfolg oft in einen Zustand geraten, in dem sie nicht handeln koennen.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Verstaendnis der Beziehung zwischen Perfektionismus und Handlungshemmung"
+            ],
+            "limitations": [
+                "Individuelle Unterschiede sind gross"
+            ],
+            "citation_role": "Erklaerung des Zusammenhangs zwischen Perfektionismus und Angst",
+            "claim_tags": [
+                "perfectionism",
+                "anxiety",
+                "behavioral_inhibition"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_003",
+        "type": "swipe_judgment",
+        "question": "Ich fuehle manchmal, dass ich mit dem, was ich getan habe, nicht zufrieden sein kann.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Oft",
+            "right": "Selten"
+        },
+        "explanation": "Jede Antwort ist eine normale Reaktion. Hohe Standards fuer sich selbst zu haben, kann eine Triebkraft fuer Wachstum sein, aber wenn es zu weit geht, besteht die Moeglichkeit, dass man erschoepft wird.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Erklaerung der Ambivalenz hoher Standards",
+            "claim_tags": [
+                "perfectionism",
+                "self_evaluation"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_004",
+        "type": "multiple_choice",
+        "question": "Welche Methode ist wirksam, um Perfektionismus 'angemessen zu lockern'?",
+        "choices": [
+            "Sich selbst erlauben zu sagen: '70 Punkte sind auch okay'",
+            "Sich sagen: 'Strebe nicht nach Perfektion'",
+            "Versuchen, keine Ziele zu haben"
+        ],
+        "correct_index": 0,
+        "explanation": "Durch die 'Erweiterung des Toleranzbereichs' neigt die Huerде zum Handeln dazu, niedriger zu werden. Es ist nicht notwendig, Perfektionismus vollstaendig zu eliminieren.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Menschen, deren Handeln durch Perfektionismus blockiert wird"
+            ],
+            "limitations": [
+                "In Situationen, die hohe Standards erfordern, kann es kontraproduktiv sein"
+            ],
+            "citation_role": "Als eine Methode der kognitiven Umstrukturierung",
+            "try_this": "Sagen Sie bei der ersten Aufgabe heute '70 Punkte sind okay', bevor Sie beginnen",
+            "claim_tags": [
+                "perfectionism",
+                "cognitive_restructuring",
+                "tolerance_range"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Angstlevel vor Beginn der Aufgabe (1-10)",
+                "after_prompt": "Zufriedenheit nach Abschluss der Aufgabe (1-10)",
+                "success_rule": "Das Angstlevel sinkt um 3 oder mehr, oder die Aufgabe konnte begonnen werden",
+                "stop_rule": "Wenn die Angst stattdessen zunimmt"
+            },
+            "comparator": {
+                "baseline": "Die uebliche perfektionistische Herangehensweise",
+                "cost": "Zeit und Aufwand bleiben gleich oder werden reduziert"
+            },
+            "fallback": {
+                "when": "Wenn Sie '70 Punkte sind okay' nicht akzeptieren koennen",
+                "next": "Begrenzen Sie die Zeit auf 'Nur 5 Minuten erstmal'"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_005",
+        "type": "multiple_choice",
+        "question": "Perfektionismus sollte 'vollstaendig eliminiert' werden.",
+        "choices": [
+            "Nein, es ist wichtig, flexibel anpassen zu koennen",
+            "Ja, Perfektionismus ist nur schaedlich",
+            "Das laesst sich nicht eindeutig sagen"
+        ],
+        "correct_index": 0,
+        "explanation": "Perfektionismus hat auch 'gesunde Aspekte', und hohe Standards koennen zu Erfolgen fuehren. Das Problem entsteht, wenn 'die Flexibilitaet verloren geht'.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Unterscheidung zwischen adaptivem und maladaptivem Perfektionismus",
+            "claim_tags": [
+                "perfectionism",
+                "flexibility",
+                "adaptive"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_006",
+        "type": "conversation",
+        "question": "Haben Sie jemals gedacht: 'Wenn ich es nicht perfekt machen kann, ist es besser, es gar nicht zu tun'?",
+        "your_response_prompt": "Versuchen Sie, sich an eine solche Situation zu erinnern",
+        "choices": [
+            "Oft",
+            "Manchmal",
+            "Selten"
+        ],
+        "recommended_index": null,
+        "explanation": "Dies wird als 'Alles-oder-Nichts-Denken' bezeichnet. Selbst wenn es nicht perfekt ist, kann das 'Tun' dazu fuehren, dass sich Erfahrungen ansammeln.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Als Beispiel fuer dichotomes Denken",
+            "claim_tags": [
+                "perfectionism",
+                "dichotomous_thinking",
+                "avoidance"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_007",
+        "type": "swipe_judgment",
+        "question": "Perfektionismus kann zu Aufschieben fuehren.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Stimme zu",
+            "right": "Stimme nicht zu"
+        },
+        "explanation": "Es gibt Forschung, die einen Zusammenhang zwischen Perfektionismus und Aufschieben zeigt. Um 'Misserfolge zu vermeiden', vermeidet man manchmal das Handeln.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Erklaerung des Zusammenhangs zwischen Perfektionismus und Aufschieben",
+            "claim_tags": [
+                "perfectionism",
+                "procrastination",
+                "failure_avoidance"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_008",
+        "type": "multiple_choice",
+        "question": "Was ist das Wichtigste beim Umgang mit Perfektionismus?",
+        "choices": [
+            "Flexibilitaet haben und den Toleranzbereich erweitern",
+            "Perfektionismus vollstaendig eliminieren",
+            "Versuchen, keine Ziele zu haben"
+        ],
+        "correct_index": 0,
+        "explanation": "Es ist wichtig, Perfektionismus nicht zu 'eliminieren', sondern 'flexibel anpassen zu koennen'. Es ist wichtig, die Standards je nach Situation aendern zu koennen.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Situationen, in denen man ueber den Umgang mit Perfektionismus nachdenkt"
+            ],
+            "limitations": [
+                "Man kann nicht sofort flexibel werden"
+            ],
+            "citation_role": "Empfehlung basierend auf Meta-Analyse",
+            "claim_tags": [
+                "perfectionism",
+                "flexibility",
+                "coping_strategy"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_009",
+        "type": "conversation",
+        "question": "Wenn Sie die heute gelernte Idee '70 Punkte sind auch okay' morgen ausprobieren wuerden?",
+        "your_response_prompt": "In welcher konkreten Situation moechten Sie es anwenden?",
+        "choices": [
+            "Bei Arbeits- oder Lernaufgaben",
+            "Bei Hausarbeit oder taeglichen Aufgaben",
+            "Ich kann mir noch nichts Konkretes vorstellen"
+        ],
+        "recommended_index": 0,
+        "explanation": "Es lohnt sich, es in jeder Situation auszuprobieren. Wir empfehlen, zunaechst mit einer kleinen Aufgabe zu beginnen und 'auch ohne Perfektion voranzukommen'.",
+        "actionable_advice": "Sagen Sie morgen vor Ihrer ersten Aufgabe dreimal '70 Punkte reichen' und beginnen Sie dann",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, bei denen Perfektionismus bei alltaeglichen Aufgaben auftritt"
+            ],
+            "limitations": [
+                "Bei wichtigen Aufgaben mit Vorsicht anwenden"
+            ],
+            "citation_role": "Bruecke zur Praxis",
+            "try_this": "Sagen Sie morgen frueh bei der ersten Aufgabe laut '70 Punkte sind okay'",
+            "claim_tags": [
+                "perfectionism",
+                "practice",
+                "behavior_change"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Zoegerlichkeit vor Beginn der Aufgabe (1-10)",
+                "after_prompt": "Gefuehl nach Beginn der Aufgabe (1-10)",
+                "success_rule": "Konnte ohne zu zoegern beginnen",
+                "stop_rule": "Wenn der Stress stattdessen zunimmt"
+            },
+            "comparator": {
+                "baseline": "Die uebliche Herangehensweise",
+                "cost": "Ein paar Sekunden laut sprechen"
+            },
+            "fallback": {
+                "when": "Wenn Sie '70 Punkte' nicht akzeptieren koennen",
+                "next": "Beginnen Sie mit '80 Punkten'"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_010",
+        "type": "conversation",
+        "question": "War der Inhalt dieser Lektion fuer Sie hilfreich?",
+        "your_response_prompt": "Bitte teilen Sie uns Ihre ehrliche Meinung mit",
+        "choices": [
+            "Sehr hilfreich",
+            "Etwas hilfreich",
+            "Nicht sehr hilfreich"
+        ],
+        "recommended_index": null,
+        "explanation": "Jede Rueckmeldung ist wertvoll. Der Umgang mit Perfektionismus ist bei jedem anders. Es ist wichtig, in Ihrem eigenen Tempo daran zu arbeiten.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Foerderung der Reflexion",
+            "claim_tags": [
+                "reflection",
+                "self_awareness"
+            ]
+        }
+    }
+]

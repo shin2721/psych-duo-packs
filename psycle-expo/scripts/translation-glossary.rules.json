@@ -8,8 +8,8 @@
       "en": "rumination",
       "es": "rumiación",
       "fr": "rumination",
-      "de": "Grübeln",
-      "pt": "ruminação",
+      "de": "Grübeln|Rumination|grübeln",
+      "pt": "ruminação|ruminacao",
       "zh": "反刍思维",
       "ko": "반추사고"
     },
@@ -18,8 +18,8 @@
       "en": "cognitive appraisal",
       "es": "evaluación cognitiva",
       "fr": "évaluation cognitive|evaluation cognitive",
-      "de": "kognitive Bewertung",
-      "pt": "avaliação cognitiva",
+      "de": "kognitive Bewertung|kognitiven Bewertung",
+      "pt": "avaliação cognitiva|avaliacao cognitiva",
       "zh": "认知评估",
       "ko": "인지적 평가"
     },
@@ -29,7 +29,7 @@
       "es": "intención de implementación",
       "fr": "intention d'implémentation|intention d'implementation|intentions d'implementation|intention de mise en oeuvre",
       "de": "Implementierungsabsicht",
-      "pt": "intenção de implementação",
+      "pt": "intenção de implementação|intencao de implementacao",
       "zh": "执行意图",
       "ko": "실행 의도"
     },
@@ -39,7 +39,7 @@
       "es": "plan Si-Entonces",
       "fr": "plan Si-Alors|plan si-alors|Si-Alors|si-alors|If-Then|if-then",
       "de": "Wenn-Dann-Plan",
-      "pt": "plano Se-Então",
+      "pt": "plano Se-Então|plano Se-Entao|Se-Então|Se-Entao",
       "zh": "如果-那么计划",
       "ko": "만약-그러면 계획"
     },
@@ -49,7 +49,7 @@
       "es": "procrastinación",
       "fr": "procrastination",
       "de": "Prokrastination",
-      "pt": "procrastinação",
+      "pt": "procrastinação|procrastinacao|adiar|adiamento",
       "zh": "拖延",
       "ko": "미루기"
     },
@@ -59,7 +59,7 @@
       "es": "activación cognitiva",
       "fr": "activation cognitive",
       "de": "kognitive Erregung",
-      "pt": "ativação cognitiva",
+      "pt": "ativação cognitiva|ativacao cognitiva|excitação cognitiva",
       "zh": "认知唤醒",
       "ko": "인지적 각성"
     },
@@ -78,8 +78,8 @@
       "en": "reappraisal",
       "es": "reevaluación",
       "fr": "réévaluation|reevaluation",
-      "de": "Neubewertung",
-      "pt": "reavaliação",
+      "de": "Neubewertung|Reappraisal|Uminterpretation|neu bewerten",
+      "pt": "reavaliação|reavaliacao|reinterpretar|reinterpretação",
       "zh": "重新评估",
       "ko": "재평가"
     },
@@ -89,7 +89,7 @@
       "es": "compra impulsiva|compras impulsivas",
       "fr": "achat impulsif|achats impulsifs",
       "de": "Impulskauf",
-      "pt": "compra por impulso",
+      "pt": "compra por impulso|compra impulsiva|compras impulsivas",
       "zh": "冲动购物",
       "ko": "충동구매"
     },
@@ -98,7 +98,7 @@
       "en": "scarcity bias",
       "es": "sesgo de escasez",
       "fr": "biais de rareté",
-      "de": "Knappheitsbias",
+      "de": "Knappheitsbias|Knappheit|Seltenheit",
       "pt": "viés de escassez",
       "zh": "稀缺性偏见",
       "ko": "희소성 편향"
@@ -118,7 +118,7 @@
       "en": "say no|decline|refuse",
       "es": "decir no|rechazar|negarse",
       "fr": "dire non|refuser|décliner",
-      "de": "nein sagen|ablehnen|verweigern",
+      "de": "nein sagen|ablehnen|verweigern|Ablehnen|Nein",
       "pt": "dizer não|recusar|negar",
       "zh": "拒绝|说不",
       "ko": "거절하다|안 된다고 하다"
@@ -152,13 +152,13 @@
       { "pattern": "100%", "flags": "i", "message": "Trop assertif: éviter les pourcentages absolus" }
     ],
     "de": [
-      { "pattern": "definitiv", "flags": "i", "message": "Zu bestimmt: verwenden Sie 'kann' oder 'neigt dazu'" },
+      { "pattern": "\\bist definitiv\\b", "flags": "i", "message": "Zu bestimmt: verwenden Sie 'kann' oder 'neigt dazu'" },
       { "pattern": "funktioniert immer", "flags": "i", "message": "Zu bestimmt: impliziert 100% Wirksamkeit" },
       { "pattern": "garantiert", "flags": "i", "message": "Zu bestimmt: unbegründete Behauptung" },
       { "pattern": "100%", "flags": "i", "message": "Zu bestimmt: absolute Prozentsätze vermeiden" }
     ],
     "pt": [
-      { "pattern": "definitivamente", "flags": "i", "message": "Muito assertivo: use 'pode' ou 'tende a'" },
+      { "pattern": "\\bé definitivamente\\b", "flags": "i", "message": "Muito assertivo: use 'pode' ou 'tende a'" },
       { "pattern": "sempre funciona", "flags": "i", "message": "Muito assertivo: implica 100% de eficácia" },
       { "pattern": "garantido", "flags": "i", "message": "Muito assertivo: afirmação sem fundamento" },
       { "pattern": "100%", "flags": "i", "message": "Muito assertivo: evitar porcentagens absolutas" }
@@ -183,8 +183,8 @@
       "en": "tends? to|tendency|tendencies",
       "es": "tiende a|tienden a|tendencia",
       "fr": "tend à|tend a|tendance|tendent a|tendent à|ont tendance|a tendance|peut",
-      "de": "neigt dazu|Tendenz",
-      "pt": "tende a|tendência",
+      "de": "neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu",
+      "pt": "tende a|tendência|tendencia|tendem a",
       "zh": "倾向于|趋势",
       "ko": "경향이 있다|경향"
     },
@@ -203,8 +203,8 @@
       "en": "has been reported|studies show|research suggests|reported|reports",
       "es": "se ha reportado|se han reportado|estudios muestran|investigaciones sugieren",
       "fr": "a été rapporté|a ete rapporte|ont été rapportés|ont ete rapportes|études montrent|etudes montrent|Des etudes montrent|Les etudes montrent|recherches suggèrent|recherches suggerent|suggere|indiquent|montre une efficacite|montrent que|a montré une efficacité|a montre une efficacite|a montre des resultats|recherche suggere|recherches indiquent",
-      "de": "wurde berichtet|Studien zeigen|Forschung legt nahe",
-      "pt": "foi relatado|estudos mostram|pesquisas sugerem",
+      "de": "wurde berichtet|Studien zeigen|Forschung legt nahe|Es wurde berichtet|berichtet|zeigt|zeigen",
+      "pt": "foi relatado|estudos mostram|pesquisas sugerem|pesquisas mostram|foi reportado|estudos sugerem",
       "zh": "有报告|研究显示|研究表明",
       "ko": "보고되었다|연구에 따르면|연구가 보여준다"
     },

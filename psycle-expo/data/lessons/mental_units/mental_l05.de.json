@@ -1,0 +1,154 @@
+[
+  {
+    "id": "mental_l05_001",
+    "type": "swipe_judgment",
+    "question": "Es ist 2 Uhr nachts, und die Unterlagen für die morgige Besprechung sind erst zur Hälfte fertig. In dem Moment, als ich dachte \"Das schaffe ich nicht mehr\", wurde meine Nervosität noch stärker.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Kommt oft vor",
+      "right": "Kommt selten vor"
+    },
+    "explanation": "Dies ist ein typisches Beispiel für \"katastrophisierendes Denken\". Die Vorhersage \"Das schaffe ich nicht\" eilt der Realität voraus und verstärkt die Angst. ※Diese Lektion stellt Methoden zur Bewältigung leichter Ängste vor. Wenn Sie jedoch zu Suizidgedanken oder Selbstverletzung neigen, wenden Sie sich bitte nicht an diese App, sondern an eine Facheinrichtung (z.B. Telefonseelsorge: 0800-1110111).",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_002",
+    "type": "multiple_choice",
+    "question": "Wenn Ihnen extreme Vorhersagen wie \"Ich werde definitiv scheitern\" oder \"Es ist alles vorbei\" durch den Kopf gehen, was ist dann die wirksamste Bewältigungsstrategie?",
+    "choices": [
+      "Sich fragen \"Stimmt das wirklich?\" und nach Beweisen suchen",
+      "Sich selbst sagen \"Denk nicht daran\"",
+      "Sich irgendwie ablenken"
+    ],
+    "correct_index": 0,
+    "explanation": "Bei katastrophisierendem Denken ist die \"Beweissuche\" wirksam. Anstatt zu versuchen, die Gedanken vollständig zu unterdrücken, ist es wichtig, eine realistische Perspektive zurückzugewinnen.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_003",
+    "type": "conversation",
+    "question": "Haben Sie sich in letzter Zeit ängstlich gefühlt, weil Sie sich \"den schlimmsten Fall\" vorgestellt haben?",
+    "your_response_prompt": "Versuchen Sie, sich an Ihre Gefühle in diesem Moment zu erinnern",
+    "choices": [
+      "Das passiert oft",
+      "Das passiert manchmal",
+      "Das passiert selten"
+    ],
+    "recommended_index": null,
+    "explanation": "Jede Antwort ist eine normale Reaktion. Das menschliche Gehirn ist darauf ausgelegt, Gefahren vorherzusagen, daher ist es natürlich, sich negative Szenarien vorzustellen.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_004",
+    "type": "multiple_choice",
+    "question": "Vor einer Präsentation denken Sie \"Ich werde bestimmt scheitern\". Wie könnten Sie dieses Denkmuster verändern?",
+    "choices": [
+      "Sich daran erinnern: \"Ich hatte auch in der Vergangenheit Erfolge\"",
+      "Sich damit abfinden: \"Es ist okay, wenn ich scheitere\"",
+      "Sich einreden: \"Ich werde definitiv erfolgreich sein\""
+    ],
+    "correct_index": 0,
+    "explanation": "Anstatt von einem Extrem ins andere zu schwingen, ist es wichtig, eine ausgewogene Perspektive zu finden. Vergangene Erfahrungen dienen als realistische Grundlage.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_005",
+    "type": "swipe_judgment",
+    "question": "Katastrophisierende Gedanken müssen \"vollständig beseitigt\" werden",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "Stimme zu",
+      "right": "Stimme nicht zu"
+    },
+    "explanation": "Sie müssen nicht vollständig beseitigt werden. Vielmehr ist es wichtig, sie zu \"bemerken und eine realistische Perspektive hinzuzufügen\".",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_006",
+    "type": "conversation",
+    "question": "Wie gehen Sie damit um, wenn Sie anfangen, über \"den schlimmsten Fall\" nachzudenken?",
+    "your_response_prompt": "Reflektieren Sie Ihr übliches Verhalten",
+    "choices": [
+      "Ich versuche, einfach nicht daran zu denken",
+      "Ich spreche mit Freunden oder Familie darüber",
+      "Ich überlege mir realistische Gegenmaßnahmen"
+    ],
+    "recommended_index": 2,
+    "explanation": "Jede Methode kann manchmal wirksam sein, aber das Nachdenken über realistische Maßnahmen kann Angst in Handlung umwandeln.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_007",
+    "type": "multiple_choice",
+    "question": "Wann neigt katastrophisierendes Denken dazu aufzutreten?",
+    "choices": [
+      "Wenn man müde ist oder unter Schlafmangel leidet",
+      "Wenn man fit und in guter Verfassung ist",
+      "Die Tageszeit spielt keine Rolle"
+    ],
+    "correct_index": 0,
+    "explanation": "Müdigkeit und Schlafmangel verringern die Urteilsfähigkeit und machen anfälliger für negatives Denken. Auch auf die körperliche Gesundheit zu achten, ist eine wichtige Gegenmaßnahme.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_008",
+    "type": "conversation",
+    "question": "Wenn Sie die heute gelernte Methode der \"Beweissuche\" morgen ausprobieren würden, wie würden Sie vorgehen?",
+    "your_response_prompt": "In welcher konkreten Situation würden Sie sie anwenden wollen?",
+    "choices": [
+      "Wenn ich bei der Arbeit unter Druck stehe",
+      "Wenn ich in Beziehungen ängstlich werde",
+      "Mir fällt noch nichts Konkretes ein"
+    ],
+    "recommended_index": null,
+    "explanation": "Die Methode ist in jeder Situation wirksam. Wir empfehlen, zunächst mit kleinen Ängsten zu beginnen.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_009",
+    "type": "multiple_choice",
+    "question": "Was ist bei der Bewältigung von katastrophisierendem Denken am wichtigsten?",
+    "choices": [
+      "Die Gedanken vollständig zu kontrollieren",
+      "Eine realistische Perspektive zurückzugewinnen",
+      "Positiv zu denken"
+    ],
+    "correct_index": 1,
+    "explanation": "Wichtiger als vollständige Kontrolle oder erzwungenes positives Denken ist es, eine realistische und ausgewogene Perspektive zu bewahren.",
+    "difficulty": "hard",
+    "xp": 5,
+    "evidence_grade": "gold"
+  },
+  {
+    "id": "mental_l05_010",
+    "type": "conversation",
+    "question": "War der Inhalt dieser Lektion für Sie hilfreich?",
+    "your_response_prompt": "Bitte teilen Sie uns Ihre ehrliche Meinung mit",
+    "choices": [
+      "Sehr hilfreich",
+      "Etwas hilfreich",
+      "Nicht sehr hilfreich"
+    ],
+    "recommended_index": null,
+    "explanation": "Jede Rückmeldung ist wertvoll. Da verschiedene Ansätze für verschiedene Menschen funktionieren, ist es wichtig, den Ansatz zu finden, der zu Ihnen passt.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  }
+]

@@ -1,0 +1,304 @@
+[
+    {
+        "id": "mental_l02_001",
+        "type": "swipe_judgment",
+        "question": "Montag, 8 Uhr, in der Pendlerbahn. Der Gedanke 'Ich habe das Gefühl, dass die Präsentation heute nicht gut laufen wird' kommt auf.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Kommt häufig vor",
+            "right": "Kommt selten vor"
+        },
+        "explanation": "Dies ist ein automatisches Auslösen der 'Bedrohungsbewertung'. Obwohl noch gar nichts passiert ist, tritt bereits die Reaktion 'Das könnte gefährlich sein' auf.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personen, die ihre automatischen Denkmuster erkennen möchten"
+            ],
+            "limitations": [
+                "Allein das theoretische Verständnis führt nicht direkt zu Verhaltensänderungen"
+            ],
+            "citation_role": "Erläutert die Primärbewertung (Bedrohungsbewertung) in der Theorie der kognitiven Bewertung",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "primary_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_002",
+        "type": "multiple_choice",
+        "question": "Bei demselben 'Feedback vom Vorgesetzten' reagiert Person A niedergeschlagen, während Person B es als 'Jetzt weiß ich, was ich verbessern kann' aufnimmt.\n\nWelche Theorie erklärt diesen Unterschied am besten?",
+        "choices": [
+            "Theorie der kognitiven Bewertung (Unterschiede in der Interpretation beeinflussen den Stress)",
+            "Persönlichkeitstheorie (angeborenes Temperament bestimmt es)",
+            "Reiz-Reaktions-Theorie (Das Ereignis bestimmt direkt die Reaktion)"
+        ],
+        "correct_index": 0,
+        "explanation": "Selbst bei demselben Ereignis verändert sich die Reaktion je nachdem, 'wie man es interpretiert'. Das ist der Kern der Theorie der kognitiven Bewertung. (Wenn man denkt 'die Persönlichkeit entscheidet alles' oder 'das Ereignis ist die Ursache', können individuelle Unterschiede nicht erklärt werden)",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personen, die den theoretischen Hintergrund verstehen möchten",
+                "Personen, die wissen möchten, warum Menschen unterschiedlich reagieren"
+            ],
+            "limitations": [
+                "Nur das Wissen um die Theorie ändert die Interpretation nicht automatisch (Übung ist notwendig)"
+            ],
+            "citation_role": "Erklärt den grundlegenden Mechanismus der Theorie der kognitiven Bewertung",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress",
+                "individual_differences"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_003",
+        "type": "swipe_judgment",
+        "question": "'Primärbewertung' bedeutet, ein Ereignis automatisch als 'Bedrohung oder harmlos' einzuordnen.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Ich denke ja",
+            "right": "Ich denke nein"
+        },
+        "explanation": "Richtig. Die Primärbewertung ist ein Prozess, der blitzschnell beurteilt: 'Ist das eine Bedrohung für mich?' Dies geschieht meistens automatisch und nicht bewusst.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personen, die die Fachbegriffe genau verstehen möchten"
+            ],
+            "limitations": [
+                "Selbst wenn man die Terminologie kennt, ist für die Praxis zusätzliche Übung erforderlich"
+            ],
+            "citation_role": "Definiert die Primärbewertung",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "primary_appraisal"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_004",
+        "type": "multiple_choice",
+        "question": "Was bewertet der Prozess der 'Sekundärbewertung'?",
+        "choices": [
+            "'Habe ich Ressourcen, um mit dieser Situation umzugehen?'",
+            "'Ist dieses Ereignis eine Bedrohung?'",
+            "'Habe ich in der Vergangenheit die gleiche Erfahrung gemacht?'"
+        ],
+        "correct_index": 0,
+        "explanation": "Die Sekundärbewertung ist der Prozess, bei dem man einschätzt: 'Kann ich damit umgehen?' Sie erfolgt, nachdem die Primärbewertung 'Bedrohung' festgestellt hat. ('Ist es eine Bedrohung?' ist die Primärbewertung. 'Vergangene Erfahrungen' gehören zu einem anderen Gedächtnisprozess)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personen, die das Gesamtbild der Theorie erfassen möchten"
+            ],
+            "limitations": [
+                "Allein das theoretische Verständnis verbessert nicht die Bewältigungsfähigkeiten"
+            ],
+            "citation_role": "Definiert die Sekundärbewertung",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "secondary_appraisal",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_005",
+        "type": "conversation",
+        "question": "Erinnern Sie sich an eine Situation, in der Sie kürzlich etwas als 'Bedrohung' empfunden haben.",
+        "your_response_prompt": "Hatten Sie damals eher das Gefühl 'Ich kann damit umgehen' oder 'Das wird wohl nichts'?",
+        "choices": [
+            "Ich hatte das Gefühl, damit umgehen zu können",
+            "Ich hatte das Gefühl, das wird wohl nichts",
+            "Weder noch / Ich erinnere mich nicht"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Genau dieses Gefühl 'Kann ich damit umgehen oder nicht?' ist die Sekundärbewertung selbst.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Unterstützt das Selbstbewusstsein für die Sekundärbewertung",
+            "claim_tags": [
+                "secondary_appraisal",
+                "self_awareness"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_006",
+        "type": "multiple_choice",
+        "question": "Was passiert tendenziell, wenn die Primärbewertung 'Bedrohung' und die Sekundärbewertung 'nicht bewältigbar' ergibt?",
+        "choices": [
+            "Starke Stressreaktion (Unruhe, Angst, körperliche Symptome)",
+            "Ruhiges, problemlösendes Handeln",
+            "Es passiert nichts"
+        ],
+        "correct_index": 0,
+        "explanation": "Die Kombination 'Bedrohung + nicht bewältigbar' verstärkt die Stressreaktion. Umgekehrt kann 'Bedrohung + bewältigbar' als Herausforderung wahrgenommen werden. ('Ruhig handeln' und 'nichts passiert' wären ideal, sind aber schwierig, wenn das Gefühl der Hilflosigkeit vorhanden ist)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personen, die den Mechanismus der Stressreaktion verstehen möchten"
+            ],
+            "limitations": [
+                "Selbst mit Verständnis erfolgt die Reaktion selbst automatisch (bewusste Kontrolle hat Grenzen)"
+            ],
+            "citation_role": "Erklärt den Mechanismus, wie die Kombination aus Primär- und Sekundärbewertung die Stressintensität bestimmt",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_007",
+        "type": "swipe_judgment",
+        "question": "Die 'Bedrohungsbewertung' ist instinktiv und kann nicht verändert werden.",
+        "is_true": false,
+        "swipe_labels": {
+            "left": "Ich denke ja",
+            "right": "Ich denke nein"
+        },
+        "explanation": "Es ist zwar schwierig, sie komplett zu ändern, aber es wurde berichtet, dass es leichter werden kann, Situationen neu zu bewerten (mit individuellen Unterschieden). Allerdings sollte man sich nicht überfordern, wenn man müde ist oder wenig Kapazität hat.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Erklärt theoretisch die Veränderbarkeit der Bewertung",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "flexibility"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_008",
+        "type": "multiple_choice",
+        "question": "Für welchen Fall ist die Theorie der kognitiven Bewertung 'nicht geeignet'?",
+        "choices": [
+            "Stress, der hauptsächlich durch körperliche Erkrankung verursacht wird",
+            "Stress durch Beziehungen am Arbeitsplatz",
+            "Unbestimmte Zukunftsängste"
+        ],
+        "correct_index": 0,
+        "explanation": "Bei Fällen, in denen körperliche Erkrankungen oder physiologische Faktoren stark ausgeprägt sind, sollte neben dem 'Ändern der Interpretation' auch ein medizinischer Ansatz in Betracht gezogen werden. (Bei 'Beziehungsproblemen' und 'Zukunftsängsten' können kognitive Ansätze manchmal wirksam sein)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Personen, die den Anwendungsbereich der Theorie richtig verstehen möchten"
+            ],
+            "limitations": [
+                "Diese Theorie selbst geht nicht ausführlich auf die 'Erkennung von Grenzfällen' ein"
+            ],
+            "citation_role": "Erklärt die Grenzen des Anwendungsbereichs der Theorie der kognitiven Bewertung",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_009",
+        "type": "conversation",
+        "question": "Heute haben Sie die 'Primärbewertung (Bedrohungsbewertung)' und die 'Sekundärbewertung (Bewältigungsmöglichkeit)' gelernt.",
+        "your_response_prompt": "Welche davon möchten Sie beim nächsten Stresserlebnis bewusst wahrnehmen?",
+        "choices": [
+            "Primärbewertung: Mich fragen 'Ist das wirklich eine Bedrohung?'",
+            "Sekundärbewertung: Überlegen 'Was kann ich tun?'",
+            "Beides ausprobieren",
+            "Diesmal passe ich (auch das ist eine Wahl)"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Am besten ist es, mit dem Ansatz zu beginnen, der zu Ihnen passt.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Schlägt einen Einstieg in die Praxis vor",
+            "claim_tags": [
+                "implementation",
+                "practice"
+            ]
+        }
+    },
+    {
+        "id": "mental_l02_010",
+        "type": "conversation",
+        "question": "Hat der 'Mechanismus der Bedrohungsbewertung', den Sie in dieser Lektion gelernt haben, für Sie Sinn ergeben?",
+        "your_response_prompt": "Antworten Sie spontan",
+        "choices": [
+            "Es hat Sinn ergeben",
+            "Etwas fühlt sich nicht ganz richtig an",
+            "Ich verstehe es noch nicht ganz"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Ein 'ungutes Gefühl' ist eine wichtige Information. Wenn diese Theorie nicht zu Ihnen passt, gibt es vielleicht einen anderen Ansatz, der besser für Sie geeignet ist.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Unterstützt die Berücksichtigung individueller Unterschiede",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

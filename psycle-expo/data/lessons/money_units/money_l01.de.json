@@ -1,0 +1,424 @@
+[
+  {
+    "id": "money_l01_001",
+    "type": "swipe_judgment",
+    "question": "Im Moment, als ich etwas online in den Warenkorb gelegt habe, habe ich schon einmal Panik bekommen mit dem Gedanken: 'Wenn ich es jetzt nicht kaufe, wird es weg sein.'",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Ja, kenne ich",
+      "right": "Nein, kenne ich nicht"
+    },
+    "explanation": "Dies wird als 'Knappheitsverzerrung' bezeichnet. Wenn Hinweise wie 'Nur noch 3 verfügbar' oder 'Limitierte Edition' angezeigt werden, neigt man dazu, den Artikel wertvoller einzuschaetzen als er tatsaechlich ist. Das Verstaendnis dieser Verzerrung kann ein erster Schritt sein, um ruhiger zu bleiben.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Cialdini_2006",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Panik beim Online-Shopping",
+        "Menschen, die anfaellig fuer 'limitierte Angebote' sind"
+      ],
+      "limitations": [
+        "Bei tatsaechlich seltenen Artikeln kann es eine rationale Entscheidung sein"
+      ],
+      "citation_role": "Unterstuetzt die Existenz der Knappheitsverzerrung durch Beobachtungsstudien",
+      "claim_tags": [
+        "scarcity_bias",
+        "impulse_buying",
+        "cognitive_bias"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_002",
+    "type": "multiple_choice",
+    "question": "Was wurde als wirksam berichtet, um den Drang zu kontrollieren, wenn man denkt 'Ich will das jetzt sofort kaufen!'?",
+    "choices": [
+      "10 Sekunden warten, bevor man sich entscheidet",
+      "Nach etwas Guenstigerem suchen",
+      "Alle Bewertungen lesen"
+    ],
+    "correct_index": 0,
+    "explanation": "Es wurde berichtet, dass die 10-Sekunden-Regel als kurze Intervention wirksam sein kann. Waehrend man wartet, neigt der Hoehepunkt des Impulses dazu, vorbeizugehen. Es passt nicht zu jedem, also ist es voellig in Ordnung, sie nicht zu benutzen. ('Nach etwas Guenstigerem suchen' und 'alle Bewertungen lesen' haben den Nachteil, dass sie Zeit brauchen)",
+    "actionable_advice": "Tipp: Wenn du das naechste Mal denkst 'Ich will das kaufen!', halte einfach 10 Sekunden inne. Wenn es sich nicht richtig anfuehlt, hoer sofort auf.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Impulse beim Online-Shopping",
+        "Menschen mit haeufigen kleinen Impulskaufen"
+      ],
+      "limitations": [
+        "Bei teuren Artikeln kann die Wirkung geringer sein",
+        "Fuer Menschen, denen Warten unangenehm ist, kann es kontraproduktiv sein"
+      ],
+      "citation_role": "Erklaert die Beziehung zwischen Impulsen und Zeit theoretisch basierend auf Forschung zu Selbstkontrollressourcen",
+      "claim_tags": [
+        "self_control",
+        "impulse_buying",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_003",
+    "type": "swipe_judgment",
+    "question": "Wenn man etwas 24 Stunden im Warenkorb liegen laesst, denken viele Tendenz: 'Ich brauche es doch nicht.'",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Wahrscheinlich",
+      "right": "Eher nicht"
+    },
+    "explanation": "Es wurde berichtet, dass der Drang zum Impulskauf mit der Zeit natuerlich nachlassen kann. Achte darauf, notwendige Dinge nicht zu vergessen. Es ist normal, wenn es nicht klappt. Probier es einfach einmal aus.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Baumeister_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Impulskauf beim Online-Shopping",
+        "Menschen, die 'ich denke spaeter darueber nach' koennen"
+      ],
+      "limitations": [
+        "Schwer anwendbar, wenn es Verkaufsfristen gibt",
+        "Risiko, auch notwendige Dinge zu vergessen"
+      ],
+      "citation_role": "Unterstuetzt indirekt die Erholungseffekte der Selbstkontrolle",
+      "try_this": "Wenn du etwas in den Warenkorb legst: Schliesse den Bildschirm und sperre ihn (lass es 24 Stunden liegen)",
+      "claim_tags": [
+        "delay_gratification",
+        "impulse_buying",
+        "self_control"
+      ],
+      "tiny_metric": {
+        "metric": "Hast du nach 24 Stunden gedacht 'Ich brauche es doch nicht'?",
+        "stop_rule": "Hoer auf, wenn du dreimal hintereinander alles gekauft hast"
+      },
+      "comparator": {
+        "baseline": "Sofortiger Kauf",
+        "cost": "Nur 24 Stunden warten"
+      },
+      "fallback": {
+        "when": "Kann nicht 24 Stunden warten",
+        "next": "[1-Stunden-Version] Schliesse den Browser und ueberpruefe nach 1 Stunde erneut"
+      }
+    }
+  },
+  {
+    "id": "money_l01_004",
+    "type": "multiple_choice",
+    "question": "Warum ist es wirksam, sich zu fragen: 'Werde ich das in einem Jahr noch benutzen?'",
+    "choices": [
+      "Das Vorstellen des zukuenftigen Selbst neigt dazu, den Impuls abzukuehlen",
+      "Man fuehlt sich schuldig und kauft nicht",
+      "Das Rechnen ist zu muehsam und man gibt auf"
+    ],
+    "correct_index": 0,
+    "explanation": "Es wurde berichtet, dass das Vorstellen des zukuenftigen Selbst (Zukunfts-Selbst-Kontinuitaet) dazu neigt, impulsive Entscheidungen zu reduzieren. Es funktioniert moeglicherweise nicht gut bei Menschen, denen es schwerfaellt, sich die Zukunft vorzustellen. Probier es einfach einmal aus. (Nicht 'Schuldgefuehle' oder 'Rechnen ist muehsam' – das Gefuehl der Verbindung mit dem zukuenftigen Selbst ist der Schluessel)",
+    "actionable_advice": "Tipp: Wenn du das naechste Mal etwas kaufen moechtest, frage dich: 'Werde ich das in einem Jahr noch benutzen?'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Hershfield_2011",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, die langfristig denken koennen",
+        "Menschen, die nach dem Kauf oft Reue empfinden"
+      ],
+      "limitations": [
+        "Funktioniert moeglicherweise nicht gut bei Menschen, denen es schwerfaellt, sich die Zukunft vorzustellen",
+        "Schwer anwendbar auf Verbrauchsgueter"
+      ],
+      "citation_role": "Unterstuetzt direkt den Zusammenhang zwischen Zukunfts-Selbst-Kontinuitaet und Entscheidungsfindung",
+      "try_this": "Wenn du denkst 'Ich will das kaufen': Nimm den Finger weg und sage 10 Sekunden lang 'Werde ich das in einem Jahr noch benutzen?'",
+      "claim_tags": [
+        "future_self_continuity",
+        "impulse_buying",
+        "decision_making"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Wie stark ist dein 'Ich will kaufen' jetzt? (0-10)",
+        "after_prompt": "Nach der Zukunftsfrage?",
+        "success_rule": "Wenn es auch nur ein bisschen gesunken ist, ist es OK",
+        "stop_rule": "Wenn es gleich bleibt oder steigt, ziehe dich fuer heute zurueck"
+      },
+      "comparator": {
+        "baseline": "Kaufen ohne nachzudenken",
+        "cost": "5 Sekunden / geringe Belastung"
+      },
+      "fallback": {
+        "when": "Der Drang verschwindet nicht, auch wenn ich mir die Zukunft vorstelle",
+        "next": "Wechsle zu 24-Stunden-Warenkorb-Methode"
+      }
+    }
+  },
+  {
+    "id": "money_l01_005",
+    "type": "swipe_judgment",
+    "question": "'Weil es guenstig ist, kaufe ich es einfach' fuehrt oft zu hoeheren Kosten am Ende.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Stimmt wohl",
+      "right": "Nicht wirklich"
+    },
+    "explanation": "Dinge, die aus einem 'Schnaeppchen'-Gefuehl heraus gekauft werden, werden oft nicht benutzt und fuehren schliesslich zu Verlusten. Allerdings gibt es rationale Faelle wie das Anlegen von Vorraten an Verbrauchsguetern.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Thaler_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, die anfaellig fuer Sales sind",
+        "Menschen, die oft 'fuer spaeter kaufen'"
+      ],
+      "limitations": [
+        "Das Anlegen von Vorraten an Verbrauchsguetern kann rational sein"
+      ],
+      "citation_role": "Unterstuetzt die Irrationalitaet des Mental Accounting durch Beobachtungsstudien",
+      "claim_tags": [
+        "mental_accounting",
+        "sunk_cost",
+        "impulse_buying"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_006",
+    "type": "multiple_choice",
+    "question": "Warum reduziert ein festgelegtes Budget wie 'Diesen Monat nur noch X Euro' die Tendenz zum Impulskauf?",
+    "choices": [
+      "Eine 'Regel' wie ein Budget erleichtert Entscheidungen",
+      "Weil das Geld ausgeht",
+      "Weil das Rechnen ermuedend ist"
+    ],
+    "correct_index": 0,
+    "explanation": "Wenn es Budgetbeschraenkungen gibt, sinken die Entscheidungskosten fuer 'kaufen oder nicht kaufen'. Wenn das Budget zu streng ist, kann es zu einem Rueckschlag und Ueberspenden fuehren. (Nicht 'Geld geht aus' oder 'Rechnen ermuedet' – der Punkt ist, dass Entscheidungen leichter werden)",
+    "actionable_advice": "Tipp: Lege den Betrag fest, den du diese Woche frei ausgeben kannst (z.B. 50 Euro pro Woche). Wenn es zu schwer ist, erhoehe einfach den Betrag.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Thaler_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Menschen, die Regeln leicht befolgen koennen",
+        "Menschen, die mit der Haushaltsfuehrung beginnen moechten"
+      ],
+      "limitations": [
+        "Zu strenges Budget kann zu einem Rueckschlag fuehren",
+        "Schwer auf Notfallausgaben zu reagieren"
+      ],
+      "citation_role": "Unterstuetzt indirekt den Budgeteffekt durch die Mental-Accounting-Theorie",
+      "try_this": "Lege dein 'freies Budget' fuer diese Woche fest (z.B. 50 Euro pro Woche)",
+      "claim_tags": [
+        "mental_accounting",
+        "budgeting",
+        "self_control"
+      ],
+      "tiny_metric": {
+        "metric": "Bist du am Wochenende im Budget geblieben?",
+        "stop_rule": "Hoer auf, wenn du 2 Wochen hintereinander deutlich ueberschritten hast"
+      },
+      "comparator": {
+        "baseline": "Ausgaben ohne festgelegtes Budget",
+        "cost": "5 Minuten Einrichtung einmal pro Woche"
+      },
+      "fallback": {
+        "when": "Das Budget fuehlt sich zu eng an",
+        "next": "Erhoehe das Budget auf das 1,5-fache und versuche es erneut"
+      }
+    }
+  },
+  {
+    "id": "money_l01_007",
+    "type": "conversation",
+    "question": "Ein Freund sagt: 'Das ist limitiert! Kaufst du es nicht?' Wie antwortest du?",
+    "choices": [
+      "'Wenn man hoert, es ist limitiert, will man es ja haben, ne? Aber ich warte mal 10 Sekunden.'",
+      "'Limitiert!? Klar kauf ich!'",
+      "'Hab kein Geld, geht nicht.'"
+    ],
+    "recommended_index": 0,
+    "explanation": "'Limitiert' stimuliert die Knappheitsverzerrung. Indem man 10 Sekunden wartet, kann man manchmal etwas Abstand von der Verzerrung gewinnen. Wenn du es wirklich willst, ist es auch OK zu kaufen. Probier es einfach einmal aus.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 10,
+    "source_id": "Cialdini_2006",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die sich leicht von Freunden beeinflussen lassen",
+        "Menschen, die anfaellig fuer 'limitierte Angebote' sind"
+      ],
+      "limitations": [
+        "In sozialen Situationen kann es schwer sein, abzulehnen"
+      ],
+      "citation_role": "Unterstuetzt indirekt die 10-Sekunden-Regel als Gegenmassnahme zur Knappheitsverzerrung",
+      "claim_tags": [
+        "scarcity_bias",
+        "social_influence",
+        "impulse_buying"
+      ],
+      "try_this": "Wenn dir jemand 'limitiert' sagt, warte 10 Sekunden",
+      "tiny_metric": {
+        "metric": "Hast du nach 10 Sekunden gedacht 'Ich brauche es doch nicht'?",
+        "stop_rule": "Hoer auf, wenn du dreimal hintereinander doch gekauft hast"
+      },
+      "comparator": {
+        "baseline": "'Limitiert!' hoeren und sofort kaufen",
+        "cost": "10 Sekunden / geringe Belastung"
+      },
+      "fallback": {
+        "when": "Es ist schwer, an Ort und Stelle abzulehnen",
+        "next": "Sag 'Ich melde mich spaeter' und verschiebe es"
+      }
+    }
+  },
+  {
+    "id": "money_l01_008",
+    "type": "swipe_judgment",
+    "question": "'Stressabbau durch Shopping' wirkt kurzfristig, fuehrt aber langfristig tendenziell zu Reue.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Stimmt wohl",
+      "right": "Nicht wirklich"
+    },
+    "explanation": "Stresseinkauf fuehrt zu einem kurzfristigen Dopaminschub und hebt die Stimmung, aber es wurde berichtet, dass man es spaeter tendenziell bereut. Allerdings ist es fuer viele Menschen kein Problem, wenn es nur gelegentlich passiert.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Rick_2014",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, die bei Stress mehr einkaufen",
+        "Menschen, die nach dem Kauf oft Reue empfinden"
+      ],
+      "limitations": [
+        "Als gelegentliche Belohnung ist es fuer viele kein Problem"
+      ],
+      "citation_role": "Unterstuetzt den Zusammenhang zwischen emotionalem Konsum und Reue durch Beobachtungsstudien",
+      "claim_tags": [
+        "emotional_spending",
+        "regret",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_009",
+    "type": "multiple_choice",
+    "question": "Welche Methode wurde als wirksam zur Reduzierung von Impulskauf berichtet?",
+    "choices": [
+      "10 Sekunden warten vor dem Kauf",
+      "Eine Wunschliste erstellen",
+      "Nur Bargeld in die Geldboerse tun"
+    ],
+    "correct_index": 0,
+    "explanation": "Es wurde berichtet, dass die 10-Sekunden-Regel in Experimenten wirksam sein kann. Wunschlisten und Barzahlung sind auch wirksam, aber die 10-Sekunden-Regel ist wegen ihrer Einfachheit beliebt. Es passt nicht zu jedem. Probier es einfach einmal aus. ('Wunschliste' und 'Bargeld' sind auch gut, brauchen aber Vorbereitung)",
+    "actionable_advice": "Tipp: Probier es morgen einmal aus: Wenn der Kaufimpuls kommt, warte 10 Sekunden. Wenn es nicht passt, wechsle zu einer anderen Methode.",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen mit haeufigem Impulskauf",
+        "Menschen, die einfach anfangen moechten"
+      ],
+      "limitations": [
+        "Bei teuren Artikeln kann die Wirkung geringer sein"
+      ],
+      "citation_role": "Unterstuetzt indirekt die Wirksamkeit der 10-Sekunden-Regel basierend auf Forschung zu Selbstkontrollressourcen",
+      "try_this": "Wenn du denkst 'Ich will das kaufen!': Nimm den Finger weg und zaehle nur 10 Sekunden (1...2...3...10)",
+      "claim_tags": [
+        "self_control",
+        "impulse_buying",
+        "delay_gratification"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Wie stark ist dein 'Ich will kaufen' jetzt? (0-10)",
+        "after_prompt": "Nach 10 Sekunden?",
+        "success_rule": "Wenn es auch nur ein bisschen gesunken ist, ist es OK",
+        "stop_rule": "Wenn es gleich bleibt oder steigt, ziehe dich fuer heute zurueck"
+      },
+      "comparator": {
+        "baseline": "Impulsiv auf den Warenkorb-Button druecken",
+        "cost": "10 Sekunden / geringe Belastung"
+      },
+      "fallback": {
+        "when": "10 Sekunden reichen nicht",
+        "next": "Wechsle zu 24-Stunden-Warenkorb-Methode"
+      }
+    }
+  },
+  {
+    "id": "money_l01_010",
+    "type": "multiple_choice",
+    "question": "Was von dem, was du heute gelernt hast, koenntest du ab morgen anwenden?",
+    "choices": [
+      "10 Sekunden warten, wenn ich etwas kaufen will",
+      "Artikel in den Warenkorb legen und 24 Stunden liegen lassen",
+      "Mich fragen: 'Werde ich das in einem Jahr noch benutzen?'",
+      "Alles ausprobieren"
+    ],
+    "correct_index": 3,
+    "explanation": "Jede dieser Methoden ist es wert, ausprobiert zu werden. Auch wenn sich nicht alles auf einmal aendert, kann man seine 'Kaufgewohnheiten' vielleicht nach und nach veraendern. Wenn etwas nicht passt, wechsle zu einer anderen Methode. Probier es einfach einmal aus. (Die einzelnen Optionen sind auch wirksam, die einfachste ist die 10-Sekunden-Regel)",
+    "actionable_advice": "Tipp: Heutige Aktion: Beim naechsten 'Ich will das kaufen!' warte einfach 10 Sekunden.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die neue Gewohnheiten beginnen moechten"
+      ],
+      "limitations": [
+        "Es koennte schwer sein, alles durchzuhalten"
+      ],
+      "citation_role": "Unterstuetzt indirekt die Wirksamkeit von Selbstkontrollinterventionen",
+      "try_this": "Beim naechsten 'Ich will kaufen!' warte 10 Sekunden... wenn es zu schwer ist, nimm nur 1 Sekunde den Finger weg",
+      "claim_tags": [
+        "self_control",
+        "habit_formation",
+        "impulse_buying"
+      ],
+      "tiny_metric": {
+        "metric": "Hast du diese Woche mindestens einmal 10 Sekunden gewartet?",
+        "stop_rule": "Hoer auf, wenn du dich eine Woche lang kein einziges Mal daran erinnert hast"
+      },
+      "comparator": {
+        "baseline": "Nichts ausprobieren",
+        "cost": "10 Sekunden x ein paar Mal pro Woche"
+      },
+      "fallback": {
+        "when": "Die 10-Sekunden-Regel passt nicht zu mir",
+        "next": "Wechsle zu 24-Stunden-Warenkorb oder Zukunftsfrage"
+      }
+    }
+  }
+]

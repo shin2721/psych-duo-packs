@@ -1,0 +1,376 @@
+[
+  {
+    "id": "social_l02_001",
+    "type": "swipe_judgment",
+    "question": "Ich wuenschte, ich koennte einfach sagen 'Lass mich kurz darueber nachdenken', aber ich bereue oft, dass ich es nicht tue.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Kommt oft vor",
+      "right": "Eher selten"
+    },
+    "explanation": "Der Druck, sofort zu antworten, entsteht oft in uns selbst. Fuer die andere Person ist es voellig normal, wenn du dir einen Moment Zeit zum Nachdenken nimmst.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, die sich leicht unter Druck gesetzt fuehlen, sofort zu antworten"
+      ],
+      "limitations": [
+        "In dringenden Situationen schwer anzuwenden"
+      ],
+      "citation_role": "Unterstuetzt den Einfluss von Sofortantwort-Druck bei der Grenzsetzung",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "self_awareness"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_002",
+    "type": "multiple_choice",
+    "question": "Wenn du dich schwertust, 'Nein' zu sagen, was hilft dir am besten, erst einmal ruhig zu werden?",
+    "choices": [
+      "Das Handy umfassen und sagen 'Lass mich kurz nachschauen'",
+      "Mit einem Laecheln sofort 'Ja klar!' antworten",
+      "Schweigend gruebeln"
+    ],
+    "correct_index": 0,
+    "explanation": "Das 'Umfassen' als koerperliche Handlung sendet ein Umschaltsignal ans Gehirn. Wenn dir die Worte fehlen, bewege zuerst den Koerper. (Sofort 'Ja klar!' sagen fuehrt oft zu Reue. Schweigend gruebeln macht es unangenehm)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Menschen, denen die Worte fehlen"
+      ],
+      "limitations": [
+        "Bei persoenlichen Gespraechen kann die koerperliche Handlung manchmal schwierig sein"
+      ],
+      "citation_role": "Erklaert theoretisch den Zusammenhang zwischen Selbstbehauptung und Koerperbewegung",
+      "claim_tags": [
+        "assertiveness",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_003",
+    "type": "multiple_choice",
+    "question": "Wenn du das Gefuehl hast 'Ich muss mich jetzt entscheiden', welche Methode wurde als wirksam berichtet, um 10 Sekunden innezuhalten?",
+    "choices": [
+      "Den Finger vom Handy nehmen und 'Moment mal' sagen",
+      "'Okay' sagen und spaeter absagen",
+      "Die Nachricht lesen und nicht antworten"
+    ],
+    "correct_index": 0,
+    "explanation": "Indem du physisch 'den Finger wegnimmst', kannst du dich vom Druck der Sofortantwort distanzieren. Der Trick ist, den Koerper vor den Worten zu bewegen. Es ist voellig in Ordnung, wenn es nicht klappt. Versuche es erstmal einmal. ('Okay sagen und spaeter absagen' ist unangenehm. 'Nachricht ignorieren' kann die Beziehung belasten)",
+    "actionable_advice": "Tipp: Wenn du dich schwertust abzulehnen, nimm den Finger vom Handy und schreibe 'Lass mich 10 Sekunden nachschauen'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die bei LINE oder Direktnachrichten zu schnellen Antworten neigen"
+      ],
+      "limitations": [
+        "Bei persoenlichen Gespraechen ist ein anderer Ansatz noetig"
+      ],
+      "citation_role": "Indirekte Unterstuetzung fuer Aufschub-Techniken bei der Grenzsetzung",
+      "try_this": "Tipp: Wenn eine schwierige Nachricht kommt, nimm den Finger weg, warte 10 Sekunden und antworte dann 'Lass mich nachschauen'",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "physical_action"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Wie stark ist dein aktueller 'Ich muss sofort antworten'-Druck? (0-10)",
+        "after_prompt": "Und nach 10 Sekunden mit weggenommenem Finger?",
+        "success_rule": "Schon eine kleine Verringerung ist ein Erfolg",
+        "stop_rule": "Wenn es sich nicht aendert, lass es fuer heute gut sein"
+      },
+      "comparator": {
+        "baseline": "Mit Sofortantwort 'Okay' schreiben",
+        "cost": "10 Sekunden / geringe Anstrengung"
+      },
+      "fallback": {
+        "when": "Wenn 10 Sekunden nicht moeglich sind",
+        "next": "'Nur 1 Sekunde' den Finger wegnehmen und einmal tief durchatmen"
+      }
+    }
+  },
+  {
+    "id": "social_l02_004",
+    "type": "swipe_judgment",
+    "question": "Ich habe manchmal das Gefuehl, dass 'Nein sagen = das Ende der Beziehung' bedeutet.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Kommt mir bekannt vor",
+      "right": "Nicht wirklich"
+    },
+    "explanation": "In Wirklichkeit endet eine Beziehung selten wegen einer einzigen Absage. Das groessere Risiko besteht darin, sich durch staendiges Ueberfordern zu erschoepfen.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, die aus Angst vor Beziehungsschaeden nicht ablehnen koennen"
+      ],
+      "limitations": [
+        "Es gibt Faelle, in denen Beziehungen tatsaechlich zerbrechen koennen"
+      ],
+      "citation_role": "Unterstuetzt Beobachtungsstudien zu Selbstbehauptung und Beziehungspflege",
+      "claim_tags": [
+        "assertiveness",
+        "relationship",
+        "fear"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_005",
+    "type": "conversation",
+    "question": "In Situationen, in denen du dich schwertust 'Nein' zu sagen, welches Muster trifft am ehesten auf dich zu?",
+    "choices": [
+      "Ich kann es nicht sagen, weil ich die andere Person verletzen koennte",
+      "Ich kann es nicht sagen, weil ich Angst habe, nicht gemocht zu werden",
+      "Ich weiss nicht, wie ich ablehnen soll",
+      "Ich habe kein besonderes Muster"
+    ],
+    "recommended_index": null,
+    "explanation": "Alle Antworten sind richtig. Wenn du dein eigenes Muster erkennst, wird es einfacher, die passende Strategie zu waehlen.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Unterstuetzt die Selbsterkenntnis von Selbstbehauptungsmustern",
+      "claim_tags": [
+        "self_awareness",
+        "assertiveness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_006",
+    "type": "multiple_choice",
+    "question": "Welche Formulierung macht es dir leichter, 'Nein' zu sagen?",
+    "choices": [
+      "'Weil XX, ist es diesmal schwierig fuer mich' (Grund + Absage)",
+      "'Auf keinen Fall'",
+      "'Ich denk drueber nach' (ohne wirklich abzulehnen)"
+    ],
+    "correct_index": 0,
+    "explanation": "'Grund + Absage' ermoeglicht es dir, deine Situation zu erklaeren, ohne die andere Person abzulehnen. Zum Beispiel: 'Diese Woche ist bei mir viel los, daher ist es diesmal schwierig.' Versuche es erstmal einmal. (Starke Ablehnung ist schwer auszusprechen. 'Ich denk drueber nach' endet oft unklar)",
+    "actionable_advice": "Tipp: Beim Ablehnen, sage 10 Sekunden lang 'Weil XX, ist es diesmal schwierig' vor dem Absenden",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die nicht wissen, wie sie ablehnen sollen"
+      ],
+      "limitations": [
+        "Kann schwierig sein, wenn nach dem Grund gefragt wird"
+      ],
+      "citation_role": "Indirekte Unterstuetzung fuer Formulierungstechniken bei der Grenzsetzung",
+      "try_this": "Tipp: Bevor du eine Absage sendest, halte inne und sage 10 Sekunden lang 'Weil XX, ist es schwierig'",
+      "claim_tags": [
+        "assertiveness",
+        "phrase_template",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Wie gross ist deine Angst vor dem Senden der Absage? (0-10)",
+        "after_prompt": "Und nachdem du die Formulierung gesagt hast?",
+        "success_rule": "Schon eine kleine Verringerung ist ein Erfolg",
+        "stop_rule": "Wenn es sich nicht aendert, versuche eine andere Formulierung"
+      },
+      "comparator": {
+        "baseline": "Nicht wissen was man sagen soll und erstarren",
+        "cost": "10 Sekunden / geringe Anstrengung"
+      },
+      "fallback": {
+        "when": "Wenn dir kein Grund einfaellt",
+        "next": "Einfach 'Diesmal ist es schwierig' reicht aus"
+      }
+    }
+  },
+  {
+    "id": "social_l02_007",
+    "type": "swipe_judgment",
+    "question": "Ich neige dazu, das Gefuehl zu haben, dass ich mich entschuldigen muss, wenn ich ablehne.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Kommt mir bekannt vor",
+      "right": "Nicht wirklich"
+    },
+    "explanation": "Ablehnen an sich erfordert oft keine Entschuldigung. Es kann helfen, mit etwas Positivem zu beginnen, wie 'Danke, aber diesmal ist es schwierig.'",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, die sich beim Ablehnen uebermaeaig entschuldigen"
+      ],
+      "limitations": [
+        "Je nach Kultur und Beziehung kann eine Entschuldigung angemessen sein"
+      ],
+      "citation_role": "Unterstuetzt die Beziehung zwischen Selbstbehauptung und Entschuldigung durch Beobachtungsstudien",
+      "claim_tags": [
+        "assertiveness",
+        "apology",
+        "self_respect"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_008",
+    "type": "multiple_choice",
+    "question": "Wenn du dich in einem persoenlichen Gespraech schwertust 'Nein' zu sagen, was kannst du koerperlich zuerst tun?",
+    "choices": [
+      "Einen Schritt zuruecktreten und sagen 'Lass mich kurz nachdenken'",
+      "Mit einem Laecheln 'Klar!' sagen",
+      "Die Arme verschraenken und schweigen"
+    ],
+    "correct_index": 0,
+    "explanation": "Indem du physisch 'einen Schritt zuruecktrittst', kannst du auch psychologisch Distanz gewinnen. Der Trick ist, den Koerper vor den Worten zu bewegen. Versuche es erstmal einmal. ('Mit Laecheln Klar! sagen' fuehrt oft zu Reue. 'Arme verschraenken und schweigen' wirkt aggressiv)",
+    "actionable_advice": "Tipp: Wenn es dir schwerfaellt, persoenlich abzulehnen, tritt einen Schritt zurueck und sag 'Lass mich kurz nachdenken'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die oft in persoenlichen Gespraechen zu sofortigen Antworten gedraengt werden"
+      ],
+      "limitations": [
+        "Schwierig an Orten ohne Platz"
+      ],
+      "citation_role": "Indirekte Unterstuetzung fuer den Zusammenhang zwischen Koerperbewegung und Grenzsetzung",
+      "try_this": "Tipp: Wenn es dir persoenlich schwerfaellt abzulehnen, tritt einen Schritt zurueck und sag 10 Sekunden lang 'Lass mich nachdenken'",
+      "claim_tags": [
+        "assertiveness",
+        "physical_action",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Wie schwer faellt es dir abzulehnen? (0-10)",
+        "after_prompt": "Und nach dem Schritt zurueck?",
+        "success_rule": "Schon eine kleine Verringerung ist ein Erfolg",
+        "stop_rule": "Wenn es sich nicht aendert, versuche eine andere Methode"
+      },
+      "comparator": {
+        "baseline": "Stehen bleiben und sofort antworten",
+        "cost": "1 Sekunde / geringe Anstrengung"
+      },
+      "fallback": {
+        "when": "Wenn Zuruecktreten nicht moeglich ist",
+        "next": "Den Blick abwenden und 'Hmm' sagen"
+      }
+    }
+  },
+  {
+    "id": "social_l02_009",
+    "type": "conversation",
+    "question": "Welche Technik aus dieser Lektion koenntest du ab morgen anwenden?",
+    "choices": [
+      "'Den Finger vom Handy nehmen und pausieren'",
+      "Die 'Grund + Absage'-Formulierung verwenden",
+      "Die koerperliche Handlung 'Einen Schritt zuruecktreten und nachdenken'",
+      "Alles ausprobieren"
+    ],
+    "recommended_index": null,
+    "explanation": "Es lohnt sich, alles auszuprobieren. Wenn etwas nicht passt, versuche etwas anderes. Das ist auch Lernen. Versuche es erstmal einmal. ('Alles' muss nicht sein, fang mit einer Sache an)",
+    "actionable_advice": "Tipp: Wenn du dich morgen auch nur einmal schwertust abzulehnen, nimm den Finger vom Handy und warte 10 Sekunden",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die neue Gewohnheiten ausprobieren moechten"
+      ],
+      "limitations": [
+        "Ohne Uebung leicht zu vergessen"
+      ],
+      "citation_role": "Bietet Optionen fuer Grenzsetzungs-Interventionen",
+      "try_this": "Tipp: Wenn du dich morgen einmal schwertust abzulehnen, nimm den Finger vom Handy und warte 10 Sekunden",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "assertiveness"
+      ],
+      "tiny_metric": {
+        "metric": "Hast du es diese Woche mindestens einmal angewendet?",
+        "stop_rule": "Wenn du es eine Woche lang nicht anwendest, hoere auf"
+      },
+      "comparator": {
+        "baseline": "Nichts versuchen und weiter sofort antworten",
+        "cost": "10 Sekunden x ein paar Mal/Woche"
+      },
+      "fallback": {
+        "when": "Wenn nichts passt",
+        "next": "Wechsle zu 'Nur lesen und 1 Stunde warten'"
+      }
+    }
+  },
+  {
+    "id": "social_l02_010",
+    "type": "conversation",
+    "question": "Waren die 'Absage-Techniken' in dieser Lektion hilfreich fuer dich?",
+    "choices": [
+      "Scheint nuetzlich zu sein",
+      "Passt vielleicht nicht so gut zu mir",
+      "Weiss ich noch nicht"
+    ],
+    "recommended_index": null,
+    "explanation": "Alle Antworten sind richtig. Wenn es 'nicht passt', ist es wichtig, einen anderen Ansatz zu finden.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Unterstuetzt die Beruecksichtigung individueller Unterschiede",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

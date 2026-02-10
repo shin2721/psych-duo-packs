@@ -1,0 +1,385 @@
+[
+  {
+    "id": "study_l01_001",
+    "type": "swipe_judgment",
+    "question": "Obwohl ich denke 'Ich muss lernen', fällt es mir manchmal schwer, tatsächlich anzufangen.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Das kommt oft vor",
+      "right": "Eher selten"
+    },
+    "explanation": "Nicht anfangen zu können ist nicht 'Faulheit', sondern wird als eine natuerliche Reaktion betrachtet, um Unbehagen zu vermeiden. Es ist voellig in Ordnung, sich nicht selbst dafuer zu kritisieren, dass man nicht anfangen kann.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personen, die nicht mit dem Lernen beginnen koennen",
+        "Personen, die sich wegen Aufschieben selbst kritisieren"
+      ],
+      "limitations": [
+        "Chronische Antriebslosigkeit erfordert einen anderen Ansatz"
+      ],
+      "citation_role": "Unterstuetzt das Emotionsregulationsmodell des Aufschiebens durch Beobachtungsstudien",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_002",
+    "type": "multiple_choice",
+    "question": "Was passiert tendenziell, wenn man wartet, bis man 'motiviert' ist?",
+    "choices": [
+      "Die Motivation kommt oft nicht, und die Zeit vergeht einfach",
+      "Die Motivation kommt von selbst",
+      "Man kann sich entspannen und die Effizienz steigt"
+    ],
+    "correct_index": 0,
+    "explanation": "Es wurde berichtet, dass Motivation eher 'durch Anfangen entsteht' als etwas ist, worauf man 'wartet'. Dies nennt man Verhaltensaktivierung. ('Kommt von selbst' oder 'Entspannung steigert Effizienz' sind selten. Warten fuehrt meist zu keiner Motivation.)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Personen, die lange auf Motivation warten",
+        "Personen, die Schwierigkeiten haben anzufangen"
+      ],
+      "limitations": [
+        "Bei echter Erschoepfung ist Ruhe notwendig"
+      ],
+      "citation_role": "Erklaert die Verhaltensaktivierungstheorie in der Prokrastinationsforschung",
+      "claim_tags": [
+        "procrastination",
+        "motivation",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_003",
+    "type": "multiple_choice",
+    "question": "Welche Methode wurde als wirksam berichtet, um die Huerde zum Lernanfang zu senken?",
+    "choices": [
+      "Entscheide dich fuer 'nur 10 Sekunden' und oeffne die Lernmaterialien",
+      "Bereite eine perfekte Lernumgebung vor",
+      "Warte, bis du motiviert bist"
+    ],
+    "correct_index": 0,
+    "explanation": "Selbst 10 Sekunden 'Anfangen' neigt dazu, den Wechsel zur Aufgabe zu erleichtern. Auch wenn es bei 10 Sekunden bleibt, ist das in Ordnung. Wenn es nicht passt, probiere eine andere Methode. Erstmal einmal versuchen. ('Umgebung vorbereiten' und 'auf Motivation warten' kosten Zeit.)",
+    "actionable_advice": "Tipp: Wenn du das naechste Mal nicht mit dem Lernen beginnen kannst, versuche 'nur 10 Sekunden die Lernmaterialien zu oeffnen'.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personen, die Schwierigkeiten haben anzufangen",
+        "Personen mit perfektionistischen Tendenzen"
+      ],
+      "limitations": [
+        "Bei echter Erschoepfung ist Ruhe notwendig",
+        "Wenn selbst 10 Sekunden nicht moeglich sind, nicht erzwingen"
+      ],
+      "citation_role": "Unterstuetzt indirekt die Wirksamkeit der 10-Sekunden-Regel aus der Prokrastinationsforschung",
+      "try_this": "Versuche 'nur 10 Sekunden die Lernmaterialien zu oeffnen'",
+      "claim_tags": [
+        "procrastination",
+        "task_initiation",
+        "implementation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Wie gross ist deine 'Unlust' gerade? (0-10)",
+        "after_prompt": "Und nach 10 Sekunden?",
+        "success_rule": "Jede Verringerung ist ein Erfolg",
+        "stop_rule": "Keine Veraenderung oder hoeher = heute aufhoeren"
+      },
+      "comparator": {
+        "baseline": "Auf Motivation warten",
+        "cost": "10 Sekunden / geringe Belastung"
+      },
+      "fallback": {
+        "when": "Selbst 10 Sekunden sind nicht moeglich",
+        "next": "Wenn-Dann-Planung ausprobieren"
+      }
+    }
+  },
+  {
+    "id": "study_l01_004",
+    "type": "swipe_judgment",
+    "question": "Wenn man vorher entscheidet 'Wenn XX, dann mache ich YY', neigt die Ausfuehrungsrate dazu zu steigen.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Koennte sein",
+      "right": "Eher nicht"
+    },
+    "explanation": "Dies nennt man 'Implementierungsabsicht' oder 'Wenn-Dann-Planung'. Beispiel: 'Nach dem Abendessen setze ich mich an den Schreibtisch.' Studien berichten, dass die Ausfuehrungsrate hoeher ist als ohne Plan.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personen, die Plaene machen, aber nicht umsetzen",
+        "Personen, die Gewohnheiten aufbauen moechten"
+      ],
+      "limitations": [
+        "Die Wirkung ist gering, wenn der Ausloeser vage ist"
+      ],
+      "citation_role": "Studie, die die Wirkung von Implementierungsabsichten (Wenn-Dann-Plaenen) direkt untersucht hat",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_005",
+    "type": "conversation",
+    "question": "Was trifft auf dich am meisten zu, wenn du nicht mit dem Lernen beginnen kannst?",
+    "choices": [
+      "Ich weiss nicht, wo ich anfangen soll",
+      "Es ist mir zu laestig und ich kann mich nicht bewegen",
+      "Ich erstarre, weil ich es perfekt machen will",
+      "Ich habe kein bestimmtes Muster"
+    ],
+    "recommended_index": null,
+    "explanation": "Alle Antworten sind richtig. Wenn du dein eigenes Muster erkennst, neigt es dazu, die Wahl der Gegenmassnahmen zu erleichtern.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Unterstuetzt Selbsterkenntnis bei Aufschiebe-Mustern",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_006",
+    "type": "multiple_choice",
+    "question": "Welches Format ist am einfachsten umzusetzen, wenn man 'Wenn-Dann-Planung' verwendet?",
+    "choices": [
+      "Entscheide im Format 'Wenn XX (Ausloeser), dann YY (Handlung)'",
+      "Entscheide dich 'hart zu arbeiten'",
+      "Denke 'Irgendwann werde ich lernen'"
+    ],
+    "correct_index": 0,
+    "explanation": "Wenn du Ausloeser (wann/wo) und Handlung (was tun) zusammen festlegst, neigt die Ausfuehrung dazu, automatischer zu werden. Erstmal einmal versuchen. ('Hart arbeiten' und 'irgendwann' sind vage und werden selten umgesetzt.)",
+    "actionable_advice": "Tipp: Entscheide heute einen Wenn-Dann-Plan: 'Wenn XX, dann oeffne ich 10 Sekunden lang die Lernmaterialien'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personen, deren Plaene oft scheitern",
+        "Personen, die Gewohnheiten aufbauen moechten"
+      ],
+      "limitations": [
+        "Die Wirkung ist gering, wenn der Ausloeser nicht im Alltag vorkommt",
+        "Mehrere Wenn-Dann-Plaene koennen belastend sein"
+      ],
+      "citation_role": "Unterstuetzt indirekt das spezifische Format von Implementierungsabsichten",
+      "try_this": "Entscheide einen 'Wenn XX, dann oeffne ich 10 Sekunden die Lernmaterialien'",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Konnte ich diese Woche den Wenn-Dann-Plan umsetzen?",
+        "after_prompt": "Anzahl der erfolgreichen Umsetzungen",
+        "success_rule": "Einmal pro Woche reicht",
+        "stop_rule": "Wenn 2 Wochen keine Umsetzung, andere Methode versuchen"
+      },
+      "comparator": {
+        "baseline": "Nur entscheiden 'hart zu arbeiten'",
+        "cost": "30 Sekunden Planung / 10 Sekunden Umsetzung"
+      },
+      "fallback": {
+        "when": "Kein Ausloeser gefunden",
+        "next": "'Wenn ich mein Handy benutzen will' als Ausloeser verwenden"
+      }
+    }
+  },
+  {
+    "id": "study_l01_007",
+    "type": "swipe_judgment",
+    "question": "Es gibt die Ansicht, dass Aufschieben beim Lernen nicht nur an 'schwachem Willen' liegt.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Koennte sein",
+      "right": "Glaube ich nicht"
+    },
+    "explanation": "Forschung berichtet, dass Aufschieben oft mehr durch 'Vermeidung von Unbehagen' oder 'Unklarheit der Aufgabe' verursacht wird als durch Willenskraft. Es neigt dazu, besser zu funktionieren, mit Systemen umzugehen, als sich selbst zu kritisieren.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personen, die sich selbst kritisieren",
+        "Personen, die sich zu sehr auf Willenskraft verlassen"
+      ],
+      "limitations": [
+        "Nicht alles Aufschieben hat die gleiche Ursache"
+      ],
+      "citation_role": "Unterstuetzt das Emotionsregulationsmodell des Aufschiebens",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_008",
+    "type": "multiple_choice",
+    "question": "Welche Methode ist einfach, um die 'Umgebungsreibung' beim Lernen zu reduzieren?",
+    "choices": [
+      "Lege die Lernmaterialien geoeffnet auf den Schreibtisch",
+      "Bereite eine perfekte Umgebung vor, bevor du anfaengst",
+      "Warte, bis du motiviert bist"
+    ],
+    "correct_index": 0,
+    "explanation": "Je weniger 'Aufwand bis zum Start', desto eher neigt die Handlung dazu, zu passieren. Das Offenlassen der Lernmaterialien kann die Starthuerde senken. Erstmal einmal versuchen. ('Perfekte Umgebung' und 'auf Motivation warten' fuehren oft zu Aufschieben.)",
+    "actionable_advice": "Tipp: Lege heute Abend vor dem Schlafen die Lernmaterialien fuer morgen geoeffnet auf den Schreibtisch.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personen, die Schwierigkeiten haben anzufangen",
+        "Personen, die zu viel Zeit mit Umgebungsvorbereitung verbringen"
+      ],
+      "limitations": [
+        "Kann in einer unordentlichen Umgebung kontraproduktiv sein"
+      ],
+      "citation_role": "Unterstuetzt indirekt den Zusammenhang zwischen Umgebungsreibung und Handlungsinitiierung",
+      "try_this": "Vor dem Lernen anfangen: Lernmaterialien 10 Sekunden geoeffnet auf den Schreibtisch legen",
+      "claim_tags": [
+        "environment_design",
+        "friction_reduction",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Waren die Lernmaterialien morgens geoeffnet?",
+        "after_prompt": "Wenn ja, konnte ich mit dem Lernen beginnen?",
+        "success_rule": "Erfolgreich, wenn bei geoeffnetem Zustand gestartet wurde",
+        "stop_rule": "Nach 1 Woche ohne Wirkung aufhoeren"
+      },
+      "comparator": {
+        "baseline": "Von verstautem Zustand aus beginnen",
+        "cost": "10 Sekunden vor dem Schlafen"
+      },
+      "fallback": {
+        "when": "Kein Platz, um Lernmaterialien liegen zu lassen",
+        "next": "Lern-App auf dem Handy-Startbildschirm platzieren"
+      }
+    }
+  },
+  {
+    "id": "study_l01_009",
+    "type": "conversation",
+    "question": "Welche Technik aus dieser Lektion koenntest du ab morgen nutzen?",
+    "choices": [
+      "'Nur 10 Sekunden Lernmaterialien oeffnen'",
+      "Vorher mit 'Wenn-Dann-Planung' festlegen",
+      "'Lernmaterialien offen liegen lassen' - Umgebungsgestaltung",
+      "Alles ausprobieren"
+    ],
+    "recommended_index": null,
+    "explanation": "Alle sind einen Versuch wert. Wenn etwas nicht passt, probiere etwas anderes. Auch das ist Lernen. Erstmal einmal versuchen. ('Alles' muss nicht sein, mit einer Sache anfangen reicht.)",
+    "actionable_advice": "Tipp: Probiere morgen einmal: Wenn du nicht mit dem Lernen beginnen kannst, 'nur 10 Sekunden die Lernmaterialien oeffnen'.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personen, die eine neue Gewohnheit beginnen moechten"
+      ],
+      "limitations": [
+        "Ohne Uebung neigt man dazu, es zu vergessen"
+      ],
+      "citation_role": "Schlaegt Optionen fuer Prokrastinations-Interventionen vor",
+      "try_this": "Morgen einmal 'nur 10 Sekunden Lernmaterialien oeffnen' verwenden",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "Konnte ich es diese Woche mindestens einmal anwenden?",
+        "stop_rule": "Nach 1 Woche ohne Anwendung aufhoeren"
+      },
+      "comparator": {
+        "baseline": "Nichts ausprobieren und weiter aufschieben",
+        "cost": "10 Sekunden x mehrmals pro Woche"
+      },
+      "fallback": {
+        "when": "Keine Methode passt",
+        "next": "Auf minimale Aufgabe reduzieren (nur eine Aufgabe loesen)"
+      }
+    }
+  },
+  {
+    "id": "study_l01_010",
+    "type": "conversation",
+    "question": "Waren die 'Lernanfang-Techniken' in dieser Lektion nuetzlich?",
+    "choices": [
+      "Scheinen nuetzlich zu sein",
+      "Passen vielleicht nicht so gut",
+      "Weiss ich noch nicht"
+    ],
+    "recommended_index": null,
+    "explanation": "Alle Antworten sind richtig. Wenn etwas 'nicht zu passen scheint', ist es auch wichtig, andere Ansaetze zu suchen. Da die Ursachen fuer Aufschieben je nach Person unterschiedlich sind, ist der Prozess selbst, eine passende Methode zu finden, wertvoll.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Unterstuetzt Beruecksichtigung individueller Unterschiede",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

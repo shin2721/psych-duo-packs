@@ -1,0 +1,333 @@
+[
+    {
+        "id": "mental_l01_001",
+        "type": "conversation",
+        "question": "Hast du diese Woche mehr als dreimal gedacht: \"Haette ich das damals nur anders gesagt...\" und die gleiche Szene im Kopf wiederholt?",
+        "your_response_prompt": "Antworte aus dem Bauch heraus",
+        "choices": [
+            "Mehr als dreimal (ziemlich belastend)",
+            "Ein- bis zweimal",
+            "Nein (fuehle mich entspannt)"
+        ],
+        "recommended_index": null,
+        "explanation": "Das nennt man \"Rumination\". Es unterscheidet sich tatsaechlich von Reflexion und aehnelt eher einem Zustand, in dem das Gehirn automatisch eine Fehlermeldung abspielt.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Menschen, die negative Gedankenschleifen erkennen moechten"
+            ],
+            "limitations": [
+                "Bei anhaltendem starkem Stimmungstief"
+            ],
+            "citation_role": "Unterstuetzt die Definition und den Mechanismus von Rumination",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_002",
+        "type": "multiple_choice",
+        "question": "Die Bahn hat 15 Minuten Verspaetung. Du bekommst eine Nachricht: \"Bist du in 10 Minuten da?\" Dein Puls steigt und du wirst nervoes.\n\nWelche Erklaerung beschreibt am besten, wie diese \"Nervositaet\" entsteht?",
+        "choices": [
+            "Eine Reaktion \"Das koennte eine Bedrohung sein\" wurde ausgeloest",
+            "Die Verspaetung der Bahn ist die direkte Ursache",
+            "Du bist charakterlich leicht reizbar"
+        ],
+        "correct_index": 0,
+        "explanation": "Bevor das Ereignis eintritt, neigt eine Reaktion wie \"Das koennte eine Bedrohung sein\" dazu, ausgeloest zu werden. Der erhoehte Puls und die Nervositaet oder Angst sind natuerliche koerperliche Reaktionen. (Wir neigen dazu zu denken \"Die Bahn ist schuld\" oder \"So bin ich eben\", aber dann muessten alle gleich reagieren)",
+        "actionable_advice": "Tipp: Wenn du Nervositaet spuerst, genuegt es, sie zu benennen: \"Das ist eine koerperliche Reaktion\"",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Alltagsstress",
+                "Situationen mit geringem Kontrollgefuehl"
+            ],
+            "limitations": [
+                "Unmittelbar nach akutem Trauma",
+                "Faelle mit starken physiologischen Faktoren"
+            ],
+            "citation_role": "Unterstuetzt den Kernmechanismus der Theorie der kognitiven Bewertung",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress_response"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_003",
+        "type": "swipe_judgment",
+        "question": "Nach der Theorie der kognitiven Bewertung: Liegt die Ursache von Stress beim \"Ereignis\" oder bei der \"Interpretation\"?",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Bei der Interpretation",
+            "right": "Beim Ereignis"
+        },
+        "explanation": "Das ist der Kern der Theorie. Auch wenn wir das Ereignis nicht aendern koennen, bleibt Raum fuer Intervention bei der Interpretation (wie wir es wahrnehmen).",
+        "actionable_advice": "Probier es aus: Stell dir vor, du betrachtest ein unangenehmes Ereignis durch eine Kamera",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Bestaetigt den Kern der Theorie der kognitiven Bewertung",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_004",
+        "type": "multiple_choice",
+        "question": "Noch 3 Minuten bis zum Vorstellungsgespraech. Im Wartebereich haemmert dein Herz. Deine Handflaechen sind verschwitzt.\n\nWenn du diese koerperliche Reaktion anders interpretieren wuerdest?",
+        "choices": [
+            "\"Mein Koerper macht sich bereit\"",
+            "\"Ich bin ein Versager\"",
+            "\"Das ist ein schlechtes Zeichen\""
+        ],
+        "correct_index": 0,
+        "explanation": "Umgekehrt kann das Herzklopfen auch als \"Aufwaermphase des Koerpers\" interpretiert werden. Wenn du dich aber unwohl fuehlst, ruh dich aus, ohne dich zu zwingen. Es ist normal, wenn es nicht klappt. Versuch es erstmal nur einmal. (\"Ich bin ein Versager\" und \"schlechtes Zeichen\" denkt man schnell, aber genau das verstaerkt die Nervositaet)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jamieson_2012",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Nervositaet vor Praesentationen oder Vorstellungsgespraechen",
+                "Kurzfristige Leistungssituationen"
+            ],
+            "limitations": [
+                "Bei Unwohlsein",
+                "Chronische starke Angst"
+            ],
+            "citation_role": "Unterstuetzt die Wirkung von Reappraisal (Uminterpretation)",
+            "try_this": "Naechstes Mal wenn dein Herz rast: Sag dir 10 Sekunden lang \"Mein Koerper waermt sich auf\"",
+            "claim_tags": [
+                "reappraisal",
+                "arousal",
+                "stress_response"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Wie angespannt bist du jetzt? (0-10)",
+                "after_prompt": "Wie angespannt bist du nach 10 Sekunden? (0-10)",
+                "success_rule": "Ein Punkt weniger ist schon OK",
+                "stop_rule": "Keine Veraenderung? Heute abbrechen ist OK"
+            },
+            "comparator": {
+                "baseline": "Versuchen sich zu beruhigen (mit Gewalt unterdruecken)",
+                "cost": "10 Sekunden / Schwacher Effekt, aber geringe Belastung"
+            },
+            "fallback": {
+                "when": "Wenn du nach 10 Sekunden nervoeser wirst",
+                "next": "Wechsle zur Tiefenatmung (4 Sekunden einatmen, 4 Sekunden ausatmen)"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_005",
+        "type": "multiple_choice",
+        "question": "17 Uhr Meeting, der Chef hat dich kritisiert. 21 Uhr, und dieser eine Satz wiederholt sich immer noch im Kopf.\n\nWer neigt danach dazu, laenger unter Stress zu stehen?",
+        "choices": [
+            "Wer staendig denkt \"Warum muss mir das passieren...\"",
+            "Wer umschaltet mit \"Na ja, solche Tage gibt es\"",
+            "Beide gleich"
+        ],
+        "correct_index": 0,
+        "explanation": "Mehr als das Ereignis selbst beeinflusst \"wie man danach weiterdenkt\" die Dauer. Es ist nicht noetig, sich selbst zu kritisieren, wenn man nicht umschalten kann. (\"Umschalten\" ist ideal, aber in der Praxis oft schwierig)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Erklaert theoretisch den Fortbestand von Rumination im Rahmen der kognitiven Bewertungstheorie",
+            "claim_tags": [
+                "rumination",
+                "stress_duration"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_006",
+        "type": "conversation",
+        "question": "Erinnere dich an die stressigste Situation dieser Woche.",
+        "your_response_prompt": "Welche Worte gingen dir dabei durch den Kopf?",
+        "choices": [
+            "Worte wie \"Das ist schrecklich\" oder \"Was soll ich tun\"",
+            "Worte wie \"Na ja, egal\" oder \"Es wird schon\"",
+            "Keine besonderen Worte"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Es genuegt, die eigene \"innere Stimme\" wahrzunehmen.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Indirekte Unterstuetzung fuer die Wirkung von Selbstwahrnehmung",
+            "claim_tags": [
+                "self_awareness",
+                "mindfulness"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_007",
+        "type": "swipe_judgment",
+        "question": "\"Stress verschwindet nur durch die richtige Einstellung\" - das hoert sich irgendwie unbefriedigend an",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Verstehe ich",
+            "right": "Verstehe ich nicht"
+        },
+        "explanation": "Tatsaechlich wird nicht behauptet, dass \"ein Einstellungswechsel alles auf null bringt\". Bei akutem Trauma oder koerperlichen Ursachen sind andere Ansaetze erforderlich.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Verdeutlicht die Grenzen der Theorie",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "limitations"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_008",
+        "type": "multiple_choice",
+        "question": "Fuer welche Situationen ist die Theorie der kognitiven Bewertung \"geeignet\"?",
+        "choices": [
+            "Chronischer Stress oder Situationen mit geringem Kontrollgefuehl",
+            "Panikzustand unmittelbar nach einem Unfall",
+            "Faelle, bei denen koerperliche Erkrankung die Hauptursache ist"
+        ],
+        "correct_index": 0,
+        "explanation": "Sie eignet sich fuer Alltagsstress. Bei akutem Trauma oder starken physiologischen Faktoren sollten auch andere Ansaetze in Betracht gezogen werden. (\"Direkt nach einem Unfall\" oder \"koerperliche Erkrankung\" lassen sich nicht allein durch Kognition bewaeltigen)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Chronischer Stress",
+                "Situationen mit geringem Kontrollgefuehl"
+            ],
+            "limitations": [
+                "Panikzustand unmittelbar nach einem Unfall",
+                "Faelle, bei denen koerperliche Erkrankung die Hauptursache ist"
+            ],
+            "citation_role": "Verdeutlicht den Anwendungsbereich der Theorie der kognitiven Bewertung",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "applicability"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_009",
+        "type": "conversation",
+        "question": "Die Idee, die du heute gelernt hast: \"Interpretation beeinflusst Stress\".",
+        "your_response_prompt": "Wenn du es morgen bei einem stressigen Moment einmal ausprobieren wuerdest?",
+        "choices": [
+            "Mich fragen \"Wie interpretiere ich das gerade?\"",
+            "Lieber nicht ausprobieren (auch das ist eine Wahl)",
+            "Noch nicht ganz verstanden, erstmal abwarten"
+        ],
+        "recommended_index": 0,
+        "explanation": "Es lohnt sich, es auszuprobieren. Wenn es nicht passt, gibt es andere Methoden. Versuch es erstmal nur einmal.",
+        "actionable_advice": "Wenn du dich morgen unwohl fuehlst: Frag dich 10 Sekunden lang \"Was empfinde ich gerade als Bedrohung?\"",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Kleine alltaegliche Nervositaet",
+                "Menschen, die sich besser verstehen moechten"
+            ],
+            "limitations": [
+                "Ernste psychische Krisen",
+                "Zustaende, in denen Nachdenken selbst belastend ist"
+            ],
+            "citation_role": "Unterstuetzt die praktische Anwendung der Theorie der kognitiven Bewertung",
+            "try_this": "Wenn du dich morgen unwohl fuehlst: Frag dich 10 Sekunden lang \"Was empfinde ich gerade als Bedrohung?\"",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "self_awareness"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Wie nervoes bist du jetzt? (0-10)",
+                "after_prompt": "Wie nervoes bist du nach 10 Sekunden? (0-10)",
+                "success_rule": "Ein Punkt weniger ist schon OK",
+                "stop_rule": "Keine Veraenderung? Heute abbrechen ist OK"
+            },
+            "comparator": {
+                "baseline": "Sich einfach ablenken (Social Media, Videos usw.)",
+                "cost": "10 Sekunden / Schwacher Effekt, aber moegliche Vertiefung des Selbstverstaendnisses"
+            },
+            "fallback": {
+                "when": "Wenn das Fragen die Nervositaet verstaerkt",
+                "next": "Nur benennen \"Ich bin gerade nervoes\" (Inhalt ignorieren)"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_010",
+        "type": "conversation",
+        "question": "Passt der Ansatz dieser Snack-Lektion zu dir?",
+        "your_response_prompt": "Antworte aus dem Bauch heraus",
+        "choices": [
+            "Scheint zu passen",
+            "Scheint nicht so zu passen",
+            "Weiss ich noch nicht"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Wenn es nicht passt, gibt es vielleicht einen anderen Ansatz, der besser zu dir passt.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Unterstuetzt die Beruecksichtigung individueller Unterschiede",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]
