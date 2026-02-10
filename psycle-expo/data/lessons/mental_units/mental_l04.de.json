@@ -1,0 +1,308 @@
+[
+    {
+        "id": "mental_l04_001",
+        "type": "swipe_judgment",
+        "question": "Sonntagabend. Sobald du an morgen denkst, drehen sich dieselben Sorgen immer wieder im Kreis.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Kommt oft vor",
+            "right": "Eher selten"
+        },
+        "explanation": "Das ist ein Zeichen fuer Rumination. Was wie Nachdenken erscheint, ist manchmal nur eine automatische Endlosschleife im Gehirn.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Menschen, die Ruminationsmuster erkennen moechten"
+            ],
+            "limitations": [
+                "Bei anhaltender starker Niedergeschlagenheit kann Selbstbeobachtung selbst zur Belastung werden"
+            ],
+            "citation_role": "Unterstuetzt die Merkmale und Persistenz von Rumination durch empirische Forschung",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking",
+                "depression"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_002",
+        "type": "multiple_choice",
+        "question": "Was ist ein typisches Merkmal von Rumination?",
+        "choices": [
+            "Dieselben Inhalte kreisen immer wieder",
+            "Je mehr man darueber nachdenkt, desto eher findet man Loesungen",
+            "Es legt sich mit der Zeit von selbst"
+        ],
+        "correct_index": 0,
+        "explanation": "Rumination sieht aus wie Nachdenken, ist aber tatsaechlich nur ein Wiederholen derselben Inhalte. Oft braucht es einen anderen Ansatz fuer eine Loesung. (\"Loesungen finden\" ist problemloesungsorientiertes Denken. \"Legt sich von selbst\" ist eher selten.)",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Menschen, die den Unterschied zwischen Rumination und problemloesungsorientiertem Denken verstehen moechten"
+            ],
+            "limitations": [
+                "Nicht alle wiederholenden Gedanken sind schaedlich (gruendliches Nachdenken ist etwas anderes)"
+            ],
+            "citation_role": "Definiert den repetitiven Charakter von Rumination",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_003",
+        "type": "swipe_judgment",
+        "question": "Du hast etwas zu erledigen, aber faengst stattdessen mit etwas anderem an.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Kommt oft vor",
+            "right": "Eher selten"
+        },
+        "explanation": "Das ist ein Zeichen fuer Prokrastination. Es ist keine Willensschwaeche, sondern eine natuerliche Reaktion, um Unbehagen zu vermeiden.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, die Prokrastinationsmuster erkennen moechten"
+            ],
+            "limitations": [
+                "Die Ursachen fuer Prokrastination sind vielfaeltig (ADHS, Perfektionismus usw.) und lassen sich nicht verallgemeinern"
+            ],
+            "citation_role": "Erklaert Prokrastination als Vermeidungsverhalten im Rahmen kognitiver Bewertung",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_004",
+        "type": "multiple_choice",
+        "question": "In welcher Situation tritt Prokrastination am ehesten auf?",
+        "choices": [
+            "Wenn die Aufgabe Unbehagen ausloest (schwierig, langweilig, beaengstigend)",
+            "Wenn die Aufgabe zu einfach ist",
+            "Wenn genuegend Zeit vorhanden ist"
+        ],
+        "correct_index": 0,
+        "explanation": "Prokrastination ist ein Vermeidungsverhalten. Wenn die Aufgabe selbst Unbehagen ausloest, wendet sich die Aufmerksamkeit unbewusst anderen Dingen zu. (Sie tritt eher bei Unbehagen auf als bei \"zu einfachen\" oder \"genuegend Zeit\".)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, die die Ursachen von Prokrastination verstehen moechten"
+            ],
+            "limitations": [
+                "Nicht jede Prokrastination ist Unbehagen-Vermeidung (manchmal liegt es an Prioritaeten)"
+            ],
+            "citation_role": "Erklaert Prokrastination als Stressvermeidung im Rahmen kognitiver Bewertung",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_005",
+        "type": "conversation",
+        "question": "Gibt es etwas, das du in letzter Zeit vor dir herschiebst?",
+        "your_response_prompt": "Waehle aus, was dir in den Sinn kommt",
+        "choices": [
+            "Arbeit oder Lernen",
+            "Beziehungen oder Kommunikation",
+            "Gesundheit oder Lebensgewohnheiten",
+            "Nichts Bestimmtes / Faellt mir nichts ein"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Auch \"Faellt mir nichts ein\" ist eine gueltige Antwort. Wenn du nichts aufschiebst, ist das eine gute Sache.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Unterstuetzt die Selbstwahrnehmung",
+            "claim_tags": [
+                "self_awareness",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_006",
+        "type": "swipe_judgment",
+        "question": "Wenn eine stressige Erinnerung hochkommt, denkst du bewusst an etwas anderes.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Mache ich oft",
+            "right": "Eher selten"
+        },
+        "explanation": "Das ist ein Zeichen fuer Vermeidung. Kurzfristig bringt es Erleichterung, aber langfristig kann das Problem bestehen bleiben.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, die Vermeidungsmuster erkennen moechten"
+            ],
+            "limitations": [
+                "Vermeidung kann in manchen Faellen sinnvoll sein (z.B. voruebergehende Vermeidung direkt nach einem Trauma)"
+            ],
+            "citation_role": "Erklaert die Merkmale von Vermeidungscoping im Rahmen kognitiver Bewertung",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_007",
+        "type": "multiple_choice",
+        "question": "Warum neigt Vermeidung dazu, langfristig problematisch zu werden?",
+        "choices": [
+            "Das Problem wird nicht geloest und die Angst wird aufrechterhalten oder verstaerkt",
+            "Weil das Problem sofort geloest wird",
+            "Weil die Vermeidung selbst zu Stress fuehrt"
+        ],
+        "correct_index": 0,
+        "explanation": "Vermeidung bringt kurzfristige Erleichterung, aber das Problem bleibt bestehen. Dadurch neigt die Angst dazu, aufrechterhalten zu werden. (\"Sofortige Loesung\" passiert bei Vermeidung nicht. \"Vermeidung selbst ist Stress\" ist ein sekundaeres Problem.)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, die die langfristigen Auswirkungen von Vermeidung verstehen moechten"
+            ],
+            "limitations": [
+                "Nicht jede Vermeidung wird problematisch (manchmal ist Vermeidung als Priorisierung richtig)"
+            ],
+            "citation_role": "Erklaert die langfristigen Auswirkungen von Vermeidungscoping im Kontext der Stressforschung",
+            "claim_tags": [
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_008",
+        "type": "conversation",
+        "question": "Die drei Anzeichen, die du heute gelernt hast (Rumination, Prokrastination, Vermeidung). Welches trifft am ehesten auf dich zu?",
+        "your_response_prompt": "Waehle intuitiv",
+        "choices": [
+            "Rumination (dieselben Sorgen kreisen)",
+            "Prokrastination (Aufgaben aufschieben)",
+            "Vermeidung (nicht daran denken wollen)",
+            "Keines davon trifft zu"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Auch \"Keines davon\" ist eine gueltige Antwort. Das eigene Muster zu erkennen, ist bereits ein wichtiger Schritt.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Unterstuetzt die Mustererkennung",
+            "claim_tags": [
+                "self_awareness",
+                "pattern_recognition"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_009",
+        "type": "multiple_choice",
+        "question": "Was haben Rumination, Prokrastination und Vermeidung gemeinsam?",
+        "choices": [
+            "Sie haben die Funktion, voruebergehend Unbehagen zu entkommen",
+            "Sie werden durch Willensschwaeche verursacht",
+            "Sie sind Probleme, die sofort behoben werden sollten"
+        ],
+        "correct_index": 0,
+        "explanation": "Alle drei haben eine \"Unbehagen-Vermeidungs\"-Funktion. Statt sich selbst Vorwuerfe zu machen, ist das Erkennen des Musters der erste Schritt. (\"Willensschwaeche\" ist ein Missverstaendnis. Sich selbst mit \"Muss sofort behoben werden\" unter Druck zu setzen, neigt dazu, kontraproduktiv zu sein.)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, die die Gemeinsamkeiten der Muster verstehen moechten"
+            ],
+            "limitations": [
+                "Wenn man die drei zu sehr gleichsetzt, werden die spezifischen Bewaeltigungsstrategien fuer jedes einzelne unklar"
+            ],
+            "citation_role": "Deutet auf die gemeinsame Funktion von Rumination, Prokrastination und Vermeidung hin",
+            "claim_tags": [
+                "rumination",
+                "stress",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l04_010",
+        "type": "conversation",
+        "question": "Hast du in dieser Lektion etwas ueber deine eigenen Muster gelernt?",
+        "your_response_prompt": "Antworte ehrlich",
+        "choices": [
+            "Ich hatte eine Erkenntnis",
+            "Das wusste ich schon",
+            "Ich war mir nicht sicher"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Wenn du es \"schon wusstest\", war es eine gute Auffrischung. Wenn du \"nicht sicher\" warst, passt vielleicht ein anderer Ansatz besser zu dir.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Unterstuetzt die Beruecksichtigung individueller Unterschiede",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

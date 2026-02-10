@@ -1,0 +1,376 @@
+[
+  {
+    "id": "social_l02_001",
+    "type": "swipe_judgment",
+    "question": "Seria mais fácil se eu conseguisse dizer 'deixa eu pensar um pouco', mas já me arrependi de não ter conseguido dizer isso.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Acontece bastante",
+      "right": "Não muito"
+    },
+    "explanation": "A pressão de 'preciso responder na hora' às vezes é criada por nós mesmos. Para a outra pessoa também, 'um tempo para pensar' é algo normal.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que tendem a sentir pressão para responder imediatamente"
+      ],
+      "limitations": [
+        "Difícil de usar em situações urgentes"
+      ],
+      "citation_role": "Apoia o impacto da pressão de resposta imediata na definição de limites",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "self_awareness"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_002",
+    "type": "multiple_choice",
+    "question": "Quando você sente que é difícil recusar, qual é uma forma de primeiro se acalmar?",
+    "choices": [
+      "Pegar o celular e dizer 'deixa eu verificar rapidinho'",
+      "Responder na hora com um sorriso 'tá bom!'",
+      "Ficar em silêncio pensando"
+    ],
+    "correct_index": 0,
+    "explanation": "O movimento físico de 'pegar' envia um sinal de mudança para o cérebro. Quando as palavras não saem, primeiro mova o corpo. ('Responder na hora com ok' tende a causar arrependimento. 'Ficar em silêncio pensando' fica estranho)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que têm dificuldade em encontrar as palavras"
+      ],
+      "limitations": [
+        "Em situações presenciais, pode ser difícil fazer movimentos físicos"
+      ],
+      "citation_role": "Explica teoricamente a relação entre assertividade e movimento corporal",
+      "claim_tags": [
+        "assertiveness",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_003",
+    "type": "multiple_choice",
+    "question": "Quando você sente 'preciso decidir agora', qual método foi relatado como eficaz para parar por apenas 10 segundos?",
+    "choices": [
+      "Tirar o dedo do celular e dizer 'espera um pouquinho'",
+      "Dizer 'ok' e recusar depois",
+      "Ignorar a visualização"
+    ],
+    "correct_index": 0,
+    "explanation": "Ao 'tirar o dedo' fisicamente, você consegue dar um passo atrás da pressão de responder na hora. O truque é mover o corpo antes das palavras. Tudo bem se não conseguir. Tente apenas uma vez. ('Dizer ok e depois' fica estranho. 'Ignorar' tende a piorar o relacionamento)",
+    "actionable_advice": "Quando sentir que é difícil recusar, tire o dedo do celular e escreva 'deixa eu verificar 10 segundos'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que tendem a responder imediatamente no LINE ou DM"
+      ],
+      "limitations": [
+        "Requer abordagem diferente em situações presenciais"
+      ],
+      "citation_role": "Apoia indiretamente técnicas de pausa na definição de limites",
+      "try_this": "Quando receber uma DM difícil de recusar, tire o dedo e espere 10 segundos antes de responder 'deixa eu verificar'",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "physical_action"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Qual é a pressão de 'preciso responder agora'? (0-10)",
+        "after_prompt": "E depois de tirar o dedo por 10 segundos?",
+        "success_rule": "OK se diminuir um pouco",
+        "stop_rule": "Se não mudar, recue por hoje"
+      },
+      "comparator": {
+        "baseline": "Responder 'ok' imediatamente",
+        "cost": "10 segundos / carga baixa"
+      },
+      "fallback": {
+        "when": "Se 10 segundos for impossível",
+        "next": "Tire o dedo 'só 1 segundo' e respire fundo uma vez"
+      }
+    }
+  },
+  {
+    "id": "social_l02_004",
+    "type": "swipe_judgment",
+    "question": "Às vezes penso que 'recusar = o relacionamento vai acabar'.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Me identifico",
+      "right": "Nem tanto"
+    },
+    "explanation": "Na realidade, é raro que o relacionamento acabe por uma recusa. Pelo contrário, acumular esforço excessivo e ficar exausto é mais arriscado.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que não conseguem recusar por medo de deteriorar o relacionamento"
+      ],
+      "limitations": [
+        "Não é zero a possibilidade de realmente prejudicar o relacionamento"
+      ],
+      "citation_role": "Apoia estudos observacionais sobre assertividade e manutenção de relacionamentos",
+      "claim_tags": [
+        "assertiveness",
+        "relationship",
+        "fear"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_005",
+    "type": "conversation",
+    "question": "Em situações onde você sente que é 'difícil recusar', qual padrão mais se aplica a você?",
+    "choices": [
+      "Não consigo dizer porque posso magoar a outra pessoa",
+      "Não consigo dizer porque posso ser rejeitado",
+      "Não sei como recusar",
+      "Não tenho um padrão específico"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas as respostas estão corretas. Quando você percebe seu padrão, fica mais fácil escolher as medidas.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a autoconsciência de padrões de assertividade",
+      "claim_tags": [
+        "self_awareness",
+        "assertiveness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_006",
+    "type": "multiple_choice",
+    "question": "Como uma frase para facilitar dizer 'NÃO', qual formato é mais fácil de usar?",
+    "choices": [
+      "'Por causa de ○○, dessa vez é difícil' (motivo + recusa)",
+      "'Não quero de jeito nenhum'",
+      "'Vou pensar' (terminar sem recusar)"
+    ],
+    "correct_index": 0,
+    "explanation": "'Motivo + recusa' permite transmitir sua situação sem negar a outra pessoa. Exemplo: 'Essa semana está corrida, então dessa vez é difícil'. Tente apenas uma vez. ('Rejeição forte' é difícil de dizer. 'Vou pensar' tende a ficar vago)",
+    "actionable_advice": "Ao recusar, repita 'Por causa de ○○, dessa vez é difícil' por 10 segundos antes de enviar",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que não sabem como recusar"
+      ],
+      "limitations": [
+        "Pode ser difícil quando pedem explicações"
+      ],
+      "citation_role": "Apoia indiretamente técnicas de frases para definição de limites",
+      "try_this": "Antes de enviar a mensagem de recusa, pare o dedo e repita por 10 segundos 'Por causa de ○○, é difícil'",
+      "claim_tags": [
+        "assertiveness",
+        "phrase_template",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Qual é a ansiedade antes de enviar a recusa? (0-10)",
+        "after_prompt": "E depois de repetir a frase?",
+        "success_rule": "OK se diminuir um pouco",
+        "stop_rule": "Se não mudar, tente outra frase"
+      },
+      "comparator": {
+        "baseline": "Ficar travado sem saber o que dizer",
+        "cost": "10 segundos / carga baixa"
+      },
+      "fallback": {
+        "when": "Não consigo pensar em um motivo",
+        "next": "Só 'dessa vez é difícil' está OK"
+      }
+    }
+  },
+  {
+    "id": "social_l02_007",
+    "type": "swipe_judgment",
+    "question": "Tenho tendência a pensar 'preciso pedir desculpas' ao recusar.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Me identifico",
+      "right": "Nem tanto"
+    },
+    "explanation": "Em muitos casos, não há necessidade de pedir desculpas por recusar em si. Começar com 'obrigado, mas dessa vez é difícil' em forma de afirmação pode tornar mais fácil.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que tendem a se desculpar excessivamente ao recusar"
+      ],
+      "limitations": [
+        "Dependendo da cultura e do relacionamento, pedir desculpas pode ser apropriado"
+      ],
+      "citation_role": "Apoia estudos observacionais sobre a relação entre assertividade e pedidos de desculpas",
+      "claim_tags": [
+        "assertiveness",
+        "apology",
+        "self_respect"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_008",
+    "type": "multiple_choice",
+    "question": "Quando você sente que é 'difícil recusar' pessoalmente, o que você pode fazer primeiro com o corpo?",
+    "choices": [
+      "Dar um passo para trás e dizer 'deixa eu pensar um pouco'",
+      "Dizer com um sorriso 'tá bom!'",
+      "Cruzar os braços e ficar em silêncio"
+    ],
+    "correct_index": 0,
+    "explanation": "Ao 'dar um passo para trás' fisicamente, você também consegue tomar distância psicologicamente. O truque é mover o corpo antes das palavras. Tente apenas uma vez. ('Dizer ok sorrindo' tende a causar arrependimento. 'Cruzar os braços em silêncio' parece agressivo)",
+    "actionable_advice": "Quando for difícil recusar pessoalmente, dê um passo para trás e diga 'deixa eu pensar um pouco'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que frequentemente são pressionadas a responder na hora pessoalmente"
+      ],
+      "limitations": [
+        "Difícil em lugares sem espaço"
+      ],
+      "citation_role": "Apoia indiretamente a relação entre movimento corporal e definição de limites",
+      "try_this": "Quando for difícil recusar pessoalmente, dê um passo para trás e diga 'deixa eu pensar' por 10 segundos",
+      "claim_tags": [
+        "assertiveness",
+        "physical_action",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Qual é a dificuldade em recusar? (0-10)",
+        "after_prompt": "E depois de dar um passo para trás?",
+        "success_rule": "OK se diminuir um pouco",
+        "stop_rule": "Se não mudar, tente outro método"
+      },
+      "comparator": {
+        "baseline": "Responder imediatamente parado",
+        "cost": "1 segundo / carga baixa"
+      },
+      "fallback": {
+        "when": "Não consegue se afastar",
+        "next": "Desviar o olhar e dizer 'hmmm'"
+      }
+    }
+  },
+  {
+    "id": "social_l02_009",
+    "type": "conversation",
+    "question": "Das técnicas que você aprendeu hoje, qual parece mais útil para usar a partir de amanhã?",
+    "choices": [
+      "'Tirar o dedo do celular e pausar'",
+      "Usar a frase 'motivo + recusa'",
+      "O movimento físico de 'dar um passo para trás e pensar'",
+      "Tentar todas"
+    ],
+    "recommended_index": null,
+    "explanation": "Vale a pena tentar qualquer uma. Se não funcionar, tente outra. Isso também é aprendizado. Tente apenas uma vez. ('Todas' não precisa forçar, comece por uma)",
+    "actionable_advice": "Amanhã, apenas uma vez, quando sentir que é 'difícil recusar', tire o dedo do celular e espere 10 segundos",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem experimentar novos hábitos"
+      ],
+      "limitations": [
+        "Fácil de esquecer sem prática"
+      ],
+      "citation_role": "Propõe opções de intervenção para definição de limites",
+      "try_this": "Amanhã, uma vez quando sentir que é 'difícil recusar', tire o dedo do celular e espere 10 segundos",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "assertiveness"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu usar pelo menos uma vez esta semana?",
+        "stop_rule": "Se não usar em uma semana, pare"
+      },
+      "comparator": {
+        "baseline": "Continuar respondendo imediatamente sem tentar nada",
+        "cost": "10 segundos x algumas vezes/semana"
+      },
+      "fallback": {
+        "when": "Nenhuma funciona",
+        "next": "Mude para 'só visualizar e deixar por 1 hora'"
+      }
+    }
+  },
+  {
+    "id": "social_l02_010",
+    "type": "conversation",
+    "question": "As 'técnicas de recusar' desta lição pareceram úteis?",
+    "choices": [
+      "Parecem úteis",
+      "Não parecem muito adequadas",
+      "Ainda não sei"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas as respostas estão corretas. Se 'não parecem adequadas', é importante buscar outra abordagem.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia consideração de diferenças individuais",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

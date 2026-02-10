@@ -1,0 +1,378 @@
+[
+  {
+    "id": "work_l02_001",
+    "type": "conversation",
+    "question": "Nesta semana, quantas tarefas voce consegue lembrar que pensou \"preciso fazer isso\" mas acabou adiando?",
+    "your_response_prompt": "Vamos contar honestamente",
+    "choices": [
+      "4 ou mais (estou acumulando bastante)",
+      "Cerca de 1-3",
+      "0 (consegui resolver na hora)"
+    ],
+    "recommended_index": null,
+    "explanation": "Na verdade, essa procrastinacao pode nao ser \"falta de forca de vontade\", mas sim o \"perfeccionismo\" funcionando como um freio.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas com tendencia ao perfeccionismo"
+      ],
+      "limitations": [
+        "Dificil de aplicar em situacoes onde a qualidade e realmente exigida"
+      ],
+      "citation_role": "Estudo observacional que apoia a relacao entre procrastinacao e perfeccionismo",
+      "claim_tags": [
+        "perfectionism",
+        "procrastination",
+        "task_initiation"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_002",
+    "type": "multiple_choice",
+    "question": "O que voce pode fazer primeiro para reduzir a \"resistencia a comecar\"?",
+    "choices": [
+      "Abrir o computador e apenas abrir um arquivo",
+      "Fazer um plano perfeito",
+      "Esperar ate sentir vontade de fazer"
+    ],
+    "correct_index": 0,
+    "explanation": "A acao fisica de \"abrir um arquivo\" pode servir como gatilho para mudar o cerebro para o \"modo de trabalho\". Nao e preciso esperar pela motivacao.",
+    "actionable_advice": "Dica: Agora mesmo, sente-se na frente do PC e abra apenas um documento (nao precisa escrever nada)",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que tem dificuldade em comecar"
+      ],
+      "limitations": [
+        "Pode haver casos em que a pessoa para apos apenas abrir"
+      ],
+      "citation_role": "Explica teoricamente a relacao entre intencao de implementacao e acao fisica",
+      "claim_tags": [
+        "implementation_intention",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_003",
+    "type": "multiple_choice",
+    "question": "Quando voce pensa \"preciso fazer\" mas nao consegue se mover, qual e a acao minima que pode fazer em 10 segundos?",
+    "choices": [
+      "Abrir a tampa do notebook e apertar o botao de ligar",
+      "Escrever toda a lista de tarefas",
+      "Esperar ate surgir a motivacao"
+    ],
+    "correct_index": 0,
+    "explanation": "Acoes fisicas como \"abrir a tampa\" e \"apertar o botao\" tendem a facilitar a transicao para a tarefa. Mova o corpo antes de pensar. Apenas uma vez primeiro. (\"Escrever toda a lista\" e \"esperar motivacao\" levam tempo)",
+    "actionable_advice": "Quando nao conseguir se mover -> Abra a tampa do notebook e aperte o botao de ligar (esse e o primeiro passo)",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que tem dificuldade em comecar"
+      ],
+      "limitations": [
+        "Se o PC ja estiver aberto, outra acao e necessaria"
+      ],
+      "citation_role": "Pesquisa sobre procrastinacao que apoia indiretamente o efeito da acao minima",
+      "try_this": "Quando nao conseguir se mover -> Abra o PC e aperte o botao de ligar (10 segundos)",
+      "claim_tags": [
+        "procrastination",
+        "physical_action",
+        "task_initiation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Qual e seu nivel de \"nao quero fazer\" agora? (0-10)",
+        "after_prompt": "E depois de abrir o PC?",
+        "success_rule": "Esta OK se diminuir um pouco",
+        "stop_rule": "Se nao mudar, desista por hoje"
+      },
+      "comparator": {
+        "baseline": "Esperar pela motivacao",
+        "cost": "10 segundos / baixo esforco"
+      },
+      "fallback": {
+        "when": "Se nem 10 segundos for possivel",
+        "next": "Apenas abra o aplicativo de trabalho no celular"
+      }
+    }
+  },
+  {
+    "id": "work_l02_004",
+    "type": "swipe_judgment",
+    "question": "Quando voce decide \"apenas um passo\", pode perceber que ja esta no proximo passo.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Talvez sim",
+      "right": "Acho que nao"
+    },
+    "explanation": "O cerebro usa energia para \"comecar\". Uma vez iniciado, a barreira para continuar tende a diminuir.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas com alta resistencia a comecar"
+      ],
+      "limitations": [
+        "Pode haver casos em que para em um passo (e tudo bem)"
+      ],
+      "citation_role": "Pesquisa sobre intencao de implementacao que apoia o efeito de comecar",
+      "claim_tags": [
+        "implementation_intention",
+        "task_initiation",
+        "momentum"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_005",
+    "type": "conversation",
+    "question": "Quando voce nao consegue comecar uma tarefa, qual opcao mais se aplica a voce?",
+    "choices": [
+      "Nao sei por onde comecar",
+      "Fico travado tentando fazer perfeito",
+      "E muito chato e nao consigo me mover",
+      "Nao tenho um padrao especifico"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas estao corretas. Quando voce percebe seu padrao, fica mais facil escolher uma estrategia.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia o auto-reconhecimento de padroes de procrastinacao",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_006",
+    "type": "multiple_choice",
+    "question": "Por que e eficaz reduzir \"a tarefa de hoje\" a apenas uma?",
+    "choices": [
+      "Porque reduz a carga de escolha e facilita comecar",
+      "Porque fazer varias cansa",
+      "Porque decidir fazer so uma permite relaxar"
+    ],
+    "correct_index": 0,
+    "explanation": "A carga de decidir \"por onde comecar\" e uma grande parte da resistencia a iniciar. Decidir \"hoje e so isso\" em 10 segundos pela manha tende a facilitar o movimento. Apenas uma vez primeiro. (\"Cansar com varias\" e \"poder relaxar\" sao menos relevantes que reduzir a carga de escolha)",
+    "actionable_advice": "Ao acordar -> Pegue o celular e escreva \"1 tarefa de hoje\" no app de notas em 10 segundos",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que nao conseguem se mover porque tem tarefas demais"
+      ],
+      "limitations": [
+        "Dificil de usar quando varias tarefas sao realmente urgentes"
+      ],
+      "citation_role": "Apoia indiretamente o efeito de focar na intencao de implementacao",
+      "try_this": "Ao acordar -> Escreva \"1 tarefa de hoje\" no app de notas em 10 segundos",
+      "claim_tags": [
+        "focus",
+        "task_selection",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Quantos dias esta semana voce escreveu \"1 tarefa\"?",
+        "after_prompt": "Nos dias que escreveu, conseguiu comecar?",
+        "success_rule": "OK se conseguir escrever 2 dias por semana",
+        "stop_rule": "Se nao conseguir escrever por 1 semana, pare"
+      },
+      "comparator": {
+        "baseline": "Ficar sobrecarregado olhando a lista de tarefas",
+        "cost": "10 segundos / baixo esforco"
+      },
+      "fallback": {
+        "when": "Se a manha for corrida",
+        "next": "Escreva na noite anterior"
+      }
+    }
+  },
+  {
+    "id": "work_l02_007",
+    "type": "swipe_judgment",
+    "question": "\"Nao ter comecado\" pode ser mais estressante do que \"nao ter terminado\" a tarefa.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Entendo",
+      "right": "Nao entendo"
+    },
+    "explanation": "\"Coisas que nao fiz\" ficam na cabeca e tendem a causar estresse (efeito Zeigarnik). Comecar apenas um passo tende a aliviar essa carga.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que sentem estresse por \"nao ter feito\""
+      ],
+      "limitations": [
+        "Para pessoas que nao conseguem parar uma vez que comecam, outra abordagem e necessaria"
+      ],
+      "citation_role": "Estudo observacional que apoia a carga psicologica de tarefas incompletas",
+      "claim_tags": [
+        "procrastination",
+        "stress",
+        "zeigarnik_effect"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_008",
+    "type": "multiple_choice",
+    "question": "Quando \"nao sente vontade de fazer\", o que pode fazer primeiro com seu corpo?",
+    "choices": [
+      "Sentar na cadeira e colocar as maos na mesa",
+      "Ficar deitado ate sentir vontade",
+      "Assistir videos motivacionais nas redes sociais"
+    ],
+    "correct_index": 0,
+    "explanation": "Acoes fisicas como \"sentar na cadeira\" e \"colocar as maos\" podem servir como gatilho para mudar o cerebro para o modo de trabalho. Mova o corpo antes de pensar. Apenas uma vez primeiro. (\"Ficar deitado\" e \"ver redes sociais\" podem dificultar ainda mais o movimento)",
+    "actionable_advice": "Quando nao sentir vontade -> Primeiro sente na cadeira e coloque as maos na mesa (apenas 10 segundos)",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que ficam muito tempo esperando motivacao"
+      ],
+      "limitations": [
+        "Se nao houver lugar para sentar, outra acao e necessaria"
+      ],
+      "citation_role": "Apoia indiretamente a relacao entre acao corporal e inicio de comportamento",
+      "try_this": "Quando nao sentir vontade -> Sente na cadeira e coloque as maos na mesa (10 segundos)",
+      "claim_tags": [
+        "physical_action",
+        "task_initiation",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Nivel de motivacao? (0-10)",
+        "after_prompt": "E depois de sentar?",
+        "success_rule": "OK se aumentar um pouco",
+        "stop_rule": "Se nao mudar, tente outro metodo"
+      },
+      "comparator": {
+        "baseline": "Continuar esperando motivacao",
+        "cost": "10 segundos / baixo esforco"
+      },
+      "fallback": {
+        "when": "Se sentar nao funcionar",
+        "next": "Mude para apenas abrir o PC"
+      }
+    }
+  },
+  {
+    "id": "work_l02_009",
+    "type": "conversation",
+    "question": "Das tecnicas que aprendeu hoje, qual voce acha que pode usar a partir de amanha?",
+    "choices": [
+      "Acao minima de \"abrir a tampa do notebook e apertar o botao de ligar\"",
+      "Escrever \"1 tarefa de hoje\" pela manha",
+      "Acao fisica de \"sentar na cadeira e colocar as maos na mesa\"",
+      "Tentar todas"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas valem a pena tentar. Se nao funcionar, tente outra. Isso tambem e aprendizado. Apenas uma vez primeiro. (\"Todas\" esta OK, mas nao se force, comece com uma)",
+    "actionable_advice": "Amanha de manha, escreva \"1 tarefa de hoje\" no app de notas em 10 segundos (escrever e o primeiro passo)",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem experimentar novos habitos"
+      ],
+      "limitations": [
+        "Facil de esquecer sem pratica"
+      ],
+      "citation_role": "Propoe opcoes de intervencao para inicio de tarefas",
+      "try_this": "Amanha de manha, escreva \"1 tarefa de hoje\" no app de notas em 10 segundos",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu escrever pelo menos 1 vez esta semana?",
+        "stop_rule": "Se nao conseguir escrever por 1 semana, pare"
+      },
+      "comparator": {
+        "baseline": "Comecar o dia sem decidir nada",
+        "cost": "10 segundos x toda manha"
+      },
+      "fallback": {
+        "when": "Se nenhuma funcionar",
+        "next": "Mude para \"trabalhar apenas 2 minutos no celular\""
+      }
+    }
+  },
+  {
+    "id": "work_l02_010",
+    "type": "conversation",
+    "question": "As \"tecnicas para comecar\" desta licao pareceram uteis para voce?",
+    "choices": [
+      "Parecem uteis",
+      "Talvez nao sejam para mim",
+      "Ainda nao sei"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas estao corretas. Se \"nao parecer para voce\", tambem e importante procurar outra abordagem.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a consideracao de diferencas individuais",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

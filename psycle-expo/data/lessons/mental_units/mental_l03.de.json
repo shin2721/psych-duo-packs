@@ -1,0 +1,379 @@
+[
+    {
+        "id": "mental_l03_001",
+        "type": "swipe_judgment",
+        "question": "Noch 5 Minuten bis zum Meeting. Das Herz rast, die Haende sind verschwitzt. Je mehr ich mir sage 'Beruhige dich', desto nervoeser werde ich.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Kenne ich",
+            "right": "Kenne ich nicht"
+        },
+        "explanation": "'Beruhige dich' kann manchmal den gegenteiligen Effekt haben. Je mehr wir versuchen, Gefuehle zu unterdruecken, desto mehr richten wir unsere Aufmerksamkeit darauf.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Gross_1998",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Menschen, bei denen das Unterdruecken von Gefuehlen nicht funktioniert"
+            ],
+            "limitations": [
+                "Unterdrueckung kann in bestimmten Faellen wirksam sein (kurzfristig, in sozialen Situationen)"
+            ],
+            "citation_role": "Erklaert theoretisch den kontraproduktiven Mechanismus der Unterdrueckung als Rahmen fuer Emotionsregulation",
+            "claim_tags": [
+                "emotion_regulation",
+                "suppression"
+            ]
+        }
+    },
+    {
+        "id": "mental_l03_002",
+        "type": "multiple_choice",
+        "question": "Was ist tendenziell wirksamer als 'Beruhige dich', wenn du dich nervoes fuehlst?",
+        "choices": [
+            "'Ich bin gerade nervoes' anerkennen (Labeling)",
+            "Noch staerker 'Beruhige dich!' zu sich selbst sagen",
+            "Versuchen, an nichts zu denken"
+        ],
+        "correct_index": 0,
+        "explanation": "Labeling (dem Gefuehl einen Namen geben) kann die Intensitaet der Emotion reduzieren. Die Wirksamkeit variiert individuell, und bei chronischer Angst sind andere Ansaetze moeglicherweise erforderlich. ('Staerker beruhigen' neigt dazu, den gegenteiligen Effekt zu haben. 'An nichts denken' ist oft schwierig.)",
+        "actionable_advice": "Tipp: Wenn du das naechste Mal nervoes bist, fluester dir nur 'Nervositaet' zu (10 Sekunden). Wenn es sich unangenehm anfuehlt, hoer sofort auf.",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Gross_1998",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Alltaegliche leichte Nervositaet",
+                "Menschen, die sich selbst besser verstehen moechten"
+            ],
+            "limitations": [
+                "Bei chronisch starker Angst kann die Wirkung begrenzt sein",
+                "Kann bei manchen Menschen das Gruebeln verstaerken"
+            ],
+            "citation_role": "Erklaert theoretisch den Mechanismus des Labelings als Rahmen fuer Emotionsregulation",
+            "try_this": "Wenn du das naechste Mal nervoes bist, fluester dir 'Nervositaet' zu (10 Sekunden)",
+            "claim_tags": [
+                "emotion_regulation",
+                "reappraisal"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Wie nervoes bist du jetzt? (0-10 oder hoch/mittel/niedrig)",
+                "after_prompt": "Und nach 10 Sekunden?",
+                "success_rule": "Wenn es auch nur ein bisschen sinkt, ist das OK",
+                "stop_rule": "Wenn es gleich bleibt oder steigt, zieh dich fuer heute zurueck"
+            },
+            "comparator": {
+                "baseline": "Mit 'Beruhige dich' unterdruecken",
+                "cost": "10 Sekunden / geringe Belastung"
+            },
+            "fallback": {
+                "when": "Wenn das Labeling die Nervositaet verstaerkt",
+                "next": "Wechsle zur tiefen Atmung (4 Sekunden einatmen, 4 Sekunden ausatmen)"
+            }
+        }
+    },
+    {
+        "id": "mental_l03_003",
+        "type": "swipe_judgment",
+        "question": "Das Herzrasen als 'Mein Koerper bereitet sich vor' umzuinterpretieren, kann die Leistung verbessern.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Klingt plausibel",
+            "right": "Klingt nicht plausibel"
+        },
+        "explanation": "Dies wird 'Neubewertung' (Reappraisal) genannt. Studien zeigen kurzfristige Leistungsverbesserungen. Bei koerperlichem Unwohlsein solltest du dich jedoch ausruhen, ohne dich zu ueberanstrengen. Es ist normal, wenn es nicht funktioniert. Probier es erst einmal nur einmal aus.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jamieson_2012",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Nervositaet vor Praesentationen oder Vorstellungsgespraechen",
+                "Kurzfristige Leistungssituationen"
+            ],
+            "limitations": [
+                "Kann bei koerperlichem Unwohlsein kontraproduktiv sein",
+                "Bei chronischer Angst ist die Wirkung begrenzt"
+            ],
+            "citation_role": "Unterstuetzt direkt die Leistungseffekte der Erregungs-Neubewertung",
+            "claim_tags": [
+                "reappraisal",
+                "arousal",
+                "stress_response",
+                "performance"
+            ],
+            "tiny_metric": {
+                "metric": "Konntest du bei Herzrasen einmal sagen 'Mein Koerper bereitet sich vor'?",
+                "stop_rule": "Wenn du es 3 Tage hintereinander kein einziges Mal daran gedacht hast, hoer auf"
+            },
+            "comparator": {
+                "baseline": "Negativ interpretieren als 'Oh nein, ich bin nervoes'",
+                "cost": "Geringe kognitive Belastung (nur umformulieren)"
+            },
+            "try_this": "Wenn du das naechste Mal nervoes bist, sag dir 10 Sekunden lang 'Mein Koerper bereitet sich vor'",
+            "fallback": "Wenn es nicht passt, wechsle zur tiefen Atmung"
+        }
+    },
+    {
+        "id": "mental_l03_004",
+        "type": "multiple_choice",
+        "question": "Kurz vor einer Praesentation hast du stark schwitzende Haende. Was probierst du aus?",
+        "choices": [
+            "Umformulieren zu 'Mein Koerper waermt sich auf'",
+            "Denken 'Das ist schrecklich, ich bin wieder nervoes'",
+            "Den Handschweiss ignorieren und mich auf den Inhalt konzentrieren"
+        ],
+        "correct_index": 0,
+        "explanation": "Das Umformulieren zu 'Aufwaermen' kann die Stressreaktion in eine Herausforderungsreaktion umwandeln. Manche Menschen finden das nicht passend, also zwing dich nicht dazu. Probier es erst einmal nur einmal aus. ('Das ist schrecklich' neigt dazu, die Nervositaet zu verstaerken. 'Ignorieren und konzentrieren' ist fuer jeden schwierig.)",
+        "actionable_advice": "Tipp: Probier es morgen nur einmal: Wenn du nervoes bist, sag dir 10 Sekunden lang 'Mein Koerper bereitet sich vor'. Wenn es sich unangenehm anfuehlt, hoer sofort auf.",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jamieson_2012",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Vor Praesentationen, Vorstellungsgespraechen oder Pruefungen"
+            ],
+            "limitations": [
+                "Ueberanstrenge dich nicht bei koerperlichem Unwohlsein",
+                "Passt moeglicherweise nicht fuer Menschen, die Widerstand gegen 'positives Denken' haben"
+            ],
+            "citation_role": "Unterstuetzt die praktischen Effekte der Erregungs-Neubewertung",
+            "try_this": "Wenn du nervoes bist, sag dir 10 Sekunden lang 'Mein Koerper bereitet sich vor'",
+            "claim_tags": [
+                "reappraisal",
+                "arousal",
+                "performance"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Aktuelle Nervositaet (0-10)",
+                "after_prompt": "Nervositaet nach 10 Sekunden",
+                "success_rule": "Wenn sie um 1 sinkt, ist das OK",
+                "stop_rule": "Wenn keine Veraenderung, probier eine andere Methode"
+            },
+            "comparator": {
+                "baseline": "Sich selbst kritisieren mit 'Ich darf nicht nervoes sein'",
+                "cost": "10 Sekunden / geringe psychologische Belastung"
+            },
+            "fallback": {
+                "when": "Wenn das Umformulieren sich unwahr anfuehlt",
+                "next": "Nur labeln mit 'Ich bin nervoes'"
+            }
+        }
+    },
+    {
+        "id": "mental_l03_005",
+        "type": "conversation",
+        "question": "Was passt besser zu dir: 'Labeling' oder 'Neubewertung'?",
+        "your_response_prompt": "Waehle nach Gefuehl",
+        "choices": [
+            "Labeling (nur anerkennen 'Nervositaet')",
+            "Neubewertung (umformulieren zu 'Aufwaermen')",
+            "Ich moechte beides ausprobieren",
+            "Keines von beiden scheint zu mir zu passen"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. 'Scheint nicht zu passen' ist auch eine wertvolle Information. Es kann ein Anstoss sein, einen anderen Ansatz zu finden.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Gross_1998",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Unterstuetzt die Beruecksichtigung individueller Unterschiede",
+            "claim_tags": [
+                "emotion_regulation",
+                "individual_differences"
+            ]
+        }
+    },
+    {
+        "id": "mental_l03_006",
+        "type": "multiple_choice",
+        "question": "Wenn du nervoes bist und '4 Sekunden einatmen, 4 Sekunden ausatmen' dreimal machst, was passiert wahrscheinlich?",
+        "choices": [
+            "Der Parasympathikus wird aktiviert und der Herzschlag beruhigt sich tendenziell",
+            "Der Sympathikus wird weiter aktiviert und die Nervositaet nimmt zu",
+            "Nichts aendert sich"
+        ],
+        "correct_index": 0,
+        "explanation": "Langsame Atmung stimuliert den Parasympathikus. Bei Menschen, denen Atemuebungen schwerfallen, kann es die Nervositaet verstaerken. Es ist normal, wenn es nicht funktioniert. Probier es erst einmal nur einmal aus. ('Sympathikus wird aktiviert' passiert bei schneller Atmung. 'Nichts aendert sich' - obwohl es individuelle Unterschiede gibt, tritt tendenziell eine Veraenderung ein.)",
+        "actionable_advice": "Tipp: Probier es jetzt hier: 4 Sekunden einatmen, 4 Sekunden ausatmen, nur einmal. Wenn es sich unangenehm anfuehlt, ueberspring es.",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Gross_1998",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Voruebergehende Nervositaet",
+                "Menschen, die leicht auf Koerperempfindungen achten koennen"
+            ],
+            "limitations": [
+                "Kann bei Menschen, denen Atemuebungen schwerfallen, kontraproduktiv sein",
+                "Bei Panikattacken ist professionelle Unterstuetzung erforderlich"
+            ],
+            "citation_role": "Unterstuetzt indirekt die Wirkung von Atemuebungen auf das autonome Nervensystem",
+            "try_this": "4 Sekunden einatmen, 4 Sekunden ausatmen, nur einmal",
+            "claim_tags": [
+                "emotion_regulation"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Aktuelle Nervositaet (hoch/mittel/niedrig)",
+                "after_prompt": "Wie ist es nach einem Mal?",
+                "success_rule": "Wenn es sich auch nur ein bisschen leichter anfuehlt, ist das OK",
+                "stop_rule": "Wenn es sich unangenehm anfuehlt, hoer sofort auf"
+            },
+            "comparator": {
+                "baseline": "Aushalten und ertragen",
+                "cost": "8 Sekunden / minimale Belastung"
+            },
+            "fallback": {
+                "when": "Wenn sich auf die Atmung zu konzentrieren im Gegenteil beklemmend anfuehlt",
+                "next": "Verlagere die Aufmerksamkeit auf Geraeusche in der Umgebung (5 Sekunden)"
+            }
+        }
+    },
+    {
+        "id": "mental_l03_007",
+        "type": "swipe_judgment",
+        "question": "Faehigkeiten zur Emotionsregulation sind fuer die meisten Menschen durch Uebung leicht zu erlernen.",
+        "is_true": false,
+        "swipe_labels": {
+            "left": "Stimme zu",
+            "right": "Stimme nicht zu"
+        },
+        "explanation": "'Jeder kann es definitiv' ist uebertrieben. Viele Menschen verbessern sich durch Uebung, aber es gibt individuelle Unterschiede. Auch ist bei chronischen Problemen professionelle Unterstuetzung wirksam.",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Gross_1998",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Erklaert theoretisch individuelle Unterschiede",
+            "claim_tags": [
+                "emotion_regulation",
+                "limitations"
+            ]
+        }
+    },
+    {
+        "id": "mental_l03_008",
+        "type": "multiple_choice",
+        "question": "Von den 3 Techniken, die du heute gelernt hast (Labeling, Neubewertung, Atemuebung) - welche hat die niedrigste Huerdelm wenn du sie morgen anwendest?",
+        "choices": [
+            "Atemuebung (4 Sekunden einatmen, 4 Sekunden ausatmen)",
+            "Labeling ('Nervositaet' anerkennen)",
+            "Neubewertung (umformulieren zu 'Aufwaermen')",
+            "Alle haben hohe Huerden"
+        ],
+        "correct_index": 0,
+        "explanation": "Fuer die meisten Menschen ist die Atemuebung am einfachsten. Manche Menschen finden sie nicht passend, also ist es wichtig, das zu finden, was zu dir passt. (Labeling und Neubewertung sind auch wirksam. Wenn 'Alle haben hohe Huerden', ist es auch OK, einen anderen Ansatz zu suchen.)",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Gross_1998",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Bietet Orientierung fuer die Auswahl von Interventionen",
+            "claim_tags": [
+                "breathing",
+                "implementation"
+            ]
+        }
+    },
+    {
+        "id": "mental_l03_009",
+        "type": "conversation",
+        "question": "Wenn du morgen nervoes wirst und nur eine Sache ausprobierst, was waere das?",
+        "your_response_prompt": "Waehle eine aus",
+        "choices": [
+            "Atemuebung (4 Sekunden einatmen, 4 Sekunden ausatmen)",
+            "Labeling (fluester 'Nervositaet')",
+            "Neubewertung (umformulieren zu 'Aufwaermen')",
+            "Dieses Mal passe ich"
+        ],
+        "recommended_index": 0,
+        "explanation": "Eine auszuwaehlen und auszuprobieren ist der erste Schritt. Wenn es nicht passt, probier eine andere. Auch das ist Lernen. Erst einmal nur einmal.",
+        "actionable_advice": "Tipp: Probier morgen nur einmal (10 Sekunden) die gewaehlte Technik aus. Wenn es sich unangenehm anfuehlt, hoer sofort auf.",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Gross_1998",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Umgang mit alltaeglicher leichter Nervositaet"
+            ],
+            "limitations": [
+                "Nicht ausreichend bei anhaltender starker Angst"
+            ],
+            "citation_role": "Praesentiert Optionen fuer Emotionsregulationsstrategien",
+            "try_this": "Probier die gewaehlte Technik einmal aus (10 Sekunden)",
+            "claim_tags": [
+                "emotion_regulation"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Nervositaet 0-10",
+                "after_prompt": "Nach 10 Sekunden 0-10",
+                "success_rule": "Wenn sie um 1 sinkt, ist das OK",
+                "stop_rule": "Wenn keine Veraenderung oder Anstieg, zieh dich zurueck"
+            },
+            "comparator": {
+                "baseline": "Nichts tun",
+                "cost": "10 Sekunden"
+            },
+            "fallback": {
+                "when": "Wenn alle 3 nicht passen",
+                "next": "Physisch umschalten, wie Wasser trinken oder den Platz verlassen"
+            }
+        }
+    },
+    {
+        "id": "mental_l03_010",
+        "type": "conversation",
+        "question": "Waren die 'Techniken gegen Nervositaet' aus dieser Lektion fuer dich nuetzlich?",
+        "your_response_prompt": "Antworte ehrlich",
+        "choices": [
+            "Scheint nuetzlich zu sein",
+            "Passt vielleicht nicht so gut zu mir",
+            "Weiss ich noch nicht"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Wenn es 'nicht passt', ist das Richtige, einen anderen Ansatz zu suchen. Der Prozess selbst, das zu finden, was zu dir passt, ist Lernen.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Gross_1998",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Unterstuetzt die Beruecksichtigung individueller Unterschiede",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]
