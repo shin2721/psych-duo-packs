@@ -56,7 +56,8 @@
 ### S4. 計測を「プロダクト分析」に昇格
 
 **最小で入れるべきイベント**:
-- `lesson_started` / `lesson_completed`
+- `lesson_start` / `lesson_complete`
+- `question_incorrect` / `streak_lost`
 - `intervention_shown` / `attempted` / `executed`
 - `paywall_shown` / `paywall_clicked` / `purchase_completed`
 - `league_viewed` / `league_result_shown` / `league_reward_claimed`

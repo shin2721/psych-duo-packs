@@ -1,6 +1,6 @@
-# Analytics 計測ガイド（最終版 v1.3）
+# Analytics 計測ガイド（最終版 v1.4）
 
-## 実装済みイベント（7イベント）
+## 実装済みイベント（9イベント）
 
 | イベント | いつ発火するか | 多重発火防止 | properties |
 |---------|--------------|------------|------------|
@@ -11,6 +11,10 @@
 | `onboarding_complete` | completeOnboarding()成功時 | ドメイン確定地点（1回のみ） | なし |
 | `lesson_start` | レッスン画面入場時 | useRefガード | `lessonId`, `genreId` |
 | `lesson_complete` | レッスン完了ボタンタップ時 | ドメイン確定地点（1回のみ） | `lessonId`, `genreId` |
+| `question_incorrect` | 問題の不正解時 | 回答処理内（回答ごと） | `lessonId`, `genreId`, `questionId`, `questionType`, `questionIndex`, `isReviewRound` |
+| `streak_lost` | 連続日数が途切れた時 | streak更新時（条件一致時のみ） | `streakType`, `previousStreak`, `gapDays`, `freezesRemaining`, `freezesNeeded` |
+
+運用ダッシュボード定義: `docs/ANALYTICS_GROWTH_DASHBOARD.md`
 
 ### app_ready の定義
 
@@ -66,14 +70,13 @@ useEffect(() => {
 ### 4. lesson_start（useRefガード）
 
 ```typescript
-// app/lessons/[id].tsx
-const hasTrackedLessonStartRef = useRef<string | null>(null);
-useEffect(() => {
-  if (lesson && id && id !== hasTrackedLessonStartRef.current) {
-    hasTrackedLessonStartRef.current = id || null;
-    Analytics.track('lesson_start', { lessonId: id, genreId: unit });
-  }
-}, [lesson, id, unit]);
+// app/lesson.tsx
+const lessonStartTrackedRef = useRef<string | null>(null);
+if (lessonStartTrackedRef.current !== params.file) {
+  lessonStartTrackedRef.current = params.file;
+  const genreId = params.file.match(/^([a-z]+)_/)?.[1] || "unknown";
+  Analytics.track("lesson_start", { lessonId: params.file, genreId });
+}
 ```
 
 ---

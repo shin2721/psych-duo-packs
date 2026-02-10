@@ -1,13 +1,13 @@
-# Analytics v1.3 - 実装ステータス
+# Analytics v1.4 - 実装ステータス
 
 ## 実装完了日
-2026-01-16
+2026-02-10
 
 ---
 
 ## 実装済み機能
 
-### 1. イベント（7種類）
+### 1. イベント（9種類）
 
 | # | イベント名 | 発火地点 | ガード方式 | 実装ファイル |
 |---|-----------|---------|-----------|------------|
@@ -16,8 +16,10 @@
 | 3 | `app_ready` | Analytics初期化完了時 | プロセス内フラグ | `app/_layout.tsx` |
 | 4 | `onboarding_start` | ウェルカム画面表示時 | useRef | `app/onboarding/index.tsx` |
 | 5 | `onboarding_complete` | ドメイン確定時 | 確定地点 | `lib/OnboardingContext.tsx` |
-| 6 | `lesson_start` | レッスン画面入場時 | useRef | `app/lessons/[id].tsx` |
-| 7 | `lesson_complete` | レッスン完了時 | 確定地点 | `app/lessons/[id].tsx` |
+| 6 | `lesson_start` | レッスン画面入場時 | useRef | `app/lesson.tsx` |
+| 7 | `lesson_complete` | レッスン完了時 | 確定地点 | `app/lesson.tsx` |
+| 8 | `question_incorrect` | 問題の不正解時 | 回答処理内 | `app/lesson.tsx` |
+| 9 | `streak_lost` | 連続日数が途切れた時 | 条件一致時のみ | `lib/streaks.ts` |
 
 ---
 
@@ -138,7 +140,8 @@ function parseAppEnv(): 'dev' | 'prod' | undefined {
 | `app/_layout.tsx` | 初期化 + app_open/session_start/app_ready | ~100行（Analytics部分） |
 | `lib/OnboardingContext.tsx` | onboarding_complete | ~60行 |
 | `app/onboarding/index.tsx` | onboarding_start | ~200行 |
-| `app/lessons/[id].tsx` | lesson_start/lesson_complete | ~500行 |
+| `app/lesson.tsx` | lesson_start/lesson_complete/question_incorrect | ~500行 |
+| `lib/streaks.ts` | streak_lost | ~270行 |
 
 ---
 
