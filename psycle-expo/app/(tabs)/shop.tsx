@@ -55,7 +55,6 @@ export default function ShopScreen() {
   };
   const languageCode = String(i18n.locale || "ja").split("-")[0];
   const dateLocale = dateLocaleByLanguage[languageCode];
-  const isJa = i18n.locale.startsWith("ja");
 
   useEffect(() => {
     const interval = setInterval(() => setNowTs(Date.now()), 60000);
@@ -190,10 +189,10 @@ export default function ShopScreen() {
         <View style={styles.energyStatusCard}>
           <View style={styles.energyStatusHeader}>
             <EnergyIcon size={20} />
-            <Text style={styles.energyStatusTitle}>{isJa ? "エネルギー状況" : "Energy status"}</Text>
+            <Text style={styles.energyStatusTitle}>{i18n.t("shop.energyStatus.title")}</Text>
           </View>
           <Text style={styles.energyStatusRow}>
-            {isJa ? "現在: " : "Current: "}
+            {i18n.t("shop.energyStatus.currentLabel")}
             <Text style={styles.energyStatusValue}>
               {isSubscriptionActive ? "∞" : `${energy}/${maxEnergy}`}
             </Text>
@@ -201,15 +200,15 @@ export default function ShopScreen() {
           {!isSubscriptionActive && (
             <>
               <Text style={styles.energyStatusRow}>
-                {isJa ? "次回回復まで: " : "Next refill in: "}
+                {i18n.t("shop.energyStatus.nextRefillLabel")}
                 <Text style={styles.energyStatusValue}>
                   {energyRecoveryMinutesRemaining === null
-                    ? (isJa ? "満タン" : "Full")
-                    : (isJa ? `${energyRecoveryMinutesRemaining}分` : `${energyRecoveryMinutesRemaining} min`)}
+                    ? i18n.t("shop.energyStatus.full")
+                    : i18n.t("shop.energyStatus.minutes", { minutes: energyRecoveryMinutesRemaining })}
                 </Text>
               </Text>
               <Text style={styles.energyStatusRow}>
-                {isJa ? "本日ボーナス残り: " : "Streak bonus left today: "}
+                {i18n.t("shop.energyStatus.dailyBonusRemainingLabel")}
                 <Text style={styles.energyStatusValue}>{dailyEnergyBonusRemaining}</Text>
               </Text>
             </>

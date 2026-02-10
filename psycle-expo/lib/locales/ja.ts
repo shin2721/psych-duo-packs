@@ -51,6 +51,14 @@ export const ja = {
             checkoutSessionFailed: '決済セッションの作成に失敗しました',
             checkoutProcessFailed: '決済処理中にエラーが発生しました',
         },
+        energyStatus: {
+            title: 'エネルギー状況',
+            currentLabel: '現在: ',
+            nextRefillLabel: '次回回復まで: ',
+            full: '満タン',
+            minutes: '%{minutes}分',
+            dailyBonusRemainingLabel: '本日ボーナス残り: ',
+        },
     },
     settings: {
         title: '設定',
@@ -132,6 +140,7 @@ export const ja = {
     lesson: {
         errorTitle: 'エラー',
         loadFailed: 'レッスンの読み込みに失敗しました: %{message}',
+        energyBlockedMessage: 'エネルギーが足りません。回復を待つか、ショップでサブスクを有効にしてください。',
         originalVariantLabel: 'オリジナル',
         completeTitle: 'レッスン完了！',
         howDoYouFeelNow: '今の気分は？',

@@ -104,9 +104,7 @@ export default function LessonScreen() {
         });
         Alert.alert(
           i18n.t("common.error"),
-          i18n.locale.startsWith("ja")
-            ? "エネルギーが足りません。回復を待つか、ショップでサブスクを有効にしてください。"
-            : "Not enough energy. Wait for refill or activate subscription in Shop.",
+          i18n.t("lesson.energyBlockedMessage"),
           [{
             text: i18n.t("common.ok"),
             onPress: () => {

@@ -51,6 +51,14 @@ export const en = {
             checkoutSessionFailed: 'Failed to create checkout session',
             checkoutProcessFailed: 'An error occurred during checkout',
         },
+        energyStatus: {
+            title: 'Energy status',
+            currentLabel: 'Current: ',
+            nextRefillLabel: 'Next refill in: ',
+            full: 'Full',
+            minutes: '%{minutes} min',
+            dailyBonusRemainingLabel: 'Streak bonus left today: ',
+        },
     },
     settings: {
         title: 'Settings',
@@ -132,6 +140,7 @@ export const en = {
     lesson: {
         errorTitle: 'Error',
         loadFailed: 'Failed to load lesson: %{message}',
+        energyBlockedMessage: 'Not enough energy. Wait for refill or activate subscription in Shop.',
         originalVariantLabel: 'Original',
         completeTitle: 'Lesson Complete!',
         howDoYouFeelNow: 'How do you feel now?',
