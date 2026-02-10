@@ -4,12 +4,10 @@ import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
 import { useAppState } from "../lib/state";
 import { router } from "expo-router";
-import { getEnergy, ENERGY_MAX } from "../src/energy";
 import { genres } from "../lib/data";
 import { StreakIcon, GemIcon, EnergyIcon, MentalIcon, MoneyIcon, WorkIcon, HealthIcon, SocialIcon, StudyIcon } from "./CustomIcons";
 import { Modal, TouchableWithoutFeedback } from "react-native";
-import { getStreakData, StreakData } from "../lib/streaks";
-import { getFocusData, FocusData } from "../lib/focus";
+import { getStreakData } from "../lib/streaks";
 
 const getGenreIcon = (id: string, size: number = 28) => {
   switch (id) {
@@ -24,30 +22,17 @@ const getGenreIcon = (id: string, size: number = 28) => {
 };
 
 export function GlobalHeader() {
-  const { gems, selectedGenre, setSelectedGenre } = useAppState();
-  const [energy, setEnergy] = useState(ENERGY_MAX);
+  const { gems, selectedGenre, setSelectedGenre, energy, isSubscriptionActive } = useAppState();
   const [menuVisible, setMenuVisible] = useState(false);
 
-  // ゲーミフィケーション: Action Streak + Focus
+  // ゲーミフィケーション: Action Streak
   const [actionStreak, setActionStreak] = useState(0);
-  const [totalXP, setTotalXP] = useState(0);
-  const [focus, setFocus] = useState(25);
 
-  useEffect(() => {
-    setEnergy(getEnergy());
-    const interval = setInterval(() => setEnergy(getEnergy()), 60000);
-    return () => clearInterval(interval);
-  }, []);
-
-  // ゲーミフィケーション: ストリークとFocusを読み込み
+  // ゲーミフィケーション: ストリークを読み込み
   useEffect(() => {
     const loadGamification = async () => {
       const streakData = await getStreakData();
       setActionStreak(streakData.actionStreak);
-      setTotalXP(streakData.totalXP);
-
-      const focusData = await getFocusData();
-      setFocus(focusData.current);
     };
     loadGamification();
 
@@ -55,8 +40,6 @@ export function GlobalHeader() {
     const interval = setInterval(loadGamification, 60000);
     return () => clearInterval(interval);
   }, []);
-
-  const currentGenre = genres.find(g => g.id === selectedGenre) || genres[0];
 
   return (
     <>
@@ -78,14 +61,14 @@ export function GlobalHeader() {
           <Text style={[styles.value, { color: "#3debf6" }]}>{gems}</Text>
         </Pressable>
 
-        {/* 4. Focus（ゲーミフィケーション：ソフト制限） */}
+        {/* 4. Energy */}
         <Pressable style={styles.item} onPress={() => router.push("/(tabs)/shop")}>
           <EnergyIcon
             size={22}
-            color={focus > 0 ? undefined : "#ccc"}
+            color={!isSubscriptionActive && energy <= 0 ? "#ccc" : undefined}
           />
-          <Text style={[styles.value, { color: focus > 0 ? theme.colors.text : theme.colors.sub }]}>
-            {focus}
+          <Text style={[styles.value, { color: !isSubscriptionActive && energy <= 0 ? theme.colors.sub : theme.colors.text }]}>
+            {isSubscriptionActive ? "∞" : energy}
           </Text>
         </Pressable>
       </View>
