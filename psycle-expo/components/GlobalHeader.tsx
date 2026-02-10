@@ -8,6 +8,7 @@ import { genres } from "../lib/data";
 import { StreakIcon, GemIcon, EnergyIcon, MentalIcon, MoneyIcon, WorkIcon, HealthIcon, SocialIcon, StudyIcon } from "./CustomIcons";
 import { Modal, TouchableWithoutFeedback } from "react-native";
 import { getStreakData } from "../lib/streaks";
+import { Analytics } from "../lib/analytics";
 
 const getGenreIcon = (id: string, size: number = 28) => {
   switch (id) {
@@ -62,7 +63,13 @@ export function GlobalHeader() {
         </Pressable>
 
         {/* 4. Energy */}
-        <Pressable style={styles.item} onPress={() => router.push("/(tabs)/shop")}>
+        <Pressable
+          style={styles.item}
+          onPress={() => {
+            Analytics.track("shop_open_from_energy", { source: "header_energy_tap" });
+            router.push("/(tabs)/shop");
+          }}
+        >
           <EnergyIcon
             size={22}
             color={!isSubscriptionActive && energy <= 0 ? "#ccc" : undefined}

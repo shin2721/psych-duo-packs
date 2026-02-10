@@ -15,6 +15,7 @@ import {
   hasProItemAccess,
 } from "../src/featureGate";
 import { selectMistakesHubItems } from "../src/features/mistakesHub";
+import { Analytics } from "./analytics";
 
 type PlanId = "free" | "pro" | "max";
 
@@ -93,6 +94,8 @@ interface AppState {
   consumeEnergy: (amount?: number) => boolean;
   addEnergy: (amount: number) => void;
   tryTriggerStreakEnergyBonus: (correctStreak: number) => boolean;
+  energyRefillMinutes: number;
+  dailyEnergyBonusRemaining: number;
   lastEnergyUpdateTime: number | null;
   // Plan & Entitlements
   planId: PlanId;
@@ -591,11 +594,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [dailyGoalLastReset]);
 
   useEffect(() => {
-    const today = getTodayDate();
-    if (dailyEnergyBonusDate !== today) {
-      setDailyEnergyBonusDate(today);
-      setDailyEnergyBonusCount(0);
-    }
+    const resetBonusIfNeeded = () => {
+      const today = getTodayDate();
+      if (dailyEnergyBonusDate !== today) {
+        setDailyEnergyBonusDate(today);
+        setDailyEnergyBonusCount(0);
+      }
+    };
+
+    resetBonusIfNeeded();
+    const interval = setInterval(resetBonusIfNeeded, 60000);
+    return () => clearInterval(interval);
   }, [dailyEnergyBonusDate]);
 
   // Update streak when studying
@@ -862,9 +871,18 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const roll = Math.random();
     if (roll >= ENERGY_STREAK_BONUS_CHANCE) return false;
 
+    const prevEnergy = energy;
+    const nextEnergy = Math.min(FREE_MAX_ENERGY, prevEnergy + 1);
     addEnergy(1);
     setDailyEnergyBonusDate(today);
     setDailyEnergyBonusCount(currentBonusCount + 1);
+    Analytics.track("energy_bonus_hit", {
+      correctStreak,
+      energyBefore: prevEnergy,
+      energyAfter: nextEnergy,
+      dailyBonusCount: currentBonusCount + 1,
+      dailyBonusCap: ENERGY_STREAK_BONUS_DAILY_CAP,
+    });
     return true;
   };
 
@@ -885,6 +903,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return now < expirationDate;
   })();
   const maxEnergy = isSubscriptionActive ? SUBSCRIBER_MAX_ENERGY : FREE_MAX_ENERGY;
+  const energyRefillMinutes = Math.floor(ENERGY_REFILL_MS / 60000);
+  const dailyEnergyBonusRemaining = (() => {
+    if (isSubscriptionActive) return ENERGY_STREAK_BONUS_DAILY_CAP;
+    const today = getTodayDate();
+    const usedCount = dailyEnergyBonusDate === today ? dailyEnergyBonusCount : 0;
+    return Math.max(0, ENERGY_STREAK_BONUS_DAILY_CAP - usedCount);
+  })();
 
   const hasProAccess = hasProItemAccess(planId);
   const canAccessMistakesHub = canUseMistakesHub(userId, planId);
@@ -998,6 +1023,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     consumeEnergy,
     addEnergy,
     tryTriggerStreakEnergyBonus,
+    energyRefillMinutes,
+    dailyEnergyBonusRemaining,
     lastEnergyUpdateTime,
     planId,
     setPlanId,

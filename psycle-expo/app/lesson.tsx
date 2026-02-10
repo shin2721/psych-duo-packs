@@ -24,7 +24,7 @@ import i18n from "../lib/i18n";
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
   const fileParam = params.file; // Extract to primitive string
-  const { completeLesson, addXp, incrementQuest, consumeEnergy, tryTriggerStreakEnergyBonus } = useAppState();
+  const { completeLesson, addXp, incrementQuest, consumeEnergy, tryTriggerStreakEnergyBonus, energy, maxEnergy } = useAppState();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
@@ -95,12 +95,25 @@ export default function LessonScreen() {
       const hasEnoughEnergy = consumeEnergy(1);
       if (!hasEnoughEnergy) {
         setLoading(false);
+        const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
+        Analytics.track("energy_blocked", {
+          lessonId: params.file,
+          genreId,
+          energy,
+          maxEnergy,
+        });
         Alert.alert(
           i18n.t("common.error"),
           i18n.locale.startsWith("ja")
             ? "エネルギーが足りません。回復を待つか、ショップでサブスクを有効にしてください。"
             : "Not enough energy. Wait for refill or activate subscription in Shop.",
-          [{ text: i18n.t("common.ok"), onPress: () => router.replace("/(tabs)/shop") }]
+          [{
+            text: i18n.t("common.ok"),
+            onPress: () => {
+              Analytics.track("shop_open_from_energy", { source: "lesson_blocked", lessonId: params.file });
+              router.replace("/(tabs)/shop");
+            }
+          }]
         );
         return;
       }
