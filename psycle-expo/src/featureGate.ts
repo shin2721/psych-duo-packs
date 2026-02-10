@@ -1,6 +1,5 @@
 // src/featureGate.ts
 import entitlements from "../config/entitlements.json";
-import { dateKey } from "../lib/streaks";
 
 type PlanId = "free" | "pro" | "max";
 
@@ -14,6 +13,13 @@ interface PlanConfig {
 
 // 日次利用カウンタ（メモリ内、午前0時リセット）
 const mistakesHubUsage = new Map<string, { date: string; count: number }>();
+
+function dateKey(d: Date = new Date()): string {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+}
 
 /**
  * 今日の日付キー（YYYY-MM-DD）を取得
