@@ -134,7 +134,8 @@ export default function LessonScreen() {
 
     // If incorrect, add to mistakes hub
     if (!isCorrect) {
-      addMistake(currentQuestion.source_id, id || "", currentQuestion.type);
+      const mistakeId = currentQuestion.source_id || `${id || "lesson"}_q${currentQuestionIndex}`;
+      addMistake(mistakeId, id || "", currentQuestion.type);
     }
 
     // AI Adaptive Difficulty: Reorder remaining questions based on performance
