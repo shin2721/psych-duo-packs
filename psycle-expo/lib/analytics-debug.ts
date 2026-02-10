@@ -43,6 +43,8 @@ const TRACKED_EVENTS = [
     'onboarding_complete',
     'lesson_start',
     'lesson_complete',
+    'question_incorrect',
+    'streak_lost',
 ] as const;
 
 // ============================================================

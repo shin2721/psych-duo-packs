@@ -34,7 +34,7 @@ export interface AnalyticsConfig {
   posthogApiKey?: string;     // PostHog APIキー
 }
 
-// イベント型定義（7イベント: app_open, session_start, app_ready, onboarding_start, onboarding_complete, lesson_start, lesson_complete）
+// イベント型定義（9イベント）
 export type AppOpenEvent = {
   name: 'app_open';
   properties: {};
@@ -76,6 +76,29 @@ export type LessonCompleteEvent = {
   };
 };
 
+export type QuestionIncorrectEvent = {
+  name: 'question_incorrect';
+  properties: {
+    lessonId: string;
+    genreId: string;
+    questionId: string;
+    questionType?: string;
+    questionIndex?: number;
+    isReviewRound?: boolean;
+  };
+};
+
+export type StreakLostEvent = {
+  name: 'streak_lost';
+  properties: {
+    streakType: 'study' | 'action';
+    previousStreak: number;
+    gapDays: number;
+    freezesRemaining?: number;
+    freezesNeeded?: number;
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -83,4 +106,6 @@ export type TrackedEvent =
   | OnboardingStartEvent
   | OnboardingCompleteEvent
   | LessonStartEvent
-  | LessonCompleteEvent;
+  | LessonCompleteEvent
+  | QuestionIncorrectEvent
+  | StreakLostEvent;

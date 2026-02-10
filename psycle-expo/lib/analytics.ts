@@ -25,7 +25,7 @@ type QueuedEvent = {
 /**
  * Analytics Core API v1.3
  * 
- * 実装済みイベント（7種類）:
+ * 実装済みイベント（9種類）:
  *   - app_open: 初回起動時のみ（AsyncStorageガード）
  *   - session_start: 起動毎（プロセス内ガード）
  *   - app_ready: Analytics初期化完了時（プロセス内ガード）
@@ -33,6 +33,8 @@ type QueuedEvent = {
  *   - onboarding_complete: ドメイン確定時（確定地点）
  *   - lesson_start: レッスン画面入場時（useRefガード）
  *   - lesson_complete: レッスン完了時（確定地点）
+ *   - question_incorrect: 不正解回答時（問題粒度）
+ *   - streak_lost: 連続日数が途切れた時（継続率分析）
  * 
  * 送信先:
  *   - Console出力（常時）
@@ -49,6 +51,7 @@ class AnalyticsCore {
   private static config: AnalyticsConfig = analyticsConfig;
 
   private static anonId: string | null = null;
+  private static userId: string | null = null;
   private static initialized = false;
   private static initializing = false; // 初期化中フラグ
   private static initPromise: Promise<void> | null = null; // 共有初期化Promise
@@ -288,6 +291,20 @@ class AnalyticsCore {
   }
 
   /**
+   * 認証ユーザーIDを設定（任意）
+   * 匿名IDは維持しつつ、イベントプロパティで userId を付与する
+   */
+  static setUserId(userId: string | null | undefined): void {
+    this.userId = userId || null;
+
+    if (this.config.debug) {
+      console.log('[Analytics] userId updated', {
+        hasUserId: !!this.userId,
+      });
+    }
+  }
+
+  /**
    * デバッグ用: Analyticsの内部状態をリセット
    * E2Eテストやり直し用。DEV onlyで使用。
    * @param regenerateAnonId trueなら新しいanonIdを生成（AsyncStorageも削除）
@@ -302,6 +319,7 @@ class AnalyticsCore {
     this.sessionStartTracked = false;
     this.appReadyTracked = false;
     this.eventQueue = [];
+    this.userId = null;
 
     // app_open フラグを削除
     await AsyncStorage.removeItem(STORAGE_KEY_APP_OPEN);
@@ -334,6 +352,7 @@ class AnalyticsCore {
       schemaVersion: ANALYTICS_SCHEMA_VERSION,
       platform: Platform.OS as 'ios' | 'android' | 'web',
       env: this.config.appEnv || (__DEV__ ? 'dev' : 'prod'),
+      ...(this.userId ? { userId: this.userId } : {}),
 
       // イベント固有
       name,

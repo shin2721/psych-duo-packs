@@ -45,6 +45,10 @@ function RootLayoutNav() {
     }
   }, [session, isLoading, segments, hasSeenOnboarding]);
 
+  useEffect(() => {
+    Analytics.setUserId(session?.user?.id ?? null);
+  }, [session?.user?.id]);
+
   if (isLoading || hasSeenOnboarding === null) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>

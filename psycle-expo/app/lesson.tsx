@@ -147,13 +147,25 @@ export default function LessonScreen() {
 
   async function handleAnswer(isCorrect: boolean, xp: number) {
     const questionInHandler = questions[currentIndex];
+    const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
 
     // If incorrect and not in review round, add to review queue
-    if (!isCorrect && !isReviewRound) {
-      const alreadyQueued = reviewQueue.find(q => q.id === questionInHandler.id);
-      if (!alreadyQueued) {
-        setReviewQueue(prev => [...prev, questionInHandler]);
-        if (__DEV__) console.log("Added to review queue:", questionInHandler.id);
+    if (!isCorrect) {
+      Analytics.track('question_incorrect', {
+        lessonId: params.file,
+        genreId,
+        questionId: questionInHandler?.id || `unknown_${currentIndex}`,
+        questionType: questionInHandler?.type || 'unknown',
+        questionIndex: currentIndex,
+        isReviewRound,
+      });
+
+      if (!isReviewRound) {
+        const alreadyQueued = reviewQueue.find(q => q.id === questionInHandler.id);
+        if (!alreadyQueued) {
+          setReviewQueue(prev => [...prev, questionInHandler]);
+          if (__DEV__) console.log("Added to review queue:", questionInHandler.id);
+        }
       }
     }
 
@@ -185,7 +197,6 @@ export default function LessonScreen() {
       // Analytics: lesson_complete (同一lessonIdで2回送らない)
       if (lessonCompleteTrackedRef.current !== params.file) {
         lessonCompleteTrackedRef.current = params.file;
-        const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
         Analytics.track('lesson_complete', {
           lessonId: params.file,
           genreId,

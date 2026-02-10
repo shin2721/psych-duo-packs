@@ -7,6 +7,7 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Analytics } from './analytics';
 
 const STORAGE_KEY = '@psycle_streaks';
 
@@ -79,6 +80,34 @@ function dateKeyToUtcDay(dateStr: string): number {
     return Math.floor(Date.UTC(y, m - 1, d) / (1000 * 60 * 60 * 24));
 }
 
+function trackStreakLost(
+    streakType: 'study' | 'action',
+    previousStreak: number,
+    gapDays: number,
+    freezesRemaining: number,
+    freezesNeeded: number
+): void {
+    if (previousStreak <= 0 || gapDays <= 0) return;
+
+    Analytics.track('streak_lost', {
+        streakType,
+        previousStreak,
+        gapDays,
+        freezesRemaining,
+        freezesNeeded,
+    });
+
+    if (__DEV__) {
+        console.log('[Analytics] streak_lost', {
+            streakType,
+            previousStreak,
+            gapDays,
+            freezesRemaining,
+            freezesNeeded,
+        });
+    }
+}
+
 export async function getStreakData(): Promise<StreakData> {
     try {
         const raw = await AsyncStorage.getItem(STORAGE_KEY);
@@ -117,6 +146,8 @@ async function saveStreakData(data: StreakData): Promise<void> {
 export async function recordStudyCompletion(): Promise<StreakData> {
     const data = await getStreakData();
     const today = getToday();
+    const previousStreak = data.studyStreak;
+    const previousLastStudyDate = data.lastStudyDate;
 
     if (data.lastStudyDate === today) {
         // 今日すでに記録済み
@@ -136,6 +167,11 @@ export async function recordStudyCompletion(): Promise<StreakData> {
         data.studyStreak++;
     } else if (data.lastStudyDate !== today) {
         // 途切れた → 1からスタート（Study StreakはFreeze対象外 - 行動が主役）
+        if (previousLastStudyDate) {
+            const diffDays = dateKeyToUtcDay(today) - dateKeyToUtcDay(previousLastStudyDate);
+            const gapDays = Math.max(0, diffDays - 1);
+            trackStreakLost('study', previousStreak, gapDays, data.freezesRemaining, gapDays);
+        }
         data.studyStreak = 1;
     }
 
@@ -153,6 +189,7 @@ export async function recordStudyCompletion(): Promise<StreakData> {
 export async function recordActionExecution(): Promise<StreakData> {
     const data = await getStreakData();
     const today = getToday();
+    const previousStreak = data.actionStreak;
 
     if (data.lastActionDate === today) {
         // 今日すでに記録済み
@@ -181,6 +218,7 @@ export async function recordActionExecution(): Promise<StreakData> {
                 if (__DEV__) console.log(`[Streak] Used ${missedDays} Freezes to save Action Streak`);
             } else {
                 // 足りない → リセット
+                trackStreakLost('action', previousStreak, missedDays, data.freezesRemaining, missedDays);
                 data.actionStreak = 1;
             }
         }
