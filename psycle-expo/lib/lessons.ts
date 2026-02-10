@@ -234,7 +234,7 @@ export function loadLessons(unit: string): Lesson[] {
       console.log(`[loadLessons Debug] Found level questions: ${levelQuestions.length}`);
       levelQuestions.forEach(q => console.log(`  - ${q.source_id}`)); // Trace IDs
 
-      // レベル専用の問題が15問ある場合はそれを使用
+      // レベル専用の問題が10問以上ある場合はそれを使用
       if (levelQuestions.length >= questionsPerLesson) {
         lessonQuestions = levelQuestions.slice(0, questionsPerLesson);
         console.log(`[loadLessons Debug] Case 1: Taking exact slice. Length: ${lessonQuestions.length}`);

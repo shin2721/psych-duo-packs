@@ -70,7 +70,7 @@
     }
   },
   "defaults": {
-    "lesson_size": 15,
+    "lesson_size": 10,
     "mistakes_hub_size": 10,
     "long_think_threshold_seconds": 25,
     "past_days_window": 30,
