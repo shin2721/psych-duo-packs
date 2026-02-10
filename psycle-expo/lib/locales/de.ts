@@ -51,6 +51,14 @@ export const de = {
             checkoutSessionFailed: 'Checkout-Sitzung konnte nicht erstellt werden',
             checkoutProcessFailed: 'Beim Bezahlvorgang ist ein Fehler aufgetreten',
         },
+        energyStatus: {
+            title: 'Energiestatus',
+            currentLabel: 'Aktuell: ',
+            nextRefillLabel: 'Nächste Auffüllung in: ',
+            full: 'Voll',
+            minutes: '%{minutes} Min',
+            dailyBonusRemainingLabel: 'Verbleibender Bonus heute: ',
+        },
     },
     settings: {
         title: 'Einstellungen',
@@ -132,6 +140,7 @@ export const de = {
     lesson: {
         errorTitle: 'Fehler',
         loadFailed: 'Lektion konnte nicht geladen werden: %{message}',
+        energyBlockedMessage: 'Nicht genug Energie. Warte auf Auffüllung oder aktiviere ein Abo im Shop.',
         originalVariantLabel: 'Original',
         completeTitle: 'Lektion abgeschlossen!',
         howDoYouFeelNow: 'Wie fühlst du dich jetzt?',
