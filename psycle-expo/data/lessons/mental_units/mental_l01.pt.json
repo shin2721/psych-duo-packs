@@ -1,0 +1,333 @@
+[
+    {
+        "id": "mental_l01_001",
+        "type": "conversation",
+        "question": "Nesta semana, você ficou repetindo na cabeça a mesma cena, pensando 'eu deveria ter dito aquilo naquela hora...', mais de 3 vezes?",
+        "your_response_prompt": "Responda seguindo sua intuicao",
+        "choices": [
+            "Mais de 3 vezes (bastante incomodado)",
+            "1-2 vezes",
+            "Nao (estou tranquilo)"
+        ],
+        "recommended_index": null,
+        "explanation": "Isso se chama 'ruminacao'. Na verdade, e diferente de 'reflexao' - e mais como se o cerebro estivesse tocando automaticamente um som de erro.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Pessoas que querem perceber o ciclo de pensamentos negativos"
+            ],
+            "limitations": [
+                "Quando ha tristeza intensa persistente"
+            ],
+            "citation_role": "Apoia a definicao e o mecanismo da ruminacao",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_002",
+        "type": "multiple_choice",
+        "question": "O trem atrasou 15 minutos. Chega uma mensagem: 'Voce chega em 10 minutos?' Seu coracao acelera e voce fica ansioso.\n\nQual e o mecanismo mais proximo de como essa 'ansiedade' surge?",
+        "choices": [
+            "Ocorreu uma reacao de 'isso pode ser uma ameaca'",
+            "O atraso do trem foi a causa direta",
+            "Porque tenho personalidade irritavel"
+        ],
+        "correct_index": 0,
+        "explanation": "Ha uma tendencia de a reacao 'pode ser uma ameaca' ocorrer antes do evento em si. O aumento dos batimentos cardiacos e a ansiedade sao respostas naturais do corpo. (Tendemos a pensar 'e culpa do trem' ou 'e minha personalidade', mas se fosse assim, todos teriam a mesma reacao)",
+        "actionable_advice": "Dica: Quando sentir ansiedade, basta rotular: 'isso e uma reacao do corpo'",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Estresse do dia a dia",
+                "Situacoes com baixa sensacao de controle"
+            ],
+            "limitations": [
+                "Logo apos trauma agudo",
+                "Casos com fatores fisiologicos fortes"
+            ],
+            "citation_role": "Apoia o mecanismo central da teoria da avaliacao cognitiva",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress_response"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_003",
+        "type": "swipe_judgment",
+        "question": "Na teoria da avaliacao cognitiva, a causa do estresse esta no 'evento' ou na 'interpretacao'?",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Na interpretacao",
+            "right": "No evento"
+        },
+        "explanation": "Este e o ponto central da teoria. Mesmo que o evento nao possa ser mudado, ainda ha espaco para intervir na interpretacao (como voce o recebe).",
+        "actionable_advice": "Dica: Experimente imaginar um evento desconfortavel 'como se estivesse vendo atraves de uma camera'",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Confirma o nucleo da teoria da avaliacao cognitiva",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_004",
+        "type": "multiple_choice",
+        "question": "Faltam 3 minutos para a entrevista comecar. Na sala de espera, seu coracao dispara. Suas maos estao suando.\n\nSe voce pudesse reinterpretar essa reacao corporal com outras palavras, seria?",
+        "choices": [
+            "'Meu corpo esta fazendo um aquecimento'",
+            "'Eu sou um fracasso'",
+            "'Isso e um mau sinal'"
+        ],
+        "correct_index": 0,
+        "explanation": "Ao contrario, o coracao acelerado pode ser interpretado como 'aquecimento do corpo'. Porem, quando voce nao esta bem fisicamente, descanse sem forcar. E normal nao conseguir fazer isso. Tente apenas uma vez. (Pensamentos como 'sou um fracasso' ou 'e um mau sinal' sao comuns, mas eles mesmos intensificam a ansiedade)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jamieson_2012",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "Tensao antes de apresentacoes ou entrevistas",
+                "Situacoes de desempenho de curto prazo"
+            ],
+            "limitations": [
+                "Quando nao esta bem fisicamente",
+                "Ansiedade intensa cronica"
+            ],
+            "citation_role": "Apoia o efeito da reavaliacão (mudanca de interpretacao)",
+            "try_this": "Da proxima vez que seu coracao acelerar, repita por 10 segundos: 'meu corpo esta aquecendo'",
+            "claim_tags": [
+                "reappraisal",
+                "arousal",
+                "stress_response"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Qual e sua tensao agora? (0-10)",
+                "after_prompt": "Qual e sua tensao apos 10 segundos? (0-10)",
+                "success_rule": "Se diminuir 1 ponto, esta otimo",
+                "stop_rule": "Se nao mudar, tudo bem recuar por hoje"
+            },
+            "comparator": {
+                "baseline": "Tentar se acalmar a forca (suprimir)",
+                "cost": "10 segundos / efeito leve mas baixa carga"
+            },
+            "fallback": {
+                "when": "Se apos 10 segundos a ansiedade aumentar",
+                "next": "Mude para respiracao profunda (inspire 4 segundos, expire 4 segundos)"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_005",
+        "type": "multiple_choice",
+        "question": "Na reuniao das 17h, seu chefe foi duro com voce. As 21h, aquela frase ainda esta se repetindo na sua cabeca.\n\nDepois disso, em qual caso o estresse tende a durar mais?",
+        "choices": [
+            "Ficar pensando 'por que isso aconteceu comigo...'",
+            "Mudar o foco pensando 'bem, dias assim acontecem'",
+            "Ambos duram igualmente"
+        ],
+        "correct_index": 0,
+        "explanation": "Mais do que o evento, 'como voce continua pensando sobre ele depois' influencia quanto tempo dura. Nao precisa se culpar por nao conseguir mudar o foco. (Mudar o foco e o ideal, mas na pratica costuma ser dificil)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Explica teoricamente o mecanismo de persistencia da ruminacao dentro do framework da teoria da avaliacao cognitiva",
+            "claim_tags": [
+                "rumination",
+                "stress_duration"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_006",
+        "type": "conversation",
+        "question": "Lembre-se da situacao que mais te causou estresse nesta semana.",
+        "your_response_prompt": "Naquele momento, que palavras passaram pela sua cabeca?",
+        "choices": [
+            "Palavras como 'isso e horrivel' ou 'o que eu faco'",
+            "Palavras como 'tanto faz' ou 'vai dar certo'",
+            "Nao tive nenhum pensamento em particular"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas estao corretas. Apenas perceber sua 'voz interior' ja e suficiente.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Apoia indiretamente o efeito da autoconsciencia",
+            "claim_tags": [
+                "self_awareness",
+                "mindfulness"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_007",
+        "type": "swipe_judgment",
+        "question": "Quando dizem 'o estresse some dependendo de como voce pensa', voce fica um pouco incomodado",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Entendo",
+            "right": "Nao entendo"
+        },
+        "explanation": "Na verdade, nao estamos dizendo que 'se voce mudar sua forma de pensar, o estresse vira zero'. Para trauma agudo ou fatores fisicos, outras abordagens sao necessarias.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "Esclarece as limitacoes da teoria",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "limitations"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_008",
+        "type": "multiple_choice",
+        "question": "Em que tipo de situacao a teoria da avaliacao cognitiva e 'adequada'?",
+        "choices": [
+            "Estresse cronico ou situacoes com baixa sensacao de controle",
+            "Estado de panico logo apos um acidente",
+            "Casos em que uma doenca fisica e a principal causa"
+        ],
+        "correct_index": 0,
+        "explanation": "E adequada para o estresse do dia a dia. Para logo apos trauma agudo ou casos com fortes fatores fisiologicos, considere tambem outras abordagens. ('Logo apos acidente' ou 'doenca fisica' podem nao ser totalmente abordados apenas pela cognicao)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Estresse cronico",
+                "Situacoes com baixa sensacao de controle"
+            ],
+            "limitations": [
+                "Estado de panico logo apos um acidente",
+                "Casos em que uma doenca fisica e a principal causa"
+            ],
+            "citation_role": "Esclarece o escopo de aplicacao da teoria da avaliacao cognitiva",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "applicability"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_009",
+        "type": "conversation",
+        "question": "O conceito que voce aprendeu hoje: 'a interpretacao influencia o estresse'.",
+        "your_response_prompt": "Se voce fosse experimentar uma vez amanha quando sentir estresse, o que faria?",
+        "choices": [
+            "Perguntar a si mesmo: 'como estou interpretando isso agora?'",
+            "Nao vou experimentar (isso tambem e uma escolha)",
+            "Ainda nao entendi bem, entao vou deixar para depois"
+        ],
+        "recommended_index": 0,
+        "explanation": "Vale a pena tentar. Se nao funcionar para voce, outros metodos tambem estao disponiveis. Tente apenas uma vez.",
+        "actionable_advice": "Amanha, quando se sentir incomodado, pergunte-se por 10 segundos: 'o que estou vendo como ameaca agora?'",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Pequenas ansiedades do dia a dia",
+                "Pessoas que querem se conhecer melhor"
+            ],
+            "limitations": [
+                "Crise mental grave",
+                "Estado em que pensar e doloroso"
+            ],
+            "citation_role": "Apoia a aplicacao pratica da teoria da avaliacao cognitiva",
+            "try_this": "Amanha, quando se sentir incomodado, pergunte-se por 10 segundos: 'o que estou vendo como ameaca agora?'",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "self_awareness"
+            ],
+            "tiny_metric": {
+                "before_prompt": "Qual e sua ansiedade agora? (0-10)",
+                "after_prompt": "Qual e sua ansiedade apos 10 segundos? (0-10)",
+                "success_rule": "Se diminuir 1 ponto, esta otimo",
+                "stop_rule": "Se nao mudar, tudo bem recuar por hoje"
+            },
+            "comparator": {
+                "baseline": "Apenas se distrair (redes sociais, videos, etc.)",
+                "cost": "10 segundos / efeito leve mas pode aprofundar o autoconhecimento"
+            },
+            "fallback": {
+                "when": "Se a pergunta aumentar a ansiedade",
+                "next": "Apenas rotule: 'estou ansioso agora' (ignore o conteudo)"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_010",
+        "type": "conversation",
+        "question": "A abordagem desta licao-lanche pareceu adequada para voce?",
+        "your_response_prompt": "Responda seguindo sua intuicao",
+        "choices": [
+            "Acho que combina comigo",
+            "Acho que nao combina muito",
+            "Ainda nao sei"
+        ],
+        "recommended_index": null,
+        "explanation": "Todas estao corretas. Se nao parecer combinar, outra abordagem pode ser mais adequada para voce.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Apoia a consideracao das diferencas individuais",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

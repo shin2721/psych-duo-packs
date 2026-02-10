@@ -1,0 +1,385 @@
+[
+  {
+    "id": "study_l01_001",
+    "type": "swipe_judgment",
+    "question": "Mesmo pensando 'preciso fazer', nao consigo comecar a estudar.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Frequente",
+      "right": "Raro"
+    },
+    "explanation": "Nao conseguir comecar nao e 'preguica', ha uma visao de que e uma reacao natural para evitar desconforto. Primeiro, nao precisa se culpar por 'nao conseguir comecar'.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que nao conseguem comecar a estudar",
+        "Pessoas que tendem a se culpar pela procrastinacao"
+      ],
+      "limitations": [
+        "Falta de motivacao cronica requer outra abordagem"
+      ],
+      "citation_role": "Apoia o modelo de regulacao emocional da procrastinacao em estudos observacionais",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_002",
+    "type": "multiple_choice",
+    "question": "Quando voce fica esperando 'quando tiver vontade, eu comeco', o que tende a acontecer?",
+    "choices": [
+      "A vontade nao vem e so o tempo passa",
+      "A vontade surge naturalmente",
+      "Voce relaxa e a eficiencia aumenta"
+    ],
+    "correct_index": 0,
+    "explanation": "Foi relatado que a motivacao tem a caracteristica de 'surgir quando voce comeca' mais do que 'esperar'. Isso se chama ativacao comportamental. ('Surge naturalmente' e 'eficiencia aumenta com relaxamento' sao raros. Geralmente nao surge esperando)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que esperam muito pela motivacao",
+        "Pessoas que tem dificuldade em comecar"
+      ],
+      "limitations": [
+        "Quando esta realmente cansado, descanso e necessario"
+      ],
+      "citation_role": "Explica a teoria da ativacao comportamental na pesquisa sobre procrastinacao",
+      "claim_tags": [
+        "procrastination",
+        "motivation",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_003",
+    "type": "multiple_choice",
+    "question": "Para diminuir a barreira para comecar a estudar, qual metodo tem efeito relatado?",
+    "choices": [
+      "Decidir 'so 10 segundos' e abrir o material",
+      "Preparar um ambiente para concentracao prolongada",
+      "Esperar ate ter vontade"
+    ],
+    "correct_index": 0,
+    "explanation": "Mesmo 10 segundos, 'comecar' tende a facilitar a mudanca para o modo tarefa. Terminar em 10 segundos tambem esta OK. Se nao funcionar, tente outro metodo. Primeiro, uma vez. ('Preparar ambiente' e 'esperar motivacao' levam tempo)",
+    "actionable_advice": "Dica: Da proxima vez que nao conseguir comecar a estudar, tente 'abrir o material por so 10 segundos'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que tem dificuldade em comecar",
+        "Pessoas com tendencia perfeccionista"
+      ],
+      "limitations": [
+        "Quando esta realmente cansado, descanso e necessario",
+        "Se nao conseguir se mover nem em 10 segundos, nao force"
+      ],
+      "citation_role": "Apoia indiretamente a eficacia da regra dos 10 segundos na pesquisa sobre procrastinacao",
+      "try_this": "Tente 'abrir o material por so 10 segundos'",
+      "claim_tags": [
+        "procrastination",
+        "task_initiation",
+        "implementation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Qual seu nivel de 'nao quero fazer' agora? (0-10)",
+        "after_prompt": "E depois de 10 segundos?",
+        "success_rule": "OK se diminuir um pouco",
+        "stop_rule": "Se nao mudar ou aumentar, recue hoje"
+      },
+      "comparator": {
+        "baseline": "Esperar a motivacao surgir",
+        "cost": "10 segundos / baixa carga"
+      },
+      "fallback": {
+        "when": "Se nao conseguir se mover nem em 10 segundos",
+        "next": "Tente plano Se-Entao"
+      }
+    }
+  },
+  {
+    "id": "study_l01_004",
+    "type": "swipe_judgment",
+    "question": "Quando voce decide antecipadamente 'Se fizer X, entao farei Y', a taxa de execucao tende a aumentar.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Talvez sim",
+      "right": "Acho que nao"
+    },
+    "explanation": "Isso e chamado de 'intencao de implementacao' ou 'plano Se-Entao'. Exemplo: 'Depois do jantar, sento na mesa'. Pesquisas mostram que a taxa de execucao tende a ser maior do que sem planejamento.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que fazem planos mas nao executam",
+        "Pessoas que querem criar habitos"
+      ],
+      "limitations": [
+        "Se o gatilho for vago, o efeito e fraco"
+      ],
+      "citation_role": "Pesquisa que verificou diretamente o efeito da intencao de implementacao (plano Se-Entao)",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_005",
+    "type": "conversation",
+    "question": "Quando nao consegue comecar a estudar, qual se aplica mais a voce?",
+    "choices": [
+      "Nao sei por onde comecar",
+      "Preguica de me mover",
+      "Travo tentando fazer perfeito",
+      "Nenhum padrao em particular"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas estao corretas. Perceber seu padrao tende a facilitar a escolha de estrategias.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a autoconsciencia de padroes de procrastinacao",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_006",
+    "type": "multiple_choice",
+    "question": "Para usar 'plano Se-Entao', qual formato e mais facil de executar?",
+    "choices": [
+      "Decidir no formato 'Se fizer X (gatilho), entao farei Y (acao)'",
+      "Decidir 'vou me esforcar'",
+      "Pensar 'um dia vou estudar'"
+    ],
+    "correct_index": 0,
+    "explanation": "Quando voce decide o gatilho (quando/onde) e a acao (o que fazer) como um conjunto, tende a ser executado automaticamente mais facilmente. Primeiro, uma vez. ('Vou me esforcar' e 'um dia' sao vagos e dificeis de executar)",
+    "actionable_advice": "Dica: Decida um plano Se-Entao hoje: 'Se fizer X, abro o material por 10 segundos'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que frequentemente nao executam planos",
+        "Pessoas que querem criar habitos"
+      ],
+      "limitations": [
+        "Se o gatilho nao existir no dia a dia, o efeito e fraco",
+        "Multiplos Se-Entao tem alta carga"
+      ],
+      "citation_role": "Apoia indiretamente o formato especifico da intencao de implementacao",
+      "try_this": "Decida 'Se fizer X, abro o material por 10 segundos'",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Conseguiu executar o Se-Entao esta semana?",
+        "after_prompt": "Numero de vezes que executou",
+        "success_rule": "OK se conseguir pelo menos uma vez na semana",
+        "stop_rule": "Se nao executar em 2 semanas, tente outro metodo"
+      },
+      "comparator": {
+        "baseline": "Apenas decidir 'vou me esforcar'",
+        "cost": "30 segundos para planejar / 10 segundos para executar"
+      },
+      "fallback": {
+        "when": "Se nao encontrar um gatilho",
+        "next": "Use 'Quando tiver vontade de ver o celular' como gatilho"
+      }
+    }
+  },
+  {
+    "id": "study_l01_007",
+    "type": "swipe_judgment",
+    "question": "Ha uma visao de que procrastinar nos estudos nao e apenas 'falta de forca de vontade'.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Talvez sim",
+      "right": "Acho que nao"
+    },
+    "explanation": "Pesquisas mostram que a procrastinacao e frequentemente causada por 'evitar desconforto' ou 'ambiguidade da tarefa' mais do que forca de vontade. Lidar com estrutura tende a funcionar melhor do que se culpar.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que tendem a se culpar",
+        "Pessoas que dependem demais da forca de vontade"
+      ],
+      "limitations": [
+        "Nem toda procrastinacao tem a mesma causa"
+      ],
+      "citation_role": "Apoia o modelo de regulacao emocional da procrastinacao",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_008",
+    "type": "multiple_choice",
+    "question": "O que e mais facil fazer para reduzir a 'friccao ambiental' para comecar a estudar?",
+    "choices": [
+      "Deixar o material aberto em cima da mesa",
+      "Preparar o ambiente perfeito antes de comecar",
+      "Esperar ate ter vontade"
+    ],
+    "correct_index": 0,
+    "explanation": "Quanto menos 'esforco para comecar', mais a acao tende a ocorrer. Deixar o material aberto pode diminuir a barreira inicial. Primeiro, uma vez. ('Ambiente perfeito' e 'esperar motivacao' tendem a virar procrastinacao)",
+    "actionable_advice": "Dica: Antes de dormir hoje, deixe o material de amanha aberto na mesa.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que tem dificuldade em comecar",
+        "Pessoas que gastam muito tempo preparando o ambiente"
+      ],
+      "limitations": [
+        "Ambiente baguncado pode ter efeito contrario"
+      ],
+      "citation_role": "Apoia indiretamente a relacao entre friccao ambiental e inicio da acao",
+      "try_this": "Antes de comecar a estudar, deixe o material aberto na mesa por 10 segundos",
+      "claim_tags": [
+        "environment_design",
+        "friction_reduction",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "O material estava aberto de manha?",
+        "after_prompt": "Se estava aberto, conseguiu comecar a estudar?",
+        "success_rule": "OK se conseguir comecar com o material aberto",
+        "stop_rule": "Se nao tiver efeito em uma semana, pare"
+      },
+      "comparator": {
+        "baseline": "Comecar com o material guardado",
+        "cost": "10 segundos antes de dormir"
+      },
+      "fallback": {
+        "when": "Se nao tiver espaco para deixar o material fora",
+        "next": "Coloque o app de estudo na tela inicial do celular"
+      }
+    }
+  },
+  {
+    "id": "study_l01_009",
+    "type": "conversation",
+    "question": "Das tecnicas aprendidas hoje, qual parece util para amanha?",
+    "choices": [
+      "'Abrir o material por so 10 segundos'",
+      "Decidir com antecedencia usando 'plano Se-Entao'",
+      "Design ambiental de 'deixar o material aberto'",
+      "Experimentar todas"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas valem a pena experimentar. Se nao funcionar, tente outra. Isso tambem e aprendizado. Primeiro, uma vez. ('Todas' nao precisa forcar, comece com uma)",
+    "actionable_advice": "Dica: Amanha, tente uma vez: quando nao conseguir comecar a estudar, 'abra o material por so 10 segundos'",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem comecar novos habitos"
+      ],
+      "limitations": [
+        "Sem praticar, pode esquecer facilmente"
+      ],
+      "citation_role": "Propoe opcoes de intervencao para procrastinacao",
+      "try_this": "Amanha, use 'abrir o material por so 10 segundos' uma vez",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu usar pelo menos uma vez esta semana?",
+        "stop_rule": "Se nao conseguir em uma semana, pare"
+      },
+      "comparator": {
+        "baseline": "Continuar procrastinando sem tentar nada",
+        "cost": "10 segundos x algumas vezes/semana"
+      },
+      "fallback": {
+        "when": "Se nenhuma funcionar",
+        "next": "Reduza para tarefa minima (resolver so 1 questao)"
+      }
+    }
+  },
+  {
+    "id": "study_l01_010",
+    "type": "conversation",
+    "question": "As 'tecnicas para comecar a estudar' desta licao pareceram uteis?",
+    "choices": [
+      "Parecem uteis",
+      "Parecem nao combinar muito",
+      "Ainda nao sei"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas estao corretas. Se 'nao parece combinar', e importante buscar outra abordagem. A procrastinacao tem causas diferentes para cada pessoa, entao o processo de encontrar o que funciona para voce tem valor em si.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a consideracao das diferencas individuais",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

@@ -1,0 +1,154 @@
+[
+  {
+    "id": "mental_l05_001",
+    "type": "swipe_judgment",
+    "question": "São 2h da manhã, e o material para a reunião de amanhã ainda está pela metade. No momento em que pensei \"não vai dar tempo\", a ansiedade aumentou ainda mais.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Acontece frequentemente",
+      "right": "Raramente acontece"
+    },
+    "explanation": "Este é um exemplo típico de \"pensamento catastrófico\". A previsão de \"não vai dar tempo\" está correndo na frente da realidade e amplificando a ansiedade. ※Esta lição apresenta técnicas para lidar com ansiedade leve, mas se você tiver tendências a pensamentos suicidas ou autolesão, por favor procure ajuda profissional (CVV: 188) em vez de usar apenas o aplicativo.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_002",
+    "type": "multiple_choice",
+    "question": "Quando pensamentos extremos como \"definitivamente vou falhar\" ou \"não tem mais jeito\" vêm à mente, qual é a forma mais eficaz de lidar com eles?",
+    "choices": [
+      "Buscar evidências perguntando \"isso é realmente verdade?\"",
+      "Dizer a si mesmo \"não pense nisso\"",
+      "De qualquer forma, se distrair"
+    ],
+    "correct_index": 0,
+    "explanation": "Para o pensamento catastrófico, \"buscar evidências\" tende a ser eficaz. Em vez de tentar eliminar completamente o pensamento, é importante recuperar uma perspectiva realista.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_003",
+    "type": "conversation",
+    "question": "Recentemente, você já ficou ansioso imaginando \"o pior cenário possível\"?",
+    "your_response_prompt": "Tente lembrar como você se sentiu naquele momento",
+    "choices": [
+      "Acontece frequentemente",
+      "Às vezes acontece",
+      "Raramente acontece"
+    ],
+    "recommended_index": null,
+    "explanation": "Qualquer resposta é uma reação normal. Como o cérebro humano é feito para prever perigos, é natural ter imaginações negativas.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_004",
+    "type": "multiple_choice",
+    "question": "Antes de uma apresentação, você pensa \"com certeza vou falhar\". Se fosse mudar esse padrão de pensamento, o que faria?",
+    "choices": [
+      "Lembrar \"também tive experiências de sucesso no passado\"",
+      "Aceitar \"tudo bem se eu falhar\"",
+      "Dizer a si mesmo \"definitivamente vou ter sucesso\""
+    ],
+    "correct_index": 0,
+    "explanation": "Em vez de ir de um extremo ao outro, é importante encontrar uma perspectiva equilibrada. Experiências passadas servem como base realista.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_005",
+    "type": "swipe_judgment",
+    "question": "O pensamento catastrófico precisa ser \"completamente eliminado\"",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "Concordo",
+      "right": "Discordo"
+    },
+    "explanation": "Não é necessário eliminá-lo completamente. Na verdade, o importante é \"perceber e adicionar uma perspectiva realista\".",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_006",
+    "type": "conversation",
+    "question": "Quando você pensa no \"pior cenário possível\", como costuma lidar com isso?",
+    "your_response_prompt": "Reflita sobre seu comportamento habitual",
+    "choices": [
+      "De qualquer forma, tento não pensar",
+      "Converso com amigos ou família",
+      "Penso em medidas realistas"
+    ],
+    "recommended_index": 2,
+    "explanation": "Qualquer método pode ser eficaz às vezes, mas pensar em medidas realistas tende a transformar a ansiedade em ação.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_007",
+    "type": "multiple_choice",
+    "question": "Quando o pensamento catastrófico tende a acontecer mais facilmente?",
+    "choices": [
+      "Quando está cansado ou com falta de sono",
+      "Quando está com energia e se sentindo bem",
+      "O horário não tem relação"
+    ],
+    "correct_index": 0,
+    "explanation": "Foi relatado que a fadiga e a falta de sono diminuem a capacidade de julgamento, tornando mais fácil cair em pensamentos negativos. Cuidar da saúde também é uma medida importante.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver"
+  },
+  {
+    "id": "mental_l05_008",
+    "type": "conversation",
+    "question": "Se você fosse experimentar amanhã o método de \"buscar evidências\" que aprendeu hoje?",
+    "your_response_prompt": "Em que situação específica você gostaria de usar?",
+    "choices": [
+      "Quando sentir pressão no trabalho",
+      "Quando ficar ansioso em relacionamentos",
+      "Ainda não consigo pensar em algo específico"
+    ],
+    "recommended_index": null,
+    "explanation": "É eficaz em qualquer situação. Recomendamos começar com pequenas ansiedades primeiro.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  },
+  {
+    "id": "mental_l05_009",
+    "type": "multiple_choice",
+    "question": "O que é mais importante ao lidar com o pensamento catastrófico?",
+    "choices": [
+      "Controlar completamente os pensamentos",
+      "Recuperar uma perspectiva realista",
+      "Pensar positivamente"
+    ],
+    "correct_index": 1,
+    "explanation": "Mais do que controle completo ou pensamento positivo forçado, é importante ter uma perspectiva realista e equilibrada.",
+    "difficulty": "hard",
+    "xp": 5,
+    "evidence_grade": "gold"
+  },
+  {
+    "id": "mental_l05_010",
+    "type": "conversation",
+    "question": "O conteúdo que você aprendeu nesta lição parece útil para você?",
+    "your_response_prompt": "Por favor, compartilhe sua impressão honesta",
+    "choices": [
+      "Parece muito útil",
+      "Parece um pouco útil",
+      "Não parece muito útil"
+    ],
+    "recommended_index": null,
+    "explanation": "Qualquer impressão é valiosa. Como métodos adequados variam para cada pessoa, é importante encontrar a abordagem que funciona para você.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze"
+  }
+]

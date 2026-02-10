@@ -1,0 +1,361 @@
+[
+    {
+        "id": "social_l01_001",
+        "type": "swipe_judgment",
+        "question": "Wenn ich um etwas gebeten werde, kann ich nicht ablehnen und bereue es später mit dem Gedanken: 'Warum habe ich das nur angenommen?'",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Kommt oft vor",
+            "right": "Eher selten"
+        },
+        "explanation": "Die Tendenz, nicht ablehnen zu können, zeigt den Wunsch, andere nicht zu verletzen oder abgelehnt zu werden. Das Problem ist, dass dabei die eigene Zeit und Energie verloren geht.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "Menschen, die dazu neigen, nicht ablehnen zu können",
+                "Menschen, die zur Selbstaufopferung neigen"
+            ],
+            "limitations": [
+                "Die Angemessenheit des Ablehnens variiert je nach Kultur und Beziehung"
+            ],
+            "citation_role": "Beobachtungsstudie unterstützt die Merkmale und Auswirkungen von mangelnder Durchsetzungsfähigkeit",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "self_care"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_002",
+        "type": "multiple_choice",
+        "question": "Warum entsteht Widerstand gegen das Ablehnen?",
+        "choices": [
+            "Man verbindet unbewusst 'Ablehnen = die Person ablehnen'",
+            "Weil Ablehnen einen Nachteil bringt",
+            "Weil man nicht weiß, wie man ablehnt"
+        ],
+        "correct_index": 0,
+        "explanation": "In vielen Fällen gibt es das Denkmuster 'Ablehnen = den anderen verletzen'. Aber was abgelehnt wird, ist die 'Bitte', nicht die 'Person selbst'. Diese Unterscheidung kann der Schlüssel sein. ('Weil es einen Nachteil bringt' oder 'Weil man nicht weiß, wie' sind weniger bedeutsam als das Denkmuster)",
+        "actionable_advice": "Tipp: Erinnere dich beim nächsten Mal, wenn du schwer ablehnen kannst, 10 Sekunden lang daran: 'Ich lehne die Bitte ab, nicht die Person.'",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Menschen, die Schuldgefühle beim Ablehnen haben",
+                "Menschen mit Tendenz zur Selbstaufopferung"
+            ],
+            "limitations": [
+                "Selbst wenn sich das Denken ändert, ändern sich die Gefühle möglicherweise nicht sofort"
+            ],
+            "citation_role": "Erklärt theoretisch aus der Assertiveness-Forschung den Unterschied zwischen Ablehnung und Zurückweisung",
+            "claim_tags": [
+                "assertiveness",
+                "cognitive_reframe",
+                "theory"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_003",
+        "type": "swipe_judgment",
+        "question": "Ich habe die Annahme, dass ich sofort 'Ja/Nein' entscheiden muss.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Kommt mir bekannt vor",
+            "right": "Nicht wirklich"
+        },
+        "explanation": "Tatsächlich gibt es viele Fälle, in denen man nicht sofort entscheiden muss. Durch eine '10-Sekunden-Pause' kann man ruhiger urteilen.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, die dazu neigen, sofort zu antworten",
+                "Menschen, die oft den richtigen Moment zum Ablehnen verpassen"
+            ],
+            "limitations": [
+                "Es gibt auch Notfälle, die sofortige Antworten erfordern"
+            ],
+            "citation_role": "Indirekte Unterstützung für die Wirkung des Aufschiebens als Technik zur Grenzsetzung",
+            "claim_tags": [
+                "assertiveness",
+                "decision_making",
+                "boundary_setting"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_004",
+        "type": "multiple_choice",
+        "question": "Welcher Satz macht es leichter, bei schwierigen Bitten zu antworten?",
+        "choices": [
+            "'Ich kann jetzt nicht entscheiden, ich melde mich später.'",
+            "'Auf keinen Fall'",
+            "'Ich denke darüber nach' (und es vage lassen)"
+        ],
+        "correct_index": 0,
+        "explanation": "'Ich kann jetzt nicht entscheiden' ist weder eine Ablehnung noch ein Ja – es ist eine 'Pause'. Dadurch kann man vom Druck der sofortigen Antwort befreit werden. Es ist normal, wenn es nicht klappt. Versuch es erst einmal. ('Starke Ablehnung' ist schwer zu sagen. 'Ich denke darüber nach' neigt dazu, vage zu enden)",
+        "actionable_advice": "Tipp: Versuch beim nächsten Mal, wenn du schwer ablehnen kannst, 10 Sekunden lang zu sagen: 'Ich kann jetzt nicht entscheiden, ich melde mich später.'",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, die oft um sofortige Antworten gebeten werden",
+                "Menschen, denen die Worte zum Ablehnen fehlen"
+            ],
+            "limitations": [
+                "Es gibt ein Risiko, dass 'später' vage bleibt und die Beziehung sich verschlechtert"
+            ],
+            "citation_role": "Indirekte Unterstützung für die Aufschiebe-Technik bei der Grenzsetzung",
+            "try_this": "Sage 10 Sekunden lang 'Ich kann jetzt nicht entscheiden, ich melde mich später'",
+            "claim_tags": [
+                "assertiveness",
+                "boundary_setting",
+                "phrase_template"
+            ],
+            "tiny_metric": {
+                "metric": "Konnte ich den Aufschub-Satz verwenden?",
+                "stop_rule": "Aufhören, wenn es 3 Mal hintereinander nicht klappt"
+            },
+            "comparator": {
+                "baseline": "Sofort Ja sagen",
+                "cost": "10 Sekunden / geringe Belastung"
+            },
+            "fallback": {
+                "when": "Wenn der Aufschub-Satz schwer zu sagen ist",
+                "next": "Alternativ sagen: 'Lass mich das kurz prüfen'"
+            }
+        }
+    },
+    {
+        "id": "social_l01_005",
+        "type": "conversation",
+        "question": "Bei wem fällt es dir schwer abzulehnen?",
+        "choices": [
+            "Vorgesetzte/Ältere",
+            "Freunde/Kollegen",
+            "Familie",
+            "Niemand Bestimmtes"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Wenn du weißt, bei wem du schwer ablehnen kannst, wird es tendenziell leichter, Gegenmaßnahmen zu entwickeln.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Unterstützt Selbsterkenntnis",
+            "claim_tags": [
+                "self_awareness",
+                "assertiveness",
+                "relationships"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_006",
+        "type": "multiple_choice",
+        "question": "Was ist der Unterschied zwischen 'Ablehnen' und 'Zurückweisen'?",
+        "choices": [
+            "Ablehnen = die Bitte ablehnen, Zurückweisen = die Person ablehnen",
+            "Das Gleiche",
+            "Ablehnen ist aggressiver"
+        ],
+        "correct_index": 0,
+        "explanation": "'Ablehnen' ist eine Reaktion auf eine Handlung – die Bitte. 'Zurückweisung' ist das Gefühl, die Person selbst abzulehnen. Menschen, die schwer ablehnen können, verwechseln diese beiden oft. ('Das Gleiche' und 'Ablehnen ist aggressiver' sind Missverständnisse. Die Unterscheidung ist wichtig)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "Menschen, die Schuldgefühle beim Ablehnen haben"
+            ],
+            "limitations": [
+                "Ob die andere Person sich 'zurückgewiesen' fühlt, ist eine separate Frage"
+            ],
+            "citation_role": "Erklärt theoretisch die kognitive Unterscheidung in der Assertiveness",
+            "claim_tags": [
+                "assertiveness",
+                "cognitive_distinction",
+                "guilt"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_007",
+        "type": "swipe_judgment",
+        "question": "Ich habe das Gefühl, dass ich die andere Person verletze, wenn ich nur sage 'Das ist jetzt schwierig'.",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "Verstehe ich",
+            "right": "Nicht wirklich"
+        },
+        "explanation": "'Das ist jetzt schwierig' ist tatsächlich eine sanfte Art abzulehnen. Wenn du eine Alternative hinzufügst ('Aber wenn... dann könnte ich'), wird es tendenziell noch leichter akzeptiert.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, die nicht wissen, wie sie ablehnen sollen"
+            ],
+            "limitations": [
+                "Manchmal kann man keine Alternative anbieten"
+            ],
+            "citation_role": "Indirekte Unterstützung für sanfte Formulierungen bei der Grenzsetzung",
+            "claim_tags": [
+                "assertiveness",
+                "communication",
+                "boundary_setting"
+            ]
+        }
+    },
+    {
+        "id": "social_l01_008",
+        "type": "multiple_choice",
+        "question": "Was kann man beim Ablehnen hinzufügen, um die Beziehung nicht zu beschädigen?",
+        "choices": [
+            "Eine Alternative ('Aber wenn... dann könnte ich')",
+            "Eine Entschuldigung (wiederholt 'Es tut mir leid' sagen)",
+            "Eine detaillierte Erklärung des Grundes"
+        ],
+        "correct_index": 0,
+        "explanation": "Wenn du eine Alternative anbietest, wird tendenziell die Botschaft vermittelt: 'Ich möchte helfen'. Übermäßige Entschuldigungen oder detaillierte Ausreden können dich eher in die Enge treiben. Versuch es erst einmal. ('Entschuldigungen wiederholen' oder 'Details erklären' neigen dazu, kontraproduktiv zu sein)",
+        "actionable_advice": "Tipp: Versuch beim nächsten Mal, wenn du ablehnst, 10 Sekunden lang zu sagen: 'Das ist jetzt schwierig, aber wenn... dann könnte ich.'",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Paterson_2000",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, die Angst haben, dass Ablehnen die Beziehung zerstört"
+            ],
+            "limitations": [
+                "Es gibt auch Bitten, für die man keine Alternative anbieten kann"
+            ],
+            "citation_role": "Indirekte Unterstützung für die Wirkung des Anbietens von Alternativen bei der Grenzsetzung",
+            "try_this": "Sage 10 Sekunden lang 'Das ist jetzt schwierig, aber wenn... dann könnte ich'",
+            "claim_tags": [
+                "assertiveness",
+                "alternative_offer",
+                "boundary_setting"
+            ],
+            "tiny_metric": {
+                "metric": "Konnte ich mit einer Alternative ablehnen?",
+                "stop_rule": "Aufhören, wenn es 3 Mal hintereinander nicht klappt"
+            },
+            "comparator": {
+                "baseline": "Lange Ausreden erklären",
+                "cost": "10 Sekunden / mittlere Belastung"
+            },
+            "fallback": {
+                "when": "Wenn dir keine Alternative einfällt",
+                "next": "Nur 'Das ist jetzt schwierig' ist auch OK"
+            }
+        }
+    },
+    {
+        "id": "social_l01_009",
+        "type": "conversation",
+        "question": "Welche der heute gelernten Techniken könntest du ab morgen anwenden?",
+        "choices": [
+            "'Ich kann jetzt nicht entscheiden, ich melde mich später.' (Aufschub-Satz)",
+            "'Das ist jetzt schwierig, aber wenn... dann könnte ich.' (Alternative)",
+            "'Ich lehne die Bitte ab, nicht die Person' (Denkmuster)",
+            "Alles ausprobieren"
+        ],
+        "recommended_index": null,
+        "explanation": "Es lohnt sich, jede davon auszuprobieren. Wenn etwas nicht passt, probiere etwas anderes. Die richtige Art abzulehnen variiert von Person zu Person. Versuch es erst einmal. ('Alles' muss nicht sein – fang mit einem an)",
+        "actionable_advice": "Tipp: Probiere morgen einmal: Wenn du schwer ablehnen kannst, sage 10 Sekunden lang 'Ich kann jetzt nicht entscheiden'.",
+        "difficulty": "easy",
+        "xp": 10,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "Menschen, die neue Kommunikationsfähigkeiten ausprobieren möchten"
+            ],
+            "limitations": [
+                "Ohne Übung können die Worte schwer kommen"
+            ],
+            "citation_role": "Schlägt Optionen für Assertiveness-Interventionen vor",
+            "try_this": "Verwende morgen einmal 'Ich kann jetzt nicht entscheiden'",
+            "claim_tags": [
+                "assertiveness",
+                "implementation",
+                "habit_formation"
+            ],
+            "tiny_metric": {
+                "metric": "Konnte ich es diese Woche mindestens einmal verwenden?",
+                "stop_rule": "Aufhören, wenn es eine Woche lang nicht klappt"
+            },
+            "comparator": {
+                "baseline": "Ohne etwas zu versuchen, weiter annehmen",
+                "cost": "10 Sekunden × einige Male/Woche"
+            },
+            "fallback": {
+                "when": "Wenn alles schwer zu sagen ist",
+                "next": "Erst einmal im Kopf üben"
+            }
+        }
+    },
+    {
+        "id": "social_l01_010",
+        "type": "conversation",
+        "question": "Waren die 'Ablehn-Techniken' in dieser Lektion nützlich für dich?",
+        "choices": [
+            "Scheint nützlich zu sein",
+            "Passt vielleicht nicht so gut",
+            "Weiß ich noch nicht"
+        ],
+        "recommended_index": null,
+        "explanation": "Alle Antworten sind richtig. Wenn es 'nicht passt', ist es auch wichtig, einen anderen Ansatz zu suchen. Die richtige Art abzulehnen variiert je nach Kultur und Beziehung.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Alberti_2001",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "Unterstützt die Berücksichtigung individueller Unterschiede",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

@@ -1,0 +1,378 @@
+[
+  {
+    "id": "work_l02_001",
+    "type": "conversation",
+    "question": "Wie viele Aufgaben fallen dir ein, die du diese Woche mit dem Gedanken \"Ich muss das machen\" vor dir hergeschoben hast?",
+    "your_response_prompt": "Zaehle ehrlich nach",
+    "choices": [
+      "4 oder mehr (ich habe einiges angesammelt)",
+      "1-3 ungefaehr",
+      "0 (ich erledige alles sofort)"
+    ],
+    "recommended_index": null,
+    "explanation": "Tatsaechlich koennte es sein, dass nicht \"Willensschwaeche\", sondern Perfektionismus deine Prokrastination bremst.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen mit perfektionistischen Tendenzen"
+      ],
+      "limitations": [
+        "Schwer anwendbar in Situationen, die tatsaechlich hohe Qualitaet erfordern"
+      ],
+      "citation_role": "Unterstuetzt den Zusammenhang zwischen Prokrastination und Perfektionismus durch Beobachtungsstudien",
+      "claim_tags": [
+        "perfectionism",
+        "procrastination",
+        "task_initiation"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_002",
+    "type": "multiple_choice",
+    "question": "Was kannst du zuerst tun, um den \"Startwiderstand\" zu verringern?",
+    "choices": [
+      "Den Computer einschalten und einfach eine Datei oeffnen",
+      "Einen perfekten Plan erstellen",
+      "Warten, bis die Motivation kommt"
+    ],
+    "correct_index": 0,
+    "explanation": "Die physische Handlung \"eine Datei oeffnen\" kann als Ausloeser dienen, das Gehirn in den \"Arbeitsmodus\" zu versetzen. Du musst nicht auf Motivation warten.",
+    "actionable_advice": "Tipp: Setze dich jetzt vor den PC und oeffne einfach ein Dokument (du musst nichts schreiben)",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Menschen, denen das Anfangen schwerfaellt"
+      ],
+      "limitations": [
+        "Manchmal bleibt man beim bloessen Oeffnen stehen"
+      ],
+      "citation_role": "Erklaert theoretisch den Zusammenhang zwischen Ausfuehrungsabsichten und physischen Handlungen",
+      "claim_tags": [
+        "implementation_intention",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_003",
+    "type": "multiple_choice",
+    "question": "Was ist die kleinste Handlung, die du in 10 Sekunden machen kannst, wenn du denkst \"Ich muss das machen\", aber dich nicht bewegen kannst?",
+    "choices": [
+      "Den Laptop aufklappen und den Einschaltknopf druecken",
+      "Alle Aufgaben auf eine Liste schreiben",
+      "Warten, bis die Motivation kommt"
+    ],
+    "correct_index": 0,
+    "explanation": "Physische Handlungen wie \"Laptop aufklappen\" und \"Einschaltknopf druecken\" neigen dazu, den Wechsel zur Aufgabe zu erleichtern. Bewege deinen Koerper, bevor du nachdenkst. Nur einmal. (\"Liste schreiben\" und \"Auf Motivation warten\" brauchen Zeit)",
+    "actionable_advice": "Wenn du dich nicht bewegen kannst: Klappe deinen Laptop auf und druecke den Einschaltknopf (das ist der erste Schritt)",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, denen das Anfangen schwerfaellt"
+      ],
+      "limitations": [
+        "Wenn der PC bereits offen ist, ist eine andere Handlung erforderlich"
+      ],
+      "citation_role": "Unterstuetzt indirekt die Wirkung minimaler Handlungen aus der Prokrastinationsforschung",
+      "try_this": "Wenn du dich nicht bewegen kannst: Oeffne den PC und druecke den Einschaltknopf (10 Sekunden)",
+      "claim_tags": [
+        "procrastination",
+        "physical_action",
+        "task_initiation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Wie stark ist dein \"Keine-Lust-Gefuehl\" gerade? (0-10)",
+        "after_prompt": "Wie ist es nach dem Oeffnen des PCs?",
+        "success_rule": "OK, wenn es auch nur ein wenig gesunken ist",
+        "stop_rule": "Wenn es sich nicht aendert, ziehe dich fuer heute zurueck"
+      },
+      "comparator": {
+        "baseline": "Auf Motivation warten",
+        "cost": "10 Sekunden / geringe Belastung"
+      },
+      "fallback": {
+        "when": "Selbst 10 Sekunden sind zu viel",
+        "next": "Oeffne einfach eine Arbeits-App auf dem Smartphone"
+      }
+    }
+  },
+  {
+    "id": "work_l02_004",
+    "type": "swipe_judgment",
+    "question": "Wenn du dir vornimmst \"nur einen Schritt\", merkst du manchmal, dass du unbemerkt zum naechsten Schritt uebergegangen bist.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Koennte sein",
+      "right": "Wohl eher nicht"
+    },
+    "explanation": "Das Gehirn verbraucht Energie beim \"Anfangen\". Einmal angefangen, neigt die Huerde zum Weitermachen dazu, niedriger zu werden.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen mit hohem Startwiderstand"
+      ],
+      "limitations": [
+        "Manchmal bleibt man bei einem Schritt stehen (das ist auch OK)"
+      ],
+      "citation_role": "Unterstuetzt den Starteffekt aus der Forschung zu Ausfuehrungsabsichten",
+      "claim_tags": [
+        "implementation_intention",
+        "task_initiation",
+        "momentum"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_005",
+    "type": "conversation",
+    "question": "Was trifft am meisten auf dich zu, wenn du eine Aufgabe nicht anfangen kannst?",
+    "choices": [
+      "Ich weiss nicht, wo ich anfangen soll",
+      "Ich erstarre, weil ich es perfekt machen will",
+      "Ich kann mich nicht bewegen, weil es laestig ist",
+      "Kein bestimmtes Muster"
+    ],
+    "recommended_index": null,
+    "explanation": "Jede Antwort ist richtig. Wenn du dein Muster erkennst, wird es einfacher, die passende Strategie zu waehlen.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Unterstuetzt die Selbsterkennung von Prokrastinationsmustern",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_006",
+    "type": "multiple_choice",
+    "question": "Warum ist es effektiv, \"die heutige Aufgabe\" auf eine einzige zu beschraenken?",
+    "choices": [
+      "Weil die Auswahllast sinkt und das Anfangen leichter faellt",
+      "Weil man muede wird, wenn man mehrere macht",
+      "Weil man faulenzen kann, wenn man beschliesst, nur eine zu machen"
+    ],
+    "correct_index": 0,
+    "explanation": "Die Last zu entscheiden \"Womit soll ich anfangen?\" macht einen grossen Teil des Startwiderstands aus. Wenn du morgens in 10 Sekunden entscheidest \"Heute nur das\", neigt es dazu, die Bewegung zu erleichtern. Nur einmal. (\"Muede bei mehreren\" und \"Faulenzen koennen\" sind weniger wichtig als die Reduzierung der Auswahllast)",
+    "actionable_advice": "Morgens nach dem Aufstehen: Nimm dein Smartphone und schreibe in 10 Sekunden \"die 1 Aufgabe fuer heute\" in eine Notiz-App",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die sich nicht bewegen koennen, weil sie zu viele Aufgaben haben"
+      ],
+      "limitations": [
+        "Schwer anwendbar, wenn mehrere Aufgaben wirklich dringend sind"
+      ],
+      "citation_role": "Unterstuetzt indirekt die Wirkung der Fokussierung bei Ausfuehrungsabsichten",
+      "try_this": "Morgens nach dem Aufstehen: Schreibe in 10 Sekunden \"die 1 Aufgabe fuer heute\" in eine Notiz-App",
+      "claim_tags": [
+        "focus",
+        "task_selection",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "An wie vielen Tagen diese Woche konntest du \"1 Aufgabe\" aufschreiben?",
+        "after_prompt": "Konntest du an den Tagen, an denen du es geschrieben hast, anfangen?",
+        "success_rule": "OK, wenn du es an 2 Tagen pro Woche schaffst",
+        "stop_rule": "Hoere auf, wenn du es eine Woche lang nicht schaffst"
+      },
+      "comparator": {
+        "baseline": "Die Aufgabenliste anschauen und ueberwaeltigt werden",
+        "cost": "10 Sekunden / geringe Belastung"
+      },
+      "fallback": {
+        "when": "Der Morgen ist zu hektisch",
+        "next": "Schreibe es am Vorabend"
+      }
+    }
+  },
+  {
+    "id": "work_l02_007",
+    "type": "swipe_judgment",
+    "question": "Es kann stressiger sein, \"nicht angefangen zu haben\", als dass eine Aufgabe nicht fertig wird.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Verstehe ich",
+      "right": "Verstehe ich nicht"
+    },
+    "explanation": "\"Was ich nicht gemacht habe\" bleibt im Kopf und neigt dazu, zu Stress zu fuehren (Zeigarnik-Effekt). Selbst ein Schritt zum Anfangen neigt dazu, diese Last zu verringern.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, die Stress durch \"Nicht-Erledigen\" empfinden"
+      ],
+      "limitations": [
+        "Fuer Menschen, die umgekehrt nicht aufhoeren koennen, wenn sie einmal angefangen haben, ist ein anderer Ansatz noetig"
+      ],
+      "citation_role": "Unterstuetzt die psychologische Belastung durch unerledigte Aufgaben durch Beobachtungsstudien",
+      "claim_tags": [
+        "procrastination",
+        "stress",
+        "zeigarnik_effect"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_008",
+    "type": "multiple_choice",
+    "question": "Was kannst du zuerst koerperlich tun, wenn du \"keine Motivation hast\"?",
+    "choices": [
+      "Auf den Stuhl setzen und die Haende auf den Schreibtisch legen",
+      "Liegen bleiben, bis die Motivation kommt",
+      "Motivationsvideos in sozialen Medien anschauen"
+    ],
+    "correct_index": 0,
+    "explanation": "Physische Handlungen wie \"auf den Stuhl setzen\" und \"Haende auflegen\" koennen als Ausloeser dienen, das Gehirn in den Arbeitsmodus zu versetzen. Bewege deinen Koerper, bevor du nachdenkst. Nur einmal. (\"Liegen bleiben\" und \"Soziale Medien anschauen\" machen es schwieriger, sich zu bewegen)",
+    "actionable_advice": "Wenn du keine Motivation hast: Setze dich zuerst auf den Stuhl und lege die Haende auf den Schreibtisch (nur 10 Sekunden)",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die lange auf Motivation warten"
+      ],
+      "limitations": [
+        "Wenn es keinen Platz zum Sitzen gibt, ist eine andere Handlung noetig"
+      ],
+      "citation_role": "Unterstuetzt indirekt den Zusammenhang zwischen koerperlicher Bewegung und Handlungsbeginn",
+      "try_this": "Wenn du keine Motivation hast: Setze dich auf den Stuhl und lege die Haende auf den Schreibtisch (10 Sekunden)",
+      "claim_tags": [
+        "physical_action",
+        "task_initiation",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Wie ist deine Motivation? (0-10)",
+        "after_prompt": "Wie ist es nach dem Hinsetzen?",
+        "success_rule": "OK, wenn es auch nur ein wenig gestiegen ist",
+        "stop_rule": "Wenn es sich nicht aendert, zu einer anderen Methode wechseln"
+      },
+      "comparator": {
+        "baseline": "Weiter auf Motivation warten",
+        "cost": "10 Sekunden / geringe Belastung"
+      },
+      "fallback": {
+        "when": "Hinsetzen hilft auch nicht",
+        "next": "Aendern zu: Nur den PC oeffnen"
+      }
+    }
+  },
+  {
+    "id": "work_l02_009",
+    "type": "conversation",
+    "question": "Welche der heute gelernten Techniken koenntest du ab morgen anwenden?",
+    "choices": [
+      "Minimale Handlung \"Laptop aufklappen und Einschaltknopf druecken\"",
+      "\"Die 1 Aufgabe fuer heute\" morgens aufschreiben",
+      "Physische Handlung \"Auf den Stuhl setzen und Haende auf den Schreibtisch legen\"",
+      "Alles ausprobieren"
+    ],
+    "recommended_index": null,
+    "explanation": "Jede ist einen Versuch wert. Wenn eine nicht passt, probiere eine andere. Das ist auch eine Lernerfahrung. Nur einmal. (\"Alles\" muss nicht sein, fang mit einer an)",
+    "actionable_advice": "Morgen frueh: Schreibe in 10 Sekunden \"die 1 Aufgabe fuer heute\" in eine Notiz-App (das Schreiben ist der erste Schritt)",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die neue Gewohnheiten ausprobieren moechten"
+      ],
+      "limitations": [
+        "Ohne Uebung leicht zu vergessen"
+      ],
+      "citation_role": "Schlaegt Optionen fuer Aufgabenstart-Interventionen vor",
+      "try_this": "Morgen frueh: Schreibe in 10 Sekunden \"die 1 Aufgabe fuer heute\" in eine Notiz-App",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "Konntest du es diese Woche mindestens einmal aufschreiben?",
+        "stop_rule": "Hoere auf, wenn du es eine Woche lang nicht schaffst"
+      },
+      "comparator": {
+        "baseline": "Den Tag ohne Entscheidung beginnen",
+        "cost": "10 Sekunden x jeden Morgen"
+      },
+      "fallback": {
+        "when": "Keine der Methoden passt",
+        "next": "Aendern zu: \"Nur 2 Minuten am Smartphone arbeiten\""
+      }
+    }
+  },
+  {
+    "id": "work_l02_010",
+    "type": "conversation",
+    "question": "Waren die \"Starttechniken\" in dieser Lektion nuetzlich fuer dich?",
+    "choices": [
+      "Scheint nuetzlich",
+      "Passt vielleicht nicht so gut",
+      "Weiss noch nicht"
+    ],
+    "recommended_index": null,
+    "explanation": "Jede Antwort ist richtig. Wenn es \"nicht passt\", ist es auch wichtig, nach einem anderen Ansatz zu suchen.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Unterstuetzt die Beruecksichtigung individueller Unterschiede",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]
