@@ -1,379 +1,385 @@
 [
-    {
-        "id": "mental_l03_001",
-        "type": "swipe_judgment",
-        "question": "Plus que 5 minutes avant la reunion. Mon coeur bat la chamade, mes mains sont moites. Plus je me dis de me calmer, plus je panique.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Ca m'arrive",
-            "right": "Jamais"
-        },
-        "explanation": "Se dire de se calmer peut avoir l'effet inverse. Plus on essaie de reprimer ses emotions, plus on tend a y penser.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Les personnes pour qui la repression des emotions ne fonctionne pas"
-            ],
-            "limitations": [
-                "La repression peut etre efficace dans certains cas (situations a court terme ou sociales)"
-            ],
-            "citation_role": "Explication theorique du mecanisme d'effet inverse de la repression dans le cadre de la regulation emotionnelle",
-            "claim_tags": [
-                "emotion_regulation",
-                "suppression"
-            ]
-        }
+  {
+    "id": "mental_l03_001",
+    "type": "swipe_judgment",
+    "question": "Plus que 5 minutes avant la reunion. Mon coeur bat la chamade, mes mains sont moites. Plus je me dis de me calmer, plus je panique.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Ca m'arrive",
+      "right": "Jamais"
     },
-    {
-        "id": "mental_l03_002",
-        "type": "multiple_choice",
-        "question": "Quand on se sent stresse, que peut-on faire au lieu de se dire de se calmer ?",
-        "choices": [
-            "Reconnaitre : « La, je suis stresse » (etiquetage)",
-            "Se repeter plus fort : « Calme-toi ! »",
-            "Essayer de ne penser a rien"
-        ],
-        "correct_index": 0,
-        "explanation": "L'etiquetage (nommer l'emotion) peut reduire son intensite. L'effet varie selon les personnes, et une anxiete chronique peut necessiter une autre approche. (Se repeter plus fort de se calmer tend a avoir l'effet inverse. Essayer de ne penser a rien est souvent difficile)",
-        "actionable_advice": "Astuce : La prochaine fois que tu te sens stresse, essaie juste de murmurer « stress » dans ta tete (10 secondes). Si ca ne te convient pas, arrete tout de suite.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Stress leger au quotidien",
-                "Personnes souhaitant mieux se connaitre"
-            ],
-            "limitations": [
-                "Peut avoir un effet limite en cas d'anxiete chronique intense",
-                "Peut renforcer la rumination chez certaines personnes"
-            ],
-            "citation_role": "Explication theorique du mecanisme de l'etiquetage dans le cadre de la regulation emotionnelle",
-            "try_this": "La prochaine fois que tu te sens stresse, murmure « stress » dans ta tete (10 secondes)",
-            "claim_tags": [
-                "emotion_regulation",
-                "reappraisal"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Ton niveau de stress actuel ? (0-10 ou eleve/moyen/faible)",
-                "after_prompt": "Et 10 secondes apres ?",
-                "success_rule": "C'est OK meme si ca diminue juste un peu",
-                "stop_rule": "Si ca ne change pas ou augmente, laisse tomber pour aujourd'hui"
-            },
-            "comparator": {
-                "baseline": "Se reprimer en se disant de se calmer",
-                "cost": "10 secondes / effort minimal"
-            },
-            "fallback": {
-                "when": "Si l'etiquetage augmente le stress",
-                "next": "Passe a la respiration profonde (inspire 4 secondes, expire 4 secondes)"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_003",
-        "type": "swipe_judgment",
-        "question": "Reinterpreter les battements de coeur comme « mon corps se prepare » peut ameliorer les performances.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Possible",
-            "right": "Peu probable"
-        },
-        "explanation": "C'est ce qu'on appelle la « reevaluation ». Des etudes montrent une amelioration des performances a court terme. Cependant, si tu ne te sens pas bien physiquement, repose-toi. C'est normal si ca ne marche pas. Essaie juste une fois.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jamieson_2012",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "direct",
-            "best_for": [
-                "Tension avant une presentation ou un entretien",
-                "Situations de performance a court terme"
-            ],
-            "limitations": [
-                "Peut avoir l'effet inverse si tu ne te sens pas bien",
-                "Effet limite pour l'anxiete chronique"
-            ],
-            "citation_role": "Soutien direct de l'effet de la reevaluation de l'eveil sur les performances",
-            "claim_tags": [
-                "reappraisal",
-                "arousal",
-                "stress_response",
-                "performance"
-            ],
-            "tiny_metric": {
-                "metric": "As-tu reussi a te dire une fois « Mon corps se prepare » quand ton coeur battait fort ?",
-                "stop_rule": "Arrete si tu n'y penses pas une seule fois pendant 3 jours consecutifs"
-            },
-            "comparator": {
-                "baseline": "Interpreter negativement : « C'est terrible, je suis nerveux »",
-                "cost": "Faible charge cognitive (juste reformuler)"
-            },
-            "try_this": "La prochaine fois que tu es nerveux, repete-toi « Mon corps se prepare » pendant 10 secondes",
-            "fallback": "Si ca ne te convient pas, passe a la respiration profonde"
-        }
-    },
-    {
-        "id": "mental_l03_004",
-        "type": "multiple_choice",
-        "question": "Juste avant une presentation, tes mains sont tres moites. Que pourrais-tu essayer ?",
-        "choices": [
-            "Reformuler : « Mon corps se prepare »",
-            "Penser : « C'est terrible, je suis encore nerveux »",
-            "Ignorer les mains moites et se concentrer sur le contenu"
-        ],
-        "correct_index": 0,
-        "explanation": "Reformuler en « preparation » peut transformer la reponse au stress en reponse de defi. Ca ne convient pas a tout le monde, donc pas besoin de forcer. Essaie juste une fois. (« C'est terrible » tend a augmenter le stress. « Ignorer et se concentrer » est difficile pour tout le monde)",
-        "actionable_advice": "Astuce : Essaie juste une fois demain : quand tu es nerveux, repete-toi « Mon corps se prepare » pendant 10 secondes. Si ca ne te plait pas, arrete tout de suite.",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jamieson_2012",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "direct",
-            "best_for": [
-                "Avant une presentation, un entretien ou un examen"
-            ],
-            "limitations": [
-                "Ne force pas si tu ne te sens pas bien",
-                "Peut ne pas convenir aux personnes resistantes a la pensee positive"
-            ],
-            "citation_role": "Soutien des effets pratiques de la reevaluation de l'eveil",
-            "try_this": "Quand tu es nerveux, repete-toi « Mon corps se prepare » pendant 10 secondes",
-            "claim_tags": [
-                "reappraisal",
-                "arousal",
-                "performance"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Niveau de tension actuel (0-10)",
-                "after_prompt": "Tension apres 10 secondes",
-                "success_rule": "C'est OK si ca diminue de 1",
-                "stop_rule": "Si ca ne change pas, essaie une autre methode"
-            },
-            "comparator": {
-                "baseline": "Se blamer : « Je ne dois pas etre nerveux »",
-                "cost": "10 secondes / faible charge psychologique"
-            },
-            "fallback": {
-                "when": "Si la reformulation semble fausse",
-                "next": "Fais juste de l'etiquetage : « Je suis nerveux »"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_005",
-        "type": "conversation",
-        "question": "« Etiquetage » et « Reevaluation » : lequel te semble le plus adapte ?",
-        "your_response_prompt": "Choisis selon ton instinct",
-        "choices": [
-            "Etiquetage (juste reconnaitre : « Je suis stresse »)",
-            "Reevaluation (reformuler : « Preparation »)",
-            "Je voudrais essayer les deux",
-            "Aucun des deux ne me convient"
-        ],
-        "recommended_index": null,
-        "explanation": "Toutes les reponses sont bonnes. « Aucun ne me convient » est aussi une information importante. C'est une occasion de chercher une autre approche.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Soutien de la prise en compte des differences individuelles",
-            "claim_tags": [
-                "emotion_regulation",
-                "individual_differences"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_006",
-        "type": "multiple_choice",
-        "question": "Quand on se sent stresse, que tend-il a se passer si on fait « inspirer 4 secondes, expirer 4 secondes » trois fois ?",
-        "choices": [
-            "Le systeme parasympathique tend a prendre le dessus et le rythme cardiaque a se calmer",
-            "Le systeme sympathique s'active davantage et le stress augmente",
-            "Rien ne change"
-        ],
-        "correct_index": 0,
-        "explanation": "Une respiration lente stimule le systeme parasympathique. Pour certaines personnes, les techniques de respiration peuvent au contraire augmenter le stress. C'est normal si ca ne marche pas. Essaie juste une fois. (« Le systeme sympathique s'active » se produit avec une respiration rapide. « Rien ne change » - les effets varient selon les personnes, mais un changement a tendance a se produire)",
-        "actionable_advice": "Astuce : Essaie maintenant : inspire 4 secondes, expire 4 secondes, juste une fois. Si ca ne te plait pas, passe.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Stress temporaire",
-                "Personnes receptives aux sensations corporelles"
-            ],
-            "limitations": [
-                "Peut avoir l'effet inverse pour ceux qui n'aiment pas les techniques de respiration",
-                "En cas d'attaque de panique, un soutien professionnel est necessaire"
-            ],
-            "citation_role": "Soutien indirect de l'effet des techniques de respiration sur le systeme nerveux autonome",
-            "try_this": "Inspire 4 secondes, expire 4 secondes, juste une fois",
-            "claim_tags": [
-                "emotion_regulation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Niveau de stress actuel (eleve/moyen/faible)",
-                "after_prompt": "Et apres une fois ?",
-                "success_rule": "C'est OK meme si ca s'allege juste un peu",
-                "stop_rule": "Arrete immediatement si tu te sens mal"
-            },
-            "comparator": {
-                "baseline": "Supporter et endurer",
-                "cost": "8 secondes / effort minimal"
-            },
-            "fallback": {
-                "when": "Si se concentrer sur la respiration devient oppressant",
-                "next": "Porte ton attention sur les sons exterieurs (5 secondes)"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_007",
-        "type": "swipe_judgment",
-        "question": "Les competences de regulation emotionnelle sont faciles a acquerir pour la plupart des gens avec de l'entrainement.",
-        "is_true": false,
-        "swipe_labels": {
-            "left": "D'accord",
-            "right": "Pas d'accord"
-        },
-        "explanation": "« Pour tout le monde » est exagere. Beaucoup de personnes s'ameliorent avec la pratique, mais il y a des differences individuelles. De plus, un soutien professionnel peut etre efficace pour les problemes chroniques.",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "citation_role": "Explication theorique des differences individuelles",
-            "claim_tags": [
-                "emotion_regulation",
-                "limitations"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_008",
-        "type": "multiple_choice",
-        "question": "Parmi les 3 techniques apprises aujourd'hui (etiquetage, reevaluation, respiration), laquelle te semble la plus accessible pour demain ?",
-        "choices": [
-            "Respiration (inspire 4 secondes, expire 4 secondes)",
-            "Etiquetage (reconnaitre « Je suis stresse »)",
-            "Reevaluation (reformuler en « Preparation »)",
-            "Toutes sont difficiles"
-        ],
-        "correct_index": 0,
-        "explanation": "Pour la plupart des gens, la respiration est la plus simple. Mais elle ne convient pas a tout le monde, donc l'important est de trouver ce qui te correspond. (L'etiquetage et la reevaluation sont aussi efficaces. Si « Toutes sont difficiles », chercher une autre approche est aussi OK)",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Fournit des directives pour le choix d'intervention",
-            "claim_tags": [
-                "breathing",
-                "implementation"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_009",
-        "type": "conversation",
-        "question": "Si tu devais essayer une seule technique demain quand tu te sens stresse ?",
-        "your_response_prompt": "Choisis-en une",
-        "choices": [
-            "Respiration (inspire 4 secondes, expire 4 secondes)",
-            "Etiquetage (murmurer « stress »)",
-            "Reevaluation (reformuler en « Preparation »)",
-            "Je passe pour cette fois"
-        ],
-        "recommended_index": 0,
-        "explanation": "Choisir et essayer une technique est le premier pas. Si ca ne te convient pas, essaies-en une autre. C'est aussi un apprentissage. Juste une fois.",
-        "actionable_advice": "Astuce : Demain, une fois (10 secondes) : essaie la technique choisie juste une fois. Si ca ne te plait plus, arrete tout de suite.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Gerer le stress leger au quotidien"
-            ],
-            "limitations": [
-                "Insuffisant si une anxiete forte persiste"
-            ],
-            "citation_role": "Presente des options de strategies de regulation emotionnelle",
-            "try_this": "Essaie la technique choisie une fois (10 secondes)",
-            "claim_tags": [
-                "emotion_regulation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Stress 0-10",
-                "after_prompt": "0-10 apres 10 secondes",
-                "success_rule": "C'est OK si ca diminue de 1",
-                "stop_rule": "Si pas de changement ou augmentation, laisse tomber"
-            },
-            "comparator": {
-                "baseline": "Ne rien faire",
-                "cost": "10 secondes"
-            },
-            "fallback": {
-                "when": "Si les 3 techniques ne te conviennent pas",
-                "next": "Changement physique : boire de l'eau / quitter la piece"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_010",
-        "type": "conversation",
-        "question": "Les « techniques de gestion du stress » de cette lecon te semblent-elles utiles ?",
-        "your_response_prompt": "Reponds honnetement",
-        "choices": [
-            "Ca semble utile",
-            "Ca ne me convient pas vraiment",
-            "Je ne sais pas encore"
-        ],
-        "recommended_index": null,
-        "explanation": "Toutes les reponses sont bonnes. Si « Ca ne me convient pas », chercher une autre approche est la bonne chose a faire. Le processus de trouver ce qui te correspond est en soi un apprentissage.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Soutien de la prise en compte des differences individuelles",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "Se dire de se calmer peut avoir l'effet inverse. Plus on essaie de reprimer ses emotions, plus on tend a y penser.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Les personnes pour qui la repression des emotions ne fonctionne pas"
+      ],
+      "limitations": [
+        "La repression peut etre efficace dans certains cas (situations a court terme ou sociales)"
+      ],
+      "citation_role": "Explication theorique du mecanisme d'effet inverse de la repression dans le cadre de la regulation emotionnelle",
+      "claim_tags": [
+        "emotion_regulation",
+        "suppression"
+      ]
     }
+  },
+  {
+    "id": "mental_l03_002",
+    "type": "multiple_choice",
+    "question": "Quand on se sent stresse, que peut-on faire au lieu de se dire de se calmer ?",
+    "choices": [
+      "Reconnaitre : « La, je suis stresse » (etiquetage)",
+      "Se repeter plus fort : « Calme-toi ! »",
+      "Essayer de ne penser a rien"
+    ],
+    "correct_index": 0,
+    "explanation": "L'etiquetage (nommer l'emotion) peut reduire son intensite. L'effet varie selon les personnes, et une anxiete chronique peut necessiter une autre approche. (Se repeter plus fort de se calmer tend a avoir l'effet inverse. Essayer de ne penser a rien est souvent difficile)",
+    "actionable_advice": "Astuce : La prochaine fois que tu te sens stresse, essaie juste de murmurer « stress » dans ta tete (10 secondes). Si ca ne te convient pas, arrete tout de suite.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Stress leger au quotidien",
+        "Personnes souhaitant mieux se connaitre"
+      ],
+      "limitations": [
+        "Peut avoir un effet limite en cas d'anxiete chronique intense",
+        "Peut renforcer la rumination chez certaines personnes"
+      ],
+      "citation_role": "Explication theorique du mecanisme de l'etiquetage dans le cadre de la regulation emotionnelle",
+      "try_this": "La prochaine fois que tu te sens stresse, murmure « stress » dans ta tete (10 secondes)",
+      "claim_tags": [
+        "emotion_regulation",
+        "reappraisal"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Ton niveau de stress actuel ? (0-10 ou eleve/moyen/faible)",
+        "after_prompt": "Et 10 secondes apres ?",
+        "success_rule": "C'est OK meme si ca diminue juste un peu",
+        "stop_rule": "Si ca ne change pas ou augmente, laisse tomber pour aujourd'hui"
+      },
+      "comparator": {
+        "baseline": "Se reprimer en se disant de se calmer",
+        "cost": "10 secondes / effort minimal"
+      },
+      "fallback": {
+        "when": "Si l'etiquetage augmente le stress",
+        "next": "Passe a la respiration profonde (inspire 4 secondes, expire 4 secondes)"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_003",
+    "type": "swipe_judgment",
+    "question": "Reinterpreter les battements de coeur comme « mon corps se prepare » peut ameliorer les performances.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Possible",
+      "right": "Peu probable"
+    },
+    "explanation": "C'est ce qu'on appelle la « reevaluation ». Des etudes montrent une amelioration des performances a court terme. Cependant, si tu ne te sens pas bien physiquement, repose-toi. C'est normal si ca ne marche pas. Essaie juste une fois.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Tension avant une presentation ou un entretien",
+        "Situations de performance a court terme"
+      ],
+      "limitations": [
+        "Peut avoir l'effet inverse si tu ne te sens pas bien",
+        "Effet limite pour l'anxiete chronique"
+      ],
+      "citation_role": "Soutien direct de l'effet de la reevaluation de l'eveil sur les performances",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "stress_response",
+        "performance"
+      ],
+      "tiny_metric": {
+        "metric": "As-tu reussi a te dire une fois « Mon corps se prepare » quand ton coeur battait fort ?",
+        "stop_rule": "Arrete si tu n'y penses pas une seule fois pendant 3 jours consecutifs",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
+      },
+      "comparator": {
+        "baseline": "Interpreter negativement : « C'est terrible, je suis nerveux »",
+        "cost": "Faible charge cognitive (juste reformuler)"
+      },
+      "try_this": "La prochaine fois que tu es nerveux, repete-toi « Mon corps se prepare » pendant 10 secondes",
+      "fallback": {
+        "when": "Lorsque la tension augmente ou qu'il n'y a aucun changement",
+        "next": "Passer à une respiration ou à une autre intervention de 10 secondes"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_004",
+    "type": "multiple_choice",
+    "question": "Juste avant une presentation, tes mains sont tres moites. Que pourrais-tu essayer ?",
+    "choices": [
+      "Reformuler : « Mon corps se prepare »",
+      "Penser : « C'est terrible, je suis encore nerveux »",
+      "Ignorer les mains moites et se concentrer sur le contenu"
+    ],
+    "correct_index": 0,
+    "explanation": "Reformuler en « preparation » peut transformer la reponse au stress en reponse de defi. Ca ne convient pas a tout le monde, donc pas besoin de forcer. Essaie juste une fois. (« C'est terrible » tend a augmenter le stress. « Ignorer et se concentrer » est difficile pour tout le monde)",
+    "actionable_advice": "Astuce : Essaie juste une fois demain : quand tu es nerveux, repete-toi « Mon corps se prepare » pendant 10 secondes. Si ca ne te plait pas, arrete tout de suite.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Avant une presentation, un entretien ou un examen"
+      ],
+      "limitations": [
+        "Ne force pas si tu ne te sens pas bien",
+        "Peut ne pas convenir aux personnes resistantes a la pensee positive"
+      ],
+      "citation_role": "Soutien des effets pratiques de la reevaluation de l'eveil",
+      "try_this": "Quand tu es nerveux, repete-toi « Mon corps se prepare » pendant 10 secondes",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "performance"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Niveau de tension actuel (0-10)",
+        "after_prompt": "Tension apres 10 secondes",
+        "success_rule": "C'est OK si ca diminue de 1",
+        "stop_rule": "Si ca ne change pas, essaie une autre methode"
+      },
+      "comparator": {
+        "baseline": "Se blamer : « Je ne dois pas etre nerveux »",
+        "cost": "10 secondes / faible charge psychologique"
+      },
+      "fallback": {
+        "when": "Si la reformulation semble fausse",
+        "next": "Fais juste de l'etiquetage : « Je suis nerveux »"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_005",
+    "type": "conversation",
+    "question": "« Etiquetage » et « Reevaluation » : lequel te semble le plus adapte ?",
+    "your_response_prompt": "Choisis selon ton instinct",
+    "choices": [
+      "Etiquetage (juste reconnaitre : « Je suis stresse »)",
+      "Reevaluation (reformuler : « Preparation »)",
+      "Je voudrais essayer les deux",
+      "Aucun des deux ne me convient"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes les reponses sont bonnes. « Aucun ne me convient » est aussi une information importante. C'est une occasion de chercher une autre approche.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Soutien de la prise en compte des differences individuelles",
+      "claim_tags": [
+        "emotion_regulation",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_006",
+    "type": "multiple_choice",
+    "question": "Quand on se sent stresse, que tend-il a se passer si on fait « inspirer 4 secondes, expirer 4 secondes » trois fois ?",
+    "choices": [
+      "Le systeme parasympathique tend a prendre le dessus et le rythme cardiaque a se calmer",
+      "Le systeme sympathique s'active davantage et le stress augmente",
+      "Rien ne change"
+    ],
+    "correct_index": 0,
+    "explanation": "Une respiration lente stimule le systeme parasympathique. Pour certaines personnes, les techniques de respiration peuvent au contraire augmenter le stress. C'est normal si ca ne marche pas. Essaie juste une fois. (« Le systeme sympathique s'active » se produit avec une respiration rapide. « Rien ne change » - les effets varient selon les personnes, mais un changement a tendance a se produire)",
+    "actionable_advice": "Astuce : Essaie maintenant : inspire 4 secondes, expire 4 secondes, juste une fois. Si ca ne te plait pas, passe.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Stress temporaire",
+        "Personnes receptives aux sensations corporelles"
+      ],
+      "limitations": [
+        "Peut avoir l'effet inverse pour ceux qui n'aiment pas les techniques de respiration",
+        "En cas d'attaque de panique, un soutien professionnel est necessaire"
+      ],
+      "citation_role": "Soutien indirect de l'effet des techniques de respiration sur le systeme nerveux autonome",
+      "try_this": "Inspire 4 secondes, expire 4 secondes, juste une fois",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Niveau de stress actuel (eleve/moyen/faible)",
+        "after_prompt": "Et apres une fois ?",
+        "success_rule": "C'est OK meme si ca s'allege juste un peu",
+        "stop_rule": "Arrete immediatement si tu te sens mal"
+      },
+      "comparator": {
+        "baseline": "Supporter et endurer",
+        "cost": "8 secondes / effort minimal"
+      },
+      "fallback": {
+        "when": "Si se concentrer sur la respiration devient oppressant",
+        "next": "Porte ton attention sur les sons exterieurs (5 secondes)"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_007",
+    "type": "swipe_judgment",
+    "question": "Les competences de regulation emotionnelle sont faciles a acquerir pour la plupart des gens avec de l'entrainement.",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "D'accord",
+      "right": "Pas d'accord"
+    },
+    "explanation": "« Pour tout le monde » est exagere. Beaucoup de personnes s'ameliorent avec la pratique, mais il y a des differences individuelles. De plus, un soutien professionnel peut etre efficace pour les problemes chroniques.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "Explication theorique des differences individuelles",
+      "claim_tags": [
+        "emotion_regulation",
+        "limitations"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_008",
+    "type": "multiple_choice",
+    "question": "Parmi les 3 techniques apprises aujourd'hui (etiquetage, reevaluation, respiration), laquelle te semble la plus accessible pour demain ?",
+    "choices": [
+      "Respiration (inspire 4 secondes, expire 4 secondes)",
+      "Etiquetage (reconnaitre « Je suis stresse »)",
+      "Reevaluation (reformuler en « Preparation »)",
+      "Toutes sont difficiles"
+    ],
+    "correct_index": 0,
+    "explanation": "Pour la plupart des gens, la respiration est la plus simple. Mais elle ne convient pas a tout le monde, donc l'important est de trouver ce qui te correspond. (L'etiquetage et la reevaluation sont aussi efficaces. Si « Toutes sont difficiles », chercher une autre approche est aussi OK)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Fournit des directives pour le choix d'intervention",
+      "claim_tags": [
+        "breathing",
+        "implementation"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_009",
+    "type": "conversation",
+    "question": "Si tu devais essayer une seule technique demain quand tu te sens stresse ?",
+    "your_response_prompt": "Choisis-en une",
+    "choices": [
+      "Respiration (inspire 4 secondes, expire 4 secondes)",
+      "Etiquetage (murmurer « stress »)",
+      "Reevaluation (reformuler en « Preparation »)",
+      "Je passe pour cette fois"
+    ],
+    "recommended_index": 0,
+    "explanation": "Choisir et essayer une technique est le premier pas. Si ca ne te convient pas, essaies-en une autre. C'est aussi un apprentissage. Juste une fois.",
+    "actionable_advice": "Astuce : Demain, une fois (10 secondes) : essaie la technique choisie juste une fois. Si ca ne te plait plus, arrete tout de suite.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Gerer le stress leger au quotidien"
+      ],
+      "limitations": [
+        "Insuffisant si une anxiete forte persiste"
+      ],
+      "citation_role": "Presente des options de strategies de regulation emotionnelle",
+      "try_this": "Essaie la technique choisie une fois (10 secondes)",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Stress 0-10",
+        "after_prompt": "0-10 apres 10 secondes",
+        "success_rule": "C'est OK si ca diminue de 1",
+        "stop_rule": "Si pas de changement ou augmentation, laisse tomber"
+      },
+      "comparator": {
+        "baseline": "Ne rien faire",
+        "cost": "10 secondes"
+      },
+      "fallback": {
+        "when": "Si les 3 techniques ne te conviennent pas",
+        "next": "Changement physique : boire de l'eau / quitter la piece"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_010",
+    "type": "conversation",
+    "question": "Les « techniques de gestion du stress » de cette lecon te semblent-elles utiles ?",
+    "your_response_prompt": "Reponds honnetement",
+    "choices": [
+      "Ca semble utile",
+      "Ca ne me convient pas vraiment",
+      "Je ne sais pas encore"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes les reponses sont bonnes. Si « Ca ne me convient pas », chercher une autre approche est la bonne chose a faire. Le processus de trouver ce qui te correspond est en soi un apprentissage.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Soutien de la prise en compte des differences individuelles",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

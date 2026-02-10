@@ -1,379 +1,385 @@
 [
-    {
-        "id": "mental_l03_001",
-        "type": "swipe_judgment",
-        "question": "Faltan 5 minutos para la reunión. Tu corazón late fuerte, tus manos sudan. Cuanto más te dices \"cálmate\", más te pones ansioso/a.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Me ha pasado",
-            "right": "No me ha pasado"
-        },
-        "explanation": "Decirte \"cálmate\" puede tener el efecto contrario. Cuanto más intentas suprimir una emoción, más tu atención tiende a enfocarse en ella.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Personas a quienes no les funciona suprimir las emociones"
-            ],
-            "limitations": [
-                "La supresión puede ser útil en algunos casos (a corto plazo o en situaciones sociales)"
-            ],
-            "citation_role": "Explica teoricamente el mecanismo contraproducente de la supresion dentro del marco de regulacion emocional",
-            "claim_tags": [
-                "emotion_regulation",
-                "suppression"
-            ]
-        }
+  {
+    "id": "mental_l03_001",
+    "type": "swipe_judgment",
+    "question": "Faltan 5 minutos para la reunión. Tu corazón late fuerte, tus manos sudan. Cuanto más te dices \"cálmate\", más te pones ansioso/a.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Me ha pasado",
+      "right": "No me ha pasado"
     },
-    {
-        "id": "mental_l03_002",
-        "type": "multiple_choice",
-        "question": "Cuando sientes ansiedad, en vez de decirte \"cálmate\", ¿qué puede ser más efectivo?",
-        "choices": [
-            "Reconocerlo: \"ahora estoy ansioso/a\" (etiquetado)",
-            "Decirte con más fuerza \"¡cálmate!\"",
-            "Intentar no pensar en nada"
-        ],
-        "correct_index": 0,
-        "explanation": "El etiquetado (ponerle nombre a lo que sientes) puede ayudar a reducir la intensidad de la emoción. Los efectos varían entre personas, y para la ansiedad crónica puede ser necesario otro enfoque. (Decirte \"¡cálmate!\" con más fuerza tiende a tener el efecto contrario. \"No pensar en nada\" suele ser difícil para la mayoría)",
-        "actionable_advice": "💡 La próxima vez que sientas ansiedad, solo di \"ansiedad\" en tu mente (10 segundos). Si no te gusta, puedes dejarlo de inmediato.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Ansiedad leve del día a día",
-                "Personas que quieren profundizar su autoconocimiento"
-            ],
-            "limitations": [
-                "Para la ansiedad crónica intensa, los efectos pueden ser limitados",
-                "En algunas personas puede aumentar la rumiación"
-            ],
-            "citation_role": "Explica teoricamente el mecanismo del etiquetado dentro del marco de regulacion emocional",
-            "try_this": "La próxima vez que sientas ansiedad, di \"ansiedad\" en tu mente (10 segundos)",
-            "claim_tags": [
-                "emotion_regulation",
-                "reappraisal"
-            ],
-            "tiny_metric": {
-                "before_prompt": "¿Cuál es tu nivel de ansiedad ahora? (0-10 o alto/medio/bajo)",
-                "after_prompt": "¿Y después de 10 segundos?",
-                "success_rule": "Si baja aunque sea un poco, está bien",
-                "stop_rule": "Si no cambia o sube, mejor dejarlo por hoy"
-            },
-            "comparator": {
-                "baseline": "Suprimir diciéndote \"cálmate\"",
-                "cost": "10 segundos / La carga es baja"
-            },
-            "fallback": {
-                "when": "Si el etiquetado aumenta tu ansiedad",
-                "next": "Cambia a respiración profunda (inhala 4 segundos, exhala 4 segundos)"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_003",
-        "type": "swipe_judgment",
-        "question": "Reinterpretar los latidos del corazón como \"mi cuerpo se está preparando\" puede mejorar el rendimiento en algunas situaciones.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Parece posible",
-            "right": "No lo creo"
-        },
-        "explanation": "Esto se llama \"reevaluación\". Investigaciones sugieren mejoras en el rendimiento a corto plazo. Sin embargo, si no te sientes bien físicamente, no te fuerces y descansa. Está bien si no puedes hacerlo. Solo inténtalo una vez.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jamieson_2012",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "direct",
-            "best_for": [
-                "Nervios antes de presentaciones o entrevistas",
-                "Situaciones de rendimiento a corto plazo"
-            ],
-            "limitations": [
-                "Puede tener el efecto contrario cuando no te sientes bien físicamente",
-                "Para la ansiedad crónica, los efectos pueden ser limitados"
-            ],
-            "citation_role": "Apoya directamente los efectos de la reevaluacion de la activacion sobre el rendimiento",
-            "claim_tags": [
-                "reappraisal",
-                "arousal",
-                "stress_response",
-                "performance"
-            ],
-            "tiny_metric": {
-                "metric": "Cuando tu corazón latió fuerte, ¿pudiste reinterpretarlo como \"se está preparando\" al menos una vez?",
-                "stop_rule": "Si en 3 días seguidos no lo recuerdas ni una vez, déjalo"
-            },
-            "comparator": {
-                "baseline": "Interpretarlo negativamente como \"ay no, estoy nervioso/a\"",
-                "cost": "La carga cognitiva es baja (solo es reinterpretar)"
-            },
-            "try_this": "La próxima vez que sientas nervios, repite \"mi cuerpo se está preparando\" por solo 10 segundos",
-            "fallback": "Si no te funciona, cambia a respiración profunda"
-        }
-    },
-    {
-        "id": "mental_l03_004",
-        "type": "multiple_choice",
-        "question": "Justo antes de una presentación, tus manos están sudando mucho. ¿Cuál de estas opciones podrías probar?",
-        "choices": [
-            "Reinterpretar: \"mi cuerpo está haciendo un calentamiento\"",
-            "Pensar: \"qué terrible, estoy nervioso/a otra vez\"",
-            "Ignorar el sudor y enfocarte solo en el contenido"
-        ],
-        "correct_index": 0,
-        "explanation": "Reinterpretar como \"calentamiento\" puede ayudar a transformar la respuesta de estrés en una respuesta de desafío. No a todas las personas les funciona, así que no tienes que forzarlo. Solo inténtalo una vez. (\"Qué terrible\" tiende a aumentar la ansiedad. \"Ignorar y enfocarte\" suele ser difícil para cualquiera)",
-        "actionable_advice": "💡 Mañana intenta solo una vez: cuando sientas nervios, repite \"mi cuerpo se está preparando\" por 10 segundos. Si no te gusta, puedes dejarlo de inmediato.",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jamieson_2012",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "direct",
-            "best_for": [
-                "Antes de presentaciones, entrevistas o exámenes"
-            ],
-            "limitations": [
-                "No te fuerces si no te sientes bien físicamente",
-                "Puede no funcionar para personas que sienten resistencia al \"pensamiento positivo\""
-            ],
-            "citation_role": "Apoya los efectos practicos de la reevaluacion de la activacion",
-            "try_this": "Cuando sientas nervios, repite \"mi cuerpo se está preparando\" por 10 segundos",
-            "claim_tags": [
-                "reappraisal",
-                "arousal",
-                "performance"
-            ],
-            "tiny_metric": {
-                "before_prompt": "¿Cuál es tu nivel de nervios ahora? (0-10)",
-                "after_prompt": "¿Y después de 10 segundos?",
-                "success_rule": "Si baja 1 punto, está bien",
-                "stop_rule": "Si no cambia, prueba otro método"
-            },
-            "comparator": {
-                "baseline": "Culparte pensando \"no debería estar nervioso/a\"",
-                "cost": "10 segundos / La carga psicológica es baja"
-            },
-            "fallback": {
-                "when": "Si la reinterpretación te parece falsa",
-                "next": "Solo etiquétalo como \"estoy nervioso/a\""
-            }
-        }
-    },
-    {
-        "id": "mental_l03_005",
-        "type": "conversation",
-        "question": "\"Etiquetado\" y \"reevaluación\", ¿cuál crees que te podría funcionar mejor?",
-        "your_response_prompt": "Elige con tu intuición",
-        "choices": [
-            "Etiquetado (solo reconocer \"ansiedad\")",
-            "Reevaluación (reinterpretar como \"calentamiento\")",
-            "Quiero probar ambos",
-            "Creo que ninguno me funciona"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas las respuestas son válidas. \"Creo que ninguno me funciona\" también es información importante. Puede ser el punto de partida para buscar otro enfoque.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoya la consideracion de las diferencias individuales",
-            "claim_tags": [
-                "emotion_regulation",
-                "individual_differences"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_006",
-        "type": "multiple_choice",
-        "question": "Cuando sientes ansiedad, si haces \"inhalar 4 segundos, exhalar 4 segundos\" 3 veces, ¿qué tiende a pasar?",
-        "choices": [
-            "El sistema nervioso parasimpático se activa y el ritmo cardíaco tiende a calmarse",
-            "El sistema nervioso simpático se activa más y la ansiedad aumenta",
-            "No pasa nada"
-        ],
-        "correct_index": 0,
-        "explanation": "La respiración lenta puede estimular el sistema nervioso parasimpático. Para algunas personas, las técnicas de respiración pueden aumentar la ansiedad. Está bien si no puedes hacerlo. Solo inténtalo una vez. (\"El sistema nervioso simpático se activa\" ocurre con la respiración rápida. \"No pasa nada\" puede variar entre personas, pero tiende a haber cambios)",
-        "actionable_advice": "💡 Pruébalo ahora mismo: inhala 4 segundos, exhala 4 segundos, solo una vez. Si no te gusta, pásalo.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Ansiedad temporal",
-                "Personas que se conectan fácilmente con las sensaciones corporales"
-            ],
-            "limitations": [
-                "Para algunas personas, las técnicas de respiración pueden tener el efecto contrario",
-                "En ataques de pánico, se necesita apoyo profesional"
-            ],
-            "citation_role": "Apoya indirectamente los efectos de las tecnicas de respiracion sobre el sistema nervioso autonomo",
-            "try_this": "Inhala 4 segundos, exhala 4 segundos, solo una vez",
-            "claim_tags": [
-                "emotion_regulation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "¿Cuál es tu nivel de ansiedad? (alto/medio/bajo)",
-                "after_prompt": "¿Y después de hacerlo una vez?",
-                "success_rule": "Si se siente un poco más ligero, está bien",
-                "stop_rule": "Si te genera incomodidad, déjalo de inmediato"
-            },
-            "comparator": {
-                "baseline": "Aguantar y resistir",
-                "cost": "8 segundos / La carga es mínima"
-            },
-            "fallback": {
-                "when": "Si enfocarte en la respiración te hace sentir peor",
-                "next": "Enfoca tu atención en los sonidos de tu alrededor (5 segundos)"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_007",
-        "type": "swipe_judgment",
-        "question": "Las habilidades de regulación emocional se adquieren fácilmente con la práctica para la mayoría de las personas.",
-        "is_true": false,
-        "swipe_labels": {
-            "left": "Estoy de acuerdo",
-            "right": "No estoy de acuerdo"
-        },
-        "explanation": "Decir \"para todas las personas sin excepción\" es exagerar. Muchas personas pueden mejorar con la práctica, pero hay diferencias individuales. Además, para problemas crónicos, el apoyo profesional puede ser muy útil.",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "citation_role": "Explica teoricamente las diferencias individuales",
-            "claim_tags": [
-                "emotion_regulation",
-                "limitations"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_008",
-        "type": "multiple_choice",
-        "question": "Las 3 técnicas que aprendiste hoy (etiquetado, reevaluación, respiración). Si fueras a usar una mañana, ¿cuál tiene la barrera más baja?",
-        "choices": [
-            "Respiración (inhala 4 seg, exhala 4 seg)",
-            "Etiquetado (reconocer \"ansiedad\")",
-            "Reevaluación (reinterpretar como \"calentamiento\")",
-            "Todas me parecen difíciles"
-        ],
-        "correct_index": 0,
-        "explanation": "Para muchas personas, la respiración tiende a ser lo más sencillo. No a todas les funciona, así que lo importante es encontrar lo que te va mejor. (El etiquetado y la reevaluación también pueden ser útiles. Si \"todas te parecen difíciles\", buscar otro enfoque también es válido)",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Proporciona directrices para la seleccion de intervenciones",
-            "claim_tags": [
-                "breathing",
-                "implementation"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_009",
-        "type": "conversation",
-        "question": "Si mañana sintieras ansiedad y pudieras probar solo una cosa, ¿cuál sería?",
-        "your_response_prompt": "Elige una",
-        "choices": [
-            "Respiración (inhala 4 seg, exhala 4 seg)",
-            "Etiquetado (decir \"ansiedad\" en tu mente)",
-            "Reevaluación (reinterpretar como \"calentamiento\")",
-            "Prefiero pasar por ahora"
-        ],
-        "recommended_index": 0,
-        "explanation": "Elegir una y probarla es el primer paso. Si no te funciona, prueba otra. Eso también es aprendizaje. Solo inténtalo una vez.",
-        "actionable_advice": "💡 Mañana, solo una vez (10 segundos): prueba la técnica que elegiste. Si no te gusta, puedes dejarlo de inmediato.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Manejo de la ansiedad leve del día a día"
-            ],
-            "limitations": [
-                "Puede no ser suficiente si la ansiedad intensa persiste"
-            ],
-            "citation_role": "Presenta opciones de estrategias de regulacion emocional",
-            "try_this": "Prueba la técnica que elegiste una vez (10 segundos)",
-            "claim_tags": [
-                "emotion_regulation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Ansiedad 0-10",
-                "after_prompt": "Después de 10 seg 0-10",
-                "success_rule": "Si baja 1 punto, está bien",
-                "stop_rule": "Si no cambia o sube, mejor retirarse"
-            },
-            "comparator": {
-                "baseline": "No hacer nada",
-                "cost": "10 segundos"
-            },
-            "fallback": {
-                "when": "Si las 3 técnicas no te funcionan",
-                "next": "Tomar agua / salir un momento, un cambio físico"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_010",
-        "type": "conversation",
-        "question": "Las \"técnicas para manejar la ansiedad\" de esta lección, ¿te parecieron útiles?",
-        "your_response_prompt": "Responde con honestidad",
-        "choices": [
-            "Creo que me pueden servir",
-            "Creo que no son para mí",
-            "Todavía no lo sé"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas las respuestas son válidas. Si sientes que \"no son para ti\", buscar otro enfoque es lo correcto. El proceso de encontrar lo que te funciona ya es en sí un aprendizaje.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoya la atencion a las diferencias individuales",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "Decirte \"cálmate\" puede tener el efecto contrario. Cuanto más intentas suprimir una emoción, más tu atención tiende a enfocarse en ella.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Personas a quienes no les funciona suprimir las emociones"
+      ],
+      "limitations": [
+        "La supresión puede ser útil en algunos casos (a corto plazo o en situaciones sociales)"
+      ],
+      "citation_role": "Explica teoricamente el mecanismo contraproducente de la supresion dentro del marco de regulacion emocional",
+      "claim_tags": [
+        "emotion_regulation",
+        "suppression"
+      ]
     }
+  },
+  {
+    "id": "mental_l03_002",
+    "type": "multiple_choice",
+    "question": "Cuando sientes ansiedad, en vez de decirte \"cálmate\", ¿qué puede ser más efectivo?",
+    "choices": [
+      "Reconocerlo: \"ahora estoy ansioso/a\" (etiquetado)",
+      "Decirte con más fuerza \"¡cálmate!\"",
+      "Intentar no pensar en nada"
+    ],
+    "correct_index": 0,
+    "explanation": "El etiquetado (ponerle nombre a lo que sientes) puede ayudar a reducir la intensidad de la emoción. Los efectos varían entre personas, y para la ansiedad crónica puede ser necesario otro enfoque. (Decirte \"¡cálmate!\" con más fuerza tiende a tener el efecto contrario. \"No pensar en nada\" suele ser difícil para la mayoría)",
+    "actionable_advice": "💡 La próxima vez que sientas ansiedad, solo di \"ansiedad\" en tu mente (10 segundos). Si no te gusta, puedes dejarlo de inmediato.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Ansiedad leve del día a día",
+        "Personas que quieren profundizar su autoconocimiento"
+      ],
+      "limitations": [
+        "Para la ansiedad crónica intensa, los efectos pueden ser limitados",
+        "En algunas personas puede aumentar la rumiación"
+      ],
+      "citation_role": "Explica teoricamente el mecanismo del etiquetado dentro del marco de regulacion emocional",
+      "try_this": "La próxima vez que sientas ansiedad, di \"ansiedad\" en tu mente (10 segundos)",
+      "claim_tags": [
+        "emotion_regulation",
+        "reappraisal"
+      ],
+      "tiny_metric": {
+        "before_prompt": "¿Cuál es tu nivel de ansiedad ahora? (0-10 o alto/medio/bajo)",
+        "after_prompt": "¿Y después de 10 segundos?",
+        "success_rule": "Si baja aunque sea un poco, está bien",
+        "stop_rule": "Si no cambia o sube, mejor dejarlo por hoy"
+      },
+      "comparator": {
+        "baseline": "Suprimir diciéndote \"cálmate\"",
+        "cost": "10 segundos / La carga es baja"
+      },
+      "fallback": {
+        "when": "Si el etiquetado aumenta tu ansiedad",
+        "next": "Cambia a respiración profunda (inhala 4 segundos, exhala 4 segundos)"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_003",
+    "type": "swipe_judgment",
+    "question": "Reinterpretar los latidos del corazón como \"mi cuerpo se está preparando\" puede mejorar el rendimiento en algunas situaciones.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Parece posible",
+      "right": "No lo creo"
+    },
+    "explanation": "Esto se llama \"reevaluación\". Investigaciones sugieren mejoras en el rendimiento a corto plazo. Sin embargo, si no te sientes bien físicamente, no te fuerces y descansa. Está bien si no puedes hacerlo. Solo inténtalo una vez.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Nervios antes de presentaciones o entrevistas",
+        "Situaciones de rendimiento a corto plazo"
+      ],
+      "limitations": [
+        "Puede tener el efecto contrario cuando no te sientes bien físicamente",
+        "Para la ansiedad crónica, los efectos pueden ser limitados"
+      ],
+      "citation_role": "Apoya directamente los efectos de la reevaluacion de la activacion sobre el rendimiento",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "stress_response",
+        "performance"
+      ],
+      "tiny_metric": {
+        "metric": "Cuando tu corazón latió fuerte, ¿pudiste reinterpretarlo como \"se está preparando\" al menos una vez?",
+        "stop_rule": "Si en 3 días seguidos no lo recuerdas ni una vez, déjalo",
+        "before_prompt": "¿Qué tan cansado estás ahora en una escala de 0 a 10?",
+        "after_prompt": "¿Qué tan difícil es después de 10 segundos en una escala de 0 a 10?",
+        "success_rule": "Está bien si baja en 1"
+      },
+      "comparator": {
+        "baseline": "Interpretarlo negativamente como \"ay no, estoy nervioso/a\"",
+        "cost": "La carga cognitiva es baja (solo es reinterpretar)"
+      },
+      "try_this": "La próxima vez que sientas nervios, repite \"mi cuerpo se está preparando\" por solo 10 segundos",
+      "fallback": {
+        "when": "Cuando la tensión aumenta o no hay cambios",
+        "next": "Cambie a una respiración u otra intervención de 10 segundos"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_004",
+    "type": "multiple_choice",
+    "question": "Justo antes de una presentación, tus manos están sudando mucho. ¿Cuál de estas opciones podrías probar?",
+    "choices": [
+      "Reinterpretar: \"mi cuerpo está haciendo un calentamiento\"",
+      "Pensar: \"qué terrible, estoy nervioso/a otra vez\"",
+      "Ignorar el sudor y enfocarte solo en el contenido"
+    ],
+    "correct_index": 0,
+    "explanation": "Reinterpretar como \"calentamiento\" puede ayudar a transformar la respuesta de estrés en una respuesta de desafío. No a todas las personas les funciona, así que no tienes que forzarlo. Solo inténtalo una vez. (\"Qué terrible\" tiende a aumentar la ansiedad. \"Ignorar y enfocarte\" suele ser difícil para cualquiera)",
+    "actionable_advice": "💡 Mañana intenta solo una vez: cuando sientas nervios, repite \"mi cuerpo se está preparando\" por 10 segundos. Si no te gusta, puedes dejarlo de inmediato.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Antes de presentaciones, entrevistas o exámenes"
+      ],
+      "limitations": [
+        "No te fuerces si no te sientes bien físicamente",
+        "Puede no funcionar para personas que sienten resistencia al \"pensamiento positivo\""
+      ],
+      "citation_role": "Apoya los efectos practicos de la reevaluacion de la activacion",
+      "try_this": "Cuando sientas nervios, repite \"mi cuerpo se está preparando\" por 10 segundos",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "performance"
+      ],
+      "tiny_metric": {
+        "before_prompt": "¿Cuál es tu nivel de nervios ahora? (0-10)",
+        "after_prompt": "¿Y después de 10 segundos?",
+        "success_rule": "Si baja 1 punto, está bien",
+        "stop_rule": "Si no cambia, prueba otro método"
+      },
+      "comparator": {
+        "baseline": "Culparte pensando \"no debería estar nervioso/a\"",
+        "cost": "10 segundos / La carga psicológica es baja"
+      },
+      "fallback": {
+        "when": "Si la reinterpretación te parece falsa",
+        "next": "Solo etiquétalo como \"estoy nervioso/a\""
+      }
+    }
+  },
+  {
+    "id": "mental_l03_005",
+    "type": "conversation",
+    "question": "\"Etiquetado\" y \"reevaluación\", ¿cuál crees que te podría funcionar mejor?",
+    "your_response_prompt": "Elige con tu intuición",
+    "choices": [
+      "Etiquetado (solo reconocer \"ansiedad\")",
+      "Reevaluación (reinterpretar como \"calentamiento\")",
+      "Quiero probar ambos",
+      "Creo que ninguno me funciona"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas las respuestas son válidas. \"Creo que ninguno me funciona\" también es información importante. Puede ser el punto de partida para buscar otro enfoque.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoya la consideracion de las diferencias individuales",
+      "claim_tags": [
+        "emotion_regulation",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_006",
+    "type": "multiple_choice",
+    "question": "Cuando sientes ansiedad, si haces \"inhalar 4 segundos, exhalar 4 segundos\" 3 veces, ¿qué tiende a pasar?",
+    "choices": [
+      "El sistema nervioso parasimpático se activa y el ritmo cardíaco tiende a calmarse",
+      "El sistema nervioso simpático se activa más y la ansiedad aumenta",
+      "No pasa nada"
+    ],
+    "correct_index": 0,
+    "explanation": "La respiración lenta puede estimular el sistema nervioso parasimpático. Para algunas personas, las técnicas de respiración pueden aumentar la ansiedad. Está bien si no puedes hacerlo. Solo inténtalo una vez. (\"El sistema nervioso simpático se activa\" ocurre con la respiración rápida. \"No pasa nada\" puede variar entre personas, pero tiende a haber cambios)",
+    "actionable_advice": "💡 Pruébalo ahora mismo: inhala 4 segundos, exhala 4 segundos, solo una vez. Si no te gusta, pásalo.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Ansiedad temporal",
+        "Personas que se conectan fácilmente con las sensaciones corporales"
+      ],
+      "limitations": [
+        "Para algunas personas, las técnicas de respiración pueden tener el efecto contrario",
+        "En ataques de pánico, se necesita apoyo profesional"
+      ],
+      "citation_role": "Apoya indirectamente los efectos de las tecnicas de respiracion sobre el sistema nervioso autonomo",
+      "try_this": "Inhala 4 segundos, exhala 4 segundos, solo una vez",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "¿Cuál es tu nivel de ansiedad? (alto/medio/bajo)",
+        "after_prompt": "¿Y después de hacerlo una vez?",
+        "success_rule": "Si se siente un poco más ligero, está bien",
+        "stop_rule": "Si te genera incomodidad, déjalo de inmediato"
+      },
+      "comparator": {
+        "baseline": "Aguantar y resistir",
+        "cost": "8 segundos / La carga es mínima"
+      },
+      "fallback": {
+        "when": "Si enfocarte en la respiración te hace sentir peor",
+        "next": "Enfoca tu atención en los sonidos de tu alrededor (5 segundos)"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_007",
+    "type": "swipe_judgment",
+    "question": "Las habilidades de regulación emocional se adquieren fácilmente con la práctica para la mayoría de las personas.",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "Estoy de acuerdo",
+      "right": "No estoy de acuerdo"
+    },
+    "explanation": "Decir \"para todas las personas sin excepción\" es exagerar. Muchas personas pueden mejorar con la práctica, pero hay diferencias individuales. Además, para problemas crónicos, el apoyo profesional puede ser muy útil.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "Explica teoricamente las diferencias individuales",
+      "claim_tags": [
+        "emotion_regulation",
+        "limitations"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_008",
+    "type": "multiple_choice",
+    "question": "Las 3 técnicas que aprendiste hoy (etiquetado, reevaluación, respiración). Si fueras a usar una mañana, ¿cuál tiene la barrera más baja?",
+    "choices": [
+      "Respiración (inhala 4 seg, exhala 4 seg)",
+      "Etiquetado (reconocer \"ansiedad\")",
+      "Reevaluación (reinterpretar como \"calentamiento\")",
+      "Todas me parecen difíciles"
+    ],
+    "correct_index": 0,
+    "explanation": "Para muchas personas, la respiración tiende a ser lo más sencillo. No a todas les funciona, así que lo importante es encontrar lo que te va mejor. (El etiquetado y la reevaluación también pueden ser útiles. Si \"todas te parecen difíciles\", buscar otro enfoque también es válido)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Proporciona directrices para la seleccion de intervenciones",
+      "claim_tags": [
+        "breathing",
+        "implementation"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_009",
+    "type": "conversation",
+    "question": "Si mañana sintieras ansiedad y pudieras probar solo una cosa, ¿cuál sería?",
+    "your_response_prompt": "Elige una",
+    "choices": [
+      "Respiración (inhala 4 seg, exhala 4 seg)",
+      "Etiquetado (decir \"ansiedad\" en tu mente)",
+      "Reevaluación (reinterpretar como \"calentamiento\")",
+      "Prefiero pasar por ahora"
+    ],
+    "recommended_index": 0,
+    "explanation": "Elegir una y probarla es el primer paso. Si no te funciona, prueba otra. Eso también es aprendizaje. Solo inténtalo una vez.",
+    "actionable_advice": "💡 Mañana, solo una vez (10 segundos): prueba la técnica que elegiste. Si no te gusta, puedes dejarlo de inmediato.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Manejo de la ansiedad leve del día a día"
+      ],
+      "limitations": [
+        "Puede no ser suficiente si la ansiedad intensa persiste"
+      ],
+      "citation_role": "Presenta opciones de estrategias de regulacion emocional",
+      "try_this": "Prueba la técnica que elegiste una vez (10 segundos)",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Ansiedad 0-10",
+        "after_prompt": "Después de 10 seg 0-10",
+        "success_rule": "Si baja 1 punto, está bien",
+        "stop_rule": "Si no cambia o sube, mejor retirarse"
+      },
+      "comparator": {
+        "baseline": "No hacer nada",
+        "cost": "10 segundos"
+      },
+      "fallback": {
+        "when": "Si las 3 técnicas no te funcionan",
+        "next": "Tomar agua / salir un momento, un cambio físico"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_010",
+    "type": "conversation",
+    "question": "Las \"técnicas para manejar la ansiedad\" de esta lección, ¿te parecieron útiles?",
+    "your_response_prompt": "Responde con honestidad",
+    "choices": [
+      "Creo que me pueden servir",
+      "Creo que no son para mí",
+      "Todavía no lo sé"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas las respuestas son válidas. Si sientes que \"no son para ti\", buscar otro enfoque es lo correcto. El proceso de encontrar lo que te funciona ya es en sí un aprendizaje.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoya la atencion a las diferencias individuales",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

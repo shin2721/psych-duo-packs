@@ -75,7 +75,7 @@
     ],
     "correct_index": 0,
     "explanation": "Physically \"lifting your finger\" lets you step back from the pressure to respond immediately. The trick is to move your body before words. It's normal if you can't do this. Try it just once. (\"Saying OK then declining later\" is awkward. \"Leaving on read\" can damage the relationship.)",
-    "actionable_advice": "\uD83D\uDC49 When you feel \"hard to decline\" \u2192 take your finger off your phone and type \"Let me check for 10 seconds\"",
+    "actionable_advice": "👉 When you feel \"hard to decline\" → take your finger off your phone and type \"Let me check for 10 seconds\"",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Paterson_2000",
@@ -90,7 +90,7 @@
         "Face-to-face requires a different approach"
       ],
       "citation_role": "Indirectly supports holding technique in boundary setting",
-      "try_this": "\uD83D\uDC49 When a hard-to-decline DM comes \u2192 lift your finger, wait 10 seconds, then reply \"Let me check\"",
+      "try_this": "👉 When a hard-to-decline DM comes → lift your finger, wait 10 seconds, then reply \"Let me check\"",
       "claim_tags": [
         "assertiveness",
         "boundary_setting",
@@ -183,7 +183,7 @@
     ],
     "correct_index": 0,
     "explanation": "\"Reason + decline\" lets you convey your situation without denying the other person. Example: \"I'm swamped this week, so this time it's difficult.\" Try it just once. (A \"strong refusal\" is hard to say. \"I'll think about it\" tends to end vaguely.)",
-    "actionable_advice": "\uD83D\uDC49 When declining \u2192 say \"Because of X, this time it's difficult\" to yourself for 10 seconds before sending",
+    "actionable_advice": "👉 When declining → say \"Because of X, this time it's difficult\" to yourself for 10 seconds before sending",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Paterson_2000",
@@ -198,7 +198,7 @@
         "Can be difficult if pressed for a reason"
       ],
       "citation_role": "Indirectly supports phrase technique in boundary setting",
-      "try_this": "\uD83D\uDC49 Before sending a decline \u2192 pause and say \"Because of X, it's difficult\" to yourself for 10 seconds",
+      "try_this": "👉 Before sending a decline → pause and say \"Because of X, it's difficult\" to yourself for 10 seconds",
       "claim_tags": [
         "assertiveness",
         "phrase_template",
@@ -263,7 +263,7 @@
     ],
     "correct_index": 0,
     "explanation": "Physically \"stepping back\" can create psychological distance too. The trick is to move your body before words. Try it just once. (\"Smiling and saying sure\" leads to regret. \"Crossing arms and staying silent\" can look aggressive.)",
-    "actionable_advice": "\uD83D\uDC49 When it's hard to say no in person \u2192 take a step back and say \"Let me think about it\"",
+    "actionable_advice": "👉 When it's hard to say no in person → take a step back and say \"Let me think about it\"",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Paterson_2000",
@@ -278,7 +278,7 @@
         "Can be difficult when there's no space to step back"
       ],
       "citation_role": "Indirectly supports the link between physical action and boundary setting",
-      "try_this": "\uD83D\uDC49 When it's hard to decline in person \u2192 step back and say \"Let me think about it\" for 10 seconds",
+      "try_this": "👉 When it's hard to decline in person → step back and say \"Let me think about it\" for 10 seconds",
       "claim_tags": [
         "assertiveness",
         "physical_action",
@@ -311,8 +311,8 @@
       "Try all of them"
     ],
     "recommended_index": null,
-    "explanation": "All are worth trying. If one doesn't work, try another. That's learning too. Try it just once. (\"All\" is fine but don't push yourself \u2014 start with just one.)",
-    "actionable_advice": "\uD83D\uDC49 Tomorrow, if you feel \"hard to say no\" just once \u2192 take your finger off your phone and wait 10 seconds",
+    "explanation": "All are worth trying. If one doesn't work, try another. That's learning too. Try it just once. (\"All\" is fine but don't push yourself — start with just one.)",
+    "actionable_advice": "👉 Tomorrow, if you feel \"hard to say no\" just once → take your finger off your phone and wait 10 seconds",
     "difficulty": "easy",
     "xp": 10,
     "source_id": "Paterson_2000",
@@ -327,7 +327,7 @@
         "Easy to forget without practice"
       ],
       "citation_role": "Proposes options for boundary-setting interventions",
-      "try_this": "\uD83D\uDC49 Tomorrow, if you feel \"hard to say no\" \u2192 take your finger off your phone and wait 10 seconds",
+      "try_this": "👉 Tomorrow, if you feel \"hard to say no\" → take your finger off your phone and wait 10 seconds",
       "claim_tags": [
         "implementation",
         "habit_formation",
@@ -335,11 +335,14 @@
       ],
       "tiny_metric": {
         "metric": "Did you manage to use it at least once this week?",
-        "stop_rule": "If you can't use it for a week, stop"
+        "stop_rule": "If you can't use it for a week, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
       },
       "comparator": {
         "baseline": "Continuing to instantly reply without trying",
-        "cost": "10 seconds \u00d7 a few times/week"
+        "cost": "10 seconds × a few times/week"
       },
       "fallback": {
         "when": "None of them work",

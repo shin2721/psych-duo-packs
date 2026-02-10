@@ -337,7 +337,10 @@
       ],
       "tiny_metric": {
         "metric": "Konntest du es diese Woche mindestens einmal aufschreiben?",
-        "stop_rule": "Hoere auf, wenn du es eine Woche lang nicht schaffst"
+        "stop_rule": "Hoere auf, wenn du es eine Woche lang nicht schaffst",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
       },
       "comparator": {
         "baseline": "Den Tag ohne Entscheidung beginnen",

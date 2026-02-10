@@ -1,308 +1,323 @@
 [
-    {
-        "id": "mental_l04_001",
-        "type": "swipe_judgment",
-        "question": "日曜夜。明日のことを考え始めると、同じ心配が何度もループする。",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "よくある",
-            "right": "あまりない"
-        },
-        "explanation": "これは「反芻思考」のサイン。考えているつもりが、実は脳の自動再生になっていることがある。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "反芻パターンに気づきたい人"
-            ],
-            "limitations": [
-                "強い落ち込みが続くときは自己観察自体が負担になることがある"
-            ],
-            "citation_role": "反芻思考の特徴と持続性を実証研究で支持",
-            "claim_tags": [
-                "rumination",
-                "repetitive_thinking",
-                "depression"
-            ]
-        }
+  {
+    "id": "mental_l04_001",
+    "type": "swipe_judgment",
+    "question": "日曜夜。明日のことを考え始めると、同じ心配が何度もループする。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "よくある",
+      "right": "あまりない"
     },
-    {
-        "id": "mental_l04_002",
-        "type": "multiple_choice",
-        "question": "「反芻思考」の特徴として正しいのは？",
-        "choices": [
-            "同じ内容がグルグル繰り返される",
-            "考えるほど解決策が見つかる",
-            "時間が経つと自然に収まる"
-        ],
-        "correct_index": 0,
-        "explanation": "反芻は「考えている」ように見えて、実は同じ内容を繰り返しているだけ。解決には別のアプローチが必要なことが多い。（「解決策が見つかる」のは問題解決型思考。「自然に収まる」のはまれ）",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "反芻と問題解決型思考の違いを知りたい人"
-            ],
-            "limitations": [
-                "全ての繰り返し思考が有害とは限らない（熟考は別）"
-            ],
-            "citation_role": "反芻思考の繰り返し特性を定義",
-            "claim_tags": [
-                "rumination",
-                "repetitive_thinking"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_003",
-        "type": "swipe_judgment",
-        "question": "やるべきことがあるのに、なぜか別のことを始めてしまう。",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "よくある",
-            "right": "あまりない"
-        },
-        "explanation": "これは「先延ばし」のサイン。意志の弱さではなく、不快感を避けようとする自然な反応。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "先延ばしパターンに気づきたい人"
-            ],
-            "limitations": [
-                "先延ばしの原因は多様（ADHD、完璧主義など）で、一概には言えない"
-            ],
-            "citation_role": "回避行動としての先延ばしを認知的評価の枠組みで間接的に説明",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_004",
-        "type": "multiple_choice",
-        "question": "先延ばしが起きやすいのは、どんな状況？",
-        "choices": [
-            "タスクに不快感（難しい、退屈、不安）がある",
-            "タスクが簡単すぎる",
-            "十分な時間がある"
-        ],
-        "correct_index": 0,
-        "explanation": "先延ばしは「不快回避」の行動。タスク自体に不快感があると、無意識に別のことに意識が向く。（「簡単すぎる」「時間がある」ときより、不快感があるときに起きやすい）",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "先延ばしの原因を理解したい人"
-            ],
-            "limitations": [
-                "全ての先延ばしが不快回避とは限らない（優先順位の問題の場合もある）"
-            ],
-            "citation_role": "ストレス回避としての先延ばしを認知的評価の枠組みで説明",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_005",
-        "type": "conversation",
-        "question": "最近、先延ばしにしていることはありますか？",
-        "your_response_prompt": "思い浮かぶものを選んでください",
-        "choices": [
-            "仕事・勉強関連",
-            "人間関係・コミュニケーション",
-            "健康・生活習慣",
-            "特にない / 思い浮かばない"
-        ],
-        "recommended_index": null,
-        "explanation": "どれも正解。「思い浮かばない」も一つの答え。先延ばしがないなら、それは良いこと。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "自己認識を支持",
-            "claim_tags": [
-                "self_awareness",
-                "stress"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_006",
-        "type": "swipe_judgment",
-        "question": "ストレスな場面を思い出しそうになると、意識的に別のことを考える。",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "よくやる",
-            "right": "あまりない"
-        },
-        "explanation": "これは「回避」のサイン。短期的には楽になるが、長期的には問題が残ることがある。",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "回避パターンに気づきたい人"
-            ],
-            "limitations": [
-                "回避が有効なケースもある（トラウマ直後の一時的な回避など）"
-            ],
-            "citation_role": "回避的コーピングの特徴を認知的評価の枠組みで説明",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_007",
-        "type": "multiple_choice",
-        "question": "「回避」が長期的に問題になりやすいのはなぜ？",
-        "choices": [
-            "問題が解決されず、不安が維持・強化される",
-            "すぐに問題が解決するから",
-            "回避すること自体がストレスになるから"
-        ],
-        "correct_index": 0,
-        "explanation": "回避は短期的な安心を得られるが、問題はそのまま残る。結果として不安が維持されやすい。（「すぐ解決」は回避では起きない。「回避自体がストレス」は二次的な問題）",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "回避の長期的影響を理解したい人"
-            ],
-            "limitations": [
-                "全ての回避が問題になるわけではない（優先順位として正しい回避もある）"
-            ],
-            "citation_role": "回避的コーピングの長期的影響をストレス研究の文脈で説明",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_008",
-        "type": "conversation",
-        "question": "今日学んだ3つのサイン（反芻・先延ばし・回避）。自分に一番当てはまりそうなのは？",
-        "your_response_prompt": "直感で選んでください",
-        "choices": [
-            "反芻（同じ心配がループ）",
-            "先延ばし（やるべきことを後回し）",
-            "回避（考えないようにする）",
-            "どれも当てはまらない"
-        ],
-        "recommended_index": null,
-        "explanation": "どれも正解。「当てはまらない」も一つの答え。自分のパターンに気づくことが十分な一歩。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "パターン認識を支持",
-            "claim_tags": [
-                "self_awareness",
-                "pattern_recognition"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_009",
-        "type": "multiple_choice",
-        "question": "「反芻」「先延ばし」「回避」に共通するのは？",
-        "choices": [
-            "不快感から一時的に逃れる機能がある",
-            "意志の弱さが原因",
-            "すぐに直すべき問題"
-        ],
-        "correct_index": 0,
-        "explanation": "3つとも「不快回避」の機能がある。責めるより、パターンに気づくことが最初のステップ。（「意志の弱さ」は誤解。「すぐ直すべき」と責めると逆効果になりやすい）",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "パターンの共通点を理解したい人"
-            ],
-            "limitations": [
-                "3つを同一視しすぎると、それぞれの固有の対処法が見えなくなる"
-            ],
-            "citation_role": "反芻・先延ばし・回避の共通する機能を示唆",
-            "claim_tags": [
-                "rumination",
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_010",
-        "type": "conversation",
-        "question": "このレッスンで自分のパターンに気づきましたか？",
-        "your_response_prompt": "正直に答えてください",
-        "choices": [
-            "気づきがあった",
-            "すでに知っていた",
-            "よくわからなかった"
-        ],
-        "recommended_index": null,
-        "explanation": "どれも正解。「すでに知っていた」なら復習になったし、「わからなかった」なら別のアプローチが合うかもしれない。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "個人差への配慮を支持",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "これは「反芻思考」のサイン。考えているつもりが、実は脳の自動再生になっていることがある。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "反芻パターンに気づきたい人"
+      ],
+      "limitations": [
+        "強い落ち込みが続くときは自己観察自体が負担になることがある"
+      ],
+      "citation_role": "反芻思考の特徴と持続性を実証研究で支持",
+      "claim_tags": [
+        "rumination",
+        "repetitive_thinking",
+        "depression"
+      ]
     }
+  },
+  {
+    "id": "mental_l04_002",
+    "type": "multiple_choice",
+    "question": "「反芻思考」の特徴として正しいのは？",
+    "choices": [
+      "同じ内容がグルグル繰り返される",
+      "考えるほど解決策が見つかる",
+      "時間が経つと自然に収まる"
+    ],
+    "correct_index": 0,
+    "explanation": "反芻は「考えている」ように見えて、実は同じ内容を繰り返しているだけ。解決には別のアプローチが必要なことが多い。（「解決策が見つかる」のは問題解決型思考。「自然に収まる」のはまれ）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "反芻と問題解決型思考の違いを知りたい人"
+      ],
+      "limitations": [
+        "全ての繰り返し思考が有害とは限らない（熟考は別）"
+      ],
+      "citation_role": "反芻思考の繰り返し特性を定義",
+      "claim_tags": [
+        "rumination",
+        "repetitive_thinking"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_003",
+    "type": "swipe_judgment",
+    "question": "やるべきことがあるのに、なぜか別のことを始めてしまう。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "よくある",
+      "right": "あまりない"
+    },
+    "explanation": "これは「先延ばし」のサイン。意志の弱さではなく、不快感を避けようとする自然な反応。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "先延ばしパターンに気づきたい人"
+      ],
+      "limitations": [
+        "先延ばしの原因は多様（ADHD、完璧主義など）で、一概には言えない"
+      ],
+      "citation_role": "回避行動としての先延ばしを認知的評価の枠組みで間接的に説明",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_004",
+    "type": "multiple_choice",
+    "question": "先延ばしが起きやすいのは、どんな状況？",
+    "choices": [
+      "タスクに不快感（難しい、退屈、不安）がある",
+      "タスクが簡単すぎる",
+      "十分な時間がある"
+    ],
+    "correct_index": 0,
+    "explanation": "先延ばしは「不快回避」の行動。タスク自体に不快感があると、無意識に別のことに意識が向く。（「簡単すぎる」「時間がある」ときより、不快感があるときに起きやすい）",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "先延ばしの原因を理解したい人"
+      ],
+      "limitations": [
+        "全ての先延ばしが不快回避とは限らない（優先順位の問題の場合もある）"
+      ],
+      "citation_role": "ストレス回避としての先延ばしを認知的評価の枠組みで説明",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_005",
+    "type": "conversation",
+    "question": "最近、先延ばしにしていることはありますか？",
+    "your_response_prompt": "思い浮かぶものを選んでください",
+    "choices": [
+      "仕事・勉強関連",
+      "人間関係・コミュニケーション",
+      "健康・生活習慣",
+      "特にない / 思い浮かばない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。「思い浮かばない」も一つの答え。先延ばしがないなら、それは良いこと。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "自己認識を支持",
+      "claim_tags": [
+        "self_awareness",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_006",
+    "type": "swipe_judgment",
+    "question": "ストレスな場面を思い出しそうになると、意識的に別のことを考える。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "よくやる",
+      "right": "あまりない"
+    },
+    "explanation": "これは「回避」のサイン。短期的には楽になるが、長期的には問題が残ることがある。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "回避パターンに気づきたい人"
+      ],
+      "limitations": [
+        "回避が有効なケースもある（トラウマ直後の一時的な回避など）"
+      ],
+      "citation_role": "回避的コーピングの特徴を認知的評価の枠組みで説明",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_007",
+    "type": "multiple_choice",
+    "question": "「回避」が長期的に問題になりやすいのはなぜ？",
+    "choices": [
+      "問題が解決されず、不安が維持・強化される",
+      "すぐに問題が解決するから",
+      "回避すること自体がストレスになるから"
+    ],
+    "correct_index": 0,
+    "explanation": "回避は短期的な安心を得られるが、問題はそのまま残る。結果として不安が維持されやすい。（「すぐ解決」は回避では起きない。「回避自体がストレス」は二次的な問題）",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "回避の長期的影響を理解したい人"
+      ],
+      "limitations": [
+        "全ての回避が問題になるわけではない（優先順位として正しい回避もある）"
+      ],
+      "citation_role": "回避的コーピングの長期的影響をストレス研究の文脈で説明",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_008",
+    "type": "conversation",
+    "question": "今日学んだ3つのサイン（反芻・先延ばし・回避）。自分に一番当てはまりそうなのは？",
+    "your_response_prompt": "直感で選んでください",
+    "choices": [
+      "反芻（同じ心配がループ）",
+      "先延ばし（やるべきことを後回し）",
+      "回避（考えないようにする）",
+      "どれも当てはまらない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。「当てはまらない」も一つの答え。自分のパターンに気づくことが十分な一歩。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "パターン認識を支持",
+      "claim_tags": [
+        "self_awareness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_009",
+    "type": "multiple_choice",
+    "question": "「反芻」「先延ばし」「回避」に共通するのは？",
+    "choices": [
+      "不快感から一時的に逃れる機能がある",
+      "意志の弱さが原因",
+      "すぐに直すべき問題"
+    ],
+    "correct_index": 0,
+    "explanation": "3つとも「不快回避」の機能がある。責めるより、パターンに気づくことが最初のステップ。（「意志の弱さ」は誤解。「すぐ直すべき」と責めると逆効果になりやすい）",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "反芻から行動に切り替えたい人"
+      ],
+      "limitations": [
+        "疲労が強い日は実行難度が上がる"
+      ],
+      "citation_role": "回避ループの中断に行動選択が有効な可能性を示唆",
+      "claim_tags": [
+        "rumination",
+        "behavioral_shift",
+        "intervention"
+      ],
+      "try_this": "反芻に気づいたら「今できる1手」を10秒で1つ決める",
+      "tiny_metric": {
+        "before_prompt": "頭のぐるぐる感は0〜10で？",
+        "after_prompt": "10秒後のぐるぐる感は0〜10で？",
+        "success_rule": "1だけ下がればOK",
+        "stop_rule": "しんどさが増えるなら中止"
+      },
+      "comparator": {
+        "baseline": "考え続けるだけだと回避が続きやすい",
+        "cost": "10秒・行動1つだけ"
+      },
+      "fallback": {
+        "when": "1手が決まらないとき",
+        "next": "4秒吸って4秒吐くを1回してから再試行"
+      }
+    }
+  },
+  {
+    "id": "mental_l04_010",
+    "type": "conversation",
+    "question": "このレッスンで自分のパターンに気づきましたか？",
+    "your_response_prompt": "正直に答えてください",
+    "choices": [
+      "気づきがあった",
+      "すでに知っていた",
+      "よくわからなかった"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。「すでに知っていた」なら復習になったし、「わからなかった」なら別のアプローチが合うかもしれない。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "個人差への配慮を支持",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

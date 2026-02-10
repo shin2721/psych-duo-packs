@@ -1,368 +1,371 @@
 [
-    {
-        "id": "health_l01_001",
-        "type": "conversation",
-        "question": "Ultimamente, quanto tempo você leva para pegar no sono depois de deitar?",
-        "your_response_prompt": "Pode ser uma estimativa",
-        "choices": [
-            "Mais de 30 minutos (começo a ficar ansioso)",
-            "Entre 10-20 minutos",
-            "Menos de 5 minutos (apago rapidinho)"
-        ],
-        "recommended_index": null,
-        "explanation": "Mais de 30 minutos seguidos pode ser bem difícil. Na verdade, foi relatado que quanto mais você se esforça para dormir, mais o cérebro fica desperto, causando o efeito contrário.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Pessoas com dificuldade para pegar no sono",
-                "Pessoas que não conseguem parar de pensar à noite"
-            ],
-            "limitations": [
-                "Se a insônia persistir por muito tempo, recomenda-se consultar um especialista"
-            ],
-            "citation_role": "Apoia a relação entre dificuldade para dormir e excitação cognitiva através de estudo observacional",
-            "claim_tags": [
-                "sleep",
-                "cognitive_arousal",
-                "insomnia"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_002",
-        "type": "multiple_choice",
-        "question": "Quanto mais você fica ansioso por não conseguir dormir, o que tende a acontecer?",
-        "choices": [
-            "O estado de alerta tende a se manter",
-            "Você naturalmente fica com sono",
-            "O cansaço faz você dormir"
-        ],
-        "correct_index": 0,
-        "explanation": "A ansiedade de \"preciso dormir\" provoca excitação cognitiva, que tende a deixar você mais desperto. O primeiro passo pode ser aceitar que \"tudo bem não dormir\".",
-        "actionable_advice": "Dica: Nas noites em que não conseguir dormir, tente sussurrar \"tudo bem não dormir\" por apenas 10 segundos. Se não funcionar, pode parar.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Pessoas muito ansiosas por não conseguir dormir",
-                "Pessoas com ansiedade de desempenho"
-            ],
-            "limitations": [
-                "Pouco eficaz para causas físicas de insônia",
-                "Insônia crônica requer tratamento especializado"
-            ],
-            "citation_role": "Explica a relação entre ansiedade e estado de alerta através da teoria da excitação cognitiva",
-            "claim_tags": [
-                "sleep",
-                "cognitive_arousal",
-                "theory"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_003",
-        "type": "swipe_judgment",
-        "question": "Usar o celular até a hora de dormir pode dificultar pegar no sono.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Me identifico",
-            "right": "Não é bem assim"
-        },
-        "explanation": "O conteúdo do celular libera dopamina do tipo \"quero ver mais\", mantendo o cérebro desperto. Mais do que a luz azul, é o estímulo das informações que atrapalha o sono.",
-        "actionable_advice": "Dica: Só por hoje: coloque o celular para carregar 30 minutos antes de deitar (longe do seu alcance)",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Cain_2010",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Pessoas com hábito de usar celular antes de dormir"
-            ],
-            "limitations": [
-                "Exceção para casos em que o celular funciona como ritual para dormir"
-            ],
-            "citation_role": "Apoia a relação entre mídia eletrônica e sono através de estudo observacional",
-            "claim_tags": [
-                "sleep",
-                "screen_time",
-                "blue_light"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_004",
-        "type": "multiple_choice",
-        "question": "Quando você experimenta a técnica de respiração \"inspirar 4 segundos, segurar 7 segundos, expirar 8 segundos\" em noites sem sono, o que tende a acontecer?",
-        "choices": [
-            "O sistema nervoso parassimpático tende a ser ativado, facilitando o relaxamento",
-            "Você dorme imediatamente",
-            "Acaba acordando mais"
-        ],
-        "correct_index": 0,
-        "explanation": "A técnica de respiração 4-7-8 pode estimular o sistema nervoso parassimpático. Não garante que você vai dormir logo, mas foi relatado um efeito relaxante. Não funciona para todos, então não precisa forçar.",
-        "actionable_advice": "Dica: Na próxima noite sem sono, experimente a respiração 4-7-8 apenas 2 vezes. Se não funcionar, pode parar.",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Ma_2017",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas com muita tensão corporal",
-                "Pessoas que não conseguem parar de pensar"
-            ],
-            "limitations": [
-                "Pode ter efeito contrário para quem fica estressado ao focar na respiração",
-                "Pessoas com problemas respiratórios devem ter cuidado"
-            ],
-            "citation_role": "Apoia indiretamente o efeito relaxante da respiração lenta",
-            "try_this": "Experimente a respiração 4-7-8 apenas 2 vezes",
-            "claim_tags": [
-                "sleep",
-                "breathing",
-                "relaxation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Qual seu nível de tensão agora? (0-10)",
-                "after_prompt": "E depois de 2 vezes?",
-                "success_rule": "Se diminuir um pouco, está ótimo",
-                "stop_rule": "Se não mudar ou ficar desconfortável, pare"
-            },
-            "comparator": {
-                "baseline": "Ficar deitado sem fazer nada",
-                "cost": "Cerca de 30 segundos / baixo esforço"
-            },
-            "fallback": {
-                "when": "A técnica de respiração não funciona",
-                "next": "Intenção paradoxal: sussurrar \"tudo bem não dormir\""
-            }
-        }
-    },
-    {
-        "id": "health_l01_005",
-        "type": "swipe_judgment",
-        "question": "Olhar o relógio em noites sem sono pode aumentar a ansiedade.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Entendo",
-            "right": "Não é bem assim"
-        },
-        "explanation": "Verificar o relógio leva a cálculos como \"só tenho mais X horas para dormir\", que tendem a aumentar a excitação cognitiva. Muitas pessoas se beneficiam de não olhar o relógio.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Pessoas com hábito de olhar o relógio"
-            ],
-            "limitations": [
-                "Algumas pessoas ficam ansiosas sem olhar o relógio"
-            ],
-            "citation_role": "Apoia a relação entre monitorar o relógio e dificuldade para dormir através de estudo observacional",
-            "claim_tags": [
-                "sleep",
-                "cognitive_arousal",
-                "clock_watching"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_006",
-        "type": "multiple_choice",
-        "question": "Quando você quer relaxar o corpo em noites sem sono, por onde é mais eficiente começar?",
-        "choices": [
-            "Relaxar o rosto e o maxilar",
-            "Começar pelos dedos dos pés",
-            "Levantar os braços e soltar"
-        ],
-        "correct_index": 0,
-        "explanation": "A tensão no rosto e no maxilar tende a influenciar o relaxamento do corpo todo. Muitas pessoas apertam o maxilar sem perceber. Algumas pessoas sentem diferença ao relaxar o maxilar por 10 segundos.",
-        "actionable_advice": "Dica: Experimente agora: relaxe o maxilar por apenas 10 segundos.",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jacobson_1938",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que ficam tensas sem perceber",
-                "Pessoas com tendência a ranger ou apertar os dentes"
-            ],
-            "limitations": [
-                "Não indicado para quem fica estressado ao prestar atenção nas sensações corporais"
-            ],
-            "citation_role": "Apoia indiretamente o efeito do relaxamento do rosto/maxilar através do relaxamento muscular progressivo",
-            "try_this": "Relaxe o maxilar por apenas 10 segundos",
-            "claim_tags": [
-                "sleep",
-                "muscle_relaxation",
-                "tension"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Tensão no maxilar? (alta/média/baixa)",
-                "after_prompt": "E depois de 10 segundos?",
-                "success_rule": "Se relaxar um pouco, está ótimo",
-                "stop_rule": "Se não mudar, pare"
-            },
-            "comparator": {
-                "baseline": "Não prestar atenção",
-                "cost": "10 segundos / baixo esforço"
-            },
-            "fallback": {
-                "when": "Difícil de perceber o relaxamento do maxilar",
-                "next": "Levantar os ombros por 3 segundos e soltar de uma vez"
-            }
-        }
-    },
-    {
-        "id": "health_l01_007",
-        "type": "conversation",
-        "question": "Qual é o padrão mais comum em suas noites sem sono?",
-        "choices": [
-            "Não consigo parar de pensar",
-            "Meu corpo está tenso",
-            "Ansiedade por não conseguir dormir",
-            "Não tenho um padrão específico"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas as respostas são válidas. Perceber seu próprio padrão tende a facilitar a escolha das estratégias certas.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia o reconhecimento de padrões na dificuldade para dormir",
-            "claim_tags": [
-                "sleep",
-                "self_awareness",
-                "pattern_recognition"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_008",
-        "type": "swipe_judgment",
-        "question": "Dormir demais no fim de semana pode desregular o ritmo de sono durante a semana.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Pode ser",
-            "right": "Não é bem assim"
-        },
-        "explanation": "Manter um ritmo de sono regular tende a melhorar a qualidade. Porém, se você tem privação crônica de sono, o sono de recuperação no fim de semana também é necessário. O equilíbrio é importante.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Walker_2017",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Pessoas com hábito de dormir demais no fim de semana"
-            ],
-            "limitations": [
-                "Em caso de privação crônica de sono, o sono de recuperação também é necessário"
-            ],
-            "citation_role": "Apoia a relação entre desregulação do ritmo do sono e qualidade do sono",
-            "claim_tags": [
-                "sleep",
-                "circadian_rhythm",
-                "sleep_debt"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_009",
-        "type": "multiple_choice",
-        "question": "Das técnicas que você aprendeu hoje, qual parece mais útil para amanhã?",
-        "choices": [
-            "Sussurrar \"tudo bem não dormir\" por 10 segundos",
-            "Experimentar a respiração 4-7-8 duas vezes",
-            "Relaxar o maxilar por 10 segundos",
-            "Experimentar todas"
-        ],
-        "correct_index": 3,
-        "explanation": "Vale a pena experimentar todas. Se uma não funcionar, experimente outra. Isso também é aprendizado. Porém, se a insônia persistir, recomenda-se consultar um especialista.",
-        "actionable_advice": "Dica: Comece hoje à noite com apenas uma: se não conseguir dormir, sussurre \"tudo bem não dormir\" por 10 segundos.",
-        "difficulty": "easy",
-        "xp": 10,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que querem começar novos hábitos"
-            ],
-            "limitations": [
-                "Insônia crônica requer tratamento especializado"
-            ],
-            "citation_role": "Propõe opções de intervenção para adormecer",
-            "try_this": "Experimente uma a partir de hoje à noite",
-            "claim_tags": [
-                "sleep",
-                "implementation",
-                "habit_formation"
-            ],
-            "tiny_metric": {
-                "metric": "Conseguiu experimentar pelo menos uma vez esta semana?",
-                "stop_rule": "Se não conseguir experimentar em uma semana, desista"
-            },
-            "comparator": {
-                "baseline": "Não experimentar nada",
-                "cost": "10 segundos × algumas vezes/semana"
-            },
-            "fallback": {
-                "when": "Nenhuma funciona",
-                "next": "Considere consultar um especialista"
-            }
-        }
-    },
-    {
-        "id": "health_l01_010",
-        "type": "conversation",
-        "question": "As \"técnicas de sono\" desta lição pareceram úteis para você?",
-        "choices": [
-            "Parecem úteis",
-            "Acho que não combinam comigo",
-            "Ainda não sei"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas as respostas são válidas. Se \"não combinam\", é importante buscar outras abordagens. O sono tem muita variação individual, então o próprio processo de encontrar o que funciona para você já é valioso.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia a consideração das diferenças individuais",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+  {
+    "id": "health_l01_001",
+    "type": "conversation",
+    "question": "Ultimamente, quanto tempo você leva para pegar no sono depois de deitar?",
+    "your_response_prompt": "Pode ser uma estimativa",
+    "choices": [
+      "Mais de 30 minutos (começo a ficar ansioso)",
+      "Entre 10-20 minutos",
+      "Menos de 5 minutos (apago rapidinho)"
+    ],
+    "recommended_index": null,
+    "explanation": "Mais de 30 minutos seguidos pode ser bem difícil. Na verdade, foi relatado que quanto mais você se esforça para dormir, mais o cérebro fica desperto, causando o efeito contrário.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas com dificuldade para pegar no sono",
+        "Pessoas que não conseguem parar de pensar à noite"
+      ],
+      "limitations": [
+        "Se a insônia persistir por muito tempo, recomenda-se consultar um especialista"
+      ],
+      "citation_role": "Apoia a relação entre dificuldade para dormir e excitação cognitiva através de estudo observacional",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "insomnia"
+      ]
     }
+  },
+  {
+    "id": "health_l01_002",
+    "type": "multiple_choice",
+    "question": "Quanto mais você fica ansioso por não conseguir dormir, o que tende a acontecer?",
+    "choices": [
+      "O estado de alerta tende a se manter",
+      "Você naturalmente fica com sono",
+      "O cansaço faz você dormir"
+    ],
+    "correct_index": 0,
+    "explanation": "A ansiedade de \"preciso dormir\" provoca excitação cognitiva, que tende a deixar você mais desperto. O primeiro passo pode ser aceitar que \"tudo bem não dormir\".",
+    "actionable_advice": "Dica: Nas noites em que não conseguir dormir, tente sussurrar \"tudo bem não dormir\" por apenas 10 segundos. Se não funcionar, pode parar.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas muito ansiosas por não conseguir dormir",
+        "Pessoas com ansiedade de desempenho"
+      ],
+      "limitations": [
+        "Pouco eficaz para causas físicas de insônia",
+        "Insônia crônica requer tratamento especializado"
+      ],
+      "citation_role": "Explica a relação entre ansiedade e estado de alerta através da teoria da excitação cognitiva",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_003",
+    "type": "swipe_judgment",
+    "question": "Usar o celular até a hora de dormir pode dificultar pegar no sono.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Me identifico",
+      "right": "Não é bem assim"
+    },
+    "explanation": "O conteúdo do celular libera dopamina do tipo \"quero ver mais\", mantendo o cérebro desperto. Mais do que a luz azul, é o estímulo das informações que atrapalha o sono.",
+    "actionable_advice": "Dica: Só por hoje: coloque o celular para carregar 30 minutos antes de deitar (longe do seu alcance)",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Cain_2010",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas com hábito de usar celular antes de dormir"
+      ],
+      "limitations": [
+        "Exceção para casos em que o celular funciona como ritual para dormir"
+      ],
+      "citation_role": "Apoia a relação entre mídia eletrônica e sono através de estudo observacional",
+      "claim_tags": [
+        "sleep",
+        "screen_time",
+        "blue_light"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_004",
+    "type": "multiple_choice",
+    "question": "Quando você experimenta a técnica de respiração \"inspirar 4 segundos, segurar 7 segundos, expirar 8 segundos\" em noites sem sono, o que tende a acontecer?",
+    "choices": [
+      "O sistema nervoso parassimpático tende a ser ativado, facilitando o relaxamento",
+      "Você dorme imediatamente",
+      "Acaba acordando mais"
+    ],
+    "correct_index": 0,
+    "explanation": "A técnica de respiração 4-7-8 pode estimular o sistema nervoso parassimpático. Não garante que você vai dormir logo, mas foi relatado um efeito relaxante. Não funciona para todos, então não precisa forçar.",
+    "actionable_advice": "Dica: Na próxima noite sem sono, experimente a respiração 4-7-8 apenas 2 vezes. Se não funcionar, pode parar.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Ma_2017",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas com muita tensão corporal",
+        "Pessoas que não conseguem parar de pensar"
+      ],
+      "limitations": [
+        "Pode ter efeito contrário para quem fica estressado ao focar na respiração",
+        "Pessoas com problemas respiratórios devem ter cuidado"
+      ],
+      "citation_role": "Apoia indiretamente o efeito relaxante da respiração lenta",
+      "try_this": "Experimente a respiração 4-7-8 apenas 2 vezes",
+      "claim_tags": [
+        "sleep",
+        "breathing",
+        "relaxation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Qual seu nível de tensão agora? (0-10)",
+        "after_prompt": "E depois de 2 vezes?",
+        "success_rule": "Se diminuir um pouco, está ótimo",
+        "stop_rule": "Se não mudar ou ficar desconfortável, pare"
+      },
+      "comparator": {
+        "baseline": "Ficar deitado sem fazer nada",
+        "cost": "Cerca de 30 segundos / baixo esforço"
+      },
+      "fallback": {
+        "when": "A técnica de respiração não funciona",
+        "next": "Intenção paradoxal: sussurrar \"tudo bem não dormir\""
+      }
+    }
+  },
+  {
+    "id": "health_l01_005",
+    "type": "swipe_judgment",
+    "question": "Olhar o relógio em noites sem sono pode aumentar a ansiedade.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Entendo",
+      "right": "Não é bem assim"
+    },
+    "explanation": "Verificar o relógio leva a cálculos como \"só tenho mais X horas para dormir\", que tendem a aumentar a excitação cognitiva. Muitas pessoas se beneficiam de não olhar o relógio.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas com hábito de olhar o relógio"
+      ],
+      "limitations": [
+        "Algumas pessoas ficam ansiosas sem olhar o relógio"
+      ],
+      "citation_role": "Apoia a relação entre monitorar o relógio e dificuldade para dormir através de estudo observacional",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "clock_watching"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_006",
+    "type": "multiple_choice",
+    "question": "Quando você quer relaxar o corpo em noites sem sono, por onde é mais eficiente começar?",
+    "choices": [
+      "Relaxar o rosto e o maxilar",
+      "Começar pelos dedos dos pés",
+      "Levantar os braços e soltar"
+    ],
+    "correct_index": 0,
+    "explanation": "A tensão no rosto e no maxilar tende a influenciar o relaxamento do corpo todo. Muitas pessoas apertam o maxilar sem perceber. Algumas pessoas sentem diferença ao relaxar o maxilar por 10 segundos.",
+    "actionable_advice": "Dica: Experimente agora: relaxe o maxilar por apenas 10 segundos.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jacobson_1938",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que ficam tensas sem perceber",
+        "Pessoas com tendência a ranger ou apertar os dentes"
+      ],
+      "limitations": [
+        "Não indicado para quem fica estressado ao prestar atenção nas sensações corporais"
+      ],
+      "citation_role": "Apoia indiretamente o efeito do relaxamento do rosto/maxilar através do relaxamento muscular progressivo",
+      "try_this": "Relaxe o maxilar por apenas 10 segundos",
+      "claim_tags": [
+        "sleep",
+        "muscle_relaxation",
+        "tension"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Tensão no maxilar? (alta/média/baixa)",
+        "after_prompt": "E depois de 10 segundos?",
+        "success_rule": "Se relaxar um pouco, está ótimo",
+        "stop_rule": "Se não mudar, pare"
+      },
+      "comparator": {
+        "baseline": "Não prestar atenção",
+        "cost": "10 segundos / baixo esforço"
+      },
+      "fallback": {
+        "when": "Difícil de perceber o relaxamento do maxilar",
+        "next": "Levantar os ombros por 3 segundos e soltar de uma vez"
+      }
+    }
+  },
+  {
+    "id": "health_l01_007",
+    "type": "conversation",
+    "question": "Qual é o padrão mais comum em suas noites sem sono?",
+    "choices": [
+      "Não consigo parar de pensar",
+      "Meu corpo está tenso",
+      "Ansiedade por não conseguir dormir",
+      "Não tenho um padrão específico"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas as respostas são válidas. Perceber seu próprio padrão tende a facilitar a escolha das estratégias certas.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia o reconhecimento de padrões na dificuldade para dormir",
+      "claim_tags": [
+        "sleep",
+        "self_awareness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_008",
+    "type": "swipe_judgment",
+    "question": "Dormir demais no fim de semana pode desregular o ritmo de sono durante a semana.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Pode ser",
+      "right": "Não é bem assim"
+    },
+    "explanation": "Manter um ritmo de sono regular tende a melhorar a qualidade. Porém, se você tem privação crônica de sono, o sono de recuperação no fim de semana também é necessário. O equilíbrio é importante.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Walker_2017",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas com hábito de dormir demais no fim de semana"
+      ],
+      "limitations": [
+        "Em caso de privação crônica de sono, o sono de recuperação também é necessário"
+      ],
+      "citation_role": "Apoia a relação entre desregulação do ritmo do sono e qualidade do sono",
+      "claim_tags": [
+        "sleep",
+        "circadian_rhythm",
+        "sleep_debt"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_009",
+    "type": "multiple_choice",
+    "question": "Das técnicas que você aprendeu hoje, qual parece mais útil para amanhã?",
+    "choices": [
+      "Sussurrar \"tudo bem não dormir\" por 10 segundos",
+      "Experimentar a respiração 4-7-8 duas vezes",
+      "Relaxar o maxilar por 10 segundos",
+      "Experimentar todas"
+    ],
+    "correct_index": 3,
+    "explanation": "Vale a pena experimentar todas. Se uma não funcionar, experimente outra. Isso também é aprendizado. Porém, se a insônia persistir, recomenda-se consultar um especialista.",
+    "actionable_advice": "Dica: Comece hoje à noite com apenas uma: se não conseguir dormir, sussurre \"tudo bem não dormir\" por 10 segundos.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem começar novos hábitos"
+      ],
+      "limitations": [
+        "Insônia crônica requer tratamento especializado"
+      ],
+      "citation_role": "Propõe opções de intervenção para adormecer",
+      "try_this": "Experimente uma a partir de hoje à noite",
+      "claim_tags": [
+        "sleep",
+        "implementation",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu experimentar pelo menos uma vez esta semana?",
+        "stop_rule": "Se não conseguir experimentar em uma semana, desista",
+        "before_prompt": "Quão cansado você está agora em uma escala de 0 a 10?",
+        "after_prompt": "Quão difícil é depois de 10 segundos em uma escala de 0 a 10?",
+        "success_rule": "Tudo bem se cair 1"
+      },
+      "comparator": {
+        "baseline": "Não experimentar nada",
+        "cost": "10 segundos × algumas vezes/semana"
+      },
+      "fallback": {
+        "when": "Nenhuma funciona",
+        "next": "Considere consultar um especialista"
+      }
+    }
+  },
+  {
+    "id": "health_l01_010",
+    "type": "conversation",
+    "question": "As \"técnicas de sono\" desta lição pareceram úteis para você?",
+    "choices": [
+      "Parecem úteis",
+      "Acho que não combinam comigo",
+      "Ainda não sei"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas as respostas são válidas. Se \"não combinam\", é importante buscar outras abordagens. O sono tem muita variação individual, então o próprio processo de encontrar o que funciona para você já é valioso.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a consideração das diferenças individuais",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

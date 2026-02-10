@@ -337,7 +337,10 @@
       ],
       "tiny_metric": {
         "metric": "As-tu reussi a ecrire au moins une fois cette semaine ?",
-        "stop_rule": "Arrete si tu n'arrives pas a ecrire pendant une semaine"
+        "stop_rule": "Arrete si tu n'arrives pas a ecrire pendant une semaine",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
       },
       "comparator": {
         "baseline": "Commencer la journee sans rien decider",

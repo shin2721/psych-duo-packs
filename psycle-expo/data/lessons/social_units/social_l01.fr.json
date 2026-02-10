@@ -1,361 +1,370 @@
 [
-    {
-        "id": "social_l01_001",
-        "type": "swipe_judgment",
-        "question": "Quand on me demande quelque chose, j'ai du mal a refuser, et apres je me demande « pourquoi j'ai accepte ? »",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Souvent",
-            "right": "Rarement"
-        },
-        "explanation": "La tendance a ne pas refuser peut refleter un desir de ne pas blesser l'autre ou une peur d'etre rejete. Le probleme, c'est que cela peut epuiser votre temps et votre energie.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Personnes qui ont tendance a ne pas refuser",
-                "Personnes qui ont tendance a se sacrifier pour les autres"
-            ],
-            "limitations": [
-                "Ce qui est « approprie » pour refuser varie selon la culture et les relations"
-            ],
-            "citation_role": "Etude observationnelle soutenant les caracteristiques et impacts du manque d'assertivite",
-            "claim_tags": [
-                "assertiveness",
-                "boundary_setting",
-                "self_care"
-            ]
-        }
+  {
+    "id": "social_l01_001",
+    "type": "swipe_judgment",
+    "question": "Quand on me demande quelque chose, j'ai du mal a refuser, et apres je me demande « pourquoi j'ai accepte ? »",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Souvent",
+      "right": "Rarement"
     },
-    {
-        "id": "social_l01_002",
-        "type": "multiple_choice",
-        "question": "Pourquoi peut-on ressentir une resistance a « refuser » ?",
-        "choices": [
-            "On associe inconsciemment « refuser » a « rejeter la personne »",
-            "Parce que refuser nous fait perdre quelque chose",
-            "Parce qu'on ne sait pas comment refuser"
-        ],
-        "correct_index": 0,
-        "explanation": "Souvent, on a ce schema de pensee : « refuser = blesser l'autre ». Mais ce qu'on refuse, c'est la demande, pas la personne elle-meme. Cette distinction peut etre cle. (« Perdre quelque chose » ou « ne pas savoir comment » sont moins determinants que ce schema cognitif)",
-        "actionable_advice": "La prochaine fois que vous avez du mal a refuser, essayez de vous rappeler pendant 10 secondes : « Je refuse la demande, pas la personne. »",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Personnes qui se sentent coupables quand elles refusent",
-                "Personnes qui ont tendance a se sacrifier"
-            ],
-            "limitations": [
-                "Changer sa facon de penser ne change pas toujours les emotions immediatement"
-            ],
-            "citation_role": "Explication theorique de la distinction entre refus et rejet basee sur la recherche sur l'assertivite",
-            "claim_tags": [
-                "assertiveness",
-                "cognitive_reframe",
-                "theory"
-            ]
-        }
-    },
-    {
-        "id": "social_l01_003",
-        "type": "swipe_judgment",
-        "question": "J'ai tendance a croire qu'il faut decider « oui ou non » sur le moment.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Ca me parle",
-            "right": "Pas vraiment"
-        },
-        "explanation": "En realite, dans beaucoup de cas, il n'est pas necessaire de decider tout de suite. Prendre « 10 secondes de pause » peut vous permettre de juger plus calmement.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Paterson_2000",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Personnes qui ont tendance a repondre immediatement",
-                "Personnes qui ratent souvent le moment de refuser"
-            ],
-            "limitations": [
-                "Il existe des situations urgentes qui necessitent une reponse immediate"
-            ],
-            "citation_role": "Soutien indirect de l'efficacite du report comme technique de gestion des limites",
-            "claim_tags": [
-                "assertiveness",
-                "decision_making",
-                "boundary_setting"
-            ]
-        }
-    },
-    {
-        "id": "social_l01_004",
-        "type": "multiple_choice",
-        "question": "Quelle phrase peut vous soulager face a une demande difficile a refuser ?",
-        "choices": [
-            "« Je ne peux pas decider maintenant, je te reponds plus tard »",
-            "« Certainement pas »",
-            "« Je vais y reflechir » (rester vague)"
-        ],
-        "correct_index": 0,
-        "explanation": "« Je ne peux pas decider maintenant » n'est ni un refus ni un oui, c'est un « report ». Cela peut vous liberer de la pression de repondre immediatement. C'est normal si ca ne marche pas du premier coup. Essayez juste une fois. (Un « refus fort » est difficile a dire. « Je vais y reflechir » tend a rester vague)",
-        "actionable_advice": "La prochaine fois que vous avez du mal a refuser, essayez de dire pendant 10 secondes : « Je ne peux pas decider maintenant, je te reponds plus tard. »",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Paterson_2000",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Personnes souvent mises sous pression pour une reponse immediate",
-                "Personnes qui ne trouvent pas les mots pour refuser"
-            ],
-            "limitations": [
-                "Il y a un risque que « plus tard » reste vague et deteriore la relation"
-            ],
-            "citation_role": "Soutien indirect de la technique de report dans la gestion des limites",
-            "try_this": "Dire « Je ne peux pas decider maintenant, je te reponds plus tard » pendant 10 secondes",
-            "claim_tags": [
-                "assertiveness",
-                "boundary_setting",
-                "phrase_template"
-            ],
-            "tiny_metric": {
-                "metric": "Ai-je pu utiliser la phrase de report ?",
-                "stop_rule": "Arreter apres 3 echecs consecutifs"
-            },
-            "comparator": {
-                "baseline": "Dire oui immediatement",
-                "cost": "10 secondes / charge faible"
-            },
-            "fallback": {
-                "when": "La phrase de report est difficile a dire",
-                "next": "Utiliser « Laisse-moi verifier » comme alternative"
-            }
-        }
-    },
-    {
-        "id": "social_l01_005",
-        "type": "conversation",
-        "question": "A qui avez-vous le plus de mal a dire non ?",
-        "choices": [
-            "Superieur / collegue senior",
-            "Amis / collegues",
-            "Famille",
-            "Personne en particulier"
-        ],
-        "recommended_index": null,
-        "explanation": "Toutes les reponses sont valables. Connaitre les personnes auxquelles vous avez du mal a refuser peut vous aider a preparer des strategies.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Soutien de la conscience de soi",
-            "claim_tags": [
-                "self_awareness",
-                "assertiveness",
-                "relationships"
-            ]
-        }
-    },
-    {
-        "id": "social_l01_006",
-        "type": "multiple_choice",
-        "question": "Quelle est la difference entre « refuser » et « rejeter » ?",
-        "choices": [
-            "Refuser = decliner une demande, Rejeter = nier la personne",
-            "C'est la meme chose",
-            "Refuser est plus agressif"
-        ],
-        "correct_index": 0,
-        "explanation": "« Refuser » est une reponse a une action (la demande). « Rejeter » donne l'impression de nier la personne elle-meme. Les personnes qui ont du mal a refuser confondent souvent ces deux notions. (« C'est la meme chose » et « Refuser est plus agressif » sont des malentendus. La distinction est importante)",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Personnes qui se sentent coupables quand elles refusent"
-            ],
-            "limitations": [
-                "Ce que l'autre ressent comme « rejet » est une question differente"
-            ],
-            "citation_role": "Explication theorique de la distinction cognitive dans l'assertivite",
-            "claim_tags": [
-                "assertiveness",
-                "cognitive_distinction",
-                "guilt"
-            ]
-        }
-    },
-    {
-        "id": "social_l01_007",
-        "type": "swipe_judgment",
-        "question": "J'ai l'impression que dire simplement « ce n'est pas possible maintenant » peut blesser l'autre.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Je comprends",
-            "right": "Pas vraiment"
-        },
-        "explanation": "« Ce n'est pas possible maintenant » est en fait une facon douce de refuser. Ajouter une alternative (« mais je pourrais faire X ») peut rendre le message encore plus acceptable.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Paterson_2000",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Personnes qui ne savent pas comment refuser"
-            ],
-            "limitations": [
-                "Parfois on ne peut pas proposer d'alternative"
-            ],
-            "citation_role": "Soutien indirect des expressions douces dans la gestion des limites",
-            "claim_tags": [
-                "assertiveness",
-                "communication",
-                "boundary_setting"
-            ]
-        }
-    },
-    {
-        "id": "social_l01_008",
-        "type": "multiple_choice",
-        "question": "Que peut-on ajouter pour refuser sans deteriorer la relation ?",
-        "choices": [
-            "Une alternative (« mais je pourrais faire X »)",
-            "Des excuses (repeter « desolee »)",
-            "Une explication detaillee des raisons"
-        ],
-        "correct_index": 0,
-        "explanation": "Proposer une alternative peut transmettre le message « j'ai quand meme envie de t'aider ». S'excuser trop ou donner des explications detaillees peut au contraire vous mettre sous pression. Essayez juste une fois. (« Repeter les excuses » ou « expliquer en detail » peuvent etre contre-productifs)",
-        "actionable_advice": "La prochaine fois que vous refusez, essayez de dire pendant 10 secondes : « Ce n'est pas possible maintenant, mais je pourrais faire X. »",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Paterson_2000",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Personnes qui craignent que refuser deteriore la relation"
-            ],
-            "limitations": [
-                "Certaines demandes ne permettent pas de proposer une alternative"
-            ],
-            "citation_role": "Soutien indirect de l'efficacite de proposer une alternative dans la gestion des limites",
-            "try_this": "Dire « Ce n'est pas possible maintenant, mais je pourrais faire X » pendant 10 secondes",
-            "claim_tags": [
-                "assertiveness",
-                "alternative_offer",
-                "boundary_setting"
-            ],
-            "tiny_metric": {
-                "metric": "Ai-je pu refuser en proposant une alternative ?",
-                "stop_rule": "Arreter apres 3 echecs consecutifs"
-            },
-            "comparator": {
-                "baseline": "Donner de longues explications",
-                "cost": "10 secondes / charge moyenne"
-            },
-            "fallback": {
-                "when": "Je ne trouve pas d'alternative",
-                "next": "« Ce n'est pas possible maintenant » suffit"
-            }
-        }
-    },
-    {
-        "id": "social_l01_009",
-        "type": "conversation",
-        "question": "Parmi les techniques apprises aujourd'hui, laquelle pourriez-vous utiliser des demain ?",
-        "choices": [
-            "« Je ne peux pas decider maintenant, je te reponds plus tard » (phrase de report)",
-            "« Ce n'est pas possible maintenant, mais je pourrais faire X » (alternative)",
-            "« Je refuse la demande, pas la personne » (schema cognitif)",
-            "Essayer toutes"
-        ],
-        "recommended_index": null,
-        "explanation": "Toutes valent la peine d'etre essayees. Si ca ne vous convient pas, essayez-en une autre. Les facons de refuser varient selon les personnes. Commencez par une seule. (« Toutes » n'est pas obligatoire, commencez par une)",
-        "actionable_advice": "Essayez demain, juste une fois : quand vous avez du mal a refuser, dites « Je ne peux pas decider maintenant » pendant 10 secondes.",
-        "difficulty": "easy",
-        "xp": 10,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Personnes qui veulent essayer de nouvelles competences de communication"
-            ],
-            "limitations": [
-                "Les mots peuvent etre difficiles a trouver sans pratique"
-            ],
-            "citation_role": "Proposition d'options d'intervention pour l'assertivite",
-            "try_this": "Utiliser « Je ne peux pas decider maintenant » une fois demain",
-            "claim_tags": [
-                "assertiveness",
-                "implementation",
-                "habit_formation"
-            ],
-            "tiny_metric": {
-                "metric": "Ai-je pu l'utiliser au moins une fois cette semaine ?",
-                "stop_rule": "Arreter si ca n'a pas marche pendant une semaine"
-            },
-            "comparator": {
-                "baseline": "Continuer a accepter sans rien essayer",
-                "cost": "10 secondes x quelques fois par semaine"
-            },
-            "fallback": {
-                "when": "Aucune phrase n'est facile a dire",
-                "next": "D'abord s'entrainer mentalement"
-            }
-        }
-    },
-    {
-        "id": "social_l01_010",
-        "type": "conversation",
-        "question": "Les « techniques pour refuser » de cette lecon vous semblent-elles utiles ?",
-        "choices": [
-            "Oui, ca pourrait m'aider",
-            "Ca ne me correspond pas trop",
-            "Je ne sais pas encore"
-        ],
-        "recommended_index": null,
-        "explanation": "Toutes les reponses sont valables. Si « ca ne vous correspond pas », il est important de chercher une autre approche. La bonne facon de refuser varie selon la culture et les relations.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Soutien de la prise en compte des differences individuelles",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "La tendance a ne pas refuser peut refleter un desir de ne pas blesser l'autre ou une peur d'etre rejete. Le probleme, c'est que cela peut epuiser votre temps et votre energie.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personnes qui ont tendance a ne pas refuser",
+        "Personnes qui ont tendance a se sacrifier pour les autres"
+      ],
+      "limitations": [
+        "Ce qui est « approprie » pour refuser varie selon la culture et les relations"
+      ],
+      "citation_role": "Etude observationnelle soutenant les caracteristiques et impacts du manque d'assertivite",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "self_care"
+      ]
     }
+  },
+  {
+    "id": "social_l01_002",
+    "type": "multiple_choice",
+    "question": "Pourquoi peut-on ressentir une resistance a « refuser » ?",
+    "choices": [
+      "On associe inconsciemment « refuser » a « rejeter la personne »",
+      "Parce que refuser nous fait perdre quelque chose",
+      "Parce qu'on ne sait pas comment refuser"
+    ],
+    "correct_index": 0,
+    "explanation": "Souvent, on a ce schema de pensee : « refuser = blesser l'autre ». Mais ce qu'on refuse, c'est la demande, pas la personne elle-meme. Cette distinction peut etre cle. (« Perdre quelque chose » ou « ne pas savoir comment » sont moins determinants que ce schema cognitif)",
+    "actionable_advice": "La prochaine fois que vous avez du mal a refuser, essayez de vous rappeler pendant 10 secondes : « Je refuse la demande, pas la personne. »",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Personnes qui se sentent coupables quand elles refusent",
+        "Personnes qui ont tendance a se sacrifier"
+      ],
+      "limitations": [
+        "Changer sa facon de penser ne change pas toujours les emotions immediatement"
+      ],
+      "citation_role": "Explication theorique de la distinction entre refus et rejet basee sur la recherche sur l'assertivite",
+      "claim_tags": [
+        "assertiveness",
+        "cognitive_reframe",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "social_l01_003",
+    "type": "swipe_judgment",
+    "question": "J'ai tendance a croire qu'il faut decider « oui ou non » sur le moment.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Ca me parle",
+      "right": "Pas vraiment"
+    },
+    "explanation": "En realite, dans beaucoup de cas, il n'est pas necessaire de decider tout de suite. Prendre « 10 secondes de pause » peut vous permettre de juger plus calmement.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personnes qui ont tendance a repondre immediatement",
+        "Personnes qui ratent souvent le moment de refuser"
+      ],
+      "limitations": [
+        "Il existe des situations urgentes qui necessitent une reponse immediate"
+      ],
+      "citation_role": "Soutien indirect de l'efficacite du report comme technique de gestion des limites",
+      "claim_tags": [
+        "assertiveness",
+        "decision_making",
+        "boundary_setting"
+      ]
+    }
+  },
+  {
+    "id": "social_l01_004",
+    "type": "multiple_choice",
+    "question": "Quelle phrase peut vous soulager face a une demande difficile a refuser ?",
+    "choices": [
+      "« Je ne peux pas decider maintenant, je te reponds plus tard »",
+      "« Certainement pas »",
+      "« Je vais y reflechir » (rester vague)"
+    ],
+    "correct_index": 0,
+    "explanation": "« Je ne peux pas decider maintenant » n'est ni un refus ni un oui, c'est un « report ». Cela peut vous liberer de la pression de repondre immediatement. C'est normal si ca ne marche pas du premier coup. Essayez juste une fois. (Un « refus fort » est difficile a dire. « Je vais y reflechir » tend a rester vague)",
+    "actionable_advice": "La prochaine fois que vous avez du mal a refuser, essayez de dire pendant 10 secondes : « Je ne peux pas decider maintenant, je te reponds plus tard. »",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personnes souvent mises sous pression pour une reponse immediate",
+        "Personnes qui ne trouvent pas les mots pour refuser"
+      ],
+      "limitations": [
+        "Il y a un risque que « plus tard » reste vague et deteriore la relation"
+      ],
+      "citation_role": "Soutien indirect de la technique de report dans la gestion des limites",
+      "try_this": "Dire « Je ne peux pas decider maintenant, je te reponds plus tard » pendant 10 secondes",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "phrase_template"
+      ],
+      "tiny_metric": {
+        "metric": "Ai-je pu utiliser la phrase de report ?",
+        "stop_rule": "Arreter apres 3 echecs consecutifs",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
+      },
+      "comparator": {
+        "baseline": "Dire oui immediatement",
+        "cost": "10 secondes / charge faible"
+      },
+      "fallback": {
+        "when": "La phrase de report est difficile a dire",
+        "next": "Utiliser « Laisse-moi verifier » comme alternative"
+      }
+    }
+  },
+  {
+    "id": "social_l01_005",
+    "type": "conversation",
+    "question": "A qui avez-vous le plus de mal a dire non ?",
+    "choices": [
+      "Superieur / collegue senior",
+      "Amis / collegues",
+      "Famille",
+      "Personne en particulier"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes les reponses sont valables. Connaitre les personnes auxquelles vous avez du mal a refuser peut vous aider a preparer des strategies.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Soutien de la conscience de soi",
+      "claim_tags": [
+        "self_awareness",
+        "assertiveness",
+        "relationships"
+      ]
+    }
+  },
+  {
+    "id": "social_l01_006",
+    "type": "multiple_choice",
+    "question": "Quelle est la difference entre « refuser » et « rejeter » ?",
+    "choices": [
+      "Refuser = decliner une demande, Rejeter = nier la personne",
+      "C'est la meme chose",
+      "Refuser est plus agressif"
+    ],
+    "correct_index": 0,
+    "explanation": "« Refuser » est une reponse a une action (la demande). « Rejeter » donne l'impression de nier la personne elle-meme. Les personnes qui ont du mal a refuser confondent souvent ces deux notions. (« C'est la meme chose » et « Refuser est plus agressif » sont des malentendus. La distinction est importante)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Personnes qui se sentent coupables quand elles refusent"
+      ],
+      "limitations": [
+        "Ce que l'autre ressent comme « rejet » est une question differente"
+      ],
+      "citation_role": "Explication theorique de la distinction cognitive dans l'assertivite",
+      "claim_tags": [
+        "assertiveness",
+        "cognitive_distinction",
+        "guilt"
+      ]
+    }
+  },
+  {
+    "id": "social_l01_007",
+    "type": "swipe_judgment",
+    "question": "J'ai l'impression que dire simplement « ce n'est pas possible maintenant » peut blesser l'autre.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Je comprends",
+      "right": "Pas vraiment"
+    },
+    "explanation": "« Ce n'est pas possible maintenant » est en fait une facon douce de refuser. Ajouter une alternative (« mais je pourrais faire X ») peut rendre le message encore plus acceptable.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personnes qui ne savent pas comment refuser"
+      ],
+      "limitations": [
+        "Parfois on ne peut pas proposer d'alternative"
+      ],
+      "citation_role": "Soutien indirect des expressions douces dans la gestion des limites",
+      "claim_tags": [
+        "assertiveness",
+        "communication",
+        "boundary_setting"
+      ]
+    }
+  },
+  {
+    "id": "social_l01_008",
+    "type": "multiple_choice",
+    "question": "Que peut-on ajouter pour refuser sans deteriorer la relation ?",
+    "choices": [
+      "Une alternative (« mais je pourrais faire X »)",
+      "Des excuses (repeter « desolee »)",
+      "Une explication detaillee des raisons"
+    ],
+    "correct_index": 0,
+    "explanation": "Proposer une alternative peut transmettre le message « j'ai quand meme envie de t'aider ». S'excuser trop ou donner des explications detaillees peut au contraire vous mettre sous pression. Essayez juste une fois. (« Repeter les excuses » ou « expliquer en detail » peuvent etre contre-productifs)",
+    "actionable_advice": "La prochaine fois que vous refusez, essayez de dire pendant 10 secondes : « Ce n'est pas possible maintenant, mais je pourrais faire X. »",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personnes qui craignent que refuser deteriore la relation"
+      ],
+      "limitations": [
+        "Certaines demandes ne permettent pas de proposer une alternative"
+      ],
+      "citation_role": "Soutien indirect de l'efficacite de proposer une alternative dans la gestion des limites",
+      "try_this": "Dire « Ce n'est pas possible maintenant, mais je pourrais faire X » pendant 10 secondes",
+      "claim_tags": [
+        "assertiveness",
+        "alternative_offer",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "metric": "Ai-je pu refuser en proposant une alternative ?",
+        "stop_rule": "Arreter apres 3 echecs consecutifs",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
+      },
+      "comparator": {
+        "baseline": "Donner de longues explications",
+        "cost": "10 secondes / charge moyenne"
+      },
+      "fallback": {
+        "when": "Je ne trouve pas d'alternative",
+        "next": "« Ce n'est pas possible maintenant » suffit"
+      }
+    }
+  },
+  {
+    "id": "social_l01_009",
+    "type": "conversation",
+    "question": "Parmi les techniques apprises aujourd'hui, laquelle pourriez-vous utiliser des demain ?",
+    "choices": [
+      "« Je ne peux pas decider maintenant, je te reponds plus tard » (phrase de report)",
+      "« Ce n'est pas possible maintenant, mais je pourrais faire X » (alternative)",
+      "« Je refuse la demande, pas la personne » (schema cognitif)",
+      "Essayer toutes"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes valent la peine d'etre essayees. Si ca ne vous convient pas, essayez-en une autre. Les facons de refuser varient selon les personnes. Commencez par une seule. (« Toutes » n'est pas obligatoire, commencez par une)",
+    "actionable_advice": "Essayez demain, juste une fois : quand vous avez du mal a refuser, dites « Je ne peux pas decider maintenant » pendant 10 secondes.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personnes qui veulent essayer de nouvelles competences de communication"
+      ],
+      "limitations": [
+        "Les mots peuvent etre difficiles a trouver sans pratique"
+      ],
+      "citation_role": "Proposition d'options d'intervention pour l'assertivite",
+      "try_this": "Utiliser « Je ne peux pas decider maintenant » une fois demain",
+      "claim_tags": [
+        "assertiveness",
+        "implementation",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "metric": "Ai-je pu l'utiliser au moins une fois cette semaine ?",
+        "stop_rule": "Arreter si ca n'a pas marche pendant une semaine",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
+      },
+      "comparator": {
+        "baseline": "Continuer a accepter sans rien essayer",
+        "cost": "10 secondes x quelques fois par semaine"
+      },
+      "fallback": {
+        "when": "Aucune phrase n'est facile a dire",
+        "next": "D'abord s'entrainer mentalement"
+      }
+    }
+  },
+  {
+    "id": "social_l01_010",
+    "type": "conversation",
+    "question": "Les « techniques pour refuser » de cette lecon vous semblent-elles utiles ?",
+    "choices": [
+      "Oui, ca pourrait m'aider",
+      "Ca ne me correspond pas trop",
+      "Je ne sais pas encore"
+    ],
+    "recommended_index": null,
+    "explanation": "Toutes les reponses sont valables. Si « ca ne vous correspond pas », il est important de chercher une autre approche. La bonne facon de refuser varie selon la culture et les relations.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Soutien de la prise en compte des differences individuelles",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

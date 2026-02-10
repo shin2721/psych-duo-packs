@@ -1,379 +1,385 @@
 [
-    {
-        "id": "mental_l03_001",
-        "type": "swipe_judgment",
-        "question": "Faltam 5 minutos para a reuniao. Coracao acelerado, maos suando. Quanto mais digo 'calma' para mim mesmo, mais ansioso fico.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Ja passei por isso",
-            "right": "Nunca passei"
-        },
-        "explanation": "Dizer 'calma' pode ter o efeito contrario. Quanto mais tentamos suprimir a emocao, mais nossa atencao se volta para ela.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Pessoas para quem suprimir emocoes nao funciona"
-            ],
-            "limitations": [
-                "A supressao pode ser eficaz em alguns casos (situacoes de curto prazo ou sociais)"
-            ],
-            "citation_role": "Explica teoricamente o mecanismo do efeito contrario da supressao como parte da estrutura de regulacao emocional",
-            "claim_tags": [
-                "emotion_regulation",
-                "suppression"
-            ]
-        }
+  {
+    "id": "mental_l03_001",
+    "type": "swipe_judgment",
+    "question": "Faltam 5 minutos para a reuniao. Coracao acelerado, maos suando. Quanto mais digo 'calma' para mim mesmo, mais ansioso fico.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Ja passei por isso",
+      "right": "Nunca passei"
     },
-    {
-        "id": "mental_l03_002",
-        "type": "multiple_choice",
-        "question": "Quando voce sente ansiedade, o que tende a ser mais eficaz do que dizer 'calma'?",
-        "choices": [
-            "Reconhecer 'estou ansioso agora' (rotulacao)",
-            "Dizer 'calma!' com mais forca para si mesmo",
-            "Tentar nao pensar em nada"
-        ],
-        "correct_index": 0,
-        "explanation": "Rotular (dar um nome) pode reduzir a intensidade da emocao. Os efeitos variam entre pessoas, e ansiedade cronica pode precisar de outra abordagem. ('Dizer calma com mais forca' tende a ter efeito contrario. 'Nao pensar em nada' costuma ser dificil)",
-        "actionable_advice": "Dica: da proxima vez que sentir ansiedade, tente apenas murmurar 'ansiedade' mentalmente (10 segundos). Se nao gostar, pode parar na hora.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Ansiedade leve do dia a dia",
-                "Pessoas que querem se entender melhor"
-            ],
-            "limitations": [
-                "Pode ter efeito limitado em casos de ansiedade cronica intensa",
-                "Algumas pessoas podem intensificar a ruminacao"
-            ],
-            "citation_role": "Explica teoricamente o mecanismo da rotulacao como parte da estrutura de regulacao emocional",
-            "try_this": "Da proxima vez que sentir ansiedade, murmure 'ansiedade' mentalmente (10 segundos)",
-            "claim_tags": [
-                "emotion_regulation",
-                "reappraisal"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Qual sua ansiedade agora? (0-10 ou alta/media/baixa)",
-                "after_prompt": "E depois de 10 segundos?",
-                "success_rule": "Se diminuir um pouco, esta otimo",
-                "stop_rule": "Se nao mudar ou aumentar, pare por hoje"
-            },
-            "comparator": {
-                "baseline": "Suprimir dizendo 'calma'",
-                "cost": "10 segundos / baixo esforco"
-            },
-            "fallback": {
-                "when": "Se a rotulacao aumentar a ansiedade",
-                "next": "Mude para respiracao profunda (inspire 4 segundos, expire 4 segundos)"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_003",
-        "type": "swipe_judgment",
-        "question": "Reinterpretar o coracao acelerado como 'meu corpo esta se preparando' pode melhorar o desempenho.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Parece possivel",
-            "right": "Parece improvavel"
-        },
-        "explanation": "Isso e chamado de 'reavaliacao'. Pesquisas mostram melhora no desempenho de curto prazo. Porem, se nao estiver bem fisicamente, descanse. Tudo bem se nao conseguir. Tente so uma vez primeiro.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jamieson_2012",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "direct",
-            "best_for": [
-                "Nervosismo antes de apresentacoes ou entrevistas",
-                "Situacoes de desempenho de curto prazo"
-            ],
-            "limitations": [
-                "Pode ter efeito contrario quando nao esta bem fisicamente",
-                "Efeito limitado para ansiedade cronica"
-            ],
-            "citation_role": "Apoia diretamente o efeito da reavaliacao da ativacao no desempenho",
-            "claim_tags": [
-                "reappraisal",
-                "arousal",
-                "stress_response",
-                "performance"
-            ],
-            "tiny_metric": {
-                "metric": "Quando o coracao acelerar, conseguiu substituir por 'esta me preparando' uma vez?",
-                "stop_rule": "Se nao conseguir lembrar nem uma vez em 3 dias seguidos, pare"
-            },
-            "comparator": {
-                "baseline": "Interpretar negativamente como 'nossa, estou nervoso'",
-                "cost": "Baixa carga cognitiva (so mudar a interpretacao)"
-            },
-            "try_this": "Da proxima vez que ficar nervoso, repita 'meu corpo esta se preparando' por 10 segundos",
-            "fallback": "Se nao funcionar, mude para respiracao profunda"
-        }
-    },
-    {
-        "id": "mental_l03_004",
-        "type": "multiple_choice",
-        "question": "Logo antes de uma apresentacao, suas maos estao muito suadas. O que voce tenta?",
-        "choices": [
-            "Reformular como 'meu corpo esta se aquecendo'",
-            "Pensar 'que horrivel, estou nervoso de novo'",
-            "Ignorar o suor e focar no conteudo"
-        ],
-        "correct_index": 0,
-        "explanation": "Reformular como 'aquecimento' pode transformar a resposta ao estresse em uma resposta de desafio. Algumas pessoas podem nao se adaptar, entao nao precisa forcar. Tente so uma vez primeiro. ('Que horrivel' intensifica a ansiedade. 'Ignorar e focar' e dificil para qualquer pessoa)",
-        "actionable_advice": "Dica: tente so uma vez amanha: quando ficar nervoso, repita 'meu corpo esta se preparando' por 10 segundos. Se nao gostar, pode parar na hora.",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jamieson_2012",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "direct",
-            "best_for": [
-                "Antes de apresentacoes, entrevistas ou provas"
-            ],
-            "limitations": [
-                "Nao force quando nao estiver bem fisicamente",
-                "Pode nao funcionar para pessoas que resistem ao 'pensamento positivo'"
-            ],
-            "citation_role": "Apoia o efeito pratico da reavaliacao da ativacao",
-            "try_this": "Quando ficar nervoso, repita 'meu corpo esta se preparando' por 10 segundos",
-            "claim_tags": [
-                "reappraisal",
-                "arousal",
-                "performance"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Nervosismo atual (0-10)",
-                "after_prompt": "Nervosismo apos 10 segundos",
-                "success_rule": "Se diminuir 1, esta otimo",
-                "stop_rule": "Se nao mudar, tente outro metodo"
-            },
-            "comparator": {
-                "baseline": "Se culpar pensando 'nao posso ficar nervoso'",
-                "cost": "10 segundos / baixa carga psicologica"
-            },
-            "fallback": {
-                "when": "Se a reformulacao parecer falsa",
-                "next": "Apenas rotule 'estou nervoso'"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_005",
-        "type": "conversation",
-        "question": "'Rotulacao' e 'reavaliacao', qual parece combinar mais com voce?",
-        "your_response_prompt": "Escolha por intuicao",
-        "choices": [
-            "Rotulacao (apenas reconhecer 'ansiedade')",
-            "Reavaliacao (reformular como 'aquecimento')",
-            "Quero tentar as duas",
-            "Nenhuma parece combinar"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas as respostas estao corretas. 'Nenhuma parece combinar' tambem e uma informacao importante. Pode ser o ponto de partida para buscar outra abordagem.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia a consideracao das diferencas individuais",
-            "claim_tags": [
-                "emotion_regulation",
-                "individual_differences"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_006",
-        "type": "multiple_choice",
-        "question": "Quando sentir ansiedade, o que tende a acontecer se voce fizer 'inspire 4 segundos, expire 4 segundos' 3 vezes?",
-        "choices": [
-            "O sistema nervoso parassimpatico tende a predominar e os batimentos cardiacos se acalmam",
-            "O sistema nervoso simpatico se ativa mais e a ansiedade aumenta",
-            "Nada muda"
-        ],
-        "correct_index": 0,
-        "explanation": "A respiracao lenta estimula o sistema nervoso parassimpatico. Para pessoas que tem dificuldade com tecnicas de respiracao, pode aumentar a ansiedade. Tudo bem se nao conseguir. Tente so uma vez primeiro. ('Sistema simpatico se ativa' acontece com respiracao rapida. 'Nada muda' - ha variacoes individuais, mas mudancas tendem a ocorrer)",
-        "actionable_advice": "Dica: tente agora: inspire 4 segundos, expire 4 segundos, so uma vez. Se nao gostar, pode pular.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Ansiedade temporaria",
-                "Pessoas que conseguem focar nas sensacoes corporais"
-            ],
-            "limitations": [
-                "Pode ter efeito contrario para pessoas que tem dificuldade com tecnicas de respiracao",
-                "Ataques de panico precisam de apoio profissional"
-            ],
-            "citation_role": "Apoia indiretamente o efeito das tecnicas de respiracao no sistema nervoso autonomo",
-            "try_this": "Inspire 4 segundos, expire 4 segundos, so uma vez",
-            "claim_tags": [
-                "emotion_regulation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Ansiedade atual (alta/media/baixa)",
-                "after_prompt": "E depois de fazer uma vez?",
-                "success_rule": "Se ficar um pouco mais leve, esta otimo",
-                "stop_rule": "Se sentir desconforto, pare imediatamente"
-            },
-            "comparator": {
-                "baseline": "Aguentar e suportar",
-                "cost": "8 segundos / esforco minimo"
-            },
-            "fallback": {
-                "when": "Se focar na respiracao causar mais desconforto",
-                "next": "Mude a atencao para sons externos (5 segundos)"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_007",
-        "type": "swipe_judgment",
-        "question": "Habilidades de regulacao emocional sao facilmente adquiridas pela maioria das pessoas com pratica.",
-        "is_true": false,
-        "swipe_labels": {
-            "left": "Concordo",
-            "right": "Discordo"
-        },
-        "explanation": "'Todo mundo com certeza' e um exagero. Muitas pessoas melhoram com pratica, mas ha diferencas individuais. Alem disso, para problemas cronicos, o apoio profissional tende a ser eficaz.",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "citation_role": "Explica teoricamente as diferencas individuais",
-            "claim_tags": [
-                "emotion_regulation",
-                "limitations"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_008",
-        "type": "multiple_choice",
-        "question": "Das 3 tecnicas aprendidas hoje (rotulacao, reavaliacao, respiracao), qual teria a menor barreira para usar amanha?",
-        "choices": [
-            "Respiracao (inspire 4 segundos, expire 4 segundos)",
-            "Rotulacao (reconhecer 'ansiedade')",
-            "Reavaliacao (reformular como 'aquecimento')",
-            "Todas tem barreira alta"
-        ],
-        "correct_index": 0,
-        "explanation": "Para a maioria das pessoas, a respiracao tende a ser a mais simples. Algumas pessoas podem nao se adaptar, entao o importante e encontrar o que funciona para voce. (Rotulacao e reavaliacao tambem sao eficazes. Se 'todas tem barreira alta', tambem e valido buscar outra abordagem)",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Fornece orientacao para escolha de intervencoes",
-            "claim_tags": [
-                "breathing",
-                "implementation"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_009",
-        "type": "conversation",
-        "question": "Se voce fosse tentar apenas uma coisa amanha quando sentir ansiedade?",
-        "your_response_prompt": "Escolha uma",
-        "choices": [
-            "Respiracao (inspire 4 segundos, expire 4 segundos)",
-            "Rotulacao (murmurar 'ansiedade')",
-            "Reavaliacao (reformular como 'aquecimento')",
-            "Passo dessa vez"
-        ],
-        "recommended_index": 0,
-        "explanation": "Escolher uma e tentar e o primeiro passo. Se nao funcionar, tente outra. Isso tambem e aprendizado. Comece com uma vez.",
-        "actionable_advice": "Dica: amanha, uma vez (10 segundos): tente a tecnica escolhida so uma vez. Se nao gostar, pode parar na hora.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Lidar com ansiedade leve do dia a dia"
-            ],
-            "limitations": [
-                "Pode ser insuficiente se a ansiedade intensa continuar"
-            ],
-            "citation_role": "Apresenta opcoes de estrategias de regulacao emocional",
-            "try_this": "Tente a tecnica escolhida uma vez (10 segundos)",
-            "claim_tags": [
-                "emotion_regulation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Ansiedade 0-10",
-                "after_prompt": "Apos 10 segundos 0-10",
-                "success_rule": "Se diminuir 1, esta otimo",
-                "stop_rule": "Se nao mudar ou aumentar, recue"
-            },
-            "comparator": {
-                "baseline": "Nao fazer nada",
-                "cost": "10 segundos"
-            },
-            "fallback": {
-                "when": "Se nenhuma das 3 funcionar",
-                "next": "Mude fisicamente: beba agua / saia do lugar"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_010",
-        "type": "conversation",
-        "question": "As 'tecnicas para lidar com ansiedade' desta licao pareceram uteis?",
-        "your_response_prompt": "Responda honestamente",
-        "choices": [
-            "Pareceram uteis",
-            "Acho que nao combinam comigo",
-            "Ainda nao sei"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas as respostas estao corretas. Se 'nao combinam', a resposta certa e buscar outra abordagem. O proprio processo de encontrar o que funciona para voce e um aprendizado.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia a consideracao das diferencas individuais",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "Dizer 'calma' pode ter o efeito contrario. Quanto mais tentamos suprimir a emocao, mais nossa atencao se volta para ela.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas para quem suprimir emocoes nao funciona"
+      ],
+      "limitations": [
+        "A supressao pode ser eficaz em alguns casos (situacoes de curto prazo ou sociais)"
+      ],
+      "citation_role": "Explica teoricamente o mecanismo do efeito contrario da supressao como parte da estrutura de regulacao emocional",
+      "claim_tags": [
+        "emotion_regulation",
+        "suppression"
+      ]
     }
+  },
+  {
+    "id": "mental_l03_002",
+    "type": "multiple_choice",
+    "question": "Quando voce sente ansiedade, o que tende a ser mais eficaz do que dizer 'calma'?",
+    "choices": [
+      "Reconhecer 'estou ansioso agora' (rotulacao)",
+      "Dizer 'calma!' com mais forca para si mesmo",
+      "Tentar nao pensar em nada"
+    ],
+    "correct_index": 0,
+    "explanation": "Rotular (dar um nome) pode reduzir a intensidade da emocao. Os efeitos variam entre pessoas, e ansiedade cronica pode precisar de outra abordagem. ('Dizer calma com mais forca' tende a ter efeito contrario. 'Nao pensar em nada' costuma ser dificil)",
+    "actionable_advice": "Dica: da proxima vez que sentir ansiedade, tente apenas murmurar 'ansiedade' mentalmente (10 segundos). Se nao gostar, pode parar na hora.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Ansiedade leve do dia a dia",
+        "Pessoas que querem se entender melhor"
+      ],
+      "limitations": [
+        "Pode ter efeito limitado em casos de ansiedade cronica intensa",
+        "Algumas pessoas podem intensificar a ruminacao"
+      ],
+      "citation_role": "Explica teoricamente o mecanismo da rotulacao como parte da estrutura de regulacao emocional",
+      "try_this": "Da proxima vez que sentir ansiedade, murmure 'ansiedade' mentalmente (10 segundos)",
+      "claim_tags": [
+        "emotion_regulation",
+        "reappraisal"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Qual sua ansiedade agora? (0-10 ou alta/media/baixa)",
+        "after_prompt": "E depois de 10 segundos?",
+        "success_rule": "Se diminuir um pouco, esta otimo",
+        "stop_rule": "Se nao mudar ou aumentar, pare por hoje"
+      },
+      "comparator": {
+        "baseline": "Suprimir dizendo 'calma'",
+        "cost": "10 segundos / baixo esforco"
+      },
+      "fallback": {
+        "when": "Se a rotulacao aumentar a ansiedade",
+        "next": "Mude para respiracao profunda (inspire 4 segundos, expire 4 segundos)"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_003",
+    "type": "swipe_judgment",
+    "question": "Reinterpretar o coracao acelerado como 'meu corpo esta se preparando' pode melhorar o desempenho.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Parece possivel",
+      "right": "Parece improvavel"
+    },
+    "explanation": "Isso e chamado de 'reavaliacao'. Pesquisas mostram melhora no desempenho de curto prazo. Porem, se nao estiver bem fisicamente, descanse. Tudo bem se nao conseguir. Tente so uma vez primeiro.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Nervosismo antes de apresentacoes ou entrevistas",
+        "Situacoes de desempenho de curto prazo"
+      ],
+      "limitations": [
+        "Pode ter efeito contrario quando nao esta bem fisicamente",
+        "Efeito limitado para ansiedade cronica"
+      ],
+      "citation_role": "Apoia diretamente o efeito da reavaliacao da ativacao no desempenho",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "stress_response",
+        "performance"
+      ],
+      "tiny_metric": {
+        "metric": "Quando o coracao acelerar, conseguiu substituir por 'esta me preparando' uma vez?",
+        "stop_rule": "Se nao conseguir lembrar nem uma vez em 3 dias seguidos, pare",
+        "before_prompt": "Quão cansado você está agora em uma escala de 0 a 10?",
+        "after_prompt": "Quão difícil é depois de 10 segundos em uma escala de 0 a 10?",
+        "success_rule": "Tudo bem se cair 1"
+      },
+      "comparator": {
+        "baseline": "Interpretar negativamente como 'nossa, estou nervoso'",
+        "cost": "Baixa carga cognitiva (so mudar a interpretacao)"
+      },
+      "try_this": "Da proxima vez que ficar nervoso, repita 'meu corpo esta se preparando' por 10 segundos",
+      "fallback": {
+        "when": "Quando a tensão aumenta ou não há mudança",
+        "next": "Mude para uma respiração ou outra intervenção de 10 segundos"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_004",
+    "type": "multiple_choice",
+    "question": "Logo antes de uma apresentacao, suas maos estao muito suadas. O que voce tenta?",
+    "choices": [
+      "Reformular como 'meu corpo esta se aquecendo'",
+      "Pensar 'que horrivel, estou nervoso de novo'",
+      "Ignorar o suor e focar no conteudo"
+    ],
+    "correct_index": 0,
+    "explanation": "Reformular como 'aquecimento' pode transformar a resposta ao estresse em uma resposta de desafio. Algumas pessoas podem nao se adaptar, entao nao precisa forcar. Tente so uma vez primeiro. ('Que horrivel' intensifica a ansiedade. 'Ignorar e focar' e dificil para qualquer pessoa)",
+    "actionable_advice": "Dica: tente so uma vez amanha: quando ficar nervoso, repita 'meu corpo esta se preparando' por 10 segundos. Se nao gostar, pode parar na hora.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Antes de apresentacoes, entrevistas ou provas"
+      ],
+      "limitations": [
+        "Nao force quando nao estiver bem fisicamente",
+        "Pode nao funcionar para pessoas que resistem ao 'pensamento positivo'"
+      ],
+      "citation_role": "Apoia o efeito pratico da reavaliacao da ativacao",
+      "try_this": "Quando ficar nervoso, repita 'meu corpo esta se preparando' por 10 segundos",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "performance"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Nervosismo atual (0-10)",
+        "after_prompt": "Nervosismo apos 10 segundos",
+        "success_rule": "Se diminuir 1, esta otimo",
+        "stop_rule": "Se nao mudar, tente outro metodo"
+      },
+      "comparator": {
+        "baseline": "Se culpar pensando 'nao posso ficar nervoso'",
+        "cost": "10 segundos / baixa carga psicologica"
+      },
+      "fallback": {
+        "when": "Se a reformulacao parecer falsa",
+        "next": "Apenas rotule 'estou nervoso'"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_005",
+    "type": "conversation",
+    "question": "'Rotulacao' e 'reavaliacao', qual parece combinar mais com voce?",
+    "your_response_prompt": "Escolha por intuicao",
+    "choices": [
+      "Rotulacao (apenas reconhecer 'ansiedade')",
+      "Reavaliacao (reformular como 'aquecimento')",
+      "Quero tentar as duas",
+      "Nenhuma parece combinar"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas as respostas estao corretas. 'Nenhuma parece combinar' tambem e uma informacao importante. Pode ser o ponto de partida para buscar outra abordagem.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a consideracao das diferencas individuais",
+      "claim_tags": [
+        "emotion_regulation",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_006",
+    "type": "multiple_choice",
+    "question": "Quando sentir ansiedade, o que tende a acontecer se voce fizer 'inspire 4 segundos, expire 4 segundos' 3 vezes?",
+    "choices": [
+      "O sistema nervoso parassimpatico tende a predominar e os batimentos cardiacos se acalmam",
+      "O sistema nervoso simpatico se ativa mais e a ansiedade aumenta",
+      "Nada muda"
+    ],
+    "correct_index": 0,
+    "explanation": "A respiracao lenta estimula o sistema nervoso parassimpatico. Para pessoas que tem dificuldade com tecnicas de respiracao, pode aumentar a ansiedade. Tudo bem se nao conseguir. Tente so uma vez primeiro. ('Sistema simpatico se ativa' acontece com respiracao rapida. 'Nada muda' - ha variacoes individuais, mas mudancas tendem a ocorrer)",
+    "actionable_advice": "Dica: tente agora: inspire 4 segundos, expire 4 segundos, so uma vez. Se nao gostar, pode pular.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Ansiedade temporaria",
+        "Pessoas que conseguem focar nas sensacoes corporais"
+      ],
+      "limitations": [
+        "Pode ter efeito contrario para pessoas que tem dificuldade com tecnicas de respiracao",
+        "Ataques de panico precisam de apoio profissional"
+      ],
+      "citation_role": "Apoia indiretamente o efeito das tecnicas de respiracao no sistema nervoso autonomo",
+      "try_this": "Inspire 4 segundos, expire 4 segundos, so uma vez",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Ansiedade atual (alta/media/baixa)",
+        "after_prompt": "E depois de fazer uma vez?",
+        "success_rule": "Se ficar um pouco mais leve, esta otimo",
+        "stop_rule": "Se sentir desconforto, pare imediatamente"
+      },
+      "comparator": {
+        "baseline": "Aguentar e suportar",
+        "cost": "8 segundos / esforco minimo"
+      },
+      "fallback": {
+        "when": "Se focar na respiracao causar mais desconforto",
+        "next": "Mude a atencao para sons externos (5 segundos)"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_007",
+    "type": "swipe_judgment",
+    "question": "Habilidades de regulacao emocional sao facilmente adquiridas pela maioria das pessoas com pratica.",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "Concordo",
+      "right": "Discordo"
+    },
+    "explanation": "'Todo mundo com certeza' e um exagero. Muitas pessoas melhoram com pratica, mas ha diferencas individuais. Alem disso, para problemas cronicos, o apoio profissional tende a ser eficaz.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "Explica teoricamente as diferencas individuais",
+      "claim_tags": [
+        "emotion_regulation",
+        "limitations"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_008",
+    "type": "multiple_choice",
+    "question": "Das 3 tecnicas aprendidas hoje (rotulacao, reavaliacao, respiracao), qual teria a menor barreira para usar amanha?",
+    "choices": [
+      "Respiracao (inspire 4 segundos, expire 4 segundos)",
+      "Rotulacao (reconhecer 'ansiedade')",
+      "Reavaliacao (reformular como 'aquecimento')",
+      "Todas tem barreira alta"
+    ],
+    "correct_index": 0,
+    "explanation": "Para a maioria das pessoas, a respiracao tende a ser a mais simples. Algumas pessoas podem nao se adaptar, entao o importante e encontrar o que funciona para voce. (Rotulacao e reavaliacao tambem sao eficazes. Se 'todas tem barreira alta', tambem e valido buscar outra abordagem)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Fornece orientacao para escolha de intervencoes",
+      "claim_tags": [
+        "breathing",
+        "implementation"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_009",
+    "type": "conversation",
+    "question": "Se voce fosse tentar apenas uma coisa amanha quando sentir ansiedade?",
+    "your_response_prompt": "Escolha uma",
+    "choices": [
+      "Respiracao (inspire 4 segundos, expire 4 segundos)",
+      "Rotulacao (murmurar 'ansiedade')",
+      "Reavaliacao (reformular como 'aquecimento')",
+      "Passo dessa vez"
+    ],
+    "recommended_index": 0,
+    "explanation": "Escolher uma e tentar e o primeiro passo. Se nao funcionar, tente outra. Isso tambem e aprendizado. Comece com uma vez.",
+    "actionable_advice": "Dica: amanha, uma vez (10 segundos): tente a tecnica escolhida so uma vez. Se nao gostar, pode parar na hora.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Lidar com ansiedade leve do dia a dia"
+      ],
+      "limitations": [
+        "Pode ser insuficiente se a ansiedade intensa continuar"
+      ],
+      "citation_role": "Apresenta opcoes de estrategias de regulacao emocional",
+      "try_this": "Tente a tecnica escolhida uma vez (10 segundos)",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Ansiedade 0-10",
+        "after_prompt": "Apos 10 segundos 0-10",
+        "success_rule": "Se diminuir 1, esta otimo",
+        "stop_rule": "Se nao mudar ou aumentar, recue"
+      },
+      "comparator": {
+        "baseline": "Nao fazer nada",
+        "cost": "10 segundos"
+      },
+      "fallback": {
+        "when": "Se nenhuma das 3 funcionar",
+        "next": "Mude fisicamente: beba agua / saia do lugar"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_010",
+    "type": "conversation",
+    "question": "As 'tecnicas para lidar com ansiedade' desta licao pareceram uteis?",
+    "your_response_prompt": "Responda honestamente",
+    "choices": [
+      "Pareceram uteis",
+      "Acho que nao combinam comigo",
+      "Ainda nao sei"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas as respostas estao corretas. Se 'nao combinam', a resposta certa e buscar outra abordagem. O proprio processo de encontrar o que funciona para voce e um aprendizado.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a consideracao das diferencas individuais",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

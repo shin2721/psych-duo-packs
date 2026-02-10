@@ -102,7 +102,10 @@
       ],
       "tiny_metric": {
         "metric": "Après 24 heures, as-tu pensé « finalement, je n'en ai pas besoin » ?",
-        "stop_rule": "Arrête si tu as tout acheté 3 fois de suite"
+        "stop_rule": "Arrête si tu as tout acheté 3 fois de suite",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
       },
       "comparator": {
         "baseline": "Acheter immédiatement sur place",
@@ -280,7 +283,10 @@
       "try_this": "Quand on te dit « limité », attends 10 secondes",
       "tiny_metric": {
         "metric": "Après avoir attendu 10 secondes, as-tu pensé « finalement, je n'en ai pas besoin » ?",
-        "stop_rule": "Arrête si tu as quand même acheté 3 fois de suite"
+        "stop_rule": "Arrête si tu as quand même acheté 3 fois de suite",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
       },
       "comparator": {
         "baseline": "Acheter immédiatement en entendant « limité ! »",
@@ -409,7 +415,10 @@
       ],
       "tiny_metric": {
         "metric": "As-tu réussi à attendre 10 secondes au moins une fois cette semaine ?",
-        "stop_rule": "Arrête si tu ne t'en es pas souvenu une seule fois en une semaine"
+        "stop_rule": "Arrête si tu ne t'en es pas souvenu une seule fois en une semaine",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
       },
       "comparator": {
         "baseline": "Ne rien essayer",

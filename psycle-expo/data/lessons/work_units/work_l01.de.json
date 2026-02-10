@@ -101,7 +101,10 @@
       ],
       "tiny_metric": {
         "metric": "Konntest du den 5-Minuten-Timer starten und beginnen?",
-        "stop_rule": "Wenn du dreimal hintereinander nicht starten konntest, hoer auf"
+        "stop_rule": "Wenn du dreimal hintereinander nicht starten konntest, hoer auf",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
       },
       "comparator": {
         "baseline": "Die gesamte Aufgabe betrachten und ueberwaeltigt sein",
@@ -149,7 +152,10 @@
       ],
       "tiny_metric": {
         "metric": "Konntest du einen Wenn-Dann-Plan erstellen?",
-        "stop_rule": "Wenn du dreimal hintereinander keinen erstellen konntest, hoer auf"
+        "stop_rule": "Wenn du dreimal hintereinander keinen erstellen konntest, hoer auf",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
       },
       "comparator": {
         "baseline": "Nur denken 'Ich muss das machen'",
@@ -229,7 +235,10 @@
       ],
       "tiny_metric": {
         "metric": "Konntest du 'den naechsten Schritt' aufschreiben?",
-        "stop_rule": "Wenn du dreimal hintereinander nicht schreiben konntest, hoer auf"
+        "stop_rule": "Wenn du dreimal hintereinander nicht schreiben konntest, hoer auf",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
       },
       "comparator": {
         "baseline": "Die gesamte Aufgabe betrachten und erstarren",
@@ -276,7 +285,10 @@
       "try_this": "Kuendige jemandem in 10 Sekunden an 'Ich mache nur 5 Minuten'",
       "tiny_metric": {
         "metric": "Konntest du dich nach der Ankuendigung 5 Minuten bewegen?",
-        "stop_rule": "Wenn du dreimal hintereinander nicht handeln konntest, hoer auf"
+        "stop_rule": "Wenn du dreimal hintereinander nicht handeln konntest, hoer auf",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
       },
       "comparator": {
         "baseline": "Niemandem etwas sagen und aufschieben",
@@ -405,7 +417,10 @@
       ],
       "tiny_metric": {
         "metric": "Konntest du diese Woche mindestens einmal die 10-Sekunden-Regel anwenden?",
-        "stop_rule": "Wenn du dich eine Woche lang kein einziges Mal daran erinnerst, hoer auf"
+        "stop_rule": "Wenn du dich eine Woche lang kein einziges Mal daran erinnerst, hoer auf",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
       },
       "comparator": {
         "baseline": "Nichts ausprobieren",

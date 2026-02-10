@@ -11,7 +11,23 @@
     "explanation": "Dies ist ein typisches Beispiel für \"katastrophisierendes Denken\". Die Vorhersage \"Das schaffe ich nicht\" eilt der Realität voraus und verstärkt die Angst. ※Diese Lektion stellt Methoden zur Bewältigung leichter Ängste vor. Wenn Sie jedoch zu Suizidgedanken oder Selbstverletzung neigen, wenden Sie sich bitte nicht an diese App, sondern an eine Facheinrichtung (z.B. Telefonseelsorge: 0800-1110111).",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, deren Angst in einer Kettenreaktion zunimmt"
+      ],
+      "limitations": [
+        "Selbsthilfe allein reicht in einer akuten Krise nicht aus"
+      ],
+      "citation_role": "Unterstützt den Zusammenhang zwischen Grübeln und Angstverstärkung",
+      "claim_tags": [
+        "catastrophizing",
+        "rumination"
+      ]
+    }
   },
   {
     "id": "mental_l05_002",
@@ -24,9 +40,25 @@
     ],
     "correct_index": 0,
     "explanation": "Bei katastrophisierendem Denken ist die \"Beweissuche\" wirksam. Anstatt zu versuchen, die Gedanken vollständig zu unterdrücken, ist es wichtig, eine realistische Perspektive zurückzugewinnen.",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Menschen, die dazu neigen, bei extremen Vorhersagen hängen zu bleiben"
+      ],
+      "limitations": [
+        "In Zeiten starker Panik reicht es möglicherweise nicht aus, allein zu sein"
+      ],
+      "citation_role": "Erläuterung der Möglichkeit der Angstreduktion als Rahmenwerk der Neubewertungstheorie",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal_theory"
+      ]
+    }
   },
   {
     "id": "mental_l05_003",
@@ -42,7 +74,23 @@
     "explanation": "Jede Antwort ist eine normale Reaktion. Das menschliche Gehirn ist darauf ausgelegt, Gefahren vorherzusagen, daher ist es natürlich, sich negative Szenarien vorzustellen.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, deren Gedanken dazu neigen, von Worst-Case-Prognosen dominiert zu werden"
+      ],
+      "limitations": [
+        "Bei schwerwiegenden Symptomen kann zusätzliche Unterstützung erforderlich sein"
+      ],
+      "citation_role": "Unterstützung individueller Unterschiede bei der kognitiven Bewertung",
+      "claim_tags": [
+        "appraisal",
+        "anxiety"
+      ]
+    }
   },
   {
     "id": "mental_l05_004",
@@ -57,7 +105,38 @@
     "explanation": "Anstatt von einem Extrem ins andere zu schwingen, ist es wichtig, eine ausgewogene Perspektive zu finden. Vergangene Erfahrungen dienen als realistische Grundlage.",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Erinnern Sie sich in 10 Sekunden an eine Frage: „Was ist ein Beispiel dafür, dass Sie in der Vergangenheit überleben konnten?“",
+      "tiny_metric": {
+        "before_prompt": "Wie nervös sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie groß ist die Spannung nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt",
+        "stop_rule": "Wenn es zu schwierig wird, ziehen Sie sich zurück"
+      },
+      "comparator": {
+        "baseline": "Unbegründete Vorhersagen neigen dazu, die Angst aufrechtzuerhalten",
+        "cost": "10 Sekunden/nur eine Erinnerung"
+      },
+      "fallback": {
+        "when": "Wenn Sie keinen Erfolg haben",
+        "next": "Entscheiden Sie einfach, was als nächstes zu tun ist, auch wenn Sie scheitern"
+      },
+      "best_for": [
+        "Menschen, die in Drucksituationen dazu neigen, sich zu versteifen"
+      ],
+      "limitations": [
+        "Weniger wirksam bei schwerer Depression"
+      ],
+      "citation_role": "Schlägt eine Steigerung des Gefühls der Bewältigungsfähigkeit durch Neubewertung vor",
+      "claim_tags": [
+        "coping",
+        "reappraisal"
+      ]
+    }
   },
   {
     "id": "mental_l05_005",
@@ -71,7 +150,23 @@
     "explanation": "Sie müssen nicht vollständig beseitigt werden. Vielmehr ist es wichtig, sie zu \"bemerken und eine realistische Perspektive hinzuzufügen\".",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Menschen, die lernen wollen, mit Gedanken umzugehen"
+      ],
+      "limitations": [
+        "Es ist schwierig, Verhalten einfach durch das Verständnis der Theorie zu ändern."
+      ],
+      "citation_role": "Unterstützt den theoretischen Rahmen des kognitiven Bewertungsmodells",
+      "claim_tags": [
+        "cognitive_model",
+        "appraisal"
+      ]
+    }
   },
   {
     "id": "mental_l05_006",
@@ -87,7 +182,38 @@
     "explanation": "Jede Methode kann manchmal wirksam sein, aber das Nachdenken über realistische Maßnahmen kann Angst in Handlung umwandeln.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Schreiben Sie innerhalb von 10 Sekunden eine Frage auf: „Selbst wenn es das Schlimmste ist, was ist der nächste Schritt?“",
+      "tiny_metric": {
+        "before_prompt": "Fühlen Sie sich jetzt auf einer Skala von 0 bis 10 festgefahren?",
+        "after_prompt": "Wie fühlen Sie sich nach 10 Sekunden auf einer Skala von 0 bis 10 festgefahren?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt",
+        "stop_rule": "Unterbrechen Sie die Anwendung, wenn die Beschwerden zunehmen"
+      },
+      "comparator": {
+        "baseline": "Wenn Sie weiter darüber nachdenken, wird es schwierig sein, Maßnahmen zu ergreifen.",
+        "cost": "10 Sekunden/1 Zeile Memo"
+      },
+      "fallback": {
+        "when": "Wenn es schwierig ist, es auszudrücken",
+        "next": "Wählen Sie eine „Mindestmaßnahme, die Sie jetzt ergreifen können“"
+      },
+      "best_for": [
+        "Menschen, die aus Angst dazu neigen, mit der Arbeit aufzuhören"
+      ],
+      "limitations": [
+        "Wenn Sie sehr müde sind, können Sie die Übung möglicherweise nicht durchführen."
+      ],
+      "citation_role": "Unterstützt den Zusammenhang zwischen Neubewertung und Maßnahmenauswahl",
+      "claim_tags": [
+        "micro_action",
+        "coping"
+      ]
+    }
   },
   {
     "id": "mental_l05_007",
@@ -102,7 +228,23 @@
     "explanation": "Müdigkeit und Schlafmangel verringern die Urteilsfähigkeit und machen anfälliger für negatives Denken. Auch auf die körperliche Gesundheit zu achten, ist eine wichtige Gegenmaßnahme.",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die den Zusammenhang zwischen Müdigkeit und Angst verstehen wollen"
+      ],
+      "limitations": [
+        "Die individuellen Unterschiede sind groß und können nicht durch einen einzelnen Faktor erklärt werden"
+      ],
+      "citation_role": "Deutet auf eine Tendenz hin, bei Müdigkeit negativ zu denken",
+      "claim_tags": [
+        "fatigue",
+        "negative_bias"
+      ]
+    }
   },
   {
     "id": "mental_l05_008",
@@ -118,7 +260,38 @@
     "explanation": "Die Methode ist in jeder Situation wirksam. Wir empfehlen, zunächst mit kleinen Ängsten zu beginnen.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Entscheiden Sie sich für eine Szene, die Sie morgen verwenden möchten, und schreiben Sie sie in 10 Sekunden auf.",
+      "tiny_metric": {
+        "before_prompt": "Ist die Klarheit des Ausführungsbildes 0-10?",
+        "after_prompt": "Klarheit nach 10 Sekunden auf einer Skala von 0-10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 steigt",
+        "stop_rule": "Wenn die Belastung zunimmt, werde ich sie heute auf Eis legen."
+      },
+      "comparator": {
+        "baseline": "Wenn die Szene nicht entschieden ist, sinkt tendenziell die Ausführungsrate.",
+        "cost": "Nur 10 Sekunden/1 Szene"
+      },
+      "fallback": {
+        "when": "Wenn dir keine Szene einfällt",
+        "next": "Vorübergehend platziert in „Angstszene als Erstes am Morgen“"
+      },
+      "best_for": [
+        "Menschen, die das Gelernte in die Tat umsetzen wollen"
+      ],
+      "limitations": [
+        "Wenn die Ausführungsumgebung instabil ist, wird es schwierig, Fuß zu fassen."
+      ],
+      "citation_role": "Unterstützt die Möglichkeit, dass Spezifität die Ausführungsraten erhöht",
+      "claim_tags": [
+        "implementation_intention",
+        "planning"
+      ]
+    }
   },
   {
     "id": "mental_l05_009",
@@ -131,9 +304,41 @@
     ],
     "correct_index": 1,
     "explanation": "Wichtiger als vollständige Kontrolle oder erzwungenes positives Denken ist es, eine realistische und ausgewogene Perspektive zu bewahren.",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "gold"
+    "evidence_grade": "gold",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Wenn Sie Angst haben, fragen Sie: „Was ist der Beweis? Was ist der Gegenbeweis?“ hin und her in 10 Sekunden.",
+      "tiny_metric": {
+        "before_prompt": "Wie hoch ist Ihr Angstlevel von 0 bis 10?",
+        "after_prompt": "Wie ängstlich sind Sie nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt",
+        "stop_rule": "Wenn es zu schwierig wird, ziehen Sie sich zurück"
+      },
+      "comparator": {
+        "baseline": "Wenn Sie Ihre Gedanken in Ruhe lassen, werden Ihre schlimmsten Vorhersagen tendenziell wahr.",
+        "cost": "Es ist in 10 Sekunden möglich, nur in deinem Kopf"
+      },
+      "fallback": {
+        "when": "Wenn es keine gegenteiligen Beweise gibt",
+        "next": "Entscheiden Sie nur im schlimmsten Fall über den nächsten Schritt"
+      },
+      "best_for": [
+        "Menschen, die destruktives Denken reduzieren wollen"
+      ],
+      "limitations": [
+        "In Zeiten hoher Belastung empfiehlt es sich, gemeinsam Unterstützung zu nutzen."
+      ],
+      "citation_role": "Unterstützt Neubewertungspraktiken",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal",
+        "evidence_check"
+      ]
+    }
   },
   {
     "id": "mental_l05_010",
@@ -149,6 +354,22 @@
     "explanation": "Jede Rückmeldung ist wertvoll. Da verschiedene Ansätze für verschiedene Menschen funktionieren, ist es wichtig, den Ansatz zu finden, der zu Ihnen passt.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die die Kompatibilität mit sich selbst überprüfen möchten"
+      ],
+      "limitations": [
+        "Da es sich um eine Einzelbewertung handelt, müssen Langzeiteffekte gesondert bestätigt werden."
+      ],
+      "citation_role": "Unterstützt individuelle Unterschiede in den Bewältigungsmethoden",
+      "claim_tags": [
+        "fit",
+        "self_monitoring"
+      ]
+    }
   }
 ]

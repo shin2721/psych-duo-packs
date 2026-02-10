@@ -102,7 +102,10 @@
       ],
       "tiny_metric": {
         "metric": "Hast du nach 24 Stunden gedacht 'Ich brauche es doch nicht'?",
-        "stop_rule": "Hoer auf, wenn du dreimal hintereinander alles gekauft hast"
+        "stop_rule": "Hoer auf, wenn du dreimal hintereinander alles gekauft hast",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
       },
       "comparator": {
         "baseline": "Sofortiger Kauf",
@@ -280,7 +283,10 @@
       "try_this": "Wenn dir jemand 'limitiert' sagt, warte 10 Sekunden",
       "tiny_metric": {
         "metric": "Hast du nach 10 Sekunden gedacht 'Ich brauche es doch nicht'?",
-        "stop_rule": "Hoer auf, wenn du dreimal hintereinander doch gekauft hast"
+        "stop_rule": "Hoer auf, wenn du dreimal hintereinander doch gekauft hast",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
       },
       "comparator": {
         "baseline": "'Limitiert!' hoeren und sofort kaufen",
@@ -409,7 +415,10 @@
       ],
       "tiny_metric": {
         "metric": "Hast du diese Woche mindestens einmal 10 Sekunden gewartet?",
-        "stop_rule": "Hoer auf, wenn du dich eine Woche lang kein einziges Mal daran erinnert hast"
+        "stop_rule": "Hoer auf, wenn du dich eine Woche lang kein einziges Mal daran erinnert hast",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
       },
       "comparator": {
         "baseline": "Nichts ausprobieren",

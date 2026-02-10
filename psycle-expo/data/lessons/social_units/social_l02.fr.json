@@ -335,7 +335,10 @@
       ],
       "tiny_metric": {
         "metric": "Avez-vous pu l'utiliser au moins une fois cette semaine ?",
-        "stop_rule": "Si vous ne l'avez pas utilisé pendant une semaine, arrêtez"
+        "stop_rule": "Si vous ne l'avez pas utilisé pendant une semaine, arrêtez",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
       },
       "comparator": {
         "baseline": "Continuer à répondre instantanément sans rien essayer",

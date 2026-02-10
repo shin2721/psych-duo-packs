@@ -1,379 +1,385 @@
 [
-    {
-        "id": "mental_l03_001",
-        "type": "swipe_judgment",
-        "question": "5 minutes until the meeting. Heart pounding, palms sweating. The more you tell yourself \"calm down,\" the more anxious you get.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Been there",
-            "right": "Never"
-        },
-        "explanation": "Telling yourself \"calm down\" can backfire. The harder you try to suppress emotions, the more your attention fixates on them.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "People who struggle with suppressing emotions"
-            ],
-            "limitations": [
-                "Suppression can be effective in some cases (short-term or social situations)"
-            ],
-            "citation_role": "Theoretically explains the backfire mechanism of suppression within an emotion regulation framework",
-            "claim_tags": [
-                "emotion_regulation",
-                "suppression"
-            ]
-        }
+  {
+    "id": "mental_l03_001",
+    "type": "swipe_judgment",
+    "question": "5 minutes until the meeting. Heart pounding, palms sweating. The more you tell yourself \"calm down,\" the more anxious you get.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Been there",
+      "right": "Never"
     },
-    {
-        "id": "mental_l03_002",
-        "type": "multiple_choice",
-        "question": "When you feel anxious, what tends to work better than telling yourself \"calm down\"?",
-        "choices": [
-            "Acknowledge it: \"I'm feeling anxious right now\" (labeling)",
-            "Tell yourself \"calm down!\" even harder",
-            "Try not to think about anything"
-        ],
-        "correct_index": 0,
-        "explanation": "Labeling (naming the emotion) can reduce its intensity. Effects vary by individual, and chronic anxiety may require a different approach. (\"Telling yourself harder\" tends to backfire. \"Thinking about nothing\" is often very difficult.)",
-        "actionable_advice": "Tip: Next time you feel anxious, just whisper \"anxiety\" in your mind (10 seconds). Stop immediately if it feels wrong.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Everyday mild anxiety",
-                "People wanting to deepen self-understanding"
-            ],
-            "limitations": [
-                "May have limited effect on chronic intense anxiety",
-                "Can intensify rumination in some people"
-            ],
-            "citation_role": "Theoretically explains the mechanism of labeling within an emotion regulation framework",
-            "try_this": "Next time you feel anxious, whisper \"anxiety\" in your mind (10 seconds)",
-            "claim_tags": [
-                "emotion_regulation",
-                "reappraisal"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Current anxiety? (0-10 or high/medium/low)",
-                "after_prompt": "After 10 seconds?",
-                "success_rule": "Even a slight decrease is OK",
-                "stop_rule": "If no change or it increases, retreat for today"
-            },
-            "comparator": {
-                "baseline": "Suppressing with \"calm down\"",
-                "cost": "10 seconds / Low burden"
-            },
-            "fallback": {
-                "when": "If labeling increases your anxiety instead",
-                "next": "Switch to deep breathing (4 sec in, 4 sec out)"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_003",
-        "type": "swipe_judgment",
-        "question": "Reinterpreting your racing heart as \"my body is gearing up for me\" can sometimes improve performance.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Seems possible",
-            "right": "Seems unlikely"
-        },
-        "explanation": "This is called \"reappraisal.\" Research shows short-term performance improvements. However, don't push yourself when feeling unwell. It's normal if this doesn't work. Just try once.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jamieson_2012",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "direct",
-            "best_for": [
-                "Pre-presentation or interview nerves",
-                "Short-term performance situations"
-            ],
-            "limitations": [
-                "Can backfire when physically unwell",
-                "Limited effect on chronic anxiety"
-            ],
-            "citation_role": "Directly supports the performance effects of arousal reappraisal",
-            "claim_tags": [
-                "reappraisal",
-                "arousal",
-                "stress_response",
-                "performance"
-            ],
-            "tiny_metric": {
-                "metric": "Were you able to reframe your racing heart as \"gearing up\" at least once?",
-                "stop_rule": "If you can't remember to try it for 3 days straight, let it go"
-            },
-            "comparator": {
-                "baseline": "Interpreting it negatively: \"Oh no, I'm so nervous\"",
-                "cost": "Low cognitive load (just a reframe)"
-            },
-            "try_this": "Next time you feel nervous, say \"my body is gearing up for me\" for just 10 seconds",
-            "fallback": "If it doesn't fit, switch to deep breathing"
-        }
-    },
-    {
-        "id": "mental_l03_004",
-        "type": "multiple_choice",
-        "question": "Right before a presentation, your palms are drenched in sweat. Which of these would you try?",
-        "choices": [
-            "Reframe it: \"My body is warming up for me\"",
-            "Think: \"This is the worst, I'm nervous again\"",
-            "Ignore the sweaty palms and focus on the content"
-        ],
-        "correct_index": 0,
-        "explanation": "Reframing it as a \"warm-up\" can turn a stress response into a challenge response. It doesn't work for everyone, so don't force it. Just try once. (\"This is the worst\" intensifies anxiety. \"Ignore and focus\" is difficult for anyone.)",
-        "actionable_advice": "Tip: Try this just once tomorrow: when nervous, say \"my body is gearing up for me\" for 10 seconds. Stop immediately if it feels wrong.",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jamieson_2012",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "direct",
-            "best_for": [
-                "Before presentations, interviews, or exams"
-            ],
-            "limitations": [
-                "Don't push yourself when physically unwell",
-                "May not suit people who resist \"positive thinking\""
-            ],
-            "citation_role": "Supports the practical effects of arousal reappraisal",
-            "try_this": "When nervous, say \"my body is gearing up for me\" for 10 seconds",
-            "claim_tags": [
-                "reappraisal",
-                "arousal",
-                "performance"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Current tension (0-10)",
-                "after_prompt": "Tension after 10 seconds",
-                "success_rule": "Even 1 point down is OK",
-                "stop_rule": "If no change, try a different method"
-            },
-            "comparator": {
-                "baseline": "Blaming yourself: \"I shouldn't be nervous\"",
-                "cost": "10 seconds / Low psychological burden"
-            },
-            "fallback": {
-                "when": "If the reframe feels fake",
-                "next": "Just label it: \"I'm feeling nervous\""
-            }
-        }
-    },
-    {
-        "id": "mental_l03_005",
-        "type": "conversation",
-        "question": "\"Labeling\" vs. \"Reappraisal\" - which seems like a better fit for you?",
-        "your_response_prompt": "Go with your gut",
-        "choices": [
-            "Labeling (just acknowledge \"anxiety\")",
-            "Reappraisal (reframe as \"warming up\")",
-            "Want to try both",
-            "Neither seems to fit"
-        ],
-        "recommended_index": null,
-        "explanation": "Any answer is correct. \"Neither fits\" is valuable information too. It can be the starting point for finding a different approach.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Supports consideration of individual differences",
-            "claim_tags": [
-                "emotion_regulation",
-                "individual_differences"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_006",
-        "type": "multiple_choice",
-        "question": "When feeling anxious, what tends to happen if you do \"breathe in for 4 seconds, breathe out for 4 seconds\" three times?",
-        "choices": [
-            "The parasympathetic nervous system activates, helping your heart rate settle",
-            "The sympathetic nervous system ramps up further, increasing anxiety",
-            "Nothing changes"
-        ],
-        "correct_index": 0,
-        "explanation": "Slow breathing stimulates the parasympathetic nervous system. For some people, breathing exercises can actually increase anxiety. It's normal if this doesn't work. Just try once. (\"Sympathetic activation\" happens with rapid breathing. \"Nothing changes\" - while individual differences exist, some change is likely.)",
-        "actionable_advice": "Tip: Try it right now: breathe in for 4 seconds, breathe out for 4 seconds, just once. Skip it if you don't want to.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Temporary anxiety",
-                "People who are attuned to bodily sensations"
-            ],
-            "limitations": [
-                "Can backfire for people who struggle with breathing exercises",
-                "Panic attacks require professional support"
-            ],
-            "citation_role": "Indirectly supports the effect of breathing exercises on the autonomic nervous system",
-            "try_this": "Breathe in for 4 seconds, breathe out for 4 seconds, just once",
-            "claim_tags": [
-                "emotion_regulation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Current anxiety (high/medium/low)",
-                "after_prompt": "After doing it once?",
-                "success_rule": "Even a slight improvement is OK",
-                "stop_rule": "If it feels unpleasant, stop immediately"
-            },
-            "comparator": {
-                "baseline": "Toughing it out",
-                "cost": "8 seconds / Minimal burden"
-            },
-            "fallback": {
-                "when": "If focusing on your breath makes you feel worse",
-                "next": "Shift your attention to sounds around you (5 seconds)"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_007",
-        "type": "swipe_judgment",
-        "question": "Emotion regulation skills are easy to develop for most people with practice.",
-        "is_true": false,
-        "swipe_labels": {
-            "left": "I think so",
-            "right": "I don't think so"
-        },
-        "explanation": "\"Easy for everyone\" is an overstatement. Many people improve with practice, but there are individual differences. For chronic issues, professional support can be effective.",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "citation_role": "Theoretically explains individual differences",
-            "claim_tags": [
-                "emotion_regulation",
-                "limitations"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_008",
-        "type": "multiple_choice",
-        "question": "Of the 3 techniques you learned today (labeling, reappraisal, breathing), which has the lowest barrier to try tomorrow?",
-        "choices": [
-            "Breathing (4 sec in, 4 sec out)",
-            "Labeling (acknowledge \"anxiety\")",
-            "Reappraisal (reframe as \"warming up\")",
-            "All feel too difficult"
-        ],
-        "correct_index": 0,
-        "explanation": "For most people, breathing is the simplest. It doesn't work for everyone, so finding what fits you is what matters. (Labeling and reappraisal are also effective. If \"all feel too difficult,\" exploring a different approach is perfectly OK.)",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Provides guidance for choosing interventions",
-            "claim_tags": [
-                "breathing",
-                "implementation"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_009",
-        "type": "conversation",
-        "question": "If you were to try just one thing tomorrow when you feel anxious, what would it be?",
-        "your_response_prompt": "Pick one",
-        "choices": [
-            "Breathing (4 sec in, 4 sec out)",
-            "Labeling (whisper \"anxiety\")",
-            "Reappraisal (reframe as \"warming up\")",
-            "Pass for now"
-        ],
-        "recommended_index": 0,
-        "explanation": "Picking one and trying it is the first step. If it doesn't fit, try another. That's learning too. Just once.",
-        "actionable_advice": "Tip: Tomorrow, just once (10 seconds): try the technique you chose. Stop immediately if it feels wrong.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Coping with everyday mild anxiety"
-            ],
-            "limitations": [
-                "Not sufficient for persistent intense anxiety"
-            ],
-            "citation_role": "Presents options for emotion regulation strategies",
-            "try_this": "Try the technique you chose just once (10 seconds)",
-            "claim_tags": [
-                "emotion_regulation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Anxiety 0-10",
-                "after_prompt": "After 10 seconds 0-10",
-                "success_rule": "Even 1 point down is OK",
-                "stop_rule": "If no change or it increases, retreat"
-            },
-            "comparator": {
-                "baseline": "Doing nothing",
-                "cost": "10 seconds"
-            },
-            "fallback": {
-                "when": "If none of the three worked for you",
-                "next": "Drink water / step away - physically switch things up"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_010",
-        "type": "conversation",
-        "question": "Did the \"anxiety coping techniques\" in this lesson seem useful to you?",
-        "your_response_prompt": "Answer honestly",
-        "choices": [
-            "Seems useful",
-            "Might not be for me",
-            "Not sure yet"
-        ],
-        "recommended_index": null,
-        "explanation": "Any answer is correct. If it \"might not be for you,\" then looking for a different approach is the right move. The process of finding what fits you is itself learning.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Supports consideration of individual differences",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "Telling yourself \"calm down\" can backfire. The harder you try to suppress emotions, the more your attention fixates on them.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People who struggle with suppressing emotions"
+      ],
+      "limitations": [
+        "Suppression can be effective in some cases (short-term or social situations)"
+      ],
+      "citation_role": "Theoretically explains the backfire mechanism of suppression within an emotion regulation framework",
+      "claim_tags": [
+        "emotion_regulation",
+        "suppression"
+      ]
     }
+  },
+  {
+    "id": "mental_l03_002",
+    "type": "multiple_choice",
+    "question": "When you feel anxious, what tends to work better than telling yourself \"calm down\"?",
+    "choices": [
+      "Acknowledge it: \"I'm feeling anxious right now\" (labeling)",
+      "Tell yourself \"calm down!\" even harder",
+      "Try not to think about anything"
+    ],
+    "correct_index": 0,
+    "explanation": "Labeling (naming the emotion) can reduce its intensity. Effects vary by individual, and chronic anxiety may require a different approach. (\"Telling yourself harder\" tends to backfire. \"Thinking about nothing\" is often very difficult.)",
+    "actionable_advice": "Tip: Next time you feel anxious, just whisper \"anxiety\" in your mind (10 seconds). Stop immediately if it feels wrong.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Everyday mild anxiety",
+        "People wanting to deepen self-understanding"
+      ],
+      "limitations": [
+        "May have limited effect on chronic intense anxiety",
+        "Can intensify rumination in some people"
+      ],
+      "citation_role": "Theoretically explains the mechanism of labeling within an emotion regulation framework",
+      "try_this": "Next time you feel anxious, whisper \"anxiety\" in your mind (10 seconds)",
+      "claim_tags": [
+        "emotion_regulation",
+        "reappraisal"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Current anxiety? (0-10 or high/medium/low)",
+        "after_prompt": "After 10 seconds?",
+        "success_rule": "Even a slight decrease is OK",
+        "stop_rule": "If no change or it increases, retreat for today"
+      },
+      "comparator": {
+        "baseline": "Suppressing with \"calm down\"",
+        "cost": "10 seconds / Low burden"
+      },
+      "fallback": {
+        "when": "If labeling increases your anxiety instead",
+        "next": "Switch to deep breathing (4 sec in, 4 sec out)"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_003",
+    "type": "swipe_judgment",
+    "question": "Reinterpreting your racing heart as \"my body is gearing up for me\" can sometimes improve performance.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Seems possible",
+      "right": "Seems unlikely"
+    },
+    "explanation": "This is called \"reappraisal.\" Research shows short-term performance improvements. However, don't push yourself when feeling unwell. It's normal if this doesn't work. Just try once.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pre-presentation or interview nerves",
+        "Short-term performance situations"
+      ],
+      "limitations": [
+        "Can backfire when physically unwell",
+        "Limited effect on chronic anxiety"
+      ],
+      "citation_role": "Directly supports the performance effects of arousal reappraisal",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "stress_response",
+        "performance"
+      ],
+      "tiny_metric": {
+        "metric": "Were you able to reframe your racing heart as \"gearing up\" at least once?",
+        "stop_rule": "If you can't remember to try it for 3 days straight, let it go",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
+      },
+      "comparator": {
+        "baseline": "Interpreting it negatively: \"Oh no, I'm so nervous\"",
+        "cost": "Low cognitive load (just a reframe)"
+      },
+      "try_this": "Next time you feel nervous, say \"my body is gearing up for me\" for just 10 seconds",
+      "fallback": {
+        "when": "When the strain increases or there is no change",
+        "next": "Switch to one breath or another 10-second intervention"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_004",
+    "type": "multiple_choice",
+    "question": "Right before a presentation, your palms are drenched in sweat. Which of these would you try?",
+    "choices": [
+      "Reframe it: \"My body is warming up for me\"",
+      "Think: \"This is the worst, I'm nervous again\"",
+      "Ignore the sweaty palms and focus on the content"
+    ],
+    "correct_index": 0,
+    "explanation": "Reframing it as a \"warm-up\" can turn a stress response into a challenge response. It doesn't work for everyone, so don't force it. Just try once. (\"This is the worst\" intensifies anxiety. \"Ignore and focus\" is difficult for anyone.)",
+    "actionable_advice": "Tip: Try this just once tomorrow: when nervous, say \"my body is gearing up for me\" for 10 seconds. Stop immediately if it feels wrong.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "Before presentations, interviews, or exams"
+      ],
+      "limitations": [
+        "Don't push yourself when physically unwell",
+        "May not suit people who resist \"positive thinking\""
+      ],
+      "citation_role": "Supports the practical effects of arousal reappraisal",
+      "try_this": "When nervous, say \"my body is gearing up for me\" for 10 seconds",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "performance"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Current tension (0-10)",
+        "after_prompt": "Tension after 10 seconds",
+        "success_rule": "Even 1 point down is OK",
+        "stop_rule": "If no change, try a different method"
+      },
+      "comparator": {
+        "baseline": "Blaming yourself: \"I shouldn't be nervous\"",
+        "cost": "10 seconds / Low psychological burden"
+      },
+      "fallback": {
+        "when": "If the reframe feels fake",
+        "next": "Just label it: \"I'm feeling nervous\""
+      }
+    }
+  },
+  {
+    "id": "mental_l03_005",
+    "type": "conversation",
+    "question": "\"Labeling\" vs. \"Reappraisal\" - which seems like a better fit for you?",
+    "your_response_prompt": "Go with your gut",
+    "choices": [
+      "Labeling (just acknowledge \"anxiety\")",
+      "Reappraisal (reframe as \"warming up\")",
+      "Want to try both",
+      "Neither seems to fit"
+    ],
+    "recommended_index": null,
+    "explanation": "Any answer is correct. \"Neither fits\" is valuable information too. It can be the starting point for finding a different approach.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Supports consideration of individual differences",
+      "claim_tags": [
+        "emotion_regulation",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_006",
+    "type": "multiple_choice",
+    "question": "When feeling anxious, what tends to happen if you do \"breathe in for 4 seconds, breathe out for 4 seconds\" three times?",
+    "choices": [
+      "The parasympathetic nervous system activates, helping your heart rate settle",
+      "The sympathetic nervous system ramps up further, increasing anxiety",
+      "Nothing changes"
+    ],
+    "correct_index": 0,
+    "explanation": "Slow breathing stimulates the parasympathetic nervous system. For some people, breathing exercises can actually increase anxiety. It's normal if this doesn't work. Just try once. (\"Sympathetic activation\" happens with rapid breathing. \"Nothing changes\" - while individual differences exist, some change is likely.)",
+    "actionable_advice": "Tip: Try it right now: breathe in for 4 seconds, breathe out for 4 seconds, just once. Skip it if you don't want to.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Temporary anxiety",
+        "People who are attuned to bodily sensations"
+      ],
+      "limitations": [
+        "Can backfire for people who struggle with breathing exercises",
+        "Panic attacks require professional support"
+      ],
+      "citation_role": "Indirectly supports the effect of breathing exercises on the autonomic nervous system",
+      "try_this": "Breathe in for 4 seconds, breathe out for 4 seconds, just once",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Current anxiety (high/medium/low)",
+        "after_prompt": "After doing it once?",
+        "success_rule": "Even a slight improvement is OK",
+        "stop_rule": "If it feels unpleasant, stop immediately"
+      },
+      "comparator": {
+        "baseline": "Toughing it out",
+        "cost": "8 seconds / Minimal burden"
+      },
+      "fallback": {
+        "when": "If focusing on your breath makes you feel worse",
+        "next": "Shift your attention to sounds around you (5 seconds)"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_007",
+    "type": "swipe_judgment",
+    "question": "Emotion regulation skills are easy to develop for most people with practice.",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "I think so",
+      "right": "I don't think so"
+    },
+    "explanation": "\"Easy for everyone\" is an overstatement. Many people improve with practice, but there are individual differences. For chronic issues, professional support can be effective.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "Theoretically explains individual differences",
+      "claim_tags": [
+        "emotion_regulation",
+        "limitations"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_008",
+    "type": "multiple_choice",
+    "question": "Of the 3 techniques you learned today (labeling, reappraisal, breathing), which has the lowest barrier to try tomorrow?",
+    "choices": [
+      "Breathing (4 sec in, 4 sec out)",
+      "Labeling (acknowledge \"anxiety\")",
+      "Reappraisal (reframe as \"warming up\")",
+      "All feel too difficult"
+    ],
+    "correct_index": 0,
+    "explanation": "For most people, breathing is the simplest. It doesn't work for everyone, so finding what fits you is what matters. (Labeling and reappraisal are also effective. If \"all feel too difficult,\" exploring a different approach is perfectly OK.)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Provides guidance for choosing interventions",
+      "claim_tags": [
+        "breathing",
+        "implementation"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_009",
+    "type": "conversation",
+    "question": "If you were to try just one thing tomorrow when you feel anxious, what would it be?",
+    "your_response_prompt": "Pick one",
+    "choices": [
+      "Breathing (4 sec in, 4 sec out)",
+      "Labeling (whisper \"anxiety\")",
+      "Reappraisal (reframe as \"warming up\")",
+      "Pass for now"
+    ],
+    "recommended_index": 0,
+    "explanation": "Picking one and trying it is the first step. If it doesn't fit, try another. That's learning too. Just once.",
+    "actionable_advice": "Tip: Tomorrow, just once (10 seconds): try the technique you chose. Stop immediately if it feels wrong.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Coping with everyday mild anxiety"
+      ],
+      "limitations": [
+        "Not sufficient for persistent intense anxiety"
+      ],
+      "citation_role": "Presents options for emotion regulation strategies",
+      "try_this": "Try the technique you chose just once (10 seconds)",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Anxiety 0-10",
+        "after_prompt": "After 10 seconds 0-10",
+        "success_rule": "Even 1 point down is OK",
+        "stop_rule": "If no change or it increases, retreat"
+      },
+      "comparator": {
+        "baseline": "Doing nothing",
+        "cost": "10 seconds"
+      },
+      "fallback": {
+        "when": "If none of the three worked for you",
+        "next": "Drink water / step away - physically switch things up"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_010",
+    "type": "conversation",
+    "question": "Did the \"anxiety coping techniques\" in this lesson seem useful to you?",
+    "your_response_prompt": "Answer honestly",
+    "choices": [
+      "Seems useful",
+      "Might not be for me",
+      "Not sure yet"
+    ],
+    "recommended_index": null,
+    "explanation": "Any answer is correct. If it \"might not be for you,\" then looking for a different approach is the right move. The process of finding what fits you is itself learning.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Supports consideration of individual differences",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

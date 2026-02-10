@@ -1,304 +1,326 @@
 [
-    {
-        "id": "mental_l02_001",
-        "type": "swipe_judgment",
-        "question": "Monday 8 AM, on the commuter train. A thought pops up: \"I have a feeling today's presentation won't go well.\"",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Happens often",
-            "right": "Rarely happens"
-        },
-        "explanation": "This is an automatic \"threat appraisal\" firing. Nothing has happened yet, but the \"might be dangerous\" response triggers first.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "People who want to notice automatic thought patterns"
-            ],
-            "limitations": [
-                "Understanding theory alone doesn't directly lead to behavior change"
-            ],
-            "citation_role": "Explains primary appraisal (threat assessment) in cognitive appraisal theory",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "primary_appraisal",
-                "stress"
-            ]
-        }
+  {
+    "id": "mental_l02_001",
+    "type": "swipe_judgment",
+    "question": "Monday 8 AM, on the commuter train. A thought pops up: \"I have a feeling today's presentation won't go well.\"",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Happens often",
+      "right": "Rarely happens"
     },
-    {
-        "id": "mental_l02_002",
-        "type": "multiple_choice",
-        "question": "Same \"feedback from the boss\" - Person A feels down, Person B thinks \"Now I know what to improve.\"\n\nWhich theory best explains this difference?",
-        "choices": [
-            "Cognitive appraisal theory (interpretation differences affect stress)",
-            "Personality trait theory (innate temperament decides)",
-            "Stimulus-response theory (events directly determine reactions)"
-        ],
-        "correct_index": 0,
-        "explanation": "Same event, but \"how you interpret it\" changes the reaction. This is the core of cognitive appraisal theory. (We tend to think \"it's all personality\" or \"the event caused it,\" but that can't explain individual differences.)",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "People who want to understand theoretical background",
-                "People curious why reactions differ between individuals"
-            ],
-            "limitations": [
-                "Knowing theory doesn't automatically change interpretations (practice needed)"
-            ],
-            "citation_role": "Explains the basic mechanism of cognitive appraisal theory",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "stress",
-                "individual_differences"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_003",
-        "type": "swipe_judgment",
-        "question": "\"Primary appraisal\" is the automatic process of judging an event as \"threat or harmless.\"",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "I think so",
-            "right": "I don't think so"
-        },
-        "explanation": "Correct. Primary appraisal is the process of instantly judging \"Is this a threat to me?\" It tends to happen automatically rather than consciously.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "People who want accurate understanding of terminology"
-            ],
-            "limitations": [
-                "Knowing terms requires separate practice for application"
-            ],
-            "citation_role": "Explains the definition of primary appraisal",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "primary_appraisal"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_004",
-        "type": "multiple_choice",
-        "question": "What does \"secondary appraisal\" evaluate?",
-        "choices": [
-            "\"Do I have resources to cope with this situation?\"",
-            "\"Is this event a threat?\"",
-            "\"Have I had the same experience before?\""
-        ],
-        "correct_index": 0,
-        "explanation": "Secondary appraisal is the process of evaluating \"Can I handle this?\" It occurs after primary appraisal judges something as a \"threat.\" (\"Is it a threat?\" is primary appraisal. \"Past experience\" is a different memory process.)",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "People who want to grasp the big picture of the theory"
-            ],
-            "limitations": [
-                "Understanding theory alone doesn't improve coping ability"
-            ],
-            "citation_role": "Explains the definition of secondary appraisal",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "secondary_appraisal",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_005",
-        "type": "conversation",
-        "question": "Recall a recent situation where you felt \"threatened.\"",
-        "your_response_prompt": "At that time, did you feel \"I can handle this\" or \"Maybe I can't\"?",
-        "choices": [
-            "Felt I could handle it",
-            "Felt maybe I couldn't",
-            "Neither / Don't remember"
-        ],
-        "recommended_index": null,
-        "explanation": "Any answer is correct. This sense of \"whether you can cope\" is secondary appraisal itself.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Supports self-awareness of secondary appraisal",
-            "claim_tags": [
-                "secondary_appraisal",
-                "self_awareness"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_006",
-        "type": "multiple_choice",
-        "question": "If primary appraisal judges \"threat\" and secondary appraisal judges \"can't cope,\" what tends to happen?",
-        "choices": [
-            "Strong stress response (anxiety, panic, physical symptoms)",
-            "Calm problem-solving action",
-            "Nothing happens"
-        ],
-        "correct_index": 0,
-        "explanation": "The \"threat + can't cope\" combination intensifies stress response. Conversely, \"threat + can cope\" might feel like a challenge. (\"Stay calm\" or \"nothing happens\" is ideal, but difficult when feeling unable to cope.)",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "People who want to understand stress response mechanisms"
-            ],
-            "limitations": [
-                "Understanding doesn't stop automatic reactions (conscious control has limits)"
-            ],
-            "citation_role": "Explains how primary × secondary appraisal combination determines stress intensity",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_007",
-        "type": "swipe_judgment",
-        "question": "\"Threat appraisal\" is instinctive and cannot be changed.",
-        "is_true": false,
-        "swipe_labels": {
-            "left": "I think so",
-            "right": "I don't think so"
-        },
-        "explanation": "Completely changing it is difficult, but reframing can become easier (with individual variation). However, don't push yourself when tired or stressed.",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "citation_role": "Theoretically explains the flexibility of appraisal",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "flexibility"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_008",
-        "type": "multiple_choice",
-        "question": "In which case is cognitive appraisal theory \"NOT well-suited\"?",
-        "choices": [
-            "Stress primarily caused by physical illness",
-            "Workplace relationship stress",
-            "Vague anxiety about the future"
-        ],
-        "correct_index": 0,
-        "explanation": "When physical illness or physiological factors are strong, consider medical approaches beyond just \"changing interpretation.\" (\"Relationships\" and \"future anxiety\" can often benefit from cognitive approaches.)",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "People who want to correctly understand the theory's scope"
-            ],
-            "limitations": [
-                "This theory itself isn't detailed about identifying edge cases"
-            ],
-            "citation_role": "Explains the limitations of cognitive appraisal theory's scope",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "stress"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_009",
-        "type": "conversation",
-        "question": "Today you learned about \"primary appraisal (threat assessment)\" and \"secondary appraisal (coping potential).\"",
-        "your_response_prompt": "Next time you feel stressed, which would you like to be aware of?",
-        "choices": [
-            "Primary: Ask \"Is this really a threat?\"",
-            "Secondary: Think \"What can I do about this?\"",
-            "Try both",
-            "Pass for now (that's also a choice)"
-        ],
-        "recommended_index": null,
-        "explanation": "Any answer is correct. Starting with what fits you is most sustainable.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Suggests entry points for practice",
-            "claim_tags": [
-                "implementation",
-                "practice"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_010",
-        "type": "conversation",
-        "question": "Did the \"mechanism of threat assessment\" you learned in this lesson resonate with you?",
-        "your_response_prompt": "Answer based on your gut feeling",
-        "choices": [
-            "It resonated",
-            "Feels a bit off",
-            "Still not sure"
-        ],
-        "recommended_index": null,
-        "explanation": "Any answer is correct. \"Feeling off\" is valuable information. If this theory doesn't fit, another approach might work better for you.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Supports consideration of individual differences",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "This is an automatic \"threat appraisal\" firing. Nothing has happened yet, but the \"might be dangerous\" response triggers first.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People who want to notice automatic thought patterns"
+      ],
+      "limitations": [
+        "Understanding theory alone doesn't directly lead to behavior change"
+      ],
+      "citation_role": "Explains primary appraisal (threat assessment) in cognitive appraisal theory",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "primary_appraisal",
+        "stress"
+      ]
     }
+  },
+  {
+    "id": "mental_l02_002",
+    "type": "multiple_choice",
+    "question": "Same \"feedback from the boss\" - Person A feels down, Person B thinks \"Now I know what to improve.\"\n\nWhich theory best explains this difference?",
+    "choices": [
+      "Cognitive appraisal theory (interpretation differences affect stress)",
+      "Personality trait theory (innate temperament decides)",
+      "Stimulus-response theory (events directly determine reactions)"
+    ],
+    "correct_index": 0,
+    "explanation": "Same event, but \"how you interpret it\" changes the reaction. This is the core of cognitive appraisal theory. (We tend to think \"it's all personality\" or \"the event caused it,\" but that can't explain individual differences.)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People who want to understand theoretical background",
+        "People curious why reactions differ between individuals"
+      ],
+      "limitations": [
+        "Knowing theory doesn't automatically change interpretations (practice needed)"
+      ],
+      "citation_role": "Explains the basic mechanism of cognitive appraisal theory",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_003",
+    "type": "swipe_judgment",
+    "question": "\"Primary appraisal\" is the automatic process of judging an event as \"threat or harmless.\"",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "I think so",
+      "right": "I don't think so"
+    },
+    "explanation": "Correct. Primary appraisal is the process of instantly judging \"Is this a threat to me?\" It tends to happen automatically rather than consciously.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People who want accurate understanding of terminology"
+      ],
+      "limitations": [
+        "Knowing terms requires separate practice for application"
+      ],
+      "citation_role": "Explains the definition of primary appraisal",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "primary_appraisal"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_004",
+    "type": "multiple_choice",
+    "question": "What does \"secondary appraisal\" evaluate?",
+    "choices": [
+      "\"Do I have resources to cope with this situation?\"",
+      "\"Is this event a threat?\"",
+      "\"Have I had the same experience before?\""
+    ],
+    "correct_index": 0,
+    "explanation": "Secondary appraisal is the process of evaluating \"Can I handle this?\" It occurs after primary appraisal judges something as a \"threat.\" (\"Is it a threat?\" is primary appraisal. \"Past experience\" is a different memory process.)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People who want to grasp the big picture of the theory"
+      ],
+      "limitations": [
+        "Understanding theory alone doesn't improve coping ability"
+      ],
+      "citation_role": "Explains the definition of secondary appraisal",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "secondary_appraisal",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_005",
+    "type": "conversation",
+    "question": "Recall a recent situation where you felt \"threatened.\"",
+    "your_response_prompt": "At that time, did you feel \"I can handle this\" or \"Maybe I can't\"?",
+    "choices": [
+      "Felt I could handle it",
+      "Felt maybe I couldn't",
+      "Neither / Don't remember"
+    ],
+    "recommended_index": null,
+    "explanation": "Any answer is correct. This sense of \"whether you can cope\" is secondary appraisal itself.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Supports self-awareness of secondary appraisal",
+      "claim_tags": [
+        "secondary_appraisal",
+        "self_awareness"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_006",
+    "type": "multiple_choice",
+    "question": "If primary appraisal judges \"threat\" and secondary appraisal judges \"can't cope,\" what tends to happen?",
+    "choices": [
+      "Strong stress response (anxiety, panic, physical symptoms)",
+      "Calm problem-solving action",
+      "Nothing happens"
+    ],
+    "correct_index": 0,
+    "explanation": "The \"threat + can't cope\" combination intensifies stress response. Conversely, \"threat + can cope\" might feel like a challenge. (\"Stay calm\" or \"nothing happens\" is ideal, but difficult when feeling unable to cope.)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People who want to understand stress response mechanisms"
+      ],
+      "limitations": [
+        "Understanding doesn't stop automatic reactions (conscious control has limits)"
+      ],
+      "citation_role": "Explains how primary × secondary appraisal combination determines stress intensity",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_007",
+    "type": "swipe_judgment",
+    "question": "\"Threat appraisal\" is instinctive and cannot be changed.",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "I think so",
+      "right": "I don't think so"
+    },
+    "explanation": "Completely changing it is difficult, but reframing can become easier (with individual variation). However, don't push yourself when tired or stressed.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "Theoretically explains the flexibility of appraisal",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "flexibility"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_008",
+    "type": "multiple_choice",
+    "question": "In which case is cognitive appraisal theory \"NOT well-suited\"?",
+    "choices": [
+      "Stress primarily caused by physical illness",
+      "Workplace relationship stress",
+      "Vague anxiety about the future"
+    ],
+    "correct_index": 0,
+    "explanation": "When physical illness or physiological factors are strong, consider medical approaches beyond just \"changing interpretation.\" (\"Relationships\" and \"future anxiety\" can often benefit from cognitive approaches.)",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People who want to correctly understand the theory's scope"
+      ],
+      "limitations": [
+        "This theory itself isn't detailed about identifying edge cases"
+      ],
+      "citation_role": "Explains the limitations of cognitive appraisal theory's scope",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_009",
+    "type": "conversation",
+    "question": "Today you learned about \"primary appraisal (threat assessment)\" and \"secondary appraisal (coping potential).\"",
+    "your_response_prompt": "Next time you feel stressed, which would you like to be aware of?",
+    "choices": [
+      "Primary: Ask \"Is this really a threat?\"",
+      "Secondary: Think \"What can I do about this?\"",
+      "Try both",
+      "Pass for now (that's also a choice)"
+    ],
+    "recommended_index": null,
+    "explanation": "Any answer is correct. Starting with what fits you is most sustainable.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "citation_role": "Suggests entry points for practice",
+      "claim_tags": [
+        "appraisal",
+        "micro_reappraisal",
+        "intervention"
+      ],
+      "try_this": "The next time you feel stressed, just ask yourself for 10 seconds, “Is this really a threat?”",
+      "tiny_metric": {
+        "before_prompt": "Is your current anxiety on a scale of 0 to 10?",
+        "after_prompt": "How anxious are you after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1",
+        "stop_rule": "If anxiety increases, withdraw"
+      },
+      "comparator": {
+        "baseline": "If automatic thoughts remain, threat assessments tend to become stronger.",
+        "cost": "It's possible in 10 seconds, just in your head"
+      },
+      "fallback": {
+        "when": "When it is difficult to ask again",
+        "next": "Decide only “one thing you can do right now”"
+      },
+      "best_for": [
+        "People who are easily influenced by automatic assessment of anxiety"
+      ],
+      "limitations": [
+        "Immediate assistance is a priority in crisis situations"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_010",
+    "type": "conversation",
+    "question": "Did the \"mechanism of threat assessment\" you learned in this lesson resonate with you?",
+    "your_response_prompt": "Answer based on your gut feeling",
+    "choices": [
+      "It resonated",
+      "Feels a bit off",
+      "Still not sure"
+    ],
+    "recommended_index": null,
+    "explanation": "Any answer is correct. \"Feeling off\" is valuable information. If this theory doesn't fit, another approach might work better for you.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Supports consideration of individual differences",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

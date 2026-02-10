@@ -1,368 +1,371 @@
 [
-    {
-        "id": "health_l01_001",
-        "type": "conversation",
-        "question": "Recently, how long do you feel like you can't fall asleep after getting into bed?",
-        "your_response_prompt": "A rough estimate is fine",
-        "choices": [
-            "30+ minutes (getting anxious)",
-            "About 10-20 minutes",
-            "Within 5 minutes (fall asleep right away)"
-        ],
-        "recommended_index": null,
-        "explanation": "30+ minutes is tough. In fact, research shows that the harder you \"try\" to sleep, the more your brain stays alert — it backfires.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "People who have trouble falling asleep",
-                "People whose thoughts won't stop at night"
-            ],
-            "limitations": [
-                "If chronic sleeplessness persists, consulting a specialist is recommended"
-            ],
-            "citation_role": "Supports the link between difficulty falling asleep and cognitive arousal through observational research",
-            "claim_tags": [
-                "sleep",
-                "cognitive_arousal",
-                "insomnia"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_002",
-        "type": "multiple_choice",
-        "question": "When you panic thinking \"I can't sleep...\", what tends to happen?",
-        "choices": [
-            "Your state of alertness is maintained",
-            "You naturally become sleepy",
-            "You get tired and fall asleep"
-        ],
-        "correct_index": 0,
-        "explanation": "The anxiety of \"I have to sleep\" triggers cognitive arousal, which tends to make you more alert. The first step might be accepting \"it's OK if I can't sleep.\"",
-        "actionable_advice": "💡 On a sleepless night, try whispering \"It's OK if I can't sleep\" for just 10 seconds. Stop immediately if it feels wrong.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "People with strong anxiety about not sleeping",
-                "People with performance anxiety"
-            ],
-            "limitations": [
-                "Less effective for physical causes of insomnia",
-                "Chronic insomnia requires professional treatment"
-            ],
-            "citation_role": "Explains the link between anxiety and arousal through cognitive arousal theory",
-            "claim_tags": [
-                "sleep",
-                "cognitive_arousal",
-                "theory"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_003",
-        "type": "swipe_judgment",
-        "question": "On days when you look at your phone right up until bedtime, it can be harder to fall asleep.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "I can relate",
-            "right": "Not really"
-        },
-        "explanation": "Phone content triggers dopamine that makes you want to \"see more,\" keeping your brain alert. More than blue light, it's the stimulation of information that interferes with sleep.",
-        "actionable_advice": "💡 Tonight only: plug your phone into the charger 30 minutes before bed (don't keep it within reach)",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Cain_2010",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "People who use their phone before bed"
-            ],
-            "limitations": [
-                "Exception: when phone use serves as a bedtime ritual"
-            ],
-            "citation_role": "Supports the link between electronic media and sleep through observational research",
-            "claim_tags": [
-                "sleep",
-                "screen_time",
-                "blue_light"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_004",
-        "type": "multiple_choice",
-        "question": "On a sleepless night, what tends to happen when you try the \"breathe in 4 sec, hold 7 sec, exhale 8 sec\" breathing method?",
-        "choices": [
-            "The parasympathetic nervous system tends to become dominant, making relaxation easier",
-            "You fall asleep immediately",
-            "It makes you more alert"
-        ],
-        "correct_index": 0,
-        "explanation": "The 4-7-8 breathing method may stimulate the parasympathetic nervous system. It doesn't guarantee immediate sleep, but relaxation effects have been reported. It doesn't work for everyone, so it's OK to stop if it doesn't feel right.",
-        "actionable_advice": "💡 Next time you can't sleep, try 4-7-8 breathing just 2 times. Stop immediately if it doesn't feel right.",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Ma_2017",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "People with high physical tension",
-                "People whose thoughts won't stop"
-            ],
-            "limitations": [
-                "Can backfire for people who find focusing on breathing stressful",
-                "Caution needed for people with respiratory conditions"
-            ],
-            "citation_role": "Indirectly supports relaxation effects of slow breathing techniques",
-            "try_this": "Try 4-7-8 breathing just 2 times",
-            "claim_tags": [
-                "sleep",
-                "breathing",
-                "relaxation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "How tense are you now? (0-10)",
-                "after_prompt": "After 2 rounds?",
-                "success_rule": "Any decrease is OK",
-                "stop_rule": "If no change or it feels uncomfortable, stop"
-            },
-            "comparator": {
-                "baseline": "Just lying down doing nothing",
-                "cost": "About 30 seconds / low effort"
-            },
-            "fallback": {
-                "when": "Breathing technique doesn't work",
-                "next": "Paradoxical intention: whisper \"It's OK if I can't sleep\""
-            }
-        }
-    },
-    {
-        "id": "health_l01_005",
-        "type": "swipe_judgment",
-        "question": "On sleepless nights, checking the clock can actually increase your anxiety.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "I get it",
-            "right": "Not really"
-        },
-        "explanation": "Checking the clock triggers the calculation \"I only have X hours left to sleep,\" which tends to increase cognitive arousal. Many people are better off not looking at the clock.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "People who habitually check the clock"
-            ],
-            "limitations": [
-                "Some people feel more anxious without knowing the time"
-            ],
-            "citation_role": "Supports the link between clock-watching behavior and difficulty falling asleep through observational research",
-            "claim_tags": [
-                "sleep",
-                "cognitive_arousal",
-                "clock_watching"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_006",
-        "type": "multiple_choice",
-        "question": "On a sleepless night, if you want to \"relax your body,\" where is the most effective place to start?",
-        "choices": [
-            "Release tension in your face and jaw",
-            "Start from your toes upward",
-            "Raise your arms and let them drop"
-        ],
-        "correct_index": 0,
-        "explanation": "Face and jaw tension tends to affect whole-body relaxation. Many people unconsciously clench their jaw. Some people notice a change by releasing jaw tension for just 10 seconds.",
-        "actionable_advice": "💡 Try it now: release your jaw tension for just 10 seconds.",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jacobson_1938",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "People who are unconsciously tense",
-                "People who tend to grind teeth or clench their jaw"
-            ],
-            "limitations": [
-                "Not suitable for people who find body awareness stressful"
-            ],
-            "citation_role": "Indirectly supports face/jaw relaxation effects from progressive muscle relaxation",
-            "try_this": "Release jaw tension for just 10 seconds",
-            "claim_tags": [
-                "sleep",
-                "muscle_relaxation",
-                "tension"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Jaw tension? (high/medium/low)",
-                "after_prompt": "After 10 seconds?",
-                "success_rule": "Any loosening is OK",
-                "stop_rule": "If no change, stop"
-            },
-            "comparator": {
-                "baseline": "Not consciously doing anything",
-                "cost": "10 seconds / low effort"
-            },
-            "fallback": {
-                "when": "Hard to focus on jaw relaxation",
-                "next": "Raise shoulders for 3 seconds, then drop them at once"
-            }
-        }
-    },
-    {
-        "id": "health_l01_007",
-        "type": "conversation",
-        "question": "On sleepless nights, what's your most common pattern?",
-        "choices": [
-            "Can't stop thinking",
-            "Body feels tense",
-            "Anxious about not being able to sleep",
-            "No particular pattern"
-        ],
-        "recommended_index": null,
-        "explanation": "All are valid answers. Noticing your own pattern tends to make it easier to choose the right coping strategy.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Supports pattern recognition for difficulty falling asleep",
-            "claim_tags": [
-                "sleep",
-                "self_awareness",
-                "pattern_recognition"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_008",
-        "type": "swipe_judgment",
-        "question": "Sleeping in on weekends can throw off your weekday sleep rhythm.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Maybe so",
-            "right": "Not really"
-        },
-        "explanation": "Keeping a consistent sleep rhythm tends to improve sleep quality. However, if you have chronic sleep debt, recovery sleep on weekends is also necessary. Balance is key.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Walker_2017",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "People who habitually sleep in on weekends"
-            ],
-            "limitations": [
-                "Recovery sleep is also needed in cases of chronic sleep debt"
-            ],
-            "citation_role": "Supports the link between disrupted sleep rhythm and sleep quality",
-            "claim_tags": [
-                "sleep",
-                "circadian_rhythm",
-                "sleep_debt"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_009",
-        "type": "multiple_choice",
-        "question": "Of the techniques you learned today, which could you use starting tomorrow?",
-        "choices": [
-            "Whisper \"It's OK if I can't sleep\" for 10 seconds",
-            "Try 4-7-8 breathing 2 times",
-            "Release jaw tension for 10 seconds",
-            "Try all of them"
-        ],
-        "correct_index": 3,
-        "explanation": "All are worth trying. If one doesn't work, try another — that's learning too. However, if chronic insomnia persists, consulting a specialist is recommended.",
-        "actionable_advice": "💡 Starting tonight, try just one: if you can't sleep, whisper \"It's OK if I can't sleep\" for 10 seconds.",
-        "difficulty": "easy",
-        "xp": 10,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "People who want to start new habits"
-            ],
-            "limitations": [
-                "Chronic insomnia requires professional treatment"
-            ],
-            "citation_role": "Proposes options for sleep onset interventions",
-            "try_this": "Try one tonight",
-            "claim_tags": [
-                "sleep",
-                "implementation",
-                "habit_formation"
-            ],
-            "tiny_metric": {
-                "metric": "Did you try at least once this week?",
-                "stop_rule": "If you couldn't try for a week, stop"
-            },
-            "comparator": {
-                "baseline": "Not trying anything",
-                "cost": "10 seconds × a few times/week"
-            },
-            "fallback": {
-                "when": "None of them work",
-                "next": "Consider consulting a specialist"
-            }
-        }
-    },
-    {
-        "id": "health_l01_010",
-        "type": "conversation",
-        "question": "Were the \"sleep techniques\" from this lesson likely to be useful for you?",
-        "choices": [
-            "Likely useful",
-            "Probably not a great fit",
-            "Not sure yet"
-        ],
-        "recommended_index": null,
-        "explanation": "All answers are valid. If it \"didn't feel like a fit,\" exploring a different approach is also important. Sleep varies greatly between individuals, so the process of finding what works for you is itself valuable.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Supports consideration of individual differences",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+  {
+    "id": "health_l01_001",
+    "type": "conversation",
+    "question": "Recently, how long do you feel like you can't fall asleep after getting into bed?",
+    "your_response_prompt": "A rough estimate is fine",
+    "choices": [
+      "30+ minutes (getting anxious)",
+      "About 10-20 minutes",
+      "Within 5 minutes (fall asleep right away)"
+    ],
+    "recommended_index": null,
+    "explanation": "30+ minutes is tough. In fact, research shows that the harder you \"try\" to sleep, the more your brain stays alert — it backfires.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who have trouble falling asleep",
+        "People whose thoughts won't stop at night"
+      ],
+      "limitations": [
+        "If chronic sleeplessness persists, consulting a specialist is recommended"
+      ],
+      "citation_role": "Supports the link between difficulty falling asleep and cognitive arousal through observational research",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "insomnia"
+      ]
     }
+  },
+  {
+    "id": "health_l01_002",
+    "type": "multiple_choice",
+    "question": "When you panic thinking \"I can't sleep...\", what tends to happen?",
+    "choices": [
+      "Your state of alertness is maintained",
+      "You naturally become sleepy",
+      "You get tired and fall asleep"
+    ],
+    "correct_index": 0,
+    "explanation": "The anxiety of \"I have to sleep\" triggers cognitive arousal, which tends to make you more alert. The first step might be accepting \"it's OK if I can't sleep.\"",
+    "actionable_advice": "💡 On a sleepless night, try whispering \"It's OK if I can't sleep\" for just 10 seconds. Stop immediately if it feels wrong.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People with strong anxiety about not sleeping",
+        "People with performance anxiety"
+      ],
+      "limitations": [
+        "Less effective for physical causes of insomnia",
+        "Chronic insomnia requires professional treatment"
+      ],
+      "citation_role": "Explains the link between anxiety and arousal through cognitive arousal theory",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_003",
+    "type": "swipe_judgment",
+    "question": "On days when you look at your phone right up until bedtime, it can be harder to fall asleep.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "I can relate",
+      "right": "Not really"
+    },
+    "explanation": "Phone content triggers dopamine that makes you want to \"see more,\" keeping your brain alert. More than blue light, it's the stimulation of information that interferes with sleep.",
+    "actionable_advice": "💡 Tonight only: plug your phone into the charger 30 minutes before bed (don't keep it within reach)",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Cain_2010",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who use their phone before bed"
+      ],
+      "limitations": [
+        "Exception: when phone use serves as a bedtime ritual"
+      ],
+      "citation_role": "Supports the link between electronic media and sleep through observational research",
+      "claim_tags": [
+        "sleep",
+        "screen_time",
+        "blue_light"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_004",
+    "type": "multiple_choice",
+    "question": "On a sleepless night, what tends to happen when you try the \"breathe in 4 sec, hold 7 sec, exhale 8 sec\" breathing method?",
+    "choices": [
+      "The parasympathetic nervous system tends to become dominant, making relaxation easier",
+      "You fall asleep immediately",
+      "It makes you more alert"
+    ],
+    "correct_index": 0,
+    "explanation": "The 4-7-8 breathing method may stimulate the parasympathetic nervous system. It doesn't guarantee immediate sleep, but relaxation effects have been reported. It doesn't work for everyone, so it's OK to stop if it doesn't feel right.",
+    "actionable_advice": "💡 Next time you can't sleep, try 4-7-8 breathing just 2 times. Stop immediately if it doesn't feel right.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Ma_2017",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "People with high physical tension",
+        "People whose thoughts won't stop"
+      ],
+      "limitations": [
+        "Can backfire for people who find focusing on breathing stressful",
+        "Caution needed for people with respiratory conditions"
+      ],
+      "citation_role": "Indirectly supports relaxation effects of slow breathing techniques",
+      "try_this": "Try 4-7-8 breathing just 2 times",
+      "claim_tags": [
+        "sleep",
+        "breathing",
+        "relaxation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "How tense are you now? (0-10)",
+        "after_prompt": "After 2 rounds?",
+        "success_rule": "Any decrease is OK",
+        "stop_rule": "If no change or it feels uncomfortable, stop"
+      },
+      "comparator": {
+        "baseline": "Just lying down doing nothing",
+        "cost": "About 30 seconds / low effort"
+      },
+      "fallback": {
+        "when": "Breathing technique doesn't work",
+        "next": "Paradoxical intention: whisper \"It's OK if I can't sleep\""
+      }
+    }
+  },
+  {
+    "id": "health_l01_005",
+    "type": "swipe_judgment",
+    "question": "On sleepless nights, checking the clock can actually increase your anxiety.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "I get it",
+      "right": "Not really"
+    },
+    "explanation": "Checking the clock triggers the calculation \"I only have X hours left to sleep,\" which tends to increase cognitive arousal. Many people are better off not looking at the clock.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who habitually check the clock"
+      ],
+      "limitations": [
+        "Some people feel more anxious without knowing the time"
+      ],
+      "citation_role": "Supports the link between clock-watching behavior and difficulty falling asleep through observational research",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "clock_watching"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_006",
+    "type": "multiple_choice",
+    "question": "On a sleepless night, if you want to \"relax your body,\" where is the most effective place to start?",
+    "choices": [
+      "Release tension in your face and jaw",
+      "Start from your toes upward",
+      "Raise your arms and let them drop"
+    ],
+    "correct_index": 0,
+    "explanation": "Face and jaw tension tends to affect whole-body relaxation. Many people unconsciously clench their jaw. Some people notice a change by releasing jaw tension for just 10 seconds.",
+    "actionable_advice": "💡 Try it now: release your jaw tension for just 10 seconds.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jacobson_1938",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "People who are unconsciously tense",
+        "People who tend to grind teeth or clench their jaw"
+      ],
+      "limitations": [
+        "Not suitable for people who find body awareness stressful"
+      ],
+      "citation_role": "Indirectly supports face/jaw relaxation effects from progressive muscle relaxation",
+      "try_this": "Release jaw tension for just 10 seconds",
+      "claim_tags": [
+        "sleep",
+        "muscle_relaxation",
+        "tension"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Jaw tension? (high/medium/low)",
+        "after_prompt": "After 10 seconds?",
+        "success_rule": "Any loosening is OK",
+        "stop_rule": "If no change, stop"
+      },
+      "comparator": {
+        "baseline": "Not consciously doing anything",
+        "cost": "10 seconds / low effort"
+      },
+      "fallback": {
+        "when": "Hard to focus on jaw relaxation",
+        "next": "Raise shoulders for 3 seconds, then drop them at once"
+      }
+    }
+  },
+  {
+    "id": "health_l01_007",
+    "type": "conversation",
+    "question": "On sleepless nights, what's your most common pattern?",
+    "choices": [
+      "Can't stop thinking",
+      "Body feels tense",
+      "Anxious about not being able to sleep",
+      "No particular pattern"
+    ],
+    "recommended_index": null,
+    "explanation": "All are valid answers. Noticing your own pattern tends to make it easier to choose the right coping strategy.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Supports pattern recognition for difficulty falling asleep",
+      "claim_tags": [
+        "sleep",
+        "self_awareness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_008",
+    "type": "swipe_judgment",
+    "question": "Sleeping in on weekends can throw off your weekday sleep rhythm.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Maybe so",
+      "right": "Not really"
+    },
+    "explanation": "Keeping a consistent sleep rhythm tends to improve sleep quality. However, if you have chronic sleep debt, recovery sleep on weekends is also necessary. Balance is key.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Walker_2017",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who habitually sleep in on weekends"
+      ],
+      "limitations": [
+        "Recovery sleep is also needed in cases of chronic sleep debt"
+      ],
+      "citation_role": "Supports the link between disrupted sleep rhythm and sleep quality",
+      "claim_tags": [
+        "sleep",
+        "circadian_rhythm",
+        "sleep_debt"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_009",
+    "type": "multiple_choice",
+    "question": "Of the techniques you learned today, which could you use starting tomorrow?",
+    "choices": [
+      "Whisper \"It's OK if I can't sleep\" for 10 seconds",
+      "Try 4-7-8 breathing 2 times",
+      "Release jaw tension for 10 seconds",
+      "Try all of them"
+    ],
+    "correct_index": 3,
+    "explanation": "All are worth trying. If one doesn't work, try another — that's learning too. However, if chronic insomnia persists, consulting a specialist is recommended.",
+    "actionable_advice": "💡 Starting tonight, try just one: if you can't sleep, whisper \"It's OK if I can't sleep\" for 10 seconds.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "People who want to start new habits"
+      ],
+      "limitations": [
+        "Chronic insomnia requires professional treatment"
+      ],
+      "citation_role": "Proposes options for sleep onset interventions",
+      "try_this": "Try one tonight",
+      "claim_tags": [
+        "sleep",
+        "implementation",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "metric": "Did you try at least once this week?",
+        "stop_rule": "If you couldn't try for a week, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
+      },
+      "comparator": {
+        "baseline": "Not trying anything",
+        "cost": "10 seconds × a few times/week"
+      },
+      "fallback": {
+        "when": "None of them work",
+        "next": "Consider consulting a specialist"
+      }
+    }
+  },
+  {
+    "id": "health_l01_010",
+    "type": "conversation",
+    "question": "Were the \"sleep techniques\" from this lesson likely to be useful for you?",
+    "choices": [
+      "Likely useful",
+      "Probably not a great fit",
+      "Not sure yet"
+    ],
+    "recommended_index": null,
+    "explanation": "All answers are valid. If it \"didn't feel like a fit,\" exploring a different approach is also important. Sleep varies greatly between individuals, so the process of finding what works for you is itself valuable.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Supports consideration of individual differences",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

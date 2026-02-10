@@ -10,7 +10,7 @@
       "0 (handled them right away)"
     ],
     "recommended_index": null,
-    "explanation": "That procrastination might not be \"weak willpower\" \u2014 \"perfectionism\" could be putting on the brakes.",
+    "explanation": "That procrastination might not be \"weak willpower\" — \"perfectionism\" could be putting on the brakes.",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
@@ -44,7 +44,7 @@
     ],
     "correct_index": 0,
     "explanation": "The physical action of \"opening a file\" can trigger the brain to switch into \"work mode.\" No need to wait for motivation.",
-    "actionable_advice": "\uD83D\uDCA1 Right now: sit in front of your PC and just open one document (you don't have to write anything)",
+    "actionable_advice": "💡 Right now: sit in front of your PC and just open one document (you don't have to write anything)",
     "difficulty": "easy",
     "xp": 5,
     "source_id": "Gollwitzer_1999",
@@ -77,7 +77,7 @@
     ],
     "correct_index": 0,
     "explanation": "Physical actions like \"opening the lid\" and \"pressing the button\" tend to help switch you into task mode. Move your body before thinking. Try it just once. (\"Writing the whole list\" and \"waiting for motivation\" take too long.)",
-    "actionable_advice": "\uD83D\uDC49 When you can't move \u2192 open your laptop lid and press the power button (that's the first step)",
+    "actionable_advice": "👉 When you can't move → open your laptop lid and press the power button (that's the first step)",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Steel_2007",
@@ -92,7 +92,7 @@
         "If the PC is already open, a different action is needed"
       ],
       "citation_role": "Indirectly supports the effect of minimum action from procrastination research",
-      "try_this": "\uD83D\uDC49 When you can't move \u2192 open the PC and press the power button (10 seconds)",
+      "try_this": "👉 When you can't move → open the PC and press the power button (10 seconds)",
       "claim_tags": [
         "procrastination",
         "physical_action",
@@ -184,8 +184,8 @@
       "Because deciding to do only one lets you slack off"
     ],
     "correct_index": 0,
-    "explanation": "The cognitive load of deciding \"what to start with\" is a major part of initiation resistance. Deciding \"just this one today\" in the morning in 10 seconds tends to make it easier to move. Try it just once. (It's not about \"getting tired\" or \"slacking\" \u2014 reducing choice overload is the point.)",
-    "actionable_advice": "\uD83D\uDC49 When you wake up \u2192 grab your phone and write \"today's 1 task\" in a memo app in 10 seconds",
+    "explanation": "The cognitive load of deciding \"what to start with\" is a major part of initiation resistance. Deciding \"just this one today\" in the morning in 10 seconds tends to make it easier to move. Try it just once. (It's not about \"getting tired\" or \"slacking\" — reducing choice overload is the point.)",
+    "actionable_advice": "👉 When you wake up → grab your phone and write \"today's 1 task\" in a memo app in 10 seconds",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Gollwitzer_1999",
@@ -200,7 +200,7 @@
         "Hard to use when multiple tasks are genuinely urgent"
       ],
       "citation_role": "Indirectly supports the effect of focusing in implementation intention",
-      "try_this": "\uD83D\uDC49 When you wake up \u2192 write \"today's 1 task\" in a memo app in 10 seconds",
+      "try_this": "👉 When you wake up → write \"today's 1 task\" in a memo app in 10 seconds",
       "claim_tags": [
         "focus",
         "task_selection",
@@ -265,7 +265,7 @@
     ],
     "correct_index": 0,
     "explanation": "Physical actions like \"sitting down\" and \"placing your hands\" can trigger the brain to switch into work mode. Move your body before thinking. Try it just once. (\"Lying down\" and \"watching social media\" tend to make you even less likely to move.)",
-    "actionable_advice": "\uD83D\uDC49 When motivation won't come \u2192 first, sit in the chair and place your hands on the desk (just 10 seconds)",
+    "actionable_advice": "👉 When motivation won't come → first, sit in the chair and place your hands on the desk (just 10 seconds)",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Gollwitzer_1999",
@@ -280,7 +280,7 @@
         "If there's no chair available, a different action is needed"
       ],
       "citation_role": "Indirectly supports the link between physical action and task initiation",
-      "try_this": "\uD83D\uDC49 When motivation won't come \u2192 sit in the chair and place your hands on the desk (10 seconds)",
+      "try_this": "👉 When motivation won't come → sit in the chair and place your hands on the desk (10 seconds)",
       "claim_tags": [
         "physical_action",
         "task_initiation",
@@ -313,8 +313,8 @@
       "Try all of them"
     ],
     "recommended_index": null,
-    "explanation": "All are worth trying. If one doesn't work, try another. That's learning too. Try it just once. (\"All\" is fine but don't push yourself \u2014 start with just one.)",
-    "actionable_advice": "\uD83D\uDC49 Tomorrow morning, write \"today's 1 task\" in a memo app in 10 seconds (writing it is the first step)",
+    "explanation": "All are worth trying. If one doesn't work, try another. That's learning too. Try it just once. (\"All\" is fine but don't push yourself — start with just one.)",
+    "actionable_advice": "👉 Tomorrow morning, write \"today's 1 task\" in a memo app in 10 seconds (writing it is the first step)",
     "difficulty": "easy",
     "xp": 10,
     "source_id": "Gollwitzer_1999",
@@ -329,7 +329,7 @@
         "Easy to forget without practice"
       ],
       "citation_role": "Proposes options for task initiation interventions",
-      "try_this": "\uD83D\uDC49 Tomorrow morning, write \"today's 1 task\" in a memo app in 10 seconds",
+      "try_this": "👉 Tomorrow morning, write \"today's 1 task\" in a memo app in 10 seconds",
       "claim_tags": [
         "implementation",
         "habit_formation",
@@ -337,11 +337,14 @@
       ],
       "tiny_metric": {
         "metric": "Did you manage to write it at least once this week?",
-        "stop_rule": "If you can't write it for a week, stop"
+        "stop_rule": "If you can't write it for a week, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
       },
       "comparator": {
         "baseline": "Starting the day without deciding anything",
-        "cost": "10 seconds \u00d7 every morning"
+        "cost": "10 seconds × every morning"
       },
       "fallback": {
         "when": "None of them work",

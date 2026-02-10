@@ -335,7 +335,10 @@
       ],
       "tiny_metric": {
         "metric": "Hast du es diese Woche mindestens einmal angewendet?",
-        "stop_rule": "Wenn du es eine Woche lang nicht anwendest, hoere auf"
+        "stop_rule": "Wenn du es eine Woche lang nicht anwendest, hoere auf",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
       },
       "comparator": {
         "baseline": "Nichts versuchen und weiter sofort antworten",

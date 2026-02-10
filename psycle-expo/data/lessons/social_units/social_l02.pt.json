@@ -335,7 +335,10 @@
       ],
       "tiny_metric": {
         "metric": "Conseguiu usar pelo menos uma vez esta semana?",
-        "stop_rule": "Se não usar em uma semana, pare"
+        "stop_rule": "Se não usar em uma semana, pare",
+        "before_prompt": "Quão cansado você está agora em uma escala de 0 a 10?",
+        "after_prompt": "Quão difícil é depois de 10 segundos em uma escala de 0 a 10?",
+        "success_rule": "Tudo bem se cair 1"
       },
       "comparator": {
         "baseline": "Continuar respondendo imediatamente sem tentar nada",

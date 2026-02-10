@@ -43,7 +43,7 @@
     ],
     "correct_index": 0,
     "explanation": "The 10-second rule has been suggested as an effective brief intervention. The peak of the urge tends to pass while you wait. It doesn't work for everyone, so it's OK not to force it. (\"Looking for cheaper options\" and \"reading all reviews\" take too long.)",
-    "actionable_advice": "\uD83D\uDCA1 Next time you think \"I want to buy it!\", just pause for 10 seconds. Stop immediately if it doesn't feel right.",
+    "actionable_advice": "💡 Next time you think \"I want to buy it!\", just pause for 10 seconds. Stop immediately if it doesn't feel right.",
     "difficulty": "easy",
     "xp": 5,
     "source_id": "Vohs_2008",
@@ -94,7 +94,7 @@
         "Risk of forgetting things you actually need"
       ],
       "citation_role": "Indirectly supports the recovery effect of self-control",
-      "try_this": "\uD83D\uDC49 After adding to cart \u2192 close the screen and lock it (leave it for 24 hours)",
+      "try_this": "👉 After adding to cart → close the screen and lock it (leave it for 24 hours)",
       "claim_tags": [
         "delay_gratification",
         "impulse_buying",
@@ -102,7 +102,10 @@
       ],
       "tiny_metric": {
         "metric": "After 24 hours, did you think \"I don't need this after all\"?",
-        "stop_rule": "If you end up buying everything 3 times in a row, stop"
+        "stop_rule": "If you end up buying everything 3 times in a row, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
       },
       "comparator": {
         "baseline": "Buying on the spot immediately",
@@ -124,8 +127,8 @@
       "The calculation is too much trouble so you give up"
     ],
     "correct_index": 0,
-    "explanation": "Imagining your future self (future-self continuity) has been reported to reduce impulsive decisions. It may be less effective for people who have difficulty imagining the future. Try it just once. (It's not about \"guilt\" or \"too much trouble\" \u2014 the key is feeling connected to your future self.)",
-    "actionable_advice": "\uD83D\uDCA1 Next time you want to buy something, ask yourself \"Will I still be using this in a year?\"",
+    "explanation": "Imagining your future self (future-self continuity) has been reported to reduce impulsive decisions. It may be less effective for people who have difficulty imagining the future. Try it just once. (It's not about \"guilt\" or \"too much trouble\" — the key is feeling connected to your future self.)",
+    "actionable_advice": "💡 Next time you want to buy something, ask yourself \"Will I still be using this in a year?\"",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Hershfield_2011",
@@ -142,7 +145,7 @@
         "Hard to apply to consumables"
       ],
       "citation_role": "Directly supports the link between future-self continuity and decision-making",
-      "try_this": "\uD83D\uDC49 When you think \"I want to buy this\" \u2192 take your finger off and say \"Will I still use this in a year?\" for just 10 seconds",
+      "try_this": "👉 When you think \"I want to buy this\" → take your finger off and say \"Will I still use this in a year?\" for just 10 seconds",
       "claim_tags": [
         "future_self_continuity",
         "impulse_buying",
@@ -208,7 +211,7 @@
     ],
     "correct_index": 0,
     "explanation": "When you have a budget constraint, the decision cost of \"buy or not buy\" goes down. If the budget is too strict, there can be a rebound effect of overspending. (The point is that decisions become easier, not \"running out of money\" or \"getting tired from calculating.\")",
-    "actionable_advice": "\uD83D\uDCA1 Set your \"free spending amount\" for this week (e.g., $50/week). If it's too tight, it's OK to raise it.",
+    "actionable_advice": "💡 Set your \"free spending amount\" for this week (e.g., $50/week). If it's too tight, it's OK to raise it.",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Thaler_1999",
@@ -280,7 +283,10 @@
       "try_this": "Wait 10 seconds when someone says \"limited\"",
       "tiny_metric": {
         "metric": "After waiting 10 seconds, did you think \"I don't need this after all\"?",
-        "stop_rule": "If you end up buying 3 times in a row, stop"
+        "stop_rule": "If you end up buying 3 times in a row, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
       },
       "comparator": {
         "baseline": "Hearing \"Limited!\" and buying immediately",
@@ -336,7 +342,7 @@
     ],
     "correct_index": 0,
     "explanation": "The 10-second rule has been suggested as potentially effective in experiments. Wishlists and cash-only approaches also work, but the 10-second rule is popular for its simplicity. It doesn't work for everyone. Try it just once. (\"Wishlists\" and \"cash-only\" require more preparation.)",
-    "actionable_advice": "\uD83D\uDCA1 Try just once tomorrow: when you feel the urge to buy, wait 10 seconds. Switch to another method if it doesn't work.",
+    "actionable_advice": "💡 Try just once tomorrow: when you feel the urge to buy, wait 10 seconds. Switch to another method if it doesn't work.",
     "difficulty": "medium",
     "xp": 10,
     "source_id": "Vohs_2008",
@@ -352,7 +358,7 @@
         "May be less effective for expensive items"
       ],
       "citation_role": "Indirectly supports the 10-second rule from self-control resource research",
-      "try_this": "\uD83D\uDC49 When you think \"I want to buy it!\" \u2192 take your finger off and count to 10 (1...2...3...10)",
+      "try_this": "👉 When you think \"I want to buy it!\" → take your finger off and count to 10 (1...2...3...10)",
       "claim_tags": [
         "self_control",
         "impulse_buying",
@@ -386,7 +392,7 @@
     ],
     "correct_index": 3,
     "explanation": "All are worth trying. You may not change all at once, but you might gradually change your \"buying habits.\" Switch to another method if one doesn't work. Try it just once. (Individual options are also effective; the simplest is the 10-second rule.)",
-    "actionable_advice": "\uD83D\uDCA1 Today's action: wait 10 seconds on your next \"I want to buy!\" urge.",
+    "actionable_advice": "💡 Today's action: wait 10 seconds on your next \"I want to buy!\" urge.",
     "difficulty": "easy",
     "xp": 10,
     "source_id": "Vohs_2008",
@@ -401,7 +407,7 @@
         "You might not keep up all of them"
       ],
       "citation_role": "Indirectly supports the effectiveness of self-control interventions",
-      "try_this": "\uD83D\uDC49 On your next \"I want to buy!\" wait 10 seconds... if that's too hard, just take your finger off for 1 second",
+      "try_this": "👉 On your next \"I want to buy!\" wait 10 seconds... if that's too hard, just take your finger off for 1 second",
       "claim_tags": [
         "self_control",
         "habit_formation",
@@ -409,11 +415,14 @@
       ],
       "tiny_metric": {
         "metric": "Did you manage to wait 10 seconds at least once this week?",
-        "stop_rule": "If you can't remember to try even once in a week, stop"
+        "stop_rule": "If you can't remember to try even once in a week, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
       },
       "comparator": {
         "baseline": "Not trying anything",
-        "cost": "10 seconds \u00d7 a few times/week"
+        "cost": "10 seconds × a few times/week"
       },
       "fallback": {
         "when": "10-second rule doesn't work",

@@ -1,308 +1,323 @@
 [
-    {
-        "id": "mental_l04_001",
-        "type": "swipe_judgment",
-        "question": "Domingo por la noche. Cuando empiezas a pensar en el lunes, la misma preocupacion se repite una y otra vez en bucle.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Me pasa seguido",
-            "right": "No tanto"
-        },
-        "explanation": "Esta es una senal de \"rumiación\". Aunque crees que estas pensando, en realidad puede que tu cerebro este en modo de reproduccion automatica.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Personas que quieren notar patrones de rumiación"
-            ],
-            "limitations": [
-                "Cuando persiste una tristeza intensa, la auto-observacion puede convertirse en una carga"
-            ],
-            "citation_role": "Apoya las caracteristicas y persistencia de la rumiación con estudios empiricos",
-            "claim_tags": [
-                "rumination",
-                "repetitive_thinking",
-                "depression"
-            ]
-        }
+  {
+    "id": "mental_l04_001",
+    "type": "swipe_judgment",
+    "question": "Domingo por la noche. Cuando empiezas a pensar en el lunes, la misma preocupacion se repite una y otra vez en bucle.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Me pasa seguido",
+      "right": "No tanto"
     },
-    {
-        "id": "mental_l04_002",
-        "type": "multiple_choice",
-        "question": "¿Cual es una caracteristica de la \"rumiación\"?",
-        "choices": [
-            "El mismo contenido se repite una y otra vez",
-            "Mientras mas piensas, mas soluciones encuentras",
-            "Con el tiempo se calma naturalmente"
-        ],
-        "correct_index": 0,
-        "explanation": "La rumiación parece \"estar pensando\", pero en realidad solo se repite el mismo contenido. A menudo se necesita un enfoque diferente para resolver el problema. (\"Encontrar soluciones\" corresponde al pensamiento orientado a la resolucion de problemas. \"Calmarse naturalmente\" suele ser poco comun)",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Personas que quieren conocer la diferencia entre rumiación y pensamiento orientado a la resolucion de problemas"
-            ],
-            "limitations": [
-                "No todo pensamiento repetitivo es danino (la reflexion profunda es diferente)"
-            ],
-            "citation_role": "Define las caracteristicas repetitivas de la rumiación",
-            "claim_tags": [
-                "rumination",
-                "repetitive_thinking"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_003",
-        "type": "swipe_judgment",
-        "question": "Tienes algo que hacer, pero por alguna razon terminas empezando otra cosa.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Me pasa seguido",
-            "right": "No tanto"
-        },
-        "explanation": "Esta es una senal de \"procrastinación\". No se trata de falta de voluntad, sino de una reaccion natural para evitar la incomodidad.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Personas que quieren notar patrones de procrastinación"
-            ],
-            "limitations": [
-                "Las causas de la procrastinación son diversas (TDAH, perfeccionismo, etc.) y no se pueden generalizar"
-            ],
-            "citation_role": "Explica la procrastinación como conducta de evitacion dentro del marco de la evaluacion cognitiva",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_004",
-        "type": "multiple_choice",
-        "question": "¿En que situacion tiende a ocurrir la procrastinación?",
-        "choices": [
-            "Cuando la tarea genera incomodidad (es dificil, aburrida o causa ansiedad)",
-            "Cuando la tarea es demasiado facil",
-            "Cuando hay tiempo suficiente"
-        ],
-        "correct_index": 0,
-        "explanation": "La procrastinación es una conducta de \"evitacion de la incomodidad\". Cuando la tarea en si genera malestar, la atencion tiende a desviarse inconscientemente hacia otra cosa. (Tiende a ocurrir mas cuando hay incomodidad que cuando la tarea \"es demasiado facil\" o \"hay tiempo suficiente\")",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Personas que quieren entender las causas de la procrastinación"
-            ],
-            "limitations": [
-                "No toda procrastinación es evitacion de incomodidad (a veces puede ser un tema de prioridades)"
-            ],
-            "citation_role": "Explica la procrastinación como evitacion de estres dentro del marco de la evaluacion cognitiva",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_005",
-        "type": "conversation",
-        "question": "¿Hay algo que hayas estado posponiendo ultimamente?",
-        "your_response_prompt": "Elige lo que te venga a la mente",
-        "choices": [
-            "Trabajo o estudios",
-            "Relaciones o comunicacion",
-            "Salud o habitos de vida",
-            "Nada en particular / No se me ocurre"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas las respuestas son validas. \"No se me ocurre\" tambien es una respuesta. Si no hay procrastinación, eso es algo bueno.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoya el autoconocimiento",
-            "claim_tags": [
-                "self_awareness",
-                "stress"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_006",
-        "type": "swipe_judgment",
-        "question": "Cuando estas a punto de recordar una situacion estresante, conscientemente piensas en otra cosa.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Lo hago seguido",
-            "right": "No tanto"
-        },
-        "explanation": "Esta es una senal de \"evitacion\". A corto plazo puede aliviar, pero a largo plazo el problema puede permanecer.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Personas que quieren notar patrones de evitacion"
-            ],
-            "limitations": [
-                "Hay casos en los que la evitacion puede ser util (como la evitacion temporal justo despues de un trauma)"
-            ],
-            "citation_role": "Explica las caracteristicas del afrontamiento evitativo dentro del marco de la evaluacion cognitiva",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_007",
-        "type": "multiple_choice",
-        "question": "¿Por que la \"evitacion\" tiende a ser problematica a largo plazo?",
-        "choices": [
-            "El problema no se resuelve y la ansiedad se mantiene o se refuerza",
-            "Porque el problema se resuelve rapidamente",
-            "Porque evitar en si mismo se vuelve estresante"
-        ],
-        "correct_index": 0,
-        "explanation": "La evitacion puede brindar alivio a corto plazo, pero el problema permanece. Como resultado, la ansiedad tiende a mantenerse. (\"Se resuelve rapidamente\" no ocurre con la evitacion. \"Evitar en si mismo se vuelve estresante\" es un problema secundario)",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Personas que quieren entender el impacto a largo plazo de la evitacion"
-            ],
-            "limitations": [
-                "No toda evitacion es problematica (a veces puede ser una priorizacion correcta)"
-            ],
-            "citation_role": "Explica el impacto a largo plazo del afrontamiento evitativo en el contexto de la investigacion sobre estres",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_008",
-        "type": "conversation",
-        "question": "De las 3 senales que aprendiste hoy (rumiación, procrastinación, evitacion), ¿cual crees que se aplica mas a ti?",
-        "your_response_prompt": "Elige con tu intuicion",
-        "choices": [
-            "Rumiacion (la misma preocupacion en bucle)",
-            "Procrastinacion (posponer lo que debo hacer)",
-            "Evitacion (tratar de no pensar en ello)",
-            "Ninguna me aplica"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas las respuestas son validas. \"Ninguna me aplica\" tambien es una respuesta. Notar tus propios patrones ya es un paso importante.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoya el reconocimiento de patrones",
-            "claim_tags": [
-                "self_awareness",
-                "pattern_recognition"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_009",
-        "type": "multiple_choice",
-        "question": "¿Que tienen en comun la \"rumiación\", la \"procrastinación\" y la \"evitacion\"?",
-        "choices": [
-            "Cumplen la funcion de escapar temporalmente de la incomodidad",
-            "Son causadas por falta de voluntad",
-            "Son problemas que deben corregirse de inmediato"
-        ],
-        "correct_index": 0,
-        "explanation": "Las tres comparten la funcion de \"evitar la incomodidad\". En lugar de culparte, notar el patron es el primer paso. (\"Falta de voluntad\" es un malentendido comun. \"Corregir de inmediato\" con autoculpa tiende a ser contraproducente)",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Personas que quieren entender los puntos en comun de estos patrones"
-            ],
-            "limitations": [
-                "Si se tratan los tres como iguales, se pueden perder de vista las estrategias de afrontamiento especificas para cada uno"
-            ],
-            "citation_role": "Sugiere la funcion compartida de la rumiación, la procrastinación y la evitacion",
-            "claim_tags": [
-                "rumination",
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_010",
-        "type": "conversation",
-        "question": "¿Notaste tus propios patrones en esta leccion?",
-        "your_response_prompt": "Responde con honestidad",
-        "choices": [
-            "Tuve un momento de revelacion",
-            "Ya lo sabia",
-            "No me quedo muy claro"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas las respuestas son validas. Si \"ya lo sabias\", fue un buen repaso. Si \"no te quedo claro\", puede que otro enfoque sea mas adecuado para ti.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoya la consideracion de diferencias individuales",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "Esta es una senal de \"rumiación\". Aunque crees que estas pensando, en realidad puede que tu cerebro este en modo de reproduccion automatica.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personas que quieren notar patrones de rumiación"
+      ],
+      "limitations": [
+        "Cuando persiste una tristeza intensa, la auto-observacion puede convertirse en una carga"
+      ],
+      "citation_role": "Apoya las caracteristicas y persistencia de la rumiación con estudios empiricos",
+      "claim_tags": [
+        "rumination",
+        "repetitive_thinking",
+        "depression"
+      ]
     }
+  },
+  {
+    "id": "mental_l04_002",
+    "type": "multiple_choice",
+    "question": "¿Cual es una caracteristica de la \"rumiación\"?",
+    "choices": [
+      "El mismo contenido se repite una y otra vez",
+      "Mientras mas piensas, mas soluciones encuentras",
+      "Con el tiempo se calma naturalmente"
+    ],
+    "correct_index": 0,
+    "explanation": "La rumiación parece \"estar pensando\", pero en realidad solo se repite el mismo contenido. A menudo se necesita un enfoque diferente para resolver el problema. (\"Encontrar soluciones\" corresponde al pensamiento orientado a la resolucion de problemas. \"Calmarse naturalmente\" suele ser poco comun)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personas que quieren conocer la diferencia entre rumiación y pensamiento orientado a la resolucion de problemas"
+      ],
+      "limitations": [
+        "No todo pensamiento repetitivo es danino (la reflexion profunda es diferente)"
+      ],
+      "citation_role": "Define las caracteristicas repetitivas de la rumiación",
+      "claim_tags": [
+        "rumination",
+        "repetitive_thinking"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_003",
+    "type": "swipe_judgment",
+    "question": "Tienes algo que hacer, pero por alguna razon terminas empezando otra cosa.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Me pasa seguido",
+      "right": "No tanto"
+    },
+    "explanation": "Esta es una senal de \"procrastinación\". No se trata de falta de voluntad, sino de una reaccion natural para evitar la incomodidad.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que quieren notar patrones de procrastinación"
+      ],
+      "limitations": [
+        "Las causas de la procrastinación son diversas (TDAH, perfeccionismo, etc.) y no se pueden generalizar"
+      ],
+      "citation_role": "Explica la procrastinación como conducta de evitacion dentro del marco de la evaluacion cognitiva",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_004",
+    "type": "multiple_choice",
+    "question": "¿En que situacion tiende a ocurrir la procrastinación?",
+    "choices": [
+      "Cuando la tarea genera incomodidad (es dificil, aburrida o causa ansiedad)",
+      "Cuando la tarea es demasiado facil",
+      "Cuando hay tiempo suficiente"
+    ],
+    "correct_index": 0,
+    "explanation": "La procrastinación es una conducta de \"evitacion de la incomodidad\". Cuando la tarea en si genera malestar, la atencion tiende a desviarse inconscientemente hacia otra cosa. (Tiende a ocurrir mas cuando hay incomodidad que cuando la tarea \"es demasiado facil\" o \"hay tiempo suficiente\")",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que quieren entender las causas de la procrastinación"
+      ],
+      "limitations": [
+        "No toda procrastinación es evitacion de incomodidad (a veces puede ser un tema de prioridades)"
+      ],
+      "citation_role": "Explica la procrastinación como evitacion de estres dentro del marco de la evaluacion cognitiva",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_005",
+    "type": "conversation",
+    "question": "¿Hay algo que hayas estado posponiendo ultimamente?",
+    "your_response_prompt": "Elige lo que te venga a la mente",
+    "choices": [
+      "Trabajo o estudios",
+      "Relaciones o comunicacion",
+      "Salud o habitos de vida",
+      "Nada en particular / No se me ocurre"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas las respuestas son validas. \"No se me ocurre\" tambien es una respuesta. Si no hay procrastinación, eso es algo bueno.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoya el autoconocimiento",
+      "claim_tags": [
+        "self_awareness",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_006",
+    "type": "swipe_judgment",
+    "question": "Cuando estas a punto de recordar una situacion estresante, conscientemente piensas en otra cosa.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Lo hago seguido",
+      "right": "No tanto"
+    },
+    "explanation": "Esta es una senal de \"evitacion\". A corto plazo puede aliviar, pero a largo plazo el problema puede permanecer.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que quieren notar patrones de evitacion"
+      ],
+      "limitations": [
+        "Hay casos en los que la evitacion puede ser util (como la evitacion temporal justo despues de un trauma)"
+      ],
+      "citation_role": "Explica las caracteristicas del afrontamiento evitativo dentro del marco de la evaluacion cognitiva",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_007",
+    "type": "multiple_choice",
+    "question": "¿Por que la \"evitacion\" tiende a ser problematica a largo plazo?",
+    "choices": [
+      "El problema no se resuelve y la ansiedad se mantiene o se refuerza",
+      "Porque el problema se resuelve rapidamente",
+      "Porque evitar en si mismo se vuelve estresante"
+    ],
+    "correct_index": 0,
+    "explanation": "La evitacion puede brindar alivio a corto plazo, pero el problema permanece. Como resultado, la ansiedad tiende a mantenerse. (\"Se resuelve rapidamente\" no ocurre con la evitacion. \"Evitar en si mismo se vuelve estresante\" es un problema secundario)",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que quieren entender el impacto a largo plazo de la evitacion"
+      ],
+      "limitations": [
+        "No toda evitacion es problematica (a veces puede ser una priorizacion correcta)"
+      ],
+      "citation_role": "Explica el impacto a largo plazo del afrontamiento evitativo en el contexto de la investigacion sobre estres",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_008",
+    "type": "conversation",
+    "question": "De las 3 senales que aprendiste hoy (rumiación, procrastinación, evitacion), ¿cual crees que se aplica mas a ti?",
+    "your_response_prompt": "Elige con tu intuicion",
+    "choices": [
+      "Rumiacion (la misma preocupacion en bucle)",
+      "Procrastinacion (posponer lo que debo hacer)",
+      "Evitacion (tratar de no pensar en ello)",
+      "Ninguna me aplica"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas las respuestas son validas. \"Ninguna me aplica\" tambien es una respuesta. Notar tus propios patrones ya es un paso importante.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoya el reconocimiento de patrones",
+      "claim_tags": [
+        "self_awareness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_009",
+    "type": "multiple_choice",
+    "question": "¿Que tienen en comun la \"rumiación\", la \"procrastinación\" y la \"evitacion\"?",
+    "choices": [
+      "Cumplen la funcion de escapar temporalmente de la incomodidad",
+      "Son causadas por falta de voluntad",
+      "Son problemas que deben corregirse de inmediato"
+    ],
+    "correct_index": 0,
+    "explanation": "Las tres comparten la funcion de \"evitar la incomodidad\". En lugar de culparte, notar el patron es el primer paso. (\"Falta de voluntad\" es un malentendido comun. \"Corregir de inmediato\" con autoculpa tiende a ser contraproducente)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que quieren entender los puntos en comun de estos patrones"
+      ],
+      "limitations": [
+        "Si se tratan los tres como iguales, se pueden perder de vista las estrategias de afrontamiento especificas para cada uno"
+      ],
+      "citation_role": "Sugiere la funcion compartida de la rumiación, la procrastinación y la evitacion",
+      "claim_tags": [
+        "rumination",
+        "stress",
+        "coping"
+      ],
+      "try_this": "Cuando notes que estás reflexionando, tómate 10 segundos para decidir qué movimiento puedes hacer ahora mismo.",
+      "tiny_metric": {
+        "before_prompt": "¿Cuánto sientes tu cabeza en una escala de 0 a 10?",
+        "after_prompt": "En una escala de 0 a 10, ¿siente la sensación de giro después de 10 segundos?",
+        "success_rule": "Está bien si baja en 1",
+        "stop_rule": "Si se vuelve más agotador, deténgase."
+      },
+      "comparator": {
+        "baseline": "Si sigues pensando en ello, es probable que la evasión continúe.",
+        "cost": "10 segundos/1 acción solamente"
+      },
+      "fallback": {
+        "when": "Cuando no puedes decidirte por una mudanza",
+        "next": "Inhala durante 4 segundos y exhala durante 4 segundos, luego inténtalo de nuevo."
+      }
+    }
+  },
+  {
+    "id": "mental_l04_010",
+    "type": "conversation",
+    "question": "¿Notaste tus propios patrones en esta leccion?",
+    "your_response_prompt": "Responde con honestidad",
+    "choices": [
+      "Tuve un momento de revelacion",
+      "Ya lo sabia",
+      "No me quedo muy claro"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas las respuestas son validas. Si \"ya lo sabias\", fue un buen repaso. Si \"no te quedo claro\", puede que otro enfoque sea mas adecuado para ti.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoya la consideracion de diferencias individuales",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

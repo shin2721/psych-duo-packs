@@ -101,7 +101,10 @@
       ],
       "tiny_metric": {
         "metric": "Avez-vous reussi a appuyer sur le minuteur de 5 minutes et a commencer ?",
-        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite"
+        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
       },
       "comparator": {
         "baseline": "Etre submerge en regardant la tache dans son ensemble",
@@ -149,7 +152,10 @@
       ],
       "tiny_metric": {
         "metric": "Avez-vous reussi a creer un plan si-alors ?",
-        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite"
+        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
       },
       "comparator": {
         "baseline": "Penser seulement qu'il faut le faire",
@@ -229,7 +235,10 @@
       ],
       "tiny_metric": {
         "metric": "Avez-vous reussi a noter la prochaine action ?",
-        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite"
+        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
       },
       "comparator": {
         "baseline": "Etre fige en regardant la tache entiere",
@@ -276,7 +285,10 @@
       "try_this": "En 10 secondes, declarez a quelqu'un que vous allez faire juste 5 minutes",
       "tiny_metric": {
         "metric": "Avez-vous reussi a bouger pendant 5 minutes apres avoir declare ?",
-        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite"
+        "stop_rule": "Arretez si vous n'avez pas reussi 3 fois de suite",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
       },
       "comparator": {
         "baseline": "Procrastiner sans rien dire a personne",
@@ -405,7 +417,10 @@
       ],
       "tiny_metric": {
         "metric": "Avez-vous utilise la regle des 10 secondes au moins une fois cette semaine ?",
-        "stop_rule": "Arretez si vous ne vous en etes pas souvenu une seule fois en une semaine"
+        "stop_rule": "Arretez si vous ne vous en etes pas souvenu une seule fois en une semaine",
+        "before_prompt": "À quel point êtes-vous fatigué actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la difficulté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1"
       },
       "comparator": {
         "baseline": "Ne rien essayer",

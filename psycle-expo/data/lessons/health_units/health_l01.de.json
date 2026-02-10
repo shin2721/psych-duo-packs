@@ -1,368 +1,371 @@
 [
-    {
-        "id": "health_l01_001",
-        "type": "conversation",
-        "question": "Wie lange hast du in letzter Zeit das Gefuehl gehabt, nicht einschlafen zu koennen, nachdem du ins Bett gegangen bist?",
-        "your_response_prompt": "Dein Gefuehl reicht voellig aus",
-        "choices": [
-            "Mehr als 30 Minuten (ich werde unruhig)",
-            "Etwa 10-20 Minuten",
-            "Weniger als 5 Minuten (ich schlafe sofort ein)"
-        ],
-        "recommended_index": null,
-        "explanation": "Wenn das laenger als 30 Minuten dauert, ist das wirklich belastend. Interessanterweise wurde berichtet, dass je mehr man sich bemuehrt einzuschlafen, desto wacher wird das Gehirn - also genau das Gegenteil passiert.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Menschen mit Einschlafschwierigkeiten",
-                "Menschen, deren Gedanken nachts nicht zur Ruhe kommen"
-            ],
-            "limitations": [
-                "Bei chronischen Schlafproblemen wird eine Beratung durch Fachleute empfohlen"
-            ],
-            "citation_role": "Beobachtungsstudie unterstuetzt den Zusammenhang zwischen Einschlafschwierigkeiten und kognitiver Erregung",
-            "claim_tags": [
-                "sleep",
-                "cognitive_arousal",
-                "insomnia"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_002",
-        "type": "multiple_choice",
-        "question": "Was passiert eher, je mehr du dich stresst, weil du nicht einschlafen kannst?",
-        "choices": [
-            "Der Wachzustand neigt dazu, aufrechterhalten zu werden",
-            "Man wird natuerlich muede",
-            "Man schlaeft vor Erschoepfung ein"
-        ],
-        "correct_index": 0,
-        "explanation": "Die Angst 'Ich muss einschlafen' neigt dazu, eine kognitive Erregung auszuloesen, wodurch man paradoxerweise wacher wird. Der erste Schritt koennte sein, zu akzeptieren: 'Es ist okay, wenn ich nicht einschlafe.'",
-        "actionable_advice": "Tipp: In schlaflosen Naechten sag dir einfach 10 Sekunden lang 'Es ist okay, wenn ich nicht schlafe'. Wenn es sich nicht richtig anfuehlt, hoer einfach auf.",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Menschen mit starker Angst vor dem Nicht-Einschlafen",
-                "Menschen mit Leistungsangst"
-            ],
-            "limitations": [
-                "Bei koerperlichen Ursachen fuer Schlaflosigkeit weniger wirksam",
-                "Chronische Schlaflosigkeit erfordert professionelle Behandlung"
-            ],
-            "citation_role": "Die Theorie der kognitiven Erregung erklaert den Zusammenhang zwischen Angst und Wachheit",
-            "claim_tags": [
-                "sleep",
-                "cognitive_arousal",
-                "theory"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_003",
-        "type": "swipe_judgment",
-        "question": "An Tagen, an denen ich bis kurz vor dem Schlafengehen auf mein Handy schaue, faellt mir das Einschlafen manchmal schwerer.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Das kenne ich",
-            "right": "Nicht wirklich"
-        },
-        "explanation": "Die Inhalte auf dem Handy setzen Dopamin frei, das 'Ich will mehr sehen' signalisiert und das Gehirn wach haelt. Mehr noch als das Blaulicht ist es die Informationsflut, die den Schlaf stoert.",
-        "actionable_advice": "Tipp fuer heute Nacht: Schliess dein Handy 30 Minuten vor dem Schlafengehen an das Ladegeraet an (und leg es ausser Reichweite)",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Cain_2010",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Menschen, die vor dem Schlafengehen auf ihr Handy schauen"
-            ],
-            "limitations": [
-                "Ausnahme: Wenn das Handy als Einschlafritual funktioniert"
-            ],
-            "citation_role": "Beobachtungsstudie unterstuetzt den Zusammenhang zwischen elektronischen Medien und Schlaf",
-            "claim_tags": [
-                "sleep",
-                "screen_time",
-                "blue_light"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_004",
-        "type": "multiple_choice",
-        "question": "Was passiert eher, wenn du in einer schlaflosen Nacht die Atemtechnik '4 Sekunden einatmen, 7 Sekunden halten, 8 Sekunden ausatmen' ausprobierst?",
-        "choices": [
-            "Das parasympathische Nervensystem wird aktiviert, was zur Entspannung beitragen kann",
-            "Man schlaeft sofort ein",
-            "Man wird eher wacher"
-        ],
-        "correct_index": 0,
-        "explanation": "Die 4-7-8 Atemtechnik kann das parasympathische Nervensystem anregen. Obwohl man nicht sofort einschlaeft, wurde eine entspannende Wirkung berichtet. Sie passt nicht zu jedem, also musst du nicht weitermachen, wenn es sich nicht richtig anfuehlt.",
-        "actionable_advice": "Tipp: Probier in der naechsten schlaflosen Nacht die 4-7-8 Atmung nur zweimal aus. Wenn es sich nicht richtig anfuehlt, hoer einfach auf.",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Ma_2017",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Menschen mit starker koerperlicher Anspannung",
-                "Menschen, deren Gedanken nicht zur Ruhe kommen"
-            ],
-            "limitations": [
-                "Fuer Menschen, die durch die Konzentration auf die Atmung gestresst werden, kann es kontraproduktiv sein",
-                "Menschen mit Atemwegserkrankungen sollten vorsichtig sein"
-            ],
-            "citation_role": "Indirekte Unterstuetzung fuer die entspannende Wirkung langsamer Atemtechniken",
-            "try_this": "Probier die 4-7-8 Atmung nur zweimal aus",
-            "claim_tags": [
-                "sleep",
-                "breathing",
-                "relaxation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Wie angespannt bist du gerade? (0-10)",
-                "after_prompt": "Wie ist es nach 2 Durchgaengen?",
-                "success_rule": "Jede Verbesserung ist ein Erfolg",
-                "stop_rule": "Bei keiner Veraenderung oder Unbehagen abbrechen"
-            },
-            "comparator": {
-                "baseline": "Einfach nur daliegen ohne etwas zu tun",
-                "cost": "Etwa 30 Sekunden / geringe Belastung"
-            },
-            "fallback": {
-                "when": "Wenn die Atemtechnik nicht passt",
-                "next": "Paradoxe Intention: Sag dir 'Es ist okay, wenn ich nicht schlafe'"
-            }
-        }
-    },
-    {
-        "id": "health_l01_005",
-        "type": "swipe_judgment",
-        "question": "Wenn ich nachts auf die Uhr schaue, wenn ich nicht schlafen kann, wird meine Unruhe manchmal groesser.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Das verstehe ich",
-            "right": "Nicht wirklich"
-        },
-        "explanation": "Das Auf-die-Uhr-Schauen neigt dazu, Berechnungen wie 'Ich kann nur noch so viele Stunden schlafen' auszuloesen, was die kognitive Erregung erhoeht. Fuer viele Menschen ist es besser, nicht auf die Uhr zu schauen.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Menschen, die gewohnheitsmaessig auf die Uhr schauen"
-            ],
-            "limitations": [
-                "Manche Menschen werden unruhig, wenn sie nicht auf die Uhr schauen"
-            ],
-            "citation_role": "Beobachtungsstudie unterstuetzt den Zusammenhang zwischen Uhren-Beobachtung und Einschlafschwierigkeiten",
-            "claim_tags": [
-                "sleep",
-                "cognitive_arousal",
-                "clock_watching"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_006",
-        "type": "multiple_choice",
-        "question": "Wenn du in einer schlaflosen Nacht versuchst, deinen Koerper zu entspannen, wo ist es am effektivsten anzufangen?",
-        "choices": [
-            "Die Anspannung im Gesicht und Kiefer loesen",
-            "Von den Zehen aus nach oben arbeiten",
-            "Die Arme heben und dann fallen lassen"
-        ],
-        "correct_index": 0,
-        "explanation": "Die Anspannung in Gesicht und Kiefer neigt dazu, die Entspannung des ganzen Koerpers zu beeinflussen. Besonders viele Menschen pressen unbewusst die Zaehne zusammen. Manche Menschen spueren eine Veraenderung, wenn sie die Kieferspannung nur 10 Sekunden lang loesen.",
-        "actionable_advice": "Tipp: Probier es jetzt aus: Loese die Anspannung in deinem Kiefer fuer nur 10 Sekunden.",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jacobson_1938",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Menschen, die unbewusst angespannt sind",
-                "Menschen, die zum Zaehneknirschen oder Kieferpressen neigen"
-            ],
-            "limitations": [
-                "Nicht geeignet fuer Menschen, die durch die Konzentration auf Koerperempfindungen gestresst werden"
-            ],
-            "citation_role": "Indirekte Unterstuetzung fuer die Wirksamkeit der Gesichts- und Kieferentspannung aus der progressiven Muskelentspannung",
-            "try_this": "Loese die Kieferspannung fuer nur 10 Sekunden",
-            "claim_tags": [
-                "sleep",
-                "muscle_relaxation",
-                "tension"
-            ],
-            "tiny_metric": {
-                "before_prompt": "Kieferspannung? (hoch/mittel/niedrig)",
-                "after_prompt": "Wie ist es nach 10 Sekunden?",
-                "success_rule": "Jede Lockerung ist ein Erfolg",
-                "stop_rule": "Bei keiner Veraenderung abbrechen"
-            },
-            "comparator": {
-                "baseline": "Keine bewusste Aufmerksamkeit",
-                "cost": "10 Sekunden / geringe Belastung"
-            },
-            "fallback": {
-                "when": "Wenn die Kieferentspannung schwer bewusst zu machen ist",
-                "next": "Schultern 3 Sekunden hochziehen und dann fallen lassen"
-            }
-        }
-    },
-    {
-        "id": "health_l01_007",
-        "type": "conversation",
-        "question": "Was ist dein haeufigster Grund fuer schlaflose Naechte?",
-        "choices": [
-            "Die Gedanken hoeren nicht auf",
-            "Der Koerper ist angespannt",
-            "Die Angst vor dem Nicht-Einschlafen selbst",
-            "Kein bestimmtes Muster"
-        ],
-        "recommended_index": null,
-        "explanation": "Alle Antworten sind richtig. Wenn du dein Muster erkennst, neigt es dazu, die Auswahl der richtigen Strategie zu erleichtern.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Unterstuetzt die Mustererkennung bei Einschlafschwierigkeiten",
-            "claim_tags": [
-                "sleep",
-                "self_awareness",
-                "pattern_recognition"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_008",
-        "type": "swipe_judgment",
-        "question": "Wenn ich am Wochenende Schlaf nachhole, kann das manchmal meinen Schlafrhythmus unter der Woche durcheinanderbringen.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Das koennte sein",
-            "right": "Nicht wirklich"
-        },
-        "explanation": "Ein konstanter Schlafrhythmus neigt dazu, die Schlafqualitaet zu verbessern. Allerdings ist bei chronischem Schlafmangel Erholungsschlaf am Wochenende auch noetig. Die Balance ist wichtig.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Walker_2017",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Menschen, die am Wochenende Schlaf nachholen"
-            ],
-            "limitations": [
-                "Bei chronischem Schlafmangel ist Erholungsschlaf ebenfalls notwendig"
-            ],
-            "citation_role": "Unterstuetzt den Zusammenhang zwischen Stoerungen des Schlafrhythmus und der Schlafqualitaet",
-            "claim_tags": [
-                "sleep",
-                "circadian_rhythm",
-                "sleep_debt"
-            ]
-        }
-    },
-    {
-        "id": "health_l01_009",
-        "type": "multiple_choice",
-        "question": "Welche der heute gelernten Techniken koenntest du ab morgen anwenden?",
-        "choices": [
-            "10 Sekunden lang sagen 'Es ist okay, wenn ich nicht schlafe'",
-            "Die 4-7-8 Atemtechnik zweimal ausprobieren",
-            "Die Kieferspannung 10 Sekunden lang loesen",
-            "Alle ausprobieren"
-        ],
-        "correct_index": 3,
-        "explanation": "Alle sind einen Versuch wert. Wenn eine nicht passt, probier eine andere. Auch das ist Lernen. Allerdings wird bei anhaltender chronischer Schlaflosigkeit eine Beratung durch Fachleute empfohlen.",
-        "actionable_advice": "Tipp: Probier ab heute Nacht nur eine Sache: Wenn du nicht schlafen kannst, sag dir 10 Sekunden lang 'Es ist okay, wenn ich nicht schlafe'.",
-        "difficulty": "easy",
-        "xp": 10,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Menschen, die eine neue Gewohnheit beginnen moechten"
-            ],
-            "limitations": [
-                "Chronische Schlaflosigkeit erfordert professionelle Behandlung"
-            ],
-            "citation_role": "Bietet Optionen fuer Einschlaf-Interventionen",
-            "try_this": "Ab heute Nacht eine Sache ausprobieren",
-            "claim_tags": [
-                "sleep",
-                "implementation",
-                "habit_formation"
-            ],
-            "tiny_metric": {
-                "metric": "Habe ich es diese Woche mindestens einmal versucht?",
-                "stop_rule": "Wenn ich es eine Woche lang nicht versucht habe, aufhoeren"
-            },
-            "comparator": {
-                "baseline": "Nichts ausprobieren",
-                "cost": "10 Sekunden x ein paar Mal pro Woche"
-            },
-            "fallback": {
-                "when": "Wenn nichts passt",
-                "next": "Eine Beratung durch Fachleute in Erwaegung ziehen"
-            }
-        }
-    },
-    {
-        "id": "health_l01_010",
-        "type": "conversation",
-        "question": "Waren die 'Schlaf-Techniken' in dieser Lektion hilfreich fuer dich?",
-        "choices": [
-            "Scheint nuetzlich zu sein",
-            "Passt nicht ganz zu mir",
-            "Weiss ich noch nicht"
-        ],
-        "recommended_index": null,
-        "explanation": "Alle Antworten sind richtig. Wenn es 'nicht passt', ist es auch wichtig, nach anderen Ansaetzen zu suchen. Da der Schlaf sehr individuell ist, hat der Prozess selbst, die fuer dich passende Methode zu finden, seinen Wert.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Harvey_2002",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Unterstuetzt die Beruecksichtigung individueller Unterschiede",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+  {
+    "id": "health_l01_001",
+    "type": "conversation",
+    "question": "Wie lange hast du in letzter Zeit das Gefuehl gehabt, nicht einschlafen zu koennen, nachdem du ins Bett gegangen bist?",
+    "your_response_prompt": "Dein Gefuehl reicht voellig aus",
+    "choices": [
+      "Mehr als 30 Minuten (ich werde unruhig)",
+      "Etwa 10-20 Minuten",
+      "Weniger als 5 Minuten (ich schlafe sofort ein)"
+    ],
+    "recommended_index": null,
+    "explanation": "Wenn das laenger als 30 Minuten dauert, ist das wirklich belastend. Interessanterweise wurde berichtet, dass je mehr man sich bemuehrt einzuschlafen, desto wacher wird das Gehirn - also genau das Gegenteil passiert.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen mit Einschlafschwierigkeiten",
+        "Menschen, deren Gedanken nachts nicht zur Ruhe kommen"
+      ],
+      "limitations": [
+        "Bei chronischen Schlafproblemen wird eine Beratung durch Fachleute empfohlen"
+      ],
+      "citation_role": "Beobachtungsstudie unterstuetzt den Zusammenhang zwischen Einschlafschwierigkeiten und kognitiver Erregung",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "insomnia"
+      ]
     }
+  },
+  {
+    "id": "health_l01_002",
+    "type": "multiple_choice",
+    "question": "Was passiert eher, je mehr du dich stresst, weil du nicht einschlafen kannst?",
+    "choices": [
+      "Der Wachzustand neigt dazu, aufrechterhalten zu werden",
+      "Man wird natuerlich muede",
+      "Man schlaeft vor Erschoepfung ein"
+    ],
+    "correct_index": 0,
+    "explanation": "Die Angst 'Ich muss einschlafen' neigt dazu, eine kognitive Erregung auszuloesen, wodurch man paradoxerweise wacher wird. Der erste Schritt koennte sein, zu akzeptieren: 'Es ist okay, wenn ich nicht einschlafe.'",
+    "actionable_advice": "Tipp: In schlaflosen Naechten sag dir einfach 10 Sekunden lang 'Es ist okay, wenn ich nicht schlafe'. Wenn es sich nicht richtig anfuehlt, hoer einfach auf.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Menschen mit starker Angst vor dem Nicht-Einschlafen",
+        "Menschen mit Leistungsangst"
+      ],
+      "limitations": [
+        "Bei koerperlichen Ursachen fuer Schlaflosigkeit weniger wirksam",
+        "Chronische Schlaflosigkeit erfordert professionelle Behandlung"
+      ],
+      "citation_role": "Die Theorie der kognitiven Erregung erklaert den Zusammenhang zwischen Angst und Wachheit",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_003",
+    "type": "swipe_judgment",
+    "question": "An Tagen, an denen ich bis kurz vor dem Schlafengehen auf mein Handy schaue, faellt mir das Einschlafen manchmal schwerer.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Das kenne ich",
+      "right": "Nicht wirklich"
+    },
+    "explanation": "Die Inhalte auf dem Handy setzen Dopamin frei, das 'Ich will mehr sehen' signalisiert und das Gehirn wach haelt. Mehr noch als das Blaulicht ist es die Informationsflut, die den Schlaf stoert.",
+    "actionable_advice": "Tipp fuer heute Nacht: Schliess dein Handy 30 Minuten vor dem Schlafengehen an das Ladegeraet an (und leg es ausser Reichweite)",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Cain_2010",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, die vor dem Schlafengehen auf ihr Handy schauen"
+      ],
+      "limitations": [
+        "Ausnahme: Wenn das Handy als Einschlafritual funktioniert"
+      ],
+      "citation_role": "Beobachtungsstudie unterstuetzt den Zusammenhang zwischen elektronischen Medien und Schlaf",
+      "claim_tags": [
+        "sleep",
+        "screen_time",
+        "blue_light"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_004",
+    "type": "multiple_choice",
+    "question": "Was passiert eher, wenn du in einer schlaflosen Nacht die Atemtechnik '4 Sekunden einatmen, 7 Sekunden halten, 8 Sekunden ausatmen' ausprobierst?",
+    "choices": [
+      "Das parasympathische Nervensystem wird aktiviert, was zur Entspannung beitragen kann",
+      "Man schlaeft sofort ein",
+      "Man wird eher wacher"
+    ],
+    "correct_index": 0,
+    "explanation": "Die 4-7-8 Atemtechnik kann das parasympathische Nervensystem anregen. Obwohl man nicht sofort einschlaeft, wurde eine entspannende Wirkung berichtet. Sie passt nicht zu jedem, also musst du nicht weitermachen, wenn es sich nicht richtig anfuehlt.",
+    "actionable_advice": "Tipp: Probier in der naechsten schlaflosen Nacht die 4-7-8 Atmung nur zweimal aus. Wenn es sich nicht richtig anfuehlt, hoer einfach auf.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Ma_2017",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen mit starker koerperlicher Anspannung",
+        "Menschen, deren Gedanken nicht zur Ruhe kommen"
+      ],
+      "limitations": [
+        "Fuer Menschen, die durch die Konzentration auf die Atmung gestresst werden, kann es kontraproduktiv sein",
+        "Menschen mit Atemwegserkrankungen sollten vorsichtig sein"
+      ],
+      "citation_role": "Indirekte Unterstuetzung fuer die entspannende Wirkung langsamer Atemtechniken",
+      "try_this": "Probier die 4-7-8 Atmung nur zweimal aus",
+      "claim_tags": [
+        "sleep",
+        "breathing",
+        "relaxation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Wie angespannt bist du gerade? (0-10)",
+        "after_prompt": "Wie ist es nach 2 Durchgaengen?",
+        "success_rule": "Jede Verbesserung ist ein Erfolg",
+        "stop_rule": "Bei keiner Veraenderung oder Unbehagen abbrechen"
+      },
+      "comparator": {
+        "baseline": "Einfach nur daliegen ohne etwas zu tun",
+        "cost": "Etwa 30 Sekunden / geringe Belastung"
+      },
+      "fallback": {
+        "when": "Wenn die Atemtechnik nicht passt",
+        "next": "Paradoxe Intention: Sag dir 'Es ist okay, wenn ich nicht schlafe'"
+      }
+    }
+  },
+  {
+    "id": "health_l01_005",
+    "type": "swipe_judgment",
+    "question": "Wenn ich nachts auf die Uhr schaue, wenn ich nicht schlafen kann, wird meine Unruhe manchmal groesser.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Das verstehe ich",
+      "right": "Nicht wirklich"
+    },
+    "explanation": "Das Auf-die-Uhr-Schauen neigt dazu, Berechnungen wie 'Ich kann nur noch so viele Stunden schlafen' auszuloesen, was die kognitive Erregung erhoeht. Fuer viele Menschen ist es besser, nicht auf die Uhr zu schauen.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, die gewohnheitsmaessig auf die Uhr schauen"
+      ],
+      "limitations": [
+        "Manche Menschen werden unruhig, wenn sie nicht auf die Uhr schauen"
+      ],
+      "citation_role": "Beobachtungsstudie unterstuetzt den Zusammenhang zwischen Uhren-Beobachtung und Einschlafschwierigkeiten",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "clock_watching"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_006",
+    "type": "multiple_choice",
+    "question": "Wenn du in einer schlaflosen Nacht versuchst, deinen Koerper zu entspannen, wo ist es am effektivsten anzufangen?",
+    "choices": [
+      "Die Anspannung im Gesicht und Kiefer loesen",
+      "Von den Zehen aus nach oben arbeiten",
+      "Die Arme heben und dann fallen lassen"
+    ],
+    "correct_index": 0,
+    "explanation": "Die Anspannung in Gesicht und Kiefer neigt dazu, die Entspannung des ganzen Koerpers zu beeinflussen. Besonders viele Menschen pressen unbewusst die Zaehne zusammen. Manche Menschen spueren eine Veraenderung, wenn sie die Kieferspannung nur 10 Sekunden lang loesen.",
+    "actionable_advice": "Tipp: Probier es jetzt aus: Loese die Anspannung in deinem Kiefer fuer nur 10 Sekunden.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jacobson_1938",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die unbewusst angespannt sind",
+        "Menschen, die zum Zaehneknirschen oder Kieferpressen neigen"
+      ],
+      "limitations": [
+        "Nicht geeignet fuer Menschen, die durch die Konzentration auf Koerperempfindungen gestresst werden"
+      ],
+      "citation_role": "Indirekte Unterstuetzung fuer die Wirksamkeit der Gesichts- und Kieferentspannung aus der progressiven Muskelentspannung",
+      "try_this": "Loese die Kieferspannung fuer nur 10 Sekunden",
+      "claim_tags": [
+        "sleep",
+        "muscle_relaxation",
+        "tension"
+      ],
+      "tiny_metric": {
+        "before_prompt": "Kieferspannung? (hoch/mittel/niedrig)",
+        "after_prompt": "Wie ist es nach 10 Sekunden?",
+        "success_rule": "Jede Lockerung ist ein Erfolg",
+        "stop_rule": "Bei keiner Veraenderung abbrechen"
+      },
+      "comparator": {
+        "baseline": "Keine bewusste Aufmerksamkeit",
+        "cost": "10 Sekunden / geringe Belastung"
+      },
+      "fallback": {
+        "when": "Wenn die Kieferentspannung schwer bewusst zu machen ist",
+        "next": "Schultern 3 Sekunden hochziehen und dann fallen lassen"
+      }
+    }
+  },
+  {
+    "id": "health_l01_007",
+    "type": "conversation",
+    "question": "Was ist dein haeufigster Grund fuer schlaflose Naechte?",
+    "choices": [
+      "Die Gedanken hoeren nicht auf",
+      "Der Koerper ist angespannt",
+      "Die Angst vor dem Nicht-Einschlafen selbst",
+      "Kein bestimmtes Muster"
+    ],
+    "recommended_index": null,
+    "explanation": "Alle Antworten sind richtig. Wenn du dein Muster erkennst, neigt es dazu, die Auswahl der richtigen Strategie zu erleichtern.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Unterstuetzt die Mustererkennung bei Einschlafschwierigkeiten",
+      "claim_tags": [
+        "sleep",
+        "self_awareness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_008",
+    "type": "swipe_judgment",
+    "question": "Wenn ich am Wochenende Schlaf nachhole, kann das manchmal meinen Schlafrhythmus unter der Woche durcheinanderbringen.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Das koennte sein",
+      "right": "Nicht wirklich"
+    },
+    "explanation": "Ein konstanter Schlafrhythmus neigt dazu, die Schlafqualitaet zu verbessern. Allerdings ist bei chronischem Schlafmangel Erholungsschlaf am Wochenende auch noetig. Die Balance ist wichtig.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Walker_2017",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Menschen, die am Wochenende Schlaf nachholen"
+      ],
+      "limitations": [
+        "Bei chronischem Schlafmangel ist Erholungsschlaf ebenfalls notwendig"
+      ],
+      "citation_role": "Unterstuetzt den Zusammenhang zwischen Stoerungen des Schlafrhythmus und der Schlafqualitaet",
+      "claim_tags": [
+        "sleep",
+        "circadian_rhythm",
+        "sleep_debt"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_009",
+    "type": "multiple_choice",
+    "question": "Welche der heute gelernten Techniken koenntest du ab morgen anwenden?",
+    "choices": [
+      "10 Sekunden lang sagen 'Es ist okay, wenn ich nicht schlafe'",
+      "Die 4-7-8 Atemtechnik zweimal ausprobieren",
+      "Die Kieferspannung 10 Sekunden lang loesen",
+      "Alle ausprobieren"
+    ],
+    "correct_index": 3,
+    "explanation": "Alle sind einen Versuch wert. Wenn eine nicht passt, probier eine andere. Auch das ist Lernen. Allerdings wird bei anhaltender chronischer Schlaflosigkeit eine Beratung durch Fachleute empfohlen.",
+    "actionable_advice": "Tipp: Probier ab heute Nacht nur eine Sache: Wenn du nicht schlafen kannst, sag dir 10 Sekunden lang 'Es ist okay, wenn ich nicht schlafe'.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Menschen, die eine neue Gewohnheit beginnen moechten"
+      ],
+      "limitations": [
+        "Chronische Schlaflosigkeit erfordert professionelle Behandlung"
+      ],
+      "citation_role": "Bietet Optionen fuer Einschlaf-Interventionen",
+      "try_this": "Ab heute Nacht eine Sache ausprobieren",
+      "claim_tags": [
+        "sleep",
+        "implementation",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "metric": "Habe ich es diese Woche mindestens einmal versucht?",
+        "stop_rule": "Wenn ich es eine Woche lang nicht versucht habe, aufhoeren",
+        "before_prompt": "Wie müde sind Sie jetzt auf einer Skala von 0 bis 10?",
+        "after_prompt": "Wie schwer ist es nach 10 Sekunden auf einer Skala von 0 bis 10?",
+        "success_rule": "Es ist in Ordnung, wenn es um 1 sinkt"
+      },
+      "comparator": {
+        "baseline": "Nichts ausprobieren",
+        "cost": "10 Sekunden x ein paar Mal pro Woche"
+      },
+      "fallback": {
+        "when": "Wenn nichts passt",
+        "next": "Eine Beratung durch Fachleute in Erwaegung ziehen"
+      }
+    }
+  },
+  {
+    "id": "health_l01_010",
+    "type": "conversation",
+    "question": "Waren die 'Schlaf-Techniken' in dieser Lektion hilfreich fuer dich?",
+    "choices": [
+      "Scheint nuetzlich zu sein",
+      "Passt nicht ganz zu mir",
+      "Weiss ich noch nicht"
+    ],
+    "recommended_index": null,
+    "explanation": "Alle Antworten sind richtig. Wenn es 'nicht passt', ist es auch wichtig, nach anderen Ansaetzen zu suchen. Da der Schlaf sehr individuell ist, hat der Prozess selbst, die fuer dich passende Methode zu finden, seinen Wert.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Unterstuetzt die Beruecksichtigung individueller Unterschiede",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

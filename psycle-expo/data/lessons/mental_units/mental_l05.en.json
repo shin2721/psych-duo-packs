@@ -11,7 +11,23 @@
     "explanation": "This is a classic \"catastrophic thinking\" example. The prediction \"I won't make it\" races ahead of reality, amplifying anxiety. *This lesson introduces coping methods for mild anxiety. If you experience suicidal thoughts or self-harm tendencies, please consult a professional support service rather than relying on an app.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "People whose anxiety increases in a chain reaction"
+      ],
+      "limitations": [
+        "Self-help alone is not enough in acute crisis"
+      ],
+      "citation_role": "Supports the relationship between rumination and anxiety amplification",
+      "claim_tags": [
+        "catastrophizing",
+        "rumination"
+      ]
+    }
   },
   {
     "id": "mental_l05_002",
@@ -24,9 +40,25 @@
     ],
     "correct_index": 0,
     "explanation": "\"Evidence-checking\" works well for catastrophic thinking. Rather than trying to eliminate the thought, regaining a realistic perspective is key.",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People who tend to get stuck with extreme predictions"
+      ],
+      "limitations": [
+        "In times of strong panic, it may not be enough alone"
+      ],
+      "citation_role": "Explaining the possibility of anxiety reduction as a framework of reappraisal theory",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal_theory"
+      ]
+    }
   },
   {
     "id": "mental_l05_003",
@@ -42,7 +74,23 @@
     "explanation": "Any answer is a normal response. Our brains are wired to predict danger, so imagining negative outcomes is natural.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "People whose minds tend to be dominated by worst-case predictions"
+      ],
+      "limitations": [
+        "Additional support may be required if symptoms are severe"
+      ],
+      "citation_role": "Supporting individual differences in cognitive evaluation",
+      "claim_tags": [
+        "appraisal",
+        "anxiety"
+      ]
+    }
   },
   {
     "id": "mental_l05_004",
@@ -57,7 +105,38 @@
     "explanation": "Rather than swinging from one extreme to another, finding a balanced perspective is important. Past experience provides realistic evidence.",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Recall one question in 10 seconds, “What is an example of when you were able to survive in the past?”",
+      "tiny_metric": {
+        "before_prompt": "How nervous are you now on a scale of 0 to 10?",
+        "after_prompt": "What is the tension after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1",
+        "stop_rule": "If it becomes too difficult, withdraw"
+      },
+      "comparator": {
+        "baseline": "Unfounded predictions tend to maintain anxiety",
+        "cost": "10 seconds/only one memory"
+      },
+      "fallback": {
+        "when": "When you don't experience success",
+        "next": "Just decide what to do next even if you fail"
+      },
+      "best_for": [
+        "People who tend to stiffen up in pressure situations"
+      ],
+      "limitations": [
+        "Less effective when severely depressed"
+      ],
+      "citation_role": "Suggests an increase in the feeling of being able to cope through re-evaluation",
+      "claim_tags": [
+        "coping",
+        "reappraisal"
+      ]
+    }
   },
   {
     "id": "mental_l05_005",
@@ -71,7 +150,23 @@
     "explanation": "You don't need to eliminate it completely. What matters is \"noticing it and adding a realistic perspective.\"",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "People who want to learn how to deal with thoughts"
+      ],
+      "limitations": [
+        "It is difficult to change behavior simply by understanding theory."
+      ],
+      "citation_role": "Supports the theoretical framework of the cognitive assessment model",
+      "claim_tags": [
+        "cognitive_model",
+        "appraisal"
+      ]
+    }
   },
   {
     "id": "mental_l05_006",
@@ -87,7 +182,38 @@
     "explanation": "Each method can be effective at times, but thinking of realistic solutions can transform anxiety into action.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Write down one question in 10 seconds, “Even if it’s the worst, what’s the next move?”",
+      "tiny_metric": {
+        "before_prompt": "Do you feel stuck now on a scale of 0 to 10?",
+        "after_prompt": "How do you feel stuck after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1",
+        "stop_rule": "Discontinue if discomfort increases"
+      },
+      "comparator": {
+        "baseline": "If you keep thinking about it, it will be difficult to take action.",
+        "cost": "10 seconds/1 line of memo"
+      },
+      "fallback": {
+        "when": "When it is difficult to verbalize",
+        "next": "Choose one “minimum action you can take right now”"
+      },
+      "best_for": [
+        "People who tend to stop working due to anxiety"
+      ],
+      "limitations": [
+        "You may not be able to carry out the exercise if you are very fatigued."
+      ],
+      "citation_role": "Supports the connection between reappraisal and action selection",
+      "claim_tags": [
+        "micro_action",
+        "coping"
+      ]
+    }
   },
   {
     "id": "mental_l05_007",
@@ -102,7 +228,23 @@
     "explanation": "Fatigue and sleep deprivation reduce judgment and make negative thinking more likely. Physical health management is an important countermeasure too.",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "People who want to understand the relationship between fatigue and anxiety"
+      ],
+      "limitations": [
+        "Individual differences are large and cannot be explained by a single factor"
+      ],
+      "citation_role": "Suggests a tendency to think negatively when fatigued",
+      "claim_tags": [
+        "fatigue",
+        "negative_bias"
+      ]
+    }
   },
   {
     "id": "mental_l05_008",
@@ -118,7 +260,38 @@
     "explanation": "It works in any situation. We recommend starting with small anxieties first.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Decide on one scene to use tomorrow and write it down in 10 seconds.",
+      "tiny_metric": {
+        "before_prompt": "Is the clarity of the execution image 0-10?",
+        "after_prompt": "Clarity after 10 seconds on a scale of 0-10?",
+        "success_rule": "It's OK if it goes up by 1",
+        "stop_rule": "If the burden increases, I will put it on hold today."
+      },
+      "comparator": {
+        "baseline": "If the scene is not decided, the execution rate tends to drop.",
+        "cost": "10 seconds/1 scene only"
+      },
+      "fallback": {
+        "when": "When you can't think of a scene",
+        "next": "Temporarily placed in \"anxious scene first thing in the morning\""
+      },
+      "best_for": [
+        "People who want to put what they have learned into action"
+      ],
+      "limitations": [
+        "If the execution environment is unstable, it will be difficult to take root."
+      ],
+      "citation_role": "Supports the possibility that specificity increases execution rates",
+      "claim_tags": [
+        "implementation_intention",
+        "planning"
+      ]
+    }
   },
   {
     "id": "mental_l05_009",
@@ -131,9 +304,41 @@
     ],
     "correct_index": 1,
     "explanation": "Rather than complete control or forced positive thinking, having a realistic and balanced perspective is what matters.",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "gold"
+    "evidence_grade": "gold",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "When you feel anxious, ask “What is the evidence? What is the counter-evidence?” back and forth in 10 seconds.",
+      "tiny_metric": {
+        "before_prompt": "How is your anxiety level from 0 to 10?",
+        "after_prompt": "How anxious are you after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1",
+        "stop_rule": "If it becomes too difficult, withdraw"
+      },
+      "comparator": {
+        "baseline": "If you leave your thoughts alone, your worst predictions tend to become fixed.",
+        "cost": "It's possible in 10 seconds, just in your head"
+      },
+      "fallback": {
+        "when": "When there is no evidence to the contrary",
+        "next": "Decide only the next move in the worst case scenario"
+      },
+      "best_for": [
+        "People who want to reduce destructive thinking"
+      ],
+      "limitations": [
+        "In times of high stress, it is recommended to use support together."
+      ],
+      "citation_role": "Supports re-evaluation practices",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal",
+        "evidence_check"
+      ]
+    }
   },
   {
     "id": "mental_l05_010",
@@ -149,6 +354,22 @@
     "explanation": "Every impression is valuable. Different methods work for different people, so finding the approach that fits you is what matters.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "People who want to check compatibility with themselves"
+      ],
+      "limitations": [
+        "Since this is a single evaluation, long-term effects need to be confirmed separately."
+      ],
+      "citation_role": "Supports individual differences in coping methods",
+      "claim_tags": [
+        "fit",
+        "self_monitoring"
+      ]
+    }
   }
 ]

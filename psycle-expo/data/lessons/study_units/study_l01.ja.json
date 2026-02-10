@@ -344,7 +344,10 @@
       ],
       "tiny_metric": {
         "metric": "今週1回でも使えたか",
-        "stop_rule": "1週間使えなかったらやめる"
+        "stop_rule": "1週間使えなかったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
       },
       "comparator": {
         "baseline": "何も試さず先延ばしし続ける",

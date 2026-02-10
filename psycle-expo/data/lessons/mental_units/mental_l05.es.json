@@ -11,7 +11,23 @@
     "explanation": "Este es un ejemplo típico de \"pensamiento catastrófico\". La predicción de \"no voy a alcanzar\" se adelanta a la realidad y puede amplificar la ansiedad. ※Esta lección presenta técnicas para manejar la ansiedad leve. Si experimentas pensamientos suicidas o tendencias de autolesión, te recomendamos contactar una línea de crisis profesional en lugar de depender de la app (Línea de la Vida: 800-911-2000 en México, o el servicio de tu país).",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Personas cuya ansiedad aumenta en una reacción en cadena."
+      ],
+      "limitations": [
+        "La autoayuda por sí sola no es suficiente en las crisis agudas"
+      ],
+      "citation_role": "Apoya la relación entre la rumiación y la amplificación de la ansiedad.",
+      "claim_tags": [
+        "catastrophizing",
+        "rumination"
+      ]
+    }
   },
   {
     "id": "mental_l05_002",
@@ -24,9 +40,25 @@
     ],
     "correct_index": 0,
     "explanation": "Para el pensamiento catastrófico, la \"búsqueda de evidencia\" puede ser útil. En lugar de intentar eliminarlo por completo, lo importante es recuperar una perspectiva más realista.",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Personas que tienden a quedarse estancadas en predicciones extremas"
+      ],
+      "limitations": [
+        "En tiempos de pánico intenso, puede que no sea suficiente estar solo"
+      ],
+      "citation_role": "Explicar la posibilidad de reducir la ansiedad como marco de la teoría de la reevaluación",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal_theory"
+      ]
+    }
   },
   {
     "id": "mental_l05_003",
@@ -42,7 +74,23 @@
     "explanation": "Cualquier respuesta es una reacción normal. El cerebro humano está diseñado para anticipar peligros, por lo que imaginar escenarios negativos es algo natural.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas cuyas mentes tienden a estar dominadas por predicciones del peor de los casos."
+      ],
+      "limitations": [
+        "Es posible que se requiera apoyo adicional si los síntomas son graves."
+      ],
+      "citation_role": "Apoyar las diferencias individuales en la evaluación cognitiva",
+      "claim_tags": [
+        "appraisal",
+        "anxiety"
+      ]
+    }
   },
   {
     "id": "mental_l05_004",
@@ -57,7 +105,38 @@
     "explanation": "Más que ir de un extremo al otro, lo importante es encontrar una perspectiva equilibrada. Las experiencias pasadas pueden servir como una base realista.",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Recuerde una pregunta en 10 segundos: \"¿Cuál es un ejemplo de cuándo pudo sobrevivir en el pasado?\"",
+      "tiny_metric": {
+        "before_prompt": "¿Qué tan nervioso estás ahora en una escala de 0 a 10?",
+        "after_prompt": "¿Cuál es la tensión después de 10 segundos en una escala de 0 a 10?",
+        "success_rule": "Está bien si baja en 1",
+        "stop_rule": "Si se vuelve demasiado difícil, retírese"
+      },
+      "comparator": {
+        "baseline": "Las predicciones infundadas tienden a mantener la ansiedad",
+        "cost": "10 segundos/sólo una memoria"
+      },
+      "fallback": {
+        "when": "Cuando no experimentas el éxito",
+        "next": "Simplemente decide qué hacer a continuación incluso si fallas."
+      },
+      "best_for": [
+        "Personas que tienden a ponerse rígidas en situaciones de presión."
+      ],
+      "limitations": [
+        "Menos efectivo cuando está severamente deprimido."
+      ],
+      "citation_role": "Sugiere un aumento en la sensación de poder afrontar la situación mediante la reevaluación.",
+      "claim_tags": [
+        "coping",
+        "reappraisal"
+      ]
+    }
   },
   {
     "id": "mental_l05_005",
@@ -71,7 +150,23 @@
     "explanation": "No es necesario eliminarlo por completo. Lo que más puede ayudar es \"notarlo y agregar una perspectiva más realista\".",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Personas que quieran aprender a lidiar con los pensamientos."
+      ],
+      "limitations": [
+        "Es difícil cambiar el comportamiento simplemente entendiendo la teoría."
+      ],
+      "citation_role": "Apoya el marco teórico del modelo de evaluación cognitiva.",
+      "claim_tags": [
+        "cognitive_model",
+        "appraisal"
+      ]
+    }
   },
   {
     "id": "mental_l05_006",
@@ -87,7 +182,38 @@
     "explanation": "Todos estos métodos pueden ser útiles en ciertos momentos, pero pensar en soluciones realistas puede ayudar a transformar la ansiedad en acción.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Escriba una pregunta en 10 segundos: \"Incluso si es lo peor, ¿cuál es el siguiente paso?\"",
+      "tiny_metric": {
+        "before_prompt": "¿Te sientes estancado ahora en una escala del 0 al 10?",
+        "after_prompt": "¿Cómo te sientes estancado después de 10 segundos en una escala de 0 a 10?",
+        "success_rule": "Está bien si baja en 1",
+        "stop_rule": "Suspender si el malestar aumenta"
+      },
+      "comparator": {
+        "baseline": "Si sigues pensando en ello, será difícil actuar.",
+        "cost": "10 segundos/1 línea de nota"
+      },
+      "fallback": {
+        "when": "Cuando es difícil verbalizar",
+        "next": "Elija una \"acción mínima que puede realizar ahora mismo\""
+      },
+      "best_for": [
+        "Personas que tienden a dejar de trabajar por ansiedad"
+      ],
+      "limitations": [
+        "Es posible que no puedas realizar el ejercicio si estás muy fatigado."
+      ],
+      "citation_role": "Apoya la conexión entre la reevaluación y la selección de acciones.",
+      "claim_tags": [
+        "micro_action",
+        "coping"
+      ]
+    }
   },
   {
     "id": "mental_l05_007",
@@ -102,7 +228,23 @@
     "explanation": "El cansancio y la falta de sueño pueden reducir la capacidad de juicio y facilitar los pensamientos negativos. Cuidar tu estado físico también es una medida importante.",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que quieran entender la relación entre fatiga y ansiedad."
+      ],
+      "limitations": [
+        "Las diferencias individuales son grandes y no pueden explicarse por un solo factor."
+      ],
+      "citation_role": "Sugiere una tendencia a pensar negativamente cuando está fatigado.",
+      "claim_tags": [
+        "fatigue",
+        "negative_bias"
+      ]
+    }
   },
   {
     "id": "mental_l05_008",
@@ -118,7 +260,38 @@
     "explanation": "Puede ser útil en cualquier situación. Te recomendamos empezar probándolo con una ansiedad pequeña.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Decide una escena para usar mañana y escríbela en 10 segundos.",
+      "tiny_metric": {
+        "before_prompt": "¿La claridad de la imagen de ejecución es 0-10?",
+        "after_prompt": "¿Claridad después de 10 segundos en una escala de 0 a 10?",
+        "success_rule": "Está bien si sube en 1",
+        "stop_rule": "Si la carga aumenta, la suspenderé hoy."
+      },
+      "comparator": {
+        "baseline": "Si no se decide el escenario, la tasa de ejecuciones tiende a disminuir.",
+        "cost": "10 segundos/1 escena solamente"
+      },
+      "fallback": {
+        "when": "Cuando no puedes pensar en una escena",
+        "next": "Colocado temporalmente en \"escena de ansiedad a primera hora de la mañana\""
+      },
+      "best_for": [
+        "Personas que quieran poner en práctica lo que han aprendido."
+      ],
+      "limitations": [
+        "Si el entorno de ejecución es inestable, será difícil echar raíces."
+      ],
+      "citation_role": "Apoya la posibilidad de que la especificidad aumente las tasas de ejecución",
+      "claim_tags": [
+        "implementation_intention",
+        "planning"
+      ]
+    }
   },
   {
     "id": "mental_l05_009",
@@ -131,9 +304,41 @@
     ],
     "correct_index": 1,
     "explanation": "Más que buscar un control total o forzar el pensamiento positivo, lo importante es tener una perspectiva realista y equilibrada.",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "gold"
+    "evidence_grade": "gold",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Cuando se sienta ansioso, pregunte: \"¿Cuál es la evidencia? ¿Cuál es la contraevidencia?\". De ida y vuelta en 10 segundos.",
+      "tiny_metric": {
+        "before_prompt": "¿Cómo es tu nivel de ansiedad de 0 a 10?",
+        "after_prompt": "¿Qué tan ansioso estás después de 10 segundos en una escala de 0 a 10?",
+        "success_rule": "Está bien si baja en 1",
+        "stop_rule": "Si se vuelve demasiado difícil, retírese"
+      },
+      "comparator": {
+        "baseline": "Si dejas tus pensamientos en paz, tus peores predicciones tienden a fijarse.",
+        "cost": "Es posible en 10 segundos, sólo en tu cabeza."
+      },
+      "fallback": {
+        "when": "Cuando no exista prueba en contrario",
+        "next": "Decide sólo el siguiente paso en el peor de los casos."
+      },
+      "best_for": [
+        "Personas que quieren reducir el pensamiento destructivo."
+      ],
+      "limitations": [
+        "En momentos de mucho estrés, se recomienda utilizar apoyo juntos."
+      ],
+      "citation_role": "Apoya las prácticas de reevaluación",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal",
+        "evidence_check"
+      ]
+    }
   },
   {
     "id": "mental_l05_010",
@@ -149,6 +354,22 @@
     "explanation": "Todas las opiniones son valiosas. Cada persona tiene métodos diferentes que le funcionan, así que lo importante es encontrar el enfoque que mejor se adapte a ti.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Personas que quieren comprobar la compatibilidad consigo mismos."
+      ],
+      "limitations": [
+        "Dado que se trata de una evaluación única, los efectos a largo plazo deben confirmarse por separado."
+      ],
+      "citation_role": "Apoya las diferencias individuales en los métodos de afrontamiento.",
+      "claim_tags": [
+        "fit",
+        "self_monitoring"
+      ]
+    }
   }
 ]

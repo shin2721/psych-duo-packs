@@ -337,7 +337,10 @@
       ],
       "tiny_metric": {
         "metric": "Conseguiu escrever pelo menos 1 vez esta semana?",
-        "stop_rule": "Se nao conseguir escrever por 1 semana, pare"
+        "stop_rule": "Se nao conseguir escrever por 1 semana, pare",
+        "before_prompt": "Quão cansado você está agora em uma escala de 0 a 10?",
+        "after_prompt": "Quão difícil é depois de 10 segundos em uma escala de 0 a 10?",
+        "success_rule": "Tudo bem se cair 1"
       },
       "comparator": {
         "baseline": "Comecar o dia sem decidir nada",

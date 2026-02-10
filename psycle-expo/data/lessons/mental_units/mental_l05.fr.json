@@ -11,7 +11,23 @@
     "explanation": "C'est un exemple typique de « pensée catastrophique ». La prédiction « je n'y arriverai pas » devance la réalité et tend à amplifier l'anxiété. ※Cette leçon présente des techniques pour gérer une anxiété légère. Si vous avez des pensées suicidaires ou des tendances à l'automutilation, veuillez consulter un professionnel de santé plutôt que de vous fier uniquement à cette application.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Les personnes dont l’anxiété augmente dans une réaction en chaîne"
+      ],
+      "limitations": [
+        "L’entraide seule ne suffit pas en cas de crise aiguë"
+      ],
+      "citation_role": "Soutient la relation entre la rumination et l’amplification de l’anxiété",
+      "claim_tags": [
+        "catastrophizing",
+        "rumination"
+      ]
+    }
   },
   {
     "id": "mental_l05_002",
@@ -24,9 +40,25 @@
     ],
     "correct_index": 0,
     "explanation": "La « recherche de preuves » peut être efficace contre les pensées catastrophiques. Plutôt que d'essayer de les éliminer complètement, il est important de retrouver une perspective réaliste.",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Les personnes qui ont tendance à se contenter de prédictions extrêmes"
+      ],
+      "limitations": [
+        "En période de forte panique, cela ne suffit peut-être pas"
+      ],
+      "citation_role": "Expliquer la possibilité de réduction de l’anxiété comme cadre de la théorie de la réévaluation",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal_theory"
+      ]
+    }
   },
   {
     "id": "mental_l05_003",
@@ -42,7 +74,23 @@
     "explanation": "Toutes ces réponses sont normales. Le cerveau humain est conçu pour anticiper les dangers, donc il est naturel d'avoir des pensées négatives.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes dont l’esprit a tendance à être dominé par les pires prédictions"
+      ],
+      "limitations": [
+        "Un soutien supplémentaire peut être nécessaire si les symptômes sont graves"
+      ],
+      "citation_role": "Soutenir les différences individuelles dans l’évaluation cognitive",
+      "claim_tags": [
+        "appraisal",
+        "anxiety"
+      ]
+    }
   },
   {
     "id": "mental_l05_004",
@@ -57,7 +105,38 @@
     "explanation": "Plutôt que de passer d'un extrême à l'autre, il est important de trouver une perspective équilibrée. Les expériences passées peuvent constituer une base réaliste.",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Rappelez-vous une question en 10 secondes : « Quel exemple de cas où vous avez pu survivre dans le passé ? »",
+      "tiny_metric": {
+        "before_prompt": "À quel point êtes-vous nerveux actuellement sur une échelle de 0 à 10 ?",
+        "after_prompt": "Quelle est la tension après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1",
+        "stop_rule": "Si cela devient trop difficile, retirez-vous"
+      },
+      "comparator": {
+        "baseline": "Les prédictions infondées ont tendance à entretenir l’anxiété",
+        "cost": "10 secondes/une seule mémoire"
+      },
+      "fallback": {
+        "when": "Quand tu ne connais pas le succès",
+        "next": "Décidez simplement quoi faire ensuite même si vous échouez"
+      },
+      "best_for": [
+        "Les personnes qui ont tendance à se raidir dans les situations de pression"
+      ],
+      "limitations": [
+        "Moins efficace en cas de dépression sévère"
+      ],
+      "citation_role": "Suggère une augmentation du sentiment de pouvoir faire face grâce à la réévaluation",
+      "claim_tags": [
+        "coping",
+        "reappraisal"
+      ]
+    }
   },
   {
     "id": "mental_l05_005",
@@ -71,7 +150,23 @@
     "explanation": "Il n'est pas nécessaire de les éliminer complètement. Ce qui compte plutôt, c'est de « les remarquer et d'y ajouter une perspective réaliste ».",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Les personnes qui veulent apprendre à gérer leurs pensées"
+      ],
+      "limitations": [
+        "Il est difficile de changer un comportement simplement en comprenant la théorie."
+      ],
+      "citation_role": "Prend en charge le cadre théorique du modèle d’évaluation cognitive",
+      "claim_tags": [
+        "cognitive_model",
+        "appraisal"
+      ]
+    }
   },
   {
     "id": "mental_l05_006",
@@ -87,7 +182,38 @@
     "explanation": "Chacune de ces méthodes peut être utile selon les moments. Cependant, réfléchir à des solutions réalistes permet de transformer l'anxiété en action.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Écrivez une question en 10 secondes : « Même si c'est le pire, quelle est la prochaine étape ? »",
+      "tiny_metric": {
+        "before_prompt": "Vous sentez-vous coincé maintenant sur une échelle de 0 à 10 ?",
+        "after_prompt": "Comment vous sentez-vous coincé après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1",
+        "stop_rule": "Arrêter si l'inconfort augmente"
+      },
+      "comparator": {
+        "baseline": "Si vous continuez à y penser, il sera difficile d’agir.",
+        "cost": "10 secondes/1 ligne de mémo"
+      },
+      "fallback": {
+        "when": "Quand il est difficile de verbaliser",
+        "next": "Choisissez une « action minimale que vous pouvez entreprendre dès maintenant »"
+      },
+      "best_for": [
+        "Les personnes qui ont tendance à arrêter de travailler à cause de l'anxiété"
+      ],
+      "limitations": [
+        "Vous ne pourrez peut-être pas réaliser l’exercice si vous êtes très fatigué."
+      ],
+      "citation_role": "Prend en charge le lien entre la réévaluation et la sélection d’actions",
+      "claim_tags": [
+        "micro_action",
+        "coping"
+      ]
+    }
   },
   {
     "id": "mental_l05_007",
@@ -102,7 +228,23 @@
     "explanation": "La fatigue et le manque de sommeil diminuent le jugement et peuvent rendre plus susceptible aux pensées négatives. Prendre soin de sa santé est aussi une mesure préventive importante.",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes qui souhaitent comprendre la relation entre fatigue et anxiété"
+      ],
+      "limitations": [
+        "Les différences individuelles sont importantes et ne peuvent être expliquées par un seul facteur"
+      ],
+      "citation_role": "Suggère une tendance à penser négativement lorsqu'on est fatigué",
+      "claim_tags": [
+        "fatigue",
+        "negative_bias"
+      ]
+    }
   },
   {
     "id": "mental_l05_008",
@@ -118,7 +260,38 @@
     "explanation": "Cette technique peut être efficace dans toutes ces situations. Nous vous recommandons de commencer par de petites inquiétudes.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Choisissez une scène à utiliser demain et notez-la en 10 secondes.",
+      "tiny_metric": {
+        "before_prompt": "La clarté de l'image d'exécution est-elle comprise entre 0 et 10 ?",
+        "after_prompt": "Clarté après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave si ça augmente de 1",
+        "stop_rule": "Si le fardeau augmente, je le mettrai en attente aujourd'hui."
+      },
+      "comparator": {
+        "baseline": "Si la scène n’est pas décidée, le taux d’exécution a tendance à baisser.",
+        "cost": "10 secondes/1 scène seulement"
+      },
+      "fallback": {
+        "when": "Quand tu ne peux pas penser à une scène",
+        "next": "Placé temporairement en \"scène d'anxiété dès le matin\""
+      },
+      "best_for": [
+        "Les gens qui veulent mettre en pratique ce qu’ils ont appris"
+      ],
+      "limitations": [
+        "Si l’environnement d’exécution est instable, il sera difficile de s’enraciner."
+      ],
+      "citation_role": "Prend en charge la possibilité que la spécificité augmente les taux d'exécution",
+      "claim_tags": [
+        "implementation_intention",
+        "planning"
+      ]
+    }
   },
   {
     "id": "mental_l05_009",
@@ -131,9 +304,41 @@
     ],
     "correct_index": 1,
     "explanation": "Plutôt qu'un contrôle total ou une pensée positive forcée, il est important d'adopter une perspective réaliste et équilibrée.",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "gold"
+    "evidence_grade": "gold",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "Lorsque vous vous sentez anxieux, demandez : « Quelles sont les preuves ? ​​Quelles sont les contre-preuves ? » aller-retour en 10 secondes.",
+      "tiny_metric": {
+        "before_prompt": "Comment se situe votre niveau d’anxiété de 0 à 10 ?",
+        "after_prompt": "À quel point êtes-vous anxieux après 10 secondes sur une échelle de 0 à 10 ?",
+        "success_rule": "Ce n'est pas grave s'il descend de 1",
+        "stop_rule": "Si cela devient trop difficile, retirez-vous"
+      },
+      "comparator": {
+        "baseline": "Si vous laissez vos pensées tranquilles, vos pires prédictions ont tendance à se corriger.",
+        "cost": "C'est possible en 10 secondes, juste dans ta tête"
+      },
+      "fallback": {
+        "when": "Lorsqu'il n'y a aucune preuve du contraire",
+        "next": "Décidez uniquement du prochain mouvement dans le pire des cas"
+      },
+      "best_for": [
+        "Les personnes qui veulent réduire les pensées destructrices"
+      ],
+      "limitations": [
+        "En période de stress élevé, il est recommandé d’utiliser un support ensemble."
+      ],
+      "citation_role": "Soutient les pratiques de réévaluation",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal",
+        "evidence_check"
+      ]
+    }
   },
   {
     "id": "mental_l05_010",
@@ -149,6 +354,22 @@
     "explanation": "Tous les avis sont précieux. Les approches qui conviennent varient selon les personnes, donc l'important est de trouver ce qui vous correspond.",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Les personnes qui souhaitent vérifier la compatibilité avec elles-mêmes"
+      ],
+      "limitations": [
+        "Puisqu’il s’agit d’une seule évaluation, les effets à long terme doivent être confirmés séparément."
+      ],
+      "citation_role": "Prend en charge les différences individuelles dans les méthodes d’adaptation",
+      "claim_tags": [
+        "fit",
+        "self_monitoring"
+      ]
+    }
   }
 ]

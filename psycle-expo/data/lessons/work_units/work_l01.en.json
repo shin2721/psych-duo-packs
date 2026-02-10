@@ -8,7 +8,7 @@
       "left": "I get it",
       "right": "Not really"
     },
-    "explanation": "Procrastination isn't a willpower problem \u2014 it's a natural tendency to avoid \"discomfort.\" Changing how you start a task may help improve things.",
+    "explanation": "Procrastination isn't a willpower problem — it's a natural tendency to avoid \"discomfort.\" Changing how you start a task may help improve things.",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
@@ -43,7 +43,7 @@
     ],
     "correct_index": 0,
     "explanation": "Motivation tends to \"come after you start\" rather than being something you \"wait for.\" Moving your hands for just 10 seconds can switch you into task mode. (You might think \"I need rest\" or \"it's not necessary,\" but often it's just avoidance.)",
-    "actionable_advice": "\uD83D\uDCA1 Next time you're \"waiting for motivation,\" try moving your hands for just 10 seconds. Stop immediately if it doesn't feel right.",
+    "actionable_advice": "💡 Next time you're \"waiting for motivation,\" try moving your hands for just 10 seconds. Stop immediately if it doesn't feel right.",
     "difficulty": "easy",
     "xp": 5,
     "source_id": "Steel_2007",
@@ -93,7 +93,7 @@
         "Tasks that can't be done in 5 minutes need additional steps"
       ],
       "citation_role": "Indirectly supports the 5-minute rule from implementation intention research",
-      "try_this": "\uD83D\uDC49 When a task feels heavy \u2192 write out a \"5-minute version\" in just 10 seconds",
+      "try_this": "👉 When a task feels heavy → write out a \"5-minute version\" in just 10 seconds",
       "claim_tags": [
         "implementation_intention",
         "procrastination",
@@ -101,7 +101,10 @@
       ],
       "tiny_metric": {
         "metric": "Did you press the 5-minute timer and start?",
-        "stop_rule": "If you can't press it 3 times in a row, stop"
+        "stop_rule": "If you can't press it 3 times in a row, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
       },
       "comparator": {
         "baseline": "Looking at the whole task and feeling overwhelmed",
@@ -124,7 +127,7 @@
     ],
     "correct_index": 0,
     "explanation": "\"Implementation intention\" (If-Then planning) has been suggested to reduce procrastination. Effectiveness varies by person. Try it just once. (\"Shorter deadlines\" and \"rewards\" also work, but deciding \"when, where, and what\" first is more effective.)",
-    "actionable_advice": "\uD83D\uDCA1 For your next task, try deciding \"At X o'clock, at Y, I'll do Z.\"",
+    "actionable_advice": "💡 For your next task, try deciding \"At X o'clock, at Y, I'll do Z.\"",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Gollwitzer_1999",
@@ -141,7 +144,7 @@
         "Not suitable for situations requiring flexibility"
       ],
       "citation_role": "Directly supports the effect of implementation intention",
-      "try_this": "\uD83D\uDC49 In 10 seconds, decide just one: \"At X o'clock, at Y, I'll do Z\"",
+      "try_this": "👉 In 10 seconds, decide just one: \"At X o'clock, at Y, I'll do Z\"",
       "claim_tags": [
         "implementation_intention",
         "procrastination",
@@ -149,7 +152,10 @@
       ],
       "tiny_metric": {
         "metric": "Did you create one If-Then plan?",
-        "stop_rule": "If you can't create one 3 times in a row, stop"
+        "stop_rule": "If you can't create one 3 times in a row, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
       },
       "comparator": {
         "baseline": "Just thinking \"I have to do it\"",
@@ -205,7 +211,7 @@
     ],
     "correct_index": 0,
     "explanation": "Big tasks tend to become easier to handle when \"broken down.\" Deciding \"just the next move\" can get you started. Try it just once. (\"Deadline awareness\" and \"asking others\" are also valid, but breaking it down is the first step.)",
-    "actionable_advice": "\uD83D\uDCA1 Write out just \"the next single step\" for the big task you're currently holding.",
+    "actionable_advice": "💡 Write out just \"the next single step\" for the big task you're currently holding.",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Gollwitzer_1999",
@@ -221,7 +227,7 @@
         "Over-breaking-down can make things complex"
       ],
       "citation_role": "Indirectly supports the effect of task decomposition from implementation intention research",
-      "try_this": "\uD83D\uDC49 Write out \"the next single step\" in 10 seconds",
+      "try_this": "👉 Write out \"the next single step\" in 10 seconds",
       "claim_tags": [
         "task_decomposition",
         "procrastination",
@@ -229,7 +235,10 @@
       ],
       "tiny_metric": {
         "metric": "Were you able to write out \"the next single step\"?",
-        "stop_rule": "If you can't write it out 3 times in a row, stop"
+        "stop_rule": "If you can't write it out 3 times in a row, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
       },
       "comparator": {
         "baseline": "Looking at the whole task and freezing",
@@ -273,10 +282,13 @@
         "procrastination",
         "accountability"
       ],
-      "try_this": "\uD83D\uDC49 In 10 seconds, declare to someone \"I'll do just 5 minutes\"",
+      "try_this": "👉 In 10 seconds, declare to someone \"I'll do just 5 minutes\"",
       "tiny_metric": {
         "metric": "After declaring, were you able to move for 5 minutes?",
-        "stop_rule": "If you can't move 3 times in a row, stop"
+        "stop_rule": "If you can't move 3 times in a row, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
       },
       "comparator": {
         "baseline": "Procrastinating without telling anyone",
@@ -332,7 +344,7 @@
     ],
     "correct_index": 0,
     "explanation": "The 10-second rule has been suggested as a way to lower the \"starting barrier.\" To-do lists and calendars are also effective, but the 10-second rule has the lowest effort. Try it just once. (\"To-do lists\" and \"calendars\" require preparation.)",
-    "actionable_advice": "\uD83D\uDCA1 Try just once tomorrow: when you can't move, just move your hands for 10 seconds.",
+    "actionable_advice": "💡 Try just once tomorrow: when you can't move, just move your hands for 10 seconds.",
     "difficulty": "medium",
     "xp": 10,
     "source_id": "Steel_2007",
@@ -382,7 +394,7 @@
     ],
     "correct_index": 3,
     "explanation": "All are worth trying. With procrastination, finding \"how to live with it\" may matter more than \"overcoming\" it. Switch to another method if one doesn't work. Try it just once. (Individual options are also effective; the simplest is the 10-second rule.)",
-    "actionable_advice": "\uD83D\uDCA1 Today's action: try \"just 10 seconds\" on your next task.",
+    "actionable_advice": "💡 Today's action: try \"just 10 seconds\" on your next task.",
     "difficulty": "easy",
     "xp": 10,
     "source_id": "Steel_2007",
@@ -405,11 +417,14 @@
       ],
       "tiny_metric": {
         "metric": "Did you manage to use the 10-second rule at least once this week?",
-        "stop_rule": "If you can't remember to try even once in a week, stop"
+        "stop_rule": "If you can't remember to try even once in a week, stop",
+        "before_prompt": "How tired are you now on a scale of 0 to 10?",
+        "after_prompt": "How hard is it after 10 seconds on a scale of 0 to 10?",
+        "success_rule": "It's OK if it goes down by 1"
       },
       "comparator": {
         "baseline": "Not trying anything",
-        "cost": "10 seconds \u00d7 a few times/week"
+        "cost": "10 seconds × a few times/week"
       },
       "fallback": {
         "when": "10-second rule doesn't work",

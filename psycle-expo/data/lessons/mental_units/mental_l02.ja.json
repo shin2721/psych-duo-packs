@@ -1,304 +1,326 @@
 [
-    {
-        "id": "mental_l02_001",
-        "type": "swipe_judgment",
-        "question": "月曜8時、通勤電車。「今日のプレゼン、うまくいかない気がする」という考えが浮かんだ。",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "よくある",
-            "right": "あまりない"
-        },
-        "explanation": "これは「脅威判定」の自動発火。まだ何も起きていないのに、「危険かも」という反応が先に起きている。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "自動思考のパターンに気づきたい人"
-            ],
-            "limitations": [
-                "理論理解だけでは行動変容に直結しにくい"
-            ],
-            "citation_role": "認知的評価理論における一次評価（脅威判定）を説明",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "primary_appraisal",
-                "stress"
-            ]
-        }
+  {
+    "id": "mental_l02_001",
+    "type": "swipe_judgment",
+    "question": "月曜8時、通勤電車。「今日のプレゼン、うまくいかない気がする」という考えが浮かんだ。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "よくある",
+      "right": "あまりない"
     },
-    {
-        "id": "mental_l02_002",
-        "type": "multiple_choice",
-        "question": "同じ「上司からのフィードバック」でも、Aさんは落ち込み、Bさんは「改善点が分かった」と受け取った。\n\nこの違いを説明する理論として最も近いのは？",
-        "choices": [
-            "認知的評価理論（解釈の違いがストレスを左右する）",
-            "性格特性理論（生まれつきの気質が決める）",
-            "刺激−反応理論（出来事が直接反応を決める）"
-        ],
-        "correct_index": 0,
-        "explanation": "同じ出来事でも「どう解釈するか」で反応が変わる。これが認知的評価理論の核心。（「性格が全て」「出来事が原因」と思いがちだけど、それだと個人差が説明できない）",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "理論的背景を理解したい人",
-                "なぜ人によって反応が違うか知りたい人"
-            ],
-            "limitations": [
-                "理論を知っても自動的に解釈は変わらない（練習が必要）"
-            ],
-            "citation_role": "認知的評価理論の基本メカニズムを説明",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "stress",
-                "individual_differences"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_003",
-        "type": "swipe_judgment",
-        "question": "「一次評価」とは、出来事を「脅威 or 無害」と自動判定すること。",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "そうだと思う",
-            "right": "違うと思う"
-        },
-        "explanation": "正解。一次評価は「これは自分にとって脅威か？」を瞬時に判断するプロセス。意識的というより、自動的に起きることが多い。",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "理論用語を正確に理解したい人"
-            ],
-            "limitations": [
-                "用語を知っても実践には別の練習が必要"
-            ],
-            "citation_role": "一次評価の定義を説明",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "primary_appraisal"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_004",
-        "type": "multiple_choice",
-        "question": "「二次評価」とは何を判断するプロセス？",
-        "choices": [
-            "「この状況に対処できる資源があるか？」を判断する",
-            "「この出来事は脅威か？」を判断する",
-            "「過去に同じ経験があったか？」を思い出す"
-        ],
-        "correct_index": 0,
-        "explanation": "二次評価は「自分にはこれに対処できるか？」を評価するプロセス。一次評価で「脅威」と判断された後に起きる。（「脅威か？」は一次評価。「過去の経験」は別の記憶プロセス）",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "理論の全体像を把握したい人"
-            ],
-            "limitations": [
-                "理論理解だけでは対処能力は上がらない"
-            ],
-            "citation_role": "二次評価の定義を説明",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "secondary_appraisal",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_005",
-        "type": "conversation",
-        "question": "最近、「脅威」と感じた場面を思い出してください。",
-        "your_response_prompt": "そのとき、「対処できる」と感じたか、「無理かも」と感じたか、どちらが近い？",
-        "choices": [
-            "対処できると感じた",
-            "無理かもと感じた",
-            "どちらでもない / 覚えていない"
-        ],
-        "recommended_index": null,
-        "explanation": "どれも正解。この「対処できるかどうか」の感覚が、二次評価そのもの。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "二次評価の自己認識を支持",
-            "claim_tags": [
-                "secondary_appraisal",
-                "self_awareness"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_006",
-        "type": "multiple_choice",
-        "question": "一次評価で「脅威」と判断され、二次評価で「対処できない」と判断されると、何が起きやすい？",
-        "choices": [
-            "強いストレス反応（焦り、不安、身体症状）",
-            "問題解決に向けた冷静な行動",
-            "何も起きない"
-        ],
-        "correct_index": 0,
-        "explanation": "「脅威 + 対処不能」の組み合わせがストレス反応を強める。逆に「脅威 + 対処可能」ならチャレンジとして受け取れることも。（「冒静に行動」「何も起きない」は理想だけど、対処不能感があると難しい）",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "ストレス反応のメカニズムを理解したい人"
-            ],
-            "limitations": [
-                "理解しても反応自体は自動的に起きる（意識的制御には限界がある）"
-            ],
-            "citation_role": "一次×二次評価の組み合わせがストレス強度を決めるメカニズムを説明",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_007",
-        "type": "swipe_judgment",
-        "question": "「脅威判定」は本能的なもので、変えられない。",
-        "is_true": false,
-        "swipe_labels": {
-            "left": "そうだと思う",
-            "right": "違うと思う"
-        },
-        "explanation": "完全に変えるのは難しいが、受け取り直しがしやすくなることはある（個人差あり）。ただし、疲れているときや余裕がないときは無理しない方がいい。",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "citation_role": "評価の可変性を理論的に説明",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "flexibility"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_008",
-        "type": "multiple_choice",
-        "question": "認知的評価理論が「向いていない」のは、どんなケース？",
-        "choices": [
-            "身体的な病気が主な原因のストレス",
-            "職場の人間関係のストレス",
-            "将来への漠然とした不安"
-        ],
-        "correct_index": 0,
-        "explanation": "身体的な病気や生理的要因が強いケースでは、「解釈を変える」だけでなく医療的アプローチも検討すべき。（「人間関係」「将来の不安」は認知アプローチが有効なことがある）",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "理論の適用範囲を正しく理解したい人"
-            ],
-            "limitations": [
-                "この理論自体が「限界ケースの見極め」には詳しくない"
-            ],
-            "citation_role": "認知的評価理論の適用範囲の限界を説明",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "stress"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_009",
-        "type": "conversation",
-        "question": "今日学んだ「一次評価（脅威判定）」と「二次評価（対処可能性）」。",
-        "your_response_prompt": "次にストレスを感じたとき、どちらを意識してみたい？",
-        "choices": [
-            "一次評価：「これは本当に脅威か？」と問いかける",
-            "二次評価：「自分には何ができるか？」を考える",
-            "どちらも試してみる",
-            "今回はパス（それも選択）"
-        ],
-        "recommended_index": null,
-        "explanation": "どれも正解。自分に合う入口から試すのが一番続く。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "実践の入口を提案",
-            "claim_tags": [
-                "implementation",
-                "practice"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_010",
-        "type": "conversation",
-        "question": "このレッスンで学んだ「脅威判定の仕組み」、しっくり来ましたか？",
-        "your_response_prompt": "直感で答えてください",
-        "choices": [
-            "しっくり来た",
-            "少し違和感がある",
-            "まだよく分からない"
-        ],
-        "recommended_index": null,
-        "explanation": "どれも正解。「違和感」は大事な情報。この理論が合わないなら、別のアプローチがあなたに合うかもしれない。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "個人差の考慮を支持",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "これは「脅威判定」の自動発火。まだ何も起きていないのに、「危険かも」という反応が先に起きている。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "自動思考のパターンに気づきたい人"
+      ],
+      "limitations": [
+        "理論理解だけでは行動変容に直結しにくい"
+      ],
+      "citation_role": "認知的評価理論における一次評価（脅威判定）を説明",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "primary_appraisal",
+        "stress"
+      ]
     }
+  },
+  {
+    "id": "mental_l02_002",
+    "type": "multiple_choice",
+    "question": "同じ「上司からのフィードバック」でも、Aさんは落ち込み、Bさんは「改善点が分かった」と受け取った。\n\nこの違いを説明する理論として最も近いのは？",
+    "choices": [
+      "認知的評価理論（解釈の違いがストレスを左右する）",
+      "性格特性理論（生まれつきの気質が決める）",
+      "刺激−反応理論（出来事が直接反応を決める）"
+    ],
+    "correct_index": 0,
+    "explanation": "同じ出来事でも「どう解釈するか」で反応が変わる。これが認知的評価理論の核心。（「性格が全て」「出来事が原因」と思いがちだけど、それだと個人差が説明できない）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "理論的背景を理解したい人",
+        "なぜ人によって反応が違うか知りたい人"
+      ],
+      "limitations": [
+        "理論を知っても自動的に解釈は変わらない（練習が必要）"
+      ],
+      "citation_role": "認知的評価理論の基本メカニズムを説明",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_003",
+    "type": "swipe_judgment",
+    "question": "「一次評価」とは、出来事を「脅威 or 無害」と自動判定すること。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "そうだと思う",
+      "right": "違うと思う"
+    },
+    "explanation": "正解。一次評価は「これは自分にとって脅威か？」を瞬時に判断するプロセス。意識的というより、自動的に起きることが多い。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "理論用語を正確に理解したい人"
+      ],
+      "limitations": [
+        "用語を知っても実践には別の練習が必要"
+      ],
+      "citation_role": "一次評価の定義を説明",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "primary_appraisal"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_004",
+    "type": "multiple_choice",
+    "question": "「二次評価」とは何を判断するプロセス？",
+    "choices": [
+      "「この状況に対処できる資源があるか？」を判断する",
+      "「この出来事は脅威か？」を判断する",
+      "「過去に同じ経験があったか？」を思い出す"
+    ],
+    "correct_index": 0,
+    "explanation": "二次評価は「自分にはこれに対処できるか？」を評価するプロセス。一次評価で「脅威」と判断された後に起きる。（「脅威か？」は一次評価。「過去の経験」は別の記憶プロセス）",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "理論の全体像を把握したい人"
+      ],
+      "limitations": [
+        "理論理解だけでは対処能力は上がらない"
+      ],
+      "citation_role": "二次評価の定義を説明",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "secondary_appraisal",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_005",
+    "type": "conversation",
+    "question": "最近、「脅威」と感じた場面を思い出してください。",
+    "your_response_prompt": "そのとき、「対処できる」と感じたか、「無理かも」と感じたか、どちらが近い？",
+    "choices": [
+      "対処できると感じた",
+      "無理かもと感じた",
+      "どちらでもない / 覚えていない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。この「対処できるかどうか」の感覚が、二次評価そのもの。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "二次評価の自己認識を支持",
+      "claim_tags": [
+        "secondary_appraisal",
+        "self_awareness"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_006",
+    "type": "multiple_choice",
+    "question": "一次評価で「脅威」と判断され、二次評価で「対処できない」と判断されると、何が起きやすい？",
+    "choices": [
+      "強いストレス反応（焦り、不安、身体症状）",
+      "問題解決に向けた冷静な行動",
+      "何も起きない"
+    ],
+    "correct_index": 0,
+    "explanation": "「脅威 + 対処不能」の組み合わせがストレス反応を強める。逆に「脅威 + 対処可能」ならチャレンジとして受け取れることも。（「冒静に行動」「何も起きない」は理想だけど、対処不能感があると難しい）",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "ストレス反応のメカニズムを理解したい人"
+      ],
+      "limitations": [
+        "理解しても反応自体は自動的に起きる（意識的制御には限界がある）"
+      ],
+      "citation_role": "一次×二次評価の組み合わせがストレス強度を決めるメカニズムを説明",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_007",
+    "type": "swipe_judgment",
+    "question": "「脅威判定」は本能的なもので、変えられない。",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "そうだと思う",
+      "right": "違うと思う"
+    },
+    "explanation": "完全に変えるのは難しいが、受け取り直しがしやすくなることはある（個人差あり）。ただし、疲れているときや余裕がないときは無理しない方がいい。",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "評価の可変性を理論的に説明",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "flexibility"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_008",
+    "type": "multiple_choice",
+    "question": "認知的評価理論が「向いていない」のは、どんなケース？",
+    "choices": [
+      "身体的な病気が主な原因のストレス",
+      "職場の人間関係のストレス",
+      "将来への漠然とした不安"
+    ],
+    "correct_index": 0,
+    "explanation": "身体的な病気や生理的要因が強いケースでは、「解釈を変える」だけでなく医療的アプローチも検討すべき。（「人間関係」「将来の不安」は認知アプローチが有効なことがある）",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "理論の適用範囲を正しく理解したい人"
+      ],
+      "limitations": [
+        "この理論自体が「限界ケースの見極め」には詳しくない"
+      ],
+      "citation_role": "認知的評価理論の適用範囲の限界を説明",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_009",
+    "type": "conversation",
+    "question": "今日学んだ「一次評価（脅威判定）」と「二次評価（対処可能性）」。",
+    "your_response_prompt": "次にストレスを感じたとき、どちらを意識してみたい？",
+    "choices": [
+      "一次評価：「これは本当に脅威か？」と問いかける",
+      "二次評価：「自分には何ができるか？」を考える",
+      "どちらも試してみる",
+      "今回はパス（それも選択）"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。自分に合う入口から試すのが一番続く。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "citation_role": "一次評価の再評価による負荷軽減を示唆",
+      "claim_tags": [
+        "appraisal",
+        "micro_reappraisal",
+        "intervention"
+      ],
+      "try_this": "次にストレスを感じたら「本当に脅威？」と10秒だけ問い直す",
+      "tiny_metric": {
+        "before_prompt": "今の不安は0〜10で？",
+        "after_prompt": "10秒後の不安は0〜10で？",
+        "success_rule": "1だけ下がればOK",
+        "stop_rule": "不安が増えるなら撤退"
+      },
+      "comparator": {
+        "baseline": "自動思考のままだと脅威評価が強まりやすい",
+        "cost": "10秒・頭の中だけで可能"
+      },
+      "fallback": {
+        "when": "問い直しが難しいとき",
+        "next": "「今できること1つ」だけ決める"
+      },
+      "best_for": [
+        "不安の自動評価に飲まれやすい人"
+      ],
+      "limitations": [
+        "危機的状況では即時支援が優先"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_010",
+    "type": "conversation",
+    "question": "このレッスンで学んだ「脅威判定の仕組み」、しっくり来ましたか？",
+    "your_response_prompt": "直感で答えてください",
+    "choices": [
+      "しっくり来た",
+      "少し違和感がある",
+      "まだよく分からない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。「違和感」は大事な情報。この理論が合わないなら、別のアプローチがあなたに合うかもしれない。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "個人差の考慮を支持",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

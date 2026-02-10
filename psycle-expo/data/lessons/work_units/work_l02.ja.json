@@ -337,7 +337,10 @@
       ],
       "tiny_metric": {
         "metric": "今週1回でも書けたか",
-        "stop_rule": "1週間書けなかったらやめる"
+        "stop_rule": "1週間書けなかったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
       },
       "comparator": {
         "baseline": "何も決めずに1日を始める",

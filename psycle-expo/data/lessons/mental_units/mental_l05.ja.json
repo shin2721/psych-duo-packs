@@ -11,7 +11,23 @@
     "explanation": "これは「破滅的思考」の典型例。「間に合わない」という予測が現実より先走って不安を増幅させている。※このレッスンは軽度の不安対処法を紹介しますが、希死念慮や自傷の傾向がある方は、アプリではなく専門機関（いのちの電話: 0570-783-556 等）へご相談ください。",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "不安が連鎖的に強まる人"
+      ],
+      "limitations": [
+        "急性危機ではセルフヘルプだけで十分でない"
+      ],
+      "citation_role": "反芻と不安増幅の関連を支持",
+      "claim_tags": [
+        "catastrophizing",
+        "rumination"
+      ]
+    }
   },
   {
     "id": "mental_l05_002",
@@ -24,9 +40,25 @@
     ],
     "correct_index": 0,
     "explanation": "破滅的思考には「証拠探し」が有効。完全に消そうとするより、現実的な視点を取り戻すことが大切。",
-    "difficulty": "medium",
+    "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "極端な予測で固まりやすい人"
+      ],
+      "limitations": [
+        "強いパニック時は単独で不十分な場合がある"
+      ],
+      "citation_role": "再評価理論の枠組みとして不安低減の可能性を説明",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal_theory"
+      ]
+    }
   },
   {
     "id": "mental_l05_003",
@@ -42,7 +74,23 @@
     "explanation": "どの答えも正常な反応です。人間の脳は危険を予測するようにできているため、ネガティブな想像をするのは自然なこと。",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "最悪予測が頭を占めやすい人"
+      ],
+      "limitations": [
+        "症状が重い場合は追加支援が必要"
+      ],
+      "citation_role": "認知的評価の個人差を支持",
+      "claim_tags": [
+        "appraisal",
+        "anxiety"
+      ]
+    }
   },
   {
     "id": "mental_l05_004",
@@ -57,7 +105,38 @@
     "explanation": "極端から極端に振るより、バランスの取れた視点を見つけることが重要。過去の経験は現実的な根拠になる。",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "「過去に乗り切れた例は？」を10秒で1つ思い出す",
+      "tiny_metric": {
+        "before_prompt": "今の緊張は0〜10で？",
+        "after_prompt": "10秒後の緊張は0〜10で？",
+        "success_rule": "1だけ下がればOK",
+        "stop_rule": "しんどさが増えるなら撤退"
+      },
+      "comparator": {
+        "baseline": "根拠なしの予測は不安を維持しやすい",
+        "cost": "10秒・記憶1つだけ"
+      },
+      "fallback": {
+        "when": "成功体験が出てこないとき",
+        "next": "「失敗しても次に何をするか」だけ決める"
+      },
+      "best_for": [
+        "プレッシャー場面で固まりやすい人"
+      ],
+      "limitations": [
+        "深刻な抑うつ時は効果が出にくい"
+      ],
+      "citation_role": "再評価による対処可能感の上昇を示唆",
+      "claim_tags": [
+        "coping",
+        "reappraisal"
+      ]
+    }
   },
   {
     "id": "mental_l05_005",
@@ -71,7 +150,23 @@
     "explanation": "完全に消す必要はありません。むしろ「気づいて、現実的な視点を加える」ことが大切です。",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "思考との付き合い方を学びたい人"
+      ],
+      "limitations": [
+        "理論理解だけでは行動変化が起きにくい"
+      ],
+      "citation_role": "認知評価モデルの理論枠組みを支持",
+      "claim_tags": [
+        "cognitive_model",
+        "appraisal"
+      ]
+    }
   },
   {
     "id": "mental_l05_006",
@@ -87,7 +182,38 @@
     "explanation": "どの方法も時には有効ですが、現実的な対策を考えることで不安を行動に変換できます。",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "「最悪でも次の1手は？」を10秒で1つ書く",
+      "tiny_metric": {
+        "before_prompt": "今の行き詰まり感は0〜10で？",
+        "after_prompt": "10秒後の行き詰まり感は0〜10で？",
+        "success_rule": "1だけ下がればOK",
+        "stop_rule": "苦しさが増えるなら中止"
+      },
+      "comparator": {
+        "baseline": "考え続けるだけだと行動に移りにくい",
+        "cost": "10秒・メモ1行"
+      },
+      "fallback": {
+        "when": "言語化が難しいとき",
+        "next": "「今できる最小行動」を1つ選ぶ"
+      },
+      "best_for": [
+        "不安で手が止まりやすい人"
+      ],
+      "limitations": [
+        "疲労が強いと実行できない場合がある"
+      ],
+      "citation_role": "再評価と行動選択の接続を支持",
+      "claim_tags": [
+        "micro_action",
+        "coping"
+      ]
+    }
   },
   {
     "id": "mental_l05_007",
@@ -102,7 +228,23 @@
     "explanation": "疲労や睡眠不足は判断力を低下させ、ネガティブな思考に陥りやすくします。体調管理も重要な対策の一つ。",
     "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "silver"
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "疲労と不安の関係を把握したい人"
+      ],
+      "limitations": [
+        "個人差が大きく単一要因では説明できない"
+      ],
+      "citation_role": "疲労時のネガティブ思考傾向を示唆",
+      "claim_tags": [
+        "fatigue",
+        "negative_bias"
+      ]
+    }
   },
   {
     "id": "mental_l05_008",
@@ -118,7 +260,38 @@
     "explanation": "どの場面でも有効です。まずは小さな不安から試してみることをお勧めします。",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "明日使う場面を1つ決めて10秒でメモする",
+      "tiny_metric": {
+        "before_prompt": "実行イメージの明確さは0〜10で？",
+        "after_prompt": "10秒後の明確さは0〜10で？",
+        "success_rule": "1だけ上がればOK",
+        "stop_rule": "負担が増えるなら今日は保留"
+      },
+      "comparator": {
+        "baseline": "場面を決めないと実行率が落ちやすい",
+        "cost": "10秒・1場面だけ"
+      },
+      "fallback": {
+        "when": "場面が思いつかないとき",
+        "next": "「朝いちの不安場面」で仮置きする"
+      },
+      "best_for": [
+        "学んだ内容を行動に移したい人"
+      ],
+      "limitations": [
+        "実行環境が不安定だと定着しにくい"
+      ],
+      "citation_role": "具体化が実行率を高める可能性を支持",
+      "claim_tags": [
+        "implementation_intention",
+        "planning"
+      ]
+    }
   },
   {
     "id": "mental_l05_009",
@@ -131,9 +304,41 @@
     ],
     "correct_index": 1,
     "explanation": "完全なコントロールや無理なポジティブ思考より、現実的でバランスの取れた視点を持つことが重要です。",
-    "difficulty": "hard",
+    "difficulty": "medium",
     "xp": 5,
-    "evidence_grade": "gold"
+    "evidence_grade": "gold",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "不安が出たら「証拠は？反証は？」を10秒で1往復",
+      "tiny_metric": {
+        "before_prompt": "不安の強さは0〜10で？",
+        "after_prompt": "10秒後の不安は0〜10で？",
+        "success_rule": "1だけ下がればOK",
+        "stop_rule": "しんどさが増えるなら撤退"
+      },
+      "comparator": {
+        "baseline": "思考を放置すると最悪予測が固定されやすい",
+        "cost": "10秒・頭の中だけで可能"
+      },
+      "fallback": {
+        "when": "反証が出てこないとき",
+        "next": "「最悪時の次の1手」だけ先に決める"
+      },
+      "best_for": [
+        "破滅的思考を弱めたい人"
+      ],
+      "limitations": [
+        "高ストレス時はサポート併用が望ましい"
+      ],
+      "citation_role": "再評価の実践手順を支持",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal",
+        "evidence_check"
+      ]
+    }
   },
   {
     "id": "mental_l05_010",
@@ -149,6 +354,22 @@
     "explanation": "どの感想も貴重です。人それぞれに合う方法は違うので、自分に合うアプローチを見つけることが大切です。",
     "difficulty": "easy",
     "xp": 5,
-    "evidence_grade": "bronze"
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "自分との相性を確かめたい人"
+      ],
+      "limitations": [
+        "単回評価なので長期効果は別途確認が必要"
+      ],
+      "citation_role": "対処法の個人差を支持",
+      "claim_tags": [
+        "fit",
+        "self_monitoring"
+      ]
+    }
   }
 ]

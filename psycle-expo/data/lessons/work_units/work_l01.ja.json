@@ -101,7 +101,10 @@
       ],
       "tiny_metric": {
         "metric": "5分タイマーを押して始められたか",
-        "stop_rule": "3回連続で押せなかったらやめる"
+        "stop_rule": "3回連続で押せなかったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
       },
       "comparator": {
         "baseline": "タスク全体を見て圧倒される",
@@ -149,7 +152,10 @@
       ],
       "tiny_metric": {
         "metric": "if-then計画を1つ作れたか",
-        "stop_rule": "3回連続で作れなかったらやめる"
+        "stop_rule": "3回連続で作れなかったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
       },
       "comparator": {
         "baseline": "「やらなきゃ」と思うだけ",
@@ -229,7 +235,10 @@
       ],
       "tiny_metric": {
         "metric": "「次の1手」を書き出せたか",
-        "stop_rule": "3回連続で書き出せなかったらやめる"
+        "stop_rule": "3回連続で書き出せなかったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
       },
       "comparator": {
         "baseline": "タスク全体を見て固まる",
@@ -276,7 +285,10 @@
       "try_this": "👉 10秒で誰かに「5分だけやる」と宣言する",
       "tiny_metric": {
         "metric": "宣言した後に5分動けたか",
-        "stop_rule": "3回連続で動けなかったらやめる"
+        "stop_rule": "3回連続で動けなかったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
       },
       "comparator": {
         "baseline": "誰にも言わず先延ばしする",
@@ -405,7 +417,10 @@
       ],
       "tiny_metric": {
         "metric": "今週1回でも10秒ルールを使えたか",
-        "stop_rule": "1週間1回も思い出せなかったらやめる"
+        "stop_rule": "1週間1回も思い出せなかったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
       },
       "comparator": {
         "baseline": "何も試さない",

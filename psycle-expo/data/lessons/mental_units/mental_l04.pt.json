@@ -1,308 +1,323 @@
 [
-    {
-        "id": "mental_l04_001",
-        "type": "swipe_judgment",
-        "question": "Domingo a noite. Quando comeco a pensar no dia seguinte, as mesmas preocupacoes ficam se repetindo em loop.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Frequente",
-            "right": "Raramente"
-        },
-        "explanation": "Este e um sinal de \"ruminacao\". Embora parecamos estar pensando, na verdade pode ser uma reproducao automatica do cerebro.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Pessoas que querem perceber padroes de ruminacao"
-            ],
-            "limitations": [
-                "Quando ha tristeza intensa e persistente, a auto-observacao pode se tornar um fardo"
-            ],
-            "citation_role": "Apoia as caracteristicas e persistencia da ruminacao com pesquisa empirica",
-            "claim_tags": [
-                "rumination",
-                "repetitive_thinking",
-                "depression"
-            ]
-        }
+  {
+    "id": "mental_l04_001",
+    "type": "swipe_judgment",
+    "question": "Domingo a noite. Quando comeco a pensar no dia seguinte, as mesmas preocupacoes ficam se repetindo em loop.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Frequente",
+      "right": "Raramente"
     },
-    {
-        "id": "mental_l04_002",
-        "type": "multiple_choice",
-        "question": "Qual e a caracteristica correta da \"ruminacao\"?",
-        "choices": [
-            "O mesmo conteudo fica se repetindo em circulos",
-            "Quanto mais pensamos, mais encontramos solucoes",
-            "Naturalmente se acalma com o tempo"
-        ],
-        "correct_index": 0,
-        "explanation": "A ruminacao parece \"pensar\", mas na verdade e apenas repetir o mesmo conteudo. Frequentemente e necessaria uma abordagem diferente para resolver. (\"Encontrar solucoes\" e pensamento orientado para a solucao. \"Acalmar naturalmente\" tende a ser raro)",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Pessoas que querem entender a diferenca entre ruminacao e pensamento de resolucao de problemas"
-            ],
-            "limitations": [
-                "Nem todo pensamento repetitivo e prejudicial (a reflexao e diferente)"
-            ],
-            "citation_role": "Define a caracteristica repetitiva da ruminacao",
-            "claim_tags": [
-                "rumination",
-                "repetitive_thinking"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_003",
-        "type": "swipe_judgment",
-        "question": "Tenho algo que preciso fazer, mas por algum motivo comeco a fazer outra coisa.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Frequente",
-            "right": "Raramente"
-        },
-        "explanation": "Este e um sinal de \"procrastinacao\". Nao e fraqueza de vontade, mas uma reacao natural para evitar desconforto.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que querem perceber padroes de procrastinacao"
-            ],
-            "limitations": [
-                "As causas da procrastinacao sao diversas (TDAH, perfeccionismo, etc.) e nao podem ser generalizadas"
-            ],
-            "citation_role": "Explica a procrastinacao como comportamento de evitacao no contexto da avaliacao cognitiva",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_004",
-        "type": "multiple_choice",
-        "question": "Em que situacao a procrastinacao tende a ocorrer mais facilmente?",
-        "choices": [
-            "Quando a tarefa causa desconforto (dificil, tediosa, ansiosa)",
-            "Quando a tarefa e muito facil",
-            "Quando ha tempo suficiente"
-        ],
-        "correct_index": 0,
-        "explanation": "A procrastinacao e um comportamento de \"evitacao de desconforto\". Quando a tarefa em si causa desconforto, inconscientemente nossa atencao se volta para outras coisas. (Tende a ocorrer mais quando ha desconforto do que quando \"e muito facil\" ou \"ha tempo\")",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que querem entender as causas da procrastinacao"
-            ],
-            "limitations": [
-                "Nem toda procrastinacao e evitacao de desconforto (as vezes e uma questao de priorizacao)"
-            ],
-            "citation_role": "Explica a procrastinacao como evitacao de estresse no contexto da avaliacao cognitiva",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_005",
-        "type": "conversation",
-        "question": "Existe algo que voce tem procrastinado recentemente?",
-        "your_response_prompt": "Escolha o que vier a mente",
-        "choices": [
-            "Trabalho ou estudos",
-            "Relacionamentos e comunicacao",
-            "Saude e habitos de vida",
-            "Nada em especial / Nao consigo pensar em nada"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas estao corretas. \"Nao consigo pensar em nada\" tambem e uma resposta valida. Se nao ha procrastinacao, isso e bom.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia o autoconhecimento",
-            "claim_tags": [
-                "self_awareness",
-                "stress"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_006",
-        "type": "swipe_judgment",
-        "question": "Quando estou prestes a lembrar de uma situacao estressante, conscientemente penso em outra coisa.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Frequente",
-            "right": "Raramente"
-        },
-        "explanation": "Este e um sinal de \"evitacao\". A curto prazo traz alivio, mas a longo prazo o problema pode permanecer.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que querem perceber padroes de evitacao"
-            ],
-            "limitations": [
-                "Ha casos em que a evitacao e eficaz (como evitacao temporaria logo apos um trauma)"
-            ],
-            "citation_role": "Explica as caracteristicas do coping de evitacao no contexto da avaliacao cognitiva",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_007",
-        "type": "multiple_choice",
-        "question": "Por que a \"evitacao\" tende a se tornar um problema a longo prazo?",
-        "choices": [
-            "O problema nao e resolvido e a ansiedade e mantida ou intensificada",
-            "Porque resolve o problema rapidamente",
-            "Porque a evitacao em si se torna estresse"
-        ],
-        "correct_index": 0,
-        "explanation": "A evitacao proporciona tranquilidade a curto prazo, mas o problema permanece como esta. Como resultado, a ansiedade tende a ser mantida. (\"Resolver rapidamente\" nao acontece com a evitacao. \"A evitacao em si se tornar estresse\" e um problema secundario)",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que querem entender os impactos de longo prazo da evitacao"
-            ],
-            "limitations": [
-                "Nem toda evitacao se torna um problema (ha evitacao que e correta como priorizacao)"
-            ],
-            "citation_role": "Explica os impactos de longo prazo do coping de evitacao no contexto da pesquisa sobre estresse",
-            "claim_tags": [
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_008",
-        "type": "conversation",
-        "question": "Dos tres sinais aprendidos hoje (ruminacao, procrastinacao, evitacao), qual se aplica mais a voce?",
-        "your_response_prompt": "Escolha por intuicao",
-        "choices": [
-            "Ruminacao (mesmas preocupacoes em loop)",
-            "Procrastinacao (adiar o que deveria fazer)",
-            "Evitacao (tentar nao pensar)",
-            "Nenhum se aplica"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas estao corretas. \"Nenhum se aplica\" tambem e uma resposta valida. Perceber seu proprio padrao ja e um passo suficiente.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia o reconhecimento de padroes",
-            "claim_tags": [
-                "self_awareness",
-                "pattern_recognition"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_009",
-        "type": "multiple_choice",
-        "question": "O que \"ruminacao\", \"procrastinacao\" e \"evitacao\" tem em comum?",
-        "choices": [
-            "Tem a funcao de escapar temporariamente do desconforto",
-            "A fraqueza de vontade e a causa",
-            "E um problema que deve ser corrigido imediatamente"
-        ],
-        "correct_index": 0,
-        "explanation": "Todos os tres tem a funcao de \"evitacao de desconforto\". Em vez de se culpar, perceber o padrao e o primeiro passo. (\"Fraqueza de vontade\" e um mal-entendido. Culpar-se dizendo \"deve corrigir imediatamente\" tende a ter efeito contrario)",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que querem entender os pontos em comum dos padroes"
-            ],
-            "limitations": [
-                "Se os tres forem tratados de forma muito igual, as abordagens especificas para cada um podem se tornar invisiveis"
-            ],
-            "citation_role": "Sugere a funcao comum de ruminacao, procrastinacao e evitacao",
-            "claim_tags": [
-                "rumination",
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l04_010",
-        "type": "conversation",
-        "question": "Voce percebeu seu proprio padrao nesta licao?",
-        "your_response_prompt": "Responda honestamente",
-        "choices": [
-            "Tive uma percepcao",
-            "Ja sabia",
-            "Nao entendi bem"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas estao corretas. Se \"ja sabia\", foi uma revisao, e se \"nao entendi bem\", talvez uma abordagem diferente seja mais adequada.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Nolen-Hoeksema_1991",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia a consideracao de diferencas individuais",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "Este e um sinal de \"ruminacao\". Embora parecamos estar pensando, na verdade pode ser uma reproducao automatica do cerebro.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que querem perceber padroes de ruminacao"
+      ],
+      "limitations": [
+        "Quando ha tristeza intensa e persistente, a auto-observacao pode se tornar um fardo"
+      ],
+      "citation_role": "Apoia as caracteristicas e persistencia da ruminacao com pesquisa empirica",
+      "claim_tags": [
+        "rumination",
+        "repetitive_thinking",
+        "depression"
+      ]
     }
+  },
+  {
+    "id": "mental_l04_002",
+    "type": "multiple_choice",
+    "question": "Qual e a caracteristica correta da \"ruminacao\"?",
+    "choices": [
+      "O mesmo conteudo fica se repetindo em circulos",
+      "Quanto mais pensamos, mais encontramos solucoes",
+      "Naturalmente se acalma com o tempo"
+    ],
+    "correct_index": 0,
+    "explanation": "A ruminacao parece \"pensar\", mas na verdade e apenas repetir o mesmo conteudo. Frequentemente e necessaria uma abordagem diferente para resolver. (\"Encontrar solucoes\" e pensamento orientado para a solucao. \"Acalmar naturalmente\" tende a ser raro)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que querem entender a diferenca entre ruminacao e pensamento de resolucao de problemas"
+      ],
+      "limitations": [
+        "Nem todo pensamento repetitivo e prejudicial (a reflexao e diferente)"
+      ],
+      "citation_role": "Define a caracteristica repetitiva da ruminacao",
+      "claim_tags": [
+        "rumination",
+        "repetitive_thinking"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_003",
+    "type": "swipe_judgment",
+    "question": "Tenho algo que preciso fazer, mas por algum motivo comeco a fazer outra coisa.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Frequente",
+      "right": "Raramente"
+    },
+    "explanation": "Este e um sinal de \"procrastinacao\". Nao e fraqueza de vontade, mas uma reacao natural para evitar desconforto.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem perceber padroes de procrastinacao"
+      ],
+      "limitations": [
+        "As causas da procrastinacao sao diversas (TDAH, perfeccionismo, etc.) e nao podem ser generalizadas"
+      ],
+      "citation_role": "Explica a procrastinacao como comportamento de evitacao no contexto da avaliacao cognitiva",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_004",
+    "type": "multiple_choice",
+    "question": "Em que situacao a procrastinacao tende a ocorrer mais facilmente?",
+    "choices": [
+      "Quando a tarefa causa desconforto (dificil, tediosa, ansiosa)",
+      "Quando a tarefa e muito facil",
+      "Quando ha tempo suficiente"
+    ],
+    "correct_index": 0,
+    "explanation": "A procrastinacao e um comportamento de \"evitacao de desconforto\". Quando a tarefa em si causa desconforto, inconscientemente nossa atencao se volta para outras coisas. (Tende a ocorrer mais quando ha desconforto do que quando \"e muito facil\" ou \"ha tempo\")",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem entender as causas da procrastinacao"
+      ],
+      "limitations": [
+        "Nem toda procrastinacao e evitacao de desconforto (as vezes e uma questao de priorizacao)"
+      ],
+      "citation_role": "Explica a procrastinacao como evitacao de estresse no contexto da avaliacao cognitiva",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_005",
+    "type": "conversation",
+    "question": "Existe algo que voce tem procrastinado recentemente?",
+    "your_response_prompt": "Escolha o que vier a mente",
+    "choices": [
+      "Trabalho ou estudos",
+      "Relacionamentos e comunicacao",
+      "Saude e habitos de vida",
+      "Nada em especial / Nao consigo pensar em nada"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas estao corretas. \"Nao consigo pensar em nada\" tambem e uma resposta valida. Se nao ha procrastinacao, isso e bom.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia o autoconhecimento",
+      "claim_tags": [
+        "self_awareness",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_006",
+    "type": "swipe_judgment",
+    "question": "Quando estou prestes a lembrar de uma situacao estressante, conscientemente penso em outra coisa.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Frequente",
+      "right": "Raramente"
+    },
+    "explanation": "Este e um sinal de \"evitacao\". A curto prazo traz alivio, mas a longo prazo o problema pode permanecer.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem perceber padroes de evitacao"
+      ],
+      "limitations": [
+        "Ha casos em que a evitacao e eficaz (como evitacao temporaria logo apos um trauma)"
+      ],
+      "citation_role": "Explica as caracteristicas do coping de evitacao no contexto da avaliacao cognitiva",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_007",
+    "type": "multiple_choice",
+    "question": "Por que a \"evitacao\" tende a se tornar um problema a longo prazo?",
+    "choices": [
+      "O problema nao e resolvido e a ansiedade e mantida ou intensificada",
+      "Porque resolve o problema rapidamente",
+      "Porque a evitacao em si se torna estresse"
+    ],
+    "correct_index": 0,
+    "explanation": "A evitacao proporciona tranquilidade a curto prazo, mas o problema permanece como esta. Como resultado, a ansiedade tende a ser mantida. (\"Resolver rapidamente\" nao acontece com a evitacao. \"A evitacao em si se tornar estresse\" e um problema secundario)",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem entender os impactos de longo prazo da evitacao"
+      ],
+      "limitations": [
+        "Nem toda evitacao se torna um problema (ha evitacao que e correta como priorizacao)"
+      ],
+      "citation_role": "Explica os impactos de longo prazo do coping de evitacao no contexto da pesquisa sobre estresse",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_008",
+    "type": "conversation",
+    "question": "Dos tres sinais aprendidos hoje (ruminacao, procrastinacao, evitacao), qual se aplica mais a voce?",
+    "your_response_prompt": "Escolha por intuicao",
+    "choices": [
+      "Ruminacao (mesmas preocupacoes em loop)",
+      "Procrastinacao (adiar o que deveria fazer)",
+      "Evitacao (tentar nao pensar)",
+      "Nenhum se aplica"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas estao corretas. \"Nenhum se aplica\" tambem e uma resposta valida. Perceber seu proprio padrao ja e um passo suficiente.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia o reconhecimento de padroes",
+      "claim_tags": [
+        "self_awareness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_009",
+    "type": "multiple_choice",
+    "question": "O que \"ruminacao\", \"procrastinacao\" e \"evitacao\" tem em comum?",
+    "choices": [
+      "Tem a funcao de escapar temporariamente do desconforto",
+      "A fraqueza de vontade e a causa",
+      "E um problema que deve ser corrigido imediatamente"
+    ],
+    "correct_index": 0,
+    "explanation": "Todos os tres tem a funcao de \"evitacao de desconforto\". Em vez de se culpar, perceber o padrao e o primeiro passo. (\"Fraqueza de vontade\" e um mal-entendido. Culpar-se dizendo \"deve corrigir imediatamente\" tende a ter efeito contrario)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem entender os pontos em comum dos padroes"
+      ],
+      "limitations": [
+        "Se os tres forem tratados de forma muito igual, as abordagens especificas para cada um podem se tornar invisiveis"
+      ],
+      "citation_role": "Sugere a funcao comum de ruminacao, procrastinacao e evitacao",
+      "claim_tags": [
+        "rumination",
+        "stress",
+        "coping"
+      ],
+      "try_this": "Ao notar a ruminação, reserve 10 segundos para decidir qual movimento você pode fazer agora.",
+      "tiny_metric": {
+        "before_prompt": "Qual é a sensação da sua cabeça em uma escala de 0 a 10?",
+        "after_prompt": "Em uma escala de 0 a 10, há sensação de rotação após 10 segundos?",
+        "success_rule": "Tudo bem se cair 1",
+        "stop_rule": "Se ficar mais cansativo, pare."
+      },
+      "comparator": {
+        "baseline": "Se você continuar pensando nisso, é provável que a evitação continue.",
+        "cost": "10 segundos/1 ação apenas"
+      },
+      "fallback": {
+        "when": "Quando você não consegue decidir sobre um movimento",
+        "next": "Inspire por 4 segundos e expire por 4 segundos e tente novamente."
+      }
+    }
+  },
+  {
+    "id": "mental_l04_010",
+    "type": "conversation",
+    "question": "Voce percebeu seu proprio padrao nesta licao?",
+    "your_response_prompt": "Responda honestamente",
+    "choices": [
+      "Tive uma percepcao",
+      "Ja sabia",
+      "Nao entendi bem"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas estao corretas. Se \"ja sabia\", foi uma revisao, e se \"nao entendi bem\", talvez uma abordagem diferente seja mais adequada.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a consideracao de diferencas individuais",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

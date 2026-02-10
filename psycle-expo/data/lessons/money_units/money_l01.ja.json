@@ -102,7 +102,10 @@
       ],
       "tiny_metric": {
         "metric": "24時間後に「やっぱりいらない」と思ったか",
-        "stop_rule": "3回連続で全部買ってしまったらやめる"
+        "stop_rule": "3回連続で全部買ってしまったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
       },
       "comparator": {
         "baseline": "その場で即購入",
@@ -280,7 +283,10 @@
       "try_this": "「限定」と言われたら10秒待つ",
       "tiny_metric": {
         "metric": "10秒待った後に「やっぱりいらない」と思えたか",
-        "stop_rule": "3回連続で結局買ったらやめる"
+        "stop_rule": "3回連続で結局買ったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
       },
       "comparator": {
         "baseline": "「限定！」と聞いて即購入",
@@ -409,7 +415,10 @@
       ],
       "tiny_metric": {
         "metric": "今週1回でも10秒待てたか",
-        "stop_rule": "1週間1回も思い出せなかったらやめる"
+        "stop_rule": "1週間1回も思い出せなかったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
       },
       "comparator": {
         "baseline": "何も試さない",

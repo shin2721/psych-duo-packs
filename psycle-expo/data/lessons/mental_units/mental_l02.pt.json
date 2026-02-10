@@ -1,304 +1,326 @@
 [
-    {
-        "id": "mental_l02_001",
-        "type": "swipe_judgment",
-        "question": "Segunda-feira, 8h, no trem para o trabalho. Surge o pensamento: 'Tenho a sensacao de que a apresentacao de hoje nao vai dar certo'.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Comum",
-            "right": "Raro"
-        },
-        "explanation": "Isso e um disparo automatico de 'avaliacao de ameaca'. Mesmo antes de qualquer coisa acontecer, a reacao de 'pode ser perigoso' ja ocorreu primeiro.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Pessoas que desejam perceber padroes de pensamentos automaticos"
-            ],
-            "limitations": [
-                "Apenas a compreensao teorica tende a nao levar diretamente a mudanca de comportamento"
-            ],
-            "citation_role": "Explica a avaliacao primaria (avaliacao de ameaca) na teoria da avaliacao cognitiva",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "primary_appraisal",
-                "stress"
-            ]
-        }
+  {
+    "id": "mental_l02_001",
+    "type": "swipe_judgment",
+    "question": "Segunda-feira, 8h, no trem para o trabalho. Surge o pensamento: 'Tenho a sensacao de que a apresentacao de hoje nao vai dar certo'.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Comum",
+      "right": "Raro"
     },
-    {
-        "id": "mental_l02_002",
-        "type": "multiple_choice",
-        "question": "Diante do mesmo 'feedback do chefe', a pessoa A ficou desanimada, enquanto a pessoa B interpretou como 'agora sei o que posso melhorar'.\n\nQual teoria melhor explica essa diferenca?",
-        "choices": [
-            "Teoria da avaliacao cognitiva (a interpretacao influencia o estresse)",
-            "Teoria dos tracos de personalidade (o temperamento inato determina)",
-            "Teoria estimulo-resposta (o evento determina diretamente a reacao)"
-        ],
-        "correct_index": 0,
-        "explanation": "Mesmo diante do mesmo evento, a reacao muda dependendo de 'como voce interpreta'. Esse e o ponto central da teoria da avaliacao cognitiva. (Tendemos a pensar que 'e tudo personalidade' ou 'o evento e a causa', mas isso nao explicaria as diferencas individuais)",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Pessoas que desejam entender o contexto teorico",
-                "Pessoas que querem saber por que as reacoes variam entre individuos"
-            ],
-            "limitations": [
-                "Conhecer a teoria nao muda automaticamente a interpretacao (e necessaria pratica)"
-            ],
-            "citation_role": "Explica o mecanismo basico da teoria da avaliacao cognitiva",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "stress",
-                "individual_differences"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_003",
-        "type": "swipe_judgment",
-        "question": "'Avaliacao primaria' e julgar automaticamente um evento como 'ameaca ou inofensivo'.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Acho que sim",
-            "right": "Acho que nao"
-        },
-        "explanation": "Correto. A avaliacao primaria e o processo de julgar instantaneamente 'isso e uma ameaca para mim?'. Geralmente tende a ocorrer automaticamente, nao conscientemente.",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Pessoas que desejam entender com precisao os termos teoricos"
-            ],
-            "limitations": [
-                "Conhecer a terminologia requer pratica separada para aplicacao"
-            ],
-            "citation_role": "Explica a definicao de avaliacao primaria",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "primary_appraisal"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_004",
-        "type": "multiple_choice",
-        "question": "O que a 'avaliacao secundaria' julga?",
-        "choices": [
-            "Julgar 'tenho recursos para lidar com essa situacao?'",
-            "Julgar 'esse evento e uma ameaca?'",
-            "Lembrar 'ja tive a mesma experiencia no passado?'"
-        ],
-        "correct_index": 0,
-        "explanation": "A avaliacao secundaria e o processo de avaliar 'consigo lidar com isso?'. Ocorre apos a avaliacao primaria julgar algo como 'ameaca'. ('E uma ameaca?' e a avaliacao primaria. 'Experiencia passada' e um processo de memoria diferente)",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "gold",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Pessoas que desejam ter uma visao geral da teoria"
-            ],
-            "limitations": [
-                "Apenas a compreensao teorica nao aumenta a capacidade de enfrentamento"
-            ],
-            "citation_role": "Explica a definicao de avaliacao secundaria",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "secondary_appraisal",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_005",
-        "type": "conversation",
-        "question": "Lembre-se de uma situacao recente em que voce sentiu 'ameaca'.",
-        "your_response_prompt": "Naquele momento, voce sentiu que 'conseguia lidar' ou que 'talvez nao conseguisse'? Qual estava mais proximo?",
-        "choices": [
-            "Senti que conseguia lidar",
-            "Senti que talvez nao conseguisse",
-            "Nenhum dos dois / Nao lembro"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas as respostas estao corretas. Essa sensacao de 'consigo ou nao lidar' e a propria avaliacao secundaria.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia a autoconsciencia da avaliacao secundaria",
-            "claim_tags": [
-                "secondary_appraisal",
-                "self_awareness"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_006",
-        "type": "multiple_choice",
-        "question": "Quando a avaliacao primaria julga como 'ameaca' e a avaliacao secundaria julga como 'nao consigo lidar', o que tende a acontecer?",
-        "choices": [
-            "Reacao de estresse intensa (ansiedade, pressa, sintomas fisicos)",
-            "Acao calma voltada para resolver o problema",
-            "Nada acontece"
-        ],
-        "correct_index": 0,
-        "explanation": "A combinacao 'ameaca + incapacidade de lidar' tende a intensificar a reacao de estresse. Por outro lado, 'ameaca + capacidade de lidar' pode ser interpretada como um desafio. ('Agir calmamente' ou 'nada acontece' seria o ideal, mas e dificil quando ha sensacao de incapacidade)",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Pessoas que desejam entender o mecanismo da reacao ao estresse"
-            ],
-            "limitations": [
-                "Mesmo compreendendo, a reacao em si tende a ocorrer automaticamente (ha limites para o controle consciente)"
-            ],
-            "citation_role": "Explica o mecanismo pelo qual a combinacao avaliacao primaria x secundaria determina a intensidade do estresse",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "stress",
-                "coping"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_007",
-        "type": "swipe_judgment",
-        "question": "A 'avaliacao de ameaca' e instintiva e nao pode ser mudada.",
-        "is_true": false,
-        "swipe_labels": {
-            "left": "Acho que sim",
-            "right": "Acho que nao"
-        },
-        "explanation": "Mudar completamente e dificil, mas ha relatos de que pode se tornar mais facil reinterpretar (com variacoes individuais). No entanto, quando voce esta cansado ou sem margem de manobra, e melhor nao forcar.",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "citation_role": "Explica teoricamente a variabilidade da avaliacao",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "flexibility"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_008",
-        "type": "multiple_choice",
-        "question": "Em que caso a teoria da avaliacao cognitiva 'nao e adequada'?",
-        "choices": [
-            "Estresse cuja principal causa e uma doenca fisica",
-            "Estresse nas relacoes interpessoais no trabalho",
-            "Ansiedade vaga sobre o futuro"
-        ],
-        "correct_index": 0,
-        "explanation": "Em casos onde doencas fisicas ou fatores fisiologicos sao predominantes, alem de 'mudar a interpretacao', abordagens medicas tambem devem ser consideradas. ('Relacoes interpessoais' e 'ansiedade sobre o futuro' podem ter a abordagem cognitiva como eficaz)",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Pessoas que desejam entender corretamente o escopo de aplicacao da teoria"
-            ],
-            "limitations": [
-                "A propria teoria nao e detalhada sobre 'identificar casos-limite'"
-            ],
-            "citation_role": "Explica as limitacoes do escopo de aplicacao da teoria da avaliacao cognitiva",
-            "claim_tags": [
-                "cognitive_appraisal",
-                "stress"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_009",
-        "type": "conversation",
-        "question": "'Avaliacao primaria (avaliacao de ameaca)' e 'avaliacao secundaria (possibilidade de enfrentamento)' que voce aprendeu hoje.",
-        "your_response_prompt": "Na proxima vez que sentir estresse, qual delas gostaria de tentar prestar atencao?",
-        "choices": [
-            "Avaliacao primaria: perguntar-se 'isso e realmente uma ameaca?'",
-            "Avaliacao secundaria: pensar 'o que eu posso fazer?'",
-            "Tentar as duas",
-            "Passar dessa vez (isso tambem e uma escolha)"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas as respostas estao corretas. Comecar pelo ponto de entrada que combina com voce e o que mais tende a funcionar a longo prazo.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Propoe um ponto de entrada para a pratica",
-            "claim_tags": [
-                "implementation",
-                "practice"
-            ]
-        }
-    },
-    {
-        "id": "mental_l02_010",
-        "type": "conversation",
-        "question": "O 'mecanismo de avaliacao de ameaca' que voce aprendeu nesta licao fez sentido para voce?",
-        "your_response_prompt": "Responda por intuicao",
-        "choices": [
-            "Fez sentido",
-            "Sinto um pouco de desconforto",
-            "Ainda nao entendi bem"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas as respostas estao corretas. 'Desconforto' e uma informacao importante. Se essa teoria nao combina com voce, talvez outra abordagem seja mais adequada.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Lazarus_1984",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia a consideracao das diferencas individuais",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "Isso e um disparo automatico de 'avaliacao de ameaca'. Mesmo antes de qualquer coisa acontecer, a reacao de 'pode ser perigoso' ja ocorreu primeiro.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que desejam perceber padroes de pensamentos automaticos"
+      ],
+      "limitations": [
+        "Apenas a compreensao teorica tende a nao levar diretamente a mudanca de comportamento"
+      ],
+      "citation_role": "Explica a avaliacao primaria (avaliacao de ameaca) na teoria da avaliacao cognitiva",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "primary_appraisal",
+        "stress"
+      ]
     }
+  },
+  {
+    "id": "mental_l02_002",
+    "type": "multiple_choice",
+    "question": "Diante do mesmo 'feedback do chefe', a pessoa A ficou desanimada, enquanto a pessoa B interpretou como 'agora sei o que posso melhorar'.\n\nQual teoria melhor explica essa diferenca?",
+    "choices": [
+      "Teoria da avaliacao cognitiva (a interpretacao influencia o estresse)",
+      "Teoria dos tracos de personalidade (o temperamento inato determina)",
+      "Teoria estimulo-resposta (o evento determina diretamente a reacao)"
+    ],
+    "correct_index": 0,
+    "explanation": "Mesmo diante do mesmo evento, a reacao muda dependendo de 'como voce interpreta'. Esse e o ponto central da teoria da avaliacao cognitiva. (Tendemos a pensar que 'e tudo personalidade' ou 'o evento e a causa', mas isso nao explicaria as diferencas individuais)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que desejam entender o contexto teorico",
+        "Pessoas que querem saber por que as reacoes variam entre individuos"
+      ],
+      "limitations": [
+        "Conhecer a teoria nao muda automaticamente a interpretacao (e necessaria pratica)"
+      ],
+      "citation_role": "Explica o mecanismo basico da teoria da avaliacao cognitiva",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_003",
+    "type": "swipe_judgment",
+    "question": "'Avaliacao primaria' e julgar automaticamente um evento como 'ameaca ou inofensivo'.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Acho que sim",
+      "right": "Acho que nao"
+    },
+    "explanation": "Correto. A avaliacao primaria e o processo de julgar instantaneamente 'isso e uma ameaca para mim?'. Geralmente tende a ocorrer automaticamente, nao conscientemente.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que desejam entender com precisao os termos teoricos"
+      ],
+      "limitations": [
+        "Conhecer a terminologia requer pratica separada para aplicacao"
+      ],
+      "citation_role": "Explica a definicao de avaliacao primaria",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "primary_appraisal"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_004",
+    "type": "multiple_choice",
+    "question": "O que a 'avaliacao secundaria' julga?",
+    "choices": [
+      "Julgar 'tenho recursos para lidar com essa situacao?'",
+      "Julgar 'esse evento e uma ameaca?'",
+      "Lembrar 'ja tive a mesma experiencia no passado?'"
+    ],
+    "correct_index": 0,
+    "explanation": "A avaliacao secundaria e o processo de avaliar 'consigo lidar com isso?'. Ocorre apos a avaliacao primaria julgar algo como 'ameaca'. ('E uma ameaca?' e a avaliacao primaria. 'Experiencia passada' e um processo de memoria diferente)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que desejam ter uma visao geral da teoria"
+      ],
+      "limitations": [
+        "Apenas a compreensao teorica nao aumenta a capacidade de enfrentamento"
+      ],
+      "citation_role": "Explica a definicao de avaliacao secundaria",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "secondary_appraisal",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_005",
+    "type": "conversation",
+    "question": "Lembre-se de uma situacao recente em que voce sentiu 'ameaca'.",
+    "your_response_prompt": "Naquele momento, voce sentiu que 'conseguia lidar' ou que 'talvez nao conseguisse'? Qual estava mais proximo?",
+    "choices": [
+      "Senti que conseguia lidar",
+      "Senti que talvez nao conseguisse",
+      "Nenhum dos dois / Nao lembro"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas as respostas estao corretas. Essa sensacao de 'consigo ou nao lidar' e a propria avaliacao secundaria.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a autoconsciencia da avaliacao secundaria",
+      "claim_tags": [
+        "secondary_appraisal",
+        "self_awareness"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_006",
+    "type": "multiple_choice",
+    "question": "Quando a avaliacao primaria julga como 'ameaca' e a avaliacao secundaria julga como 'nao consigo lidar', o que tende a acontecer?",
+    "choices": [
+      "Reacao de estresse intensa (ansiedade, pressa, sintomas fisicos)",
+      "Acao calma voltada para resolver o problema",
+      "Nada acontece"
+    ],
+    "correct_index": 0,
+    "explanation": "A combinacao 'ameaca + incapacidade de lidar' tende a intensificar a reacao de estresse. Por outro lado, 'ameaca + capacidade de lidar' pode ser interpretada como um desafio. ('Agir calmamente' ou 'nada acontece' seria o ideal, mas e dificil quando ha sensacao de incapacidade)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que desejam entender o mecanismo da reacao ao estresse"
+      ],
+      "limitations": [
+        "Mesmo compreendendo, a reacao em si tende a ocorrer automaticamente (ha limites para o controle consciente)"
+      ],
+      "citation_role": "Explica o mecanismo pelo qual a combinacao avaliacao primaria x secundaria determina a intensidade do estresse",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_007",
+    "type": "swipe_judgment",
+    "question": "A 'avaliacao de ameaca' e instintiva e nao pode ser mudada.",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "Acho que sim",
+      "right": "Acho que nao"
+    },
+    "explanation": "Mudar completamente e dificil, mas ha relatos de que pode se tornar mais facil reinterpretar (com variacoes individuais). No entanto, quando voce esta cansado ou sem margem de manobra, e melhor nao forcar.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "Explica teoricamente a variabilidade da avaliacao",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "flexibility"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_008",
+    "type": "multiple_choice",
+    "question": "Em que caso a teoria da avaliacao cognitiva 'nao e adequada'?",
+    "choices": [
+      "Estresse cuja principal causa e uma doenca fisica",
+      "Estresse nas relacoes interpessoais no trabalho",
+      "Ansiedade vaga sobre o futuro"
+    ],
+    "correct_index": 0,
+    "explanation": "Em casos onde doencas fisicas ou fatores fisiologicos sao predominantes, alem de 'mudar a interpretacao', abordagens medicas tambem devem ser consideradas. ('Relacoes interpessoais' e 'ansiedade sobre o futuro' podem ter a abordagem cognitiva como eficaz)",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que desejam entender corretamente o escopo de aplicacao da teoria"
+      ],
+      "limitations": [
+        "A propria teoria nao e detalhada sobre 'identificar casos-limite'"
+      ],
+      "citation_role": "Explica as limitacoes do escopo de aplicacao da teoria da avaliacao cognitiva",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_009",
+    "type": "conversation",
+    "question": "'Avaliacao primaria (avaliacao de ameaca)' e 'avaliacao secundaria (possibilidade de enfrentamento)' que voce aprendeu hoje.",
+    "your_response_prompt": "Na proxima vez que sentir estresse, qual delas gostaria de tentar prestar atencao?",
+    "choices": [
+      "Avaliacao primaria: perguntar-se 'isso e realmente uma ameaca?'",
+      "Avaliacao secundaria: pensar 'o que eu posso fazer?'",
+      "Tentar as duas",
+      "Passar dessa vez (isso tambem e uma escolha)"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas as respostas estao corretas. Comecar pelo ponto de entrada que combina com voce e o que mais tende a funcionar a longo prazo.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "citation_role": "Propoe um ponto de entrada para a pratica",
+      "claim_tags": [
+        "appraisal",
+        "micro_reappraisal",
+        "intervention"
+      ],
+      "try_this": "Na próxima vez que você se sentir estressado, pergunte-se por 10 segundos: “Isso é realmente uma ameaça?”",
+      "tiny_metric": {
+        "before_prompt": "A sua ansiedade atual está em uma escala de 0 a 10?",
+        "after_prompt": "Quão ansioso você fica após 10 segundos em uma escala de 0 a 10?",
+        "success_rule": "Tudo bem se cair 1",
+        "stop_rule": "Se a ansiedade aumentar, retire-se"
+      },
+      "comparator": {
+        "baseline": "Se os pensamentos automáticos permanecerem, as avaliações de ameaças tendem a se tornar mais fortes.",
+        "cost": "É possível em 10 segundos, só na sua cabeça"
+      },
+      "fallback": {
+        "when": "Quando é difícil perguntar de novo",
+        "next": "Decida apenas “uma coisa que você pode fazer agora”"
+      },
+      "best_for": [
+        "Pessoas que são facilmente influenciadas pela avaliação automática da ansiedade"
+      ],
+      "limitations": [
+        "A assistência imediata é uma prioridade em situações de crise"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_010",
+    "type": "conversation",
+    "question": "O 'mecanismo de avaliacao de ameaca' que voce aprendeu nesta licao fez sentido para voce?",
+    "your_response_prompt": "Responda por intuicao",
+    "choices": [
+      "Fez sentido",
+      "Sinto um pouco de desconforto",
+      "Ainda nao entendi bem"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas as respostas estao corretas. 'Desconforto' e uma informacao importante. Se essa teoria nao combina com voce, talvez outra abordagem seja mais adequada.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a consideracao das diferencas individuais",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

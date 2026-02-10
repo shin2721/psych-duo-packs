@@ -1,361 +1,370 @@
 [
-    {
-        "id": "social_l01_001",
-        "type": "swipe_judgment",
-        "question": "Quando me pedem algo, nao consigo recusar e depois me arrependo pensando 'por que eu aceitei isso?'",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Frequente",
-            "right": "Raro"
-        },
-        "explanation": "A tendencia de nao conseguir recusar e uma expressao de 'nao quero magoar a pessoa' ou 'nao quero ser rejeitado'. O problema e que seu tempo e energia sao consumidos.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "direct",
-            "best_for": [
-                "Pessoas que tendem a nao conseguir recusar",
-                "Pessoas que tendem ao autossacrificio"
-            ],
-            "limitations": [
-                "A adequacao de 'recusar' varia conforme cultura e relacionamento"
-            ],
-            "citation_role": "Apoia as caracteristicas e impactos da falta de assertividade em estudos observacionais",
-            "claim_tags": [
-                "assertiveness",
-                "boundary_setting",
-                "self_care"
-            ]
-        }
+  {
+    "id": "social_l01_001",
+    "type": "swipe_judgment",
+    "question": "Quando me pedem algo, nao consigo recusar e depois me arrependo pensando 'por que eu aceitei isso?'",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Frequente",
+      "right": "Raro"
     },
-    {
-        "id": "social_l01_002",
-        "type": "multiple_choice",
-        "question": "Por que surge a resistencia a 'recusar'?",
-        "choices": [
-            "Inconscientemente associamos 'recusar = rejeitar a pessoa'",
-            "Porque recusar causa prejuizo",
-            "Porque nao conhecemos os metodos de recusa"
-        ],
-        "correct_index": 0,
-        "explanation": "Na maioria dos casos, existe um padrao cognitivo de 'recusar = magoar a pessoa'. Mas o que voce esta recusando e o 'pedido', nao 'a pessoa em si'. Essa distincao pode ser a chave. ('Porque causa prejuizo' e 'nao sei como' sao menos relevantes que o padrao cognitivo)",
-        "actionable_advice": "Dica: Da proxima vez que for dificil recusar, lembre-se por 10 segundos: 'estou recusando o pedido, nao a pessoa'",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Pessoas que sentem culpa ao recusar",
-                "Pessoas com tendencia ao autossacrificio"
-            ],
-            "limitations": [
-                "Mesmo mudando a cognicao, a emocao pode nao mudar imediatamente"
-            ],
-            "citation_role": "Explica teoricamente a distincao entre recusa e rejeicao na pesquisa de assertividade",
-            "claim_tags": [
-                "assertiveness",
-                "cognitive_reframe",
-                "theory"
-            ]
-        }
-    },
-    {
-        "id": "social_l01_003",
-        "type": "swipe_judgment",
-        "question": "Tenho a crenca de que preciso decidir 'Sim/Nao' na hora.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Me identifico",
-            "right": "Nao me identifico"
-        },
-        "explanation": "Na verdade, ha muitos casos em que 'nao precisa decidir agora'. Ao 'pausar por 10 segundos', voce pode julgar com mais calma.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Paterson_2000",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que tendem a responder imediatamente",
-                "Pessoas que perdem o momento de recusar"
-            ],
-            "limitations": [
-                "Ha situacoes de emergencia que exigem resposta imediata"
-            ],
-            "citation_role": "Apoia indiretamente o efeito da pausa como tecnica de estabelecimento de limites",
-            "claim_tags": [
-                "assertiveness",
-                "decision_making",
-                "boundary_setting"
-            ]
-        }
-    },
-    {
-        "id": "social_l01_004",
-        "type": "multiple_choice",
-        "question": "Qual frase facilita quando e dificil recusar um pedido?",
-        "choices": [
-            "'Nao consigo decidir agora, te respondo depois'",
-            "'De jeito nenhum'",
-            "'Vou pensar' (terminar de forma ambigua)"
-        ],
-        "correct_index": 0,
-        "explanation": "'Nao consigo decidir agora' e uma 'pausa', nao uma recusa nem um sim. Isso pode liberar voce da pressao de responder imediatamente. Nao conseguir e normal. Tente uma vez. ('Recusa forte' e dificil de dizer. 'Vou pensar' tende a ficar ambiguo)",
-        "actionable_advice": "Dica: Da proxima vez que for dificil recusar, diga por 10 segundos: 'Nao consigo decidir agora, te respondo depois'",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Paterson_2000",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas frequentemente pressionadas a responder imediatamente",
-                "Pessoas que nao conseguem encontrar palavras para recusar"
-            ],
-            "limitations": [
-                "Ha risco de 'depois' ficar ambiguo e piorar o relacionamento"
-            ],
-            "citation_role": "Apoia indiretamente a tecnica de pausa no estabelecimento de limites",
-            "try_this": "Diga por 10 segundos: 'Nao consigo decidir agora, te respondo depois'",
-            "claim_tags": [
-                "assertiveness",
-                "boundary_setting",
-                "phrase_template"
-            ],
-            "tiny_metric": {
-                "metric": "Conseguiu usar a frase de pausa?",
-                "stop_rule": "Se nao conseguir 3 vezes seguidas, pare"
-            },
-            "comparator": {
-                "baseline": "Dizer Sim imediatamente",
-                "cost": "10 segundos / baixa carga"
-            },
-            "fallback": {
-                "when": "Se for dificil dizer a frase de pausa",
-                "next": "Substitua por 'Deixa eu verificar'"
-            }
-        }
-    },
-    {
-        "id": "social_l01_005",
-        "type": "conversation",
-        "question": "Para quem e dificil voce recusar?",
-        "choices": [
-            "Chefe / superior",
-            "Amigos / colegas",
-            "Familia",
-            "Ninguem em particular"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas estao corretas. Saber para quem e dificil recusar tende a facilitar a criacao de estrategias.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia a autoconsciencia",
-            "claim_tags": [
-                "self_awareness",
-                "assertiveness",
-                "relationships"
-            ]
-        }
-    },
-    {
-        "id": "social_l01_006",
-        "type": "multiple_choice",
-        "question": "Qual e a diferenca entre 'recusar' e 'rejeitar'?",
-        "choices": [
-            "Recusar = recusar o pedido, rejeitar = negar a pessoa",
-            "Sao sinonimos",
-            "Recusar e mais agressivo"
-        ],
-        "correct_index": 0,
-        "explanation": "'Recusar' e uma resposta ao ato de pedir. 'Rejeitar' e a sensacao de negar a pessoa em si. Pessoas que nao conseguem recusar frequentemente confundem os dois. ('Sinonimos' e 'recusar e mais agressivo' sao equivocos. A distincao e importante)",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "Pessoas que sentem culpa ao recusar"
-            ],
-            "limitations": [
-                "Se a outra pessoa 'se sentir rejeitada' e outra questao"
-            ],
-            "citation_role": "Explica teoricamente a distincao cognitiva na assertividade",
-            "claim_tags": [
-                "assertiveness",
-                "cognitive_distinction",
-                "guilt"
-            ]
-        }
-    },
-    {
-        "id": "social_l01_007",
-        "type": "swipe_judgment",
-        "question": "Sinto que so dizer 'agora e dificil' vai magoar a pessoa.",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "Entendo",
-            "right": "Nao entendo"
-        },
-        "explanation": "'Agora e dificil' e na verdade uma forma suave de recusar. Se adicionar uma alternativa ('posso fazer X'), tende a ser ainda mais aceito.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Paterson_2000",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que nao sabem como recusar"
-            ],
-            "limitations": [
-                "Ha momentos em que nao consegue propor alternativa"
-            ],
-            "citation_role": "Apoia indiretamente expressoes suaves para estabelecimento de limites",
-            "claim_tags": [
-                "assertiveness",
-                "communication",
-                "boundary_setting"
-            ]
-        }
-    },
-    {
-        "id": "social_l01_008",
-        "type": "multiple_choice",
-        "question": "O que facilita adicionar ao recusar sem prejudicar o relacionamento?",
-        "choices": [
-            "Uma alternativa ('posso fazer X')",
-            "Desculpas (repetir 'desculpa')",
-            "Explicacao detalhada do motivo"
-        ],
-        "correct_index": 0,
-        "explanation": "Adicionar uma alternativa tende a transmitir 'tenho vontade de ajudar'. Desculpas excessivas ou explicacoes detalhadas podem acabar te pressionando mais. Tente apenas uma vez. ('Repetir desculpas' e 'explicar detalhadamente' podem ter efeito contrario)",
-        "actionable_advice": "Dica: Da proxima vez que recusar, diga por 10 segundos: 'Agora e dificil, mas posso fazer X'",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Paterson_2000",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que se preocupam que recusar vai prejudicar o relacionamento"
-            ],
-            "limitations": [
-                "Ha pedidos para os quais nao consegue propor alternativa"
-            ],
-            "citation_role": "Apoia indiretamente o efeito de apresentar alternativas no estabelecimento de limites",
-            "try_this": "Diga por 10 segundos: 'Agora e dificil, mas posso fazer X'",
-            "claim_tags": [
-                "assertiveness",
-                "alternative_offer",
-                "boundary_setting"
-            ],
-            "tiny_metric": {
-                "metric": "Conseguiu recusar com alternativa?",
-                "stop_rule": "Se nao conseguir 3 vezes seguidas, pare"
-            },
-            "comparator": {
-                "baseline": "Explicar longamente com desculpas",
-                "cost": "10 segundos / carga media"
-            },
-            "fallback": {
-                "when": "Se nao conseguir pensar em alternativa",
-                "next": "So 'agora e dificil' esta OK"
-            }
-        }
-    },
-    {
-        "id": "social_l01_009",
-        "type": "conversation",
-        "question": "Das tecnicas aprendidas hoje, qual parece util para amanha?",
-        "choices": [
-            "'Nao consigo decidir agora, te respondo depois' (frase de pausa)",
-            "'Agora e dificil, mas posso fazer X' (alternativa)",
-            "'O que estou recusando e o pedido, nao a pessoa' (padrao cognitivo)",
-            "Experimentar todas"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas valem a pena experimentar. Se nao funcionar, tente outra. Formas de recusar variam entre adequadas e inadequadas dependendo da pessoa. Tente apenas uma vez. ('Todas' nao precisa forcar, comece com uma)",
-        "actionable_advice": "Dica: Amanha, tente uma vez: quando for dificil recusar, diga por 10 segundos 'Nao consigo decidir agora'",
-        "difficulty": "easy",
-        "xp": 10,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "Pessoas que querem experimentar novas habilidades de comunicacao"
-            ],
-            "limitations": [
-                "Sem praticar, as palavras podem nao sair"
-            ],
-            "citation_role": "Propoe opcoes de intervencao de assertividade",
-            "try_this": "Amanha, use 'Nao consigo decidir agora' uma vez",
-            "claim_tags": [
-                "assertiveness",
-                "implementation",
-                "habit_formation"
-            ],
-            "tiny_metric": {
-                "metric": "Conseguiu usar pelo menos uma vez esta semana?",
-                "stop_rule": "Se nao conseguir em uma semana, pare"
-            },
-            "comparator": {
-                "baseline": "Continuar aceitando sem tentar nada",
-                "cost": "10 segundos x algumas vezes/semana"
-            },
-            "fallback": {
-                "when": "Se nenhuma for facil de dizer",
-                "next": "Primeiro pratique na sua cabeca"
-            }
-        }
-    },
-    {
-        "id": "social_l01_010",
-        "type": "conversation",
-        "question": "As 'tecnicas de recusa' desta licao pareceram uteis?",
-        "choices": [
-            "Parecem uteis",
-            "Parecem nao combinar muito",
-            "Ainda nao sei"
-        ],
-        "recommended_index": null,
-        "explanation": "Todas estao corretas. Se 'nao parece combinar', e importante buscar outra abordagem. A forma correta de recusar difere conforme cultura e relacionamento.",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Alberti_2001",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "Apoia a consideracao das diferencas individuais",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "A tendencia de nao conseguir recusar e uma expressao de 'nao quero magoar a pessoa' ou 'nao quero ser rejeitado'. O problema e que seu tempo e energia sao consumidos.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "Pessoas que tendem a nao conseguir recusar",
+        "Pessoas que tendem ao autossacrificio"
+      ],
+      "limitations": [
+        "A adequacao de 'recusar' varia conforme cultura e relacionamento"
+      ],
+      "citation_role": "Apoia as caracteristicas e impactos da falta de assertividade em estudos observacionais",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "self_care"
+      ]
     }
+  },
+  {
+    "id": "social_l01_002",
+    "type": "multiple_choice",
+    "question": "Por que surge a resistencia a 'recusar'?",
+    "choices": [
+      "Inconscientemente associamos 'recusar = rejeitar a pessoa'",
+      "Porque recusar causa prejuizo",
+      "Porque nao conhecemos os metodos de recusa"
+    ],
+    "correct_index": 0,
+    "explanation": "Na maioria dos casos, existe um padrao cognitivo de 'recusar = magoar a pessoa'. Mas o que voce esta recusando e o 'pedido', nao 'a pessoa em si'. Essa distincao pode ser a chave. ('Porque causa prejuizo' e 'nao sei como' sao menos relevantes que o padrao cognitivo)",
+    "actionable_advice": "Dica: Da proxima vez que for dificil recusar, lembre-se por 10 segundos: 'estou recusando o pedido, nao a pessoa'",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que sentem culpa ao recusar",
+        "Pessoas com tendencia ao autossacrificio"
+      ],
+      "limitations": [
+        "Mesmo mudando a cognicao, a emocao pode nao mudar imediatamente"
+      ],
+      "citation_role": "Explica teoricamente a distincao entre recusa e rejeicao na pesquisa de assertividade",
+      "claim_tags": [
+        "assertiveness",
+        "cognitive_reframe",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "social_l01_003",
+    "type": "swipe_judgment",
+    "question": "Tenho a crenca de que preciso decidir 'Sim/Nao' na hora.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Me identifico",
+      "right": "Nao me identifico"
+    },
+    "explanation": "Na verdade, ha muitos casos em que 'nao precisa decidir agora'. Ao 'pausar por 10 segundos', voce pode julgar com mais calma.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que tendem a responder imediatamente",
+        "Pessoas que perdem o momento de recusar"
+      ],
+      "limitations": [
+        "Ha situacoes de emergencia que exigem resposta imediata"
+      ],
+      "citation_role": "Apoia indiretamente o efeito da pausa como tecnica de estabelecimento de limites",
+      "claim_tags": [
+        "assertiveness",
+        "decision_making",
+        "boundary_setting"
+      ]
+    }
+  },
+  {
+    "id": "social_l01_004",
+    "type": "multiple_choice",
+    "question": "Qual frase facilita quando e dificil recusar um pedido?",
+    "choices": [
+      "'Nao consigo decidir agora, te respondo depois'",
+      "'De jeito nenhum'",
+      "'Vou pensar' (terminar de forma ambigua)"
+    ],
+    "correct_index": 0,
+    "explanation": "'Nao consigo decidir agora' e uma 'pausa', nao uma recusa nem um sim. Isso pode liberar voce da pressao de responder imediatamente. Nao conseguir e normal. Tente uma vez. ('Recusa forte' e dificil de dizer. 'Vou pensar' tende a ficar ambiguo)",
+    "actionable_advice": "Dica: Da proxima vez que for dificil recusar, diga por 10 segundos: 'Nao consigo decidir agora, te respondo depois'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas frequentemente pressionadas a responder imediatamente",
+        "Pessoas que nao conseguem encontrar palavras para recusar"
+      ],
+      "limitations": [
+        "Ha risco de 'depois' ficar ambiguo e piorar o relacionamento"
+      ],
+      "citation_role": "Apoia indiretamente a tecnica de pausa no estabelecimento de limites",
+      "try_this": "Diga por 10 segundos: 'Nao consigo decidir agora, te respondo depois'",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "phrase_template"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu usar a frase de pausa?",
+        "stop_rule": "Se nao conseguir 3 vezes seguidas, pare",
+        "before_prompt": "Quão cansado você está agora em uma escala de 0 a 10?",
+        "after_prompt": "Quão difícil é depois de 10 segundos em uma escala de 0 a 10?",
+        "success_rule": "Tudo bem se cair 1"
+      },
+      "comparator": {
+        "baseline": "Dizer Sim imediatamente",
+        "cost": "10 segundos / baixa carga"
+      },
+      "fallback": {
+        "when": "Se for dificil dizer a frase de pausa",
+        "next": "Substitua por 'Deixa eu verificar'"
+      }
+    }
+  },
+  {
+    "id": "social_l01_005",
+    "type": "conversation",
+    "question": "Para quem e dificil voce recusar?",
+    "choices": [
+      "Chefe / superior",
+      "Amigos / colegas",
+      "Familia",
+      "Ninguem em particular"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas estao corretas. Saber para quem e dificil recusar tende a facilitar a criacao de estrategias.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a autoconsciencia",
+      "claim_tags": [
+        "self_awareness",
+        "assertiveness",
+        "relationships"
+      ]
+    }
+  },
+  {
+    "id": "social_l01_006",
+    "type": "multiple_choice",
+    "question": "Qual e a diferenca entre 'recusar' e 'rejeitar'?",
+    "choices": [
+      "Recusar = recusar o pedido, rejeitar = negar a pessoa",
+      "Sao sinonimos",
+      "Recusar e mais agressivo"
+    ],
+    "correct_index": 0,
+    "explanation": "'Recusar' e uma resposta ao ato de pedir. 'Rejeitar' e a sensacao de negar a pessoa em si. Pessoas que nao conseguem recusar frequentemente confundem os dois. ('Sinonimos' e 'recusar e mais agressivo' sao equivocos. A distincao e importante)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "Pessoas que sentem culpa ao recusar"
+      ],
+      "limitations": [
+        "Se a outra pessoa 'se sentir rejeitada' e outra questao"
+      ],
+      "citation_role": "Explica teoricamente a distincao cognitiva na assertividade",
+      "claim_tags": [
+        "assertiveness",
+        "cognitive_distinction",
+        "guilt"
+      ]
+    }
+  },
+  {
+    "id": "social_l01_007",
+    "type": "swipe_judgment",
+    "question": "Sinto que so dizer 'agora e dificil' vai magoar a pessoa.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "Entendo",
+      "right": "Nao entendo"
+    },
+    "explanation": "'Agora e dificil' e na verdade uma forma suave de recusar. Se adicionar uma alternativa ('posso fazer X'), tende a ser ainda mais aceito.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que nao sabem como recusar"
+      ],
+      "limitations": [
+        "Ha momentos em que nao consegue propor alternativa"
+      ],
+      "citation_role": "Apoia indiretamente expressoes suaves para estabelecimento de limites",
+      "claim_tags": [
+        "assertiveness",
+        "communication",
+        "boundary_setting"
+      ]
+    }
+  },
+  {
+    "id": "social_l01_008",
+    "type": "multiple_choice",
+    "question": "O que facilita adicionar ao recusar sem prejudicar o relacionamento?",
+    "choices": [
+      "Uma alternativa ('posso fazer X')",
+      "Desculpas (repetir 'desculpa')",
+      "Explicacao detalhada do motivo"
+    ],
+    "correct_index": 0,
+    "explanation": "Adicionar uma alternativa tende a transmitir 'tenho vontade de ajudar'. Desculpas excessivas ou explicacoes detalhadas podem acabar te pressionando mais. Tente apenas uma vez. ('Repetir desculpas' e 'explicar detalhadamente' podem ter efeito contrario)",
+    "actionable_advice": "Dica: Da proxima vez que recusar, diga por 10 segundos: 'Agora e dificil, mas posso fazer X'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que se preocupam que recusar vai prejudicar o relacionamento"
+      ],
+      "limitations": [
+        "Ha pedidos para os quais nao consegue propor alternativa"
+      ],
+      "citation_role": "Apoia indiretamente o efeito de apresentar alternativas no estabelecimento de limites",
+      "try_this": "Diga por 10 segundos: 'Agora e dificil, mas posso fazer X'",
+      "claim_tags": [
+        "assertiveness",
+        "alternative_offer",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu recusar com alternativa?",
+        "stop_rule": "Se nao conseguir 3 vezes seguidas, pare",
+        "before_prompt": "Quão cansado você está agora em uma escala de 0 a 10?",
+        "after_prompt": "Quão difícil é depois de 10 segundos em uma escala de 0 a 10?",
+        "success_rule": "Tudo bem se cair 1"
+      },
+      "comparator": {
+        "baseline": "Explicar longamente com desculpas",
+        "cost": "10 segundos / carga media"
+      },
+      "fallback": {
+        "when": "Se nao conseguir pensar em alternativa",
+        "next": "So 'agora e dificil' esta OK"
+      }
+    }
+  },
+  {
+    "id": "social_l01_009",
+    "type": "conversation",
+    "question": "Das tecnicas aprendidas hoje, qual parece util para amanha?",
+    "choices": [
+      "'Nao consigo decidir agora, te respondo depois' (frase de pausa)",
+      "'Agora e dificil, mas posso fazer X' (alternativa)",
+      "'O que estou recusando e o pedido, nao a pessoa' (padrao cognitivo)",
+      "Experimentar todas"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas valem a pena experimentar. Se nao funcionar, tente outra. Formas de recusar variam entre adequadas e inadequadas dependendo da pessoa. Tente apenas uma vez. ('Todas' nao precisa forcar, comece com uma)",
+    "actionable_advice": "Dica: Amanha, tente uma vez: quando for dificil recusar, diga por 10 segundos 'Nao consigo decidir agora'",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "Pessoas que querem experimentar novas habilidades de comunicacao"
+      ],
+      "limitations": [
+        "Sem praticar, as palavras podem nao sair"
+      ],
+      "citation_role": "Propoe opcoes de intervencao de assertividade",
+      "try_this": "Amanha, use 'Nao consigo decidir agora' uma vez",
+      "claim_tags": [
+        "assertiveness",
+        "implementation",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "metric": "Conseguiu usar pelo menos uma vez esta semana?",
+        "stop_rule": "Se nao conseguir em uma semana, pare",
+        "before_prompt": "Quão cansado você está agora em uma escala de 0 a 10?",
+        "after_prompt": "Quão difícil é depois de 10 segundos em uma escala de 0 a 10?",
+        "success_rule": "Tudo bem se cair 1"
+      },
+      "comparator": {
+        "baseline": "Continuar aceitando sem tentar nada",
+        "cost": "10 segundos x algumas vezes/semana"
+      },
+      "fallback": {
+        "when": "Se nenhuma for facil de dizer",
+        "next": "Primeiro pratique na sua cabeca"
+      }
+    }
+  },
+  {
+    "id": "social_l01_010",
+    "type": "conversation",
+    "question": "As 'tecnicas de recusa' desta licao pareceram uteis?",
+    "choices": [
+      "Parecem uteis",
+      "Parecem nao combinar muito",
+      "Ainda nao sei"
+    ],
+    "recommended_index": null,
+    "explanation": "Todas estao corretas. Se 'nao parece combinar', e importante buscar outra abordagem. A forma correta de recusar difere conforme cultura e relacionamento.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "Apoia a consideracao das diferencas individuais",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]

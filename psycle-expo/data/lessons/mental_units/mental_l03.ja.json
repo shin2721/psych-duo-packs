@@ -1,379 +1,385 @@
 [
-    {
-        "id": "mental_l03_001",
-        "type": "swipe_judgment",
-        "question": "会議まであと5分。心臓がバクバク、手に汗。「落ち着け」と言い聞かせるほど逆に焦る。",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "経験ある",
-            "right": "ない"
-        },
-        "explanation": "「落ち着け」は逆効果になることがある。感情を抑え込もうとするほど、意識がそこに向いてしまう。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "感情の抑圧がうまくいかない人"
-            ],
-            "limitations": [
-                "抑圧が有効なケースもある（短期的・社会的場面）"
-            ],
-            "citation_role": "感情調整の枠組みとして、抑圧の逆効果メカニズムを理論的に説明",
-            "claim_tags": [
-                "emotion_regulation",
-                "suppression"
-            ]
-        }
+  {
+    "id": "mental_l03_001",
+    "type": "swipe_judgment",
+    "question": "会議まであと5分。心臓がバクバク、手に汗。「落ち着け」と言い聞かせるほど逆に焦る。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "経験ある",
+      "right": "ない"
     },
-    {
-        "id": "mental_l03_002",
-        "type": "multiple_choice",
-        "question": "焦りを感じたとき、「落ち着こう」の代わりに何をすると効果が出やすい？",
-        "choices": [
-            "「今、焦ってるな」と認める（ラベリング）",
-            "もっと強く「落ち着け！」と言い聞かせる",
-            "何も考えないようにする"
-        ],
-        "correct_index": 0,
-        "explanation": "ラベリング（名前をつける）ことで、感情の強度が下がることがある。効果には個人差があり、慢性的な不安には別アプローチが必要。（「もっと強く落ち着け」は逆効果になりやすい。「何も考えない」は難しいことが多い）",
-        "actionable_advice": "💡 次に焦ったら「焦り」と心の中で呟くだけ試してみて（10秒）。嫌なら即やめてOK。",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "best_for": [
-                "日常の軽い焦り",
-                "自己理解を深めたい人"
-            ],
-            "limitations": [
-                "慢性的な強い不安には効果が限定的な場合がある",
-                "逆に反芻を強める人もいる"
-            ],
-            "citation_role": "感情調整の枠組みとして、ラベリングのメカニズムを理論的に説明",
-            "try_this": "次に焦ったら「焦り」と心の中で呟く（10秒）",
-            "claim_tags": [
-                "emotion_regulation",
-                "reappraisal"
-            ],
-            "tiny_metric": {
-                "before_prompt": "今の焦りは？（0-10 or 高/中/低）",
-                "after_prompt": "10秒後は？",
-                "success_rule": "少しでも下がればOK",
-                "stop_rule": "変わらない or 上がったら今日は撤退"
-            },
-            "comparator": {
-                "baseline": "「落ち着け」と抑え込む",
-                "cost": "10秒 / 負荷は低い"
-            },
-            "fallback": {
-                "when": "ラベリングで逆に焦りが増したら",
-                "next": "深呼吸（4秒吸って4秒吐く）に切り替え"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_003",
-        "type": "swipe_judgment",
-        "question": "心臓のドキドキを「体が準備してくれてる」と解釈し直すと、パフォーマンスが上がることがある。",
-        "is_true": true,
-        "swipe_labels": {
-            "left": "ありえそう",
-            "right": "なさそう"
-        },
-        "explanation": "これを「リアプレイザル」と呼ぶ。研究では短期的なパフォーマンス向上が示されている。ただし、体調不良時は無理せず休む。できなくても普通。まず1回だけ。",
-        "actionable_advice": null,
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jamieson_2012",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "direct",
-            "best_for": [
-                "プレゼン・面接前の緊張",
-                "短期パフォーマンス場面"
-            ],
-            "limitations": [
-                "体調不良時には逆効果",
-                "慢性不安には効果が限定的"
-            ],
-            "citation_role": "覚醒リアプレイザルのパフォーマンス効果を直接支持",
-            "claim_tags": [
-                "reappraisal",
-                "arousal",
-                "stress_response",
-                "performance"
-            ],
-            "tiny_metric": {
-                "metric": "ドキドキした時に「準備してくれてる」と1回言い換えられたか",
-                "stop_rule": "3日連続で1回も思い出せなかったらやめる"
-            },
-            "comparator": {
-                "baseline": "「やばい、緊張してる」と否定的に解釈する",
-                "cost": "認知負荷は低い（言い換えるだけ）"
-            },
-            "try_this": "次に緊張したら「体が準備してくれてる」と10秒だけ唱える",
-            "fallback": "合わなければ深呼吸に切り替える"
-        }
-    },
-    {
-        "id": "mental_l03_004",
-        "type": "multiple_choice",
-        "question": "プレゼン直前、手汗がひどい。次のうち、どれを試す？",
-        "choices": [
-            "「体が準備運動してくれてる」と言い換える",
-            "「最悪だ、また緊張してる」と思う",
-            "手汗のことは無視して内容に集中する"
-        ],
-        "correct_index": 0,
-        "explanation": "「準備運動」への言い換えが、ストレス反応をチャレンジ反応に変えることがある。合わない人もいるので、無理に使わなくてOK。まず1回だけ。（「最悪だ」は焦りを強める。「無視して集中」は誰でも難しい）",
-        "actionable_advice": "💡 明日1回だけ試す：緊張したら「体が準備してくれてる」と10秒唱える。嫌なら即やめてOK。",
-        "difficulty": "medium",
-        "xp": 5,
-        "source_id": "Jamieson_2012",
-        "evidence_grade": "silver",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "direct",
-            "best_for": [
-                "プレゼン・面接・試験前"
-            ],
-            "limitations": [
-                "体調不良時は無理しない",
-                "「ポジティブ思考」に抵抗ある人には合わない場合がある"
-            ],
-            "citation_role": "覚醒リアプレイザルの実践的効果を支持",
-            "try_this": "緊張したら「体が準備してくれてる」と10秒唱える",
-            "claim_tags": [
-                "reappraisal",
-                "arousal",
-                "performance"
-            ],
-            "tiny_metric": {
-                "before_prompt": "今の緊張（0-10）",
-                "after_prompt": "10秒後の緊張",
-                "success_rule": "1下がればOK",
-                "stop_rule": "変わらなければ別の方法を試す"
-            },
-            "comparator": {
-                "baseline": "「緊張しちゃダメだ」と自分を責める",
-                "cost": "10秒 / 心理的負荷は低い"
-            },
-            "fallback": {
-                "when": "言い換えが嘘っぽく感じたら",
-                "next": "「緊張してるな」とラベリングだけ"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_005",
-        "type": "conversation",
-        "question": "「ラベリング」と「リアプレイザル」、どっちが自分に合いそう？",
-        "your_response_prompt": "直感で選んでください",
-        "choices": [
-            "ラベリング（「焦り」と認めるだけ）",
-            "リアプレイザル（「準備運動」と言い換え）",
-            "どっちも試してみたい",
-            "どっちも合わなそう"
-        ],
-        "recommended_index": null,
-        "explanation": "どれも正解。「合わなそう」も大事な情報。別のアプローチを探すきっかけになる。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "個人差の考慮を支持",
-            "claim_tags": [
-                "emotion_regulation",
-                "individual_differences"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_006",
-        "type": "multiple_choice",
-        "question": "焦りを感じたとき、「4秒吸って、4秒吐く」を3回やると何が起きやすい？",
-        "choices": [
-            "副交感神経が優位になり、心拍が落ち着きやすい",
-            "交感神経がさらに活性化して焦りが増す",
-            "何も変わらない"
-        ],
-        "correct_index": 0,
-        "explanation": "ゆっくりした呼吸は副交感神経を刺激する。呼吸法が苦手な人には逆に焦りを増すことも。できなくても普通。まず1回だけ。（「交感神経が活性化」は速い呼吸のとき。「何も変わらない」は個人差があるが変化は起きやすい）",
-        "actionable_advice": "💡 今ここで試す：4秒吸って、4秒吐く、を1回だけ。嫌だったらパス。",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "一時的な焦り",
-                "身体感覚に意識を向けやすい人"
-            ],
-            "limitations": [
-                "呼吸法が苦手な人には逆効果の場合がある",
-                "パニック発作時は専門家のサポートが必要"
-            ],
-            "citation_role": "呼吸法の自律神経への影響を間接的に支持",
-            "try_this": "4秒吸って4秒吐くを1回だけ",
-            "claim_tags": [
-                "emotion_regulation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "今の焦り（高/中/低）",
-                "after_prompt": "1回やった後は？",
-                "success_rule": "少しでも軽くなればOK",
-                "stop_rule": "嫌な感じがしたら即やめる"
-            },
-            "comparator": {
-                "baseline": "我慢して耐える",
-                "cost": "8秒 / 負荷は最小"
-            },
-            "fallback": {
-                "when": "呼吸に意識を向けると逆に苦しくなったら",
-                "next": "外の音に意識を移す（5秒）"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_007",
-        "type": "swipe_judgment",
-        "question": "感情調整のスキルは、練習すれば多くの人にとって身につきやすい。",
-        "is_true": false,
-        "swipe_labels": {
-            "left": "そう思う",
-            "right": "違うと思う"
-        },
-        "explanation": "「誰でも必ず」は言い過ぎ。練習で改善する人は多いが、個人差がある。また、慢性的な問題には専門家のサポートが有効。",
-        "actionable_advice": null,
-        "difficulty": "hard",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "theory",
-            "evidence_type": "theoretical",
-            "citation_role": "個人差を理論的に説明",
-            "claim_tags": [
-                "emotion_regulation",
-                "limitations"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_008",
-        "type": "multiple_choice",
-        "question": "今日学んだ3つのテク（ラベリング、リアプレイザル、呼吸法）。明日使うなら、どれがハードル低い？",
-        "choices": [
-            "呼吸法（4秒吸って4秒吐く）",
-            "ラベリング（「焦り」と認める）",
-            "リアプレイザル（「準備運動」と言い換え）",
-            "どれもハードルが高い"
-        ],
-        "correct_index": 0,
-        "explanation": "多くの人にとって呼吸法が最もシンプル。合わない人もいるので、自分に合うものを見つけるのが大事。（ラベリングやリアプレイザルも有効。「どれも高い」なら別のアプローチを探すのもOK）",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "介入の選択指針を提供",
-            "claim_tags": [
-                "breathing",
-                "implementation"
-            ]
-        }
-    },
-    {
-        "id": "mental_l03_009",
-        "type": "conversation",
-        "question": "明日、焦りを感じたときに1つだけ試すとしたら？",
-        "your_response_prompt": "1つ選んでください",
-        "choices": [
-            "呼吸法（4秒吸って4秒吐く）",
-            "ラベリング（「焦り」と呟く）",
-            "リアプレイザル（「準備運動」と言い換え）",
-            "今回はパス"
-        ],
-        "recommended_index": 0,
-        "explanation": "1つ選んで試すのが第一歩。合わなければ別のを試す。それも学び。まず1回。",
-        "actionable_advice": "💡 明日1回（10秒）：選んだテクを1回だけ試す。嫌になったら即やめてOK。",
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "intervention",
-            "evidence_type": "indirect",
-            "best_for": [
-                "日常の軽い焦り対処"
-            ],
-            "limitations": [
-                "強い不安が続く場合には不十分"
-            ],
-            "citation_role": "感情調整戦略の選択肢を提示",
-            "try_this": "選んだテクを1回（10秒）試す",
-            "claim_tags": [
-                "emotion_regulation"
-            ],
-            "tiny_metric": {
-                "before_prompt": "焦り 0-10",
-                "after_prompt": "10秒後 0-10",
-                "success_rule": "1下がればOK",
-                "stop_rule": "変化なし or 上がれば撤退"
-            },
-            "comparator": {
-                "baseline": "何もしない",
-                "cost": "10秒"
-            },
-            "fallback": {
-                "when": "3つ全部合わなかったら",
-                "next": "水を飲む / 席を外す など物理的に切り替え"
-            }
-        }
-    },
-    {
-        "id": "mental_l03_010",
-        "type": "conversation",
-        "question": "このレッスンの「焦り対処テク」、使えそうでしたか？",
-        "your_response_prompt": "正直に答えてください",
-        "choices": [
-            "使えそう",
-            "ちょっと合わなそう",
-            "まだわからない"
-        ],
-        "recommended_index": null,
-        "explanation": "どれも正解。「合わなそう」なら別のアプローチを探すのが正解。自分に合うものを見つけるプロセス自体が学び。",
-        "actionable_advice": null,
-        "difficulty": "easy",
-        "xp": 5,
-        "source_id": "Gross_1998",
-        "evidence_grade": "bronze",
-        "expanded_details": {
-            "claim_type": "observation",
-            "evidence_type": "indirect",
-            "citation_role": "個人差への配慮を支持",
-            "claim_tags": [
-                "individual_differences",
-                "fit"
-            ]
-        }
+    "explanation": "「落ち着け」は逆効果になることがある。感情を抑え込もうとするほど、意識がそこに向いてしまう。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "感情の抑圧がうまくいかない人"
+      ],
+      "limitations": [
+        "抑圧が有効なケースもある（短期的・社会的場面）"
+      ],
+      "citation_role": "感情調整の枠組みとして、抑圧の逆効果メカニズムを理論的に説明",
+      "claim_tags": [
+        "emotion_regulation",
+        "suppression"
+      ]
     }
+  },
+  {
+    "id": "mental_l03_002",
+    "type": "multiple_choice",
+    "question": "焦りを感じたとき、「落ち着こう」の代わりに何をすると効果が出やすい？",
+    "choices": [
+      "「今、焦ってるな」と認める（ラベリング）",
+      "もっと強く「落ち着け！」と言い聞かせる",
+      "何も考えないようにする"
+    ],
+    "correct_index": 0,
+    "explanation": "ラベリング（名前をつける）ことで、感情の強度が下がることがある。効果には個人差があり、慢性的な不安には別アプローチが必要。（「もっと強く落ち着け」は逆効果になりやすい。「何も考えない」は難しいことが多い）",
+    "actionable_advice": "💡 次に焦ったら「焦り」と心の中で呟くだけ試してみて（10秒）。嫌なら即やめてOK。",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "日常の軽い焦り",
+        "自己理解を深めたい人"
+      ],
+      "limitations": [
+        "慢性的な強い不安には効果が限定的な場合がある",
+        "逆に反芻を強める人もいる"
+      ],
+      "citation_role": "感情調整の枠組みとして、ラベリングのメカニズムを理論的に説明",
+      "try_this": "次に焦ったら「焦り」と心の中で呟く（10秒）",
+      "claim_tags": [
+        "emotion_regulation",
+        "reappraisal"
+      ],
+      "tiny_metric": {
+        "before_prompt": "今の焦りは？（0-10 or 高/中/低）",
+        "after_prompt": "10秒後は？",
+        "success_rule": "少しでも下がればOK",
+        "stop_rule": "変わらない or 上がったら今日は撤退"
+      },
+      "comparator": {
+        "baseline": "「落ち着け」と抑え込む",
+        "cost": "10秒 / 負荷は低い"
+      },
+      "fallback": {
+        "when": "ラベリングで逆に焦りが増したら",
+        "next": "深呼吸（4秒吸って4秒吐く）に切り替え"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_003",
+    "type": "swipe_judgment",
+    "question": "心臓のドキドキを「体が準備してくれてる」と解釈し直すと、パフォーマンスが上がることがある。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "ありえそう",
+      "right": "なさそう"
+    },
+    "explanation": "これを「リアプレイザル」と呼ぶ。研究では短期的なパフォーマンス向上が示されている。ただし、体調不良時は無理せず休む。できなくても普通。まず1回だけ。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "プレゼン・面接前の緊張",
+        "短期パフォーマンス場面"
+      ],
+      "limitations": [
+        "体調不良時には逆効果",
+        "慢性不安には効果が限定的"
+      ],
+      "citation_role": "覚醒リアプレイザルのパフォーマンス効果を直接支持",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "stress_response",
+        "performance"
+      ],
+      "tiny_metric": {
+        "metric": "ドキドキした時に「準備してくれてる」と1回言い換えられたか",
+        "stop_rule": "3日連続で1回も思い出せなかったらやめる",
+        "before_prompt": "今のしんどさは0〜10で？",
+        "after_prompt": "10秒後のしんどさは0〜10で？",
+        "success_rule": "1だけ下がればOK"
+      },
+      "comparator": {
+        "baseline": "「やばい、緊張してる」と否定的に解釈する",
+        "cost": "認知負荷は低い（言い換えるだけ）"
+      },
+      "try_this": "次に緊張したら「体が準備してくれてる」と10秒だけ唱える",
+      "fallback": {
+        "when": "しんどさが強まる or 変化がないとき",
+        "next": "呼吸1回か別の10秒介入に切り替える"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_004",
+    "type": "multiple_choice",
+    "question": "プレゼン直前、手汗がひどい。次のうち、どれを試す？",
+    "choices": [
+      "「体が準備運動してくれてる」と言い換える",
+      "「最悪だ、また緊張してる」と思う",
+      "手汗のことは無視して内容に集中する"
+    ],
+    "correct_index": 0,
+    "explanation": "「準備運動」への言い換えが、ストレス反応をチャレンジ反応に変えることがある。合わない人もいるので、無理に使わなくてOK。まず1回だけ。（「最悪だ」は焦りを強める。「無視して集中」は誰でも難しい）",
+    "actionable_advice": "💡 明日1回だけ試す：緊張したら「体が準備してくれてる」と10秒唱える。嫌なら即やめてOK。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "プレゼン・面接・試験前"
+      ],
+      "limitations": [
+        "体調不良時は無理しない",
+        "「ポジティブ思考」に抵抗ある人には合わない場合がある"
+      ],
+      "citation_role": "覚醒リアプレイザルの実践的効果を支持",
+      "try_this": "緊張したら「体が準備してくれてる」と10秒唱える",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "performance"
+      ],
+      "tiny_metric": {
+        "before_prompt": "今の緊張（0-10）",
+        "after_prompt": "10秒後の緊張",
+        "success_rule": "1下がればOK",
+        "stop_rule": "変わらなければ別の方法を試す"
+      },
+      "comparator": {
+        "baseline": "「緊張しちゃダメだ」と自分を責める",
+        "cost": "10秒 / 心理的負荷は低い"
+      },
+      "fallback": {
+        "when": "言い換えが嘘っぽく感じたら",
+        "next": "「緊張してるな」とラベリングだけ"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_005",
+    "type": "conversation",
+    "question": "「ラベリング」と「リアプレイザル」、どっちが自分に合いそう？",
+    "your_response_prompt": "直感で選んでください",
+    "choices": [
+      "ラベリング（「焦り」と認めるだけ）",
+      "リアプレイザル（「準備運動」と言い換え）",
+      "どっちも試してみたい",
+      "どっちも合わなそう"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。「合わなそう」も大事な情報。別のアプローチを探すきっかけになる。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "個人差の考慮を支持",
+      "claim_tags": [
+        "emotion_regulation",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_006",
+    "type": "multiple_choice",
+    "question": "焦りを感じたとき、「4秒吸って、4秒吐く」を3回やると何が起きやすい？",
+    "choices": [
+      "副交感神経が優位になり、心拍が落ち着きやすい",
+      "交感神経がさらに活性化して焦りが増す",
+      "何も変わらない"
+    ],
+    "correct_index": 0,
+    "explanation": "ゆっくりした呼吸は副交感神経を刺激する。呼吸法が苦手な人には逆に焦りを増すことも。できなくても普通。まず1回だけ。（「交感神経が活性化」は速い呼吸のとき。「何も変わらない」は個人差があるが変化は起きやすい）",
+    "actionable_advice": "💡 今ここで試す：4秒吸って、4秒吐く、を1回だけ。嫌だったらパス。",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "一時的な焦り",
+        "身体感覚に意識を向けやすい人"
+      ],
+      "limitations": [
+        "呼吸法が苦手な人には逆効果の場合がある",
+        "パニック発作時は専門家のサポートが必要"
+      ],
+      "citation_role": "呼吸法の自律神経への影響を間接的に支持",
+      "try_this": "4秒吸って4秒吐くを1回だけ",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "今の焦り（高/中/低）",
+        "after_prompt": "1回やった後は？",
+        "success_rule": "少しでも軽くなればOK",
+        "stop_rule": "嫌な感じがしたら即やめる"
+      },
+      "comparator": {
+        "baseline": "我慢して耐える",
+        "cost": "8秒 / 負荷は最小"
+      },
+      "fallback": {
+        "when": "呼吸に意識を向けると逆に苦しくなったら",
+        "next": "外の音に意識を移す（5秒）"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_007",
+    "type": "swipe_judgment",
+    "question": "感情調整のスキルは、練習すれば多くの人にとって身につきやすい。",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "そう思う",
+      "right": "違うと思う"
+    },
+    "explanation": "「誰でも必ず」は言い過ぎ。練習で改善する人は多いが、個人差がある。また、慢性的な問題には専門家のサポートが有効。",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "個人差を理論的に説明",
+      "claim_tags": [
+        "emotion_regulation",
+        "limitations"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_008",
+    "type": "multiple_choice",
+    "question": "今日学んだ3つのテク（ラベリング、リアプレイザル、呼吸法）。明日使うなら、どれがハードル低い？",
+    "choices": [
+      "呼吸法（4秒吸って4秒吐く）",
+      "ラベリング（「焦り」と認める）",
+      "リアプレイザル（「準備運動」と言い換え）",
+      "どれもハードルが高い"
+    ],
+    "correct_index": 0,
+    "explanation": "多くの人にとって呼吸法が最もシンプル。合わない人もいるので、自分に合うものを見つけるのが大事。（ラベリングやリアプレイザルも有効。「どれも高い」なら別のアプローチを探すのもOK）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "介入の選択指針を提供",
+      "claim_tags": [
+        "breathing",
+        "implementation"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_009",
+    "type": "conversation",
+    "question": "明日、焦りを感じたときに1つだけ試すとしたら？",
+    "your_response_prompt": "1つ選んでください",
+    "choices": [
+      "呼吸法（4秒吸って4秒吐く）",
+      "ラベリング（「焦り」と呟く）",
+      "リアプレイザル（「準備運動」と言い換え）",
+      "今回はパス"
+    ],
+    "recommended_index": 0,
+    "explanation": "1つ選んで試すのが第一歩。合わなければ別のを試す。それも学び。まず1回。",
+    "actionable_advice": "💡 明日1回（10秒）：選んだテクを1回だけ試す。嫌になったら即やめてOK。",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "日常の軽い焦り対処"
+      ],
+      "limitations": [
+        "強い不安が続く場合には不十分"
+      ],
+      "citation_role": "感情調整戦略の選択肢を提示",
+      "try_this": "選んだテクを1回（10秒）試す",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "焦り 0-10",
+        "after_prompt": "10秒後 0-10",
+        "success_rule": "1下がればOK",
+        "stop_rule": "変化なし or 上がれば撤退"
+      },
+      "comparator": {
+        "baseline": "何もしない",
+        "cost": "10秒"
+      },
+      "fallback": {
+        "when": "3つ全部合わなかったら",
+        "next": "水を飲む / 席を外す など物理的に切り替え"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_010",
+    "type": "conversation",
+    "question": "このレッスンの「焦り対処テク」、使えそうでしたか？",
+    "your_response_prompt": "正直に答えてください",
+    "choices": [
+      "使えそう",
+      "ちょっと合わなそう",
+      "まだわからない"
+    ],
+    "recommended_index": null,
+    "explanation": "どれも正解。「合わなそう」なら別のアプローチを探すのが正解。自分に合うものを見つけるプロセス自体が学び。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "個人差への配慮を支持",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
 ]
