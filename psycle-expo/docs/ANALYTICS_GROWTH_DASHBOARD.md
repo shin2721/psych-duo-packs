@@ -1,10 +1,10 @@
-# Analytics Growth Dashboard (v1.4)
+# Analytics Growth Dashboard (v1.5)
 
 ## 目的
 
 「どこを直せば継続率が上がるか」を毎週同じ基準で判断するためのダッシュボード定義。
 
-- 主要KPI: `D1`, `D7`, `lesson_start -> lesson_complete`, `question_incorrect`, `streak_lost`
+- 主要KPI: `D1`, `D7`, `lesson_start -> lesson_complete`, `question_incorrect`, `streak_lost`, `energy_block_rate`, `energy_shop_intent`
 - データソース: PostHog `events`（`env = prod`）
 - 集計単位: 日次（30日ローリング）
 
@@ -15,8 +15,11 @@
 - `lesson_complete`
 - `question_incorrect`
 - `streak_lost`
+- `energy_blocked`
+- `shop_open_from_energy`
+- `energy_bonus_hit`
 
-## ダッシュボード構成（6カード）
+## ダッシュボード構成（7カード）
 
 1. **DAU（学習セッション）**
 - 種類: Line
@@ -34,13 +37,17 @@
 - 種類: Stacked bar
 - 指標: `uniq(distinct_id)` where `event = streak_lost`, breakdown by `properties.streakType`
 
-5. **D1 Retention**
+5. **Energy Friction（日次）**
+- 種類: Line
+- 指標: `energy_block_rate`, `energy_shop_intent`
+
+6. **D1 Retention**
 - 種類: Retention insight
 - 起点: `session_start`
 - 再訪: `session_start`
 - 期間: Day 1
 
-6. **D7 Retention**
+7. **D7 Retention**
 - 種類: Retention insight
 - 起点: `session_start`
 - 再訪: `session_start`
@@ -106,7 +113,24 @@ GROUP BY day, streak_type
 ORDER BY day ASC, streak_type ASC
 ```
 
-### 5) 直近7日サマリー（意思決定用）
+### 5) Energy Friction（日次）
+
+```sql
+SELECT
+  toDate(timestamp) AS day,
+  countIf(event = 'lesson_start') AS lesson_start_count,
+  countIf(event = 'energy_blocked') AS energy_blocked_count,
+  countIf(event = 'shop_open_from_energy') AS shop_open_from_energy_count,
+  round(energy_blocked_count / nullIf(lesson_start_count, 0), 4) AS energy_block_rate,
+  round(shop_open_from_energy_count / nullIf(energy_blocked_count, 0), 4) AS energy_shop_intent
+FROM events
+WHERE timestamp >= now() - INTERVAL 30 DAY
+  AND properties.env = 'prod'
+GROUP BY day
+ORDER BY day ASC
+```
+
+### 6) 直近7日サマリー（意思決定用）
 
 ```sql
 WITH base AS (
@@ -124,7 +148,11 @@ SELECT
   round(lesson_complete_uv_7d / nullIf(lesson_start_uv_7d, 0), 4) AS lesson_completion_rate_uv_7d,
   countIf(event = 'question_incorrect') AS question_incorrect_7d,
   round(question_incorrect_7d / nullIf(lesson_start_uv_7d, 0), 3) AS incorrect_per_start_7d,
-  uniqIf(distinct_id, event = 'streak_lost') AS streak_lost_users_7d
+  uniqIf(distinct_id, event = 'streak_lost') AS streak_lost_users_7d,
+  countIf(event = 'energy_blocked') AS energy_blocked_7d,
+  countIf(event = 'shop_open_from_energy') AS shop_open_from_energy_7d,
+  round(energy_blocked_7d / nullIf(lesson_start_uv_7d, 0), 4) AS energy_block_rate_7d,
+  round(shop_open_from_energy_7d / nullIf(energy_blocked_7d, 0), 4) AS energy_shop_intent_7d
 FROM base
 ```
 
@@ -142,9 +170,13 @@ FROM base
   - 優先施策: 復帰導線（1問クイック復帰、Freeze訴求最適化）
   - 期待成功確率: `~60%`
 
+- `energy_block_rate_7d > 0.18` or `energy_shop_intent_7d < 0.20`
+  - 優先施策: 回復速度/ボーナス確率の緩和、Shop導線の文言改善
+  - 期待成功確率: `~60%`
+
 ## 週次運用（30分）
 
-1. ダッシュボード6カードを確認（前週比）
+1. ダッシュボード7カードを確認（前週比）
 2. もっとも悪化した1指標だけを選ぶ
 3. 施策を1つ決める（複数同時にやらない）
 4. 翌週同じ指標で効果判定

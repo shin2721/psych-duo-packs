@@ -23,9 +23,9 @@ type QueuedEvent = {
 };
 
 /**
- * Analytics Core API v1.3
- * 
- * 実装済みイベント（9種類）:
+ * Analytics Core API v1.5
+ *
+ * 実装済みイベント（12種類）:
  *   - app_open: 初回起動時のみ（AsyncStorageガード）
  *   - session_start: 起動毎（プロセス内ガード）
  *   - app_ready: Analytics初期化完了時（プロセス内ガード）
@@ -35,6 +35,9 @@ type QueuedEvent = {
  *   - lesson_complete: レッスン完了時（確定地点）
  *   - question_incorrect: 不正解回答時（問題粒度）
  *   - streak_lost: 連続日数が途切れた時（継続率分析）
+ *   - energy_blocked: エネルギー不足で開始不可
+ *   - energy_bonus_hit: 連続正解ボーナスが付与
+ *   - shop_open_from_energy: エネルギー文脈からShop遷移
  * 
  * 送信先:
  *   - Console出力（常時）

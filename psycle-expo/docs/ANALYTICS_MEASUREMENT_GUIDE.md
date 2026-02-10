@@ -1,6 +1,6 @@
-# Analytics 計測ガイド（最終版 v1.4）
+# Analytics 計測ガイド（最終版 v1.5）
 
-## 実装済みイベント（9イベント）
+## 実装済みイベント（12イベント）
 
 | イベント | いつ発火するか | 多重発火防止 | properties |
 |---------|--------------|------------|------------|
@@ -13,6 +13,9 @@
 | `lesson_complete` | レッスン完了ボタンタップ時 | ドメイン確定地点（1回のみ） | `lessonId`, `genreId` |
 | `question_incorrect` | 問題の不正解時 | 回答処理内（回答ごと） | `lessonId`, `genreId`, `questionId`, `questionType`, `questionIndex`, `isReviewRound` |
 | `streak_lost` | 連続日数が途切れた時 | streak更新時（条件一致時のみ） | `streakType`, `previousStreak`, `gapDays`, `freezesRemaining`, `freezesNeeded` |
+| `energy_blocked` | エネルギー不足でレッスン開始不可 | レッスン開始判定時 | `lessonId`, `genreId`, `energy`, `maxEnergy` |
+| `energy_bonus_hit` | 連続正解ボーナス付与時 | 5連続ごとの抽選当選時 | `correctStreak`, `energyBefore`, `energyAfter`, `dailyBonusCount`, `dailyBonusCap` |
+| `shop_open_from_energy` | エネルギー文脈からShop遷移 | 遷移ボタンタップ時 | `source`, `lessonId?` |
 
 運用ダッシュボード定義: `docs/ANALYTICS_GROWTH_DASHBOARD.md`
 
