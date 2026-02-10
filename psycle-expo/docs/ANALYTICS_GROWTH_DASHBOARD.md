@@ -148,3 +148,30 @@ FROM base
 2. もっとも悪化した1指標だけを選ぶ
 3. 施策を1つ決める（複数同時にやらない）
 4. 翌週同じ指標で効果判定
+
+## APIで自動作成する
+
+1. PostHogのPersonal API Keyを発行（scope: `dashboard:read/write`, `insight:read/write`）
+2. 環境変数を設定
+
+```bash
+export POSTHOG_PERSONAL_API_KEY=phx_xxx
+export POSTHOG_PROJECT_ID=12345
+export POSTHOG_HOST=https://app.posthog.com
+```
+
+3. Dry-runで確認
+
+```bash
+npm run analytics:posthog:dashboard:dry
+```
+
+4. 作成実行
+
+```bash
+npm run analytics:posthog:dashboard
+```
+
+補足:
+- 既存ダッシュボードを置き換える場合は `--replace` を付ける
+- スクリプト: `scripts/create-posthog-growth-dashboard.mjs`

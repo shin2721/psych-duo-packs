@@ -53,6 +53,8 @@
     "content:i18n:draft": "node scripts/generate-translation-draft.mjs",
     "content:i18n:init-cache": "node scripts/generate-translation-draft.mjs --init-cache",
     "e2e:analytics": "bash scripts/run-analytics-e2e.sh",
+    "analytics:posthog:dashboard:dry": "node scripts/create-posthog-growth-dashboard.mjs --dry-run",
+    "analytics:posthog:dashboard": "node scripts/create-posthog-growth-dashboard.mjs --apply",
     "e2e:web:smoke": "node scripts/e2e-web-smoke.mjs",
     "e2e:ios": "detox test --configuration ios.sim.debug",
     "e2e:build:ios": "detox build --configuration ios.sim.debug"
