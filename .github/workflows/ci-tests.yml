@@ -60,10 +60,10 @@ jobs:
           cd psycle-expo
           npm run content:i18n:locale-purity
 
-      - name: Lint translation glossary (fail on new only)
+      - name: Lint translation glossary (all languages, fail on new only)
         run: |
           cd psycle-expo
-          npm run content:i18n:glossary:ci
+          npm run content:i18n:glossary:ci:all
 
       - name: Lint hardcoded strings (fail on new only)
         run: |
