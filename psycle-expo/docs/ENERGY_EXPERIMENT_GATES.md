@@ -1,4 +1,4 @@
-# Energy Experiment Gates (Fixed v1)
+# Energy Experiment Gates (T0-based)
 
 ## Constraints
 - Single-spec operation only.
@@ -8,17 +8,30 @@
   - `Asia/Tokyo (JST, UTC+9)`
 - Change only one parameter per iteration.
 
-## Fixed Spec (v1)
-- Baseline window (current spec):
-  - `2026-02-11 00:00 JST` to `2026-02-17 23:59 JST`
+## Window Definition (T0)
+- `T0` = the exact timestamp when candidate config becomes effective for production users.
+- Baseline window:
+  - `T0 - 7d` to `T0` (exclusive)
+  - compare against the exact previous spec
+- Candidate window:
+  - `T0` to `T0 + 7d` (exclusive)
+  - exactly one parameter change per iteration
+
+## Current Candidate (single change)
+- only change:
+  - `energy_streak_bonus_chance: 0.10 -> 0.08`
+- fixed (unchanged) parameters:
   - `maxEnergy = 3`
   - `refill = +1 / 60 minutes`
   - `lesson cost = 1`
-  - `streak bonus = 10%` at every `5` correct, `max 1/day`
-- Candidate window (single change):
-  - `2026-02-18 00:00 JST` to `2026-02-24 23:59 JST`
-  - only change: `energy_streak_bonus_chance = 0.08`
-  - all other parameters remain identical
+  - `streak bonus every = 5`
+  - `streak bonus daily cap = 1`
+
+## Runbook
+- Step 1: record `T0` in JST when rollout is confirmed.
+- Step 2: lock both windows using `T0`.
+- Step 3: do not ship any additional energy parameter changes during candidate window.
+- Step 4: evaluate at `T0 + 7d`.
 
 ## Event Definitions
 - `energy_blocked`: user attempted lesson start without enough energy.
@@ -36,7 +49,7 @@
 - `energy_blocked >= 80` in candidate window
 - If sample gates fail, extend candidate window by 7 days and re-evaluate.
 
-## Decision Gates (after candidate day 7)
+## Decision Gates (at `T0 + 7d`)
 - Ship candidate (`0.10 -> 0.08`) only if all pass:
   - `D1_retention` drop <= `1.5pp` vs baseline
   - `D7_retention` drop <= `1.0pp` vs baseline
@@ -56,7 +69,6 @@
 - If too strict (retention hit or high block):
   - revert to baseline then test `energy_refill_minutes = 50`
 
-## Implementation Prerequisite
-- Before starting candidate window, parameter source must be unified.
-  - Current `state.tsx` uses hardcoded energy constants.
-  - Candidate rollout requires reading from `config/entitlements.json` defaults, so one config change maps to runtime behavior.
+## Implementation Status
+- Runtime energy parameters are sourced from `config/entitlements.json` defaults.
+- `lesson` entry gate consumes the configured lesson energy cost.
