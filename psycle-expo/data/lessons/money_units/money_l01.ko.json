@@ -102,7 +102,10 @@
       ],
       "tiny_metric": {
         "metric": "24시간 후에 \"역시 필요 없네\"라고 생각했나요?",
-        "stop_rule": "3번 연속 결국 사게 되면 그만두기"
+        "stop_rule": "3번 연속 결국 사게 되면 그만두기",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
       },
       "comparator": {
         "baseline": "즉시 바로 구매하기",
@@ -280,7 +283,10 @@
       "try_this": "누군가가 \"한정\"이라고 말하면 10초 기다리기",
       "tiny_metric": {
         "metric": "10초 기다린 후에 \"역시 필요 없네\"라고 생각했나요?",
-        "stop_rule": "3번 연속 결국 사게 되면 그만두기"
+        "stop_rule": "3번 연속 결국 사게 되면 그만두기",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
       },
       "comparator": {
         "baseline": "\"한정!\"을 듣고 바로 구매하기",
@@ -409,7 +415,10 @@
       ],
       "tiny_metric": {
         "metric": "이번 주에 한 번이라도 10초 기다렸나요?",
-        "stop_rule": "일주일 동안 한 번도 시도를 기억하지 못하면 그만두기"
+        "stop_rule": "일주일 동안 한 번도 시도를 기억하지 못하면 그만두기",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
       },
       "comparator": {
         "baseline": "아무것도 시도 안 하기",

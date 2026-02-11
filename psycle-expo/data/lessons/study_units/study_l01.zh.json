@@ -2,13 +2,13 @@
   {
     "id": "study_l01_001",
     "type": "swipe_judgment",
-    "question": "想着"必须做"却迟迟无法开始学习。",
+    "question": "想着'必须做'却迟迟无法开始学习。",
     "is_true": true,
     "swipe_labels": {
       "left": "经常有",
       "right": "不太有"
     },
-    "explanation": "无法开始不是"懒惰"，有观点认为是想要逃避不适感的自然反应。首先不用责备"无法开始的自己"。",
+    "explanation": "无法开始不是'懒惰'，有观点认为是想要逃避不适感的自然反应。首先不用责备'无法开始的自己'。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
@@ -35,14 +35,14 @@
   {
     "id": "study_l01_002",
     "type": "multiple_choice",
-    "question": "等着"有干劲了再开始"，会发生什么？",
+    "question": "等着'有干劲了再开始'，会发生什么？",
     "choices": [
       "干劲不出来，只有时间过去的倾向",
       "自然涌出干劲",
       "放松了效率提高"
     ],
     "correct_index": 0,
-    "explanation": "有报告称干劲是"开始做了才会出来"而不是"等来的"。这叫做行为激活。（"自然涌出""放松效率UP"很少见。等了也不会出来的情况多）",
+    "explanation": "有报告称干劲是'开始做了才会出来'而不是'等来的'。这叫做行为激活。（'自然涌出''放松效率UP'很少见。等了也不会出来的情况多）",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
@@ -71,13 +71,13 @@
     "type": "multiple_choice",
     "question": "降低开始学习的门槛，有报告称什么方法有效？",
     "choices": [
-      "定好"只做10秒"然后打开教材",
+      "定好'只做10秒'然后打开教材",
       "准备好可以长时间集中的环境",
       "等有干劲"
     ],
     "correct_index": 0,
-    "explanation": "即使只有10秒"开始"，也更容易切换到任务模式。10秒就结束也可以。不适合就试别的方法。先试一次。（"准备环境""等干劲"花时间）",
-    "actionable_advice": "小贴士：下次无法开始学习时，试试"只打开教材10秒"。",
+    "explanation": "即使只有10秒'开始'，也更容易切换到任务模式。10秒就结束也可以。不适合就试别的方法。先试一次。（'准备环境''等干劲'花时间）",
+    "actionable_advice": "小贴士：下次无法开始学习时，试试'只打开教材10秒'。",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Steel_2007",
@@ -94,14 +94,14 @@
         "10秒也动不了时不要勉强"
       ],
       "citation_role": "从拖延研究间接支持10秒规则的有效性",
-      "try_this": "试试"只打开教材10秒"",
+      "try_this": "试试'只打开教材10秒'",
       "claim_tags": [
         "procrastination",
         "task_initiation",
         "implementation"
       ],
       "tiny_metric": {
-        "before_prompt": "现在的"不想做程度"是多少？（0-10）",
+        "before_prompt": "现在的'不想做程度'是多少？（0-10）",
         "after_prompt": "10秒后呢？",
         "success_rule": "稍微降低就算成功",
         "stop_rule": "没变化或升高了今天就撤退"
@@ -119,13 +119,13 @@
   {
     "id": "study_l01_004",
     "type": "swipe_judgment",
-    "question": "事先决定好"如果○○了，就做△△"的话，执行率倾向于提高。",
+    "question": "事先决定好'如果○○了，就做△△'的话，执行率倾向于提高。",
     "is_true": true,
     "swipe_labels": {
       "left": "可能是这样",
       "right": "没这种感觉"
     },
-    "explanation": "这叫做"执行意图"或"如果-那么计划"。例如："晚饭后，就坐到桌前"。研究报告显示比没有计划执行率更高。",
+    "explanation": "这叫做'执行意图'或'如果-那么计划'。例如：'晚饭后，就坐到桌前'。研究报告显示比没有计划执行率更高。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
@@ -180,15 +180,15 @@
   {
     "id": "study_l01_006",
     "type": "multiple_choice",
-    "question": "用"如果-那么计划"的话，哪种形式更容易执行？",
+    "question": "用'如果-那么计划'的话，哪种形式更容易执行？",
     "choices": [
-      "用"如果○○了（触发），就做△△（行动）"的形式决定",
-      "决心"要努力"",
-      "想着"总有一天要学习""
+      "用'如果○○了（触发），就做△△（行动）'的形式决定",
+      "决心'要努力'",
+      "想着'总有一天要学习'"
     ],
     "correct_index": 0,
-    "explanation": "把触发条件（何时・何地）和行动（做什么）配套决定，更容易自动执行。先试一次就好。（"努力""总有一天"太模糊难以执行）",
-    "actionable_advice": "小贴士：今天决定一个如果-那么："如果○○了，就打开教材10秒"",
+    "explanation": "把触发条件（何时/何地）和行动（做什么）配套决定，更容易自动执行。先试一次就好。（'努力''总有一天'太模糊难以执行）",
+    "actionable_advice": "小贴士：今天决定一个如果-那么：'如果○○了，就打开教材10秒'",
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Gollwitzer_1999",
@@ -205,7 +205,7 @@
         "多个如果-那么负担高"
       ],
       "citation_role": "间接支持执行意图的具体格式",
-      "try_this": "决定一个"如果○○了，就打开教材10秒"",
+      "try_this": "决定一个'如果○○了，就打开教材10秒'",
       "claim_tags": [
         "implementation_intention",
         "habit_formation",
@@ -218,25 +218,25 @@
         "stop_rule": "2周都无法执行就换其他方法"
       },
       "comparator": {
-        "baseline": "只是下决心"努力"",
+        "baseline": "只是下决心'努力'",
         "cost": "计划30秒 / 执行10秒"
       },
       "fallback": {
         "when": "找不到触发条件",
-        "next": "用"想看手机时"作为触发条件"
+        "next": "用'想看手机时'作为触发条件"
       }
     }
   },
   {
     "id": "study_l01_007",
     "type": "swipe_judgment",
-    "question": "学习的拖延不只是"意志力弱"，有这样的观点。",
+    "question": "学习的拖延不只是'意志力弱'，有这样的观点。",
     "is_true": true,
     "swipe_labels": {
       "left": "可能是这样",
       "right": "我不这么认为"
     },
-    "explanation": "研究报告显示，拖延比起意志力更多是"逃避不适感"或"任务模糊"造成的。用机制应对比责备自己更容易成功。",
+    "explanation": "研究报告显示，拖延比起意志力更多是'逃避不适感'或'任务模糊'造成的。用机制应对比责备自己更容易成功。",
     "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
@@ -263,14 +263,14 @@
   {
     "id": "study_l01_008",
     "type": "multiple_choice",
-    "question": "减少开始学习的"环境摩擦"，容易做到的是？",
+    "question": "减少开始学习的'环境摩擦'，容易做到的是？",
     "choices": [
       "把教材打开状态放在桌上",
       "准备好完美环境再开始",
       "等有干劲"
     ],
     "correct_index": 0,
-    "explanation": ""开始之前的手续"越少，行动越容易发生。把教材打开状态放着，有时可以降低开始的门槛。先试一次。（"完美环境""等干劲"容易变成拖延）",
+    "explanation": "'开始之前的手续'越少，行动越容易发生。把教材打开状态放着，有时可以降低开始的门槛。先试一次。（'完美环境''等干劲'容易变成拖延）",
     "actionable_advice": "小贴士：今天睡前，把明天的教材打开放在桌上。",
     "difficulty": "medium",
     "xp": 5,
@@ -314,14 +314,14 @@
     "type": "conversation",
     "question": "今天学的技巧中，从明天开始能用的是？",
     "choices": [
-      ""只打开教材10秒"",
-      "用"如果-那么计划"事先决定",
-      ""把教材打开状态放着"环境设计",
+      "'只打开教材10秒'",
+      "用'如果-那么计划'事先决定",
+      "'把教材打开状态放着'环境设计",
       "全部都试"
     ],
     "recommended_index": null,
-    "explanation": "每个都值得一试。不适合就试别的。那也是学习。先试一次就好。（"全部"不用勉强，从一个开始）",
-    "actionable_advice": "小贴士：明天只试一次：无法开始学习时"只打开教材10秒"。",
+    "explanation": "每个都值得一试。不适合就试别的。那也是学习。先试一次就好。（'全部'不用勉强，从一个开始）",
+    "actionable_advice": "小贴士：明天只试一次：无法开始学习时'只打开教材10秒'。",
     "difficulty": "easy",
     "xp": 10,
     "source_id": "Gollwitzer_1999",
@@ -336,7 +336,7 @@
         "不练习可能容易忘记"
       ],
       "citation_role": "提出拖延干预的选项",
-      "try_this": "明天用一次"只打开教材10秒"",
+      "try_this": "明天用一次'只打开教材10秒'",
       "claim_tags": [
         "implementation",
         "habit_formation",
@@ -362,14 +362,14 @@
   {
     "id": "study_l01_010",
     "type": "conversation",
-    "question": "这节课的"学习开始技巧"，觉得能用吗？",
+    "question": "这节课的'学习开始技巧'，觉得能用吗？",
     "choices": [
       "觉得能用",
       "可能不太适合",
       "还不确定"
     ],
     "recommended_index": null,
-    "explanation": "每个答案都对。"不太适合"的话找其他方法也很重要。拖延因人而异原因不同，找到适合自己的方法这个过程本身就有价值。",
+    "explanation": "每个答案都对。'不太适合'的话找其他方法也很重要。拖延因人而异原因不同，找到适合自己的方法这个过程本身就有价值。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
