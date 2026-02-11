@@ -1,29 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-02-11T06:16:37.879Z",
-  "total": 22,
-  "entries": [
-    "ko|health_l01|health_l01_002||hedging_missing||수도 있다|일지도 모른다|그럴 수도 있다||かもしれない||JA has hedging \"かもしれない\" but KO missing equivalent \"수도 있다|일지도 모른다|그럴 수도 있다\"",
-    "ko|health_l01|health_l01_004||hedging_missing||할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다||可能性がある||JA has hedging \"可能性がある\" but KO missing equivalent \"할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다\"",
-    "ko|mental_l01|mental_l01_010||hedging_missing||수도 있다|일지도 모른다|그럴 수도 있다||かもしれない||JA has hedging \"かもしれない\" but KO missing equivalent \"수도 있다|일지도 모른다|그럴 수도 있다\"",
-    "ko|mental_l02|mental_l02_010||hedging_missing||수도 있다|일지도 모른다|그럴 수도 있다||かもしれない||JA has hedging \"かもしれない\" but KO missing equivalent \"수도 있다|일지도 모른다|그럴 수도 있다\"",
-    "ko|mental_l03|mental_l03_002||hedging_missing||경우가 있다|경우도 있다|때때로|때가 있다|때도 있다||場合がある||JA has hedging \"場合がある\" but KO missing equivalent \"경우가 있다|경우도 있다|때때로|때가 있다|때도 있다\"",
-    "ko|mental_l03|mental_l03_004||hedging_missing||경우가 있다|경우도 있다|때때로|때가 있다|때도 있다||場合がある||JA has hedging \"場合がある\" but KO missing equivalent \"경우가 있다|경우도 있다|때때로|때가 있다|때도 있다\"",
-    "ko|mental_l03|mental_l03_006||hedging_missing||경우가 있다|경우도 있다|때때로|때가 있다|때도 있다||場合がある||JA has hedging \"場合がある\" but KO missing equivalent \"경우가 있다|경우도 있다|때때로|때가 있다|때도 있다\"",
-    "ko|mental_l04|mental_l04_010||hedging_missing||수도 있다|일지도 모른다|그럴 수도 있다||かもしれない||JA has hedging \"かもしれない\" but KO missing equivalent \"수도 있다|일지도 모른다|그럴 수도 있다\"",
-    "ko|mental_l05|mental_l05_002||hedging_missing||경우가 있다|경우도 있다|때때로|때가 있다|때도 있다||場合がある||JA has hedging \"場合がある\" but KO missing equivalent \"경우가 있다|경우도 있다|때때로|때가 있다|때도 있다\"",
-    "ko|mental_l05|mental_l05_006||hedging_missing||경우가 있다|경우도 있다|때때로|때가 있다|때도 있다||場合がある||JA has hedging \"場合がある\" but KO missing equivalent \"경우가 있다|경우도 있다|때때로|때가 있다|때도 있다\"",
-    "ko|mental_l06|mental_l06_006||hedging_missing||할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다||可能性がある||JA has hedging \"可能性がある\" but KO missing equivalent \"할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다\"",
-    "ko|money_l01|money_l01_001||hedging_missing||수도 있다|일지도 모른다|그럴 수도 있다||かもしれない||JA has hedging \"かもしれない\" but KO missing equivalent \"수도 있다|일지도 모른다|그럴 수도 있다\"",
-    "ko|money_l01|money_l01_002||hedging_missing||경우가 있다|경우도 있다|때때로|때가 있다|때도 있다||場合がある||JA has hedging \"場合がある\" but KO missing equivalent \"경우가 있다|경우도 있다|때때로|때가 있다|때도 있다\"",
-    "ko|money_l01|money_l01_005||hedging_missing||경우가 있다|경우도 있다|때때로|때가 있다|때도 있다||場合がある||JA has hedging \"場合がある\" but KO missing equivalent \"경우가 있다|경우도 있다|때때로|때가 있다|때도 있다\"",
-    "ko|money_l01|money_l01_009||hedging_missing||경우가 있다|경우도 있다|때때로|때가 있다|때도 있다||場合がある||JA has hedging \"場合がある\" but KO missing equivalent \"경우가 있다|경우도 있다|때때로|때가 있다|때도 있다\"",
-    "ko|money_l01|money_l01_010||hedging_missing||수도 있다|일지도 모른다|그럴 수도 있다||かもしれない||JA has hedging \"かもしれない\" but KO missing equivalent \"수도 있다|일지도 모른다|그럴 수도 있다\"",
-    "ko|social_l01|social_l01_008||hedging_missing||경향이 있다|경향|쉬운 편|쉽다|자주|흔하다||傾向がある||JA has hedging \"傾向がある\" but KO missing equivalent \"경향이 있다|경향|쉬운 편|쉽다|자주|흔하다\"",
-    "ko|work_l01|work_l01_001||hedging_missing||할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다||可能性がある||JA has hedging \"可能性がある\" but KO missing equivalent \"할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다\"",
-    "ko|work_l01|work_l01_002||hedging_missing||할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다||可能性がある||JA has hedging \"可能性がある\" but KO missing equivalent \"할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다\"",
-    "ko|work_l01|work_l01_009||hedging_missing||경우가 있다|경우도 있다|때때로|때가 있다|때도 있다||場合がある||JA has hedging \"場合がある\" but KO missing equivalent \"경우가 있다|경우도 있다|때때로|때가 있다|때도 있다\"",
-    "ko|work_l01|work_l01_010||hedging_missing||수도 있다|일지도 모른다|그럴 수도 있다||かもしれない||JA has hedging \"かもしれない\" but KO missing equivalent \"수도 있다|일지도 모른다|그럴 수도 있다\"",
-    "ko|work_l02|work_l02_001||hedging_missing||할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다||可能性がある||JA has hedging \"可能性がある\" but KO missing equivalent \"할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다\""
-  ]
+  "generatedAt": "2026-02-11T06:31:00.531Z",
+  "total": 0,
+  "entries": []
 }
