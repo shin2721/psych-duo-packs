@@ -16,8 +16,67 @@ import {
 } from "../src/featureGate";
 import { selectMistakesHubItems } from "../src/features/mistakesHub";
 import { Analytics } from "./analytics";
+import entitlements from "../config/entitlements.json";
 
 type PlanId = "free" | "pro" | "max";
+
+interface EntitlementsConfig {
+  plans?: {
+    free?: {
+      energy?: {
+        daily_cap?: number | null;
+      };
+    };
+  };
+  defaults?: {
+    energy_refill_minutes?: number;
+    lesson_energy_cost?: number;
+    energy_streak_bonus_every?: number;
+    energy_streak_bonus_chance?: number;
+    energy_streak_bonus_daily_cap?: number;
+  };
+}
+
+function normalizePositiveInt(value: number | null | undefined, fallback: number): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
+  const normalized = Math.floor(value);
+  return normalized > 0 ? normalized : fallback;
+}
+
+function normalizeProbability(value: number | null | undefined, fallback: number): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
+  if (value < 0) return 0;
+  if (value > 1) return 1;
+  return value;
+}
+
+const entitlementConfig = entitlements as EntitlementsConfig;
+const FREE_MAX_ENERGY = normalizePositiveInt(
+  entitlementConfig.plans?.free?.energy?.daily_cap ?? null,
+  3
+);
+const SUBSCRIBER_MAX_ENERGY = 999;
+const ENERGY_REFILL_MINUTES = normalizePositiveInt(
+  entitlementConfig.defaults?.energy_refill_minutes,
+  60
+);
+const LESSON_ENERGY_COST = normalizePositiveInt(
+  entitlementConfig.defaults?.lesson_energy_cost,
+  1
+);
+const ENERGY_STREAK_BONUS_EVERY = normalizePositiveInt(
+  entitlementConfig.defaults?.energy_streak_bonus_every,
+  5
+);
+const ENERGY_STREAK_BONUS_CHANCE = normalizeProbability(
+  entitlementConfig.defaults?.energy_streak_bonus_chance,
+  0.1
+);
+const ENERGY_STREAK_BONUS_DAILY_CAP = normalizePositiveInt(
+  entitlementConfig.defaults?.energy_streak_bonus_daily_cap,
+  1
+);
+const ENERGY_REFILL_MS = ENERGY_REFILL_MINUTES * 60 * 1000;
 
 interface Quest {
   id: string;
@@ -92,6 +151,7 @@ interface AppState {
   energy: number;
   maxEnergy: number;
   consumeEnergy: (amount?: number) => boolean;
+  lessonEnergyCost: number;
   addEnergy: (amount: number) => void;
   tryTriggerStreakEnergyBonus: (correctStreak: number) => boolean;
   energyRefillMinutes: number;
@@ -399,12 +459,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [dailyGoalLastReset, setDailyGoalLastReset] = useState(getTodayDate());
 
   // Energy system
-  const FREE_MAX_ENERGY = 3;
-  const SUBSCRIBER_MAX_ENERGY = 999;
-  const ENERGY_REFILL_MS = 60 * 60 * 1000; // 60 minutes = +1 energy
-  const ENERGY_STREAK_BONUS_EVERY = 5;
-  const ENERGY_STREAK_BONUS_CHANCE = 0.1;
-  const ENERGY_STREAK_BONUS_DAILY_CAP = 1;
   const [energy, setEnergy] = useState(FREE_MAX_ENERGY);
   const [lastEnergyUpdateTime, setLastEnergyUpdateTime] = useState<number | null>(null);
   const [dailyEnergyBonusDate, setDailyEnergyBonusDate] = useState(getTodayDate());
@@ -832,7 +886,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   };
 
   // Energy system methods
-  const consumeEnergy = (amount = 1): boolean => {
+  const consumeEnergy = (amount = LESSON_ENERGY_COST): boolean => {
     if (isSubscriptionActive) return true;
     const normalized = Math.max(0, Math.floor(amount));
     if (normalized === 0) return true;
@@ -903,7 +957,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return now < expirationDate;
   })();
   const maxEnergy = isSubscriptionActive ? SUBSCRIBER_MAX_ENERGY : FREE_MAX_ENERGY;
-  const energyRefillMinutes = Math.floor(ENERGY_REFILL_MS / 60000);
+  const energyRefillMinutes = ENERGY_REFILL_MINUTES;
   const dailyEnergyBonusRemaining = (() => {
     if (isSubscriptionActive) return ENERGY_STREAK_BONUS_DAILY_CAP;
     const today = getTodayDate();
@@ -1021,6 +1075,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     energy,
     maxEnergy,
     consumeEnergy,
+    lessonEnergyCost: LESSON_ENERGY_COST,
     addEnergy,
     tryTriggerStreakEnergyBonus,
     energyRefillMinutes,
