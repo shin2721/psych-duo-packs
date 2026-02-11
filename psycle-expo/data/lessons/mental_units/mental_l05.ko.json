@@ -1,0 +1,375 @@
+[
+  {
+    "id": "mental_l05_001",
+    "type": "swipe_judgment",
+    "question": "새벽 2시. 내일 회의 슬라이드가 반밖에 안 됐습니다. \"절대 못 끝내겠어\"라고 생각하는 순간, 불안이 더 치솟습니다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "자주 있음",
+      "right": "거의 없음"
+    },
+    "explanation": "이것은 전형적인 \"파국적 사고\" 예시입니다. \"못 끝내겠다\"라는 예측이 현실보다 앞서가면서 불안을 증폭시킵니다. *이 레슨은 가벼운 불안에 대한 대처 방법을 소개합니다. 자살 충동이나 자해 경향이 있다면 앱이 아닌 전문 지원 서비스에 상담해 주세요.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "불안이 연쇄적으로 증가하는 분들"
+      ],
+      "limitations": [
+        "급성 위기에서는 자기 도움만으로 충분하지 않음"
+      ],
+      "citation_role": "반추와 불안 증폭의 관계를 뒷받침",
+      "claim_tags": [
+        "catastrophizing",
+        "rumination"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_002",
+    "type": "multiple_choice",
+    "question": "\"분명히 망할 거야\" 또는 \"다 끝났어\" 같은 극단적 예측이 떠오를 때 가장 효과적인 대응은?",
+    "choices": [
+      "\"그게 정말 사실인가?\"라고 물으며 근거 찾기",
+      "\"생각하지 마\"라고 스스로에게 말하기",
+      "그냥 주의를 돌리기"
+    ],
+    "correct_index": 0,
+    "explanation": "\"근거 확인\"은 파국적 사고에 잘 작동합니다. 생각을 없애려 하기보다 현실적 관점을 되찾는 게 중요합니다.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "극단적 예측에 사로잡히기 쉬운 분들"
+      ],
+      "limitations": [
+        "강한 패닉 상태에서는 이것만으로 충분하지 않을 수 있음"
+      ],
+      "citation_role": "재평가 이론의 프레임워크로 불안 감소 가능성을 설명",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal_theory"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_003",
+    "type": "conversation",
+    "question": "최근 \"최악의 시나리오\"를 상상하며 불안했던 적이 있나요?",
+    "your_response_prompt": "그때 어떤 느낌이었는지 떠올려 보세요",
+    "choices": [
+      "자주",
+      "가끔",
+      "거의 없음"
+    ],
+    "recommended_index": null,
+    "explanation": "어떤 답도 정상적인 반응입니다. 우리 뇌는 위험을 예측하도록 설계되어 있어서 부정적 결과를 상상하는 것은 자연스럽습니다.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "최악의 예측에 지배되기 쉬운 분들"
+      ],
+      "limitations": [
+        "증상이 심하면 추가 지원이 필요할 수 있음"
+      ],
+      "citation_role": "인지 평가의 개인차를 뒷받침",
+      "claim_tags": [
+        "appraisal",
+        "anxiety"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_004",
+    "type": "multiple_choice",
+    "question": "발표 전, \"분명히 망할 거야\"라고 생각합니다. 이 사고 패턴을 어떻게 바꿀 수 있을까요?",
+    "choices": [
+      "\"과거에 잘했던 적도 있다\"고 스스로에게 상기시키기",
+      "\"망해도 괜찮아\"라고 그냥 받아들이기",
+      "\"분명히 성공할 거야\"라고 말하기"
+    ],
+    "correct_index": 0,
+    "explanation": "한 극단에서 다른 극단으로 흔들리기보다, 균형 잡힌 관점을 찾는 게 중요합니다. 과거 경험은 현실적인 근거를 제공합니다.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "10초 안에 \"과거에 버텼던 예가 뭐가 있지?\"라는 질문 하나를 떠올려 보세요",
+      "tiny_metric": {
+        "before_prompt": "지금 얼마나 긴장돼요? 0-10?",
+        "after_prompt": "10초 후 긴장 0-10?",
+        "success_rule": "1점 내려가면 괜찮음",
+        "stop_rule": "너무 힘들면 중단"
+      },
+      "comparator": {
+        "baseline": "근거 없는 예측은 불안을 유지하는 경향",
+        "cost": "10초 / 기억 1개만"
+      },
+      "fallback": {
+        "when": "성공 경험이 떠오르지 않을 때",
+        "next": "실패해도 다음에 뭘 할지만 정하기"
+      },
+      "best_for": [
+        "압박 상황에서 경직되기 쉬운 분들"
+      ],
+      "limitations": [
+        "심한 우울증에서는 효과가 적음"
+      ],
+      "citation_role": "재평가를 통한 대처 가능감 증가를 제안",
+      "claim_tags": [
+        "coping",
+        "reappraisal"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_005",
+    "type": "swipe_judgment",
+    "question": "파국적 사고는 \"완전히 없애야\" 한다",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "그런 것 같음",
+      "right": "아닌 것 같음"
+    },
+    "explanation": "완전히 없앨 필요는 없습니다. 중요한 것은 \"알아차리고 현실적 관점을 더하는 것\"입니다.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "생각을 다루는 방법을 배우고 싶은 분들"
+      ],
+      "limitations": [
+        "이론 이해만으로 행동 변화는 어려움"
+      ],
+      "citation_role": "인지 평가 모델의 이론적 프레임워크를 뒷받침",
+      "claim_tags": [
+        "cognitive_model",
+        "appraisal"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_006",
+    "type": "conversation",
+    "question": "\"최악의 경우\"를 생각하고 있다는 걸 알아차리면 어떻게 대처하나요?",
+    "your_response_prompt": "평소 행동을 돌아보세요",
+    "choices": [
+      "생각 안 하려고 함",
+      "친구나 가족에게 이야기함",
+      "현실적인 해결책을 생각함"
+    ],
+    "recommended_index": 2,
+    "explanation": "각 방법이 때로는 효과적일 수 있지만, 현실적인 해결책을 생각하면 불안을 행동으로 전환할 수 있습니다.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "10초 안에 \"최악이라도 다음 한 수는 뭐지?\"라고 써 보세요",
+      "tiny_metric": {
+        "before_prompt": "지금 막혀있는 느낌 0-10?",
+        "after_prompt": "10초 후 막힌 느낌 0-10?",
+        "success_rule": "1점 내려가면 괜찮음",
+        "stop_rule": "불편함이 증가하면 중단"
+      },
+      "comparator": {
+        "baseline": "계속 생각만 하면 행동하기 어려움",
+        "cost": "10초 / 메모 1줄"
+      },
+      "fallback": {
+        "when": "말로 표현하기 어려울 때",
+        "next": "\"지금 할 수 있는 최소한의 행동 1개\"만 선택"
+      },
+      "best_for": [
+        "불안 때문에 멈춰버리기 쉬운 분들"
+      ],
+      "limitations": [
+        "심한 피로 상태에서는 실행이 어려울 수 있음"
+      ],
+      "citation_role": "재평가와 행동 선택의 연결을 뒷받침",
+      "claim_tags": [
+        "micro_action",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_007",
+    "type": "multiple_choice",
+    "question": "파국적 사고가 가장 일어나기 쉬운 때는?",
+    "choices": [
+      "피곤하거나 수면 부족일 때",
+      "기운이 넘치고 컨디션이 좋을 때",
+      "시간대는 상관없음"
+    ],
+    "correct_index": 0,
+    "explanation": "피로와 수면 부족은 판단력을 저하시키고 부정적 사고를 일으키기 쉽게 합니다. 신체 건강 관리도 중요한 대책입니다.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "피로와 불안의 관계를 이해하고 싶은 분들"
+      ],
+      "limitations": [
+        "개인차가 크고 단일 요인으로 설명 불가"
+      ],
+      "citation_role": "피로 시 부정적 사고 경향을 제안",
+      "claim_tags": [
+        "fatigue",
+        "negative_bias"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_008",
+    "type": "conversation",
+    "question": "오늘 배운 \"근거 확인\" 방법을 내일 시도해 본다면?",
+    "your_response_prompt": "어떤 상황에서 사용할까요?",
+    "choices": [
+      "일에서 압박감을 느낄 때",
+      "인간관계에서 불안할 때",
+      "구체적인 상황이 아직 떠오르지 않음"
+    ],
+    "recommended_index": null,
+    "explanation": "어떤 상황에서든 효과가 있습니다. 작은 불안부터 시작하는 것을 권장합니다.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "내일 사용할 장면 1개를 정해서 10초 안에 써 보세요",
+      "tiny_metric": {
+        "before_prompt": "실행 이미지 선명도 0-10?",
+        "after_prompt": "10초 후 선명도 0-10?",
+        "success_rule": "1점 올라가면 괜찮음",
+        "stop_rule": "부담이 증가하면 오늘은 보류"
+      },
+      "comparator": {
+        "baseline": "장면을 정하지 않으면 실행률이 떨어지는 경향",
+        "cost": "10초 / 장면 1개만"
+      },
+      "fallback": {
+        "when": "장면이 떠오르지 않을 때",
+        "next": "\"아침 첫 불안한 장면\"으로 임시 설정"
+      },
+      "best_for": [
+        "배운 것을 행동으로 옮기고 싶은 분들"
+      ],
+      "limitations": [
+        "실행 환경이 불안정하면 정착이 어려움"
+      ],
+      "citation_role": "구체성이 실행률을 높일 가능성을 뒷받침",
+      "claim_tags": [
+        "implementation_intention",
+        "planning"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_009",
+    "type": "multiple_choice",
+    "question": "파국적 사고를 다루는 데 가장 중요한 것은?",
+    "choices": [
+      "생각을 완전히 통제하기",
+      "현실적인 관점 되찾기",
+      "긍정적으로 생각하기"
+    ],
+    "correct_index": 1,
+    "explanation": "완전한 통제나 억지 긍정적 사고보다, 현실적이고 균형 잡힌 관점을 갖는 게 중요합니다.",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "gold",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "불안할 때 \"근거가 뭐지? 반대 근거는?\"이라고 10초 안에 왔다 갔다 해 보세요",
+      "tiny_metric": {
+        "before_prompt": "불안 수준 0-10?",
+        "after_prompt": "10초 후 불안 0-10?",
+        "success_rule": "1점 내려가면 괜찮음",
+        "stop_rule": "너무 힘들면 중단"
+      },
+      "comparator": {
+        "baseline": "생각을 놔두면 최악의 예측이 고착되는 경향",
+        "cost": "10초, 머릿속으로만 가능"
+      },
+      "fallback": {
+        "when": "반대 근거가 없을 때",
+        "next": "최악의 경우 다음 행동만 정하기"
+      },
+      "best_for": [
+        "파국적 사고를 줄이고 싶은 분들"
+      ],
+      "limitations": [
+        "스트레스가 높을 때는 지원을 함께 사용 권장"
+      ],
+      "citation_role": "재평가 실천을 뒷받침",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal",
+        "evidence_check"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_010",
+    "type": "conversation",
+    "question": "이 레슨에서 배운 것이 당신에게 유용할 것 같나요?",
+    "your_response_prompt": "솔직한 느낌을 공유해 주세요",
+    "choices": [
+      "매우 유용할 것 같음",
+      "어느 정도 유용할 것 같음",
+      "아마 유용하지 않을 것 같음"
+    ],
+    "recommended_index": null,
+    "explanation": "모든 느낌이 가치 있습니다. 사람마다 다른 방법이 맞으니, 자신에게 맞는 접근법을 찾는 게 중요합니다.",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "자신과의 적합성을 확인하고 싶은 분들"
+      ],
+      "limitations": [
+        "1회 평가이므로 장기 효과는 별도 확인 필요"
+      ],
+      "citation_role": "대처 방법의 개인차를 뒷받침",
+      "claim_tags": [
+        "fit",
+        "self_monitoring"
+      ]
+    }
+  }
+]

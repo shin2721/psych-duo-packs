@@ -1,0 +1,326 @@
+[
+  {
+    "id": "mental_l02_001",
+    "type": "swipe_judgment",
+    "question": "월요일 오전 8시, 출근 전철 안. 갑자기 생각이 떠오릅니다: \"오늘 발표 잘 안 될 것 같아.\"",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "자주 있음",
+      "right": "거의 없음"
+    },
+    "explanation": "이것은 자동으로 발생하는 \"위협 평가\"입니다. 아무 일도 일어나지 않았지만, \"위험할 수 있어\"라는 반응이 먼저 작동합니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "자동적 사고 패턴을 알아차리고 싶은 분들"
+      ],
+      "limitations": [
+        "이론 이해만으로는 행동 변화로 직접 연결되지 않음"
+      ],
+      "citation_role": "인지적 평가 이론의 1차 평가(위협 평가)를 설명",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "primary_appraisal",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_002",
+    "type": "multiple_choice",
+    "question": "같은 \"상사의 피드백\" - A씨는 우울해하고, B씨는 \"이제 뭘 개선해야 할지 알겠네\"라고 생각합니다.\n\n이 차이를 가장 잘 설명하는 이론은?",
+    "choices": [
+      "인지적 평가 이론 (해석의 차이가 스트레스에 영향)",
+      "성격 특성 이론 (타고난 기질이 결정)",
+      "자극-반응 이론 (사건이 직접 반응을 결정)"
+    ],
+    "correct_index": 0,
+    "explanation": "같은 사건이지만, \"어떻게 해석하느냐\"가 반응을 바꿉니다. 이것이 인지적 평가 이론의 핵심입니다. (\"성격 탓\"이나 \"사건 탓\"이라고 생각하기 쉽지만, 그것으로는 개인차를 설명할 수 없습니다.)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "이론적 배경을 이해하고 싶은 분들",
+        "사람마다 반응이 다른 이유가 궁금한 분들"
+      ],
+      "limitations": [
+        "이론을 안다고 해석이 자동으로 바뀌지 않음 (연습 필요)"
+      ],
+      "citation_role": "인지적 평가 이론의 기본 메커니즘을 설명",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_003",
+    "type": "swipe_judgment",
+    "question": "\"1차 평가\"는 사건을 \"위협인지 무해한지\" 자동으로 판단하는 과정입니다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "그런 것 같음",
+      "right": "아닌 것 같음"
+    },
+    "explanation": "맞습니다. 1차 평가는 \"이게 나한테 위협인가?\"를 순간적으로 판단하는 과정입니다. 의식적이기보다 자동으로 일어나는 경향이 있습니다.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "용어를 정확히 이해하고 싶은 분들"
+      ],
+      "limitations": [
+        "용어를 안다고 적용은 별도의 연습이 필요"
+      ],
+      "citation_role": "1차 평가의 정의를 설명",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "primary_appraisal"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_004",
+    "type": "multiple_choice",
+    "question": "\"2차 평가\"는 무엇을 평가하나요?",
+    "choices": [
+      "\"이 상황에 대처할 자원이 있는가?\"",
+      "\"이 사건이 위협인가?\"",
+      "\"전에도 같은 경험이 있었나?\""
+    ],
+    "correct_index": 0,
+    "explanation": "2차 평가는 \"내가 이걸 감당할 수 있나?\"를 평가하는 과정입니다. 1차 평가에서 \"위협\"으로 판단한 후에 일어납니다. (\"위협인가?\"는 1차 평가입니다. \"과거 경험\"은 다른 기억 과정입니다.)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "이론의 큰 그림을 파악하고 싶은 분들"
+      ],
+      "limitations": [
+        "이론 이해만으로 대처 능력이 향상되지 않음"
+      ],
+      "citation_role": "2차 평가의 정의를 설명",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "secondary_appraisal",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_005",
+    "type": "conversation",
+    "question": "최근 \"위협\"을 느꼈던 상황을 떠올려 보세요.",
+    "your_response_prompt": "그때 \"나는 감당할 수 있다\"고 느꼈나요, \"못할 것 같다\"고 느꼈나요?",
+    "choices": [
+      "감당할 수 있다고 느꼈음",
+      "못할 것 같다고 느꼈음",
+      "둘 다 아님 / 기억 안 남"
+    ],
+    "recommended_index": null,
+    "explanation": "어떤 답도 정답입니다. \"대처할 수 있는지 없는지\"에 대한 이 느낌 자체가 2차 평가입니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "2차 평가에 대한 자기 인식을 뒷받침",
+      "claim_tags": [
+        "secondary_appraisal",
+        "self_awareness"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_006",
+    "type": "multiple_choice",
+    "question": "1차 평가가 \"위협\"으로, 2차 평가가 \"대처 불가\"로 판단하면 어떤 일이 일어나는 경향이 있을까요?",
+    "choices": [
+      "강한 스트레스 반응 (불안, 패닉, 신체 증상)",
+      "차분한 문제 해결 행동",
+      "아무 일도 일어나지 않음"
+    ],
+    "correct_index": 0,
+    "explanation": "\"위협 + 대처 불가\" 조합은 스트레스 반응을 강화시킵니다. 반대로, \"위협 + 대처 가능\"은 도전으로 느껴질 수 있습니다. (\"차분하게\"나 \"아무 일도 없음\"이 이상적이지만, 대처할 수 없다고 느낄 때는 어렵습니다.)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "스트레스 반응 메커니즘을 이해하고 싶은 분들"
+      ],
+      "limitations": [
+        "이해한다고 자동 반응이 멈추지 않음 (의식적 통제에 한계)"
+      ],
+      "citation_role": "1차 × 2차 평가 조합이 스트레스 강도를 결정하는 방식을 설명",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_007",
+    "type": "swipe_judgment",
+    "question": "\"위협 평가\"는 본능적이어서 바꿀 수 없다.",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "그런 것 같음",
+      "right": "아닌 것 같음"
+    },
+    "explanation": "완전히 바꾸기는 어렵지만, 재구성이 더 쉬워질 수 있습니다 (개인차 있음). 하지만 피곤하거나 스트레스 받을 때는 무리하지 마세요.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "평가의 유연성을 이론적으로 설명",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "flexibility"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_008",
+    "type": "multiple_choice",
+    "question": "인지적 평가 이론이 \"적합하지 않은\" 경우는?",
+    "choices": [
+      "신체 질환으로 인한 스트레스",
+      "직장 내 인간관계 스트레스",
+      "미래에 대한 막연한 불안"
+    ],
+    "correct_index": 0,
+    "explanation": "신체 질환이나 생리적 요인이 강할 때는 \"해석 바꾸기\" 외에 의료적 접근도 고려하세요. (\"인간관계\"와 \"미래 불안\"은 인지적 접근이 도움이 되는 경우가 많습니다.)",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "이론의 적용 범위를 올바르게 이해하고 싶은 분들"
+      ],
+      "limitations": [
+        "이 이론 자체가 경계 사례 식별에 상세하지 않음"
+      ],
+      "citation_role": "인지적 평가 이론 적용 범위의 한계를 설명",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_009",
+    "type": "conversation",
+    "question": "오늘 \"1차 평가 (위협 평가)\"와 \"2차 평가 (대처 가능성)\"에 대해 배웠습니다.",
+    "your_response_prompt": "다음에 스트레스 받으면 어느 쪽을 인식해 보고 싶나요?",
+    "choices": [
+      "1차: \"이게 정말 위협인가?\"라고 물어보기",
+      "2차: \"이것에 대해 뭘 할 수 있지?\"라고 생각하기",
+      "둘 다 시도해 보기",
+      "지금은 보류 (그것도 선택)"
+    ],
+    "recommended_index": null,
+    "explanation": "어떤 답도 정답입니다. 자신에게 맞는 것부터 시작하는 게 가장 지속 가능합니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "citation_role": "연습의 시작점을 제안",
+      "claim_tags": [
+        "appraisal",
+        "micro_reappraisal",
+        "intervention"
+      ],
+      "try_this": "다음에 스트레스 받으면 10초만 \"이게 정말 위협인가?\"라고 자문해 보세요",
+      "tiny_metric": {
+        "before_prompt": "현재 불안 0-10?",
+        "after_prompt": "10초 후 불안 0-10?",
+        "success_rule": "1점 내려가면 괜찮음",
+        "stop_rule": "불안이 증가하면 중단"
+      },
+      "comparator": {
+        "baseline": "자동적 생각을 그냥 두면 위협 평가가 강해지는 경향",
+        "cost": "10초, 머릿속으로만 가능"
+      },
+      "fallback": {
+        "when": "다시 물어보기 어려울 때",
+        "next": "\"지금 할 수 있는 한 가지\"만 정하기"
+      },
+      "best_for": [
+        "불안의 자동 평가에 쉽게 영향 받는 분들"
+      ],
+      "limitations": [
+        "위기 상황에서는 즉각적 도움이 우선"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_010",
+    "type": "conversation",
+    "question": "이 레슨에서 배운 \"위협 평가 메커니즘\"이 공감되었나요?",
+    "your_response_prompt": "직감대로 답해 주세요",
+    "choices": [
+      "공감됨",
+      "좀 안 맞는 것 같음",
+      "아직 잘 모르겠음"
+    ],
+    "recommended_index": null,
+    "explanation": "어떤 답도 정답입니다. \"안 맞는 것 같음\"도 귀중한 정보입니다. 이 이론이 안 맞으면 다른 접근법이 더 나을 수 있습니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "개인차 고려를 뒷받침",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]
