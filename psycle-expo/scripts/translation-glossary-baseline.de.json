@@ -1,29 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-02-10T06:51:46.859Z",
-  "total": 22,
-  "entries": [
-    "de|health_l01|health_l01_004||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|health_l01|health_l01_007||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|mental_l01|mental_l01_005||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|mental_l04|mental_l04_005||glossary_missing|先延ばし|Prokrastination||||JA has \"先延ばし\" but DE missing expected translation \"Prokrastination\"",
-    "de|mental_l05|mental_l05_001||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|mental_l06|mental_l06_004||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|mental_l06|mental_l06_007||glossary_missing|先延ばし|Prokrastination||||JA has \"先延ばし\" but DE missing expected translation \"Prokrastination\"",
-    "de|money_l01|money_l01_002||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|social_l02|social_l02_003||glossary_missing|断る|nein sagen|ablehnen|verweigern|Ablehnen|Nein||||JA has \"断る\" but DE missing expected translation \"nein sagen|ablehnen|verweigern|Ablehnen|Nein\"",
-    "de|social_l02|social_l02_007||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|study_l01|study_l01_001||glossary_missing|先延ばし|Prokrastination||||JA has \"先延ばし\" but DE missing expected translation \"Prokrastination\"",
-    "de|study_l01|study_l01_004||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|study_l01|study_l01_004||hedging_missing||wurde berichtet|Studien zeigen|Forschung legt nahe|Es wurde berichtet|berichtet|zeigt|zeigen||報告されている||JA has hedging \"報告されている\" but DE missing equivalent \"wurde berichtet|Studien zeigen|Forschung legt nahe|Es wurde berichtet|berichtet|zeigt|zeigen\"",
-    "de|study_l01|study_l01_005||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|study_l01|study_l01_006||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|study_l01|study_l01_007||glossary_missing|先延ばし|Prokrastination||||JA has \"先延ばし\" but DE missing expected translation \"Prokrastination\"",
-    "de|study_l01|study_l01_008||glossary_missing|先延ばし|Prokrastination||||JA has \"先延ばし\" but DE missing expected translation \"Prokrastination\"",
-    "de|study_l01|study_l01_008||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|study_l01|study_l01_010||glossary_missing|先延ばし|Prokrastination||||JA has \"先延ばし\" but DE missing expected translation \"Prokrastination\"",
-    "de|work_l02|work_l02_001||hedging_missing||kann|könnte|möglich||可能性がある||JA has hedging \"可能性がある\" but DE missing equivalent \"kann|könnte|möglich\"",
-    "de|work_l02|work_l02_004||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\"",
-    "de|work_l02|work_l02_006||hedging_missing||neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu||傾向がある||JA has hedging \"傾向がある\" but DE missing equivalent \"neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu\""
-  ]
+  "generatedAt": "2026-02-11T06:16:37.764Z",
+  "total": 0,
+  "entries": []
 }
