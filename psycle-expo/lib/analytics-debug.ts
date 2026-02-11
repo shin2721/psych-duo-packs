@@ -45,6 +45,9 @@ const TRACKED_EVENTS = [
     'lesson_complete',
     'question_incorrect',
     'streak_lost',
+    'energy_blocked',
+    'energy_bonus_hit',
+    'shop_open_from_energy',
 ] as const;
 
 // ============================================================

@@ -51,6 +51,14 @@ export const zh = {
             checkoutSessionFailed: '创建支付会话失败',
             checkoutProcessFailed: '支付处理中发生错误',
         },
+        energyStatus: {
+            title: '能量状态',
+            currentLabel: '当前：',
+            nextRefillLabel: '下次恢复还有：',
+            full: '已满',
+            minutes: '%{minutes} 分钟',
+            dailyBonusRemainingLabel: '今日连胜奖励剩余：',
+        },
     },
     settings: {
         title: '设置',
@@ -132,6 +140,7 @@ export const zh = {
     lesson: {
         errorTitle: '错误',
         loadFailed: '加载课程失败：%{message}',
+        energyBlockedMessage: '能量不足。请等待恢复，或在商店开启订阅。',
         originalVariantLabel: '原版',
         completeTitle: '课程完成！',
         howDoYouFeelNow: '你现在感觉如何？',

@@ -15,6 +15,7 @@ import {
   hasProItemAccess,
 } from "../src/featureGate";
 import { selectMistakesHubItems } from "../src/features/mistakesHub";
+import { Analytics } from "./analytics";
 
 type PlanId = "free" | "pro" | "max";
 
@@ -87,12 +88,15 @@ interface AppState {
   dailyGoal: number;
   dailyXP: number;
   setDailyGoal: (xp: number) => void;
-  // Life system
-  lives: number;
-  maxLives: number;
-  loseLife: () => boolean;
-  refillLives: () => boolean;
-  lastLifeLostTime: number | null;
+  // Energy system
+  energy: number;
+  maxEnergy: number;
+  consumeEnergy: (amount?: number) => boolean;
+  addEnergy: (amount: number) => void;
+  tryTriggerStreakEnergyBonus: (correctStreak: number) => boolean;
+  energyRefillMinutes: number;
+  dailyEnergyBonusRemaining: number;
+  lastEnergyUpdateTime: number | null;
   // Plan & Entitlements
   planId: PlanId;
   setPlanId: (plan: PlanId) => void;
@@ -394,10 +398,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [dailyXP, setDailyXP] = useState(0);
   const [dailyGoalLastReset, setDailyGoalLastReset] = useState(getTodayDate());
 
-  // Life system
-  const MAX_LIVES = 5;
-  const [lives, setLives] = useState(MAX_LIVES);
-  const [lastLifeLostTime, setLastLifeLostTime] = useState<number | null>(null);
+  // Energy system
+  const FREE_MAX_ENERGY = 3;
+  const SUBSCRIBER_MAX_ENERGY = 999;
+  const ENERGY_REFILL_MS = 60 * 60 * 1000; // 60 minutes = +1 energy
+  const ENERGY_STREAK_BONUS_EVERY = 5;
+  const ENERGY_STREAK_BONUS_CHANCE = 0.1;
+  const ENERGY_STREAK_BONUS_DAILY_CAP = 1;
+  const [energy, setEnergy] = useState(FREE_MAX_ENERGY);
+  const [lastEnergyUpdateTime, setLastEnergyUpdateTime] = useState<number | null>(null);
+  const [dailyEnergyBonusDate, setDailyEnergyBonusDate] = useState(getTodayDate());
+  const [dailyEnergyBonusCount, setDailyEnergyBonusCount] = useState(0);
 
   // Load persisted state on mount (LOCAL FIRST, then Supabase sync in background)
   useEffect(() => {
@@ -406,21 +417,57 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const loadState = async () => {
       // STEP 1: Load from local storage FIRST (instant)
       try {
-        const [savedXp, savedGems, savedStreak] = await Promise.all([
+        const [
+          savedXp,
+          savedGems,
+          savedStreak,
+          savedEnergy,
+          savedEnergyUpdateTime,
+          savedEnergyBonusDate,
+          savedEnergyBonusCount,
+        ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
           AsyncStorage.getItem(`streak_${user.id}`),
+          AsyncStorage.getItem(`energy_${user.id}`),
+          AsyncStorage.getItem(`energy_update_time_${user.id}`),
+          AsyncStorage.getItem(`energy_bonus_date_${user.id}`),
+          AsyncStorage.getItem(`energy_bonus_count_${user.id}`),
         ]);
 
         if (savedXp) setXP(parseInt(savedXp, 10));
         if (savedGems) setGems(parseInt(savedGems, 10));
         if (savedStreak) setStreak(parseInt(savedStreak, 10));
+        if (savedEnergy) {
+          const parsedEnergy = parseInt(savedEnergy, 10);
+          if (!Number.isNaN(parsedEnergy)) setEnergy(parsedEnergy);
+        }
+        if (savedEnergyUpdateTime) {
+          const parsedEnergyUpdateTime = parseInt(savedEnergyUpdateTime, 10);
+          if (!Number.isNaN(parsedEnergyUpdateTime)) setLastEnergyUpdateTime(parsedEnergyUpdateTime);
+        }
+        if (savedEnergyBonusDate) {
+          setDailyEnergyBonusDate(savedEnergyBonusDate);
+        }
+        if (savedEnergyBonusCount) {
+          const parsedEnergyBonusCount = parseInt(savedEnergyBonusCount, 10);
+          if (!Number.isNaN(parsedEnergyBonusCount)) setDailyEnergyBonusCount(parsedEnergyBonusCount);
+        }
 
         // Freeze一本化: streaks.tsから読み込み
         const streakData = await getStreakData();
         setFreezeCount(streakData.freezesRemaining);
 
-        if (__DEV__) console.log("Loaded from local storage (instant):", { savedXp, savedGems, savedStreak, freezes: streakData.freezesRemaining });
+        if (__DEV__) console.log("Loaded from local storage (instant):", {
+          savedXp,
+          savedGems,
+          savedStreak,
+          savedEnergy,
+          savedEnergyUpdateTime,
+          savedEnergyBonusDate,
+          savedEnergyBonusCount,
+          freezes: streakData.freezesRemaining,
+        });
       } catch (e) {
         if (__DEV__) console.log("Local storage read failed:", e);
       }
@@ -500,6 +547,30 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     });
   }, [streak, user]);
 
+  useEffect(() => {
+    if (!user) return;
+    AsyncStorage.setItem(`energy_${user.id}`, energy.toString());
+  }, [energy, user]);
+
+  useEffect(() => {
+    if (!user) return;
+    if (lastEnergyUpdateTime === null) {
+      AsyncStorage.removeItem(`energy_update_time_${user.id}`).catch(() => { });
+      return;
+    }
+    AsyncStorage.setItem(`energy_update_time_${user.id}`, lastEnergyUpdateTime.toString());
+  }, [lastEnergyUpdateTime, user]);
+
+  useEffect(() => {
+    if (!user) return;
+    AsyncStorage.setItem(`energy_bonus_date_${user.id}`, dailyEnergyBonusDate);
+  }, [dailyEnergyBonusDate, user]);
+
+  useEffect(() => {
+    if (!user) return;
+    AsyncStorage.setItem(`energy_bonus_count_${user.id}`, dailyEnergyBonusCount.toString());
+  }, [dailyEnergyBonusCount, user]);
+
   // Helper: Get today's date in YYYY-MM-DD format
   function getTodayDate(): string {
     const d = new Date();
@@ -521,6 +592,20 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setDailyGoalLastReset(today);
     }
   }, [dailyGoalLastReset]);
+
+  useEffect(() => {
+    const resetBonusIfNeeded = () => {
+      const today = getTodayDate();
+      if (dailyEnergyBonusDate !== today) {
+        setDailyEnergyBonusDate(today);
+        setDailyEnergyBonusCount(0);
+      }
+    };
+
+    resetBonusIfNeeded();
+    const interval = setInterval(resetBonusIfNeeded, 60000);
+    return () => clearInterval(interval);
+  }, [dailyEnergyBonusDate]);
 
   // Update streak when studying
   const updateStreak = () => {
@@ -746,24 +831,59 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setDailyGoalState(xp);
   };
 
-  // Life system methods
-  const loseLife = (): boolean => {
-    if (lives > 0) {
-      setLives((prev) => prev - 1);
-      setLastLifeLostTime(Date.now());
-      return true;
+  // Energy system methods
+  const consumeEnergy = (amount = 1): boolean => {
+    if (isSubscriptionActive) return true;
+    const normalized = Math.max(0, Math.floor(amount));
+    if (normalized === 0) return true;
+    if (energy < normalized) return false;
+
+    const nextEnergy = Math.max(0, energy - normalized);
+    setEnergy(nextEnergy);
+    if (nextEnergy < FREE_MAX_ENERGY && lastEnergyUpdateTime === null) {
+      setLastEnergyUpdateTime(Date.now());
     }
-    return false;
+    return true;
   };
 
-  const refillLives = (): boolean => {
-    const cost = 10; // 10 gems for full refill
-    if (spendGems(cost)) {
-      setLives(MAX_LIVES);
-      setLastLifeLostTime(null);
-      return true;
+  const addEnergy = (amount: number) => {
+    if (isSubscriptionActive) return;
+    const normalized = Math.max(0, Math.floor(amount));
+    if (normalized === 0) return;
+
+    const nextEnergy = Math.min(FREE_MAX_ENERGY, energy + normalized);
+    setEnergy(nextEnergy);
+    if (nextEnergy >= FREE_MAX_ENERGY) {
+      setLastEnergyUpdateTime(null);
+    } else if (lastEnergyUpdateTime === null) {
+      setLastEnergyUpdateTime(Date.now());
     }
-    return false;
+  };
+
+  const tryTriggerStreakEnergyBonus = (correctStreak: number): boolean => {
+    if (isSubscriptionActive) return false;
+    if (correctStreak <= 0 || correctStreak % ENERGY_STREAK_BONUS_EVERY !== 0) return false;
+
+    const today = getTodayDate();
+    const currentBonusCount = dailyEnergyBonusDate === today ? dailyEnergyBonusCount : 0;
+    if (currentBonusCount >= ENERGY_STREAK_BONUS_DAILY_CAP) return false;
+
+    const roll = Math.random();
+    if (roll >= ENERGY_STREAK_BONUS_CHANCE) return false;
+
+    const prevEnergy = energy;
+    const nextEnergy = Math.min(FREE_MAX_ENERGY, prevEnergy + 1);
+    addEnergy(1);
+    setDailyEnergyBonusDate(today);
+    setDailyEnergyBonusCount(currentBonusCount + 1);
+    Analytics.track("energy_bonus_hit", {
+      correctStreak,
+      energyBefore: prevEnergy,
+      energyAfter: nextEnergy,
+      dailyBonusCount: currentBonusCount + 1,
+      dailyBonusCap: ENERGY_STREAK_BONUS_DAILY_CAP,
+    });
+    return true;
   };
 
   // Plan & Entitlements methods
@@ -781,6 +901,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const expirationDate = new Date(activeUntil);
     const now = new Date();
     return now < expirationDate;
+  })();
+  const maxEnergy = isSubscriptionActive ? SUBSCRIBER_MAX_ENERGY : FREE_MAX_ENERGY;
+  const energyRefillMinutes = Math.floor(ENERGY_REFILL_MS / 60000);
+  const dailyEnergyBonusRemaining = (() => {
+    if (isSubscriptionActive) return ENERGY_STREAK_BONUS_DAILY_CAP;
+    const today = getTodayDate();
+    const usedCount = dailyEnergyBonusDate === today ? dailyEnergyBonusCount : 0;
+    return Math.max(0, ENERGY_STREAK_BONUS_DAILY_CAP - usedCount);
   })();
 
   const hasProAccess = hasProItemAccess(planId);
@@ -808,30 +936,44 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Auto-recover lives over time (30 minutes per life)
+  // Auto-recover energy over time (60 minutes per +1)
   useEffect(() => {
-    if (lives >= MAX_LIVES || lastLifeLostTime === null) return;
+    if (isSubscriptionActive) {
+      if (energy !== SUBSCRIBER_MAX_ENERGY) setEnergy(SUBSCRIBER_MAX_ENERGY);
+      if (lastEnergyUpdateTime !== null) setLastEnergyUpdateTime(null);
+      return;
+    }
 
-    const interval = setInterval(() => {
-      const now = Date.now();
-      const timeSinceLastLoss = now - lastLifeLostTime;
-      const LIFE_RECOVERY_TIME = 30 * 60 * 1000; // 30 minutes
+    if (energy > FREE_MAX_ENERGY) {
+      setEnergy(FREE_MAX_ENERGY);
+      return;
+    }
 
-      if (timeSinceLastLoss >= LIFE_RECOVERY_TIME) {
-        setLives((prev) => {
-          const newLives = Math.min(prev + 1, MAX_LIVES);
-          if (newLives >= MAX_LIVES) {
-            setLastLifeLostTime(null);
-          } else {
-            setLastLifeLostTime(now);
-          }
-          return newLives;
-        });
+    const recoverEnergy = () => {
+      if (lastEnergyUpdateTime === null) return;
+      if (energy >= FREE_MAX_ENERGY) {
+        setLastEnergyUpdateTime(null);
+        return;
       }
-    }, 60000); // Check every minute (restoring the interval behavior correctly)
+
+      const elapsed = Date.now() - lastEnergyUpdateTime;
+      const recovered = Math.floor(elapsed / ENERGY_REFILL_MS);
+      if (recovered <= 0) return;
+
+      const nextEnergy = Math.min(FREE_MAX_ENERGY, energy + recovered);
+      setEnergy(nextEnergy);
+      if (nextEnergy >= FREE_MAX_ENERGY) {
+        setLastEnergyUpdateTime(null);
+      } else {
+        setLastEnergyUpdateTime(lastEnergyUpdateTime + recovered * ENERGY_REFILL_MS);
+      }
+    };
+
+    recoverEnergy();
+    const interval = setInterval(recoverEnergy, 60000); // Check every minute
 
     return () => clearInterval(interval);
-  }, [lives, lastLifeLostTime, MAX_LIVES]);
+  }, [energy, isSubscriptionActive, lastEnergyUpdateTime]);
 
   // Computed state
   // hasProAccess is already calculated at the top level
@@ -876,17 +1018,20 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     dailyGoal,
     dailyXP,
     setDailyGoal,
-    lives,
-    maxLives: hasProAccess ? 999 : MAX_LIVES, // Unlimited lives for Pro
-    loseLife,
-    refillLives,
-    lastLifeLostTime,
+    energy,
+    maxEnergy,
+    consumeEnergy,
+    addEnergy,
+    tryTriggerStreakEnergyBonus,
+    energyRefillMinutes,
+    dailyEnergyBonusRemaining,
+    lastEnergyUpdateTime,
     planId,
     setPlanId,
     hasProAccess,
     activeUntil,
     setActiveUntil,
-    isSubscriptionActive: !!(planId !== "free" && activeUntil && new Date(activeUntil) > new Date()),
+    isSubscriptionActive,
     reviewEvents,
     addReviewEvent: addReviewEventFunc,
     getMistakesHubItems: getMistakesHubItemsFunc,

@@ -24,13 +24,14 @@ import i18n from "../lib/i18n";
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
   const fileParam = params.file; // Extract to primitive string
-  const { completeLesson, addXp, incrementQuest } = useAppState();
+  const { completeLesson, addXp, incrementQuest, consumeEnergy, tryTriggerStreakEnergyBonus, energy, maxEnergy } = useAppState();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [isComplete, setIsComplete] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
+  const [correctStreak, setCorrectStreak] = useState(0);
   const [reviewQueue, setReviewQueue] = useState<any[]>([]);
   const [isReviewRound, setIsReviewRound] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -88,6 +89,31 @@ export default function LessonScreen() {
 
       if (!lesson) {
         throw new Error(`Lesson not found: ${params.file}`);
+      }
+
+      // Hard gate: energy is consumed once per lesson start.
+      const hasEnoughEnergy = consumeEnergy(1);
+      if (!hasEnoughEnergy) {
+        setLoading(false);
+        const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
+        Analytics.track("energy_blocked", {
+          lessonId: params.file,
+          genreId,
+          energy,
+          maxEnergy,
+        });
+        Alert.alert(
+          i18n.t("common.error"),
+          i18n.t("lesson.energyBlockedMessage"),
+          [{
+            text: i18n.t("common.ok"),
+            onPress: () => {
+              Analytics.track("shop_open_from_energy", { source: "lesson_blocked", lessonId: params.file });
+              router.replace("/(tabs)/shop");
+            }
+          }]
+        );
+        return;
       }
 
       if (__DEV__) console.log("Setting questions, count:", lesson.questions.length);
@@ -169,7 +195,21 @@ export default function LessonScreen() {
       }
     }
 
-    if (isCorrect) setCorrectCount(prev => prev + 1);
+    if (isCorrect) {
+      setCorrectCount(prev => prev + 1);
+      const nextStreak = correctStreak + 1;
+      setCorrectStreak(nextStreak);
+
+      // Every 5 consecutive correct answers: 10% chance to recover +1 energy (max once/day).
+      if (nextStreak % 5 === 0) {
+        const recovered = tryTriggerStreakEnergyBonus(nextStreak);
+        if (__DEV__ && recovered) {
+          console.log("[Energy] streak bonus recovered +1");
+        }
+      }
+    } else {
+      setCorrectStreak(0);
+    }
 
     // Determine the total questions in current round
     const totalInRound = isReviewRound ? questions.length : originalQuestions.length;

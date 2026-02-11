@@ -5,7 +5,7 @@
       "name": "Free",
       "price_jpy": 0,
       "energy": {
-        "daily_cap": 5,
+        "daily_cap": 3,
         "auto_refill": true
       },
       "item_access": {
@@ -70,6 +70,11 @@
     }
   },
   "defaults": {
+    "energy_refill_minutes": 60,
+    "lesson_energy_cost": 1,
+    "energy_streak_bonus_every": 5,
+    "energy_streak_bonus_chance": 0.1,
+    "energy_streak_bonus_daily_cap": 1,
     "lesson_size": 10,
     "mistakes_hub_size": 10,
     "long_think_threshold_seconds": 25,

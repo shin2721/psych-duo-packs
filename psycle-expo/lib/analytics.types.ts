@@ -34,7 +34,7 @@ export interface AnalyticsConfig {
   posthogApiKey?: string;     // PostHog APIキー
 }
 
-// イベント型定義（9イベント）
+// イベント型定義（12イベント）
 export type AppOpenEvent = {
   name: 'app_open';
   properties: {};
@@ -99,6 +99,35 @@ export type StreakLostEvent = {
   };
 };
 
+export type EnergyBlockedEvent = {
+  name: 'energy_blocked';
+  properties: {
+    lessonId: string;
+    genreId: string;
+    energy: number;
+    maxEnergy: number;
+  };
+};
+
+export type EnergyBonusHitEvent = {
+  name: 'energy_bonus_hit';
+  properties: {
+    correctStreak: number;
+    energyBefore: number;
+    energyAfter: number;
+    dailyBonusCount: number;
+    dailyBonusCap: number;
+  };
+};
+
+export type ShopOpenFromEnergyEvent = {
+  name: 'shop_open_from_energy';
+  properties: {
+    source: string;
+    lessonId?: string;
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -108,4 +137,7 @@ export type TrackedEvent =
   | LessonStartEvent
   | LessonCompleteEvent
   | QuestionIncorrectEvent
-  | StreakLostEvent;
+  | StreakLostEvent
+  | EnergyBlockedEvent
+  | EnergyBonusHitEvent
+  | ShopOpenFromEnergyEvent;

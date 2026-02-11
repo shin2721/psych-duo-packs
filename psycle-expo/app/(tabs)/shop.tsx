@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView, Alert, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -23,10 +23,26 @@ interface ShopItem {
 }
 
 export default function ShopScreen() {
-  const { gems, buyFreeze, freezeCount, planId, isSubscriptionActive, activeUntil, buyDoubleXP, isDoubleXpActive, doubleXpEndTime } = useAppState();
+  const {
+    gems,
+    buyFreeze,
+    freezeCount,
+    planId,
+    isSubscriptionActive,
+    activeUntil,
+    buyDoubleXP,
+    isDoubleXpActive,
+    doubleXpEndTime,
+    energy,
+    maxEnergy,
+    lastEnergyUpdateTime,
+    energyRefillMinutes,
+    dailyEnergyBonusRemaining,
+  } = useAppState();
   const { user } = useAuth();
   const [justPurchased, setJustPurchased] = useState<string | null>(null);
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const [nowTs, setNowTs] = useState(Date.now());
   const dateLocaleByLanguage: Record<string, string> = {
     ja: "ja-JP",
     en: "en-US",
@@ -39,6 +55,21 @@ export default function ShopScreen() {
   };
   const languageCode = String(i18n.locale || "ja").split("-")[0];
   const dateLocale = dateLocaleByLanguage[languageCode];
+
+  useEffect(() => {
+    const interval = setInterval(() => setNowTs(Date.now()), 60000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const energyRecoveryMinutesRemaining = (() => {
+    if (isSubscriptionActive) return null;
+    if (energy >= maxEnergy || lastEnergyUpdateTime === null) return null;
+
+    const refillMs = energyRefillMinutes * 60 * 1000;
+    const elapsed = Math.max(0, nowTs - lastEnergyUpdateTime);
+    const remainingMs = refillMs - (elapsed % refillMs);
+    return Math.max(1, Math.ceil(remainingMs / 60000));
+  })();
 
   const handlePurchase = (item: ShopItem) => {
     const success = item.action();
@@ -154,6 +185,35 @@ export default function ShopScreen() {
             </View>
           </View>
         )}
+
+        <View style={styles.energyStatusCard}>
+          <View style={styles.energyStatusHeader}>
+            <EnergyIcon size={20} />
+            <Text style={styles.energyStatusTitle}>{i18n.t("shop.energyStatus.title")}</Text>
+          </View>
+          <Text style={styles.energyStatusRow}>
+            {i18n.t("shop.energyStatus.currentLabel")}
+            <Text style={styles.energyStatusValue}>
+              {isSubscriptionActive ? "∞" : `${energy}/${maxEnergy}`}
+            </Text>
+          </Text>
+          {!isSubscriptionActive && (
+            <>
+              <Text style={styles.energyStatusRow}>
+                {i18n.t("shop.energyStatus.nextRefillLabel")}
+                <Text style={styles.energyStatusValue}>
+                  {energyRecoveryMinutesRemaining === null
+                    ? i18n.t("shop.energyStatus.full")
+                    : i18n.t("shop.energyStatus.minutes", { minutes: energyRecoveryMinutesRemaining })}
+                </Text>
+              </Text>
+              <Text style={styles.energyStatusRow}>
+                {i18n.t("shop.energyStatus.dailyBonusRemainingLabel")}
+                <Text style={styles.energyStatusValue}>{dailyEnergyBonusRemaining}</Text>
+              </Text>
+            </>
+          )}
+        </View>
 
         {/* Plan Cards */}
         <View style={styles.plansContainer}>
@@ -443,6 +503,34 @@ const styles = StyleSheet.create({
   activeSubscriptionDate: {
     fontSize: 13,
     color: theme.colors.sub,
+  },
+  energyStatusCard: {
+    backgroundColor: theme.colors.surface,
+    borderRadius: 12,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+    gap: 8,
+  },
+  energyStatusHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 2,
+  },
+  energyStatusTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: theme.colors.text,
+  },
+  energyStatusRow: {
+    fontSize: 14,
+    color: theme.colors.sub,
+  },
+  energyStatusValue: {
+    fontWeight: "700",
+    color: theme.colors.text,
   },
   plansContainer: {
     flexDirection: "row",

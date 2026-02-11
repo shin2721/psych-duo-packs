@@ -51,6 +51,14 @@ export const ko = {
             checkoutSessionFailed: '결제 세션 생성에 실패했습니다',
             checkoutProcessFailed: '결제 처리 중 오류가 발생했습니다',
         },
+        energyStatus: {
+            title: '에너지 상태',
+            currentLabel: '현재: ',
+            nextRefillLabel: '다음 회복까지: ',
+            full: '가득 참',
+            minutes: '%{minutes}분',
+            dailyBonusRemainingLabel: '오늘 연속 보너스 남은 횟수: ',
+        },
     },
     settings: {
         title: '설정',
@@ -132,6 +140,7 @@ export const ko = {
     lesson: {
         errorTitle: '오류',
         loadFailed: '레슨을 불러오지 못했습니다: %{message}',
+        energyBlockedMessage: '에너지가 부족합니다. 회복을 기다리거나 상점에서 구독을 활성화하세요.',
         originalVariantLabel: '원본',
         completeTitle: '레슨 완료!',
         howDoYouFeelNow: '지금 기분이 어떤가요?',

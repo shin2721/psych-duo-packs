@@ -15,10 +15,10 @@
  */
 
 const DEFAULT_HOST = "https://app.posthog.com";
-const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.4)";
+const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.5)";
 const DEFAULT_DASHBOARD_DESCRIPTION =
   "Psycle growth KPI dashboard. Seeded by scripts/create-posthog-growth-dashboard.mjs";
-const DASHBOARD_TAG = "psycle-growth-v1.4";
+const DASHBOARD_TAG = "psycle-growth-v1.5";
 
 const CARD_DEFS = [
   {
@@ -85,6 +85,25 @@ WHERE event = 'streak_lost'
   AND properties.env = 'prod'
 GROUP BY day, streak_type
 ORDER BY day ASC, streak_type ASC
+`.trim(),
+  },
+  {
+    name: "Energy Friction (daily)",
+    description: "energy_block_rate and energy_shop_intent by day (30d).",
+    fallbackEvent: "energy_blocked",
+    hogql: `
+SELECT
+  toDate(timestamp) AS day,
+  countIf(event = 'lesson_start') AS lesson_start_count,
+  countIf(event = 'energy_blocked') AS energy_blocked_count,
+  countIf(event = 'shop_open_from_energy') AS shop_open_from_energy_count,
+  round(energy_blocked_count / nullIf(lesson_start_count, 0), 4) AS energy_block_rate,
+  round(shop_open_from_energy_count / nullIf(energy_blocked_count, 0), 4) AS energy_shop_intent
+FROM events
+WHERE timestamp >= now() - INTERVAL 30 DAY
+  AND properties.env = 'prod'
+GROUP BY day
+ORDER BY day ASC
 `.trim(),
   },
   {

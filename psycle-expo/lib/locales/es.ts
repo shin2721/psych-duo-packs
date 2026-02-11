@@ -51,6 +51,14 @@ export const es = {
             checkoutSessionFailed: 'No se pudo crear la sesión de pago',
             checkoutProcessFailed: 'Se produjo un error durante el pago',
         },
+        energyStatus: {
+            title: 'Estado de energía',
+            currentLabel: 'Actual: ',
+            nextRefillLabel: 'Próxima recarga en: ',
+            full: 'Lleno',
+            minutes: '%{minutes} min',
+            dailyBonusRemainingLabel: 'Bono de racha restante hoy: ',
+        },
     },
     settings: {
         title: 'Ajustes',
@@ -132,6 +140,7 @@ export const es = {
     lesson: {
         errorTitle: 'Error',
         loadFailed: 'No se pudo cargar la lección: %{message}',
+        energyBlockedMessage: 'No tienes suficiente energía. Espera la recarga o activa una suscripción en la Tienda.',
         originalVariantLabel: 'Original',
         completeTitle: '¡Lección completada!',
         howDoYouFeelNow: '¿Cómo te sientes ahora?',
