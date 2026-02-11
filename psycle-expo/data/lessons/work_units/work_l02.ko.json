@@ -337,7 +337,10 @@
       ],
       "tiny_metric": {
         "metric": "이번 주에 최소 한 번 쓸 수 있었나요?",
-        "stop_rule": "일주일 동안 못 쓰면 중단하세요"
+        "stop_rule": "일주일 동안 못 쓰면 중단하세요",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
       },
       "comparator": {
         "baseline": "아무것도 정하지 않고 하루를 시작하기",

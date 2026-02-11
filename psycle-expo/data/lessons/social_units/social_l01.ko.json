@@ -134,7 +134,10 @@
             ],
             "tiny_metric": {
                 "metric": "보류 표현을 사용할 수 있었나요?",
-                "stop_rule": "3번 연속 사용하지 못하면 중단하세요"
+                "stop_rule": "3번 연속 사용하지 못하면 중단하세요",
+                "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+                "after_prompt": "10초 후에는요?",
+                "success_rule": "1점이라도 떨어지면 성공입니다"
             },
             "comparator": {
                 "baseline": "즉시 수락하기",
@@ -273,7 +276,10 @@
             ],
             "tiny_metric": {
                 "metric": "대안을 제시하며 거절할 수 있었나요?",
-                "stop_rule": "3번 연속 못 하면 중단하세요"
+                "stop_rule": "3번 연속 못 하면 중단하세요",
+                "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+                "after_prompt": "10초 후에는요?",
+                "success_rule": "1점이라도 떨어지면 성공입니다"
             },
             "comparator": {
                 "baseline": "긴 변명을 설명하기",
@@ -320,7 +326,10 @@
             ],
             "tiny_metric": {
                 "metric": "이번 주에 최소 한 번 사용할 수 있었나요?",
-                "stop_rule": "일주일 동안 사용하지 못하면 중단하세요"
+                "stop_rule": "일주일 동안 사용하지 못하면 중단하세요",
+                "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+                "after_prompt": "10초 후에는요?",
+                "success_rule": "1점이라도 떨어지면 성공입니다"
             },
             "comparator": {
                 "baseline": "시도하지 않고 계속 모두 수락하기",

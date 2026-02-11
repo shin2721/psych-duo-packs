@@ -101,7 +101,10 @@
       ],
       "tiny_metric": {
         "metric": "5분 타이머를 누르고 시작했나요?",
-        "stop_rule": "3번 연속 누르지 못하면 중단하세요"
+        "stop_rule": "3번 연속 누르지 못하면 중단하세요",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
       },
       "comparator": {
         "baseline": "전체 과제를 보고 압도당하기",
@@ -149,7 +152,10 @@
       ],
       "tiny_metric": {
         "metric": "If-Then 계획을 하나 만들었나요?",
-        "stop_rule": "3번 연속 만들지 못하면 중단하세요"
+        "stop_rule": "3번 연속 만들지 못하면 중단하세요",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
       },
       "comparator": {
         "baseline": "그냥 \"해야 해\"라고 생각하기",
@@ -229,7 +235,10 @@
       ],
       "tiny_metric": {
         "metric": "\"다음 한 단계\"를 쓸 수 있었나요?",
-        "stop_rule": "3번 연속 못 쓰면 중단하세요"
+        "stop_rule": "3번 연속 못 쓰면 중단하세요",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
       },
       "comparator": {
         "baseline": "전체 과제를 보고 멈추기",
@@ -276,7 +285,10 @@
       "try_this": "👉 10초 안에 누군가에게 \"5분만 해볼게\"라고 선언하세요",
       "tiny_metric": {
         "metric": "선언 후, 5분 동안 움직일 수 있었나요?",
-        "stop_rule": "3번 연속 못 움직이면 중단하세요"
+        "stop_rule": "3번 연속 못 움직이면 중단하세요",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
       },
       "comparator": {
         "baseline": "아무에게도 말하지 않고 미루기",
@@ -405,7 +417,10 @@
       ],
       "tiny_metric": {
         "metric": "이번 주에 10초 규칙을 최소 한 번 사용할 수 있었나요?",
-        "stop_rule": "일주일 동안 한 번도 시도하지 못하면 중단하세요"
+        "stop_rule": "일주일 동안 한 번도 시도하지 못하면 중단하세요",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
       },
       "comparator": {
         "baseline": "아무것도 시도하지 않기",

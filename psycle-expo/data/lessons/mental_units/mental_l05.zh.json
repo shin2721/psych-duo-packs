@@ -2,13 +2,13 @@
   {
     "id": "mental_l05_001",
     "type": "swipe_judgment",
-    "question": "凌晨2点，明天的会议资料还只做了一半。想到"已经来不及了"的瞬间，焦虑更加剧了。",
+    "question": "凌晨2点，明天的会议资料还只做了一半。想到'已经来不及了'的瞬间，焦虑更加剧了。",
     "is_true": true,
     "swipe_labels": {
       "left": "经常有",
       "right": "不太有"
     },
-    "explanation": "这是"灾难化思维"的典型例子。"来不及了"这个预测比现实更早地放大了焦虑。※本课程介绍轻度焦虑的应对方法，如果您有自杀或自残的倾向，请咨询专业机构而非使用应用。",
+    "explanation": "这是'灾难化思维'的典型例子。'来不及了'这个预测比现实更早地放大了焦虑。※本课程介绍轻度焦虑的应对方法，如果您有自杀或自残的倾向，请咨询专业机构而非使用应用。",
     "difficulty": "easy",
     "xp": 5,
     "evidence_grade": "silver",
@@ -32,14 +32,14 @@
   {
     "id": "mental_l05_002",
     "type": "multiple_choice",
-    "question": ""绝对会失败""完了"这样的极端预测浮现在脑海时，最有效的应对方法是？",
+    "question": "'绝对会失败''完了'这样的极端预测浮现在脑海时，最有效的应对方法是？",
     "choices": [
-      "问自己"真的是这样吗？"寻找证据",
-      "对自己说"不要想"",
+      "问自己'真的是这样吗？'寻找证据",
+      "对自己说'不要想'",
       "想办法分散注意力"
     ],
     "correct_index": 0,
-    "explanation": "对灾难化思维，"寻找证据"是有效的。与其试图完全消除，不如找回现实的视角更重要。",
+    "explanation": "对灾难化思维，'寻找证据'是有效的。与其试图完全消除，不如找回现实的视角更重要。",
     "difficulty": "easy",
     "xp": 5,
     "evidence_grade": "silver",
@@ -63,7 +63,7 @@
   {
     "id": "mental_l05_003",
     "type": "conversation",
-    "question": "最近有过想象"最坏情况"而感到焦虑的时候吗？",
+    "question": "最近有过想象'最坏情况'而感到焦虑的时候吗？",
     "your_response_prompt": "试着回忆那时的心情",
     "choices": [
       "经常有",
@@ -95,11 +95,11 @@
   {
     "id": "mental_l05_004",
     "type": "multiple_choice",
-    "question": "演讲前想着"肯定会失败"。如果要改变这种思维模式的话？",
+    "question": "演讲前想着'肯定会失败'。如果要改变这种思维模式的话？",
     "choices": [
-      "回忆"过去也有成功的经历"",
-      ""失败也无所谓"地看开",
-      "对自己说"绝对会成功""
+      "回忆'过去也有成功的经历'",
+      "'失败也无所谓'地看开",
+      "对自己说'绝对会成功'"
     ],
     "correct_index": 0,
     "explanation": "与其从极端跳到极端，不如找到平衡的视角更重要。过去的经历可以成为现实的依据。",
@@ -110,7 +110,7 @@
     "expanded_details": {
       "claim_type": "intervention",
       "evidence_type": "indirect",
-      "try_this": ""过去克服的例子有哪些？"用10秒想一个",
+      "try_this": "'过去克服的例子有哪些？'用10秒想一个",
       "tiny_metric": {
         "before_prompt": "现在的紧张程度是0-10多少？",
         "after_prompt": "10秒后的紧张程度是0-10多少？",
@@ -119,11 +119,11 @@
       },
       "comparator": {
         "baseline": "没有根据的预测容易维持焦虑",
-        "cost": "10秒・只需想起一个记忆"
+        "cost": "10秒/只需想起一个记忆"
       },
       "fallback": {
         "when": "想不起成功经历时",
-        "next": "只决定"失败了下一步做什么""
+        "next": "只决定'失败了下一步做什么'"
       },
       "best_for": [
         "在压力场合容易卡住的人"
@@ -141,13 +141,13 @@
   {
     "id": "mental_l05_005",
     "type": "swipe_judgment",
-    "question": "灾难化思维需要"完全消除"",
+    "question": "灾难化思维需要'完全消除'",
     "is_true": false,
     "swipe_labels": {
       "left": "我这么认为",
       "right": "我不这么认为"
     },
-    "explanation": "不需要完全消除。更重要的是"察觉到，然后加入现实的视角"。",
+    "explanation": "不需要完全消除。更重要的是'察觉到，然后加入现实的视角'。",
     "difficulty": "medium",
     "xp": 5,
     "evidence_grade": "bronze",
@@ -171,7 +171,7 @@
   {
     "id": "mental_l05_006",
     "type": "conversation",
-    "question": "想到"最坏情况"时，你通常是怎么应对的？",
+    "question": "想到'最坏情况'时，你通常是怎么应对的？",
     "your_response_prompt": "回顾一下平时的行为",
     "choices": [
       "尽量不去想",
@@ -187,7 +187,7 @@
     "expanded_details": {
       "claim_type": "intervention",
       "evidence_type": "indirect",
-      "try_this": ""即使最坏也下一步该怎么办？"用10秒写一个",
+      "try_this": "'即使最坏也下一步该怎么办？'用10秒写一个",
       "tiny_metric": {
         "before_prompt": "现在的困顿感是0-10多少？",
         "after_prompt": "10秒后的困顿感是0-10多少？",
@@ -196,11 +196,11 @@
       },
       "comparator": {
         "baseline": "只是继续想不容易转化为行动",
-        "cost": "10秒・写一行备忘"
+        "cost": "10秒/写一行备忘"
       },
       "fallback": {
         "when": "难以用语言表达时",
-        "next": "选择"现在能做的最小行动"一个"
+        "next": "选择'现在能做的最小行动'一个"
       },
       "best_for": [
         "因焦虑而无法行动的人"
@@ -249,7 +249,7 @@
   {
     "id": "mental_l05_008",
     "type": "conversation",
-    "question": "今天学的"寻找证据"的方法，明天要试的话？",
+    "question": "今天学的'寻找证据'的方法，明天要试的话？",
     "your_response_prompt": "具体想在什么场合使用？",
     "choices": [
       "工作中感到压力时",
@@ -274,11 +274,11 @@
       },
       "comparator": {
         "baseline": "不决定场合容易降低执行率",
-        "cost": "10秒・只需1个场合"
+        "cost": "10秒/只需1个场合"
       },
       "fallback": {
         "when": "想不到场合时",
-        "next": "暂定为"早上第一个焦虑场合""
+        "next": "暂定为'早上第一个焦虑场合'"
       },
       "best_for": [
         "想把学到的内容付诸行动的人"
@@ -311,7 +311,7 @@
     "expanded_details": {
       "claim_type": "intervention",
       "evidence_type": "indirect",
-      "try_this": "焦虑出现时，用10秒做一轮"证据是？反证是？"",
+      "try_this": "焦虑出现时，用10秒做一轮'证据是？反证是？'",
       "tiny_metric": {
         "before_prompt": "焦虑的强度是0-10多少？",
         "after_prompt": "10秒后的焦虑是0-10多少？",
@@ -320,11 +320,11 @@
       },
       "comparator": {
         "baseline": "放任思维容易固定最坏预测",
-        "cost": "10秒・只在脑海中进行就可以"
+        "cost": "10秒/只在脑海中进行就可以"
       },
       "fallback": {
         "when": "想不到反证时",
-        "next": "只先决定"最坏时的下一步""
+        "next": "只先决定'最坏时的下一步'"
       },
       "best_for": [
         "想减弱灾难化思维的人"
