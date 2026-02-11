@@ -1,0 +1,433 @@
+[
+  {
+    "id": "money_l01_001",
+    "type": "swipe_judgment",
+    "question": "온라인 장바구니에 물건을 넣었을 때, \"지금 안 사면 없어질 것 같아\"라는 충동이 든 적이 있다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "그렇다",
+      "right": "그렇지 않다"
+    },
+    "explanation": "이것을 \"희소성 편향\"이라고 합니다. \"재고 3개 남음\" 또는 \"한정판\"을 보면, 실제 가치보다 더 가치 있게 느껴지는 경향이 있습니다. 이 편향을 이해하면 침착함을 유지하는 데 도움이 될 수 있습니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Cialdini_2006",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "온라인 쇼핑 중 급하게 느껴지는 분",
+        "\"한정\"이라는 말에 약한 분"
+      ],
+      "limitations": [
+        "실제로 희소한 물건이라면 합리적인 결정일 수 있습니다"
+      ],
+      "citation_role": "관찰 연구를 통해 희소성 편향의 존재를 지지합니다",
+      "claim_tags": [
+        "scarcity_bias",
+        "impulse_buying",
+        "cognitive_bias"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_002",
+    "type": "multiple_choice",
+    "question": "\"지금 당장 사고 싶어!\" (충동 구매)라는 생각이 들 때, 그 충동을 조절하는 데 도움이 된다고 보고된 방법은?",
+    "choices": [
+      "결정하기 전에 10초 기다리기",
+      "더 저렴한 것 찾아보기",
+      "모든 리뷰 읽기"
+    ],
+    "correct_index": 0,
+    "explanation": "10초 규칙은 효과적인 짧은 개입으로 제안되어 있습니다. 기다리는 동안 충동의 정점이 지나가는 경향이 있습니다. 모든 사람에게 효과가 있는 것은 아니므로 억지로 하지 않아도 괜찮습니다. (\"더 저렴한 것 찾기\"와 \"모든 리뷰 읽기\"는 시간이 너무 오래 걸립니다.)",
+    "actionable_advice": "💡 다음에 \"사고 싶다!\"고 생각하면, 10초만 멈춰보세요. 맞지 않으면 바로 그만두셔도 됩니다.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "온라인 쇼핑 중 충동이 드는 분",
+        "소소한 충동 구매를 자주 하는 분"
+      ],
+      "limitations": [
+        "고가 물품에는 효과가 적을 수 있습니다",
+        "기다리는 것이 괴로운 분에게는 역효과가 날 수 있습니다"
+      ],
+      "citation_role": "자기 통제 자원 연구에서 충동과 시간의 관계를 이론적으로 설명합니다",
+      "claim_tags": [
+        "self_control",
+        "impulse_buying",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_003",
+    "type": "swipe_judgment",
+    "question": "장바구니에 물건을 넣어두고 24시간을 지나면, 많은 것들이 \"역시 필요 없네\"로 바뀌는 경우가 있다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "그럴 것 같다",
+      "right": "아마 아닐 것 같다"
+    },
+    "explanation": "충동 구매에 대한 욕구는 시간이 지나면 자연스럽게 줄어드는 경향이 있다고 보고되어 있습니다. 다만 정말 필요한 것을 잊지 않도록 주의하세요. 못해도 괜찮습니다. 한 번만 시도해 보세요.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Baumeister_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "온라인 쇼핑 중 충동 구매하는 분",
+        "\"나중에 생각할 수 있는\" 분"
+      ],
+      "limitations": [
+        "세일 기한이 있을 때는 사용하기 어렵습니다",
+        "정말 필요한 것을 잊을 위험이 있습니다"
+      ],
+      "citation_role": "자기 통제의 회복 효과를 간접적으로 지지합니다",
+      "try_this": "👉 장바구니에 넣은 후 → 화면을 닫고 잠그기 (24시간 방치)",
+      "claim_tags": [
+        "delay_gratification",
+        "impulse_buying",
+        "self_control"
+      ],
+      "tiny_metric": {
+        "metric": "24시간 후에 \"역시 필요 없네\"라고 생각했나요?",
+        "stop_rule": "3번 연속 결국 사게 되면 그만두기",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
+      },
+      "comparator": {
+        "baseline": "즉시 바로 구매하기",
+        "cost": "24시간 기다리기만 하면 됨"
+      },
+      "fallback": {
+        "when": "24시간을 기다릴 수 없을 때",
+        "next": "[1시간 버전] 브라우저를 닫고 1시간 후에 다시 확인하기"
+      }
+    }
+  },
+  {
+    "id": "money_l01_004",
+    "type": "multiple_choice",
+    "question": "\"1년 후에도 이걸 쓰고 있을까?\"라고 자문하는 것이 효과적인 이유는?",
+    "choices": [
+      "미래의 자신을 상상하면 충동적인 결정이 줄어드는 경향이 있다",
+      "죄책감이 구매를 막는다",
+      "계산이 귀찮아서 포기하게 된다"
+    ],
+    "correct_index": 0,
+    "explanation": "미래의 자신을 상상하는 것(미래 자기 연속성)이 충동적인 결정을 줄인다고 보고되어 있습니다. 미래를 상상하기 어려운 분에게는 효과가 적을 수 있습니다. 한 번만 시도해 보세요. (\"죄책감\"이나 \"귀찮음\"이 아니라, 미래의 자신과 연결되는 느낌이 핵심입니다.)",
+    "actionable_advice": "💡 다음에 무언가 사고 싶을 때, \"1년 후에도 이걸 쓰고 있을까?\"라고 자문해 보세요.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Hershfield_2011",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "장기적 관점에서 생각할 수 있는 분",
+        "구매 후 자주 후회하는 분"
+      ],
+      "limitations": [
+        "미래를 상상하기 어려운 분에게는 효과가 적을 수 있습니다",
+        "소모품에는 적용하기 어렵습니다"
+      ],
+      "citation_role": "미래 자기 연속성과 의사결정 간의 연관성을 직접 지지합니다",
+      "try_this": "👉 \"사고 싶다\"고 생각할 때 → 손가락을 떼고 10초만 \"1년 후에도 이걸 쓰고 있을까?\"라고 말해보기",
+      "claim_tags": [
+        "future_self_continuity",
+        "impulse_buying",
+        "decision_making"
+      ],
+      "tiny_metric": {
+        "before_prompt": "\"사고 싶다\"는 충동이 얼마나 강한가요? (0-10)",
+        "after_prompt": "미래 질문 후에는?",
+        "success_rule": "조금이라도 줄어들면 OK",
+        "stop_rule": "변화가 없거나 오히려 늘어나면 오늘은 후퇴"
+      },
+      "comparator": {
+        "baseline": "생각 없이 구매하기",
+        "cost": "5초 / 낮은 노력"
+      },
+      "fallback": {
+        "when": "미래를 상상해도 충동이 사라지지 않을 때",
+        "next": "24시간 장바구니 방치 방법으로 전환"
+      }
+    }
+  },
+  {
+    "id": "money_l01_005",
+    "type": "swipe_judgment",
+    "question": "\"싸니까 사자\"라는 구매는 장기적으로 더 많은 비용이 드는 경우가 많다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "그럴 수도 있다",
+      "right": "별로 그렇지 않다"
+    },
+    "explanation": "\"득템\" 느낌으로 산 물건은 사용하지 않게 되어 결과적으로 손해인 경우가 많습니다. 다만, 소모품 비축은 경우에 따라 합리적일 수 있습니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Thaler_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "세일에 약한 분",
+        "\"혹시 몰라서\" 자주 사는 분"
+      ],
+      "limitations": [
+        "소모품 비축은 경우에 따라 합리적일 수 있습니다"
+      ],
+      "citation_role": "관찰 연구를 통해 심리적 회계의 비합리성을 지지합니다",
+      "claim_tags": [
+        "mental_accounting",
+        "sunk_cost",
+        "impulse_buying"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_006",
+    "type": "multiple_choice",
+    "question": "\"이번 달 남은 금액은 X원\"처럼 예산을 정하면 충동 구매가 줄어드는 경향이 있는 이유는?",
+    "choices": [
+      "예산 \"규칙\"이 있으면 결정이 쉬워진다",
+      "돈이 떨어지니까",
+      "계산하는 게 피곤하니까"
+    ],
+    "correct_index": 0,
+    "explanation": "예산 제약이 있으면 \"살까 말까\"의 결정 비용이 줄어듭니다. 예산이 너무 빡빡하면 반동으로 과소비가 일어날 수 있습니다. (핵심은 결정이 쉬워진다는 것이지, \"돈이 떨어진다\"거나 \"계산이 피곤하다\"가 아닙니다.)",
+    "actionable_advice": "💡 이번 주 \"자유 지출 금액\"을 정해보세요 (예: 주 5만원). 너무 빡빡하면 올려도 괜찮습니다.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Thaler_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "규칙을 잘 따르는 분",
+        "가계 관리를 시작하고 싶은 분"
+      ],
+      "limitations": [
+        "너무 엄격한 예산은 반동을 일으킬 수 있습니다",
+        "예상치 못한 지출에 대응하기 어렵습니다"
+      ],
+      "citation_role": "심리적 회계 이론에서 예산 효과를 간접적으로 지지합니다",
+      "try_this": "이번 주 \"자유 지출\"을 정해보세요 (예: 주 5만원)",
+      "claim_tags": [
+        "mental_accounting",
+        "budgeting",
+        "self_control"
+      ],
+      "tiny_metric": {
+        "metric": "주말까지 예산 내에서 지냈나요?",
+        "stop_rule": "2주 연속 크게 초과하면 그만두기"
+      },
+      "comparator": {
+        "baseline": "정해진 예산 없이 소비하기",
+        "cost": "주 1회 5분 설정"
+      },
+      "fallback": {
+        "when": "예산이 너무 빡빡하게 느껴질 때",
+        "next": "예산을 1.5배로 늘려서 다시 시도하기"
+      }
+    }
+  },
+  {
+    "id": "money_l01_007",
+    "type": "conversation",
+    "question": "친구가 \"이거 한정판이야! 안 살 거야?\"라고 말합니다. 어떻게 대답하시겠어요?",
+    "choices": [
+      "\"'한정판'이라면 사고 싶어지긴 해. 근데 10초만 기다려볼게\"",
+      "\"한정판!? 사야지!\"",
+      "\"돈이 없어서 못 사\""
+    ],
+    "recommended_index": 0,
+    "explanation": "\"한정\"은 희소성 편향을 유발합니다. 10초 기다리면 때로는 편향에서 한 발 물러설 수 있습니다. 정말 원한다면 사도 괜찮습니다. 한 번만 시도해 보세요.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 10,
+    "source_id": "Cialdini_2006",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "친구에게 쉽게 영향받는 분",
+        "\"한정\"이라는 말에 약한 분"
+      ],
+      "limitations": [
+        "사회적 상황에서는 거부하기 어려울 수 있습니다"
+      ],
+      "citation_role": "희소성 편향에 대한 대응책으로 10초 규칙을 간접적으로 지지합니다",
+      "claim_tags": [
+        "scarcity_bias",
+        "social_influence",
+        "impulse_buying"
+      ],
+      "try_this": "누군가가 \"한정\"이라고 말하면 10초 기다리기",
+      "tiny_metric": {
+        "metric": "10초 기다린 후에 \"역시 필요 없네\"라고 생각했나요?",
+        "stop_rule": "3번 연속 결국 사게 되면 그만두기",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
+      },
+      "comparator": {
+        "baseline": "\"한정!\"을 듣고 바로 구매하기",
+        "cost": "10초 / 낮은 노력"
+      },
+      "fallback": {
+        "when": "그 자리에서 거부하기 어려울 때",
+        "next": "\"나중에 연락할게\"라고 말하고 보류하기"
+      }
+    }
+  },
+  {
+    "id": "money_l01_008",
+    "type": "swipe_judgment",
+    "question": "\"쇼핑 테라피\"는 일시적으로 효과가 있지만, 장기적으로는 후회로 이어지는 경향이 있다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "그럴 수도 있다",
+      "right": "별로 그렇지 않다"
+    },
+    "explanation": "스트레스 구매는 일시적인 도파민 분비로 기분이 좋아지지만, 이후 후회로 이어지는 경향이 있습니다. 다만, 가끔 자신에게 보상하는 것은 대부분의 사람들에게 문제가 되지 않습니다.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Rick_2014",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "스트레스를 받으면 쇼핑을 더 많이 하는 분",
+        "구매 후 자주 후회하는 분"
+      ],
+      "limitations": [
+        "가끔 보상은 많은 분들에게 괜찮습니다"
+      ],
+      "citation_role": "관찰 연구를 통해 감정적 소비와 후회 간의 연관성을 지지합니다",
+      "claim_tags": [
+        "emotional_spending",
+        "regret",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_009",
+    "type": "multiple_choice",
+    "question": "충동 구매를 줄이는 데 효과적이라고 보고된 방법은?",
+    "choices": [
+      "구매 전에 10초 기다리기",
+      "위시리스트 만들기",
+      "지갑에 현금만 넣고 다니기"
+    ],
+    "correct_index": 0,
+    "explanation": "10초 규칙은 실험에서 효과가 있을 수 있다고 제안되어 있습니다. 위시리스트와 현금 전용 방식도 효과가 있지만, 10초 규칙은 간편함 때문에 인기가 있습니다. 모든 사람에게 효과가 있는 것은 아닙니다. 한 번만 시도해 보세요. (\"위시리스트\"와 \"현금 전용\"은 더 많은 준비가 필요합니다.)",
+    "actionable_advice": "💡 내일 한 번만 시도해 보세요: 사고 싶은 충동이 들면 10초 기다리기. 효과가 없으면 다른 방법으로 전환하세요.",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "충동 구매를 자주 하는 분",
+        "쉽게 시작하고 싶은 분"
+      ],
+      "limitations": [
+        "고가 물품에는 효과가 적을 수 있습니다"
+      ],
+      "citation_role": "자기 통제 자원 연구에서 10초 규칙을 간접적으로 지지합니다",
+      "try_this": "👉 \"사고 싶다!\"고 생각할 때 → 손가락을 떼고 10까지 세기 (1...2...3...10)",
+      "claim_tags": [
+        "self_control",
+        "impulse_buying",
+        "delay_gratification"
+      ],
+      "tiny_metric": {
+        "before_prompt": "\"사고 싶다\"는 충동이 얼마나 강한가요? (0-10)",
+        "after_prompt": "10초 후에는?",
+        "success_rule": "조금이라도 줄어들면 OK",
+        "stop_rule": "변화가 없거나 오히려 늘어나면 오늘은 후퇴"
+      },
+      "comparator": {
+        "baseline": "충동적으로 장바구니 버튼 누르기",
+        "cost": "10초 / 낮은 노력"
+      },
+      "fallback": {
+        "when": "10초가 충분하지 않을 때",
+        "next": "24시간 장바구니 방치 방법으로 전환"
+      }
+    }
+  },
+  {
+    "id": "money_l01_010",
+    "type": "multiple_choice",
+    "question": "오늘 배운 것 중, 내일부터 사용할 수 있는 것은?",
+    "choices": [
+      "사고 싶을 때 10초 기다리기",
+      "장바구니에 물건을 24시간 방치하기",
+      "\"1년 후에도 이걸 쓰고 있을까?\"라고 자문하기",
+      "전부 시도해 보기"
+    ],
+    "correct_index": 3,
+    "explanation": "모두 시도해 볼 가치가 있습니다. 한 번에 전부 바꾸지는 못해도, 점차 \"구매 습관\"이 바뀔 수 있습니다. 하나가 효과가 없으면 다른 것으로 전환하세요. 한 번만 시도해 보세요. (개별 옵션도 효과적입니다; 가장 간단한 것은 10초 규칙입니다.)",
+    "actionable_advice": "💡 오늘의 실천: 다음 \"사고 싶다!\" 충동에 10초 기다리기.",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "새로운 습관을 시작하고 싶은 분"
+      ],
+      "limitations": [
+        "전부 계속하지 못할 수도 있습니다"
+      ],
+      "citation_role": "자기 통제 개입의 효과를 간접적으로 지지합니다",
+      "try_this": "👉 다음 \"사고 싶다!\"에 10초 기다리기... 그것도 어려우면 1초만 손가락 떼기",
+      "claim_tags": [
+        "self_control",
+        "habit_formation",
+        "impulse_buying"
+      ],
+      "tiny_metric": {
+        "metric": "이번 주에 한 번이라도 10초 기다렸나요?",
+        "stop_rule": "일주일 동안 한 번도 시도를 기억하지 못하면 그만두기",
+        "before_prompt": "현재 피로도는 0-10 중 몇 점인가요?",
+        "after_prompt": "10초 후에는요?",
+        "success_rule": "1점이라도 떨어지면 성공입니다"
+      },
+      "comparator": {
+        "baseline": "아무것도 시도 안 하기",
+        "cost": "10초 × 주 몇 번"
+      },
+      "fallback": {
+        "when": "10초 규칙이 효과가 없을 때",
+        "next": "장바구니 방치 또는 미래 질문으로 전환"
+      }
+    }
+  }
+]

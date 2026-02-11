@@ -1,0 +1,381 @@
+[
+  {
+    "id": "work_l02_001",
+    "type": "conversation",
+    "question": "这周，明明想着'必须做'却拖延的任务，能想到几个？",
+    "your_response_prompt": "诚实地数一数吧",
+    "choices": [
+      "4个以上（积累挺多的）",
+      "1-3个左右",
+      "0个（能即时处理）"
+    ],
+    "recommended_index": null,
+    "explanation": "其实那个拖延，不是'意志力弱'，而是'完美主义'在踩刹车的可能性。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "有完美主义倾向的人"
+      ],
+      "limitations": [
+        "真正需要高质量的场合不太适用"
+      ],
+      "citation_role": "用观察研究支持拖延和完美主义的关联",
+      "claim_tags": [
+        "perfectionism",
+        "procrastination",
+        "task_initiation"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_002",
+    "type": "multiple_choice",
+    "question": "要降低'着手阻力'，首先能做的是？",
+    "choices": [
+      "打开电脑，只打开一个文件",
+      "制定完美的计划",
+      "等有干劲再开始"
+    ],
+    "correct_index": 0,
+    "explanation": "'打开文件'这个身体动作，可以成为把大脑切换到'工作模式'的契机。不需要等干劲。",
+    "actionable_advice": "小贴士：现在马上：坐到电脑前，只打开一个文档（不用写内容）",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "不擅长开始的人"
+      ],
+      "limitations": [
+        "只是打开就停住的情况也有"
+      ],
+      "citation_role": "从理论上解释执行意图和身体动作的关联",
+      "claim_tags": [
+        "implementation_intention",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_003",
+    "type": "multiple_choice",
+    "question": "想着'必须做'却动不了的时候，10秒能做的最小动作是？",
+    "choices": [
+      "打开电脑盖子，按电源按钮",
+      "把任务清单全部写出来",
+      "等有干劲"
+    ],
+    "correct_index": 0,
+    "explanation": "'打开盖子''按电源'这个身体动作，更容易切换到任务模式的倾向。思考之前先动身体。先试一次。（'写清单''等干劲'花时间）",
+    "actionable_advice": "小贴士：动不了的时候 → 打开电脑盖子按电源按钮（这就是第一步）",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "不擅长开始的人"
+      ],
+      "limitations": [
+        "电脑已经打开的情况需要其他动作"
+      ],
+      "citation_role": "从拖延研究间接支持最小动作的效果",
+      "try_this": "动不了的时候 → 打开电脑按电源按钮（10秒）",
+      "claim_tags": [
+        "procrastination",
+        "physical_action",
+        "task_initiation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "现在的'不想做程度'是？（0-10）",
+        "after_prompt": "打开电脑后呢？",
+        "success_rule": "稍微降低就算成功",
+        "stop_rule": "没变化就今天撤退"
+      },
+      "comparator": {
+        "baseline": "等有干劲",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "10秒也做不到",
+        "next": "用手机打开工作App就行"
+      }
+    }
+  },
+  {
+    "id": "work_l02_004",
+    "type": "swipe_judgment",
+    "question": "决定'只做1步'的话，有时不知不觉就进入下一步了。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "可能是这样",
+      "right": "没这种感觉"
+    },
+    "explanation": "大脑在'开始'的时候消耗能量。一旦开始了，继续的门槛倾向于降低。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "着手阻力高的人"
+      ],
+      "limitations": [
+        "1步就停住的情况也有（那也没关系）"
+      ],
+      "citation_role": "从执行意图研究支持着手效果",
+      "claim_tags": [
+        "implementation_intention",
+        "task_initiation",
+        "momentum"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_005",
+    "type": "conversation",
+    "question": "无法开始任务的时候，自己最符合哪个？",
+    "choices": [
+      "不知道从哪里开始",
+      "想完美做而卡住",
+      "嫌麻烦动不了",
+      "没有特别的模式"
+    ],
+    "recommended_index": null,
+    "explanation": "每个都对。察觉到模式的话，更容易选择对策。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持拖延模式的自我认知",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_006",
+    "type": "multiple_choice",
+    "question": "把'今天要做的任务'缩小到1个更有效的理由是？",
+    "choices": [
+      "选择的负担减少，更容易着手",
+      "做多个会累",
+      "决定只做一个可以偷懒"
+    ],
+    "correct_index": 0,
+    "explanation": "'从哪个开始'这个决定的负担占着手阻力的很大部分。早上用10秒决定'今天只做这个'，更容易行动起来的倾向。先试一次。（比起'多个累''可以偷懒'，减少选择负担是重点）",
+    "actionable_advice": "小贴士：早上起床后 → 拿起手机用备忘录App写'今天的1个任务'10秒",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "任务太多动不了的人"
+      ],
+      "limitations": [
+        "多个任务真的紧急的情况不太好用"
+      ],
+      "citation_role": "间接支持执行意图中聚焦的效果",
+      "try_this": "早上起床后 → 用备忘录App写'今天的1个任务'10秒",
+      "claim_tags": [
+        "focus",
+        "task_selection",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "这周写了'1个任务'的天数是？",
+        "after_prompt": "写了的日子能着手吗",
+        "success_rule": "一周能写2天就算成功",
+        "stop_rule": "1周都写不了就停止"
+      },
+      "comparator": {
+        "baseline": "看着待办清单被压倒",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "早上太忙",
+        "next": "前一天晚上写好"
+      }
+    }
+  },
+  {
+    "id": "work_l02_007",
+    "type": "swipe_judgment",
+    "question": "比起任务没完成，'无法开始'更让人有压力的时候有。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "理解",
+      "right": "不理解"
+    },
+    "explanation": "'没做的事'一直留在脑子里容易产生压力（蔡格尼克效应）。哪怕1步也开始的话，这个负担有减轻的倾向。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "感到'没做'压力的人"
+      ],
+      "limitations": [
+        "相反开始了就停不下来的人需要其他应对"
+      ],
+      "citation_role": "用观察研究支持未完成任务的心理负担",
+      "claim_tags": [
+        "procrastination",
+        "stress",
+        "zeigarnik_effect"
+      ]
+    }
+  },
+  {
+    "id": "work_l02_008",
+    "type": "multiple_choice",
+    "question": "'没有干劲'的时候，首先用身体能做的事是？",
+    "choices": [
+      "坐到椅子上，把手放在桌子上",
+      "等有干劲躺着",
+      "在SNS上看励志视频"
+    ],
+    "correct_index": 0,
+    "explanation": "'坐到椅子上''把手放上去'这个身体动作，有时可以成为把大脑切换到工作模式的契机。思考之前先动身体。先试一次。（'躺着''看SNS'反而更难动起来）",
+    "actionable_advice": "小贴士：没有干劲的时候 → 先坐到椅子上把手放在桌子上（只要10秒）",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "等干劲时间长的人"
+      ],
+      "limitations": [
+        "没有坐的地方的情况需要其他动作"
+      ],
+      "citation_role": "间接支持身体动作和行动开始的关联",
+      "try_this": "没有干劲的时候 → 坐到椅子上把手放在桌子上（10秒）",
+      "claim_tags": [
+        "physical_action",
+        "task_initiation",
+        "implementation_intention"
+      ],
+      "tiny_metric": {
+        "before_prompt": "干劲是？（0-10）",
+        "after_prompt": "坐下后呢？",
+        "success_rule": "稍微提高就算成功",
+        "stop_rule": "没变化就换其他方法"
+      },
+      "comparator": {
+        "baseline": "一直等干劲",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "坐了也不行",
+        "next": "改成只打开电脑"
+      }
+    }
+  },
+  {
+    "id": "work_l02_009",
+    "type": "conversation",
+    "question": "今天学的技巧中，从明天开始能用的是？",
+    "choices": [
+      "'打开电脑盖子按电源'最小动作",
+      "'今天的1个任务'早上写",
+      "'坐到椅子上把手放在桌子上'身体动作",
+      "全部都试"
+    ],
+    "recommended_index": null,
+    "explanation": "每个都值得一试。不适合就试别的。那也是学习。先试一次。（'全部'不用勉强，从一个开始）",
+    "actionable_advice": "小贴士：明天早上用备忘录App写'今天的1个任务'10秒（写下来就是第一步）",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想尝试新习惯的人"
+      ],
+      "limitations": [
+        "不练习容易忘记"
+      ],
+      "citation_role": "提出任务开始干预的选项",
+      "try_this": "明天早上用备忘录App写'今天的1个任务'10秒",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "这周能写一次吗",
+        "stop_rule": "1周都写不了就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "什么都不决定就开始一天",
+        "cost": "10秒 × 每天早上"
+      },
+      "fallback": {
+        "when": "哪个都不适合",
+        "next": "改成'只用手机工作2分钟'"
+      }
+    }
+  },
+  {
+    "id": "work_l02_010",
+    "type": "conversation",
+    "question": "这节课的'着手技巧'，觉得能用吗？",
+    "choices": [
+      "觉得能用",
+      "可能不太适合",
+      "还不确定"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。'不太适合'的话找其他方法也很重要。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持对个体差异的配慮",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

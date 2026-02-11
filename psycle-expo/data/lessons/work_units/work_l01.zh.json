@@ -1,0 +1,435 @@
+[
+  {
+    "id": "work_l01_001",
+    "type": "swipe_judgment",
+    "question": "想着'一会儿做'的任务，结果往往没做就结束了。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "能理解",
+      "right": "没这种感觉"
+    },
+    "explanation": "拖延不是意志力问题，而是想要逃避'不适'的自然倾向。改变任务的开始方式可能会改善。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "有拖延倾向的人",
+        "任务容易积压的人"
+      ],
+      "limitations": [
+        "拖延在某些情况下是适应性的（等待信息等）"
+      ],
+      "citation_role": "拖延行为元分析的观察",
+      "claim_tags": [
+        "procrastination",
+        "self_regulation",
+        "task_management"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_002",
+    "type": "multiple_choice",
+    "question": "等着'有干劲了再做'的时候，可能发生什么？",
+    "choices": [
+      "持续逃避不适的状态",
+      "身体在要求休息",
+      "真的不是必要的任务"
+    ],
+    "correct_index": 0,
+    "explanation": "干劲是'开始做了才会出来'而不是'等来的'。只动手10秒，有时就能切换到任务模式。（虽然容易想'需要休息''不是必要的'，但逃避心理的情况更多）",
+    "actionable_advice": "小贴士：下次'等干劲'时，试着动手10秒。不喜欢就立刻停止。",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "等干劲时间长的人",
+        "不擅长开始的人"
+      ],
+      "limitations": [
+        "真的累了需要休息",
+        "慢性无力感需要其他应对"
+      ],
+      "citation_role": "解释拖延研究中的行为激活理论",
+      "claim_tags": [
+        "procrastination",
+        "motivation",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_003",
+    "type": "swipe_judgment",
+    "question": "定好'只做5分钟'，结果往往继续做超过5分钟。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "可能是这样",
+      "right": "没这种感觉"
+    },
+    "explanation": "降低开始的门槛，更容易'进入状态'。真的5分钟就结束也可以。做不到也很正常。先试一次就好。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "被大任务压倒的人",
+        "有完美主义倾向的人"
+      ],
+      "limitations": [
+        "5分钟完不成的任务需要额外步骤"
+      ],
+      "citation_role": "从执行意图研究间接支持5分钟规则的效果",
+      "try_this": "任务太重时，用10秒写出'5分钟版'",
+      "claim_tags": [
+        "implementation_intention",
+        "procrastination",
+        "task_initiation"
+      ],
+      "tiny_metric": {
+        "metric": "能否按5分钟计时器开始",
+        "stop_rule": "连续3次按不了就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "看着整个任务被压倒",
+        "cost": "5分钟 / 负担低"
+      },
+      "fallback": {
+        "when": "5分钟也太长",
+        "next": "缩小到2分钟版"
+      }
+    }
+  },
+  {
+    "id": "work_l01_004",
+    "type": "multiple_choice",
+    "question": "减少拖延，有报告称什么方法有效？",
+    "choices": [
+      "事先决定好'何时/何地/做什么'",
+      "把期限设短",
+      "准备奖励"
+    ],
+    "correct_index": 0,
+    "explanation": "'执行意图'（如果-那么计划）可能减少拖延。效果因人而异。先试一次就好。（'缩短期限''奖励'也能用，但先决定'何时/何地'更有效）",
+    "actionable_advice": "小贴士：下个任务决定一个'○点在△做□'。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "喜欢制定计划的人",
+        "模糊任务动不了的人"
+      ],
+      "limitations": [
+        "计划不顺利时可能成为压力",
+        "需要灵活性的情况不适合"
+      ],
+      "citation_role": "直接支持执行意图的效果",
+      "try_this": "现在10秒决定一个'○点在△做□'",
+      "claim_tags": [
+        "implementation_intention",
+        "procrastination",
+        "goal_setting"
+      ],
+      "tiny_metric": {
+        "metric": "能否制作一个如果-那么计划",
+        "stop_rule": "连续3次制作不了就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "只是想'得做'",
+        "cost": "30秒 / 负担低"
+      },
+      "fallback": {
+        "when": "计划太复杂",
+        "next": "简化为'下次○○时就做△'"
+      }
+    }
+  },
+  {
+    "id": "work_l01_005",
+    "type": "swipe_judgment",
+    "question": "越想'必须完美做'，越容易拖延。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "能理解",
+      "right": "没这种感觉"
+    },
+    "explanation": "有报告称完美主义和拖延有关联。决定'70%就可以'更容易行动。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "有完美主义倾向的人",
+        "开始前想太多的人"
+      ],
+      "limitations": [
+        "质量真的重要的场合有时需要完美主义"
+      ],
+      "citation_role": "用观察研究支持完美主义和拖延的关联",
+      "claim_tags": [
+        "perfectionism",
+        "procrastination",
+        "anxiety"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_006",
+    "type": "multiple_choice",
+    "question": "'任务太大动不了'时，怎么做容易动？",
+    "choices": [
+      "只专注于下一个步骤",
+      "意识到期限",
+      "找人帮忙"
+    ],
+    "correct_index": 0,
+    "explanation": "大任务'分割'后更容易处理。只决定'下一步'有时就能开始行动。先试一次就好。（'意识期限''找人帮忙'也有效，但分割是第一步）",
+    "actionable_advice": "小贴士：把现在手上的大任务的'下一步'写出来。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "抱着大项目的人",
+        "被全局压倒的人"
+      ],
+      "limitations": [
+        "分割太细反而可能变复杂"
+      ],
+      "citation_role": "从执行意图研究间接支持任务分割的效果",
+      "try_this": "用10秒写出'下一步'",
+      "claim_tags": [
+        "task_decomposition",
+        "procrastination",
+        "goal_setting"
+      ],
+      "tiny_metric": {
+        "metric": "能否写出'下一步'",
+        "stop_rule": "连续3次写不出来就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "看着整个任务卡住",
+        "cost": "30秒 / 负担低"
+      },
+      "fallback": {
+        "when": "一步也想不出来",
+        "next": "从'先打开○'开始"
+      }
+    }
+  },
+  {
+    "id": "work_l01_007",
+    "type": "conversation",
+    "question": "同事说'那个工作还没做完吗？'。怎么回答？",
+    "choices": [
+      "'正好要开始。只做5分钟试试'",
+      "'嗯，这周内会做的'",
+      "'吵什么'"
+    ],
+    "recommended_index": 0,
+    "explanation": "宣言会成为'社会承诺'，更容易行动。对压力弱的人可能适得其反。先试一次就好。",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "和人约定后能动起来的人",
+        "外在动机有效的人"
+      ],
+      "limitations": [
+        "对压力弱的人可能适得其反"
+      ],
+      "citation_role": "间接支持社会承诺的效果",
+      "claim_tags": [
+        "social_commitment",
+        "procrastination",
+        "accountability"
+      ],
+      "try_this": "用10秒向某人宣言'只做5分钟'",
+      "tiny_metric": {
+        "metric": "宣言后能否动5分钟",
+        "stop_rule": "连续3次动不了就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "不告诉任何人继续拖延",
+        "cost": "只是宣言 / 负担低"
+      },
+      "fallback": {
+        "when": "宣言成为压力",
+        "next": "不宣言改用10秒规则"
+      }
+    }
+  },
+  {
+    "id": "work_l01_008",
+    "type": "swipe_judgment",
+    "question": "拖延不是'懒惰'而是'情绪调节'问题，有这样的观点。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "可能是这样",
+      "right": "我不这么认为"
+    },
+    "explanation": "最近的研究倾向于把拖延理解为'逃避不适感情'的行为。也就是说关键可能是情绪调节而不是意志力。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "容易自责的人",
+        "因拖延自我厌恶的人"
+      ],
+      "limitations": [
+        "不是所有拖延都是情绪调节"
+      ],
+      "citation_role": "从理论上支持拖延的情绪调节模型",
+      "claim_tags": [
+        "emotion_regulation",
+        "procrastination",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "work_l01_009",
+    "type": "multiple_choice",
+    "question": "减少拖延，有报告称什么具体方法有效？",
+    "choices": [
+      "决定'只做10秒'然后动手",
+      "制作待办清单",
+      "把期限放进日历"
+    ],
+    "correct_index": 0,
+    "explanation": "10秒规则作为降低'开始门槛'的方法可能有效。待办清单和期限也有效，但10秒规则负担最低。先试一次就好。（'待办''日历'需要准备）",
+    "actionable_advice": "小贴士：明天只试一次：动不了时动手10秒。",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "拖延多的人",
+        "想简单开始的人"
+      ],
+      "limitations": [
+        "慢性无力感效果可能弱"
+      ],
+      "citation_role": "从拖延元分析间接支持10秒规则的效果",
+      "try_this": "动不了时动手10秒",
+      "claim_tags": [
+        "procrastination",
+        "task_initiation",
+        "self_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "现在的'不想做程度'是多少？（0-10）",
+        "after_prompt": "10秒后呢？",
+        "success_rule": "稍微降低就算成功",
+        "stop_rule": "没变化或升高了今天就撤退"
+      },
+      "comparator": {
+        "baseline": "等有干劲",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "10秒也动不了",
+        "next": "把任务分解成'最小单位'"
+      }
+    }
+  },
+  {
+    "id": "work_l01_010",
+    "type": "multiple_choice",
+    "question": "今天学到的内容中，从明天开始能用的是哪个？",
+    "choices": [
+      "决定'只做10秒'然后动手",
+      "用'只做5分钟'开始",
+      "只决定'下一步'",
+      "全部都试"
+    ],
+    "correct_index": 3,
+    "explanation": "每个都值得一试。与其'克服'拖延，不如找到'相处方式'可能更重要。不适合就用别的方法。先试一次就好。（单个选项也有效，最简便的是10秒规则）",
+    "actionable_advice": "小贴士：今天的行动：下个任务试'只做10秒'。",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想开始新习惯的人"
+      ],
+      "limitations": [
+        "全部可能坚持不下去"
+      ],
+      "citation_role": "间接支持拖延干预的有效性",
+      "try_this": "下个任务试'只做10秒'",
+      "claim_tags": [
+        "procrastination",
+        "habit_formation",
+        "self_regulation"
+      ],
+      "tiny_metric": {
+        "metric": "这周能否用过一次10秒规则",
+        "stop_rule": "一周一次都想不起来就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "什么都不试",
+        "cost": "10秒 × 每周几次"
+      },
+      "fallback": {
+        "when": "10秒规则不适合",
+        "next": "改用5分钟规则或如果-那么计划"
+      }
+    }
+  }
+]

@@ -1,0 +1,385 @@
+[
+  {
+    "id": "mental_l03_001",
+    "type": "swipe_judgment",
+    "question": "还有5分钟开会。心跳砰砰，手心出汗。越对自己说'冷静下来'反而越焦虑。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "有过这种经历",
+      "right": "没有"
+    },
+    "explanation": "'冷静下来'有时会适得其反。越是想压抑情绪，注意力反而越集中在那上面。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "压抑情绪不起作用的人"
+      ],
+      "limitations": [
+        "压抑在某些情况下也有效（短期的、社交场合）"
+      ],
+      "citation_role": "作为情绪调节的框架，从理论上解释压抑的反效果机制",
+      "claim_tags": [
+        "emotion_regulation",
+        "suppression"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_002",
+    "type": "multiple_choice",
+    "question": "感到焦虑时，用什么代替'冷静下来'更容易见效？",
+    "choices": [
+      "承认'现在很焦虑'（贴标签）",
+      "更强烈地对自己说'冷静下来！'",
+      "尽量什么都不想"
+    ],
+    "correct_index": 0,
+    "explanation": "通过贴标签（给它命名），情绪的强度有时会降低。效果因人而异，慢性焦虑需要其他方法。（'更强烈地冷静下来'容易适得其反。'什么都不想'往往很难做到）",
+    "actionable_advice": "小贴士：下次焦虑时，在心里默念'焦虑'试试（10秒）。不喜欢就立刻停止。",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "日常轻微焦虑",
+        "想加深自我理解的人"
+      ],
+      "limitations": [
+        "对慢性强烈焦虑效果可能有限",
+        "有些人反而会加剧反刍"
+      ],
+      "citation_role": "作为情绪调节的框架，从理论上解释贴标签的机制",
+      "try_this": "下次焦虑时，在心里默念'焦虑'（10秒）",
+      "claim_tags": [
+        "emotion_regulation",
+        "reappraisal"
+      ],
+      "tiny_metric": {
+        "before_prompt": "现在的焦虑程度？（0-10或高/中/低）",
+        "after_prompt": "10秒后呢？",
+        "success_rule": "稍微降低就算成功",
+        "stop_rule": "没变化或升高了今天就撤退"
+      },
+      "comparator": {
+        "baseline": "用'冷静下来'压抑",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "贴标签反而加剧了焦虑",
+        "next": "改用深呼吸（吸气4秒呼气4秒）"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_003",
+    "type": "swipe_judgment",
+    "question": "把心跳砰砰重新解读为'身体在帮我准备'，有时可以提升表现。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "有可能",
+      "right": "不太可能"
+    },
+    "explanation": "这叫做'重新评估'。研究显示有短期提升表现的效果。不过身体不适时不要勉强休息一下。做不到也很正常。先试一次就好。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "演讲、面试前的紧张",
+        "短期表现场合"
+      ],
+      "limitations": [
+        "身体不适时会适得其反",
+        "对慢性焦虑效果有限"
+      ],
+      "citation_role": "直接支持唤醒重新评估对表现的效果",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "stress_response",
+        "performance"
+      ],
+      "tiny_metric": {
+        "metric": "心跳加速时能否说一次'在帮我准备'",
+        "stop_rule": "连续3天一次都想不起来就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "负面解读为'糟了，我紧张了'",
+        "cost": "认知负担低（只是换个说法）"
+      },
+      "try_this": "下次紧张时默念'身体在帮我准备'10秒",
+      "fallback": {
+        "when": "难受感加剧或没有变化时",
+        "next": "改用一次呼吸或其他10秒干预"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_004",
+    "type": "multiple_choice",
+    "question": "演讲前，手汗严重。接下来试哪个？",
+    "choices": [
+      "换个说法'身体在帮我热身'",
+      "想'糟了，又紧张了'",
+      "忽略手汗专注内容"
+    ],
+    "correct_index": 0,
+    "explanation": "换成'热身运动'的说法，有时可以把压力反应转变为挑战反应。不适合的人也有，不用勉强。先试一次就好。（'糟了'会加剧焦虑。'忽略专注'对谁都很难）",
+    "actionable_advice": "小贴士：明天只试一次：紧张时默念'身体在帮我准备'10秒。不喜欢就立刻停止。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "演讲、面试、考试前"
+      ],
+      "limitations": [
+        "身体不适时不要勉强",
+        "对'积极思维'有抵触的人可能不适合"
+      ],
+      "citation_role": "支持唤醒重新评估的实践效果",
+      "try_this": "紧张时默念'身体在帮我准备'10秒",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "performance"
+      ],
+      "tiny_metric": {
+        "before_prompt": "现在的紧张程度（0-10）",
+        "after_prompt": "10秒后的紧张程度",
+        "success_rule": "降低1分就算成功",
+        "stop_rule": "没变化就试其他方法"
+      },
+      "comparator": {
+        "baseline": "责备自己'不能紧张'",
+        "cost": "10秒 / 心理负担低"
+      },
+      "fallback": {
+        "when": "换说法感觉很假时",
+        "next": "只贴标签'有点紧张'"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_005",
+    "type": "conversation",
+    "question": "'贴标签'和'重新评估'，哪个更适合你？",
+    "your_response_prompt": "凭直觉选择",
+    "choices": [
+      "贴标签（只是承认'焦虑'）",
+      "重新评估（换说法为'热身运动'）",
+      "两个都想试试",
+      "两个都不太适合"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。'不太适合'也是重要的信息。可以成为寻找其他方法的契机。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持对个体差异的考虑",
+      "claim_tags": [
+        "emotion_regulation",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_006",
+    "type": "multiple_choice",
+    "question": "感到焦虑时，做3次'吸气4秒，呼气4秒'，会发生什么？",
+    "choices": [
+      "副交感神经倾向于占优势，心跳容易平静下来",
+      "交感神经进一步激活，焦虑增加",
+      "什么都不会变"
+    ],
+    "correct_index": 0,
+    "explanation": "缓慢的呼吸会刺激副交感神经。对于不擅长呼吸法的人可能反而会增加焦虑。做不到也很正常。先试一次就好。（'交感神经激活'是快速呼吸时。'什么都不变'虽有个体差异但容易发生变化）",
+    "actionable_advice": "小贴士：现在就试试：吸气4秒，呼气4秒，只做一次。不喜欢就跳过。",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "暂时的焦虑",
+        "容易意识到身体感觉的人"
+      ],
+      "limitations": [
+        "不擅长呼吸法的人可能适得其反",
+        "恐慌发作时需要专家支持"
+      ],
+      "citation_role": "间接支持呼吸法对自律神经的影响",
+      "try_this": "吸气4秒呼气4秒只做一次",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "现在的焦虑程度（高/中/低）",
+        "after_prompt": "做一次之后呢？",
+        "success_rule": "稍微减轻就算成功",
+        "stop_rule": "感觉不舒服就立刻停止"
+      },
+      "comparator": {
+        "baseline": "忍着熬过去",
+        "cost": "8秒 / 负担最小"
+      },
+      "fallback": {
+        "when": "把注意力放在呼吸上反而更难受时",
+        "next": "把注意力转移到外面的声音（5秒）"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_007",
+    "type": "swipe_judgment",
+    "question": "情绪调节技能，通过练习对大多数人来说容易掌握。",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "我这么认为",
+      "right": "我不这么认为"
+    },
+    "explanation": "'对任何人都一定'太绝对了。通过练习改善的人很多，但存在个体差异。另外，慢性问题需要专家的支持更有效。",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "从理论上解释个体差异",
+      "claim_tags": [
+        "emotion_regulation",
+        "limitations"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_008",
+    "type": "multiple_choice",
+    "question": "今天学的3个技巧（贴标签、重新评估、呼吸法）。明天用的话，哪个门槛最低？",
+    "choices": [
+      "呼吸法（吸气4秒呼气4秒）",
+      "贴标签（承认'焦虑'）",
+      "重新评估（换说法为'热身运动'）",
+      "每个门槛都很高"
+    ],
+    "correct_index": 0,
+    "explanation": "对大多数人来说呼吸法最简单。不适合的人也有，找到适合自己的很重要。（贴标签和重新评估也有效。'每个都很高'的话找其他方法也可以）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "提供干预的选择指南",
+      "claim_tags": [
+        "breathing",
+        "implementation"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_009",
+    "type": "conversation",
+    "question": "明天感到焦虑时只试一个的话？",
+    "your_response_prompt": "选一个",
+    "choices": [
+      "呼吸法（吸气4秒呼气4秒）",
+      "贴标签（默念'焦虑'）",
+      "重新评估（换说法为'热身运动'）",
+      "这次跳过"
+    ],
+    "recommended_index": 0,
+    "explanation": "选一个试试是第一步。不适合就试别的。那也是学习。先试一次。",
+    "actionable_advice": "小贴士：明天一次（10秒）：只试一次选择的技巧。不喜欢就立刻停止。",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "应对日常轻微焦虑"
+      ],
+      "limitations": [
+        "持续强烈焦虑时不够充分"
+      ],
+      "citation_role": "提供情绪调节策略的选项",
+      "try_this": "只试一次选择的技巧（10秒）",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "焦虑程度 0-10",
+        "after_prompt": "10秒后 0-10",
+        "success_rule": "降低1分就算成功",
+        "stop_rule": "没变化或升高就撤退"
+      },
+      "comparator": {
+        "baseline": "什么都不做",
+        "cost": "10秒"
+      },
+      "fallback": {
+        "when": "3个都不适合时",
+        "next": "喝水 / 离开座位等物理转换"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_010",
+    "type": "conversation",
+    "question": "这节课的'焦虑应对技巧'，觉得能用吗？",
+    "your_response_prompt": "请诚实回答",
+    "choices": [
+      "觉得能用",
+      "可能不太适合",
+      "还不确定"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。'不太适合'的话找其他方法才是正确的。找到适合自己的方法这个过程本身就是学习。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持对个体差异的配慮",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

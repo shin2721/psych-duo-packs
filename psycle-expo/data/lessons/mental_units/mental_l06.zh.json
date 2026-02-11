@@ -1,0 +1,329 @@
+[
+    {
+        "id": "mental_l06_001",
+        "type": "swipe_judgment",
+        "question": "觉得'80分不行。不是100分就没意义'",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "经常有",
+            "right": "不太有"
+        },
+        "explanation": "这是'完美主义'的典型例子。追求完美本身没什么不好，但如果认为'100分以外就是失败'，就倾向于把自己逼得太紧。※本课程旨在加深对完美主义的理解，如果您有自杀或自残的倾向，请咨询专业机构而非使用应用。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "完美主义倾向的自我认知"
+            ],
+            "limitations": [
+                "高标准带来成果的情况也有"
+            ],
+            "citation_role": "解释完美主义的认知模式",
+            "claim_tags": [
+                "perfectionism",
+                "cognitive_pattern"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_002",
+        "type": "multiple_choice",
+        "question": "完美主义倾向强的人容易出现什么？",
+        "choices": [
+            "还没开始就因'失败了怎么办'而焦虑",
+            "失败了也不在意继续前进",
+            "把目标设低来安心"
+        ],
+        "correct_index": 0,
+        "explanation": "有研究报告称，完美主义倾向的人因为害怕失败容易变得'无法开始'。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "理解完美主义和行动抑制的关系"
+            ],
+            "limitations": [
+                "个体差异大"
+            ],
+            "citation_role": "解释完美主义和焦虑的关联",
+            "claim_tags": [
+                "perfectionism",
+                "anxiety",
+                "behavioral_inhibition"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_003",
+        "type": "swipe_judgment",
+        "question": "觉得'对自己做的事情不满意'",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "经常有",
+            "right": "不太有"
+        },
+        "explanation": "每个答案都是正常的反应。对自己有高标准可以成为成长的动力，但过度的话可能容易疲惫。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "解释高标准的两面性",
+            "claim_tags": [
+                "perfectionism",
+                "self_evaluation"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_004",
+        "type": "multiple_choice",
+        "question": "'适度放松'完美主义的有效方法是？",
+        "choices": [
+            "允许自己'70分也可以'",
+            "对自己说'不要追求完美'",
+            "不设目标"
+        ],
+        "correct_index": 0,
+        "explanation": "通过'扩大容许范围'，行动的门槛倾向于降低。不需要完全消除完美主义。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "因完美主义而容易停滞的人"
+            ],
+            "limitations": [
+                "需要高标准的场合可能有反效果"
+            ],
+            "citation_role": "作为认知重构的一种方法",
+            "try_this": "今天的第一个任务开始前默念'70分就够了'",
+            "claim_tags": [
+                "perfectionism",
+                "cognitive_restructuring",
+                "tolerance"
+            ],
+            "tiny_metric": {
+                "before_prompt": "开始任务前的焦虑程度（1-10）",
+                "after_prompt": "完成任务后的满足程度（1-10）",
+                "success_rule": "焦虑程度下降3分以上，或能开始任务",
+                "stop_rule": "反而焦虑增加时"
+            },
+            "comparator": {
+                "baseline": "平时追求完美的做法",
+                "cost": "时间和精力相同或减少"
+            },
+            "fallback": {
+                "when": "无法认同'70分也可以'时",
+                "next": "'先做5分钟'限定时间"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_005",
+        "type": "multiple_choice",
+        "question": "完美主义应该'完全消除'",
+        "choices": [
+            "不，重要的是能够灵活调整",
+            "是的，完美主义只有害处",
+            "不好说"
+        ],
+        "correct_index": 0,
+        "explanation": "完美主义也有'健康的一面'，高标准有时会带来成果。问题出在'失去灵活性的时候'。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "区分适应性完美主义和非适应性完美主义",
+            "claim_tags": [
+                "perfectionism",
+                "flexibility",
+                "adaptive"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_006",
+        "type": "conversation",
+        "question": "有过'不能做到完美就不如不做'的想法吗？",
+        "your_response_prompt": "试着回忆是什么场合",
+        "choices": [
+            "经常有",
+            "偶尔有",
+            "不太有"
+        ],
+        "recommended_index": null,
+        "explanation": "这叫做'全有或全无思维'模式。即使不完美，'去做'也可能积累经验。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "作为二分法思维的例子",
+            "claim_tags": [
+                "perfectionism",
+                "dichotomous_thinking",
+                "avoidance"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_007",
+        "type": "swipe_judgment",
+        "question": "完美主义有时会导致拖延",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "我这么认为",
+            "right": "我不这么认为"
+        },
+        "explanation": "有研究表明完美主义和拖延有关联。可能因为'逃避失败'而避免行动。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "解释完美主义和拖延的关联",
+            "claim_tags": [
+                "perfectionism",
+                "procrastination",
+                "failure_avoidance"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_008",
+        "type": "multiple_choice",
+        "question": "应对完美主义最重要的是什么？",
+        "choices": [
+            "保持灵活性，扩大容许范围",
+            "完全消除完美主义",
+            "不设目标"
+        ],
+        "correct_index": 0,
+        "explanation": "不是'消除'完美主义，而是'能够灵活调整'很重要。能够根据情况改变标准很重要。",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "思考如何与完美主义相处的场合"
+            ],
+            "limitations": [
+                "不可能马上变得灵活"
+            ],
+            "citation_role": "基于元分析的建议",
+            "claim_tags": [
+                "perfectionism",
+                "flexibility",
+                "coping"
+            ]
+        }
+    },
+    {
+        "id": "mental_l06_009",
+        "type": "conversation",
+        "question": "今天学的'70分也可以'的想法，明天要试的话？",
+        "your_response_prompt": "具体想在什么场合使用？",
+        "choices": [
+            "工作或学习的任务",
+            "家务或日常作业",
+            "还没有具体想到"
+        ],
+        "recommended_index": 0,
+        "explanation": "在任何场合都值得尝试。建议从小任务开始尝试'不完美也能前进'。",
+        "actionable_advice": "明天第一个任务前请默念3遍'70分就够了'",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "日常任务中容易出现完美主义的人"
+            ],
+            "limitations": [
+                "重要任务应用时要注意"
+            ],
+            "citation_role": "搭建实践的桥梁",
+            "try_this": "明天早上第一个任务出声说'70分就够了'",
+            "claim_tags": [
+                "perfectionism",
+                "practice",
+                "behavior_change"
+            ],
+            "tiny_metric": {
+                "before_prompt": "开始任务前的犹豫程度（1-10）",
+                "after_prompt": "开始任务后的心情（1-10）",
+                "success_rule": "能毫不犹豫地开始",
+                "stop_rule": "反而压力增加时"
+            },
+            "comparator": {
+                "baseline": "平时的做法",
+                "cost": "几秒钟出声"
+            },
+            "fallback": {
+                "when": "无法接受'70分'时",
+                "next": "从'80分'开始"
+            }
+        }
+    },
+    {
+        "id": "mental_l06_010",
+        "type": "conversation",
+        "question": "这节课学到的内容，觉得对你有用吗？",
+        "your_response_prompt": "请告诉我真实的感想",
+        "choices": [
+            "觉得很有用",
+            "觉得有点用",
+            "觉得不太有用"
+        ],
+        "recommended_index": null,
+        "explanation": "每个感想都很珍贵。与完美主义相处的方式因人而异。按照适合自己的节奏来很重要。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "smith_2016_perfectionism",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "促进反思",
+            "claim_tags": [
+                "reflection",
+                "self_awareness"
+            ]
+        }
+    }
+]

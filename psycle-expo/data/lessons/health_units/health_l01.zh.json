@@ -1,0 +1,371 @@
+[
+  {
+    "id": "health_l01_001",
+    "type": "conversation",
+    "question": "最近躺到床上后，感觉'睡不着...'的时间大概有多久？",
+    "your_response_prompt": "凭感觉就好",
+    "choices": [
+      "30分钟以上（开始焦虑）",
+      "10-20分钟左右",
+      "5分钟以内（很快就睡着）"
+    ],
+    "recommended_index": null,
+    "explanation": "如果持续30分钟以上确实很难受。实际上越是努力'想睡着'，大脑反而会保持清醒，适得其反。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "有入睡困难的人",
+        "晚上思绪停不下来的人"
+      ],
+      "limitations": [
+        "如果长期睡不着，建议咨询专业人士"
+      ],
+      "citation_role": "用观察研究支持入睡困难和认知觉醒的关联",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "insomnia"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_002",
+    "type": "multiple_choice",
+    "question": "越焦虑'睡不着...'，越容易发生什么？",
+    "choices": [
+      "清醒状态容易被维持",
+      "自然变困",
+      "累了就睡着"
+    ],
+    "correct_index": 0,
+    "explanation": "'必须睡着'的焦虑引发认知觉醒，反而容易清醒。首先接受'睡不着也没关系'可能是第一步。",
+    "actionable_advice": "小贴士：睡不着的夜晚，试着默念10秒'睡不着也没关系'。不喜欢就立刻停止。",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "对睡不着焦虑感强的人",
+        "有表现焦虑的人"
+      ],
+      "limitations": [
+        "对身体原因的失眠效果弱",
+        "慢性失眠需要专业治疗"
+      ],
+      "citation_role": "从认知觉醒理论解释焦虑和清醒的关联",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_003",
+    "type": "swipe_judgment",
+    "question": "睡前一直看手机的日子，有时候比较难入睡。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "有这种感觉",
+      "right": "没这种感觉"
+    },
+    "explanation": "手机的内容会释放'想看更多'的多巴胺，使大脑保持清醒。比蓝光更重要的是信息的刺激妨碍了睡眠。",
+    "actionable_advice": "小贴士：今晚试试：睡前30分钟把手机插上充电器（不放在手边）",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Cain_2010",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "有睡前看手机习惯的人"
+      ],
+      "limitations": [
+        "手机作为入睡仪式有效的情况例外"
+      ],
+      "citation_role": "用观察研究支持电子媒体和睡眠的关联",
+      "claim_tags": [
+        "sleep",
+        "screen_time",
+        "blue_light"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_004",
+    "type": "multiple_choice",
+    "question": "睡不着的夜晚试试'吸气4秒，屏气7秒，呼气8秒'的呼吸法，会发生什么？",
+    "choices": [
+      "副交感神经倾向于占优势，更容易放松",
+      "马上就能睡着",
+      "反而清醒"
+    ],
+    "correct_index": 0,
+    "explanation": "4-7-8呼吸法可能刺激副交感神经。不一定马上能睡着，但有报告称有放松效果。不适合的人也有，不用勉强继续。",
+    "actionable_advice": "小贴士：下次睡不着的夜晚，只试2次4-7-8呼吸。不适合就立刻停止。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Ma_2017",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "身体紧张强的人",
+        "思绪停不下来的人"
+      ],
+      "limitations": [
+        "把注意力放在呼吸上本身就是压力的人可能适得其反",
+        "有呼吸道疾病的人要注意"
+      ],
+      "citation_role": "间接支持慢呼吸法的放松效果",
+      "try_this": "只试2次4-7-8呼吸",
+      "claim_tags": [
+        "sleep",
+        "breathing",
+        "relaxation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "现在的紧张程度？（0-10）",
+        "after_prompt": "2次之后呢？",
+        "success_rule": "稍微降低就算成功",
+        "stop_rule": "没变化或难受就撤退"
+      },
+      "comparator": {
+        "baseline": "什么都不做躺着",
+        "cost": "30秒左右 / 负担低"
+      },
+      "fallback": {
+        "when": "呼吸法不适合",
+        "next": "默念'睡不着也没关系'的矛盾意向"
+      }
+    }
+  },
+  {
+    "id": "health_l01_005",
+    "type": "swipe_judgment",
+    "question": "睡不着的夜晚看时钟，有时反而更焦虑。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "能理解",
+      "right": "没这种感觉"
+    },
+    "explanation": "看时钟会引发'只能睡几个小时了'的计算，倾向于提高认知觉醒。不看时钟对很多人更好。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "有看时钟习惯的人"
+      ],
+      "limitations": [
+        "不看时钟反而焦虑的人也有"
+      ],
+      "citation_role": "用观察研究支持看时钟行为和入睡困难的关联",
+      "claim_tags": [
+        "sleep",
+        "cognitive_arousal",
+        "clock_watching"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_006",
+    "type": "multiple_choice",
+    "question": "睡不着的夜晚想要'放松身体'的话，从哪里开始最有效？",
+    "choices": [
+      "放松脸和下巴的力量",
+      "从脚趾开始依次",
+      "抬起手臂然后放松"
+    ],
+    "correct_index": 0,
+    "explanation": "脸和下巴的紧张倾向于影响全身的放松。特别是无意识咬紧的人很多。放松下巴10秒可能会感到变化。",
+    "actionable_advice": "小贴士：现在就试：只放松下巴的力量10秒。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jacobson_1938",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "无意识紧张的人",
+        "有磨牙、咬紧倾向的人"
+      ],
+      "limitations": [
+        "对意识到身体感觉本身就是压力的人不适合"
+      ],
+      "citation_role": "从渐进性肌肉放松法间接支持脸和下巴放松的效果",
+      "try_this": "只放松下巴的力量10秒",
+      "claim_tags": [
+        "sleep",
+        "muscle_relaxation",
+        "tension"
+      ],
+      "tiny_metric": {
+        "before_prompt": "下巴的紧张程度？（高/中/低）",
+        "after_prompt": "10秒后呢？",
+        "success_rule": "稍微放松就算成功",
+        "stop_rule": "没变化就撤退"
+      },
+      "comparator": {
+        "baseline": "不特别意识",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "下巴放松难以意识到",
+        "next": "把肩膀抬起3秒，然后一下子放下"
+      }
+    }
+  },
+  {
+    "id": "health_l01_007",
+    "type": "conversation",
+    "question": "睡不着的夜晚，最常见的模式是？",
+    "choices": [
+      "思绪停不下来",
+      "身体紧张",
+      "对睡不着本身的焦虑",
+      "没有特别的模式"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。察觉到自己的模式，选择对策就更容易。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持入睡困难的模式识别",
+      "claim_tags": [
+        "sleep",
+        "self_awareness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_008",
+    "type": "swipe_judgment",
+    "question": "周末补觉有时会打乱工作日的睡眠节奏。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "可能是这样",
+      "right": "没这种感觉"
+    },
+    "explanation": "睡眠节奏保持一定倾向于提高质量。不过慢性睡眠不足的情况下周末的恢复睡眠也是需要的。平衡很重要。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Walker_2017",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "有周末补觉习惯的人"
+      ],
+      "limitations": [
+        "慢性睡眠不足的情况下恢复睡眠也是需要的"
+      ],
+      "citation_role": "支持睡眠节奏紊乱和睡眠质量的关联",
+      "claim_tags": [
+        "sleep",
+        "circadian_rhythm",
+        "sleep_debt"
+      ]
+    }
+  },
+  {
+    "id": "health_l01_009",
+    "type": "multiple_choice",
+    "question": "今天学的技巧中，从明天开始能用的是？",
+    "choices": [
+      "默念10秒'睡不着也没关系'",
+      "试2次4-7-8呼吸法",
+      "放松下巴的力量10秒",
+      "全部都试试"
+    ],
+    "correct_index": 3,
+    "explanation": "每个都值得一试。不适合就试别的。那也是学习。不过慢性失眠持续的话建议咨询专业人士。",
+    "actionable_advice": "小贴士：今晚开始只试一个：睡不着的话默念10秒'睡不着也没关系'。",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想开始新习惯的人"
+      ],
+      "limitations": [
+        "慢性失眠需要专业治疗"
+      ],
+      "citation_role": "提出入睡干预的选项",
+      "try_this": "今晚开始试一个",
+      "claim_tags": [
+        "sleep",
+        "implementation",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "metric": "这周能否试过一次",
+        "stop_rule": "一周都没试就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "什么都不试",
+        "cost": "10秒 × 每周几次"
+      },
+      "fallback": {
+        "when": "哪个都不适合",
+        "next": "考虑咨询专业人士"
+      }
+    }
+  },
+  {
+    "id": "health_l01_010",
+    "type": "conversation",
+    "question": "这节课的'睡眠技巧'，觉得能用吗？",
+    "choices": [
+      "觉得能用",
+      "可能不太适合",
+      "还不确定"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。'不太适合'的话找其他方法也很重要。睡眠个体差异大，找到适合自己的方法这个过程本身就有价值。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harvey_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持对个体差异的配慮",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

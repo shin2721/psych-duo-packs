@@ -1,0 +1,433 @@
+[
+  {
+    "id": "money_l01_001",
+    "type": "swipe_judgment",
+    "question": "网购放入购物车的瞬间，感到'现在不买就没了'而焦虑过。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "有过",
+      "right": "没有"
+    },
+    "explanation": "这叫做'稀缺偏见'。显示'仅剩3件''限定'时，会感觉比实际更有价值。理解这个偏见可能成为冷静下来的契机。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Cialdini_2006",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "网购时的焦虑",
+        "对'限定'没有抵抗力的人"
+      ],
+      "limitations": [
+        "真的稀缺时可能是合理判断"
+      ],
+      "citation_role": "用观察研究支持稀缺偏见的存在",
+      "claim_tags": [
+        "scarcity_bias",
+        "impulse_buying",
+        "cognitive_bias"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_002",
+    "type": "multiple_choice",
+    "question": "想到'现在就想买！'的时候，有报告称什么方法能有效抑制冲动？",
+    "choices": [
+      "等10秒再决定",
+      "找更便宜的",
+      "把评论全部看完"
+    ],
+    "correct_index": 0,
+    "explanation": "10秒规则作为短时间干预可能有效。等待期间冲动的高峰倾向于过去。不适合的人也有，不用勉强。（'找更便宜的''看完所有评论'的问题是花时间）",
+    "actionable_advice": "小贴士：下次想到'想买！'时，试着把手停下来10秒。不喜欢就立刻停止。",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "网购时的冲动",
+        "小额冲动购物多的人"
+      ],
+      "limitations": [
+        "对高价商品效果可能弱",
+        "等待很痛苦的人可能适得其反"
+      ],
+      "citation_role": "从自我控制资源研究理论上解释冲动和时间的关系",
+      "claim_tags": [
+        "self_control",
+        "impulse_buying",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_003",
+    "type": "swipe_judgment",
+    "question": "放入购物车后放置24小时，很多会变成'还是不需要'。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "可能是这样",
+      "right": "没这种感觉"
+    },
+    "explanation": "有报告称时间过后冲动购物的欲望会自然下降。注意需要的东西不要忘记买。做不到也很正常。先试一次就好。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Baumeister_2002",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "网购的冲动购物",
+        "能做到'以后再想'的人"
+      ],
+      "limitations": [
+        "有促销期限时难以使用",
+        "有忘记买需要的东西的风险"
+      ],
+      "citation_role": "间接支持自我控制的恢复效果",
+      "try_this": "放入购物车后，关闭页面锁定（就这样放置24小时）",
+      "claim_tags": [
+        "delay_gratification",
+        "impulse_buying",
+        "self_control"
+      ],
+      "tiny_metric": {
+        "metric": "24小时后是否觉得'还是不需要'",
+        "stop_rule": "连续3次全部买了就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "当场立即购买",
+        "cost": "只需等待24小时"
+      },
+      "fallback": {
+        "when": "等不了24小时",
+        "next": "【1小时版】关闭浏览器1小时后再确认"
+      }
+    }
+  },
+  {
+    "id": "money_l01_004",
+    "type": "multiple_choice",
+    "question": "问自己'一年后的自己还在用这个吗？'为什么有效？",
+    "choices": [
+      "想象未来的自己倾向于冷却冲动",
+      "因为罪恶感而不买",
+      "计算太麻烦就放弃"
+    ],
+    "correct_index": 0,
+    "explanation": "有报告称想象未来的自己（未来自我连续性）倾向于减少冲动性决定。不擅长想象未来的人效果可能弱。先试一次就好。（不是'罪恶感'或'计算麻烦'，与未来的自己连接的感觉是关键）",
+    "actionable_advice": "小贴士：下次想买的时候，问问自己'一年后还在用吗？'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Hershfield_2011",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "能从长期视角思考的人",
+        "买后容易后悔的人"
+      ],
+      "limitations": [
+        "不擅长想象未来的人效果弱",
+        "消耗品难以适用"
+      ],
+      "citation_role": "直接支持未来自我连续性和决策的关联",
+      "try_this": "想到'想买'时，把手指离开10秒默念'一年后还在用吗？'",
+      "claim_tags": [
+        "future_self_continuity",
+        "impulse_buying",
+        "decision_making"
+      ],
+      "tiny_metric": {
+        "before_prompt": "现在的'想买'是多少？（0-10）",
+        "after_prompt": "未来问题之后呢？",
+        "success_rule": "稍微降低就算成功",
+        "stop_rule": "没变化或升高了今天就撤退"
+      },
+      "comparator": {
+        "baseline": "什么都不想就购买",
+        "cost": "5秒 / 负担低"
+      },
+      "fallback": {
+        "when": "即使想象未来欲望也不消退",
+        "next": "改用购物车放置24小时"
+      }
+    }
+  },
+  {
+    "id": "money_l01_005",
+    "type": "swipe_judgment",
+    "question": "'因为便宜就先买着'，结果往往更贵。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "可能是这样",
+      "right": "没这种感觉"
+    },
+    "explanation": "因为'划算'感买的东西往往不用，结果容易亏损。不过日用品的囤货等合理的情况也有。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Thaler_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "对促销没有抵抗力的人",
+        "'先买着'多的人"
+      ],
+      "limitations": [
+        "日用品的囤货有时是合理的"
+      ],
+      "citation_role": "用观察研究支持心理账户的非理性",
+      "claim_tags": [
+        "mental_accounting",
+        "sunk_cost",
+        "impulse_buying"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_006",
+    "type": "multiple_choice",
+    "question": "定好'这个月还能用○元'的话，冲动购物容易减少是为什么？",
+    "choices": [
+      "有预算这个'规则'，判断就变轻松了",
+      "因为钱不够",
+      "因为计算累了"
+    ],
+    "correct_index": 0,
+    "explanation": "有预算约束的话'买不买'的判断成本会下降。预算太紧会有反弹效应。（比起'钱不够''计算累'，判断变轻松是关键）",
+    "actionable_advice": "小贴士：试着定一下这周的'可自由支配金额'（例如：每周500元）。太难就提高金额。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Thaler_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "有规则更容易遵守的人",
+        "想开始理财的人"
+      ],
+      "limitations": [
+        "预算太紧可能会有反弹效应",
+        "难以应对紧急支出"
+      ],
+      "citation_role": "从心理账户理论间接支持预算效果",
+      "try_this": "定这周的'自由额度'（例如：每周500元）",
+      "claim_tags": [
+        "mental_accounting",
+        "budgeting",
+        "self_control"
+      ],
+      "tiny_metric": {
+        "metric": "周末是否在预算内",
+        "stop_rule": "连续2周大幅超支就停止"
+      },
+      "comparator": {
+        "baseline": "不定预算花钱",
+        "cost": "每周5分钟设定"
+      },
+      "fallback": {
+        "when": "预算太紧",
+        "next": "把预算提高1.5倍再挑战"
+      }
+    }
+  },
+  {
+    "id": "money_l01_007",
+    "type": "conversation",
+    "question": "朋友说'这个是限定的哦！不买吗？'。怎么回答？",
+    "choices": [
+      "'说限定就想要呢。不过我等10秒看看'",
+      "'限定！？买买买！'",
+      "'没钱所以不行'"
+    ],
+    "recommended_index": 0,
+    "explanation": "'限定'刺激稀缺偏见。等10秒有时可以稍微远离偏见。真的想要就买也可以。先试一次就好。",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 10,
+    "source_id": "Cialdini_2006",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "容易被朋友影响的人",
+        "对'限定'没有抵抗力的人"
+      ],
+      "limitations": [
+        "社交场合可能难以拒绝"
+      ],
+      "citation_role": "间接支持10秒规则作为应对稀缺偏见的方法",
+      "claim_tags": [
+        "scarcity_bias",
+        "social_influence",
+        "impulse_buying"
+      ],
+      "try_this": "被说'限定'时等10秒",
+      "tiny_metric": {
+        "metric": "等10秒后是否觉得'还是不需要'",
+        "stop_rule": "连续3次结果还是买了就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "听到'限定！'就立刻购买",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "当场难以拒绝",
+        "next": "说'回头联系你'然后保留"
+      }
+    }
+  },
+  {
+    "id": "money_l01_008",
+    "type": "swipe_judgment",
+    "question": "'用购物发泄压力'暂时有效但长期容易后悔。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "可能是这样",
+      "right": "没这种感觉"
+    },
+    "explanation": "压力购物通过暂时的多巴胺释放让心情变好，但之后倾向于容易后悔。不过偶尔的话对很多人来说没问题。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Rick_2014",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "压力时购物增加的人",
+        "买后容易后悔的人"
+      ],
+      "limitations": [
+        "偶尔犒劳自己对很多情况没问题"
+      ],
+      "citation_role": "用观察研究支持情绪性消费和后悔的关联",
+      "claim_tags": [
+        "emotional_spending",
+        "regret",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "money_l01_009",
+    "type": "multiple_choice",
+    "question": "减少冲动购物，有报告称什么方法有效？",
+    "choices": [
+      "买之前等10秒",
+      "制作想要的东西清单",
+      "钱包里只放现金"
+    ],
+    "correct_index": 0,
+    "explanation": "10秒规则在实验中暗示可能有效。想要清单和现金支付也有效，但10秒规则以简便性著称。不适合的人也有。先试一次就好。（'清单''现金'也好，但需要准备）",
+    "actionable_advice": "小贴士：明天只试一次：想买的冲动来了等10秒。不适合就用别的方法。",
+    "difficulty": "medium",
+    "xp": 10,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "冲动购物多的人",
+        "想简单开始的人"
+      ],
+      "limitations": [
+        "对高价商品效果可能弱"
+      ],
+      "citation_role": "从自我控制资源研究间接支持10秒规则的效果",
+      "try_this": "想到'想买！'时，把手指离开数10秒（1...2...3...10）",
+      "claim_tags": [
+        "self_control",
+        "impulse_buying",
+        "delay_gratification"
+      ],
+      "tiny_metric": {
+        "before_prompt": "现在的'想买'是多少？（0-10）",
+        "after_prompt": "10秒后呢？",
+        "success_rule": "稍微降低就算成功",
+        "stop_rule": "没变化或升高了今天就撤退"
+      },
+      "comparator": {
+        "baseline": "按照冲动点购物车",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "10秒不够",
+        "next": "改用购物车放置24小时"
+      }
+    }
+  },
+  {
+    "id": "money_l01_010",
+    "type": "multiple_choice",
+    "question": "今天学到的内容中，从明天开始能用的是哪个？",
+    "choices": [
+      "想买就等10秒",
+      "放入购物车后放置24小时",
+      "问自己'一年后还在用吗？'",
+      "全部都试"
+    ],
+    "correct_index": 3,
+    "explanation": "每个都值得一试。不能一下子改变，但也许可以慢慢改变'购买习惯'。不适合就用别的方法。先试一次就好。（单个选项也有效，最简便的是10秒规则）",
+    "actionable_advice": "小贴士：今天的行动：下一个'想买！'等10秒。",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Vohs_2008",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想开始新习惯的人"
+      ],
+      "limitations": [
+        "全部可能坚持不下去"
+      ],
+      "citation_role": "间接支持自我控制干预的有效性",
+      "try_this": "下一个想买的！等10秒... 不行的话只把手指离开1秒",
+      "claim_tags": [
+        "self_control",
+        "habit_formation",
+        "impulse_buying"
+      ],
+      "tiny_metric": {
+        "metric": "这周能否至少等过一次10秒",
+        "stop_rule": "一周一次都想不起来就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "什么都不试",
+        "cost": "10秒 × 每周几次"
+      },
+      "fallback": {
+        "when": "10秒规则不适合",
+        "next": "改用购物车放置或未来问题"
+      }
+    }
+  }
+]

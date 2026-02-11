@@ -1,0 +1,333 @@
+[
+    {
+        "id": "mental_l01_001",
+        "type": "conversation",
+        "question": "这周，'当时要是那样说就好了...'这样的场景在脑海中重复了3次以上吗？",
+        "your_response_prompt": "凭直觉回答",
+        "choices": [
+            "3次以上（相当烦躁）",
+            "1-2次左右",
+            "没有（心情很轻松）"
+        ],
+        "recommended_index": null,
+        "explanation": "这叫做'反刍思维'。其实这和'反省'不同，更像是大脑在自动播放错误提示音。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "想要察觉负面思维循环的人"
+            ],
+            "limitations": [
+                "持续强烈低落时"
+            ],
+            "citation_role": "支持反刍思维的定义和机制",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_002",
+        "type": "multiple_choice",
+        "question": "电车晚点15分钟。收到消息问'还有10分钟能到吗？'心跳加速开始焦虑。\n\n这种'焦虑'产生的机制，最接近的是？",
+        "choices": [
+            "'这可能是威胁'的反应被触发了",
+            "电车晚点是直接原因",
+            "性格上容易烦躁"
+        ],
+        "correct_index": 0,
+        "explanation": "有时候'这可能是威胁'的反应会比事件本身更早发生。心跳加速、产生焦虑是身体的自然反应。（虽然容易认为是'电车的错'或'性格问题'，但如果是那样的话，所有人的反应应该都一样）",
+        "actionable_advice": "小贴士：感到焦虑时，只需给它贴个标签：'这是身体的反应'",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "日常压力",
+                "控制感低的情况"
+            ],
+            "limitations": [
+                "急性创伤后",
+                "生理因素较强的情况"
+            ],
+            "citation_role": "支持认知评估理论的核心机制",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress_response"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_003",
+        "type": "swipe_judgment",
+        "question": "认知评估理论认为，压力的原因在于'事件'还是'解读'？",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "在于解读",
+            "right": "在于事件"
+        },
+        "explanation": "这是理论的核心。即使事件无法改变，对解读（如何理解它）的干预空间仍然存在。",
+        "actionable_advice": "小贴士：试试看：想象自己正通过摄像机镜头观看那个不愉快的事件",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "确认认知评估理论的核心",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_004",
+        "type": "multiple_choice",
+        "question": "面试还有3分钟开始。在等候室心跳砰砰，手心出汗。\n\n如果要用另一种方式理解这种身体反应？",
+        "choices": [
+            "'身体正在帮我热身'",
+            "'我不行'",
+            "'这是不好的征兆'"
+        ],
+        "correct_index": 0,
+        "explanation": "反过来说，心跳加速也可以解读为'身体的热身运动'。不过身体不舒服时不要勉强自己，休息一下。做不到也很正常。先试一次就好。（'我不行''不好的征兆'虽然容易想到，但这本身会加剧焦虑）",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jamieson_2012",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "演讲或面试前的紧张",
+                "短期表现场合"
+            ],
+            "limitations": [
+                "身体不适时",
+                "慢性强烈焦虑"
+            ],
+            "citation_role": "支持重新评估（解读转换）的效果",
+            "try_this": "下次心跳加速时，默念'身体正在热身'10秒",
+            "claim_tags": [
+                "reappraisal",
+                "arousal",
+                "stress_response"
+            ],
+            "tiny_metric": {
+                "before_prompt": "现在的紧张程度？（0-10）",
+                "after_prompt": "10秒后的紧张程度？（0-10）",
+                "success_rule": "降低1分就算成功",
+                "stop_rule": "如果没有变化，今天就到此为止"
+            },
+            "comparator": {
+                "baseline": "努力让自己冷静下来（强行压抑）",
+                "cost": "10秒 / 效果温和但负担也低"
+            },
+            "fallback": {
+                "when": "10秒后反而更焦虑了",
+                "next": "改用深呼吸（吸气4秒呼气4秒）"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_005",
+        "type": "multiple_choice",
+        "question": "下午5点的会议被上司批评了。晚上9点，那句话还在脑海里重复。\n\n之后，压力更容易持续的是？",
+        "choices": [
+            "'为什么我会遭遇这种事...'一直这样想",
+            "'算了，这种日子也有'然后转换心情",
+            "两者差不多"
+        ],
+        "correct_index": 0,
+        "explanation": "比起事件本身，'之后如何持续思考'更影响压力的持续时间。无法转换心情也不需要责备自己。（'转换心情'是理想状态，但实际上往往很难做到）",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "用认知评估理论的框架理论性地解释反刍思维的持续机制",
+            "claim_tags": [
+                "rumination",
+                "stress_duration"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_006",
+        "type": "conversation",
+        "question": "请回忆这周感到压力最大的场景。",
+        "your_response_prompt": "那时，脑海中浮现了什么样的话？",
+        "choices": [
+            "'糟糕了''怎么办'之类的话",
+            "'算了''总会有办法的'之类的话",
+            "没有特别浮现什么话"
+        ],
+        "recommended_index": null,
+        "explanation": "每个答案都对。仅仅察觉到自己的'内心声音'就已经足够了。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "间接支持自我认识的效果",
+            "claim_tags": [
+                "self_awareness",
+                "mindfulness"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_007",
+        "type": "swipe_judgment",
+        "question": "被告知'压力取决于思考方式'时，会感到有点不舒服",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "能理解",
+            "right": "不太理解"
+        },
+        "explanation": "实际上这并不是说'只要改变思考方式就能归零'。急性创伤或身体原因需要其他方法。",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "明确理论的局限性",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "limitations"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_008",
+        "type": "multiple_choice",
+        "question": "认知评估理论'适合'什么样的场景？",
+        "choices": [
+            "慢性压力或控制感低的情况",
+            "事故后的恐慌状态",
+            "身体疾病是主要原因的情况"
+        ],
+        "correct_index": 0,
+        "explanation": "适合日常压力。对于急性创伤后或生理因素较强的情况，也需要考虑其他方法。（'事故后''身体疾病'有时仅靠认知无法完全应对）",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "慢性压力",
+                "控制感低的情况"
+            ],
+            "limitations": [
+                "事故后的恐慌状态",
+                "身体疾病是主要原因的情况"
+            ],
+            "citation_role": "明确认知评估理论的适用范围",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "applicability"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_009",
+        "type": "conversation",
+        "question": "今天学到的'解读会影响压力'这个观点。",
+        "your_response_prompt": "明天感到压力时，想试着做什么？",
+        "choices": [
+            "问问自己'我现在是怎么解读这件事的？'",
+            "不特别尝试（这也是一种选择）",
+            "还没完全明白所以先保留"
+        ],
+        "recommended_index": 0,
+        "explanation": "值得一试。如果不适合也可以用其他方法。先试一次就好。",
+        "actionable_advice": "明天感到烦躁时，花10秒问自己'现在把什么当作威胁了？'",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "日常的小焦虑",
+                "想加深自我理解的人"
+            ],
+            "limitations": [
+                "严重的心理危机",
+                "思考本身就很痛苦的状态"
+            ],
+            "citation_role": "支持认知评估理论的实践应用",
+            "try_this": "明天感到烦躁时，花10秒问自己'现在把什么当作威胁了？'",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "self_awareness"
+            ],
+            "tiny_metric": {
+                "before_prompt": "现在的焦虑程度？（0-10）",
+                "after_prompt": "10秒后的焦虑程度？（0-10）",
+                "success_rule": "降低1分就算成功",
+                "stop_rule": "如果没有变化，今天就到此为止"
+            },
+            "comparator": {
+                "baseline": "用其他事情分散注意力（刷社交媒体、看视频等）",
+                "cost": "10秒 / 效果温和但可能加深自我理解"
+            },
+            "fallback": {
+                "when": "自问反而加剧了焦虑",
+                "next": "只给它贴个标签'现在很焦虑'（内容先不管）"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_010",
+        "type": "conversation",
+        "question": "这个小课程的思考方式，觉得适合自己吗？",
+        "your_response_prompt": "凭直觉回答",
+        "choices": [
+            "觉得适合",
+            "可能不太适合",
+            "还不确定"
+        ],
+        "recommended_index": null,
+        "explanation": "每个答案都对。如果觉得不太适合，也许其他方法更适合你。",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "支持对个体差异的考虑",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

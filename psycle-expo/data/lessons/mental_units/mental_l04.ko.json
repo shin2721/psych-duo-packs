@@ -1,0 +1,323 @@
+[
+  {
+    "id": "mental_l04_001",
+    "type": "swipe_judgment",
+    "question": "일요일 밤. 내일 생각을 시작하면 같은 걱정이 계속 반복됩니다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "자주 있음",
+      "right": "거의 없음"
+    },
+    "explanation": "이것은 \"반추\"의 징후입니다. 생각하는 것 같지만, 실제로는 뇌가 자동 재생하고 있는 것입니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "반추 패턴을 알아차리고 싶은 분들"
+      ],
+      "limitations": [
+        "깊이 우울할 때, 자기 관찰 자체가 부담이 될 수 있음"
+      ],
+      "citation_role": "실증 연구를 통해 반추의 특성과 지속성을 뒷받침",
+      "claim_tags": [
+        "rumination",
+        "repetitive_thinking",
+        "depression"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_002",
+    "type": "multiple_choice",
+    "question": "\"반추\"의 특징은?",
+    "choices": [
+      "같은 내용이 빙빙 맴돈다",
+      "생각할수록 해결책이 많이 떠오른다",
+      "시간이 지나면 자연스럽게 가라앉는다"
+    ],
+    "correct_index": 0,
+    "explanation": "반추는 \"생각\"처럼 보이지만 실제로는 같은 내용을 반복하는 것입니다. 벗어나려면 보통 다른 접근이 필요합니다. (\"해결책 발견\"은 문제 해결적 사고입니다. \"자연스럽게 가라앉음\"은 드뭅니다.)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "반추와 문제 해결의 차이를 알고 싶은 분들"
+      ],
+      "limitations": [
+        "모든 반복적 사고가 해로운 것은 아님 (숙고는 다름)"
+      ],
+      "citation_role": "반추의 반복적 성격을 정의",
+      "claim_tags": [
+        "rumination",
+        "repetitive_thinking"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_003",
+    "type": "swipe_judgment",
+    "question": "해야 할 일이 있는데, 다른 것을 시작하게 됩니다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "자주 있음",
+      "right": "거의 없음"
+    },
+    "explanation": "이것은 \"미루기\"의 징후입니다. 의지가 약해서가 아닙니다 - 불쾌함을 회피하려는 자연스러운 반응입니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "미루기 패턴을 알아차리고 싶은 분들"
+      ],
+      "limitations": [
+        "미루기의 원인은 다양함 (ADHD, 완벽주의 등) 일반화 불가"
+      ],
+      "citation_role": "인지적 평가 프레임워크 내에서 미루기를 회피 행동으로 간접 설명",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_004",
+    "type": "multiple_choice",
+    "question": "미루기가 가장 일어나기 쉬운 상황은?",
+    "choices": [
+      "과제에 불쾌함이 따를 때 (어렵거나, 지루하거나, 불안을 유발할 때)",
+      "과제가 너무 쉬울 때",
+      "시간이 충분할 때"
+    ],
+    "correct_index": 0,
+    "explanation": "미루기는 \"불쾌함 회피\" 행동입니다. 과제 자체가 불쾌하게 느껴지면, 주의가 무의식적으로 다른 데로 갑니다. (\"너무 쉽거나\" \"시간이 충분할 때\"보다 불쾌함이 있을 때 더 일어나기 쉽습니다.)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "미루기의 원인을 이해하고 싶은 분들"
+      ],
+      "limitations": [
+        "모든 미루기가 불쾌함 회피는 아님 (때로는 우선순위 문제)"
+      ],
+      "citation_role": "인지적 평가 프레임워크 내에서 미루기를 스트레스 회피로 설명",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_005",
+    "type": "conversation",
+    "question": "최근 미루고 있는 것이 있나요?",
+    "your_response_prompt": "생각나는 것 선택",
+    "choices": [
+      "일이나 공부 관련",
+      "인간관계나 소통",
+      "건강이나 생활 습관",
+      "특별히 없음 / 생각 안 남"
+    ],
+    "recommended_index": null,
+    "explanation": "어떤 답도 정답입니다. \"없음\"도 유효한 답입니다. 미루는 게 없으면 좋은 겁니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "자기 인식을 뒷받침",
+      "claim_tags": [
+        "self_awareness",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_006",
+    "type": "swipe_judgment",
+    "question": "스트레스 받은 상황을 떠올리려 할 때, 일부러 다른 것을 생각합니다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "자주 그럼",
+      "right": "거의 안 그럼"
+    },
+    "explanation": "이것은 \"회피\"의 징후입니다. 단기적으로는 안도감을 주지만, 장기적으로는 문제가 해결되지 않을 수 있습니다.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "회피 패턴을 알아차리고 싶은 분들"
+      ],
+      "limitations": [
+        "회피가 효과적인 경우도 있음 (예: 트라우마 직후 일시적 회피)"
+      ],
+      "citation_role": "인지적 평가 프레임워크 내에서 회피적 대처를 설명",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_007",
+    "type": "multiple_choice",
+    "question": "\"회피\"가 장기적 문제가 되는 경향이 있는 이유는?",
+    "choices": [
+      "문제가 해결되지 않고 불안이 유지되거나 강화됨",
+      "문제가 빨리 해결됨",
+      "회피 자체가 스트레스가 됨"
+    ],
+    "correct_index": 0,
+    "explanation": "회피는 단기적 안도감을 주지만, 문제는 남아 있습니다. 결과적으로 불안이 지속되는 경향이 있습니다. (\"빨리 해결\"은 회피로는 일어나지 않습니다. \"회피 자체가 스트레스\"는 이차적인 문제입니다.)",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "회피의 장기적 영향을 이해하고 싶은 분들"
+      ],
+      "limitations": [
+        "모든 회피가 문제는 아님 (전략적 회피가 적절할 수 있음)"
+      ],
+      "citation_role": "스트레스 연구 맥락에서 회피적 대처의 장기적 효과를 설명",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_008",
+    "type": "conversation",
+    "question": "오늘 배운 3가지 징후 (반추, 미루기, 회피) 중 어느 것이 가장 공감되나요?",
+    "your_response_prompt": "직감대로 선택",
+    "choices": [
+      "반추 (같은 걱정이 맴돔)",
+      "미루기 (해야 할 일을 미룸)",
+      "회피 (생각 안 하려고 함)",
+      "해당 없음"
+    ],
+    "recommended_index": null,
+    "explanation": "어떤 답도 정답입니다. \"해당 없음\"도 유효합니다. 자신의 패턴을 알아차리는 것 자체가 의미 있는 첫걸음입니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "패턴 인식을 뒷받침",
+      "claim_tags": [
+        "self_awareness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_009",
+    "type": "multiple_choice",
+    "question": "\"반추,\" \"미루기,\" \"회피\"의 공통점은?",
+    "choices": [
+      "모두 일시적으로 불쾌함을 피하는 기능을 함",
+      "의지력 약함 때문",
+      "즉시 고쳐야 하는 문제"
+    ],
+    "correct_index": 0,
+    "explanation": "세 가지 모두 \"불쾌함 회피\"로 기능합니다. 자책하기보다 패턴을 알아차리는 게 첫걸음입니다. (\"의지력 약함\"은 오해입니다. \"즉시 고치기\"는 역효과가 나는 경향이 있습니다.)",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "패턴들의 공통점을 이해하고 싶은 분들"
+      ],
+      "limitations": [
+        "세 가지를 너무 묶으면 각각의 고유한 대처 전략이 흐려질 수 있음"
+      ],
+      "citation_role": "반추, 미루기, 회피의 공통 기능을 제안",
+      "claim_tags": [
+        "rumination",
+        "stress",
+        "coping"
+      ],
+      "try_this": "반추를 알아차리면 10초 동안 \"지금 할 수 있는 한 가지 행동\"을 정해 보세요.",
+      "tiny_metric": {
+        "before_prompt": "머리가 얼마나 맴도는 느낌? 0-10?",
+        "after_prompt": "10초 후 맴도는 느낌? 0-10?",
+        "success_rule": "1점 내려가면 괜찮음",
+        "stop_rule": "더 피곤해지면 중단"
+      },
+      "comparator": {
+        "baseline": "그냥 계속 생각하면 회피가 지속될 가능성",
+        "cost": "10초 / 행동 1개만"
+      },
+      "fallback": {
+        "when": "행동을 정할 수 없을 때",
+        "next": "4초 들이쉬고 4초 내쉬고, 그다음 다시 시도"
+      }
+    }
+  },
+  {
+    "id": "mental_l04_010",
+    "type": "conversation",
+    "question": "이 레슨에서 자신의 패턴을 발견했나요?",
+    "your_response_prompt": "솔직하게 답해 주세요",
+    "choices": [
+      "깨달음이 있었음",
+      "이미 알고 있었음",
+      "잘 모르겠음"
+    ],
+    "recommended_index": null,
+    "explanation": "어떤 답도 정답입니다. \"이미 알고 있었음\"은 좋은 복습이었다는 뜻입니다. \"잘 모르겠음\"은 다른 접근이 더 나을 수 있다는 의미입니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "개인차 고려를 뒷받침",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

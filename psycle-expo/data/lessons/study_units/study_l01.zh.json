@@ -1,0 +1,388 @@
+[
+  {
+    "id": "study_l01_001",
+    "type": "swipe_judgment",
+    "question": "想着'必须做'却迟迟无法开始学习。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "经常有",
+      "right": "不太有"
+    },
+    "explanation": "无法开始不是'懒惰'，有观点认为是想要逃避不适感的自然反应。首先不用责备'无法开始的自己'。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "无法开始学习的人",
+        "因拖延而容易自责的人"
+      ],
+      "limitations": [
+        "慢性无力感需要其他应对"
+      ],
+      "citation_role": "用观察研究支持拖延的情绪调节模型",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_002",
+    "type": "multiple_choice",
+    "question": "等着'有干劲了再开始'，会发生什么？",
+    "choices": [
+      "干劲不出来，只有时间过去的倾向",
+      "自然涌出干劲",
+      "放松了效率提高"
+    ],
+    "correct_index": 0,
+    "explanation": "有报告称干劲是'开始做了才会出来'而不是'等来的'。这叫做行为激活。（'自然涌出''放松效率UP'很少见。等了也不会出来的情况多）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "等干劲时间长的人",
+        "不擅长开始的人"
+      ],
+      "limitations": [
+        "真的累了需要休息"
+      ],
+      "citation_role": "解释拖延研究中的行为激活理论",
+      "claim_tags": [
+        "procrastination",
+        "motivation",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_003",
+    "type": "multiple_choice",
+    "question": "降低开始学习的门槛，有报告称什么方法有效？",
+    "choices": [
+      "定好'只做10秒'然后打开教材",
+      "准备好可以长时间集中的环境",
+      "等有干劲"
+    ],
+    "correct_index": 0,
+    "explanation": "即使只有10秒'开始'，也更容易切换到任务模式。10秒就结束也可以。不适合就试别的方法。先试一次。（'准备环境''等干劲'花时间）",
+    "actionable_advice": "小贴士：下次无法开始学习时，试试'只打开教材10秒'。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "不擅长开始的人",
+        "有完美主义倾向的人"
+      ],
+      "limitations": [
+        "真的累了需要休息",
+        "10秒也动不了时不要勉强"
+      ],
+      "citation_role": "从拖延研究间接支持10秒规则的有效性",
+      "try_this": "试试'只打开教材10秒'",
+      "claim_tags": [
+        "procrastination",
+        "task_initiation",
+        "implementation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "现在的'不想做程度'是多少？（0-10）",
+        "after_prompt": "10秒后呢？",
+        "success_rule": "稍微降低就算成功",
+        "stop_rule": "没变化或升高了今天就撤退"
+      },
+      "comparator": {
+        "baseline": "等有干劲",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "10秒也动不了",
+        "next": "试试如果-那么计划"
+      }
+    }
+  },
+  {
+    "id": "study_l01_004",
+    "type": "swipe_judgment",
+    "question": "事先决定好'如果○○了，就做△△'的话，执行率倾向于提高。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "可能是这样",
+      "right": "没这种感觉"
+    },
+    "explanation": "这叫做'执行意图'或'如果-那么计划'。例如：'晚饭后，就坐到桌前'。研究报告显示比没有计划执行率更高。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "能定计划但无法执行的人",
+        "想养成习惯的人"
+      ],
+      "limitations": [
+        "触发条件模糊的话效果弱"
+      ],
+      "citation_role": "直接验证执行意图（如果-那么计划）效果的研究",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_005",
+    "type": "conversation",
+    "question": "无法开始学习时，自己最符合哪个？",
+    "choices": [
+      "不知道从哪里开始",
+      "嫌麻烦动不了",
+      "想完美做而卡住",
+      "没有特别的模式"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。察觉到自己的模式，更容易选择对策。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持拖延模式的自我认知",
+      "claim_tags": [
+        "self_awareness",
+        "procrastination",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_006",
+    "type": "multiple_choice",
+    "question": "用'如果-那么计划'的话，哪种形式更容易执行？",
+    "choices": [
+      "用'如果○○了（触发），就做△△（行动）'的形式决定",
+      "决心'要努力'",
+      "想着'总有一天要学习'"
+    ],
+    "correct_index": 0,
+    "explanation": "把触发条件（何时/何地）和行动（做什么）配套决定，更容易自动执行。先试一次就好。（'努力''总有一天'太模糊难以执行）",
+    "actionable_advice": "小贴士：今天决定一个如果-那么：'如果○○了，就打开教材10秒'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "容易计划泡汤的人",
+        "想养成习惯的人"
+      ],
+      "limitations": [
+        "触发条件不在日常中效果弱",
+        "多个如果-那么负担高"
+      ],
+      "citation_role": "间接支持执行意图的具体格式",
+      "try_this": "决定一个'如果○○了，就打开教材10秒'",
+      "claim_tags": [
+        "implementation_intention",
+        "habit_formation",
+        "planning"
+      ],
+      "tiny_metric": {
+        "before_prompt": "这周如果-那么能执行吗",
+        "after_prompt": "能执行的次数",
+        "success_rule": "一周能执行一次就算成功",
+        "stop_rule": "2周都无法执行就换其他方法"
+      },
+      "comparator": {
+        "baseline": "只是下决心'努力'",
+        "cost": "计划30秒 / 执行10秒"
+      },
+      "fallback": {
+        "when": "找不到触发条件",
+        "next": "用'想看手机时'作为触发条件"
+      }
+    }
+  },
+  {
+    "id": "study_l01_007",
+    "type": "swipe_judgment",
+    "question": "学习的拖延不只是'意志力弱'，有这样的观点。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "可能是这样",
+      "right": "我不这么认为"
+    },
+    "explanation": "研究报告显示，拖延比起意志力更多是'逃避不适感'或'任务模糊'造成的。用机制应对比责备自己更容易成功。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Sirois_2013",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "容易自责的人",
+        "过于依赖意志力的人"
+      ],
+      "limitations": [
+        "不是所有拖延都是同样原因"
+      ],
+      "citation_role": "支持拖延的情绪调节模型",
+      "claim_tags": [
+        "procrastination",
+        "emotion_regulation",
+        "self_compassion"
+      ]
+    }
+  },
+  {
+    "id": "study_l01_008",
+    "type": "multiple_choice",
+    "question": "减少开始学习的'环境摩擦'，容易做到的是？",
+    "choices": [
+      "把教材打开状态放在桌上",
+      "准备好完美环境再开始",
+      "等有干劲"
+    ],
+    "correct_index": 0,
+    "explanation": "'开始之前的手续'越少，行动越容易发生。把教材打开状态放着，有时可以降低开始的门槛。先试一次。（'完美环境''等干劲'容易变成拖延）",
+    "actionable_advice": "小贴士：今天睡前，把明天的教材打开放在桌上。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "不擅长开始的人",
+        "准备环境花太多时间的人"
+      ],
+      "limitations": [
+        "环境太乱可能适得其反"
+      ],
+      "citation_role": "间接支持环境摩擦和开始行动的关联",
+      "try_this": "学习开始之前，把教材打开放在桌上10秒",
+      "claim_tags": [
+        "environment_design",
+        "friction_reduction",
+        "habit_formation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "早上教材打开了吗",
+        "after_prompt": "打开的情况下，能开始学习吗",
+        "success_rule": "打开状态能开始就算成功",
+        "stop_rule": "一周没效果就停止"
+      },
+      "comparator": {
+        "baseline": "从收起来的状态开始",
+        "cost": "睡前10秒"
+      },
+      "fallback": {
+        "when": "没有放教材的空间",
+        "next": "把教材App放在手机主屏幕"
+      }
+    }
+  },
+  {
+    "id": "study_l01_009",
+    "type": "conversation",
+    "question": "今天学的技巧中，从明天开始能用的是？",
+    "choices": [
+      "'只打开教材10秒'",
+      "用'如果-那么计划'事先决定",
+      "'把教材打开状态放着'环境设计",
+      "全部都试"
+    ],
+    "recommended_index": null,
+    "explanation": "每个都值得一试。不适合就试别的。那也是学习。先试一次就好。（'全部'不用勉强，从一个开始）",
+    "actionable_advice": "小贴士：明天只试一次：无法开始学习时'只打开教材10秒'。",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Gollwitzer_1999",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想开始新习惯的人"
+      ],
+      "limitations": [
+        "不练习可能容易忘记"
+      ],
+      "citation_role": "提出拖延干预的选项",
+      "try_this": "明天用一次'只打开教材10秒'",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "procrastination"
+      ],
+      "tiny_metric": {
+        "metric": "这周能否用过一次",
+        "stop_rule": "一周都用不了就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "什么都不试继续拖延",
+        "cost": "10秒 × 每周几次"
+      },
+      "fallback": {
+        "when": "哪个都不适合",
+        "next": "缩小到最小任务（只做一道题）"
+      }
+    }
+  },
+  {
+    "id": "study_l01_010",
+    "type": "conversation",
+    "question": "这节课的'学习开始技巧'，觉得能用吗？",
+    "choices": [
+      "觉得能用",
+      "可能不太适合",
+      "还不确定"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。'不太适合'的话找其他方法也很重要。拖延因人而异原因不同，找到适合自己的方法这个过程本身就有价值。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Steel_2007",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持对个体差异的配慮",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

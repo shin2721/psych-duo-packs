@@ -1,0 +1,379 @@
+[
+  {
+    "id": "social_l02_001",
+    "type": "swipe_judgment",
+    "question": "如果能说'让我想想'就轻松了，但说不出来而后悔过。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "经常有",
+      "right": "不太有"
+    },
+    "explanation": "'必须马上回答'的压力，有时是自己造成的。对对方来说'稍微想一下'也是正常的。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "容易感到马上回答压力的人"
+      ],
+      "limitations": [
+        "紧急场合难以使用"
+      ],
+      "citation_role": "支持边界设定中马上回答压力的影响",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "self_awareness"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_002",
+    "type": "multiple_choice",
+    "question": "感到'难以拒绝'时，首先可以冷静下来的方法是？",
+    "choices": [
+      "重新拿起手机说'让我确认一下'",
+      "微笑着马上说'好！'",
+      "沉默地思考"
+    ],
+    "correct_index": 0,
+    "explanation": "'重新拿起'这个身体动作向大脑发送切换信号。话说不出来时，先动身体。（'马上说好'容易后悔。'沉默思考'会尴尬）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "话说不出来的人"
+      ],
+      "limitations": [
+        "面对面时身体动作可能比较难"
+      ],
+      "citation_role": "从理论上解释自信训练和身体动作的关联",
+      "claim_tags": [
+        "assertiveness",
+        "physical_action",
+        "theory"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_003",
+    "type": "multiple_choice",
+    "question": "感到'必须现在决定'的焦虑时，只停手10秒有报告称有效的方法是？",
+    "choices": [
+      "把手指从手机上移开说'稍等一下'",
+      "说'知道了'然后事后拒绝",
+      "已读不回"
+    ],
+    "correct_index": 0,
+    "explanation": "通过身体上'把手指移开'，可以从马上回答的压力中退一步。比话语先动身体是技巧。做不到也很正常。先试一次就好。（'说知道了然后事后'会尴尬。'已读不回'容易恶化关系）",
+    "actionable_advice": "感到'难以拒绝'时，把手指从手机上移开打'让我确认10秒'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "容易马上回复私信的人"
+      ],
+      "limitations": [
+        "面对面需要其他方法"
+      ],
+      "citation_role": "间接支持边界设定中的保留技术",
+      "try_this": "难以拒绝的私信来了，把手指移开等10秒然后回'让我确认一下'",
+      "claim_tags": [
+        "assertiveness",
+        "boundary_setting",
+        "physical_action"
+      ],
+      "tiny_metric": {
+        "before_prompt": "现在的'必须马上回答'压力是多少？（0-10）",
+        "after_prompt": "把手指移开10秒后呢？",
+        "success_rule": "稍微降低就算成功",
+        "stop_rule": "没变化就今天撤退"
+      },
+      "comparator": {
+        "baseline": "马上回'好'",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "10秒做不到",
+        "next": "'只1秒'把手指移开深呼吸一次"
+      }
+    }
+  },
+  {
+    "id": "social_l02_004",
+    "type": "swipe_judgment",
+    "question": "觉得'拒绝＝关系就结束了'。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "有这种感觉",
+      "right": "没这种感觉"
+    },
+    "explanation": "实际上，一次拒绝就结束关系的情况很少。反而勉强累积疲惫风险更大。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "因为害怕关系恶化而无法拒绝的人"
+      ],
+      "limitations": [
+        "真的会破坏关系的情况也不是零"
+      ],
+      "citation_role": "用观察研究支持自信训练和关系维持",
+      "claim_tags": [
+        "assertiveness",
+        "relationship",
+        "fear"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_005",
+    "type": "conversation",
+    "question": "感到'难以拒绝'的场合，自己最符合哪个模式？",
+    "choices": [
+      "感觉会伤害对方所以说不出来",
+      "感觉会被讨厌所以说不出来",
+      "不知道怎么拒绝",
+      "没有特别的模式"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。察觉到自己的模式，更容易选择对策。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持自信训练模式的自我认知",
+      "claim_tags": [
+        "self_awareness",
+        "assertiveness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_006",
+    "type": "multiple_choice",
+    "question": "让'NO'更容易说出口的短语，哪种形式更好说？",
+    "choices": [
+      "'因为○○，这次有点难'（理由＋拒绝）",
+      "'绝对不要'",
+      "'考虑一下'（不拒绝就结束）"
+    ],
+    "correct_index": 0,
+    "explanation": "'理由＋拒绝'可以不否定对方传达自己的情况。例如：'这周事情太多，这次有点难'。先试一次就好。（'强烈拒绝'难以说出口。'考虑一下'容易含糊结束）",
+    "actionable_advice": "拒绝时，发送前停下来10秒默念'因为○○，这次有点难'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "不知道怎么拒绝的人"
+      ],
+      "limitations": [
+        "被追问理由时可能会困扰"
+      ],
+      "citation_role": "间接支持边界设定的短语技术",
+      "try_this": "发送拒绝文之前，停下来10秒默念'因为○○所以有点难'",
+      "claim_tags": [
+        "assertiveness",
+        "phrase_template",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "before_prompt": "发送拒绝文前的不安是多少？（0-10）",
+        "after_prompt": "默念短语后呢？",
+        "success_rule": "稍微降低就算成功",
+        "stop_rule": "没变化就换其他短语"
+      },
+      "comparator": {
+        "baseline": "不知道怎么说卡住",
+        "cost": "10秒 / 负担低"
+      },
+      "fallback": {
+        "when": "想不到理由",
+        "next": "只说'这次有点难'也可以"
+      }
+    }
+  },
+  {
+    "id": "social_l02_007",
+    "type": "swipe_judgment",
+    "question": "拒绝时有'必须道歉'的倾向。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "有这种感觉",
+      "right": "没这种感觉"
+    },
+    "explanation": "很多情况下拒绝本身不需要道歉。'谢谢你想到我，但这次有点难'这样从肯定开始，有时会更轻松。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "拒绝时过度道歉倾向的人"
+      ],
+      "limitations": [
+        "根据文化和关系道歉是适当的情况也有"
+      ],
+      "citation_role": "用观察研究支持自信训练和道歉的关系",
+      "claim_tags": [
+        "assertiveness",
+        "apology",
+        "self_respect"
+      ]
+    }
+  },
+  {
+    "id": "social_l02_008",
+    "type": "multiple_choice",
+    "question": "面对面感到'难以拒绝'时，首先用身体可以做的事是？",
+    "choices": [
+      "后退一步说'让我想想'",
+      "微笑着说'好！'",
+      "抱着胳膊沉默"
+    ],
+    "correct_index": 0,
+    "explanation": "通过身体上'后退一步'，心理上也能保持距离。比话语先动身体是技巧。先试一次就好。（'微笑说好'容易后悔。'抱胳膊沉默'看起来有攻击性）",
+    "actionable_advice": "面对面难以拒绝时，后退一步说'让我想想'",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "面对面经常被要求马上回答的人"
+      ],
+      "limitations": [
+        "没有空间的地方比较难"
+      ],
+      "citation_role": "间接支持身体动作和边界设定的关联",
+      "try_this": "面对面难以拒绝时，后退一步10秒说'让我想想'",
+      "claim_tags": [
+        "assertiveness",
+        "physical_action",
+        "boundary_setting"
+      ],
+      "tiny_metric": {
+        "before_prompt": "难以拒绝程度是多少？（0-10）",
+        "after_prompt": "后退一步之后呢？",
+        "success_rule": "稍微降低就算成功",
+        "stop_rule": "没变化就换其他方法"
+      },
+      "comparator": {
+        "baseline": "站着马上回答",
+        "cost": "1秒 / 负担低"
+      },
+      "fallback": {
+        "when": "退不了",
+        "next": "移开视线说'嗯...'"
+      }
+    }
+  },
+  {
+    "id": "social_l02_009",
+    "type": "conversation",
+    "question": "今天学的技巧中，从明天开始能用的是？",
+    "choices": [
+      "'把手指从手机上移开保留'",
+      "用'理由＋拒绝'短语",
+      "'后退一步思考'身体动作",
+      "全部都试"
+    ],
+    "recommended_index": null,
+    "explanation": "每个都值得一试。不适合就试别的。那也是学习。先试一次就好。（'全部'不用勉强，从一个开始）",
+    "actionable_advice": "明天只试一次，感到'难以拒绝'时，把手指从手机上移开等10秒",
+    "difficulty": "easy",
+    "xp": 10,
+    "source_id": "Paterson_2000",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想尝试新习惯的人"
+      ],
+      "limitations": [
+        "不练习容易忘记"
+      ],
+      "citation_role": "提出边界设定干预的选项",
+      "try_this": "明天只试一次，感到'难以拒绝'时，把手指从手机上移开等10秒",
+      "claim_tags": [
+        "implementation",
+        "habit_formation",
+        "assertiveness"
+      ],
+      "tiny_metric": {
+        "metric": "这周能否用过一次",
+        "stop_rule": "一周都用不了就停止",
+        "before_prompt": "现在的难受程度是0-10多少？",
+        "after_prompt": "10秒后的难受程度是0-10多少？",
+        "success_rule": "降低1分就算成功"
+      },
+      "comparator": {
+        "baseline": "什么都不试继续马上回复",
+        "cost": "10秒 × 每周几次"
+      },
+      "fallback": {
+        "when": "哪个都不适合",
+        "next": "改成'只已读放置1小时'"
+      }
+    }
+  },
+  {
+    "id": "social_l02_010",
+    "type": "conversation",
+    "question": "这节课的'拒绝技巧'，觉得能用吗？",
+    "choices": [
+      "觉得能用",
+      "可能不太适合",
+      "还不确定"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。'不太适合'的话找其他方法也很重要。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Alberti_2001",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持对个体差异的配慮",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

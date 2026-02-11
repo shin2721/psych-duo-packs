@@ -1,0 +1,323 @@
+[
+  {
+    "id": "mental_l04_001",
+    "type": "swipe_judgment",
+    "question": "周日晚上。开始想明天的事情后，同样的担心不断循环。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "经常有",
+      "right": "不太有"
+    },
+    "explanation": "这是'反刍思维'的信号。以为在思考，实际上大脑可能只是在自动重播。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "想察觉反刍模式的人"
+      ],
+      "limitations": [
+        "持续强烈低落时，自我观察本身可能成为负担"
+      ],
+      "citation_role": "用实证研究支持反刍思维的特征和持续性",
+      "claim_tags": [
+        "rumination",
+        "repetitive_thinking",
+        "depression"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_002",
+    "type": "multiple_choice",
+    "question": "'反刍思维'的特征是什么？",
+    "choices": [
+      "同样的内容不断循环重复",
+      "越想越能找到解决办法",
+      "随着时间自然平息"
+    ],
+    "correct_index": 0,
+    "explanation": "反刍看起来像是在'思考'，实际上只是在重复同样的内容。解决问题往往需要其他方法。（'找到解决办法'是问题解决型思维。'自然平息'很少见）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "想了解反刍和问题解决型思维区别的人"
+      ],
+      "limitations": [
+        "并非所有重复性思维都有害（深思熟虑是另一回事）"
+      ],
+      "citation_role": "定义反刍思维的重复特性",
+      "claim_tags": [
+        "rumination",
+        "repetitive_thinking"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_003",
+    "type": "swipe_judgment",
+    "question": "明明有该做的事，却不知不觉开始做别的事。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "经常有",
+      "right": "不太有"
+    },
+    "explanation": "这是'拖延'的信号。不是意志力弱，而是想要逃避不适感的自然反应。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想察觉拖延模式的人"
+      ],
+      "limitations": [
+        "拖延的原因多种多样（ADHD、完美主义等），不能一概而论"
+      ],
+      "citation_role": "用认知评估的框架间接解释拖延作为回避行为",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_004",
+    "type": "multiple_choice",
+    "question": "拖延容易发生在什么情况下？",
+    "choices": [
+      "任务带有不适感（困难、无聊、焦虑）",
+      "任务太简单",
+      "有充足的时间"
+    ],
+    "correct_index": 0,
+    "explanation": "拖延是'逃避不适'的行为。当任务本身带有不适感时，注意力会不自觉地转向其他事情。（比起'太简单'或'有时间'，有不适感时更容易发生）",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想了解拖延原因的人"
+      ],
+      "limitations": [
+        "并非所有拖延都是逃避不适（有时是优先级问题）"
+      ],
+      "citation_role": "用认知评估的框架解释拖延作为压力逃避",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_005",
+    "type": "conversation",
+    "question": "最近有什么事情在拖延吗？",
+    "your_response_prompt": "选择想到的",
+    "choices": [
+      "工作/学习相关",
+      "人际关系/沟通",
+      "健康/生活习惯",
+      "没有特别的 / 想不起来"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。'想不起来'也是一种回答。如果没有拖延，那是好事。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持自我认知",
+      "claim_tags": [
+        "self_awareness",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_006",
+    "type": "swipe_judgment",
+    "question": "快要想起有压力的场景时，会有意识地想别的事情。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "经常这样",
+      "right": "不太这样"
+    },
+    "explanation": "这是'回避'的信号。短期内会轻松，但长期来看问题可能仍然存在。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想察觉回避模式的人"
+      ],
+      "limitations": [
+        "回避有效的情况也有（创伤后的暂时回避等）"
+      ],
+      "citation_role": "用认知评估的框架解释回避性应对的特征",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_007",
+    "type": "multiple_choice",
+    "question": "'回避'为什么长期来看容易成为问题？",
+    "choices": [
+      "问题得不到解决，焦虑被维持和强化",
+      "因为问题很快就解决了",
+      "因为回避本身就是压力"
+    ],
+    "correct_index": 0,
+    "explanation": "回避可以获得短期的安心，但问题仍然存在。结果焦虑容易被维持。（'很快解决'在回避中不会发生。'回避本身是压力'是次要问题）",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想了解回避的长期影响的人"
+      ],
+      "limitations": [
+        "并非所有回避都会成为问题（有时作为优先级是正确的回避）"
+      ],
+      "citation_role": "在压力研究的背景下解释回避性应对的长期影响",
+      "claim_tags": [
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_008",
+    "type": "conversation",
+    "question": "今天学的3个信号（反刍/拖延/回避）。自己最符合哪个？",
+    "your_response_prompt": "凭直觉选择",
+    "choices": [
+      "反刍（同样的担心循环）",
+      "拖延（该做的事往后推）",
+      "回避（尽量不去想）",
+      "都不符合"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。'都不符合'也是一种回答。察觉到自己的模式就是足够的一步。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持模式识别",
+      "claim_tags": [
+        "self_awareness",
+        "pattern_recognition"
+      ]
+    }
+  },
+  {
+    "id": "mental_l04_009",
+    "type": "multiple_choice",
+    "question": "'反刍''拖延''回避'的共同点是什么？",
+    "choices": [
+      "都有暂时逃避不适感的功能",
+      "意志力弱是原因",
+      "是应该立即改正的问题"
+    ],
+    "correct_index": 0,
+    "explanation": "三者都有'逃避不适'的功能。与其责备自己，不如先察觉模式是第一步。（'意志力弱'是误解。'应该立即改正'这样责备容易适得其反）",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想从反刍转换到行动的人"
+      ],
+      "limitations": [
+        "疲劳严重的日子执行难度会上升"
+      ],
+      "citation_role": "暗示行动选择对中断回避循环可能有效",
+      "claim_tags": [
+        "rumination",
+        "behavioral_shift",
+        "intervention"
+      ],
+      "try_this": "察觉到反刍时，用10秒决定'现在能做的一步'",
+      "tiny_metric": {
+        "before_prompt": "脑子里转圈的感觉是0-10多少？",
+        "after_prompt": "10秒后转圈的感觉是0-10多少？",
+        "success_rule": "降低1分就算成功",
+        "stop_rule": "难受感增加就停止"
+      },
+      "comparator": {
+        "baseline": "只是继续想容易持续回避",
+        "cost": "10秒/只需一个行动"
+      },
+      "fallback": {
+        "when": "想不到一步时",
+        "next": "做一次吸气4秒呼气4秒后再试"
+      }
+    }
+  },
+  {
+    "id": "mental_l04_010",
+    "type": "conversation",
+    "question": "通过这节课察觉到自己的模式了吗？",
+    "your_response_prompt": "请诚实回答",
+    "choices": [
+      "有所察觉",
+      "已经知道了",
+      "不太明白"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。'已经知道了'的话就当复习，'不太明白'的话也许其他方法更适合。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Nolen-Hoeksema_1991",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持对个体差异的配慮",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]
