@@ -1,4 +1,5 @@
 import { spawn } from "node:child_process";
+import { readFileSync } from "node:fs";
 import process from "node:process";
 import { setTimeout as delay } from "node:timers/promises";
 import { chromium, expect } from "@playwright/test";
@@ -17,6 +18,21 @@ const expoArgs = [
 const logs = [];
 let expoProcess;
 let usingExistingServer = false;
+const entitlements = JSON.parse(
+  readFileSync(new URL("../config/entitlements.json", import.meta.url), "utf8")
+);
+
+function normalizePositiveInt(value, fallback) {
+  if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
+  const normalized = Math.floor(value);
+  return normalized > 0 ? normalized : fallback;
+}
+
+const defaultLessonSize = normalizePositiveInt(entitlements.defaults?.lesson_size, 10);
+const firstSessionLessonSize = normalizePositiveInt(
+  entitlements.defaults?.first_session_lesson_size,
+  Math.min(5, defaultLessonSize)
+);
 
 function pushLog(prefix, chunk) {
   const text = chunk.toString("utf8");
@@ -96,7 +112,7 @@ async function runLocaleSmokeCase(browser, testCase) {
   await page.locator('[data-testid="modal-primary-button"]').click();
 
   const progress = page.locator('[data-testid="lesson-progress"]');
-  await expect(progress).toContainText("1 / 10", { timeout: 30_000 });
+  await expect(progress).toContainText(`1 / ${firstSessionLessonSize}`, { timeout: 30_000 });
 
   const questionText = page.locator('[data-testid="question-text"]').first();
   await expect(questionText).toBeVisible();
@@ -107,7 +123,7 @@ async function runLocaleSmokeCase(browser, testCase) {
 
   await page.locator('[data-testid="answer-choice-0"]').first().click();
   await page.locator('[data-testid="question-continue"]').click();
-  await expect(progress).toContainText("2 / 10");
+  await expect(progress).toContainText(`2 / ${firstSessionLessonSize}`);
 
   await context.close();
 }
