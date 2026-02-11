@@ -25,7 +25,7 @@ type QueuedEvent = {
 /**
  * Analytics Core API v1.3
  * 
- * 実装済みイベント（7種類）:
+ * 実装済みイベント（コアイベント）:
  *   - app_open: 初回起動時のみ（AsyncStorageガード）
  *   - session_start: 起動毎（プロセス内ガード）
  *   - app_ready: Analytics初期化完了時（プロセス内ガード）
@@ -33,6 +33,13 @@ type QueuedEvent = {
  *   - onboarding_complete: ドメイン確定時（確定地点）
  *   - lesson_start: レッスン画面入場時（useRefガード）
  *   - lesson_complete: レッスン完了時（確定地点）
+ *
+ * 追加イベント（成長KPI/課金導線）:
+ *   - question_incorrect
+ *   - streak_lost / streak_saved_with_freeze
+ *   - checkout_start / checkout_opened / checkout_failed
+ *   - restore_start / restore_result
+ *   - plan_select / plan_changed
  * 
  * 送信先:
  *   - Console出力（常時）

@@ -1,10 +1,12 @@
 // lib/billing.ts - Stripe Checkout呼び出し
 
 import { Linking } from "react-native";
+import { Analytics } from "./analytics";
 
 const BILLING_API = "https://psycle-billing.vercel.app"; // デプロイ後のURL
 
 export async function buyPlan(plan: "pro" | "max", uid: string, email: string) {
+  let stage: "create_checkout_session" | "open_checkout_url" = "create_checkout_session";
   try {
     const res = await fetch(`${BILLING_API}/api/create-checkout-session`, {
       method: "POST",
@@ -12,13 +14,25 @@ export async function buyPlan(plan: "pro" | "max", uid: string, email: string) {
       body: JSON.stringify({ plan, uid, email }),
     });
 
-    if (!res.ok) throw new Error("Failed to create checkout session");
+    if (!res.ok) {
+      throw new Error("Failed to create checkout session");
+    }
 
     const { url } = await res.json();
 
     // ブラウザでCheckoutを開く
+    stage = "open_checkout_url";
     await Linking.openURL(url);
+    Analytics.track("checkout_opened", {
+      plan,
+      source: "billing_api",
+    });
   } catch (error) {
+    Analytics.track("checkout_failed", {
+      plan,
+      source: "billing_api",
+      stage,
+    });
     console.error("buyPlan error:", error);
     alert("決済画面の起動に失敗しました");
   }
@@ -50,6 +64,7 @@ export async function openBillingPortal(email: string) {
  */
 export async function restorePurchases(uid: string, email: string): Promise<{ restored: boolean; planId?: "free" | "pro" | "max"; activeUntil?: string | null } | false> {
   try {
+    Analytics.track("restore_start", { source: "settings" });
     const res = await fetch(`${BILLING_API}/api/restore-purchases`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -64,16 +79,28 @@ export async function restorePurchases(uid: string, email: string): Promise<{ re
     const data = await res.json();
 
     if (data.restored && data.planId) {
+      Analytics.track("restore_result", {
+        source: "settings",
+        status: "restored",
+        plan: data.planId,
+      });
       alert(`購入を復元しました！プラン: ${data.planId.toUpperCase()}`);
       return data;
     } else {
+      Analytics.track("restore_result", {
+        source: "settings",
+        status: "not_found",
+      });
       alert("復元可能な購入が見つかりませんでした。");
       return false;
     }
   } catch (error) {
+    Analytics.track("restore_result", {
+      source: "settings",
+      status: "failed",
+    });
     console.error("restorePurchases error:", error);
     alert("購入の復元に失敗しました。しばらくしてから再度お試しください。");
     return false;
   }
 }
-

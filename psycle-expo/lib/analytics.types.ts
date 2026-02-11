@@ -34,7 +34,7 @@ export interface AnalyticsConfig {
   posthogApiKey?: string;     // PostHog APIキー
 }
 
-// イベント型定義（7イベント: app_open, session_start, app_ready, onboarding_start, onboarding_complete, lesson_start, lesson_complete）
+// Coreイベント型定義（初期7イベント）。追加イベントはAnalytics.track(string)で運用する。
 export type AppOpenEvent = {
   name: 'app_open';
   properties: {};

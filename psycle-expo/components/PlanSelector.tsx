@@ -6,6 +6,7 @@ import { theme } from "../lib/theme";
 import { buyPlan } from "../lib/billing";
 import { getPlanPrice, detectUserRegion } from "../lib/pricing";
 import i18n from "../lib/i18n";
+import { Analytics } from "../lib/analytics";
 
 /**
  * プラン選択UI（Free/Pro/Max）
@@ -24,14 +25,28 @@ export function PlanSelector() {
   const handlePlanSelect = async (selectedPlan: "free" | "pro" | "max") => {
     if (selectedPlan === "free") {
       // Freeプランはそのまま切り替え
+      Analytics.track("plan_select", {
+        fromPlan: planId,
+        toPlan: "free",
+        source: "plan_selector",
+      });
       setPlanId(selectedPlan);
       return;
     }
 
     // Pro/Maxは決済画面へ
     try {
+      Analytics.track("checkout_start", {
+        plan: selectedPlan,
+        source: "plan_selector",
+      });
       await buyPlan(selectedPlan, demoUser.uid, demoUser.email);
     } catch (error) {
+      Analytics.track("checkout_failed", {
+        plan: selectedPlan,
+        source: "plan_selector",
+        stage: "buy_plan",
+      });
       console.error("Plan purchase error:", error);
     }
   };

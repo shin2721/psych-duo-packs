@@ -568,6 +568,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
   }
 
+  // Convert YYYY-MM-DD into UTC day number for stable date diffs.
+  function dateKeyToUtcDay(dateStr: string): number {
+    const [y, m, d] = dateStr.split("-").map(Number);
+    return Math.floor(Date.UTC(y, m - 1, d) / (1000 * 60 * 60 * 24));
+  }
+
   // Check and reset daily progress
   useEffect(() => {
     const today = getTodayDate();
@@ -637,10 +643,28 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       newStreak = 1;
     } else if (freezeCount > 0) {
       // Use freeze item
+      const missedDays = Math.max(1, dateKeyToUtcDay(today) - dateKeyToUtcDay(lastActivityDate) - 1);
       setFreezeCount(freezeCount - 1);
       newStreak = streak + 1;
+      Analytics.track("streak_saved_with_freeze", {
+        streakType: "study",
+        previousStreak: streak,
+        nextStreak: newStreak,
+        missedDays,
+        freezeRemainingBefore: freezeCount,
+        freezeRemainingAfter: freezeCount - 1,
+      });
     } else {
       // Break streak
+      const missedDays = Math.max(1, dateKeyToUtcDay(today) - dateKeyToUtcDay(lastActivityDate) - 1);
+      if (streak > 0) {
+        Analytics.track("streak_lost", {
+          streakType: "study",
+          previousStreak: streak,
+          missedDays,
+          freezeAvailable: freezeCount,
+        });
+      }
       newStreak = 1;
     }
 
@@ -872,6 +896,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Plan & Entitlements methods
   const setPlanId = (plan: PlanId) => {
+    Analytics.track("plan_changed", {
+      fromPlan: planId,
+      toPlan: plan,
+      source: "state",
+    });
     setPlanIdState(plan);
   };
 

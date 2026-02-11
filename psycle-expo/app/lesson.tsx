@@ -175,6 +175,17 @@ export default function LessonScreen() {
 
   async function handleAnswer(isCorrect: boolean, xp: number) {
     const questionInHandler = questions[currentIndex];
+    const genreId = params.file.match(/^([a-z]+)_/)?.[1] || "unknown";
+
+    if (!isCorrect) {
+      Analytics.track("question_incorrect", {
+        lessonId: params.file,
+        genreId,
+        questionId: questionInHandler?.id || `q_${currentIndex}`,
+        questionType: questionInHandler?.type || "unknown",
+        isReviewRound,
+      });
+    }
 
     // If incorrect and not in review round, add to review queue
     if (!isCorrect && !isReviewRound) {
@@ -227,7 +238,6 @@ export default function LessonScreen() {
       // Analytics: lesson_complete (同一lessonIdで2回送らない)
       if (lessonCompleteTrackedRef.current !== params.file) {
         lessonCompleteTrackedRef.current = params.file;
-        const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
         Analytics.track('lesson_complete', {
           lessonId: params.file,
           genreId,
