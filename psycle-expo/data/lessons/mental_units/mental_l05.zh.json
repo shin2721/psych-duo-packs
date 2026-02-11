@@ -1,0 +1,375 @@
+[
+  {
+    "id": "mental_l05_001",
+    "type": "swipe_judgment",
+    "question": "凌晨2点，明天的会议资料还只做了一半。想到"已经来不及了"的瞬间，焦虑更加剧了。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "经常有",
+      "right": "不太有"
+    },
+    "explanation": "这是"灾难化思维"的典型例子。"来不及了"这个预测比现实更早地放大了焦虑。※本课程介绍轻度焦虑的应对方法，如果您有自杀或自残的倾向，请咨询专业机构而非使用应用。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "焦虑容易连锁加剧的人"
+      ],
+      "limitations": [
+        "急性危机时仅靠自助不够"
+      ],
+      "citation_role": "支持反刍和焦虑放大的关联",
+      "claim_tags": [
+        "catastrophizing",
+        "rumination"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_002",
+    "type": "multiple_choice",
+    "question": ""绝对会失败""完了"这样的极端预测浮现在脑海时，最有效的应对方法是？",
+    "choices": [
+      "问自己"真的是这样吗？"寻找证据",
+      "对自己说"不要想"",
+      "想办法分散注意力"
+    ],
+    "correct_index": 0,
+    "explanation": "对灾难化思维，"寻找证据"是有效的。与其试图完全消除，不如找回现实的视角更重要。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "容易被极端预测卡住的人"
+      ],
+      "limitations": [
+        "强烈恐慌时单独使用可能不够"
+      ],
+      "citation_role": "作为重新评估理论的框架解释减少焦虑的可能性",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal_theory"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_003",
+    "type": "conversation",
+    "question": "最近有过想象"最坏情况"而感到焦虑的时候吗？",
+    "your_response_prompt": "试着回忆那时的心情",
+    "choices": [
+      "经常有",
+      "偶尔有",
+      "不太有"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都是正常的反应。人类的大脑本来就是用来预测危险的，所以有负面想象是很自然的。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "最坏预测容易占据头脑的人"
+      ],
+      "limitations": [
+        "症状严重时需要额外支持"
+      ],
+      "citation_role": "支持认知评估的个体差异",
+      "claim_tags": [
+        "appraisal",
+        "anxiety"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_004",
+    "type": "multiple_choice",
+    "question": "演讲前想着"肯定会失败"。如果要改变这种思维模式的话？",
+    "choices": [
+      "回忆"过去也有成功的经历"",
+      ""失败也无所谓"地看开",
+      "对自己说"绝对会成功""
+    ],
+    "correct_index": 0,
+    "explanation": "与其从极端跳到极端，不如找到平衡的视角更重要。过去的经历可以成为现实的依据。",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": ""过去克服的例子有哪些？"用10秒想一个",
+      "tiny_metric": {
+        "before_prompt": "现在的紧张程度是0-10多少？",
+        "after_prompt": "10秒后的紧张程度是0-10多少？",
+        "success_rule": "降低1分就算成功",
+        "stop_rule": "难受感增加就撤退"
+      },
+      "comparator": {
+        "baseline": "没有根据的预测容易维持焦虑",
+        "cost": "10秒・只需想起一个记忆"
+      },
+      "fallback": {
+        "when": "想不起成功经历时",
+        "next": "只决定"失败了下一步做什么""
+      },
+      "best_for": [
+        "在压力场合容易卡住的人"
+      ],
+      "limitations": [
+        "严重抑郁时效果不容易出现"
+      ],
+      "citation_role": "暗示通过重新评估提高应对可能感",
+      "claim_tags": [
+        "coping",
+        "reappraisal"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_005",
+    "type": "swipe_judgment",
+    "question": "灾难化思维需要"完全消除"",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "我这么认为",
+      "right": "我不这么认为"
+    },
+    "explanation": "不需要完全消除。更重要的是"察觉到，然后加入现实的视角"。",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "想学习如何与思维相处的人"
+      ],
+      "limitations": [
+        "仅理解理论不容易引起行为改变"
+      ],
+      "citation_role": "支持认知评估模型的理论框架",
+      "claim_tags": [
+        "cognitive_model",
+        "appraisal"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_006",
+    "type": "conversation",
+    "question": "想到"最坏情况"时，你通常是怎么应对的？",
+    "your_response_prompt": "回顾一下平时的行为",
+    "choices": [
+      "尽量不去想",
+      "和朋友或家人商量",
+      "考虑现实的对策"
+    ],
+    "recommended_index": 2,
+    "explanation": "每种方法有时都有效，但考虑现实的对策可以把焦虑转化为行动。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": ""即使最坏也下一步该怎么办？"用10秒写一个",
+      "tiny_metric": {
+        "before_prompt": "现在的困顿感是0-10多少？",
+        "after_prompt": "10秒后的困顿感是0-10多少？",
+        "success_rule": "降低1分就算成功",
+        "stop_rule": "痛苦增加就停止"
+      },
+      "comparator": {
+        "baseline": "只是继续想不容易转化为行动",
+        "cost": "10秒・写一行备忘"
+      },
+      "fallback": {
+        "when": "难以用语言表达时",
+        "next": "选择"现在能做的最小行动"一个"
+      },
+      "best_for": [
+        "因焦虑而无法行动的人"
+      ],
+      "limitations": [
+        "疲劳严重时可能无法执行"
+      ],
+      "citation_role": "支持重新评估和行动选择的连接",
+      "claim_tags": [
+        "micro_action",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_007",
+    "type": "multiple_choice",
+    "question": "灾难化思维容易发生在什么时候？",
+    "choices": [
+      "疲劳或睡眠不足的时候",
+      "精力充沛状态好的时候",
+      "和时间没有关系"
+    ],
+    "correct_index": 0,
+    "explanation": "疲劳和睡眠不足会降低判断力，容易陷入负面思维。身体管理也是重要的对策之一。",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "silver",
+    "source_id": "Nolen-Hoeksema_1991",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想了解疲劳和焦虑关系的人"
+      ],
+      "limitations": [
+        "个体差异大，单一因素无法解释"
+      ],
+      "citation_role": "暗示疲劳时的负面思维倾向",
+      "claim_tags": [
+        "fatigue",
+        "negative_bias"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_008",
+    "type": "conversation",
+    "question": "今天学的"寻找证据"的方法，明天要试的话？",
+    "your_response_prompt": "具体想在什么场合使用？",
+    "choices": [
+      "工作中感到压力时",
+      "人际关系感到焦虑时",
+      "还没有具体想到"
+    ],
+    "recommended_index": null,
+    "explanation": "在任何场合都有效。建议从小的焦虑开始尝试。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "决定明天使用的场合，用10秒记录",
+      "tiny_metric": {
+        "before_prompt": "执行想象的清晰度是0-10多少？",
+        "after_prompt": "10秒后的清晰度是0-10多少？",
+        "success_rule": "提高1分就算成功",
+        "stop_rule": "负担增加就今天先保留"
+      },
+      "comparator": {
+        "baseline": "不决定场合容易降低执行率",
+        "cost": "10秒・只需1个场合"
+      },
+      "fallback": {
+        "when": "想不到场合时",
+        "next": "暂定为"早上第一个焦虑场合""
+      },
+      "best_for": [
+        "想把学到的内容付诸行动的人"
+      ],
+      "limitations": [
+        "执行环境不稳定时不容易定着"
+      ],
+      "citation_role": "支持具体化可能提高执行率",
+      "claim_tags": [
+        "implementation_intention",
+        "planning"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_009",
+    "type": "multiple_choice",
+    "question": "应对灾难化思维最重要的是什么？",
+    "choices": [
+      "完全控制思维",
+      "找回现实的视角",
+      "积极地思考"
+    ],
+    "correct_index": 1,
+    "explanation": "比起完全控制或勉强的积极思维，拥有现实且平衡的视角更重要。",
+    "difficulty": "medium",
+    "xp": 5,
+    "evidence_grade": "gold",
+    "source_id": "Jamieson_2012",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "try_this": "焦虑出现时，用10秒做一轮"证据是？反证是？"",
+      "tiny_metric": {
+        "before_prompt": "焦虑的强度是0-10多少？",
+        "after_prompt": "10秒后的焦虑是0-10多少？",
+        "success_rule": "降低1分就算成功",
+        "stop_rule": "难受感增加就撤退"
+      },
+      "comparator": {
+        "baseline": "放任思维容易固定最坏预测",
+        "cost": "10秒・只在脑海中进行就可以"
+      },
+      "fallback": {
+        "when": "想不到反证时",
+        "next": "只先决定"最坏时的下一步""
+      },
+      "best_for": [
+        "想减弱灾难化思维的人"
+      ],
+      "limitations": [
+        "高压力时最好同时获得支持"
+      ],
+      "citation_role": "支持重新评估的实践步骤",
+      "claim_tags": [
+        "catastrophizing",
+        "reappraisal",
+        "evidence_check"
+      ]
+    }
+  },
+  {
+    "id": "mental_l05_010",
+    "type": "conversation",
+    "question": "这节课学到的内容，觉得对你有用吗？",
+    "your_response_prompt": "请告诉我真实的感想",
+    "choices": [
+      "觉得很有用",
+      "觉得有点用",
+      "觉得不太有用"
+    ],
+    "recommended_index": null,
+    "explanation": "每个感想都很珍贵。适合每个人的方法都不同，找到适合自己的方法很重要。",
+    "difficulty": "easy",
+    "xp": 5,
+    "evidence_grade": "bronze",
+    "source_id": "Lazarus_1984",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "想确认与自己的匹配度的人"
+      ],
+      "limitations": [
+        "单次评估所以需要另外确认长期效果"
+      ],
+      "citation_role": "支持应对方法的个体差异",
+      "claim_tags": [
+        "fit",
+        "self_monitoring"
+      ]
+    }
+  }
+]

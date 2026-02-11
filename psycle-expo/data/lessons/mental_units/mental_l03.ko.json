@@ -1,0 +1,385 @@
+[
+  {
+    "id": "mental_l03_001",
+    "type": "swipe_judgment",
+    "question": "회의 5분 전. 심장이 쿵쾅거리고 손바닥에 땀이 납니다. \"진정해\"라고 스스로에게 말할수록 더 불안해집니다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "경험 있음",
+      "right": "없음"
+    },
+    "explanation": "\"진정해\"라고 스스로에게 말하면 역효과가 날 수 있습니다. 감정을 억누르려고 할수록 주의가 더 집중됩니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "감정 억압에 어려움을 겪는 분들"
+      ],
+      "limitations": [
+        "억압이 효과적인 경우도 있음 (단기적이거나 사회적 상황)"
+      ],
+      "citation_role": "감정 조절 프레임워크 내에서 억압의 역효과 메커니즘을 이론적으로 설명",
+      "claim_tags": [
+        "emotion_regulation",
+        "suppression"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_002",
+    "type": "multiple_choice",
+    "question": "불안할 때, \"진정해\"라고 스스로에게 말하는 것보다 더 효과적인 경향이 있는 것은?",
+    "choices": [
+      "인정하기: \"지금 불안하다\" (라벨링)",
+      "\"진정해!\"라고 더 강하게 말하기",
+      "아무 생각도 안 하려고 하기"
+    ],
+    "correct_index": 0,
+    "explanation": "라벨링(감정에 이름 붙이기)은 감정의 강도를 낮출 수 있습니다. 개인에 따라 효과가 다르며, 만성 불안은 다른 접근이 필요할 수 있습니다. (\"더 강하게 말하기\"는 역효과가 나는 경향. \"아무 생각도 안 하기\"는 보통 매우 어렵습니다.)",
+    "actionable_advice": "팁: 다음에 불안하면 마음속으로 \"불안\"이라고 속삭여 보세요 (10초). 이상하면 바로 그만두세요.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "일상적인 가벼운 불안",
+        "자기 이해를 깊게 하고 싶은 분들"
+      ],
+      "limitations": [
+        "만성적 강한 불안에는 효과가 제한적일 수 있음",
+        "어떤 사람에게는 반추를 강화할 수 있음"
+      ],
+      "citation_role": "감정 조절 프레임워크 내에서 라벨링 메커니즘을 이론적으로 설명",
+      "try_this": "다음에 불안하면 마음속으로 \"불안\"이라고 속삭여 보세요 (10초)",
+      "claim_tags": [
+        "emotion_regulation",
+        "reappraisal"
+      ],
+      "tiny_metric": {
+        "before_prompt": "현재 불안? (0-10 또는 높음/중간/낮음)",
+        "after_prompt": "10초 후?",
+        "success_rule": "조금이라도 감소하면 괜찮음",
+        "stop_rule": "변화 없거나 증가하면 오늘은 중단"
+      },
+      "comparator": {
+        "baseline": "\"진정해\"로 억압하기",
+        "cost": "10초 / 부담이 적음"
+      },
+      "fallback": {
+        "when": "라벨링이 오히려 불안을 증가시키면",
+        "next": "심호흡으로 전환 (4초 들이쉬고, 4초 내쉬기)"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_003",
+    "type": "swipe_judgment",
+    "question": "빠른 심박수를 \"몸이 나를 위해 준비하고 있다\"로 재해석하면 때때로 수행이 향상될 수 있습니다.",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "가능할 것 같음",
+      "right": "안 될 것 같음"
+    },
+    "explanation": "이것을 \"재평가\"라고 합니다. 연구에서 단기 수행 향상이 보고되어 있습니다. 하지만 몸 상태가 안 좋을 때는 무리하지 마세요. 효과가 없어도 정상입니다. 한 번만 시도해 보세요.",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "발표나 면접 전 긴장",
+        "단기적 수행 상황"
+      ],
+      "limitations": [
+        "신체적으로 안 좋을 때 역효과",
+        "만성 불안에는 제한적 효과"
+      ],
+      "citation_role": "각성 재평가의 수행 효과를 직접 뒷받침",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "stress_response",
+        "performance"
+      ],
+      "tiny_metric": {
+        "metric": "빠른 심박수를 \"준비 중\"으로 재구성할 수 있었나요, 적어도 한 번?",
+        "stop_rule": "3일 연속 시도 기억이 안 나면 그냥 넘어가기",
+        "before_prompt": "지금 피곤함 0-10?",
+        "after_prompt": "10초 후 힘든 정도 0-10?",
+        "success_rule": "1점 내려가면 괜찮음"
+      },
+      "comparator": {
+        "baseline": "부정적으로 해석: \"어휴, 너무 긴장돼\"",
+        "cost": "인지 부담 적음 (재구성만)"
+      },
+      "try_this": "다음에 긴장되면 \"내 몸이 나를 위해 준비하고 있다\"고 10초만 말해 보세요",
+      "fallback": {
+        "when": "긴장이 증가하거나 변화가 없을 때",
+        "next": "한 번 호흡이나 다른 10초 개입으로 전환"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_004",
+    "type": "multiple_choice",
+    "question": "발표 직전, 손바닥에 땀이 흥건합니다. 무엇을 시도해 볼까요?",
+    "choices": [
+      "재구성: \"내 몸이 워밍업하고 있다\"",
+      "생각: \"최악이야, 또 긴장하네\"",
+      "땀 나는 손바닥 무시하고 내용에 집중"
+    ],
+    "correct_index": 0,
+    "explanation": "\"워밍업\"으로 재구성하면 스트레스 반응이 도전 반응으로 바뀔 수 있습니다. 모든 사람에게 통하지 않으니 억지로 하지 마세요. 한 번만 시도해 보세요. (\"최악이야\"는 불안을 강화합니다. \"무시하고 집중\"은 누구에게나 어렵습니다.)",
+    "actionable_advice": "팁: 내일 딱 한 번 시도: 긴장되면 \"내 몸이 나를 위해 준비하고 있다\"고 10초간 말하기. 이상하면 바로 그만두세요.",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Jamieson_2012",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "발표, 면접, 시험 전"
+      ],
+      "limitations": [
+        "신체적으로 안 좋을 때는 무리하지 않기",
+        "\"긍정적 사고\"에 거부감 있는 분에게 안 맞을 수 있음"
+      ],
+      "citation_role": "각성 재평가의 실용적 효과를 뒷받침",
+      "try_this": "긴장되면 \"내 몸이 나를 위해 준비하고 있다\"고 10초 말하기",
+      "claim_tags": [
+        "reappraisal",
+        "arousal",
+        "performance"
+      ],
+      "tiny_metric": {
+        "before_prompt": "현재 긴장 (0-10)",
+        "after_prompt": "10초 후 긴장",
+        "success_rule": "1점만 내려가도 괜찮음",
+        "stop_rule": "변화 없으면 다른 방법 시도"
+      },
+      "comparator": {
+        "baseline": "자책: \"긴장하면 안 되는데\"",
+        "cost": "10초 / 심리적 부담 적음"
+      },
+      "fallback": {
+        "when": "재구성이 억지 같으면",
+        "next": "그냥 라벨링: \"긴장하고 있다\""
+      }
+    }
+  },
+  {
+    "id": "mental_l03_005",
+    "type": "conversation",
+    "question": "\"라벨링\" vs. \"재평가\" - 어느 쪽이 당신에게 더 맞는 것 같나요?",
+    "your_response_prompt": "직감대로",
+    "choices": [
+      "라벨링 (그냥 \"불안\"이라고 인정)",
+      "재평가 (\"워밍업\"으로 재구성)",
+      "둘 다 시도해 보고 싶음",
+      "둘 다 안 맞는 것 같음"
+    ],
+    "recommended_index": null,
+    "explanation": "어떤 답도 정답입니다. \"둘 다 안 맞음\"도 귀중한 정보입니다. 다른 접근법을 찾는 시작점이 될 수 있습니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "개인차 고려를 뒷받침",
+      "claim_tags": [
+        "emotion_regulation",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_006",
+    "type": "multiple_choice",
+    "question": "불안할 때 \"4초 들이쉬고, 4초 내쉬고\"를 세 번 하면 어떤 일이 일어나는 경향이 있을까요?",
+    "choices": [
+      "부교감신경이 활성화되어 심박수가 안정되는 데 도움",
+      "교감신경이 더 활성화되어 불안 증가",
+      "아무 변화 없음"
+    ],
+    "correct_index": 0,
+    "explanation": "느린 호흡은 부교감신경을 자극합니다. 어떤 사람에게는 호흡 운동이 오히려 불안을 증가시킬 수 있습니다. 효과가 없어도 정상입니다. 한 번만 시도해 보세요. (\"교감신경 활성화\"는 빠른 호흡에서 일어납니다. \"변화 없음\" - 개인차가 있지만, 어느 정도 변화는 일어날 가능성이 높습니다.)",
+    "actionable_advice": "팁: 지금 바로 시도: 4초 들이쉬고, 4초 내쉬고, 한 번만. 하기 싫으면 건너뛰세요.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "일시적 불안",
+        "신체 감각에 민감한 분들"
+      ],
+      "limitations": [
+        "호흡 운동에 어려움을 느끼는 분에게 역효과 가능",
+        "공황 발작은 전문적 지원 필요"
+      ],
+      "citation_role": "자율신경계에 대한 호흡 운동의 효과를 간접 뒷받침",
+      "try_this": "4초 들이쉬고, 4초 내쉬고, 한 번만",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "현재 불안 (높음/중간/낮음)",
+        "after_prompt": "한 번 후?",
+        "success_rule": "조금이라도 개선되면 괜찮음",
+        "stop_rule": "불쾌하면 바로 중단"
+      },
+      "comparator": {
+        "baseline": "그냥 버티기",
+        "cost": "8초 / 부담 최소"
+      },
+      "fallback": {
+        "when": "호흡에 집중하면 더 안 좋아지면",
+        "next": "주변 소리에 주의를 돌리기 (5초)"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_007",
+    "type": "swipe_judgment",
+    "question": "감정 조절 기술은 대부분의 사람들에게 연습으로 쉽게 발달한다.",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "그런 것 같음",
+      "right": "아닌 것 같음"
+    },
+    "explanation": "\"모든 사람에게 쉽다\"는 과장입니다. 연습으로 많은 사람이 향상되지만, 개인차가 있습니다. 만성적인 문제는 전문적 지원이 효과적일 수 있습니다.",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "개인차를 이론적으로 설명",
+      "claim_tags": [
+        "emotion_regulation",
+        "limitations"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_008",
+    "type": "multiple_choice",
+    "question": "오늘 배운 3가지 기법 (라벨링, 재평가, 호흡) 중 내일 시도하기 가장 쉬운 것은?",
+    "choices": [
+      "호흡 (4초 들이쉬고, 4초 내쉬고)",
+      "라벨링 (\"불안\"이라고 인정)",
+      "재평가 (\"워밍업\"으로 재구성)",
+      "다 너무 어려움"
+    ],
+    "correct_index": 0,
+    "explanation": "대부분의 사람에게 호흡이 가장 간단합니다. 모든 사람에게 통하지 않으니, 자신에게 맞는 것을 찾는 게 중요합니다. (라벨링과 재평가도 효과적입니다. \"다 어려움\"이면 다른 접근을 탐색하는 것도 완전히 괜찮습니다.)",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "개입 선택에 대한 안내 제공",
+      "claim_tags": [
+        "breathing",
+        "implementation"
+      ]
+    }
+  },
+  {
+    "id": "mental_l03_009",
+    "type": "conversation",
+    "question": "내일 불안할 때 딱 한 가지만 시도한다면 무엇을 할까요?",
+    "your_response_prompt": "하나 선택",
+    "choices": [
+      "호흡 (4초 들이쉬고, 4초 내쉬고)",
+      "라벨링 (\"불안\"이라고 속삭이기)",
+      "재평가 (\"워밍업\"으로 재구성)",
+      "지금은 보류"
+    ],
+    "recommended_index": 0,
+    "explanation": "하나를 골라서 시도하는 게 첫걸음입니다. 안 맞으면 다른 것을 시도하세요. 그것도 배움입니다. 딱 한 번만.",
+    "actionable_advice": "팁: 내일, 딱 한 번 (10초): 선택한 기법을 시도하세요. 이상하면 바로 그만두세요.",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "best_for": [
+        "일상적인 가벼운 불안 대처"
+      ],
+      "limitations": [
+        "지속적인 강한 불안에는 충분하지 않음"
+      ],
+      "citation_role": "감정 조절 전략 선택지 제시",
+      "try_this": "선택한 기법을 딱 한 번만 시도 (10초)",
+      "claim_tags": [
+        "emotion_regulation"
+      ],
+      "tiny_metric": {
+        "before_prompt": "불안 0-10",
+        "after_prompt": "10초 후 0-10",
+        "success_rule": "1점만 내려가도 괜찮음",
+        "stop_rule": "변화 없거나 증가하면 중단"
+      },
+      "comparator": {
+        "baseline": "아무것도 안 하기",
+        "cost": "10초"
+      },
+      "fallback": {
+        "when": "세 가지 다 안 맞았다면",
+        "next": "물 마시기 / 자리 피하기 - 물리적으로 전환하기"
+      }
+    }
+  },
+  {
+    "id": "mental_l03_010",
+    "type": "conversation",
+    "question": "이 레슨의 \"불안 대처 기법\"이 당신에게 유용해 보였나요?",
+    "your_response_prompt": "솔직하게 답해 주세요",
+    "choices": [
+      "유용해 보임",
+      "나한테 안 맞을 수도",
+      "아직 잘 모르겠음"
+    ],
+    "recommended_index": null,
+    "explanation": "어떤 답도 정답입니다. \"안 맞을 수도\"라면 다른 접근을 찾는 게 맞습니다. 자신에게 맞는 것을 찾는 과정 자체가 배움입니다.",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Gross_1998",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "개인차 고려를 뒷받침",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]

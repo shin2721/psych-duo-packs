@@ -1,0 +1,333 @@
+[
+    {
+        "id": "mental_l01_001",
+        "type": "conversation",
+        "question": "이번 주에 같은 장면을 머릿속에서 3번 이상 반복 재생하면서 \"그때 다르게 말했어야 했는데...\"라고 생각한 적 있나요?",
+        "your_response_prompt": "직감대로 답해 주세요",
+        "choices": [
+            "3번 이상 (꽤 신경 쓰임)",
+            "1-2번",
+            "없음 (머리가 맑음)"
+        ],
+        "recommended_index": null,
+        "explanation": "이것을 \"반추\"라고 합니다. 사실 성찰과는 다릅니다 - 뇌가 자동으로 오류음을 재생하는 것에 더 가깝습니다.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Nolen-Hoeksema_1991",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "direct",
+            "best_for": [
+                "부정적인 사고 반복을 알아차리고 싶은 분들"
+            ],
+            "limitations": [
+                "깊이 우울할 때"
+            ],
+            "citation_role": "반추의 정의와 메커니즘을 뒷받침",
+            "claim_tags": [
+                "rumination",
+                "repetitive_thinking"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_002",
+        "type": "multiple_choice",
+        "question": "전철이 15분 지연됩니다. 문자가 옵니다: \"10분 안에 올 수 있어?\" 심장이 빨라지고 불안해집니다.\n\n이 \"불안\"이 어떻게 발생하는지 가장 잘 설명한 것은?",
+        "choices": [
+            "\"이건 위협일 수 있어\"라는 반응이 일어났다",
+            "전철 지연이 직접적으로 불안을 야기했다",
+            "그냥 짜증 잘 내는 성격 때문이다"
+        ],
+        "correct_index": 0,
+        "explanation": "\"위협\" 반응은 사건 자체보다 먼저 일어나는 경향이 있습니다. 심박수 증가와 불안은 자연스러운 신체 반응입니다. (\"전철\" 탓이나 \"성격\" 탓을 하기 쉽지만, 그렇다면 모든 사람이 같은 반응을 보여야 합니다.)",
+        "actionable_advice": "팁: 불안할 때 이렇게 라벨링해 보세요: \"이건 신체 반응이다\"",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "일상적인 스트레스",
+                "통제감이 낮을 때"
+            ],
+            "limitations": [
+                "급성 트라우마 직후",
+                "생리적 요인이 강한 경우"
+            ],
+            "citation_role": "인지적 평가 이론의 핵심 메커니즘을 뒷받침",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress_response"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_003",
+        "type": "swipe_judgment",
+        "question": "인지적 평가 이론에 따르면, 스트레스의 원인은 \"사건\"에 있나요, \"해석\"에 있나요?",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "해석에",
+            "right": "사건에"
+        },
+        "explanation": "이것이 이론의 핵심입니다. 사건을 바꿀 수 없더라도, 해석(인식 방식)을 다루는 여지가 있습니다.",
+        "actionable_advice": "해 보세요: 불쾌한 사건을 \"카메라 렌즈를 통해\" 바라본다고 상상해 보세요",
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "인지적 평가 이론의 핵심을 확인",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "stress"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_004",
+        "type": "multiple_choice",
+        "question": "면접 3분 전. 대기실에서 심장이 쿵쾅거립니다. 손바닥에 땀이 납니다.\n\n이 신체 반응을 어떻게 재해석할 수 있을까요?",
+        "choices": [
+            "\"몸이 나를 위해 워밍업하고 있다\"",
+            "\"나는 희망이 없다\"",
+            "\"이건 나쁜 징조다\""
+        ],
+        "correct_index": 0,
+        "explanation": "반대로, 빠른 심박수는 \"신체의 워밍업\"으로 해석할 수 있습니다. 하지만 몸 상태가 안 좋을 때는 무리하지 마세요. 효과가 없어도 정상입니다. 한 번만 시도해 보세요. (\"희망이 없다\"와 \"나쁜 징조\"는 흔한 생각이지만, 불안을 강화하는 경향이 있습니다.)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Jamieson_2012",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "direct",
+            "best_for": [
+                "발표나 면접 전 긴장",
+                "단기적 수행 상황"
+            ],
+            "limitations": [
+                "신체적으로 안 좋을 때",
+                "만성적으로 심한 불안"
+            ],
+            "citation_role": "재평가의 효과를 뒷받침",
+            "try_this": "다음에 심장이 빨라지면 \"내 몸이 워밍업하고 있다\"고 10초 동안 말해 보세요",
+            "claim_tags": [
+                "reappraisal",
+                "arousal",
+                "stress_response"
+            ],
+            "tiny_metric": {
+                "before_prompt": "현재 긴장 정도? (0-10)",
+                "after_prompt": "10초 후 긴장 정도? (0-10)",
+                "success_rule": "1점만 내려가도 괜찮습니다",
+                "stop_rule": "변화가 없으면 오늘은 그만두어도 괜찮습니다"
+            },
+            "comparator": {
+                "baseline": "억지로 진정하려고 노력하기 (억압)",
+                "cost": "10초 / 가벼운 효과지만 부담이 적음"
+            },
+            "fallback": {
+                "when": "10초가 더 불안하게 만들었다면",
+                "next": "심호흡으로 전환하세요 (4초 들이쉬고, 4초 내쉬기)"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_005",
+        "type": "multiple_choice",
+        "question": "상사가 오후 5시 회의에서 당신을 비판했습니다. 오후 9시에도 그 말이 계속 재생됩니다.\n\n어떤 것이 스트레스를 지속시키는 경향이 있을까요?",
+        "choices": [
+            "\"왜 나한테 이런 일이...\"라고 계속 생각하기",
+            "\"뭐, 그런 날도 있지\"라고 전환하기",
+            "둘 다 비슷하다"
+        ],
+        "correct_index": 0,
+        "explanation": "사건 자체보다 \"얼마나 오래 생각하느냐\"가 지속 시간에 영향을 미칩니다. 전환하지 못해도 자책하지 마세요. (\"전환\"이 이상적이지만, 실제로는 어려운 경우가 많습니다.)",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "silver",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "인지적 평가 프레임워크 내에서 반추 지속을 이론적으로 설명",
+            "claim_tags": [
+                "rumination",
+                "stress_duration"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_006",
+        "type": "conversation",
+        "question": "이번 주 가장 스트레스 받았던 순간을 떠올려 보세요.",
+        "your_response_prompt": "그때 머릿속에 어떤 말이 떠올랐나요?",
+        "choices": [
+            "\"이건 끔찍해\" 또는 \"어떻게 해야 하지\" 같은 말",
+            "\"뭐 어때\" 또는 \"잘 될 거야\" 같은 말",
+            "특별히 떠오르는 말이 없었음"
+        ],
+        "recommended_index": null,
+        "explanation": "어떤 답도 정답입니다. \"내면의 목소리\"를 알아차리는 것만으로도 충분합니다.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "자기 인식의 효과를 간접적으로 뒷받침",
+            "claim_tags": [
+                "self_awareness",
+                "mindfulness"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_007",
+        "type": "swipe_judgment",
+        "question": "\"스트레스는 생각하기 나름이다\"라는 말을 들으면 조금 불편한가요?",
+        "is_true": true,
+        "swipe_labels": {
+            "left": "이해됨",
+            "right": "이해 안 됨"
+        },
+        "explanation": "사실 이 이론은 \"생각을 바꾸면 제로가 된다\"고 말하지 않습니다. 급성 트라우마와 신체적 요인은 다른 접근이 필요합니다.",
+        "actionable_advice": null,
+        "difficulty": "medium",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "citation_role": "이론의 한계를 명확히 함",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "limitations"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_008",
+        "type": "multiple_choice",
+        "question": "인지적 평가 이론은 어떤 상황에 가장 적합할까요?",
+        "choices": [
+            "만성 스트레스나 낮은 통제감",
+            "사고 직후의 패닉",
+            "신체 질환이 주요 원인인 경우"
+        ],
+        "correct_index": 0,
+        "explanation": "일상적인 스트레스에 적합합니다. 급성 트라우마 직후나 강한 생리적 요인이 있으면 다른 접근을 고려하세요. (\"사고 직후\"와 \"신체 질환\"은 인지적 접근만으로는 잘 반응하지 않을 수 있습니다.)",
+        "actionable_advice": null,
+        "difficulty": "hard",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "gold",
+        "expanded_details": {
+            "claim_type": "theory",
+            "evidence_type": "theoretical",
+            "best_for": [
+                "만성 스트레스",
+                "낮은 통제감"
+            ],
+            "limitations": [
+                "사고 직후 패닉",
+                "신체 질환이 주요 원인인 경우"
+            ],
+            "citation_role": "인지적 평가 이론의 적용 범위를 명확히 함",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "applicability"
+            ]
+        }
+    },
+    {
+        "id": "mental_l01_009",
+        "type": "conversation",
+        "question": "오늘 \"해석이 스트레스에 영향을 미친다\"는 것을 배웠습니다.",
+        "your_response_prompt": "내일 스트레스 받을 때 한 번 시도해 본다면?",
+        "choices": [
+            "\"지금 나는 이걸 어떻게 해석하고 있지?\"라고 자문하기",
+            "아무것도 시도하지 않기 (그것도 유효한 선택)",
+            "아직 잘 모르겠어서 보류"
+        ],
+        "recommended_index": 0,
+        "explanation": "한 번 시도해 볼 가치가 있습니다. 맞지 않으면 다른 방법도 괜찮습니다. 딱 한 번만.",
+        "actionable_advice": "내일 불안할 때 \"내가 뭘 위협으로 인식하고 있지?\"라고 10초 동안 자문해 보세요",
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "intervention",
+            "evidence_type": "indirect",
+            "best_for": [
+                "일상적인 작은 불안",
+                "자기 이해를 깊게 하고 싶은 분들"
+            ],
+            "limitations": [
+                "심각한 정신적 위기",
+                "생각 자체가 고통스러울 때"
+            ],
+            "citation_role": "인지적 평가 이론의 실용적 적용을 뒷받침",
+            "try_this": "내일 불안할 때 \"내가 뭘 위협으로 인식하고 있지?\"라고 10초 동안 자문해 보세요",
+            "claim_tags": [
+                "cognitive_appraisal",
+                "self_awareness"
+            ],
+            "tiny_metric": {
+                "before_prompt": "현재 불안? (0-10)",
+                "after_prompt": "10초 후 불안? (0-10)",
+                "success_rule": "1점만 내려가도 괜찮습니다",
+                "stop_rule": "변화가 없으면 오늘은 그만두어도 괜찮습니다"
+            },
+            "comparator": {
+                "baseline": "그냥 주의 돌리기 (SNS, 영상 등)",
+                "cost": "10초 / 가벼운 효과지만 자기 이해를 깊게 할 수 있음"
+            },
+            "fallback": {
+                "when": "질문이 불안을 증폭시켰다면",
+                "next": "그냥 \"지금 불안하다\"라고 라벨링만 하세요 (내용은 놔두기)"
+            }
+        }
+    },
+    {
+        "id": "mental_l01_010",
+        "type": "conversation",
+        "question": "이 스낵 레슨의 접근법이 당신에게 맞는 것 같나요?",
+        "your_response_prompt": "직감대로 답해 주세요",
+        "choices": [
+            "맞는 것 같음",
+            "나한테는 아닐 수도",
+            "아직 잘 모르겠음"
+        ],
+        "recommended_index": null,
+        "explanation": "어떤 답도 정답입니다. 맞지 않는 것 같으면 다른 접근법이 더 나을 수 있습니다.",
+        "actionable_advice": null,
+        "difficulty": "easy",
+        "xp": 5,
+        "source_id": "Lazarus_1984",
+        "evidence_grade": "bronze",
+        "expanded_details": {
+            "claim_type": "observation",
+            "evidence_type": "indirect",
+            "citation_role": "개인차 고려를 뒷받침",
+            "claim_tags": [
+                "individual_differences",
+                "fit"
+            ]
+        }
+    }
+]

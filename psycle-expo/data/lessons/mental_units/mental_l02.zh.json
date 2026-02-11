@@ -1,0 +1,326 @@
+[
+  {
+    "id": "mental_l02_001",
+    "type": "swipe_judgment",
+    "question": "周一早上8点，通勤电车上。脑海中浮现"今天的演讲感觉不会顺利"的想法。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "经常有",
+      "right": "不太有"
+    },
+    "explanation": "这是"威胁判定"的自动触发。明明什么都还没发生，"可能有危险"的反应就已经先出现了。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "想要察觉自动思维模式的人"
+      ],
+      "limitations": [
+        "仅理解理论难以直接带来行为改变"
+      ],
+      "citation_role": "解释认知评估理论中的初级评估（威胁判定）",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "primary_appraisal",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_002",
+    "type": "multiple_choice",
+    "question": "同样是"来自上司的反馈"，A因此沮丧，B却认为"知道了改进方向"。\n\n最能解释这种差异的理论是？",
+    "choices": [
+      "认知评估理论（解读的差异影响压力）",
+      "人格特质理论（先天气质决定）",
+      "刺激-反应理论（事件直接决定反应）"
+    ],
+    "correct_index": 0,
+    "explanation": "同样的事件，"如何解读"会改变反应。这是认知评估理论的核心。（虽然容易认为"性格决定一切"或"事件是原因"，但那样就无法解释个体差异）",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "想了解理论背景的人",
+        "想知道为什么人们反应不同的人"
+      ],
+      "limitations": [
+        "了解理论也不会自动改变解读（需要练习）"
+      ],
+      "citation_role": "解释认知评估理论的基本机制",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress",
+        "individual_differences"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_003",
+    "type": "swipe_judgment",
+    "question": ""初级评估"是指对事件自动判定为"威胁或无害"。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "我认为是",
+      "right": "我认为不是"
+    },
+    "explanation": "正确。初级评估是瞬间判断"这对我来说是威胁吗？"的过程。与其说是有意识的，不如说是自动发生的。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "想准确理解理论术语的人"
+      ],
+      "limitations": [
+        "知道术语也需要另外的练习才能应用"
+      ],
+      "citation_role": "解释初级评估的定义",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "primary_appraisal"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_004",
+    "type": "multiple_choice",
+    "question": ""次级评估"是判断什么的过程？",
+    "choices": [
+      "判断"我有应对这种情况的资源吗？"",
+      "判断"这件事是威胁吗？"",
+      "回忆"过去有过同样的经历吗？""
+    ],
+    "correct_index": 0,
+    "explanation": "次级评估是评估"我能应对这个吗？"的过程。在初级评估判定为"威胁"之后发生。（"是威胁吗？"是初级评估。"过去的经历"是另一个记忆过程）",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "想把握理论全貌的人"
+      ],
+      "limitations": [
+        "仅理解理论不会提高应对能力"
+      ],
+      "citation_role": "解释次级评估的定义",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "secondary_appraisal",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_005",
+    "type": "conversation",
+    "question": "请回忆最近感到"威胁"的场景。",
+    "your_response_prompt": "那时，你感觉"能应对"还是"可能不行"，哪个更接近？",
+    "choices": [
+      "感觉能应对",
+      "感觉可能不行",
+      "都不是 / 不记得了"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。这种"能否应对"的感觉，就是次级评估本身。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持次级评估的自我认知",
+      "claim_tags": [
+        "secondary_appraisal",
+        "self_awareness"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_006",
+    "type": "multiple_choice",
+    "question": "初级评估判定为"威胁"，次级评估判定为"无法应对"时，容易发生什么？",
+    "choices": [
+      "强烈的压力反应（焦虑、不安、身体症状）",
+      "冷静地采取解决问题的行动",
+      "什么都不会发生"
+    ],
+    "correct_index": 0,
+    "explanation": ""威胁 + 无法应对"的组合会加剧压力反应。相反，"威胁 + 可以应对"有时可以被视为挑战。（"冷静行动""什么都不发生"是理想状态，但有无力感时很难做到）",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "想理解压力反应机制的人"
+      ],
+      "limitations": [
+        "理解了反应本身也是自动发生的（有意识控制有限）"
+      ],
+      "citation_role": "解释初级×次级评估的组合如何决定压力强度的机制",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress",
+        "coping"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_007",
+    "type": "swipe_judgment",
+    "question": ""威胁判定"是本能的，无法改变。",
+    "is_true": false,
+    "swipe_labels": {
+      "left": "我认为是",
+      "right": "我认为不是"
+    },
+    "explanation": "完全改变很难，但重新接受有时会变得更容易（存在个体差异）。不过疲惫或没有余力时不要勉强。",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "citation_role": "从理论上解释评估的可变性",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "flexibility"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_008",
+    "type": "multiple_choice",
+    "question": "认知评估理论"不适合"什么情况？",
+    "choices": [
+      "身体疾病是主要原因的压力",
+      "职场人际关系的压力",
+      "对未来的模糊不安"
+    ],
+    "correct_index": 0,
+    "explanation": "对于身体疾病或生理因素较强的情况，不仅需要"改变解读"，还应考虑医疗方法。（"人际关系""未来的不安"有时认知方法是有效的）",
+    "actionable_advice": null,
+    "difficulty": "hard",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
+      "best_for": [
+        "想正确理解理论适用范围的人"
+      ],
+      "limitations": [
+        "这个理论本身对"边界情况的识别"没有详细说明"
+      ],
+      "citation_role": "解释认知评估理论适用范围的局限",
+      "claim_tags": [
+        "cognitive_appraisal",
+        "stress"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_009",
+    "type": "conversation",
+    "question": "今天学到的"初级评估（威胁判定）"和"次级评估（应对可能性）"。",
+    "your_response_prompt": "下次感到压力时，想意识到哪一个？",
+    "choices": [
+      "初级评估：问自己"这真的是威胁吗？"",
+      "次级评估：思考"我能做什么？"",
+      "两个都试试",
+      "这次跳过（这也是一种选择）"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。从适合自己的入口开始尝试最容易坚持。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
+      "citation_role": "暗示通过初级评估的重新评估可能减轻负担",
+      "claim_tags": [
+        "appraisal",
+        "micro_reappraisal",
+        "intervention"
+      ],
+      "try_this": "下次感到压力时，花10秒重新问自己"真的是威胁吗？"",
+      "tiny_metric": {
+        "before_prompt": "现在的不安是0-10多少？",
+        "after_prompt": "10秒后的不安是0-10多少？",
+        "success_rule": "降低1分就算成功",
+        "stop_rule": "如果不安增加就撤退"
+      },
+      "comparator": {
+        "baseline": "按照自动思维，威胁评估容易增强",
+        "cost": "10秒・只需要在脑海中进行"
+      },
+      "fallback": {
+        "when": "难以重新问自己时",
+        "next": "只决定"现在能做的一件事""
+      },
+      "best_for": [
+        "容易被不安的自动评估淹没的人"
+      ],
+      "limitations": [
+        "危机情况下需要优先获得即时支持"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_010",
+    "type": "conversation",
+    "question": "这节课学到的"威胁判定的机制"，觉得合理吗？",
+    "your_response_prompt": "凭直觉回答",
+    "choices": [
+      "觉得合理",
+      "有一点违和感",
+      "还不太明白"
+    ],
+    "recommended_index": null,
+    "explanation": "每个答案都对。"违和感"是重要的信息。如果这个理论不适合你，也许其他方法更适合。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "citation_role": "支持对个体差异的考虑",
+      "claim_tags": [
+        "individual_differences",
+        "fit"
+      ]
+    }
+  }
+]
