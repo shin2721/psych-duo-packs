@@ -3,6 +3,10 @@
 ## Purpose
 Standardize the workflow for adding or updating localized lesson files so index files and validation stay consistent.
 
+## Related Docs
+- `docs/I18N_STYLE_GUIDE.md`
+- `docs/RUNBOOK_I18N_LANGUAGE_LAUNCH.md`
+
 ## Scope
 This runbook covers lesson JSON files under `psycle-expo/data/lessons/**` and the locale index/validation scripts.
 
@@ -40,3 +44,7 @@ cd ..
    - Fix: add the missing locale file and re-run the scripts.
 2. Index files missing updates.
    - Fix: re-run `gen-lesson-locale-index.js` and commit the updated index files.
+
+## Policy
+1. Use `fail-on-new` as the default CI gate for glossary lint.
+2. Move to strict mode only after consecutive stable PRs for the target language.
