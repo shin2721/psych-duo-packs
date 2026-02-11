@@ -10,8 +10,8 @@
       "fr": "rumination",
       "de": "Grübeln|Rumination|grübeln",
       "pt": "ruminação|ruminacao",
-      "zh": "反刍思维",
-      "ko": "반추사고"
+      "zh": "反刍思维|反刍",
+      "ko": "반추사고|반추"
     },
     {
       "ja": "認知的評価",
@@ -41,7 +41,7 @@
       "de": "Wenn-Dann-Plan",
       "pt": "plano Se-Então|plano Se-Entao|Se-Então|Se-Entao",
       "zh": "如果-那么计划",
-      "ko": "만약-그러면 계획"
+      "ko": "만약-그러면 계획|If-Then 계획|if-then 계획"
     },
     {
       "ja": "先延ばし",
@@ -51,7 +51,7 @@
       "de": "Prokrastination",
       "pt": "procrastinação|procrastinacao|adiar|adiamento",
       "zh": "拖延",
-      "ko": "미루기"
+      "ko": "미루기|미루는|미루다"
     },
     {
       "ja": "認知的覚醒",
@@ -60,7 +60,7 @@
       "fr": "activation cognitive",
       "de": "kognitive Erregung",
       "pt": "ativação cognitiva|ativacao cognitiva|excitação cognitiva",
-      "zh": "认知唤醒",
+      "zh": "认知唤醒|认知觉醒",
       "ko": "인지적 각성"
     },
     {
@@ -91,7 +91,7 @@
       "de": "Impulskauf",
       "pt": "compra por impulso|compra impulsiva|compras impulsivas",
       "zh": "冲动购物",
-      "ko": "충동구매"
+      "ko": "충동구매|충동 구매"
     },
     {
       "ja": "希少性バイアス",
@@ -100,7 +100,7 @@
       "fr": "biais de rareté",
       "de": "Knappheitsbias|Knappheit|Seltenheit",
       "pt": "viés de escassez",
-      "zh": "稀缺性偏见",
+      "zh": "稀缺性偏见|稀缺偏见",
       "ko": "희소성 편향"
     },
     {
@@ -121,7 +121,7 @@
       "de": "nein sagen|ablehnen|verweigern|Ablehnen|Nein",
       "pt": "dizer não|recusar|negar",
       "zh": "拒绝|说不",
-      "ko": "거절하다|안 된다고 하다"
+      "ko": "거절하다|거절|안 된다고 하다|사양"
     }
   ],
 
@@ -164,15 +164,15 @@
       { "pattern": "100%", "flags": "i", "message": "Muito assertivo: evitar porcentagens absolutas" }
     ],
     "zh": [
-      { "pattern": "绝对", "message": "过于断定: 使用'可能'或'倾向于'" },
+      { "pattern": "绝对会|绝对能|绝对有效|绝对成功", "message": "过于断定: 使用'可能'或'倾向于'" },
       { "pattern": "一定有效", "message": "过于断定: 暗示100%效果" },
-      { "pattern": "保证", "message": "过于断定: 没有根据的声明" },
+      { "pattern": "保证(?:有效|成功|改善|治愈)", "message": "过于断定: 没有根据的声明" },
       { "pattern": "100%", "message": "过于断定: 避免使用绝对百分比" }
     ],
     "ko": [
       { "pattern": "확실히", "message": "너무 단정적: '할 수 있다' 또는 '경향이 있다' 사용" },
       { "pattern": "항상 효과", "message": "너무 단정적: 100% 효과를 암시" },
-      { "pattern": "보장", "message": "너무 단정적: 근거 없는 주장" },
+      { "pattern": "보장(?:된다|합니다|해준다|해요)", "message": "너무 단정적: 근거 없는 주장" },
       { "pattern": "100%", "message": "너무 단정적: 절대 백분율 피하기" }
     ]
   },
@@ -185,8 +185,8 @@
       "fr": "tend à|tend a|tendance|tendent a|tendent à|ont tendance|a tendance|peut",
       "de": "neigt dazu|Tendenz|tendenziell|tendiert|neigen dazu",
       "pt": "tende a|tendência|tendencia|tendem a",
-      "zh": "倾向于|趋势",
-      "ko": "경향이 있다|경향"
+      "zh": "倾向于|有.*倾向|趋势|往往|更容易|容易|常常|通常",
+      "ko": "경향이 있다|경향|쉬운 편|쉽다|자주|흔하다"
     },
     {
       "ja": "可能性がある",
@@ -195,8 +195,8 @@
       "fr": "peut|pourrait|possible",
       "de": "kann|könnte|möglich",
       "pt": "pode|poderia|possível",
-      "zh": "可能|也许|或许",
-      "ko": "할 수 있다|가능하다|수도 있다"
+      "zh": "可能|也许|或许|可能性",
+      "ko": "할 수 있다|가능하다|수도 있다|가능성이 있다|될 수 있다"
     },
     {
       "ja": "報告されている",
@@ -205,8 +205,8 @@
       "fr": "a été rapporté|a ete rapporte|ont été rapportés|ont ete rapportes|études montrent|etudes montrent|Des etudes montrent|Les etudes montrent|recherches suggèrent|recherches suggerent|suggere|indiquent|montre une efficacite|montrent que|a montré une efficacité|a montre une efficacite|a montre des resultats|recherche suggere|recherches indiquent",
       "de": "wurde berichtet|Studien zeigen|Forschung legt nahe|Es wurde berichtet|berichtet|zeigt|zeigen",
       "pt": "foi relatado|estudos mostram|pesquisas sugerem|pesquisas mostram|foi reportado|estudos sugerem",
-      "zh": "有报告|研究显示|研究表明",
-      "ko": "보고되었다|연구에 따르면|연구가 보여준다"
+      "zh": "有报告|有研究报告|研究显示|研究表明|研究指出|据报道|报告显示",
+      "ko": "보고되었다|보고되어|보고된|보고에 따르면|연구에 따르면|연구가 보여준다|연구에서|연구 보고"
     },
     {
       "ja": "とされている",
@@ -235,8 +235,8 @@
       "fr": "peut|pourrait|peut-être",
       "de": "kann|könnte|vielleicht",
       "pt": "pode|poderia|talvez",
-      "zh": "可能|也许",
-      "ko": "수도 있다|일지도 모른다"
+      "zh": "可能|也许|或许",
+      "ko": "수도 있다|일지도 모른다|그럴 수도 있다"
     },
     {
       "ja": "場合がある",
@@ -245,8 +245,8 @@
       "fr": "dans certains cas|parfois|peut",
       "de": "in manchen Fällen|manchmal|kann",
       "pt": "em alguns casos|às vezes|pode",
-      "zh": "有时|在某些情况下",
-      "ko": "경우가 있다|때때로"
+      "zh": "有时|有时候|在某些情况下|某些情况下|在一些情况下",
+      "ko": "경우가 있다|경우도 있다|때때로|때가 있다|때도 있다"
     }
   ]
 }

@@ -1,12 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-02-10T06:51:46.874Z",
-  "total": 5,
-  "entries": [
-    "pt|money_l01|money_l01_002||glossary_missing|衝動買い|compra por impulso|compra impulsiva|compras impulsivas||||JA has \"衝動買い\" but PT missing expected translation \"compra por impulso|compra impulsiva|compras impulsivas\"",
-    "pt|money_l01|money_l01_006||glossary_missing|衝動買い|compra por impulso|compra impulsiva|compras impulsivas||||JA has \"衝動買い\" but PT missing expected translation \"compra por impulso|compra impulsiva|compras impulsivas\"",
-    "pt|money_l01|money_l01_009||glossary_missing|衝動買い|compra por impulso|compra impulsiva|compras impulsivas||||JA has \"衝動買い\" but PT missing expected translation \"compra por impulso|compra impulsiva|compras impulsivas\"",
-    "pt|study_l01|study_l01_003||hedging_missing||foi relatado|estudos mostram|pesquisas sugerem|pesquisas mostram|foi reportado|estudos sugerem||報告されている||JA has hedging \"報告されている\" but PT missing equivalent \"foi relatado|estudos mostram|pesquisas sugerem|pesquisas mostram|foi reportado|estudos sugerem\"",
-    "pt|work_l01|work_l01_005||hedging_missing||foi relatado|estudos mostram|pesquisas sugerem|pesquisas mostram|foi reportado|estudos sugerem||報告されている||JA has hedging \"報告されている\" but PT missing equivalent \"foi relatado|estudos mostram|pesquisas sugerem|pesquisas mostram|foi reportado|estudos sugerem\""
-  ]
+  "generatedAt": "2026-02-11T06:16:37.802Z",
+  "total": 0,
+  "entries": []
 }
