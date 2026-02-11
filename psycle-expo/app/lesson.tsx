@@ -16,10 +16,36 @@ import { getEvidenceSummary, getTryValueColor } from "../lib/evidenceSummary";
 import { recordActionExecution, recordStudyCompletion, addXP, XP_REWARDS } from "../lib/streaks";
 import { consumeFocus } from "../lib/focus";
 import { FirstExecutedCelebration } from "../components/FirstExecutedCelebration";
-import { hasCompletedFirstExecuted, markFirstExecutedComplete } from "../lib/onboarding";
+import {
+  hasCompletedFirstExecuted,
+  hasCompletedFirstLesson,
+  markFirstExecutedComplete,
+  markFirstLessonComplete,
+} from "../lib/onboarding";
 import { Analytics } from "../lib/analytics";
 import { formatCitation } from "../lib/evidenceUtils";
 import i18n from "../lib/i18n";
+import entitlements from "../config/entitlements.json";
+
+interface LessonDefaultsConfig {
+  defaults?: {
+    lesson_size?: number;
+    first_session_lesson_size?: number;
+  };
+}
+
+function normalizePositiveInt(value: number | undefined, fallback: number): number {
+  if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
+  const normalized = Math.floor(value);
+  return normalized > 0 ? normalized : fallback;
+}
+
+const lessonDefaults = entitlements as LessonDefaultsConfig;
+const DEFAULT_LESSON_SIZE = normalizePositiveInt(lessonDefaults.defaults?.lesson_size, 10);
+const FIRST_SESSION_LESSON_SIZE = normalizePositiveInt(
+  lessonDefaults.defaults?.first_session_lesson_size,
+  Math.min(5, DEFAULT_LESSON_SIZE)
+);
 
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
@@ -125,10 +151,25 @@ export default function LessonScreen() {
         return;
       }
 
-      if (__DEV__) console.log("Setting questions, count:", lesson.questions.length);
+      const firstLessonCompleted = await hasCompletedFirstLesson();
+      const isIntroLesson = /_l01$/.test(params.file);
+      const shouldShortenFirstSession =
+        !firstLessonCompleted &&
+        isIntroLesson &&
+        (lesson.nodeType === "lesson" || !lesson.nodeType);
+      const effectiveQuestions = shouldShortenFirstSession
+        ? lesson.questions.slice(0, Math.min(FIRST_SESSION_LESSON_SIZE, lesson.questions.length))
+        : lesson.questions;
+      if (__DEV__) {
+        console.log(
+          "Setting questions, count:",
+          effectiveQuestions.length,
+          shouldShortenFirstSession ? "(first-session shortened)" : ""
+        );
+      }
       setCurrentLesson(lesson);
-      setOriginalQuestions(lesson.questions);
-      setQuestions(lesson.questions);
+      setOriginalQuestions(effectiveQuestions);
+      setQuestions(effectiveQuestions);
       setLoading(false);
 
       // Analytics: lesson_start (同一lessonIdで2回送らない)
@@ -236,6 +277,7 @@ export default function LessonScreen() {
     } else {
       // Lesson complete
       completeLesson(params.file);
+      await markFirstLessonComplete();
       addXp(currentLesson?.nodeType === 'review_blackhole' ? 50 : 10); // Bonus XP or standard
       incrementQuest("q_daily_3lessons");
 
