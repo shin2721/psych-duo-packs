@@ -24,7 +24,16 @@ import i18n from "../lib/i18n";
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
   const fileParam = params.file; // Extract to primitive string
-  const { completeLesson, addXp, incrementQuest, consumeEnergy, tryTriggerStreakEnergyBonus, energy, maxEnergy } = useAppState();
+  const {
+    completeLesson,
+    addXp,
+    incrementQuest,
+    consumeEnergy,
+    lessonEnergyCost,
+    tryTriggerStreakEnergyBonus,
+    energy,
+    maxEnergy,
+  } = useAppState();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
@@ -91,8 +100,8 @@ export default function LessonScreen() {
         throw new Error(`Lesson not found: ${params.file}`);
       }
 
-      // Hard gate: energy is consumed once per lesson start.
-      const hasEnoughEnergy = consumeEnergy(1);
+      // Hard gate: consume configured energy cost once per lesson start.
+      const hasEnoughEnergy = consumeEnergy(lessonEnergyCost);
       if (!hasEnoughEnergy) {
         setLoading(false);
         const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
