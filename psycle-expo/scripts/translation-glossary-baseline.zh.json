@@ -1,15 +1,6 @@
 {
   "version": 1,
-  "generatedAt": "2026-02-11T06:16:37.839Z",
-  "total": 8,
-  "entries": [
-    "zh|mental_l03|mental_l03_006||hedging_missing||有时|有时候|在某些情况下|某些情况下|在一些情况下||場合がある||JA has hedging \"場合がある\" but ZH missing equivalent \"有时|有时候|在某些情况下|某些情况下|在一些情况下\"",
-    "zh|mental_l05|mental_l05_002|question|banned|||||绝对会|过于断定: 使用'可能'或'倾向于'",
-    "zh|mental_l05|mental_l05_002||hedging_missing||有时|有时候|在某些情况下|某些情况下|在一些情况下||場合がある||JA has hedging \"場合がある\" but ZH missing equivalent \"有时|有时候|在某些情况下|某些情况下|在一些情况下\"",
-    "zh|mental_l05|mental_l05_004|choices[2]|banned|||||绝对会|过于断定: 使用'可能'或'倾向于'",
-    "zh|money_l01|money_l01_002||hedging_missing||有时|有时候|在某些情况下|某些情况下|在一些情况下||場合がある||JA has hedging \"場合がある\" but ZH missing equivalent \"有时|有时候|在某些情况下|某些情况下|在一些情况下\"",
-    "zh|money_l01|money_l01_003||hedging_missing||倾向于|有.*倾向|趋势|往往|更容易|容易|常常|通常||傾向がある||JA has hedging \"傾向がある\" but ZH missing equivalent \"倾向于|有.*倾向|趋势|往往|更容易|容易|常常|通常\"",
-    "zh|money_l01|money_l01_009||hedging_missing||有时|有时候|在某些情况下|某些情况下|在一些情况下||場合がある||JA has hedging \"場合がある\" but ZH missing equivalent \"有时|有时候|在某些情况下|某些情况下|在一些情况下\"",
-    "zh|work_l01|work_l01_009||hedging_missing||有时|有时候|在某些情况下|某些情况下|在一些情况下||場合がある||JA has hedging \"場合がある\" but ZH missing equivalent \"有时|有时候|在某些情况下|某些情况下|在一些情况下\""
-  ]
+  "generatedAt": "2026-02-11T06:31:00.493Z",
+  "total": 0,
+  "entries": []
 }
