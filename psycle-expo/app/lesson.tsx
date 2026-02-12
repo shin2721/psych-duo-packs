@@ -13,7 +13,7 @@ import { VictoryConfetti } from "../components/VictoryConfetti";
 import { FireflyLoader } from "../components/FireflyLoader";
 import { logFeltBetter, logInterventionInteraction, hasLoggedShownThisSession, markShownLogged, resetSessionTracking } from "../lib/dogfood";
 import { getEvidenceSummary, getTryValueColor } from "../lib/evidenceSummary";
-import { recordActionExecution, recordStudyCompletion, addXP, XP_REWARDS } from "../lib/streaks";
+import { recordActionExecution, recordStudyCompletion, addXP, XP_REWARDS, getStreakData, dateKey } from "../lib/streaks";
 import { consumeFocus } from "../lib/focus";
 import { FirstExecutedCelebration } from "../components/FirstExecutedCelebration";
 import { hasCompletedFirstExecuted, markFirstExecutedComplete } from "../lib/onboarding";
@@ -41,6 +41,7 @@ export default function LessonScreen() {
   const [feltBetterSubmitted, setFeltBetterSubmitted] = useState(false); // Track if felt_better submitted
   const [lastShownInterventionId, setLastShownInterventionId] = useState<string | null>(null); // 最後にshownになった介入ID
   const [showFirstExecutedCelebration, setShowFirstExecutedCelebration] = useState(false); // 初回executed達成お祝い
+  const [studyStreakFeedback, setStudyStreakFeedback] = useState<number | null>(null);
   const hasLoadedRef = useRef<string | null>(null);
   const lessonStartTrackedRef = useRef<string | null>(null); // lesson_start多重発火防止
   const lessonCompleteTrackedRef = useRef<string | null>(null); // lesson_complete多重発火防止
@@ -233,8 +234,19 @@ export default function LessonScreen() {
       incrementQuest("q_daily_3lessons");
 
       // ゲーミフィケーション: Study Streak + XP
-      await recordStudyCompletion();
+      const streakBefore = await getStreakData();
+      const firstStudyOfToday = streakBefore.lastStudyDate !== dateKey();
+      const streakData = await recordStudyCompletion();
       await addXP(XP_REWARDS.LESSON_COMPLETE);
+      setStudyStreakFeedback(firstStudyOfToday ? streakData.studyStreak : null);
+
+      if (firstStudyOfToday) {
+        Analytics.track("streak_feedback_shown", {
+          lessonId: params.file,
+          genreId,
+          streakDays: streakData.studyStreak,
+        });
+      }
 
       // Analytics: lesson_complete (同一lessonIdで2回送らない)
       if (lessonCompleteTrackedRef.current !== params.file) {
@@ -298,6 +310,20 @@ export default function LessonScreen() {
           <ScrollView contentContainerStyle={styles.completionContainer}>
             <Text style={styles.completionTitle}>{i18n.t("lesson.completeTitle")}</Text>
             <Text style={styles.completionSub}>+{currentLesson?.nodeType === 'review_blackhole' ? 50 : 10} XP</Text>
+            {studyStreakFeedback !== null && studyStreakFeedback > 0 && (
+              <View style={styles.streakFeedbackCard}>
+                <Text style={styles.streakFeedbackTitle}>
+                  {i18n.locale.startsWith("ja")
+                    ? `🔥 ${studyStreakFeedback}日連続`
+                    : `🔥 ${studyStreakFeedback}-day streak`}
+                </Text>
+                <Text style={styles.streakFeedbackSub}>
+                  {i18n.locale.startsWith("ja")
+                    ? "今日の学習を記録しました"
+                    : "You kept your streak alive today"}
+                </Text>
+              </View>
+            )}
 
             {/* Felt Better Rating */}
             {!feltBetterSubmitted && lastShownInterventionId && (
@@ -734,6 +760,28 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
     fontWeight: 'bold',
     marginBottom: 40,
+  },
+  streakFeedbackCard: {
+    width: "100%",
+    backgroundColor: "rgba(255, 189, 46, 0.14)",
+    borderWidth: 1,
+    borderColor: "rgba(255, 189, 46, 0.4)",
+    borderRadius: 16,
+    paddingVertical: 16,
+    paddingHorizontal: 18,
+    alignItems: "center",
+    marginBottom: 24,
+  },
+  streakFeedbackTitle: {
+    fontSize: 22,
+    fontWeight: "800",
+    color: theme.colors.text,
+    marginBottom: 6,
+  },
+  streakFeedbackSub: {
+    fontSize: 13,
+    color: theme.colors.sub,
+    textAlign: "center",
   },
   referencesContainer: {
     width: '100%',

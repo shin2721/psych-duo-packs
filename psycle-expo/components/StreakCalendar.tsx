@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
 import { dateKey } from '../lib/streaks';
 
@@ -51,8 +52,7 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
     };
 
     const getDayLabel = (dateString: string) => {
-        const date = new Date(dateString);
-        const day = date.getDate();
+        const day = Number(dateString.split('-')[2] || '0');
         return day === 1 || day === 15 ? day.toString() : '';
     };
 
@@ -70,7 +70,11 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
                                 },
                                 getGlow(day.data?.xp || 0),
                             ]}
-                        />
+                        >
+                            {(day.data?.lessonsCompleted || 0) > 0 && (
+                                <Ionicons name="checkmark" size={10} color="#0b1720" />
+                            )}
+                        </View>
                         {getDayLabel(day.date) && (
                             <Text style={styles.dayLabel}>{getDayLabel(day.date)}</Text>
                         )}
@@ -111,9 +115,11 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     day: {
-        width: 12,
-        height: 12,
+        width: 14,
+        height: 14,
         borderRadius: 2,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     dayLabel: {
         fontSize: 8,

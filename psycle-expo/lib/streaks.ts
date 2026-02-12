@@ -14,6 +14,8 @@ export interface StreakData {
     // Study Streak
     studyStreak: number;
     lastStudyDate: string | null;  // YYYY-MM-DD
+    // Daily history (for calendar / widgets)
+    studyHistory: Record<string, { lessonsCompleted: number; xp: number }>;
 
     // Action Streak (主役)
     actionStreak: number;
@@ -32,6 +34,7 @@ export interface StreakData {
 const DEFAULT_STATE: StreakData = {
     studyStreak: 0,
     lastStudyDate: null,
+    studyHistory: {},
     actionStreak: 0,
     lastActionDate: null,
     freezesRemaining: 2,
@@ -55,6 +58,23 @@ export function dateKey(d: Date = new Date()): string {
 
 function getToday(): string {
     return dateKey();
+}
+
+function pruneStudyHistory(
+    history: Record<string, { lessonsCompleted: number; xp: number }>,
+    keepDays = 45
+): Record<string, { lessonsCompleted: number; xp: number }> {
+    const todayDay = dateKeyToUtcDay(getToday());
+    const pruned: Record<string, { lessonsCompleted: number; xp: number }> = {};
+
+    for (const [date, value] of Object.entries(history)) {
+        const diff = todayDay - dateKeyToUtcDay(date);
+        if (diff >= 0 && diff <= keepDays) {
+            pruned[date] = value;
+        }
+    }
+
+    return pruned;
 }
 
 function getWeekStart(date: Date): string {
@@ -85,6 +105,7 @@ export async function getStreakData(): Promise<StreakData> {
         if (!raw) return { ...DEFAULT_STATE };
 
         const data = JSON.parse(raw) as StreakData;
+        data.studyHistory = pruneStudyHistory(data.studyHistory || {});
 
         // 週が変わったらfreezeを最低weekly_refillに補充（購入分は消さない）
         const currentWeekStart = getWeekStart(new Date());
@@ -117,11 +138,7 @@ async function saveStreakData(data: StreakData): Promise<void> {
 export async function recordStudyCompletion(): Promise<StreakData> {
     const data = await getStreakData();
     const today = getToday();
-
-    if (data.lastStudyDate === today) {
-        // 今日すでに記録済み
-        return data;
-    }
+    const firstStudyOfToday = data.lastStudyDate !== today;
 
     // ローカル時間で昨日の日付を取得
     const yesterday = new Date();
@@ -131,15 +148,24 @@ export async function recordStudyCompletion(): Promise<StreakData> {
     const day = String(yesterday.getDate()).padStart(2, '0');
     const yesterdayStr = `${year}-${month}-${day}`;
 
-    if (data.lastStudyDate === yesterdayStr) {
+    if (firstStudyOfToday && data.lastStudyDate === yesterdayStr) {
         // 昨日やっていた → 継続
         data.studyStreak++;
-    } else if (data.lastStudyDate !== today) {
+    } else if (firstStudyOfToday) {
         // 途切れた → 1からスタート（Study StreakはFreeze対象外 - 行動が主役）
         data.studyStreak = 1;
     }
 
-    data.lastStudyDate = today;
+    if (firstStudyOfToday) {
+        data.lastStudyDate = today;
+    }
+
+    const todayHistory = data.studyHistory[today] || { lessonsCompleted: 0, xp: 0 };
+    data.studyHistory[today] = {
+        ...todayHistory,
+        lessonsCompleted: todayHistory.lessonsCompleted + 1,
+    };
+    data.studyHistory = pruneStudyHistory(data.studyHistory);
     await saveStreakData(data);
     return data;
 }
@@ -199,6 +225,13 @@ export async function addXP(amount: number): Promise<StreakData> {
     data.totalXP += amount;
     data.todayXP += amount;
     data.xpDate = getToday();
+    const today = getToday();
+    const todayHistory = data.studyHistory[today] || { lessonsCompleted: 0, xp: 0 };
+    data.studyHistory[today] = {
+        ...todayHistory,
+        xp: todayHistory.xp + amount,
+    };
+    data.studyHistory = pruneStudyHistory(data.studyHistory);
     await saveStreakData(data);
     return data;
 }
