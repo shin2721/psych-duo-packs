@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet, Pressable, Alert } from "react-native";
+import React, { useState, useEffect, useCallback } from "react";
+import { StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
-import { theme } from "../../lib/theme";
-import { genres, trailsByGenre } from "../../lib/data";
+import { useFocusEffect } from "@react-navigation/native";
+import { trailsByGenre } from "../../lib/data";
 import { useAppState } from "../../lib/state";
 import { Trail } from "../../components/trail";
 import { Modal } from "../../components/Modal";
 import { GlobalHeader } from "../../components/GlobalHeader";
+import { StudyStreakWidget, StudyActivityDay } from "../../components/StudyStreakWidget";
 import { LeagueResultModal } from "../../components/LeagueResultModal";
 import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
-import { getStreakData } from "../../lib/streaks";
+import { dateKey, getStreakData } from "../../lib/streaks";
 import { useAuth } from "../../lib/AuthContext";
 import { router } from "expo-router";
+import { Analytics } from "../../lib/analytics";
 import i18n from "../../lib/i18n";
 
 
@@ -34,6 +35,9 @@ export default function CourseScreen() {
   const [modalNode, setModalNode] = useState<any>(null);
   const [leagueResult, setLeagueResult] = useState<LeagueResult | null>(null);
   const [showLeagueResult, setShowLeagueResult] = useState(false);
+  const [studyStreakDays, setStudyStreakDays] = useState(0);
+  const [todayLessonsCompleted, setTodayLessonsCompleted] = useState(0);
+  const [recentStudyActivity, setRecentStudyActivity] = useState<StudyActivityDay[]>([]);
 
   // リーグ結果チェック（アプリ起動時）
   useEffect(() => {
@@ -47,6 +51,45 @@ export default function CourseScreen() {
     }
     checkLeagueResult();
   }, [user]);
+
+  useFocusEffect(
+    useCallback(() => {
+      let isActive = true;
+
+      const buildRecentActivity = (studyHistory: Record<string, { lessonsCompleted: number; xp: number }>) => {
+        const days: StudyActivityDay[] = [];
+        const now = new Date();
+
+        for (let i = 13; i >= 0; i--) {
+          const d = new Date(now);
+          d.setDate(now.getDate() - i);
+          const key = dateKey(d);
+          const lessons = studyHistory[key]?.lessonsCompleted || 0;
+          days.push({
+            date: key,
+            completed: lessons > 0,
+            isToday: i === 0,
+          });
+        }
+        return days;
+      };
+
+      const loadStudyWidget = async () => {
+        const streakData = await getStreakData();
+        const studyHistory = streakData.studyHistory || {};
+        const today = dateKey();
+        if (!isActive) return;
+        setStudyStreakDays(streakData.studyStreak || 0);
+        setTodayLessonsCompleted(studyHistory[today]?.lessonsCompleted || 0);
+        setRecentStudyActivity(buildRecentActivity(studyHistory));
+      };
+
+      loadStudyWidget().catch(console.error);
+      return () => {
+        isActive = false;
+      };
+    }, [])
+  );
 
   const themeColor = GENRE_COLORS[selectedGenre] || GENRE_COLORS.mental;
   const baseTrail = trailsByGenre[selectedGenre] || trailsByGenre.mental;
@@ -106,6 +149,15 @@ export default function CourseScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <GlobalHeader />
+      <StudyStreakWidget
+        streakDays={studyStreakDays}
+        todayLessons={todayLessonsCompleted}
+        recentActivity={recentStudyActivity}
+        onOpenCalendar={() => {
+          Analytics.track("streak_widget_opened", { source: "course_home" });
+          router.push("/(tabs)/quests");
+        }}
+      />
 
       {/* Stats Cards REMOVED as per minimal design requirement */}
 

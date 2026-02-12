@@ -12,7 +12,25 @@
  * - --json (print JSON only)
  */
 
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+
 const DEFAULT_HOST = "https://app.posthog.com";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const GAMIFICATION_CONFIG_PATH = path.resolve(__dirname, "../config/gamification.json");
+
+const DEFAULT_TUNING_TARGETS = {
+  anomaly_worsening_threshold: 0.2,
+  lesson_completion_rate_uv_7d_min: 0.55,
+  energy_block_rate_7d_max: 0.25,
+  energy_shop_intent_7d_min: 0.08,
+  d1_retention_rate_7d_min: 0.25,
+  d7_retention_rate_7d_min: 0.08,
+  paid_plan_changes_per_checkout_7d_min: 0.18,
+};
+
 const DASHBOARD_NAMES = [
   "Psycle Growth Dashboard (v1.6)",
   "Psycle Growth Dashboard (v1.5)",
@@ -70,6 +88,19 @@ function buildConfig() {
     dashboardId: options["--dashboard-id"] || process.env.POSTHOG_DASHBOARD_ID || "",
     jsonOnly: flags.has("--json"),
   };
+}
+
+function loadTuningTargets() {
+  try {
+    const raw = fs.readFileSync(GAMIFICATION_CONFIG_PATH, "utf8");
+    const parsed = JSON.parse(raw);
+    return {
+      ...DEFAULT_TUNING_TARGETS,
+      ...(parsed?.tuning_targets || {}),
+    };
+  } catch {
+    return { ...DEFAULT_TUNING_TARGETS };
+  }
 }
 
 async function apiRequest(config, method, path, body) {
@@ -223,7 +254,7 @@ function retentionRateForWindow(insight, dayIndex, startDay, endDay) {
   return safeRate(retained, cohorts);
 }
 
-function buildAnomalies(metrics) {
+function buildAnomalies(metrics, worseningThreshold) {
   const checks = [
     {
       key: "lesson_completion_rate_uv_7d",
@@ -264,7 +295,7 @@ function buildAnomalies(metrics) {
     if (current == null || previous == null || previous === 0) continue;
     const delta = pctChange(current, previous);
     if (delta == null) continue;
-    const worsened = c.higherIsBetter ? delta <= -0.2 : delta >= 0.2;
+    const worsened = c.higherIsBetter ? delta <= -worseningThreshold : delta >= worseningThreshold;
     if (worsened) {
       anomalies.push({
         metric: c.label,
@@ -277,21 +308,89 @@ function buildAnomalies(metrics) {
   return anomalies;
 }
 
-function buildRecommendedActions(anomalies) {
-  const actions = [];
-  const has = (name) => anomalies.some((a) => a.metric === name);
+function buildTargetBreaches(metrics, targets) {
+  const checks = [
+    {
+      key: "lesson_completion_rate_uv_7d",
+      label: "Lesson Completion Rate 7d",
+      target: targets.lesson_completion_rate_uv_7d_min,
+      mode: "min",
+    },
+    {
+      key: "energy_block_rate_7d",
+      label: "Energy Block Rate 7d",
+      target: targets.energy_block_rate_7d_max,
+      mode: "max",
+    },
+    {
+      key: "energy_shop_intent_7d",
+      label: "Energy Shop Intent 7d",
+      target: targets.energy_shop_intent_7d_min,
+      mode: "min",
+    },
+    {
+      key: "d1_retention_rate_7d",
+      label: "D1 Retention 7d",
+      target: targets.d1_retention_rate_7d_min,
+      mode: "min",
+    },
+    {
+      key: "d7_retention_rate_7d",
+      label: "D7 Retention 7d",
+      target: targets.d7_retention_rate_7d_min,
+      mode: "min",
+    },
+    {
+      key: "paid_plan_changes_per_checkout_7d",
+      label: "Paid Plan Conversion 7d",
+      target: targets.paid_plan_changes_per_checkout_7d_min,
+      mode: "min",
+    },
+  ];
 
-  if (has("Lesson Completion Rate") || has("Incorrect Per Lesson Start")) {
+  const breaches = [];
+  for (const c of checks) {
+    const current = metrics[c.key];
+    if (current == null || c.target == null) continue;
+    const breached = c.mode === "min" ? current < c.target : current > c.target;
+    if (breached) {
+      breaches.push({
+        metric: c.label,
+        current,
+        target: c.target,
+        mode: c.mode,
+      });
+    }
+  }
+  return breaches;
+}
+
+function buildRecommendedActions(anomalies, breaches) {
+  const actions = [];
+  const flagged = new Set([
+    ...anomalies.map((a) => a.metric),
+    ...breaches.map((b) => b.metric),
+  ]);
+
+  if (flagged.has("Lesson Completion Rate") || flagged.has("Lesson Completion Rate 7d") || flagged.has("Incorrect Per Lesson Start")) {
     actions.push("レッスン冒頭10問を易化し、誤答時ヒントを必ず表示する。");
   }
-  if (has("Energy Block Rate") || has("Energy Shop Intent")) {
-    actions.push("無料プランの回復速度またはボーナス回復確率を微調整し、エネルギー不足時CTA文言をA/Bする。");
+  if (
+    flagged.has("Energy Block Rate")
+    || flagged.has("Energy Block Rate 7d")
+    || flagged.has("Energy Shop Intent")
+    || flagged.has("Energy Shop Intent 7d")
+  ) {
+    actions.push("focus.recovery_rate_per_hour を +0.25 刻みで調整し、energy_blocked→shop_open_from_energy 導線文言をA/Bする。");
   }
-  if (has("D1 Retention") || has("D7 Retention")) {
-    actions.push("初回〜3日目の復帰導線（1問クイック再開導線）を追加して通知タイミングを最適化する。");
+  if (flagged.has("Paid Plan Conversion 7d")) {
+    actions.push("shop_open_from_energy→checkout_start の遷移率を改善するため、購読価値訴求を1画面目に集約する。");
+  }
+  if (flagged.has("D1 Retention") || flagged.has("D1 Retention 7d") || flagged.has("D7 Retention") || flagged.has("D7 Retention 7d")) {
+    actions.push("初回〜3日目の復帰導線（連続日数フィードバック・カレンダー再訪導線）を強化する。");
   }
   if (actions.length === 0) {
-    actions.push("主要KPIの悪化は20%未満。今週はイベント欠損監視とサンプル数増加を優先する。");
+    actions.push("主要KPIの悪化は閾値未満。今週はイベント欠損監視とサンプル数増加を優先する。");
     actions.push("checkout_start と plan_changed の件数推移を監視して、課金導線のボトルネックを特定する。");
     actions.push("7日比較を維持し、次の悪化指標が出た時点で単一施策のみ実行する。");
   }
@@ -317,6 +416,7 @@ async function resolveDashboard(config) {
 
 async function main() {
   const config = buildConfig();
+  const tuningTargets = loadTuningTargets();
   if (!config.token || !config.projectId) {
     throw new Error("Missing required credentials (POSTHOG_PERSONAL_API_KEY / POSTHOG_PROJECT_ID).");
   }
@@ -465,16 +565,27 @@ async function main() {
     checkout_start_7d_prev: sumWindow(checkoutStartTrend.combined, previousStart, previousEnd),
     paid_plan_changes_7d: sumWindow(paidPlanChangedTrend.combined, currentStart, anchorDay),
     paid_plan_changes_7d_prev: sumWindow(paidPlanChangedTrend.combined, previousStart, previousEnd),
+    paid_plan_changes_per_checkout_7d: safeRate(
+      sumWindow(paidPlanChangedTrend.combined, currentStart, anchorDay),
+      sumWindow(checkoutStartTrend.combined, currentStart, anchorDay)
+    ),
+    paid_plan_changes_per_checkout_7d_prev: safeRate(
+      sumWindow(paidPlanChangedTrend.combined, previousStart, previousEnd),
+      sumWindow(checkoutStartTrend.combined, previousStart, previousEnd)
+    ),
   };
 
-  const anomalies = buildAnomalies(metrics);
-  const actions = buildRecommendedActions(anomalies);
+  const anomalies = buildAnomalies(metrics, tuningTargets.anomaly_worsening_threshold);
+  const targetBreaches = buildTargetBreaches(metrics, tuningTargets);
+  const actions = buildRecommendedActions(anomalies, targetBreaches);
 
   const output = {
     dashboard_id: dashboard.id,
     dashboard_name: dashboard.name,
     metrics,
+    tuning_targets: tuningTargets,
     anomalies,
+    target_breaches: targetBreaches,
     recommended_actions: actions,
   };
 
@@ -512,14 +623,29 @@ async function main() {
   console.log(
     `Paid Plan Changes 7d: ${formatNum(metrics.paid_plan_changes_7d, 0)} (prev ${formatNum(metrics.paid_plan_changes_7d_prev, 0)})`
   );
+  console.log(
+    `Paid Plan Conversion 7d: ${formatNum(metrics.paid_plan_changes_per_checkout_7d * 100, 2)}% (prev ${formatNum(metrics.paid_plan_changes_per_checkout_7d_prev * 100, 2)}%)`
+  );
   console.log("");
   if (anomalies.length === 0) {
-    console.log("Anomalies (>=20% worsening): none");
+    console.log(`Anomalies (>=${formatNum(tuningTargets.anomaly_worsening_threshold * 100, 0)}% worsening): none`);
   } else {
-    console.log("Anomalies (>=20% worsening):");
+    console.log(`Anomalies (>=${formatNum(tuningTargets.anomaly_worsening_threshold * 100, 0)}% worsening):`);
     anomalies.forEach((a) => {
       const deltaPct = formatNum(a.delta * 100, 1);
       console.log(`- ${a.metric}: ${formatNum(a.current, 4)} vs ${formatNum(a.previous, 4)} (${deltaPct}%)`);
+    });
+  }
+  console.log("");
+  if (targetBreaches.length === 0) {
+    console.log("Target Breaches: none");
+  } else {
+    console.log("Target Breaches:");
+    targetBreaches.forEach((b) => {
+      const currentPct = formatNum(b.current * 100, 2);
+      const targetPct = formatNum(b.target * 100, 2);
+      const sign = b.mode === "min" ? "<" : ">";
+      console.log(`- ${b.metric}: ${currentPct}% ${sign} target ${targetPct}%`);
     });
   }
   console.log("");

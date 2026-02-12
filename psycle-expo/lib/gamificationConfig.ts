@@ -34,12 +34,23 @@ export interface FocusConfig {
     recovery_rate_per_hour: number;
 }
 
+export interface TuningTargetsConfig {
+    anomaly_worsening_threshold: number;
+    lesson_completion_rate_uv_7d_min: number;
+    energy_block_rate_7d_max: number;
+    energy_shop_intent_7d_min: number;
+    d1_retention_rate_7d_min: number;
+    d7_retention_rate_7d_min: number;
+    paid_plan_changes_per_checkout_7d_min: number;
+}
+
 export interface GamificationConfig {
     version: number;
     xp_rewards: XPRewards;
     freeze: FreezeConfig;
     streak: StreakConfig;
     focus: FocusConfig;
+    tuning_targets: TuningTargetsConfig;
 }
 
 // Default values (fallback if config is corrupted)
@@ -66,6 +77,15 @@ const DEFAULT_CONFIG: GamificationConfig = {
         lesson_cost: 1,
         recovery_rate_per_hour: 1,
     },
+    tuning_targets: {
+        anomaly_worsening_threshold: 0.2,
+        lesson_completion_rate_uv_7d_min: 0.55,
+        energy_block_rate_7d_max: 0.25,
+        energy_shop_intent_7d_min: 0.08,
+        d1_retention_rate_7d_min: 0.25,
+        d7_retention_rate_7d_min: 0.08,
+        paid_plan_changes_per_checkout_7d_min: 0.18,
+    },
 };
 
 // Merge config with defaults (in case some fields are missing)
@@ -77,6 +97,7 @@ function loadConfig(): GamificationConfig {
             freeze: { ...DEFAULT_CONFIG.freeze, ...configData.freeze },
             streak: { ...DEFAULT_CONFIG.streak, ...configData.streak },
             focus: { ...DEFAULT_CONFIG.focus, ...configData.focus },
+            tuning_targets: { ...DEFAULT_CONFIG.tuning_targets, ...((configData as any).tuning_targets || {}) },
         };
     } catch (e) {
         console.warn('[GamificationConfig] Failed to load config, using defaults:', e);
@@ -102,4 +123,8 @@ export function getStreakConfig(): StreakConfig {
 
 export function getFocusConfig(): FocusConfig {
     return gamificationConfig.focus;
+}
+
+export function getTuningTargetsConfig(): TuningTargetsConfig {
+    return gamificationConfig.tuning_targets;
 }

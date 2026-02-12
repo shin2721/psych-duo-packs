@@ -20,5 +20,14 @@
         "max": 25,
         "lesson_cost": 1,
         "recovery_rate_per_hour": 1
+    },
+    "tuning_targets": {
+        "anomaly_worsening_threshold": 0.2,
+        "lesson_completion_rate_uv_7d_min": 0.55,
+        "energy_block_rate_7d_max": 0.25,
+        "energy_shop_intent_7d_min": 0.08,
+        "d1_retention_rate_7d_min": 0.25,
+        "d7_retention_rate_7d_min": 0.08,
+        "paid_plan_changes_per_checkout_7d_min": 0.18
     }
 }
