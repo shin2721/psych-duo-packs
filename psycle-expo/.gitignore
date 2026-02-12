@@ -57,6 +57,9 @@ docs/_reports/
 # Logs
 logs/
 
+# Detox/E2E artifacts
+artifacts/
+
 # IMPORTANT: When creating distribution archives (zip/tar), ensure .env files are excluded
 # Example exclusion patterns for common archive tools:
 # zip -r app.zip . -x "*.env*" ".env*"

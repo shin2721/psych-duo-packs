@@ -23,13 +23,14 @@ export default function SettingsScreen() {
     const [hapticsEnabled, setHapticsEnabled] = useState(true);
     const [isRestoring, setIsRestoring] = useState(false);
     const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
+    const isAnalyticsDebugEnabled = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
 
-    // Secret 5-tap entry for Analytics Debug (DEV only)
+    // Secret 5-tap entry for Analytics Debug (DEV + E2E release)
     const titleTapCount = useRef(0);
     const titleTapTimeout = useRef<NodeJS.Timeout | null>(null);
 
     const handleTitleTap = () => {
-        if (!__DEV__) return; // No-op in Release
+        if (!isAnalyticsDebugEnabled) return;
 
         titleTapCount.current += 1;
 
@@ -120,13 +121,13 @@ export default function SettingsScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView testID="settings-scroll">
                 {/* Header */}
                 <View style={styles.header}>
                     <Pressable onPress={() => router.back()} style={styles.backButton}>
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
-                    <Pressable onPress={handleTitleTap}>
+                    <Pressable onPress={handleTitleTap} testID="settings-title-tap">
                         <Text style={styles.headerTitle}>{i18n.t("settings.title")}</Text>
                     </Pressable>
                     <View style={{ width: 40 }} />
@@ -203,8 +204,8 @@ export default function SettingsScreen() {
                     />
                 </View>
 
-                {/* Debug Section (Dev only) */}
-                {__DEV__ && (
+                {/* Debug Section (Dev + E2E release) */}
+                {isAnalyticsDebugEnabled && (
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>{i18n.t("settings.debug")}</Text>
                         <SettingRow

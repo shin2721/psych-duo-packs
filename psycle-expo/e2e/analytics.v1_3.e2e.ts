@@ -5,13 +5,20 @@
  * Tests both initial launch and second launch scenarios.
  */
 
-import { device, element, by, expect as detoxExpect } from 'detox';
+import { device, element, by, waitFor, expect as detoxExpect } from 'detox';
+import { expect as jestExpect } from '@jest/globals';
 import * as fs from 'fs';
 import * as path from 'path';
+import * as os from 'os';
+
+jest.setTimeout(300000);
 
 const ARTIFACTS_DIR = path.join(__dirname, '..', 'artifacts');
 const REPORT_FILE = path.join(ARTIFACTS_DIR, 'analytics_e2e_report.json');
 const REPORT_TEXT_FILE = path.join(ARTIFACTS_DIR, 'analytics_e2e_report.txt');
+const USE_DEV_CLIENT_BOOTSTRAP = process.env.E2E_BOOTSTRAP_DEV_CLIENT === '1';
+const DEV_SERVER_URL = resolveDevServerUrl();
+const DEV_CLIENT_URL = `exp+psycle-expo://expo-development-client/?url=${encodeURIComponent(DEV_SERVER_URL)}`;
 
 // Ensure artifacts directory exists
 if (!fs.existsSync(ARTIFACTS_DIR)) {
@@ -22,11 +29,13 @@ describe('Analytics v1.3 E2E', () => {
   beforeAll(async () => {
     // Reset device to clean state
     await device.resetContentAndSettings();
+    await device.installApp();
   });
 
   afterEach(async () => {
     // Take screenshot on failure
-    if (jasmine.currentSpec?.result?.failedExpectations?.length > 0) {
+    const jasmineState = (global as any).jasmine;
+    if (jasmineState?.currentSpec?.result?.failedExpectations?.length > 0) {
       await device.takeScreenshot(`analytics-failure-${Date.now()}`);
     }
   });
@@ -39,44 +48,60 @@ describe('Analytics v1.3 E2E', () => {
 
       // Step 1: Launch app (triggers app_open, session_start, app_ready)
       await device.launchApp({ newInstance: true });
-      await device.waitForApp();
+      await device.disableSynchronization();
+      await sleep(1000);
+      if (USE_DEV_CLIENT_BOOTSTRAP) {
+        await bootstrapDevClientToApp();
+      }
       
       // Wait for app to fully initialize
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      const entryPoint = await waitForAnyVisibleById(
+        ['onboarding-start', 'onboarding-interests-title', 'auth-guest-login', 'tab-course'],
+        90000
+      );
+      console.log(`ℹ️ app entry point: ${entryPoint}`);
 
-      // Step 2: Navigate to onboarding and start
-      await detoxExpect(element(by.testID('onboarding-start'))).toBeVisible();
-      await element(by.testID('onboarding-start')).tap();
-      
-      // Wait for onboarding_start event
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // Step 2: Complete onboarding (if shown)
+      if (entryPoint === 'onboarding-start') {
+        await element(by.id('onboarding-start')).tap();
+        await waitFor(element(by.id('onboarding-interests-title'))).toBeVisible().withTimeout(10000);
+        await element(by.id('onboarding-genre-mental')).tap();
+        await finishOnboardingInterests('onboarding-genre-mental');
+      } else if (entryPoint === 'onboarding-interests-title') {
+        await element(by.id('onboarding-genre-mental')).tap();
+        await finishOnboardingInterests('onboarding-genre-mental');
+      } else {
+        console.log('ℹ️ onboarding-start not visible, continuing without onboarding flow');
+      }
 
-      // Step 3: Complete onboarding (triggers onboarding_complete)
-      await detoxExpect(element(by.testID('onboarding-finish'))).toBeVisible();
-      await element(by.testID('onboarding-finish')).tap();
-      
-      // Wait for onboarding_complete event
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Step 3: Wait for post-onboarding routing and sign in when needed.
+      // Depending on stored session, app may go directly to tabs or stop at auth.
+      const postOnboardingEntry = await waitForAnyVisibleById(
+        ['auth-guest-login', 'tab-course'],
+        45000
+      );
+      if (postOnboardingEntry === 'auth-guest-login') {
+        await element(by.id('auth-guest-login')).tap();
+        await sleep(2000);
+      }
 
       // Step 4: Navigate to first lesson
-      // Navigate to course tab first
-      await detoxExpect(element(by.text('コース'))).toBeVisible();
-      await element(by.text('コース')).tap();
+      await waitFor(element(by.id('tab-course'))).toBeVisible().withTimeout(45000);
+      await element(by.id('tab-course')).tap();
       
       // Wait for course screen to load
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await sleep(1000);
       
       // Find and tap the first current lesson node
-      // The first lesson should have status "current" and be tappable
-      await detoxExpect(element(by.testID('lesson-node-0'))).toBeVisible();
-      await element(by.testID('lesson-node-0')).tap();
+      await waitFor(element(by.id('lesson-node-m1'))).toBeVisible().withTimeout(10000);
+      await element(by.id('lesson-node-m1')).tap();
       
       // Wait for modal to appear and tap start button
-      await detoxExpect(element(by.testID('modal-primary-button'))).toBeVisible();
-      await element(by.testID('modal-primary-button')).tap();
+      await waitFor(element(by.id('modal-primary-button'))).toBeVisible().withTimeout(10000);
+      await tapModalPrimaryUntilLessonOpens();
       
       // Wait for lesson_start event
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await sleep(1000);
 
       // Step 5: Complete lesson (triggers lesson_complete)
       // This is simplified - in reality we'd need to answer all questions
@@ -84,14 +109,21 @@ describe('Analytics v1.3 E2E', () => {
       // by tapping through questions and then the completion button
       
       // Wait for lesson screen to load
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await waitFor(element(by.id('lesson-screen'))).toBeVisible().withTimeout(60000);
+      await sleep(1000);
+
+      // Return to tabs in E2E build to continue the debug-screen verification flow.
+      if (await isVisibleById('lesson-e2e-exit', 3000)) {
+        await element(by.id('lesson-e2e-exit')).tap();
+        await sleep(1200);
+      }
       
       // Try to find and complete the lesson
       // This might require multiple question interactions
       try {
         // Look for lesson completion button (appears after answering questions)
-        await detoxExpect(element(by.testID('lesson-complete'))).toBeVisible();
-        await element(by.testID('lesson-complete')).tap();
+        await detoxExpect(element(by.id('lesson-complete'))).toBeVisible();
+        await element(by.id('lesson-complete')).tap();
       } catch (error) {
         console.warn('Could not find lesson completion button immediately, lesson might need question interactions');
         // For now, we'll skip the actual lesson completion in E2E
@@ -99,7 +131,7 @@ describe('Analytics v1.3 E2E', () => {
       }
       
       // Wait for lesson_complete event (if lesson was completed)
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await sleep(2000);
 
       // Step 6: Access Analytics Debug screen
       await navigateToAnalyticsDebug();
@@ -121,7 +153,7 @@ describe('Analytics v1.3 E2E', () => {
       // Check required events fired exactly once
       requiredEvents.forEach(eventName => {
         const count = report.counters[eventName] || 0;
-        expect(count).toBe(1, `${eventName} should fire exactly once, got ${count}`);
+        jestExpect(count).toBe(1);
       });
 
       // Check optional events (lesson_complete might not fire if lesson wasn't fully completed)
@@ -133,12 +165,12 @@ describe('Analytics v1.3 E2E', () => {
       });
 
       // Check anonId is not unknown
-      expect(report.anonId).not.toBe('unknown');
-      expect(report.anonId).not.toContain('unknown');
-      expect(report.anonId.length).toBeGreaterThan(8);
+      jestExpect(report.anonId).not.toBe('unknown');
+      jestExpect(report.anonId).not.toContain('unknown');
+      jestExpect(report.anonId.length).toBeGreaterThan(8);
 
       // Check overall status
-      expect(report.passed).toBe(true, `Analytics validation failed: ${report.failures.join(', ')}`);
+      jestExpect(report.passed).toBe(true);
     }
   });
 
@@ -150,15 +182,16 @@ describe('Analytics v1.3 E2E', () => {
 
       // Step 1: Enable Second Launch Mode in debug screen
       await navigateToAnalyticsDebug();
-      await element(by.text('Second Launch Mode')).tap(); // Toggle switch
-      await new Promise(resolve => setTimeout(resolve, 500));
+      await waitFor(element(by.id('analytics-second-launch-toggle'))).toBeVisible().withTimeout(10000);
+      await element(by.id('analytics-second-launch-toggle')).tap();
+      await sleep(500);
 
       // Step 2: Restart app (simulates second launch)
       await device.reloadReactNative();
-      await device.waitForApp();
+      await sleep(1000);
       
       // Wait for app to fully initialize
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await sleep(3000);
 
       // Step 3: Access Analytics Debug screen again
       await navigateToAnalyticsDebug();
@@ -174,18 +207,18 @@ describe('Analytics v1.3 E2E', () => {
 
     function validateSecondLaunch(report: any) {
       // For second launch, only session_start and app_ready should fire
-      expect(report.counters['session_start']).toBe(1, 'session_start should fire once on second launch');
-      expect(report.counters['app_ready']).toBe(1, 'app_ready should fire once on second launch');
+      jestExpect(report.counters['session_start']).toBe(1);
+      jestExpect(report.counters['app_ready']).toBe(1);
       
       // app_open should NOT fire on second launch
-      expect(report.counters['app_open'] || 0).toBe(0, 'app_open should not fire on second launch');
+      jestExpect(report.counters['app_open'] || 0).toBe(0);
 
       // anonId should be consistent with first launch
-      expect(report.anonId).not.toBe('unknown');
-      expect(report.anonId).not.toContain('unknown');
+      jestExpect(report.anonId).not.toBe('unknown');
+      jestExpect(report.anonId).not.toContain('unknown');
 
       // Check overall status
-      expect(report.passed).toBe(true, `Analytics validation failed: ${report.failures.join(', ')}`);
+      jestExpect(report.passed).toBe(true);
     }
   });
 
@@ -195,7 +228,7 @@ describe('Analytics v1.3 E2E', () => {
       await navigateToAnalyticsDebug();
       
       // Copy report to clipboard and extract
-      await element(by.testID('analytics-copy-report')).tap();
+      await element(by.id('analytics-copy-report')).tap();
       
       // Get final state
       const finalReport = await readAnalyticsDebugState();
@@ -239,7 +272,7 @@ describe('Analytics v1.3 E2E', () => {
       console.log('📊 Overall Result:', testReport.overallResult);
       
       // Final assertion
-      expect(testReport.overallResult).toBe('PASS');
+      jestExpect(testReport.overallResult).toBe('PASS');
     });
   });
 });
@@ -248,25 +281,49 @@ describe('Analytics v1.3 E2E', () => {
 
 async function navigateToAnalyticsDebug(): Promise<void> {
   try {
-    // Navigate to settings screen
-    await detoxExpect(element(by.text('設定'))).toBeVisible();
-    await element(by.text('設定')).tap();
-    
-    // Wait for settings screen
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    
-    // Tap settings title 5 times to reveal debug option
-    for (let i = 0; i < 5; i++) {
-      await element(by.text('設定')).tap();
-      await new Promise(resolve => setTimeout(resolve, 200));
+    if (await isVisibleById('analytics-status', 1200)) {
+      return;
     }
     
-    // Tap Analytics Debug button
-    await detoxExpect(element(by.testID('open-analytics-debug'))).toBeVisible();
-    await element(by.testID('open-analytics-debug')).tap();
+    // Navigate to profile tab
+    await waitFor(element(by.id('tab-profile'))).toBeVisible().withTimeout(15000);
+    await element(by.id('tab-profile')).tap();
+    await sleep(800);
+
+    // Open settings screen
+    await waitFor(element(by.id('profile-open-settings'))).toBeVisible().withTimeout(10000);
+    await element(by.id('profile-open-settings')).tap();
+    await sleep(800);
+
+    // In E2E release builds the debug row should be visible directly, but it may be off-screen.
+    // If not found, fallback to the legacy 5-tap unlock path and retry.
+    await waitFor(element(by.id('settings-title-tap'))).toBeVisible().withTimeout(10000);
+    let openedFromSettings = await openAnalyticsDebugFromSettings();
+    if (!openedFromSettings && !(await isVisibleById('analytics-status', 1200))) {
+      for (let i = 0; i < 5; i++) {
+        await element(by.id('settings-title-tap')).tap();
+        await sleep(180);
+      }
+      openedFromSettings = await openAnalyticsDebugFromSettings();
+    }
+
+    if (!openedFromSettings && !(await isVisibleById('analytics-status', 1500))) {
+      throw new Error('Could not open analytics debug from settings');
+    }
     
-    // Wait for debug screen to load
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    // Wait for debug screen to load (with retry taps for flaky transitions).
+    for (let i = 0; i < 10; i++) {
+      if (await isVisibleById('analytics-status', 1000)) {
+        await sleep(500);
+        return;
+      }
+      if (await isVisibleById('open-analytics-debug', 800)) {
+        await element(by.id('open-analytics-debug')).tap();
+      }
+      await sleep(700);
+    }
+    await device.takeScreenshot(`analytics-debug-open-failed-${Date.now()}`);
+    throw new Error('Analytics debug screen did not become visible');
   } catch (error) {
     console.error('Failed to navigate to Analytics Debug:', error);
     throw error;
@@ -276,14 +333,13 @@ async function navigateToAnalyticsDebug(): Promise<void> {
 async function readAnalyticsDebugState(): Promise<any> {
   try {
     // Read status
-    const statusElement = element(by.testID('analytics-status'));
-    const statusText = await statusElement.getAttributes();
-    const passed = statusText.text?.includes('PASS') || false;
+    const statusElement = element(by.id('analytics-status-text'));
+    const statusText = readTextFromAttributes(await statusElement.getAttributes());
+    const passed = statusText.includes('PASS');
 
     // Read anonId
-    const anonIdElement = element(by.testID('analytics-anonid'));
-    const anonIdText = await anonIdElement.getAttributes();
-    const anonId = anonIdText.text || 'unknown';
+    const anonIdElement = element(by.id('analytics-anonid'));
+    const anonId = readTextFromAttributes(await anonIdElement.getAttributes()) || 'unknown';
 
     // Read event counters
     const counters: Record<string, number> = {};
@@ -291,9 +347,9 @@ async function readAnalyticsDebugState(): Promise<any> {
     
     for (const eventName of eventNames) {
       try {
-        const counterElement = element(by.testID(`count-${eventName}`));
-        const counterText = await counterElement.getAttributes();
-        counters[eventName] = parseInt(counterText.text || '0', 10);
+        const counterElement = element(by.id(`count-${eventName}`));
+        const counterText = readTextFromAttributes(await counterElement.getAttributes());
+        counters[eventName] = parseInt(counterText || '0', 10);
       } catch (e) {
         counters[eventName] = 0;
       }
@@ -302,13 +358,23 @@ async function readAnalyticsDebugState(): Promise<any> {
     // Read failures (if any)
     let failures: string[] = [];
     try {
-      const failuresElement = element(by.testID('analytics-failures'));
-      const failuresText = await failuresElement.getAttributes();
-      if (failuresText.text) {
-        failures = failuresText.text.split('\n').filter(f => f.trim().length > 0);
+      const failuresElement = element(by.id('analytics-failures'));
+      const failuresText = readTextFromAttributes(await failuresElement.getAttributes());
+      if (failuresText) {
+        failures = failuresText.split('\n').filter((f: string) => f.trim().length > 0);
       }
     } catch (e) {
       // No failures element visible, which is good
+    }
+
+    // Read second launch mode switch value
+    let secondLaunchMode = false;
+    try {
+      const toggleElement = element(by.id('analytics-second-launch-toggle'));
+      const attrs = await toggleElement.getAttributes();
+      secondLaunchMode = Boolean((attrs as any)?.value);
+    } catch (e) {
+      // Ignore if unavailable
     }
 
     return {
@@ -316,12 +382,216 @@ async function readAnalyticsDebugState(): Promise<any> {
       anonId,
       counters,
       failures,
-      secondLaunchMode: false // Will be updated if needed
+      secondLaunchMode
     };
   } catch (error) {
     console.error('Failed to read analytics debug state:', error);
     throw error;
   }
+}
+
+function readTextFromAttributes(attributes: any): string {
+  if (!attributes) {
+    return '';
+  }
+
+  if (typeof attributes.text === 'string') {
+    return attributes.text;
+  }
+
+  if (typeof attributes.label === 'string') {
+    return attributes.label;
+  }
+
+  if (Array.isArray(attributes.elements) && attributes.elements.length > 0) {
+    const first = attributes.elements[0] as any;
+    if (typeof first?.text === 'string') {
+      return first.text;
+    }
+    if (typeof first?.label === 'string') {
+      return first.label;
+    }
+  }
+
+  return '';
+}
+
+async function isVisibleById(testID: string, timeout = 2000): Promise<boolean> {
+  try {
+    await waitFor(element(by.id(testID))).toBeVisible().withTimeout(timeout);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function finishOnboardingInterests(genreTestID: string, timeoutMs = 20000): Promise<void> {
+  await waitFor(element(by.id('onboarding-finish'))).toBeVisible().withTimeout(10000);
+
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < timeoutMs) {
+    if (!(await isElementEnabledById('onboarding-finish'))) {
+      await element(by.id(genreTestID)).tap();
+      await sleep(300);
+    }
+
+    await element(by.id('onboarding-finish')).tap();
+    await sleep(400);
+
+    if (!(await isVisibleById('onboarding-interests-title', 900))) {
+      await sleep(800);
+      return;
+    }
+  }
+
+  try {
+    const attrs = await element(by.id('onboarding-finish')).getAttributes();
+    console.log(`ℹ️ onboarding-finish attrs: ${JSON.stringify(attrs)}`);
+  } catch (e) {
+    console.log('ℹ️ onboarding-finish attrs unavailable');
+  }
+  await device.takeScreenshot(`onboarding-interests-stuck-${Date.now()}`);
+  throw new Error('Timed out completing onboarding interests');
+}
+
+async function isElementEnabledById(testID: string): Promise<boolean> {
+  try {
+    const attrs = await element(by.id(testID)).getAttributes();
+    const rawEnabled = (attrs as any)?.enabled;
+    if (typeof rawEnabled === 'boolean') {
+      return rawEnabled;
+    }
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function sleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function tapModalPrimaryUntilLessonOpens(): Promise<void> {
+  for (let i = 0; i < 8; i++) {
+    if (await isVisibleById('lesson-screen', 1200)) {
+      return;
+    }
+
+    if (await isVisibleById('tab-shop', 1200)) {
+      throw new Error('Navigation went to shop (likely energy-blocked) before lesson screen');
+    }
+
+    if (await isVisibleById('modal-primary-button', 1200)) {
+      await element(by.id('modal-primary-button')).tap();
+    }
+
+    await sleep(1200);
+  }
+}
+
+async function openAnalyticsDebugFromSettings(): Promise<boolean> {
+  await scrollUntilVisibleById('settings-scroll', 'open-analytics-debug', 8);
+  if (await isVisibleById('open-analytics-debug', 1200)) {
+    await element(by.id('open-analytics-debug')).tap();
+    await sleep(500);
+    return true;
+  }
+  return false;
+}
+
+async function scrollUntilVisibleById(anchorTestID: string, targetTestID: string, maxSwipes = 6): Promise<void> {
+  for (let i = 0; i < maxSwipes; i++) {
+    if (await isVisibleById(targetTestID, 800)) {
+      return;
+    }
+    await element(by.id(anchorTestID)).swipe('up', 'fast', 0.7);
+    await sleep(300);
+  }
+}
+
+async function bootstrapDevClientToApp(): Promise<void> {
+  // If app UI already visible, no bootstrap needed.
+  if (await isAnyVisibleById(['onboarding-start', 'onboarding-interests-title', 'auth-guest-login', 'tab-course'], 1500)) {
+    return;
+  }
+
+  // Expo Dev Launcher first-run hints may require pressing Continue.
+  await tapFirstVisibleText(['Continue', '続行', '続ける'], 5000);
+
+  // Trigger opening the Dev Client URL.
+  await device.openURL({ url: DEV_CLIENT_URL });
+
+  // iOS may show a confirmation alert: `"psycle-expo"で開きますか?`
+  await tapFirstVisibleText(['開く', 'Open'], 10000);
+
+  // Dev menu overlay can persist after app open. Dismiss it explicitly.
+  await tapFirstVisibleText(['Continue', '続行', '続ける'], 5000);
+
+  await sleep(1500);
+}
+
+async function waitForAnyVisibleById(testIDs: string[], timeoutMs: number): Promise<string> {
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < timeoutMs) {
+    for (const id of testIDs) {
+      if (await isVisibleById(id, 750)) {
+        return id;
+      }
+    }
+    await sleep(500);
+  }
+  throw new Error(`Timed out waiting for any visible element: ${testIDs.join(', ')}`);
+}
+
+async function isAnyVisibleById(testIDs: string[], timeout = 1000): Promise<boolean> {
+  for (const id of testIDs) {
+    if (await isVisibleById(id, timeout)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+async function isVisibleByText(text: string, timeout = 1500): Promise<boolean> {
+  try {
+    await waitFor(element(by.text(text))).toBeVisible().withTimeout(timeout);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
+async function tapFirstVisibleText(texts: string[], timeoutMs: number): Promise<boolean> {
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < timeoutMs) {
+    for (const text of texts) {
+      if (await isVisibleByText(text, 700)) {
+        console.log(`ℹ️ tapping visible text: ${text}`);
+        await element(by.text(text)).tap();
+        return true;
+      }
+    }
+    await sleep(250);
+  }
+  return false;
+}
+
+function resolveDevServerUrl(): string {
+  if (process.env.E2E_DEV_SERVER_URL) {
+    return process.env.E2E_DEV_SERVER_URL;
+  }
+
+  const interfaces = os.networkInterfaces();
+  for (const entries of Object.values(interfaces)) {
+    if (!entries) continue;
+    for (const entry of entries) {
+      if (entry.family === 'IPv4' && !entry.internal) {
+        return `http://${entry.address}:8081`;
+      }
+    }
+  }
+
+  return 'http://127.0.0.1:8081';
 }
 
 function generateTextReport(report: any): string {

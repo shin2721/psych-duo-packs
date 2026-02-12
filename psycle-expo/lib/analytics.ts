@@ -5,6 +5,7 @@ import Constants from 'expo-constants';
 import type { AnalyticsConfig, AnalyticsEvent } from './analytics.types';
 import { analyticsConfig } from './analytics.config';
 import { recordDebugEvent, recordSystemEvent, setCurrentAnonId } from './analytics-debug';
+const ANALYTICS_DEBUG_ENABLED = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
 
 // 定数
 const ANALYTICS_SCHEMA_VERSION = 'analytics_v1';
@@ -107,7 +108,7 @@ class AnalyticsCore {
       this.flushEventQueue();
 
       // Debug hook: record initialized system event
-      if (__DEV__) {
+      if (ANALYTICS_DEBUG_ENABLED) {
         setCurrentAnonId(this.anonId);
         recordSystemEvent('initialized', this.anonId);
       }
@@ -150,7 +151,7 @@ class AnalyticsCore {
       }
 
       // Debug hook: record queued event
-      if (__DEV__) {
+      if (ANALYTICS_DEBUG_ENABLED) {
         recordDebugEvent(name, 'queued', this.anonId || 'unknown', properties);
       }
 
@@ -180,12 +181,12 @@ class AnalyticsCore {
       this.sendToPostHog(event);
 
       // Debug hook: record sent event
-      if (__DEV__) {
+      if (ANALYTICS_DEBUG_ENABLED) {
         recordDebugEvent(name, 'sent', this.anonId || 'unknown', properties);
       }
     } catch (error) {
       // Debug hook: record failed event
-      if (__DEV__) {
+      if (ANALYTICS_DEBUG_ENABLED) {
         recordDebugEvent(name, 'failed', this.anonId || 'unknown', properties);
       }
       // エラーが発生してもアプリをクラッシュさせない
@@ -313,7 +314,7 @@ class AnalyticsCore {
    * @param regenerateAnonId trueなら新しいanonIdを生成（AsyncStorageも削除）
    */
   static async resetAnalyticsStateForDebug(regenerateAnonId = false): Promise<void> {
-    if (!__DEV__) return;
+    if (!ANALYTICS_DEBUG_ENABLED) return;
 
     // メモリ状態をクリア
     this.initialized = false;
