@@ -32,7 +32,24 @@
     "scheme": "psycle",
     "plugins": [
       "expo-router",
-      "expo-dev-client"
+      "expo-dev-client",
+      [
+        "./plugins/with-psycle-widgets",
+        {
+          "ios": {
+            "src": "./widgets/ios",
+            "deploymentTarget": "16.2",
+            "devTeamId": "",
+            "mode": "production",
+            "moduleDependencies": [],
+            "useLiveActivities": false,
+            "frequentUpdates": false,
+            "xcode": {
+              "appGroupId": "group.com.shin27.psycle.expowidgets"
+            }
+          }
+        }
+      ]
     ],
     "extra": {
       "BASE_URL": "https://shin2721.github.io/psych-duo-packs"
