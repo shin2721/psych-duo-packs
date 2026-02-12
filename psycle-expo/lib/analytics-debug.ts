@@ -2,7 +2,7 @@
  * Analytics Debug Module
  * 
  * Self-Test機能のためのデバッグ状態管理
- * __DEV__ でのみ有効。Releaseビルドでは全関数がno-op
+ * __DEV__ で有効。E2E用Releaseでは EXPO_PUBLIC_E2E_ANALYTICS_DEBUG=1 でも有効。
  */
 
 // ============================================================
@@ -44,6 +44,7 @@ const TRACKED_EVENTS = [
     'lesson_start',
     'lesson_complete',
 ] as const;
+const ANALYTICS_DEBUG_ENABLED = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
 
 // ============================================================
 // State (DEV only)
@@ -73,7 +74,7 @@ export function recordDebugEvent(
     anonId: string,
     meta?: Record<string, string | number | boolean>
 ): void {
-    if (!__DEV__) return;
+    if (!ANALYTICS_DEBUG_ENABLED) return;
 
     const event: DebugEvent = {
         type: status === 'system' ? 'system' : 'event',
@@ -107,7 +108,7 @@ export function recordSystemEvent(
     anonId: string,
     meta?: Record<string, string | number | boolean>
 ): void {
-    if (!__DEV__) return;
+    if (!ANALYTICS_DEBUG_ENABLED) return;
     recordDebugEvent(name, 'system', anonId, meta);
 }
 
@@ -115,7 +116,7 @@ export function recordSystemEvent(
  * Second Launch Mode を設定
  */
 export function setSecondLaunchMode(enabled: boolean): void {
-    if (!__DEV__) return;
+    if (!ANALYTICS_DEBUG_ENABLED) return;
     secondLaunchMode = enabled;
 }
 
@@ -123,7 +124,7 @@ export function setSecondLaunchMode(enabled: boolean): void {
  * Second Launch Mode の状態を取得
  */
 export function isSecondLaunchMode(): boolean {
-    if (!__DEV__) return false;
+    if (!ANALYTICS_DEBUG_ENABLED) return false;
     return secondLaunchMode;
 }
 
@@ -132,7 +133,7 @@ export function isSecondLaunchMode(): boolean {
  * Analytics側のリセットは呼び出し元で別途行う
  */
 export function resetDebugState(): void {
-    if (!__DEV__) return;
+    if (!ANALYTICS_DEBUG_ENABLED) return;
 
     ringBuffer = [];
     counters = {};
@@ -147,7 +148,7 @@ export function resetDebugState(): void {
  * PASS/FAIL判定
  */
 export function evaluatePassFail(): { passed: boolean; failures: string[] } {
-    if (!__DEV__) return { passed: true, failures: [] };
+    if (!ANALYTICS_DEBUG_ENABLED) return { passed: true, failures: [] };
 
     const failures: string[] = [];
 
@@ -189,7 +190,7 @@ export function evaluatePassFail(): { passed: boolean; failures: string[] } {
  * 現在のデバッグ状態を取得（UI表示用）
  */
 export function getDebugState(): DebugState {
-    if (!__DEV__) {
+    if (!ANALYTICS_DEBUG_ENABLED) {
         return {
             anonId: 'N/A',
             events: [],
@@ -216,7 +217,7 @@ export function getDebugState(): DebugState {
  * デバッグレポートを生成（Copy Report用）
  */
 export function getDebugReport(): string {
-    if (!__DEV__) return 'Debug not available in Release build';
+    if (!ANALYTICS_DEBUG_ENABLED) return 'Debug not available in Release build';
 
     const state = getDebugState();
     const { passed, failures } = evaluatePassFail();
@@ -258,7 +259,7 @@ export function getDebugReport(): string {
  * 現在のanonIdを更新（Analytics.initializeから呼ばれる）
  */
 export function setCurrentAnonId(anonId: string): void {
-    if (!__DEV__) return;
+    if (!ANALYTICS_DEBUG_ENABLED) return;
     currentAnonId = anonId;
 }
 
@@ -266,6 +267,6 @@ export function setCurrentAnonId(anonId: string): void {
  * 現在のanonIdを取得
  */
 export function getCurrentAnonId(): string {
-    if (!__DEV__) return 'N/A';
+    if (!ANALYTICS_DEBUG_ENABLED) return 'N/A';
     return currentAnonId;
 }

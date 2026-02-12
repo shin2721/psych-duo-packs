@@ -27,6 +27,7 @@ export default function ProfileScreen() {
                     <Pressable
                         style={styles.settingsButton}
                         onPress={() => router.push("/settings")}
+                        testID="profile-open-settings"
                     >
                         <Ionicons name="settings-outline" size={24} color={theme.colors.text} />
                     </Pressable>
