@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { View, Text, StyleSheet, Alert } from "react-native";
+import { View, Text, StyleSheet, Alert, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -50,6 +50,7 @@ const FIRST_SESSION_LESSON_SIZE = normalizePositiveInt(
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
   const fileParam = params.file; // Extract to primitive string
+  const isE2EAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
   const {
     completeLesson,
     addXp,
@@ -682,6 +683,15 @@ export default function LessonScreen() {
         <Text style={styles.progress} testID="lesson-progress">
           {currentIndex + 1} / {questions.length}
         </Text>
+        {isE2EAnalyticsMode && (
+          <Pressable
+            onPress={() => router.replace("/(tabs)/course")}
+            testID="lesson-e2e-exit"
+            style={styles.e2eExitButton}
+          >
+            <Text style={styles.e2eExitText}>Exit</Text>
+          </Pressable>
+        )}
       </View>
 
       <QuestionRenderer
@@ -736,6 +746,20 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "600",
     color: theme.colors.text,
+  },
+  e2eExitButton: {
+    position: "absolute",
+    right: theme.spacing.md,
+    top: theme.spacing.xs,
+    backgroundColor: "rgba(255,255,255,0.15)",
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+    borderRadius: 12,
+  },
+  e2eExitText: {
+    fontSize: 12,
+    color: "#fff",
+    fontWeight: "700",
   },
   loading: {
     fontSize: 18,

@@ -120,6 +120,7 @@ export default function TabLayout() {
             name="course"
             options={{
               title: i18n.t("tabs.learn"),
+              tabBarButtonTestID: "tab-course",
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="leaf" size={size} color={color} focused={focused} />
               ),
@@ -165,6 +166,7 @@ export default function TabLayout() {
             name="profile"
             options={{
               title: i18n.t("tabs.profile"),
+              tabBarButtonTestID: "tab-profile",
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="person" size={size} color={color} focused={focused} />
               ),

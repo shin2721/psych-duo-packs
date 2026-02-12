@@ -2,7 +2,8 @@
  * Analytics Debug Component
  * 
  * Self-Test UI for Analytics v1.3 E2E verification.
- * DEV only - completely hidden in Release builds.
+ * DEV only by default. Can be enabled in Release for E2E with
+ * EXPO_PUBLIC_E2E_ANALYTICS_DEBUG=1 at build time.
  */
 
 import React, { useState, useEffect } from 'react';
@@ -29,8 +30,10 @@ import {
     type DebugState,
 } from '../lib/analytics-debug';
 
-// Release builds: render nothing
-if (!__DEV__) {
+const isAnalyticsDebugEnabled = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
+
+// Release builds without E2E flag: render nothing
+if (!isAnalyticsDebugEnabled) {
     module.exports = { default: () => null };
 }
 
@@ -109,7 +112,7 @@ export default function AnalyticsDebug() {
                                 styles.badge,
                                 state.passed ? styles.passBadge : styles.failBadge
                             ]} testID="analytics-status">
-                                <Text style={styles.badgeText}>
+                                <Text style={styles.badgeText} testID="analytics-status-text">
                                     {state.passed ? '✅ PASS' : '❌ FAIL'}
                                 </Text>
                             </View>
@@ -129,6 +132,7 @@ export default function AnalyticsDebug() {
                                 onValueChange={handleSecondLaunchModeToggle}
                                 trackColor={{ false: theme.colors.surface, true: theme.colors.primary }}
                                 thumbColor="#fff"
+                                testID="analytics-second-launch-toggle"
                             />
                         </View>
 

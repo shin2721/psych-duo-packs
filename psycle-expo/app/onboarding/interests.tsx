@@ -12,7 +12,8 @@ import i18n from "../../lib/i18n";
 export default function InterestsScreen() {
     const router = useRouter();
     const { completeOnboarding } = useOnboarding();
-    const [selectedGenres, setSelectedGenres] = useState<string[]>([]);
+    const e2eAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
+    const [selectedGenres, setSelectedGenres] = useState<string[]>(e2eAnalyticsMode ? ["mental"] : []);
 
     const toggleGenre = (genreId: string) => {
         setSelectedGenres(prev =>
@@ -23,9 +24,11 @@ export default function InterestsScreen() {
     };
 
     const handleContinue = async () => {
+        const genresToSave = selectedGenres.length > 0 ? selectedGenres : (e2eAnalyticsMode ? ["mental"] : []);
+
         // Save selected genres (optional, for future personalization)
-        if (selectedGenres.length > 0) {
-            await AsyncStorage.setItem("selectedGenres", JSON.stringify(selectedGenres));
+        if (genresToSave.length > 0) {
+            await AsyncStorage.setItem("selectedGenres", JSON.stringify(genresToSave));
         }
 
         // Complete onboarding (updates context and AsyncStorage)
@@ -106,10 +109,10 @@ export default function InterestsScreen() {
                 <Pressable
                     style={[
                         styles.button,
-                        selectedGenres.length === 0 && styles.buttonDisabled,
+                        !e2eAnalyticsMode && selectedGenres.length === 0 && styles.buttonDisabled,
                     ]}
                     onPress={handleContinue}
-                    disabled={selectedGenres.length === 0}
+                    disabled={!e2eAnalyticsMode && selectedGenres.length === 0}
                     testID="onboarding-finish"
                 >
                     <Text style={styles.buttonText}>{i18n.t("onboarding.interests.continue")}</Text>
