@@ -30,6 +30,8 @@ const DEFAULT_TUNING_TARGETS = {
   intervention_attempt_rate_7d_min: 0.3,
   intervention_execute_rate_7d_min: 0.45,
   recovery_mission_claim_rate_7d_min: 0.2,
+  streak_guard_save_rate_7d_min: 0.35,
+  league_boundary_click_rate_7d_min: 0.12,
   d1_retention_rate_7d_min: 0.25,
   d7_retention_rate_7d_min: 0.08,
   paid_plan_changes_per_checkout_7d_min: 0.18,
@@ -37,6 +39,8 @@ const DEFAULT_TUNING_TARGETS = {
 };
 
 const DASHBOARD_NAMES = [
+  "Psycle Growth Dashboard (v1.12)",
+  "Psycle Growth Dashboard (v1.11)",
   "Psycle Growth Dashboard (v1.10)",
   "Psycle Growth Dashboard (v1.9)",
   "Psycle Growth Dashboard (v1.8)",
@@ -51,6 +55,8 @@ const REQUIRED_INSIGHTS = [
   "Executed Users vs DAU (UV)",
   "Intervention Funnel (daily)",
   "Recovery Mission (daily)",
+  "Streak Guard (daily)",
+  "League Boundary (daily)",
   "Incorrect vs Lesson Start (daily)",
   "Streak Lost Users (daily)",
   "Energy Friction (daily)",
@@ -334,6 +340,16 @@ function buildAnomalies(metrics, worseningThreshold) {
       label: "Recovery Mission Claim Rate",
     },
     {
+      key: "streak_guard_save_rate_7d",
+      higherIsBetter: true,
+      label: "Streak Guard Save Rate",
+    },
+    {
+      key: "league_boundary_click_rate_7d",
+      higherIsBetter: true,
+      label: "League Boundary Click Rate",
+    },
+    {
       key: "paid_plan_changes_per_checkout_7d",
       higherIsBetter: true,
       label: "Paid Plan Conversion",
@@ -409,6 +425,20 @@ function buildTargetBreaches(metrics, targets) {
       unit: "ratio",
     },
     {
+      key: "streak_guard_save_rate_7d",
+      label: "Streak Guard Save Rate 7d",
+      target: targets.streak_guard_save_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "league_boundary_click_rate_7d",
+      label: "League Boundary Click Rate 7d",
+      target: targets.league_boundary_click_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
       key: "d1_retention_rate_7d",
       label: "D1 Retention 7d",
       target: targets.d1_retention_rate_7d_min,
@@ -477,6 +507,12 @@ function buildRecommendedActions(anomalies, breaches) {
   if (flagged.has("Recovery Mission Claim Rate") || flagged.has("Recovery Mission Claim Rate 7d")) {
     actions.push("離脱翌日の復帰導線を強化するため、コース先頭に復帰ミッションバナーを固定表示し、CTA押下で即レッスン開始に遷移する。");
   }
+  if (flagged.has("Streak Guard Save Rate") || flagged.has("Streak Guard Save Rate 7d")) {
+    actions.push("欠勤直前ユーザー向けに失速防止カードを固定表示し、CTA押下から実行完了までの導線を1タップ短縮する。");
+  }
+  if (flagged.has("League Boundary Click Rate") || flagged.has("League Boundary Click Rate 7d")) {
+    actions.push("リーグ境界カードの訴求文を改善し、昇格/降格ラインまでの必要XPを明確に表示してCTAタップ率を上げる。");
+  }
   if (flagged.has("Paid Plan Conversion 7d")) {
     actions.push("shop_open_from_energy→checkout_start の遷移率を改善するため、購読価値訴求を1画面目に集約する。");
   }
@@ -497,15 +533,51 @@ async function resolveDashboard(config) {
     return apiRequest(config, "GET", `/api/projects/${config.projectId}/dashboards/${config.dashboardId}/`, undefined);
   }
   const dashboards = await listAll(config, `/api/projects/${config.projectId}/dashboards/?limit=200`);
-  for (const name of DASHBOARD_NAMES) {
-    const found = dashboards.find((d) => d.name === name);
-    if (found) {
-      return apiRequest(config, "GET", `/api/projects/${config.projectId}/dashboards/${found.id}/`, undefined);
+  const namedCandidates = DASHBOARD_NAMES.flatMap((name) =>
+    dashboards.filter((d) => d.name === name)
+  );
+  if (namedCandidates.length === 0) {
+    throw new Error(
+      `Dashboard not found. Tried names: ${DASHBOARD_NAMES.join(", ")}. Pass --dashboard-id if needed.`
+    );
+  }
+
+  const allInsights = await listAll(config, `/api/projects/${config.projectId}/insights/?limit=500`);
+  const requiredSet = new Set(REQUIRED_INSIGHTS);
+  const coverageByDashboard = new Map();
+
+  for (const insight of allInsights) {
+    if (!requiredSet.has(insight.name)) continue;
+    const linkedDashboards = Array.isArray(insight.dashboards) ? insight.dashboards : [];
+    for (const dashboardId of linkedDashboards) {
+      const key = String(dashboardId);
+      if (!coverageByDashboard.has(key)) {
+        coverageByDashboard.set(key, new Set());
+      }
+      coverageByDashboard.get(key).add(insight.name);
     }
   }
-  throw new Error(
-    `Dashboard not found. Tried names: ${DASHBOARD_NAMES.join(", ")}. Pass --dashboard-id if needed.`
-  );
+
+  const sortedCandidates = namedCandidates
+    .map((d) => {
+      const covered = coverageByDashboard.get(String(d.id));
+      return {
+        dashboard: d,
+        score: covered ? covered.size : 0,
+      };
+    })
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return Number(b.dashboard.id || 0) - Number(a.dashboard.id || 0);
+    });
+
+  const selected = sortedCandidates[0]?.dashboard;
+  if (!selected?.id) {
+    throw new Error(
+      `Dashboard not found. Tried names: ${DASHBOARD_NAMES.join(", ")}. Pass --dashboard-id if needed.`
+    );
+  }
+  return apiRequest(config, "GET", `/api/projects/${config.projectId}/dashboards/${selected.id}/`, undefined);
 }
 
 async function main() {
@@ -528,10 +600,12 @@ async function main() {
   const missingFromTiles = REQUIRED_INSIGHTS.filter((name) => !insightByName.has(name));
   if (missingFromTiles.length > 0) {
     const allInsights = await listAll(config, `/api/projects/${config.projectId}/insights/?limit=500`);
+    const dashboardIdKey = String(dashboard.id);
     for (const insight of allInsights) {
       if (!REQUIRED_INSIGHTS.includes(insight.name) && !OPTIONAL_INSIGHTS.includes(insight.name)) continue;
       const dashboards = Array.isArray(insight.dashboards) ? insight.dashboards : [];
-      if (dashboards.includes(dashboard.id)) {
+      const dashboardKeys = dashboards.map((d) => String(d));
+      if (dashboardKeys.includes(dashboardIdKey)) {
         insightByName.set(insight.name, insight.id);
       }
     }
@@ -588,6 +662,13 @@ async function main() {
   const recoveryMissionTrend = parseTrendInsight(insights["Recovery Mission (daily)"]);
   const recoveryMissionShown = pickSeries(recoveryMissionTrend.seriesMap, ["recovery_mission_shown"]);
   const recoveryMissionClaimed = pickSeries(recoveryMissionTrend.seriesMap, ["recovery_mission_claimed"]);
+  const streakGuardTrend = parseTrendInsight(insights["Streak Guard (daily)"]);
+  const streakGuardShown = pickSeries(streakGuardTrend.seriesMap, ["streak_guard_shown"]);
+  const streakGuardClicked = pickSeries(streakGuardTrend.seriesMap, ["streak_guard_clicked"]);
+  const streakGuardSaved = pickSeries(streakGuardTrend.seriesMap, ["streak_guard_saved"]);
+  const leagueBoundaryTrend = parseTrendInsight(insights["League Boundary (daily)"]);
+  const leagueBoundaryShown = pickSeries(leagueBoundaryTrend.seriesMap, ["league_boundary_shown"]);
+  const leagueBoundaryClicked = pickSeries(leagueBoundaryTrend.seriesMap, ["league_boundary_clicked"]);
 
   const incorrectTrend = parseTrendInsight(insights["Incorrect vs Lesson Start (daily)"]);
   const incorrectCount = pickSeries(incorrectTrend.seriesMap, ["question_incorrect"]);
@@ -680,6 +761,40 @@ async function main() {
     recovery_mission_claim_rate_7d_prev: safeRate(
       sumWindow(recoveryMissionClaimed, previousStart, previousEnd),
       sumWindow(recoveryMissionShown, previousStart, previousEnd)
+    ),
+    streak_guard_shown_7d: sumWindow(streakGuardShown, currentStart, anchorDay),
+    streak_guard_shown_7d_prev: sumWindow(streakGuardShown, previousStart, previousEnd),
+    streak_guard_clicked_7d: sumWindow(streakGuardClicked, currentStart, anchorDay),
+    streak_guard_clicked_7d_prev: sumWindow(streakGuardClicked, previousStart, previousEnd),
+    streak_guard_saved_7d: sumWindow(streakGuardSaved, currentStart, anchorDay),
+    streak_guard_saved_7d_prev: sumWindow(streakGuardSaved, previousStart, previousEnd),
+    streak_guard_click_rate_7d: safeRate(
+      sumWindow(streakGuardClicked, currentStart, anchorDay),
+      sumWindow(streakGuardShown, currentStart, anchorDay)
+    ),
+    streak_guard_click_rate_7d_prev: safeRate(
+      sumWindow(streakGuardClicked, previousStart, previousEnd),
+      sumWindow(streakGuardShown, previousStart, previousEnd)
+    ),
+    streak_guard_save_rate_7d: safeRate(
+      sumWindow(streakGuardSaved, currentStart, anchorDay),
+      sumWindow(streakGuardShown, currentStart, anchorDay)
+    ),
+    streak_guard_save_rate_7d_prev: safeRate(
+      sumWindow(streakGuardSaved, previousStart, previousEnd),
+      sumWindow(streakGuardShown, previousStart, previousEnd)
+    ),
+    league_boundary_shown_7d: sumWindow(leagueBoundaryShown, currentStart, anchorDay),
+    league_boundary_shown_7d_prev: sumWindow(leagueBoundaryShown, previousStart, previousEnd),
+    league_boundary_clicked_7d: sumWindow(leagueBoundaryClicked, currentStart, anchorDay),
+    league_boundary_clicked_7d_prev: sumWindow(leagueBoundaryClicked, previousStart, previousEnd),
+    league_boundary_click_rate_7d: safeRate(
+      sumWindow(leagueBoundaryClicked, currentStart, anchorDay),
+      sumWindow(leagueBoundaryShown, currentStart, anchorDay)
+    ),
+    league_boundary_click_rate_7d_prev: safeRate(
+      sumWindow(leagueBoundaryClicked, previousStart, previousEnd),
+      sumWindow(leagueBoundaryShown, previousStart, previousEnd)
     ),
 
     incorrect_per_lesson_start_yesterday: safeRate(
@@ -819,6 +934,21 @@ async function main() {
   );
   console.log(
     `Recovery Mission 7d: shown=${formatNum(metrics.recovery_mission_shown_7d, 0)} claimed=${formatNum(metrics.recovery_mission_claimed_7d, 0)}`
+  );
+  console.log(
+    `Streak Guard Click Rate 7d: ${formatPct(metrics.streak_guard_click_rate_7d, 2)} (prev ${formatPct(metrics.streak_guard_click_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `Streak Guard Save Rate 7d: ${formatPct(metrics.streak_guard_save_rate_7d, 2)} (prev ${formatPct(metrics.streak_guard_save_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `Streak Guard 7d: shown=${formatNum(metrics.streak_guard_shown_7d, 0)} clicked=${formatNum(metrics.streak_guard_clicked_7d, 0)} saved=${formatNum(metrics.streak_guard_saved_7d, 0)}`
+  );
+  console.log(
+    `League Boundary Click Rate 7d: ${formatPct(metrics.league_boundary_click_rate_7d, 2)} (prev ${formatPct(metrics.league_boundary_click_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `League Boundary 7d: shown=${formatNum(metrics.league_boundary_shown_7d, 0)} clicked=${formatNum(metrics.league_boundary_clicked_7d, 0)}`
   );
   console.log(
     `Incorrect/Start 7d: ${formatNum(metrics.incorrect_per_lesson_start_7d, 3)} (prev ${formatNum(metrics.incorrect_per_lesson_start_7d_prev, 3)})`

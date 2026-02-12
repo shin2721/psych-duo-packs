@@ -15,10 +15,10 @@
  */
 
 const DEFAULT_HOST = "https://app.posthog.com";
-const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.10)";
+const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.12)";
 const DEFAULT_DASHBOARD_DESCRIPTION =
   "Psycle growth KPI dashboard. Managed by scripts/create-posthog-growth-dashboard.mjs";
-const DASHBOARD_TAG = "psycle-growth-v1.10";
+const DASHBOARD_TAG = "psycle-growth-v1.12";
 
 function parseArgs(argv) {
   const flags = new Set();
@@ -270,6 +270,23 @@ const CARD_DEFS = [
     query: trendsQuery([
       eventNode("recovery_mission_shown", "total"),
       eventNode("recovery_mission_claimed", "total"),
+    ]),
+  },
+  {
+    name: "Streak Guard (daily)",
+    description: "Daily counts for streak_guard_shown, streak_guard_clicked, and streak_guard_saved.",
+    query: trendsQuery([
+      eventNode("streak_guard_shown", "total"),
+      eventNode("streak_guard_clicked", "total"),
+      eventNode("streak_guard_saved", "total"),
+    ]),
+  },
+  {
+    name: "League Boundary (daily)",
+    description: "Daily counts for league_boundary_shown and league_boundary_clicked.",
+    query: trendsQuery([
+      eventNode("league_boundary_shown", "total"),
+      eventNode("league_boundary_clicked", "total"),
     ]),
   },
   {

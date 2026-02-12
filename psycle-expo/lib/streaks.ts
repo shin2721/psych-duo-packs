@@ -26,6 +26,13 @@ export interface StreakData {
     recoveryLastShownDate: string | null;
     recoveryLastClaimedDate: string | null;
 
+    // Streak Guard
+    streakGuardLastShownDate: string | null;
+    streakGuardLastSavedDate: string | null;
+
+    // League Boundary Card
+    leagueBoundaryLastShownDate: string | null;
+
     // Freeze
     freezesRemaining: number;
     freezeWeekStart: string | null;  // 週初めの日付
@@ -44,6 +51,9 @@ const DEFAULT_STATE: StreakData = {
     lastActionDate: null,
     recoveryLastShownDate: null,
     recoveryLastClaimedDate: null,
+    streakGuardLastShownDate: null,
+    streakGuardLastSavedDate: null,
+    leagueBoundaryLastShownDate: null,
     freezesRemaining: 2,
     freezeWeekStart: null,
     totalXP: 0,
@@ -64,6 +74,24 @@ export interface RecoveryMissionClaimResult {
     claimed: boolean;
     missedDays: number;
     actionStreakAfter: number;
+    lastActionDate: string | null;
+}
+
+export interface StreakGuardStatus {
+    eligible: boolean;
+    lastActionDate: string | null;
+    actionStreak: number;
+    freezesRemaining: number;
+    riskType: "break_streak" | "consume_freeze";
+    shownToday: boolean;
+    savedToday: boolean;
+}
+
+export interface StreakGuardSaveResult {
+    saved: boolean;
+    actionStreakAfter: number;
+    freezesRemainingAfter: number;
+    riskType: "break_streak" | "consume_freeze";
     lastActionDate: string | null;
 }
 
@@ -169,6 +197,29 @@ function toRecoveryMissionStatus(data: StreakData, today = getToday()): Recovery
     };
 }
 
+function toStreakGuardStatus(data: StreakData, today = getToday()): StreakGuardStatus {
+    const riskType: "break_streak" | "consume_freeze" =
+        (data.freezesRemaining || 0) > 0 ? "consume_freeze" : "break_streak";
+    const shownToday = data.streakGuardLastShownDate === today;
+    const savedToday = data.streakGuardLastSavedDate === today;
+    const hasLastAction = Boolean(data.lastActionDate);
+    const diffDays = hasLastAction ? dateKeyToUtcDay(today) - dateKeyToUtcDay(data.lastActionDate as string) : 0;
+    const eligible = hasLastAction
+        && diffDays === 1
+        && (data.actionStreak || 0) >= 2
+        && !savedToday;
+
+    return {
+        eligible: Boolean(eligible),
+        lastActionDate: data.lastActionDate,
+        actionStreak: data.actionStreak || 0,
+        freezesRemaining: data.freezesRemaining || 0,
+        riskType,
+        shownToday,
+        savedToday,
+    };
+}
+
 export async function getStreakData(): Promise<StreakData> {
     try {
         const raw = await AsyncStorage.getItem(STORAGE_KEY);
@@ -178,6 +229,9 @@ export async function getStreakData(): Promise<StreakData> {
         data.studyHistory = pruneStudyHistory(data.studyHistory || {});
         data.recoveryLastShownDate = data.recoveryLastShownDate || null;
         data.recoveryLastClaimedDate = data.recoveryLastClaimedDate || null;
+        data.streakGuardLastShownDate = data.streakGuardLastShownDate || null;
+        data.streakGuardLastSavedDate = data.streakGuardLastSavedDate || null;
+        data.leagueBoundaryLastShownDate = data.leagueBoundaryLastShownDate || null;
 
         // 週が変わったらfreezeを最低weekly_refillに補充（購入分は消さない）
         const currentWeekStart = getWeekStart(new Date());
@@ -269,6 +323,107 @@ export async function claimRecoveryMissionIfEligible(
         actionStreakAfter: data.actionStreak || 0,
         lastActionDate: data.lastActionDate,
     };
+}
+
+export async function getStreakGuardStatus(): Promise<StreakGuardStatus> {
+    const data = await getStreakData();
+    return toStreakGuardStatus(data);
+}
+
+export async function markStreakGuardShown(): Promise<StreakGuardStatus> {
+    const data = await getStreakData();
+    const today = getToday();
+    const status = toStreakGuardStatus(data, today);
+    if (!status.eligible || status.shownToday) {
+        return status;
+    }
+
+    data.streakGuardLastShownDate = today;
+    await saveStreakData(data);
+    return toStreakGuardStatus(data, today);
+}
+
+export async function markStreakGuardSavedIfEligible(
+    lastActionDateBeforeExecution: string | null
+): Promise<StreakGuardSaveResult> {
+    const data = await getStreakData();
+    const today = getToday();
+    const riskType: "break_streak" | "consume_freeze" =
+        (data.freezesRemaining || 0) > 0 ? "consume_freeze" : "break_streak";
+
+    if (data.streakGuardLastSavedDate === today) {
+        return {
+            saved: false,
+            actionStreakAfter: data.actionStreak || 0,
+            freezesRemainingAfter: data.freezesRemaining || 0,
+            riskType,
+            lastActionDate: data.lastActionDate,
+        };
+    }
+
+    if (!lastActionDateBeforeExecution) {
+        return {
+            saved: false,
+            actionStreakAfter: data.actionStreak || 0,
+            freezesRemainingAfter: data.freezesRemaining || 0,
+            riskType,
+            lastActionDate: data.lastActionDate,
+        };
+    }
+
+    const diffDays = dateKeyToUtcDay(today) - dateKeyToUtcDay(lastActionDateBeforeExecution);
+    if (diffDays !== 1) {
+        return {
+            saved: false,
+            actionStreakAfter: data.actionStreak || 0,
+            freezesRemainingAfter: data.freezesRemaining || 0,
+            riskType,
+            lastActionDate: data.lastActionDate,
+        };
+    }
+
+    // Eligibility includes actionStreak >= 2 before execution.
+    // At this point (after recordActionExecution), that corresponds to >= 3.
+    if ((data.actionStreak || 0) < 3) {
+        return {
+            saved: false,
+            actionStreakAfter: data.actionStreak || 0,
+            freezesRemainingAfter: data.freezesRemaining || 0,
+            riskType,
+            lastActionDate: data.lastActionDate,
+        };
+    }
+
+    if (data.lastActionDate !== today) {
+        return {
+            saved: false,
+            actionStreakAfter: data.actionStreak || 0,
+            freezesRemainingAfter: data.freezesRemaining || 0,
+            riskType,
+            lastActionDate: data.lastActionDate,
+        };
+    }
+
+    data.streakGuardLastSavedDate = today;
+    await saveStreakData(data);
+    return {
+        saved: true,
+        actionStreakAfter: data.actionStreak || 0,
+        freezesRemainingAfter: data.freezesRemaining || 0,
+        riskType,
+        lastActionDate: data.lastActionDate,
+    };
+}
+
+export async function markLeagueBoundaryShown(): Promise<boolean> {
+    const data = await getStreakData();
+    const today = getToday();
+    if (data.leagueBoundaryLastShownDate === today) {
+        return false;
+    }
+    data.leagueBoundaryLastShownDate = today;
+    await saveStreakData(data);
+    return true;
 }
 
 async function saveStreakData(data: StreakData): Promise<void> {

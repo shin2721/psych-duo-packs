@@ -232,6 +232,18 @@ export const en = {
             body: 'Execute once today to earn +3 Gems',
             cta: 'Do it now',
         },
+        streakGuard: {
+            title: 'Streak guard',
+            bodyBreak: 'If you skip today, your streak will break.',
+            bodyFreeze: 'If you skip today, you will consume 1 Freeze.',
+            cta: 'Execute once now',
+        },
+        leagueBoundary: {
+            title: 'League boundary',
+            bodyPromotion: 'Only %{xpGap} XP to reach promotion zone.',
+            bodyDemotion: 'Need %{xpGap} XP more to escape demotion zone.',
+            cta: 'Make a move now',
+        },
         startLessonTitle: 'Start Lesson',
         startLessonDescription: 'You can earn %{xp} XP in this lesson.',
         startButton: 'Start',

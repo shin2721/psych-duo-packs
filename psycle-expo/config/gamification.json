@@ -30,13 +30,15 @@
         "intervention_attempt_rate_7d_min": 0.3,
         "intervention_execute_rate_7d_min": 0.45,
         "recovery_mission_claim_rate_7d_min": 0.2,
+        "streak_guard_save_rate_7d_min": 0.35,
+        "league_boundary_click_rate_7d_min": 0.12,
         "d1_retention_rate_7d_min": 0.25,
         "d7_retention_rate_7d_min": 0.08,
         "paid_plan_changes_per_checkout_7d_min": 0.18,
         "completed_sessions_per_day_7d_min": 1.2
     },
     "primary_kpis": {
-        "version": "growth_v1.10",
+        "version": "growth_v1.12",
         "fixed_at": "2026-02-12",
         "metrics": [
             {

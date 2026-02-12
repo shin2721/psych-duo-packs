@@ -232,6 +232,18 @@ export const ja = {
             body: '今日1回実行で +3 Gems',
             cta: '今すぐ実行する',
         },
+        streakGuard: {
+            title: '失速防止カード',
+            bodyBreak: '今日やらないと連続記録が途切れます',
+            bodyFreeze: '今日やらないと Freeze を1個消費します',
+            cta: '今すぐ1回実行',
+        },
+        leagueBoundary: {
+            title: 'リーグ境界カード',
+            bodyPromotion: '昇格圏まであと %{xpGap} XP',
+            bodyDemotion: '降格圏脱出まであと %{xpGap} XP',
+            cta: '今すぐ追い上げる',
+        },
         startLessonTitle: 'レッスンを開始',
         startLessonDescription: 'このレッスンで %{xp} XP 獲得できます。',
         startButton: '開始',

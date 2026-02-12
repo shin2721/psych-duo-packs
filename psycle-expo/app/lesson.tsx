@@ -13,7 +13,16 @@ import { VictoryConfetti } from "../components/VictoryConfetti";
 import { FireflyLoader } from "../components/FireflyLoader";
 import { logFeltBetter, logInterventionInteraction, hasLoggedShownThisSession, markShownLogged, resetSessionTracking } from "../lib/dogfood";
 import { getEvidenceSummary, getTryValueColor } from "../lib/evidenceSummary";
-import { recordActionExecution, recordStudyCompletion, addXP, XP_REWARDS, getStreakData, dateKey, claimRecoveryMissionIfEligible } from "../lib/streaks";
+import {
+  recordActionExecution,
+  recordStudyCompletion,
+  addXP,
+  XP_REWARDS,
+  getStreakData,
+  dateKey,
+  claimRecoveryMissionIfEligible,
+  markStreakGuardSavedIfEligible,
+} from "../lib/streaks";
 import { consumeFocus } from "../lib/focus";
 import { FirstExecutedCelebration } from "../components/FirstExecutedCelebration";
 import { hasCompletedFirstExecuted, markFirstExecutedComplete } from "../lib/onboarding";
@@ -22,7 +31,7 @@ import { formatCitation } from "../lib/evidenceUtils";
 import i18n from "../lib/i18n";
 
 export default function LessonScreen() {
-  const params = useLocalSearchParams<{ file: string; genre: string }>();
+  const params = useLocalSearchParams<{ file: string; genre: string; entry?: string }>();
   const fileParam = params.file; // Extract to primitive string
   const isE2EAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
   const { completeLesson, addXp, incrementQuest, consumeEnergy, tryTriggerStreakEnergyBonus, energy, maxEnergy, addGems } = useAppState();
@@ -310,7 +319,20 @@ export default function LessonScreen() {
       variantId: variant.id,
       actionStreak: streakData.actionStreak,
       freezesRemaining: streakData.freezesRemaining,
+      ...(params.entry ? { entrySource: params.entry } : {}),
     });
+
+    const streakGuardSave = await markStreakGuardSavedIfEligible(streakBeforeExecution.lastActionDate);
+    if (streakGuardSave.saved) {
+      Analytics.track("streak_guard_saved", {
+        source: "lesson_executed",
+        lessonId: params.file,
+        questionId,
+        actionStreakAfter: streakGuardSave.actionStreakAfter,
+        freezesRemainingAfter: streakGuardSave.freezesRemainingAfter,
+        riskType: streakGuardSave.riskType,
+      });
+    }
 
     const recoveryClaim = await claimRecoveryMissionIfEligible(streakBeforeExecution.lastActionDate);
     if (recoveryClaim.claimed) {

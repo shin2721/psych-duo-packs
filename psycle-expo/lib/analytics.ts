@@ -40,6 +40,8 @@ type QueuedEvent = {
  *   - intervention_shown / intervention_attempted
  *   - intervention_executed
  *   - recovery_mission_shown / recovery_mission_claimed
+ *   - streak_guard_shown / streak_guard_clicked / streak_guard_saved
+ *   - league_boundary_shown / league_boundary_clicked
  *   - streak_lost / streak_saved_with_freeze
  *   - checkout_start / checkout_opened / checkout_failed
  *   - restore_start / restore_result

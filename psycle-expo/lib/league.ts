@@ -40,6 +40,19 @@ export interface LeagueInfo {
     demotion_zone: number;   // 下位N人が降格
 }
 
+export type LeagueBoundaryMode = "promotion_chase" | "demotion_risk";
+
+export interface LeagueBoundaryStatus {
+    mode: LeagueBoundaryMode;
+    myRank: number;
+    promotionZone: number;
+    demotionZone: number;
+    weeklyXp: number;
+    xpGap: number;
+    weekId: string;
+    tier: number;
+}
+
 // 定数
 const LEAGUE_SIZE = 30;          // リーグあたりの人数
 const PROMOTION_PERCENT = 0.2;   // 上位20%昇格
@@ -159,6 +172,66 @@ export async function addWeeklyXp(userId: string, xp: number): Promise<void> {
     } catch (e) {
         console.error('[League] Error adding weekly XP:', e);
     }
+}
+
+/**
+ * リーグ境界カード用の表示ステータスを算出
+ */
+export function computeLeagueBoundaryStatus(
+    league: LeagueInfo,
+    userId: string
+): LeagueBoundaryStatus | null {
+    if (!league || !Array.isArray(league.members) || league.members.length === 0) return null;
+
+    const membersByRank = [...league.members].sort((a, b) => a.rank - b.rank);
+    const me = membersByRank.find((m) => m.user_id === userId);
+    if (!me) return null;
+
+    const myRank = me.rank;
+    const myWeeklyXp = me.weekly_xp || 0;
+    const promotionZone = league.promotion_zone;
+    const demotionZone = league.demotion_zone;
+
+    // 昇格圏内ならカード非表示
+    if (myRank <= promotionZone) return null;
+
+    if (myRank >= demotionZone) {
+        const safeRank = Math.max(1, demotionZone - 1);
+        const safeMember = membersByRank[safeRank - 1];
+        if (!safeMember) return null;
+
+        return {
+            mode: "demotion_risk",
+            myRank,
+            promotionZone,
+            demotionZone,
+            weeklyXp: myWeeklyXp,
+            xpGap: Math.max(0, (safeMember.weekly_xp || 0) - myWeeklyXp + 1),
+            weekId: league.week_id,
+            tier: league.tier,
+        };
+    }
+
+    const targetRank = Math.max(1, promotionZone);
+    const targetMember = membersByRank[targetRank - 1];
+    if (!targetMember) return null;
+
+    return {
+        mode: "promotion_chase",
+        myRank,
+        promotionZone,
+        demotionZone,
+        weeklyXp: myWeeklyXp,
+        xpGap: Math.max(0, (targetMember.weekly_xp || 0) - myWeeklyXp + 1),
+        weekId: league.week_id,
+        tier: league.tier,
+    };
+}
+
+export async function getLeagueBoundaryStatus(userId: string): Promise<LeagueBoundaryStatus | null> {
+    const league = await getMyLeague(userId);
+    if (!league) return null;
+    return computeLeagueBoundaryStatus(league, userId);
 }
 
 /**
