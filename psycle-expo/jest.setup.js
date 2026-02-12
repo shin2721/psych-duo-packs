@@ -14,3 +14,7 @@ jest.mock('expo-constants', () => ({
     },
   },
 }));
+
+jest.mock('@bittingz/expo-widgets', () => ({
+  setWidgetData: jest.fn(),
+}));

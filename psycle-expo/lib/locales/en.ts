@@ -169,6 +169,9 @@ export const en = {
             aLittleBetter: 'A little better',
             good: 'Good!',
         },
+        recoveryMission: {
+            rewarded: 'Recovery mission cleared! You earned +3 Gems.',
+        },
     },
     questionRenderer: {
         inputPlaceholder: 'Type your answer',
@@ -224,6 +227,11 @@ export const en = {
     course: {
         keepUsingTitle: 'Keep going a little longer!',
         keepUsingMessage: 'Complete a few more lessons or log an action to unlock this content.',
+        recoveryMission: {
+            title: 'Recovery mission',
+            body: 'Execute once today to earn +3 Gems',
+            cta: 'Do it now',
+        },
         startLessonTitle: 'Start Lesson',
         startLessonDescription: 'You can earn %{xp} XP in this lesson.',
         startButton: 'Start',

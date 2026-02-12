@@ -13,7 +13,7 @@ import { VictoryConfetti } from "../components/VictoryConfetti";
 import { FireflyLoader } from "../components/FireflyLoader";
 import { logFeltBetter, logInterventionInteraction, hasLoggedShownThisSession, markShownLogged, resetSessionTracking } from "../lib/dogfood";
 import { getEvidenceSummary, getTryValueColor } from "../lib/evidenceSummary";
-import { recordActionExecution, recordStudyCompletion, addXP, XP_REWARDS, getStreakData, dateKey } from "../lib/streaks";
+import { recordActionExecution, recordStudyCompletion, addXP, XP_REWARDS, getStreakData, dateKey, claimRecoveryMissionIfEligible } from "../lib/streaks";
 import { consumeFocus } from "../lib/focus";
 import { FirstExecutedCelebration } from "../components/FirstExecutedCelebration";
 import { hasCompletedFirstExecuted, markFirstExecutedComplete } from "../lib/onboarding";
@@ -25,7 +25,7 @@ export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
   const fileParam = params.file; // Extract to primitive string
   const isE2EAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
-  const { completeLesson, addXp, incrementQuest, consumeEnergy, tryTriggerStreakEnergyBonus, energy, maxEnergy } = useAppState();
+  const { completeLesson, addXp, incrementQuest, consumeEnergy, tryTriggerStreakEnergyBonus, energy, maxEnergy, addGems } = useAppState();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
@@ -159,6 +159,7 @@ export default function LessonScreen() {
 
         // バリアント情報（デフォルトでoriginal）
         const variant = details.variant || { id: "original", label: i18n.t("lesson.originalVariantLabel") };
+        const genreId = params.file.match(/^([a-z]+)_/)?.[1] || "unknown";
 
         logInterventionInteraction(
           params.file,
@@ -166,6 +167,12 @@ export default function LessonScreen() {
           variant,
           'shown'
         );
+        Analytics.track("intervention_shown", {
+          lessonId: params.file,
+          questionId,
+          genreId,
+          variantId: variant.id,
+        });
 
         // felt_better帰属用に最後のintervention IDを記録
         setLastShownInterventionId(questionId);
@@ -268,8 +275,15 @@ export default function LessonScreen() {
   async function handleInterventionAttempted(questionId: string) {
     const details = currentQuestion?.expanded_details;
     const variant = details?.variant || { id: 'original', label: i18n.t("lesson.originalVariantLabel") };
+    const genreId = params.file.match(/^([a-z]+)_/)?.[1] || "unknown";
 
     logInterventionInteraction(params.file, questionId, variant, 'attempted');
+    Analytics.track("intervention_attempted", {
+      lessonId: params.file,
+      questionId,
+      genreId,
+      variantId: variant.id,
+    });
     setActiveInterventionId(questionId); // felt_better帰属用
 
     // ゲーミフィケーション: attempted で XP
@@ -282,11 +296,36 @@ export default function LessonScreen() {
   async function handleInterventionExecuted(questionId: string) {
     const details = currentQuestion?.expanded_details;
     const variant = details?.variant || { id: 'original', label: i18n.t("lesson.originalVariantLabel") };
+    const genreId = params.file.match(/^([a-z]+)_/)?.[1] || "unknown";
 
     logInterventionInteraction(params.file, questionId, variant, 'executed');
+    const streakBeforeExecution = await getStreakData();
 
     // ゲーミフィケーション: Action Streak + XP
-    await recordActionExecution();
+    const streakData = await recordActionExecution();
+    Analytics.track("intervention_executed", {
+      lessonId: params.file,
+      questionId,
+      genreId,
+      variantId: variant.id,
+      actionStreak: streakData.actionStreak,
+      freezesRemaining: streakData.freezesRemaining,
+    });
+
+    const recoveryClaim = await claimRecoveryMissionIfEligible(streakBeforeExecution.lastActionDate);
+    if (recoveryClaim.claimed) {
+      addGems(3);
+      Analytics.track("recovery_mission_claimed", {
+        source: "lesson_executed",
+        lessonId: params.file,
+        questionId,
+        rewardGems: 3,
+        missedDays: recoveryClaim.missedDays,
+        actionStreakAfter: recoveryClaim.actionStreakAfter,
+      });
+      Alert.alert(i18n.t("lesson.recoveryMission.rewarded"));
+    }
+
     await addXP(XP_REWARDS.EXECUTED);
 
     // 初回executed達成チェック

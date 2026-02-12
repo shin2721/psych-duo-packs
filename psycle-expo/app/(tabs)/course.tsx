@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { StyleSheet, Alert } from "react-native";
+import { StyleSheet, Alert, Pressable, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
 import { trailsByGenre } from "../../lib/data";
@@ -11,7 +11,7 @@ import { StudyStreakWidget, StudyActivityDay } from "../../components/StudyStrea
 import { LeagueResultModal } from "../../components/LeagueResultModal";
 import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
-import { dateKey, getStreakData } from "../../lib/streaks";
+import { dateKey, getStreakData, getRecoveryMissionStatus, markRecoveryMissionShown } from "../../lib/streaks";
 import { useAuth } from "../../lib/AuthContext";
 import { router } from "expo-router";
 import { Analytics } from "../../lib/analytics";
@@ -38,6 +38,7 @@ export default function CourseScreen() {
   const [studyStreakDays, setStudyStreakDays] = useState(0);
   const [todayLessonsCompleted, setTodayLessonsCompleted] = useState(0);
   const [recentStudyActivity, setRecentStudyActivity] = useState<StudyActivityDay[]>([]);
+  const [recoveryMission, setRecoveryMission] = useState<{ missedDays: number; lastActionDate: string; actionStreak: number } | null>(null);
 
   // リーグ結果チェック（アプリ起動時）
   useEffect(() => {
@@ -76,12 +77,33 @@ export default function CourseScreen() {
 
       const loadStudyWidget = async () => {
         const streakData = await getStreakData();
+        const recoveryStatus = await getRecoveryMissionStatus();
         const studyHistory = streakData.studyHistory || {};
         const today = dateKey();
         if (!isActive) return;
         setStudyStreakDays(streakData.studyStreak || 0);
         setTodayLessonsCompleted(studyHistory[today]?.lessonsCompleted || 0);
         setRecentStudyActivity(buildRecentActivity(studyHistory));
+
+        if (recoveryStatus.eligible && recoveryStatus.lastActionDate) {
+          setRecoveryMission({
+            missedDays: recoveryStatus.missedDays,
+            lastActionDate: recoveryStatus.lastActionDate,
+            actionStreak: recoveryStatus.actionStreak,
+          });
+
+          if (!recoveryStatus.shownToday) {
+            await markRecoveryMissionShown();
+            Analytics.track("recovery_mission_shown", {
+              source: "course_home",
+              missedDays: recoveryStatus.missedDays,
+              lastActionDate: recoveryStatus.lastActionDate,
+              actionStreak: recoveryStatus.actionStreak,
+            });
+          }
+        } else {
+          setRecoveryMission(null);
+        }
       };
 
       loadStudyWidget().catch(console.error);
@@ -146,6 +168,19 @@ export default function CourseScreen() {
     setModalNode(null);
   };
 
+  const handleRecoveryMissionPress = () => {
+    const nextNode = currentTrail.find((node: any) => node.status === "current" && !node.isLocked && node.lessonFile);
+    if (!nextNode?.lessonFile) {
+      Alert.alert(
+        i18n.t("course.keepUsingTitle"),
+        i18n.t("course.keepUsingMessage"),
+        [{ text: i18n.t("common.ok") }]
+      );
+      return;
+    }
+    router.replace(`/lesson?file=${nextNode.lessonFile}&genre=${selectedGenre}`);
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <GlobalHeader />
@@ -158,6 +193,13 @@ export default function CourseScreen() {
           router.push("/(tabs)/quests");
         }}
       />
+      {recoveryMission && (
+        <Pressable style={styles.recoveryMissionBanner} onPress={handleRecoveryMissionPress}>
+          <Text style={styles.recoveryMissionTitle}>{i18n.t("course.recoveryMission.title")}</Text>
+          <Text style={styles.recoveryMissionBody}>{i18n.t("course.recoveryMission.body")}</Text>
+          <Text style={styles.recoveryMissionCta}>{i18n.t("course.recoveryMission.cta")}</Text>
+        </Pressable>
+      )}
 
       {/* Stats Cards REMOVED as per minimal design requirement */}
 
@@ -230,6 +272,33 @@ export default function CourseScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "transparent" },
+  recoveryMissionBanner: {
+    marginHorizontal: 12,
+    marginTop: 6,
+    marginBottom: 8,
+    borderRadius: 14,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    backgroundColor: "rgba(34,197,94,0.16)",
+    borderWidth: 1,
+    borderColor: "rgba(34,197,94,0.45)",
+  },
+  recoveryMissionTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#d9ffe4",
+  },
+  recoveryMissionBody: {
+    marginTop: 4,
+    fontSize: 12,
+    color: "#d7f8e2",
+  },
+  recoveryMissionCta: {
+    marginTop: 8,
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#86efac",
+  },
   header: {
     // Empty header reserved for spacing if needed, or remove completely.
     // Actually GlobalHeader is outside, so maybe just 0 height or specific bg.

@@ -1,13 +1,17 @@
-# Analytics Growth Dashboard (v1.6)
+# Analytics Growth Dashboard (v1.10)
 
 ## 目的
 - 継続率と課金転換に効くKPIを、毎日同じ定義で確認する。
 - ダッシュボード更新と日次レポートをスクリプトで再現可能にする。
 
-## v1.6での方針
+## v1.10での方針
 - PostHog APIの制約に合わせ、`InsightVizNode + Trends/Retention` を使用。
 - `HogQLQuery` を insight source に直接入れる方式は使わない。
 - 比率指標は「関連イベントの系列」を作り、レポート側で算出する。
+- Primary KPI を次の3つに固定する。
+  - `D7継続率`
+  - `サブスク転換率 (plan_changed / checkout_start)`
+  - `実行ユーザー率 (intervention_executed UV / session_start UV)`
 
 ## 必須スコープ
 - `dashboard:read`
@@ -22,16 +26,20 @@ export POSTHOG_PROJECT_ID=12345
 export POSTHOG_HOST=https://us.posthog.com
 ```
 
-## 生成されるカード（v1.6）
+## 生成されるカード（v1.10）
 1. `DAU (session_start UV)`
-2. `Lesson Start vs Complete (UV)`
-3. `Incorrect vs Lesson Start (daily)`
-4. `Streak Lost Users (daily)`
-5. `Energy Friction (daily)`
-6. `D1 Retention (session_start)`
-7. `D7 Retention (session_start)`
-8. `Checkout Starts (daily)`
-9. `Paid Plan Changes (daily)`
+2. `Executed Users vs DAU (UV)`
+3. `Intervention Funnel (daily)`
+4. `Recovery Mission (daily)`
+5. `Lesson Start vs Complete (UV)`
+6. `Completed Sessions (daily)`
+7. `Incorrect vs Lesson Start (daily)`
+8. `Streak Lost Users (daily)`
+9. `Energy Friction (daily)`
+10. `D1 Retention (session_start)`
+11. `D7 Retention (session_start)`
+12. `Checkout Starts (daily)`
+13. `Paid Plan Changes (daily)`
 
 ## 実行コマンド
 ```bash
@@ -48,14 +56,21 @@ npm run analytics:posthog:kpi-report
 ## KPIレポートの出力内容
 - 基準日（昨日）
 - 直近7日 vs 前7日
-- 指標:
+- Primary KPI:
+  - D7 Retention 7d
+  - Paid Plan Conversion 7d
+  - Executed User Rate 7d
+- 補助指標:
+  - Completed Sessions / Day 7d
   - DAU
   - Lesson Completion Rate (UV)
+  - Intervention Attempt Rate (attempted / shown)
+  - Intervention Execute Rate (executed / attempted)
+  - Recovery Mission Claim Rate (recovery_mission_claimed / recovery_mission_shown)
   - Incorrect per Lesson Start
   - Energy Block Rate
   - Energy Shop Intent
   - D1 Retention
-  - D7 Retention
   - Checkout Starts
   - Paid Plan Changes
 - 20%以上悪化した指標のアラート
@@ -69,7 +84,12 @@ npm run analytics:posthog:kpi-report
   - `energy_blocked`
   - `shop_open_from_energy`
   - `energy_bonus_hit`
-- v1.6で追加:
+- v1.10で追加:
+  - `intervention_shown`
+  - `intervention_attempted`
+  - `intervention_executed`
+  - `recovery_mission_shown`
+  - `recovery_mission_claimed`
   - `question_incorrect`
   - `streak_lost`
   - `streak_saved_with_freeze`

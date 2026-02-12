@@ -26,8 +26,34 @@
         "lesson_completion_rate_uv_7d_min": 0.55,
         "energy_block_rate_7d_max": 0.25,
         "energy_shop_intent_7d_min": 0.08,
+        "executed_user_rate_7d_min": 0.3,
+        "intervention_attempt_rate_7d_min": 0.3,
+        "intervention_execute_rate_7d_min": 0.45,
+        "recovery_mission_claim_rate_7d_min": 0.2,
         "d1_retention_rate_7d_min": 0.25,
         "d7_retention_rate_7d_min": 0.08,
-        "paid_plan_changes_per_checkout_7d_min": 0.18
+        "paid_plan_changes_per_checkout_7d_min": 0.18,
+        "completed_sessions_per_day_7d_min": 1.2
+    },
+    "primary_kpis": {
+        "version": "growth_v1.10",
+        "fixed_at": "2026-02-12",
+        "metrics": [
+            {
+                "key": "d7_retention_rate_7d",
+                "label": "D7 Retention 7d",
+                "formula": "retained_users_day7 / cohort_users_day0"
+            },
+            {
+                "key": "paid_plan_changes_per_checkout_7d",
+                "label": "Paid Plan Conversion 7d",
+                "formula": "plan_changed(toPlan in [pro,max]) / checkout_start"
+            },
+            {
+                "key": "executed_user_rate_7d",
+                "label": "Executed User Rate 7d",
+                "formula": "intervention_executed(UV) / session_start(UV)"
+            }
+        ]
     }
 }

@@ -7,6 +7,7 @@
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { syncWidgetStudyData } from './widgetSync';
 
 const STORAGE_KEY = '@psycle_streaks';
 
@@ -20,6 +21,10 @@ export interface StreakData {
     // Action Streak (主役)
     actionStreak: number;
     lastActionDate: string | null;  // YYYY-MM-DD
+
+    // Recovery Mission
+    recoveryLastShownDate: string | null;
+    recoveryLastClaimedDate: string | null;
 
     // Freeze
     freezesRemaining: number;
@@ -37,12 +42,30 @@ const DEFAULT_STATE: StreakData = {
     studyHistory: {},
     actionStreak: 0,
     lastActionDate: null,
+    recoveryLastShownDate: null,
+    recoveryLastClaimedDate: null,
     freezesRemaining: 2,
     freezeWeekStart: null,
     totalXP: 0,
     todayXP: 0,
     xpDate: null,
 };
+
+export interface RecoveryMissionStatus {
+    eligible: boolean;
+    missedDays: number;
+    lastActionDate: string | null;
+    actionStreak: number;
+    shownToday: boolean;
+    claimedToday: boolean;
+}
+
+export interface RecoveryMissionClaimResult {
+    claimed: boolean;
+    missedDays: number;
+    actionStreakAfter: number;
+    lastActionDate: string | null;
+}
 
 /**
  * ローカル時間で日付キーを取得（YYYY-MM-DD）
@@ -77,6 +100,24 @@ function pruneStudyHistory(
     return pruned;
 }
 
+function buildRecentWidgetDays(
+    history: Record<string, { lessonsCompleted: number; xp: number }>,
+    days = 14
+): Array<{ date: string; lessonsCompleted: number; xp: number }> {
+    const list: Array<{ date: string; lessonsCompleted: number; xp: number }> = [];
+    const todayUtcDay = dateKeyToUtcDay(getToday());
+    for (let i = days - 1; i >= 0; i--) {
+        const dayKey = utcNumberToDateKey(todayUtcDay - i);
+        const value = history[dayKey] || { lessonsCompleted: 0, xp: 0 };
+        list.push({
+            date: dayKey,
+            lessonsCompleted: value.lessonsCompleted || 0,
+            xp: value.xp || 0,
+        });
+    }
+    return list;
+}
+
 function getWeekStart(date: Date): string {
     const d = new Date(date);
     const day = d.getDay();
@@ -99,6 +140,35 @@ function dateKeyToUtcDay(dateStr: string): number {
     return Math.floor(Date.UTC(y, m - 1, d) / (1000 * 60 * 60 * 24));
 }
 
+function utcNumberToDateKey(utcDay: number): string {
+    const d = new Date(utcDay * 24 * 60 * 60 * 1000);
+    const y = d.getUTCFullYear();
+    const m = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(d.getUTCDate()).padStart(2, '0');
+    return `${y}-${m}-${day}`;
+}
+
+function calculateMissedDays(lastActionDate: string | null, today: string): number {
+    if (!lastActionDate) return 0;
+    const diffDays = dateKeyToUtcDay(today) - dateKeyToUtcDay(lastActionDate);
+    if (diffDays <= 1) return 0;
+    return diffDays - 1;
+}
+
+function toRecoveryMissionStatus(data: StreakData, today = getToday()): RecoveryMissionStatus {
+    const missedDays = calculateMissedDays(data.lastActionDate, today);
+    const claimedToday = data.recoveryLastClaimedDate === today;
+    const shownToday = data.recoveryLastShownDate === today;
+    return {
+        eligible: Boolean(data.lastActionDate) && missedDays >= 1 && !claimedToday,
+        missedDays,
+        lastActionDate: data.lastActionDate,
+        actionStreak: data.actionStreak || 0,
+        shownToday,
+        claimedToday,
+    };
+}
+
 export async function getStreakData(): Promise<StreakData> {
     try {
         const raw = await AsyncStorage.getItem(STORAGE_KEY);
@@ -106,6 +176,8 @@ export async function getStreakData(): Promise<StreakData> {
 
         const data = JSON.parse(raw) as StreakData;
         data.studyHistory = pruneStudyHistory(data.studyHistory || {});
+        data.recoveryLastShownDate = data.recoveryLastShownDate || null;
+        data.recoveryLastClaimedDate = data.recoveryLastClaimedDate || null;
 
         // 週が変わったらfreezeを最低weekly_refillに補充（購入分は消さない）
         const currentWeekStart = getWeekStart(new Date());
@@ -128,8 +200,89 @@ export async function getStreakData(): Promise<StreakData> {
     }
 }
 
+export async function getRecoveryMissionStatus(): Promise<RecoveryMissionStatus> {
+    const data = await getStreakData();
+    return toRecoveryMissionStatus(data);
+}
+
+export async function markRecoveryMissionShown(): Promise<RecoveryMissionStatus> {
+    const data = await getStreakData();
+    const today = getToday();
+    const status = toRecoveryMissionStatus(data, today);
+    if (!status.eligible || status.shownToday) {
+        return status;
+    }
+
+    data.recoveryLastShownDate = today;
+    await saveStreakData(data);
+    return toRecoveryMissionStatus(data, today);
+}
+
+export async function claimRecoveryMissionIfEligible(
+    lastActionDateBeforeExecution: string | null
+): Promise<RecoveryMissionClaimResult> {
+    const data = await getStreakData();
+    const today = getToday();
+
+    if (data.recoveryLastClaimedDate === today) {
+        return {
+            claimed: false,
+            missedDays: 0,
+            actionStreakAfter: data.actionStreak || 0,
+            lastActionDate: data.lastActionDate,
+        };
+    }
+
+    if (!lastActionDateBeforeExecution) {
+        return {
+            claimed: false,
+            missedDays: 0,
+            actionStreakAfter: data.actionStreak || 0,
+            lastActionDate: data.lastActionDate,
+        };
+    }
+
+    if (data.lastActionDate !== today) {
+        return {
+            claimed: false,
+            missedDays: 0,
+            actionStreakAfter: data.actionStreak || 0,
+            lastActionDate: data.lastActionDate,
+        };
+    }
+
+    const missedDays = calculateMissedDays(lastActionDateBeforeExecution, today);
+    if (missedDays < 1) {
+        return {
+            claimed: false,
+            missedDays,
+            actionStreakAfter: data.actionStreak || 0,
+            lastActionDate: data.lastActionDate,
+        };
+    }
+
+    data.recoveryLastClaimedDate = today;
+    await saveStreakData(data);
+    return {
+        claimed: true,
+        missedDays,
+        actionStreakAfter: data.actionStreak || 0,
+        lastActionDate: data.lastActionDate,
+    };
+}
+
 async function saveStreakData(data: StreakData): Promise<void> {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+    const today = getToday();
+    const todayHistory = data.studyHistory[today] || { lessonsCompleted: 0, xp: 0 };
+    syncWidgetStudyData({
+        studyStreak: data.studyStreak || 0,
+        todayLessons: todayHistory.lessonsCompleted || 0,
+        todayXP: todayHistory.xp || 0,
+        totalXP: data.totalXP || 0,
+        recentDays: buildRecentWidgetDays(data.studyHistory || {}),
+        updatedAtMs: Date.now(),
+    });
 }
 
 /**

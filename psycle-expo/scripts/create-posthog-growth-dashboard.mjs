@@ -15,10 +15,10 @@
  */
 
 const DEFAULT_HOST = "https://app.posthog.com";
-const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.6)";
+const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.10)";
 const DEFAULT_DASHBOARD_DESCRIPTION =
   "Psycle growth KPI dashboard. Managed by scripts/create-posthog-growth-dashboard.mjs";
-const DASHBOARD_TAG = "psycle-growth-v1.6";
+const DASHBOARD_TAG = "psycle-growth-v1.10";
 
 function parseArgs(argv) {
   const flags = new Set();
@@ -248,6 +248,36 @@ const CARD_DEFS = [
     ]),
   },
   {
+    name: "Executed Users vs DAU (UV)",
+    description: "Daily UV for intervention_executed and session_start to derive executed user rate.",
+    query: trendsQuery([
+      eventNode("intervention_executed", "dau"),
+      eventNode("session_start", "dau"),
+    ]),
+  },
+  {
+    name: "Intervention Funnel (daily)",
+    description: "Daily counts for intervention_shown, intervention_attempted, and intervention_executed.",
+    query: trendsQuery([
+      eventNode("intervention_shown", "total"),
+      eventNode("intervention_attempted", "total"),
+      eventNode("intervention_executed", "total"),
+    ]),
+  },
+  {
+    name: "Recovery Mission (daily)",
+    description: "Daily counts for recovery_mission_shown and recovery_mission_claimed.",
+    query: trendsQuery([
+      eventNode("recovery_mission_shown", "total"),
+      eventNode("recovery_mission_claimed", "total"),
+    ]),
+  },
+  {
+    name: "Completed Sessions (daily)",
+    description: "Daily total lesson_complete count to track completed sessions per day.",
+    query: trendsQuery([eventNode("lesson_complete", "total")]),
+  },
+  {
     name: "Incorrect vs Lesson Start (daily)",
     description: "Daily counts for question_incorrect and lesson_start to derive error pressure.",
     query: trendsQuery([
@@ -412,4 +442,3 @@ main().catch((error) => {
   }
   process.exit(1);
 });
-

@@ -169,6 +169,9 @@ export const ja = {
             aLittleBetter: '少し良い',
             good: '良い！',
         },
+        recoveryMission: {
+            rewarded: '復帰ミッション達成！ +3 Gems を獲得しました',
+        },
     },
     questionRenderer: {
         inputPlaceholder: '答えを入力',
@@ -224,6 +227,11 @@ export const ja = {
     course: {
         keepUsingTitle: 'もう少しだけ使ってみて！',
         keepUsingMessage: 'あと数レッスン完了するか、行動の実践を記録すると、このコンテンツが解放されます。',
+        recoveryMission: {
+            title: '復帰ミッション',
+            body: '今日1回実行で +3 Gems',
+            cta: '今すぐ実行する',
+        },
         startLessonTitle: 'レッスンを開始',
         startLessonDescription: 'このレッスンで %{xp} XP 獲得できます。',
         startButton: '開始',

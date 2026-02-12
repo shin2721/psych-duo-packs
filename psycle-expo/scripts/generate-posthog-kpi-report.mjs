@@ -26,12 +26,21 @@ const DEFAULT_TUNING_TARGETS = {
   lesson_completion_rate_uv_7d_min: 0.55,
   energy_block_rate_7d_max: 0.25,
   energy_shop_intent_7d_min: 0.08,
+  executed_user_rate_7d_min: 0.3,
+  intervention_attempt_rate_7d_min: 0.3,
+  intervention_execute_rate_7d_min: 0.45,
+  recovery_mission_claim_rate_7d_min: 0.2,
   d1_retention_rate_7d_min: 0.25,
   d7_retention_rate_7d_min: 0.08,
   paid_plan_changes_per_checkout_7d_min: 0.18,
+  completed_sessions_per_day_7d_min: 1.2,
 };
 
 const DASHBOARD_NAMES = [
+  "Psycle Growth Dashboard (v1.10)",
+  "Psycle Growth Dashboard (v1.9)",
+  "Psycle Growth Dashboard (v1.8)",
+  "Psycle Growth Dashboard (v1.7)",
   "Psycle Growth Dashboard (v1.6)",
   "Psycle Growth Dashboard (v1.5)",
 ];
@@ -39,6 +48,9 @@ const DASHBOARD_NAMES = [
 const REQUIRED_INSIGHTS = [
   "DAU (session_start UV)",
   "Lesson Start vs Complete (UV)",
+  "Executed Users vs DAU (UV)",
+  "Intervention Funnel (daily)",
+  "Recovery Mission (daily)",
   "Incorrect vs Lesson Start (daily)",
   "Streak Lost Users (daily)",
   "Energy Friction (daily)",
@@ -46,6 +58,16 @@ const REQUIRED_INSIGHTS = [
   "D7 Retention (session_start)",
   "Checkout Starts (daily)",
   "Paid Plan Changes (daily)",
+];
+
+const OPTIONAL_INSIGHTS = [
+  "Completed Sessions (daily)",
+];
+
+const PRIMARY_KPI_KEYS = [
+  "d7_retention_rate_7d",
+  "paid_plan_changes_per_checkout_7d",
+  "executed_user_rate_7d",
 ];
 
 function parseArgs(argv) {
@@ -193,6 +215,11 @@ function formatNum(v, digits = 2) {
   return Number(v).toFixed(digits);
 }
 
+function formatPct(v, digits = 2) {
+  if (v == null || Number.isNaN(v)) return "n/a";
+  return `${Number(v * 100).toFixed(digits)}%`;
+}
+
 function parseTrendInsight(insight) {
   const result = Array.isArray(insight.result) ? insight.result : [];
   const seriesMap = new Map();
@@ -286,6 +313,31 @@ function buildAnomalies(metrics, worseningThreshold) {
       higherIsBetter: true,
       label: "D7 Retention",
     },
+    {
+      key: "executed_user_rate_7d",
+      higherIsBetter: true,
+      label: "Executed User Rate",
+    },
+    {
+      key: "intervention_attempt_rate_7d",
+      higherIsBetter: true,
+      label: "Intervention Attempt Rate",
+    },
+    {
+      key: "intervention_execute_rate_7d",
+      higherIsBetter: true,
+      label: "Intervention Execute Rate",
+    },
+    {
+      key: "recovery_mission_claim_rate_7d",
+      higherIsBetter: true,
+      label: "Recovery Mission Claim Rate",
+    },
+    {
+      key: "paid_plan_changes_per_checkout_7d",
+      higherIsBetter: true,
+      label: "Paid Plan Conversion",
+    },
   ];
 
   const anomalies = [];
@@ -329,6 +381,34 @@ function buildTargetBreaches(metrics, targets) {
       mode: "min",
     },
     {
+      key: "executed_user_rate_7d",
+      label: "Executed User Rate 7d",
+      target: targets.executed_user_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "intervention_attempt_rate_7d",
+      label: "Intervention Attempt Rate 7d",
+      target: targets.intervention_attempt_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "intervention_execute_rate_7d",
+      label: "Intervention Execute Rate 7d",
+      target: targets.intervention_execute_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "recovery_mission_claim_rate_7d",
+      label: "Recovery Mission Claim Rate 7d",
+      target: targets.recovery_mission_claim_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
       key: "d1_retention_rate_7d",
       label: "D1 Retention 7d",
       target: targets.d1_retention_rate_7d_min,
@@ -345,6 +425,7 @@ function buildTargetBreaches(metrics, targets) {
       label: "Paid Plan Conversion 7d",
       target: targets.paid_plan_changes_per_checkout_7d_min,
       mode: "min",
+      unit: "ratio",
     },
   ];
 
@@ -359,6 +440,7 @@ function buildTargetBreaches(metrics, targets) {
         current,
         target: c.target,
         mode: c.mode,
+        unit: c.unit || "ratio",
       });
     }
   }
@@ -382,6 +464,18 @@ function buildRecommendedActions(anomalies, breaches) {
     || flagged.has("Energy Shop Intent 7d")
   ) {
     actions.push("focus.recovery_rate_per_hour を +0.25 刻みで調整し、energy_blocked→shop_open_from_energy 導線文言をA/Bする。");
+  }
+  if (flagged.has("Executed User Rate") || flagged.has("Executed User Rate 7d")) {
+    actions.push("executed 到達率を上げるため、レッスン完了画面で次の行動提案CTAを1タップ化し、実行直前の摩擦を削る。");
+  }
+  if (flagged.has("Intervention Attempt Rate") || flagged.has("Intervention Attempt Rate 7d")) {
+    actions.push("intervention_shown→attempted を改善するため、問題文直下のAttempt CTAを固定表示し、説明の1行目で行動ハードルを下げる。");
+  }
+  if (flagged.has("Intervention Execute Rate") || flagged.has("Intervention Execute Rate 7d")) {
+    actions.push("attempted→executed を改善するため、実行ボタン押下後の確認ステップを1つ減らし、成功条件テキストを短文化する。");
+  }
+  if (flagged.has("Recovery Mission Claim Rate") || flagged.has("Recovery Mission Claim Rate 7d")) {
+    actions.push("離脱翌日の復帰導線を強化するため、コース先頭に復帰ミッションバナーを固定表示し、CTA押下で即レッスン開始に遷移する。");
   }
   if (flagged.has("Paid Plan Conversion 7d")) {
     actions.push("shop_open_from_energy→checkout_start の遷移率を改善するため、購読価値訴求を1画面目に集約する。");
@@ -431,10 +525,11 @@ async function main() {
   }
 
   // Fallback: tile反映が遅い場合はinsights一覧からdashboard紐付けで補完する。
-  if (insightByName.size < REQUIRED_INSIGHTS.length) {
+  const missingFromTiles = REQUIRED_INSIGHTS.filter((name) => !insightByName.has(name));
+  if (missingFromTiles.length > 0) {
     const allInsights = await listAll(config, `/api/projects/${config.projectId}/insights/?limit=500`);
     for (const insight of allInsights) {
-      if (!REQUIRED_INSIGHTS.includes(insight.name)) continue;
+      if (!REQUIRED_INSIGHTS.includes(insight.name) && !OPTIONAL_INSIGHTS.includes(insight.name)) continue;
       const dashboards = Array.isArray(insight.dashboards) ? insight.dashboards : [];
       if (dashboards.includes(dashboard.id)) {
         insightByName.set(insight.name, insight.id);
@@ -450,6 +545,16 @@ async function main() {
   const insights = {};
   for (const name of REQUIRED_INSIGHTS) {
     const id = insightByName.get(name);
+    insights[name] = await apiRequest(
+      config,
+      "GET",
+      `/api/projects/${config.projectId}/insights/${id}/?refresh=blocking`,
+      undefined
+    );
+  }
+  for (const name of OPTIONAL_INSIGHTS) {
+    const id = insightByName.get(name);
+    if (!id) continue;
     insights[name] = await apiRequest(
       config,
       "GET",
@@ -473,6 +578,16 @@ async function main() {
   const lessonTrend = parseTrendInsight(insights["Lesson Start vs Complete (UV)"]);
   const lessonStartUV = pickSeries(lessonTrend.seriesMap, ["lesson_start"]);
   const lessonCompleteUV = pickSeries(lessonTrend.seriesMap, ["lesson_complete"]);
+  const executedUvTrend = parseTrendInsight(insights["Executed Users vs DAU (UV)"]);
+  const executedUsersUV = pickSeries(executedUvTrend.seriesMap, ["intervention_executed"]);
+  const executedSessionStartUV = pickSeries(executedUvTrend.seriesMap, ["session_start"]);
+  const interventionFunnelTrend = parseTrendInsight(insights["Intervention Funnel (daily)"]);
+  const interventionShown = pickSeries(interventionFunnelTrend.seriesMap, ["intervention_shown"]);
+  const interventionAttempted = pickSeries(interventionFunnelTrend.seriesMap, ["intervention_attempted"]);
+  const interventionExecutedTotal = pickSeries(interventionFunnelTrend.seriesMap, ["intervention_executed"]);
+  const recoveryMissionTrend = parseTrendInsight(insights["Recovery Mission (daily)"]);
+  const recoveryMissionShown = pickSeries(recoveryMissionTrend.seriesMap, ["recovery_mission_shown"]);
+  const recoveryMissionClaimed = pickSeries(recoveryMissionTrend.seriesMap, ["recovery_mission_claimed"]);
 
   const incorrectTrend = parseTrendInsight(insights["Incorrect vs Lesson Start (daily)"]);
   const incorrectCount = pickSeries(incorrectTrend.seriesMap, ["question_incorrect"]);
@@ -486,6 +601,13 @@ async function main() {
   const streakLostTrend = parseTrendInsight(insights["Streak Lost Users (daily)"]);
   const checkoutStartTrend = parseTrendInsight(insights["Checkout Starts (daily)"]);
   const paidPlanChangedTrend = parseTrendInsight(insights["Paid Plan Changes (daily)"]);
+  const completedSessionsTrend = insights["Completed Sessions (daily)"]
+    ? parseTrendInsight(insights["Completed Sessions (daily)"])
+    : null;
+  const completedSessionsSeries = completedSessionsTrend ? completedSessionsTrend.combined : lessonCompleteUV;
+  const completedSessionsSource = completedSessionsTrend
+    ? "lesson_complete_total"
+    : "lesson_complete_uv_fallback";
 
   const d1Insight = insights["D1 Retention (session_start)"];
   const d7Insight = insights["D7 Retention (session_start)"];
@@ -512,6 +634,52 @@ async function main() {
     lesson_completion_rate_uv_7d_prev: safeRate(
       sumWindow(lessonCompleteUV, previousStart, previousEnd),
       sumWindow(lessonStartUV, previousStart, previousEnd)
+    ),
+    executed_user_rate_yesterday: safeRate(
+      Number(executedUsersUV.get(anchorDay) || 0),
+      Number(executedSessionStartUV.get(anchorDay) || 0)
+    ),
+    executed_user_rate_7d: safeRate(
+      sumWindow(executedUsersUV, currentStart, anchorDay),
+      sumWindow(executedSessionStartUV, currentStart, anchorDay)
+    ),
+    executed_user_rate_7d_prev: safeRate(
+      sumWindow(executedUsersUV, previousStart, previousEnd),
+      sumWindow(executedSessionStartUV, previousStart, previousEnd)
+    ),
+    intervention_shown_7d: sumWindow(interventionShown, currentStart, anchorDay),
+    intervention_shown_7d_prev: sumWindow(interventionShown, previousStart, previousEnd),
+    intervention_attempted_7d: sumWindow(interventionAttempted, currentStart, anchorDay),
+    intervention_attempted_7d_prev: sumWindow(interventionAttempted, previousStart, previousEnd),
+    intervention_executed_total_7d: sumWindow(interventionExecutedTotal, currentStart, anchorDay),
+    intervention_executed_total_7d_prev: sumWindow(interventionExecutedTotal, previousStart, previousEnd),
+    intervention_attempt_rate_7d: safeRate(
+      sumWindow(interventionAttempted, currentStart, anchorDay),
+      sumWindow(interventionShown, currentStart, anchorDay)
+    ),
+    intervention_attempt_rate_7d_prev: safeRate(
+      sumWindow(interventionAttempted, previousStart, previousEnd),
+      sumWindow(interventionShown, previousStart, previousEnd)
+    ),
+    intervention_execute_rate_7d: safeRate(
+      sumWindow(interventionExecutedTotal, currentStart, anchorDay),
+      sumWindow(interventionAttempted, currentStart, anchorDay)
+    ),
+    intervention_execute_rate_7d_prev: safeRate(
+      sumWindow(interventionExecutedTotal, previousStart, previousEnd),
+      sumWindow(interventionAttempted, previousStart, previousEnd)
+    ),
+    recovery_mission_shown_7d: sumWindow(recoveryMissionShown, currentStart, anchorDay),
+    recovery_mission_shown_7d_prev: sumWindow(recoveryMissionShown, previousStart, previousEnd),
+    recovery_mission_claimed_7d: sumWindow(recoveryMissionClaimed, currentStart, anchorDay),
+    recovery_mission_claimed_7d_prev: sumWindow(recoveryMissionClaimed, previousStart, previousEnd),
+    recovery_mission_claim_rate_7d: safeRate(
+      sumWindow(recoveryMissionClaimed, currentStart, anchorDay),
+      sumWindow(recoveryMissionShown, currentStart, anchorDay)
+    ),
+    recovery_mission_claim_rate_7d_prev: safeRate(
+      sumWindow(recoveryMissionClaimed, previousStart, previousEnd),
+      sumWindow(recoveryMissionShown, previousStart, previousEnd)
     ),
 
     incorrect_per_lesson_start_yesterday: safeRate(
@@ -573,15 +741,36 @@ async function main() {
       sumWindow(paidPlanChangedTrend.combined, previousStart, previousEnd),
       sumWindow(checkoutStartTrend.combined, previousStart, previousEnd)
     ),
+
+    completed_sessions_source: completedSessionsSource,
+    completed_sessions_yesterday: Number(completedSessionsSeries.get(anchorDay) || 0),
+    completed_sessions_per_day_7d: safeRate(
+      sumWindow(completedSessionsSeries, currentStart, anchorDay),
+      7
+    ),
+    completed_sessions_per_day_7d_prev: safeRate(
+      sumWindow(completedSessionsSeries, previousStart, previousEnd),
+      7
+    ),
   };
 
   const anomalies = buildAnomalies(metrics, tuningTargets.anomaly_worsening_threshold);
   const targetBreaches = buildTargetBreaches(metrics, tuningTargets);
   const actions = buildRecommendedActions(anomalies, targetBreaches);
+  const primaryKpis = {
+    d7_retention_rate_7d: metrics.d7_retention_rate_7d,
+    d7_retention_rate_7d_prev: metrics.d7_retention_rate_7d_prev,
+    paid_plan_changes_per_checkout_7d: metrics.paid_plan_changes_per_checkout_7d,
+    paid_plan_changes_per_checkout_7d_prev: metrics.paid_plan_changes_per_checkout_7d_prev,
+    executed_user_rate_7d: metrics.executed_user_rate_7d,
+    executed_user_rate_7d_prev: metrics.executed_user_rate_7d_prev,
+  };
 
   const output = {
     dashboard_id: dashboard.id,
     dashboard_name: dashboard.name,
+    primary_kpi_keys: PRIMARY_KPI_KEYS,
+    primary_kpis: primaryKpis,
     metrics,
     tuning_targets: tuningTargets,
     anomalies,
@@ -598,9 +787,38 @@ async function main() {
   console.log(`Dashboard: ${dashboard.name} (id=${dashboard.id})`);
   console.log(`Window: ${currentStart}..${anchorDay} vs ${previousStart}..${previousEnd}`);
   console.log("");
+  console.log("Primary KPIs");
+  console.log(
+    `- D7 Retention 7d: ${formatNum(metrics.d7_retention_rate_7d * 100, 2)}% (prev ${formatNum(metrics.d7_retention_rate_7d_prev * 100, 2)}%)`
+  );
+  console.log(
+    `- Paid Plan Conversion 7d: ${formatNum(metrics.paid_plan_changes_per_checkout_7d * 100, 2)}% (prev ${formatNum(metrics.paid_plan_changes_per_checkout_7d_prev * 100, 2)}%)`
+  );
+  console.log(
+    `- Executed User Rate 7d: ${formatPct(metrics.executed_user_rate_7d, 2)} (prev ${formatPct(metrics.executed_user_rate_7d_prev, 2)})`
+  );
+  console.log("");
   console.log(`DAU(yesterday): ${formatNum(metrics.dau_yesterday, 0)}`);
   console.log(
     `Lesson Completion Rate 7d: ${formatNum(metrics.lesson_completion_rate_uv_7d * 100, 2)}% (prev ${formatNum(metrics.lesson_completion_rate_uv_7d_prev * 100, 2)}%)`
+  );
+  console.log(
+    `Executed User Rate 7d: ${formatPct(metrics.executed_user_rate_7d, 2)} (prev ${formatPct(metrics.executed_user_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `Intervention Attempt Rate 7d: ${formatPct(metrics.intervention_attempt_rate_7d, 2)} (prev ${formatPct(metrics.intervention_attempt_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `Intervention Execute Rate 7d: ${formatPct(metrics.intervention_execute_rate_7d, 2)} (prev ${formatPct(metrics.intervention_execute_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `Intervention Funnel 7d: shown=${formatNum(metrics.intervention_shown_7d, 0)} attempted=${formatNum(metrics.intervention_attempted_7d, 0)} executed=${formatNum(metrics.intervention_executed_total_7d, 0)}`
+  );
+  console.log(
+    `Recovery Mission Claim Rate 7d: ${formatPct(metrics.recovery_mission_claim_rate_7d, 2)} (prev ${formatPct(metrics.recovery_mission_claim_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `Recovery Mission 7d: shown=${formatNum(metrics.recovery_mission_shown_7d, 0)} claimed=${formatNum(metrics.recovery_mission_claimed_7d, 0)}`
   );
   console.log(
     `Incorrect/Start 7d: ${formatNum(metrics.incorrect_per_lesson_start_7d, 3)} (prev ${formatNum(metrics.incorrect_per_lesson_start_7d_prev, 3)})`
@@ -626,6 +844,12 @@ async function main() {
   console.log(
     `Paid Plan Conversion 7d: ${formatNum(metrics.paid_plan_changes_per_checkout_7d * 100, 2)}% (prev ${formatNum(metrics.paid_plan_changes_per_checkout_7d_prev * 100, 2)}%)`
   );
+  console.log(
+    `Executed User Rate(yesterday): ${formatPct(metrics.executed_user_rate_yesterday, 2)}`
+  );
+  console.log(
+    `Completed Sessions(yesterday): ${formatNum(metrics.completed_sessions_yesterday, 0)} [source=${metrics.completed_sessions_source}]`
+  );
   console.log("");
   if (anomalies.length === 0) {
     console.log(`Anomalies (>=${formatNum(tuningTargets.anomaly_worsening_threshold * 100, 0)}% worsening): none`);
@@ -642,10 +866,11 @@ async function main() {
   } else {
     console.log("Target Breaches:");
     targetBreaches.forEach((b) => {
-      const currentPct = formatNum(b.current * 100, 2);
-      const targetPct = formatNum(b.target * 100, 2);
+      const isRatio = b.unit !== "count";
+      const currentText = isRatio ? `${formatNum(b.current * 100, 2)}%` : formatNum(b.current, 2);
+      const targetText = isRatio ? `${formatNum(b.target * 100, 2)}%` : formatNum(b.target, 2);
       const sign = b.mode === "min" ? "<" : ">";
-      console.log(`- ${b.metric}: ${currentPct}% ${sign} target ${targetPct}%`);
+      console.log(`- ${b.metric}: ${currentText} ${sign} target ${targetText}`);
     });
   }
   console.log("");
