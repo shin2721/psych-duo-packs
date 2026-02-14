@@ -27,6 +27,11 @@ export POSTHOG_PROJECT_ID=12345
 export POSTHOG_HOST=https://us.posthog.com
 ```
 
+毎回 `export` したくない場合は、1回だけ以下を実行してローカル保存できます（`.env.posthog.local` に保存、gitignore対象）。
+```bash
+npm run analytics:posthog:setup
+```
+
 ## 生成されるカード（v1.13）
 1. `DAU (session_start UV)`
 2. `Lesson Start vs Complete (UV)`
@@ -47,6 +52,9 @@ export POSTHOG_HOST=https://us.posthog.com
 
 ## 実行コマンド
 ```bash
+# 初回のみ: PostHog資格情報をローカル保存
+npm run analytics:posthog:setup
+
 # 変更内容確認
 npm run analytics:posthog:dashboard:dry
 

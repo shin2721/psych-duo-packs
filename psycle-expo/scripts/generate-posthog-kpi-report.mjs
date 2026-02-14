@@ -15,11 +15,27 @@
 import fs from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import dotenv from "dotenv";
 
 const DEFAULT_HOST = "https://app.posthog.com";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const GAMIFICATION_CONFIG_PATH = path.resolve(__dirname, "../config/gamification.json");
+const PROJECT_ROOT = path.resolve(__dirname, "..");
+
+function loadLocalEnv() {
+  const envFiles = [
+    ".env.posthog.local",
+    ".env.local",
+    ".env",
+  ];
+
+  for (const file of envFiles) {
+    const fullPath = path.join(PROJECT_ROOT, file);
+    if (!fs.existsSync(fullPath)) continue;
+    dotenv.config({ path: fullPath, override: false, quiet: true });
+  }
+}
 
 const DEFAULT_TUNING_TARGETS = {
   anomaly_worsening_threshold: 0.2,
@@ -111,12 +127,17 @@ function normalizeHost(input) {
 }
 
 function buildConfig() {
+  loadLocalEnv();
   const { flags, options } = parseArgs(process.argv.slice(2));
+  const dashboardIdFromCli = options["--dashboard-id"] || "";
+  const dashboardIdFromEnv = process.env.POSTHOG_DASHBOARD_ID || "";
+  const dashboardId = dashboardIdFromCli || dashboardIdFromEnv;
   return {
     host: normalizeHost(options["--host"] || process.env.POSTHOG_HOST || DEFAULT_HOST),
     token: options["--token"] || process.env.POSTHOG_PERSONAL_API_KEY || "",
     projectId: options["--project"] || process.env.POSTHOG_PROJECT_ID || "",
-    dashboardId: options["--dashboard-id"] || process.env.POSTHOG_DASHBOARD_ID || "",
+    dashboardId,
+    dashboardIdFromEnv: !dashboardIdFromCli && Boolean(dashboardIdFromEnv),
     jsonOnly: flags.has("--json"),
   };
 }
@@ -583,14 +604,7 @@ async function resolveDashboard(config) {
   return apiRequest(config, "GET", `/api/projects/${config.projectId}/dashboards/${selected.id}/`, undefined);
 }
 
-async function main() {
-  const config = buildConfig();
-  const tuningTargets = loadTuningTargets();
-  if (!config.token || !config.projectId) {
-    throw new Error("Missing required credentials (POSTHOG_PERSONAL_API_KEY / POSTHOG_PROJECT_ID).");
-  }
-
-  const dashboard = await resolveDashboard(config);
+async function collectInsightMap(config, dashboard) {
   const tiles = Array.isArray(dashboard.tiles) ? dashboard.tiles : [];
   const insightByName = new Map();
   for (const tile of tiles) {
@@ -599,7 +613,6 @@ async function main() {
     }
   }
 
-  // Fallback: tile反映が遅い場合はinsights一覧からdashboard紐付けで補完する。
   const missingFromTiles = REQUIRED_INSIGHTS.filter((name) => !insightByName.has(name));
   if (missingFromTiles.length > 0) {
     const allInsights = await listAll(config, `/api/projects/${config.projectId}/insights/?limit=500`);
@@ -614,9 +627,38 @@ async function main() {
     }
   }
 
-  const missing = REQUIRED_INSIGHTS.filter((name) => !insightByName.has(name));
+  return insightByName;
+}
+
+async function main() {
+  const config = buildConfig();
+  const tuningTargets = loadTuningTargets();
+  if (!config.token || !config.projectId) {
+    throw new Error(
+      "Missing required credentials (POSTHOG_PERSONAL_API_KEY / POSTHOG_PROJECT_ID). Run: npm run analytics:posthog:setup"
+    );
+  }
+
+  let dashboard = await resolveDashboard(config);
+  let insightByName = await collectInsightMap(config, dashboard);
+  let missing = REQUIRED_INSIGHTS.filter((name) => !insightByName.has(name));
+
+  // If stale dashboard id came from env, auto-fallback to latest named dashboard.
+  if (missing.length > 0 && config.dashboardIdFromEnv) {
+    const fallbackDashboard = await resolveDashboard({ ...config, dashboardId: "" });
+    const fallbackInsights = await collectInsightMap(config, fallbackDashboard);
+    const fallbackMissing = REQUIRED_INSIGHTS.filter((name) => !fallbackInsights.has(name));
+    if (fallbackMissing.length < missing.length) {
+      dashboard = fallbackDashboard;
+      insightByName = fallbackInsights;
+      missing = fallbackMissing;
+    }
+  }
+
   if (missing.length > 0) {
-    throw new Error(`Missing required insights: ${missing.join(", ")}`);
+    throw new Error(
+      `Missing required insights: ${missing.join(", ")}`
+    );
   }
 
   const insights = {};

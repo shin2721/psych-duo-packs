@@ -14,11 +14,33 @@
  *   node scripts/create-posthog-growth-dashboard.mjs --apply
  */
 
+import fs from "node:fs";
+import path from "node:path";
+import { fileURLToPath } from "node:url";
+import dotenv from "dotenv";
+
 const DEFAULT_HOST = "https://app.posthog.com";
 const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.13)";
 const DEFAULT_DASHBOARD_DESCRIPTION =
   "Psycle growth KPI dashboard. Managed by scripts/create-posthog-growth-dashboard.mjs";
 const DASHBOARD_TAG = "psycle-growth-v1.13";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const PROJECT_ROOT = path.resolve(__dirname, "..");
+
+function loadLocalEnv() {
+  const envFiles = [
+    ".env.posthog.local",
+    ".env.local",
+    ".env",
+  ];
+
+  for (const file of envFiles) {
+    const fullPath = path.join(PROJECT_ROOT, file);
+    if (!fs.existsSync(fullPath)) continue;
+    dotenv.config({ path: fullPath, override: false, quiet: true });
+  }
+}
 
 function parseArgs(argv) {
   const flags = new Set();
@@ -52,6 +74,7 @@ function normalizeHost(input) {
 }
 
 function buildConfig() {
+  loadLocalEnv();
   const { flags, options } = parseArgs(process.argv.slice(2));
   const dryRun = flags.has("--dry-run") || !flags.has("--apply");
   const host = normalizeHost(options["--host"] || process.env.POSTHOG_HOST || DEFAULT_HOST);
@@ -82,6 +105,9 @@ function requiredScopeHint() {
     "- POSTHOG_PERSONAL_API_KEY",
     "- POSTHOG_PROJECT_ID",
     "- POSTHOG_HOST (optional, default https://app.posthog.com)",
+    "",
+    "If this is your first setup, run:",
+    "- npm run analytics:posthog:setup",
   ].join("\n");
 }
 

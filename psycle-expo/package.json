@@ -53,6 +53,7 @@
     "content:i18n:init-cache": "node scripts/generate-translation-draft.mjs --init-cache",
     "analytics:posthog:dashboard:dry": "node scripts/create-posthog-growth-dashboard.mjs --dry-run",
     "analytics:posthog:dashboard": "node scripts/create-posthog-growth-dashboard.mjs --apply",
+    "analytics:posthog:setup": "node scripts/setup-posthog-env.mjs",
     "analytics:posthog:kpi-report": "node scripts/generate-posthog-kpi-report.mjs",
     "e2e:analytics": "bash scripts/run-analytics-e2e.sh",
     "e2e:web:smoke": "node scripts/e2e-web-smoke.mjs",
