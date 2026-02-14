@@ -255,6 +255,12 @@ export const en = {
             bodyDemotion: 'Need %{xpGap} XP more to escape demotion zone.',
             cta: 'Make a move now',
         },
+        leagueSprint: {
+            title: 'League sprint',
+            bodyPromotion: '%{hours}h left. Only %{xpGap} XP to reach promotion zone.',
+            bodyDemotion: '%{hours}h left. Need %{xpGap} XP to escape demotion zone.',
+            cta: 'Sprint now',
+        },
         startLessonTitle: 'Start Lesson',
         startLessonDescription: 'You can earn %{xp} XP in this lesson.',
         startButton: 'Start',

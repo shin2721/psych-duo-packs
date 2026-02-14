@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { StreakData, dateKey, markLeagueBoundaryShown } from "../../lib/streaks";
+import { StreakData, dateKey, markLeagueSprintShown } from "../../lib/streaks";
 
 const STORAGE_KEY = "@psycle_streaks";
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
 function buildBaseState(partial: Partial<StreakData> = {}): StreakData {
   return {
@@ -32,8 +33,8 @@ async function seedState(partial: Partial<StreakData>) {
   await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(buildBaseState(partial)));
 }
 
-describe("league boundary shown control", () => {
-  const now = new Date("2026-02-12T12:00:00.000Z").getTime();
+describe("league sprint shown control", () => {
+  const now = new Date("2026-03-15T12:00:00.000Z").getTime();
 
   beforeAll(() => {
     jest.useFakeTimers();
@@ -42,19 +43,41 @@ describe("league boundary shown control", () => {
 
   beforeEach(async () => {
     await AsyncStorage.clear();
+    jest.setSystemTime(now);
   });
 
   afterAll(() => {
     jest.useRealTimers();
   });
 
-  test("markLeagueBoundaryShown は同日2回目に false を返す", async () => {
-    await seedState({ leagueBoundaryLastShownDate: null });
+  test("同日同週2回目は false", async () => {
+    await seedState({});
 
-    const first = await markLeagueBoundaryShown();
-    const second = await markLeagueBoundaryShown();
+    const first = await markLeagueSprintShown("2026-W11");
+    const second = await markLeagueSprintShown("2026-W11");
 
     expect(first).toBe(true);
     expect(second).toBe(false);
+  });
+
+  test("翌日は同週でも true", async () => {
+    await seedState({
+      leagueSprintLastShownDate: dateKey(),
+      leagueSprintLastShownWeekId: "2026-W11",
+    });
+    jest.setSystemTime(now + ONE_DAY_MS);
+
+    const nextDay = await markLeagueSprintShown("2026-W11");
+    expect(nextDay).toBe(true);
+  });
+
+  test("同日でも週が変われば true", async () => {
+    await seedState({
+      leagueSprintLastShownDate: dateKey(),
+      leagueSprintLastShownWeekId: "2026-W11",
+    });
+
+    const nextWeek = await markLeagueSprintShown("2026-W12");
+    expect(nextWeek).toBe(true);
   });
 });

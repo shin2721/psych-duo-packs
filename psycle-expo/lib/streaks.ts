@@ -32,6 +32,8 @@ export interface StreakData {
 
     // League Boundary Card
     leagueBoundaryLastShownDate: string | null;
+    leagueSprintLastShownDate: string | null;
+    leagueSprintLastShownWeekId: string | null;
 
     // Streak Visibility surfaces
     streakVisibilityCourseLastShownDate: string | null;
@@ -58,6 +60,8 @@ const DEFAULT_STATE: StreakData = {
     streakGuardLastShownDate: null,
     streakGuardLastSavedDate: null,
     leagueBoundaryLastShownDate: null,
+    leagueSprintLastShownDate: null,
+    leagueSprintLastShownWeekId: null,
     streakVisibilityCourseLastShownDate: null,
     streakVisibilityQuestsLastShownDate: null,
     freezesRemaining: 2,
@@ -289,6 +293,8 @@ export async function getStreakData(): Promise<StreakData> {
         data.streakGuardLastShownDate = data.streakGuardLastShownDate || null;
         data.streakGuardLastSavedDate = data.streakGuardLastSavedDate || null;
         data.leagueBoundaryLastShownDate = data.leagueBoundaryLastShownDate || null;
+        data.leagueSprintLastShownDate = data.leagueSprintLastShownDate || null;
+        data.leagueSprintLastShownWeekId = data.leagueSprintLastShownWeekId || null;
         data.streakVisibilityCourseLastShownDate = data.streakVisibilityCourseLastShownDate || null;
         data.streakVisibilityQuestsLastShownDate = data.streakVisibilityQuestsLastShownDate || null;
 
@@ -481,6 +487,18 @@ export async function markLeagueBoundaryShown(): Promise<boolean> {
         return false;
     }
     data.leagueBoundaryLastShownDate = today;
+    await saveStreakData(data);
+    return true;
+}
+
+export async function markLeagueSprintShown(weekId: string): Promise<boolean> {
+    const data = await getStreakData();
+    const today = getToday();
+    if (data.leagueSprintLastShownDate === today && data.leagueSprintLastShownWeekId === weekId) {
+        return false;
+    }
+    data.leagueSprintLastShownDate = today;
+    data.leagueSprintLastShownWeekId = weekId;
     await saveStreakData(data);
     return true;
 }

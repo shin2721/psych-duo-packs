@@ -20,10 +20,10 @@ import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
 
 const DEFAULT_HOST = "https://app.posthog.com";
-const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.16)";
+const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.17)";
 const DEFAULT_DASHBOARD_DESCRIPTION =
   "Psycle growth KPI dashboard. Managed by scripts/create-posthog-growth-dashboard.mjs";
-const DASHBOARD_TAG = "psycle-growth-v1.16";
+const DASHBOARD_TAG = "psycle-growth-v1.17";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "..");
@@ -331,6 +331,14 @@ const CARD_DEFS = [
     query: trendsQuery([
       eventNode("league_boundary_shown", "total"),
       eventNode("league_boundary_clicked", "total"),
+    ]),
+  },
+  {
+    name: "League Sprint (daily)",
+    description: "Daily counts for league_sprint_shown and league_sprint_clicked.",
+    query: trendsQuery([
+      eventNode("league_sprint_shown", "total"),
+      eventNode("league_sprint_clicked", "total"),
     ]),
   },
   {

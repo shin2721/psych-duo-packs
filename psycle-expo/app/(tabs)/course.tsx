@@ -11,7 +11,7 @@ import { StudyStreakWidget, StudyActivityDay } from "../../components/StudyStrea
 import { LeagueResultModal } from "../../components/LeagueResultModal";
 import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
-import { getLeagueBoundaryStatus } from "../../lib/league";
+import { getLeagueBoundaryStatus, getLeagueSprintStatus } from "../../lib/league";
 import {
   dateKey,
   getLocalDaypart,
@@ -22,6 +22,7 @@ import {
   getStreakGuardStatus,
   markStreakVisibilityShown,
   markLeagueBoundaryShown,
+  markLeagueSprintShown,
   markRecoveryMissionShown,
   markStreakGuardShown,
 } from "../../lib/streaks";
@@ -75,6 +76,17 @@ export default function CourseScreen() {
     weekId: string;
     tier: number;
   } | null>(null);
+  const [leagueSprint, setLeagueSprint] = useState<{
+    mode: "promotion_chase" | "demotion_risk";
+    myRank: number;
+    promotionZone: number;
+    demotionZone: number;
+    weeklyXp: number;
+    xpGap: number;
+    weekId: string;
+    tier: number;
+    hoursToDeadline: number;
+  } | null>(null);
 
   // リーグ結果チェック（アプリ起動時）
   useEffect(() => {
@@ -118,6 +130,9 @@ export default function CourseScreen() {
         const streakGuardStatus = await getStreakGuardStatus();
         const leagueBoundaryStatus = user
           ? await getLeagueBoundaryStatus(user.id)
+          : null;
+        const leagueSprintStatus = user
+          ? await getLeagueSprintStatus(user.id)
           : null;
         const studyHistory = streakData.studyHistory || {};
         const today = dateKey();
@@ -189,7 +204,28 @@ export default function CourseScreen() {
           setStreakGuard(null);
         }
 
-        if (!recoveryShown && !streakGuardShown && leagueBoundaryStatus) {
+        if (!recoveryShown && !streakGuardShown && leagueSprintStatus) {
+          setLeagueSprint(leagueSprintStatus);
+          const sprintShownRecorded = await markLeagueSprintShown(leagueSprintStatus.weekId);
+          if (sprintShownRecorded) {
+            Analytics.track("league_sprint_shown", {
+              source: "course_home",
+              mode: leagueSprintStatus.mode,
+              myRank: leagueSprintStatus.myRank,
+              promotionZone: leagueSprintStatus.promotionZone,
+              demotionZone: leagueSprintStatus.demotionZone,
+              weeklyXp: leagueSprintStatus.weeklyXp,
+              xpGap: leagueSprintStatus.xpGap,
+              hoursToDeadline: leagueSprintStatus.hoursToDeadline,
+              weekId: leagueSprintStatus.weekId,
+              tier: leagueSprintStatus.tier,
+            });
+          }
+        } else {
+          setLeagueSprint(null);
+        }
+
+        if (!recoveryShown && !streakGuardShown && !leagueSprintStatus && leagueBoundaryStatus) {
           setLeagueBoundary(leagueBoundaryStatus);
           const shownRecorded = await markLeagueBoundaryShown();
           if (shownRecorded) {
@@ -334,6 +370,27 @@ export default function CourseScreen() {
     router.replace(`/lesson?file=${lessonFile}&genre=${selectedGenre}`);
   };
 
+  const handleLeagueSprintPress = () => {
+    const lessonFile = getCurrentPlayableLesson();
+    if (!lessonFile) return;
+    if (leagueSprint) {
+      Analytics.track("league_sprint_clicked", {
+        source: "course_home",
+        mode: leagueSprint.mode,
+        myRank: leagueSprint.myRank,
+        promotionZone: leagueSprint.promotionZone,
+        demotionZone: leagueSprint.demotionZone,
+        weeklyXp: leagueSprint.weeklyXp,
+        xpGap: leagueSprint.xpGap,
+        hoursToDeadline: leagueSprint.hoursToDeadline,
+        weekId: leagueSprint.weekId,
+        tier: leagueSprint.tier,
+        lessonId: lessonFile,
+      });
+    }
+    router.replace(`/lesson?file=${lessonFile}&genre=${selectedGenre}&entry=league_sprint`);
+  };
+
   const handleLeagueBoundaryPress = () => {
     const lessonFile = getCurrentPlayableLesson();
     if (!lessonFile) return;
@@ -387,7 +444,24 @@ export default function CourseScreen() {
           <Text style={styles.streakGuardCta}>{i18n.t("course.streakGuard.cta")}</Text>
         </Pressable>
       )}
-      {!recoveryMission && !streakGuard && leagueBoundary && (
+      {!recoveryMission && !streakGuard && leagueSprint && (
+        <Pressable style={styles.leagueSprintBanner} onPress={handleLeagueSprintPress}>
+          <Text style={styles.leagueSprintTitle}>{i18n.t("course.leagueSprint.title")}</Text>
+          <Text style={styles.leagueSprintBody}>
+            {leagueSprint.mode === "promotion_chase"
+              ? i18n.t("course.leagueSprint.bodyPromotion", {
+                hours: leagueSprint.hoursToDeadline,
+                xpGap: leagueSprint.xpGap,
+              })
+              : i18n.t("course.leagueSprint.bodyDemotion", {
+                hours: leagueSprint.hoursToDeadline,
+                xpGap: leagueSprint.xpGap,
+              })}
+          </Text>
+          <Text style={styles.leagueSprintCta}>{i18n.t("course.leagueSprint.cta")}</Text>
+        </Pressable>
+      )}
+      {!recoveryMission && !streakGuard && !leagueSprint && leagueBoundary && (
         <Pressable style={styles.leagueBoundaryBanner} onPress={handleLeagueBoundaryPress}>
           <Text style={styles.leagueBoundaryTitle}>{i18n.t("course.leagueBoundary.title")}</Text>
           <Text style={styles.leagueBoundaryBody}>
@@ -550,6 +624,33 @@ const styles = StyleSheet.create({
     backgroundColor: "rgba(99, 102, 241, 0.16)",
     borderWidth: 1,
     borderColor: "rgba(99, 102, 241, 0.45)",
+  },
+  leagueSprintBanner: {
+    marginHorizontal: 12,
+    marginTop: 6,
+    marginBottom: 8,
+    borderRadius: 14,
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+    backgroundColor: "rgba(14, 165, 233, 0.16)",
+    borderWidth: 1,
+    borderColor: "rgba(14, 165, 233, 0.45)",
+  },
+  leagueSprintTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#dcf5ff",
+  },
+  leagueSprintBody: {
+    marginTop: 4,
+    fontSize: 12,
+    color: "#d0ecff",
+  },
+  leagueSprintCta: {
+    marginTop: 8,
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#7dd3fc",
   },
   leagueBoundaryTitle: {
     fontSize: 14,

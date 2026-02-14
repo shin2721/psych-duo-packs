@@ -53,6 +53,20 @@ export interface LeagueBoundaryStatus {
     tier: number;
 }
 
+export type LeagueSprintMode = "promotion_chase" | "demotion_risk";
+
+export interface LeagueSprintStatus {
+    mode: LeagueSprintMode;
+    myRank: number;
+    promotionZone: number;
+    demotionZone: number;
+    weeklyXp: number;
+    xpGap: number;
+    weekId: string;
+    tier: number;
+    hoursToDeadline: number;
+}
+
 // 定数
 const LEAGUE_SIZE = 30;          // リーグあたりの人数
 const PROMOTION_PERCENT = 0.2;   // 上位20%昇格
@@ -232,6 +246,49 @@ export async function getLeagueBoundaryStatus(userId: string): Promise<LeagueBou
     const league = await getMyLeague(userId);
     if (!league) return null;
     return computeLeagueBoundaryStatus(league, userId);
+}
+
+function clamp(value: number, min: number, max: number): number {
+    return Math.min(max, Math.max(min, value));
+}
+
+/**
+ * リーグ終盤スパートカード用ステータスを算出
+ * 条件:
+ * - 日曜（ローカル）
+ * - 既存リーグ境界カードの対象ユーザー
+ * - xpGap <= 60
+ */
+export function computeLeagueSprintStatus(
+    league: LeagueInfo,
+    userId: string,
+    now: Date = new Date()
+): LeagueSprintStatus | null {
+    if (!league) return null;
+    if (now.getDay() !== 0) return null; // Sunday only
+
+    const boundary = computeLeagueBoundaryStatus(league, userId);
+    if (!boundary) return null;
+    if (boundary.xpGap > 60) return null;
+
+    const deadline = new Date(now);
+    deadline.setHours(23, 59, 59, 999);
+    const msToDeadline = Math.max(0, deadline.getTime() - now.getTime());
+    const hoursToDeadline = clamp(Math.ceil(msToDeadline / (60 * 60 * 1000)), 1, 24);
+
+    return {
+        ...boundary,
+        hoursToDeadline,
+    };
+}
+
+export async function getLeagueSprintStatus(
+    userId: string,
+    now: Date = new Date()
+): Promise<LeagueSprintStatus | null> {
+    const league = await getMyLeague(userId);
+    if (!league) return null;
+    return computeLeagueSprintStatus(league, userId, now);
 }
 
 /**

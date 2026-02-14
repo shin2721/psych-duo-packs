@@ -255,6 +255,12 @@ export const ja = {
             bodyDemotion: '降格圏脱出まであと %{xpGap} XP',
             cta: '今すぐ追い上げる',
         },
+        leagueSprint: {
+            title: 'リーグ終盤スパート',
+            bodyPromotion: '締切まであと%{hours}時間。昇格圏まであと%{xpGap} XP',
+            bodyDemotion: '締切まであと%{hours}時間。降格圏脱出まであと%{xpGap} XP',
+            cta: '今すぐスパート',
+        },
         startLessonTitle: 'レッスンを開始',
         startLessonDescription: 'このレッスンで %{xp} XP 獲得できます。',
         startButton: '開始',

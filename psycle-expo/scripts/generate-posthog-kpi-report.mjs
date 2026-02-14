@@ -46,6 +46,7 @@ const DEFAULT_TUNING_TARGETS = {
   recovery_mission_claim_rate_7d_min: 0.2,
   streak_guard_save_rate_7d_min: 0.35,
   league_boundary_click_rate_7d_min: 0.12,
+  league_sprint_click_rate_7d_min: 0.15,
   streak_visibility_click_rate_7d_min: 0.25,
   journal_top2_pick_share_7d_min: 0.55,
   streak_guard_evening_save_rate_7d_min: 0.3,
@@ -58,6 +59,7 @@ const DEFAULT_TUNING_TARGETS = {
 };
 
 const DASHBOARD_NAMES = [
+  "Psycle Growth Dashboard (v1.17)",
   "Psycle Growth Dashboard (v1.16)",
   "Psycle Growth Dashboard (v1.15)",
   "Psycle Growth Dashboard (v1.14)",
@@ -95,6 +97,7 @@ const OPTIONAL_INSIGHTS = [
   "Streak Visibility (daily)",
   "Streak Guard by Daypart (daily)",
   "Action Journal Quality (daily)",
+  "League Sprint (daily)",
 ];
 
 const PRIMARY_KPI_KEYS = [
@@ -402,6 +405,11 @@ function buildAnomalies(metrics, worseningThreshold) {
       label: "League Boundary Click Rate",
     },
     {
+      key: "league_sprint_click_rate_7d",
+      higherIsBetter: true,
+      label: "League Sprint Click Rate",
+    },
+    {
       key: "streak_guard_evening_save_rate_7d",
       higherIsBetter: true,
       label: "Streak Guard Evening Save Rate",
@@ -485,6 +493,13 @@ function buildTargetBreaches(metrics, targets) {
       key: "league_boundary_click_rate_7d",
       label: "League Boundary Click Rate 7d",
       target: targets.league_boundary_click_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "league_sprint_click_rate_7d",
+      label: "League Sprint Click Rate 7d",
+      target: targets.league_sprint_click_rate_7d_min,
       mode: "min",
       unit: "ratio",
     },
@@ -599,6 +614,9 @@ function buildRecommendedActions(anomalies, breaches) {
   }
   if (flagged.has("League Boundary Click Rate") || flagged.has("League Boundary Click Rate 7d")) {
     actions.push("リーグ境界カードの訴求文を改善し、昇格/降格ラインまでの必要XPを明確に表示してCTAタップ率を上げる。");
+  }
+  if (flagged.has("League Sprint Click Rate") || flagged.has("League Sprint Click Rate 7d")) {
+    actions.push("日曜終盤のリーグスパート文言を短文化し、残り時間と必要XPを先頭に表示してCTAタップ率を改善する。");
   }
   if (flagged.has("Paid Plan Conversion 7d")) {
     actions.push("shop_open_from_energy→checkout_start の遷移率を改善するため、購読価値訴求を1画面目に集約する。");
@@ -785,6 +803,11 @@ async function main() {
   const leagueBoundaryTrend = parseTrendInsight(insights["League Boundary (daily)"]);
   const leagueBoundaryShown = pickSeries(leagueBoundaryTrend.seriesMap, ["league_boundary_shown"]);
   const leagueBoundaryClicked = pickSeries(leagueBoundaryTrend.seriesMap, ["league_boundary_clicked"]);
+  const leagueSprintTrend = insights["League Sprint (daily)"]
+    ? parseTrendInsight(insights["League Sprint (daily)"])
+    : { seriesMap: new Map(), combined: new Map() };
+  const leagueSprintShown = pickSeries(leagueSprintTrend.seriesMap, ["league_sprint_shown"]);
+  const leagueSprintClicked = pickSeries(leagueSprintTrend.seriesMap, ["league_sprint_clicked"]);
   const actionJournalTrend = parseTrendInsight(insights["Action Journal (daily)"]);
   const actionJournalSubmittedTotal = pickSeries(actionJournalTrend.seriesMap, ["action_journal_submitted"]);
   const actionJournalSubmittedNotTried = pickSeries(actionJournalTrend.seriesMap, ["not_tried"]);
@@ -955,6 +978,18 @@ async function main() {
     league_boundary_click_rate_7d_prev: safeRate(
       sumWindow(leagueBoundaryClicked, previousStart, previousEnd),
       sumWindow(leagueBoundaryShown, previousStart, previousEnd)
+    ),
+    league_sprint_shown_7d: sumWindow(leagueSprintShown, currentStart, anchorDay),
+    league_sprint_shown_7d_prev: sumWindow(leagueSprintShown, previousStart, previousEnd),
+    league_sprint_clicked_7d: sumWindow(leagueSprintClicked, currentStart, anchorDay),
+    league_sprint_clicked_7d_prev: sumWindow(leagueSprintClicked, previousStart, previousEnd),
+    league_sprint_click_rate_7d: safeRate(
+      sumWindow(leagueSprintClicked, currentStart, anchorDay),
+      sumWindow(leagueSprintShown, currentStart, anchorDay)
+    ),
+    league_sprint_click_rate_7d_prev: safeRate(
+      sumWindow(leagueSprintClicked, previousStart, previousEnd),
+      sumWindow(leagueSprintShown, previousStart, previousEnd)
     ),
 
     incorrect_per_lesson_start_yesterday: safeRate(
@@ -1129,6 +1164,12 @@ async function main() {
   );
   console.log(
     `League Boundary 7d: shown=${formatNum(metrics.league_boundary_shown_7d, 0)} clicked=${formatNum(metrics.league_boundary_clicked_7d, 0)}`
+  );
+  console.log(
+    `League Sprint Click Rate 7d: ${formatPct(metrics.league_sprint_click_rate_7d, 2)} (prev ${formatPct(metrics.league_sprint_click_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `League Sprint 7d: shown=${formatNum(metrics.league_sprint_shown_7d, 0)} clicked=${formatNum(metrics.league_sprint_clicked_7d, 0)}`
   );
   console.log(
     `Incorrect/Start 7d: ${formatNum(metrics.incorrect_per_lesson_start_7d, 3)} (prev ${formatNum(metrics.incorrect_per_lesson_start_7d_prev, 3)})`

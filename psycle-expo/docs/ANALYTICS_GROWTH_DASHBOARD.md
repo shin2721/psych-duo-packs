@@ -1,14 +1,14 @@
-# Analytics Growth Dashboard (v1.16)
+# Analytics Growth Dashboard (v1.17)
 
 ## 目的
 - 継続率と課金転換に効くKPIを、毎日同じ定義で確認する。
 - ダッシュボード更新と日次レポートをスクリプトで再現可能にする。
 
-## v1.16での方針
+## v1.17での方針
 - PostHog APIの制約に合わせ、`InsightVizNode + Trends/Retention` を使用する。
 - 比率指標は関連イベント系列を作り、レポート側で算出する。
 - 行動系は日記投稿 (`action_journal_submitted`) を主導線に統一する。
-- Streak可視化、Journal候補品質、Streak Guard時間帯最適化を段階投入で評価する。
+- Streak可視化、Journal候補品質、Streak Guard時間帯最適化に加えて、日曜終盤のLeague Sprintを段階評価する。
 - Primary KPI を次の4つに固定する。
   - `D7継続率`
   - `サブスク転換率 (plan_changed / checkout_start)`
@@ -33,7 +33,7 @@ export POSTHOG_HOST=https://us.posthog.com
 npm run analytics:posthog:setup
 ```
 
-## 生成されるカード（v1.16）
+## 生成されるカード（v1.17）
 1. `DAU (session_start UV)`
 2. `Lesson Start vs Complete (UV)`
 3. `Lesson Complete Users vs DAU (UV)`
@@ -43,16 +43,17 @@ npm run analytics:posthog:setup
 7. `Streak Visibility (daily)`
 8. `Streak Guard by Daypart (daily)`
 9. `League Boundary (daily)`
-10. `Action Journal (daily)`
-11. `Action Journal Quality (daily)`
-12. `Completed Sessions (daily)`
-13. `Incorrect vs Lesson Start (daily)`
-14. `Streak Lost Users (daily)`
-15. `Energy Friction (daily)`
-16. `D1 Retention (session_start)`
-17. `D7 Retention (session_start)`
-18. `Checkout Starts (daily)`
-19. `Paid Plan Changes (daily)`
+10. `League Sprint (daily)`
+11. `Action Journal (daily)`
+12. `Action Journal Quality (daily)`
+13. `Completed Sessions (daily)`
+14. `Incorrect vs Lesson Start (daily)`
+15. `Streak Lost Users (daily)`
+16. `Energy Friction (daily)`
+17. `D1 Retention (session_start)`
+18. `D7 Retention (session_start)`
+19. `Checkout Starts (daily)`
+20. `Paid Plan Changes (daily)`
 
 ## 実行コマンド
 ```bash
@@ -87,6 +88,7 @@ npm run analytics:posthog:kpi-report
   - Streak Guard Click/Save Rate
   - Streak Guard Evening Save Rate
   - League Boundary Click Rate
+  - League Sprint Click Rate
   - Incorrect per Lesson Start
   - Energy Block Rate
   - Energy Shop Intent
@@ -115,7 +117,7 @@ npm run analytics:posthog:kpi-report
   - `restore_result`
   - `plan_select`
   - `plan_changed`
-- v1.14-v1.16で追加/更新:
+- v1.14-v1.17で追加/更新:
   - `streak_visibility_shown`
   - `streak_visibility_clicked`
   - `action_journal_opened`
@@ -127,6 +129,8 @@ npm run analytics:posthog:kpi-report
   - `streak_guard_saved` (`studyStreakAfter`, `daypart`, `copyVariant` プロパティ)
   - `league_boundary_shown`
   - `league_boundary_clicked`
+  - `league_sprint_shown`
+  - `league_sprint_clicked`
 - 停止:
   - `intervention_attempted`
   - `intervention_executed`

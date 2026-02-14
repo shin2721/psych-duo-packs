@@ -31,6 +31,7 @@
         "streak_guard_save_rate_7d_min": 0.35,
         "streak_guard_evening_save_rate_7d_min": 0.3,
         "league_boundary_click_rate_7d_min": 0.12,
+        "league_sprint_click_rate_7d_min": 0.15,
         "streak_visibility_click_rate_7d_min": 0.25,
         "journal_top2_pick_share_7d_min": 0.55,
         "journal_post_user_rate_7d_min": 0.18,
@@ -41,7 +42,7 @@
         "completed_sessions_per_day_7d_min": 1.2
     },
     "primary_kpis": {
-        "version": "growth_v1.16",
+        "version": "growth_v1.17",
         "fixed_at": "2026-02-14",
         "metrics": [
             {
