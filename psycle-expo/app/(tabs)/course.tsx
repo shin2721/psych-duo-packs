@@ -14,9 +14,13 @@ import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
 import { getLeagueBoundaryStatus } from "../../lib/league";
 import {
   dateKey,
+  getLocalDaypart,
+  getStreakGuardCopyVariant,
+  getStudyStreakRiskStatus,
   getStreakData,
   getRecoveryMissionStatus,
   getStreakGuardStatus,
+  markStreakVisibilityShown,
   markLeagueBoundaryShown,
   markRecoveryMissionShown,
   markStreakGuardShown,
@@ -48,11 +52,18 @@ export default function CourseScreen() {
   const [todayLessonsCompleted, setTodayLessonsCompleted] = useState(0);
   const [recentStudyActivity, setRecentStudyActivity] = useState<StudyActivityDay[]>([]);
   const [recoveryMission, setRecoveryMission] = useState<{ missedDays: number; lastStudyDate: string; studyStreak: number } | null>(null);
+  const [streakVisibility, setStreakVisibility] = useState<{
+    riskType: "safe_today" | "break_streak" | "consume_freeze";
+    studyStreak: number;
+    freezesRemaining: number;
+    todayStudied: boolean;
+  } | null>(null);
   const [streakGuard, setStreakGuard] = useState<{
     studyStreak: number;
     freezesRemaining: number;
     riskType: "break_streak" | "consume_freeze";
     lastStudyDate: string;
+    copyVariant: "morning" | "daytime" | "evening" | "late_night";
   } | null>(null);
   const [leagueBoundary, setLeagueBoundary] = useState<{
     mode: "promotion_chase" | "demotion_risk";
@@ -102,6 +113,7 @@ export default function CourseScreen() {
 
       const loadStudyWidget = async () => {
         const streakData = await getStreakData();
+        const streakRiskStatus = await getStudyStreakRiskStatus();
         const recoveryStatus = await getRecoveryMissionStatus();
         const streakGuardStatus = await getStreakGuardStatus();
         const leagueBoundaryStatus = user
@@ -113,6 +125,18 @@ export default function CourseScreen() {
         setStudyStreakDays(streakData.studyStreak || 0);
         setTodayLessonsCompleted(studyHistory[today]?.lessonsCompleted || 0);
         setRecentStudyActivity(buildRecentActivity(studyHistory));
+        setStreakVisibility(streakRiskStatus);
+
+        const visibilityShownRecorded = await markStreakVisibilityShown("course_home");
+        if (visibilityShownRecorded) {
+          Analytics.track("streak_visibility_shown", {
+            source: "course_home",
+            riskType: streakRiskStatus.riskType,
+            studyStreak: streakRiskStatus.studyStreak,
+            freezesRemaining: streakRiskStatus.freezesRemaining,
+            todayStudied: streakRiskStatus.todayStudied,
+          });
+        }
 
         let recoveryShown = false;
         let streakGuardShown = false;
@@ -139,11 +163,14 @@ export default function CourseScreen() {
 
         if (!recoveryShown && streakGuardStatus.eligible && streakGuardStatus.lastStudyDate) {
           streakGuardShown = true;
+          const daypart = getLocalDaypart();
+          const copyVariant = getStreakGuardCopyVariant(daypart);
           setStreakGuard({
             studyStreak: streakGuardStatus.studyStreak,
             freezesRemaining: streakGuardStatus.freezesRemaining,
             riskType: streakGuardStatus.riskType,
             lastStudyDate: streakGuardStatus.lastStudyDate,
+            copyVariant,
           });
 
           if (!streakGuardStatus.shownToday) {
@@ -154,6 +181,8 @@ export default function CourseScreen() {
               freezesRemaining: streakGuardStatus.freezesRemaining,
               riskType: streakGuardStatus.riskType,
               lastStudyDate: streakGuardStatus.lastStudyDate,
+              daypart,
+              copyVariant,
             });
           }
         } else {
@@ -223,6 +252,33 @@ export default function CourseScreen() {
     return { ...node, status: "locked" };
   });
 
+  const getCurrentPlayableLesson = () => {
+    const nextNode = currentTrail.find((node: any) => node.status === "current" && !node.isLocked && node.lessonFile);
+    if (!nextNode?.lessonFile) {
+      Alert.alert(
+        i18n.t("course.keepUsingTitle"),
+        i18n.t("course.keepUsingMessage"),
+        [{ text: i18n.t("common.ok") }]
+      );
+      return null;
+    }
+    return nextNode.lessonFile;
+  };
+
+  const getStreakVisibilityBody = () => {
+    if (!streakVisibility) return "";
+    if (streakVisibility.riskType === "safe_today") return i18n.t("course.streakVisibility.safeToday");
+    if (streakVisibility.riskType === "consume_freeze") return i18n.t("course.streakVisibility.consumeFreeze");
+    return i18n.t("course.streakVisibility.breakStreak");
+  };
+
+  const getStreakGuardBody = (copyVariant: "morning" | "daytime" | "evening" | "late_night") => {
+    if (copyVariant === "morning") return i18n.t("course.streakGuard.bodyMorning");
+    if (copyVariant === "daytime") return i18n.t("course.streakGuard.bodyDaytime");
+    if (copyVariant === "evening") return i18n.t("course.streakGuard.bodyEvening");
+    return i18n.t("course.streakGuard.bodyLateNight");
+  };
+
   const handleStart = () => {
     if (!modalNode) {
       setModalNode(null);
@@ -244,49 +300,43 @@ export default function CourseScreen() {
   };
 
   const handleRecoveryMissionPress = () => {
-    const nextNode = currentTrail.find((node: any) => node.status === "current" && !node.isLocked && node.lessonFile);
-    if (!nextNode?.lessonFile) {
-      Alert.alert(
-        i18n.t("course.keepUsingTitle"),
-        i18n.t("course.keepUsingMessage"),
-        [{ text: i18n.t("common.ok") }]
-      );
-      return;
-    }
-    router.replace(`/lesson?file=${nextNode.lessonFile}&genre=${selectedGenre}`);
+    const lessonFile = getCurrentPlayableLesson();
+    if (!lessonFile) return;
+    router.replace(`/lesson?file=${lessonFile}&genre=${selectedGenre}`);
+  };
+
+  const handleStreakVisibilityPress = () => {
+    const lessonFile = getCurrentPlayableLesson();
+    if (!lessonFile || !streakVisibility) return;
+    Analytics.track("streak_visibility_clicked", {
+      source: "course_home",
+      riskType: streakVisibility.riskType,
+      studyStreak: streakVisibility.studyStreak,
+      freezesRemaining: streakVisibility.freezesRemaining,
+      todayStudied: streakVisibility.todayStudied,
+    });
+    router.replace(`/lesson?file=${lessonFile}&genre=${selectedGenre}`);
   };
 
   const handleStreakGuardPress = () => {
-    const nextNode = currentTrail.find((node: any) => node.status === "current" && !node.isLocked && node.lessonFile);
-    if (!nextNode?.lessonFile) {
-      Alert.alert(
-        i18n.t("course.keepUsingTitle"),
-        i18n.t("course.keepUsingMessage"),
-        [{ text: i18n.t("common.ok") }]
-      );
-      return;
-    }
+    const lessonFile = getCurrentPlayableLesson();
+    if (!lessonFile) return;
     if (streakGuard) {
       Analytics.track("streak_guard_clicked", {
         source: "course_home",
         studyStreak: streakGuard.studyStreak,
         freezesRemaining: streakGuard.freezesRemaining,
         riskType: streakGuard.riskType,
+        daypart: streakGuard.copyVariant,
+        copyVariant: streakGuard.copyVariant,
       });
     }
-    router.replace(`/lesson?file=${nextNode.lessonFile}&genre=${selectedGenre}`);
+    router.replace(`/lesson?file=${lessonFile}&genre=${selectedGenre}`);
   };
 
   const handleLeagueBoundaryPress = () => {
-    const nextNode = currentTrail.find((node: any) => node.status === "current" && !node.isLocked && node.lessonFile);
-    if (!nextNode?.lessonFile) {
-      Alert.alert(
-        i18n.t("course.keepUsingTitle"),
-        i18n.t("course.keepUsingMessage"),
-        [{ text: i18n.t("common.ok") }]
-      );
-      return;
-    }
+    const lessonFile = getCurrentPlayableLesson();
+    if (!lessonFile) return;
     if (leagueBoundary) {
       Analytics.track("league_boundary_clicked", {
         source: "course_home",
@@ -298,10 +348,10 @@ export default function CourseScreen() {
         xpGap: leagueBoundary.xpGap,
         weekId: leagueBoundary.weekId,
         tier: leagueBoundary.tier,
-        lessonId: nextNode.lessonFile,
+        lessonId: lessonFile,
       });
     }
-    router.replace(`/lesson?file=${nextNode.lessonFile}&genre=${selectedGenre}&entry=league_boundary`);
+    router.replace(`/lesson?file=${lessonFile}&genre=${selectedGenre}&entry=league_boundary`);
   };
 
   return (
@@ -316,6 +366,13 @@ export default function CourseScreen() {
           router.push("/(tabs)/quests");
         }}
       />
+      {streakVisibility && (
+        <Pressable style={styles.streakVisibilityBanner} onPress={handleStreakVisibilityPress}>
+          <Text style={styles.streakVisibilityTitle}>{i18n.t("course.streakVisibility.title")}</Text>
+          <Text style={styles.streakVisibilityBody}>{getStreakVisibilityBody()}</Text>
+          <Text style={styles.streakVisibilityCta}>{i18n.t("course.streakVisibility.cta")}</Text>
+        </Pressable>
+      )}
       {recoveryMission && (
         <Pressable style={styles.recoveryMissionBanner} onPress={handleRecoveryMissionPress}>
           <Text style={styles.recoveryMissionTitle}>{i18n.t("course.recoveryMission.title")}</Text>
@@ -326,11 +383,7 @@ export default function CourseScreen() {
       {!recoveryMission && streakGuard && (
         <Pressable style={styles.streakGuardBanner} onPress={handleStreakGuardPress}>
           <Text style={styles.streakGuardTitle}>{i18n.t("course.streakGuard.title")}</Text>
-          <Text style={styles.streakGuardBody}>
-            {streakGuard.riskType === "consume_freeze"
-              ? i18n.t("course.streakGuard.bodyFreeze")
-              : i18n.t("course.streakGuard.bodyBreak")}
-          </Text>
+          <Text style={styles.streakGuardBody}>{getStreakGuardBody(streakGuard.copyVariant)}</Text>
           <Text style={styles.streakGuardCta}>{i18n.t("course.streakGuard.cta")}</Text>
         </Pressable>
       )}
@@ -406,6 +459,33 @@ export default function CourseScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "transparent" },
+  streakVisibilityBanner: {
+    marginHorizontal: 12,
+    marginTop: 4,
+    marginBottom: 8,
+    borderRadius: 14,
+    paddingVertical: 11,
+    paddingHorizontal: 14,
+    backgroundColor: "rgba(6, 182, 212, 0.14)",
+    borderWidth: 1,
+    borderColor: "rgba(6, 182, 212, 0.45)",
+  },
+  streakVisibilityTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#d9fbff",
+  },
+  streakVisibilityBody: {
+    marginTop: 4,
+    fontSize: 12,
+    color: "#d2f7ff",
+  },
+  streakVisibilityCta: {
+    marginTop: 8,
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#67e8f9",
+  },
   recoveryMissionBanner: {
     marginHorizontal: 12,
     marginTop: 6,

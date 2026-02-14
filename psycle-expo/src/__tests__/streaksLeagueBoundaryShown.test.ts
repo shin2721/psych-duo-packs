@@ -15,6 +15,8 @@ function buildBaseState(partial: Partial<StreakData> = {}): StreakData {
     streakGuardLastShownDate: null,
     streakGuardLastSavedDate: null,
     leagueBoundaryLastShownDate: null,
+    streakVisibilityCourseLastShownDate: null,
+    streakVisibilityQuestsLastShownDate: null,
     freezesRemaining: 2,
     freezeWeekStart: null,
     totalXP: 0,

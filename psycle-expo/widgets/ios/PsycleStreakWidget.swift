@@ -33,6 +33,9 @@ private struct WidgetPayload: Decodable {
   let todayLessons: Int
   let todayXP: Int
   let totalXP: Int
+  let streakRiskType: String
+  let streakRiskMessageJa: String
+  let streakRiskMessageEn: String
   let recentDays: [WidgetRecentDay]
   let updatedAtMs: Int
 
@@ -41,6 +44,9 @@ private struct WidgetPayload: Decodable {
     todayLessons: 0,
     todayXP: 0,
     totalXP: 0,
+    streakRiskType: "safe_today",
+    streakRiskMessageJa: "今日の連続記録は維持中",
+    streakRiskMessageEn: "Your streak is safe for today",
     recentDays: [],
     updatedAtMs: 0
   )
@@ -50,15 +56,31 @@ private struct WidgetPayload: Decodable {
     case todayLessons
     case todayXP
     case totalXP
+    case streakRiskType
+    case streakRiskMessageJa
+    case streakRiskMessageEn
     case recentDays
     case updatedAtMs
   }
 
-  init(studyStreak: Int, todayLessons: Int, todayXP: Int, totalXP: Int, recentDays: [WidgetRecentDay], updatedAtMs: Int) {
+  init(
+    studyStreak: Int,
+    todayLessons: Int,
+    todayXP: Int,
+    totalXP: Int,
+    streakRiskType: String,
+    streakRiskMessageJa: String,
+    streakRiskMessageEn: String,
+    recentDays: [WidgetRecentDay],
+    updatedAtMs: Int
+  ) {
     self.studyStreak = studyStreak
     self.todayLessons = todayLessons
     self.todayXP = todayXP
     self.totalXP = totalXP
+    self.streakRiskType = streakRiskType
+    self.streakRiskMessageJa = streakRiskMessageJa
+    self.streakRiskMessageEn = streakRiskMessageEn
     self.recentDays = recentDays
     self.updatedAtMs = updatedAtMs
   }
@@ -69,6 +91,9 @@ private struct WidgetPayload: Decodable {
     todayLessons = try container.decodeIfPresent(Int.self, forKey: .todayLessons) ?? 0
     todayXP = try container.decodeIfPresent(Int.self, forKey: .todayXP) ?? 0
     totalXP = try container.decodeIfPresent(Int.self, forKey: .totalXP) ?? 0
+    streakRiskType = try container.decodeIfPresent(String.self, forKey: .streakRiskType) ?? "safe_today"
+    streakRiskMessageJa = try container.decodeIfPresent(String.self, forKey: .streakRiskMessageJa) ?? "今日の連続記録は維持中"
+    streakRiskMessageEn = try container.decodeIfPresent(String.self, forKey: .streakRiskMessageEn) ?? "Your streak is safe for today"
     recentDays = try container.decodeIfPresent([WidgetRecentDay].self, forKey: .recentDays) ?? []
     updatedAtMs = try container.decodeIfPresent(Int.self, forKey: .updatedAtMs) ?? 0
   }
@@ -132,6 +157,11 @@ private struct PsycleStreakWidgetView: View {
           .font(.caption)
           .foregroundColor(.white.opacity(0.85))
 
+        Text(riskMessage())
+          .font(.caption2)
+          .foregroundColor(.white.opacity(0.82))
+          .lineLimit(1)
+
         HStack(spacing: 4) {
           ForEach(recentDaysForChart()) { day in
             RoundedRectangle(cornerRadius: 2)
@@ -152,6 +182,14 @@ private struct PsycleStreakWidgetView: View {
     }
 
     return Array(entry.payload.recentDays.suffix(7))
+  }
+
+  private func riskMessage() -> String {
+    let languageCode = Locale.current.languageCode ?? "en"
+    if languageCode == "ja" {
+      return entry.payload.streakRiskMessageJa
+    }
+    return entry.payload.streakRiskMessageEn
   }
 }
 

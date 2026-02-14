@@ -6,6 +6,7 @@ const STORAGE_KEY = "@psycle_action_journal_v1";
 const SCHEMA_VERSION = 1;
 const MAX_LESSON_HISTORY = 60;
 const DAILY_JOURNAL_XP = 20;
+const ONE_DAY_MS = 24 * 60 * 60 * 1000;
 
 export type JournalResult = -2 | -1 | 0 | 1 | 2 | "not_tried";
 export type TryOptionOrigin =
@@ -20,6 +21,7 @@ export interface TryOption {
   origin: TryOptionOrigin;
   lessonId: string | null;
   questionId: string | null;
+  position: number;
 }
 
 export interface ActionJournalEntry {
@@ -142,6 +144,7 @@ function getInterventionsFromLesson(genreId: string, lessonId: string): TryOptio
         origin: "recent_lesson" as const,
         lessonId,
         questionId: question?.id || question?.source_id || null,
+        position: 0,
       };
     })
     .filter(Boolean) as TryOption[];
@@ -164,6 +167,7 @@ function getGenreFallbackOptions(genreId: string): TryOption[] {
         origin: "genre_fallback",
         lessonId: lesson.id,
         questionId: question?.id || question?.source_id || null,
+        position: 0,
       });
     }
   }
@@ -192,7 +196,11 @@ function recentDaysList(days: number, today: string): string[] {
   return target;
 }
 
-function getRecentPositiveOption(store: ActionJournalStore, genreId: string, today: string): TryOption | null {
+function getRecentPositiveOption(
+  store: ActionJournalStore,
+  genreId: string,
+  today: string
+): { option: TryOption; recencyBonus: number } | null {
   const dates = new Set(recentDaysList(30, today));
   const candidates = Object.values(store.entries)
     .filter((entry) => entry.genreId === genreId)
@@ -226,45 +234,100 @@ function getRecentPositiveOption(store: ActionJournalStore, genreId: string, tod
   })[0];
 
   if (!best || !best.label) return null;
+  const todayMs = new Date(`${today}T00:00:00`).getTime();
+  const updatedMs = new Date(best.lastUpdatedAt).getTime();
+  const diffDays = Number.isFinite(updatedMs)
+    ? Math.max(0, Math.floor((todayMs - updatedMs) / ONE_DAY_MS))
+    : 9;
+  const recencyBonus = Math.max(0, 9 - diffDays);
+
   return {
-    id: best.tryOptionId || buildTryOptionId(best.label),
-    label: best.label,
-    origin: "positive_history",
-    lessonId: null,
-    questionId: null,
+    option: {
+      id: best.tryOptionId || buildTryOptionId(best.label),
+      label: best.label,
+      origin: "positive_history",
+      lessonId: null,
+      questionId: null,
+      position: 0,
+    },
+    recencyBonus,
   };
 }
 
 function buildTryOptions(store: ActionJournalStore, genreId: string, today: string): TryOption[] {
+  type RankedOption = {
+    option: TryOption;
+    score: number;
+    order: number;
+  };
+
+  const rankedByKey = new Map<string, RankedOption>();
+  let insertionOrder = 0;
+
+  const upsertRanked = (option: TryOption, score: number) => {
+    const key = normalizeTryKey(option.label);
+    if (!key || option.id === "not_tried") return;
+    const current = rankedByKey.get(key);
+    if (
+      !current ||
+      score > current.score ||
+      (score === current.score && insertionOrder < current.order)
+    ) {
+      rankedByKey.set(key, {
+        option: { ...option, position: 0 },
+        score,
+        order: insertionOrder,
+      });
+    }
+    insertionOrder += 1;
+  };
+
   const recentGenreLessons = store.lessonHistory
     .filter((item) => item.genreId === genreId)
     .sort((a, b) => b.completedAt.localeCompare(a.completedAt))
     .slice(0, 5);
 
-  const recentOptions = dedupeOptions(
-    recentGenreLessons.flatMap((item) => getInterventionsFromLesson(genreId, item.lessonId))
-  ).map((option) => ({ ...option, origin: "recent_lesson" as const }));
-
-  const tryOptions: TryOption[] = [...recentOptions];
-
   const positive = getRecentPositiveOption(store, genreId, today);
   if (positive) {
-    tryOptions.push(positive);
+    upsertRanked(positive.option, 90 + positive.recencyBonus);
   }
 
-  const fallbackOptions = getGenreFallbackOptions(genreId);
-  tryOptions.push(...fallbackOptions);
-
-  const deduped = dedupeOptions(tryOptions).slice(0, 3);
-  deduped.push({
-    id: "not_tried",
-    label: "not_tried",
-    origin: "not_tried",
-    lessonId: null,
-    questionId: null,
+  recentGenreLessons.forEach((item, index) => {
+    const recencyBonus = Math.max(0, 9 - index);
+    const options = dedupeOptions(
+      getInterventionsFromLesson(genreId, item.lessonId)
+    ).map((option) => ({ ...option, origin: "recent_lesson" as const }));
+    options.forEach((option) => upsertRanked(option, 70 + recencyBonus));
   });
 
-  return deduped.slice(0, 4);
+  dedupeOptions(getGenreFallbackOptions(genreId)).forEach((option) => {
+    upsertRanked(option, 40);
+  });
+
+  const rankedOptions = [...rankedByKey.values()]
+    .sort((a, b) => {
+      if (b.score !== a.score) return b.score - a.score;
+      return a.order - b.order;
+    })
+    .slice(0, 3)
+    .map((item) => item.option);
+
+  const finalOptions = [
+    ...rankedOptions,
+    {
+      id: "not_tried",
+      label: "not_tried",
+      origin: "not_tried" as const,
+      lessonId: null,
+      questionId: null,
+      position: 0,
+    },
+  ].slice(0, 4);
+
+  return finalOptions.map((option, index) => ({
+    ...option,
+    position: index + 1,
+  }));
 }
 
 export async function recordLessonCompletionForJournal(

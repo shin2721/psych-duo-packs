@@ -236,6 +236,17 @@ export const en = {
             title: 'Streak guard',
             bodyBreak: 'If you skip learning today, your streak will break.',
             bodyFreeze: 'If you skip learning today, you will consume 1 Freeze.',
+            bodyMorning: 'Keep your streak with one lesson this morning.',
+            bodyDaytime: 'Keep your streak with one lesson today.',
+            bodyEvening: 'Keep your streak with one lesson before bed.',
+            bodyLateNight: 'Protect your streak with one lesson right now.',
+            cta: 'Do one lesson now',
+        },
+        streakVisibility: {
+            title: "Today's Streak Status",
+            safeToday: 'Your streak is safe for today',
+            consumeFreeze: 'If you skip today, you will consume 1 Freeze',
+            breakStreak: 'If you skip today, your streak will break',
             cta: 'Do one lesson now',
         },
         leagueBoundary: {

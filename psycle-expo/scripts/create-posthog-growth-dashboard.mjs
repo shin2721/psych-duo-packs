@@ -20,10 +20,10 @@ import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
 
 const DEFAULT_HOST = "https://app.posthog.com";
-const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.13)";
+const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.16)";
 const DEFAULT_DASHBOARD_DESCRIPTION =
   "Psycle growth KPI dashboard. Managed by scripts/create-posthog-growth-dashboard.mjs";
-const DASHBOARD_TAG = "psycle-growth-v1.13";
+const DASHBOARD_TAG = "psycle-growth-v1.16";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "..");
@@ -307,6 +307,25 @@ const CARD_DEFS = [
     ]),
   },
   {
+    name: "Streak Visibility (daily)",
+    description: "Daily counts for streak_visibility_shown and streak_visibility_clicked.",
+    query: trendsQuery([
+      eventNode("streak_visibility_shown", "total"),
+      eventNode("streak_visibility_clicked", "total"),
+    ]),
+  },
+  {
+    name: "Streak Guard by Daypart (daily)",
+    description: "Daily streak_guard_shown/clicked/saved counts broken down by daypart.",
+    query: trendsQuery([
+      eventNode("streak_guard_shown", "total"),
+      eventNode("streak_guard_clicked", "total"),
+      eventNode("streak_guard_saved", "total"),
+    ], {
+      breakdown: "daypart",
+    }),
+  },
+  {
     name: "League Boundary (daily)",
     description: "Daily counts for league_boundary_shown and league_boundary_clicked.",
     query: trendsQuery([
@@ -325,6 +344,19 @@ const CARD_DEFS = [
       }),
       eventNode("action_journal_submitted", "dau", {
         name: "action_journal_submitted_uv",
+      }),
+    ]),
+  },
+  {
+    name: "Action Journal Quality (daily)",
+    description: "Daily journal quality trend: submitted totals and top2 option picks.",
+    query: trendsQuery([
+      eventNode("action_journal_submitted", "total", {
+        name: "action_journal_submitted_all",
+      }),
+      eventNode("action_journal_submitted", "total", {
+        name: "action_journal_submitted_top2",
+        properties: [eventPropertyFilter("tryPosition", [1, 2])],
       }),
     ]),
   },

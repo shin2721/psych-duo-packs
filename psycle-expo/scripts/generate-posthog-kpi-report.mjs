@@ -46,8 +46,11 @@ const DEFAULT_TUNING_TARGETS = {
   recovery_mission_claim_rate_7d_min: 0.2,
   streak_guard_save_rate_7d_min: 0.35,
   league_boundary_click_rate_7d_min: 0.12,
+  streak_visibility_click_rate_7d_min: 0.25,
+  journal_top2_pick_share_7d_min: 0.55,
+  streak_guard_evening_save_rate_7d_min: 0.3,
   journal_post_user_rate_7d_min: 0.18,
-  journal_not_tried_share_7d_max: 0.6,
+  journal_not_tried_share_7d_max: 0.5,
   d1_retention_rate_7d_min: 0.25,
   d7_retention_rate_7d_min: 0.08,
   paid_plan_changes_per_checkout_7d_min: 0.18,
@@ -55,6 +58,9 @@ const DEFAULT_TUNING_TARGETS = {
 };
 
 const DASHBOARD_NAMES = [
+  "Psycle Growth Dashboard (v1.16)",
+  "Psycle Growth Dashboard (v1.15)",
+  "Psycle Growth Dashboard (v1.14)",
   "Psycle Growth Dashboard (v1.13)",
   "Psycle Growth Dashboard (v1.12)",
   "Psycle Growth Dashboard (v1.11)",
@@ -86,6 +92,9 @@ const REQUIRED_INSIGHTS = [
 
 const OPTIONAL_INSIGHTS = [
   "Completed Sessions (daily)",
+  "Streak Visibility (daily)",
+  "Streak Guard by Daypart (daily)",
+  "Action Journal Quality (daily)",
 ];
 
 const PRIMARY_KPI_KEYS = [
@@ -288,6 +297,15 @@ function pickSeries(seriesMap, tokens) {
   return new Map();
 }
 
+function pickSeriesAllTokens(seriesMap, tokens) {
+  const loweredTokens = tokens.map((t) => t.toLowerCase());
+  for (const [label, map] of seriesMap.entries()) {
+    const lower = String(label).toLowerCase();
+    if (loweredTokens.every((t) => lower.includes(t))) return map;
+  }
+  return new Map();
+}
+
 function retentionRateForWindow(insight, dayIndex, startDay, endDay) {
   const rows = Array.isArray(insight.result) ? insight.result : [];
   let cohorts = 0;
@@ -359,6 +377,16 @@ function buildAnomalies(metrics, worseningThreshold) {
       label: "Journal Not Tried Share",
     },
     {
+      key: "journal_top2_pick_share_7d",
+      higherIsBetter: true,
+      label: "Journal Top2 Pick Share",
+    },
+    {
+      key: "streak_visibility_click_rate_7d",
+      higherIsBetter: true,
+      label: "Streak Visibility Click Rate",
+    },
+    {
       key: "recovery_mission_claim_rate_7d",
       higherIsBetter: true,
       label: "Recovery Mission Claim Rate",
@@ -372,6 +400,11 @@ function buildAnomalies(metrics, worseningThreshold) {
       key: "league_boundary_click_rate_7d",
       higherIsBetter: true,
       label: "League Boundary Click Rate",
+    },
+    {
+      key: "streak_guard_evening_save_rate_7d",
+      higherIsBetter: true,
+      label: "Streak Guard Evening Save Rate",
     },
     {
       key: "paid_plan_changes_per_checkout_7d",
@@ -442,6 +475,13 @@ function buildTargetBreaches(metrics, targets) {
       unit: "ratio",
     },
     {
+      key: "streak_guard_evening_save_rate_7d",
+      label: "Streak Guard Evening Save Rate 7d",
+      target: targets.streak_guard_evening_save_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
       key: "league_boundary_click_rate_7d",
       label: "League Boundary Click Rate 7d",
       target: targets.league_boundary_click_rate_7d_min,
@@ -449,9 +489,23 @@ function buildTargetBreaches(metrics, targets) {
       unit: "ratio",
     },
     {
+      key: "streak_visibility_click_rate_7d",
+      label: "Streak Visibility Click Rate 7d",
+      target: targets.streak_visibility_click_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
       key: "journal_post_user_rate_7d",
       label: "Journal Post User Rate 7d",
       target: targets.journal_post_user_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "journal_top2_pick_share_7d",
+      label: "Journal Top2 Pick Share 7d",
+      target: targets.journal_top2_pick_share_7d_min,
       mode: "min",
       unit: "ratio",
     },
@@ -528,11 +582,20 @@ function buildRecommendedActions(anomalies, breaches) {
   if (flagged.has("Journal Not Tried Share") || flagged.has("Journal Not Tried Share 7d")) {
     actions.push("not_tried比率を下げるため、直近5レッスン由来候補を優先表示し、genre_fallback候補を1件追加する。");
   }
+  if (flagged.has("Journal Top2 Pick Share") || flagged.has("Journal Top2 Pick Share 7d")) {
+    actions.push("日記候補の先頭2件を強化するため、positive_historyの更新頻度を上げ、成功ラベルを先頭固定する。");
+  }
+  if (flagged.has("Streak Visibility Click Rate") || flagged.has("Streak Visibility Click Rate 7d")) {
+    actions.push("連続記録ステータスカードのCTA文言を短くし、course/quests両面で同一表現に統一してクリック率を改善する。");
+  }
   if (flagged.has("Recovery Mission Claim Rate") || flagged.has("Recovery Mission Claim Rate 7d")) {
     actions.push("離脱翌日の復帰導線を強化するため、コース先頭に復帰ミッションバナーを固定表示し、CTA押下で即レッスン開始に遷移する。");
   }
   if (flagged.has("Streak Guard Save Rate") || flagged.has("Streak Guard Save Rate 7d")) {
     actions.push("欠勤直前ユーザー向けに失速防止カードを固定表示し、CTA押下から実行完了までの導線を1タップ短縮する。");
+  }
+  if (flagged.has("Streak Guard Evening Save Rate") || flagged.has("Streak Guard Evening Save Rate 7d")) {
+    actions.push("夜帯の失速防止コピーを短文化し、streak_guard_shownのevening比率とsave率を同時に確認する。");
   }
   if (flagged.has("League Boundary Click Rate") || flagged.has("League Boundary Click Rate 7d")) {
     actions.push("リーグ境界カードの訴求文を改善し、昇格/降格ラインまでの必要XPを明確に表示してCTAタップ率を上げる。");
@@ -709,6 +772,16 @@ async function main() {
   const streakGuardShown = pickSeries(streakGuardTrend.seriesMap, ["streak_guard_shown"]);
   const streakGuardClicked = pickSeries(streakGuardTrend.seriesMap, ["streak_guard_clicked"]);
   const streakGuardSaved = pickSeries(streakGuardTrend.seriesMap, ["streak_guard_saved"]);
+  const streakVisibilityTrend = insights["Streak Visibility (daily)"]
+    ? parseTrendInsight(insights["Streak Visibility (daily)"])
+    : { seriesMap: new Map(), combined: new Map() };
+  const streakVisibilityShown = pickSeries(streakVisibilityTrend.seriesMap, ["streak_visibility_shown"]);
+  const streakVisibilityClicked = pickSeries(streakVisibilityTrend.seriesMap, ["streak_visibility_clicked"]);
+  const streakGuardByDaypartTrend = insights["Streak Guard by Daypart (daily)"]
+    ? parseTrendInsight(insights["Streak Guard by Daypart (daily)"])
+    : { seriesMap: new Map(), combined: new Map() };
+  const streakGuardShownEvening = pickSeriesAllTokens(streakGuardByDaypartTrend.seriesMap, ["streak_guard_shown", "evening"]);
+  const streakGuardSavedEvening = pickSeriesAllTokens(streakGuardByDaypartTrend.seriesMap, ["streak_guard_saved", "evening"]);
   const leagueBoundaryTrend = parseTrendInsight(insights["League Boundary (daily)"]);
   const leagueBoundaryShown = pickSeries(leagueBoundaryTrend.seriesMap, ["league_boundary_shown"]);
   const leagueBoundaryClicked = pickSeries(leagueBoundaryTrend.seriesMap, ["league_boundary_clicked"]);
@@ -716,6 +789,10 @@ async function main() {
   const actionJournalSubmittedTotal = pickSeries(actionJournalTrend.seriesMap, ["action_journal_submitted"]);
   const actionJournalSubmittedNotTried = pickSeries(actionJournalTrend.seriesMap, ["not_tried"]);
   const actionJournalSubmittedUv = pickSeries(actionJournalTrend.seriesMap, ["_uv"]);
+  const actionJournalQualityTrend = insights["Action Journal Quality (daily)"]
+    ? parseTrendInsight(insights["Action Journal Quality (daily)"])
+    : { seriesMap: new Map(), combined: new Map() };
+  const actionJournalTop2 = pickSeries(actionJournalQualityTrend.seriesMap, ["top2"]);
 
   const incorrectTrend = parseTrendInsight(insights["Incorrect vs Lesson Start (daily)"]);
   const incorrectCount = pickSeries(incorrectTrend.seriesMap, ["question_incorrect"]);
@@ -781,6 +858,8 @@ async function main() {
     action_journal_submitted_7d_prev: sumWindow(actionJournalSubmittedTotal, previousStart, previousEnd),
     action_journal_not_tried_7d: sumWindow(actionJournalSubmittedNotTried, currentStart, anchorDay),
     action_journal_not_tried_7d_prev: sumWindow(actionJournalSubmittedNotTried, previousStart, previousEnd),
+    action_journal_top2_7d: sumWindow(actionJournalTop2, currentStart, anchorDay),
+    action_journal_top2_7d_prev: sumWindow(actionJournalTop2, previousStart, previousEnd),
     action_journal_submitted_uv_7d: sumWindow(actionJournalSubmittedUv, currentStart, anchorDay),
     action_journal_submitted_uv_7d_prev: sumWindow(actionJournalSubmittedUv, previousStart, previousEnd),
     journal_post_user_rate_7d: safeRate(
@@ -797,6 +876,14 @@ async function main() {
     ),
     journal_not_tried_share_7d_prev: safeRate(
       sumWindow(actionJournalSubmittedNotTried, previousStart, previousEnd),
+      sumWindow(actionJournalSubmittedTotal, previousStart, previousEnd)
+    ),
+    journal_top2_pick_share_7d: safeRate(
+      sumWindow(actionJournalTop2, currentStart, anchorDay),
+      sumWindow(actionJournalSubmittedTotal, currentStart, anchorDay)
+    ),
+    journal_top2_pick_share_7d_prev: safeRate(
+      sumWindow(actionJournalTop2, previousStart, previousEnd),
       sumWindow(actionJournalSubmittedTotal, previousStart, previousEnd)
     ),
     recovery_mission_shown_7d: sumWindow(recoveryMissionShown, currentStart, anchorDay),
@@ -832,6 +919,30 @@ async function main() {
     streak_guard_save_rate_7d_prev: safeRate(
       sumWindow(streakGuardSaved, previousStart, previousEnd),
       sumWindow(streakGuardShown, previousStart, previousEnd)
+    ),
+    streak_guard_evening_shown_7d: sumWindow(streakGuardShownEvening, currentStart, anchorDay),
+    streak_guard_evening_shown_7d_prev: sumWindow(streakGuardShownEvening, previousStart, previousEnd),
+    streak_guard_evening_saved_7d: sumWindow(streakGuardSavedEvening, currentStart, anchorDay),
+    streak_guard_evening_saved_7d_prev: sumWindow(streakGuardSavedEvening, previousStart, previousEnd),
+    streak_guard_evening_save_rate_7d: safeRate(
+      sumWindow(streakGuardSavedEvening, currentStart, anchorDay),
+      sumWindow(streakGuardShownEvening, currentStart, anchorDay)
+    ),
+    streak_guard_evening_save_rate_7d_prev: safeRate(
+      sumWindow(streakGuardSavedEvening, previousStart, previousEnd),
+      sumWindow(streakGuardShownEvening, previousStart, previousEnd)
+    ),
+    streak_visibility_shown_7d: sumWindow(streakVisibilityShown, currentStart, anchorDay),
+    streak_visibility_shown_7d_prev: sumWindow(streakVisibilityShown, previousStart, previousEnd),
+    streak_visibility_clicked_7d: sumWindow(streakVisibilityClicked, currentStart, anchorDay),
+    streak_visibility_clicked_7d_prev: sumWindow(streakVisibilityClicked, previousStart, previousEnd),
+    streak_visibility_click_rate_7d: safeRate(
+      sumWindow(streakVisibilityClicked, currentStart, anchorDay),
+      sumWindow(streakVisibilityShown, currentStart, anchorDay)
+    ),
+    streak_visibility_click_rate_7d_prev: safeRate(
+      sumWindow(streakVisibilityClicked, previousStart, previousEnd),
+      sumWindow(streakVisibilityShown, previousStart, previousEnd)
     ),
     league_boundary_shown_7d: sumWindow(leagueBoundaryShown, currentStart, anchorDay),
     league_boundary_shown_7d_prev: sumWindow(leagueBoundaryShown, previousStart, previousEnd),
@@ -981,7 +1092,10 @@ async function main() {
     `Journal Not Tried Share 7d: ${formatPct(metrics.journal_not_tried_share_7d, 2)} (prev ${formatPct(metrics.journal_not_tried_share_7d_prev, 2)})`
   );
   console.log(
-    `Action Journal 7d: total=${formatNum(metrics.action_journal_submitted_7d, 0)} not_tried=${formatNum(metrics.action_journal_not_tried_7d, 0)} uv=${formatNum(metrics.action_journal_submitted_uv_7d, 0)}`
+    `Journal Top2 Pick Share 7d: ${formatPct(metrics.journal_top2_pick_share_7d, 2)} (prev ${formatPct(metrics.journal_top2_pick_share_7d_prev, 2)})`
+  );
+  console.log(
+    `Action Journal 7d: total=${formatNum(metrics.action_journal_submitted_7d, 0)} not_tried=${formatNum(metrics.action_journal_not_tried_7d, 0)} top2=${formatNum(metrics.action_journal_top2_7d, 0)} uv=${formatNum(metrics.action_journal_submitted_uv_7d, 0)}`
   );
   console.log(
     `Intervention Exposure 7d: shown=${formatNum(metrics.intervention_shown_7d, 0)}`
@@ -999,7 +1113,16 @@ async function main() {
     `Streak Guard Save Rate 7d: ${formatPct(metrics.streak_guard_save_rate_7d, 2)} (prev ${formatPct(metrics.streak_guard_save_rate_7d_prev, 2)})`
   );
   console.log(
+    `Streak Guard Evening Save Rate 7d: ${formatPct(metrics.streak_guard_evening_save_rate_7d, 2)} (prev ${formatPct(metrics.streak_guard_evening_save_rate_7d_prev, 2)})`
+  );
+  console.log(
     `Streak Guard 7d: shown=${formatNum(metrics.streak_guard_shown_7d, 0)} clicked=${formatNum(metrics.streak_guard_clicked_7d, 0)} saved=${formatNum(metrics.streak_guard_saved_7d, 0)}`
+  );
+  console.log(
+    `Streak Visibility Click Rate 7d: ${formatPct(metrics.streak_visibility_click_rate_7d, 2)} (prev ${formatPct(metrics.streak_visibility_click_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `Streak Visibility 7d: shown=${formatNum(metrics.streak_visibility_shown_7d, 0)} clicked=${formatNum(metrics.streak_visibility_clicked_7d, 0)}`
   );
   console.log(
     `League Boundary Click Rate 7d: ${formatPct(metrics.league_boundary_click_rate_7d, 2)} (prev ${formatPct(metrics.league_boundary_click_rate_7d_prev, 2)})`

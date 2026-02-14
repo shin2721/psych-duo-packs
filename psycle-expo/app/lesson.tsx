@@ -19,6 +19,8 @@ import {
   XP_REWARDS,
   getStreakData,
   dateKey,
+  getLocalDaypart,
+  getStreakGuardCopyVariant,
   claimRecoveryMissionIfEligible,
   markStreakGuardSavedIfEligible,
 } from "../lib/streaks";
@@ -264,12 +266,16 @@ export default function LessonScreen() {
 
       const streakGuardSave = await markStreakGuardSavedIfEligible(streakBefore.lastStudyDate);
       if (streakGuardSave.saved) {
+        const daypart = getLocalDaypart();
+        const copyVariant = getStreakGuardCopyVariant(daypart);
         Analytics.track("streak_guard_saved", {
           source: "lesson_complete",
           lessonId: params.file,
           studyStreakAfter: streakGuardSave.studyStreakAfter,
           freezesRemainingAfter: streakGuardSave.freezesRemainingAfter,
           riskType: streakGuardSave.riskType,
+          daypart,
+          copyVariant,
         });
       }
 

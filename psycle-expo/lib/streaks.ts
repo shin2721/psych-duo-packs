@@ -33,6 +33,10 @@ export interface StreakData {
     // League Boundary Card
     leagueBoundaryLastShownDate: string | null;
 
+    // Streak Visibility surfaces
+    streakVisibilityCourseLastShownDate: string | null;
+    streakVisibilityQuestsLastShownDate: string | null;
+
     // Freeze
     freezesRemaining: number;
     freezeWeekStart: string | null;  // 週初めの日付
@@ -54,6 +58,8 @@ const DEFAULT_STATE: StreakData = {
     streakGuardLastShownDate: null,
     streakGuardLastSavedDate: null,
     leagueBoundaryLastShownDate: null,
+    streakVisibilityCourseLastShownDate: null,
+    streakVisibilityQuestsLastShownDate: null,
     freezesRemaining: 2,
     freezeWeekStart: null,
     totalXP: 0,
@@ -94,6 +100,17 @@ export interface StreakGuardSaveResult {
     riskType: "break_streak" | "consume_freeze";
     lastStudyDate: string | null;
 }
+
+export type StudyStreakRiskType = "safe_today" | "break_streak" | "consume_freeze";
+
+export interface StudyStreakRiskStatus {
+    riskType: StudyStreakRiskType;
+    studyStreak: number;
+    freezesRemaining: number;
+    todayStudied: boolean;
+}
+
+export type LocalDaypart = "morning" | "daytime" | "evening" | "late_night";
 
 /**
  * ローカル時間で日付キーを取得（YYYY-MM-DD）
@@ -220,6 +237,46 @@ function toStreakGuardStatus(data: StreakData, today = getToday()): StreakGuardS
     };
 }
 
+function toStudyStreakRiskStatus(data: StreakData, today = getToday()): StudyStreakRiskStatus {
+    const todayStudied = data.lastStudyDate === today;
+    if (todayStudied) {
+        return {
+            riskType: "safe_today",
+            studyStreak: data.studyStreak || 0,
+            freezesRemaining: data.freezesRemaining || 0,
+            todayStudied: true,
+        };
+    }
+
+    if ((data.freezesRemaining || 0) > 0) {
+        return {
+            riskType: "consume_freeze",
+            studyStreak: data.studyStreak || 0,
+            freezesRemaining: data.freezesRemaining || 0,
+            todayStudied: false,
+        };
+    }
+
+    return {
+        riskType: "break_streak",
+        studyStreak: data.studyStreak || 0,
+        freezesRemaining: data.freezesRemaining || 0,
+        todayStudied: false,
+    };
+}
+
+function getRiskMessageJa(riskType: StudyStreakRiskType): string {
+    if (riskType === "safe_today") return "今日の連続記録は維持中";
+    if (riskType === "consume_freeze") return "今日やらないと Freeze を1個消費";
+    return "今日やらないと連続記録が途切れます";
+}
+
+function getRiskMessageEn(riskType: StudyStreakRiskType): string {
+    if (riskType === "safe_today") return "Your streak is safe for today";
+    if (riskType === "consume_freeze") return "If you skip today, you will consume 1 Freeze";
+    return "If you skip today, your streak will break";
+}
+
 export async function getStreakData(): Promise<StreakData> {
     try {
         const raw = await AsyncStorage.getItem(STORAGE_KEY);
@@ -232,6 +289,8 @@ export async function getStreakData(): Promise<StreakData> {
         data.streakGuardLastShownDate = data.streakGuardLastShownDate || null;
         data.streakGuardLastSavedDate = data.streakGuardLastSavedDate || null;
         data.leagueBoundaryLastShownDate = data.leagueBoundaryLastShownDate || null;
+        data.streakVisibilityCourseLastShownDate = data.streakVisibilityCourseLastShownDate || null;
+        data.streakVisibilityQuestsLastShownDate = data.streakVisibilityQuestsLastShownDate || null;
 
         // 週が変わったらfreezeを最低weekly_refillに補充（購入分は消さない）
         const currentWeekStart = getWeekStart(new Date());
@@ -426,15 +485,55 @@ export async function markLeagueBoundaryShown(): Promise<boolean> {
     return true;
 }
 
+export async function getStudyStreakRiskStatus(): Promise<StudyStreakRiskStatus> {
+    const data = await getStreakData();
+    return toStudyStreakRiskStatus(data);
+}
+
+export async function markStreakVisibilityShown(
+    surface: "course_home" | "quests_tab"
+): Promise<boolean> {
+    const data = await getStreakData();
+    const today = getToday();
+    const key =
+        surface === "course_home"
+            ? "streakVisibilityCourseLastShownDate"
+            : "streakVisibilityQuestsLastShownDate";
+
+    if (data[key] === today) {
+        return false;
+    }
+
+    data[key] = today;
+    await saveStreakData(data);
+    return true;
+}
+
+export function getLocalDaypart(d: Date = new Date()): LocalDaypart {
+    const hour = d.getHours();
+    if (hour >= 5 && hour <= 11) return "morning";
+    if (hour >= 12 && hour <= 17) return "daytime";
+    if (hour >= 18 && hour <= 23) return "evening";
+    return "late_night";
+}
+
+export function getStreakGuardCopyVariant(daypart: LocalDaypart = getLocalDaypart()): LocalDaypart {
+    return daypart;
+}
+
 async function saveStreakData(data: StreakData): Promise<void> {
     await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     const today = getToday();
     const todayHistory = data.studyHistory[today] || { lessonsCompleted: 0, xp: 0 };
+    const riskStatus = toStudyStreakRiskStatus(data, today);
     syncWidgetStudyData({
         studyStreak: data.studyStreak || 0,
         todayLessons: todayHistory.lessonsCompleted || 0,
         todayXP: todayHistory.xp || 0,
         totalXP: data.totalXP || 0,
+        streakRiskType: riskStatus.riskType,
+        streakRiskMessageJa: getRiskMessageJa(riskStatus.riskType),
+        streakRiskMessageEn: getRiskMessageEn(riskStatus.riskType),
         recentDays: buildRecentWidgetDays(data.studyHistory || {}),
         updatedAtMs: Date.now(),
     });

@@ -12,6 +12,9 @@ export type WidgetStudyPayload = {
   todayLessons: number;
   todayXP: number;
   totalXP: number;
+  streakRiskType: "safe_today" | "break_streak" | "consume_freeze";
+  streakRiskMessageJa: string;
+  streakRiskMessageEn: string;
   recentDays: WidgetRecentDay[];
   updatedAtMs: number;
 };

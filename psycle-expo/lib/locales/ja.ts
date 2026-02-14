@@ -236,6 +236,17 @@ export const ja = {
             title: '失速防止カード',
             bodyBreak: '今日学習しないと連続記録が途切れます',
             bodyFreeze: '今日学習しないと Freeze を1個消費します',
+            bodyMorning: '朝の1レッスンで記録キープ',
+            bodyDaytime: '今日中に1レッスンで記録キープ',
+            bodyEvening: '寝る前に1レッスンで記録キープ',
+            bodyLateNight: '今1レッスンで記録を守る',
+            cta: '今すぐ1レッスン',
+        },
+        streakVisibility: {
+            title: '今日の連続記録ステータス',
+            safeToday: '今日の連続記録は維持中',
+            consumeFreeze: '今日やらないと Freeze を1個消費',
+            breakStreak: '今日やらないと連続記録が途切れます',
             cta: '今すぐ1レッスン',
         },
         leagueBoundary: {

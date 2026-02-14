@@ -29,17 +29,20 @@
         "lesson_complete_user_rate_7d_min": 0.45,
         "recovery_mission_claim_rate_7d_min": 0.2,
         "streak_guard_save_rate_7d_min": 0.35,
+        "streak_guard_evening_save_rate_7d_min": 0.3,
         "league_boundary_click_rate_7d_min": 0.12,
+        "streak_visibility_click_rate_7d_min": 0.25,
+        "journal_top2_pick_share_7d_min": 0.55,
         "journal_post_user_rate_7d_min": 0.18,
-        "journal_not_tried_share_7d_max": 0.6,
+        "journal_not_tried_share_7d_max": 0.5,
         "d1_retention_rate_7d_min": 0.25,
         "d7_retention_rate_7d_min": 0.08,
         "paid_plan_changes_per_checkout_7d_min": 0.18,
         "completed_sessions_per_day_7d_min": 1.2
     },
     "primary_kpis": {
-        "version": "growth_v1.13",
-        "fixed_at": "2026-02-12",
+        "version": "growth_v1.16",
+        "fixed_at": "2026-02-14",
         "metrics": [
             {
                 "key": "d7_retention_rate_7d",

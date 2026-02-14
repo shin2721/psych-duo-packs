@@ -2,13 +2,18 @@ import React, { useCallback, useState } from "react";
 import { View, Text, ScrollView, Pressable, StyleSheet, TextInput, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
+import { router } from "expo-router";
 import { theme } from "../../lib/theme";
 import { useAppState } from "../../lib/state";
 import { Card, ProgressBar, SectionHeader } from "../../components/ui";
 import { Chest } from "../../components/Chest";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { StreakCalendar } from "../../components/StreakCalendar";
-import { getStreakData } from "../../lib/streaks";
+import {
+  getStreakData,
+  getStudyStreakRiskStatus,
+  markStreakVisibilityShown,
+} from "../../lib/streaks";
 import i18n from "../../lib/i18n";
 import {
   ActionJournalComposer,
@@ -34,6 +39,12 @@ export default function QuestsScreen() {
   const [journalNote, setJournalNote] = useState("");
   const [isSubmittingJournal, setIsSubmittingJournal] = useState(false);
   const [isEditingTodayEntry, setIsEditingTodayEntry] = useState(false);
+  const [streakVisibility, setStreakVisibility] = useState<{
+    riskType: "safe_today" | "break_streak" | "consume_freeze";
+    studyStreak: number;
+    freezesRemaining: number;
+    todayStudied: boolean;
+  } | null>(null);
   const currentMonth = new Date().getMonth() + 1;
 
   const monthly = quests.filter((q) => q.type === "monthly");
@@ -84,7 +95,23 @@ export default function QuestsScreen() {
         });
       };
 
-      Promise.all([loadCalendarHistory(), loadJournalComposer()]).catch(console.error);
+      const loadStreakVisibility = async () => {
+        const status = await getStudyStreakRiskStatus();
+        if (!isActive) return;
+        setStreakVisibility(status);
+        const shownRecorded = await markStreakVisibilityShown("quests_tab");
+        if (shownRecorded) {
+          Analytics.track("streak_visibility_shown", {
+            source: "quests_tab",
+            riskType: status.riskType,
+            studyStreak: status.studyStreak,
+            freezesRemaining: status.freezesRemaining,
+            todayStudied: status.todayStudied,
+          });
+        }
+      };
+
+      Promise.all([loadCalendarHistory(), loadJournalComposer(), loadStreakVisibility()]).catch(console.error);
       return () => {
         isActive = false;
       };
@@ -99,6 +126,25 @@ export default function QuestsScreen() {
   function getTryLabel(option: TryOption): string {
     if (option.id === "not_tried") return i18n.t("quests.actionJournal.notTried");
     return option.label;
+  }
+
+  function getStreakVisibilityBody(): string {
+    if (!streakVisibility) return "";
+    if (streakVisibility.riskType === "safe_today") return i18n.t("course.streakVisibility.safeToday");
+    if (streakVisibility.riskType === "consume_freeze") return i18n.t("course.streakVisibility.consumeFreeze");
+    return i18n.t("course.streakVisibility.breakStreak");
+  }
+
+  function handleStreakVisibilityPress() {
+    if (!streakVisibility) return;
+    Analytics.track("streak_visibility_clicked", {
+      source: "quests_tab",
+      riskType: streakVisibility.riskType,
+      studyStreak: streakVisibility.studyStreak,
+      freezesRemaining: streakVisibility.freezesRemaining,
+      todayStudied: streakVisibility.todayStudied,
+    });
+    router.push("/(tabs)/course");
   }
 
   function getResultLabel(result: JournalResult): string {
@@ -163,6 +209,7 @@ export default function QuestsScreen() {
         genreId: selectedGenre,
         tryOptionId: selectedTryOptionId,
         tryOrigin: option.origin,
+        tryPosition: option.position,
         result: resultToSubmit,
         noteAttached: Boolean(journalNote.trim()),
         xpAwarded: submitResult.xpAwarded,
@@ -334,6 +381,16 @@ export default function QuestsScreen() {
           )}
         </Card>
 
+        {streakVisibility && (
+          <Card style={styles.streakVisibilityCard}>
+            <Text style={styles.streakVisibilityTitle}>{i18n.t("course.streakVisibility.title")}</Text>
+            <Text style={styles.streakVisibilityBody}>{getStreakVisibilityBody()}</Text>
+            <Pressable style={styles.streakVisibilityButton} onPress={handleStreakVisibilityPress}>
+              <Text style={styles.streakVisibilityButtonText}>{i18n.t("course.streakVisibility.cta")}</Text>
+            </Pressable>
+          </Card>
+        )}
+
         {/* Streak Calendar */}
         <StreakCalendar history={calendarHistory} />
 
@@ -462,6 +519,37 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontWeight: "700",
     color: theme.colors.text,
+  },
+  streakVisibilityCard: {
+    marginBottom: theme.spacing.md,
+    padding: theme.spacing.md,
+    borderWidth: 1,
+    borderColor: "rgba(6,182,212,0.35)",
+    backgroundColor: "rgba(6,182,212,0.08)",
+  },
+  streakVisibilityTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: theme.colors.text,
+  },
+  streakVisibilityBody: {
+    marginTop: 4,
+    fontSize: 12,
+    color: theme.colors.sub,
+  },
+  streakVisibilityButton: {
+    marginTop: 10,
+    borderRadius: 10,
+    paddingVertical: 9,
+    alignItems: "center",
+    backgroundColor: "rgba(6,182,212,0.22)",
+    borderWidth: 1,
+    borderColor: "rgba(6,182,212,0.5)",
+  },
+  streakVisibilityButtonText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#9ef7ff",
   },
   monthlyCard: { marginBottom: theme.spacing.md, padding: theme.spacing.lg },
   monthlyLabel: { fontSize: 16, fontWeight: "700", color: theme.colors.accent, marginBottom: theme.spacing.sm },
