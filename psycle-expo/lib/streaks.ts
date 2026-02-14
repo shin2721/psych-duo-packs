@@ -3,7 +3,7 @@
  * 
  * Two streaks:
  * - Study Streak: レッスン完了で継続
- * - Action Streak: executed で継続（主役）
+ * - Action Streak: 互換維持のため残置（v1.13主導線では未使用）
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -18,7 +18,7 @@ export interface StreakData {
     // Daily history (for calendar / widgets)
     studyHistory: Record<string, { lessonsCompleted: number; xp: number }>;
 
-    // Action Streak (主役)
+    // Action Streak (互換維持)
     actionStreak: number;
     lastActionDate: string | null;  // YYYY-MM-DD
 
@@ -64,8 +64,8 @@ const DEFAULT_STATE: StreakData = {
 export interface RecoveryMissionStatus {
     eligible: boolean;
     missedDays: number;
-    lastActionDate: string | null;
-    actionStreak: number;
+    lastStudyDate: string | null;
+    studyStreak: number;
     shownToday: boolean;
     claimedToday: boolean;
 }
@@ -73,14 +73,14 @@ export interface RecoveryMissionStatus {
 export interface RecoveryMissionClaimResult {
     claimed: boolean;
     missedDays: number;
-    actionStreakAfter: number;
-    lastActionDate: string | null;
+    studyStreakAfter: number;
+    lastStudyDate: string | null;
 }
 
 export interface StreakGuardStatus {
     eligible: boolean;
-    lastActionDate: string | null;
-    actionStreak: number;
+    lastStudyDate: string | null;
+    studyStreak: number;
     freezesRemaining: number;
     riskType: "break_streak" | "consume_freeze";
     shownToday: boolean;
@@ -89,10 +89,10 @@ export interface StreakGuardStatus {
 
 export interface StreakGuardSaveResult {
     saved: boolean;
-    actionStreakAfter: number;
+    studyStreakAfter: number;
     freezesRemainingAfter: number;
     riskType: "break_streak" | "consume_freeze";
-    lastActionDate: string | null;
+    lastStudyDate: string | null;
 }
 
 /**
@@ -176,22 +176,22 @@ function utcNumberToDateKey(utcDay: number): string {
     return `${y}-${m}-${day}`;
 }
 
-function calculateMissedDays(lastActionDate: string | null, today: string): number {
-    if (!lastActionDate) return 0;
-    const diffDays = dateKeyToUtcDay(today) - dateKeyToUtcDay(lastActionDate);
+function calculateMissedDays(lastStudyDate: string | null, today: string): number {
+    if (!lastStudyDate) return 0;
+    const diffDays = dateKeyToUtcDay(today) - dateKeyToUtcDay(lastStudyDate);
     if (diffDays <= 1) return 0;
     return diffDays - 1;
 }
 
 function toRecoveryMissionStatus(data: StreakData, today = getToday()): RecoveryMissionStatus {
-    const missedDays = calculateMissedDays(data.lastActionDate, today);
+    const missedDays = calculateMissedDays(data.lastStudyDate, today);
     const claimedToday = data.recoveryLastClaimedDate === today;
     const shownToday = data.recoveryLastShownDate === today;
     return {
-        eligible: Boolean(data.lastActionDate) && missedDays >= 1 && !claimedToday,
+        eligible: Boolean(data.lastStudyDate) && missedDays >= 1 && !claimedToday,
         missedDays,
-        lastActionDate: data.lastActionDate,
-        actionStreak: data.actionStreak || 0,
+        lastStudyDate: data.lastStudyDate,
+        studyStreak: data.studyStreak || 0,
         shownToday,
         claimedToday,
     };
@@ -202,17 +202,17 @@ function toStreakGuardStatus(data: StreakData, today = getToday()): StreakGuardS
         (data.freezesRemaining || 0) > 0 ? "consume_freeze" : "break_streak";
     const shownToday = data.streakGuardLastShownDate === today;
     const savedToday = data.streakGuardLastSavedDate === today;
-    const hasLastAction = Boolean(data.lastActionDate);
-    const diffDays = hasLastAction ? dateKeyToUtcDay(today) - dateKeyToUtcDay(data.lastActionDate as string) : 0;
-    const eligible = hasLastAction
+    const hasLastStudy = Boolean(data.lastStudyDate);
+    const diffDays = hasLastStudy ? dateKeyToUtcDay(today) - dateKeyToUtcDay(data.lastStudyDate as string) : 0;
+    const eligible = hasLastStudy
         && diffDays === 1
-        && (data.actionStreak || 0) >= 2
+        && (data.studyStreak || 0) >= 2
         && !savedToday;
 
     return {
         eligible: Boolean(eligible),
-        lastActionDate: data.lastActionDate,
-        actionStreak: data.actionStreak || 0,
+        lastStudyDate: data.lastStudyDate,
+        studyStreak: data.studyStreak || 0,
         freezesRemaining: data.freezesRemaining || 0,
         riskType,
         shownToday,
@@ -273,7 +273,7 @@ export async function markRecoveryMissionShown(): Promise<RecoveryMissionStatus>
 }
 
 export async function claimRecoveryMissionIfEligible(
-    lastActionDateBeforeExecution: string | null
+    lastStudyDateBeforeCompletion: string | null
 ): Promise<RecoveryMissionClaimResult> {
     const data = await getStreakData();
     const today = getToday();
@@ -282,36 +282,36 @@ export async function claimRecoveryMissionIfEligible(
         return {
             claimed: false,
             missedDays: 0,
-            actionStreakAfter: data.actionStreak || 0,
-            lastActionDate: data.lastActionDate,
+            studyStreakAfter: data.studyStreak || 0,
+            lastStudyDate: data.lastStudyDate,
         };
     }
 
-    if (!lastActionDateBeforeExecution) {
+    if (!lastStudyDateBeforeCompletion) {
         return {
             claimed: false,
             missedDays: 0,
-            actionStreakAfter: data.actionStreak || 0,
-            lastActionDate: data.lastActionDate,
+            studyStreakAfter: data.studyStreak || 0,
+            lastStudyDate: data.lastStudyDate,
         };
     }
 
-    if (data.lastActionDate !== today) {
+    if (data.lastStudyDate !== today) {
         return {
             claimed: false,
             missedDays: 0,
-            actionStreakAfter: data.actionStreak || 0,
-            lastActionDate: data.lastActionDate,
+            studyStreakAfter: data.studyStreak || 0,
+            lastStudyDate: data.lastStudyDate,
         };
     }
 
-    const missedDays = calculateMissedDays(lastActionDateBeforeExecution, today);
+    const missedDays = calculateMissedDays(lastStudyDateBeforeCompletion, today);
     if (missedDays < 1) {
         return {
             claimed: false,
             missedDays,
-            actionStreakAfter: data.actionStreak || 0,
-            lastActionDate: data.lastActionDate,
+            studyStreakAfter: data.studyStreak || 0,
+            lastStudyDate: data.lastStudyDate,
         };
     }
 
@@ -320,8 +320,8 @@ export async function claimRecoveryMissionIfEligible(
     return {
         claimed: true,
         missedDays,
-        actionStreakAfter: data.actionStreak || 0,
-        lastActionDate: data.lastActionDate,
+        studyStreakAfter: data.studyStreak || 0,
+        lastStudyDate: data.lastStudyDate,
     };
 }
 
@@ -344,7 +344,7 @@ export async function markStreakGuardShown(): Promise<StreakGuardStatus> {
 }
 
 export async function markStreakGuardSavedIfEligible(
-    lastActionDateBeforeExecution: string | null
+    lastStudyDateBeforeCompletion: string | null
 ): Promise<StreakGuardSaveResult> {
     const data = await getStreakData();
     const today = getToday();
@@ -354,53 +354,53 @@ export async function markStreakGuardSavedIfEligible(
     if (data.streakGuardLastSavedDate === today) {
         return {
             saved: false,
-            actionStreakAfter: data.actionStreak || 0,
+            studyStreakAfter: data.studyStreak || 0,
             freezesRemainingAfter: data.freezesRemaining || 0,
             riskType,
-            lastActionDate: data.lastActionDate,
+            lastStudyDate: data.lastStudyDate,
         };
     }
 
-    if (!lastActionDateBeforeExecution) {
+    if (!lastStudyDateBeforeCompletion) {
         return {
             saved: false,
-            actionStreakAfter: data.actionStreak || 0,
+            studyStreakAfter: data.studyStreak || 0,
             freezesRemainingAfter: data.freezesRemaining || 0,
             riskType,
-            lastActionDate: data.lastActionDate,
+            lastStudyDate: data.lastStudyDate,
         };
     }
 
-    const diffDays = dateKeyToUtcDay(today) - dateKeyToUtcDay(lastActionDateBeforeExecution);
+    const diffDays = dateKeyToUtcDay(today) - dateKeyToUtcDay(lastStudyDateBeforeCompletion);
     if (diffDays !== 1) {
         return {
             saved: false,
-            actionStreakAfter: data.actionStreak || 0,
+            studyStreakAfter: data.studyStreak || 0,
             freezesRemainingAfter: data.freezesRemaining || 0,
             riskType,
-            lastActionDate: data.lastActionDate,
+            lastStudyDate: data.lastStudyDate,
         };
     }
 
-    // Eligibility includes actionStreak >= 2 before execution.
-    // At this point (after recordActionExecution), that corresponds to >= 3.
-    if ((data.actionStreak || 0) < 3) {
+    // Eligibility includes studyStreak >= 2 before completion.
+    // At this point (after recordStudyCompletion), that corresponds to >= 3.
+    if ((data.studyStreak || 0) < 3) {
         return {
             saved: false,
-            actionStreakAfter: data.actionStreak || 0,
+            studyStreakAfter: data.studyStreak || 0,
             freezesRemainingAfter: data.freezesRemaining || 0,
             riskType,
-            lastActionDate: data.lastActionDate,
+            lastStudyDate: data.lastStudyDate,
         };
     }
 
-    if (data.lastActionDate !== today) {
+    if (data.lastStudyDate !== today) {
         return {
             saved: false,
-            actionStreakAfter: data.actionStreak || 0,
+            studyStreakAfter: data.studyStreak || 0,
             freezesRemainingAfter: data.freezesRemaining || 0,
             riskType,
-            lastActionDate: data.lastActionDate,
+            lastStudyDate: data.lastStudyDate,
         };
     }
 
@@ -408,10 +408,10 @@ export async function markStreakGuardSavedIfEligible(
     await saveStreakData(data);
     return {
         saved: true,
-        actionStreakAfter: data.actionStreak || 0,
+        studyStreakAfter: data.studyStreak || 0,
         freezesRemainingAfter: data.freezesRemaining || 0,
         riskType,
-        lastActionDate: data.lastActionDate,
+        lastStudyDate: data.lastStudyDate,
     };
 }
 
@@ -460,7 +460,7 @@ export async function recordStudyCompletion(): Promise<StreakData> {
         // 昨日やっていた → 継続
         data.studyStreak++;
     } else if (firstStudyOfToday) {
-        // 途切れた → 1からスタート（Study StreakはFreeze対象外 - 行動が主役）
+        // 途切れた → 1からスタート（Study StreakはFreeze対象外）
         data.studyStreak = 1;
     }
 
@@ -479,10 +479,10 @@ export async function recordStudyCompletion(): Promise<StreakData> {
 }
 
 /**
- * Action Streakを更新（executed時に呼ぶ）
+ * Action Streakを更新（互換維持用途）
  */
 /**
- * Action Streakを更新（executed時に呼ぶ）
+ * Action Streakを更新（互換維持用途）
  */
 export async function recordActionExecution(): Promise<StreakData> {
     const data = await getStreakData();

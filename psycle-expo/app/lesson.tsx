@@ -14,7 +14,6 @@ import { FireflyLoader } from "../components/FireflyLoader";
 import { logFeltBetter, logInterventionInteraction, hasLoggedShownThisSession, markShownLogged, resetSessionTracking } from "../lib/dogfood";
 import { getEvidenceSummary, getTryValueColor } from "../lib/evidenceSummary";
 import {
-  recordActionExecution,
   recordStudyCompletion,
   addXP,
   XP_REWARDS,
@@ -24,11 +23,10 @@ import {
   markStreakGuardSavedIfEligible,
 } from "../lib/streaks";
 import { consumeFocus } from "../lib/focus";
-import { FirstExecutedCelebration } from "../components/FirstExecutedCelebration";
-import { hasCompletedFirstExecuted, markFirstExecutedComplete } from "../lib/onboarding";
 import { Analytics } from "../lib/analytics";
 import { formatCitation } from "../lib/evidenceUtils";
 import i18n from "../lib/i18n";
+import { recordLessonCompletionForJournal } from "../lib/actionJournal";
 
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string; entry?: string }>();
@@ -49,7 +47,6 @@ export default function LessonScreen() {
   const [showResearchDetails, setShowResearchDetails] = useState(false); // Collapsible research details
   const [feltBetterSubmitted, setFeltBetterSubmitted] = useState(false); // Track if felt_better submitted
   const [lastShownInterventionId, setLastShownInterventionId] = useState<string | null>(null); // 最後にshownになった介入ID
-  const [showFirstExecutedCelebration, setShowFirstExecutedCelebration] = useState(false); // 初回executed達成お祝い
   const [studyStreakFeedback, setStudyStreakFeedback] = useState<number | null>(null);
   const hasLoadedRef = useRef<string | null>(null);
   const lessonStartTrackedRef = useRef<string | null>(null); // lesson_start多重発火防止
@@ -254,6 +251,7 @@ export default function LessonScreen() {
       const firstStudyOfToday = streakBefore.lastStudyDate !== dateKey();
       const streakData = await recordStudyCompletion();
       await addXP(XP_REWARDS.LESSON_COMPLETE);
+      await recordLessonCompletionForJournal(params.file, genreId);
       setStudyStreakFeedback(firstStudyOfToday ? streakData.studyStreak : null);
 
       if (firstStudyOfToday) {
@@ -262,6 +260,30 @@ export default function LessonScreen() {
           genreId,
           streakDays: streakData.studyStreak,
         });
+      }
+
+      const streakGuardSave = await markStreakGuardSavedIfEligible(streakBefore.lastStudyDate);
+      if (streakGuardSave.saved) {
+        Analytics.track("streak_guard_saved", {
+          source: "lesson_complete",
+          lessonId: params.file,
+          studyStreakAfter: streakGuardSave.studyStreakAfter,
+          freezesRemainingAfter: streakGuardSave.freezesRemainingAfter,
+          riskType: streakGuardSave.riskType,
+        });
+      }
+
+      const recoveryClaim = await claimRecoveryMissionIfEligible(streakBefore.lastStudyDate);
+      if (recoveryClaim.claimed) {
+        addGems(3);
+        Analytics.track("recovery_mission_claimed", {
+          source: "lesson_complete",
+          lessonId: params.file,
+          rewardGems: 3,
+          missedDays: recoveryClaim.missedDays,
+          studyStreakAfter: recoveryClaim.studyStreakAfter,
+        });
+        Alert.alert(i18n.t("lesson.recoveryMission.rewarded"));
       }
 
       // Analytics: lesson_complete (同一lessonIdで2回送らない)
@@ -276,88 +298,6 @@ export default function LessonScreen() {
 
       setIsComplete(true);
     }
-  }
-
-  // Intervention: attempted ハンドラ
-  const [activeInterventionId, setActiveInterventionId] = useState<string | null>(null);
-
-  async function handleInterventionAttempted(questionId: string) {
-    const details = currentQuestion?.expanded_details;
-    const variant = details?.variant || { id: 'original', label: i18n.t("lesson.originalVariantLabel") };
-    const genreId = params.file.match(/^([a-z]+)_/)?.[1] || "unknown";
-
-    logInterventionInteraction(params.file, questionId, variant, 'attempted');
-    Analytics.track("intervention_attempted", {
-      lessonId: params.file,
-      questionId,
-      genreId,
-      variantId: variant.id,
-    });
-    setActiveInterventionId(questionId); // felt_better帰属用
-
-    // ゲーミフィケーション: attempted で XP
-    await addXP(XP_REWARDS.ATTEMPTED);
-
-    if (__DEV__) console.log('[Dogfood] Logged attempted:', questionId, '(+10 XP)');
-  }
-
-  // Intervention: executed ハンドラ
-  async function handleInterventionExecuted(questionId: string) {
-    const details = currentQuestion?.expanded_details;
-    const variant = details?.variant || { id: 'original', label: i18n.t("lesson.originalVariantLabel") };
-    const genreId = params.file.match(/^([a-z]+)_/)?.[1] || "unknown";
-
-    logInterventionInteraction(params.file, questionId, variant, 'executed');
-    const streakBeforeExecution = await getStreakData();
-
-    // ゲーミフィケーション: Action Streak + XP
-    const streakData = await recordActionExecution();
-    Analytics.track("intervention_executed", {
-      lessonId: params.file,
-      questionId,
-      genreId,
-      variantId: variant.id,
-      actionStreak: streakData.actionStreak,
-      freezesRemaining: streakData.freezesRemaining,
-      ...(params.entry ? { entrySource: params.entry } : {}),
-    });
-
-    const streakGuardSave = await markStreakGuardSavedIfEligible(streakBeforeExecution.lastActionDate);
-    if (streakGuardSave.saved) {
-      Analytics.track("streak_guard_saved", {
-        source: "lesson_executed",
-        lessonId: params.file,
-        questionId,
-        actionStreakAfter: streakGuardSave.actionStreakAfter,
-        freezesRemainingAfter: streakGuardSave.freezesRemainingAfter,
-        riskType: streakGuardSave.riskType,
-      });
-    }
-
-    const recoveryClaim = await claimRecoveryMissionIfEligible(streakBeforeExecution.lastActionDate);
-    if (recoveryClaim.claimed) {
-      addGems(3);
-      Analytics.track("recovery_mission_claimed", {
-        source: "lesson_executed",
-        lessonId: params.file,
-        questionId,
-        rewardGems: 3,
-        missedDays: recoveryClaim.missedDays,
-        actionStreakAfter: recoveryClaim.actionStreakAfter,
-      });
-      Alert.alert(i18n.t("lesson.recoveryMission.rewarded"));
-    }
-
-    await addXP(XP_REWARDS.EXECUTED);
-
-    // 初回executed達成チェック
-    const wasFirstExecuted = !(await hasCompletedFirstExecuted());
-    if (wasFirstExecuted) {
-      await markFirstExecutedComplete();
-      setShowFirstExecutedCelebration(true);
-    }
-
-    if (__DEV__) console.log('[Dogfood] Logged executed:', questionId, wasFirstExecuted ? '(FIRST!)' : '', '(+25 XP, Action Streak updated)');
   }
 
   if (isComplete) {
@@ -402,8 +342,7 @@ export default function LessonScreen() {
                       key={item.value}
                       style={styles.feltBetterButton}
                       onPress={async () => {
-                        // activeInterventionId優先（attempted押した介入）、fallbackでlastShown
-                        const targetId = activeInterventionId || lastShownInterventionId;
+                        const targetId = lastShownInterventionId;
                         if (targetId) {
                           await logFeltBetter(params.file, targetId, item.value);
                           setFeltBetterSubmitted(true);
@@ -736,15 +675,6 @@ export default function LessonScreen() {
         question={currentQuestion}
         onContinue={handleAnswer}
         onComboChange={setCombo}
-        onInterventionAttempted={handleInterventionAttempted}
-        onInterventionExecuted={handleInterventionExecuted}
-      />
-
-      {/* 初回executed達成お祝いモーダル */}
-      <FirstExecutedCelebration
-        visible={showFirstExecutedCelebration}
-        onDismiss={() => setShowFirstExecutedCelebration(false)}
-        xpEarned={XP_REWARDS.EXECUTED}
       />
     </SafeAreaView>
   );

@@ -30,24 +30,18 @@ export function isLessonLocked(
 
 // Paywall表示条件（刺さった後に出す）
 export const PAYWALL_THRESHOLDS = {
-    executedCount: 1,        // executed 1回達成
     lessonCompleteCount: 3,  // レッスン完了3回
 } as const;
 
 /**
  * Paywallを表示してよいかどうかを判定
- * 条件: executed 1回達成 OR レッスン完了3回以上
+ * 条件: レッスン完了3回以上
  * 
- * @param executedCount - これまでのexecuted回数
  * @param lessonCompleteCount - これまでのレッスン完了回数
  * @returns true if paywall should be shown
  */
 export function shouldShowPaywall(
-    executedCount: number,
     lessonCompleteCount: number
 ): boolean {
-    return (
-        executedCount >= PAYWALL_THRESHOLDS.executedCount ||
-        lessonCompleteCount >= PAYWALL_THRESHOLDS.lessonCompleteCount
-    );
+    return lessonCompleteCount >= PAYWALL_THRESHOLDS.lessonCompleteCount;
 }

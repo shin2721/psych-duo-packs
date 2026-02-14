@@ -50,28 +50,28 @@ describe("streak guard", () => {
     jest.useRealTimers();
   });
 
-  test("lastActionDate=null の場合は eligible=false", async () => {
-    await seedState({ lastActionDate: null, actionStreak: 3 });
+  test("lastStudyDate=null の場合は eligible=false", async () => {
+    await seedState({ lastStudyDate: null, studyStreak: 3 });
     const status = await getStreakGuardStatus();
     expect(status.eligible).toBe(false);
   });
 
   test("diff=0 の場合は eligible=false", async () => {
-    await seedState({ lastActionDate: dateKey(), actionStreak: 3 });
+    await seedState({ lastStudyDate: dateKey(), studyStreak: 3 });
     const status = await getStreakGuardStatus();
     expect(status.eligible).toBe(false);
   });
 
-  test("diff=1 && actionStreak>=2 の場合は eligible=true", async () => {
+  test("diff=1 && studyStreak>=2 の場合は eligible=true", async () => {
     const yesterday = dateKey(new Date(now - ONE_DAY_MS));
-    await seedState({ lastActionDate: yesterday, actionStreak: 2 });
+    await seedState({ lastStudyDate: yesterday, studyStreak: 2 });
     const status = await getStreakGuardStatus();
     expect(status.eligible).toBe(true);
   });
 
   test("diff>=2 の場合は eligible=false", async () => {
     const twoDaysAgo = dateKey(new Date(now - 2 * ONE_DAY_MS));
-    await seedState({ lastActionDate: twoDaysAgo, actionStreak: 5 });
+    await seedState({ lastStudyDate: twoDaysAgo, studyStreak: 5 });
     const status = await getStreakGuardStatus();
     expect(status.eligible).toBe(false);
   });
@@ -79,8 +79,8 @@ describe("streak guard", () => {
   test("saved は同日で1回のみ成功", async () => {
     const yesterday = dateKey(new Date(now - ONE_DAY_MS));
     await seedState({
-      lastActionDate: dateKey(), // executed後
-      actionStreak: 3, // executed後の値（beforeは2）
+      lastStudyDate: dateKey(), // lesson_complete後
+      studyStreak: 3, // lesson_complete後の値（beforeは2）
       streakGuardLastSavedDate: null,
       freezesRemaining: 0,
     });

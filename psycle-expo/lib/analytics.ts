@@ -37,8 +37,8 @@ type QueuedEvent = {
  *
  * 追加イベント（成長KPI/課金導線）:
  *   - question_incorrect
- *   - intervention_shown / intervention_attempted
- *   - intervention_executed
+ *   - intervention_shown
+ *   - action_journal_opened / action_journal_submitted
  *   - recovery_mission_shown / recovery_mission_claimed
  *   - streak_guard_shown / streak_guard_clicked / streak_guard_saved
  *   - league_boundary_shown / league_boundary_clicked

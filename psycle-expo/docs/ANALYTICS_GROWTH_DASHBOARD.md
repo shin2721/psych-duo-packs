@@ -1,17 +1,18 @@
-# Analytics Growth Dashboard (v1.12)
+# Analytics Growth Dashboard (v1.13)
 
 ## 目的
 - 継続率と課金転換に効くKPIを、毎日同じ定義で確認する。
 - ダッシュボード更新と日次レポートをスクリプトで再現可能にする。
 
-## v1.12での方針
-- PostHog APIの制約に合わせ、`InsightVizNode + Trends/Retention` を使用。
-- `HogQLQuery` を insight source に直接入れる方式は使わない。
-- 比率指標は「関連イベントの系列」を作り、レポート側で算出する。
-- Primary KPI を次の3つに固定する。
+## v1.13での方針
+- PostHog APIの制約に合わせ、`InsightVizNode + Trends/Retention` を使用する。
+- 比率指標は関連イベント系列を作り、レポート側で算出する。
+- 行動系は日記投稿 (`action_journal_submitted`) を主導線に統一する。
+- Primary KPI を次の4つに固定する。
   - `D7継続率`
   - `サブスク転換率 (plan_changed / checkout_start)`
-  - `実行ユーザー率 (intervention_executed UV / session_start UV)`
+  - `レッスン完了ユーザー率 (lesson_complete UV / session_start UV)`
+  - `日記投稿ユーザー率 (action_journal_submitted UV / session_start UV)`
 
 ## 必須スコープ
 - `dashboard:read`
@@ -26,22 +27,23 @@ export POSTHOG_PROJECT_ID=12345
 export POSTHOG_HOST=https://us.posthog.com
 ```
 
-## 生成されるカード（v1.12）
+## 生成されるカード（v1.13）
 1. `DAU (session_start UV)`
-2. `Executed Users vs DAU (UV)`
-3. `Intervention Funnel (daily)`
-4. `Recovery Mission (daily)`
-5. `Streak Guard (daily)`
-6. `League Boundary (daily)`
-7. `Lesson Start vs Complete (UV)`
-8. `Completed Sessions (daily)`
-9. `Incorrect vs Lesson Start (daily)`
-10. `Streak Lost Users (daily)`
-11. `Energy Friction (daily)`
-12. `D1 Retention (session_start)`
-13. `D7 Retention (session_start)`
-14. `Checkout Starts (daily)`
-15. `Paid Plan Changes (daily)`
+2. `Lesson Start vs Complete (UV)`
+3. `Lesson Complete Users vs DAU (UV)`
+4. `Intervention Funnel (daily)`
+5. `Recovery Mission (daily)`
+6. `Streak Guard (daily)`
+7. `League Boundary (daily)`
+8. `Action Journal (daily)`
+9. `Completed Sessions (daily)`
+10. `Incorrect vs Lesson Start (daily)`
+11. `Streak Lost Users (daily)`
+12. `Energy Friction (daily)`
+13. `D1 Retention (session_start)`
+14. `D7 Retention (session_start)`
+15. `Checkout Starts (daily)`
+16. `Paid Plan Changes (daily)`
 
 ## 実行コマンド
 ```bash
@@ -61,17 +63,15 @@ npm run analytics:posthog:kpi-report
 - Primary KPI:
   - D7 Retention 7d
   - Paid Plan Conversion 7d
-  - Executed User Rate 7d
+  - Lesson Complete User Rate 7d
+  - Journal Post User Rate 7d
 - 補助指標:
-  - Completed Sessions / Day 7d
-  - DAU
   - Lesson Completion Rate (UV)
-  - Intervention Attempt Rate (attempted / shown)
-  - Intervention Execute Rate (executed / attempted)
-  - Recovery Mission Claim Rate (recovery_mission_claimed / recovery_mission_shown)
-  - Streak Guard Click Rate (streak_guard_clicked / streak_guard_shown)
-  - Streak Guard Save Rate (streak_guard_saved / streak_guard_shown)
-  - League Boundary Click Rate (league_boundary_clicked / league_boundary_shown)
+  - Action Journal submitted total / UV
+  - Journal Not Tried Share
+  - Recovery Mission Claim Rate
+  - Streak Guard Click/Save Rate
+  - League Boundary Click Rate
   - Incorrect per Lesson Start
   - Energy Block Rate
   - Energy Shop Intent
@@ -86,20 +86,10 @@ npm run analytics:posthog:kpi-report
   - `session_start`
   - `lesson_start`
   - `lesson_complete`
+  - `intervention_shown`
   - `energy_blocked`
   - `shop_open_from_energy`
   - `energy_bonus_hit`
-- v1.12で追加:
-  - `intervention_shown`
-  - `intervention_attempted`
-  - `intervention_executed`
-  - `recovery_mission_shown`
-  - `recovery_mission_claimed`
-  - `streak_guard_shown`
-  - `streak_guard_clicked`
-  - `streak_guard_saved`
-  - `league_boundary_shown`
-  - `league_boundary_clicked`
   - `question_incorrect`
   - `streak_lost`
   - `streak_saved_with_freeze`
@@ -110,6 +100,19 @@ npm run analytics:posthog:kpi-report
   - `restore_result`
   - `plan_select`
   - `plan_changed`
+- v1.13で追加/更新:
+  - `action_journal_opened`
+  - `action_journal_submitted`
+  - `recovery_mission_shown` (`studyStreak` プロパティ)
+  - `recovery_mission_claimed` (`studyStreakAfter` プロパティ)
+  - `streak_guard_shown` (`studyStreak` プロパティ)
+  - `streak_guard_clicked` (`studyStreak` プロパティ)
+  - `streak_guard_saved` (`studyStreakAfter` プロパティ)
+  - `league_boundary_shown`
+  - `league_boundary_clicked`
+- 停止:
+  - `intervention_attempted`
+  - `intervention_executed`
 
 ## 運用メモ
 - `npm run analytics:posthog:dashboard` は既存 insight を再利用しつつ query を更新する。

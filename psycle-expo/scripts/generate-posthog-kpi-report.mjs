@@ -26,12 +26,12 @@ const DEFAULT_TUNING_TARGETS = {
   lesson_completion_rate_uv_7d_min: 0.55,
   energy_block_rate_7d_max: 0.25,
   energy_shop_intent_7d_min: 0.08,
-  executed_user_rate_7d_min: 0.3,
-  intervention_attempt_rate_7d_min: 0.3,
-  intervention_execute_rate_7d_min: 0.45,
+  lesson_complete_user_rate_7d_min: 0.45,
   recovery_mission_claim_rate_7d_min: 0.2,
   streak_guard_save_rate_7d_min: 0.35,
   league_boundary_click_rate_7d_min: 0.12,
+  journal_post_user_rate_7d_min: 0.18,
+  journal_not_tried_share_7d_max: 0.6,
   d1_retention_rate_7d_min: 0.25,
   d7_retention_rate_7d_min: 0.08,
   paid_plan_changes_per_checkout_7d_min: 0.18,
@@ -39,6 +39,7 @@ const DEFAULT_TUNING_TARGETS = {
 };
 
 const DASHBOARD_NAMES = [
+  "Psycle Growth Dashboard (v1.13)",
   "Psycle Growth Dashboard (v1.12)",
   "Psycle Growth Dashboard (v1.11)",
   "Psycle Growth Dashboard (v1.10)",
@@ -52,11 +53,12 @@ const DASHBOARD_NAMES = [
 const REQUIRED_INSIGHTS = [
   "DAU (session_start UV)",
   "Lesson Start vs Complete (UV)",
-  "Executed Users vs DAU (UV)",
+  "Lesson Complete Users vs DAU (UV)",
   "Intervention Funnel (daily)",
   "Recovery Mission (daily)",
   "Streak Guard (daily)",
   "League Boundary (daily)",
+  "Action Journal (daily)",
   "Incorrect vs Lesson Start (daily)",
   "Streak Lost Users (daily)",
   "Energy Friction (daily)",
@@ -73,7 +75,8 @@ const OPTIONAL_INSIGHTS = [
 const PRIMARY_KPI_KEYS = [
   "d7_retention_rate_7d",
   "paid_plan_changes_per_checkout_7d",
-  "executed_user_rate_7d",
+  "lesson_complete_user_rate_7d",
+  "journal_post_user_rate_7d",
 ];
 
 function parseArgs(argv) {
@@ -320,19 +323,19 @@ function buildAnomalies(metrics, worseningThreshold) {
       label: "D7 Retention",
     },
     {
-      key: "executed_user_rate_7d",
+      key: "lesson_complete_user_rate_7d",
       higherIsBetter: true,
-      label: "Executed User Rate",
+      label: "Lesson Complete User Rate",
     },
     {
-      key: "intervention_attempt_rate_7d",
+      key: "journal_post_user_rate_7d",
       higherIsBetter: true,
-      label: "Intervention Attempt Rate",
+      label: "Journal Post User Rate",
     },
     {
-      key: "intervention_execute_rate_7d",
-      higherIsBetter: true,
-      label: "Intervention Execute Rate",
+      key: "journal_not_tried_share_7d",
+      higherIsBetter: false,
+      label: "Journal Not Tried Share",
     },
     {
       key: "recovery_mission_claim_rate_7d",
@@ -397,23 +400,9 @@ function buildTargetBreaches(metrics, targets) {
       mode: "min",
     },
     {
-      key: "executed_user_rate_7d",
-      label: "Executed User Rate 7d",
-      target: targets.executed_user_rate_7d_min,
-      mode: "min",
-      unit: "ratio",
-    },
-    {
-      key: "intervention_attempt_rate_7d",
-      label: "Intervention Attempt Rate 7d",
-      target: targets.intervention_attempt_rate_7d_min,
-      mode: "min",
-      unit: "ratio",
-    },
-    {
-      key: "intervention_execute_rate_7d",
-      label: "Intervention Execute Rate 7d",
-      target: targets.intervention_execute_rate_7d_min,
+      key: "lesson_complete_user_rate_7d",
+      label: "Lesson Complete User Rate 7d",
+      target: targets.lesson_complete_user_rate_7d_min,
       mode: "min",
       unit: "ratio",
     },
@@ -436,6 +425,20 @@ function buildTargetBreaches(metrics, targets) {
       label: "League Boundary Click Rate 7d",
       target: targets.league_boundary_click_rate_7d_min,
       mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "journal_post_user_rate_7d",
+      label: "Journal Post User Rate 7d",
+      target: targets.journal_post_user_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "journal_not_tried_share_7d",
+      label: "Journal Not Tried Share 7d",
+      target: targets.journal_not_tried_share_7d_max,
+      mode: "max",
       unit: "ratio",
     },
     {
@@ -495,14 +498,14 @@ function buildRecommendedActions(anomalies, breaches) {
   ) {
     actions.push("focus.recovery_rate_per_hour を +0.25 刻みで調整し、energy_blocked→shop_open_from_energy 導線文言をA/Bする。");
   }
-  if (flagged.has("Executed User Rate") || flagged.has("Executed User Rate 7d")) {
-    actions.push("executed 到達率を上げるため、レッスン完了画面で次の行動提案CTAを1タップ化し、実行直前の摩擦を削る。");
+  if (flagged.has("Lesson Complete User Rate") || flagged.has("Lesson Complete User Rate 7d")) {
+    actions.push("lesson_start→lesson_complete を改善するため、レッスン前半10問の難易度を緩和し、誤答時ヒントを必ず表示する。");
   }
-  if (flagged.has("Intervention Attempt Rate") || flagged.has("Intervention Attempt Rate 7d")) {
-    actions.push("intervention_shown→attempted を改善するため、問題文直下のAttempt CTAを固定表示し、説明の1行目で行動ハードルを下げる。");
+  if (flagged.has("Journal Post User Rate") || flagged.has("Journal Post User Rate 7d")) {
+    actions.push("questsタブ上部の日記カードを最上段固定し、投稿完了後の再編集導線を明示して投稿率を上げる。");
   }
-  if (flagged.has("Intervention Execute Rate") || flagged.has("Intervention Execute Rate 7d")) {
-    actions.push("attempted→executed を改善するため、実行ボタン押下後の確認ステップを1つ減らし、成功条件テキストを短文化する。");
+  if (flagged.has("Journal Not Tried Share") || flagged.has("Journal Not Tried Share 7d")) {
+    actions.push("not_tried比率を下げるため、直近5レッスン由来候補を優先表示し、genre_fallback候補を1件追加する。");
   }
   if (flagged.has("Recovery Mission Claim Rate") || flagged.has("Recovery Mission Claim Rate 7d")) {
     actions.push("離脱翌日の復帰導線を強化するため、コース先頭に復帰ミッションバナーを固定表示し、CTA押下で即レッスン開始に遷移する。");
@@ -652,13 +655,11 @@ async function main() {
   const lessonTrend = parseTrendInsight(insights["Lesson Start vs Complete (UV)"]);
   const lessonStartUV = pickSeries(lessonTrend.seriesMap, ["lesson_start"]);
   const lessonCompleteUV = pickSeries(lessonTrend.seriesMap, ["lesson_complete"]);
-  const executedUvTrend = parseTrendInsight(insights["Executed Users vs DAU (UV)"]);
-  const executedUsersUV = pickSeries(executedUvTrend.seriesMap, ["intervention_executed"]);
-  const executedSessionStartUV = pickSeries(executedUvTrend.seriesMap, ["session_start"]);
+  const lessonCompleteUserTrend = parseTrendInsight(insights["Lesson Complete Users vs DAU (UV)"]);
+  const lessonCompleteUsersUV = pickSeries(lessonCompleteUserTrend.seriesMap, ["lesson_complete"]);
+  const lessonCompleteSessionStartUV = pickSeries(lessonCompleteUserTrend.seriesMap, ["session_start"]);
   const interventionFunnelTrend = parseTrendInsight(insights["Intervention Funnel (daily)"]);
   const interventionShown = pickSeries(interventionFunnelTrend.seriesMap, ["intervention_shown"]);
-  const interventionAttempted = pickSeries(interventionFunnelTrend.seriesMap, ["intervention_attempted"]);
-  const interventionExecutedTotal = pickSeries(interventionFunnelTrend.seriesMap, ["intervention_executed"]);
   const recoveryMissionTrend = parseTrendInsight(insights["Recovery Mission (daily)"]);
   const recoveryMissionShown = pickSeries(recoveryMissionTrend.seriesMap, ["recovery_mission_shown"]);
   const recoveryMissionClaimed = pickSeries(recoveryMissionTrend.seriesMap, ["recovery_mission_claimed"]);
@@ -669,6 +670,10 @@ async function main() {
   const leagueBoundaryTrend = parseTrendInsight(insights["League Boundary (daily)"]);
   const leagueBoundaryShown = pickSeries(leagueBoundaryTrend.seriesMap, ["league_boundary_shown"]);
   const leagueBoundaryClicked = pickSeries(leagueBoundaryTrend.seriesMap, ["league_boundary_clicked"]);
+  const actionJournalTrend = parseTrendInsight(insights["Action Journal (daily)"]);
+  const actionJournalSubmittedTotal = pickSeries(actionJournalTrend.seriesMap, ["action_journal_submitted"]);
+  const actionJournalSubmittedNotTried = pickSeries(actionJournalTrend.seriesMap, ["not_tried"]);
+  const actionJournalSubmittedUv = pickSeries(actionJournalTrend.seriesMap, ["_uv"]);
 
   const incorrectTrend = parseTrendInsight(insights["Incorrect vs Lesson Start (daily)"]);
   const incorrectCount = pickSeries(incorrectTrend.seriesMap, ["question_incorrect"]);
@@ -716,39 +721,41 @@ async function main() {
       sumWindow(lessonCompleteUV, previousStart, previousEnd),
       sumWindow(lessonStartUV, previousStart, previousEnd)
     ),
-    executed_user_rate_yesterday: safeRate(
-      Number(executedUsersUV.get(anchorDay) || 0),
-      Number(executedSessionStartUV.get(anchorDay) || 0)
+    lesson_complete_user_rate_yesterday: safeRate(
+      Number(lessonCompleteUsersUV.get(anchorDay) || 0),
+      Number(lessonCompleteSessionStartUV.get(anchorDay) || 0)
     ),
-    executed_user_rate_7d: safeRate(
-      sumWindow(executedUsersUV, currentStart, anchorDay),
-      sumWindow(executedSessionStartUV, currentStart, anchorDay)
+    lesson_complete_user_rate_7d: safeRate(
+      sumWindow(lessonCompleteUsersUV, currentStart, anchorDay),
+      sumWindow(lessonCompleteSessionStartUV, currentStart, anchorDay)
     ),
-    executed_user_rate_7d_prev: safeRate(
-      sumWindow(executedUsersUV, previousStart, previousEnd),
-      sumWindow(executedSessionStartUV, previousStart, previousEnd)
+    lesson_complete_user_rate_7d_prev: safeRate(
+      sumWindow(lessonCompleteUsersUV, previousStart, previousEnd),
+      sumWindow(lessonCompleteSessionStartUV, previousStart, previousEnd)
     ),
     intervention_shown_7d: sumWindow(interventionShown, currentStart, anchorDay),
     intervention_shown_7d_prev: sumWindow(interventionShown, previousStart, previousEnd),
-    intervention_attempted_7d: sumWindow(interventionAttempted, currentStart, anchorDay),
-    intervention_attempted_7d_prev: sumWindow(interventionAttempted, previousStart, previousEnd),
-    intervention_executed_total_7d: sumWindow(interventionExecutedTotal, currentStart, anchorDay),
-    intervention_executed_total_7d_prev: sumWindow(interventionExecutedTotal, previousStart, previousEnd),
-    intervention_attempt_rate_7d: safeRate(
-      sumWindow(interventionAttempted, currentStart, anchorDay),
-      sumWindow(interventionShown, currentStart, anchorDay)
+    action_journal_submitted_7d: sumWindow(actionJournalSubmittedTotal, currentStart, anchorDay),
+    action_journal_submitted_7d_prev: sumWindow(actionJournalSubmittedTotal, previousStart, previousEnd),
+    action_journal_not_tried_7d: sumWindow(actionJournalSubmittedNotTried, currentStart, anchorDay),
+    action_journal_not_tried_7d_prev: sumWindow(actionJournalSubmittedNotTried, previousStart, previousEnd),
+    action_journal_submitted_uv_7d: sumWindow(actionJournalSubmittedUv, currentStart, anchorDay),
+    action_journal_submitted_uv_7d_prev: sumWindow(actionJournalSubmittedUv, previousStart, previousEnd),
+    journal_post_user_rate_7d: safeRate(
+      sumWindow(actionJournalSubmittedUv, currentStart, anchorDay),
+      sumWindow(dauTrend.combined, currentStart, anchorDay)
     ),
-    intervention_attempt_rate_7d_prev: safeRate(
-      sumWindow(interventionAttempted, previousStart, previousEnd),
-      sumWindow(interventionShown, previousStart, previousEnd)
+    journal_post_user_rate_7d_prev: safeRate(
+      sumWindow(actionJournalSubmittedUv, previousStart, previousEnd),
+      sumWindow(dauTrend.combined, previousStart, previousEnd)
     ),
-    intervention_execute_rate_7d: safeRate(
-      sumWindow(interventionExecutedTotal, currentStart, anchorDay),
-      sumWindow(interventionAttempted, currentStart, anchorDay)
+    journal_not_tried_share_7d: safeRate(
+      sumWindow(actionJournalSubmittedNotTried, currentStart, anchorDay),
+      sumWindow(actionJournalSubmittedTotal, currentStart, anchorDay)
     ),
-    intervention_execute_rate_7d_prev: safeRate(
-      sumWindow(interventionExecutedTotal, previousStart, previousEnd),
-      sumWindow(interventionAttempted, previousStart, previousEnd)
+    journal_not_tried_share_7d_prev: safeRate(
+      sumWindow(actionJournalSubmittedNotTried, previousStart, previousEnd),
+      sumWindow(actionJournalSubmittedTotal, previousStart, previousEnd)
     ),
     recovery_mission_shown_7d: sumWindow(recoveryMissionShown, currentStart, anchorDay),
     recovery_mission_shown_7d_prev: sumWindow(recoveryMissionShown, previousStart, previousEnd),
@@ -877,8 +884,10 @@ async function main() {
     d7_retention_rate_7d_prev: metrics.d7_retention_rate_7d_prev,
     paid_plan_changes_per_checkout_7d: metrics.paid_plan_changes_per_checkout_7d,
     paid_plan_changes_per_checkout_7d_prev: metrics.paid_plan_changes_per_checkout_7d_prev,
-    executed_user_rate_7d: metrics.executed_user_rate_7d,
-    executed_user_rate_7d_prev: metrics.executed_user_rate_7d_prev,
+    lesson_complete_user_rate_7d: metrics.lesson_complete_user_rate_7d,
+    lesson_complete_user_rate_7d_prev: metrics.lesson_complete_user_rate_7d_prev,
+    journal_post_user_rate_7d: metrics.journal_post_user_rate_7d,
+    journal_post_user_rate_7d_prev: metrics.journal_post_user_rate_7d_prev,
   };
 
   const output = {
@@ -904,30 +913,36 @@ async function main() {
   console.log("");
   console.log("Primary KPIs");
   console.log(
-    `- D7 Retention 7d: ${formatNum(metrics.d7_retention_rate_7d * 100, 2)}% (prev ${formatNum(metrics.d7_retention_rate_7d_prev * 100, 2)}%)`
+    `- D7 Retention 7d: ${formatPct(metrics.d7_retention_rate_7d, 2)} (prev ${formatPct(metrics.d7_retention_rate_7d_prev, 2)})`
   );
   console.log(
-    `- Paid Plan Conversion 7d: ${formatNum(metrics.paid_plan_changes_per_checkout_7d * 100, 2)}% (prev ${formatNum(metrics.paid_plan_changes_per_checkout_7d_prev * 100, 2)}%)`
+    `- Paid Plan Conversion 7d: ${formatPct(metrics.paid_plan_changes_per_checkout_7d, 2)} (prev ${formatPct(metrics.paid_plan_changes_per_checkout_7d_prev, 2)})`
   );
   console.log(
-    `- Executed User Rate 7d: ${formatPct(metrics.executed_user_rate_7d, 2)} (prev ${formatPct(metrics.executed_user_rate_7d_prev, 2)})`
+    `- Lesson Complete User Rate 7d: ${formatPct(metrics.lesson_complete_user_rate_7d, 2)} (prev ${formatPct(metrics.lesson_complete_user_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `- Journal Post User Rate 7d: ${formatPct(metrics.journal_post_user_rate_7d, 2)} (prev ${formatPct(metrics.journal_post_user_rate_7d_prev, 2)})`
   );
   console.log("");
   console.log(`DAU(yesterday): ${formatNum(metrics.dau_yesterday, 0)}`);
   console.log(
-    `Lesson Completion Rate 7d: ${formatNum(metrics.lesson_completion_rate_uv_7d * 100, 2)}% (prev ${formatNum(metrics.lesson_completion_rate_uv_7d_prev * 100, 2)}%)`
+    `Lesson Completion Rate 7d: ${formatPct(metrics.lesson_completion_rate_uv_7d, 2)} (prev ${formatPct(metrics.lesson_completion_rate_uv_7d_prev, 2)})`
   );
   console.log(
-    `Executed User Rate 7d: ${formatPct(metrics.executed_user_rate_7d, 2)} (prev ${formatPct(metrics.executed_user_rate_7d_prev, 2)})`
+    `Lesson Complete User Rate 7d: ${formatPct(metrics.lesson_complete_user_rate_7d, 2)} (prev ${formatPct(metrics.lesson_complete_user_rate_7d_prev, 2)})`
   );
   console.log(
-    `Intervention Attempt Rate 7d: ${formatPct(metrics.intervention_attempt_rate_7d, 2)} (prev ${formatPct(metrics.intervention_attempt_rate_7d_prev, 2)})`
+    `Journal Post User Rate 7d: ${formatPct(metrics.journal_post_user_rate_7d, 2)} (prev ${formatPct(metrics.journal_post_user_rate_7d_prev, 2)})`
   );
   console.log(
-    `Intervention Execute Rate 7d: ${formatPct(metrics.intervention_execute_rate_7d, 2)} (prev ${formatPct(metrics.intervention_execute_rate_7d_prev, 2)})`
+    `Journal Not Tried Share 7d: ${formatPct(metrics.journal_not_tried_share_7d, 2)} (prev ${formatPct(metrics.journal_not_tried_share_7d_prev, 2)})`
   );
   console.log(
-    `Intervention Funnel 7d: shown=${formatNum(metrics.intervention_shown_7d, 0)} attempted=${formatNum(metrics.intervention_attempted_7d, 0)} executed=${formatNum(metrics.intervention_executed_total_7d, 0)}`
+    `Action Journal 7d: total=${formatNum(metrics.action_journal_submitted_7d, 0)} not_tried=${formatNum(metrics.action_journal_not_tried_7d, 0)} uv=${formatNum(metrics.action_journal_submitted_uv_7d, 0)}`
+  );
+  console.log(
+    `Intervention Exposure 7d: shown=${formatNum(metrics.intervention_shown_7d, 0)}`
   );
   console.log(
     `Recovery Mission Claim Rate 7d: ${formatPct(metrics.recovery_mission_claim_rate_7d, 2)} (prev ${formatPct(metrics.recovery_mission_claim_rate_7d_prev, 2)})`
@@ -954,16 +969,16 @@ async function main() {
     `Incorrect/Start 7d: ${formatNum(metrics.incorrect_per_lesson_start_7d, 3)} (prev ${formatNum(metrics.incorrect_per_lesson_start_7d_prev, 3)})`
   );
   console.log(
-    `Energy Block Rate 7d: ${formatNum(metrics.energy_block_rate_7d * 100, 2)}% (prev ${formatNum(metrics.energy_block_rate_7d_prev * 100, 2)}%)`
+    `Energy Block Rate 7d: ${formatPct(metrics.energy_block_rate_7d, 2)} (prev ${formatPct(metrics.energy_block_rate_7d_prev, 2)})`
   );
   console.log(
-    `Energy Shop Intent 7d: ${formatNum(metrics.energy_shop_intent_7d * 100, 2)}% (prev ${formatNum(metrics.energy_shop_intent_7d_prev * 100, 2)}%)`
+    `Energy Shop Intent 7d: ${formatPct(metrics.energy_shop_intent_7d, 2)} (prev ${formatPct(metrics.energy_shop_intent_7d_prev, 2)})`
   );
   console.log(
-    `D1 Retention 7d: ${formatNum(metrics.d1_retention_rate_7d * 100, 2)}% (prev ${formatNum(metrics.d1_retention_rate_7d_prev * 100, 2)}%)`
+    `D1 Retention 7d: ${formatPct(metrics.d1_retention_rate_7d, 2)} (prev ${formatPct(metrics.d1_retention_rate_7d_prev, 2)})`
   );
   console.log(
-    `D7 Retention 7d: ${formatNum(metrics.d7_retention_rate_7d * 100, 2)}% (prev ${formatNum(metrics.d7_retention_rate_7d_prev * 100, 2)}%)`
+    `D7 Retention 7d: ${formatPct(metrics.d7_retention_rate_7d, 2)} (prev ${formatPct(metrics.d7_retention_rate_7d_prev, 2)})`
   );
   console.log(
     `Checkout Starts 7d: ${formatNum(metrics.checkout_start_7d, 0)} (prev ${formatNum(metrics.checkout_start_7d_prev, 0)})`
@@ -972,10 +987,10 @@ async function main() {
     `Paid Plan Changes 7d: ${formatNum(metrics.paid_plan_changes_7d, 0)} (prev ${formatNum(metrics.paid_plan_changes_7d_prev, 0)})`
   );
   console.log(
-    `Paid Plan Conversion 7d: ${formatNum(metrics.paid_plan_changes_per_checkout_7d * 100, 2)}% (prev ${formatNum(metrics.paid_plan_changes_per_checkout_7d_prev * 100, 2)}%)`
+    `Paid Plan Conversion 7d: ${formatPct(metrics.paid_plan_changes_per_checkout_7d, 2)} (prev ${formatPct(metrics.paid_plan_changes_per_checkout_7d_prev, 2)})`
   );
   console.log(
-    `Executed User Rate(yesterday): ${formatPct(metrics.executed_user_rate_yesterday, 2)}`
+    `Lesson Complete User Rate(yesterday): ${formatPct(metrics.lesson_complete_user_rate_yesterday, 2)}`
   );
   console.log(
     `Completed Sessions(yesterday): ${formatNum(metrics.completed_sessions_yesterday, 0)} [source=${metrics.completed_sessions_source}]`

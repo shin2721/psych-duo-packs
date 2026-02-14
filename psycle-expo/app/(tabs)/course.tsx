@@ -47,12 +47,12 @@ export default function CourseScreen() {
   const [studyStreakDays, setStudyStreakDays] = useState(0);
   const [todayLessonsCompleted, setTodayLessonsCompleted] = useState(0);
   const [recentStudyActivity, setRecentStudyActivity] = useState<StudyActivityDay[]>([]);
-  const [recoveryMission, setRecoveryMission] = useState<{ missedDays: number; lastActionDate: string; actionStreak: number } | null>(null);
+  const [recoveryMission, setRecoveryMission] = useState<{ missedDays: number; lastStudyDate: string; studyStreak: number } | null>(null);
   const [streakGuard, setStreakGuard] = useState<{
-    actionStreak: number;
+    studyStreak: number;
     freezesRemaining: number;
     riskType: "break_streak" | "consume_freeze";
-    lastActionDate: string;
+    lastStudyDate: string;
   } | null>(null);
   const [leagueBoundary, setLeagueBoundary] = useState<{
     mode: "promotion_chase" | "demotion_risk";
@@ -116,12 +116,12 @@ export default function CourseScreen() {
 
         let recoveryShown = false;
         let streakGuardShown = false;
-        if (recoveryStatus.eligible && recoveryStatus.lastActionDate) {
+        if (recoveryStatus.eligible && recoveryStatus.lastStudyDate) {
           recoveryShown = true;
           setRecoveryMission({
             missedDays: recoveryStatus.missedDays,
-            lastActionDate: recoveryStatus.lastActionDate,
-            actionStreak: recoveryStatus.actionStreak,
+            lastStudyDate: recoveryStatus.lastStudyDate,
+            studyStreak: recoveryStatus.studyStreak,
           });
 
           if (!recoveryStatus.shownToday) {
@@ -129,31 +129,31 @@ export default function CourseScreen() {
             Analytics.track("recovery_mission_shown", {
               source: "course_home",
               missedDays: recoveryStatus.missedDays,
-              lastActionDate: recoveryStatus.lastActionDate,
-              actionStreak: recoveryStatus.actionStreak,
+              lastStudyDate: recoveryStatus.lastStudyDate,
+              studyStreak: recoveryStatus.studyStreak,
             });
           }
         } else {
           setRecoveryMission(null);
         }
 
-        if (!recoveryShown && streakGuardStatus.eligible && streakGuardStatus.lastActionDate) {
+        if (!recoveryShown && streakGuardStatus.eligible && streakGuardStatus.lastStudyDate) {
           streakGuardShown = true;
           setStreakGuard({
-            actionStreak: streakGuardStatus.actionStreak,
+            studyStreak: streakGuardStatus.studyStreak,
             freezesRemaining: streakGuardStatus.freezesRemaining,
             riskType: streakGuardStatus.riskType,
-            lastActionDate: streakGuardStatus.lastActionDate,
+            lastStudyDate: streakGuardStatus.lastStudyDate,
           });
 
           if (!streakGuardStatus.shownToday) {
             await markStreakGuardShown();
             Analytics.track("streak_guard_shown", {
               source: "course_home",
-              actionStreak: streakGuardStatus.actionStreak,
+              studyStreak: streakGuardStatus.studyStreak,
               freezesRemaining: streakGuardStatus.freezesRemaining,
               riskType: streakGuardStatus.riskType,
-              lastActionDate: streakGuardStatus.lastActionDate,
+              lastStudyDate: streakGuardStatus.lastStudyDate,
             });
           }
         } else {
@@ -269,7 +269,7 @@ export default function CourseScreen() {
     if (streakGuard) {
       Analytics.track("streak_guard_clicked", {
         source: "course_home",
-        actionStreak: streakGuard.actionStreak,
+        studyStreak: streakGuard.studyStreak,
         freezesRemaining: streakGuard.freezesRemaining,
         riskType: streakGuard.riskType,
       });
@@ -357,20 +357,9 @@ export default function CourseScreen() {
         onStart={(nodeId) => setModalNode(nodeId)}
         onLockedPress={async () => {
           // Paywall表示条件チェック
-          // condition: executed 1回達成 (StreakDataから前回実行日を確認) OR レッスン完了3回以上
+          // condition: レッスン完了3回以上
           const lessonCompleteCount = completedLessons.size;
-          let executedCount = 0;
-
-          try {
-            const streakData = await getStreakData();
-            if (streakData && streakData.lastActionDate) {
-              executedCount = 1; // 一度でも実行していれば1とみなす
-            }
-          } catch (e) {
-            console.error("Failed to check streak data:", e);
-          }
-
-          if (shouldShowPaywall(executedCount, lessonCompleteCount)) {
+          if (shouldShowPaywall(lessonCompleteCount)) {
             router.push("/(tabs)/shop");
           } else {
             // 条件未達成：もう少し使ってみてメッセージ

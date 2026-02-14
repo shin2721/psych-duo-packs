@@ -15,10 +15,10 @@
  */
 
 const DEFAULT_HOST = "https://app.posthog.com";
-const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.12)";
+const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.13)";
 const DEFAULT_DASHBOARD_DESCRIPTION =
   "Psycle growth KPI dashboard. Managed by scripts/create-posthog-growth-dashboard.mjs";
-const DASHBOARD_TAG = "psycle-growth-v1.12";
+const DASHBOARD_TAG = "psycle-growth-v1.13";
 
 function parseArgs(argv) {
   const flags = new Set();
@@ -144,12 +144,13 @@ async function listAll(config, path) {
   return out;
 }
 
-function eventNode(event, math = "total") {
+function eventNode(event, math = "total", extra = {}) {
   return {
     kind: "EventsNode",
     event,
     name: event,
     math,
+    ...extra,
   };
 }
 
@@ -248,20 +249,18 @@ const CARD_DEFS = [
     ]),
   },
   {
-    name: "Executed Users vs DAU (UV)",
-    description: "Daily UV for intervention_executed and session_start to derive executed user rate.",
+    name: "Lesson Complete Users vs DAU (UV)",
+    description: "Daily UV for lesson_complete and session_start to derive lesson complete user rate.",
     query: trendsQuery([
-      eventNode("intervention_executed", "dau"),
+      eventNode("lesson_complete", "dau"),
       eventNode("session_start", "dau"),
     ]),
   },
   {
     name: "Intervention Funnel (daily)",
-    description: "Daily counts for intervention_shown, intervention_attempted, and intervention_executed.",
+    description: "Daily counts for intervention_shown exposure events.",
     query: trendsQuery([
       eventNode("intervention_shown", "total"),
-      eventNode("intervention_attempted", "total"),
-      eventNode("intervention_executed", "total"),
     ]),
   },
   {
@@ -287,6 +286,20 @@ const CARD_DEFS = [
     query: trendsQuery([
       eventNode("league_boundary_shown", "total"),
       eventNode("league_boundary_clicked", "total"),
+    ]),
+  },
+  {
+    name: "Action Journal (daily)",
+    description: "Daily journal totals, not_tried totals, and UV for user-rate KPI.",
+    query: trendsQuery([
+      eventNode("action_journal_submitted", "total"),
+      eventNode("action_journal_submitted", "total", {
+        name: "action_journal_submitted_not_tried",
+        properties: [eventPropertyFilter("result", ["not_tried"])],
+      }),
+      eventNode("action_journal_submitted", "dau", {
+        name: "action_journal_submitted_uv",
+      }),
     ]),
   },
   {

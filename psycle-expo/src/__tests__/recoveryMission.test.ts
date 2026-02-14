@@ -50,15 +50,15 @@ describe("recovery mission", () => {
     jest.useRealTimers();
   });
 
-  test("lastActionDate=null の場合は eligible=false", async () => {
-    await seedState({ lastActionDate: null });
+  test("lastStudyDate=null の場合は eligible=false", async () => {
+    await seedState({ lastStudyDate: null });
     const status = await getRecoveryMissionStatus();
     expect(status.eligible).toBe(false);
   });
 
   test("欠勤なし（diff=1）の場合は eligible=false", async () => {
     const yesterday = dateKey(new Date(now - ONE_DAY_MS));
-    await seedState({ lastActionDate: yesterday });
+    await seedState({ lastStudyDate: yesterday });
     const status = await getRecoveryMissionStatus();
     expect(status.eligible).toBe(false);
     expect(status.missedDays).toBe(0);
@@ -66,7 +66,7 @@ describe("recovery mission", () => {
 
   test("欠勤あり（diff>=2）の場合は eligible=true", async () => {
     const twoDaysAgo = dateKey(new Date(now - 2 * ONE_DAY_MS));
-    await seedState({ lastActionDate: twoDaysAgo });
+    await seedState({ lastStudyDate: twoDaysAgo, studyStreak: 5 });
     const status = await getRecoveryMissionStatus();
     expect(status.eligible).toBe(true);
     expect(status.missedDays).toBeGreaterThanOrEqual(1);
@@ -75,7 +75,7 @@ describe("recovery mission", () => {
   test("recoveryLastClaimedDate=today の場合は eligible=false", async () => {
     const twoDaysAgo = dateKey(new Date(now - 2 * ONE_DAY_MS));
     await seedState({
-      lastActionDate: twoDaysAgo,
+      lastStudyDate: twoDaysAgo,
       recoveryLastClaimedDate: dateKey(),
     });
     const status = await getRecoveryMissionStatus();
@@ -86,7 +86,8 @@ describe("recovery mission", () => {
   test("claim は同日で1回のみ成功", async () => {
     const twoDaysAgo = dateKey(new Date(now - 2 * ONE_DAY_MS));
     await seedState({
-      lastActionDate: dateKey(), // executed後の状態
+      lastStudyDate: dateKey(), // lesson_complete 後の状態
+      studyStreak: 6,
       recoveryLastClaimedDate: null,
     });
 
@@ -94,6 +95,7 @@ describe("recovery mission", () => {
     const second = await claimRecoveryMissionIfEligible(twoDaysAgo);
 
     expect(first.claimed).toBe(true);
+    expect(first.missedDays).toBeGreaterThanOrEqual(1);
     expect(second.claimed).toBe(false);
   });
 });
