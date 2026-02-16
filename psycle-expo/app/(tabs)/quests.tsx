@@ -23,6 +23,15 @@ import {
   submitActionJournal,
 } from "../../lib/actionJournal";
 import { Analytics } from "../../lib/analytics";
+import {
+  QuestBoard,
+  QuestBoardItem,
+  claimDailyBundleRewardIfEligible,
+  claimMonthlyBundleRewardIfEligible,
+  claimQuestReward,
+  claimWeeklyBundleRewardIfEligible,
+  getQuestBoard,
+} from "../../lib/questsV2";
 
 type CalendarDay = {
   date: string;
@@ -31,13 +40,16 @@ type CalendarDay = {
 };
 
 export default function QuestsScreen() {
-  const { xp, quests, claimQuest, selectedGenre, addXp } = useAppState();
+  const { xp, selectedGenre, addXp, addGems, grantFreezes, awardBadgeById } = useAppState();
   const [calendarHistory, setCalendarHistory] = useState<CalendarDay[]>([]);
   const [journalComposer, setJournalComposer] = useState<ActionJournalComposer | null>(null);
+  const [questBoard, setQuestBoard] = useState<QuestBoard | null>(null);
   const [selectedTryOptionId, setSelectedTryOptionId] = useState<string | null>(null);
   const [selectedResult, setSelectedResult] = useState<JournalResult | null>(null);
   const [journalNote, setJournalNote] = useState("");
   const [isSubmittingJournal, setIsSubmittingJournal] = useState(false);
+  const [isClaimingQuestId, setIsClaimingQuestId] = useState<string | null>(null);
+  const [openingChestId, setOpeningChestId] = useState<string | null>(null);
   const [isEditingTodayEntry, setIsEditingTodayEntry] = useState(false);
   const [streakVisibility, setStreakVisibility] = useState<{
     riskType: "safe_today" | "break_streak" | "consume_freeze";
@@ -46,10 +58,6 @@ export default function QuestsScreen() {
     todayStudied: boolean;
   } | null>(null);
   const currentMonth = new Date().getMonth() + 1;
-
-  const monthly = quests.filter((q) => q.type === "monthly");
-  const daily = quests.filter((q) => q.type === "daily");
-  const weekly = quests.filter((q) => q.type === "weekly");
 
   useFocusEffect(
     useCallback(() => {
@@ -95,6 +103,23 @@ export default function QuestsScreen() {
         });
       };
 
+      const loadQuestBoard = async () => {
+        const board = await getQuestBoard();
+        if (!isActive) return;
+        setQuestBoard(board);
+        Analytics.track("quest_board_opened", {
+          source: "quests_tab",
+          dailyCompleted: board.bundleStatus.daily.completedCount,
+          dailyTotal: board.bundleStatus.daily.totalCount,
+          weeklyCompleted: board.bundleStatus.weekly.completedCount,
+          weeklyTotal: board.bundleStatus.weekly.totalCount,
+          monthlyCompleted: board.bundleStatus.monthly.completedCount,
+          monthlyTotal: board.bundleStatus.monthly.totalCount,
+          hasXpBoostTicket: board.xpBoost.hasTicket,
+          xpBoostActive: board.xpBoost.active,
+        });
+      };
+
       const loadStreakVisibility = async () => {
         const status = await getStudyStreakRiskStatus();
         if (!isActive) return;
@@ -111,7 +136,7 @@ export default function QuestsScreen() {
         }
       };
 
-      Promise.all([loadCalendarHistory(), loadJournalComposer(), loadStreakVisibility()]).catch(console.error);
+      Promise.all([loadCalendarHistory(), loadJournalComposer(), loadQuestBoard(), loadStreakVisibility()]).catch(console.error);
       return () => {
         isActive = false;
       };
@@ -201,7 +226,7 @@ export default function QuestsScreen() {
       });
 
       if (submitResult.xpAwarded && submitResult.rewardXp > 0) {
-        await addXp(submitResult.rewardXp);
+        await addXp(submitResult.rewardXp, "journal");
       }
 
       Analytics.track("action_journal_submitted", {
@@ -225,6 +250,7 @@ export default function QuestsScreen() {
       setSelectedResult(hasCurrentTryOption ? composer.todayEntry?.result || resultToSubmit : null);
       setJournalNote(composer.todayEntry?.note || journalNote);
       setIsEditingTodayEntry(false);
+      await refreshQuestBoard();
       Alert.alert(i18n.t("common.ok"), i18n.t("quests.actionJournal.submitted"));
     } catch (error) {
       const message = error instanceof Error ? error.message : i18n.t("common.error");
@@ -255,25 +281,96 @@ export default function QuestsScreen() {
     setIsEditingTodayEntry(true);
   }
 
-  const renderQuest = (q: any) => {
-    const completed = q.progress >= q.need;
-    const canClaim = completed && !q.claimed;
+  function getQuestTitle(item: QuestBoardItem): string {
+    const map: Record<string, string> = {
+      daily_lesson_1: String(i18n.t("quests.v2.dailyLesson1")),
+      daily_lesson_3: String(i18n.t("quests.v2.dailyLesson3")),
+      daily_journal_1: String(i18n.t("quests.v2.dailyJournal1")),
+      weekly_study_days_5: String(i18n.t("quests.v2.weeklyStudyDays5")),
+      weekly_lessons_15: String(i18n.t("quests.v2.weeklyLessons15")),
+      weekly_journal_3: String(i18n.t("quests.v2.weeklyJournal3")),
+      monthly_study_days_20: String(i18n.t("quests.v2.monthlyStudyDays20")),
+      monthly_lessons_60: String(i18n.t("quests.v2.monthlyLessons60")),
+    };
+    return map[item.id] || item.id;
+  }
+
+  function getChestState(item: QuestBoardItem): "closed" | "opening" | "opened" {
+    if (item.claimed) {
+      if (openingChestId === item.id) return "opening";
+      return "opened";
+    }
+    return "closed";
+  }
+
+  async function refreshQuestBoard() {
+    const board = await getQuestBoard();
+    setQuestBoard(board);
+  }
+
+  async function handleClaimQuest(item: QuestBoardItem) {
+    if (isClaimingQuestId) return;
+    if (!item.completed || item.claimed) return;
+
+    try {
+      setIsClaimingQuestId(item.id);
+      const result = await claimQuestReward(item.id);
+      if (!result.claimed) return;
+
+      if (result.rewardGems > 0) {
+        addGems(result.rewardGems);
+      }
+
+      setOpeningChestId(item.id);
+      setTimeout(() => {
+        setOpeningChestId((prev) => (prev === item.id ? null : prev));
+      }, 1200);
+
+      const dailyBundle = await claimDailyBundleRewardIfEligible();
+      if (dailyBundle.granted) {
+        Alert.alert(i18n.t("common.ok"), i18n.t("quests.v2.dailyBundleGranted"));
+      }
+
+      const weeklyBundle = await claimWeeklyBundleRewardIfEligible();
+      if (weeklyBundle.granted && weeklyBundle.rewardFreezes > 0) {
+        await grantFreezes(weeklyBundle.rewardFreezes);
+        Alert.alert(i18n.t("common.ok"), i18n.t("quests.v2.weeklyBundleGranted"));
+      }
+
+      const monthlyBundle = await claimMonthlyBundleRewardIfEligible();
+      if (monthlyBundle.granted && monthlyBundle.badgeId) {
+        await awardBadgeById(monthlyBundle.badgeId);
+        Alert.alert(i18n.t("common.ok"), i18n.t("quests.v2.monthlyBundleGranted"));
+      }
+
+      await refreshQuestBoard();
+    } finally {
+      setIsClaimingQuestId(null);
+    }
+  }
+
+  const daily = questBoard?.daily || [];
+  const weekly = questBoard?.weekly || [];
+  const monthly = questBoard?.monthly || [];
+
+  const renderQuest = (q: QuestBoardItem) => {
+    const canClaim = q.completed && !q.claimed;
 
     return (
       <Card key={q.id} style={styles.questCard}>
         <View style={styles.questRow}>
           <View style={styles.questInfo}>
-            <Text style={styles.questTitle}>{q.title}</Text>
+            <Text style={styles.questTitle}>{getQuestTitle(q)}</Text>
             <Text style={styles.questDesc}>
-              {q.progress} / {q.need}
+              {q.progress} / {q.target}
             </Text>
-            <ProgressBar value={q.progress} max={q.need} style={styles.progressBar} />
+            <ProgressBar value={q.progress} max={q.target} style={styles.progressBar} />
           </View>
           <Chest
-            state={q.chestState}
-            onOpen={canClaim ? () => claimQuest(q.id) : undefined}
+            state={getChestState(q)}
+            onOpen={canClaim ? () => { void handleClaimQuest(q); } : undefined}
             size="sm"
-            label={`${q.rewardXp}`}
+            label={`${q.rewardGems}`}
           />
         </View>
       </Card>
@@ -288,6 +385,27 @@ export default function QuestsScreen() {
           <Text style={styles.title}>{i18n.t("quests.monthTitle", { month: currentMonth })}</Text>
           <Text style={styles.xpText}>{xp} XP</Text>
         </View>
+
+        {questBoard && (
+          <Card style={styles.bundleStatusCard}>
+            <Text style={styles.bundleStatusTitle}>{i18n.t("quests.v2.statusTitle")}</Text>
+            <Text style={styles.bundleStatusText}>
+              {i18n.t("quests.v2.dailyProgress", {
+                done: questBoard.bundleStatus.daily.completedCount,
+                total: questBoard.bundleStatus.daily.totalCount,
+              })}
+            </Text>
+            <Text style={styles.bundleStatusText}>
+              {questBoard.xpBoost.active
+                ? i18n.t("quests.v2.boostActive", {
+                  minutes: Math.max(1, Math.ceil(questBoard.xpBoost.remainingMs / 60000)),
+                })
+                : questBoard.xpBoost.hasTicket
+                  ? i18n.t("quests.v2.boostTicketReady", { date: questBoard.xpBoost.validDate || "-" })
+                  : i18n.t("quests.v2.boostNoTicket")}
+            </Text>
+          </Card>
+        )}
 
         <Card style={styles.journalCard}>
           <Text style={styles.journalTitle}>{i18n.t("quests.actionJournal.title")}</Text>
@@ -400,17 +518,17 @@ export default function QuestsScreen() {
             {monthly.map((q) => (
               <View key={q.id} style={styles.monthlyRow}>
                 <View style={styles.monthlyInfo}>
-                  <Text style={styles.monthlyTitle}>{q.title}</Text>
-                  <ProgressBar value={q.progress} max={q.need} style={styles.progressBar} />
+                  <Text style={styles.monthlyTitle}>{getQuestTitle(q)}</Text>
+                  <ProgressBar value={q.progress} max={q.target} style={styles.progressBar} />
                   <Text style={styles.monthlyProgress}>
-                    {q.progress} / {q.need}
+                    {q.progress} / {q.target}
                   </Text>
                 </View>
                 <Chest
-                  state={q.chestState}
-                  onOpen={q.progress >= q.need && !q.claimed ? () => claimQuest(q.id) : undefined}
+                  state={getChestState(q)}
+                  onOpen={q.completed && !q.claimed ? () => { void handleClaimQuest(q); } : undefined}
                   size="md"
-                  label={`${q.rewardXp}`}
+                  label={`${q.rewardGems}`}
                 />
               </View>
             ))}
@@ -437,6 +555,9 @@ const styles = StyleSheet.create({
   headerRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: theme.spacing.md },
   title: { fontSize: 24, fontWeight: "800", color: theme.colors.text },
   xpText: { fontSize: 18, fontWeight: "700", color: theme.colors.accent },
+  bundleStatusCard: { marginBottom: theme.spacing.md, padding: theme.spacing.md },
+  bundleStatusTitle: { fontSize: 15, fontWeight: "800", color: theme.colors.text },
+  bundleStatusText: { marginTop: 4, fontSize: 12, color: theme.colors.sub },
   journalCard: { marginBottom: theme.spacing.md, padding: theme.spacing.md },
   journalTitle: { fontSize: 18, fontWeight: "800", color: theme.colors.text },
   journalSubtitle: { fontSize: 12, color: theme.colors.sub, marginTop: 4, marginBottom: theme.spacing.sm },

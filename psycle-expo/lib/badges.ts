@@ -129,6 +129,14 @@ export const BADGES: Badge[] = [
         category: 'social',
         unlockCondition: (stats) => stats.leaderboardRank <= 10 && stats.leaderboardRank > 0,
     },
+    {
+        id: 'monthly_consistency_v1',
+        name: '継続の記録',
+        description: '月次クエストをすべて達成',
+        icon: 'calendar',
+        category: 'progress',
+        unlockCondition: () => false, // Manually awarded by Quest v2 monthly bundle.
+    },
 
     // League Badges
     {

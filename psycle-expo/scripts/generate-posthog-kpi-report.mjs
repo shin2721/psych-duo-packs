@@ -52,6 +52,9 @@ const DEFAULT_TUNING_TARGETS = {
   streak_guard_evening_save_rate_7d_min: 0.3,
   journal_post_user_rate_7d_min: 0.18,
   journal_not_tried_share_7d_max: 0.5,
+  daily_quest_3of3_rate_7d_min: 0.22,
+  xp_boost_activation_rate_7d_min: 0.55,
+  xp_boost_bonus_xp_per_user_7d_min: 20,
   d1_retention_rate_7d_min: 0.25,
   d7_retention_rate_7d_min: 0.08,
   paid_plan_changes_per_checkout_7d_min: 0.18,
@@ -59,6 +62,7 @@ const DEFAULT_TUNING_TARGETS = {
 };
 
 const DASHBOARD_NAMES = [
+  "Psycle Growth Dashboard (v1.18)",
   "Psycle Growth Dashboard (v1.17)",
   "Psycle Growth Dashboard (v1.16)",
   "Psycle Growth Dashboard (v1.15)",
@@ -98,6 +102,8 @@ const OPTIONAL_INSIGHTS = [
   "Streak Guard by Daypart (daily)",
   "Action Journal Quality (daily)",
   "League Sprint (daily)",
+  "Quest Progress (daily)",
+  "XP Boost (daily)",
 ];
 
 const PRIMARY_KPI_KEYS = [
@@ -532,6 +538,27 @@ function buildTargetBreaches(metrics, targets) {
       unit: "ratio",
     },
     {
+      key: "daily_quest_3of3_rate_7d",
+      label: "Daily Quest 3/3 Rate 7d",
+      target: targets.daily_quest_3of3_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "xp_boost_activation_rate_7d",
+      label: "XP Boost Activation Rate 7d",
+      target: targets.xp_boost_activation_rate_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "xp_boost_bonus_xp_per_user_7d",
+      label: "XP Boost Bonus XP/User 7d",
+      target: targets.xp_boost_bonus_xp_per_user_7d_min,
+      mode: "min",
+      unit: "number",
+    },
+    {
       key: "d1_retention_rate_7d",
       label: "D1 Retention 7d",
       target: targets.d1_retention_rate_7d_min,
@@ -599,6 +626,12 @@ function buildRecommendedActions(anomalies, breaches) {
   }
   if (flagged.has("Journal Top2 Pick Share") || flagged.has("Journal Top2 Pick Share 7d")) {
     actions.push("日記候補の先頭2件を強化するため、positive_historyの更新頻度を上げ、成功ラベルを先頭固定する。");
+  }
+  if (flagged.has("Daily Quest 3/3 Rate 7d")) {
+    actions.push("日次クエスト3/3達成率を上げるため、questsタブ上部に残りタスク数と翌日2xXP報酬を固定表示する。");
+  }
+  if (flagged.has("XP Boost Activation Rate 7d") || flagged.has("XP Boost Bonus XP/User 7d")) {
+    actions.push("翌日2xXPチケットの有効日に、初回レッスン開始前にブースト開始予告を表示して起動率を改善する。");
   }
   if (flagged.has("Streak Visibility Click Rate") || flagged.has("Streak Visibility Click Rate 7d")) {
     actions.push("連続記録ステータスカードのCTA文言を短くし、course/quests両面で同一表現に統一してクリック率を改善する。");
@@ -816,6 +849,19 @@ async function main() {
     ? parseTrendInsight(insights["Action Journal Quality (daily)"])
     : { seriesMap: new Map(), combined: new Map() };
   const actionJournalTop2 = pickSeries(actionJournalQualityTrend.seriesMap, ["top2"]);
+  const questProgressTrend = insights["Quest Progress (daily)"]
+    ? parseTrendInsight(insights["Quest Progress (daily)"])
+    : { seriesMap: new Map(), combined: new Map() };
+  const questRewardClaimed = pickSeries(questProgressTrend.seriesMap, ["quest_reward_claimed"]);
+  const questBundleCompletedDaily = pickSeriesAllTokens(questProgressTrend.seriesMap, ["quest_bundle_completed", "daily"]);
+  const xpBoostTrend = insights["XP Boost (daily)"]
+    ? parseTrendInsight(insights["XP Boost (daily)"])
+    : { seriesMap: new Map(), combined: new Map() };
+  const xpBoostTicketGranted = pickSeries(xpBoostTrend.seriesMap, ["xp_boost_ticket_granted"]);
+  const xpBoostStarted = pickSeries(xpBoostTrend.seriesMap, ["xp_boost_started"]);
+  const xpBoostApplied = pickSeries(xpBoostTrend.seriesMap, ["xp_boost_applied"]);
+  const xpBoostExpired = pickSeries(xpBoostTrend.seriesMap, ["xp_boost_expired"]);
+  const xpBoostBonusSum = pickSeries(xpBoostTrend.seriesMap, ["bonus_sum"]);
 
   const incorrectTrend = parseTrendInsight(insights["Incorrect vs Lesson Start (daily)"]);
   const incorrectCount = pickSeries(incorrectTrend.seriesMap, ["question_incorrect"]);
@@ -908,6 +954,44 @@ async function main() {
     journal_top2_pick_share_7d_prev: safeRate(
       sumWindow(actionJournalTop2, previousStart, previousEnd),
       sumWindow(actionJournalSubmittedTotal, previousStart, previousEnd)
+    ),
+    quest_reward_claimed_7d: sumWindow(questRewardClaimed, currentStart, anchorDay),
+    quest_reward_claimed_7d_prev: sumWindow(questRewardClaimed, previousStart, previousEnd),
+    daily_quest_3of3_7d: sumWindow(questBundleCompletedDaily, currentStart, anchorDay),
+    daily_quest_3of3_7d_prev: sumWindow(questBundleCompletedDaily, previousStart, previousEnd),
+    daily_quest_3of3_rate_7d: safeRate(
+      sumWindow(questBundleCompletedDaily, currentStart, anchorDay),
+      sumWindow(dauTrend.combined, currentStart, anchorDay)
+    ),
+    daily_quest_3of3_rate_7d_prev: safeRate(
+      sumWindow(questBundleCompletedDaily, previousStart, previousEnd),
+      sumWindow(dauTrend.combined, previousStart, previousEnd)
+    ),
+    xp_boost_ticket_granted_7d: sumWindow(xpBoostTicketGranted, currentStart, anchorDay),
+    xp_boost_ticket_granted_7d_prev: sumWindow(xpBoostTicketGranted, previousStart, previousEnd),
+    xp_boost_started_7d: sumWindow(xpBoostStarted, currentStart, anchorDay),
+    xp_boost_started_7d_prev: sumWindow(xpBoostStarted, previousStart, previousEnd),
+    xp_boost_applied_7d: sumWindow(xpBoostApplied, currentStart, anchorDay),
+    xp_boost_applied_7d_prev: sumWindow(xpBoostApplied, previousStart, previousEnd),
+    xp_boost_expired_7d: sumWindow(xpBoostExpired, currentStart, anchorDay),
+    xp_boost_expired_7d_prev: sumWindow(xpBoostExpired, previousStart, previousEnd),
+    xp_boost_bonus_xp_7d: sumWindow(xpBoostBonusSum, currentStart, anchorDay),
+    xp_boost_bonus_xp_7d_prev: sumWindow(xpBoostBonusSum, previousStart, previousEnd),
+    xp_boost_activation_rate_7d: safeRate(
+      sumWindow(xpBoostStarted, currentStart, anchorDay),
+      sumWindow(xpBoostTicketGranted, currentStart, anchorDay)
+    ),
+    xp_boost_activation_rate_7d_prev: safeRate(
+      sumWindow(xpBoostStarted, previousStart, previousEnd),
+      sumWindow(xpBoostTicketGranted, previousStart, previousEnd)
+    ),
+    xp_boost_bonus_xp_per_user_7d: safeRate(
+      sumWindow(xpBoostBonusSum, currentStart, anchorDay),
+      sumWindow(xpBoostStarted, currentStart, anchorDay)
+    ),
+    xp_boost_bonus_xp_per_user_7d_prev: safeRate(
+      sumWindow(xpBoostBonusSum, previousStart, previousEnd),
+      sumWindow(xpBoostStarted, previousStart, previousEnd)
     ),
     recovery_mission_shown_7d: sumWindow(recoveryMissionShown, currentStart, anchorDay),
     recovery_mission_shown_7d_prev: sumWindow(recoveryMissionShown, previousStart, previousEnd),
@@ -1133,6 +1217,21 @@ async function main() {
     `Action Journal 7d: total=${formatNum(metrics.action_journal_submitted_7d, 0)} not_tried=${formatNum(metrics.action_journal_not_tried_7d, 0)} top2=${formatNum(metrics.action_journal_top2_7d, 0)} uv=${formatNum(metrics.action_journal_submitted_uv_7d, 0)}`
   );
   console.log(
+    `Daily Quest 3/3 Rate 7d: ${formatPct(metrics.daily_quest_3of3_rate_7d, 2)} (prev ${formatPct(metrics.daily_quest_3of3_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `Quest Progress 7d: claimed=${formatNum(metrics.quest_reward_claimed_7d, 0)} daily3of3=${formatNum(metrics.daily_quest_3of3_7d, 0)}`
+  );
+  console.log(
+    `XP Boost Activation Rate 7d: ${formatPct(metrics.xp_boost_activation_rate_7d, 2)} (prev ${formatPct(metrics.xp_boost_activation_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `XP Boost Bonus XP/User 7d: ${formatNum(metrics.xp_boost_bonus_xp_per_user_7d, 2)} (prev ${formatNum(metrics.xp_boost_bonus_xp_per_user_7d_prev, 2)})`
+  );
+  console.log(
+    `XP Boost 7d: granted=${formatNum(metrics.xp_boost_ticket_granted_7d, 0)} started=${formatNum(metrics.xp_boost_started_7d, 0)} applied=${formatNum(metrics.xp_boost_applied_7d, 0)} expired=${formatNum(metrics.xp_boost_expired_7d, 0)} bonusXp=${formatNum(metrics.xp_boost_bonus_xp_7d, 0)}`
+  );
+  console.log(
     `Intervention Exposure 7d: shown=${formatNum(metrics.intervention_shown_7d, 0)}`
   );
   console.log(
@@ -1217,7 +1316,7 @@ async function main() {
   } else {
     console.log("Target Breaches:");
     targetBreaches.forEach((b) => {
-      const isRatio = b.unit !== "count";
+      const isRatio = b.unit === "ratio";
       const currentText = isRatio ? `${formatNum(b.current * 100, 2)}%` : formatNum(b.current, 2);
       const targetText = isRatio ? `${formatNum(b.target * 100, 2)}%` : formatNum(b.target, 2);
       const sign = b.mode === "min" ? "<" : ">";

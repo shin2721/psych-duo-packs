@@ -30,9 +30,6 @@ export default function ShopScreen() {
     planId,
     isSubscriptionActive,
     activeUntil,
-    buyDoubleXP,
-    isDoubleXpActive,
-    doubleXpEndTime,
     energy,
     maxEnergy,
     lastEnergyUpdateTime,
@@ -128,19 +125,6 @@ export default function ShopScreen() {
       price: 10,
       icon: "snow-outline",
       action: buyFreeze,
-    },
-    {
-      id: "double_xp",
-      name: i18n.t('shop.items.doubleXP.name'),
-      description: isDoubleXpActive
-        ? i18n.t("shop.items.doubleXP.activeWithMinutes", {
-          minutes: Math.ceil((doubleXpEndTime! - Date.now()) / 60000),
-        })
-        : i18n.t('shop.items.doubleXP.desc'),
-      price: 20,
-      icon: "flash-outline",
-      customIcon: <EnergyIcon size={36} />,
-      action: buyDoubleXP,
     },
   ];
 

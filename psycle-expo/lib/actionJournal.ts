@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { loadLessons } from "./lessons";
 import { dateKey } from "./streaks";
+import { recordQuestEvent } from "./questsV2";
 
 const STORAGE_KEY = "@psycle_action_journal_v1";
 const SCHEMA_VERSION = 1;
@@ -405,6 +406,15 @@ export async function submitActionJournal(input: {
 
   store.entries[today] = entry;
   await saveStore(store);
+
+  if (!existing) {
+    // Count journal submission once per day for Quest v2.
+    try {
+      await recordQuestEvent({ type: "journal_submit" });
+    } catch (error) {
+      console.error("Failed to record quest event for journal_submit:", error);
+    }
+  }
 
   return {
     created: !existing,

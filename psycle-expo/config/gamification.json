@@ -36,14 +36,17 @@
         "journal_top2_pick_share_7d_min": 0.55,
         "journal_post_user_rate_7d_min": 0.18,
         "journal_not_tried_share_7d_max": 0.5,
+        "daily_quest_3of3_rate_7d_min": 0.22,
+        "xp_boost_activation_rate_7d_min": 0.55,
+        "xp_boost_bonus_xp_per_user_7d_min": 20,
         "d1_retention_rate_7d_min": 0.25,
         "d7_retention_rate_7d_min": 0.08,
         "paid_plan_changes_per_checkout_7d_min": 0.18,
         "completed_sessions_per_day_7d_min": 1.2
     },
     "primary_kpis": {
-        "version": "growth_v1.17",
-        "fixed_at": "2026-02-14",
+        "version": "growth_v1.18",
+        "fixed_at": "2026-02-15",
         "metrics": [
             {
                 "key": "d7_retention_rate_7d",

@@ -2,12 +2,13 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "./AuthContext";
 import { supabase } from "./supabase";
-import { BADGES, Badge, BadgeStats } from "./badges";
+import { BADGES, BadgeStats } from "./badges";
 import {
   getStreakData,
   addFreezes,
   useFreeze as useFreezeStreak
 } from "../lib/streaks";
+import { applyXpBoost } from "./questsV2";
 import {
   canUseMistakesHub,
   consumeMistakesHub,
@@ -18,17 +19,7 @@ import { selectMistakesHubItems } from "../src/features/mistakesHub";
 import { Analytics } from "./analytics";
 
 type PlanId = "free" | "pro" | "max";
-
-interface Quest {
-  id: string;
-  type: "daily" | "weekly" | "monthly";
-  title: string;
-  need: number;
-  progress: number;
-  rewardXp: number;
-  claimed: boolean;
-  chestState: "closed" | "opening" | "opened";
-}
+type XpSource = "lesson" | "question" | "journal" | "quest" | "system";
 
 interface ReviewEvent {
   userId: string;
@@ -58,14 +49,11 @@ interface AppState {
   selectedGenre: string;
   setSelectedGenre: (id: string) => void;
   xp: number;
-  addXp: (amount: number) => Promise<void>;
+  addXp: (amount: number, source?: XpSource) => Promise<void>;
   skill: number; // Elo rating (default 1500)
   skillConfidence: number; // Confidence in skill rating (0-100)
   questionsAnswered: number; // Total questions answered
   updateSkill: (isCorrect: boolean, itemDifficulty?: number) => void;
-  quests: Quest[];
-  incrementQuest: (id: string, step?: number) => void;
-  claimQuest: (id: string) => void;
   // Streak system
   streak: number;
   lastStudyDate: string | null;
@@ -80,10 +68,8 @@ interface AppState {
   setGemsDirectly: (amount: number) => void;
   spendGems: (amount: number) => boolean;
   buyFreeze: () => boolean;
-  // Double XP Boost
-  doubleXpEndTime: number | null;
-  buyDoubleXP: () => boolean;
-  isDoubleXpActive: boolean;
+  grantFreezes: (amount: number) => Promise<void>;
+  awardBadgeById: (badgeId: string) => Promise<boolean>;
   // Daily goal system
   dailyGoal: number;
   dailyXP: number;
@@ -147,20 +133,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const { user } = useAuth();
   const userId = user?.id || "user_local";
-
-
-
-  const [quests, setQuests] = useState<Quest[]>([
-    { id: "q_monthly_50pts", type: "monthly", title: "50クエストポイントを獲得する", need: 50, progress: 12, rewardXp: 150, claimed: false, chestState: "closed" },
-    { id: "q_monthly_breathTempo", type: "monthly", title: "呼吸ゲームで60秒達成", need: 60, progress: 0, rewardXp: 120, claimed: false, chestState: "closed" },
-    { id: "q_monthly_echoSteps", type: "monthly", title: "エコーステップ3回クリア", need: 3, progress: 0, rewardXp: 100, claimed: false, chestState: "closed" },
-    { id: "q_monthly_balance", type: "monthly", title: "バランスゲーム5回クリア", need: 5, progress: 0, rewardXp: 110, claimed: false, chestState: "closed" },
-    { id: "q_monthly_budget", type: "monthly", title: "予算ゲームでパーフェクト達成", need: 3, progress: 0, rewardXp: 150, claimed: false, chestState: "closed" },
-    { id: "q_daily_3lessons", type: "daily", title: "レッスンを3回完了", need: 3, progress: 0, rewardXp: 30, claimed: false, chestState: "closed" },
-    { id: "q_daily_5streak", type: "daily", title: "2回のレッスンで5問連続正解", need: 2, progress: 0, rewardXp: 40, claimed: false, chestState: "closed" },
-    { id: "q_weekly_10lessons", type: "weekly", title: "週に10レッスン完了", need: 10, progress: 2, rewardXp: 100, claimed: false, chestState: "closed" },
-  ]);
-
   // Streak system
   const [streak, setStreak] = useState(0);
   const [lastStudyDate, setLastStudyDate] = useState<string | null>(null);
@@ -170,9 +142,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Currency system
   const [gems, setGems] = useState(50); // Start with 50 gems
-
-  // Double XP Boost
-  const [doubleXpEndTime, setDoubleXpEndTime] = useState<number | null>(null);
 
   // Social stats (fetched from Supabase)
   const [friendCount, setFriendCount] = useState(0);
@@ -699,13 +668,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  // Check if Double XP is active
-  const isDoubleXpActive = doubleXpEndTime !== null && Date.now() < doubleXpEndTime;
-
   // Add XP and update daily progress + streak
-  const addXp = async (amount: number) => {
-    // Apply Double XP boost if active
-    const effectiveAmount = isDoubleXpActive ? amount * 2 : amount;
+  const addXp = async (amount: number, source: XpSource = "system") => {
+    const normalized = Math.max(0, Math.floor(amount));
+    if (normalized <= 0) return;
+
+    let effectiveAmount = normalized;
+    if (source === "lesson" || source === "question") {
+      const boosted = await applyXpBoost(normalized, source);
+      effectiveAmount = boosted.effectiveXp;
+    }
+
     const newXP = xp + effectiveAmount;
     setXP(newXP);
     setDailyXP((prev) => {
@@ -758,35 +731,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setQuestionsAnswered((prev) => prev + 1);
   };
 
-  const incrementQuest = (id: string, step = 1) => {
-    setQuests((prev) =>
-      prev.map((q) =>
-        q.id === id
-          ? { ...q, progress: Math.min(q.progress + step, q.need) }
-          : q
-      )
-    );
-  };
-
-  const claimQuest = (id: string) => {
-    setQuests((prev) =>
-      prev.map((q) => {
-        if (q.id === id && q.progress >= q.need && !q.claimed) {
-          addXp(q.rewardXp);
-          addGems(10); // Also award 10 gems for quest completion
-          return { ...q, claimed: true, chestState: "opening" as const };
-        }
-        return q;
-      })
-    );
-
-    setTimeout(() => {
-      setQuests((prev) =>
-        prev.map((q) => (q.id === id ? { ...q, chestState: "opened" as const } : q))
-      );
-    }, 1200);
-  };
-
   // Currency methods
   const addGems = (amount: number) => {
     setGems((prev) => prev + amount);
@@ -815,14 +759,35 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return false;
   };
 
-  const buyDoubleXP = (): boolean => {
-    const cost = 20; // 20 gems for 15 minutes of double XP
-    if (spendGems(cost)) {
-      const DURATION_MS = 15 * 60 * 1000; // 15 minutes
-      setDoubleXpEndTime(Date.now() + DURATION_MS);
-      return true;
+  const grantFreezes = async (amount: number): Promise<void> => {
+    const normalized = Math.max(0, Math.floor(amount));
+    if (normalized <= 0) return;
+    await addFreezes(normalized);
+    const latest = await getStreakData();
+    setFreezeCount(latest.freezesRemaining);
+  };
+
+  const awardBadgeById = async (badgeId: string): Promise<boolean> => {
+    if (!badgeId) return false;
+    if (unlockedBadges.has(badgeId)) return false;
+
+    setUnlockedBadges((prev) => new Set(prev).add(badgeId));
+
+    if (!user) return true;
+
+    try {
+      const { error } = await supabase
+        .from("user_badges")
+        .insert({ user_id: user.id, badge_id: badgeId });
+
+      if (error) {
+        console.error("Failed to persist awarded badge:", error);
+      }
+    } catch (err) {
+      console.error("Failed to persist awarded badge:", err);
     }
-    return false;
+
+    return true;
   };
 
   const useFreeze = (): boolean => {
@@ -1002,9 +967,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     skillConfidence,
     questionsAnswered,
     updateSkill,
-    quests,
-    incrementQuest,
-    claimQuest,
     streak,
     lastStudyDate,
     lastActivityDate,
@@ -1017,9 +979,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setGemsDirectly,
     spendGems,
     buyFreeze,
-    buyDoubleXP,
-    isDoubleXpActive,
-    doubleXpEndTime,
+    grantFreezes,
+    awardBadgeById,
     dailyGoal,
     dailyXP,
     setDailyGoal,

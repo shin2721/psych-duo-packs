@@ -46,18 +46,19 @@ export default function ReviewScreen() {
         setShowResults(false);
     };
 
-    const handleContinue = (isCorrect: boolean, xp: number) => {
+  const handleContinue = (isCorrect: boolean, xp: number) => {
         const currentQ = sessionQuestions[currentIndex];
+        const reviewItemId = currentQ?.source_id || currentQ?.id || `review_${currentIndex}`;
 
         if (isCorrect) {
             // Haptic feedback
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
 
             // Process SRS result
-            processReviewResult(currentQ.source_id, true);
+            processReviewResult(reviewItemId, true);
 
             // Check the mistake's new box to determine next review time
-            const mistake = mistakes.find(m => m.id === currentQ.source_id);
+            const mistake = mistakes.find(m => m.id === reviewItemId);
             if (mistake) {
                 const nextBox = mistake.box + 1;
                 if (nextBox >= 5) {
@@ -73,7 +74,7 @@ export default function ReviewScreen() {
             }
 
             // Add small XP reward
-            addXp(xp);
+            void addXp(xp, "question");
             setXpAnimation({ show: true, amount: xp });
             setTimeout(() => {
                 setXpAnimation({ show: false, amount: 0 });
@@ -83,7 +84,7 @@ export default function ReviewScreen() {
         } else {
             Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
             // Reset to Box 1
-            processReviewResult(currentQ.source_id, false);
+            processReviewResult(reviewItemId, false);
             setNextReviewInfo(i18n.t("review.reviewAgainNeeded"));
             setTimeout(() => setNextReviewInfo(null), 2000);
         }

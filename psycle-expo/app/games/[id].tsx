@@ -12,25 +12,10 @@ import { BudgetBonds } from "../../components/games/BudgetBonds";
 
 export default function GameScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { addXp, incrementQuest } = useAppState();
+  const { addXp } = useAppState();
 
-  const handleDone = (result: GameResult) => {
-    addXp(result.xp);
-    incrementQuest("q_daily_3lessons");
-
-    if (id === "breathTempo" && result.meta?.accuracy > 0.7) {
-      incrementQuest("q_monthly_breathTempo", Math.floor(result.timeMs / 1000));
-    }
-    if (id === "echoSteps" && result.mistakes === 0) {
-      incrementQuest("q_monthly_echoSteps");
-    }
-    if (id === "evidenceBalance" && result.mistakes <= 1) {
-      incrementQuest("q_monthly_balance");
-    }
-    if (id === "budgetBonds" && result.meta?.perfect) {
-      incrementQuest("q_monthly_budget");
-    }
-
+  const handleDone = async (result: GameResult) => {
+    await addXp(result.xp, "system");
     router.back();
   };
 

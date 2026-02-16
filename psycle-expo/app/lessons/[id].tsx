@@ -16,10 +16,11 @@ import { XPGainAnimation } from "../../components/XPGainAnimation";
 import { Analytics } from "../../lib/analytics";
 import { formatCitation } from "../../lib/evidenceUtils";
 import i18n from "../../lib/i18n";
+import { recordQuestEvent } from "../../lib/questsV2";
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { addXp, incrementQuest, addGems, skill, skillConfidence, questionsAnswered, updateSkill, recentQuestionTypes, recentAccuracy, currentStreak, recordQuestionResult, addMistake } = useAppState();
+  const { addXp, addGems, skill, skillConfidence, questionsAnswered, updateSkill, recentQuestionTypes, recentAccuracy, currentStreak, recordQuestionResult, addMistake } = useAppState();
 
   // Parse lesson ID: "{unit}_lesson_{level}"
   const [unit, lessonNum] = id?.split("_lesson_") || [];
@@ -184,21 +185,24 @@ export default function LessonScreen() {
     }
   };
 
-  const handleComplete = () => {
+  const handleComplete = async () => {
     const correctCount = answers.filter((a) => a).length;
     const stars = calculateStars(correctCount, total);
 
-    // Add XP and update quests
-    addXp(totalXP);
-    incrementQuest("q_daily_3lessons");
+    // Add XP and update quest events
+    await addXp(totalXP, "question");
+    try {
+      await recordQuestEvent({
+        type: "lesson_complete",
+        lessonId: id || "",
+        genreId: unit || "",
+      });
+    } catch (error) {
+      console.error("Failed to record quest event for lesson_complete:", error);
+    }
 
     // Award gems based on performance
     addGems(stars); // 1-3 gems based on stars
-
-    // Bonus quests for perfect lessons
-    if (stars === 3) {
-      incrementQuest("q_monthly_perfect_lessons");
-    }
 
     // lesson_completeイベント（ドメインの確定地点で1回のみ発火）
     Analytics.track('lesson_complete', {
@@ -312,7 +316,7 @@ export default function LessonScreen() {
                   {i18n.t("lessonScreen.retry")}
                 </Text>
               </Pressable>
-              <Pressable style={styles.button} onPress={handleComplete} testID="lesson-complete">
+                <Pressable style={styles.button} onPress={() => { void handleComplete(); }} testID="lesson-complete">
                 <Text style={styles.buttonText}>{i18n.t("lessonScreen.complete")}</Text>
               </Pressable>
             </View>

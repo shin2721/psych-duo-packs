@@ -20,10 +20,10 @@ import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
 
 const DEFAULT_HOST = "https://app.posthog.com";
-const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.17)";
+const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.18)";
 const DEFAULT_DASHBOARD_DESCRIPTION =
   "Psycle growth KPI dashboard. Managed by scripts/create-posthog-growth-dashboard.mjs";
-const DASHBOARD_TAG = "psycle-growth-v1.17";
+const DASHBOARD_TAG = "psycle-growth-v1.18";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "..");
@@ -366,6 +366,31 @@ const CARD_DEFS = [
         name: "action_journal_submitted_top2",
         properties: [eventPropertyFilter("tryPosition", [1, 2])],
       }),
+    ]),
+  },
+  {
+    name: "Quest Progress (daily)",
+    description: "Daily quest claims and daily-bundle completions.",
+    query: trendsQuery([
+      eventNode("quest_reward_claimed", "total"),
+      eventNode("quest_bundle_completed", "total", {
+        name: "quest_bundle_completed_daily",
+        properties: [eventPropertyFilter("period", ["daily"])],
+      }),
+    ]),
+  },
+  {
+    name: "XP Boost (daily)",
+    description: "Daily xp boost lifecycle: granted, started, applied, expired.",
+    query: trendsQuery([
+      eventNode("xp_boost_ticket_granted", "total"),
+      eventNode("xp_boost_started", "dau"),
+      eventNode("xp_boost_applied", "total"),
+      eventNode("xp_boost_applied", "sum", {
+        name: "xp_boost_bonus_sum",
+        math_property: "bonusXp",
+      }),
+      eventNode("xp_boost_expired", "total"),
     ]),
   },
   {

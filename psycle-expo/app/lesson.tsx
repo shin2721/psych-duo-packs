@@ -29,12 +29,13 @@ import { Analytics } from "../lib/analytics";
 import { formatCitation } from "../lib/evidenceUtils";
 import i18n from "../lib/i18n";
 import { recordLessonCompletionForJournal } from "../lib/actionJournal";
+import { recordQuestEvent } from "../lib/questsV2";
 
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string; entry?: string }>();
   const fileParam = params.file; // Extract to primitive string
   const isE2EAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
-  const { completeLesson, addXp, incrementQuest, consumeEnergy, tryTriggerStreakEnergyBonus, energy, maxEnergy, addGems } = useAppState();
+  const { completeLesson, addXp, consumeEnergy, tryTriggerStreakEnergyBonus, energy, maxEnergy, addGems } = useAppState();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
@@ -245,8 +246,16 @@ export default function LessonScreen() {
     } else {
       // Lesson complete
       completeLesson(params.file);
-      addXp(currentLesson?.nodeType === 'review_blackhole' ? 50 : 10); // Bonus XP or standard
-      incrementQuest("q_daily_3lessons");
+      await addXp(currentLesson?.nodeType === 'review_blackhole' ? 50 : 10, "lesson"); // Bonus XP or standard
+      try {
+        await recordQuestEvent({
+          type: "lesson_complete",
+          lessonId: params.file,
+          genreId,
+        });
+      } catch (error) {
+        console.error("Failed to record quest event for lesson_complete:", error);
+      }
 
       // ゲーミフィケーション: Study Streak + XP
       const streakBefore = await getStreakData();
