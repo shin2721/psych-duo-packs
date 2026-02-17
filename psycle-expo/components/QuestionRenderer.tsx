@@ -8,7 +8,6 @@ import { Audio } from "expo-av";
 import { theme } from "../lib/theme";
 import { AnimatedButton } from "./AnimatedButton";
 import { InsightText } from "./InsightText";
-import { Firefly } from "./Firefly";
 import { EvidenceBottomSheet } from "./EvidenceBottomSheet";
 import {
   QuickReflex,
@@ -59,6 +58,13 @@ export const areSelectAllAnswersCorrect = (question: Question, selectedIndexes: 
 export function QuestionRenderer({ question, onContinue, onComboChange }: Props) {
   const questionText = getQuestionText(question);
   const questionChoices = getQuestionChoices(question);
+  const isSelectAllType = question.type === "select_all" || question.type === "multi_select_triggers";
+  const isChoiceQuestionType =
+    question.type === "multiple_choice"
+    || question.type === "scenario"
+    || question.type === "swipe_choice"
+    || question.type === "interactive_practice";
+  const isAnimatedExplanationType = question.type === "animated_explanation";
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]); // For select_all
@@ -80,9 +86,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
   const [swipeDirection, setSwipeDirection] = useState<"left" | "right" | null>(null); // For swipe_judgment
   const [selectedResponse, setSelectedResponse] = useState<number | null>(null); // For conversation
   const [selectedPairs, setSelectedPairs] = useState<number[][]>([]); // For matching
-  const [swipeChoiceDirection, setSwipeChoiceDirection] = useState<"left" | "right" | null>(null); // For swipe_choice
 
-  const [timeRemaining, setTimeRemaining] = useState<number | null>(null); // For quick_reflex
   const [inputText, setInputText] = useState<string>(""); // For micro_input
   const [consequenceSelection, setConsequenceSelection] = useState<boolean | null>(null); // For consequence_scenario
   const { addXp, updateSkill } = useAppState();
@@ -135,7 +139,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
 
   // select_all: Auto-show result when all correct answers are selected OR when wrong answer is selected
   useEffect(() => {
-    if (question.type === "select_all" && question.correct_answers && !showResult) {
+    if (isSelectAllType && question.correct_answers && !showResult) {
       if (__DEV__) {
         console.log("=== SELECT_ALL DEBUG ===");
         console.log("selectedIndexes:", selectedIndexes);
@@ -160,7 +164,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
         setShowResult(true);
       }
     }
-  }, [selectedIndexes, question, showResult]);
+  }, [isSelectAllType, selectedIndexes, question, showResult]);
 
   // matching: Auto-show result when all pairs are matched
   useEffect(() => {
@@ -247,7 +251,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
 
   const handleContinue = () => {
     let isCorrect = false;
-    if (question.type === "select_all" && question.correct_answers) {
+    if (isSelectAllType && question.correct_answers) {
       const sortedSelected = [...selectedIndexes].sort();
       const sortedCorrect = [...question.correct_answers].sort();
       isCorrect = JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
@@ -346,12 +350,12 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
     } else if (question.type === "micro_input") {
       // micro_input checks text input against correct answer
       return inputText.trim() === question.input_answer?.trim();
-    } else if (question.type === "term_card") {
+    } else if (question.type === "term_card" || isAnimatedExplanationType) {
       // term_cardは学習コンテンツのため常に正解
       return true;
 
 
-    } else if (question.type === "select_all") {
+    } else if (isSelectAllType) {
       if (question.correct_answers) {
         const sortedSelected = [...selectedIndexes].sort();
         const sortedCorrect = [...question.correct_answers].sort();
@@ -439,15 +443,6 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
           },
         ]}
       >
-
-        {/* Firefly temporarily disabled due to reanimated initialization issue
-      <Firefly
-        style={{ position: 'absolute', top: 0, right: 0, zIndex: 50 }}
-        scale={0.4}
-        state={showResult ? (isCorrect ? 'happy' : 'thinking') : 'idle'}
-      />
-      */}
-
         <ComboFeedback combo={combo} visible={showCombo} />
         <ScrollView
           style={styles.scrollView}
@@ -480,7 +475,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
           )}
 
           {/* タイプ別レンダリング */}
-          {question.type === "multiple_choice" && (
+          {isChoiceQuestionType && (
             <MultipleChoice
               choices={questionChoices}
               selectedIndex={selectedIndex}
@@ -488,6 +483,17 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
               showResult={showResult}
               onSelect={handleSelect}
             />
+          )}
+          {isChoiceQuestionType && questionChoices.length === 0 && (
+            <View style={styles.termCard}>
+              <Text style={styles.termDefinition}>{i18n.t("lesson.continue")}</Text>
+              {!showResult && (
+                <Pressable style={styles.continueButton} onPress={() => setShowResult(true)} testID="question-continue">
+                  <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
+                  <Ionicons name="arrow-forward" size={20} color="#fff" />
+                </Pressable>
+              )}
+            </View>
           )}
 
           {question.type === "true_false" && (
@@ -549,7 +555,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
             );
           })()}
 
-          {question.type === "select_all" && (
+          {isSelectAllType && (
             <SelectAll
               choices={questionChoices}
               selectedIndexes={selectedIndexes}
@@ -561,7 +567,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
           )}
 
           {/* SelectAll (Survey Mode) needs a submit button */}
-          {question.type === "select_all" && !showResult && (
+          {isSelectAllType && !showResult && (
             <Pressable
               style={[styles.submitButton, selectedIndexes.length === 0 && styles.submitButtonDisabled]}
               onPress={() => {
@@ -654,6 +660,25 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
 
 
           {
+            isAnimatedExplanationType && (
+              <View style={styles.termCard}>
+                {question.explanation && (
+                  <InsightText
+                    text={typeof question.explanation === "string" ? question.explanation : (question.explanation.correct || "")}
+                    style={[styles.explanation, { marginTop: 0 }]}
+                  />
+                )}
+                {!showResult && (
+                  <Pressable style={styles.continueButton} onPress={() => setShowResult(true)} testID="question-continue">
+                    <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
+                    <Ionicons name="arrow-forward" size={20} color="#fff" />
+                  </Pressable>
+                )}
+              </View>
+            )
+          }
+
+          {
             question.type === "term_card" && (
               <View style={styles.termCard}>
                 <Text style={styles.termTitle}>{question.term}</Text>
@@ -706,12 +731,12 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
             showResult && (
               <View style={[
                 styles.resultBox,
-                (question.type === "select_all" && !question.correct_answers)
+                (isSelectAllType && !question.correct_answers)
                   ? styles.termCard // Use neutral style
                   : (isCorrect ? styles.correctBox : styles.incorrectBox)
               ]}>
                 {/* Only show Result Header if NOT survey mode */}
-                {!(question.type === "select_all" && !question.correct_answers) && (
+                {!(isSelectAllType && !question.correct_answers) && (
                   <View style={styles.resultHeader}>
                     <Ionicons
                       name={isCorrect ? "checkmark-circle" : "close-circle"}
@@ -736,7 +761,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
 
                   if ((question.type === "multiple_choice" || question.type === "fill_blank_tap" || question.type === "conversation" || question.type === "quick_reflex" || question.type === "swipe_judgment" || question.type === "consequence_scenario" || question.type === "interactive_practice") && (question.choices && typeof question.correct_index === 'number')) {
                     correctAnswerText = question.choices[question.correct_index];
-                  } else if (question.type === "select_all" && question.choices && question.correct_answers) {
+                  } else if (isSelectAllType && question.choices && question.correct_answers) {
                     correctAnswerText = question.correct_answers.map(i => question.choices[i]).join(i18n.t("questionRenderer.listSeparator"));
                   } else if (question.type === "swipe_judgment" && question.swipe_labels) {
                     correctAnswerText = question.is_true ? `→ ${question.swipe_labels.right}` : `← ${question.swipe_labels.left}`;
@@ -782,7 +807,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
                     text={explanationText}
                     style={[
                       styles.explanation,
-                      (question.type === "select_all" && !question.correct_answers) && { color: "#FFF" }
+                      (isSelectAllType && !question.correct_answers) && { color: "#FFF" }
                     ]}
                   />
                 )}

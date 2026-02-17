@@ -5,7 +5,6 @@ import {
   getMistakesHubRemaining,
   hasProItemAccess,
   hasLiteItemAccess,
-  isExplainEnabled,
 } from "../featureGate";
 
 describe("featureGate", () => {
@@ -59,14 +58,6 @@ describe("featureGate", () => {
       expect(hasLiteItemAccess("free")).toBe(true);
       expect(hasLiteItemAccess("pro")).toBe(true);
       expect(hasLiteItemAccess("max")).toBe(true);
-    });
-  });
-
-  describe("AI Explain", () => {
-    test("全プランでAI解説は無効", () => {
-      expect(isExplainEnabled("free")).toBe(false);
-      expect(isExplainEnabled("pro")).toBe(false);
-      expect(isExplainEnabled("max")).toBe(false);
     });
   });
 });

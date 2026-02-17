@@ -10,8 +10,6 @@ import { PLANS, SUPABASE_FUNCTION_URL, type PlanConfig } from "../../lib/plans";
 import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
 
-// import { Firefly } from "../../components/Firefly"; // TODO: Re-enable after native rebuild
-
 interface ShopItem {
   id: string;
   name: string;
@@ -141,12 +139,6 @@ export default function ShopScreen() {
           <Text style={styles.gemsText}>{gems}</Text>
         </View>
       </View>
-
-      {/* Firefly Character */}
-      <View style={{ alignItems: 'center', marginBottom: 20 }}>
-        {/* <Firefly /> */}{/* TODO: Re-enable after native rebuild */}
-      </View>
-
       {/* Subscription Plans */}
       <ScrollView style={styles.scrollView} contentContainerStyle={styles.itemsContainer}>
         <View style={styles.sectionHeader}>

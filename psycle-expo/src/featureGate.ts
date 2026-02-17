@@ -7,7 +7,6 @@ type PlanId = "free" | "pro" | "max";
 interface PlanConfig {
   features: {
     mistakes_hub: { enabled: boolean; daily_limit: number | null };
-    ai_explain: { mode: string };
   };
   item_access: { lite: boolean; pro: boolean };
 }
@@ -120,14 +119,4 @@ export function hasProItemAccess(plan: PlanId): boolean {
 export function hasLiteItemAccess(plan: PlanId): boolean {
   const config = entitlements.plans[plan] as PlanConfig;
   return config?.item_access.lite === true;
-}
-
-/**
- * AI解説機能が有効か判定（常にfalse）
- * @param {PlanId} plan - プランID
- * @returns {boolean} 常にfalse
- */
-export function isExplainEnabled(plan: PlanId): boolean {
-  const config = entitlements.plans[plan] as PlanConfig;
-  return config?.features.ai_explain.mode !== "off";
 }

@@ -693,45 +693,6 @@ export function Matching({
   );
 }
 
-
-
-// アニメーション説明（汎用）
-export function AnimatedExplanation({
-  text,
-  onComplete,
-}: {
-  text: string;
-  onComplete: () => void;
-}) {
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start();
-
-    const timer = setTimeout(() => {
-      onComplete();
-    }, 4000); // 4秒読んで完了
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  return (
-    <View style={styles.animatedContainer}>
-      <Animated.View style={[styles.animatedContent, { opacity: fadeAnim }]}>
-        <Text style={styles.animatedText}>{text}</Text>
-      </Animated.View>
-    </View>
-  );
-}
-
-
-
-
-
 // ========================================
 // Quick Reflex（反射型：時間制限付き即答問題）
 // ========================================
@@ -1215,30 +1176,6 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "600",
     flex: 1,
-  },
-  // AnimatedExplanation styles
-  animatedContainer: {
-    height: 300,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  animatedContent: {
-    alignItems: "center",
-    gap: 16,
-  },
-  animatedText: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#fff",
-    textAlign: "center",
-  },
-  animatedFinal: {
-    alignItems: "center",
-  },
-  animatedFinalText: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#10b981",
   },
   // RhythmTap styles
   rhythmContainer: {
