@@ -24,6 +24,18 @@ export const PLANS: PlanConfig[] = [
     ],
     popular: true,
   },
+  {
+    id: "max",
+    name: "Psycle Max",
+    priceId: "price_1SJ82FJDXOz4c0ISrrFASipQ",
+    priceMonthly: 1980,
+    features: [
+      "Proの全機能",
+      "Max限定コンテンツ",
+      "MistakesHub 無制限",
+      "最優先で新機能を先行開放",
+    ],
+  },
 ];
 
 export const SUPABASE_FUNCTION_URL =

@@ -209,7 +209,7 @@ export default function ShopScreen() {
 
         {/* Plan Cards */}
         <View style={styles.plansContainer}>
-          {PLANS.filter(p => p.id === 'pro').map((plan) => (
+          {PLANS.filter((p) => p.id === "pro" || p.id === "max").map((plan) => (
             <View key={plan.id} style={styles.planCard}>
               {plan.popular && (
                 <View style={styles.popularBadge}>
