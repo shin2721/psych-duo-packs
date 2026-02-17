@@ -122,11 +122,7 @@ export async function getMyLeague(userId: string): Promise<LeagueInfo | null> {
         // リーグメンバー一覧を取得（XP降順）
         const { data: members, error: membersError } = await supabase
             .from('league_members')
-            .select(`
-                user_id,
-                weekly_xp,
-                leaderboard!inner(username)
-            `)
+            .select('user_id, weekly_xp')
             .eq('league_id', leagueId)
             .order('weekly_xp', { ascending: false });
 
@@ -135,10 +131,32 @@ export async function getMyLeague(userId: string): Promise<LeagueInfo | null> {
             return null;
         }
 
+        const memberUserIds = (members || [])
+            .map((m) => m.user_id)
+            .filter((id): id is string => typeof id === 'string' && id.length > 0);
+
+        const leaderboardMap = new Map<string, string>();
+        if (memberUserIds.length > 0) {
+            const { data: leaderboardRows, error: leaderboardError } = await supabase
+                .from('leaderboard')
+                .select('user_id, username')
+                .in('user_id', memberUserIds);
+
+            if (leaderboardError) {
+                console.warn('[League] Failed to resolve leaderboard usernames:', leaderboardError);
+            } else {
+                for (const row of leaderboardRows || []) {
+                    const id = (row as any).user_id as string | undefined;
+                    if (!id) continue;
+                    leaderboardMap.set(id, ((row as any).username as string | undefined) || 'Unknown');
+                }
+            }
+        }
+
         // ランキング付きメンバーリストを作成
         const rankedMembers: LeagueMember[] = (members || []).map((m, index) => ({
             user_id: m.user_id,
-            username: (m as any).leaderboard?.username || 'Unknown',
+            username: leaderboardMap.get(m.user_id) || 'Unknown',
             weekly_xp: m.weekly_xp,
             rank: index + 1,
             is_self: m.user_id === userId,
