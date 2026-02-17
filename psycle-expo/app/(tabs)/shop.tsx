@@ -128,14 +128,16 @@ export default function ShopScreen() {
   ];
 
   const resolvePlanMonthlyPrice = (plan: PlanConfig): string => {
-    if (plan.id !== "pro" && plan.id !== "max") {
-      return `¥${plan.priceMonthly.toLocaleString()}`;
-    }
+    const planType = plan.id === "max" ? "max" : "pro";
     try {
-      return getPlanPrice(plan.id, "monthly");
+      return getPlanPrice(planType, "monthly");
     } catch (error) {
       console.error("Failed to resolve regional price:", error);
-      return `¥${plan.priceMonthly.toLocaleString()}`;
+      try {
+        return getPlanPrice(planType, "monthly", "JP");
+      } catch {
+        return plan.priceMonthly.toLocaleString();
+      }
     }
   };
 
