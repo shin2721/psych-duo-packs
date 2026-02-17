@@ -16,11 +16,11 @@ import { XPGainAnimation } from "../../components/XPGainAnimation";
 import { Analytics } from "../../lib/analytics";
 import { formatCitation } from "../../lib/evidenceUtils";
 import i18n from "../../lib/i18n";
-import { recordQuestEvent } from "../../lib/questsV2";
+import { autoClaimEligibleQuestRewards, QuestAutoClaimResult, recordQuestEvent } from "../../lib/questsV2";
 
 export default function LessonScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { addXp, addGems, skill, skillConfidence, questionsAnswered, updateSkill, recentQuestionTypes, recentAccuracy, currentStreak, recordQuestionResult, addMistake } = useAppState();
+  const { addXp, addGems, grantFreezes, awardBadgeById, skill, skillConfidence, questionsAnswered, updateSkill, recentQuestionTypes, recentAccuracy, currentStreak, recordQuestionResult, addMistake } = useAppState();
 
   // Parse lesson ID: "{unit}_lesson_{level}"
   const [unit, lessonNum] = id?.split("_lesson_") || [];
@@ -84,6 +84,8 @@ export default function LessonScreen() {
   const [totalXP, setTotalXP] = useState(0);
   const [showResults, setShowResults] = useState(false);
   const [xpAnimation, setXpAnimation] = useState<{ show: boolean; amount: number }>({ show: false, amount: 0 });
+  const [questAutoClaimNoticeLines, setQuestAutoClaimNoticeLines] = useState<string[]>([]);
+  const [isCompleting, setIsCompleting] = useState(false);
 
   // Confetti ref
   const confettiRef = useRef<any>(null);
@@ -186,6 +188,9 @@ export default function LessonScreen() {
   };
 
   const handleComplete = async () => {
+    if (isCompleting) return;
+    setIsCompleting(true);
+
     const correctCount = answers.filter((a) => a).length;
     const stars = calculateStars(correctCount, total);
 
@@ -197,6 +202,12 @@ export default function LessonScreen() {
         lessonId: id || "",
         genreId: unit || "",
       });
+      const autoClaimResult = await autoClaimEligibleQuestRewards({ source: "lesson_complete" });
+      const noticeLines = await applyAutoClaimRewards(autoClaimResult);
+      setQuestAutoClaimNoticeLines(noticeLines);
+      if (noticeLines.length > 0) {
+        setTimeout(() => setQuestAutoClaimNoticeLines([]), 3500);
+      }
     } catch (error) {
       console.error("Failed to record quest event for lesson_complete:", error);
     }
@@ -210,8 +221,38 @@ export default function LessonScreen() {
       genreId: unit || '',
     });
 
-    router.back();
+    setTimeout(() => {
+      router.back();
+    }, 900);
   };
+
+  async function applyAutoClaimRewards(result: QuestAutoClaimResult): Promise<string[]> {
+    const lines: string[] = [];
+
+    if (result.claimedGems > 0) {
+      addGems(result.claimedGems);
+      lines.push(i18n.t("quests.v2.autoClaimGems", { gems: result.claimedGems }));
+    }
+    if (result.weeklyFreezesGranted > 0) {
+      await grantFreezes(result.weeklyFreezesGranted);
+      lines.push(i18n.t("quests.v2.autoClaimFreeze", { count: result.weeklyFreezesGranted }));
+    }
+    if (result.monthlyBadgeId) {
+      await awardBadgeById(result.monthlyBadgeId);
+      lines.push(i18n.t("quests.v2.autoClaimBadge"));
+    }
+    if (result.dailyTicketGranted) {
+      lines.push(i18n.t("quests.v2.dailyBundleGranted"));
+    }
+    if (result.dailyTicketQueued) {
+      lines.push(i18n.t("quests.v2.boostTicketQueued", { date: result.dailyTicketQueuedValidDate || "-" }));
+    }
+    if (result.dailyTicketBlocked) {
+      lines.push(i18n.t("quests.v2.autoClaimTicketBlocked"));
+    }
+
+    return lines;
+  }
 
   const handleRetry = () => {
     setCurrentQuestionIndex(0);
@@ -262,6 +303,17 @@ export default function LessonScreen() {
                 <Text style={styles.statValue}>{totalXP}</Text>
               </View>
             </View>
+
+            {questAutoClaimNoticeLines.length > 0 && (
+              <View style={styles.questAutoClaimNoticeCard}>
+                <Text style={styles.questAutoClaimNoticeTitle}>{i18n.t("quests.v2.autoClaimSummary")}</Text>
+                {questAutoClaimNoticeLines.map((line, idx) => (
+                  <Text key={`${line}_${idx}`} style={styles.questAutoClaimNoticeLine}>
+                    • {line}
+                  </Text>
+                ))}
+              </View>
+            )}
 
             {/* Background Research Section */}
             {lesson?.references && lesson.references.length > 0 && (
@@ -317,7 +369,9 @@ export default function LessonScreen() {
                 </Text>
               </Pressable>
                 <Pressable style={styles.button} onPress={() => { void handleComplete(); }} testID="lesson-complete">
-                <Text style={styles.buttonText}>{i18n.t("lessonScreen.complete")}</Text>
+                <Text style={styles.buttonText}>
+                  {isCompleting ? i18n.t("common.loading") : i18n.t("lessonScreen.complete")}
+                </Text>
               </Pressable>
             </View>
           </View>
@@ -469,6 +523,27 @@ const styles = StyleSheet.create({
     fontSize: 36,
     fontWeight: "bold",
     color: "#ffffff",
+  },
+  questAutoClaimNoticeCard: {
+    width: "100%",
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    marginBottom: 20,
+    backgroundColor: "rgba(41, 183, 124, 0.16)",
+    borderWidth: 1,
+    borderColor: "rgba(41, 183, 124, 0.36)",
+  },
+  questAutoClaimNoticeTitle: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: "#ffffff",
+    marginBottom: 6,
+  },
+  questAutoClaimNoticeLine: {
+    fontSize: 12,
+    color: "rgba(255,255,255,0.9)",
+    lineHeight: 18,
   },
   buttonRow: {
     flexDirection: "row",

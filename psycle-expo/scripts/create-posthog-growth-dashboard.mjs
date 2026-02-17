@@ -20,10 +20,10 @@ import { fileURLToPath } from "node:url";
 import dotenv from "dotenv";
 
 const DEFAULT_HOST = "https://app.posthog.com";
-const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.18)";
+const DEFAULT_DASHBOARD_NAME = "Psycle Growth Dashboard (v1.19)";
 const DEFAULT_DASHBOARD_DESCRIPTION =
   "Psycle growth KPI dashboard. Managed by scripts/create-posthog-growth-dashboard.mjs";
-const DASHBOARD_TAG = "psycle-growth-v1.18";
+const DASHBOARD_TAG = "psycle-growth-v1.19";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const PROJECT_ROOT = path.resolve(__dirname, "..");
@@ -370,13 +370,32 @@ const CARD_DEFS = [
   },
   {
     name: "Quest Progress (daily)",
-    description: "Daily quest claims and daily-bundle completions.",
+    description: "Daily quest claims (auto/manual) and daily-bundle completions.",
     query: trendsQuery([
-      eventNode("quest_reward_claimed", "total"),
+      eventNode("quest_reward_claimed", "total", {
+        name: "quest_reward_claimed_all",
+      }),
+      eventNode("quest_reward_claimed", "total", {
+        name: "quest_reward_claimed_auto",
+        properties: [eventPropertyFilter("claimMode", ["auto"])],
+      }),
+      eventNode("quest_reward_claimed", "total", {
+        name: "quest_reward_claimed_manual",
+        properties: [eventPropertyFilter("claimMode", ["manual"])],
+      }),
       eventNode("quest_bundle_completed", "total", {
         name: "quest_bundle_completed_daily",
         properties: [eventPropertyFilter("period", ["daily"])],
       }),
+    ]),
+  },
+  {
+    name: "Quest Auto Claim (daily)",
+    description: "Daily auto-claim applications and ticket queue/block events.",
+    query: trendsQuery([
+      eventNode("quest_auto_claim_applied", "total"),
+      eventNode("xp_boost_ticket_queued", "total"),
+      eventNode("xp_boost_ticket_grant_blocked", "total"),
     ]),
   },
   {

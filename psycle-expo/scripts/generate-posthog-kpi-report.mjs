@@ -55,6 +55,8 @@ const DEFAULT_TUNING_TARGETS = {
   daily_quest_3of3_rate_7d_min: 0.22,
   xp_boost_activation_rate_7d_min: 0.55,
   xp_boost_bonus_xp_per_user_7d_min: 20,
+  quest_auto_claim_share_7d_min: 0.95,
+  xp_boost_ticket_queue_rate_7d_max: 0.35,
   d1_retention_rate_7d_min: 0.25,
   d7_retention_rate_7d_min: 0.08,
   paid_plan_changes_per_checkout_7d_min: 0.18,
@@ -62,6 +64,7 @@ const DEFAULT_TUNING_TARGETS = {
 };
 
 const DASHBOARD_NAMES = [
+  "Psycle Growth Dashboard (v1.19)",
   "Psycle Growth Dashboard (v1.18)",
   "Psycle Growth Dashboard (v1.17)",
   "Psycle Growth Dashboard (v1.16)",
@@ -104,6 +107,7 @@ const OPTIONAL_INSIGHTS = [
   "League Sprint (daily)",
   "Quest Progress (daily)",
   "XP Boost (daily)",
+  "Quest Auto Claim (daily)",
 ];
 
 const PRIMARY_KPI_KEYS = [
@@ -559,6 +563,20 @@ function buildTargetBreaches(metrics, targets) {
       unit: "number",
     },
     {
+      key: "quest_auto_claim_share_7d",
+      label: "Quest Auto-Claim Share 7d",
+      target: targets.quest_auto_claim_share_7d_min,
+      mode: "min",
+      unit: "ratio",
+    },
+    {
+      key: "xp_boost_ticket_queue_rate_7d",
+      label: "XP Boost Ticket Queue Rate 7d",
+      target: targets.xp_boost_ticket_queue_rate_7d_max,
+      mode: "max",
+      unit: "ratio",
+    },
+    {
       key: "d1_retention_rate_7d",
       label: "D1 Retention 7d",
       target: targets.d1_retention_rate_7d_min,
@@ -632,6 +650,12 @@ function buildRecommendedActions(anomalies, breaches) {
   }
   if (flagged.has("XP Boost Activation Rate 7d") || flagged.has("XP Boost Bonus XP/User 7d")) {
     actions.push("翌日2xXPチケットの有効日に、初回レッスン開始前にブースト開始予告を表示して起動率を改善する。");
+  }
+  if (flagged.has("Quest Auto-Claim Share 7d")) {
+    actions.push("quest達成時の自動受取フローを再確認し、manual claim依存の残導線を完全に削除する。");
+  }
+  if (flagged.has("XP Boost Ticket Queue Rate 7d")) {
+    actions.push("チケットキュー率が高すぎるため、daily 3/3の獲得タイミングとチケット失効条件を見直す。");
   }
   if (flagged.has("Streak Visibility Click Rate") || flagged.has("Streak Visibility Click Rate 7d")) {
     actions.push("連続記録ステータスカードのCTA文言を短くし、course/quests両面で同一表現に統一してクリック率を改善する。");
@@ -852,7 +876,9 @@ async function main() {
   const questProgressTrend = insights["Quest Progress (daily)"]
     ? parseTrendInsight(insights["Quest Progress (daily)"])
     : { seriesMap: new Map(), combined: new Map() };
-  const questRewardClaimed = pickSeries(questProgressTrend.seriesMap, ["quest_reward_claimed"]);
+  const questRewardClaimed = pickSeries(questProgressTrend.seriesMap, ["quest_reward_claimed_all"]);
+  const questRewardClaimedAuto = pickSeriesAllTokens(questProgressTrend.seriesMap, ["quest_reward_claimed", "auto"]);
+  const questRewardClaimedManual = pickSeriesAllTokens(questProgressTrend.seriesMap, ["quest_reward_claimed", "manual"]);
   const questBundleCompletedDaily = pickSeriesAllTokens(questProgressTrend.seriesMap, ["quest_bundle_completed", "daily"]);
   const xpBoostTrend = insights["XP Boost (daily)"]
     ? parseTrendInsight(insights["XP Boost (daily)"])
@@ -862,6 +888,12 @@ async function main() {
   const xpBoostApplied = pickSeries(xpBoostTrend.seriesMap, ["xp_boost_applied"]);
   const xpBoostExpired = pickSeries(xpBoostTrend.seriesMap, ["xp_boost_expired"]);
   const xpBoostBonusSum = pickSeries(xpBoostTrend.seriesMap, ["bonus_sum"]);
+  const questAutoClaimTrend = insights["Quest Auto Claim (daily)"]
+    ? parseTrendInsight(insights["Quest Auto Claim (daily)"])
+    : { seriesMap: new Map(), combined: new Map() };
+  const questAutoClaimApplied = pickSeries(questAutoClaimTrend.seriesMap, ["quest_auto_claim_applied"]);
+  const xpBoostTicketQueued = pickSeries(questAutoClaimTrend.seriesMap, ["xp_boost_ticket_queued"]);
+  const xpBoostTicketGrantBlocked = pickSeries(questAutoClaimTrend.seriesMap, ["xp_boost_ticket_grant_blocked"]);
 
   const incorrectTrend = parseTrendInsight(insights["Incorrect vs Lesson Start (daily)"]);
   const incorrectCount = pickSeries(incorrectTrend.seriesMap, ["question_incorrect"]);
@@ -957,6 +989,10 @@ async function main() {
     ),
     quest_reward_claimed_7d: sumWindow(questRewardClaimed, currentStart, anchorDay),
     quest_reward_claimed_7d_prev: sumWindow(questRewardClaimed, previousStart, previousEnd),
+    quest_reward_claimed_auto_7d: sumWindow(questRewardClaimedAuto, currentStart, anchorDay),
+    quest_reward_claimed_auto_7d_prev: sumWindow(questRewardClaimedAuto, previousStart, previousEnd),
+    quest_reward_claimed_manual_7d: sumWindow(questRewardClaimedManual, currentStart, anchorDay),
+    quest_reward_claimed_manual_7d_prev: sumWindow(questRewardClaimedManual, previousStart, previousEnd),
     daily_quest_3of3_7d: sumWindow(questBundleCompletedDaily, currentStart, anchorDay),
     daily_quest_3of3_7d_prev: sumWindow(questBundleCompletedDaily, previousStart, previousEnd),
     daily_quest_3of3_rate_7d: safeRate(
@@ -992,6 +1028,32 @@ async function main() {
     xp_boost_bonus_xp_per_user_7d_prev: safeRate(
       sumWindow(xpBoostBonusSum, previousStart, previousEnd),
       sumWindow(xpBoostStarted, previousStart, previousEnd)
+    ),
+    quest_auto_claim_applied_7d: sumWindow(questAutoClaimApplied, currentStart, anchorDay),
+    quest_auto_claim_applied_7d_prev: sumWindow(questAutoClaimApplied, previousStart, previousEnd),
+    quest_auto_claim_share_7d: safeRate(
+      sumWindow(questRewardClaimedAuto, currentStart, anchorDay),
+      sumWindow(questRewardClaimed, currentStart, anchorDay)
+    ),
+    quest_auto_claim_share_7d_prev: safeRate(
+      sumWindow(questRewardClaimedAuto, previousStart, previousEnd),
+      sumWindow(questRewardClaimed, previousStart, previousEnd)
+    ),
+    xp_boost_ticket_queued_7d: sumWindow(xpBoostTicketQueued, currentStart, anchorDay),
+    xp_boost_ticket_queued_7d_prev: sumWindow(xpBoostTicketQueued, previousStart, previousEnd),
+    xp_boost_ticket_grant_blocked_7d: sumWindow(xpBoostTicketGrantBlocked, currentStart, anchorDay),
+    xp_boost_ticket_grant_blocked_7d_prev: sumWindow(xpBoostTicketGrantBlocked, previousStart, previousEnd),
+    xp_boost_ticket_queue_rate_7d: safeRate(
+      sumWindow(xpBoostTicketQueued, currentStart, anchorDay),
+      sumWindow(xpBoostTicketGranted, currentStart, anchorDay)
+        + sumWindow(xpBoostTicketQueued, currentStart, anchorDay)
+        + sumWindow(xpBoostTicketGrantBlocked, currentStart, anchorDay)
+    ),
+    xp_boost_ticket_queue_rate_7d_prev: safeRate(
+      sumWindow(xpBoostTicketQueued, previousStart, previousEnd),
+      sumWindow(xpBoostTicketGranted, previousStart, previousEnd)
+        + sumWindow(xpBoostTicketQueued, previousStart, previousEnd)
+        + sumWindow(xpBoostTicketGrantBlocked, previousStart, previousEnd)
     ),
     recovery_mission_shown_7d: sumWindow(recoveryMissionShown, currentStart, anchorDay),
     recovery_mission_shown_7d_prev: sumWindow(recoveryMissionShown, previousStart, previousEnd),
@@ -1223,13 +1285,25 @@ async function main() {
     `Quest Progress 7d: claimed=${formatNum(metrics.quest_reward_claimed_7d, 0)} daily3of3=${formatNum(metrics.daily_quest_3of3_7d, 0)}`
   );
   console.log(
+    `Quest Auto-Claim Share 7d: ${formatPct(metrics.quest_auto_claim_share_7d, 2)} (prev ${formatPct(metrics.quest_auto_claim_share_7d_prev, 2)})`
+  );
+  console.log(
+    `Quest Claim Breakdown 7d: auto=${formatNum(metrics.quest_reward_claimed_auto_7d, 0)} manual=${formatNum(metrics.quest_reward_claimed_manual_7d, 0)} autoRuns=${formatNum(metrics.quest_auto_claim_applied_7d, 0)}`
+  );
+  console.log(
     `XP Boost Activation Rate 7d: ${formatPct(metrics.xp_boost_activation_rate_7d, 2)} (prev ${formatPct(metrics.xp_boost_activation_rate_7d_prev, 2)})`
+  );
+  console.log(
+    `XP Boost Ticket Queue Rate 7d: ${formatPct(metrics.xp_boost_ticket_queue_rate_7d, 2)} (prev ${formatPct(metrics.xp_boost_ticket_queue_rate_7d_prev, 2)})`
   );
   console.log(
     `XP Boost Bonus XP/User 7d: ${formatNum(metrics.xp_boost_bonus_xp_per_user_7d, 2)} (prev ${formatNum(metrics.xp_boost_bonus_xp_per_user_7d_prev, 2)})`
   );
   console.log(
     `XP Boost 7d: granted=${formatNum(metrics.xp_boost_ticket_granted_7d, 0)} started=${formatNum(metrics.xp_boost_started_7d, 0)} applied=${formatNum(metrics.xp_boost_applied_7d, 0)} expired=${formatNum(metrics.xp_boost_expired_7d, 0)} bonusXp=${formatNum(metrics.xp_boost_bonus_xp_7d, 0)}`
+  );
+  console.log(
+    `XP Ticket Queue 7d: queued=${formatNum(metrics.xp_boost_ticket_queued_7d, 0)} blocked=${formatNum(metrics.xp_boost_ticket_grant_blocked_7d, 0)}`
   );
   console.log(
     `Intervention Exposure 7d: shown=${formatNum(metrics.intervention_shown_7d, 0)}`

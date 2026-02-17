@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { dateKey } from "./streaks";
 
 const STORAGE_KEY = "@psycle_quests_v2";
-const SCHEMA_VERSION = 1;
+const SCHEMA_VERSION = 2;
 const BOOST_DURATION_MINUTES = 15;
 const BOOST_MULTIPLIER = 2;
 const BOOST_MAX_BONUS_XP = 120;
@@ -26,6 +26,8 @@ function trackEvent(name: string, properties: Record<string, any>) {
 export type QuestPeriod = "daily" | "weekly" | "monthly";
 export type QuestMetric = "lesson_complete" | "study_day" | "journal_submit";
 export type QuestEventType = "lesson_complete" | "journal_submit";
+export type QuestClaimMode = "auto" | "manual";
+export type QuestClaimSource = "lesson_complete" | "journal_submit" | "quests_tab";
 
 export interface QuestDefinition {
   id: string;
@@ -51,6 +53,25 @@ export interface XpBoostTicket {
   consumedBonusXp: number;
 }
 
+export interface QueuedXpBoostTicket {
+  validDate: string;
+  durationMinutes: number;
+  multiplier: number;
+  maxBonusXp: number;
+}
+
+export interface QuestAutoClaimResult {
+  claimedQuests: string[];
+  claimedGems: number;
+  weeklyFreezesGranted: number;
+  monthlyBadgeId: string | null;
+  dailyTicketGranted: boolean;
+  dailyTicketQueued: boolean;
+  dailyTicketBlocked: boolean;
+  dailyTicketValidDate: string | null;
+  dailyTicketQueuedValidDate: string | null;
+}
+
 export interface QuestBundleStatus {
   cycleId: string;
   completedCount: number;
@@ -71,6 +92,7 @@ export interface QuestBoard {
   xpBoost: {
     hasTicket: boolean;
     validDate: string | null;
+    queuedValidDate: string | null;
     active: boolean;
     remainingMs: number;
     consumedBonusXp: number;
@@ -94,6 +116,25 @@ interface QuestStore {
   weekly: PeriodState;
   monthly: PeriodState;
   xpBoostTicket: XpBoostTicket | null;
+  queuedXpBoostTicket: QueuedXpBoostTicket | null;
+}
+
+interface QuestClaimMeta {
+  source?: QuestClaimSource;
+  claimMode?: QuestClaimMode;
+  trigger?: string;
+}
+
+interface QuestClaimResult {
+  claimed: boolean;
+  rewardGems: number;
+}
+
+interface DailyBundleClaimResult {
+  granted: boolean;
+  ticket?: XpBoostTicket;
+  queuedTicket?: QueuedXpBoostTicket;
+  blocked: boolean;
 }
 
 export const QUEST_DEFINITIONS: QuestDefinition[] = [
@@ -156,6 +197,7 @@ function buildDefaultStore(now: Date): QuestStore {
     weekly: buildPeriodState("weekly", getCycleId("weekly", now)),
     monthly: buildPeriodState("monthly", getCycleId("monthly", now)),
     xpBoostTicket: null,
+    queuedXpBoostTicket: null,
   };
 }
 
@@ -172,6 +214,16 @@ function sanitizePeriodState(input: Partial<PeriodState> | undefined, period: Qu
   };
 }
 
+function sanitizeQueuedTicket(input: Partial<QueuedXpBoostTicket> | null | undefined): QueuedXpBoostTicket | null {
+  if (!input || !input.validDate) return null;
+  return {
+    validDate: input.validDate,
+    durationMinutes: Number(input.durationMinutes || BOOST_DURATION_MINUTES),
+    multiplier: Number(input.multiplier || BOOST_MULTIPLIER),
+    maxBonusXp: Number(input.maxBonusXp || BOOST_MAX_BONUS_XP),
+  };
+}
+
 async function loadStore(now: Date): Promise<QuestStore> {
   try {
     const raw = await AsyncStorage.getItem(STORAGE_KEY);
@@ -183,11 +235,12 @@ async function loadStore(now: Date): Promise<QuestStore> {
     const monthlyCycleId = getCycleId("monthly", now);
 
     return {
-      schemaVersion: parsed.schemaVersion || SCHEMA_VERSION,
+      schemaVersion: Number(parsed.schemaVersion || SCHEMA_VERSION),
       daily: sanitizePeriodState(parsed.daily, "daily", dailyCycleId),
       weekly: sanitizePeriodState(parsed.weekly, "weekly", weeklyCycleId),
       monthly: sanitizePeriodState(parsed.monthly, "monthly", monthlyCycleId),
       xpBoostTicket: parsed.xpBoostTicket || null,
+      queuedXpBoostTicket: sanitizeQueuedTicket(parsed.queuedXpBoostTicket),
     };
   } catch {
     return buildDefaultStore(now);
@@ -210,6 +263,50 @@ function addProgress(state: PeriodState, questId: string, step: number): void {
   state.progress[questId] = Math.min(definition.target, current + step);
 }
 
+function normalizeClaimMeta(meta?: QuestClaimMeta): Required<QuestClaimMeta> {
+  return {
+    source: meta?.source || "quests_tab",
+    claimMode: meta?.claimMode || "manual",
+    trigger: meta?.trigger || "unspecified",
+  };
+}
+
+function createTicket(validDate: string): XpBoostTicket {
+  return {
+    validDate,
+    durationMinutes: BOOST_DURATION_MINUTES,
+    multiplier: BOOST_MULTIPLIER,
+    maxBonusXp: BOOST_MAX_BONUS_XP,
+    activatedAt: null,
+    consumedBonusXp: 0,
+  };
+}
+
+function createNextDayTicket(now: Date): XpBoostTicket {
+  const validDate = dateKey(new Date(now.getTime() + ONE_DAY_MS));
+  return createTicket(validDate);
+}
+
+function toQueuedTicket(ticket: XpBoostTicket): QueuedXpBoostTicket {
+  return {
+    validDate: ticket.validDate,
+    durationMinutes: ticket.durationMinutes,
+    multiplier: ticket.multiplier,
+    maxBonusXp: ticket.maxBonusXp,
+  };
+}
+
+function fromQueuedTicket(ticket: QueuedXpBoostTicket): XpBoostTicket {
+  return {
+    validDate: ticket.validDate,
+    durationMinutes: ticket.durationMinutes,
+    multiplier: ticket.multiplier,
+    maxBonusXp: ticket.maxBonusXp,
+    activatedAt: null,
+    consumedBonusXp: 0,
+  };
+}
+
 function isTicketExpired(ticket: XpBoostTicket, now: Date): boolean {
   const today = dateKey(now);
   if (ticket.validDate < today) return true;
@@ -221,30 +318,234 @@ function isTicketExpired(ticket: XpBoostTicket, now: Date): boolean {
   return now.getTime() >= end || ticket.consumedBonusXp >= ticket.maxBonusXp;
 }
 
-function ensureTicketConsistency(store: QuestStore, now: Date): { changed: boolean; expired: boolean } {
-  const ticket = store.xpBoostTicket;
-  if (!ticket) return { changed: false, expired: false };
-  if (!isTicketExpired(ticket, now)) return { changed: false, expired: false };
+function isQueuedTicketExpired(ticket: QueuedXpBoostTicket, now: Date): boolean {
+  return ticket.validDate < dateKey(now);
+}
 
-  store.xpBoostTicket = null;
-  return { changed: true, expired: true };
+function ensureTicketConsistency(
+  store: QuestStore,
+  now: Date
+): { changed: boolean; primaryExpired: boolean; queuedExpired: boolean; queuedPromoted: boolean } {
+  let changed = false;
+  let primaryExpired = false;
+  let queuedExpired = false;
+  let queuedPromoted = false;
+
+  const primary = store.xpBoostTicket;
+  if (primary && isTicketExpired(primary, now)) {
+    store.xpBoostTicket = null;
+    changed = true;
+    primaryExpired = true;
+  }
+
+  const queued = store.queuedXpBoostTicket;
+  if (queued && isQueuedTicketExpired(queued, now)) {
+    store.queuedXpBoostTicket = null;
+    changed = true;
+    queuedExpired = true;
+  }
+
+  if (!store.xpBoostTicket && store.queuedXpBoostTicket) {
+    store.xpBoostTicket = fromQueuedTicket(store.queuedXpBoostTicket);
+    store.queuedXpBoostTicket = null;
+    changed = true;
+    queuedPromoted = true;
+  }
+
+  return { changed, primaryExpired, queuedExpired, queuedPromoted };
+}
+
+function assignDailyTicket(
+  store: QuestStore,
+  ticket: XpBoostTicket,
+  meta?: QuestClaimMeta
+): { ticketGranted: boolean; ticketQueued: boolean; ticketBlocked: boolean; queuedTicket?: QueuedXpBoostTicket } {
+  const normalizedMeta = normalizeClaimMeta(meta);
+
+  if (!store.xpBoostTicket) {
+    store.xpBoostTicket = ticket;
+    trackEvent("xp_boost_ticket_granted", {
+      source: normalizedMeta.source,
+      claimMode: normalizedMeta.claimMode,
+      trigger: normalizedMeta.trigger,
+      validDate: ticket.validDate,
+      boostDurationMin: ticket.durationMinutes,
+      multiplier: ticket.multiplier,
+      maxBonusXp: ticket.maxBonusXp,
+    });
+    return { ticketGranted: true, ticketQueued: false, ticketBlocked: false };
+  }
+
+  if (!store.queuedXpBoostTicket) {
+    const queued = toQueuedTicket(ticket);
+    store.queuedXpBoostTicket = queued;
+    trackEvent("xp_boost_ticket_queued", {
+      source: normalizedMeta.source,
+      claimMode: normalizedMeta.claimMode,
+      trigger: normalizedMeta.trigger,
+      validDate: queued.validDate,
+      boostDurationMin: queued.durationMinutes,
+      multiplier: queued.multiplier,
+      maxBonusXp: queued.maxBonusXp,
+    });
+    return { ticketGranted: false, ticketQueued: true, ticketBlocked: false, queuedTicket: queued };
+  }
+
+  trackEvent("xp_boost_ticket_grant_blocked", {
+    source: normalizedMeta.source,
+    claimMode: normalizedMeta.claimMode,
+    trigger: normalizedMeta.trigger,
+    reason: "queue_full",
+  });
+  return { ticketGranted: false, ticketQueued: false, ticketBlocked: true };
+}
+
+function resolveDailyBundleRewardType(result: { ticketGranted: boolean; ticketQueued: boolean; ticketBlocked: boolean }): string {
+  if (result.ticketGranted) return "xp_boost_ticket";
+  if (result.ticketQueued) return "xp_boost_ticket_queued";
+  return "xp_boost_ticket_blocked";
+}
+
+function claimQuestRewardInternal(
+  store: QuestStore,
+  questId: string,
+  now: Date,
+  meta?: QuestClaimMeta
+): QuestClaimResult {
+  const definition = QUEST_DEFINITIONS.find((quest) => quest.id === questId);
+  if (!definition) return { claimed: false, rewardGems: 0 };
+
+  const periodState =
+    definition.period === "daily"
+      ? store.daily
+      : definition.period === "weekly"
+        ? store.weekly
+        : store.monthly;
+
+  const current = Number(periodState.progress[questId] || 0);
+  if (periodState.claimed[questId] || current < definition.target) {
+    return { claimed: false, rewardGems: 0 };
+  }
+
+  periodState.claimed[questId] = true;
+  const normalizedMeta = normalizeClaimMeta(meta);
+
+  trackEvent("quest_reward_claimed", {
+    source: normalizedMeta.source,
+    claimMode: normalizedMeta.claimMode,
+    period: definition.period,
+    questId: definition.id,
+    cycleId: periodState.cycleId,
+    progress: current,
+    target: definition.target,
+    rewardGems: definition.rewardGems,
+  });
+
+  return {
+    claimed: true,
+    rewardGems: definition.rewardGems,
+  };
+}
+
+function claimDailyBundleRewardInternal(
+  store: QuestStore,
+  now: Date,
+  meta?: QuestClaimMeta,
+  options?: { cycleIdOverride?: string; ticketValidDateOverride?: string }
+): DailyBundleClaimResult {
+  const defs = definitionsByPeriod("daily");
+  const allDailyClaimed = defs.every((quest) => store.daily.claimed[quest.id] === true);
+  if (!allDailyClaimed || store.daily.bundleClaimed) {
+    return { granted: false, blocked: false };
+  }
+
+  store.daily.bundleClaimed = true;
+  const ticket = createTicket(options?.ticketValidDateOverride || dateKey(new Date(now.getTime() + ONE_DAY_MS)));
+  const ticketResult = assignDailyTicket(store, ticket, meta);
+  const normalizedMeta = normalizeClaimMeta(meta);
+
+  trackEvent("quest_bundle_completed", {
+    source: normalizedMeta.source,
+    claimMode: normalizedMeta.claimMode,
+    period: "daily",
+    cycleId: options?.cycleIdOverride || store.daily.cycleId,
+    rewardType: resolveDailyBundleRewardType(ticketResult),
+  });
+
+  return {
+    granted: true,
+    blocked: ticketResult.ticketBlocked,
+    ticket: ticketResult.ticketGranted ? ticket : undefined,
+    queuedTicket: ticketResult.ticketQueued ? ticketResult.queuedTicket : undefined,
+  };
+}
+
+function claimWeeklyBundleRewardInternal(
+  store: QuestStore,
+  meta?: QuestClaimMeta
+): { granted: boolean; rewardFreezes: number } {
+  const defs = definitionsByPeriod("weekly");
+  const allWeeklyClaimed = defs.every((quest) => store.weekly.claimed[quest.id] === true);
+
+  if (!allWeeklyClaimed || store.weekly.bundleClaimed) {
+    return { granted: false, rewardFreezes: 0 };
+  }
+
+  store.weekly.bundleClaimed = true;
+  const normalizedMeta = normalizeClaimMeta(meta);
+
+  trackEvent("quest_bundle_completed", {
+    source: normalizedMeta.source,
+    claimMode: normalizedMeta.claimMode,
+    period: "weekly",
+    cycleId: store.weekly.cycleId,
+    rewardType: "freeze",
+    rewardAmount: 1,
+  });
+
+  return { granted: true, rewardFreezes: 1 };
+}
+
+function claimMonthlyBundleRewardInternal(
+  store: QuestStore,
+  meta?: QuestClaimMeta
+): { granted: boolean; badgeId: string | null } {
+  const defs = definitionsByPeriod("monthly");
+  const allMonthlyClaimed = defs.every((quest) => store.monthly.claimed[quest.id] === true);
+
+  if (!allMonthlyClaimed || store.monthly.bundleClaimed) {
+    return { granted: false, badgeId: null };
+  }
+
+  store.monthly.bundleClaimed = true;
+  const normalizedMeta = normalizeClaimMeta(meta);
+
+  trackEvent("quest_bundle_completed", {
+    source: normalizedMeta.source,
+    claimMode: normalizedMeta.claimMode,
+    period: "monthly",
+    cycleId: store.monthly.cycleId,
+    rewardType: "badge",
+    rewardBadgeId: "monthly_consistency_v1",
+  });
+
+  return { granted: true, badgeId: "monthly_consistency_v1" };
 }
 
 async function ensureStore(now: Date = new Date()): Promise<QuestStore> {
   const store = await loadStore(now);
   let changed = false;
 
-  // 期限切れチケットの掃除
   const ticketState = ensureTicketConsistency(store, now);
-  if (ticketState.expired) {
+  if (ticketState.primaryExpired) {
     trackEvent("xp_boost_expired", {
-      source: "quests_engine",
+      source: "quests_tab",
       reason: "expired_or_capped",
     });
   }
   changed = changed || ticketState.changed;
 
-  // 日次サイクル更新時に、前日3/3達成済みでbundle未受取なら自動で翌日チケットを付与
+  // Legacy compatibility path: previous daily bundle left unclaimed in older state.
   const currentDailyCycle = getCycleId("daily", now);
   if (store.daily.cycleId !== currentDailyCycle) {
     const previousDaily = store.daily;
@@ -257,29 +558,15 @@ async function ensureStore(now: Date = new Date()): Promise<QuestStore> {
       && !previousDaily.bundleClaimed
       && allClaimed(previousDaily, "daily")
     ) {
-      const ticket: XpBoostTicket = {
-        validDate: expectedToday,
-        durationMinutes: BOOST_DURATION_MINUTES,
-        multiplier: BOOST_MULTIPLIER,
-        maxBonusXp: BOOST_MAX_BONUS_XP,
-        activatedAt: null,
-        consumedBonusXp: 0,
-      };
-      store.xpBoostTicket = ticket;
-      previousDaily.bundleClaimed = true;
-      trackEvent("quest_bundle_completed", {
-        source: "quests_engine",
-        period: "daily",
-        cycleId: previousCycleDay,
-        rewardType: "xp_boost_ticket",
-      });
-      trackEvent("xp_boost_ticket_granted", {
-        source: "quests_engine",
-        trigger: "daily_bundle_rollover",
-        validDate: ticket.validDate,
-        boostDurationMin: ticket.durationMinutes,
-        multiplier: ticket.multiplier,
-      });
+      const bundleResult = claimDailyBundleRewardInternal(
+        store,
+        now,
+        { source: "quests_tab", claimMode: "auto", trigger: "daily_bundle_rollover" },
+        { cycleIdOverride: previousCycleDay, ticketValidDateOverride: expectedToday }
+      );
+      if (bundleResult.granted) {
+        changed = true;
+      }
     }
 
     store.daily = buildPeriodState("daily", currentDailyCycle);
@@ -353,6 +640,7 @@ export async function getQuestBoard(now: Date = new Date()): Promise<QuestBoard>
     xpBoost: {
       hasTicket: Boolean(store.xpBoostTicket),
       validDate: store.xpBoostTicket?.validDate || null,
+      queuedValidDate: store.queuedXpBoostTicket?.validDate || null,
       active: xpState.active,
       remainingMs: xpState.remainingMs,
       consumedBonusXp: xpState.consumedBonusXp,
@@ -397,136 +685,148 @@ export async function recordQuestEvent(
 
 export async function claimQuestReward(
   questId: string,
-  now: Date = new Date()
+  now: Date = new Date(),
+  meta?: { source?: QuestClaimSource; claimMode?: QuestClaimMode }
 ): Promise<{ claimed: boolean; rewardGems: number }> {
   const store = await ensureStore(now);
-  const definition = QUEST_DEFINITIONS.find((quest) => quest.id === questId);
-  if (!definition) return { claimed: false, rewardGems: 0 };
-
-  const periodState =
-    definition.period === "daily"
-      ? store.daily
-      : definition.period === "weekly"
-        ? store.weekly
-        : store.monthly;
-
-  const current = Number(periodState.progress[questId] || 0);
-  if (periodState.claimed[questId] || current < definition.target) {
-    return { claimed: false, rewardGems: 0 };
+  const result = claimQuestRewardInternal(store, questId, now, meta);
+  if (result.claimed) {
+    await saveStore(store);
   }
-
-  periodState.claimed[questId] = true;
-  await saveStore(store);
-
-  trackEvent("quest_reward_claimed", {
-    source: "quests_tab",
-    period: definition.period,
-    questId: definition.id,
-    cycleId: periodState.cycleId,
-    progress: current,
-    target: definition.target,
-    rewardGems: definition.rewardGems,
-  });
-
-  return {
-    claimed: true,
-    rewardGems: definition.rewardGems,
-  };
-}
-
-function createNextDayTicket(now: Date): XpBoostTicket {
-  const validDate = dateKey(new Date(now.getTime() + ONE_DAY_MS));
-  return {
-    validDate,
-    durationMinutes: BOOST_DURATION_MINUTES,
-    multiplier: BOOST_MULTIPLIER,
-    maxBonusXp: BOOST_MAX_BONUS_XP,
-    activatedAt: null,
-    consumedBonusXp: 0,
-  };
+  return result;
 }
 
 export async function claimDailyBundleRewardIfEligible(
-  now: Date = new Date()
-): Promise<{ granted: boolean; ticket?: XpBoostTicket }> {
+  now: Date = new Date(),
+  meta?: { source?: QuestClaimSource; claimMode?: QuestClaimMode }
+): Promise<{ granted: boolean; ticket?: XpBoostTicket; queuedTicket?: QueuedXpBoostTicket; blocked: boolean }> {
   const store = await ensureStore(now);
-
-  const defs = definitionsByPeriod("daily");
-  const allDailyClaimed = defs.every((quest) => store.daily.claimed[quest.id] === true);
-  if (!allDailyClaimed || store.daily.bundleClaimed) {
-    return { granted: false };
-  }
-
-  store.daily.bundleClaimed = true;
-  const ticket = createNextDayTicket(now);
-  store.xpBoostTicket = ticket;
-  await saveStore(store);
-
-  trackEvent("quest_bundle_completed", {
-    source: "quests_tab",
-    period: "daily",
-    cycleId: store.daily.cycleId,
-    rewardType: "xp_boost_ticket",
-  });
-  trackEvent("xp_boost_ticket_granted", {
-    source: "quests_tab",
+  const result = claimDailyBundleRewardInternal(store, now, {
+    source: meta?.source,
+    claimMode: meta?.claimMode,
     trigger: "daily_bundle_claim",
-    validDate: ticket.validDate,
-    boostDurationMin: ticket.durationMinutes,
-    multiplier: ticket.multiplier,
   });
-
-  return { granted: true, ticket };
+  if (result.granted) {
+    await saveStore(store);
+  }
+  return result;
 }
 
 export async function claimWeeklyBundleRewardIfEligible(
-  now: Date = new Date()
+  now: Date = new Date(),
+  meta?: { source?: QuestClaimSource; claimMode?: QuestClaimMode }
 ): Promise<{ granted: boolean; rewardFreezes: number }> {
   const store = await ensureStore(now);
-  const defs = definitionsByPeriod("weekly");
-  const allWeeklyClaimed = defs.every((quest) => store.weekly.claimed[quest.id] === true);
-
-  if (!allWeeklyClaimed || store.weekly.bundleClaimed) {
-    return { granted: false, rewardFreezes: 0 };
-  }
-
-  store.weekly.bundleClaimed = true;
-  await saveStore(store);
-
-  trackEvent("quest_bundle_completed", {
-    source: "quests_tab",
-    period: "weekly",
-    cycleId: store.weekly.cycleId,
-    rewardType: "freeze",
-    rewardAmount: 1,
+  const result = claimWeeklyBundleRewardInternal(store, {
+    source: meta?.source,
+    claimMode: meta?.claimMode,
+    trigger: "weekly_bundle_claim",
   });
-
-  return { granted: true, rewardFreezes: 1 };
+  if (result.granted) {
+    await saveStore(store);
+  }
+  return result;
 }
 
 export async function claimMonthlyBundleRewardIfEligible(
-  now: Date = new Date()
+  now: Date = new Date(),
+  meta?: { source?: QuestClaimSource; claimMode?: QuestClaimMode }
 ): Promise<{ granted: boolean; badgeId: string | null }> {
   const store = await ensureStore(now);
-  const defs = definitionsByPeriod("monthly");
-  const allMonthlyClaimed = defs.every((quest) => store.monthly.claimed[quest.id] === true);
+  const result = claimMonthlyBundleRewardInternal(store, {
+    source: meta?.source,
+    claimMode: meta?.claimMode,
+    trigger: "monthly_bundle_claim",
+  });
+  if (result.granted) {
+    await saveStore(store);
+  }
+  return result;
+}
 
-  if (!allMonthlyClaimed || store.monthly.bundleClaimed) {
-    return { granted: false, badgeId: null };
+export async function autoClaimEligibleQuestRewards(
+  input?: { source?: QuestClaimSource; now?: Date }
+): Promise<QuestAutoClaimResult> {
+  const now = input?.now || new Date();
+  const source = input?.source || "quests_tab";
+
+  const store = await ensureStore(now);
+
+  const result: QuestAutoClaimResult = {
+    claimedQuests: [],
+    claimedGems: 0,
+    weeklyFreezesGranted: 0,
+    monthlyBadgeId: null,
+    dailyTicketGranted: false,
+    dailyTicketQueued: false,
+    dailyTicketBlocked: false,
+    dailyTicketValidDate: null,
+    dailyTicketQueuedValidDate: null,
+  };
+
+  let changed = false;
+
+  for (const definition of QUEST_DEFINITIONS) {
+    const claim = claimQuestRewardInternal(store, definition.id, now, {
+      source,
+      claimMode: "auto",
+      trigger: "auto_claim_pass",
+    });
+    if (!claim.claimed) continue;
+    changed = true;
+    result.claimedQuests.push(definition.id);
+    result.claimedGems += claim.rewardGems;
   }
 
-  store.monthly.bundleClaimed = true;
-  await saveStore(store);
+  const dailyBundle = claimDailyBundleRewardInternal(
+    store,
+    now,
+    { source, claimMode: "auto", trigger: "daily_bundle_auto_claim" }
+  );
+  if (dailyBundle.granted) {
+    changed = true;
+    result.dailyTicketGranted = Boolean(dailyBundle.ticket);
+    result.dailyTicketQueued = Boolean(dailyBundle.queuedTicket);
+    result.dailyTicketBlocked = Boolean(dailyBundle.blocked);
+    result.dailyTicketValidDate = dailyBundle.ticket?.validDate || null;
+    result.dailyTicketQueuedValidDate = dailyBundle.queuedTicket?.validDate || null;
+  }
 
-  trackEvent("quest_bundle_completed", {
-    source: "quests_tab",
-    period: "monthly",
-    cycleId: store.monthly.cycleId,
-    rewardType: "badge",
-    rewardBadgeId: "monthly_consistency_v1",
+  const weeklyBundle = claimWeeklyBundleRewardInternal(store, {
+    source,
+    claimMode: "auto",
+    trigger: "weekly_bundle_auto_claim",
   });
+  if (weeklyBundle.granted) {
+    changed = true;
+    result.weeklyFreezesGranted = weeklyBundle.rewardFreezes;
+  }
 
-  return { granted: true, badgeId: "monthly_consistency_v1" };
+  const monthlyBundle = claimMonthlyBundleRewardInternal(store, {
+    source,
+    claimMode: "auto",
+    trigger: "monthly_bundle_auto_claim",
+  });
+  if (monthlyBundle.granted) {
+    changed = true;
+    result.monthlyBadgeId = monthlyBundle.badgeId;
+  }
+
+  if (changed) {
+    await saveStore(store);
+    trackEvent("quest_auto_claim_applied", {
+      source,
+      claimedQuestCount: result.claimedQuests.length,
+      claimedGems: result.claimedGems,
+      weeklyFreezesGranted: result.weeklyFreezesGranted,
+      monthlyBadgeGranted: Boolean(result.monthlyBadgeId),
+      dailyTicketGranted: result.dailyTicketGranted,
+      dailyTicketQueued: result.dailyTicketQueued,
+      dailyTicketBlocked: result.dailyTicketBlocked,
+    });
+  }
+
+  return result;
 }
 
 export async function getXpBoostState(

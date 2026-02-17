@@ -24,18 +24,18 @@ import {
   claimRecoveryMissionIfEligible,
   markStreakGuardSavedIfEligible,
 } from "../lib/streaks";
-import { consumeFocus } from "../lib/focus";
 import { Analytics } from "../lib/analytics";
 import { formatCitation } from "../lib/evidenceUtils";
 import i18n from "../lib/i18n";
 import { recordLessonCompletionForJournal } from "../lib/actionJournal";
-import { recordQuestEvent } from "../lib/questsV2";
+import { autoClaimEligibleQuestRewards, QuestAutoClaimResult, recordQuestEvent } from "../lib/questsV2";
+import entitlements from "../config/entitlements.json";
 
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string; entry?: string }>();
   const fileParam = params.file; // Extract to primitive string
   const isE2EAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
-  const { completeLesson, addXp, consumeEnergy, tryTriggerStreakEnergyBonus, energy, maxEnergy, addGems } = useAppState();
+  const { completeLesson, addXp, consumeEnergy, tryTriggerStreakEnergyBonus, energy, maxEnergy, addGems, grantFreezes, awardBadgeById } = useAppState();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
@@ -51,10 +51,12 @@ export default function LessonScreen() {
   const [feltBetterSubmitted, setFeltBetterSubmitted] = useState(false); // Track if felt_better submitted
   const [lastShownInterventionId, setLastShownInterventionId] = useState<string | null>(null); // 最後にshownになった介入ID
   const [studyStreakFeedback, setStudyStreakFeedback] = useState<number | null>(null);
+  const [questAutoClaimNoticeLines, setQuestAutoClaimNoticeLines] = useState<string[]>([]);
   const hasLoadedRef = useRef<string | null>(null);
   const lessonStartTrackedRef = useRef<string | null>(null); // lesson_start多重発火防止
   const lessonCompleteTrackedRef = useRef<string | null>(null); // lesson_complete多重発火防止
   const listSeparator = i18n.locale.startsWith("ja") ? "、" : ", ";
+  const LESSON_ENERGY_COST = Math.max(1, Number(entitlements.defaults.lesson_energy_cost ?? 1));
 
   useEffect(() => {
     // Only load if file changed and we haven't loaded this file yet
@@ -71,9 +73,6 @@ export default function LessonScreen() {
 
       // 周回ごとにshownカウントをリセット（同一アプリ起動でも周回でshown++される）
       resetSessionTracking();
-
-      // ゲーミフィケーション: Focus消費（ソフト制限：0でもブロックしない）
-      consumeFocus(1).catch(console.error);
 
       if (__DEV__) console.log("Loading lesson:", params.file);
 
@@ -103,7 +102,7 @@ export default function LessonScreen() {
       }
 
       // Hard gate: energy is consumed once per lesson start.
-      const hasEnoughEnergy = consumeEnergy(1);
+      const hasEnoughEnergy = consumeEnergy(LESSON_ENERGY_COST);
       if (!hasEnoughEnergy) {
         setLoading(false);
         const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
@@ -112,6 +111,7 @@ export default function LessonScreen() {
           genreId,
           energy,
           maxEnergy,
+          energyCost: LESSON_ENERGY_COST,
         });
         Alert.alert(
           i18n.t("common.error"),
@@ -253,6 +253,12 @@ export default function LessonScreen() {
           lessonId: params.file,
           genreId,
         });
+        const autoClaimResult = await autoClaimEligibleQuestRewards({ source: "lesson_complete" });
+        const noticeLines = await applyAutoClaimRewards(autoClaimResult);
+        setQuestAutoClaimNoticeLines(noticeLines);
+        if (noticeLines.length > 0) {
+          setTimeout(() => setQuestAutoClaimNoticeLines([]), 3500);
+        }
       } catch (error) {
         console.error("Failed to record quest event for lesson_complete:", error);
       }
@@ -315,6 +321,34 @@ export default function LessonScreen() {
     }
   }
 
+  async function applyAutoClaimRewards(result: QuestAutoClaimResult): Promise<string[]> {
+    const lines: string[] = [];
+
+    if (result.claimedGems > 0) {
+      addGems(result.claimedGems);
+      lines.push(i18n.t("quests.v2.autoClaimGems", { gems: result.claimedGems }));
+    }
+    if (result.weeklyFreezesGranted > 0) {
+      await grantFreezes(result.weeklyFreezesGranted);
+      lines.push(i18n.t("quests.v2.autoClaimFreeze", { count: result.weeklyFreezesGranted }));
+    }
+    if (result.monthlyBadgeId) {
+      await awardBadgeById(result.monthlyBadgeId);
+      lines.push(i18n.t("quests.v2.autoClaimBadge"));
+    }
+    if (result.dailyTicketGranted) {
+      lines.push(i18n.t("quests.v2.dailyBundleGranted"));
+    }
+    if (result.dailyTicketQueued) {
+      lines.push(i18n.t("quests.v2.boostTicketQueued", { date: result.dailyTicketQueuedValidDate || "-" }));
+    }
+    if (result.dailyTicketBlocked) {
+      lines.push(i18n.t("quests.v2.autoClaimTicketBlocked"));
+    }
+
+    return lines;
+  }
+
   if (isComplete) {
     return (
       <View style={{ flex: 1, backgroundColor: theme.colors.bg }} testID="lesson-complete-screen">
@@ -326,6 +360,18 @@ export default function LessonScreen() {
           <ScrollView contentContainerStyle={styles.completionContainer}>
             <Text style={styles.completionTitle}>{i18n.t("lesson.completeTitle")}</Text>
             <Text style={styles.completionSub}>+{currentLesson?.nodeType === 'review_blackhole' ? 50 : 10} XP</Text>
+            {questAutoClaimNoticeLines.length > 0 && (
+              <View style={styles.questAutoClaimNoticeCard}>
+                <Text style={styles.questAutoClaimNoticeTitle}>
+                  {i18n.t("quests.v2.autoClaimSummary")}
+                </Text>
+                {questAutoClaimNoticeLines.map((line, idx) => (
+                  <Text key={`${line}_${idx}`} style={styles.questAutoClaimNoticeLine}>
+                    • {line}
+                  </Text>
+                ))}
+              </View>
+            )}
             {studyStreakFeedback !== null && studyStreakFeedback > 0 && (
               <View style={styles.streakFeedbackCard}>
                 <Text style={styles.streakFeedbackTitle}>
@@ -766,6 +812,27 @@ const styles = StyleSheet.create({
     color: theme.colors.primary,
     fontWeight: 'bold',
     marginBottom: 40,
+  },
+  questAutoClaimNoticeCard: {
+    width: "100%",
+    borderRadius: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+    marginBottom: 16,
+    backgroundColor: "rgba(41, 183, 124, 0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(41, 183, 124, 0.32)",
+  },
+  questAutoClaimNoticeTitle: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: theme.colors.text,
+    marginBottom: 6,
+  },
+  questAutoClaimNoticeLine: {
+    fontSize: 12,
+    color: theme.colors.sub,
+    lineHeight: 18,
   },
   streakFeedbackCard: {
     width: "100%",

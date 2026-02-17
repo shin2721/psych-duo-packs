@@ -1,14 +1,16 @@
-# Analytics Growth Dashboard (v1.18)
+# Analytics Growth Dashboard (v1.19)
 
 ## 目的
 - 継続率と課金転換に効くKPIを、毎日同じ定義で確認する。
 - ダッシュボード更新と日次レポートをスクリプトで再現可能にする。
 
-## v1.18での方針
+## v1.19での方針
 - PostHog APIの制約に合わせ、`InsightVizNode + Trends/Retention` を使用する。
 - 比率指標は関連イベント系列を作り、レポート側で算出する。
 - 行動系は日記投稿 (`action_journal_submitted`) を主導線に統一する。
 - Streak可視化、Journal候補品質、Streak Guard時間帯最適化、League Sprintに加えて、Quest/XP Boostの習慣化ループを評価する。
+- Quest報酬は `auto-claim` を標準運用にし、manual claim は後方互換APIのみ維持する。
+- `日次2/3カード` は v1.19 では未投入。
 - Primary KPI を次の4つに固定する。
   - `D7継続率`
   - `サブスク転換率 (plan_changed / checkout_start)`
@@ -33,7 +35,7 @@ export POSTHOG_HOST=https://us.posthog.com
 npm run analytics:posthog:setup
 ```
 
-## 生成されるカード（v1.18）
+## 生成されるカード（v1.19）
 1. `DAU (session_start UV)`
 2. `Lesson Start vs Complete (UV)`
 3. `Lesson Complete Users vs DAU (UV)`
@@ -47,15 +49,16 @@ npm run analytics:posthog:setup
 11. `Action Journal (daily)`
 12. `Action Journal Quality (daily)`
 13. `Quest Progress (daily)`
-14. `XP Boost (daily)`
-15. `Completed Sessions (daily)`
-16. `Incorrect vs Lesson Start (daily)`
-17. `Streak Lost Users (daily)`
-18. `Energy Friction (daily)`
-19. `D1 Retention (session_start)`
-20. `D7 Retention (session_start)`
-21. `Checkout Starts (daily)`
-22. `Paid Plan Changes (daily)`
+14. `Quest Auto Claim (daily)`
+15. `XP Boost (daily)`
+16. `Completed Sessions (daily)`
+17. `Incorrect vs Lesson Start (daily)`
+18. `Streak Lost Users (daily)`
+19. `Energy Friction (daily)`
+20. `D1 Retention (session_start)`
+21. `D7 Retention (session_start)`
+22. `Checkout Starts (daily)`
+23. `Paid Plan Changes (daily)`
 
 ## 実行コマンド
 ```bash
@@ -87,7 +90,9 @@ npm run analytics:posthog:kpi-report
   - Journal Top2 Pick Share
   - Recovery Mission Claim Rate
   - Daily Quest 3/3 Rate
+  - Quest Auto-Claim Share
   - XP Boost Activation Rate
+  - XP Boost Ticket Queue Rate
   - XP Boost Bonus XP / User
   - Streak Visibility Click Rate
   - Streak Guard Click/Save Rate
@@ -122,7 +127,7 @@ npm run analytics:posthog:kpi-report
   - `restore_result`
   - `plan_select`
   - `plan_changed`
-- v1.14-v1.18で追加/更新:
+- v1.14-v1.19で追加/更新:
   - `streak_visibility_shown`
   - `streak_visibility_clicked`
   - `action_journal_opened`
@@ -137,9 +142,12 @@ npm run analytics:posthog:kpi-report
   - `league_sprint_shown`
   - `league_sprint_clicked`
   - `quest_board_opened`
-  - `quest_reward_claimed`
-  - `quest_bundle_completed`
-  - `xp_boost_ticket_granted`
+  - `quest_reward_claimed` (`claimMode`, `source` プロパティ追加)
+  - `quest_bundle_completed` (`claimMode`, `source` プロパティ追加)
+  - `xp_boost_ticket_granted` (`claimMode`, `source` プロパティ追加)
+  - `quest_auto_claim_applied`
+  - `xp_boost_ticket_queued`
+  - `xp_boost_ticket_grant_blocked`
   - `xp_boost_started`
   - `xp_boost_applied`
   - `xp_boost_expired`

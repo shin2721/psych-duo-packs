@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { View, Text, ScrollView, Pressable, StyleSheet, TextInput, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useFocusEffect } from "@react-navigation/native";
@@ -24,12 +24,10 @@ import {
 } from "../../lib/actionJournal";
 import { Analytics } from "../../lib/analytics";
 import {
+  autoClaimEligibleQuestRewards,
   QuestBoard,
+  QuestAutoClaimResult,
   QuestBoardItem,
-  claimDailyBundleRewardIfEligible,
-  claimMonthlyBundleRewardIfEligible,
-  claimQuestReward,
-  claimWeeklyBundleRewardIfEligible,
   getQuestBoard,
 } from "../../lib/questsV2";
 
@@ -48,9 +46,10 @@ export default function QuestsScreen() {
   const [selectedResult, setSelectedResult] = useState<JournalResult | null>(null);
   const [journalNote, setJournalNote] = useState("");
   const [isSubmittingJournal, setIsSubmittingJournal] = useState(false);
-  const [isClaimingQuestId, setIsClaimingQuestId] = useState<string | null>(null);
-  const [openingChestId, setOpeningChestId] = useState<string | null>(null);
+  const [openingChestIds, setOpeningChestIds] = useState<string[]>([]);
+  const [inlineNoticeLines, setInlineNoticeLines] = useState<string[]>([]);
   const [isEditingTodayEntry, setIsEditingTodayEntry] = useState(false);
+  const questClaimedSnapshotRef = useRef<Record<string, boolean>>({});
   const [streakVisibility, setStreakVisibility] = useState<{
     riskType: "safe_today" | "break_streak" | "consume_freeze";
     studyStreak: number;
@@ -106,7 +105,7 @@ export default function QuestsScreen() {
       const loadQuestBoard = async () => {
         const board = await getQuestBoard();
         if (!isActive) return;
-        setQuestBoard(board);
+        setQuestBoardWithTransitions(board);
         Analytics.track("quest_board_opened", {
           source: "quests_tab",
           dailyCompleted: board.bundleStatus.daily.completedCount,
@@ -142,6 +141,71 @@ export default function QuestsScreen() {
       };
     }, [selectedGenre])
   );
+
+  function buildClaimSnapshot(board: QuestBoard): Record<string, boolean> {
+    const snapshot: Record<string, boolean> = {};
+    [...board.daily, ...board.weekly, ...board.monthly].forEach((item) => {
+      snapshot[item.id] = item.claimed;
+    });
+    return snapshot;
+  }
+
+  function setQuestBoardWithTransitions(board: QuestBoard) {
+    const previousSnapshot = questClaimedSnapshotRef.current;
+    const nextSnapshot = buildClaimSnapshot(board);
+    const hasPrevious = Object.keys(previousSnapshot).length > 0;
+
+    if (hasPrevious) {
+      const justClaimed = Object.keys(nextSnapshot).filter(
+        (questId) => nextSnapshot[questId] && !previousSnapshot[questId]
+      );
+      if (justClaimed.length > 0) {
+        setOpeningChestIds((prev) => [...new Set([...prev, ...justClaimed])]);
+        setTimeout(() => {
+          setOpeningChestIds((prev) => prev.filter((id) => !justClaimed.includes(id)));
+        }, 1200);
+      }
+    }
+
+    questClaimedSnapshotRef.current = nextSnapshot;
+    setQuestBoard(board);
+  }
+
+  function showInlineNotice(lines: string[]) {
+    if (lines.length === 0) return;
+    setInlineNoticeLines(lines);
+    setTimeout(() => {
+      setInlineNoticeLines([]);
+    }, 3500);
+  }
+
+  async function applyAutoClaimRewards(result: QuestAutoClaimResult): Promise<string[]> {
+    const lines: string[] = [];
+
+    if (result.claimedGems > 0) {
+      addGems(result.claimedGems);
+      lines.push(i18n.t("quests.v2.autoClaimGems", { gems: result.claimedGems }));
+    }
+    if (result.weeklyFreezesGranted > 0) {
+      await grantFreezes(result.weeklyFreezesGranted);
+      lines.push(i18n.t("quests.v2.autoClaimFreeze", { count: result.weeklyFreezesGranted }));
+    }
+    if (result.monthlyBadgeId) {
+      await awardBadgeById(result.monthlyBadgeId);
+      lines.push(i18n.t("quests.v2.autoClaimBadge"));
+    }
+    if (result.dailyTicketGranted) {
+      lines.push(i18n.t("quests.v2.dailyBundleGranted"));
+    }
+    if (result.dailyTicketQueued) {
+      lines.push(i18n.t("quests.v2.boostTicketQueued", { date: result.dailyTicketQueuedValidDate || "-" }));
+    }
+    if (result.dailyTicketBlocked) {
+      lines.push(i18n.t("quests.v2.autoClaimTicketBlocked"));
+    }
+
+    return lines;
+  }
 
   const isNotTriedSelected = selectedTryOptionId === "not_tried";
   const resultOptions: JournalResult[] = isNotTriedSelected
@@ -229,6 +293,9 @@ export default function QuestsScreen() {
         await addXp(submitResult.rewardXp, "journal");
       }
 
+      const autoClaimResult = await autoClaimEligibleQuestRewards({ source: "journal_submit" });
+      const autoClaimLines = await applyAutoClaimRewards(autoClaimResult);
+
       Analytics.track("action_journal_submitted", {
         source: "quests_tab",
         genreId: selectedGenre,
@@ -251,7 +318,10 @@ export default function QuestsScreen() {
       setJournalNote(composer.todayEntry?.note || journalNote);
       setIsEditingTodayEntry(false);
       await refreshQuestBoard();
-      Alert.alert(i18n.t("common.ok"), i18n.t("quests.actionJournal.submitted"));
+      showInlineNotice([
+        i18n.t("quests.actionJournal.submitted"),
+        ...autoClaimLines,
+      ]);
     } catch (error) {
       const message = error instanceof Error ? error.message : i18n.t("common.error");
       Alert.alert(i18n.t("common.error"), message);
@@ -297,7 +367,7 @@ export default function QuestsScreen() {
 
   function getChestState(item: QuestBoardItem): "closed" | "opening" | "opened" {
     if (item.claimed) {
-      if (openingChestId === item.id) return "opening";
+      if (openingChestIds.includes(item.id)) return "opening";
       return "opened";
     }
     return "closed";
@@ -305,48 +375,7 @@ export default function QuestsScreen() {
 
   async function refreshQuestBoard() {
     const board = await getQuestBoard();
-    setQuestBoard(board);
-  }
-
-  async function handleClaimQuest(item: QuestBoardItem) {
-    if (isClaimingQuestId) return;
-    if (!item.completed || item.claimed) return;
-
-    try {
-      setIsClaimingQuestId(item.id);
-      const result = await claimQuestReward(item.id);
-      if (!result.claimed) return;
-
-      if (result.rewardGems > 0) {
-        addGems(result.rewardGems);
-      }
-
-      setOpeningChestId(item.id);
-      setTimeout(() => {
-        setOpeningChestId((prev) => (prev === item.id ? null : prev));
-      }, 1200);
-
-      const dailyBundle = await claimDailyBundleRewardIfEligible();
-      if (dailyBundle.granted) {
-        Alert.alert(i18n.t("common.ok"), i18n.t("quests.v2.dailyBundleGranted"));
-      }
-
-      const weeklyBundle = await claimWeeklyBundleRewardIfEligible();
-      if (weeklyBundle.granted && weeklyBundle.rewardFreezes > 0) {
-        await grantFreezes(weeklyBundle.rewardFreezes);
-        Alert.alert(i18n.t("common.ok"), i18n.t("quests.v2.weeklyBundleGranted"));
-      }
-
-      const monthlyBundle = await claimMonthlyBundleRewardIfEligible();
-      if (monthlyBundle.granted && monthlyBundle.badgeId) {
-        await awardBadgeById(monthlyBundle.badgeId);
-        Alert.alert(i18n.t("common.ok"), i18n.t("quests.v2.monthlyBundleGranted"));
-      }
-
-      await refreshQuestBoard();
-    } finally {
-      setIsClaimingQuestId(null);
-    }
+    setQuestBoardWithTransitions(board);
   }
 
   const daily = questBoard?.daily || [];
@@ -354,8 +383,6 @@ export default function QuestsScreen() {
   const monthly = questBoard?.monthly || [];
 
   const renderQuest = (q: QuestBoardItem) => {
-    const canClaim = q.completed && !q.claimed;
-
     return (
       <Card key={q.id} style={styles.questCard}>
         <View style={styles.questRow}>
@@ -368,7 +395,6 @@ export default function QuestsScreen() {
           </View>
           <Chest
             state={getChestState(q)}
-            onOpen={canClaim ? () => { void handleClaimQuest(q); } : undefined}
             size="sm"
             label={`${q.rewardGems}`}
           />
@@ -404,6 +430,22 @@ export default function QuestsScreen() {
                   ? i18n.t("quests.v2.boostTicketReady", { date: questBoard.xpBoost.validDate || "-" })
                   : i18n.t("quests.v2.boostNoTicket")}
             </Text>
+            {questBoard.xpBoost.queuedValidDate && (
+              <Text style={styles.bundleStatusText}>
+                {i18n.t("quests.v2.boostTicketQueued", { date: questBoard.xpBoost.queuedValidDate })}
+              </Text>
+            )}
+          </Card>
+        )}
+
+        {inlineNoticeLines.length > 0 && (
+          <Card style={styles.inlineNoticeCard}>
+            <Text style={styles.inlineNoticeTitle}>{i18n.t("quests.v2.autoClaimSummary")}</Text>
+            {inlineNoticeLines.map((line, idx) => (
+              <Text key={`${line}_${idx}`} style={styles.inlineNoticeLine}>
+                • {line}
+              </Text>
+            ))}
           </Card>
         )}
 
@@ -526,7 +568,6 @@ export default function QuestsScreen() {
                 </View>
                 <Chest
                   state={getChestState(q)}
-                  onOpen={q.completed && !q.claimed ? () => { void handleClaimQuest(q); } : undefined}
                   size="md"
                   label={`${q.rewardGems}`}
                 />
@@ -558,6 +599,25 @@ const styles = StyleSheet.create({
   bundleStatusCard: { marginBottom: theme.spacing.md, padding: theme.spacing.md },
   bundleStatusTitle: { fontSize: 15, fontWeight: "800", color: theme.colors.text },
   bundleStatusText: { marginTop: 4, fontSize: 12, color: theme.colors.sub },
+  inlineNoticeCard: {
+    marginBottom: theme.spacing.md,
+    padding: theme.spacing.md,
+    borderWidth: 1,
+    borderColor: "rgba(41, 183, 124, 0.35)",
+    backgroundColor: "rgba(41, 183, 124, 0.10)",
+  },
+  inlineNoticeTitle: {
+    fontSize: 13,
+    fontWeight: "800",
+    color: theme.colors.text,
+    marginBottom: 4,
+  },
+  inlineNoticeLine: {
+    marginTop: 3,
+    fontSize: 12,
+    color: theme.colors.sub,
+    lineHeight: 17,
+  },
   journalCard: { marginBottom: theme.spacing.md, padding: theme.spacing.md },
   journalTitle: { fontSize: 18, fontWeight: "800", color: theme.colors.text },
   journalSubtitle: { fontSize: 12, color: theme.colors.sub, marginTop: 4, marginBottom: theme.spacing.sm },
