@@ -37,14 +37,23 @@ const generateTrail = (genreId: string, count: number) => {
   return nodes;
 };
 
+// Keep these in sync with available lesson levels per genre (e.g. *_l01, *_l02 ...)
+const LESSON_COUNT_BY_GENRE: Record<string, number> = {
+  mental: 6,
+  money: 1,
+  work: 2,
+  health: 1,
+  social: 2,
+  study: 1,
+};
+
 export const trailsByGenre: Record<string, any[]> = {
-  mental: generateTrail("mental", 100),
-  money: generateTrail("money", 100),
-  work: generateTrail("work", 100),
-  health: generateTrail("health", 100),
-  search: generateTrail("search", 100), // kept for reference
-  social: generateTrail("social", 100),
-  study: generateTrail("study", 100),
+  mental: generateTrail("mental", LESSON_COUNT_BY_GENRE.mental),
+  money: generateTrail("money", LESSON_COUNT_BY_GENRE.money),
+  work: generateTrail("work", LESSON_COUNT_BY_GENRE.work),
+  health: generateTrail("health", LESSON_COUNT_BY_GENRE.health),
+  social: generateTrail("social", LESSON_COUNT_BY_GENRE.social),
+  study: generateTrail("study", LESSON_COUNT_BY_GENRE.study),
 };
 
 export const league = [
