@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import React, { createContext, useContext, useState, ReactNode, useEffect, useRef } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "./AuthContext";
 import { supabase } from "./supabase";
@@ -138,6 +138,7 @@ interface PersistedAppSnapshot {
   recentAccuracy: number;
   currentStreak: number;
   recentResults: boolean[];
+  mistakesCleared: number;
   planId: PlanId;
   activeUntil: string | null;
 }
@@ -147,6 +148,14 @@ function getAppSnapshotKey(userId: string): string {
 }
 
 export function AppStateProvider({ children }: { children: ReactNode }) {
+  const LESSON_BADGE_THRESHOLDS = [1, 5, 10, 50, 100];
+  const STREAK_BADGE_THRESHOLDS = [3, 7, 30];
+  const XP_BADGE_THRESHOLDS = [1000, 5000];
+  const MISTAKE_CLEARED_BADGE_THRESHOLD = 10;
+
+  const crossedThreshold = (prev: number, next: number, thresholds: number[]): boolean =>
+    thresholds.some((threshold) => prev < threshold && next >= threshold);
+
   const [selectedGenre, setSelectedGenre] = useState("mental");
   const [xp, setXP] = useState(0);
   const [skill, setSkill] = useState(1500); // Default Elo rating
@@ -178,7 +187,20 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [completedLessons, setCompletedLessons] = useState<Set<string>>(new Set());
 
   function completeLesson(lessonId: string) {
-    setCompletedLessons(prev => new Set(prev).add(lessonId));
+    if (completedLessons.has(lessonId)) return;
+
+    const previousCompletedCount = completedLessons.size;
+    const nextCompletedCount = previousCompletedCount + 1;
+
+    setCompletedLessons((prev) => {
+      const next = new Set(prev);
+      next.add(lessonId);
+      return next;
+    });
+
+    if (crossedThreshold(previousCompletedCount, nextCompletedCount, LESSON_BADGE_THRESHOLDS)) {
+      triggerBadgeCheck();
+    }
   }
 
   // Adaptive difficulty tracking
@@ -244,6 +266,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }
 
   function processReviewResult(questionId: string, isCorrect: boolean) {
+    const targetMistake = mistakes.find((m) => m.id === questionId);
+    const willGraduate = Boolean(targetMistake && isCorrect && targetMistake.box >= 5);
+    const previousCleared = mistakesCleared;
+
     setMistakes(prev => {
       return prev.map(m => {
         if (m.id !== questionId) return m;
@@ -276,6 +302,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         }
       }).filter(Boolean) as MistakeItem[]; // Remove graduated items
     });
+
+    if (willGraduate) {
+      const nextCleared = previousCleared + 1;
+      setMistakesCleared(nextCleared);
+      if (previousCleared < MISTAKE_CLEARED_BADGE_THRESHOLD && nextCleared >= MISTAKE_CLEARED_BADGE_THRESHOLD) {
+        triggerBadgeCheck();
+      }
+    }
   }
 
   function getDueMistakes(): MistakeItem[] {
@@ -290,6 +324,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // Badges Implementation
   const [unlockedBadges, setUnlockedBadges] = useState<Set<string>>(new Set());
   const [mistakesCleared, setMistakesCleared] = useState(0);
+  const badgeCheckInFlightRef = useRef(false);
 
   async function checkAndUnlockBadges(): Promise<string[]> {
     if (!user) return [];
@@ -303,27 +338,46 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       leaderboardRank,
     };
 
+    const eligibleBadges = BADGES.filter(
+      (badge) => !unlockedBadges.has(badge.id) && badge.unlockCondition(stats)
+    );
+    if (eligibleBadges.length === 0) return [];
+
     const newlyUnlocked: string[] = [];
 
-    for (const badge of BADGES) {
-      if (!unlockedBadges.has(badge.id) && badge.unlockCondition(stats)) {
-        // Unlock badge
-        try {
-          const { error } = await supabase
-            .from("user_badges")
-            .insert({ user_id: user.id, badge_id: badge.id });
+    for (const badge of eligibleBadges) {
+      try {
+        const { error } = await supabase
+          .from("user_badges")
+          .upsert(
+            { user_id: user.id, badge_id: badge.id, unlocked_at: new Date().toISOString() },
+            { onConflict: "user_id,badge_id", ignoreDuplicates: true }
+          );
 
-          if (!error) {
-            setUnlockedBadges(prev => new Set(prev).add(badge.id));
-            newlyUnlocked.push(badge.id);
-          }
-        } catch (err) {
-          console.error("Failed to unlock badge:", err);
+        if (!error) {
+          setUnlockedBadges((prev) => new Set(prev).add(badge.id));
+          newlyUnlocked.push(badge.id);
         }
+      } catch (err) {
+        console.error("Failed to unlock badge:", err);
       }
     }
 
     return newlyUnlocked;
+  }
+
+  function triggerBadgeCheck() {
+    if (!user) return;
+    if (badgeCheckInFlightRef.current) return;
+
+    badgeCheckInFlightRef.current = true;
+    void checkAndUnlockBadges()
+      .catch((error) => {
+        console.error("Badge check failed:", error);
+      })
+      .finally(() => {
+        badgeCheckInFlightRef.current = false;
+      });
   }
 
   // Load user badges from Supabase
@@ -339,6 +393,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         }
       });
   }, [user]);
+
+  useEffect(() => {
+    if (!user) return;
+    if (friendCount < 1 && !(leaderboardRank > 0 && leaderboardRank <= 10)) return;
+
+    const timer = setTimeout(() => {
+      triggerBadgeCheck();
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [user, friendCount, leaderboardRank]);
 
   // Load mistakes from AsyncStorage on mount
   useEffect(() => {
@@ -508,6 +573,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
             if (Array.isArray(snapshot.recentResults)) {
               setRecentResults(snapshot.recentResults.filter((value): value is boolean => typeof value === "boolean").slice(-10));
             }
+            if (typeof snapshot.mistakesCleared === "number" && Number.isFinite(snapshot.mistakesCleared)) {
+              setMistakesCleared(snapshot.mistakesCleared);
+            }
             if (snapshot.planId === "free" || snapshot.planId === "pro" || snapshot.planId === "max") {
               setPlanIdState(snapshot.planId);
             }
@@ -572,6 +640,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         // Supabase failed - that's okay, we already have local data
         if (__DEV__) console.log("Supabase sync failed (using local data):", e);
       }
+
+      setTimeout(() => {
+        triggerBadgeCheck();
+      }, 500);
     };
     loadState();
   }, [user]);
@@ -657,6 +729,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       recentAccuracy,
       currentStreak,
       recentResults,
+      mistakesCleared,
       planId,
       activeUntil,
     };
@@ -682,6 +755,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     recentAccuracy,
     currentStreak,
     recentResults,
+    mistakesCleared,
     planId,
     activeUntil,
   ]);
@@ -802,6 +876,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setStreak(newStreak);
     setLastActivityDate(today);
 
+    if (crossedThreshold(streak, newStreak, STREAK_BADGE_THRESHOLDS)) {
+      triggerBadgeCheck();
+    }
+
     // Update streak history in Supabase
     if (user) {
       try {
@@ -843,7 +921,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       effectiveAmount = boosted.effectiveXp;
     }
 
-    const newXP = xp + effectiveAmount;
+    const previousXP = xp;
+    const newXP = previousXP + effectiveAmount;
     setXP(newXP);
     setDailyXP((prev) => {
       const newDailyXP = prev + effectiveAmount;
@@ -865,6 +944,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       } catch (e) {
         console.warn('[League] Failed to add weekly XP:', e);
       }
+    }
+
+    if (crossedThreshold(previousXP, newXP, XP_BADGE_THRESHOLDS)) {
+      triggerBadgeCheck();
     }
   };
 
