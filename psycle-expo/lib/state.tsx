@@ -120,6 +120,32 @@ interface AppState {
 
 const AppStateContext = createContext<AppState | undefined>(undefined);
 
+interface PersistedAppSnapshot {
+  version: 1;
+  selectedGenre: string;
+  skill: number;
+  skillConfidence: number;
+  questionsAnswered: number;
+  completedLessons: string[];
+  dailyGoal: number;
+  dailyXP: number;
+  dailyGoalLastReset: string;
+  lastStudyDate: string | null;
+  lastActivityDate: string | null;
+  streakHistory: { date: string; xp: number; lessonsCompleted: number }[];
+  reviewEvents: ReviewEvent[];
+  recentQuestionTypes: string[];
+  recentAccuracy: number;
+  currentStreak: number;
+  recentResults: boolean[];
+  planId: PlanId;
+  activeUntil: string | null;
+}
+
+function getAppSnapshotKey(userId: string): string {
+  return `app_state_snapshot_v1_${userId}`;
+}
+
 export function AppStateProvider({ children }: { children: ReactNode }) {
   const [selectedGenre, setSelectedGenre] = useState("mental");
   const [xp, setXP] = useState(0);
@@ -380,6 +406,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyUpdateTime,
           savedEnergyBonusDate,
           savedEnergyBonusCount,
+          savedSnapshot,
         ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
@@ -388,6 +415,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`energy_update_time_${user.id}`),
           AsyncStorage.getItem(`energy_bonus_date_${user.id}`),
           AsyncStorage.getItem(`energy_bonus_count_${user.id}`),
+          AsyncStorage.getItem(getAppSnapshotKey(user.id)),
         ]);
 
         if (savedXp) setXP(parseInt(savedXp, 10));
@@ -407,6 +435,88 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         if (savedEnergyBonusCount) {
           const parsedEnergyBonusCount = parseInt(savedEnergyBonusCount, 10);
           if (!Number.isNaN(parsedEnergyBonusCount)) setDailyEnergyBonusCount(parsedEnergyBonusCount);
+        }
+
+        if (savedSnapshot) {
+          try {
+            const snapshot = JSON.parse(savedSnapshot) as Partial<PersistedAppSnapshot>;
+
+            if (typeof snapshot.selectedGenre === "string" && snapshot.selectedGenre.length > 0) {
+              setSelectedGenre(snapshot.selectedGenre);
+            }
+            if (typeof snapshot.skill === "number" && Number.isFinite(snapshot.skill)) {
+              setSkill(snapshot.skill);
+            }
+            if (typeof snapshot.skillConfidence === "number" && Number.isFinite(snapshot.skillConfidence)) {
+              setSkillConfidence(snapshot.skillConfidence);
+            }
+            if (typeof snapshot.questionsAnswered === "number" && Number.isFinite(snapshot.questionsAnswered)) {
+              setQuestionsAnswered(snapshot.questionsAnswered);
+            }
+            if (Array.isArray(snapshot.completedLessons)) {
+              setCompletedLessons(
+                new Set(snapshot.completedLessons.filter((lessonId): lessonId is string => typeof lessonId === "string"))
+              );
+            }
+            if (typeof snapshot.dailyGoal === "number" && Number.isFinite(snapshot.dailyGoal)) {
+              setDailyGoalState(snapshot.dailyGoal);
+            }
+            if (typeof snapshot.dailyXP === "number" && Number.isFinite(snapshot.dailyXP)) {
+              setDailyXP(snapshot.dailyXP);
+            }
+            if (typeof snapshot.dailyGoalLastReset === "string" && snapshot.dailyGoalLastReset.length > 0) {
+              setDailyGoalLastReset(snapshot.dailyGoalLastReset);
+            }
+            if (snapshot.lastStudyDate === null || typeof snapshot.lastStudyDate === "string") {
+              setLastStudyDate(snapshot.lastStudyDate ?? null);
+            }
+            if (snapshot.lastActivityDate === null || typeof snapshot.lastActivityDate === "string") {
+              setLastActivityDate(snapshot.lastActivityDate ?? null);
+            }
+            if (Array.isArray(snapshot.streakHistory)) {
+              const history = snapshot.streakHistory.filter((item): item is { date: string; xp: number; lessonsCompleted: number } => (
+                Boolean(item) &&
+                typeof item.date === "string" &&
+                typeof item.xp === "number" &&
+                typeof item.lessonsCompleted === "number"
+              ));
+              setStreakHistory(history.slice(-30));
+            }
+            if (Array.isArray(snapshot.reviewEvents)) {
+              const events = snapshot.reviewEvents.filter((event): event is ReviewEvent => (
+                Boolean(event) &&
+                typeof event.userId === "string" &&
+                typeof event.itemId === "string" &&
+                typeof event.ts === "number" &&
+                (event.result === "correct" || event.result === "incorrect")
+              ));
+              setReviewEvents(events);
+            }
+            if (Array.isArray(snapshot.recentQuestionTypes)) {
+              setRecentQuestionTypes(
+                snapshot.recentQuestionTypes
+                  .filter((questionType): questionType is string => typeof questionType === "string")
+                  .slice(-5)
+              );
+            }
+            if (typeof snapshot.recentAccuracy === "number" && Number.isFinite(snapshot.recentAccuracy)) {
+              setRecentAccuracy(snapshot.recentAccuracy);
+            }
+            if (typeof snapshot.currentStreak === "number" && Number.isFinite(snapshot.currentStreak)) {
+              setCurrentStreak(snapshot.currentStreak);
+            }
+            if (Array.isArray(snapshot.recentResults)) {
+              setRecentResults(snapshot.recentResults.filter((value): value is boolean => typeof value === "boolean").slice(-10));
+            }
+            if (snapshot.planId === "free" || snapshot.planId === "pro" || snapshot.planId === "max") {
+              setPlanIdState(snapshot.planId);
+            }
+            if (snapshot.activeUntil === null || typeof snapshot.activeUntil === "string") {
+              setActiveUntilState(snapshot.activeUntil ?? null);
+            }
+          } catch (snapshotError) {
+            if (__DEV__) console.log("App snapshot parse failed:", snapshotError);
+          }
         }
 
         // Freeze一本化: streaks.tsから読み込み
@@ -525,6 +635,56 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     if (!user) return;
     AsyncStorage.setItem(`energy_bonus_count_${user.id}`, dailyEnergyBonusCount.toString());
   }, [dailyEnergyBonusCount, user]);
+
+  useEffect(() => {
+    if (!user) return;
+
+    const snapshot: PersistedAppSnapshot = {
+      version: 1,
+      selectedGenre,
+      skill,
+      skillConfidence,
+      questionsAnswered,
+      completedLessons: Array.from(completedLessons),
+      dailyGoal,
+      dailyXP,
+      dailyGoalLastReset,
+      lastStudyDate,
+      lastActivityDate,
+      streakHistory,
+      reviewEvents,
+      recentQuestionTypes,
+      recentAccuracy,
+      currentStreak,
+      recentResults,
+      planId,
+      activeUntil,
+    };
+
+    AsyncStorage.setItem(getAppSnapshotKey(user.id), JSON.stringify(snapshot)).catch((error) => {
+      if (__DEV__) console.log("Failed to persist app snapshot:", error);
+    });
+  }, [
+    user,
+    selectedGenre,
+    skill,
+    skillConfidence,
+    questionsAnswered,
+    completedLessons,
+    dailyGoal,
+    dailyXP,
+    dailyGoalLastReset,
+    lastStudyDate,
+    lastActivityDate,
+    streakHistory,
+    reviewEvents,
+    recentQuestionTypes,
+    recentAccuracy,
+    currentStreak,
+    recentResults,
+    planId,
+    activeUntil,
+  ]);
 
   // Helper: Get today's date in YYYY-MM-DD format
   function getTodayDate(): string {
