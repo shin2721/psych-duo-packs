@@ -21,6 +21,12 @@ interface FriendRequest {
     total_xp: number;
 }
 
+interface LeaderboardProfile {
+    username: string;
+    total_xp: number;
+    current_streak: number;
+}
+
 type ViewType = 'friends' | 'requests' | 'search';
 
 export default function FriendsScreen() {
@@ -36,7 +42,30 @@ export default function FriendsScreen() {
         } else if (view === 'requests') {
             fetchRequests();
         }
-    }, [view]);
+    }, [view, user?.id]);
+
+    const fetchLeaderboardMap = async (userIds: string[]): Promise<Map<string, LeaderboardProfile>> => {
+        if (userIds.length === 0) return new Map();
+
+        const { data, error } = await supabase
+            .from('leaderboard')
+            .select('user_id, username, total_xp, current_streak')
+            .in('user_id', userIds);
+
+        if (error) throw error;
+
+        const map = new Map<string, LeaderboardProfile>();
+        for (const row of data ?? []) {
+            const userId = (row as any).user_id as string | undefined;
+            if (!userId) continue;
+            map.set(userId, {
+                username: (row as any).username || 'Unknown',
+                total_xp: (row as any).total_xp || 0,
+                current_streak: (row as any).current_streak || 0,
+            });
+        }
+        return map;
+    };
 
     const fetchFriends = async () => {
         if (!user) return;
@@ -45,20 +74,29 @@ export default function FriendsScreen() {
         try {
             const { data, error } = await supabase
                 .from('friendships')
-                .select(`
-          friend_id,
-          leaderboard!friendships_friend_id_fkey(username, total_xp, current_streak)
-        `)
+                .select('friend_id')
                 .eq('user_id', user.id);
 
             if (error) throw error;
 
-            const formattedFriends = data?.map(item => ({
-                friend_id: item.friend_id,
-                username: (item.leaderboard as any)?.username || 'Unknown',
-                total_xp: (item.leaderboard as any)?.total_xp || 0,
-                current_streak: (item.leaderboard as any)?.current_streak || 0,
-            })) || [];
+            const friendIds = Array.from(
+                new Set(
+                    (data || [])
+                        .map((item) => item.friend_id)
+                        .filter((id): id is string => typeof id === 'string' && id.length > 0)
+                )
+            );
+            const leaderboardMap = await fetchLeaderboardMap(friendIds);
+
+            const formattedFriends = friendIds.map((friendId) => {
+                const profile = leaderboardMap.get(friendId);
+                return {
+                    friend_id: friendId,
+                    username: profile?.username || 'Unknown',
+                    total_xp: profile?.total_xp || 0,
+                    current_streak: profile?.current_streak || 0,
+                };
+            });
 
             setFriends(formattedFriends);
         } catch (error) {
@@ -75,22 +113,30 @@ export default function FriendsScreen() {
         try {
             const { data, error } = await supabase
                 .from('friend_requests')
-                .select(`
-          id,
-          from_user_id,
-          leaderboard!friend_requests_from_user_id_fkey(username, total_xp)
-        `)
+                .select('id, from_user_id')
                 .eq('to_user_id', user.id)
                 .eq('status', 'pending');
 
             if (error) throw error;
 
-            const formattedRequests = data?.map(item => ({
-                id: item.id,
-                from_user_id: item.from_user_id,
-                username: (item.leaderboard as any)?.username || 'Unknown',
-                total_xp: (item.leaderboard as any)?.total_xp || 0,
-            })) || [];
+            const requestRows = (data || []).filter(
+                (item): item is { id: string; from_user_id: string } =>
+                    typeof item.id === 'string' &&
+                    typeof item.from_user_id === 'string' &&
+                    item.from_user_id.length > 0
+            );
+            const requesterIds = Array.from(new Set(requestRows.map((item) => item.from_user_id)));
+            const leaderboardMap = await fetchLeaderboardMap(requesterIds);
+
+            const formattedRequests = requestRows.map((item) => {
+                const profile = leaderboardMap.get(item.from_user_id);
+                return {
+                    id: item.id,
+                    from_user_id: item.from_user_id,
+                    username: profile?.username || 'Unknown',
+                    total_xp: profile?.total_xp || 0,
+                };
+            });
 
             setRequests(formattedRequests);
         } catch (error) {

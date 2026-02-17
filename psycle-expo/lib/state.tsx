@@ -3,6 +3,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "./AuthContext";
 import { supabase } from "./supabase";
 import { BADGES, BadgeStats } from "./badges";
+import entitlements from "../config/entitlements.json";
 import {
   getStreakData,
   addFreezes,
@@ -352,12 +353,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [dailyGoalLastReset, setDailyGoalLastReset] = useState(getTodayDate());
 
   // Energy system
-  const FREE_MAX_ENERGY = 3;
+  const FREE_MAX_ENERGY = Math.max(1, Number(entitlements.plans.free.energy.daily_cap ?? 3));
+  // paid plans are currently uncapped (`daily_cap: null`) in entitlements, so keep a large sentinel.
   const SUBSCRIBER_MAX_ENERGY = 999;
-  const ENERGY_REFILL_MS = 60 * 60 * 1000; // 60 minutes = +1 energy
-  const ENERGY_STREAK_BONUS_EVERY = 5;
-  const ENERGY_STREAK_BONUS_CHANCE = 0.1;
-  const ENERGY_STREAK_BONUS_DAILY_CAP = 1;
+  const ENERGY_REFILL_MS = Math.max(1, Number(entitlements.defaults.energy_refill_minutes ?? 60)) * 60 * 1000;
+  const ENERGY_STREAK_BONUS_EVERY = Math.max(1, Number(entitlements.defaults.energy_streak_bonus_every ?? 5));
+  const ENERGY_STREAK_BONUS_CHANCE = Number(entitlements.defaults.energy_streak_bonus_chance ?? 0.1);
+  const ENERGY_STREAK_BONUS_DAILY_CAP = Math.max(0, Number(entitlements.defaults.energy_streak_bonus_daily_cap ?? 1));
   const [energy, setEnergy] = useState(FREE_MAX_ENERGY);
   const [lastEnergyUpdateTime, setLastEnergyUpdateTime] = useState<number | null>(null);
   const [dailyEnergyBonusDate, setDailyEnergyBonusDate] = useState(getTodayDate());
@@ -661,6 +663,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
             username: user.email?.split('@')[0] || 'User',
             total_xp: currentXP ?? xp,
             current_streak: newStreak,
+          }, {
+            onConflict: 'user_id',
           });
       } catch (error) {
         console.error('Error updating streak in Supabase:', error);

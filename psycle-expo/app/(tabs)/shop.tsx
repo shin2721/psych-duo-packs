@@ -7,6 +7,7 @@ import { useAppState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { PLANS, SUPABASE_FUNCTION_URL, type PlanConfig } from "../../lib/plans";
+import { getPlanPrice } from "../../lib/pricing";
 import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
 
@@ -126,6 +127,18 @@ export default function ShopScreen() {
     },
   ];
 
+  const resolvePlanMonthlyPrice = (plan: PlanConfig): string => {
+    if (plan.id !== "pro" && plan.id !== "max") {
+      return `¥${plan.priceMonthly.toLocaleString()}`;
+    }
+    try {
+      return getPlanPrice(plan.id, "monthly");
+    } catch (error) {
+      console.error("Failed to resolve regional price:", error);
+      return `¥${plan.priceMonthly.toLocaleString()}`;
+    }
+  };
+
   return (
     <SafeAreaView style={styles.container}>
       <GlobalHeader />
@@ -203,7 +216,7 @@ export default function ShopScreen() {
               )}
               <View style={styles.planHeader}>
                 <Text style={styles.planName}>{plan.name}</Text>
-                <Text style={styles.planPrice}>¥{plan.priceMonthly.toLocaleString()}</Text>
+                <Text style={styles.planPrice}>{resolvePlanMonthlyPrice(plan)}</Text>
                 <Text style={styles.planPeriod}>{i18n.t("shop.subscription.monthlySuffix")}</Text>
               </View>
               <View style={styles.planFeatures}>
