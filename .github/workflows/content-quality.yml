@@ -3,8 +3,12 @@ name: Content Quality Check
 on:
   push:
     branches: [ main, develop ]
+    paths:
+      - "psycle-expo/**"
   pull_request:
     branches: [ main, develop ]
+    paths:
+      - "psycle-expo/**"
 
 defaults:
   run:
