@@ -60,7 +60,7 @@ describe("QuestionRenderer helpers", () => {
     const emptyQuestion: Question = {
       ...baseQuestion,
       text: undefined,
-      question: undefined,
+      question: "",
     };
     expect(getQuestionText(emptyQuestion)).toBe("");
   });

@@ -479,7 +479,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
             <MultipleChoice
               choices={questionChoices}
               selectedIndex={selectedIndex}
-              correctIndex={question.correct_index}
+              correctIndex={question.correct_index ?? null}
               showResult={showResult}
               onSelect={handleSelect}
             />
@@ -500,7 +500,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
             <TrueFalse
               choices={questionChoices}
               selectedIndex={selectedIndex}
-              correctIndex={question.correct_index}
+              correctIndex={typeof question.correct_index === "number" ? question.correct_index : -1}
               showResult={showResult}
               onSelect={handleSelect}
             />
@@ -510,7 +510,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
             <FillBlank
               choices={questionChoices}
               selectedIndex={selectedIndex}
-              correctIndex={question.correct_index}
+              correctIndex={typeof question.correct_index === "number" ? question.correct_index : -1}
               showResult={showResult}
               onSelect={handleSelect}
             />
@@ -762,7 +762,10 @@ export function QuestionRenderer({ question, onContinue, onComboChange }: Props)
                   if ((question.type === "multiple_choice" || question.type === "fill_blank_tap" || question.type === "conversation" || question.type === "quick_reflex" || question.type === "swipe_judgment" || question.type === "consequence_scenario" || question.type === "interactive_practice") && (question.choices && typeof question.correct_index === 'number')) {
                     correctAnswerText = question.choices[question.correct_index];
                   } else if (isSelectAllType && question.choices && question.correct_answers) {
-                    correctAnswerText = question.correct_answers.map(i => question.choices[i]).join(i18n.t("questionRenderer.listSeparator"));
+                    const mappedChoices = question.correct_answers
+                      .map((i) => question.choices?.[i])
+                      .filter((choice): choice is string => typeof choice === "string");
+                    correctAnswerText = mappedChoices.join(i18n.t("questionRenderer.listSeparator"));
                   } else if (question.type === "swipe_judgment" && question.swipe_labels) {
                     correctAnswerText = question.is_true ? `→ ${question.swipe_labels.right}` : `← ${question.swipe_labels.left}`;
                   } else if (question.type === "sort_order" && question.correct_order) {

@@ -524,7 +524,6 @@ function GlowingNode({ node, x, y, isMilestone, onPress, themeColor }: { node: T
       return null;
     }
     if (node.type === "review_blackhole") {
-      if (node.status === "done") return <Ionicons name="checkmark" size={isMilestone ? 30 : 26} color={style.iconColor} />;
       return <Ionicons name="planet" size={isMilestone ? 32 : 28} color={style.iconColor} />;
     }
     return <Ionicons name={node.icon as any} size={isMilestone ? 32 : 28} color={style.iconColor} />;

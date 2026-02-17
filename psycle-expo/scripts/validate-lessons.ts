@@ -33,6 +33,7 @@ const ALLOWED_EVIDENCE_GRADES = ['gold', 'silver', 'bronze'];
 const ALLOWED_QUESTION_TYPES = [
   'ab', 'mcq3', 'truefalse', 'cloze1', 'swipe_judgment', 'select_all',
   'sort_order', 'matching', 'consequence_scenario', 'conversation', 'term_card',
+  'scenario', 'swipe_choice', 'multi_select_triggers', 'animated_explanation', 'interactive_practice',
   'multiple_choice', 'true_false', 'fill_blank' // legacy support
 ];
 
@@ -168,7 +169,8 @@ class LessonValidator {
       }
 
     } catch (error) {
-      this.addError(filePath, severity, `JSONパースエラー: ${error.message}`);
+      const message = error instanceof Error ? error.message : String(error);
+      this.addError(filePath, severity, `JSONパースエラー: ${message}`);
     }
   }
 
@@ -185,7 +187,7 @@ class LessonValidator {
       const evidence: EvidenceCard = JSON.parse(evidenceContent);
 
       // 必須フィールドチェック
-      const requiredFields = ['source_type', 'citation', 'claim', 'limitations', 'evidence_grade', 'generated_by', 'review'];
+      const requiredFields: (keyof EvidenceCard)[] = ['source_type', 'citation', 'claim', 'limitations', 'evidence_grade', 'generated_by', 'review'];
       for (const field of requiredFields) {
         if (!evidence[field]) {
           this.addError(evidencePath, severity, `Evidence Card必須フィールド不足: ${field}`);
@@ -204,7 +206,8 @@ class LessonValidator {
       }
 
     } catch (error) {
-      this.addError(evidencePath, severity, `Evidence Card JSONパースエラー: ${error.message}`);
+      const message = error instanceof Error ? error.message : String(error);
+      this.addError(evidencePath, severity, `Evidence Card JSONパースエラー: ${message}`);
     }
   }
 
