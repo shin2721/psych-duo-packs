@@ -2,16 +2,24 @@
 
 import { Linking } from "react-native";
 import { Analytics } from "./analytics";
-
-const BILLING_API = "https://psycle-billing.vercel.app"; // デプロイ後のURL
+import { getPlanById, SUPABASE_FUNCTION_URL } from "./plans";
 
 export async function buyPlan(plan: "pro" | "max", uid: string, email: string) {
   let stage: "create_checkout_session" | "open_checkout_url" = "create_checkout_session";
   try {
-    const res = await fetch(`${BILLING_API}/api/create-checkout-session`, {
+    const selectedPlan = getPlanById(plan);
+    if (!selectedPlan) {
+      throw new Error(`Unknown plan: ${plan}`);
+    }
+
+    const res = await fetch(`${SUPABASE_FUNCTION_URL}/create-checkout-session`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ plan, uid, email }),
+      body: JSON.stringify({
+        priceId: selectedPlan.priceId,
+        userId: uid,
+        email,
+      }),
     });
 
     if (!res.ok) {
@@ -25,12 +33,12 @@ export async function buyPlan(plan: "pro" | "max", uid: string, email: string) {
     await Linking.openURL(url);
     Analytics.track("checkout_opened", {
       plan,
-      source: "billing_api",
+      source: "supabase_functions",
     });
   } catch (error) {
     Analytics.track("checkout_failed", {
       plan,
-      source: "billing_api",
+      source: "supabase_functions",
       stage,
     });
     console.error("buyPlan error:", error);
@@ -40,7 +48,7 @@ export async function buyPlan(plan: "pro" | "max", uid: string, email: string) {
 
 export async function openBillingPortal(email: string) {
   try {
-    const res = await fetch(`${BILLING_API}/api/portal`, {
+    const res = await fetch(`${SUPABASE_FUNCTION_URL}/portal`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email }),
@@ -65,7 +73,7 @@ export async function openBillingPortal(email: string) {
 export async function restorePurchases(uid: string, email: string): Promise<{ restored: boolean; planId?: "free" | "pro" | "max"; activeUntil?: string | null } | false> {
   try {
     Analytics.track("restore_start", { source: "settings" });
-    const res = await fetch(`${BILLING_API}/api/restore-purchases`, {
+    const res = await fetch(`${SUPABASE_FUNCTION_URL}/restore-purchases`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ uid, email }),
