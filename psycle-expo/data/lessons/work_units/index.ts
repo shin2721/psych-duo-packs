@@ -2,9 +2,13 @@
 import work_l01_ja from "./work_l01.ja.json";
 import work_l02_ja from "./work_l02.ja.json";
 
-// English translations (fallback to ja if not available)
+// Locale translations (fallback handled per locale export)
 import work_l01_en from "./work_l01.en.json";
 import work_l02_en from "./work_l02.en.json";
+import work_l01_es from "./work_l01.es.json";
+import work_l02_es from "./work_l02.es.json";
+import work_l01_fr from "./work_l01.fr.json";
+import work_l02_fr from "./work_l02.fr.json";
 
 // Japanese (base) - always available
 export const workData_ja = [
@@ -12,10 +16,22 @@ export const workData_ja = [
   ...work_l02_ja,
 ];
 
-// English - uses en where available, falls back to ja
+// en - uses en where available, falls back to ja
 export const workData_en = [
   ...work_l01_en,
   ...work_l02_en,
+];
+
+// es - uses es where available, falls back to en -> ja
+export const workData_es = [
+  ...work_l01_es,
+  ...work_l02_es,
+];
+
+// fr - uses fr where available, falls back to en -> ja
+export const workData_fr = [
+  ...work_l01_fr,
+  ...work_l02_fr,
 ];
 
 // Default export (ja for backward compatibility)
@@ -28,10 +44,19 @@ export const workData = workData_ja;
 export function getWorkDataForLocale(locale: string): any[] {
   const lang = locale.split('-')[0].toLowerCase();
 
+  if (lang === 'ja') {
+    return workData_ja;
+  }
+
   if (lang === 'en') {
     return workData_en;
   }
+  if (lang === 'es') {
+    return workData_es;
+  }
+  if (lang === 'fr') {
+    return workData_fr;
+  }
 
-  // All other languages fall back to ja for now
-  return workData_ja;
+  return workData_en;
 }

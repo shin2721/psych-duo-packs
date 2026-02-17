@@ -24,8 +24,10 @@ export type QuestionType =
   | "fill_blank"        // 穴埋め問題
   | "sort_order"        // 並び替え
   | "select_all"        // 複数選択（正解が複数）
+  | "multi_select_triggers" // 複数選択（生成スクリプト互換）
   | "fill_blank_tap"    // 穴埋めタップ
   | "swipe_judgment"    // スワイプ判定
+  | "swipe_choice"      // スワイプ2択（生成スクリプト互換）
   | "conversation"      // 会話問題
   | "matching"          // マッチング
   | "scenario"          // シナリオ問題
@@ -48,6 +50,7 @@ export interface Question {
   id?: string;                 // 問題ID
   type: QuestionType;
   question: string;           // 質問文
+  text?: string;              // 旧フォーマット互換
   choices?: string[];          // 選択肢 (一部のタイプで必須)
   correct_index?: number;     // 正解のインデックス（0始まり）
   correct_answers?: number[]; // 複数正解の場合（select_all用）

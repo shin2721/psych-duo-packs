@@ -2,9 +2,13 @@
 import social_l01_ja from "./social_l01.ja.json";
 import social_l02_ja from "./social_l02.ja.json";
 
-// English translations (fallback to ja if not available)
+// Locale translations (fallback handled per locale export)
 import social_l01_en from "./social_l01.en.json";
 import social_l02_en from "./social_l02.en.json";
+import social_l01_es from "./social_l01.es.json";
+import social_l02_es from "./social_l02.es.json";
+import social_l01_fr from "./social_l01.fr.json";
+import social_l02_fr from "./social_l02.fr.json";
 
 // Japanese (base) - always available
 export const socialData_ja = [
@@ -12,10 +16,22 @@ export const socialData_ja = [
   ...social_l02_ja,
 ];
 
-// English - uses en where available, falls back to ja
+// en - uses en where available, falls back to ja
 export const socialData_en = [
   ...social_l01_en,
   ...social_l02_en,
+];
+
+// es - uses es where available, falls back to en -> ja
+export const socialData_es = [
+  ...social_l01_es,
+  ...social_l02_es,
+];
+
+// fr - uses fr where available, falls back to en -> ja
+export const socialData_fr = [
+  ...social_l01_fr,
+  ...social_l02_fr,
 ];
 
 // Default export (ja for backward compatibility)
@@ -28,10 +44,19 @@ export const socialData = socialData_ja;
 export function getSocialDataForLocale(locale: string): any[] {
   const lang = locale.split('-')[0].toLowerCase();
 
+  if (lang === 'ja') {
+    return socialData_ja;
+  }
+
   if (lang === 'en') {
     return socialData_en;
   }
+  if (lang === 'es') {
+    return socialData_es;
+  }
+  if (lang === 'fr') {
+    return socialData_fr;
+  }
 
-  // All other languages fall back to ja for now
-  return socialData_ja;
+  return socialData_en;
 }

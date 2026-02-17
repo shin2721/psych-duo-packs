@@ -6,13 +6,25 @@ import mental_l04_ja from "./mental_l04.ja.json";
 import mental_l05_ja from "./mental_l05.ja.json";
 import mental_l06_ja from "./mental_l06.ja.json";
 
-// English translations (fallback to ja if not available)
+// Locale translations (fallback handled per locale export)
 import mental_l01_en from "./mental_l01.en.json";
 import mental_l02_en from "./mental_l02.en.json";
 import mental_l03_en from "./mental_l03.en.json";
 import mental_l04_en from "./mental_l04.en.json";
 import mental_l05_en from "./mental_l05.en.json";
 import mental_l06_en from "./mental_l06.en.json";
+import mental_l01_es from "./mental_l01.es.json";
+import mental_l02_es from "./mental_l02.es.json";
+import mental_l03_es from "./mental_l03.es.json";
+import mental_l04_es from "./mental_l04.es.json";
+import mental_l05_es from "./mental_l05.es.json";
+import mental_l06_es from "./mental_l06.es.json";
+import mental_l01_fr from "./mental_l01.fr.json";
+import mental_l02_fr from "./mental_l02.fr.json";
+import mental_l03_fr from "./mental_l03.fr.json";
+import mental_l04_fr from "./mental_l04.fr.json";
+import mental_l05_fr from "./mental_l05.fr.json";
+import mental_l06_fr from "./mental_l06.fr.json";
 
 // Japanese (base) - always available
 export const mentalData_ja = [
@@ -24,7 +36,7 @@ export const mentalData_ja = [
   ...mental_l06_ja,
 ];
 
-// English - uses en where available, falls back to ja
+// en - uses en where available, falls back to ja
 export const mentalData_en = [
   ...mental_l01_en,
   ...mental_l02_en,
@@ -32,6 +44,26 @@ export const mentalData_en = [
   ...mental_l04_en,
   ...mental_l05_en,
   ...mental_l06_en,
+];
+
+// es - uses es where available, falls back to en -> ja
+export const mentalData_es = [
+  ...mental_l01_es,
+  ...mental_l02_es,
+  ...mental_l03_es,
+  ...mental_l04_es,
+  ...mental_l05_es,
+  ...mental_l06_es,
+];
+
+// fr - uses fr where available, falls back to en -> ja
+export const mentalData_fr = [
+  ...mental_l01_fr,
+  ...mental_l02_fr,
+  ...mental_l03_fr,
+  ...mental_l04_fr,
+  ...mental_l05_fr,
+  ...mental_l06_fr,
 ];
 
 // Default export (ja for backward compatibility)
@@ -44,10 +76,19 @@ export const mentalData = mentalData_ja;
 export function getMentalDataForLocale(locale: string): any[] {
   const lang = locale.split('-')[0].toLowerCase();
 
+  if (lang === 'ja') {
+    return mentalData_ja;
+  }
+
   if (lang === 'en') {
     return mentalData_en;
   }
+  if (lang === 'es') {
+    return mentalData_es;
+  }
+  if (lang === 'fr') {
+    return mentalData_fr;
+  }
 
-  // All other languages fall back to ja for now
-  return mentalData_ja;
+  return mentalData_en;
 }
