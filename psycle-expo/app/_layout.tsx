@@ -3,7 +3,7 @@ import { AppStateProvider } from "../lib/state";
 import { AuthProvider, useAuth } from "../lib/AuthContext";
 import { OnboardingProvider, useOnboarding } from "../lib/OnboardingContext";
 import { useEffect } from "react";
-import { View, ActivityIndicator, LogBox } from "react-native";
+import { View, ActivityIndicator, LogBox, Linking } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Analytics } from "../lib/analytics";
 import { LocaleProvider, useLocale } from "../lib/LocaleContext";
@@ -14,6 +14,36 @@ LogBox.ignoreLogs([
   "AuthRetryableFetchError",
   "Network request failed",
 ]);
+
+function resolveDeepLinkRoute(url: string): string | null {
+  try {
+    const parsed = new URL(url);
+    if (parsed.protocol !== "psycle:") return null;
+
+    const host = parsed.hostname.toLowerCase();
+    const path = parsed.pathname.replace(/^\/+/, "").toLowerCase();
+    const target = path || host;
+
+    switch (target) {
+      case "quests":
+        return "/(tabs)/quests";
+      case "course":
+        return "/(tabs)/course";
+      case "leaderboard":
+        return "/(tabs)/leaderboard";
+      case "friends":
+        return "/(tabs)/friends";
+      case "shop":
+        return "/(tabs)/shop";
+      case "profile":
+        return "/(tabs)/profile";
+      default:
+        return null;
+    }
+  } catch {
+    return null;
+  }
+}
 
 function RootLayoutNav() {
   const { session, isLoading: authLoading } = useAuth();
@@ -44,6 +74,41 @@ function RootLayoutNav() {
       router.replace("/");
     }
   }, [session, isLoading, segments, hasSeenOnboarding]);
+
+  useEffect(() => {
+    if (isLoading || hasSeenOnboarding === null) return;
+
+    const applyDeepLink = (url: string | null | undefined) => {
+      if (!url) return;
+      const route = resolveDeepLinkRoute(url);
+      if (!route) return;
+
+      // Preserve existing auth/onboarding guards.
+      if (!hasSeenOnboarding) {
+        router.replace("/onboarding");
+        return;
+      }
+      if (!session) {
+        router.replace("/auth");
+        return;
+      }
+      router.replace(route);
+    };
+
+    let active = true;
+    Linking.getInitialURL()
+      .then((url) => {
+        if (!active) return;
+        applyDeepLink(url);
+      })
+      .catch(() => { });
+
+    const sub = Linking.addEventListener("url", ({ url }) => applyDeepLink(url));
+    return () => {
+      active = false;
+      sub.remove();
+    };
+  }, [isLoading, hasSeenOnboarding, session, router]);
 
   if (isLoading || hasSeenOnboarding === null) {
     return (

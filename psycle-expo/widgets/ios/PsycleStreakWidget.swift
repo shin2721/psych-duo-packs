@@ -3,7 +3,7 @@ import WidgetKit
 
 private let appGroupId = "group.com.shin27.psycle.expowidgets"
 private let payloadKey = "psycle_widget_payload"
-private let deepLinkUrl = URL(string: "psycle://quests")
+private let deepLinkUrl = URL(string: "psycle:///quests")
 
 private struct WidgetRecentDay: Decodable, Identifiable {
   let date: String
