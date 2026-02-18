@@ -50,6 +50,7 @@ export const en = {
             openCheckoutFailed: 'Could not open the checkout page',
             checkoutSessionFailed: 'Failed to create checkout session',
             checkoutProcessFailed: 'An error occurred during checkout',
+            functionsUrlMissing: 'Billing is not configured yet, so checkout is unavailable.',
         },
     },
     settings: {

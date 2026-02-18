@@ -304,3 +304,30 @@ npm run promote:lesson {domain} {basename}
     ├── mental_l01.evidence.json
     └── index.ts
 ```
+
+---
+
+## 8. CI Web Smoke / Billing Env
+
+### Web smoke execution modes
+
+- `scripts/e2e-web-smoke.mjs` は2モードで動作する。
+- `authenticated`:
+  - `E2E_TEST_EMAIL` と `E2E_TEST_PASSWORD` の両方が設定されている時に実行。
+  - `onboarding -> sign-in -> lesson progress(1/10 -> 2/10)` まで検証。
+- `unauthenticated`:
+  - 上記2つのどちらかが未設定の時に実行。
+  - `onboarding` 後に `auth-sign-in`, `auth-email`, `auth-password` が表示されることだけ検証して終了。
+
+### CI settings
+
+- `/.github/workflows/ci-tests.yml` の web smoke step では以下を渡す。
+  - `E2E_TEST_EMAIL`
+  - `E2E_TEST_PASSWORD`
+- Secret未登録でも `unauthenticated` モードで pass する。
+
+### Billing endpoint safety
+
+- 課金系エンドポイントは `EXPO_PUBLIC_SUPABASE_FUNCTION_URL` を必須にする。
+- 未設定時は fail-safe で停止し、checkout/portal/restore の API fetch は実行しない。
+- 本番URLのハードコードフォールバックは禁止する。

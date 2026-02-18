@@ -6,7 +6,7 @@ import { theme } from "../../lib/theme";
 import { useAppState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
-import { PLANS, SUPABASE_FUNCTION_URL, type PlanConfig } from "../../lib/plans";
+import { PLANS, getSupabaseFunctionsUrl, type PlanConfig } from "../../lib/plans";
 import { getPlanPrice } from "../../lib/pricing";
 import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
@@ -102,8 +102,19 @@ export default function ShopScreen() {
         planId: plan.id,
       });
 
+      const functionsUrl = getSupabaseFunctionsUrl();
+      if (!functionsUrl) {
+        Analytics.track("checkout_failed", {
+          source: "shop_tab",
+          planId: plan.id,
+          reason: "functions_url_missing",
+        });
+        Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.functionsUrlMissing"));
+        return;
+      }
+
       // Call Supabase Function to create checkout session
-      const response = await fetch(`${SUPABASE_FUNCTION_URL}/create-checkout-session`, {
+      const response = await fetch(`${functionsUrl}/create-checkout-session`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -50,6 +50,7 @@ export const ja = {
             openCheckoutFailed: '決済ページを開けませんでした',
             checkoutSessionFailed: '決済セッションの作成に失敗しました',
             checkoutProcessFailed: '決済処理中にエラーが発生しました',
+            functionsUrlMissing: '課金設定が未完了のため、現在は購入できません。',
         },
     },
     settings: {

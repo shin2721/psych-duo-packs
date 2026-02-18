@@ -36,6 +36,9 @@ jobs:
           npx jest --watchman=false
 
       - name: Run web smoke test
+        env:
+          E2E_TEST_EMAIL: ${{ secrets.E2E_TEST_EMAIL }}
+          E2E_TEST_PASSWORD: ${{ secrets.E2E_TEST_PASSWORD }}
         run: |
           cd psycle-expo
           npm run e2e:web:smoke
