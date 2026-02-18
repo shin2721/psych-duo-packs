@@ -22,7 +22,9 @@
 ```bash
 supabase functions deploy settle-league-week
 ```
-- 必要な環境変数: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (デフォルトで設定されているはずですが確認)
+- 必要な環境変数: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `LEAGUE_SETTLE_CRON_SECRET`
+- `settle-league-week` は **POST + `x-cron-secret` 一致** でのみ実行されます。
+- `LEAGUE_SETTLE_CRON_SECRET` 未設定時は 500、secret不一致時は 403 を返します。
 
 ---
 
@@ -57,6 +59,15 @@ supabase functions deploy settle-league-week
 - UTC: 日曜 15:05
 - JST: **月曜 00:05**
 - 理由: `get_last_week_id` (JST基準) が切り替わった直後の月曜深夜に実行し、朝起きたユーザーに確実に結果を表示するため。
+
+### Cron呼び出し例
+```bash
+curl -X POST \
+  -H "x-cron-secret: $LEAGUE_SETTLE_CRON_SECRET" \
+  "https://<project-ref>.functions.supabase.co/settle-league-week"
+```
+- secret値はログに出さないこと。
+- 失敗時はレスポンスコード 403/405/500 を監視対象にしてください。
 
 ---
 

@@ -18,6 +18,9 @@ const expoArgs = [
 const logs = [];
 let expoProcess;
 let usingExistingServer = false;
+const e2eEmail = process.env.E2E_TEST_EMAIL?.trim() || "";
+const e2ePassword = process.env.E2E_TEST_PASSWORD?.trim() || "";
+const runAuthenticatedFlow = Boolean(e2eEmail && e2ePassword);
 const entitlements = JSON.parse(
   readFileSync(new URL("../config/entitlements.json", import.meta.url), "utf8")
 );
@@ -102,8 +105,19 @@ async function runLocaleSmokeCase(browser, testCase) {
   await expect(page.locator('[data-testid="onboarding-interests-title"]')).toContainText(testCase.interestsTitle);
   await page.locator('[data-testid="onboarding-genre-mental"]').click();
   await page.locator('[data-testid="onboarding-finish"]').click();
-  await expect(page.locator('[data-testid="auth-guest-login"]')).toBeVisible();
-  await page.locator('[data-testid="auth-guest-login"]').click();
+
+  const authInputs = page.locator('input');
+  await expect(authInputs.nth(0)).toBeVisible();
+  await expect(authInputs.nth(1)).toBeVisible();
+
+  if (!runAuthenticatedFlow) {
+    await context.close();
+    return;
+  }
+
+  await authInputs.nth(0).fill(e2eEmail);
+  await authInputs.nth(1).fill(e2ePassword);
+  await page.locator('button').first().click();
 
   const firstLessonNode = page.locator('[data-testid="lesson-node-m1"]');
   await expect(firstLessonNode).toBeVisible({ timeout: 30_000 });
@@ -156,7 +170,11 @@ async function run() {
     }
 
     await browser.close();
-    console.log("Web smoke passed: EN/JA onboarding -> guest login -> lesson progression.");
+    if (runAuthenticatedFlow) {
+      console.log("Web smoke passed (authenticated): EN/JA onboarding -> sign in -> lesson progression.");
+    } else {
+      console.log("Web smoke passed (unauthenticated): EN/JA onboarding -> auth screen visible.");
+    }
   } catch (error) {
     await browser.close();
     throw error;

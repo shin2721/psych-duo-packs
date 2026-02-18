@@ -6,9 +6,11 @@ import { theme } from "../../lib/theme";
 import { useAppState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
-import { PLANS, SUPABASE_FUNCTION_URL, type PlanConfig } from "../../lib/plans";
+import { PLANS, getSupabaseFunctionsUrl, type PlanConfig } from "../../lib/plans";
+import { getPlanPrice } from "../../lib/pricing";
 import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
+import { Analytics } from "../../lib/analytics";
 
 // import { Firefly } from "../../components/Firefly"; // TODO: Re-enable after native rebuild
 
@@ -83,20 +85,61 @@ export default function ShopScreen() {
   };
 
   const handleSubscribe = async (plan: PlanConfig) => {
+    const source = "shop_tab";
+    Analytics.track("plan_select", {
+      source,
+      planId: plan.id,
+    });
+
+    if (!user?.id || !user?.email) {
+      Analytics.track("checkout_failed", {
+        source,
+        planId: plan.id,
+        reason: "missing_user_context",
+      });
+      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      return;
+    }
+
+    const functionsUrl = getSupabaseFunctionsUrl();
+    if (!functionsUrl) {
+      Analytics.track("checkout_failed", {
+        source,
+        planId: plan.id,
+        reason: "functions_url_missing",
+      });
+      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      return;
+    }
+
+    Analytics.track("checkout_start", {
+      source,
+      planId: plan.id,
+    });
+
     setIsSubscribing(true);
     try {
       // Call Supabase Function to create checkout session
-      const response = await fetch(`${SUPABASE_FUNCTION_URL}/create-checkout-session`, {
+      const response = await fetch(`${functionsUrl}/create-checkout-session`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           priceId: plan.priceId,
-          userId: user?.id || "",
-          email: user?.email || "user@example.com",
+          userId: user.id,
+          email: user.email,
         }),
       });
+
+      if (!response.ok) {
+        Analytics.track("checkout_failed", {
+          source,
+          planId: plan.id,
+          reason: "http_error",
+          status: response.status,
+        });
+      }
 
       const data = await response.json();
 
@@ -109,13 +152,32 @@ export default function ShopScreen() {
           Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.openCheckoutFailed"));
         }
       } else {
+        Analytics.track("checkout_failed", {
+          source,
+          planId: plan.id,
+          reason: "missing_checkout_url",
+        });
         Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutSessionFailed"));
       }
     } catch (error) {
       console.error("Checkout error:", error);
+      Analytics.track("checkout_failed", {
+        source,
+        planId: plan.id,
+        reason: "exception",
+      });
       Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
     } finally {
       setIsSubscribing(false);
+    }
+  };
+
+  const formatPlanMonthlyPrice = (plan: PlanConfig): string => {
+    const planType = plan.id === "max" ? "max" : "pro";
+    try {
+      return getPlanPrice(planType, "monthly");
+    } catch {
+      return `¥${plan.priceMonthly.toLocaleString()}`;
     }
   };
 
@@ -226,7 +288,7 @@ export default function ShopScreen() {
               )}
               <View style={styles.planHeader}>
                 <Text style={styles.planName}>{plan.name}</Text>
-                <Text style={styles.planPrice}>¥{plan.priceMonthly.toLocaleString()}</Text>
+                <Text style={styles.planPrice}>{formatPlanMonthlyPrice(plan)}</Text>
                 <Text style={styles.planPeriod}>{i18n.t("shop.subscription.monthlySuffix")}</Text>
               </View>
               <View style={styles.planFeatures}>

@@ -27,7 +27,8 @@
         "catastrophizing",
         "rumination"
       ]
-    }
+    },
+    "actionable_advice": "Este é um exemplo típico de \"pensamento catastrófico\". A previsão de \"não vai dar tempo\" está correndo na frente da realidade e amplificando a ansiedade. ※Esta lição apresenta técnicas para lidar com ansiedade leve, mas se você tiver tendências a pensamentos suicidas ou autolesão, por favor procure ajuda profissional (CVV: 188) em vez de usar apenas o aplicativo."
   },
   {
     "id": "mental_l05_002",
@@ -58,7 +59,8 @@
         "catastrophizing",
         "reappraisal_theory"
       ]
-    }
+    },
+    "actionable_advice": "Para o pensamento catastrófico, \"buscar evidências\" tende a ser eficaz. Em vez de tentar eliminar completamente o pensamento, é importante recuperar uma perspectiva realista."
   },
   {
     "id": "mental_l05_003",
@@ -90,7 +92,8 @@
         "appraisal",
         "anxiety"
       ]
-    }
+    },
+    "actionable_advice": "Qualquer resposta é uma reação normal. Como o cérebro humano é feito para prever perigos, é natural ter imaginações negativas."
   },
   {
     "id": "mental_l05_004",
@@ -136,7 +139,8 @@
         "coping",
         "reappraisal"
       ]
-    }
+    },
+    "actionable_advice": "Em vez de ir de um extremo ao outro, é importante encontrar uma perspectiva equilibrada. Experiências passadas servem como base realista."
   },
   {
     "id": "mental_l05_005",
@@ -166,7 +170,8 @@
         "cognitive_model",
         "appraisal"
       ]
-    }
+    },
+    "actionable_advice": "Não é necessário eliminá-lo completamente. Na verdade, o importante é \"perceber e adicionar uma perspectiva realista\"."
   },
   {
     "id": "mental_l05_006",
@@ -213,7 +218,8 @@
         "micro_action",
         "coping"
       ]
-    }
+    },
+    "actionable_advice": "Qualquer método pode ser eficaz às vezes, mas pensar em medidas realistas tende a transformar a ansiedade em ação."
   },
   {
     "id": "mental_l05_007",
@@ -244,7 +250,8 @@
         "fatigue",
         "negative_bias"
       ]
-    }
+    },
+    "actionable_advice": "Foi relatado que a fadiga e a falta de sono diminuem a capacidade de julgamento, tornando mais fácil cair em pensamentos negativos. Cuidar da saúde também é uma medida importante."
   },
   {
     "id": "mental_l05_008",
@@ -291,7 +298,8 @@
         "implementation_intention",
         "planning"
       ]
-    }
+    },
+    "actionable_advice": "É eficaz em qualquer situação. Recomendamos começar com pequenas ansiedades primeiro."
   },
   {
     "id": "mental_l05_009",
@@ -338,7 +346,8 @@
         "reappraisal",
         "evidence_check"
       ]
-    }
+    },
+    "actionable_advice": "Mais do que controle completo ou pensamento positivo forçado, é importante ter uma perspectiva realista e equilibrada."
   },
   {
     "id": "mental_l05_010",
@@ -370,6 +379,7 @@
         "fit",
         "self_monitoring"
       ]
-    }
+    },
+    "actionable_advice": "Qualquer impressão é valiosa. Como métodos adequados variam para cada pessoa, é importante encontrar a abordagem que funciona para você."
   }
 ]

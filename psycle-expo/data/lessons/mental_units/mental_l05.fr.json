@@ -27,7 +27,8 @@
         "catastrophizing",
         "rumination"
       ]
-    }
+    },
+    "actionable_advice": "C'est un exemple typique de « pensée catastrophique ». La prédiction « je n'y arriverai pas » devance la réalité et tend à amplifier l'anxiété. ※Cette leçon présente des techniques pour gérer une anxiété légère. Si vous avez des pensées suicidaires ou des tendances à l'automutilation, veuillez consulter un professionnel de santé plutôt que de vous fier uniquement à cette application."
   },
   {
     "id": "mental_l05_002",
@@ -58,7 +59,8 @@
         "catastrophizing",
         "reappraisal_theory"
       ]
-    }
+    },
+    "actionable_advice": "La « recherche de preuves » peut être efficace contre les pensées catastrophiques. Plutôt que d'essayer de les éliminer complètement, il est important de retrouver une perspective réaliste."
   },
   {
     "id": "mental_l05_003",
@@ -90,7 +92,8 @@
         "appraisal",
         "anxiety"
       ]
-    }
+    },
+    "actionable_advice": "Toutes ces réponses sont normales. Le cerveau humain est conçu pour anticiper les dangers, donc il est naturel d'avoir des pensées négatives."
   },
   {
     "id": "mental_l05_004",
@@ -136,7 +139,8 @@
         "coping",
         "reappraisal"
       ]
-    }
+    },
+    "actionable_advice": "Plutôt que de passer d'un extrême à l'autre, il est important de trouver une perspective équilibrée. Les expériences passées peuvent constituer une base réaliste."
   },
   {
     "id": "mental_l05_005",
@@ -166,7 +170,8 @@
         "cognitive_model",
         "appraisal"
       ]
-    }
+    },
+    "actionable_advice": "Il n'est pas nécessaire de les éliminer complètement. Ce qui compte plutôt, c'est de « les remarquer et d'y ajouter une perspective réaliste »."
   },
   {
     "id": "mental_l05_006",
@@ -213,7 +218,8 @@
         "micro_action",
         "coping"
       ]
-    }
+    },
+    "actionable_advice": "Chacune de ces méthodes peut être utile selon les moments. Cependant, réfléchir à des solutions réalistes permet de transformer l'anxiété en action."
   },
   {
     "id": "mental_l05_007",
@@ -244,7 +250,8 @@
         "fatigue",
         "negative_bias"
       ]
-    }
+    },
+    "actionable_advice": "La fatigue et le manque de sommeil diminuent le jugement et peuvent rendre plus susceptible aux pensées négatives. Prendre soin de sa santé est aussi une mesure préventive importante."
   },
   {
     "id": "mental_l05_008",
@@ -291,7 +298,8 @@
         "implementation_intention",
         "planning"
       ]
-    }
+    },
+    "actionable_advice": "Cette technique peut être efficace dans toutes ces situations. Nous vous recommandons de commencer par de petites inquiétudes."
   },
   {
     "id": "mental_l05_009",
@@ -338,7 +346,8 @@
         "reappraisal",
         "evidence_check"
       ]
-    }
+    },
+    "actionable_advice": "Plutôt qu'un contrôle total ou une pensée positive forcée, il est important d'adopter une perspective réaliste et équilibrée."
   },
   {
     "id": "mental_l05_010",
@@ -370,6 +379,7 @@
         "fit",
         "self_monitoring"
       ]
-    }
+    },
+    "actionable_advice": "Tous les avis sont précieux. Les approches qui conviennent varient selon les personnes, donc l'important est de trouver ce qui vous correspond."
   }
 ]

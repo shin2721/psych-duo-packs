@@ -444,6 +444,28 @@
             ],
             "evidence_strength": "bronze",
             "notes": "アサーティブネスの実践ワークブック。具体的なフレーズと技術を提供。"
+        },
+        "smith_2016_perfectionism": {
+            "author": "Smith, M. M., Saklofske, D. H., Stoeber, J., & Sherry, S. B.",
+            "year": 2016,
+            "title": "The Big Three Perfectionism Scale",
+            "type": "theory",
+            "domain": [
+                "mental"
+            ],
+            "construct_tags": [
+                "perfectionism",
+                "self_evaluation",
+                "anxiety"
+            ],
+            "evidence_strength": "bronze",
+            "one_line_why": "完璧主義の認知傾向（高基準・自己批判）を整理する基礎文献",
+            "allowed_claims": [
+                "完璧主義は高基準と自己批判が同時に強まる傾向がある",
+                "完璧主義傾向は不安や行動の先延ばしと関連する場合がある",
+                "完璧主義は強みにも負担にもなり得る"
+            ],
+            "notes": "尺度構築研究を中心に、完璧主義の下位概念を整理した文脈で利用。"
         }
     }
 }

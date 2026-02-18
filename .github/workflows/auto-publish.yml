@@ -1,9 +1,8 @@
 name: Auto Publish Packs
 on:
-  schedule:
-    - cron: "0 0 * * MON"  # UTC 00:00 = JST 09:00 Monday
+  workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
 concurrency:
   group: auto-publish
   cancel-in-progress: false
@@ -11,17 +10,7 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - run: sudo apt-get update && sudo apt-get install -y jq gh
-      - name: git config
+      - name: paused
         run: |
-          git config user.name "pack-bot"
-          git config user.email "bot@users.noreply.github.com"
-      - name: run auto publish
-        run: |
-          set -e
-          chmod +x scripts/ops.sh scripts/auto_publish.sh || true
-          tracks=(mental money work)
-          for t in "${tracks[@]}"; do
-            [ -d "queue/$t" ] && bash scripts/auto_publish.sh "$t" || true
-          done
+          echo "auto-publish is paused pending the new publish pipeline."
+          echo "This workflow is intentionally disabled to avoid running stale scripts."
