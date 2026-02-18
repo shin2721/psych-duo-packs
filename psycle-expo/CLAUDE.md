@@ -6,6 +6,17 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **IMPORTANT**: Always respond in Japanese (日本語) unless the user explicitly requests English. This is a Japanese project with Japanese-speaking developers.
 
+## Startup Sync (Required)
+
+Before starting any task, always sync to latest branch state:
+
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs
+./tools/sync_psycle_latest.sh
+```
+
+Do not work from `/.claude/worktrees/*` unless the user explicitly asks for PR-specific work.
+
 ## Git Workflow
 
 **IMPORTANT**: When the user says "gitadd", always perform BOTH operations:
