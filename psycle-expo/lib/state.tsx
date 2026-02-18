@@ -169,6 +169,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const { user } = useAuth();
   const userId = user?.id || "user_local";
+  const [isStateHydrated, setIsStateHydrated] = useState(false);
   // Streak system
   const [streak, setStreak] = useState(0);
   const [lastStudyDate, setLastStudyDate] = useState<string | null>(null);
@@ -405,37 +406,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return () => clearTimeout(timer);
   }, [user, friendCount, leaderboardRank]);
 
-  // Load mistakes from AsyncStorage on mount
-  useEffect(() => {
-    if (!user) return;
-    AsyncStorage.getItem(`mistakes_${user.id}`).then((data) => {
-      if (data) {
-        const loadedMistakes = JSON.parse(data);
-
-        // Migration: Convert old format to new SRS format
-        const migratedMistakes = loadedMistakes.map((m: any) => {
-          if (m.box === undefined) {
-            // Old format detected, migrate to new format
-            return {
-              ...m,
-              box: 1,
-              nextReviewDate: Date.now(),
-              interval: 0
-            };
-          }
-          return m;
-        });
-
-        setMistakes(migratedMistakes);
-      }
-    });
-  }, [user]);
-
   // Save mistakes to AsyncStorage whenever it changes
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`mistakes_${user.id}`, JSON.stringify(mistakes));
-  }, [mistakes, user]);
+  }, [mistakes, user, isStateHydrated]);
 
 
   // Daily goal system
@@ -458,7 +433,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Load persisted state on mount (LOCAL FIRST, then Supabase sync in background)
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setIsStateHydrated(false);
+      return;
+    }
+    let cancelled = false;
+    let badgeCheckTimer: ReturnType<typeof setTimeout> | null = null;
+    setIsStateHydrated(false);
 
     const loadState = async () => {
       // STEP 1: Load from local storage FIRST (instant)
@@ -472,6 +453,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyBonusDate,
           savedEnergyBonusCount,
           savedSnapshot,
+          savedMistakes,
         ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
@@ -481,7 +463,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`energy_bonus_date_${user.id}`),
           AsyncStorage.getItem(`energy_bonus_count_${user.id}`),
           AsyncStorage.getItem(getAppSnapshotKey(user.id)),
+          AsyncStorage.getItem(`mistakes_${user.id}`),
         ]);
+        if (cancelled) return;
 
         if (savedXp) setXP(parseInt(savedXp, 10));
         if (savedGems) setGems(parseInt(savedGems, 10));
@@ -587,8 +571,32 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           }
         }
 
+        if (savedMistakes) {
+          try {
+            const loadedMistakes = JSON.parse(savedMistakes);
+            if (Array.isArray(loadedMistakes)) {
+              // Migration: Convert old format to new SRS format
+              const migratedMistakes = loadedMistakes.map((m: any) => {
+                if (m?.box === undefined) {
+                  return {
+                    ...m,
+                    box: 1,
+                    nextReviewDate: Date.now(),
+                    interval: 0,
+                  };
+                }
+                return m;
+              });
+              setMistakes(migratedMistakes);
+            }
+          } catch (mistakesError) {
+            if (__DEV__) console.log("Mistakes parse failed:", mistakesError);
+          }
+        }
+
         // Freeze一本化: streaks.tsから読み込み
         const streakData = await getStreakData();
+        if (cancelled) return;
         setFreezeCount(streakData.freezesRemaining);
 
         if (__DEV__) console.log("Loaded from local storage (instant):", {
@@ -608,11 +616,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       // STEP 2: Sync from Supabase in background (non-blocking)
       // This will update state if Supabase has newer data
       try {
+        if (cancelled) return;
         const { data, error } = await supabase
           .from('profiles')
           .select('xp, gems, streak, level, plan_id, active_until')
           .eq('id', user.id)
           .single();
+        if (cancelled) return;
 
         if (data && !error) {
           if (__DEV__) console.log("Background Supabase sync:", data);
@@ -639,19 +649,31 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       } catch (e) {
         // Supabase failed - that's okay, we already have local data
         if (__DEV__) console.log("Supabase sync failed (using local data):", e);
+      } finally {
+        if (!cancelled) {
+          setIsStateHydrated(true);
+        }
       }
 
-      setTimeout(() => {
-        triggerBadgeCheck();
+      badgeCheckTimer = setTimeout(() => {
+        if (!cancelled) {
+          triggerBadgeCheck();
+        }
       }, 500);
     };
     loadState();
+    return () => {
+      cancelled = true;
+      if (badgeCheckTimer) {
+        clearTimeout(badgeCheckTimer);
+      }
+    };
   }, [user]);
 
   // Persist state changes
   // Persist state changes to Supabase (and Local Storage as backup)
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`xp_${user.id}`, xp.toString());
 
     // Debounced update to Supabase to avoid too many requests
@@ -661,10 +683,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       });
     }, 1000);
     return () => clearTimeout(timer);
-  }, [xp, user]);
+  }, [xp, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`gems_${user.id}`, gems.toString());
 
     const timer = setTimeout(() => {
@@ -673,43 +695,43 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       });
     }, 1000);
     return () => clearTimeout(timer);
-  }, [gems, user]);
+  }, [gems, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`streak_${user.id}`, streak.toString());
 
     supabase.from('profiles').update({ streak }).eq('id', user.id).then(({ error }) => {
       if (error) console.error("Failed to sync Streak to Supabase", error);
     });
-  }, [streak, user]);
+  }, [streak, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`energy_${user.id}`, energy.toString());
-  }, [energy, user]);
+  }, [energy, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     if (lastEnergyUpdateTime === null) {
       AsyncStorage.removeItem(`energy_update_time_${user.id}`).catch(() => { });
       return;
     }
     AsyncStorage.setItem(`energy_update_time_${user.id}`, lastEnergyUpdateTime.toString());
-  }, [lastEnergyUpdateTime, user]);
+  }, [lastEnergyUpdateTime, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`energy_bonus_date_${user.id}`, dailyEnergyBonusDate);
-  }, [dailyEnergyBonusDate, user]);
+  }, [dailyEnergyBonusDate, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`energy_bonus_count_${user.id}`, dailyEnergyBonusCount.toString());
-  }, [dailyEnergyBonusCount, user]);
+  }, [dailyEnergyBonusCount, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
 
     const snapshot: PersistedAppSnapshot = {
       version: 1,
@@ -739,6 +761,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     });
   }, [
     user,
+    isStateHydrated,
     selectedGenre,
     skill,
     skillConfidence,

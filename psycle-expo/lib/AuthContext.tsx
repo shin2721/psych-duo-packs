@@ -8,7 +8,6 @@ type AuthContextType = {
     user: User | null;
     isLoading: boolean;
     signIn: () => void;
-    signInAsGuest: () => void;
     signOut: () => void;
 };
 
@@ -17,7 +16,6 @@ const AuthContext = createContext<AuthContextType>({
     user: null,
     isLoading: true,
     signIn: () => { },
-    signInAsGuest: () => { },
     signOut: () => { },
 });
 
@@ -28,88 +26,49 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
+        let active = true;
+
         const initSession = async () => {
-            // STEP 1: Check local guest session FIRST (instant)
             try {
-                const guestSessionStr = await AsyncStorage.getItem('guestSession');
-                if (guestSessionStr) {
-                    setSession(JSON.parse(guestSessionStr));
-                    setIsLoading(false);
-                    // Continue to check Supabase in background...
-                }
+                // Cleanup legacy guest session data from previous builds.
+                await AsyncStorage.removeItem('guestSession');
             } catch (error) {
-                console.error('Error loading guest session:', error);
+                if (__DEV__) console.log('Legacy guest session cleanup skipped:', error);
             }
 
-            // STEP 2: Check Supabase in background (non-blocking)
             try {
                 const { data: { session: supabaseSession } } = await supabase.auth.getSession();
-
-                if (supabaseSession) {
+                if (active) {
                     setSession(supabaseSession);
-                    // Clear guest session if we have a real one
-                    AsyncStorage.removeItem('guestSession');
                 }
             } catch (error) {
-                if (__DEV__) console.log('Supabase auth check failed (using local session)');
+                if (__DEV__) console.log('Supabase auth check failed:', error);
             } finally {
-                // Always ensure loading is complete
-                setIsLoading(false);
+                if (active) {
+                    setIsLoading(false);
+                }
             }
         };
 
         initSession();
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            // Only update if we don't have a guest session, or if this is a valid supabase session
-            // Ideally, real auth should take precedence.
-            if (session) {
-                setSession(session);
-                // Clear guest session if we logged in consistently
-                AsyncStorage.removeItem('guestSession');
-            } else {
-                // If signed out from supabase, check if we should fall back to guest (unlikely)
-                // or simply clear session.
-                // However, onAuthStateChange fires with null on initial load if no session.
-                // We should be careful not to overwrite our guest session logic.
-                // For now, let's assume explicit signOut clears everything.
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+            if (!active) return;
+            setSession(nextSession);
+            if (!nextSession) {
+                setIsLoading(false);
             }
         });
 
-        return () => subscription.unsubscribe();
+        return () => {
+            active = false;
+            subscription.unsubscribe();
+        };
     }, []);
 
     const signOut = async () => {
         await supabase.auth.signOut();
-        await AsyncStorage.removeItem('guestSession');
         setSession(null);
-    };
-
-    const signInAsGuest = async () => {
-        const guestUser: User = {
-            id: 'guest_user',
-            app_metadata: {},
-            user_metadata: {},
-            aud: 'authenticated',
-            created_at: new Date().toISOString(),
-        };
-
-        const guestSession: Session = {
-            access_token: 'guest_token',
-            refresh_token: 'guest_refresh',
-            expires_in: 3600,
-            token_type: 'bearer',
-            user: guestUser,
-        };
-
-        try {
-            await AsyncStorage.setItem('guestSession', JSON.stringify(guestSession));
-            setSession(guestSession);
-        } catch (error) {
-            console.error('Error saving guest session:', error);
-        } finally {
-            setIsLoading(false);
-        }
     };
 
     const signIn = async () => {
@@ -122,7 +81,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         user: session?.user ?? null,
         isLoading,
         signIn,
-        signInAsGuest,
         signOut,
     };
 

@@ -10,6 +10,7 @@ import { PLANS, SUPABASE_FUNCTION_URL, type PlanConfig } from "../../lib/plans";
 import { getPlanPrice } from "../../lib/pricing";
 import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
+import { Analytics } from "../../lib/analytics";
 
 interface ShopItem {
   id: string;
@@ -81,7 +82,26 @@ export default function ShopScreen() {
 
   const handleSubscribe = async (plan: PlanConfig) => {
     setIsSubscribing(true);
+    Analytics.track("plan_select", {
+      source: "shop_tab",
+      planId: plan.id,
+    });
     try {
+      if (!user?.id || !user?.email) {
+        Analytics.track("checkout_failed", {
+          source: "shop_tab",
+          planId: plan.id,
+          reason: "missing_authenticated_user",
+        });
+        Alert.alert(i18n.t("common.error"), i18n.t("auth.signIn"));
+        return;
+      }
+
+      Analytics.track("checkout_start", {
+        source: "shop_tab",
+        planId: plan.id,
+      });
+
       // Call Supabase Function to create checkout session
       const response = await fetch(`${SUPABASE_FUNCTION_URL}/create-checkout-session`, {
         method: "POST",
@@ -90,25 +110,55 @@ export default function ShopScreen() {
         },
         body: JSON.stringify({
           priceId: plan.priceId,
-          userId: user?.id || "",
-          email: user?.email || "user@example.com",
+          userId: user.id,
+          email: user.email,
         }),
       });
 
-      const data = await response.json();
+      if (!response.ok) {
+        Analytics.track("checkout_failed", {
+          source: "shop_tab",
+          planId: plan.id,
+          reason: "checkout_http_error",
+          status: response.status,
+        });
+        Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutSessionFailed"));
+        return;
+      }
 
-      if (data.url) {
+      const data = await response.json().catch(() => null);
+
+      if (data?.url) {
+        Analytics.track("checkout_opened", {
+          source: "shop_tab",
+          planId: plan.id,
+        });
         // Open Stripe Checkout in browser
         const supported = await Linking.canOpenURL(data.url);
         if (supported) {
           await Linking.openURL(data.url);
         } else {
+          Analytics.track("checkout_failed", {
+            source: "shop_tab",
+            planId: plan.id,
+            reason: "checkout_url_not_supported",
+          });
           Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.openCheckoutFailed"));
         }
       } else {
+        Analytics.track("checkout_failed", {
+          source: "shop_tab",
+          planId: plan.id,
+          reason: "checkout_url_missing",
+        });
         Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutSessionFailed"));
       }
     } catch (error) {
+      Analytics.track("checkout_failed", {
+        source: "shop_tab",
+        planId: plan.id,
+        reason: "checkout_exception",
+      });
       console.error("Checkout error:", error);
       Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
     } finally {

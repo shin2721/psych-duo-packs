@@ -22,7 +22,12 @@
 ```bash
 supabase functions deploy settle-league-week
 ```
-- 必要な環境変数: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (デフォルトで設定されているはずですが確認)
+- 必要な環境変数: `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `LEAGUE_SETTLE_CRON_SECRET`
+- `LEAGUE_SETTLE_CRON_SECRET` は先に設定すること（未設定時は 500 を返す）
+
+```bash
+supabase secrets set LEAGUE_SETTLE_CRON_SECRET='replace-with-long-random-secret'
+```
 
 ---
 
@@ -57,6 +62,7 @@ supabase functions deploy settle-league-week
 - UTC: 日曜 15:05
 - JST: **月曜 00:05**
 - 理由: `get_last_week_id` (JST基準) が切り替わった直後の月曜深夜に実行し、朝起きたユーザーに確実に結果を表示するため。
+- 実行リクエストには `x-cron-secret: <LEAGUE_SETTLE_CRON_SECRET>` ヘッダが必須。
 
 ---
 

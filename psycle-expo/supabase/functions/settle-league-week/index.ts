@@ -33,6 +33,30 @@ interface League {
 }
 
 Deno.serve(async (req) => {
+    if (req.method !== 'POST') {
+        return new Response(JSON.stringify({ error: 'Method Not Allowed' }), {
+            status: 405,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
+
+    const expectedCronSecret = Deno.env.get('LEAGUE_SETTLE_CRON_SECRET');
+    if (!expectedCronSecret) {
+        console.error('[settle-league-week] Missing LEAGUE_SETTLE_CRON_SECRET');
+        return new Response(JSON.stringify({ error: 'Server misconfiguration' }), {
+            status: 500,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
+
+    const receivedCronSecret = req.headers.get('x-cron-secret');
+    if (!receivedCronSecret || receivedCronSecret !== expectedCronSecret) {
+        return new Response(JSON.stringify({ error: 'Forbidden' }), {
+            status: 403,
+            headers: { 'Content-Type': 'application/json' },
+        });
+    }
+
     try {
         const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
         const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
@@ -154,8 +178,9 @@ Deno.serve(async (req) => {
             headers: { 'Content-Type': 'application/json' },
         });
     } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
         console.error('[settle-league-week] Error:', error);
-        return new Response(JSON.stringify({ error: error.message }), {
+        return new Response(JSON.stringify({ error: message }), {
             status: 500,
             headers: { 'Content-Type': 'application/json' },
         });

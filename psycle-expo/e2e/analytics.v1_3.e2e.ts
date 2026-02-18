@@ -19,6 +19,8 @@ const REPORT_TEXT_FILE = path.join(ARTIFACTS_DIR, 'analytics_e2e_report.txt');
 const USE_DEV_CLIENT_BOOTSTRAP = process.env.E2E_BOOTSTRAP_DEV_CLIENT === '1';
 const DEV_SERVER_URL = resolveDevServerUrl();
 const DEV_CLIENT_URL = `exp+psycle-expo://expo-development-client/?url=${encodeURIComponent(DEV_SERVER_URL)}`;
+const E2E_TEST_EMAIL = process.env.E2E_TEST_EMAIL ?? '';
+const E2E_TEST_PASSWORD = process.env.E2E_TEST_PASSWORD ?? '';
 
 // Ensure artifacts directory exists
 if (!fs.existsSync(ARTIFACTS_DIR)) {
@@ -56,7 +58,7 @@ describe('Analytics v1.3 E2E', () => {
       
       // Wait for app to fully initialize
       const entryPoint = await waitForAnyVisibleById(
-        ['onboarding-start', 'onboarding-interests-title', 'auth-guest-login', 'tab-course'],
+        ['onboarding-start', 'onboarding-interests-title', 'auth-sign-in', 'tab-course'],
         90000
       );
       console.log(`ℹ️ app entry point: ${entryPoint}`);
@@ -77,12 +79,11 @@ describe('Analytics v1.3 E2E', () => {
       // Step 3: Wait for post-onboarding routing and sign in when needed.
       // Depending on stored session, app may go directly to tabs or stop at auth.
       const postOnboardingEntry = await waitForAnyVisibleById(
-        ['auth-guest-login', 'tab-course'],
+        ['auth-sign-in', 'tab-course'],
         45000
       );
-      if (postOnboardingEntry === 'auth-guest-login') {
-        await element(by.id('auth-guest-login')).tap();
-        await sleep(2000);
+      if (postOnboardingEntry === 'auth-sign-in') {
+        await signInFromAuthScreen();
       }
 
       // Step 4: Navigate to first lesson
@@ -511,7 +512,7 @@ async function scrollUntilVisibleById(anchorTestID: string, targetTestID: string
 
 async function bootstrapDevClientToApp(): Promise<void> {
   // If app UI already visible, no bootstrap needed.
-  if (await isAnyVisibleById(['onboarding-start', 'onboarding-interests-title', 'auth-guest-login', 'tab-course'], 1500)) {
+  if (await isAnyVisibleById(['onboarding-start', 'onboarding-interests-title', 'auth-sign-in', 'tab-course'], 1500)) {
     return;
   }
 
@@ -528,6 +529,18 @@ async function bootstrapDevClientToApp(): Promise<void> {
   await tapFirstVisibleText(['Continue', '続行', '続ける'], 5000);
 
   await sleep(1500);
+}
+
+async function signInFromAuthScreen(): Promise<void> {
+  if (!E2E_TEST_EMAIL || !E2E_TEST_PASSWORD) {
+    throw new Error('E2E_TEST_EMAIL and E2E_TEST_PASSWORD are required when auth screen is shown.');
+  }
+
+  await waitFor(element(by.id('auth-email'))).toBeVisible().withTimeout(15000);
+  await element(by.id('auth-email')).replaceText(E2E_TEST_EMAIL);
+  await element(by.id('auth-password')).replaceText(E2E_TEST_PASSWORD);
+  await element(by.id('auth-sign-in')).tap();
+  await waitFor(element(by.id('tab-course'))).toBeVisible().withTimeout(45000);
 }
 
 async function waitForAnyVisibleById(testIDs: string[], timeoutMs: number): Promise<string> {

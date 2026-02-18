@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert, Text } from 'react-native';
 import { supabase } from '../lib/supabase';
-import { useAuth } from '../lib/AuthContext';
 import i18n from '../lib/i18n';
 
 export default function AuthScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const { signInAsGuest } = useAuth();
 
     async function signInWithEmail() {
         setLoading(true);
@@ -39,6 +37,7 @@ export default function AuthScreen() {
 
             <View style={styles.inputContainer}>
                 <TextInput
+                    testID="auth-email"
                     style={styles.input}
                     onChangeText={(text) => setEmail(text)}
                     value={email}
@@ -47,6 +46,7 @@ export default function AuthScreen() {
                     keyboardType="email-address"
                 />
                 <TextInput
+                    testID="auth-password"
                     style={styles.input}
                     onChangeText={(text) => setPassword(text)}
                     value={password}
@@ -58,13 +58,9 @@ export default function AuthScreen() {
 
             <View style={styles.buttonContainer}>
                 <View style={styles.primaryButton}>
-                    <Button title={loading ? i18n.t('common.loading') : i18n.t('auth.signIn')} disabled={loading} onPress={signInWithEmail} />
+                    <Button testID="auth-sign-in" title={loading ? i18n.t('common.loading') : i18n.t('auth.signIn')} disabled={loading} onPress={signInWithEmail} />
                 </View>
-                <Button title={i18n.t('auth.signUp')} disabled={loading} onPress={signUpWithEmail} color="#2e78b7" />
-            </View>
-
-            <View style={styles.guestButtonContainer}>
-                <Button title={i18n.t('auth.guestLogin')} onPress={signInAsGuest} color="#888" disabled={loading} testID="auth-guest-login" />
+                <Button testID="auth-sign-up" title={i18n.t('auth.signUp')} disabled={loading} onPress={signUpWithEmail} color="#2e78b7" />
             </View>
         </View>
     );
@@ -103,11 +99,5 @@ const styles = StyleSheet.create({
     },
     primaryButton: {
         marginBottom: 10,
-    },
-    guestButtonContainer: {
-        marginTop: 20,
-        borderTopWidth: 1,
-        borderTopColor: '#ddd',
-        paddingTop: 20,
     },
 });
