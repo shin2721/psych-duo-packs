@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TARGET_BRANCH="${1:-ゲーミフィケーション}"
+TARGET_BRANCH="${1:-main}"
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
 if [[ -z "$REPO_ROOT" ]]; then
@@ -44,7 +44,11 @@ fi
 if [[ "$SYNC_MODE" == "branch" ]]; then
   git pull --ff-only origin "$TARGET_BRANCH"
 else
-  git reset --hard "origin/$TARGET_BRANCH" >/dev/null
+  # In detached mode, re-checkout the remote ref to move HEAD to latest commit.
+  git checkout --detach "origin/$TARGET_BRANCH" >/dev/null 2>&1 || {
+    echo "sync failed: cannot refresh detached HEAD to origin/$TARGET_BRANCH"
+    exit 1
+  }
 fi
 
 LOCAL_HEAD="$(git rev-parse --short HEAD)"

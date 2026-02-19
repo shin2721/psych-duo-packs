@@ -13,10 +13,12 @@ At the start of every session, run:
 ./tools/sync_psycle_latest.sh
 ```
 
+This defaults to `main`.
+
 If needed, you may pass a branch name explicitly:
 
 ```bash
-./tools/sync_psycle_latest.sh ゲーミフィケーション
+./tools/sync_psycle_latest.sh main
 ```
 
 If sync fails, stop and report the exact error before editing files.
