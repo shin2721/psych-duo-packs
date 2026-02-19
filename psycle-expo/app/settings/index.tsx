@@ -7,7 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as Haptics from "expo-haptics";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
-import { restorePurchases } from "../../lib/billing";
+import { openBillingPortal, restorePurchases } from "../../lib/billing";
 import { useAppState } from "../../lib/state";
 import { getExportableJSON } from "../../lib/dogfood";
 import i18n from "../../lib/i18n";
@@ -21,6 +21,7 @@ export default function SettingsScreen() {
     const [notificationsEnabled, setNotificationsEnabled] = useState(true);
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [hapticsEnabled, setHapticsEnabled] = useState(true);
+    const [isOpeningPortal, setIsOpeningPortal] = useState(false);
     const [isRestoring, setIsRestoring] = useState(false);
     const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
     const isAnalyticsDebugEnabled = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
@@ -68,6 +69,23 @@ export default function SettingsScreen() {
             }
         } finally {
             setIsRestoring(false);
+        }
+    };
+
+    const handleOpenBillingPortal = async () => {
+        if (!user?.email) {
+            Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.loginRequiredForBillingPortal"));
+            return;
+        }
+
+        setIsOpeningPortal(true);
+        try {
+            const ok = await openBillingPortal(user.email);
+            if (!ok) {
+                Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.billingPortalUnavailable"));
+            }
+        } finally {
+            setIsOpeningPortal(false);
         }
     };
 
@@ -201,6 +219,11 @@ export default function SettingsScreen() {
                         icon="refresh-circle"
                         label={isRestoring ? i18n.t("settings.restoring") : i18n.t("settings.restorePurchases")}
                         onPress={handleRestorePurchases}
+                    />
+                    <SettingRow
+                        icon="card"
+                        label={isOpeningPortal ? i18n.t("settings.openingPortal") : i18n.t("settings.manageBilling")}
+                        onPress={handleOpenBillingPortal}
                     />
                 </View>
 

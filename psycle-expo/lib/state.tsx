@@ -16,9 +16,8 @@ import {
 } from "../src/featureGate";
 import { selectMistakesHubItems } from "../src/features/mistakesHub";
 import { Analytics } from "./analytics";
+import type { PlanId } from "./types/plan";
 import entitlements from "../config/entitlements.json";
-
-type PlanId = "free" | "pro" | "max";
 
 interface EntitlementsConfig {
   plans?: {

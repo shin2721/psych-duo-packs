@@ -5,6 +5,52 @@
 
 ---
 
+## 0. Billing Runtime (P0.4)
+
+### Source of truth
+
+- Billing backend is **Supabase Edge Functions only**.
+- Active endpoints:
+  - `create-checkout-session`
+  - `stripe-webhook`
+  - `portal`
+  - `restore-purchases`
+- `psycle-billing` is frozen as reference-only and must not be used in production routing.
+
+### Required secrets
+
+- `STRIPE_SECRET_KEY`
+- `STRIPE_WEBHOOK_SECRET`
+- `STRIPE_PRICE_PRO`
+- `STRIPE_PRICE_MAX` (reserved for future Max relaunch)
+- `FRONTEND_SUCCESS_URL`
+- `FRONTEND_CANCEL_URL`
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_ROLE_KEY`
+- Expo runtime: `EXPO_PUBLIC_SUPABASE_FUNCTION_URL`
+
+### Webhook registration
+
+- Stripe Dashboard -> Developers -> Webhooks
+- Endpoint URL: `{EXPO_PUBLIC_SUPABASE_FUNCTION_URL}/stripe-webhook`
+- Events:
+  - `checkout.session.completed`
+  - `invoice.payment_succeeded`
+  - `customer.subscription.deleted`
+
+### Failure checklist
+
+1. `price mismatch`
+- Confirm Stripe Price IDs match `STRIPE_PRICE_PRO/MAX` in Supabase secrets.
+2. `webhook signature failure`
+- Verify `STRIPE_WEBHOOK_SECRET` exactly matches the configured endpoint secret.
+3. `checkout starts but plan not reflected`
+- Confirm webhook target points to Supabase `stripe-webhook`, not legacy Next.js route.
+4. `portal/restore fails`
+- Confirm function URL is set in Expo env as `EXPO_PUBLIC_SUPABASE_FUNCTION_URL`.
+
+---
+
 ## 1. Operating Modes
 
 ### Mode A: Antigravity Manual Generation (Current)

@@ -12,6 +12,12 @@ const stripe = new Stripe(stripeSecret, {
 const allowOrigin = "*";
 
 type PlanId = "pro" | "max";
+type CheckoutPayload = {
+  planId?: string;
+  priceId?: string;
+  userId?: string;
+  email?: string;
+};
 
 function jsonResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -23,14 +29,18 @@ function jsonResponse(body: unknown, status = 200) {
   });
 }
 
-function resolvePriceId(inputPriceId?: string, inputPlanId?: string): string | null {
-  const planId = inputPlanId === "pro" || inputPlanId === "max" ? (inputPlanId as PlanId) : null;
+function resolvePriceId(planId: PlanId, inputPriceId?: string): string | null {
   const envPro = Deno.env.get("STRIPE_PRICE_PRO");
   const envMax = Deno.env.get("STRIPE_PRICE_MAX");
 
   if (planId === "pro") return envPro ?? inputPriceId ?? null;
   if (planId === "max") return envMax ?? inputPriceId ?? null;
-  return inputPriceId ?? null;
+  return null;
+}
+
+function normalizePlanId(value?: string): PlanId | null {
+  if (value === "pro" || value === "max") return value;
+  return null;
 }
 
 Deno.serve(async (req) => {
@@ -49,10 +59,15 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { priceId, planId, userId, email } = await req.json();
-    const resolvedPriceId = resolvePriceId(priceId, planId);
+    const payload = (await req.json()) as CheckoutPayload;
+    const planId = normalizePlanId(payload.planId);
+    if (!planId || !payload.userId || !payload.email) {
+      return jsonResponse({ error: "missing_params" }, 400);
+    }
 
-    if (!resolvedPriceId || !email) {
+    const resolvedPriceId = resolvePriceId(planId, payload.priceId);
+
+    if (!resolvedPriceId) {
       return jsonResponse({ error: "missing_params" }, 400);
     }
 
@@ -65,14 +80,22 @@ Deno.serve(async (req) => {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       allow_promotion_codes: true,
-      customer_email: email,
+      customer_email: payload.email,
       line_items: [{ price: resolvedPriceId, quantity: 1 }],
       success_url: successUrl,
       cancel_url: cancelUrl,
+      client_reference_id: payload.userId,
       metadata: {
-        userId: userId ?? "",
-        planId: planId ?? "",
+        userId: payload.userId,
+        planId,
         priceId: resolvedPriceId,
+      },
+      subscription_data: {
+        metadata: {
+          userId: payload.userId,
+          planId,
+          priceId: resolvedPriceId,
+        },
       },
     });
 

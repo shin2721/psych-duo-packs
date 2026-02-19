@@ -3,8 +3,19 @@
 import { Linking } from "react-native";
 import { Analytics } from "./analytics";
 import { getPlanById, getSupabaseFunctionsUrl } from "./plans";
+import type { PlanId } from "./types/plan";
 
 export async function buyPlan(plan: "pro" | "max", uid: string, email: string): Promise<boolean> {
+  if (plan === "max") {
+    Analytics.track("checkout_failed", {
+      source: "billing_lib",
+      planId: plan,
+      reason: "max_disabled",
+    });
+    alert("Maxプランは現在停止中です。");
+    return false;
+  }
+
   const functionsUrl = getSupabaseFunctionsUrl();
   if (!functionsUrl) {
     Analytics.track("checkout_failed", {
@@ -110,7 +121,7 @@ export async function openBillingPortal(email: string): Promise<boolean> {
  * 購入を復元する（App Store審査で必須）
  * サーバーサイドでユーザーの購入履歴を確認し、entitlementを復元する
  */
-export async function restorePurchases(uid: string, email: string): Promise<{ restored: boolean; planId?: "free" | "pro" | "max"; activeUntil?: string | null } | false> {
+export async function restorePurchases(uid: string, email: string): Promise<{ restored: boolean; planId?: PlanId; activeUntil?: string | null } | false> {
   const functionsUrl = getSupabaseFunctionsUrl();
   if (!functionsUrl || !uid || !email) {
     Analytics.track("checkout_failed", {
@@ -136,7 +147,7 @@ export async function restorePurchases(uid: string, email: string): Promise<{ re
 
     if (data.restored && data.planId) {
       alert(`購入を復元しました！プラン: ${data.planId.toUpperCase()}`);
-      return data;
+      return data as { restored: boolean; planId?: PlanId; activeUntil?: string | null };
     } else {
       alert("復元可能な購入が見つかりませんでした。");
       return false;

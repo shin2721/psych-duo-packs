@@ -1,4 +1,6 @@
-export type PlanId = "free" | "pro" | "max";
+import type { PlanId } from "./types/plan";
+
+export type { PlanId } from "./types/plan";
 
 export interface PlanConfig {
   id: PlanId;
