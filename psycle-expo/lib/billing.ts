@@ -42,6 +42,7 @@ export async function buyPlan(plan: "pro" | "max", uid: string, email: string): 
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
+        planId: plan,
         priceId: selectedPlan.priceId,
         userId: uid,
         email,
