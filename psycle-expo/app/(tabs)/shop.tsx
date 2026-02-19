@@ -126,6 +126,7 @@ export default function ShopScreen() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
+          planId: plan.id,
           priceId: plan.priceId,
           userId: user.id,
           email: user.email,
