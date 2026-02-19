@@ -5,13 +5,22 @@
     "build": {
         "development": {
             "developmentClient": true,
-            "distribution": "internal"
+            "distribution": "internal",
+            "env": {
+                "EXPO_PUBLIC_SUPABASE_FUNCTION_URL": "https://nudmnbmasmtacoluyvqo.functions.supabase.co"
+            }
         },
         "preview": {
-            "distribution": "internal"
+            "distribution": "internal",
+            "env": {
+                "EXPO_PUBLIC_SUPABASE_FUNCTION_URL": "https://nudmnbmasmtacoluyvqo.functions.supabase.co"
+            }
         },
         "production": {
-            "autoIncrement": true
+            "autoIncrement": true,
+            "env": {
+                "EXPO_PUBLIC_SUPABASE_FUNCTION_URL": "https://nudmnbmasmtacoluyvqo.functions.supabase.co"
+            }
         }
     },
     "submit": {
