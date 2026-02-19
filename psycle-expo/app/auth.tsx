@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert, Text } from 'react-native';
 import { supabase } from '../lib/supabase';
-import { useAuth } from '../lib/AuthContext';
 import i18n from '../lib/i18n';
 
 export default function AuthScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
-    const { signInAsGuest } = useAuth();
 
     async function signInWithEmail() {
         setLoading(true);
@@ -62,10 +60,6 @@ export default function AuthScreen() {
                 </View>
                 <Button title={i18n.t('auth.signUp')} disabled={loading} onPress={signUpWithEmail} color="#2e78b7" />
             </View>
-
-            <View style={styles.guestButtonContainer}>
-                <Button title={i18n.t('auth.guestLogin')} onPress={signInAsGuest} color="#888" disabled={loading} testID="auth-guest-login" />
-            </View>
         </View>
     );
 }
@@ -103,11 +97,5 @@ const styles = StyleSheet.create({
     },
     primaryButton: {
         marginBottom: 10,
-    },
-    guestButtonContainer: {
-        marginTop: 20,
-        borderTopWidth: 1,
-        borderTopColor: '#ddd',
-        paddingTop: 20,
     },
 });

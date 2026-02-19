@@ -27,7 +27,8 @@
         "catastrophizing",
         "rumination"
       ]
-    }
+    },
+    "actionable_advice": "이것은 전형적인 \"파국적 사고\" 예시입니다. \"못 끝내겠다\"라는 예측이 현실보다 앞서가면서 불안을 증폭시킵니다. *이 레슨은 가벼운 불안에 대한 대처 방법을 소개합니다. 자살 충동이나 자해 경향이 있다면 앱이 아닌 전문 지원 서비스에 상담해 주세요."
   },
   {
     "id": "mental_l05_002",
@@ -58,7 +59,8 @@
         "catastrophizing",
         "reappraisal_theory"
       ]
-    }
+    },
+    "actionable_advice": "\"근거 확인\"은 파국적 사고에 잘 작동할 수 있는 경우가 있습니다. 생각을 없애려 하기보다 현실적 관점을 되찾는 게 더 중요할 수 있습니다."
   },
   {
     "id": "mental_l05_003",
@@ -90,7 +92,8 @@
         "appraisal",
         "anxiety"
       ]
-    }
+    },
+    "actionable_advice": "어떤 답도 정상적인 반응입니다. 우리 뇌는 위험을 예측하도록 설계되어 있어서 부정적 결과를 상상하는 것은 자연스럽습니다."
   },
   {
     "id": "mental_l05_004",
@@ -136,7 +139,8 @@
         "coping",
         "reappraisal"
       ]
-    }
+    },
+    "actionable_advice": "한 극단에서 다른 극단으로 흔들리기보다, 균형 잡힌 관점을 찾는 게 중요합니다. 과거 경험은 현실적인 근거를 제공합니다."
   },
   {
     "id": "mental_l05_005",
@@ -166,7 +170,8 @@
         "cognitive_model",
         "appraisal"
       ]
-    }
+    },
+    "actionable_advice": "완전히 없앨 필요는 없습니다. 중요한 것은 \"알아차리고 현실적 관점을 더하는 것\"입니다."
   },
   {
     "id": "mental_l05_006",
@@ -213,7 +218,8 @@
         "micro_action",
         "coping"
       ]
-    }
+    },
+    "actionable_advice": "각 방법이 효과적일 수 있는 경우가 있지만, 현실적인 해결책을 생각하면 불안을 행동으로 전환할 수 있습니다."
   },
   {
     "id": "mental_l05_007",
@@ -244,7 +250,8 @@
         "fatigue",
         "negative_bias"
       ]
-    }
+    },
+    "actionable_advice": "피로와 수면 부족은 판단력을 저하시키고 부정적 사고를 일으키기 쉽게 합니다. 신체 건강 관리도 중요한 대책입니다."
   },
   {
     "id": "mental_l05_008",
@@ -291,7 +298,8 @@
         "implementation_intention",
         "planning"
       ]
-    }
+    },
+    "actionable_advice": "어떤 상황에서든 효과가 있습니다. 작은 불안부터 시작하는 것을 권장합니다."
   },
   {
     "id": "mental_l05_009",
@@ -338,7 +346,8 @@
         "reappraisal",
         "evidence_check"
       ]
-    }
+    },
+    "actionable_advice": "완전한 통제나 억지 긍정적 사고보다, 현실적이고 균형 잡힌 관점을 갖는 게 중요합니다."
   },
   {
     "id": "mental_l05_010",
@@ -370,6 +379,7 @@
         "fit",
         "self_monitoring"
       ]
-    }
+    },
+    "actionable_advice": "모든 느낌이 가치 있습니다. 사람마다 다른 방법이 맞으니, 자신에게 맞는 접근법을 찾는 게 중요합니다."
   }
 ]

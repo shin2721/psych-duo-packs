@@ -21,6 +21,13 @@ interface FriendRequest {
     total_xp: number;
 }
 
+interface LeaderboardProfile {
+    user_id: string;
+    username: string | null;
+    total_xp: number | null;
+    current_streak: number | null;
+}
+
 type ViewType = 'friends' | 'requests' | 'search';
 
 export default function FriendsScreen() {
@@ -45,20 +52,22 @@ export default function FriendsScreen() {
         try {
             const { data, error } = await supabase
                 .from('friendships')
-                .select(`
-          friend_id,
-          leaderboard!friendships_friend_id_fkey(username, total_xp, current_streak)
-        `)
+                .select('friend_id')
                 .eq('user_id', user.id);
 
             if (error) throw error;
+            const friendIds = (data ?? []).map((item) => item.friend_id).filter(Boolean);
+            const leaderboardMap = await fetchLeaderboardMap(friendIds);
 
-            const formattedFriends = data?.map(item => ({
+            const formattedFriends = (data ?? []).map(item => {
+                const profile = leaderboardMap.get(item.friend_id);
+                return {
                 friend_id: item.friend_id,
-                username: (item.leaderboard as any)?.username || 'Unknown',
-                total_xp: (item.leaderboard as any)?.total_xp || 0,
-                current_streak: (item.leaderboard as any)?.current_streak || 0,
-            })) || [];
+                username: profile?.username || 'Unknown',
+                total_xp: profile?.total_xp || 0,
+                current_streak: profile?.current_streak || 0,
+                };
+            });
 
             setFriends(formattedFriends);
         } catch (error) {
@@ -75,22 +84,23 @@ export default function FriendsScreen() {
         try {
             const { data, error } = await supabase
                 .from('friend_requests')
-                .select(`
-          id,
-          from_user_id,
-          leaderboard!friend_requests_from_user_id_fkey(username, total_xp)
-        `)
+                .select('id, from_user_id')
                 .eq('to_user_id', user.id)
                 .eq('status', 'pending');
 
             if (error) throw error;
+            const fromUserIds = (data ?? []).map((item) => item.from_user_id).filter(Boolean);
+            const leaderboardMap = await fetchLeaderboardMap(fromUserIds);
 
-            const formattedRequests = data?.map(item => ({
+            const formattedRequests = (data ?? []).map(item => {
+                const profile = leaderboardMap.get(item.from_user_id);
+                return {
                 id: item.id,
                 from_user_id: item.from_user_id,
-                username: (item.leaderboard as any)?.username || 'Unknown',
-                total_xp: (item.leaderboard as any)?.total_xp || 0,
-            })) || [];
+                username: profile?.username || 'Unknown',
+                total_xp: profile?.total_xp || 0,
+                };
+            });
 
             setRequests(formattedRequests);
         } catch (error) {
@@ -98,6 +108,30 @@ export default function FriendsScreen() {
         } finally {
             setLoading(false);
         }
+    };
+
+    const fetchLeaderboardMap = async (userIds: string[]): Promise<Map<string, LeaderboardProfile>> => {
+        const map = new Map<string, LeaderboardProfile>();
+        if (userIds.length === 0) return map;
+
+        try {
+            const { data, error } = await supabase
+                .from('leaderboard')
+                .select('user_id, username, total_xp, current_streak')
+                .in('user_id', userIds);
+
+            if (error) throw error;
+
+            (data ?? []).forEach((row) => {
+                if (row.user_id) {
+                    map.set(row.user_id, row as LeaderboardProfile);
+                }
+            });
+        } catch (error) {
+            console.error('Error fetching leaderboard profiles:', error);
+        }
+
+        return map;
     };
 
     const acceptRequest = async (requestId: string, fromUserId: string) => {

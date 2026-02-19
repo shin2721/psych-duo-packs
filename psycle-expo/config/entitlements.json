@@ -25,7 +25,7 @@
     "pro": {
       "id": "pro",
       "name": "Pro",
-      "price_jpy": 1490,
+      "price_jpy": 980,
       "energy": {
         "daily_cap": null,
         "auto_refill": false

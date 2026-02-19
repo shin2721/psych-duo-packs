@@ -6,9 +6,15 @@ This repo intentionally separates validation, scheduled publish, and manual publ
 | --- | --- | --- |
 | `ci-tests.yml` | `pull_request`, `push` (`main` only), `workflow_dispatch` | Test, web smoke, and content quality checks |
 | `validate-packs.yml` | `pull_request`, `push` (`main` only) | Catalog/pack validation only |
-| `auto-publish.yml` | `schedule` | Weekly automatic publish from queue |
-| `publish-manual.yml` | `workflow_dispatch` | On-demand manual publish |
+| `auto-publish.yml` | `workflow_dispatch` | **Paused** (publish pipeline migration in progress) |
+| `publish-manual.yml` | `workflow_dispatch` | **Paused** (publish pipeline migration in progress) |
 | `content-generation.yml` | `schedule`, `workflow_dispatch` | Autonomous content generation |
+
+## Publish Workflow Status
+
+- `auto-publish.yml` and `publish-manual.yml` are intentionally paused.
+- Reason: legacy scripts/references were stale and could run unsafe paths.
+- These workflows should remain paused until the new publish pipeline is introduced.
 
 ## Runbooks
 

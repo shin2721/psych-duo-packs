@@ -73,7 +73,7 @@ BEGIN
   BEGIN
     FOR v_badge IN SELECT jsonb_array_elements_text(v_reward.badges)
     LOOP
-      INSERT INTO user_badges (user_id, badge_id, earned_at)
+      INSERT INTO user_badges (user_id, badge_id, unlocked_at)
       VALUES (v_reward.user_id, v_badge, NOW())
       ON CONFLICT (user_id, badge_id) DO NOTHING;
       

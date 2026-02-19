@@ -27,7 +27,8 @@
         "catastrophizing",
         "rumination"
       ]
-    }
+    },
+    "actionable_advice": "This is a classic \"catastrophic thinking\" example. The prediction \"I won't make it\" races ahead of reality, amplifying anxiety. *This lesson introduces coping methods for mild anxiety. If you experience suicidal thoughts or self-harm tendencies, please consult a professional support service rather than relying on an app."
   },
   {
     "id": "mental_l05_002",
@@ -58,7 +59,8 @@
         "catastrophizing",
         "reappraisal_theory"
       ]
-    }
+    },
+    "actionable_advice": "\"Evidence-checking\" works well for catastrophic thinking. Rather than trying to eliminate the thought, regaining a realistic perspective is key."
   },
   {
     "id": "mental_l05_003",
@@ -90,7 +92,8 @@
         "appraisal",
         "anxiety"
       ]
-    }
+    },
+    "actionable_advice": "Any answer is a normal response. Our brains are wired to predict danger, so imagining negative outcomes is natural."
   },
   {
     "id": "mental_l05_004",
@@ -136,7 +139,8 @@
         "coping",
         "reappraisal"
       ]
-    }
+    },
+    "actionable_advice": "Rather than swinging from one extreme to another, finding a balanced perspective is important. Past experience provides realistic evidence."
   },
   {
     "id": "mental_l05_005",
@@ -166,7 +170,8 @@
         "cognitive_model",
         "appraisal"
       ]
-    }
+    },
+    "actionable_advice": "You don't need to eliminate it completely. What matters is \"noticing it and adding a realistic perspective.\""
   },
   {
     "id": "mental_l05_006",
@@ -213,7 +218,8 @@
         "micro_action",
         "coping"
       ]
-    }
+    },
+    "actionable_advice": "Each method can be effective at times, but thinking of realistic solutions can transform anxiety into action."
   },
   {
     "id": "mental_l05_007",
@@ -244,7 +250,8 @@
         "fatigue",
         "negative_bias"
       ]
-    }
+    },
+    "actionable_advice": "Fatigue and sleep deprivation reduce judgment and make negative thinking more likely. Physical health management is an important countermeasure too."
   },
   {
     "id": "mental_l05_008",
@@ -291,7 +298,8 @@
         "implementation_intention",
         "planning"
       ]
-    }
+    },
+    "actionable_advice": "It works in any situation. We recommend starting with small anxieties first."
   },
   {
     "id": "mental_l05_009",
@@ -338,7 +346,8 @@
         "reappraisal",
         "evidence_check"
       ]
-    }
+    },
+    "actionable_advice": "Rather than complete control or forced positive thinking, having a realistic and balanced perspective is what matters."
   },
   {
     "id": "mental_l05_010",
@@ -370,6 +379,7 @@
         "fit",
         "self_monitoring"
       ]
-    }
+    },
+    "actionable_advice": "Every impression is valuable. Different methods work for different people, so finding the approach that fits you is what matters."
   }
 ]

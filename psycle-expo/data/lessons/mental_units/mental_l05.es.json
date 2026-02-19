@@ -27,7 +27,8 @@
         "catastrophizing",
         "rumination"
       ]
-    }
+    },
+    "actionable_advice": "Este es un ejemplo típico de \"pensamiento catastrófico\". La predicción de \"no voy a alcanzar\" se adelanta a la realidad y puede amplificar la ansiedad. ※Esta lección presenta técnicas para manejar la ansiedad leve. Si experimentas pensamientos suicidas o tendencias de autolesión, te recomendamos contactar una línea de crisis profesional en lugar de depender de la app (Línea de la Vida: 800-911-2000 en México, o el servicio de tu país)."
   },
   {
     "id": "mental_l05_002",
@@ -58,7 +59,8 @@
         "catastrophizing",
         "reappraisal_theory"
       ]
-    }
+    },
+    "actionable_advice": "Para el pensamiento catastrófico, la \"búsqueda de evidencia\" puede ser útil. En lugar de intentar eliminarlo por completo, lo importante es recuperar una perspectiva más realista."
   },
   {
     "id": "mental_l05_003",
@@ -90,7 +92,8 @@
         "appraisal",
         "anxiety"
       ]
-    }
+    },
+    "actionable_advice": "Cualquier respuesta es una reacción normal. El cerebro humano está diseñado para anticipar peligros, por lo que imaginar escenarios negativos es algo natural."
   },
   {
     "id": "mental_l05_004",
@@ -136,7 +139,8 @@
         "coping",
         "reappraisal"
       ]
-    }
+    },
+    "actionable_advice": "Más que ir de un extremo al otro, lo importante es encontrar una perspectiva equilibrada. Las experiencias pasadas pueden servir como una base realista."
   },
   {
     "id": "mental_l05_005",
@@ -166,7 +170,8 @@
         "cognitive_model",
         "appraisal"
       ]
-    }
+    },
+    "actionable_advice": "No es necesario eliminarlo por completo. Lo que más puede ayudar es \"notarlo y agregar una perspectiva más realista\"."
   },
   {
     "id": "mental_l05_006",
@@ -213,7 +218,8 @@
         "micro_action",
         "coping"
       ]
-    }
+    },
+    "actionable_advice": "Todos estos métodos pueden ser útiles en ciertos momentos, pero pensar en soluciones realistas puede ayudar a transformar la ansiedad en acción."
   },
   {
     "id": "mental_l05_007",
@@ -244,7 +250,8 @@
         "fatigue",
         "negative_bias"
       ]
-    }
+    },
+    "actionable_advice": "El cansancio y la falta de sueño pueden reducir la capacidad de juicio y facilitar los pensamientos negativos. Cuidar tu estado físico también es una medida importante."
   },
   {
     "id": "mental_l05_008",
@@ -291,7 +298,8 @@
         "implementation_intention",
         "planning"
       ]
-    }
+    },
+    "actionable_advice": "Puede ser útil en cualquier situación. Te recomendamos empezar probándolo con una ansiedad pequeña."
   },
   {
     "id": "mental_l05_009",
@@ -338,7 +346,8 @@
         "reappraisal",
         "evidence_check"
       ]
-    }
+    },
+    "actionable_advice": "Más que buscar un control total o forzar el pensamiento positivo, lo importante es tener una perspectiva realista y equilibrada."
   },
   {
     "id": "mental_l05_010",
@@ -370,6 +379,7 @@
         "fit",
         "self_monitoring"
       ]
-    }
+    },
+    "actionable_advice": "Todas las opiniones son valiosas. Cada persona tiene métodos diferentes que le funcionan, así que lo importante es encontrar el enfoque que mejor se adapte a ti."
   }
 ]

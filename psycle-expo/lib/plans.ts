@@ -26,7 +26,14 @@ export const PLANS: PlanConfig[] = [
   },
 ];
 
-export const SUPABASE_FUNCTION_URL = "https://nudmnbmasmtacoluyvqo.functions.supabase.co";
+export function getSupabaseFunctionsUrl(): string | null {
+  const configuredUrl = process.env.EXPO_PUBLIC_SUPABASE_FUNCTION_URL?.trim();
+  if (!configuredUrl) {
+    return null;
+  }
+
+  return configuredUrl.replace(/\/+$/, "");
+}
 
 export function getPlanById(planId: PlanId): PlanConfig | undefined {
   return PLANS.find((p) => p.id === planId);

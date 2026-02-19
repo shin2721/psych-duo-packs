@@ -34,6 +34,30 @@ interface League {
 
 Deno.serve(async (req) => {
     try {
+        if (req.method !== 'POST') {
+            return new Response(JSON.stringify({ error: 'Method not allowed' }), {
+                status: 405,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
+
+        const expectedCronSecret = Deno.env.get('LEAGUE_SETTLE_CRON_SECRET');
+        if (!expectedCronSecret) {
+            console.error('[settle-league-week] Missing LEAGUE_SETTLE_CRON_SECRET');
+            return new Response(JSON.stringify({ error: 'Server misconfiguration' }), {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
+
+        const receivedCronSecret = req.headers.get('x-cron-secret');
+        if (!receivedCronSecret || receivedCronSecret !== expectedCronSecret) {
+            return new Response(JSON.stringify({ error: 'Forbidden' }), {
+                status: 403,
+                headers: { 'Content-Type': 'application/json' },
+            });
+        }
+
         const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
         const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
         const supabase = createClient(supabaseUrl, supabaseServiceKey);

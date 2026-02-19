@@ -293,6 +293,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Mistakes Hub Implementation (SRS)
   const [mistakes, setMistakes] = useState<MistakeItem[]>([]);
+  const [isStateHydrated, setIsStateHydrated] = useState(false);
 
   // SRS Intervals (in days)
   const SRS_INTERVALS = [0, 1, 3, 7, 14]; // Box 1-5
@@ -420,37 +421,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       });
   }, [user]);
 
-  // Load mistakes from AsyncStorage on mount
-  useEffect(() => {
-    if (!user) return;
-    AsyncStorage.getItem(`mistakes_${user.id}`).then((data) => {
-      if (data) {
-        const loadedMistakes = JSON.parse(data);
-
-        // Migration: Convert old format to new SRS format
-        const migratedMistakes = loadedMistakes.map((m: any) => {
-          if (m.box === undefined) {
-            // Old format detected, migrate to new format
-            return {
-              ...m,
-              box: 1,
-              nextReviewDate: Date.now(),
-              interval: 0
-            };
-          }
-          return m;
-        });
-
-        setMistakes(migratedMistakes);
-      }
-    });
-  }, [user]);
-
   // Save mistakes to AsyncStorage whenever it changes
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`mistakes_${user.id}`, JSON.stringify(mistakes));
-  }, [mistakes, user]);
+  }, [mistakes, user, isStateHydrated]);
 
 
   // Daily goal system
@@ -466,7 +441,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Load persisted state on mount (LOCAL FIRST, then Supabase sync in background)
   useEffect(() => {
-    if (!user) return;
+    if (!user) {
+      setIsStateHydrated(false);
+      return;
+    }
+
+    let cancelled = false;
+    setIsStateHydrated(false);
 
     const loadState = async () => {
       // STEP 1: Load from local storage FIRST (instant)
@@ -479,6 +460,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyUpdateTime,
           savedEnergyBonusDate,
           savedEnergyBonusCount,
+          savedMistakes,
         ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
@@ -487,7 +469,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`energy_update_time_${user.id}`),
           AsyncStorage.getItem(`energy_bonus_date_${user.id}`),
           AsyncStorage.getItem(`energy_bonus_count_${user.id}`),
+          AsyncStorage.getItem(`mistakes_${user.id}`),
         ]);
+
+        if (cancelled) return;
 
         if (savedXp) setXP(parseInt(savedXp, 10));
         if (savedGems) setGems(parseInt(savedGems, 10));
@@ -507,9 +492,25 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           const parsedEnergyBonusCount = parseInt(savedEnergyBonusCount, 10);
           if (!Number.isNaN(parsedEnergyBonusCount)) setDailyEnergyBonusCount(parsedEnergyBonusCount);
         }
+        if (savedMistakes) {
+          const loadedMistakes = JSON.parse(savedMistakes);
+          const migratedMistakes = loadedMistakes.map((m: any) => {
+            if (m.box === undefined) {
+              return {
+                ...m,
+                box: 1,
+                nextReviewDate: Date.now(),
+                interval: 0
+              };
+            }
+            return m;
+          });
+          setMistakes(migratedMistakes);
+        }
 
         // Freeze一本化: streaks.tsから読み込み
         const streakData = await getStreakData();
+        if (cancelled) return;
         setFreezeCount(streakData.freezesRemaining);
 
         if (__DEV__) console.log("Loaded from local storage (instant):", {
@@ -534,6 +535,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           .select('xp, gems, streak, level, plan_id, active_until')
           .eq('id', user.id)
           .single();
+
+        if (cancelled) return;
 
         if (data && !error) {
           if (__DEV__) console.log("Background Supabase sync:", data);
@@ -560,15 +563,22 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       } catch (e) {
         // Supabase failed - that's okay, we already have local data
         if (__DEV__) console.log("Supabase sync failed (using local data):", e);
+      } finally {
+        if (!cancelled) {
+          setIsStateHydrated(true);
+        }
       }
     };
     loadState();
+    return () => {
+      cancelled = true;
+    };
   }, [user]);
 
   // Persist state changes
   // Persist state changes to Supabase (and Local Storage as backup)
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`xp_${user.id}`, xp.toString());
 
     // Debounced update to Supabase to avoid too many requests
@@ -578,10 +588,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       });
     }, 1000);
     return () => clearTimeout(timer);
-  }, [xp, user]);
+  }, [xp, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`gems_${user.id}`, gems.toString());
 
     const timer = setTimeout(() => {
@@ -590,40 +600,40 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       });
     }, 1000);
     return () => clearTimeout(timer);
-  }, [gems, user]);
+  }, [gems, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`streak_${user.id}`, streak.toString());
 
     supabase.from('profiles').update({ streak }).eq('id', user.id).then(({ error }) => {
       if (error) console.error("Failed to sync Streak to Supabase", error);
     });
-  }, [streak, user]);
+  }, [streak, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`energy_${user.id}`, energy.toString());
-  }, [energy, user]);
+  }, [energy, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     if (lastEnergyUpdateTime === null) {
       AsyncStorage.removeItem(`energy_update_time_${user.id}`).catch(() => { });
       return;
     }
     AsyncStorage.setItem(`energy_update_time_${user.id}`, lastEnergyUpdateTime.toString());
-  }, [lastEnergyUpdateTime, user]);
+  }, [lastEnergyUpdateTime, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`energy_bonus_date_${user.id}`, dailyEnergyBonusDate);
-  }, [dailyEnergyBonusDate, user]);
+  }, [dailyEnergyBonusDate, user, isStateHydrated]);
 
   useEffect(() => {
-    if (!user) return;
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`energy_bonus_count_${user.id}`, dailyEnergyBonusCount.toString());
-  }, [dailyEnergyBonusCount, user]);
+  }, [dailyEnergyBonusCount, user, isStateHydrated]);
 
   // Helper: Get today's date in YYYY-MM-DD format
   function getTodayDate(): string {
@@ -738,6 +748,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
             username: user.email?.split('@')[0] || 'User',
             total_xp: currentXP ?? xp,
             current_streak: newStreak,
+          }, {
+            onConflict: 'user_id',
           });
       } catch (error) {
         console.error('Error updating streak in Supabase:', error);

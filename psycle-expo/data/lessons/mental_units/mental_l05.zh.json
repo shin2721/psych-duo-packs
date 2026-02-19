@@ -27,7 +27,8 @@
         "catastrophizing",
         "rumination"
       ]
-    }
+    },
+    "actionable_advice": "这是'灾难化思维'的典型例子。'来不及了'这个预测比现实更早地放大了焦虑。※本课程介绍轻度焦虑的应对方法，如果您有自杀或自残的倾向，请咨询专业机构而非使用应用。"
   },
   {
     "id": "mental_l05_002",
@@ -58,7 +59,8 @@
         "catastrophizing",
         "reappraisal_theory"
       ]
-    }
+    },
+    "actionable_advice": "对灾难化思维，在某些情况下，'寻找证据'会更有效。与其试图完全消除，不如找回现实的视角更重要。"
   },
   {
     "id": "mental_l05_003",
@@ -90,7 +92,8 @@
         "appraisal",
         "anxiety"
       ]
-    }
+    },
+    "actionable_advice": "每个答案都是正常的反应。人类的大脑本来就是用来预测危险的，所以有负面想象是很自然的。"
   },
   {
     "id": "mental_l05_004",
@@ -136,7 +139,8 @@
         "coping",
         "reappraisal"
       ]
-    }
+    },
+    "actionable_advice": "与其从极端跳到极端，不如找到平衡的视角更重要。过去的经历可以成为现实的依据。"
   },
   {
     "id": "mental_l05_005",
@@ -166,7 +170,8 @@
         "cognitive_model",
         "appraisal"
       ]
-    }
+    },
+    "actionable_advice": "不需要完全消除。更重要的是'察觉到，然后加入现实的视角'。"
   },
   {
     "id": "mental_l05_006",
@@ -213,7 +218,8 @@
         "micro_action",
         "coping"
       ]
-    }
+    },
+    "actionable_advice": "每种方法有时都有效，但考虑现实的对策可以把焦虑转化为行动。"
   },
   {
     "id": "mental_l05_007",
@@ -244,7 +250,8 @@
         "fatigue",
         "negative_bias"
       ]
-    }
+    },
+    "actionable_advice": "疲劳和睡眠不足会降低判断力，容易陷入负面思维。身体管理也是重要的对策之一。"
   },
   {
     "id": "mental_l05_008",
@@ -291,7 +298,8 @@
         "implementation_intention",
         "planning"
       ]
-    }
+    },
+    "actionable_advice": "在任何场合都有效。建议从小的焦虑开始尝试。"
   },
   {
     "id": "mental_l05_009",
@@ -338,7 +346,8 @@
         "reappraisal",
         "evidence_check"
       ]
-    }
+    },
+    "actionable_advice": "比起完全控制或勉强的积极思维，拥有现实且平衡的视角更重要。"
   },
   {
     "id": "mental_l05_010",
@@ -370,6 +379,7 @@
         "fit",
         "self_monitoring"
       ]
-    }
+    },
+    "actionable_advice": "每个感想都很珍贵。适合每个人的方法都不同，找到适合自己的方法很重要。"
   }
 ]
