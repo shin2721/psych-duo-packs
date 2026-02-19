@@ -35,7 +35,12 @@
       "expo-dev-client"
     ],
     "extra": {
-      "BASE_URL": "https://shin2721.github.io/psych-duo-packs"
-    }
+      "BASE_URL": "https://shin2721.github.io/psych-duo-packs",
+      "router": {},
+      "eas": {
+        "projectId": "3c7f450e-0a14-4fdd-995e-7c21e6a6e16f"
+      }
+    },
+    "owner": "shingrape"
   }
 }
