@@ -1,7 +1,6 @@
 // src/featureGate.ts
 import entitlements from "../config/entitlements.json";
-
-type PlanId = "free" | "pro" | "max";
+import type { PlanId } from "../lib/types/plan";
 
 interface PlanConfig {
   features: {

@@ -8,7 +8,7 @@ import { getPlanPrice, detectUserRegion } from "../lib/pricing";
 import i18n from "../lib/i18n";
 
 /**
- * プラン選択UI（Free/Pro/Max）
+ * プラン選択UI（Free/Pro）
  * 地域別価格に対応
  */
 export function PlanSelector() {
@@ -21,14 +21,14 @@ export function PlanSelector() {
     email: "demo@psycle.app",
   };
 
-  const handlePlanSelect = async (selectedPlan: "free" | "pro" | "max") => {
+  const handlePlanSelect = async (selectedPlan: "free" | "pro") => {
     if (selectedPlan === "free") {
       // Freeプランはそのまま切り替え
       setPlanId(selectedPlan);
       return;
     }
 
-    // Pro/Maxは決済画面へ
+    // Proは決済画面へ
     try {
       await buyPlan(selectedPlan, demoUser.uid, demoUser.email);
     } catch (error) {
@@ -55,16 +55,6 @@ export function PlanSelector() {
         i18n.t("planSelector.featureUnlimitedEnergy"),
         i18n.t("planSelector.featureLiteFullAccess"),
         i18n.t("planSelector.featureNoMistakesReview"),
-      ],
-    },
-    {
-      id: "max" as const,
-      name: i18n.t("planSelector.maxName"),
-      price: `${getPlanPrice("max", "monthly", userRegion)} ${i18n.t("planSelector.monthlySuffix")}`,
-      features: [
-        i18n.t("planSelector.featureUnlimitedEnergy"),
-        i18n.t("planSelector.featureProAccess"),
-        i18n.t("planSelector.featureMistakesUnlimited"),
       ],
     },
   ];
