@@ -1,7 +1,5 @@
--- Prevent duplicate leaderboard rows per user.
--- 1) Remove broken/null rows.
--- 2) Keep latest row per user.
--- 3) Enforce UNIQUE(user_id).
+-- Re-apply leaderboard uniqueness fix with a unique migration version.
+-- This is intentionally idempotent in case a prior migration version was skipped.
 
 DELETE FROM leaderboard
 WHERE user_id IS NULL;
@@ -32,3 +30,4 @@ BEGIN
   END IF;
 END
 $$;
+
