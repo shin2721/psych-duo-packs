@@ -53,10 +53,17 @@ fi
 
 LOCAL_HEAD="$(git rev-parse --short HEAD)"
 REMOTE_HEAD="$(git rev-parse --short "origin/$TARGET_BRANCH")"
+WORKTREE_STATE="$(git status --porcelain)"
 
 if [[ "$LOCAL_HEAD" != "$REMOTE_HEAD" ]]; then
   echo "sync failed: local=$LOCAL_HEAD remote=$REMOTE_HEAD branch=$TARGET_BRANCH"
   exit 1
 fi
 
-echo "psycle latest synced: repo=$REPO_ROOT branch=$TARGET_BRANCH mode=$SYNC_MODE head=$LOCAL_HEAD"
+if [[ -n "$WORKTREE_STATE" ]]; then
+  echo "sync failed: working tree is not clean after sync"
+  echo "$WORKTREE_STATE"
+  exit 1
+fi
+
+echo "psycle latest synced: repo=$REPO_ROOT branch=$TARGET_BRANCH mode=$SYNC_MODE local=$LOCAL_HEAD remote=$REMOTE_HEAD clean=true"

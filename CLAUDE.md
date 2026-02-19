@@ -22,3 +22,16 @@ If needed, you may pass a branch name explicitly:
 ```
 
 If sync fails, stop and report the exact error before editing files.
+
+## Required Freshness Check
+
+For every review/fix request, do this before reading or editing code:
+
+1. Run `./tools/sync_psycle_latest.sh`
+2. Confirm local and remote hashes match:
+   - `git rev-parse --short HEAD`
+   - `git rev-parse --short origin/main`
+3. Confirm worktree is clean:
+   - `git status --short`
+
+If any check fails, do not continue analysis. Report the failure and resolve sync first.
