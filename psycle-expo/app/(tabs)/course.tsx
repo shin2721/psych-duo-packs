@@ -12,7 +12,6 @@ import { PaywallModal } from "../../components/PaywallModal";
 import { LeagueResultModal } from "../../components/LeagueResultModal";
 import { isLessonLocked, GenreId, shouldShowPaywall } from "../../lib/paywall";
 import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
-import { getStreakData } from "../../lib/streaks";
 import { useAuth } from "../../lib/AuthContext";
 import { router } from "expo-router";
 import i18n from "../../lib/i18n";
@@ -122,21 +121,9 @@ export default function CourseScreen() {
         hideLabels
         onStart={(nodeId) => setModalNode(nodeId)}
         onLockedPress={async () => {
-          // Paywall表示条件チェック
-          // condition: executed 1回達成 (StreakDataから前回実行日を確認) OR レッスン完了3回以上
+          // Paywall表示条件チェック（Study基準: レッスン完了3回以上）
           const lessonCompleteCount = completedLessons.size;
-          let executedCount = 0;
-
-          try {
-            const streakData = await getStreakData();
-            if (streakData && streakData.lastActionDate) {
-              executedCount = 1; // 一度でも実行していれば1とみなす
-            }
-          } catch (e) {
-            console.error("Failed to check streak data:", e);
-          }
-
-          if (shouldShowPaywall(executedCount, lessonCompleteCount)) {
+          if (shouldShowPaywall(lessonCompleteCount)) {
             setPaywallGenre(selectedGenre as GenreId);
             setPaywallVisible(true);
           } else {

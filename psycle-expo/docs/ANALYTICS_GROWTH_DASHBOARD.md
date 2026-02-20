@@ -229,3 +229,20 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 
 - v1.20時点では通知はローカル通知（`expo-notifications`）で、サーバープッシュは未導入。
 - KPIはまず `reminder_opened / reminder_scheduled` を補助指標として週次確認する。
+
+## v1.21 Energy + Paywall Addendum
+
+### 追加イベント
+
+- `first_day_energy_bonus_granted`
+  - `bonusEnergy`: 3
+  - `baseCap`: 3
+  - `effectiveCap`: 6
+  - `expiresAt`: ISO8601
+  - `source`: `first_launch`
+
+### 運用メモ
+
+- v1.21ではFreeの通常Energy値は維持（`3 / 60分`）。
+- 初日24時間のみボーナス上限を適用し、以後は自動で通常上限に戻る。
+- Paywall判定は `lesson_complete_count >= 3` のみに固定。

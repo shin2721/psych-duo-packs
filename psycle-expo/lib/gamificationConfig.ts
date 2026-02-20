@@ -28,12 +28,6 @@ export interface StreakConfig {
     study_per_day_limit: number;
 }
 
-export interface FocusConfig {
-    max: number;
-    lesson_cost: number;
-    recovery_rate_per_hour: number;
-}
-
 export interface NotificationsConfig {
     streak_risk_hour: number;
     daily_quest_deadline_hour: number;
@@ -46,7 +40,6 @@ export interface GamificationConfig {
     xp_rewards: XPRewards;
     freeze: FreezeConfig;
     streak: StreakConfig;
-    focus: FocusConfig;
     notifications: NotificationsConfig;
 }
 
@@ -69,11 +62,6 @@ const DEFAULT_CONFIG: GamificationConfig = {
         action_per_day_limit: 1,
         study_per_day_limit: 1,
     },
-    focus: {
-        max: 25,
-        lesson_cost: 1,
-        recovery_rate_per_hour: 1,
-    },
     notifications: {
         streak_risk_hour: 22,
         daily_quest_deadline_hour: 21,
@@ -90,7 +78,6 @@ function loadConfig(): GamificationConfig {
             xp_rewards: { ...DEFAULT_CONFIG.xp_rewards, ...configData.xp_rewards },
             freeze: { ...DEFAULT_CONFIG.freeze, ...configData.freeze },
             streak: { ...DEFAULT_CONFIG.streak, ...configData.streak },
-            focus: { ...DEFAULT_CONFIG.focus, ...configData.focus },
             notifications: { ...DEFAULT_CONFIG.notifications, ...configData.notifications },
         };
     } catch (e) {
@@ -113,10 +100,6 @@ export function getFreezeConfig(): FreezeConfig {
 
 export function getStreakConfig(): StreakConfig {
     return gamificationConfig.streak;
-}
-
-export function getFocusConfig(): FocusConfig {
-    return gamificationConfig.focus;
 }
 
 export function getNotificationsConfig(): NotificationsConfig {

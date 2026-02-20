@@ -14,7 +14,6 @@ import { FireflyLoader } from "../components/FireflyLoader";
 import { logFeltBetter, logInterventionInteraction, hasLoggedShownThisSession, markShownLogged, resetSessionTracking } from "../lib/dogfood";
 import { getEvidenceSummary, getTryValueColor } from "../lib/evidenceSummary";
 import { recordActionExecution, recordStudyCompletion, addXP, XP_REWARDS } from "../lib/streaks";
-import { consumeFocus } from "../lib/focus";
 import { FirstExecutedCelebration } from "../components/FirstExecutedCelebration";
 import {
   hasCompletedFirstExecuted,
@@ -100,9 +99,6 @@ export default function LessonScreen() {
 
       // 周回ごとにshownカウントをリセット（同一アプリ起動でも周回でshown++される）
       resetSessionTracking();
-
-      // ゲーミフィケーション: Focus消費（ソフト制限：0でもブロックしない）
-      consumeFocus(1).catch(console.error);
 
       if (__DEV__) console.log("Loading lesson:", params.file);
 

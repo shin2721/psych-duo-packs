@@ -87,6 +87,39 @@
 
 ---
 
+## 0.6 Energy + Paywall Runtime (v1.21)
+
+### Source of truth
+
+- Energy is the only lesson gating resource. `focus` runtime has been removed.
+- Free baseline remains:
+  - `daily_cap = 3`
+  - `energy_refill_minutes = 60`
+- First-day onboarding bonus:
+  - `first_day_bonus_energy = +3`
+  - valid for 24 hours from first local launch timestamp.
+
+### Runtime behavior
+
+1. On first authenticated hydration, app stores `first_launch_at_{userId}`.
+2. During first 24h, effective free cap is `3 + 3 = 6`.
+3. After 24h, cap automatically returns to 3.
+4. If current energy is above cap at expiry, it is clamped to the effective cap.
+
+### Paywall rule
+
+- Paywall is now **study-only**:
+  - show only when `lesson_complete_count >= 3`.
+- `executed` no longer participates in paywall eligibility.
+
+### Monitoring checklist
+
+1. `first_day_energy_bonus_granted` events are present for new users.
+2. `energy_blocked` should not spike in first-day cohorts.
+3. `checkout_start` and `plan_changed / checkout_start` should not regress.
+
+---
+
 ## 1. Operating Modes
 
 ### Mode A: Antigravity Manual Generation (Current)

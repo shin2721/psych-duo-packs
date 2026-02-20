@@ -153,6 +153,17 @@ export type ReminderOpenedEvent = {
   };
 };
 
+export type FirstDayEnergyBonusGrantedEvent = {
+  name: 'first_day_energy_bonus_granted';
+  properties: {
+    bonusEnergy: number;
+    baseCap: number;
+    effectiveCap: number;
+    expiresAt: string;
+    source: 'first_launch';
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -168,4 +179,5 @@ export type TrackedEvent =
   | ShopOpenFromEnergyEvent
   | NotificationPermissionResultEvent
   | ReminderScheduledEvent
-  | ReminderOpenedEvent;
+  | ReminderOpenedEvent
+  | FirstDayEnergyBonusGrantedEvent;

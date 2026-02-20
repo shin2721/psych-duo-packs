@@ -70,26 +70,20 @@ export function getAvailablePacks() {
 
 // Paywall表示条件（刺さった後に出す）
 export const PAYWALL_THRESHOLDS = {
-    executedCount: 1,        // executed 1回達成
     lessonCompleteCount: 3,  // レッスン完了3回
 } as const;
 
 /**
  * Paywallを表示してよいかどうかを判定
- * 条件: executed 1回達成 OR レッスン完了3回以上
+ * 条件: レッスン完了3回以上
  * 
- * @param executedCount - これまでのexecuted回数
  * @param lessonCompleteCount - これまでのレッスン完了回数
  * @returns true if paywall should be shown
  */
 export function shouldShowPaywall(
-    executedCount: number,
     lessonCompleteCount: number
 ): boolean {
-    return (
-        executedCount >= PAYWALL_THRESHOLDS.executedCount ||
-        lessonCompleteCount >= PAYWALL_THRESHOLDS.lessonCompleteCount
-    );
+    return lessonCompleteCount >= PAYWALL_THRESHOLDS.lessonCompleteCount;
 }
 
 /**
@@ -97,17 +91,15 @@ export function shouldShowPaywall(
  * @returns { canShow: boolean, progress: string }
  */
 export function getPaywallProgress(
-    executedCount: number,
     lessonCompleteCount: number
 ): { canShow: boolean; progress: string } {
-    const canShow = shouldShowPaywall(executedCount, lessonCompleteCount);
+    const canShow = shouldShowPaywall(lessonCompleteCount);
 
     if (canShow) {
         return { canShow: true, progress: 'ready' };
     }
 
-    const execProgress = `${executedCount}/${PAYWALL_THRESHOLDS.executedCount} executed`;
     const lessonProgress = `${lessonCompleteCount}/${PAYWALL_THRESHOLDS.lessonCompleteCount} lessons`;
 
-    return { canShow: false, progress: `${execProgress} or ${lessonProgress}` };
+    return { canShow: false, progress: lessonProgress };
 }

@@ -16,11 +16,6 @@
         "action_per_day_limit": 1,
         "study_per_day_limit": 1
     },
-    "focus": {
-        "max": 25,
-        "lesson_cost": 1,
-        "recovery_rate_per_hour": 1
-    },
     "notifications": {
         "streak_risk_hour": 22,
         "daily_quest_deadline_hour": 21,

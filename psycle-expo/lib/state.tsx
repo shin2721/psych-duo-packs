@@ -18,6 +18,7 @@ import { selectMistakesHubItems } from "../src/features/mistakesHub";
 import { Analytics } from "./analytics";
 import type { PlanId } from "./types/plan";
 import entitlements from "../config/entitlements.json";
+import { getEffectiveFreeEnergyCap } from "./energyPolicy";
 
 interface EntitlementsConfig {
   plans?: {
@@ -30,6 +31,7 @@ interface EntitlementsConfig {
   defaults?: {
     energy_refill_minutes?: number;
     lesson_energy_cost?: number;
+    first_day_bonus_energy?: number;
     energy_streak_bonus_every?: number;
     energy_streak_bonus_chance?: number;
     energy_streak_bonus_daily_cap?: number;
@@ -50,9 +52,13 @@ function normalizeProbability(value: number | null | undefined, fallback: number
 }
 
 const entitlementConfig = entitlements as EntitlementsConfig;
-const FREE_MAX_ENERGY = normalizePositiveInt(
+const FREE_BASE_MAX_ENERGY = normalizePositiveInt(
   entitlementConfig.plans?.free?.energy?.daily_cap ?? null,
   3
+);
+const FIRST_DAY_BONUS_ENERGY = normalizePositiveInt(
+  entitlementConfig.defaults?.first_day_bonus_energy,
+  0
 );
 const SUBSCRIBER_MAX_ENERGY = 999;
 const ENERGY_REFILL_MINUTES = normalizePositiveInt(
@@ -435,15 +441,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [dailyGoalLastReset, setDailyGoalLastReset] = useState(getTodayDate());
 
   // Energy system
-  const [energy, setEnergy] = useState(FREE_MAX_ENERGY);
+  const [energy, setEnergy] = useState(FREE_BASE_MAX_ENERGY);
   const [lastEnergyUpdateTime, setLastEnergyUpdateTime] = useState<number | null>(null);
   const [dailyEnergyBonusDate, setDailyEnergyBonusDate] = useState(getTodayDate());
   const [dailyEnergyBonusCount, setDailyEnergyBonusCount] = useState(0);
+  const [firstLaunchAtMs, setFirstLaunchAtMs] = useState<number | null>(null);
 
   // Load persisted state on mount (LOCAL FIRST, then Supabase sync in background)
   useEffect(() => {
     if (!user) {
       setIsStateHydrated(false);
+      setFirstLaunchAtMs(null);
       return;
     }
 
@@ -462,6 +470,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyBonusDate,
           savedEnergyBonusCount,
           savedMistakes,
+          savedFirstLaunchAt,
+          savedFirstDayBonusTracked,
         ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
@@ -471,6 +481,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`energy_bonus_date_${user.id}`),
           AsyncStorage.getItem(`energy_bonus_count_${user.id}`),
           AsyncStorage.getItem(`mistakes_${user.id}`),
+          AsyncStorage.getItem(`first_launch_at_${user.id}`),
+          AsyncStorage.getItem(`first_day_energy_bonus_tracked_${user.id}`),
         ]);
 
         if (cancelled) return;
@@ -492,6 +504,39 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         if (savedEnergyBonusCount) {
           const parsedEnergyBonusCount = parseInt(savedEnergyBonusCount, 10);
           if (!Number.isNaN(parsedEnergyBonusCount)) setDailyEnergyBonusCount(parsedEnergyBonusCount);
+        }
+        const initializeFirstLaunch = async () => {
+          const firstLaunchAt = Date.now();
+          setFirstLaunchAtMs(firstLaunchAt);
+          await AsyncStorage.setItem(`first_launch_at_${user.id}`, firstLaunchAt.toString());
+
+          if (!savedFirstDayBonusTracked) {
+            const effectiveCap = getEffectiveFreeEnergyCap(
+              FREE_BASE_MAX_ENERGY,
+              FIRST_DAY_BONUS_ENERGY,
+              firstLaunchAt,
+              firstLaunchAt
+            );
+            Analytics.track("first_day_energy_bonus_granted", {
+              bonusEnergy: FIRST_DAY_BONUS_ENERGY,
+              baseCap: FREE_BASE_MAX_ENERGY,
+              effectiveCap,
+              expiresAt: new Date(firstLaunchAt + 24 * 60 * 60 * 1000).toISOString(),
+              source: "first_launch",
+            });
+            await AsyncStorage.setItem(`first_day_energy_bonus_tracked_${user.id}`, "1");
+          }
+        };
+
+        if (savedFirstLaunchAt) {
+          const parsedFirstLaunchAt = parseInt(savedFirstLaunchAt, 10);
+          if (!Number.isNaN(parsedFirstLaunchAt) && parsedFirstLaunchAt > 0) {
+            setFirstLaunchAtMs(parsedFirstLaunchAt);
+          } else {
+            await initializeFirstLaunch();
+          }
+        } else {
+          await initializeFirstLaunch();
         }
         if (savedMistakes) {
           const loadedMistakes = JSON.parse(savedMistakes);
@@ -522,6 +567,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyUpdateTime,
           savedEnergyBonusDate,
           savedEnergyBonusCount,
+          savedFirstLaunchAt,
           freezes: streakData.freezesRemaining,
         });
       } catch (e) {
@@ -635,6 +681,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`energy_bonus_count_${user.id}`, dailyEnergyBonusCount.toString());
   }, [dailyEnergyBonusCount, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated || firstLaunchAtMs === null) return;
+    AsyncStorage.setItem(`first_launch_at_${user.id}`, firstLaunchAtMs.toString());
+  }, [firstLaunchAtMs, user, isStateHydrated]);
 
   // Helper: Get today's date in YYYY-MM-DD format
   function getTodayDate(): string {
@@ -898,16 +949,25 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setDailyGoalState(xp);
   };
 
+  const getCurrentFreeMaxEnergy = (nowMs: number = Date.now()) =>
+    getEffectiveFreeEnergyCap(
+      FREE_BASE_MAX_ENERGY,
+      FIRST_DAY_BONUS_ENERGY,
+      firstLaunchAtMs,
+      nowMs
+    );
+
   // Energy system methods
   const consumeEnergy = (amount = LESSON_ENERGY_COST): boolean => {
     if (isSubscriptionActive) return true;
+    const freeMaxEnergy = getCurrentFreeMaxEnergy();
     const normalized = Math.max(0, Math.floor(amount));
     if (normalized === 0) return true;
     if (energy < normalized) return false;
 
     const nextEnergy = Math.max(0, energy - normalized);
     setEnergy(nextEnergy);
-    if (nextEnergy < FREE_MAX_ENERGY && lastEnergyUpdateTime === null) {
+    if (nextEnergy < freeMaxEnergy && lastEnergyUpdateTime === null) {
       setLastEnergyUpdateTime(Date.now());
     }
     return true;
@@ -915,12 +975,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const addEnergy = (amount: number) => {
     if (isSubscriptionActive) return;
+    const freeMaxEnergy = getCurrentFreeMaxEnergy();
     const normalized = Math.max(0, Math.floor(amount));
     if (normalized === 0) return;
 
-    const nextEnergy = Math.min(FREE_MAX_ENERGY, energy + normalized);
+    const nextEnergy = Math.min(freeMaxEnergy, energy + normalized);
     setEnergy(nextEnergy);
-    if (nextEnergy >= FREE_MAX_ENERGY) {
+    if (nextEnergy >= freeMaxEnergy) {
       setLastEnergyUpdateTime(null);
     } else if (lastEnergyUpdateTime === null) {
       setLastEnergyUpdateTime(Date.now());
@@ -939,7 +1000,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     if (roll >= ENERGY_STREAK_BONUS_CHANCE) return false;
 
     const prevEnergy = energy;
-    const nextEnergy = Math.min(FREE_MAX_ENERGY, prevEnergy + 1);
+    const freeMaxEnergy = getCurrentFreeMaxEnergy();
+    const nextEnergy = Math.min(freeMaxEnergy, prevEnergy + 1);
     addEnergy(1);
     setDailyEnergyBonusDate(today);
     setDailyEnergyBonusCount(currentBonusCount + 1);
@@ -969,7 +1031,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const now = new Date();
     return now < expirationDate;
   })();
-  const maxEnergy = isSubscriptionActive ? SUBSCRIBER_MAX_ENERGY : FREE_MAX_ENERGY;
+  const effectiveFreeMaxEnergy = getCurrentFreeMaxEnergy();
+  const maxEnergy = isSubscriptionActive ? SUBSCRIBER_MAX_ENERGY : effectiveFreeMaxEnergy;
   const energyRefillMinutes = ENERGY_REFILL_MINUTES;
   const dailyEnergyBonusRemaining = (() => {
     if (isSubscriptionActive) return ENERGY_STREAK_BONUS_DAILY_CAP;
@@ -1012,14 +1075,15 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    if (energy > FREE_MAX_ENERGY) {
-      setEnergy(FREE_MAX_ENERGY);
+    if (energy > effectiveFreeMaxEnergy) {
+      setEnergy(effectiveFreeMaxEnergy);
+      setLastEnergyUpdateTime(null);
       return;
     }
 
     const recoverEnergy = () => {
       if (lastEnergyUpdateTime === null) return;
-      if (energy >= FREE_MAX_ENERGY) {
+      if (energy >= effectiveFreeMaxEnergy) {
         setLastEnergyUpdateTime(null);
         return;
       }
@@ -1028,9 +1092,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       const recovered = Math.floor(elapsed / ENERGY_REFILL_MS);
       if (recovered <= 0) return;
 
-      const nextEnergy = Math.min(FREE_MAX_ENERGY, energy + recovered);
+      const nextEnergy = Math.min(effectiveFreeMaxEnergy, energy + recovered);
       setEnergy(nextEnergy);
-      if (nextEnergy >= FREE_MAX_ENERGY) {
+      if (nextEnergy >= effectiveFreeMaxEnergy) {
         setLastEnergyUpdateTime(null);
       } else {
         setLastEnergyUpdateTime(lastEnergyUpdateTime + recovered * ENERGY_REFILL_MS);
@@ -1041,7 +1105,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const interval = setInterval(recoverEnergy, 60000); // Check every minute
 
     return () => clearInterval(interval);
-  }, [energy, isSubscriptionActive, lastEnergyUpdateTime]);
+  }, [energy, isSubscriptionActive, lastEnergyUpdateTime, effectiveFreeMaxEnergy]);
 
   // Computed state
   // hasProAccess is already calculated at the top level
