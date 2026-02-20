@@ -207,3 +207,25 @@ npm run analytics:posthog:dashboard
 補足:
 - 既存ダッシュボードを置き換える場合は `--replace` を付ける
 - スクリプト: `scripts/create-posthog-growth-dashboard.mjs`
+
+## v1.20 Reminder Events Addendum
+
+v1.20でローカル通知リマインドの観測イベントを追加。
+
+### 追加イベント
+
+- `notification_permission_result`
+  - `status`: `granted | denied`
+  - `source`: `settings_toggle | bootstrap`
+- `reminder_scheduled`
+  - `kind`: `streak_risk | daily_quest_deadline | league_demotion_risk`
+  - `scheduledAt`: ISO8601
+  - `source`: `sync_daily_reminders`
+- `reminder_opened`
+  - `kind`: `streak_risk | daily_quest_deadline | league_demotion_risk`
+  - `source`: `notification_tap`
+
+### 運用メモ
+
+- v1.20時点では通知はローカル通知（`expo-notifications`）で、サーバープッシュは未導入。
+- KPIはまず `reminder_opened / reminder_scheduled` を補助指標として週次確認する。

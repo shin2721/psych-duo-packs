@@ -34,12 +34,20 @@ export interface FocusConfig {
     recovery_rate_per_hour: number;
 }
 
+export interface NotificationsConfig {
+    streak_risk_hour: number;
+    daily_quest_deadline_hour: number;
+    league_demotion_risk_hour_sunday: number;
+    default_enabled: boolean;
+}
+
 export interface GamificationConfig {
     version: number;
     xp_rewards: XPRewards;
     freeze: FreezeConfig;
     streak: StreakConfig;
     focus: FocusConfig;
+    notifications: NotificationsConfig;
 }
 
 // Default values (fallback if config is corrupted)
@@ -66,6 +74,12 @@ const DEFAULT_CONFIG: GamificationConfig = {
         lesson_cost: 1,
         recovery_rate_per_hour: 1,
     },
+    notifications: {
+        streak_risk_hour: 22,
+        daily_quest_deadline_hour: 21,
+        league_demotion_risk_hour_sunday: 18,
+        default_enabled: true,
+    },
 };
 
 // Merge config with defaults (in case some fields are missing)
@@ -77,6 +91,7 @@ function loadConfig(): GamificationConfig {
             freeze: { ...DEFAULT_CONFIG.freeze, ...configData.freeze },
             streak: { ...DEFAULT_CONFIG.streak, ...configData.streak },
             focus: { ...DEFAULT_CONFIG.focus, ...configData.focus },
+            notifications: { ...DEFAULT_CONFIG.notifications, ...configData.notifications },
         };
     } catch (e) {
         console.warn('[GamificationConfig] Failed to load config, using defaults:', e);
@@ -102,4 +117,8 @@ export function getStreakConfig(): StreakConfig {
 
 export function getFocusConfig(): FocusConfig {
     return gamificationConfig.focus;
+}
+
+export function getNotificationsConfig(): NotificationsConfig {
+    return gamificationConfig.notifications;
 }

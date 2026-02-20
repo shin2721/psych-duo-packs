@@ -1,5 +1,5 @@
 import { Stack, useRouter, useSegments } from "expo-router";
-import { AppStateProvider } from "../lib/state";
+import { AppStateProvider, useAppState } from "../lib/state";
 import { AuthProvider, useAuth } from "../lib/AuthContext";
 import { OnboardingProvider, useOnboarding } from "../lib/OnboardingContext";
 import { useEffect } from "react";
@@ -7,6 +7,7 @@ import { View, ActivityIndicator, LogBox } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Analytics } from "../lib/analytics";
 import { LocaleProvider, useLocale } from "../lib/LocaleContext";
+import { registerNotificationResponseHandler, syncDailyReminders } from "../lib/notifications";
 
 // Suppress network errors during development
 LogBox.ignoreLogs([
@@ -59,12 +60,40 @@ function RootLayoutNav() {
 
   return (
     <AppStateProvider>
+      <ReminderBootstrap />
       <Stack key={`locale-${locale}`} screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="onboarding" />
       </Stack>
     </AppStateProvider>
   );
+}
+
+function ReminderBootstrap() {
+  const { session } = useAuth();
+  const { isStateHydrated, hasPendingDailyQuests } = useAppState();
+  const router = useRouter();
+
+  useEffect(() => {
+    const unsubscribe = registerNotificationResponseHandler((path) => {
+      router.push(path);
+    });
+    return unsubscribe;
+  }, [router]);
+
+  useEffect(() => {
+    const userId = session?.user?.id;
+    if (!userId || !isStateHydrated) return;
+
+    syncDailyReminders({
+      userId,
+      hasPendingDailyQuests,
+    }).catch((error) => {
+      console.error("[Notifications] Failed to sync reminders:", error);
+    });
+  }, [session?.user?.id, isStateHydrated, hasPendingDailyQuests]);
+
+  return null;
 }
 
 export default function RootLayout() {

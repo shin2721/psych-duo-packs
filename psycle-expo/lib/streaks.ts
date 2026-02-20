@@ -30,6 +30,16 @@ export interface StreakData {
     xpDate: string | null;  // XPが加算された日付
 }
 
+export type StudyRiskType = 'safe_today' | 'at_risk' | 'inactive';
+
+export interface StudyRiskStatus {
+    riskType: StudyRiskType;
+    todayStudied: boolean;
+    studyStreak: number;
+    lastStudyDate: string | null;
+    daysSinceStudy: number | null;
+}
+
 const DEFAULT_STATE: StreakData = {
     studyStreak: 0,
     lastStudyDate: null,
@@ -134,6 +144,41 @@ export async function getStreakData(): Promise<StreakData> {
     } catch {
         return { ...DEFAULT_STATE };
     }
+}
+
+export function getStudyRiskStatusFromData(
+    data: Pick<StreakData, 'studyStreak' | 'lastStudyDate'>,
+    now: Date = new Date()
+): StudyRiskStatus {
+    const today = dateKey(now);
+    const lastStudyDate = data.lastStudyDate;
+    const todayStudied = lastStudyDate === today;
+
+    if (!lastStudyDate) {
+        return {
+            riskType: 'inactive',
+            todayStudied: false,
+            studyStreak: data.studyStreak,
+            lastStudyDate: null,
+            daysSinceStudy: null,
+        };
+    }
+
+    const daysSinceStudy = Math.max(0, dateKeyToUtcDay(today) - dateKeyToUtcDay(lastStudyDate));
+    const riskType: StudyRiskType = todayStudied ? 'safe_today' : 'at_risk';
+
+    return {
+        riskType,
+        todayStudied,
+        studyStreak: data.studyStreak,
+        lastStudyDate,
+        daysSinceStudy,
+    };
+}
+
+export async function getStudyRiskStatus(now: Date = new Date()): Promise<StudyRiskStatus> {
+    const data = await getStreakData();
+    return getStudyRiskStatusFromData(data, now);
 }
 
 async function saveStreakData(data: StreakData): Promise<void> {

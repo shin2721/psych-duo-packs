@@ -117,11 +117,13 @@ interface AppState {
   setSelectedGenre: (id: string) => void;
   xp: number;
   addXp: (amount: number) => Promise<void>;
+  isStateHydrated: boolean;
   skill: number; // Elo rating (default 1500)
   skillConfidence: number; // Confidence in skill rating (0-100)
   questionsAnswered: number; // Total questions answered
   updateSkill: (isCorrect: boolean, itemDifficulty?: number) => void;
   quests: Quest[];
+  hasPendingDailyQuests: boolean;
   incrementQuest: (id: string, step?: number) => void;
   claimQuest: (id: string) => void;
   // Streak system
@@ -979,6 +981,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const hasProAccess = hasProItemAccess(planId);
   const canAccessMistakesHub = canUseMistakesHub(userId, planId);
   const mistakesHubRemaining = getMistakesHubRemaining(userId, planId);
+  const hasPendingDailyQuests = quests.some((quest) => quest.type === "daily" && quest.progress < quest.need);
 
   // MistakesHub methods
   const addReviewEventFunc = (event: Omit<ReviewEvent, "userId" | "ts">) => {
@@ -1058,11 +1061,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setSelectedGenre,
     xp,
     addXp,
+    isStateHydrated,
     skill,
     skillConfidence,
     questionsAnswered,
     updateSkill,
     quests,
+    hasPendingDailyQuests,
     incrementQuest,
     claimQuest,
     streak,

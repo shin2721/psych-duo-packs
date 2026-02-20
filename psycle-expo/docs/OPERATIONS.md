@@ -51,6 +51,42 @@
 
 ---
 
+## 0.5 Notifications Runtime (v1.20)
+
+### Source of truth
+
+- Reminder logic is local-only (`expo-notifications`), no server push in v1.20.
+- Notification risk basis is **Study streak only** (`studyStreak` / `lastStudyDate` in `/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/lib/streaks.ts`).
+- `inactive` users (no `lastStudyDate`) are excluded from streak risk reminders.
+
+### Reminder types and schedule (local time)
+
+- `streak_risk`: daily 22:00
+- `daily_quest_deadline`: daily 21:00
+- `league_demotion_risk`: Sunday 18:00 (only when `my_rank >= demotion_zone`)
+
+### Runtime behavior
+
+1. App boot (after auth + state hydration) calls reminder sync.
+2. Reminder sync first clears existing Psycle reminders, then re-schedules eligible reminders only.
+3. Settings notification toggle is persisted and gates scheduling.
+4. Tapping reminders routes to:
+- `/(tabs)/course`
+- `/(tabs)/quests`
+- `/(tabs)/leaderboard`
+
+### Failure checklist
+
+1. Reminders not shown:
+- Confirm app has system notification permission.
+- Confirm in-app toggle is ON.
+2. Streak reminder unexpected:
+- Check `lastStudyDate` and local timezone date boundary.
+3. League reminder missing:
+- Confirm it is Sunday local time and user is in demotion zone.
+
+---
+
 ## 1. Operating Modes
 
 ### Mode A: Antigravity Manual Generation (Current)

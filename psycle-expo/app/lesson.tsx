@@ -26,6 +26,8 @@ import { Analytics } from "../lib/analytics";
 import { formatCitation } from "../lib/evidenceUtils";
 import i18n from "../lib/i18n";
 import entitlements from "../config/entitlements.json";
+import { useAuth } from "../lib/AuthContext";
+import { syncDailyReminders } from "../lib/notifications";
 
 interface LessonDefaultsConfig {
   defaults?: {
@@ -55,12 +57,14 @@ export default function LessonScreen() {
     completeLesson,
     addXp,
     incrementQuest,
+    quests,
     consumeEnergy,
     lessonEnergyCost,
     tryTriggerStreakEnergyBonus,
     energy,
     maxEnergy,
   } = useAppState();
+  const { user } = useAuth();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
@@ -285,6 +289,18 @@ export default function LessonScreen() {
       // ゲーミフィケーション: Study Streak + XP
       await recordStudyCompletion();
       await addXP(XP_REWARDS.LESSON_COMPLETE);
+
+      if (user?.id) {
+        const hasPendingDailyQuests = quests.some(
+          (quest) => quest.type === "daily" && quest.progress < quest.need
+        );
+        syncDailyReminders({
+          userId: user.id,
+          hasPendingDailyQuests,
+        }).catch((error) => {
+          console.error("[Notifications] Failed to sync reminders from lesson:", error);
+        });
+      }
 
       // Analytics: lesson_complete (同一lessonIdで2回送らない)
       if (lessonCompleteTrackedRef.current !== params.file) {

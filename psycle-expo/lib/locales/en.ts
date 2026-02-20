@@ -83,6 +83,9 @@ export const en = {
         loginRequiredForRestore: 'You must be signed in to restore purchases.',
         loginRequiredForBillingPortal: 'You must be signed in to open billing portal.',
         billingPortalUnavailable: 'Billing portal is unavailable right now.',
+        notificationPermissionDeniedTitle: 'Notification permission is off',
+        notificationPermissionDeniedMessage: 'Enable notifications in Settings to receive streak and quest reminders.',
+        openSystemSettings: 'Open Settings',
         signOutTitle: 'Sign Out',
         signOutConfirm: 'Are you sure you want to sign out?',
         resetDoneTitle: 'Reset Complete',
@@ -98,6 +101,20 @@ export const en = {
         exportFailed: 'Export failed.',
         resetOnboarding: 'Reset Onboarding',
         clearLocalData: 'Delete Local Data',
+    },
+    notifications: {
+        streakRisk: {
+            title: 'Keep your streak',
+            body: "You haven't studied today. Complete 1 lesson to keep your streak.",
+        },
+        dailyQuestDeadline: {
+            title: 'Daily quests are waiting',
+            body: 'Daily quests are still incomplete. Check before day end.',
+        },
+        leagueDemotionRisk: {
+            title: 'League warning',
+            body: 'You are in the demotion zone. Earn a bit more XP today.',
+        },
     },
     tabs: {
         learn: 'Learn',

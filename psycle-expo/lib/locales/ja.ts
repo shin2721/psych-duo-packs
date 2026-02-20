@@ -83,6 +83,9 @@ export const ja = {
         loginRequiredForRestore: '購入を復元するにはログインが必要です。',
         loginRequiredForBillingPortal: '請求ポータルを開くにはログインが必要です。',
         billingPortalUnavailable: '請求ポータルを開けませんでした。',
+        notificationPermissionDeniedTitle: '通知許可がオフです',
+        notificationPermissionDeniedMessage: '連続記録やクエスト通知を受け取るには、設定で通知を許可してください。',
+        openSystemSettings: '設定を開く',
         signOutTitle: 'ログアウト',
         signOutConfirm: '本当にログアウトしますか？',
         resetDoneTitle: 'リセット完了',
@@ -98,6 +101,20 @@ export const ja = {
         exportFailed: 'エクスポートに失敗しました',
         resetOnboarding: 'オンボーディングをリセット',
         clearLocalData: 'ローカルデータを削除',
+    },
+    notifications: {
+        streakRisk: {
+            title: '連続記録をキープ',
+            body: '今日まだ学習していません。1レッスンで連続記録をキープ',
+        },
+        dailyQuestDeadline: {
+            title: '今日のクエスト',
+            body: '今日のクエストが未達成です。期限前に確認',
+        },
+        leagueDemotionRisk: {
+            title: 'リーグ注意',
+            body: '降格圏にいます。今週中にあと少しXPを積みましょう',
+        },
     },
     tabs: {
         learn: '学ぶ',

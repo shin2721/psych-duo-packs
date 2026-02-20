@@ -128,6 +128,31 @@ export type ShopOpenFromEnergyEvent = {
   };
 };
 
+export type NotificationPermissionResultEvent = {
+  name: 'notification_permission_result';
+  properties: {
+    status: 'granted' | 'denied';
+    source: 'settings_toggle' | 'bootstrap';
+  };
+};
+
+export type ReminderScheduledEvent = {
+  name: 'reminder_scheduled';
+  properties: {
+    kind: 'streak_risk' | 'daily_quest_deadline' | 'league_demotion_risk';
+    scheduledAt: string;
+    source: 'sync_daily_reminders';
+  };
+};
+
+export type ReminderOpenedEvent = {
+  name: 'reminder_opened';
+  properties: {
+    kind: 'streak_risk' | 'daily_quest_deadline' | 'league_demotion_risk';
+    source: 'notification_tap';
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -140,4 +165,7 @@ export type TrackedEvent =
   | StreakLostEvent
   | EnergyBlockedEvent
   | EnergyBonusHitEvent
-  | ShopOpenFromEnergyEvent;
+  | ShopOpenFromEnergyEvent
+  | NotificationPermissionResultEvent
+  | ReminderScheduledEvent
+  | ReminderOpenedEvent;

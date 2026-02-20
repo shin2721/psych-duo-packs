@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView, Switch, Alert, Linking, Share, Modal } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -12,13 +12,20 @@ import { useAppState } from "../../lib/state";
 import { getExportableJSON } from "../../lib/dogfood";
 import i18n from "../../lib/i18n";
 import { useLocale } from "../../lib/LocaleContext";
+import {
+    cancelPsycleReminders,
+    ensureNotificationPermission,
+    getNotificationPreference,
+    setNotificationPreference,
+    syncDailyReminders,
+} from "../../lib/notifications";
 
 export default function SettingsScreen() {
     const router = useRouter();
     const { user, signOut } = useAuth();
-    const { setPlanId, setActiveUntil } = useAppState();
+    const { setPlanId, setActiveUntil, hasPendingDailyQuests } = useAppState();
     const { locale, options: localeOptions, setLocale } = useLocale();
-    const [notificationsEnabled, setNotificationsEnabled] = useState(true);
+    const [notificationsEnabled, setNotificationsEnabled] = useState(false);
     const [soundEnabled, setSoundEnabled] = useState(true);
     const [hapticsEnabled, setHapticsEnabled] = useState(true);
     const [isOpeningPortal, setIsOpeningPortal] = useState(false);
@@ -29,6 +36,61 @@ export default function SettingsScreen() {
     // Secret 5-tap entry for Analytics Debug (DEV + E2E release)
     const titleTapCount = useRef(0);
     const titleTapTimeout = useRef<NodeJS.Timeout | null>(null);
+
+    useEffect(() => {
+        let mounted = true;
+
+        const loadNotificationPreference = async () => {
+            const enabled = await getNotificationPreference();
+            if (mounted) setNotificationsEnabled(enabled);
+        };
+
+        loadNotificationPreference().catch((error) => {
+            console.error("Failed to load notification preference:", error);
+        });
+
+        return () => {
+            mounted = false;
+        };
+    }, []);
+
+    const handleNotificationToggle = async (enabled: boolean) => {
+        setNotificationsEnabled(enabled);
+        await setNotificationPreference(enabled);
+
+        if (!enabled) {
+            await cancelPsycleReminders();
+            return;
+        }
+
+        const permission = await ensureNotificationPermission("settings_toggle");
+        if (permission !== "granted") {
+            setNotificationsEnabled(false);
+            await setNotificationPreference(false);
+            await cancelPsycleReminders();
+            Alert.alert(
+                String(i18n.t("settings.notificationPermissionDeniedTitle")),
+                String(i18n.t("settings.notificationPermissionDeniedMessage")),
+                [
+                    { text: String(i18n.t("common.cancel")), style: "cancel" },
+                    {
+                        text: String(i18n.t("settings.openSystemSettings")),
+                        onPress: () => {
+                            Linking.openSettings().catch(() => undefined);
+                        },
+                    },
+                ]
+            );
+            return;
+        }
+
+        if (user?.id) {
+            await syncDailyReminders({
+                userId: user.id,
+                hasPendingDailyQuests,
+            });
+        }
+    };
 
     const handleTitleTap = () => {
         if (!isAnalyticsDebugEnabled) return;
@@ -175,7 +237,11 @@ export default function SettingsScreen() {
                         icon="notifications"
                         label={i18n.t("settings.notifications")}
                         value={notificationsEnabled}
-                        onValueChange={setNotificationsEnabled}
+                        onValueChange={(value) => {
+                            handleNotificationToggle(value).catch((error) => {
+                                console.error("Failed to update notification preference:", error);
+                            });
+                        }}
                     />
                     <SettingToggle
                         icon="volume-high"
