@@ -2,6 +2,10 @@
 
 This file provides workspace-level guidance for Claude Code in this repository.
 
+## 応答言語
+
+すべての応答は日本語で行うこと。コミットメッセージやPRタイトルなど、英語が慣習的に使われる箇所は英語のままでよい。
+
 ## Always Use Latest Psycle Branch
 
 Always sync the repository from the current session's working tree.
