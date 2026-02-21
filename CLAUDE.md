@@ -35,3 +35,32 @@ For every review/fix request, do this before reading or editing code:
    - `git status --short`
 
 If any check fails, do not continue analysis. Report the failure and resolve sync first.
+
+## No Auto-Execution Policy
+
+Claude は明示的な指示なしに以下の操作を自動実行してはならない。
+
+### 禁止事項（ユーザーの明示的な許可がない限り実行しない）
+
+1. **スクリプト・コマンドの実行** — `bash`、`npm run`、`python` 等のコマンドをユーザーの指示なく実行しない。ビルド、テスト、デプロイなどもすべて同様。
+2. **ファイルの作成・書き込み・削除** — 既存ファイルの編集や新規ファイルの作成は、ユーザーが明確に依頼した場合のみ行う。
+3. **Git 操作** — `git commit`、`git push`、`git merge`、`git rebase` 等の変更を伴う Git コマンドはユーザーの指示なく実行しない。`git status` や `git log` 等の読み取り専用コマンドは許可する。
+4. **外部サービスへの通信** — API 呼び出し、Webhook 送信、外部サービスへのデータ送信はユーザーの許可なく行わない。
+5. **依存関係のインストール・更新** — `npm install`、`pip install` 等のパッケージ操作はユーザーの指示なく実行しない。
+
+### 許可される自動操作
+
+- ファイルの**読み取り**（コード理解・調査目的）
+- `git status`、`git log`、`git diff` 等の**読み取り専用 Git コマンド**
+- コードベースの**検索**（grep、glob 等）
+- ユーザーへの**質問・確認**
+
+### 実行前の確認ルール
+
+破壊的・副作用のある操作を行う前に、必ず以下を実施する：
+
+1. 実行しようとしている操作の内容をユーザーに説明する
+2. ユーザーから明示的な承認を得る
+3. 承認を得てから実行する
+
+「〜してください」「〜を実行して」等の明示的な指示がない限り、提案のみに留めること。
