@@ -1,7 +1,35 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TARGET_BRANCH="${1:-main}"
+TARGET_BRANCH="main"
+AUTO_STASH=1
+
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --autostash)
+      AUTO_STASH=1
+      shift
+      ;;
+    --no-autostash)
+      AUTO_STASH=0
+      shift
+      ;;
+    --help|-h)
+      cat <<'EOF'
+Usage: ./tools/sync_psycle_latest.sh [--autostash|--no-autostash] [branch]
+
+Defaults:
+  branch: main
+  mode:   --autostash
+EOF
+      exit 0
+      ;;
+    *)
+      TARGET_BRANCH="$1"
+      shift
+      ;;
+  esac
+done
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
 if [[ -z "$REPO_ROOT" ]]; then
@@ -11,10 +39,17 @@ fi
 
 cd "$REPO_ROOT"
 
-if ! git diff --quiet || ! git diff --cached --quiet; then
-  echo "sync failed: working tree has local changes at $REPO_ROOT"
-  echo "commit or stash changes before syncing"
-  exit 1
+AUTO_STASH_REF=""
+if ! git diff --quiet || ! git diff --cached --quiet || [[ -n "$(git ls-files --others --exclude-standard)" ]]; then
+  if [[ "$AUTO_STASH" -eq 1 ]]; then
+    STASH_MSG="sync_psycle_latest_autostash_$(date +%Y%m%d_%H%M%S)"
+    git stash push -u -m "$STASH_MSG" >/dev/null
+    AUTO_STASH_REF="$(git stash list | head -n 1 | cut -d: -f1)"
+  else
+    echo "sync failed: working tree has local changes at $REPO_ROOT"
+    echo "rerun with --autostash, or commit/stash changes before syncing"
+    exit 1
+  fi
 fi
 
 git fetch origin
@@ -42,7 +77,14 @@ else
 fi
 
 if [[ "$SYNC_MODE" == "branch" ]]; then
-  git pull --ff-only origin "$TARGET_BRANCH"
+  if ! git pull --ff-only origin "$TARGET_BRANCH" >/dev/null 2>&1; then
+    # If fast-forward is not possible (local branch diverged/ahead), prefer latest remote snapshot.
+    git checkout --detach "origin/$TARGET_BRANCH" >/dev/null 2>&1 || {
+      echo "sync failed: cannot fast-forward or detach to origin/$TARGET_BRANCH"
+      exit 1
+    }
+    SYNC_MODE="detached_from_diverged_branch"
+  fi
 else
   # In detached mode, re-checkout the remote ref to move HEAD to latest commit.
   git checkout --detach "origin/$TARGET_BRANCH" >/dev/null 2>&1 || {
@@ -58,23 +100,15 @@ AHEAD_COUNT="$(git rev-list --count "origin/$TARGET_BRANCH..HEAD")"
 BEHIND_COUNT="$(git rev-list --count "HEAD..origin/$TARGET_BRANCH")"
 
 if [[ "$LOCAL_HEAD" != "$REMOTE_HEAD" ]]; then
-  if [[ "$AHEAD_COUNT" -gt 0 ]]; then
-    echo "sync failed: local branch '$TARGET_BRANCH' has $AHEAD_COUNT unpushed commit(s)"
-    echo "push first so other sessions can see latest:"
-    echo "  git push origin $TARGET_BRANCH"
-    echo "hashes: local=$LOCAL_HEAD remote=$REMOTE_HEAD"
+  # Always converge to remote head for review freshness.
+  git checkout --detach "origin/$TARGET_BRANCH" >/dev/null 2>&1 || {
+    echo "sync failed: local=$LOCAL_HEAD remote=$REMOTE_HEAD branch=$TARGET_BRANCH"
     exit 1
-  fi
-
-  if [[ "$BEHIND_COUNT" -gt 0 ]]; then
-    echo "sync failed: local branch '$TARGET_BRANCH' is behind origin/$TARGET_BRANCH by $BEHIND_COUNT commit(s)"
-    echo "rerun sync after resolving branch state"
-    echo "hashes: local=$LOCAL_HEAD remote=$REMOTE_HEAD"
-    exit 1
-  fi
-
-  echo "sync failed: local=$LOCAL_HEAD remote=$REMOTE_HEAD branch=$TARGET_BRANCH"
-  exit 1
+  }
+  SYNC_MODE="detached_remote_exact"
+  LOCAL_HEAD="$(git rev-parse --short HEAD)"
+  AHEAD_COUNT="$(git rev-list --count "origin/$TARGET_BRANCH..HEAD")"
+  BEHIND_COUNT="$(git rev-list --count "HEAD..origin/$TARGET_BRANCH")"
 fi
 
 if [[ -n "$WORKTREE_STATE" ]]; then
@@ -84,3 +118,8 @@ if [[ -n "$WORKTREE_STATE" ]]; then
 fi
 
 echo "psycle latest synced: repo=$REPO_ROOT branch=$TARGET_BRANCH mode=$SYNC_MODE local=$LOCAL_HEAD remote=$REMOTE_HEAD clean=true"
+if [[ -n "$AUTO_STASH_REF" ]]; then
+  echo "autostash saved: $AUTO_STASH_REF"
+  echo "restore (optional): git stash pop $AUTO_STASH_REF"
+fi
+echo "freshness: ahead=$AHEAD_COUNT behind=$BEHIND_COUNT"
