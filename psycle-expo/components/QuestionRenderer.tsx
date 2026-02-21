@@ -40,8 +40,6 @@ interface Props {
   combo?: number;
   onComboChange?: (combo: number) => void;
   onComboMilestone?: (milestone: 3 | 5 | 10, questionId: string) => void;
-  onInterventionAttempted?: (questionId: string) => void;
-  onInterventionExecuted?: (questionId: string) => void;
 }
 
 export const getQuestionText = (question: Question) => question.text ?? question.question ?? "";
@@ -61,7 +59,7 @@ export const areSelectAllAnswersCorrect = (question: Question, selectedIndexes: 
   return JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
 };
 
-export function QuestionRenderer({ question, onContinue, combo: externalCombo, onComboChange, onComboMilestone, onInterventionAttempted, onInterventionExecuted }: Props) {
+export function QuestionRenderer({ question, onContinue, combo: externalCombo, onComboChange, onComboMilestone }: Props) {
   const questionText = getQuestionText(question);
   const questionChoices = getQuestionChoices(question);
 
@@ -106,9 +104,6 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
   const [showCombo, setShowCombo] = useState(false);
   const [showEvidenceSheet, setShowEvidenceSheet] = useState(false);
   const [showExplanationDetails, setShowExplanationDetails] = useState(false); // 誤答時の詳細展開
-  const [hasAttempted, setHasAttempted] = useState(false); // 介入を試したか
-  const [attemptCountdown, setAttemptCountdown] = useState(0); // 10秒カウントダウン
-  const countdownRef = useRef<NodeJS.Timeout | null>(null);
 
   // Initialize state when question changes
   useEffect(() => {
@@ -147,12 +142,6 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
     setSelectedPairs([]);
     setConsequenceSelection(null);
     setShowExplanationDetails(false); // 誤答時の詳細展開をリセット
-    setHasAttempted(false); // 介入試行状態をリセット
-    setAttemptCountdown(0); // カウントダウンをリセット
-    if (countdownRef.current) {
-      clearInterval(countdownRef.current);
-      countdownRef.current = null;
-    }
   }, [question]);
 
   // select_all: Auto-show result when all correct answers are selected OR when wrong answer is selected
@@ -834,54 +823,6 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
                         </View>
                       )}
 
-                      {/* 介入問題: attempted/executed ボタン */}
-                      {details?.claim_type === 'intervention' && (
-                        <View style={styles.interventionButtonsContainer}>
-                          {!hasAttempted ? (
-                            <TouchableOpacity
-                              style={styles.attemptButton}
-                              onPress={() => {
-                                const questionId = question.id;
-                                setHasAttempted(true);
-                                setAttemptCountdown(10); // 10秒カウントダウン開始
-                                onInterventionAttempted?.(questionId);
-
-                                // 1秒ごとにカウントダウン
-                                countdownRef.current = setInterval(() => {
-                                  setAttemptCountdown(prev => {
-                                    if (prev <= 1) {
-                                      if (countdownRef.current) clearInterval(countdownRef.current);
-                                      return 0;
-                                    }
-                                    return prev - 1;
-                                  });
-                                }, 1000);
-                              }}
-                            >
-                              <Text style={styles.attemptButtonText}>{i18n.t("questionRenderer.attempt10sec")}</Text>
-                            </TouchableOpacity>
-                          ) : attemptCountdown > 0 ? (
-                            // カウントダウン中：無効化されたボタン
-                            <View style={[styles.executeButton, { backgroundColor: '#374151', opacity: 0.7 }]}>
-                              <Text style={[styles.executeButtonText, { color: '#9ca3af' }]}>
-                                {i18n.t("questionRenderer.countdown", { seconds: attemptCountdown })}
-                              </Text>
-                            </View>
-                          ) : (
-                            // 10秒経過：有効化
-                            <TouchableOpacity
-                              style={styles.executeButton}
-                              onPress={() => {
-                                const questionId = question.id;
-                                onInterventionExecuted?.(questionId);
-                              }}
-                            >
-                              <Text style={styles.executeButtonText}>{i18n.t("questionRenderer.executed")}</Text>
-                            </TouchableOpacity>
-                          )}
-                        </View>
-                      )}
-
                       {/* 「詳しく見る」展開ボタン */}
                       <TouchableOpacity
                         onPress={() => setShowExplanationDetails(!showExplanationDetails)}
@@ -951,50 +892,6 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
                   </View>
                 )}
 
-                {/* 正答時: intervention用CTAボタン（計測精度向上） */}
-                {isCorrect && (question as any).expanded_details?.claim_type === 'intervention' && (
-                  <View style={styles.interventionButtonsContainer}>
-                    {!hasAttempted ? (
-                      <TouchableOpacity
-                        style={[styles.attemptButton, { backgroundColor: '#3b82f6' }]}
-                        onPress={() => {
-                          const questionId = question.id;
-                          setHasAttempted(true);
-                          setAttemptCountdown(10);
-                          onInterventionAttempted?.(questionId);
-
-                          countdownRef.current = setInterval(() => {
-                            setAttemptCountdown(prev => {
-                              if (prev <= 1) {
-                                if (countdownRef.current) clearInterval(countdownRef.current);
-                                return 0;
-                              }
-                              return prev - 1;
-                            });
-                          }, 1000);
-                        }}
-                      >
-                        <Text style={styles.attemptButtonText}>{i18n.t("questionRenderer.attempt10sec")}</Text>
-                      </TouchableOpacity>
-                    ) : attemptCountdown > 0 ? (
-                      <View style={[styles.executeButton, { backgroundColor: '#374151', opacity: 0.7 }]}>
-                        <Text style={[styles.executeButtonText, { color: '#9ca3af' }]}>
-                          {i18n.t("questionRenderer.countdown", { seconds: attemptCountdown })}
-                        </Text>
-                      </View>
-                    ) : (
-                      <TouchableOpacity
-                        style={[styles.executeButton, { backgroundColor: '#22c55e' }]}
-                        onPress={() => {
-                          const questionId = question.id;
-                          onInterventionExecuted?.(questionId);
-                        }}
-                      >
-                        <Text style={styles.executeButtonText}>{i18n.t("questionRenderer.executed")}</Text>
-                      </TouchableOpacity>
-                    )}
-                  </View>
-                )}
               </View>
             )
           }
@@ -1565,40 +1462,5 @@ const styles = StyleSheet.create({
   evidenceCompactNote: {
     fontSize: 12,
     color: "#94a3b8",
-  },
-  // Intervention attempted/executed buttons
-  interventionButtonsContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    marginVertical: 12,
-    gap: 12,
-  },
-  attemptButton: {
-    backgroundColor: "#3b82f6",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 24,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  attemptButtonText: {
-    color: "#fff",
-    fontSize: 15,
-    fontWeight: "600",
-  },
-  executeButton: {
-    backgroundColor: "#22c55e",
-    paddingVertical: 12,
-    paddingHorizontal: 24,
-    borderRadius: 24,
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  executeButtonText: {
-    color: "#fff",
-    fontSize: 15,
-    fontWeight: "600",
   },
 });

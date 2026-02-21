@@ -12,8 +12,6 @@ import configData from '../config/gamification.json';
 export interface XPRewards {
     correct_answer: number;
     lesson_complete: number;
-    attempted: number;
-    executed: number;
     felt_better_positive: number;
 }
 
@@ -24,7 +22,6 @@ export interface FreezeConfig {
 }
 
 export interface StreakConfig {
-    action_per_day_limit: number;
     study_per_day_limit: number;
 }
 
@@ -49,8 +46,6 @@ const DEFAULT_CONFIG: GamificationConfig = {
     xp_rewards: {
         correct_answer: 5,
         lesson_complete: 20,
-        attempted: 10,
-        executed: 25,
         felt_better_positive: 10,
     },
     freeze: {
@@ -59,7 +54,6 @@ const DEFAULT_CONFIG: GamificationConfig = {
         max_cap: 10,
     },
     streak: {
-        action_per_day_limit: 1,
         study_per_day_limit: 1,
     },
     notifications: {

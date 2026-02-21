@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
@@ -7,7 +7,6 @@ import { router } from "expo-router";
 import { genres } from "../lib/data";
 import { StreakIcon, GemIcon, EnergyIcon, MentalIcon, MoneyIcon, WorkIcon, HealthIcon, SocialIcon, StudyIcon } from "./CustomIcons";
 import { Modal, TouchableWithoutFeedback } from "react-native";
-import { getStreakData } from "../lib/streaks";
 import { Analytics } from "../lib/analytics";
 
 const getGenreIcon = (id: string, size: number = 28) => {
@@ -23,24 +22,8 @@ const getGenreIcon = (id: string, size: number = 28) => {
 };
 
 export function GlobalHeader() {
-  const { gems, selectedGenre, setSelectedGenre, energy, isSubscriptionActive } = useAppState();
+  const { gems, selectedGenre, setSelectedGenre, energy, isSubscriptionActive, streak } = useAppState();
   const [menuVisible, setMenuVisible] = useState(false);
-
-  // ゲーミフィケーション: Action Streak
-  const [actionStreak, setActionStreak] = useState(0);
-
-  // ゲーミフィケーション: ストリークを読み込み
-  useEffect(() => {
-    const loadGamification = async () => {
-      const streakData = await getStreakData();
-      setActionStreak(streakData.actionStreak);
-    };
-    loadGamification();
-
-    // 1分ごとに更新
-    const interval = setInterval(loadGamification, 60000);
-    return () => clearInterval(interval);
-  }, []);
 
   return (
     <>
@@ -50,10 +33,10 @@ export function GlobalHeader() {
           {getGenreIcon(selectedGenre, 36)}
         </Pressable>
 
-        {/* 2. Action Streak (ゲーミフィケーション主役) */}
+        {/* 2. Study Streak */}
         <Pressable style={styles.item} onPress={() => router.push("/(tabs)/course")}>
           <StreakIcon size={24} />
-          <Text style={[styles.value, { color: "#f97316" }]}>{actionStreak}</Text>
+          <Text style={[styles.value, { color: "#f97316" }]}>{streak}</Text>
         </Pressable>
 
         {/* 3. Gems */}

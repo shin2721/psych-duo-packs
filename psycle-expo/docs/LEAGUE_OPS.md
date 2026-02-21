@@ -45,8 +45,8 @@ supabase functions deploy settle-league-week
    - 日曜 23:50 JST と 月曜 00:10 JST で `get_current_week_id()` の値が切り替わることを（SQL実行等で）確認。
 
 4. **Paywall表示ロジック**
-   - `executed` 未達かつ `lesson` < 3回：表示されないこと。
-   - `executed` 達成 または `lesson` >= 3回：**刺さったタイミングで** 表示されること。
+   - `lesson` < 3回：表示されないこと。
+   - `lesson` >= 3回：**刺さったタイミングで** 表示されること。
 
 ---
 

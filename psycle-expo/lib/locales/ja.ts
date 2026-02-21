@@ -239,9 +239,6 @@ export const ja = {
         matchingCorrectAnswer: '上の緑色のペアが正解',
         correctLabel: '正解:',
         recommendedLabel: 'おすすめ:',
-        attempt10sec: '⏱️ 10秒だけやる',
-        countdown: '⏱️ %{seconds}秒...',
-        executed: '✅ やった！',
         evidenceAvailable: '📚 根拠あり (タップで詳細)',
     },
     questionMedia: {

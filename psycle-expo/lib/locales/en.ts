@@ -239,9 +239,6 @@ export const en = {
         matchingCorrectAnswer: 'The green pairs above are correct',
         correctLabel: 'Correct:',
         recommendedLabel: 'Recommended:',
-        attempt10sec: '⏱️ Try for 10 seconds',
-        countdown: '⏱️ %{seconds}s...',
-        executed: '✅ Done!',
         evidenceAvailable: '📚 Evidence available (tap for details)',
     },
     questionMedia: {

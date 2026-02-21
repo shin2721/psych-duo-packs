@@ -110,7 +110,7 @@
 
 - Paywall is now **study-only**:
   - show only when `lesson_complete_count >= 3`.
-- `executed` no longer participates in paywall eligibility.
+- self-report actions do not participate in paywall eligibility.
 
 ### Monitoring checklist
 

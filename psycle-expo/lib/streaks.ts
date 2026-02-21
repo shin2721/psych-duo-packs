@@ -1,9 +1,8 @@
 /**
  * Streaks System for Psycle Gamification v1.0
  * 
- * Two streaks:
+ * Study streak only:
  * - Study Streak: レッスン完了で継続
- * - Action Streak: executed で継続（主役）
  */
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,10 +14,6 @@ export interface StreakData {
     // Study Streak
     studyStreak: number;
     lastStudyDate: string | null;  // YYYY-MM-DD
-
-    // Action Streak (主役)
-    actionStreak: number;
-    lastActionDate: string | null;  // YYYY-MM-DD
 
     // Freeze
     freezesRemaining: number;
@@ -43,8 +38,6 @@ export interface StudyRiskStatus {
 const DEFAULT_STATE: StreakData = {
     studyStreak: 0,
     lastStudyDate: null,
-    actionStreak: 0,
-    lastActionDate: null,
     freezesRemaining: 2,
     freezeWeekStart: null,
     totalXP: 0,
@@ -91,7 +84,6 @@ function dateKeyToUtcDay(dateStr: string): number {
 }
 
 function trackStreakLost(
-    streakType: 'study' | 'action',
     previousStreak: number,
     gapDays: number,
     freezesRemaining: number,
@@ -100,7 +92,7 @@ function trackStreakLost(
     if (previousStreak <= 0 || gapDays <= 0) return;
 
     Analytics.track('streak_lost', {
-        streakType,
+        streakType: 'study',
         previousStreak,
         gapDays,
         freezesRemaining,
@@ -109,7 +101,7 @@ function trackStreakLost(
 
     if (__DEV__) {
         console.log('[Analytics] streak_lost', {
-            streakType,
+            streakType: 'study',
             previousStreak,
             gapDays,
             freezesRemaining,
@@ -123,7 +115,11 @@ export async function getStreakData(): Promise<StreakData> {
         const raw = await AsyncStorage.getItem(STORAGE_KEY);
         if (!raw) return { ...DEFAULT_STATE };
 
-        const data = JSON.parse(raw) as StreakData;
+        const parsed = JSON.parse(raw) as Partial<StreakData>;
+        const data: StreakData = {
+            ...DEFAULT_STATE,
+            ...parsed,
+        };
 
         // 週が変わったらfreezeを最低weekly_refillに補充（購入分は消さない）
         const currentWeekStart = getWeekStart(new Date());
@@ -211,65 +207,16 @@ export async function recordStudyCompletion(): Promise<StreakData> {
         // 昨日やっていた → 継続
         data.studyStreak++;
     } else if (data.lastStudyDate !== today) {
-        // 途切れた → 1からスタート（Study StreakはFreeze対象外 - 行動が主役）
+        // 途切れた → 1からスタート（Study Streakのみ運用）
         if (previousLastStudyDate) {
             const diffDays = dateKeyToUtcDay(today) - dateKeyToUtcDay(previousLastStudyDate);
             const gapDays = Math.max(0, diffDays - 1);
-            trackStreakLost('study', previousStreak, gapDays, data.freezesRemaining, gapDays);
+            trackStreakLost(previousStreak, gapDays, data.freezesRemaining, gapDays);
         }
         data.studyStreak = 1;
     }
 
     data.lastStudyDate = today;
-    await saveStreakData(data);
-    return data;
-}
-
-/**
- * Action Streakを更新（executed時に呼ぶ）
- */
-/**
- * Action Streakを更新（executed時に呼ぶ）
- */
-export async function recordActionExecution(): Promise<StreakData> {
-    const data = await getStreakData();
-    const today = getToday();
-    const previousStreak = data.actionStreak;
-
-    if (data.lastActionDate === today) {
-        // 今日すでに記録済み
-        return data;
-    }
-
-    if (!data.lastActionDate) {
-        // 初回
-        data.actionStreak = 1;
-    } else {
-        // 日付差分を計算（dateKeyToUtcDayで堅牢に）
-        const diffDays = dateKeyToUtcDay(today) - dateKeyToUtcDay(data.lastActionDate);
-
-        if (diffDays <= 1) {
-            // 昨日やっていた（diff=1）または同日（diff=0は上で弾いているはずだが念のため）
-            data.actionStreak++;
-        } else {
-            // 2日以上空いた（diffDays >= 2）
-            // 欠勤日数 = diffDays - 1
-            const missedDays = diffDays - 1;
-
-            if (data.actionStreak > 0 && data.freezesRemaining >= missedDays) {
-                // Freezeで救済
-                data.freezesRemaining -= missedDays;
-                data.actionStreak++; // 継続扱い
-                if (__DEV__) console.log(`[Streak] Used ${missedDays} Freezes to save Action Streak`);
-            } else {
-                // 足りない → リセット
-                trackStreakLost('action', previousStreak, missedDays, data.freezesRemaining, missedDays);
-                data.actionStreak = 1;
-            }
-        }
-    }
-
-    data.lastActionDate = today;
     await saveStreakData(data);
     return data;
 }
@@ -315,7 +262,5 @@ import { getXpRewards, getFreezeConfig } from './gamificationConfig';
 export const XP_REWARDS = {
     get CORRECT_ANSWER() { return getXpRewards().correct_answer; },
     get LESSON_COMPLETE() { return getXpRewards().lesson_complete; },
-    get ATTEMPTED() { return getXpRewards().attempted; },
-    get EXECUTED() { return getXpRewards().executed; },
     get FELT_BETTER_POSITIVE() { return getXpRewards().felt_better_positive; },
 };

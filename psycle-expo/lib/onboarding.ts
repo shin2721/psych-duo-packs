@@ -7,25 +7,9 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const KEYS = {
-    FIRST_EXECUTED: '@onboarding_first_executed',
     FIRST_LESSON_COMPLETE: '@onboarding_first_lesson_complete',
     ONBOARDING_DAY: '@onboarding_day',
 } as const;
-
-/**
- * 初回executed達成済みかどうか
- */
-export async function hasCompletedFirstExecuted(): Promise<boolean> {
-    const value = await AsyncStorage.getItem(KEYS.FIRST_EXECUTED);
-    return value === 'true';
-}
-
-/**
- * 初回executedを達成としてマーク
- */
-export async function markFirstExecutedComplete(): Promise<void> {
-    await AsyncStorage.setItem(KEYS.FIRST_EXECUTED, 'true');
-}
 
 /**
  * 初回レッスン完了済みかどうか
@@ -63,7 +47,6 @@ export async function incrementOnboardingDay(): Promise<void> {
  */
 export async function resetOnboardingProgress(): Promise<void> {
     await AsyncStorage.multiRemove([
-        KEYS.FIRST_EXECUTED,
         KEYS.FIRST_LESSON_COMPLETE,
         KEYS.ONBOARDING_DAY,
     ]);
