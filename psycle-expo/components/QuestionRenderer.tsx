@@ -37,6 +37,7 @@ import { sounds } from "../lib/sounds";
 interface Props {
   question: Question;
   onContinue: (isCorrect: boolean, xp: number) => void;
+  combo?: number;
   onComboChange?: (combo: number) => void;
   onComboMilestone?: (milestone: 3 | 5 | 10, questionId: string) => void;
   onInterventionAttempted?: (questionId: string) => void;
@@ -60,7 +61,7 @@ export const areSelectAllAnswersCorrect = (question: Question, selectedIndexes: 
   return JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
 };
 
-export function QuestionRenderer({ question, onContinue, onComboChange, onComboMilestone, onInterventionAttempted, onInterventionExecuted }: Props) {
+export function QuestionRenderer({ question, onContinue, combo: externalCombo, onComboChange, onComboMilestone, onInterventionAttempted, onInterventionExecuted }: Props) {
   const questionText = getQuestionText(question);
   const questionChoices = getQuestionChoices(question);
 
@@ -93,7 +94,15 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onComboM
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const slideAnim = useRef(new Animated.Value(30)).current;
-  const [combo, setCombo] = useState(0);
+  const [internalCombo, setInternalCombo] = useState(0);
+  const combo = typeof externalCombo === "number" ? externalCombo : internalCombo;
+
+  const commitCombo = (nextCombo: number) => {
+    if (onComboChange) onComboChange(nextCombo);
+    if (typeof externalCombo !== "number") {
+      setInternalCombo(nextCombo);
+    }
+  };
   const [showCombo, setShowCombo] = useState(false);
   const [showEvidenceSheet, setShowEvidenceSheet] = useState(false);
   const [showExplanationDetails, setShowExplanationDetails] = useState(false); // 誤答時の詳細展開
@@ -286,8 +295,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onComboM
 
     if (isCorrect) {
       const newCombo = getNextCombo(combo, true);
-      setCombo(newCombo);
-      if (onComboChange) onComboChange(newCombo);
+      commitCombo(newCombo);
       setShowCombo(true);
       // Hide combo after delay
       setTimeout(() => setShowCombo(false), 2000);
@@ -303,8 +311,7 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onComboM
         }
       }
     } else {
-      setCombo(getNextCombo(combo, false));
-      if (onComboChange) onComboChange(0);
+      commitCombo(getNextCombo(combo, false));
       setShowCombo(false);
     }
 

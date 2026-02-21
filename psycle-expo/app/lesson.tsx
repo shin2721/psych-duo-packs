@@ -709,6 +709,7 @@ export default function LessonScreen() {
       <QuestionRenderer
         key={currentIndex}
         question={currentQuestion}
+        combo={combo}
         onContinue={handleAnswer}
         onComboChange={setCombo}
         onComboMilestone={(milestone, questionId) => {
