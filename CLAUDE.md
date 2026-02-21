@@ -2,6 +2,15 @@
 
 This file provides workspace-level guidance for Claude Code in this repository.
 
+## 応答言語
+
+すべての応答は日本語で行うこと。コミットメッセージやPRタイトルなど、英語が慣習的に使われる箇所は英語のままでよい。
+
+## 実行ルール
+
+- ユーザーの明示的な許可なくコマンドやスクリプトを実行しないこと。必ず事前に確認を取る。
+- 実行が許可された場合、変更が発生したらその場でコミットとプッシュまで一連で行うこと。
+
 ## Always Use Latest Psycle Branch
 
 Always sync the repository from the current session's working tree.
