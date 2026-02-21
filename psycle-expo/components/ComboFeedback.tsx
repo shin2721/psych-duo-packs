@@ -1,6 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 import { theme } from '../lib/theme';
+import i18n from '../lib/i18n';
+import { getComboMilestone } from '../lib/comboMilestone';
 
 interface Props {
     combo: number;
@@ -48,6 +50,14 @@ export function ComboFeedback({ combo, visible }: Props) {
 
     if (!visible || combo < 2) return null;
 
+    const milestone = getComboMilestone(combo);
+    const milestoneText = (() => {
+        if (milestone === 10) return String(i18n.t('lesson.combo.milestone10'));
+        if (milestone === 5) return String(i18n.t('lesson.combo.milestone5'));
+        if (milestone === 3) return String(i18n.t('lesson.combo.milestone3'));
+        return null;
+    })();
+
     // Dynamic color based on combo count
     const getComboColor = (count: number) => {
         if (count >= 10) return '#f59e0b'; // Gold
@@ -66,7 +76,7 @@ export function ComboFeedback({ combo, visible }: Props) {
             ]}
         >
             <Text style={[styles.text, { color: getComboColor(combo) }]}>
-                COMBO x{combo}!
+                {milestoneText ? `${milestoneText}  COMBO x${combo}!` : `COMBO x${combo}!`}
             </Text>
         </Animated.View>
     );

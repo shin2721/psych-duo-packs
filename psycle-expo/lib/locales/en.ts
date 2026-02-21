@@ -212,6 +212,11 @@ export const en = {
             aLittleBetter: 'A little better',
             good: 'Good!',
         },
+        combo: {
+            milestone3: 'Nice!',
+            milestone5: 'Great!',
+            milestone10: 'On Fire!',
+        },
     },
     questionRenderer: {
         inputPlaceholder: 'Type your answer',
@@ -272,6 +277,13 @@ export const en = {
         startButton: 'Start',
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+        streakRepair: {
+            title: 'Streak Repair',
+            body: 'Restore your %{streak}-day streak within %{hours}h for %{cost} Gems.',
+            cta: 'Restore',
+            expired: 'This repair offer has expired.',
+            insufficientGems: 'You need more Gems to restore your streak.',
+        },
     },
     planSelector: {
         title: 'Choose a Plan',

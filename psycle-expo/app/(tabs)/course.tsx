@@ -29,7 +29,7 @@ const GENRE_COLORS: Record<string, string> = {
 };
 
 export default function CourseScreen() {
-  const { selectedGenre, setSelectedGenre, addXp, incrementQuest, streak, dailyXP, dailyGoal, freezeCount, gems, completedLessons, skill, xp, purchasedPacks, purchasePack, mistakes, addGems, setGemsDirectly } = useAppState();
+  const { selectedGenre, setSelectedGenre, addXp, incrementQuest, streak, dailyXP, dailyGoal, freezeCount, gems, completedLessons, skill, xp, purchasedPacks, purchasePack, mistakes, addGems, setGemsDirectly, streakRepairOffer, purchaseStreakRepair } = useAppState();
   const { user } = useAuth();
   const [modalNode, setModalNode] = useState<any>(null);
   const [paywallVisible, setPaywallVisible] = useState(false);
@@ -106,10 +106,54 @@ export default function CourseScreen() {
   };
 
   const dailyProgress = Math.min((dailyXP / dailyGoal) * 100, 100);
+  const activeStreakRepairOffer = streakRepairOffer?.active && streakRepairOffer.expiresAtMs > Date.now()
+    ? streakRepairOffer
+    : null;
+  const streakRepairRemainingHours = activeStreakRepairOffer
+    ? Math.max(1, Math.ceil((activeStreakRepairOffer.expiresAtMs - Date.now()) / (60 * 60 * 1000)))
+    : null;
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <GlobalHeader />
+
+      {activeStreakRepairOffer && (
+        <View style={styles.streakRepairCard}>
+          <View style={styles.streakRepairTexts}>
+            <Text style={styles.streakRepairTitle}>{i18n.t("course.streakRepair.title")}</Text>
+            <Text style={styles.streakRepairBody}>
+              {i18n.t("course.streakRepair.body", {
+                streak: activeStreakRepairOffer.previousStreak,
+                cost: activeStreakRepairOffer.costGems,
+                hours: streakRepairRemainingHours,
+              })}
+            </Text>
+          </View>
+          <Pressable
+            style={styles.streakRepairButton}
+            onPress={() => {
+              const result = purchaseStreakRepair();
+              if (!result.success) {
+                if (result.reason === "insufficient_gems") {
+                  Alert.alert(
+                    i18n.t("course.streakRepair.title"),
+                    i18n.t("course.streakRepair.insufficientGems")
+                  );
+                  return;
+                }
+                if (result.reason === "expired") {
+                  Alert.alert(
+                    i18n.t("course.streakRepair.title"),
+                    i18n.t("course.streakRepair.expired")
+                  );
+                }
+              }
+            }}
+          >
+            <Text style={styles.streakRepairButtonText}>{i18n.t("course.streakRepair.cta")}</Text>
+          </Pressable>
+        </View>
+      )}
 
       {/* Stats Cards REMOVED as per minimal design requirement */}
 
@@ -181,6 +225,44 @@ export default function CourseScreen() {
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "transparent" },
+  streakRepairCard: {
+    marginHorizontal: 16,
+    marginTop: 12,
+    marginBottom: 6,
+    padding: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "rgba(249, 115, 22, 0.4)",
+    backgroundColor: "rgba(249, 115, 22, 0.12)",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  streakRepairTexts: {
+    flex: 1,
+    gap: 4,
+  },
+  streakRepairTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#f97316",
+  },
+  streakRepairBody: {
+    fontSize: 12,
+    color: theme.colors.text,
+    lineHeight: 18,
+  },
+  streakRepairButton: {
+    backgroundColor: "#f97316",
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  streakRepairButtonText: {
+    color: "#fff",
+    fontWeight: "800",
+    fontSize: 12,
+  },
   header: {
     // Empty header reserved for spacing if needed, or remove completely.
     // Actually GlobalHeader is outside, so maybe just 0 height or specific bg.

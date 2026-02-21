@@ -711,6 +711,13 @@ export default function LessonScreen() {
         question={currentQuestion}
         onContinue={handleAnswer}
         onComboChange={setCombo}
+        onComboMilestone={(milestone, questionId) => {
+          Analytics.track("combo_milestone_shown", {
+            milestone,
+            lessonId: params.file,
+            questionId,
+          });
+        }}
         onInterventionAttempted={handleInterventionAttempted}
         onInterventionExecuted={handleInterventionExecuted}
       />

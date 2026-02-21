@@ -212,6 +212,11 @@ export const ja = {
             aLittleBetter: '少し良い',
             good: '良い！',
         },
+        combo: {
+            milestone3: 'いい流れ！',
+            milestone5: 'その調子！',
+            milestone10: '最高の集中！',
+        },
     },
     questionRenderer: {
         inputPlaceholder: '答えを入力',
@@ -272,6 +277,13 @@ export const ja = {
         startButton: '開始',
         rewardClaimedTitle: '報酬を受け取りました！',
         rewardClaimedMessage: '%{gems} Gems と %{badges}個のバッジを獲得しました。',
+        streakRepair: {
+            title: '連続記録リペア',
+            body: 'あと%{hours}時間以内なら、%{cost} Gemsで%{streak}日ストリークを復元できます。',
+            cta: '復元する',
+            expired: 'この復元オファーは期限切れです。',
+            insufficientGems: '復元に必要なGemsが足りません。',
+        },
     },
     planSelector: {
         title: 'プラン選択',

@@ -164,6 +164,42 @@ export type FirstDayEnergyBonusGrantedEvent = {
   };
 };
 
+export type StreakRepairOfferedEvent = {
+  name: 'streak_repair_offered';
+  properties: {
+    previousStreak: number;
+    costGems: number;
+    expiresAt: string;
+  };
+};
+
+export type StreakRepairPurchasedEvent = {
+  name: 'streak_repair_purchased';
+  properties: {
+    previousStreak: number;
+    costGems: number;
+    gemsBefore: number;
+    gemsAfter: number;
+  };
+};
+
+export type StreakRepairExpiredEvent = {
+  name: 'streak_repair_expired';
+  properties: {
+    previousStreak: number;
+    expiredAt: string;
+  };
+};
+
+export type ComboMilestoneShownEvent = {
+  name: 'combo_milestone_shown';
+  properties: {
+    milestone: 3 | 5 | 10;
+    lessonId: string;
+    questionId: string;
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -180,4 +216,8 @@ export type TrackedEvent =
   | NotificationPermissionResultEvent
   | ReminderScheduledEvent
   | ReminderOpenedEvent
-  | FirstDayEnergyBonusGrantedEvent;
+  | FirstDayEnergyBonusGrantedEvent
+  | StreakRepairOfferedEvent
+  | StreakRepairPurchasedEvent
+  | StreakRepairExpiredEvent
+  | ComboMilestoneShownEvent;

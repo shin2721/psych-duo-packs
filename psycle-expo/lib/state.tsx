@@ -9,6 +9,12 @@ import {
   useFreeze as useFreezeStreak
 } from "../lib/streaks";
 import {
+  createStreakRepairOffer,
+  isStreakRepairOfferActive,
+  purchaseStreakRepairOffer,
+  type StreakRepairOffer,
+} from "./streakRepair";
+import {
   canUseMistakesHub,
   consumeMistakesHub,
   getMistakesHubRemaining,
@@ -140,6 +146,11 @@ interface AppState {
   updateStreakForToday: (currentXP?: number) => Promise<void>;
   freezeCount: number;
   useFreeze: () => boolean;
+  streakRepairOffer: StreakRepairOffer | null;
+  purchaseStreakRepair: () => {
+    success: boolean;
+    reason?: "no_offer" | "expired" | "insufficient_gems";
+  };
   // Currency system
   gems: number;
   addGems: (amount: number) => void;
@@ -238,6 +249,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [lastActivityDate, setLastActivityDate] = useState<string | null>(null);
   const [streakHistory, setStreakHistory] = useState<{ date: string; xp: number; lessonsCompleted: number }[]>([]);
   const [freezeCount, setFreezeCount] = useState(2); // Start with 2 free freezes
+  const [streakRepairOffer, setStreakRepairOffer] = useState<StreakRepairOffer | null>(null);
 
   // Currency system
   const [gems, setGems] = useState(50); // Start with 50 gems
@@ -452,6 +464,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     if (!user) {
       setIsStateHydrated(false);
       setFirstLaunchAtMs(null);
+      setStreakRepairOffer(null);
       return;
     }
 
@@ -472,6 +485,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedMistakes,
           savedFirstLaunchAt,
           savedFirstDayBonusTracked,
+          savedStreakRepairOffer,
         ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
@@ -483,6 +497,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`mistakes_${user.id}`),
           AsyncStorage.getItem(`first_launch_at_${user.id}`),
           AsyncStorage.getItem(`first_day_energy_bonus_tracked_${user.id}`),
+          AsyncStorage.getItem(`streak_repair_offer_${user.id}`),
         ]);
 
         if (cancelled) return;
@@ -554,6 +569,27 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           setMistakes(migratedMistakes);
         }
 
+        if (savedStreakRepairOffer) {
+          try {
+            const parsedOffer = JSON.parse(savedStreakRepairOffer) as StreakRepairOffer;
+            if (isStreakRepairOfferActive(parsedOffer)) {
+              setStreakRepairOffer(parsedOffer);
+            } else {
+              if (parsedOffer?.active && typeof parsedOffer.expiresAtMs === "number") {
+                Analytics.track("streak_repair_expired", {
+                  previousStreak: parsedOffer.previousStreak,
+                  expiredAt: new Date(parsedOffer.expiresAtMs).toISOString(),
+                });
+              }
+              setStreakRepairOffer(null);
+            }
+          } catch {
+            setStreakRepairOffer(null);
+          }
+        } else {
+          setStreakRepairOffer(null);
+        }
+
         // Freeze一本化: streaks.tsから読み込み
         const streakData = await getStreakData();
         if (cancelled) return;
@@ -568,6 +604,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyBonusDate,
           savedEnergyBonusCount,
           savedFirstLaunchAt,
+          savedStreakRepairOffer,
           freezes: streakData.freezesRemaining,
         });
       } catch (e) {
@@ -687,6 +724,39 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     AsyncStorage.setItem(`first_launch_at_${user.id}`, firstLaunchAtMs.toString());
   }, [firstLaunchAtMs, user, isStateHydrated]);
 
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    if (!streakRepairOffer || !streakRepairOffer.active) {
+      AsyncStorage.removeItem(`streak_repair_offer_${user.id}`).catch(() => { });
+      return;
+    }
+    AsyncStorage.setItem(`streak_repair_offer_${user.id}`, JSON.stringify(streakRepairOffer));
+  }, [streakRepairOffer, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!streakRepairOffer || !streakRepairOffer.active) return;
+    const nowMs = Date.now();
+    const remainingMs = streakRepairOffer.expiresAtMs - nowMs;
+    if (remainingMs <= 0) {
+      Analytics.track("streak_repair_expired", {
+        previousStreak: streakRepairOffer.previousStreak,
+        expiredAt: new Date(streakRepairOffer.expiresAtMs).toISOString(),
+      });
+      setStreakRepairOffer(null);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      Analytics.track("streak_repair_expired", {
+        previousStreak: streakRepairOffer.previousStreak,
+        expiredAt: new Date(streakRepairOffer.expiresAtMs).toISOString(),
+      });
+      setStreakRepairOffer(null);
+    }, remainingMs + 100);
+
+    return () => clearTimeout(timer);
+  }, [streakRepairOffer]);
+
   // Helper: Get today's date in YYYY-MM-DD format
   function getTodayDate(): string {
     const d = new Date();
@@ -754,6 +824,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const updateStreakForToday = async (currentXP?: number) => {
     const today = getTodayDate();
     const yesterday = getYesterdayDate();
+    const previousStreak = streak;
 
     if (lastActivityDate === today) {
       // Already updated today
@@ -774,6 +845,15 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     } else {
       // Break streak
       newStreak = 1;
+      const offer = createStreakRepairOffer(previousStreak);
+      if (offer) {
+        setStreakRepairOffer(offer);
+        Analytics.track("streak_repair_offered", {
+          previousStreak: offer.previousStreak,
+          costGems: offer.costGems,
+          expiresAt: new Date(offer.expiresAtMs).toISOString(),
+        });
+      }
     }
 
     setStreak(newStreak);
@@ -943,6 +1023,43 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       return true;
     }
     return false;
+  };
+
+  const purchaseStreakRepair = (): {
+    success: boolean;
+    reason?: "no_offer" | "expired" | "insufficient_gems";
+  } => {
+    const result = purchaseStreakRepairOffer({
+      offer: streakRepairOffer,
+      gems,
+      currentStreak: streak,
+      nowMs: Date.now(),
+    });
+
+    if (!result.success) {
+      if (result.reason === "expired" && streakRepairOffer?.active) {
+        Analytics.track("streak_repair_expired", {
+          previousStreak: streakRepairOffer.previousStreak,
+          expiredAt: new Date(streakRepairOffer.expiresAtMs).toISOString(),
+        });
+        setStreakRepairOffer(null);
+      }
+      return { success: false, reason: result.reason };
+    }
+
+    const gemsBefore = gems;
+    setGems(result.nextGems);
+    setStreak(result.restoredStreak);
+    setStreakRepairOffer(result.nextOffer);
+
+    Analytics.track("streak_repair_purchased", {
+      previousStreak: result.restoredStreak,
+      costGems: streakRepairOffer?.costGems ?? 50,
+      gemsBefore,
+      gemsAfter: result.nextGems,
+    });
+
+    return { success: true };
   };
 
   const setDailyGoal = (xp: number) => {
@@ -1141,6 +1258,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     updateStreakForToday,
     freezeCount,
     useFreeze,
+    streakRepairOffer,
+    purchaseStreakRepair,
     gems,
     addGems,
     setGemsDirectly,

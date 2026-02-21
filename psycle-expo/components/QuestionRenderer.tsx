@@ -26,6 +26,7 @@ import {
 } from "./QuestionTypes";
 import { ComboFeedback } from "./ComboFeedback";
 import i18n from "../lib/i18n";
+import { getComboMilestone, getNextCombo } from "../lib/comboMilestone";
 
 import { Question } from "../types/question";
 export { Question };
@@ -37,6 +38,7 @@ interface Props {
   question: Question;
   onContinue: (isCorrect: boolean, xp: number) => void;
   onComboChange?: (combo: number) => void;
+  onComboMilestone?: (milestone: 3 | 5 | 10, questionId: string) => void;
   onInterventionAttempted?: (questionId: string) => void;
   onInterventionExecuted?: (questionId: string) => void;
 }
@@ -58,7 +60,7 @@ export const areSelectAllAnswersCorrect = (question: Question, selectedIndexes: 
   return JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
 };
 
-export function QuestionRenderer({ question, onContinue, onComboChange, onInterventionAttempted, onInterventionExecuted }: Props) {
+export function QuestionRenderer({ question, onContinue, onComboChange, onComboMilestone, onInterventionAttempted, onInterventionExecuted }: Props) {
   const questionText = getQuestionText(question);
   const questionChoices = getQuestionChoices(question);
 
@@ -283,16 +285,25 @@ export function QuestionRenderer({ question, onContinue, onComboChange, onInterv
 
 
     if (isCorrect) {
-      setCombo(prev => {
-        const newCombo = prev + 1;
-        if (onComboChange) onComboChange(newCombo);
-        return newCombo;
-      });
+      const newCombo = getNextCombo(combo, true);
+      setCombo(newCombo);
+      if (onComboChange) onComboChange(newCombo);
       setShowCombo(true);
       // Hide combo after delay
       setTimeout(() => setShowCombo(false), 2000);
+
+      const milestone = getComboMilestone(newCombo);
+      if (milestone) {
+        HapticFeedback.impact();
+        if (milestone >= 5) {
+          HapticFeedback.success();
+        }
+        if (onComboMilestone) {
+          onComboMilestone(milestone, question.id || "unknown");
+        }
+      }
     } else {
-      setCombo(0);
+      setCombo(getNextCombo(combo, false));
       if (onComboChange) onComboChange(0);
       setShowCombo(false);
     }
