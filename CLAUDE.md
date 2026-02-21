@@ -33,5 +33,8 @@ For every review/fix request, do this before reading or editing code:
    - `git rev-parse --short origin/main`
 3. Confirm worktree is clean:
    - `git status --short`
+4. Confirm there are no unpushed commits on main:
+   - `git rev-list --count origin/main..main`
+   - Must be `0` before review (if not, run `git push origin main`)
 
 If any check fails, do not continue analysis. Report the failure and resolve sync first.

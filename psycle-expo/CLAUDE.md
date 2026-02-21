@@ -14,6 +14,26 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 Do NOT just stage files - always commit immediately after staging. The user expects both operations to happen automatically.
 
+## Freshness Guard (Mandatory Before Review)
+
+Before any audit/review/fix request, run this exact sequence:
+
+```bash
+cd "$(git rev-parse --show-toplevel)"
+./tools/sync_psycle_latest.sh main
+git rev-parse --short HEAD
+git rev-parse --short origin/main
+git status --short
+git rev-list --count origin/main..main
+```
+
+Rules:
+- `HEAD` must equal `origin/main`.
+- `git status --short` must be empty.
+- `git rev-list --count origin/main..main` must be `0`.
+
+If any check fails, stop and report the failure. Do not continue analysis on stale code.
+
 ## Project Overview
 
 **Psycle** is a Duolingo-inspired mobile app for learning evidence-based psychology techniques. Built with React Native, Expo SDK 54, and TypeScript.

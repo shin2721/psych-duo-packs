@@ -54,8 +54,25 @@ fi
 LOCAL_HEAD="$(git rev-parse --short HEAD)"
 REMOTE_HEAD="$(git rev-parse --short "origin/$TARGET_BRANCH")"
 WORKTREE_STATE="$(git status --porcelain)"
+AHEAD_COUNT="$(git rev-list --count "origin/$TARGET_BRANCH..HEAD")"
+BEHIND_COUNT="$(git rev-list --count "HEAD..origin/$TARGET_BRANCH")"
 
 if [[ "$LOCAL_HEAD" != "$REMOTE_HEAD" ]]; then
+  if [[ "$AHEAD_COUNT" -gt 0 ]]; then
+    echo "sync failed: local branch '$TARGET_BRANCH' has $AHEAD_COUNT unpushed commit(s)"
+    echo "push first so other sessions can see latest:"
+    echo "  git push origin $TARGET_BRANCH"
+    echo "hashes: local=$LOCAL_HEAD remote=$REMOTE_HEAD"
+    exit 1
+  fi
+
+  if [[ "$BEHIND_COUNT" -gt 0 ]]; then
+    echo "sync failed: local branch '$TARGET_BRANCH' is behind origin/$TARGET_BRANCH by $BEHIND_COUNT commit(s)"
+    echo "rerun sync after resolving branch state"
+    echo "hashes: local=$LOCAL_HEAD remote=$REMOTE_HEAD"
+    exit 1
+  fi
+
   echo "sync failed: local=$LOCAL_HEAD remote=$REMOTE_HEAD branch=$TARGET_BRANCH"
   exit 1
 fi
