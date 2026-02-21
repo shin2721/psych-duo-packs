@@ -233,7 +233,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
 
   const [quests, setQuests] = useState<Quest[]>([
-    { id: "q_monthly_50pts", type: "monthly", title: "50クエストポイントを獲得する", need: 50, progress: 12, rewardXp: 150, claimed: false, chestState: "closed" },
+    { id: "q_monthly_50pts", type: "monthly", title: "月に50レッスン完了", need: 50, progress: 0, rewardXp: 150, claimed: false, chestState: "closed" },
     { id: "q_monthly_breathTempo", type: "monthly", title: "呼吸ゲームで60秒達成", need: 60, progress: 0, rewardXp: 120, claimed: false, chestState: "closed" },
     { id: "q_monthly_echoSteps", type: "monthly", title: "エコーステップ3回クリア", need: 3, progress: 0, rewardXp: 100, claimed: false, chestState: "closed" },
     { id: "q_monthly_balance", type: "monthly", title: "バランスゲーム5回クリア", need: 5, progress: 0, rewardXp: 110, claimed: false, chestState: "closed" },

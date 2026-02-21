@@ -13,12 +13,9 @@ import { VictoryConfetti } from "../components/VictoryConfetti";
 import { FireflyLoader } from "../components/FireflyLoader";
 import { logFeltBetter, logInterventionInteraction, hasLoggedShownThisSession, markShownLogged, resetSessionTracking } from "../lib/dogfood";
 import { getEvidenceSummary, getTryValueColor } from "../lib/evidenceSummary";
-import { recordActionExecution, recordStudyCompletion, addXP, XP_REWARDS } from "../lib/streaks";
-import { FirstExecutedCelebration } from "../components/FirstExecutedCelebration";
+import { recordStudyCompletion, addXP, XP_REWARDS } from "../lib/streaks";
 import {
-  hasCompletedFirstExecuted,
   hasCompletedFirstLesson,
-  markFirstExecutedComplete,
   markFirstLessonComplete,
 } from "../lib/onboarding";
 import { Analytics } from "../lib/analytics";
@@ -27,6 +24,11 @@ import i18n from "../lib/i18n";
 import entitlements from "../config/entitlements.json";
 import { useAuth } from "../lib/AuthContext";
 import { syncDailyReminders } from "../lib/notifications";
+import {
+  getLessonCompletionQuestIncrements,
+  getStreakQuestIncrement,
+  shouldAwardFeltBetterXp,
+} from "../lib/questProgressRules";
 
 interface LessonDefaultsConfig {
   defaults?: {
@@ -78,7 +80,6 @@ export default function LessonScreen() {
   const [showResearchDetails, setShowResearchDetails] = useState(false); // Collapsible research details
   const [feltBetterSubmitted, setFeltBetterSubmitted] = useState(false); // Track if felt_better submitted
   const [lastShownInterventionId, setLastShownInterventionId] = useState<string | null>(null); // 最後にshownになった介入ID
-  const [showFirstExecutedCelebration, setShowFirstExecutedCelebration] = useState(false); // 初回executed達成お祝い
   const hasLoadedRef = useRef<string | null>(null);
   const lessonStartTrackedRef = useRef<string | null>(null); // lesson_start多重発火防止
   const lessonCompleteTrackedRef = useRef<string | null>(null); // lesson_complete多重発火防止
@@ -251,6 +252,11 @@ export default function LessonScreen() {
       const nextStreak = correctStreak + 1;
       setCorrectStreak(nextStreak);
 
+      const streakQuestIncrement = getStreakQuestIncrement(nextStreak);
+      if (streakQuestIncrement) {
+        incrementQuest(streakQuestIncrement.id, streakQuestIncrement.step);
+      }
+
       // Every 5 consecutive correct answers: 10% chance to recover +1 energy (max once/day).
       if (nextStreak % 5 === 0) {
         const recovered = tryTriggerStreakEnergyBonus(nextStreak);
@@ -280,7 +286,9 @@ export default function LessonScreen() {
       completeLesson(params.file);
       await markFirstLessonComplete();
       addXp(currentLesson?.nodeType === 'review_blackhole' ? 50 : 10); // Bonus XP or standard
-      incrementQuest("q_daily_3lessons");
+      for (const questIncrement of getLessonCompletionQuestIncrements()) {
+        incrementQuest(questIncrement.id, questIncrement.step);
+      }
 
       // ゲーミフィケーション: Study Streak + XP
       await recordStudyCompletion();
@@ -312,43 +320,6 @@ export default function LessonScreen() {
     }
   }
 
-  // Intervention: attempted ハンドラ
-  const [activeInterventionId, setActiveInterventionId] = useState<string | null>(null);
-
-  async function handleInterventionAttempted(questionId: string) {
-    const details = currentQuestion?.expanded_details;
-    const variant = details?.variant || { id: 'original', label: i18n.t("lesson.originalVariantLabel") };
-
-    logInterventionInteraction(params.file, questionId, variant, 'attempted');
-    setActiveInterventionId(questionId); // felt_better帰属用
-
-    // ゲーミフィケーション: attempted で XP
-    await addXP(XP_REWARDS.ATTEMPTED);
-
-    if (__DEV__) console.log('[Dogfood] Logged attempted:', questionId, '(+10 XP)');
-  }
-
-  // Intervention: executed ハンドラ
-  async function handleInterventionExecuted(questionId: string) {
-    const details = currentQuestion?.expanded_details;
-    const variant = details?.variant || { id: 'original', label: i18n.t("lesson.originalVariantLabel") };
-
-    logInterventionInteraction(params.file, questionId, variant, 'executed');
-
-    // ゲーミフィケーション: Action Streak + XP
-    await recordActionExecution();
-    await addXP(XP_REWARDS.EXECUTED);
-
-    // 初回executed達成チェック
-    const wasFirstExecuted = !(await hasCompletedFirstExecuted());
-    if (wasFirstExecuted) {
-      await markFirstExecutedComplete();
-      setShowFirstExecutedCelebration(true);
-    }
-
-    if (__DEV__) console.log('[Dogfood] Logged executed:', questionId, wasFirstExecuted ? '(FIRST!)' : '', '(+25 XP, Action Streak updated)');
-  }
-
   if (isComplete) {
     return (
       <View style={{ flex: 1, backgroundColor: theme.colors.bg }} testID="lesson-complete-screen">
@@ -377,11 +348,24 @@ export default function LessonScreen() {
                       key={item.value}
                       style={styles.feltBetterButton}
                       onPress={async () => {
-                        // activeInterventionId優先（attempted押した介入）、fallbackでlastShown
-                        const targetId = activeInterventionId || lastShownInterventionId;
-                        if (targetId) {
-                          await logFeltBetter(params.file, targetId, item.value);
-                          setFeltBetterSubmitted(true);
+                        if (!lastShownInterventionId || feltBetterSubmitted) return;
+
+                        setFeltBetterSubmitted(true);
+
+                        if (shouldAwardFeltBetterXp(item.value)) {
+                          addXp(XP_REWARDS.FELT_BETTER_POSITIVE);
+                          Analytics.track("felt_better_xp_awarded", {
+                            lessonId: params.file,
+                            interventionId: lastShownInterventionId,
+                            feltBetterValue: item.value,
+                            xpAwarded: XP_REWARDS.FELT_BETTER_POSITIVE,
+                          });
+                        }
+
+                        try {
+                          await logFeltBetter(params.file, lastShownInterventionId, item.value);
+                        } catch (error) {
+                          console.error("[Dogfood] Failed to log felt_better:", error);
                         }
                       }}
                     >
@@ -719,15 +703,6 @@ export default function LessonScreen() {
             questionId,
           });
         }}
-        onInterventionAttempted={handleInterventionAttempted}
-        onInterventionExecuted={handleInterventionExecuted}
-      />
-
-      {/* 初回executed達成お祝いモーダル */}
-      <FirstExecutedCelebration
-        visible={showFirstExecutedCelebration}
-        onDismiss={() => setShowFirstExecutedCelebration(false)}
-        xpEarned={XP_REWARDS.EXECUTED}
       />
     </SafeAreaView>
   );

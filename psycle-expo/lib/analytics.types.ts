@@ -91,7 +91,7 @@ export type QuestionIncorrectEvent = {
 export type StreakLostEvent = {
   name: 'streak_lost';
   properties: {
-    streakType: 'study' | 'action';
+    streakType: 'study';
     previousStreak: number;
     gapDays: number;
     freezesRemaining?: number;
@@ -200,6 +200,16 @@ export type ComboMilestoneShownEvent = {
   };
 };
 
+export type FeltBetterXpAwardedEvent = {
+  name: 'felt_better_xp_awarded';
+  properties: {
+    lessonId: string;
+    interventionId: string;
+    feltBetterValue: -2 | -1 | 0 | 1 | 2;
+    xpAwarded: number;
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -220,4 +230,5 @@ export type TrackedEvent =
   | StreakRepairOfferedEvent
   | StreakRepairPurchasedEvent
   | StreakRepairExpiredEvent
-  | ComboMilestoneShownEvent;
+  | ComboMilestoneShownEvent
+  | FeltBetterXpAwardedEvent;
