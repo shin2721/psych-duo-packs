@@ -616,7 +616,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       try {
         const { data, error } = await supabase
           .from('profiles')
-          .select('xp, gems, streak, level, plan_id, active_until')
+          .select('xp, gems, streak, plan_id, active_until')
           .eq('id', user.id)
           .single();
 
