@@ -10,6 +10,7 @@ This file provides workspace-level guidance for Claude Code in this repository.
 
 - ユーザーの明示的な許可なくコマンドやスクリプトを実行しないこと。必ず事前に確認を取る。
 - 実行が許可された場合、変更が発生したらその場でコミットとプッシュまで一連で行うこと。
+- リポジトリでは `.githooks/post-commit` により `main` へのコミット後に自動 `git push origin main` を実行する。
 
 ## Always Use Latest Psycle Branch
 
