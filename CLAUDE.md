@@ -13,8 +13,8 @@ This file provides workspace-level guidance for Claude Code in this repository.
 
 ## Always Use Latest Psycle Branch
 
-Always sync the repository from the current session's working tree.
-Do not force a fixed absolute path, because Claude/Codex sessions often run in worktrees.
+Always sync from the repository root and operate on `main`.
+This workflow does not support `claude/*` worktree branches.
 
 At the start of every session, run:
 
