@@ -22,28 +22,31 @@ At the start of every session, run:
 ./tools/sync_psycle_latest.sh
 ```
 
-This defaults to `main`.
-
-If needed, you may pass a branch name explicitly:
-
-```bash
-./tools/sync_psycle_latest.sh main
-```
+This script is **main-only**. Branch arguments are not allowed.
 
 If sync fails, stop and report the exact error before editing files.
 
 ## Required Freshness Check
 
-For every review/fix request, do this before reading or editing code:
+For every review/fix request, do this before reading or editing code.
+Do not proceed unless all checks pass:
 
 1. Run `./tools/sync_psycle_latest.sh`
-2. Confirm local and remote hashes match:
+2. Confirm current branch is exactly `main`:
+   - `git branch --show-current`
+3. Confirm local and remote hashes match:
    - `git rev-parse --short HEAD`
    - `git rev-parse --short origin/main`
-3. Confirm worktree is clean:
+4. Confirm worktree is clean:
    - `git status --short`
-4. Confirm there are no unpushed commits on main:
+5. Confirm there are no unpushed commits on main:
    - `git rev-list --count origin/main..main`
    - Must be `0` before review (if not, run `git push origin main`)
 
 If any check fails, do not continue analysis. Report the failure and resolve sync first.
+
+## Branch / PR Policy
+
+- Work only on `main`.
+- Do not create or switch to `claude/*` branches.
+- Do not create PRs for routine sync/review replies.
