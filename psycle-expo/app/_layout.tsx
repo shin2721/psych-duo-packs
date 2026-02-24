@@ -64,7 +64,7 @@ function RootLayoutNav() {
   return (
     <AppStateProvider>
       <ReminderBootstrap />
-      <BadgeToastBridge />
+      <GamificationToastBridge />
       <Stack key={`locale-${locale}`} screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="onboarding" />
@@ -100,19 +100,47 @@ function ReminderBootstrap() {
   return null;
 }
 
-function BadgeToastBridge() {
-  const { badgeToastQueue, consumeNextBadgeToast } = useAppState();
+function GamificationToastBridge() {
+  const {
+    badgeToastQueue,
+    consumeNextBadgeToast,
+    streakMilestoneToastQueue,
+    consumeNextStreakMilestoneToast,
+  } = useAppState();
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    if (message || badgeToastQueue.length === 0) return;
+    if (message) return;
 
-    const badgeId = consumeNextBadgeToast();
-    if (!badgeId) return;
+    if (badgeToastQueue.length > 0) {
+      const badgeId = consumeNextBadgeToast();
+      if (!badgeId) return;
 
-    const badgeName = BADGES.find((badge) => badge.id === badgeId)?.name || badgeId;
-    setMessage(String(i18n.t("common.badgeUnlocked", { badgeName })));
-  }, [badgeToastQueue, message, consumeNextBadgeToast]);
+      const badgeName = BADGES.find((badge) => badge.id === badgeId)?.name || badgeId;
+      setMessage(String(i18n.t("common.badgeUnlocked", { badgeName })));
+      return;
+    }
+
+    if (streakMilestoneToastQueue.length > 0) {
+      const toastItem = consumeNextStreakMilestoneToast();
+      if (!toastItem) return;
+
+      setMessage(
+        String(
+          i18n.t("common.streakMilestoneRewarded", {
+            day: toastItem.day,
+            gems: toastItem.gems,
+          })
+        )
+      );
+    }
+  }, [
+    badgeToastQueue,
+    streakMilestoneToastQueue,
+    message,
+    consumeNextBadgeToast,
+    consumeNextStreakMilestoneToast,
+  ]);
 
   useEffect(() => {
     if (!message) return;

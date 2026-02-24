@@ -7,6 +7,7 @@ export const ja = {
         close: '閉じる',
         ok: 'OK',
         badgeUnlocked: 'バッジ獲得: %{badgeName}',
+        streakMilestoneRewarded: '連続%{day}日達成: +%{gems} Gems',
     },
     shop: {
         title: 'ショップ',

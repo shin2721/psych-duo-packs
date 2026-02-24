@@ -228,6 +228,16 @@ export type QuestCycleResetEvent = {
   };
 };
 
+export type StreakMilestoneRewardedEvent = {
+  name: 'streak_milestone_rewarded';
+  properties: {
+    day: 3 | 7 | 30;
+    rewardGems: number;
+    source: 'streak_update';
+    lifetimeOnce: true;
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -251,4 +261,5 @@ export type TrackedEvent =
   | ComboMilestoneShownEvent
   | FeltBetterXpAwardedEvent
   | BadgeUnlockedEvent
-  | QuestCycleResetEvent;
+  | QuestCycleResetEvent
+  | StreakMilestoneRewardedEvent;

@@ -25,6 +25,16 @@ export interface StreakConfig {
     study_per_day_limit: number;
 }
 
+export interface StreakMilestoneReward {
+    day: number;
+    gems: number;
+}
+
+export interface StreakMilestonesConfig {
+    lifetime_once: boolean;
+    rewards: StreakMilestoneReward[];
+}
+
 export interface NotificationsConfig {
     streak_risk_hour: number;
     daily_quest_deadline_hour: number;
@@ -37,6 +47,7 @@ export interface GamificationConfig {
     xp_rewards: XPRewards;
     freeze: FreezeConfig;
     streak: StreakConfig;
+    streak_milestones: StreakMilestonesConfig;
     notifications: NotificationsConfig;
 }
 
@@ -56,6 +67,14 @@ const DEFAULT_CONFIG: GamificationConfig = {
     streak: {
         study_per_day_limit: 1,
     },
+    streak_milestones: {
+        lifetime_once: true,
+        rewards: [
+            { day: 3, gems: 5 },
+            { day: 7, gems: 10 },
+            { day: 30, gems: 20 },
+        ],
+    },
     notifications: {
         streak_risk_hour: 22,
         daily_quest_deadline_hour: 21,
@@ -72,6 +91,13 @@ function loadConfig(): GamificationConfig {
             xp_rewards: { ...DEFAULT_CONFIG.xp_rewards, ...configData.xp_rewards },
             freeze: { ...DEFAULT_CONFIG.freeze, ...configData.freeze },
             streak: { ...DEFAULT_CONFIG.streak, ...configData.streak },
+            streak_milestones: {
+                ...DEFAULT_CONFIG.streak_milestones,
+                ...configData.streak_milestones,
+                rewards: Array.isArray(configData.streak_milestones?.rewards)
+                    ? configData.streak_milestones.rewards
+                    : DEFAULT_CONFIG.streak_milestones.rewards,
+            },
             notifications: { ...DEFAULT_CONFIG.notifications, ...configData.notifications },
         };
     } catch (e) {
@@ -94,6 +120,10 @@ export function getFreezeConfig(): FreezeConfig {
 
 export function getStreakConfig(): StreakConfig {
     return gamificationConfig.streak;
+}
+
+export function getStreakMilestonesConfig(): StreakMilestonesConfig {
+    return gamificationConfig.streak_milestones;
 }
 
 export function getNotificationsConfig(): NotificationsConfig {

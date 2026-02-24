@@ -13,6 +13,14 @@
     "streak": {
         "study_per_day_limit": 1
     },
+    "streak_milestones": {
+        "lifetime_once": true,
+        "rewards": [
+            { "day": 3, "gems": 5 },
+            { "day": 7, "gems": 10 },
+            { "day": 30, "gems": 20 }
+        ]
+    },
     "notifications": {
         "streak_risk_hour": 22,
         "daily_quest_deadline_hour": 21,

@@ -15,6 +15,16 @@ import {
   type StreakRepairOffer,
 } from "./streakRepair";
 import { consumeNextBadgeToastItem, enqueueBadgeToastIds } from "./badgeToastQueue";
+import { getStreakMilestonesConfig } from "./gamificationConfig";
+import {
+  getClaimableStreakMilestone,
+  normalizeClaimedMilestones,
+} from "./streakMilestones";
+import {
+  consumeNextStreakMilestoneToastItem,
+  enqueueStreakMilestoneToast,
+  type StreakMilestoneToastItem,
+} from "./streakMilestoneToastQueue";
 import {
   areQuestCycleKeysEqual,
   getQuestCycleKeys,
@@ -95,6 +105,11 @@ const ENERGY_STREAK_BONUS_DAILY_CAP = normalizePositiveInt(
   1
 );
 const ENERGY_REFILL_MS = ENERGY_REFILL_MINUTES * 60 * 1000;
+const streakMilestonesConfig = getStreakMilestonesConfig();
+
+function isTrackedStreakMilestoneDay(day: number): day is 3 | 7 | 30 {
+  return day === 3 || day === 7 || day === 30;
+}
 
 interface Quest {
   id: string;
@@ -160,6 +175,8 @@ interface AppState {
   claimQuest: (id: string) => void;
   badgeToastQueue: string[];
   consumeNextBadgeToast: () => string | null;
+  streakMilestoneToastQueue: StreakMilestoneToastItem[];
+  consumeNextStreakMilestoneToast: () => StreakMilestoneToastItem | null;
   // Streak system
   streak: number;
   lastStudyDate: string | null;
@@ -260,6 +277,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const questCycleKeysRef = useRef<QuestCycleKeys>(getQuestCycleKeys());
   const [badgeToastQueue, setBadgeToastQueue] = useState<string[]>([]);
   const badgeToastQueueRef = useRef<string[]>([]);
+  const [streakMilestoneToastQueue, setStreakMilestoneToastQueue] = useState<StreakMilestoneToastItem[]>([]);
+  const streakMilestoneToastQueueRef = useRef<StreakMilestoneToastItem[]>([]);
+  const [claimedStreakMilestones, setClaimedStreakMilestones] = useState<number[]>([]);
+  const claimedStreakMilestonesRef = useRef<number[]>([]);
 
   // Streak system
   const [streak, setStreak] = useState(0);
@@ -498,6 +519,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     badgeToastQueueRef.current = badgeToastQueue;
   }, [badgeToastQueue]);
 
+  useEffect(() => {
+    streakMilestoneToastQueueRef.current = streakMilestoneToastQueue;
+  }, [streakMilestoneToastQueue]);
+
+  useEffect(() => {
+    claimedStreakMilestonesRef.current = claimedStreakMilestones;
+  }, [claimedStreakMilestones]);
+
   const reconcileQuestCycles = useCallback((source: "cycle_reconcile" = "cycle_reconcile") => {
     const prevKeys = questCycleKeysRef.current;
     const nextKeys = getQuestCycleKeys();
@@ -586,6 +615,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setFirstLaunchAtMs(null);
       setStreakRepairOffer(null);
       setBadgeToastQueue([]);
+      setStreakMilestoneToastQueue([]);
+      setClaimedStreakMilestones([]);
       setQuestCycleKeys(getQuestCycleKeys());
       return;
     }
@@ -610,6 +641,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedFirstLaunchAt,
           savedFirstDayBonusTracked,
           savedStreakRepairOffer,
+          savedClaimedStreakMilestones,
         ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
@@ -624,6 +656,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`first_launch_at_${user.id}`),
           AsyncStorage.getItem(`first_day_energy_bonus_tracked_${user.id}`),
           AsyncStorage.getItem(`streak_repair_offer_${user.id}`),
+          AsyncStorage.getItem(`streak_milestones_claimed_${user.id}`),
         ]);
 
         if (cancelled) return;
@@ -769,6 +802,21 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           setStreakRepairOffer(null);
         }
 
+        if (savedClaimedStreakMilestones) {
+          try {
+            const parsedClaimedMilestones = JSON.parse(savedClaimedStreakMilestones);
+            const normalizedClaimedMilestones = normalizeClaimedMilestones(parsedClaimedMilestones);
+            setClaimedStreakMilestones(normalizedClaimedMilestones);
+            claimedStreakMilestonesRef.current = normalizedClaimedMilestones;
+          } catch {
+            setClaimedStreakMilestones([]);
+            claimedStreakMilestonesRef.current = [];
+          }
+        } else {
+          setClaimedStreakMilestones([]);
+          claimedStreakMilestonesRef.current = [];
+        }
+
         // Freeze一本化: streaks.tsから読み込み
         const streakData = await getStreakData();
         if (cancelled) return;
@@ -786,6 +834,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyBonusCount,
           savedFirstLaunchAt,
           savedStreakRepairOffer,
+          savedClaimedStreakMilestones,
           freezes: streakData.freezesRemaining,
         });
       } catch (e) {
@@ -925,6 +974,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [streakRepairOffer, user, isStateHydrated]);
 
   useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(
+      `streak_milestones_claimed_${user.id}`,
+      JSON.stringify(claimedStreakMilestones)
+    );
+  }, [claimedStreakMilestones, user, isStateHydrated]);
+
+  useEffect(() => {
     if (!streakRepairOffer || !streakRepairOffer.active) return;
     const nowMs = Date.now();
     const remainingMs = streakRepairOffer.expiresAtMs - nowMs;
@@ -1057,6 +1114,34 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setStreak(newStreak);
     setLastActivityDate(today);
 
+    const claimableMilestone = getClaimableStreakMilestone({
+      newStreak,
+      claimedMilestones: claimedStreakMilestonesRef.current,
+      config: streakMilestonesConfig,
+    });
+
+    if (claimableMilestone) {
+      const nextClaimedMilestones = normalizeClaimedMilestones([
+        ...claimedStreakMilestonesRef.current,
+        claimableMilestone.day,
+      ]);
+      claimedStreakMilestonesRef.current = nextClaimedMilestones;
+      setClaimedStreakMilestones(nextClaimedMilestones);
+      setGems((prev) => prev + claimableMilestone.gems);
+      setStreakMilestoneToastQueue((prev) =>
+        enqueueStreakMilestoneToast(prev, claimableMilestone)
+      );
+
+      if (isTrackedStreakMilestoneDay(claimableMilestone.day)) {
+        Analytics.track("streak_milestone_rewarded", {
+          day: claimableMilestone.day,
+          rewardGems: claimableMilestone.gems,
+          source: "streak_update",
+          lifetimeOnce: true,
+        });
+      }
+    }
+
     // Update streak history in Supabase
     if (user) {
       try {
@@ -1183,6 +1268,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     badgeToastQueueRef.current = queue;
     setBadgeToastQueue(queue);
     return nextBadgeId;
+  };
+
+  const consumeNextStreakMilestoneToast = (): StreakMilestoneToastItem | null => {
+    const { nextToast, queue } = consumeNextStreakMilestoneToastItem(
+      streakMilestoneToastQueueRef.current
+    );
+    if (!nextToast) return null;
+    streakMilestoneToastQueueRef.current = queue;
+    setStreakMilestoneToastQueue(queue);
+    return nextToast;
   };
 
   // Currency methods
@@ -1461,6 +1556,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     claimQuest,
     badgeToastQueue,
     consumeNextBadgeToast,
+    streakMilestoneToastQueue,
+    consumeNextStreakMilestoneToast,
     streak,
     lastStudyDate,
     lastActivityDate,

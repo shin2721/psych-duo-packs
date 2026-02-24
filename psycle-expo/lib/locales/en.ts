@@ -7,6 +7,7 @@ export const en = {
         close: 'Close',
         ok: 'OK',
         badgeUnlocked: 'Badge unlocked: %{badgeName}',
+        streakMilestoneRewarded: 'Streak day %{day} reached: +%{gems} Gems',
     },
     shop: {
         title: 'Shop',
