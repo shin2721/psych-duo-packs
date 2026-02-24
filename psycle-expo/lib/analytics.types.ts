@@ -210,6 +210,24 @@ export type FeltBetterXpAwardedEvent = {
   };
 };
 
+export type BadgeUnlockedEvent = {
+  name: 'badge_unlocked';
+  properties: {
+    badgeId: string;
+    source: 'auto_check';
+  };
+};
+
+export type QuestCycleResetEvent = {
+  name: 'quest_cycle_reset';
+  properties: {
+    dailyReset: boolean;
+    weeklyReset: boolean;
+    monthlyReset: boolean;
+    source: 'cycle_reconcile';
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -231,4 +249,6 @@ export type TrackedEvent =
   | StreakRepairPurchasedEvent
   | StreakRepairExpiredEvent
   | ComboMilestoneShownEvent
-  | FeltBetterXpAwardedEvent;
+  | FeltBetterXpAwardedEvent
+  | BadgeUnlockedEvent
+  | QuestCycleResetEvent;

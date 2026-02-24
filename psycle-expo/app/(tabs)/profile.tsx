@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
@@ -9,14 +10,49 @@ import { useAppState } from "../../lib/state";
 import { BADGES } from "../../lib/badges";
 import { BadgeIcon } from "../../components/BadgeIcon";
 import { StreakIcon, TrophyIcon } from "../../components/CustomIcons";
+import { getMyLeague } from "../../lib/league";
+import { formatProfileLeagueLabel } from "../../lib/profileLeagueLabel";
 import i18n from "../../lib/i18n";
 
 export default function ProfileScreen() {
     const router = useRouter();
     const { user } = useAuth();
     const { xp, streak, completedLessons, unlockedBadges } = useAppState();
+    const [leagueLabel, setLeagueLabel] = React.useState<string>("...");
+    const [leagueLoading, setLeagueLoading] = React.useState(true);
 
     const username = user?.email?.split("@")[0] || String(i18n.t("profile.userFallback"));
+
+    const refreshLeague = React.useCallback(async () => {
+        if (!user?.id) {
+            setLeagueLabel(String(i18n.t("profile.stats.leagueUnjoined")));
+            setLeagueLoading(false);
+            return;
+        }
+
+        setLeagueLoading(true);
+        try {
+            const league = await getMyLeague(user.id);
+            setLeagueLabel(
+                formatProfileLeagueLabel(league, String(i18n.t("profile.stats.leagueUnjoined")))
+            );
+        } catch (error) {
+            console.error("Failed to load profile league:", error);
+            setLeagueLabel(String(i18n.t("profile.stats.leagueUnjoined")));
+        } finally {
+            setLeagueLoading(false);
+        }
+    }, [user?.id]);
+
+    React.useEffect(() => {
+        refreshLeague();
+    }, [refreshLeague]);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            refreshLeague();
+        }, [refreshLeague])
+    );
 
     return (
         <SafeAreaView style={styles.container}>
@@ -78,7 +114,7 @@ export default function ProfileScreen() {
                     <StatCard
                         customIcon={<TrophyIcon size={32} />}
                         label={String(i18n.t("profile.stats.league"))}
-                        value={String(i18n.t("profile.stats.leagueSilver"))}
+                        value={leagueLoading ? "..." : leagueLabel}
                         color="#FFD93D"
                     />
                 </View>

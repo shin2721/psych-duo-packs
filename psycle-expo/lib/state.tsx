@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import React, { createContext, useCallback, useContext, useEffect, useRef, useState, ReactNode } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "./AuthContext";
 import { supabase } from "./supabase";
@@ -14,6 +14,13 @@ import {
   purchaseStreakRepairOffer,
   type StreakRepairOffer,
 } from "./streakRepair";
+import { consumeNextBadgeToastItem, enqueueBadgeToastIds } from "./badgeToastQueue";
+import {
+  areQuestCycleKeysEqual,
+  getQuestCycleKeys,
+  resetQuestsByCycleChange,
+  type QuestCycleKeys
+} from "./questCycles";
 import {
   canUseMistakesHub,
   consumeMistakesHub,
@@ -100,6 +107,19 @@ interface Quest {
   chestState: "closed" | "opening" | "opened";
 }
 
+function createInitialQuests(): Quest[] {
+  return [
+    { id: "q_monthly_50pts", type: "monthly", title: "月に50レッスン完了", need: 50, progress: 0, rewardXp: 150, claimed: false, chestState: "closed" },
+    { id: "q_monthly_breathTempo", type: "monthly", title: "呼吸ゲームで60秒達成", need: 60, progress: 0, rewardXp: 120, claimed: false, chestState: "closed" },
+    { id: "q_monthly_echoSteps", type: "monthly", title: "エコーステップ3回クリア", need: 3, progress: 0, rewardXp: 100, claimed: false, chestState: "closed" },
+    { id: "q_monthly_balance", type: "monthly", title: "バランスゲーム5回クリア", need: 5, progress: 0, rewardXp: 110, claimed: false, chestState: "closed" },
+    { id: "q_monthly_budget", type: "monthly", title: "予算ゲームでパーフェクト達成", need: 3, progress: 0, rewardXp: 150, claimed: false, chestState: "closed" },
+    { id: "q_daily_3lessons", type: "daily", title: "レッスンを3回完了", need: 3, progress: 0, rewardXp: 30, claimed: false, chestState: "closed" },
+    { id: "q_daily_5streak", type: "daily", title: "2回のレッスンで5問連続正解", need: 2, progress: 0, rewardXp: 40, claimed: false, chestState: "closed" },
+    { id: "q_weekly_10lessons", type: "weekly", title: "週に10レッスン完了", need: 10, progress: 0, rewardXp: 100, claimed: false, chestState: "closed" },
+  ];
+}
+
 interface ReviewEvent {
   userId: string;
   itemId: string;
@@ -138,6 +158,8 @@ interface AppState {
   hasPendingDailyQuests: boolean;
   incrementQuest: (id: string, step?: number) => void;
   claimQuest: (id: string) => void;
+  badgeToastQueue: string[];
+  consumeNextBadgeToast: () => string | null;
   // Streak system
   streak: number;
   lastStudyDate: string | null;
@@ -232,16 +254,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
 
 
-  const [quests, setQuests] = useState<Quest[]>([
-    { id: "q_monthly_50pts", type: "monthly", title: "月に50レッスン完了", need: 50, progress: 0, rewardXp: 150, claimed: false, chestState: "closed" },
-    { id: "q_monthly_breathTempo", type: "monthly", title: "呼吸ゲームで60秒達成", need: 60, progress: 0, rewardXp: 120, claimed: false, chestState: "closed" },
-    { id: "q_monthly_echoSteps", type: "monthly", title: "エコーステップ3回クリア", need: 3, progress: 0, rewardXp: 100, claimed: false, chestState: "closed" },
-    { id: "q_monthly_balance", type: "monthly", title: "バランスゲーム5回クリア", need: 5, progress: 0, rewardXp: 110, claimed: false, chestState: "closed" },
-    { id: "q_monthly_budget", type: "monthly", title: "予算ゲームでパーフェクト達成", need: 3, progress: 0, rewardXp: 150, claimed: false, chestState: "closed" },
-    { id: "q_daily_3lessons", type: "daily", title: "レッスンを3回完了", need: 3, progress: 0, rewardXp: 30, claimed: false, chestState: "closed" },
-    { id: "q_daily_5streak", type: "daily", title: "2回のレッスンで5問連続正解", need: 2, progress: 0, rewardXp: 40, claimed: false, chestState: "closed" },
-    { id: "q_weekly_10lessons", type: "weekly", title: "週に10レッスン完了", need: 10, progress: 2, rewardXp: 100, claimed: false, chestState: "closed" },
-  ]);
+  const [quests, setQuests] = useState<Quest[]>(() => createInitialQuests());
+  const [questCycleKeys, setQuestCycleKeys] = useState<QuestCycleKeys>(() => getQuestCycleKeys());
+  const questsRef = useRef<Quest[]>(createInitialQuests());
+  const questCycleKeysRef = useRef<QuestCycleKeys>(getQuestCycleKeys());
+  const [badgeToastQueue, setBadgeToastQueue] = useState<string[]>([]);
+  const badgeToastQueueRef = useRef<string[]>([]);
 
   // Streak system
   const [streak, setStreak] = useState(0);
@@ -390,6 +408,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // Badges Implementation
   const [unlockedBadges, setUnlockedBadges] = useState<Set<string>>(new Set());
   const [mistakesCleared, setMistakesCleared] = useState(0);
+  const [badgesHydrated, setBadgesHydrated] = useState(false);
+  const badgeCheckInFlightRef = useRef(false);
 
   async function checkAndUnlockBadges(): Promise<string[]> {
     if (!user) return [];
@@ -413,10 +433,15 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
             .from("user_badges")
             .insert({ user_id: user.id, badge_id: badge.id });
 
-          if (!error) {
-            setUnlockedBadges(prev => new Set(prev).add(badge.id));
-            newlyUnlocked.push(badge.id);
+          if (error) {
+            if (error.code !== "23505") {
+              console.error("Failed to unlock badge:", error);
+            }
+            continue;
           }
+
+          setUnlockedBadges(prev => new Set(prev).add(badge.id));
+          newlyUnlocked.push(badge.id);
         } catch (err) {
           console.error("Failed to unlock badge:", err);
         }
@@ -428,17 +453,112 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   // Load user badges from Supabase
   useEffect(() => {
-    if (!user) return;
+    let cancelled = false;
+
+    if (!user) {
+      setUnlockedBadges(new Set());
+      setBadgesHydrated(false);
+      return;
+    }
+
+    setBadgesHydrated(false);
     supabase
       .from("user_badges")
       .select("badge_id")
       .eq("user_id", user.id)
-      .then(({ data }) => {
+      .then(({ data, error }) => {
+        if (cancelled) return;
+        if (error) {
+          console.error("Failed to load user badges:", error);
+        }
         if (data) {
           setUnlockedBadges(new Set(data.map(b => b.badge_id)));
         }
+      })
+      .finally(() => {
+        if (!cancelled) {
+          setBadgesHydrated(true);
+        }
       });
+
+    return () => {
+      cancelled = true;
+    };
   }, [user]);
+
+  useEffect(() => {
+    questsRef.current = quests;
+  }, [quests]);
+
+  useEffect(() => {
+    questCycleKeysRef.current = questCycleKeys;
+  }, [questCycleKeys]);
+
+  useEffect(() => {
+    badgeToastQueueRef.current = badgeToastQueue;
+  }, [badgeToastQueue]);
+
+  const reconcileQuestCycles = useCallback((source: "cycle_reconcile" = "cycle_reconcile") => {
+    const prevKeys = questCycleKeysRef.current;
+    const nextKeys = getQuestCycleKeys();
+
+    const { quests: reconciledQuests, resetTypes } = resetQuestsByCycleChange(
+      questsRef.current,
+      prevKeys,
+      nextKeys
+    );
+
+    if (resetTypes.length > 0) {
+      questsRef.current = reconciledQuests;
+      setQuests(reconciledQuests);
+      Analytics.track("quest_cycle_reset", {
+        dailyReset: resetTypes.includes("daily"),
+        weeklyReset: resetTypes.includes("weekly"),
+        monthlyReset: resetTypes.includes("monthly"),
+        source,
+      });
+    }
+
+    if (!areQuestCycleKeysEqual(prevKeys, nextKeys)) {
+      questCycleKeysRef.current = nextKeys;
+      setQuestCycleKeys(nextKeys);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated || !badgesHydrated) return;
+
+    const timer = setTimeout(async () => {
+      if (badgeCheckInFlightRef.current) return;
+      badgeCheckInFlightRef.current = true;
+      try {
+        const newlyUnlocked = await checkAndUnlockBadges();
+        if (newlyUnlocked.length > 0) {
+          setBadgeToastQueue((prev) => enqueueBadgeToastIds(prev, newlyUnlocked));
+          newlyUnlocked.forEach((badgeId) => {
+            Analytics.track("badge_unlocked", {
+              badgeId,
+              source: "auto_check",
+            });
+          });
+        }
+      } finally {
+        badgeCheckInFlightRef.current = false;
+      }
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [
+    user?.id,
+    isStateHydrated,
+    badgesHydrated,
+    xp,
+    streak,
+    completedLessons,
+    mistakesCleared,
+    friendCount,
+    leaderboardRank,
+  ]);
 
   // Save mistakes to AsyncStorage whenever it changes
   useEffect(() => {
@@ -465,6 +585,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setIsStateHydrated(false);
       setFirstLaunchAtMs(null);
       setStreakRepairOffer(null);
+      setBadgeToastQueue([]);
+      setQuestCycleKeys(getQuestCycleKeys());
       return;
     }
 
@@ -478,6 +600,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedXp,
           savedGems,
           savedStreak,
+          savedQuests,
+          savedQuestCycleKeys,
           savedEnergy,
           savedEnergyUpdateTime,
           savedEnergyBonusDate,
@@ -490,6 +614,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
           AsyncStorage.getItem(`streak_${user.id}`),
+          AsyncStorage.getItem(`quests_${user.id}`),
+          AsyncStorage.getItem(`quest_cycle_keys_${user.id}`),
           AsyncStorage.getItem(`energy_${user.id}`),
           AsyncStorage.getItem(`energy_update_time_${user.id}`),
           AsyncStorage.getItem(`energy_bonus_date_${user.id}`),
@@ -505,6 +631,59 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         if (savedXp) setXP(parseInt(savedXp, 10));
         if (savedGems) setGems(parseInt(savedGems, 10));
         if (savedStreak) setStreak(parseInt(savedStreak, 10));
+
+        const nowQuestCycleKeys = getQuestCycleKeys();
+        let loadedQuestCycleKeys = nowQuestCycleKeys;
+        if (savedQuestCycleKeys) {
+          try {
+            const parsed = JSON.parse(savedQuestCycleKeys) as Partial<QuestCycleKeys>;
+            if (
+              typeof parsed?.daily === "string" &&
+              typeof parsed?.weekly === "string" &&
+              typeof parsed?.monthly === "string"
+            ) {
+              loadedQuestCycleKeys = {
+                daily: parsed.daily,
+                weekly: parsed.weekly,
+                monthly: parsed.monthly,
+              };
+            }
+          } catch (error) {
+            console.warn("Failed to parse stored quest cycle keys:", error);
+          }
+        }
+
+        let loadedQuests = createInitialQuests();
+        if (savedQuests) {
+          try {
+            const parsed = JSON.parse(savedQuests);
+            if (Array.isArray(parsed)) {
+              loadedQuests = parsed;
+            }
+          } catch (error) {
+            console.warn("Failed to parse stored quests:", error);
+          }
+        }
+
+        const { quests: reconciledQuests, resetTypes } = resetQuestsByCycleChange(
+          loadedQuests,
+          loadedQuestCycleKeys,
+          nowQuestCycleKeys
+        );
+        setQuests(reconciledQuests);
+        questsRef.current = reconciledQuests;
+        setQuestCycleKeys(nowQuestCycleKeys);
+        questCycleKeysRef.current = nowQuestCycleKeys;
+
+        if (resetTypes.length > 0) {
+          Analytics.track("quest_cycle_reset", {
+            dailyReset: resetTypes.includes("daily"),
+            weeklyReset: resetTypes.includes("weekly"),
+            monthlyReset: resetTypes.includes("monthly"),
+            source: "cycle_reconcile",
+          });
+        }
+
         if (savedEnergy) {
           const parsedEnergy = parseInt(savedEnergy, 10);
           if (!Number.isNaN(parsedEnergy)) setEnergy(parsedEnergy);
@@ -599,6 +778,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedXp,
           savedGems,
           savedStreak,
+          savedQuests,
+          savedQuestCycleKeys,
           savedEnergy,
           savedEnergyUpdateTime,
           savedEnergyBonusDate,
@@ -697,6 +878,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(`quests_${user.id}`, JSON.stringify(quests));
+  }, [quests, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(`quest_cycle_keys_${user.id}`, JSON.stringify(questCycleKeys));
+  }, [questCycleKeys, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`energy_${user.id}`, energy.toString());
   }, [energy, user, isStateHydrated]);
 
@@ -756,6 +947,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
     return () => clearTimeout(timer);
   }, [streakRepairOffer]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    reconcileQuestCycles("cycle_reconcile");
+    const interval = setInterval(() => reconcileQuestCycles("cycle_reconcile"), 60000);
+    return () => clearInterval(interval);
+  }, [user, isStateHydrated, reconcileQuestCycles]);
 
   // Helper: Get today's date in YYYY-MM-DD format
   function getTodayDate(): string {
@@ -949,6 +1147,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   };
 
   const incrementQuest = (id: string, step = 1) => {
+    reconcileQuestCycles("cycle_reconcile");
     setQuests((prev) =>
       prev.map((q) =>
         q.id === id
@@ -959,6 +1158,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   };
 
   const claimQuest = (id: string) => {
+    reconcileQuestCycles("cycle_reconcile");
     setQuests((prev) =>
       prev.map((q) => {
         if (q.id === id && q.progress >= q.need && !q.claimed) {
@@ -975,6 +1175,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         prev.map((q) => (q.id === id ? { ...q, chestState: "opened" as const } : q))
       );
     }, 1200);
+  };
+
+  const consumeNextBadgeToast = (): string | null => {
+    const { nextBadgeId, queue } = consumeNextBadgeToastItem(badgeToastQueueRef.current);
+    if (!nextBadgeId) return null;
+    badgeToastQueueRef.current = queue;
+    setBadgeToastQueue(queue);
+    return nextBadgeId;
   };
 
   // Currency methods
@@ -1251,6 +1459,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     hasPendingDailyQuests,
     incrementQuest,
     claimQuest,
+    badgeToastQueue,
+    consumeNextBadgeToast,
     streak,
     lastStudyDate,
     lastActivityDate,

@@ -6,6 +6,7 @@ export const en = {
         cancel: 'Cancel',
         close: 'Close',
         ok: 'OK',
+        badgeUnlocked: 'Badge unlocked: %{badgeName}',
     },
     shop: {
         title: 'Shop',
@@ -348,6 +349,7 @@ export const en = {
             completedLessons: 'Completed Lessons',
             league: 'League',
             leagueSilver: 'Silver',
+            leagueUnjoined: 'Not joined',
         },
         sections: {
             badges: 'Badges',

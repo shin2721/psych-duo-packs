@@ -6,6 +6,7 @@ export const ja = {
         cancel: 'キャンセル',
         close: '閉じる',
         ok: 'OK',
+        badgeUnlocked: 'バッジ獲得: %{badgeName}',
     },
     shop: {
         title: 'ショップ',
@@ -348,6 +349,7 @@ export const ja = {
             completedLessons: '完了レッスン',
             league: 'リーグ',
             leagueSilver: 'シルバー',
+            leagueUnjoined: '未参加',
         },
         sections: {
             badges: '獲得バッジ',

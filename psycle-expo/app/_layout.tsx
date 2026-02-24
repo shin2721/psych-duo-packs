@@ -2,12 +2,15 @@ import { Stack, useRouter, useSegments } from "expo-router";
 import { AppStateProvider, useAppState } from "../lib/state";
 import { AuthProvider, useAuth } from "../lib/AuthContext";
 import { OnboardingProvider, useOnboarding } from "../lib/OnboardingContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { View, ActivityIndicator, LogBox } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Analytics } from "../lib/analytics";
 import { LocaleProvider, useLocale } from "../lib/LocaleContext";
 import { registerNotificationResponseHandler, syncDailyReminders } from "../lib/notifications";
+import { BADGES } from "../lib/badges";
+import i18n from "../lib/i18n";
+import { InlineToast } from "../components/InlineToast";
 
 // Suppress network errors during development
 LogBox.ignoreLogs([
@@ -61,6 +64,7 @@ function RootLayoutNav() {
   return (
     <AppStateProvider>
       <ReminderBootstrap />
+      <BadgeToastBridge />
       <Stack key={`locale-${locale}`} screenOptions={{ headerShown: false }}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="onboarding" />
@@ -94,6 +98,30 @@ function ReminderBootstrap() {
   }, [session?.user?.id, isStateHydrated, hasPendingDailyQuests]);
 
   return null;
+}
+
+function BadgeToastBridge() {
+  const { badgeToastQueue, consumeNextBadgeToast } = useAppState();
+  const [message, setMessage] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (message || badgeToastQueue.length === 0) return;
+
+    const badgeId = consumeNextBadgeToast();
+    if (!badgeId) return;
+
+    const badgeName = BADGES.find((badge) => badge.id === badgeId)?.name || badgeId;
+    setMessage(String(i18n.t("common.badgeUnlocked", { badgeName })));
+  }, [badgeToastQueue, message, consumeNextBadgeToast]);
+
+  useEffect(() => {
+    if (!message) return;
+    const timer = setTimeout(() => setMessage(null), 2500);
+    return () => clearTimeout(timer);
+  }, [message]);
+
+  if (!message) return null;
+  return <InlineToast message={message} />;
 }
 
 export default function RootLayout() {
