@@ -12,11 +12,11 @@ import { BudgetBonds } from "../../components/games/BudgetBonds";
 
 export default function GameScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { addXp, incrementQuest } = useAppState();
+  const { addXp, incrementQuest, incrementQuestMetric } = useAppState();
 
   const handleDone = (result: GameResult) => {
     addXp(result.xp);
-    incrementQuest("q_daily_3lessons");
+    incrementQuestMetric("lesson_complete", 1);
 
     if (id === "breathTempo" && result.meta?.accuracy > 0.7) {
       incrementQuest("q_monthly_breathTempo", Math.floor(result.timeMs / 1000));

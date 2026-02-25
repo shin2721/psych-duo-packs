@@ -254,6 +254,31 @@ export type QuestCycleResetEvent = {
   };
 };
 
+export type QuestRotationAppliedEvent = {
+  name: 'quest_rotation_applied';
+  properties: {
+    dailyChanged: boolean;
+    weeklyChanged: boolean;
+    monthlyChanged: boolean;
+    dailyCount: number;
+    weeklyCount: number;
+    source: 'cycle_reconcile' | 'schema_migration';
+  };
+};
+
+export type QuestAutoClaimedOnCycleEvent = {
+  name: 'quest_auto_claimed_on_cycle';
+  properties: {
+    claimedCount: number;
+    totalRewardXp: number;
+    totalRewardGems: number;
+    dailyChanged: boolean;
+    weeklyChanged: boolean;
+    monthlyChanged: boolean;
+    source: 'cycle_reconcile' | 'schema_migration';
+  };
+};
+
 export type StreakMilestoneRewardedEvent = {
   name: 'streak_milestone_rewarded';
   properties: {
@@ -318,6 +343,8 @@ export type TrackedEvent =
   | EnergyFullRefillPurchasedEvent
   | BadgeUnlockedEvent
   | QuestCycleResetEvent
+  | QuestRotationAppliedEvent
+  | QuestAutoClaimedOnCycleEvent
   | StreakMilestoneRewardedEvent
   | ComebackRewardOfferedEvent
   | ComebackRewardClaimedEvent

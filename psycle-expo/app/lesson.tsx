@@ -60,7 +60,7 @@ export default function LessonScreen() {
   const {
     completeLesson,
     addXp,
-    incrementQuest,
+    incrementQuestMetric,
     quests,
     consumeEnergy,
     lessonEnergyCost,
@@ -284,7 +284,7 @@ export default function LessonScreen() {
 
       const streakQuestIncrement = getStreakQuestIncrement(nextStreak);
       if (streakQuestIncrement) {
-        incrementQuest(streakQuestIncrement.id, streakQuestIncrement.step);
+        incrementQuestMetric(streakQuestIncrement.metric, streakQuestIncrement.step);
       }
 
       // Every 5 consecutive correct answers: 10% chance to recover +1 energy (max once/day).
@@ -316,7 +316,7 @@ export default function LessonScreen() {
       completeLesson(params.file);
       await markFirstLessonComplete();
       for (const questIncrement of getLessonCompletionQuestIncrements()) {
-        incrementQuest(questIncrement.id, questIncrement.step);
+        incrementQuestMetric(questIncrement.metric, questIncrement.step);
       }
 
       // ゲーミフィケーション: Study Streak + XP

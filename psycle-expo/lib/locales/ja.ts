@@ -388,6 +388,21 @@ export const ja = {
         monthly: 'マンスリークエスト',
         daily: 'デイリークエスト',
         weekly: 'ウィークリークエスト',
+        templates: {
+            daily: {
+                lessons2: 'レッスンを2回完了',
+                lessons3: 'レッスンを3回完了',
+                lessons5: 'レッスンを5回完了',
+                streak5x1: '5問連続正解を1回達成',
+                streak5x2: '5問連続正解を2回達成',
+            },
+            weekly: {
+                lessons8: '週に8レッスン完了',
+                lessons10: '週に10レッスン完了',
+                lessons15: '週に15レッスン完了',
+                streak5x5: '5問連続正解を5回達成',
+            },
+        },
     },
     lessonScreen: {
         lessonNotFound: 'レッスンが見つかりません',

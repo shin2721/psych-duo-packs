@@ -5,29 +5,27 @@ import {
 } from "../../lib/questProgressRules";
 
 describe("questProgressRules", () => {
-  test("nextStreak=4 では q_daily_5streak を進めない", () => {
+  test("nextStreak=4 では streak5_milestone を進めない", () => {
     expect(getStreakQuestIncrement(4)).toBeNull();
   });
 
-  test("nextStreak=5 では q_daily_5streak を進める", () => {
+  test("nextStreak=5 では streak5_milestone を進める", () => {
     expect(getStreakQuestIncrement(5)).toEqual({
-      id: "q_daily_5streak",
+      metric: "streak5_milestone",
       step: 1,
     });
   });
 
-  test("nextStreak=10 では q_daily_5streak を進める", () => {
+  test("nextStreak=10 では streak5_milestone を進める", () => {
     expect(getStreakQuestIncrement(10)).toEqual({
-      id: "q_daily_5streak",
+      metric: "streak5_milestone",
       step: 1,
     });
   });
 
-  test("lesson完了クエスト進捗はdaily/weekly/monthlyの3件", () => {
+  test("lesson完了クエスト進捗は lesson_complete メトリクスのみ", () => {
     expect(getLessonCompletionQuestIncrements()).toEqual([
-      { id: "q_daily_3lessons", step: 1 },
-      { id: "q_weekly_10lessons", step: 1 },
-      { id: "q_monthly_50pts", step: 1 },
+      { metric: "lesson_complete", step: 1 },
     ]);
   });
 

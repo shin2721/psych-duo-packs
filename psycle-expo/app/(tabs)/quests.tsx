@@ -20,12 +20,13 @@ export default function QuestsScreen() {
   const renderQuest = (q: any) => {
     const completed = q.progress >= q.need;
     const canClaim = completed && !q.claimed;
+    const title = q.titleKey ? String(i18n.t(q.titleKey)) : q.title;
 
     return (
       <Card key={q.id} style={styles.questCard}>
         <View style={styles.questRow}>
           <View style={styles.questInfo}>
-            <Text style={styles.questTitle}>{q.title}</Text>
+            <Text style={styles.questTitle}>{title}</Text>
             <Text style={styles.questDesc}>
               {q.progress} / {q.need}
             </Text>
@@ -60,7 +61,9 @@ export default function QuestsScreen() {
             {monthly.map((q) => (
               <View key={q.id} style={styles.monthlyRow}>
                 <View style={styles.monthlyInfo}>
-                  <Text style={styles.monthlyTitle}>{q.title}</Text>
+                  <Text style={styles.monthlyTitle}>
+                    {q.titleKey ? String(i18n.t(q.titleKey)) : q.title}
+                  </Text>
                   <ProgressBar value={q.progress} max={q.need} style={styles.progressBar} />
                   <Text style={styles.monthlyProgress}>
                     {q.progress} / {q.need}

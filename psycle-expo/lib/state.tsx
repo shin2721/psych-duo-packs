@@ -39,9 +39,21 @@ import {
 import {
   areQuestCycleKeysEqual,
   getQuestCycleKeys,
-  resetQuestsByCycleChange,
   type QuestCycleKeys
 } from "./questCycles";
+import {
+  createMonthlyFixedQuestInstances,
+  type QuestInstance,
+  type QuestMetric,
+} from "./questDefinitions";
+import {
+  applyQuestMetricProgress,
+  buildQuestBoardForCycles,
+  extractSelectionFromQuests,
+  normalizeQuestRotationSelection,
+  reconcileQuestBoardOnCycleChange,
+  type QuestRotationSelection,
+} from "./questRotation";
 import {
   canUseMistakesHub,
   consumeMistakesHub,
@@ -121,6 +133,7 @@ const ENERGY_STREAK_BONUS_DAILY_CAP = normalizePositiveInt(
 );
 const COMEBACK_REWARD_THRESHOLD_DAYS = 7;
 const COMEBACK_REWARD_ENERGY = 2;
+const QUEST_SCHEMA_VERSION = 2;
 const ENERGY_REFILL_MS = ENERGY_REFILL_MINUTES * 60 * 1000;
 const streakMilestonesConfig = getStreakMilestonesConfig();
 const shopSinksConfig = getShopSinksConfig();
@@ -129,28 +142,116 @@ function isTrackedStreakMilestoneDay(day: number): day is 3 | 7 | 30 {
   return day === 3 || day === 7 || day === 30;
 }
 
-interface Quest {
-  id: string;
-  type: "daily" | "weekly" | "monthly";
-  title: string;
-  need: number;
-  progress: number;
-  rewardXp: number;
-  claimed: boolean;
-  chestState: "closed" | "opening" | "opened";
+function createInitialQuestState(cycleKeys: QuestCycleKeys): {
+  quests: QuestInstance[];
+  rotationSelection: QuestRotationSelection;
+} {
+  const { quests, selection } = buildQuestBoardForCycles({
+    cycleKeys,
+    previousSelection: { daily: [], weekly: [] },
+    monthlyQuests: createMonthlyFixedQuestInstances(cycleKeys.monthly),
+  });
+
+  return {
+    quests,
+    rotationSelection: selection,
+  };
 }
 
-function createInitialQuests(): Quest[] {
-  return [
-    { id: "q_monthly_50pts", type: "monthly", title: "月に50レッスン完了", need: 50, progress: 0, rewardXp: 150, claimed: false, chestState: "closed" },
-    { id: "q_monthly_breathTempo", type: "monthly", title: "呼吸ゲームで60秒達成", need: 60, progress: 0, rewardXp: 120, claimed: false, chestState: "closed" },
-    { id: "q_monthly_echoSteps", type: "monthly", title: "エコーステップ3回クリア", need: 3, progress: 0, rewardXp: 100, claimed: false, chestState: "closed" },
-    { id: "q_monthly_balance", type: "monthly", title: "バランスゲーム5回クリア", need: 5, progress: 0, rewardXp: 110, claimed: false, chestState: "closed" },
-    { id: "q_monthly_budget", type: "monthly", title: "予算ゲームでパーフェクト達成", need: 3, progress: 0, rewardXp: 150, claimed: false, chestState: "closed" },
-    { id: "q_daily_3lessons", type: "daily", title: "レッスンを3回完了", need: 3, progress: 0, rewardXp: 30, claimed: false, chestState: "closed" },
-    { id: "q_daily_5streak", type: "daily", title: "2回のレッスンで5問連続正解", need: 2, progress: 0, rewardXp: 40, claimed: false, chestState: "closed" },
-    { id: "q_weekly_10lessons", type: "weekly", title: "週に10レッスン完了", need: 10, progress: 0, rewardXp: 100, claimed: false, chestState: "closed" },
-  ];
+function isQuestType(value: unknown): value is "daily" | "weekly" | "monthly" {
+  return value === "daily" || value === "weekly" || value === "monthly";
+}
+
+function isQuestMetric(value: unknown): value is QuestMetric {
+  return value === "lesson_complete" || value === "streak5_milestone";
+}
+
+function normalizeQuestChestState(value: unknown): "closed" | "opening" | "opened" {
+  return value === "opening" || value === "opened" ? value : "closed";
+}
+
+function normalizeStoredQuestInstances(
+  raw: unknown,
+  cycleKeys: QuestCycleKeys
+): QuestInstance[] | null {
+  if (!Array.isArray(raw)) return null;
+
+  const normalized: QuestInstance[] = [];
+  for (const item of raw) {
+    if (!item || typeof item !== "object") continue;
+    const quest = item as Record<string, unknown>;
+    const type = isQuestType(quest.type) ? quest.type : null;
+    if (!type) continue;
+
+    const needRaw = Number(quest.need);
+    const need = Number.isFinite(needRaw) ? Math.max(1, Math.floor(needRaw)) : 1;
+    const progressRaw = Number(quest.progress);
+    const progress = Number.isFinite(progressRaw) ? Math.max(0, Math.floor(progressRaw)) : 0;
+    const rewardXpRaw = Number(quest.rewardXp);
+    const rewardXp = Number.isFinite(rewardXpRaw) ? Math.max(0, Math.floor(rewardXpRaw)) : 0;
+    const templateId = typeof quest.templateId === "string" && quest.templateId.length > 0
+      ? quest.templateId
+      : typeof quest.id === "string" && quest.id.length > 0
+        ? quest.id
+        : null;
+    if (!templateId) continue;
+
+    const id = typeof quest.id === "string" && quest.id.length > 0
+      ? quest.id
+      : `${templateId}__${type}`;
+    const metric = isQuestMetric(quest.metric) ? quest.metric : null;
+    const cycleKey = typeof quest.cycleKey === "string" && quest.cycleKey.length > 0
+      ? quest.cycleKey
+      : type === "daily"
+        ? cycleKeys.daily
+        : type === "weekly"
+          ? cycleKeys.weekly
+          : cycleKeys.monthly;
+
+    normalized.push({
+      id,
+      templateId,
+      type,
+      metric,
+      need,
+      progress: Math.min(need, progress),
+      rewardXp,
+      claimed: Boolean(quest.claimed),
+      chestState: normalizeQuestChestState(quest.chestState),
+      title: typeof quest.title === "string" ? quest.title : templateId,
+      titleKey: typeof quest.titleKey === "string" ? quest.titleKey : undefined,
+      cycleKey,
+    });
+  }
+
+  return normalized.length > 0 ? normalized : null;
+}
+
+function migrateMonthlyQuests(
+  storedQuests: QuestInstance[] | null,
+  monthlyCycleKey: string
+): QuestInstance[] {
+  const baseMonthly = createMonthlyFixedQuestInstances(monthlyCycleKey);
+  if (!storedQuests) return baseMonthly;
+
+  const previousMonthly = new Map<string, QuestInstance>();
+  storedQuests
+    .filter((quest) => quest.type === "monthly")
+    .forEach((quest) => {
+      previousMonthly.set(quest.templateId, quest);
+      previousMonthly.set(quest.id, quest);
+    });
+
+  return baseMonthly.map((quest) => {
+    const previous = previousMonthly.get(quest.templateId) ?? previousMonthly.get(quest.id);
+    if (!previous) return quest;
+    return {
+      ...quest,
+      progress: Math.min(quest.need, Math.max(0, previous.progress)),
+      claimed: previous.claimed,
+      chestState: normalizeQuestChestState(previous.chestState),
+    };
+  });
 }
 
 interface ReviewEvent {
@@ -187,9 +288,10 @@ interface AppState {
   skillConfidence: number; // Confidence in skill rating (0-100)
   questionsAnswered: number; // Total questions answered
   updateSkill: (isCorrect: boolean, itemDifficulty?: number) => void;
-  quests: Quest[];
+  quests: QuestInstance[];
   hasPendingDailyQuests: boolean;
   incrementQuest: (id: string, step?: number) => void;
+  incrementQuestMetric: (metric: QuestMetric, step?: number) => void;
   claimQuest: (id: string) => void;
   badgeToastQueue: string[];
   consumeNextBadgeToast: () => string | null;
@@ -299,12 +401,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth();
   const userId = user?.id || "user_local";
 
-
-
-  const [quests, setQuests] = useState<Quest[]>(() => createInitialQuests());
-  const [questCycleKeys, setQuestCycleKeys] = useState<QuestCycleKeys>(() => getQuestCycleKeys());
-  const questsRef = useRef<Quest[]>(createInitialQuests());
-  const questCycleKeysRef = useRef<QuestCycleKeys>(getQuestCycleKeys());
+  const initialQuestCycleKeys = getQuestCycleKeys();
+  const initialQuestState = createInitialQuestState(initialQuestCycleKeys);
+  const [quests, setQuests] = useState<QuestInstance[]>(initialQuestState.quests);
+  const [questCycleKeys, setQuestCycleKeys] = useState<QuestCycleKeys>(initialQuestCycleKeys);
+  const [questRotationPrev, setQuestRotationPrev] = useState<QuestRotationSelection>(
+    initialQuestState.rotationSelection
+  );
+  const questsRef = useRef<QuestInstance[]>(initialQuestState.quests);
+  const questCycleKeysRef = useRef<QuestCycleKeys>(initialQuestCycleKeys);
+  const questRotationPrevRef = useRef<QuestRotationSelection>(initialQuestState.rotationSelection);
   const [badgeToastQueue, setBadgeToastQueue] = useState<string[]>([]);
   const badgeToastQueueRef = useRef<string[]>([]);
   const [streakMilestoneToastQueue, setStreakMilestoneToastQueue] = useState<StreakMilestoneToastItem[]>([]);
@@ -549,6 +655,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [questCycleKeys]);
 
   useEffect(() => {
+    questRotationPrevRef.current = questRotationPrev;
+  }, [questRotationPrev]);
+
+  useEffect(() => {
     badgeToastQueueRef.current = badgeToastQueue;
   }, [badgeToastQueue]);
 
@@ -564,32 +674,60 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     claimedStreakMilestonesRef.current = claimedStreakMilestones;
   }, [claimedStreakMilestones]);
 
-  const reconcileQuestCycles = useCallback((source: "cycle_reconcile" = "cycle_reconcile") => {
-    const prevKeys = questCycleKeysRef.current;
-    const nextKeys = getQuestCycleKeys();
+  const reconcileQuestCycles = useCallback(
+    (source: "cycle_reconcile" | "schema_migration" = "cycle_reconcile") => {
+      const prevKeys = questCycleKeysRef.current;
+      const nextKeys = getQuestCycleKeys();
 
-    const { quests: reconciledQuests, resetTypes } = resetQuestsByCycleChange(
-      questsRef.current,
-      prevKeys,
-      nextKeys
-    );
-
-    if (resetTypes.length > 0) {
-      questsRef.current = reconciledQuests;
-      setQuests(reconciledQuests);
-      Analytics.track("quest_cycle_reset", {
-        dailyReset: resetTypes.includes("daily"),
-        weeklyReset: resetTypes.includes("weekly"),
-        monthlyReset: resetTypes.includes("monthly"),
-        source,
+      const reconcileResult = reconcileQuestBoardOnCycleChange({
+        quests: questsRef.current,
+        prevKeys,
+        nextKeys,
+        previousSelection: questRotationPrevRef.current,
       });
-    }
 
-    if (!areQuestCycleKeysEqual(prevKeys, nextKeys)) {
-      questCycleKeysRef.current = nextKeys;
-      setQuestCycleKeys(nextKeys);
-    }
-  }, []);
+      if (reconcileResult.changedTypes.length > 0) {
+        questsRef.current = reconcileResult.quests;
+        setQuests(reconcileResult.quests);
+        questRotationPrevRef.current = reconcileResult.selection;
+        setQuestRotationPrev(reconcileResult.selection);
+
+        if (reconcileResult.autoClaimed.totalRewardXp > 0) {
+          setXP((prev) => prev + reconcileResult.autoClaimed.totalRewardXp);
+        }
+        if (reconcileResult.autoClaimed.totalRewardGems > 0) {
+          setGems((prev) => prev + reconcileResult.autoClaimed.totalRewardGems);
+        }
+
+        Analytics.track("quest_rotation_applied", {
+          dailyChanged: reconcileResult.changedTypes.includes("daily"),
+          weeklyChanged: reconcileResult.changedTypes.includes("weekly"),
+          monthlyChanged: reconcileResult.changedTypes.includes("monthly"),
+          dailyCount: reconcileResult.quests.filter((quest) => quest.type === "daily").length,
+          weeklyCount: reconcileResult.quests.filter((quest) => quest.type === "weekly").length,
+          source,
+        });
+
+        if (reconcileResult.autoClaimed.claimedCount > 0) {
+          Analytics.track("quest_auto_claimed_on_cycle", {
+            claimedCount: reconcileResult.autoClaimed.claimedCount,
+            totalRewardXp: reconcileResult.autoClaimed.totalRewardXp,
+            totalRewardGems: reconcileResult.autoClaimed.totalRewardGems,
+            dailyChanged: reconcileResult.changedTypes.includes("daily"),
+            weeklyChanged: reconcileResult.changedTypes.includes("weekly"),
+            monthlyChanged: reconcileResult.changedTypes.includes("monthly"),
+            source,
+          });
+        }
+      }
+
+      if (!areQuestCycleKeysEqual(prevKeys, nextKeys)) {
+        questCycleKeysRef.current = nextKeys;
+        setQuestCycleKeys(nextKeys);
+      }
+    },
+    []
+  );
 
   useEffect(() => {
     if (!user || !isStateHydrated || !badgesHydrated) return;
@@ -658,7 +796,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setStreakMilestoneToastQueue([]);
       setComebackRewardToastQueue([]);
       setClaimedStreakMilestones([]);
-      setQuestCycleKeys(getQuestCycleKeys());
+      const resetCycleKeys = getQuestCycleKeys();
+      const resetQuestState = createInitialQuestState(resetCycleKeys);
+      setQuests(resetQuestState.quests);
+      questsRef.current = resetQuestState.quests;
+      setQuestCycleKeys(resetCycleKeys);
+      questCycleKeysRef.current = resetCycleKeys;
+      setQuestRotationPrev(resetQuestState.rotationSelection);
+      questRotationPrevRef.current = resetQuestState.rotationSelection;
       badgeToastQueueRef.current = [];
       streakMilestoneToastQueueRef.current = [];
       comebackRewardToastQueueRef.current = [];
@@ -678,6 +823,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedStreak,
           savedQuests,
           savedQuestCycleKeys,
+          savedQuestSchemaVersion,
+          savedQuestRotationPrev,
           savedEnergy,
           savedEnergyUpdateTime,
           savedEnergyBonusDate,
@@ -696,6 +843,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`streak_${user.id}`),
           AsyncStorage.getItem(`quests_${user.id}`),
           AsyncStorage.getItem(`quest_cycle_keys_${user.id}`),
+          AsyncStorage.getItem(`quest_schema_version_${user.id}`),
+          AsyncStorage.getItem(`quest_rotation_prev_${user.id}`),
           AsyncStorage.getItem(`energy_${user.id}`),
           AsyncStorage.getItem(`energy_update_time_${user.id}`),
           AsyncStorage.getItem(`energy_bonus_date_${user.id}`),
@@ -736,37 +885,131 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
             console.warn("Failed to parse stored quest cycle keys:", error);
           }
         }
+        const initialQuestStateForLoad = createInitialQuestState(nowQuestCycleKeys);
+        let loadedQuests = initialQuestStateForLoad.quests;
+        let loadedRotationSelection = initialQuestStateForLoad.rotationSelection;
 
-        let loadedQuests = createInitialQuests();
+        if (savedQuestRotationPrev) {
+          try {
+            loadedRotationSelection = normalizeQuestRotationSelection(
+              JSON.parse(savedQuestRotationPrev)
+            );
+          } catch (error) {
+            console.warn("Failed to parse stored quest rotation selection:", error);
+          }
+        }
+
         if (savedQuests) {
           try {
             const parsed = JSON.parse(savedQuests);
-            if (Array.isArray(parsed)) {
-              loadedQuests = parsed;
+            const normalized = normalizeStoredQuestInstances(parsed, loadedQuestCycleKeys);
+            if (normalized) {
+              loadedQuests = normalized;
+              if (!savedQuestRotationPrev) {
+                loadedRotationSelection = normalizeQuestRotationSelection(
+                  extractSelectionFromQuests(normalized)
+                );
+              }
             }
           } catch (error) {
             console.warn("Failed to parse stored quests:", error);
           }
         }
 
-        const { quests: reconciledQuests, resetTypes } = resetQuestsByCycleChange(
-          loadedQuests,
-          loadedQuestCycleKeys,
-          nowQuestCycleKeys
-        );
-        setQuests(reconciledQuests);
-        questsRef.current = reconciledQuests;
+        const parsedSchemaVersion = Number.parseInt(savedQuestSchemaVersion ?? "", 10);
+        const questSchemaVersion = Number.isFinite(parsedSchemaVersion) ? parsedSchemaVersion : 1;
+        let pendingAutoClaimXp = 0;
+        let pendingAutoClaimGems = 0;
+
+        if (questSchemaVersion < QUEST_SCHEMA_VERSION) {
+          const claimableOnMigration = loadedQuests.filter(
+            (quest) => quest.progress >= quest.need && !quest.claimed
+          );
+          if (claimableOnMigration.length > 0) {
+            pendingAutoClaimXp += claimableOnMigration.reduce(
+              (sum, quest) => sum + quest.rewardXp,
+              0
+            );
+            pendingAutoClaimGems += claimableOnMigration.length * 10;
+            Analytics.track("quest_auto_claimed_on_cycle", {
+              claimedCount: claimableOnMigration.length,
+              totalRewardXp: pendingAutoClaimXp,
+              totalRewardGems: pendingAutoClaimGems,
+              dailyChanged: true,
+              weeklyChanged: true,
+              monthlyChanged: false,
+              source: "schema_migration",
+            });
+          }
+
+          const migratedMonthly = migrateMonthlyQuests(loadedQuests, nowQuestCycleKeys.monthly);
+          const rebuilt = buildQuestBoardForCycles({
+            cycleKeys: nowQuestCycleKeys,
+            previousSelection: loadedRotationSelection,
+            monthlyQuests: migratedMonthly,
+          });
+          loadedQuests = rebuilt.quests;
+          loadedRotationSelection = rebuilt.selection;
+
+          Analytics.track("quest_rotation_applied", {
+            dailyChanged: true,
+            weeklyChanged: true,
+            monthlyChanged: false,
+            dailyCount: loadedQuests.filter((quest) => quest.type === "daily").length,
+            weeklyCount: loadedQuests.filter((quest) => quest.type === "weekly").length,
+            source: "schema_migration",
+          });
+        } else {
+          const reconcileResult = reconcileQuestBoardOnCycleChange({
+            quests: loadedQuests,
+            prevKeys: loadedQuestCycleKeys,
+            nextKeys: nowQuestCycleKeys,
+            previousSelection: loadedRotationSelection,
+          });
+          loadedQuests = reconcileResult.quests;
+          loadedRotationSelection = reconcileResult.selection;
+
+          if (reconcileResult.changedTypes.length > 0) {
+            pendingAutoClaimXp += reconcileResult.autoClaimed.totalRewardXp;
+            pendingAutoClaimGems += reconcileResult.autoClaimed.totalRewardGems;
+            Analytics.track("quest_rotation_applied", {
+              dailyChanged: reconcileResult.changedTypes.includes("daily"),
+              weeklyChanged: reconcileResult.changedTypes.includes("weekly"),
+              monthlyChanged: reconcileResult.changedTypes.includes("monthly"),
+              dailyCount: loadedQuests.filter((quest) => quest.type === "daily").length,
+              weeklyCount: loadedQuests.filter((quest) => quest.type === "weekly").length,
+              source: "cycle_reconcile",
+            });
+
+            if (reconcileResult.autoClaimed.claimedCount > 0) {
+              Analytics.track("quest_auto_claimed_on_cycle", {
+                claimedCount: reconcileResult.autoClaimed.claimedCount,
+                totalRewardXp: reconcileResult.autoClaimed.totalRewardXp,
+                totalRewardGems: reconcileResult.autoClaimed.totalRewardGems,
+                dailyChanged: reconcileResult.changedTypes.includes("daily"),
+                weeklyChanged: reconcileResult.changedTypes.includes("weekly"),
+                monthlyChanged: reconcileResult.changedTypes.includes("monthly"),
+                source: "cycle_reconcile",
+              });
+            }
+          }
+        }
+
+        if (pendingAutoClaimXp > 0) {
+          setXP((prev) => prev + pendingAutoClaimXp);
+        }
+        if (pendingAutoClaimGems > 0) {
+          setGems((prev) => prev + pendingAutoClaimGems);
+        }
+
+        setQuests(loadedQuests);
+        questsRef.current = loadedQuests;
         setQuestCycleKeys(nowQuestCycleKeys);
         questCycleKeysRef.current = nowQuestCycleKeys;
+        setQuestRotationPrev(loadedRotationSelection);
+        questRotationPrevRef.current = loadedRotationSelection;
 
-        if (resetTypes.length > 0) {
-          Analytics.track("quest_cycle_reset", {
-            dailyReset: resetTypes.includes("daily"),
-            weeklyReset: resetTypes.includes("weekly"),
-            monthlyReset: resetTypes.includes("monthly"),
-            source: "cycle_reconcile",
-          });
-        }
+        await AsyncStorage.setItem(`quest_schema_version_${user.id}`, String(QUEST_SCHEMA_VERSION));
 
         if (savedEnergy) {
           const parsedEnergy = parseInt(savedEnergy, 10);
@@ -1017,6 +1260,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`quest_cycle_keys_${user.id}`, JSON.stringify(questCycleKeys));
   }, [questCycleKeys, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(`quest_rotation_prev_${user.id}`, JSON.stringify(questRotationPrev));
+  }, [questRotationPrev, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(`quest_schema_version_${user.id}`, String(QUEST_SCHEMA_VERSION));
+  }, [user, isStateHydrated]);
 
   useEffect(() => {
     if (!user || !isStateHydrated) return;
@@ -1452,32 +1705,47 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   const incrementQuest = (id: string, step = 1) => {
     reconcileQuestCycles("cycle_reconcile");
-    setQuests((prev) =>
-      prev.map((q) =>
+    setQuests((prev) => {
+      const next = prev.map((q) =>
         q.id === id
           ? { ...q, progress: Math.min(q.progress + step, q.need) }
           : q
-      )
-    );
+      );
+      questsRef.current = next;
+      return next;
+    });
+  };
+
+  const incrementQuestMetric = (metric: QuestMetric, step = 1) => {
+    reconcileQuestCycles("cycle_reconcile");
+    setQuests((prev) => {
+      const next = applyQuestMetricProgress(prev, metric, step);
+      questsRef.current = next;
+      return next;
+    });
   };
 
   const claimQuest = (id: string) => {
     reconcileQuestCycles("cycle_reconcile");
-    setQuests((prev) =>
-      prev.map((q) => {
+    setQuests((prev) => {
+      const next = prev.map((q) => {
         if (q.id === id && q.progress >= q.need && !q.claimed) {
           addXp(q.rewardXp);
           addGems(10); // Also award 10 gems for quest completion
           return { ...q, claimed: true, chestState: "opening" as const };
         }
         return q;
-      })
-    );
+      });
+      questsRef.current = next;
+      return next;
+    });
 
     setTimeout(() => {
-      setQuests((prev) =>
-        prev.map((q) => (q.id === id ? { ...q, chestState: "opened" as const } : q))
-      );
+      setQuests((prev) => {
+        const next = prev.map((q) => (q.id === id ? { ...q, chestState: "opened" as const } : q));
+        questsRef.current = next;
+        return next;
+      });
     }, 1200);
   };
 
@@ -1877,6 +2145,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     quests,
     hasPendingDailyQuests,
     incrementQuest,
+    incrementQuestMetric,
     claimQuest,
     badgeToastQueue,
     consumeNextBadgeToast,

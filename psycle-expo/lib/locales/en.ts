@@ -388,6 +388,21 @@ export const en = {
         monthly: 'Monthly Quests',
         daily: 'Daily Quests',
         weekly: 'Weekly Quests',
+        templates: {
+            daily: {
+                lessons2: 'Complete 2 lessons',
+                lessons3: 'Complete 3 lessons',
+                lessons5: 'Complete 5 lessons',
+                streak5x1: 'Hit one 5-correct streak',
+                streak5x2: 'Hit two 5-correct streaks',
+            },
+            weekly: {
+                lessons8: 'Complete 8 lessons this week',
+                lessons10: 'Complete 10 lessons this week',
+                lessons15: 'Complete 15 lessons this week',
+                streak5x5: 'Hit five 5-correct streaks',
+            },
+        },
     },
     lessonScreen: {
         lessonNotFound: 'Lesson not found',
