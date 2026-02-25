@@ -36,6 +36,11 @@ export const en = {
                 name: 'Streak Freeze',
                 desc: 'Protects your streak for one day',
             },
+            energyFullRefill: {
+                name: 'Full Energy Refill',
+                desc: 'Refill energy to max (once per day)',
+                remainingToday: 'Remaining today: %{count}',
+            },
             doubleXP: {
                 name: 'Double XP Boost',
                 desc: 'Double XP for 15 minutes',
@@ -52,6 +57,10 @@ export const en = {
             openCheckoutFailed: 'Could not open the checkout page',
             checkoutSessionFailed: 'Failed to create checkout session',
             checkoutProcessFailed: 'An error occurred during checkout',
+            energyRefillLimitReached: 'Daily refill limit reached.',
+            energyAlreadyFull: 'Energy is already full.',
+            energyRefillSubscriptionUnnecessary: 'Refill purchase is unavailable while subscribed.',
+            energyRefillDisabled: 'This item is currently unavailable.',
         },
         energyStatus: {
             title: 'Energy status',

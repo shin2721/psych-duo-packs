@@ -35,6 +35,27 @@ export interface StreakMilestonesConfig {
     rewards: StreakMilestoneReward[];
 }
 
+export interface ComboXpMilestone {
+    streak: number;
+    multiplier: number;
+}
+
+export interface ComboXpConfig {
+    enabled: boolean;
+    milestones: ComboXpMilestone[];
+    bonus_cap_per_lesson: number;
+}
+
+export interface EnergyFullRefillSinkConfig {
+    enabled: boolean;
+    cost_gems: number;
+    daily_limit: number;
+}
+
+export interface ShopSinksConfig {
+    energy_full_refill: EnergyFullRefillSinkConfig;
+}
+
 export interface NotificationsConfig {
     streak_risk_hour: number;
     daily_quest_deadline_hour: number;
@@ -48,6 +69,8 @@ export interface GamificationConfig {
     freeze: FreezeConfig;
     streak: StreakConfig;
     streak_milestones: StreakMilestonesConfig;
+    combo_xp: ComboXpConfig;
+    shop_sinks: ShopSinksConfig;
     notifications: NotificationsConfig;
 }
 
@@ -75,6 +98,22 @@ const DEFAULT_CONFIG: GamificationConfig = {
             { day: 30, gems: 20 },
         ],
     },
+    combo_xp: {
+        enabled: true,
+        milestones: [
+            { streak: 3, multiplier: 1.2 },
+            { streak: 5, multiplier: 1.5 },
+            { streak: 10, multiplier: 2.0 },
+        ],
+        bonus_cap_per_lesson: 20,
+    },
+    shop_sinks: {
+        energy_full_refill: {
+            enabled: true,
+            cost_gems: 30,
+            daily_limit: 1,
+        },
+    },
     notifications: {
         streak_risk_hour: 22,
         daily_quest_deadline_hour: 21,
@@ -97,6 +136,21 @@ function loadConfig(): GamificationConfig {
                 rewards: Array.isArray(configData.streak_milestones?.rewards)
                     ? configData.streak_milestones.rewards
                     : DEFAULT_CONFIG.streak_milestones.rewards,
+            },
+            combo_xp: {
+                ...DEFAULT_CONFIG.combo_xp,
+                ...configData.combo_xp,
+                milestones: Array.isArray(configData.combo_xp?.milestones)
+                    ? configData.combo_xp.milestones
+                    : DEFAULT_CONFIG.combo_xp.milestones,
+            },
+            shop_sinks: {
+                ...DEFAULT_CONFIG.shop_sinks,
+                ...configData.shop_sinks,
+                energy_full_refill: {
+                    ...DEFAULT_CONFIG.shop_sinks.energy_full_refill,
+                    ...configData.shop_sinks?.energy_full_refill,
+                },
             },
             notifications: { ...DEFAULT_CONFIG.notifications, ...configData.notifications },
         };
@@ -124,6 +178,14 @@ export function getStreakConfig(): StreakConfig {
 
 export function getStreakMilestonesConfig(): StreakMilestonesConfig {
     return gamificationConfig.streak_milestones;
+}
+
+export function getComboXpConfig(): ComboXpConfig {
+    return gamificationConfig.combo_xp;
+}
+
+export function getShopSinksConfig(): ShopSinksConfig {
+    return gamificationConfig.shop_sinks;
 }
 
 export function getNotificationsConfig(): NotificationsConfig {

@@ -15,7 +15,7 @@ import {
   type StreakRepairOffer,
 } from "./streakRepair";
 import { consumeNextBadgeToastItem, enqueueBadgeToastIds } from "./badgeToastQueue";
-import { getStreakMilestonesConfig } from "./gamificationConfig";
+import { getShopSinksConfig, getStreakMilestonesConfig } from "./gamificationConfig";
 import {
   getClaimableStreakMilestone,
   normalizeClaimedMilestones,
@@ -42,6 +42,10 @@ import { Analytics } from "./analytics";
 import type { PlanId } from "./types/plan";
 import entitlements from "../config/entitlements.json";
 import { getEffectiveFreeEnergyCap } from "./energyPolicy";
+import {
+  evaluateEnergyFullRefillPurchase,
+  type EnergyFullRefillFailureReason,
+} from "./energyFullRefill";
 
 interface EntitlementsConfig {
   plans?: {
@@ -106,6 +110,7 @@ const ENERGY_STREAK_BONUS_DAILY_CAP = normalizePositiveInt(
 );
 const ENERGY_REFILL_MS = ENERGY_REFILL_MINUTES * 60 * 1000;
 const streakMilestonesConfig = getStreakMilestonesConfig();
+const shopSinksConfig = getShopSinksConfig();
 
 function isTrackedStreakMilestoneDay(day: number): day is 3 | 7 | 30 {
   return day === 3 || day === 7 || day === 30;
@@ -196,6 +201,10 @@ interface AppState {
   setGemsDirectly: (amount: number) => void;
   spendGems: (amount: number) => boolean;
   buyFreeze: () => boolean;
+  buyEnergyFullRefill: () => {
+    success: boolean;
+    reason?: EnergyFullRefillFailureReason;
+  };
   // Double XP Boost
   doubleXpEndTime: number | null;
   buyDoubleXP: () => boolean;
@@ -213,6 +222,7 @@ interface AppState {
   tryTriggerStreakEnergyBonus: (correctStreak: number) => boolean;
   energyRefillMinutes: number;
   dailyEnergyBonusRemaining: number;
+  dailyEnergyRefillRemaining: number;
   lastEnergyUpdateTime: number | null;
   // Plan & Entitlements
   planId: PlanId;
@@ -606,6 +616,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [lastEnergyUpdateTime, setLastEnergyUpdateTime] = useState<number | null>(null);
   const [dailyEnergyBonusDate, setDailyEnergyBonusDate] = useState(getTodayDate());
   const [dailyEnergyBonusCount, setDailyEnergyBonusCount] = useState(0);
+  const [dailyEnergyRefillDate, setDailyEnergyRefillDate] = useState(getTodayDate());
+  const [dailyEnergyRefillCount, setDailyEnergyRefillCount] = useState(0);
   const [firstLaunchAtMs, setFirstLaunchAtMs] = useState<number | null>(null);
 
   // Load persisted state on mount (LOCAL FIRST, then Supabase sync in background)
@@ -637,6 +649,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyUpdateTime,
           savedEnergyBonusDate,
           savedEnergyBonusCount,
+          savedEnergyRefillDate,
+          savedEnergyRefillCount,
           savedMistakes,
           savedFirstLaunchAt,
           savedFirstDayBonusTracked,
@@ -652,6 +666,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`energy_update_time_${user.id}`),
           AsyncStorage.getItem(`energy_bonus_date_${user.id}`),
           AsyncStorage.getItem(`energy_bonus_count_${user.id}`),
+          AsyncStorage.getItem(`energy_refill_date_${user.id}`),
+          AsyncStorage.getItem(`energy_refill_count_${user.id}`),
           AsyncStorage.getItem(`mistakes_${user.id}`),
           AsyncStorage.getItem(`first_launch_at_${user.id}`),
           AsyncStorage.getItem(`first_day_energy_bonus_tracked_${user.id}`),
@@ -731,6 +747,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         if (savedEnergyBonusCount) {
           const parsedEnergyBonusCount = parseInt(savedEnergyBonusCount, 10);
           if (!Number.isNaN(parsedEnergyBonusCount)) setDailyEnergyBonusCount(parsedEnergyBonusCount);
+        }
+        if (savedEnergyRefillDate) {
+          setDailyEnergyRefillDate(savedEnergyRefillDate);
+        }
+        if (savedEnergyRefillCount) {
+          const parsedEnergyRefillCount = parseInt(savedEnergyRefillCount, 10);
+          if (!Number.isNaN(parsedEnergyRefillCount)) setDailyEnergyRefillCount(parsedEnergyRefillCount);
         }
         const initializeFirstLaunch = async () => {
           const firstLaunchAt = Date.now();
@@ -832,6 +855,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyUpdateTime,
           savedEnergyBonusDate,
           savedEnergyBonusCount,
+          savedEnergyRefillDate,
+          savedEnergyRefillCount,
           savedFirstLaunchAt,
           savedStreakRepairOffer,
           savedClaimedStreakMilestones,
@@ -960,6 +985,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [dailyEnergyBonusCount, user, isStateHydrated]);
 
   useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(`energy_refill_date_${user.id}`, dailyEnergyRefillDate);
+  }, [dailyEnergyRefillDate, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(`energy_refill_count_${user.id}`, dailyEnergyRefillCount.toString());
+  }, [dailyEnergyRefillCount, user, isStateHydrated]);
+
+  useEffect(() => {
     if (!user || !isStateHydrated || firstLaunchAtMs === null) return;
     AsyncStorage.setItem(`first_launch_at_${user.id}`, firstLaunchAtMs.toString());
   }, [firstLaunchAtMs, user, isStateHydrated]);
@@ -1047,6 +1082,20 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const interval = setInterval(resetBonusIfNeeded, 60000);
     return () => clearInterval(interval);
   }, [dailyEnergyBonusDate]);
+
+  useEffect(() => {
+    const resetEnergyRefillIfNeeded = () => {
+      const today = getTodayDate();
+      if (dailyEnergyRefillDate !== today) {
+        setDailyEnergyRefillDate(today);
+        setDailyEnergyRefillCount(0);
+      }
+    };
+
+    resetEnergyRefillIfNeeded();
+    const interval = setInterval(resetEnergyRefillIfNeeded, 60000);
+    return () => clearInterval(interval);
+  }, [dailyEnergyRefillDate]);
 
   // Update streak when studying
   const updateStreak = () => {
@@ -1308,6 +1357,52 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return false;
   };
 
+  const buyEnergyFullRefill = (): {
+    success: boolean;
+    reason?: EnergyFullRefillFailureReason;
+  } => {
+    const config = shopSinksConfig.energy_full_refill;
+    const today = getTodayDate();
+    const currentRefillCount = dailyEnergyRefillDate === today ? dailyEnergyRefillCount : 0;
+
+    const result = evaluateEnergyFullRefillPurchase({
+      enabled: config.enabled,
+      isSubscriptionActive,
+      energy,
+      maxEnergy,
+      dailyCount: currentRefillCount,
+      dailyLimit: config.daily_limit,
+      gems,
+      costGems: config.cost_gems,
+    });
+
+    if (!result.success) {
+      return { success: false, reason: result.reason };
+    }
+
+    const gemsBefore = gems;
+    const energyBefore = energy;
+    const nextGems = gemsBefore - config.cost_gems;
+    const nextDailyCount = currentRefillCount + 1;
+
+    setGems(nextGems);
+    setEnergy(maxEnergy);
+    setLastEnergyUpdateTime(null);
+    setDailyEnergyRefillDate(today);
+    setDailyEnergyRefillCount(nextDailyCount);
+
+    Analytics.track("energy_full_refill_purchased", {
+      costGems: config.cost_gems,
+      gemsBefore,
+      gemsAfter: nextGems,
+      energyBefore,
+      energyAfter: maxEnergy,
+      dailyCountAfter: nextDailyCount,
+    });
+
+    return { success: true };
+  };
+
   const buyDoubleXP = (): boolean => {
     const cost = 20; // 20 gems for 15 minutes of double XP
     if (spendGems(cost)) {
@@ -1460,6 +1555,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const usedCount = dailyEnergyBonusDate === today ? dailyEnergyBonusCount : 0;
     return Math.max(0, ENERGY_STREAK_BONUS_DAILY_CAP - usedCount);
   })();
+  const dailyEnergyRefillRemaining = (() => {
+    const config = shopSinksConfig.energy_full_refill;
+    if (!config.enabled || isSubscriptionActive) return 0;
+    const today = getTodayDate();
+    const usedCount = dailyEnergyRefillDate === today ? dailyEnergyRefillCount : 0;
+    return Math.max(0, config.daily_limit - usedCount);
+  })();
 
   const hasProAccess = hasProItemAccess(planId);
   const canAccessMistakesHub = canUseMistakesHub(userId, planId);
@@ -1572,6 +1674,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setGemsDirectly,
     spendGems,
     buyFreeze,
+    buyEnergyFullRefill,
     buyDoubleXP,
     isDoubleXpActive,
     doubleXpEndTime,
@@ -1586,6 +1689,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     tryTriggerStreakEnergyBonus,
     energyRefillMinutes,
     dailyEnergyBonusRemaining,
+    dailyEnergyRefillRemaining,
     lastEnergyUpdateTime,
     planId,
     setPlanId,

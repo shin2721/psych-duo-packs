@@ -200,6 +200,20 @@ export type ComboMilestoneShownEvent = {
   };
 };
 
+export type ComboXpBonusAppliedEvent = {
+  name: 'combo_xp_bonus_applied';
+  properties: {
+    lessonId: string;
+    questionId: string;
+    streak: number;
+    baseXp: number;
+    bonusXp: number;
+    multiplier: number;
+    usedBonusXp: number;
+    capBonusXp: number;
+  };
+};
+
 export type FeltBetterXpAwardedEvent = {
   name: 'felt_better_xp_awarded';
   properties: {
@@ -207,6 +221,18 @@ export type FeltBetterXpAwardedEvent = {
     interventionId: string;
     feltBetterValue: -2 | -1 | 0 | 1 | 2;
     xpAwarded: number;
+  };
+};
+
+export type EnergyFullRefillPurchasedEvent = {
+  name: 'energy_full_refill_purchased';
+  properties: {
+    costGems: number;
+    gemsBefore: number;
+    gemsAfter: number;
+    energyBefore: number;
+    energyAfter: number;
+    dailyCountAfter: number;
   };
 };
 
@@ -259,7 +285,9 @@ export type TrackedEvent =
   | StreakRepairPurchasedEvent
   | StreakRepairExpiredEvent
   | ComboMilestoneShownEvent
+  | ComboXpBonusAppliedEvent
   | FeltBetterXpAwardedEvent
+  | EnergyFullRefillPurchasedEvent
   | BadgeUnlockedEvent
   | QuestCycleResetEvent
   | StreakMilestoneRewardedEvent;

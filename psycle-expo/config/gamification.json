@@ -21,6 +21,22 @@
             { "day": 30, "gems": 20 }
         ]
     },
+    "combo_xp": {
+        "enabled": true,
+        "milestones": [
+            { "streak": 3, "multiplier": 1.2 },
+            { "streak": 5, "multiplier": 1.5 },
+            { "streak": 10, "multiplier": 2.0 }
+        ],
+        "bonus_cap_per_lesson": 20
+    },
+    "shop_sinks": {
+        "energy_full_refill": {
+            "enabled": true,
+            "cost_gems": 30,
+            "daily_limit": 1
+        }
+    },
     "notifications": {
         "streak_risk_hour": 22,
         "daily_quest_deadline_hour": 21,

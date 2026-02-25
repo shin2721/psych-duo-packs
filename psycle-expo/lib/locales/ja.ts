@@ -36,6 +36,11 @@ export const ja = {
                 name: '連続フリーズ',
                 desc: '連続記録を1日守ります',
             },
+            energyFullRefill: {
+                name: 'エナジー全回復',
+                desc: 'エナジーを最大まで回復（1日1回）',
+                remainingToday: '本日残り: %{count}回',
+            },
             doubleXP: {
                 name: 'ダブルXPブースト',
                 desc: '15分間、獲得XPが2倍になります',
@@ -52,6 +57,10 @@ export const ja = {
             openCheckoutFailed: '決済ページを開けませんでした',
             checkoutSessionFailed: '決済セッションの作成に失敗しました',
             checkoutProcessFailed: '決済処理中にエラーが発生しました',
+            energyRefillLimitReached: '本日の全回復回数に達しました。',
+            energyAlreadyFull: 'エナジーはすでに満タンです。',
+            energyRefillSubscriptionUnnecessary: 'サブスク利用中は全回復を購入できません。',
+            energyRefillDisabled: '現在このアイテムは利用できません。',
         },
         energyStatus: {
             title: 'エネルギー状況',

@@ -24,6 +24,8 @@ import i18n from "../lib/i18n";
 import entitlements from "../config/entitlements.json";
 import { useAuth } from "../lib/AuthContext";
 import { syncDailyReminders } from "../lib/notifications";
+import { getComboXpConfig } from "../lib/gamificationConfig";
+import { computeComboBonusXp } from "../lib/comboXp";
 import {
   getLessonCompletionQuestIncrements,
   getStreakQuestIncrement,
@@ -49,6 +51,7 @@ const FIRST_SESSION_LESSON_SIZE = normalizePositiveInt(
   lessonDefaults.defaults?.first_session_lesson_size,
   Math.min(5, DEFAULT_LESSON_SIZE)
 );
+const comboXpConfig = getComboXpConfig();
 
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
@@ -83,6 +86,7 @@ export default function LessonScreen() {
   const hasLoadedRef = useRef<string | null>(null);
   const lessonStartTrackedRef = useRef<string | null>(null); // lesson_start多重発火防止
   const lessonCompleteTrackedRef = useRef<string | null>(null); // lesson_complete多重発火防止
+  const usedComboBonusXpRef = useRef(0); // レッスン単位のコンボ追加XP累積
   const listSeparator = i18n.locale.startsWith("ja") ? "、" : ", ";
 
   useEffect(() => {
@@ -169,6 +173,7 @@ export default function LessonScreen() {
           shouldShortenFirstSession ? "(first-session shortened)" : ""
         );
       }
+      usedComboBonusXpRef.current = 0;
       setCurrentLesson(lesson);
       setOriginalQuestions(effectiveQuestions);
       setQuestions(effectiveQuestions);
@@ -223,7 +228,7 @@ export default function LessonScreen() {
     }
   }, [currentQuestion?.source_id, currentQuestion?.id]);
 
-  async function handleAnswer(isCorrect: boolean, xp: number) {
+  async function handleAnswer(isCorrect: boolean, _xp: number) {
     const questionInHandler = questions[currentIndex];
     const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
 
@@ -248,9 +253,33 @@ export default function LessonScreen() {
     }
 
     if (isCorrect) {
+      const baseXp = XP_REWARDS.CORRECT_ANSWER;
       setCorrectCount(prev => prev + 1);
       const nextStreak = correctStreak + 1;
       setCorrectStreak(nextStreak);
+
+      const comboBonus = computeComboBonusXp({
+        baseXp,
+        streak: nextStreak,
+        usedBonusXp: usedComboBonusXpRef.current,
+        cap: comboXpConfig.bonus_cap_per_lesson,
+        config: comboXpConfig,
+      });
+      usedComboBonusXpRef.current = comboBonus.nextUsedBonusXp;
+      addXp(baseXp + comboBonus.bonusXp);
+
+      if (comboBonus.bonusXp > 0) {
+        Analytics.track("combo_xp_bonus_applied", {
+          lessonId: params.file,
+          questionId: questionInHandler?.id || `unknown_${currentIndex}`,
+          streak: nextStreak,
+          baseXp,
+          bonusXp: comboBonus.bonusXp,
+          multiplier: comboBonus.multiplier,
+          usedBonusXp: comboBonus.nextUsedBonusXp,
+          capBonusXp: comboXpConfig.bonus_cap_per_lesson,
+        });
+      }
 
       const streakQuestIncrement = getStreakQuestIncrement(nextStreak);
       if (streakQuestIncrement) {
@@ -285,7 +314,6 @@ export default function LessonScreen() {
       // Lesson complete
       completeLesson(params.file);
       await markFirstLessonComplete();
-      addXp(currentLesson?.nodeType === 'review_blackhole' ? 50 : 10); // Bonus XP or standard
       for (const questIncrement of getLessonCompletionQuestIncrements()) {
         incrementQuest(questIncrement.id, questIncrement.step);
       }
@@ -330,7 +358,7 @@ export default function LessonScreen() {
         <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
           <ScrollView contentContainerStyle={styles.completionContainer}>
             <Text style={styles.completionTitle}>{i18n.t("lesson.completeTitle")}</Text>
-            <Text style={styles.completionSub}>+{currentLesson?.nodeType === 'review_blackhole' ? 50 : 10} XP</Text>
+            <Text style={styles.completionSub}>+{XP_REWARDS.LESSON_COMPLETE} XP</Text>
 
             {/* Felt Better Rating */}
             {!feltBetterSubmitted && lastShownInterventionId && (

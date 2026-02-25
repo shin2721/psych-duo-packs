@@ -8,9 +8,11 @@ import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { PLANS, getSupabaseFunctionsUrl, type PlanConfig } from "../../lib/plans";
 import { getPlanPrice } from "../../lib/pricing";
+import { getShopSinksConfig } from "../../lib/gamificationConfig";
 import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
 import { Analytics } from "../../lib/analytics";
+import type { EnergyFullRefillFailureReason } from "../../lib/energyFullRefill";
 
 // import { Firefly } from "../../components/Firefly"; // TODO: Re-enable after native rebuild
 
@@ -21,13 +23,14 @@ interface ShopItem {
   price: number;
   icon: keyof typeof Ionicons.glyphMap;
   customIcon?: React.ReactNode;
-  action: () => boolean;
+  action: () => boolean | { success: boolean; reason?: EnergyFullRefillFailureReason };
 }
 
 export default function ShopScreen() {
   const {
     gems,
     buyFreeze,
+    buyEnergyFullRefill,
     freezeCount,
     planId,
     isSubscriptionActive,
@@ -40,6 +43,7 @@ export default function ShopScreen() {
     lastEnergyUpdateTime,
     energyRefillMinutes,
     dailyEnergyBonusRemaining,
+    dailyEnergyRefillRemaining,
   } = useAppState();
   const { user } = useAuth();
   const [justPurchased, setJustPurchased] = useState<string | null>(null);
@@ -57,6 +61,7 @@ export default function ShopScreen() {
   };
   const languageCode = String(i18n.locale || "ja").split("-")[0];
   const dateLocale = dateLocaleByLanguage[languageCode];
+  const energyFullRefillConfig = getShopSinksConfig().energy_full_refill;
 
   useEffect(() => {
     const interval = setInterval(() => setNowTs(Date.now()), 60000);
@@ -74,13 +79,36 @@ export default function ShopScreen() {
   })();
 
   const handlePurchase = (item: ShopItem) => {
-    const success = item.action();
-    if (success) {
+    const rawResult = item.action();
+    const result =
+      typeof rawResult === "boolean"
+        ? {
+          success: rawResult,
+          reason: rawResult ? undefined : ("insufficient_gems" as EnergyFullRefillFailureReason),
+        }
+        : rawResult;
+
+    if (result.success) {
       setJustPurchased(item.id);
       setTimeout(() => setJustPurchased(null), 2000);
       Alert.alert(i18n.t('common.ok'), `${item.name}`);
     } else {
-      Alert.alert(i18n.t('common.error'), i18n.t("shop.errors.notEnoughGems"));
+      const message = (() => {
+        switch (result.reason) {
+          case "limit_reached":
+            return i18n.t("shop.errors.energyRefillLimitReached");
+          case "already_full":
+            return i18n.t("shop.errors.energyAlreadyFull");
+          case "subscription_unnecessary":
+            return i18n.t("shop.errors.energyRefillSubscriptionUnnecessary");
+          case "disabled":
+            return i18n.t("shop.errors.energyRefillDisabled");
+          case "insufficient_gems":
+          default:
+            return i18n.t("shop.errors.notEnoughGems");
+        }
+      })();
+      Alert.alert(i18n.t('common.error'), message);
     }
   };
 
@@ -205,6 +233,18 @@ export default function ShopScreen() {
       action: buyDoubleXP,
     },
   ];
+
+  if (energyFullRefillConfig.enabled) {
+    shopItems.push({
+      id: "energy_full_refill",
+      name: i18n.t("shop.items.energyFullRefill.name"),
+      description: i18n.t("shop.items.energyFullRefill.desc"),
+      price: energyFullRefillConfig.cost_gems,
+      icon: "battery-charging-outline",
+      customIcon: <EnergyIcon size={36} />,
+      action: buyEnergyFullRefill,
+    });
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -345,6 +385,11 @@ export default function ShopScreen() {
               {item.id === "freeze" && (
                 <Text style={styles.itemOwned}>
                   {i18n.t("shop.items.ownedCount", { count: freezeCount })}
+                </Text>
+              )}
+              {item.id === "energy_full_refill" && (
+                <Text style={styles.itemOwned}>
+                  {i18n.t("shop.items.energyFullRefill.remainingToday", { count: dailyEnergyRefillRemaining })}
                 </Text>
               )}
             </View>
