@@ -264,6 +264,34 @@ export type StreakMilestoneRewardedEvent = {
   };
 };
 
+export type ComebackRewardOfferedEvent = {
+  name: 'comeback_reward_offered';
+  properties: {
+    daysSinceStudy: number;
+    rewardEnergy: number;
+    thresholdDays: number;
+    source: 'streak_update';
+  };
+};
+
+export type ComebackRewardClaimedEvent = {
+  name: 'comeback_reward_claimed';
+  properties: {
+    rewardEnergy: number;
+    daysSinceStudy: number;
+    source: 'lesson_complete';
+  };
+};
+
+export type ComebackRewardExpiredEvent = {
+  name: 'comeback_reward_expired';
+  properties: {
+    daysSinceStudy: number;
+    expiredAt: string;
+    source: 'offer_expiry';
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -290,4 +318,7 @@ export type TrackedEvent =
   | EnergyFullRefillPurchasedEvent
   | BadgeUnlockedEvent
   | QuestCycleResetEvent
-  | StreakMilestoneRewardedEvent;
+  | StreakMilestoneRewardedEvent
+  | ComebackRewardOfferedEvent
+  | ComebackRewardClaimedEvent
+  | ComebackRewardExpiredEvent;

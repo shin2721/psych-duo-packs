@@ -65,6 +65,7 @@ export default function LessonScreen() {
     consumeEnergy,
     lessonEnergyCost,
     tryTriggerStreakEnergyBonus,
+    claimComebackRewardOnLessonComplete,
     energy,
     maxEnergy,
   } = useAppState();
@@ -321,6 +322,7 @@ export default function LessonScreen() {
       // ゲーミフィケーション: Study Streak + XP
       await recordStudyCompletion();
       await addXP(XP_REWARDS.LESSON_COMPLETE);
+      claimComebackRewardOnLessonComplete();
 
       if (user?.id) {
         const hasPendingDailyQuests = quests.some(

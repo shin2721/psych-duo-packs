@@ -8,6 +8,7 @@ export const en = {
         ok: 'OK',
         badgeUnlocked: 'Badge unlocked: %{badgeName}',
         streakMilestoneRewarded: 'Streak day %{day} reached: +%{gems} Gems',
+        comebackRewardClaimed: 'Welcome-back reward: +%{energy} Energy',
     },
     shop: {
         title: 'Shop',
@@ -291,6 +292,11 @@ export const en = {
             cta: 'Restore',
             expired: 'This repair offer has expired.',
             insufficientGems: 'You need more Gems to restore your streak.',
+        },
+        comebackReward: {
+            title: 'Welcome Back Bonus',
+            body: 'You are back after %{days} days. Finish your first lesson today to earn +%{energy} Energy.',
+            cta: 'Resume now',
         },
     },
     planSelector: {

@@ -106,6 +106,8 @@ function GamificationToastBridge() {
     consumeNextBadgeToast,
     streakMilestoneToastQueue,
     consumeNextStreakMilestoneToast,
+    comebackRewardToastQueue,
+    consumeNextComebackRewardToast,
   } = useAppState();
   const [message, setMessage] = useState<string | null>(null);
 
@@ -133,13 +135,29 @@ function GamificationToastBridge() {
           })
         )
       );
+      return;
+    }
+
+    if (comebackRewardToastQueue.length > 0) {
+      const toastItem = consumeNextComebackRewardToast();
+      if (!toastItem) return;
+
+      setMessage(
+        String(
+          i18n.t("common.comebackRewardClaimed", {
+            energy: toastItem.rewardEnergy,
+          })
+        )
+      );
     }
   }, [
     badgeToastQueue,
     streakMilestoneToastQueue,
+    comebackRewardToastQueue,
     message,
     consumeNextBadgeToast,
     consumeNextStreakMilestoneToast,
+    consumeNextComebackRewardToast,
   ]);
 
   useEffect(() => {

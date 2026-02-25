@@ -8,6 +8,7 @@ export const ja = {
         ok: 'OK',
         badgeUnlocked: 'バッジ獲得: %{badgeName}',
         streakMilestoneRewarded: '連続%{day}日達成: +%{gems} Gems',
+        comebackRewardClaimed: 'おかえり報酬: +%{energy} Energy',
     },
     shop: {
         title: 'ショップ',
@@ -291,6 +292,11 @@ export const ja = {
             cta: '復元する',
             expired: 'この復元オファーは期限切れです。',
             insufficientGems: '復元に必要なGemsが足りません。',
+        },
+        comebackReward: {
+            title: 'おかえりボーナス',
+            body: '%{days}日ぶりの復帰です。今日の初回レッスン完了で +%{energy} Energy',
+            cta: '今すぐ再開',
         },
     },
     planSelector: {

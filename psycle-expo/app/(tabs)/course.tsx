@@ -29,7 +29,28 @@ const GENRE_COLORS: Record<string, string> = {
 };
 
 export default function CourseScreen() {
-  const { selectedGenre, setSelectedGenre, addXp, incrementQuest, streak, dailyXP, dailyGoal, freezeCount, gems, completedLessons, skill, xp, purchasedPacks, purchasePack, mistakes, addGems, setGemsDirectly, streakRepairOffer, purchaseStreakRepair } = useAppState();
+  const {
+    selectedGenre,
+    setSelectedGenre,
+    addXp,
+    incrementQuest,
+    streak,
+    dailyXP,
+    dailyGoal,
+    freezeCount,
+    gems,
+    completedLessons,
+    skill,
+    xp,
+    purchasedPacks,
+    purchasePack,
+    mistakes,
+    addGems,
+    setGemsDirectly,
+    streakRepairOffer,
+    purchaseStreakRepair,
+    comebackRewardOffer,
+  } = useAppState();
   const { user } = useAuth();
   const [modalNode, setModalNode] = useState<any>(null);
   const [paywallVisible, setPaywallVisible] = useState(false);
@@ -112,6 +133,28 @@ export default function CourseScreen() {
   const streakRepairRemainingHours = activeStreakRepairOffer
     ? Math.max(1, Math.ceil((activeStreakRepairOffer.expiresAtMs - Date.now()) / (60 * 60 * 1000)))
     : null;
+  const activeComebackRewardOffer = !activeStreakRepairOffer &&
+    comebackRewardOffer?.active &&
+    comebackRewardOffer.expiresAtMs > Date.now()
+    ? comebackRewardOffer
+    : null;
+
+  const handleStartComebackLesson = () => {
+    const startableNode = currentTrail.find(
+      (node) => node.status === "current" && !node.isLocked && !!node.lessonFile
+    );
+
+    if (startableNode?.lessonFile) {
+      router.replace(`/lesson?file=${startableNode.lessonFile}&genre=${selectedGenre}`);
+      return;
+    }
+
+    const fallbackNode = currentTrail.find((node) => node.status === "current" && !!node.lessonFile)
+      ?? currentTrail.find((node) => !!node.lessonFile);
+    if (fallbackNode) {
+      setModalNode(fallbackNode.id);
+    }
+  };
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
@@ -151,6 +194,26 @@ export default function CourseScreen() {
             }}
           >
             <Text style={styles.streakRepairButtonText}>{i18n.t("course.streakRepair.cta")}</Text>
+          </Pressable>
+        </View>
+      )}
+
+      {activeComebackRewardOffer && (
+        <View style={styles.comebackCard}>
+          <View style={styles.comebackTexts}>
+            <Text style={styles.comebackTitle}>{i18n.t("course.comebackReward.title")}</Text>
+            <Text style={styles.comebackBody}>
+              {i18n.t("course.comebackReward.body", {
+                days: activeComebackRewardOffer.daysSinceStudy,
+                energy: activeComebackRewardOffer.rewardEnergy,
+              })}
+            </Text>
+          </View>
+          <Pressable
+            style={styles.comebackButton}
+            onPress={handleStartComebackLesson}
+          >
+            <Text style={styles.comebackButtonText}>{i18n.t("course.comebackReward.cta")}</Text>
           </Pressable>
         </View>
       )}
@@ -259,6 +322,44 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
   },
   streakRepairButtonText: {
+    color: "#fff",
+    fontWeight: "800",
+    fontSize: 12,
+  },
+  comebackCard: {
+    marginHorizontal: 16,
+    marginTop: 12,
+    marginBottom: 6,
+    padding: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: "rgba(34, 197, 94, 0.4)",
+    backgroundColor: "rgba(34, 197, 94, 0.12)",
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+  },
+  comebackTexts: {
+    flex: 1,
+    gap: 4,
+  },
+  comebackTitle: {
+    fontSize: 14,
+    fontWeight: "800",
+    color: "#22c55e",
+  },
+  comebackBody: {
+    fontSize: 12,
+    color: theme.colors.text,
+    lineHeight: 18,
+  },
+  comebackButton: {
+    backgroundColor: "#22c55e",
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+  },
+  comebackButtonText: {
     color: "#fff",
     fontWeight: "800",
     fontSize: 12,

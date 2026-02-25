@@ -26,6 +26,17 @@ import {
   type StreakMilestoneToastItem,
 } from "./streakMilestoneToastQueue";
 import {
+  canClaimComebackReward,
+  createComebackRewardOffer,
+  isComebackOfferExpired,
+  type ComebackRewardOffer,
+} from "./comebackReward";
+import {
+  consumeNextComebackRewardToastItem,
+  enqueueComebackRewardToast,
+  type ComebackRewardToastItem,
+} from "./comebackRewardToastQueue";
+import {
   areQuestCycleKeysEqual,
   getQuestCycleKeys,
   resetQuestsByCycleChange,
@@ -108,6 +119,8 @@ const ENERGY_STREAK_BONUS_DAILY_CAP = normalizePositiveInt(
   entitlementConfig.defaults?.energy_streak_bonus_daily_cap,
   1
 );
+const COMEBACK_REWARD_THRESHOLD_DAYS = 7;
+const COMEBACK_REWARD_ENERGY = 2;
 const ENERGY_REFILL_MS = ENERGY_REFILL_MINUTES * 60 * 1000;
 const streakMilestonesConfig = getStreakMilestonesConfig();
 const shopSinksConfig = getShopSinksConfig();
@@ -195,6 +208,13 @@ interface AppState {
     success: boolean;
     reason?: "no_offer" | "expired" | "insufficient_gems";
   };
+  comebackRewardOffer: ComebackRewardOffer | null;
+  claimComebackRewardOnLessonComplete: () => {
+    awarded: boolean;
+    reason?: "no_offer" | "expired" | "already_claimed" | "subscription_excluded";
+  };
+  comebackRewardToastQueue: ComebackRewardToastItem[];
+  consumeNextComebackRewardToast: () => ComebackRewardToastItem | null;
   // Currency system
   gems: number;
   addGems: (amount: number) => void;
@@ -289,6 +309,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const badgeToastQueueRef = useRef<string[]>([]);
   const [streakMilestoneToastQueue, setStreakMilestoneToastQueue] = useState<StreakMilestoneToastItem[]>([]);
   const streakMilestoneToastQueueRef = useRef<StreakMilestoneToastItem[]>([]);
+  const [comebackRewardToastQueue, setComebackRewardToastQueue] = useState<ComebackRewardToastItem[]>([]);
+  const comebackRewardToastQueueRef = useRef<ComebackRewardToastItem[]>([]);
   const [claimedStreakMilestones, setClaimedStreakMilestones] = useState<number[]>([]);
   const claimedStreakMilestonesRef = useRef<number[]>([]);
 
@@ -299,6 +321,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [streakHistory, setStreakHistory] = useState<{ date: string; xp: number; lessonsCompleted: number }[]>([]);
   const [freezeCount, setFreezeCount] = useState(2); // Start with 2 free freezes
   const [streakRepairOffer, setStreakRepairOffer] = useState<StreakRepairOffer | null>(null);
+  const [comebackRewardOffer, setComebackRewardOffer] = useState<ComebackRewardOffer | null>(null);
 
   // Currency system
   const [gems, setGems] = useState(50); // Start with 50 gems
@@ -534,6 +557,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [streakMilestoneToastQueue]);
 
   useEffect(() => {
+    comebackRewardToastQueueRef.current = comebackRewardToastQueue;
+  }, [comebackRewardToastQueue]);
+
+  useEffect(() => {
     claimedStreakMilestonesRef.current = claimedStreakMilestones;
   }, [claimedStreakMilestones]);
 
@@ -626,10 +653,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       setIsStateHydrated(false);
       setFirstLaunchAtMs(null);
       setStreakRepairOffer(null);
+      setComebackRewardOffer(null);
       setBadgeToastQueue([]);
       setStreakMilestoneToastQueue([]);
+      setComebackRewardToastQueue([]);
       setClaimedStreakMilestones([]);
       setQuestCycleKeys(getQuestCycleKeys());
+      badgeToastQueueRef.current = [];
+      streakMilestoneToastQueueRef.current = [];
+      comebackRewardToastQueueRef.current = [];
+      claimedStreakMilestonesRef.current = [];
       return;
     }
 
@@ -655,6 +688,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedFirstLaunchAt,
           savedFirstDayBonusTracked,
           savedStreakRepairOffer,
+          savedComebackRewardOffer,
           savedClaimedStreakMilestones,
         ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
@@ -672,6 +706,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`first_launch_at_${user.id}`),
           AsyncStorage.getItem(`first_day_energy_bonus_tracked_${user.id}`),
           AsyncStorage.getItem(`streak_repair_offer_${user.id}`),
+          AsyncStorage.getItem(`comeback_reward_offer_${user.id}`),
           AsyncStorage.getItem(`streak_milestones_claimed_${user.id}`),
         ]);
 
@@ -825,6 +860,28 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           setStreakRepairOffer(null);
         }
 
+        if (savedComebackRewardOffer) {
+          try {
+            const parsedOffer = JSON.parse(savedComebackRewardOffer) as ComebackRewardOffer;
+            if (!isComebackOfferExpired(parsedOffer)) {
+              setComebackRewardOffer(parsedOffer);
+            } else {
+              if (parsedOffer?.active) {
+                Analytics.track("comeback_reward_expired", {
+                  daysSinceStudy: parsedOffer.daysSinceStudy,
+                  expiredAt: new Date(parsedOffer.expiresAtMs).toISOString(),
+                  source: "offer_expiry",
+                });
+              }
+              setComebackRewardOffer(null);
+            }
+          } catch {
+            setComebackRewardOffer(null);
+          }
+        } else {
+          setComebackRewardOffer(null);
+        }
+
         if (savedClaimedStreakMilestones) {
           try {
             const parsedClaimedMilestones = JSON.parse(savedClaimedStreakMilestones);
@@ -859,6 +916,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyRefillCount,
           savedFirstLaunchAt,
           savedStreakRepairOffer,
+          savedComebackRewardOffer,
           savedClaimedStreakMilestones,
           freezes: streakData.freezesRemaining,
         });
@@ -1010,6 +1068,15 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (!user || !isStateHydrated) return;
+    if (!comebackRewardOffer) {
+      AsyncStorage.removeItem(`comeback_reward_offer_${user.id}`).catch(() => { });
+      return;
+    }
+    AsyncStorage.setItem(`comeback_reward_offer_${user.id}`, JSON.stringify(comebackRewardOffer));
+  }, [comebackRewardOffer, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(
       `streak_milestones_claimed_${user.id}`,
       JSON.stringify(claimedStreakMilestones)
@@ -1041,11 +1108,65 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [streakRepairOffer]);
 
   useEffect(() => {
+    if (!comebackRewardOffer) return;
+    const nowMs = Date.now();
+    const remainingMs = comebackRewardOffer.expiresAtMs - nowMs;
+
+    if (remainingMs <= 0) {
+      if (comebackRewardOffer.active) {
+        Analytics.track("comeback_reward_expired", {
+          daysSinceStudy: comebackRewardOffer.daysSinceStudy,
+          expiredAt: new Date(comebackRewardOffer.expiresAtMs).toISOString(),
+          source: "offer_expiry",
+        });
+      }
+      setComebackRewardOffer(null);
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setComebackRewardOffer((prev) => {
+        if (!prev) return null;
+        if (prev.active) {
+          Analytics.track("comeback_reward_expired", {
+            daysSinceStudy: prev.daysSinceStudy,
+            expiredAt: new Date(prev.expiresAtMs).toISOString(),
+            source: "offer_expiry",
+          });
+        }
+        return null;
+      });
+    }, remainingMs + 100);
+
+    return () => clearTimeout(timer);
+  }, [comebackRewardOffer]);
+
+  useEffect(() => {
     if (!user || !isStateHydrated) return;
     reconcileQuestCycles("cycle_reconcile");
     const interval = setInterval(() => reconcileQuestCycles("cycle_reconcile"), 60000);
     return () => clearInterval(interval);
   }, [user, isStateHydrated, reconcileQuestCycles]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    const interval = setInterval(() => {
+      setComebackRewardOffer((prev) => {
+        if (!prev) return prev;
+        if (!isComebackOfferExpired(prev)) return prev;
+
+        if (prev.active) {
+          Analytics.track("comeback_reward_expired", {
+            daysSinceStudy: prev.daysSinceStudy,
+            expiredAt: new Date(prev.expiresAtMs).toISOString(),
+            source: "offer_expiry",
+          });
+        }
+        return null;
+      });
+    }, 60000);
+    return () => clearInterval(interval);
+  }, [user, isStateHydrated]);
 
   // Helper: Get today's date in YYYY-MM-DD format
   function getTodayDate(): string {
@@ -1058,6 +1179,36 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const d = new Date();
     d.setDate(d.getDate() - 1);
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
+  }
+
+  function parseDateKey(dateKey: string): Date | null {
+    const matched = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateKey);
+    if (!matched) return null;
+
+    const year = Number(matched[1]);
+    const month = Number(matched[2]);
+    const day = Number(matched[3]);
+    if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) {
+      return null;
+    }
+    if (month < 1 || month > 12 || day < 1 || day > 31) return null;
+
+    const parsed = new Date(year, month - 1, day);
+    if (Number.isNaN(parsed.getTime())) return null;
+    return parsed;
+  }
+
+  function getDaysSinceDate(dateKey: string | null): number {
+    if (!dateKey) return 0;
+    const parsed = parseDateKey(dateKey);
+    if (!parsed) return 0;
+
+    const today = new Date();
+    const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    const parsedStart = new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
+    const diffMs = todayStart.getTime() - parsedStart.getTime();
+    if (diffMs <= 0) return 0;
+    return Math.floor(diffMs / (24 * 60 * 60 * 1000));
   }
 
   // Check and reset daily progress
@@ -1129,6 +1280,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const today = getTodayDate();
     const yesterday = getYesterdayDate();
     const previousStreak = streak;
+    const daysSinceStudy = getDaysSinceDate(lastActivityDate);
 
     if (lastActivityDate === today) {
       // Already updated today
@@ -1162,6 +1314,24 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
     setStreak(newStreak);
     setLastActivityDate(today);
+
+    if (!isSubscriptionActive) {
+      const offer = createComebackRewardOffer({
+        daysSinceStudy,
+        thresholdDays: COMEBACK_REWARD_THRESHOLD_DAYS,
+        rewardEnergy: COMEBACK_REWARD_ENERGY,
+      });
+
+      if (offer) {
+        setComebackRewardOffer(offer);
+        Analytics.track("comeback_reward_offered", {
+          daysSinceStudy: offer.daysSinceStudy,
+          rewardEnergy: offer.rewardEnergy,
+          thresholdDays: COMEBACK_REWARD_THRESHOLD_DAYS,
+          source: "streak_update",
+        });
+      }
+    }
 
     const claimableMilestone = getClaimableStreakMilestone({
       newStreak,
@@ -1329,6 +1499,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return nextToast;
   };
 
+  const consumeNextComebackRewardToast = (): ComebackRewardToastItem | null => {
+    const { nextToast, queue } = consumeNextComebackRewardToastItem(
+      comebackRewardToastQueueRef.current
+    );
+    if (!nextToast) return null;
+    comebackRewardToastQueueRef.current = queue;
+    setComebackRewardToastQueue(queue);
+    return nextToast;
+  };
+
   // Currency methods
   const addGems = (amount: number) => {
     setGems((prev) => prev + amount);
@@ -1458,6 +1638,48 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     });
 
     return { success: true };
+  };
+
+  const claimComebackRewardOnLessonComplete = (): {
+    awarded: boolean;
+    reason?: "no_offer" | "expired" | "already_claimed" | "subscription_excluded";
+  } => {
+    const today = getTodayDate();
+    const claimResult = canClaimComebackReward({
+      offer: comebackRewardOffer,
+      isSubscriptionActive,
+      todayDateKey: today,
+    });
+
+    if (!claimResult.claimable) {
+      if (claimResult.reason === "expired" && comebackRewardOffer) {
+        if (comebackRewardOffer.active) {
+          Analytics.track("comeback_reward_expired", {
+            daysSinceStudy: comebackRewardOffer.daysSinceStudy,
+            expiredAt: new Date(comebackRewardOffer.expiresAtMs).toISOString(),
+            source: "offer_expiry",
+          });
+        }
+        setComebackRewardOffer(null);
+      }
+      return { awarded: false, reason: claimResult.reason };
+    }
+
+    if (!comebackRewardOffer) {
+      return { awarded: false, reason: "no_offer" };
+    }
+
+    addEnergy(comebackRewardOffer.rewardEnergy);
+    setComebackRewardOffer({ ...comebackRewardOffer, active: false });
+    setComebackRewardToastQueue((prev) =>
+      enqueueComebackRewardToast(prev, { rewardEnergy: comebackRewardOffer.rewardEnergy })
+    );
+    Analytics.track("comeback_reward_claimed", {
+      rewardEnergy: comebackRewardOffer.rewardEnergy,
+      daysSinceStudy: comebackRewardOffer.daysSinceStudy,
+      source: "lesson_complete",
+    });
+    return { awarded: true };
   };
 
   const setDailyGoal = (xp: number) => {
@@ -1660,6 +1882,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     consumeNextBadgeToast,
     streakMilestoneToastQueue,
     consumeNextStreakMilestoneToast,
+    comebackRewardToastQueue,
+    consumeNextComebackRewardToast,
     streak,
     lastStudyDate,
     lastActivityDate,
@@ -1669,6 +1893,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     useFreeze,
     streakRepairOffer,
     purchaseStreakRepair,
+    comebackRewardOffer,
+    claimComebackRewardOnLessonComplete,
     gems,
     addGems,
     setGemsDirectly,
