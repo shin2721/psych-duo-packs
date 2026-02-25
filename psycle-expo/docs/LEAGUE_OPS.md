@@ -48,6 +48,15 @@ supabase functions deploy settle-league-week
    - `lesson` < 3回：表示されないこと。
    - `lesson` >= 3回：**刺さったタイミングで** 表示されること。
 
+5. **初回XP獲得時のリーグ自動参加**
+   - Leaderboardを開かなくても、初回XP加算で `league_members` が作成されること。
+   - `league_auto_joined_on_xp` が発火し、`joinedNow=true` が確認できること。
+
+6. **tier継承（前週結果反映）**
+   - `promoted=true` のユーザーは次週 `tier+1` で参加すること。
+   - `demoted=true` のユーザーは次週 `tier-1` で参加すること。
+   - 範囲外（<0, >5）に出ないこと。
+
 ---
 
 ## 3. 本番設定（Cron）
@@ -81,6 +90,10 @@ curl -X POST \
 2. **weekly_xp の分布**
    - 0のユーザーが多すぎないか？（XP加算漏れの検知 / 導線の弱さ）
    - `SELECT weekly_xp, count(*) FROM league_members GROUP BY weekly_xp ORDER BY weekly_xp;`
+
+2.5 **マッチング品質（XP proxy）**
+   - `league_matchmaking_applied` の `xpGap` 分布を確認し、極端値（過大ギャップ）が減っているかを監視。
+   - `candidateCount=0` が多すぎる場合はリーグ密度不足を疑う。
 
 3. **昇格/降格の比率**
    - 常に全体の約20%になっているか？

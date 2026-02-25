@@ -5,7 +5,7 @@ import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../lib/AuthContext';
 import { theme } from '../../lib/theme';
 import { TrophyIcon, StreakIcon } from '../../components/CustomIcons';
-import { getMyLeague, LeagueInfo, joinLeague } from '../../lib/league';
+import { ensureJoinedLeagueForCurrentWeek, getMyLeague, LeagueInfo } from '../../lib/league';
 import i18n from '../../lib/i18n';
 
 interface LeaderboardEntry {
@@ -112,7 +112,7 @@ export default function LeaderboardScreen() {
             let info = await getMyLeague(user.id);
             if (!info) {
                 // Not in a league yet, try to join
-                await joinLeague(user.id, 0);
+                await ensureJoinedLeagueForCurrentWeek(user.id);
                 info = await getMyLeague(user.id);
             }
             setLeagueInfo(info);

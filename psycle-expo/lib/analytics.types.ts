@@ -279,6 +279,28 @@ export type QuestAutoClaimedOnCycleEvent = {
   };
 };
 
+export type LeagueMatchmakingAppliedEvent = {
+  name: 'league_matchmaking_applied';
+  properties: {
+    tier: number;
+    candidateCount: number;
+    selectedLeagueSize: number;
+    userTotalXp: number;
+    avgLeagueTotalXp: number;
+    xpGap: number;
+    source: 'join_league';
+  };
+};
+
+export type LeagueAutoJoinedOnXpEvent = {
+  name: 'league_auto_joined_on_xp';
+  properties: {
+    tier: number;
+    joinedNow: boolean;
+    source: 'xp_gain';
+  };
+};
+
 export type StreakMilestoneRewardedEvent = {
   name: 'streak_milestone_rewarded';
   properties: {
@@ -345,6 +367,8 @@ export type TrackedEvent =
   | QuestCycleResetEvent
   | QuestRotationAppliedEvent
   | QuestAutoClaimedOnCycleEvent
+  | LeagueMatchmakingAppliedEvent
+  | LeagueAutoJoinedOnXpEvent
   | StreakMilestoneRewardedEvent
   | ComebackRewardOfferedEvent
   | ComebackRewardClaimedEvent
