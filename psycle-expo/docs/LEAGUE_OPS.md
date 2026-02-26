@@ -98,6 +98,26 @@ curl -X POST \
    - 互換監視として `xpGap`（絶対差）も継続確認。
    - `candidateCount=0` が多すぎる場合はリーグ密度不足を疑う。
 
+2.6 **v1.31.1 判定しきい値（7日）**
+   - 判定は全体に加えて `tier 4-5` を分離して見ること。
+   - `xpGapRelative`:
+     - Go: p50 `<= 0.30` かつ p90 `<= 0.65`
+     - Adjust: p50 `0.30-0.40` または p90 `0.65-0.80`
+     - Escalate: p50 `> 0.40` または p90 `> 0.80`
+   - `candidateCount=0` 比率:
+     - Go: 全体 `<= 15%` かつ tier 4-5 `<= 25%`
+     - Adjust: 全体 `15-25%` または tier 4-5 `25-40%`
+     - Escalate: 全体 `> 25%` または tier 4-5 `> 40%`
+   - `xpStddev`（相対化）:
+     - `xpStddev / GREATEST(avgLeagueTotalXp, userTotalXp, 1)` を `relativeStddev` として算出する。
+     - Go: p90 `<= 0.55`
+     - Adjust: p90 `0.55-0.75`
+     - Escalate: p90 `> 0.75`
+   - 実行ルール:
+     - 7日で Go なら現設定維持（`relative_gap_weight=1.0`, `variance_penalty_weight=0.35`）。
+     - Adjust なら P2（`weekly_xp` ブレンド）を実装。
+     - Escalate なら P3（tier制約緩和）を追加実装。
+
 3. **昇格/降格の比率**
    - 常に全体の約20%になっているか？
    - `SELECT promoted, demoted, count(*) FROM league_members WHERE league_id IN (SELECT id FROM leagues WHERE week_id = get_last_week_id()) GROUP BY promoted, demoted;`
