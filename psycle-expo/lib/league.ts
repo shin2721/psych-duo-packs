@@ -6,6 +6,7 @@
  */
 
 import Analytics from './analytics';
+import { getLeagueMatchmakingConfig, type LeagueMatchmakingConfig } from './gamificationConfig';
 import { supabase } from './supabase';
 
 // リーグティア定義
@@ -51,6 +52,10 @@ export interface LeagueCandidateScore {
   leagueId: string;
   memberCount: number;
   avgTotalXp: number;
+  stddevTotalXp: number;
+  relativeGap: number;
+  relativeStddev: number;
+  matchScore: number;
   createdAt: string;
 }
 
@@ -89,6 +94,39 @@ function clearJoinCacheIfWeekChanged(weekId: string) {
 
 function getJoinCacheKey(userId: string, weekId: string): string {
   return `${userId}:${weekId}`;
+}
+
+function computeStddev(values: number[]): number {
+  if (values.length === 0) return 0;
+  const mean = values.reduce((sum, value) => sum + value, 0) / values.length;
+  const variance = values.reduce((sum, value) => {
+    const diff = value - mean;
+    return sum + diff * diff;
+  }, 0) / values.length;
+  return Math.sqrt(Math.max(0, variance));
+}
+
+function computeCandidateMatchingMetrics(
+  candidate: Pick<LeagueCandidateScore, 'avgTotalXp' | 'stddevTotalXp' | 'memberCount'>,
+  userTotalXp: number,
+  config: LeagueMatchmakingConfig
+): Pick<LeagueCandidateScore, 'relativeGap' | 'relativeStddev' | 'matchScore'> {
+  const denom = Math.max(candidate.avgTotalXp, userTotalXp, 1);
+  const relativeGap = Math.abs(candidate.avgTotalXp - userTotalXp) / denom;
+  const relativeStddev =
+    candidate.memberCount >= config.min_members_for_variance
+      ? candidate.stddevTotalXp / denom
+      : 0;
+
+  const matchScore =
+    config.relative_gap_weight * relativeGap +
+    config.variance_penalty_weight * relativeStddev;
+
+  return {
+    relativeGap,
+    relativeStddev,
+    matchScore,
+  };
 }
 
 /**
@@ -220,13 +258,18 @@ export async function resolveNextTierFromLastWeek(userId: string): Promise<numbe
 
 export function selectBestLeagueCandidateByXpProxy(
   candidates: LeagueCandidateScore[],
-  userTotalXp: number
+  userTotalXp: number,
+  config: LeagueMatchmakingConfig = getLeagueMatchmakingConfig()
 ): LeagueCandidateScore | null {
   if (candidates.length === 0) return null;
 
   const sorted = [...candidates].sort((a, b) => {
-    const scoreA = Math.abs(a.avgTotalXp - userTotalXp);
-    const scoreB = Math.abs(b.avgTotalXp - userTotalXp);
+    const scoreA = Number.isFinite(a.matchScore)
+      ? a.matchScore
+      : computeCandidateMatchingMetrics(a, userTotalXp, config).matchScore;
+    const scoreB = Number.isFinite(b.matchScore)
+      ? b.matchScore
+      : computeCandidateMatchingMetrics(b, userTotalXp, config).matchScore;
     if (scoreA !== scoreB) return scoreA - scoreB;
 
     if (a.memberCount !== b.memberCount) {
@@ -247,6 +290,7 @@ async function evaluateLeagueCandidatesByXpProxy(input: {
   userId: string;
 }): Promise<LeagueCandidateEvaluation> {
   const { weekId, tier, userId } = input;
+  const matchmakingConfig = getLeagueMatchmakingConfig();
 
   const { data: leagues, error: leaguesError } = await supabase
     .from('leagues')
@@ -322,19 +366,34 @@ async function evaluateLeagueCandidatesByXpProxy(input: {
     const memberCount = memberIds.length;
     if (memberCount >= LEAGUE_SIZE) continue;
 
-    const sumXp = memberIds.reduce((total, memberId) => total + (xpByUser.get(memberId) ?? 0), 0);
+    const memberXps = memberIds.map((memberId) => xpByUser.get(memberId) ?? 0);
+    const sumXp = memberXps.reduce((total, xp) => total + xp, 0);
     const avgTotalXp = memberCount > 0 ? sumXp / memberCount : 0;
+    const stddevTotalXp = memberCount > 0 ? computeStddev(memberXps) : 0;
+    const metrics = computeCandidateMatchingMetrics(
+      {
+        avgTotalXp,
+        stddevTotalXp,
+        memberCount,
+      },
+      userTotalXp,
+      matchmakingConfig
+    );
 
     candidates.push({
       leagueId: league.id,
       memberCount,
       avgTotalXp,
+      stddevTotalXp,
+      relativeGap: metrics.relativeGap,
+      relativeStddev: metrics.relativeStddev,
+      matchScore: metrics.matchScore,
       createdAt: (league as any).created_at || new Date(0).toISOString(),
     });
   }
 
   return {
-    selected: selectBestLeagueCandidateByXpProxy(candidates, userTotalXp),
+    selected: selectBestLeagueCandidateByXpProxy(candidates, userTotalXp, matchmakingConfig),
     candidateCount: candidates.length,
     userTotalXp,
   };
@@ -545,6 +604,7 @@ export async function joinLeague(userId: string, tier?: number): Promise<string 
       targetLeagueId = newLeague.id;
     }
 
+    const matchmakingConfig = getLeagueMatchmakingConfig();
     Analytics.track('league_matchmaking_applied', {
       tier: resolvedTier,
       candidateCount: evaluated.candidateCount,
@@ -554,6 +614,11 @@ export async function joinLeague(userId: string, tier?: number): Promise<string 
       xpGap: evaluated.selected
         ? Math.abs(evaluated.selected.avgTotalXp - evaluated.userTotalXp)
         : 0,
+      xpGapRelative: evaluated.selected?.relativeGap ?? 0,
+      xpStddev: evaluated.selected?.stddevTotalXp ?? 0,
+      matchScore: evaluated.selected?.matchScore ?? 0,
+      relativeGapWeight: matchmakingConfig.relative_gap_weight,
+      variancePenaltyWeight: matchmakingConfig.variance_penalty_weight,
       source: 'join_league',
     });
 

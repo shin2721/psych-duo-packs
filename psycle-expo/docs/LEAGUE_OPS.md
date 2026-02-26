@@ -92,7 +92,10 @@ curl -X POST \
    - `SELECT weekly_xp, count(*) FROM league_members GROUP BY weekly_xp ORDER BY weekly_xp;`
 
 2.5 **マッチング品質（XP proxy）**
-   - `league_matchmaking_applied` の `xpGap` 分布を確認し、極端値（過大ギャップ）が減っているかを監視。
+   - `league_matchmaking_applied` の `xpGapRelative` 分布（p50/p90）を監視し、極端値が減っているか確認。
+   - `xpStddev` 分布を監視し、高分散リーグの選定比率が下がっているか確認。
+   - `matchScore` 分布を監視し、週ごとの品質悪化を早期検知。
+   - 互換監視として `xpGap`（絶対差）も継続確認。
    - `candidateCount=0` が多すぎる場合はリーグ密度不足を疑う。
 
 3. **昇格/降格の比率**

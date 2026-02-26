@@ -56,6 +56,12 @@ export interface ShopSinksConfig {
     energy_full_refill: EnergyFullRefillSinkConfig;
 }
 
+export interface LeagueMatchmakingConfig {
+    relative_gap_weight: number;
+    variance_penalty_weight: number;
+    min_members_for_variance: number;
+}
+
 export interface NotificationsConfig {
     streak_risk_hour: number;
     daily_quest_deadline_hour: number;
@@ -71,6 +77,7 @@ export interface GamificationConfig {
     streak_milestones: StreakMilestonesConfig;
     combo_xp: ComboXpConfig;
     shop_sinks: ShopSinksConfig;
+    league_matchmaking: LeagueMatchmakingConfig;
     notifications: NotificationsConfig;
 }
 
@@ -114,6 +121,11 @@ const DEFAULT_CONFIG: GamificationConfig = {
             daily_limit: 1,
         },
     },
+    league_matchmaking: {
+        relative_gap_weight: 1.0,
+        variance_penalty_weight: 0.35,
+        min_members_for_variance: 3,
+    },
     notifications: {
         streak_risk_hour: 22,
         daily_quest_deadline_hour: 21,
@@ -152,6 +164,10 @@ function loadConfig(): GamificationConfig {
                     ...configData.shop_sinks?.energy_full_refill,
                 },
             },
+            league_matchmaking: {
+                ...DEFAULT_CONFIG.league_matchmaking,
+                ...configData.league_matchmaking,
+            },
             notifications: { ...DEFAULT_CONFIG.notifications, ...configData.notifications },
         };
     } catch (e) {
@@ -186,6 +202,10 @@ export function getComboXpConfig(): ComboXpConfig {
 
 export function getShopSinksConfig(): ShopSinksConfig {
     return gamificationConfig.shop_sinks;
+}
+
+export function getLeagueMatchmakingConfig(): LeagueMatchmakingConfig {
+    return gamificationConfig.league_matchmaking;
 }
 
 export function getNotificationsConfig(): NotificationsConfig {

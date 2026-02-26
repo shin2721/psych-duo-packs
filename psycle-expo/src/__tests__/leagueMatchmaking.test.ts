@@ -103,41 +103,99 @@ describe('league matchmaking', () => {
   });
 
   describe('selectBestLeagueCandidateByXpProxy', () => {
-    const candidates: LeagueCandidateScore[] = [
-      { leagueId: 'l1', memberCount: 12, avgTotalXp: 120, createdAt: '2026-03-10T00:00:00.000Z' },
-      { leagueId: 'l2', memberCount: 25, avgTotalXp: 220, createdAt: '2026-03-09T00:00:00.000Z' },
-      { leagueId: 'l3', memberCount: 20, avgTotalXp: 180, createdAt: '2026-03-08T00:00:00.000Z' },
-    ];
+    const config = {
+      relative_gap_weight: 1.0,
+      variance_penalty_weight: 0.35,
+      min_members_for_variance: 3,
+    };
 
-    test('xp差が最小のリーグを選ぶ', () => {
-      const picked = selectBestLeagueCandidateByXpProxy(candidates, 170);
-      expect(picked?.leagueId).toBe('l3');
+    const makeCandidate = (overrides: Partial<LeagueCandidateScore>): LeagueCandidateScore => ({
+      leagueId: overrides.leagueId ?? 'candidate',
+      memberCount: overrides.memberCount ?? 10,
+      avgTotalXp: overrides.avgTotalXp ?? 0,
+      stddevTotalXp: overrides.stddevTotalXp ?? 0,
+      relativeGap: Number.NaN,
+      relativeStddev: Number.NaN,
+      matchScore: Number.NaN,
+      createdAt: overrides.createdAt ?? '2026-03-10T00:00:00.000Z',
     });
 
-    test('xp差が同じなら memberCount が多い方を優先', () => {
+    test('相対差が小さいリーグを優先する（絶対差ではなく相対差）', () => {
       const picked = selectBestLeagueCandidateByXpProxy(
         [
-          { leagueId: 'a', memberCount: 10, avgTotalXp: 100, createdAt: '2026-03-10T00:00:00.000Z' },
-          { leagueId: 'b', memberCount: 20, avgTotalXp: 200, createdAt: '2026-03-10T00:00:00.000Z' },
+          makeCandidate({ leagueId: 'a', avgTotalXp: 100, stddevTotalXp: 5 }),
+          makeCandidate({ leagueId: 'b', avgTotalXp: 280, stddevTotalXp: 5 }),
         ],
-        150
+        200,
+        config
       );
+
+      // abs差は a(100)の方が小さいが、相対差は b(0.286)の方が小さい
       expect(picked?.leagueId).toBe('b');
     });
 
-    test('xp差とmemberCountが同じなら createdAt が古い方を優先', () => {
+    test('相対差が同等なら stddev が小さいリーグを優先', () => {
       const picked = selectBestLeagueCandidateByXpProxy(
         [
-          { leagueId: 'newer', memberCount: 20, avgTotalXp: 150, createdAt: '2026-03-11T00:00:00.000Z' },
-          { leagueId: 'older', memberCount: 20, avgTotalXp: 150, createdAt: '2026-03-10T00:00:00.000Z' },
+          makeCandidate({ leagueId: 'high-variance', avgTotalXp: 80, stddevTotalXp: 50 }),
+          makeCandidate({ leagueId: 'low-variance', avgTotalXp: 125, stddevTotalXp: 10 }),
         ],
-        150
+        100,
+        config
+      );
+      expect(picked?.leagueId).toBe('low-variance');
+    });
+
+    test('memberCount が閾値未満なら分散ペナルティを無効化', () => {
+      const picked = selectBestLeagueCandidateByXpProxy(
+        [
+          makeCandidate({ leagueId: 'small-no-penalty', avgTotalXp: 100, stddevTotalXp: 999, memberCount: 2 }),
+          makeCandidate({ leagueId: 'large-penalty', avgTotalXp: 100, stddevTotalXp: 10, memberCount: 10 }),
+        ],
+        100,
+        config
+      );
+      expect(picked?.leagueId).toBe('small-no-penalty');
+    });
+
+    test('matchScore が同じなら memberCount が多い方を優先', () => {
+      const picked = selectBestLeagueCandidateByXpProxy(
+        [
+          makeCandidate({ leagueId: 'small', avgTotalXp: 150, stddevTotalXp: 0, memberCount: 10 }),
+          makeCandidate({ leagueId: 'large', avgTotalXp: 150, stddevTotalXp: 0, memberCount: 20 }),
+        ],
+        150,
+        config
+      );
+      expect(picked?.leagueId).toBe('large');
+    });
+
+    test('matchScore と memberCount が同じなら createdAt が古い方を優先', () => {
+      const picked = selectBestLeagueCandidateByXpProxy(
+        [
+          makeCandidate({
+            leagueId: 'newer',
+            avgTotalXp: 150,
+            stddevTotalXp: 0,
+            memberCount: 20,
+            createdAt: '2026-03-11T00:00:00.000Z',
+          }),
+          makeCandidate({
+            leagueId: 'older',
+            avgTotalXp: 150,
+            stddevTotalXp: 0,
+            memberCount: 20,
+            createdAt: '2026-03-10T00:00:00.000Z',
+          }),
+        ],
+        150,
+        config
       );
       expect(picked?.leagueId).toBe('older');
     });
 
     test('候補が空なら null', () => {
-      expect(selectBestLeagueCandidateByXpProxy([], 100)).toBeNull();
+      expect(selectBestLeagueCandidateByXpProxy([], 100, config)).toBeNull();
     });
   });
 });

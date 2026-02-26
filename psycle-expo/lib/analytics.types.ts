@@ -288,6 +288,11 @@ export type LeagueMatchmakingAppliedEvent = {
     userTotalXp: number;
     avgLeagueTotalXp: number;
     xpGap: number;
+    xpGapRelative: number;
+    xpStddev: number;
+    matchScore: number;
+    relativeGapWeight: number;
+    variancePenaltyWeight: number;
     source: 'join_league';
   };
 };

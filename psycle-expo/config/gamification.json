@@ -37,6 +37,11 @@
             "daily_limit": 1
         }
     },
+    "league_matchmaking": {
+        "relative_gap_weight": 1.0,
+        "variance_penalty_weight": 0.35,
+        "min_members_for_variance": 3
+    },
     "notifications": {
         "streak_risk_hour": 22,
         "daily_quest_deadline_hour": 21,
