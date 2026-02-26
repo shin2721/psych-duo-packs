@@ -55,6 +55,7 @@ export const ja = {
         gemsHint: 'Gemsはレッスンやクエストで獲得できます',
         errors: {
             notEnoughGems: 'ジェムが足りません',
+            doubleXpAlreadyActive: 'ダブルXPはすでに有効です。',
             openCheckoutFailed: '決済ページを開けませんでした',
             checkoutSessionFailed: '決済セッションの作成に失敗しました',
             checkoutProcessFailed: '決済処理中にエラーが発生しました',
@@ -176,6 +177,13 @@ export const ja = {
         energyBlockedMessage: 'エネルギーが足りません。回復を待つか、ショップでサブスクを有効にしてください。',
         originalVariantLabel: 'オリジナル',
         completeTitle: 'レッスン完了！',
+        doubleXpNudge: {
+            title: '次の15分はXP2倍にする？',
+            body: '20 GemsでDouble XPを開始できます。今の勢いで進めましょう。',
+            cta: '20 Gemsで開始',
+            dismiss: '閉じる',
+            purchased: 'Double XPを開始しました（15分）',
+        },
         howDoYouFeelNow: '今の気分は？',
         feedbackThanks: '🙏 フィードバックありがとう！',
         continue: '続ける',

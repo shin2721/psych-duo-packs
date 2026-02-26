@@ -246,3 +246,27 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 - v1.21ではFreeの通常Energy値は維持（`3 / 60分`）。
 - 初日24時間のみボーナス上限を適用し、以後は自動で通常上限に戻る。
 - Paywall判定は `lesson_complete_count >= 3` のみに固定。
+
+## v1.32 Double XP Nudge Addendum
+
+### 追加イベント
+
+- `double_xp_nudge_shown`
+  - `source`: `lesson_complete`
+  - `gems`: 表示時点の所持Gems
+  - `dailyRemainingAfterShow`: 表示後の当日残り表示枠
+- `double_xp_nudge_clicked`
+  - `source`: `lesson_complete`
+  - `gems`: クリック時点の所持Gems
+- `double_xp_purchased`
+  - `source`: `shop_item | lesson_complete_nudge`
+  - `costGems`: 20
+  - `gemsBefore`, `gemsAfter`
+  - `activeUntil`: ISO8601
+
+### 運用メモ
+
+- ナッジ表示面はレッスン完了画面のみ。
+- 表示頻度はローカル日付ベースで1日1回。
+- `double_xp_nudge_clicked / double_xp_nudge_shown` をCTR、
+  `double_xp_purchased(source='lesson_complete_nudge') / double_xp_nudge_clicked` をCVRとして週次監視する。

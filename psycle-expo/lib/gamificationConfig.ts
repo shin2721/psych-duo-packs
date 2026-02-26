@@ -56,6 +56,13 @@ export interface ShopSinksConfig {
     energy_full_refill: EnergyFullRefillSinkConfig;
 }
 
+export interface DoubleXpNudgeConfig {
+    enabled: boolean;
+    daily_show_limit: number;
+    min_gems: number;
+    require_inactive_boost: boolean;
+}
+
 export interface LeagueMatchmakingConfig {
     relative_gap_weight: number;
     variance_penalty_weight: number;
@@ -77,6 +84,7 @@ export interface GamificationConfig {
     streak_milestones: StreakMilestonesConfig;
     combo_xp: ComboXpConfig;
     shop_sinks: ShopSinksConfig;
+    double_xp_nudge: DoubleXpNudgeConfig;
     league_matchmaking: LeagueMatchmakingConfig;
     notifications: NotificationsConfig;
 }
@@ -121,6 +129,12 @@ const DEFAULT_CONFIG: GamificationConfig = {
             daily_limit: 1,
         },
     },
+    double_xp_nudge: {
+        enabled: true,
+        daily_show_limit: 1,
+        min_gems: 20,
+        require_inactive_boost: true,
+    },
     league_matchmaking: {
         relative_gap_weight: 1.0,
         variance_penalty_weight: 0.35,
@@ -164,6 +178,10 @@ function loadConfig(): GamificationConfig {
                     ...configData.shop_sinks?.energy_full_refill,
                 },
             },
+            double_xp_nudge: {
+                ...DEFAULT_CONFIG.double_xp_nudge,
+                ...configData.double_xp_nudge,
+            },
             league_matchmaking: {
                 ...DEFAULT_CONFIG.league_matchmaking,
                 ...configData.league_matchmaking,
@@ -202,6 +220,10 @@ export function getComboXpConfig(): ComboXpConfig {
 
 export function getShopSinksConfig(): ShopSinksConfig {
     return gamificationConfig.shop_sinks;
+}
+
+export function getDoubleXpNudgeConfig(): DoubleXpNudgeConfig {
+    return gamificationConfig.double_xp_nudge;
 }
 
 export function getLeagueMatchmakingConfig(): LeagueMatchmakingConfig {

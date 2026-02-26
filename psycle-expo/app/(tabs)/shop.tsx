@@ -13,6 +13,7 @@ import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
 import { Analytics } from "../../lib/analytics";
 import type { EnergyFullRefillFailureReason } from "../../lib/energyFullRefill";
+import type { DoubleXpPurchaseFailureReason } from "../../lib/doubleXpPurchase";
 
 // import { Firefly } from "../../components/Firefly"; // TODO: Re-enable after native rebuild
 
@@ -23,7 +24,9 @@ interface ShopItem {
   price: number;
   icon: keyof typeof Ionicons.glyphMap;
   customIcon?: React.ReactNode;
-  action: () => boolean | { success: boolean; reason?: EnergyFullRefillFailureReason };
+  action: () =>
+    | boolean
+    | { success: boolean; reason?: EnergyFullRefillFailureReason | DoubleXpPurchaseFailureReason };
 }
 
 export default function ShopScreen() {
@@ -95,6 +98,8 @@ export default function ShopScreen() {
     } else {
       const message = (() => {
         switch (result.reason) {
+          case "already_active":
+            return i18n.t("shop.errors.doubleXpAlreadyActive");
           case "limit_reached":
             return i18n.t("shop.errors.energyRefillLimitReached");
           case "already_full":
@@ -230,7 +235,7 @@ export default function ShopScreen() {
       price: 20,
       icon: "flash-outline",
       customIcon: <EnergyIcon size={36} />,
-      action: buyDoubleXP,
+      action: () => buyDoubleXP("shop_item"),
     },
   ];
 

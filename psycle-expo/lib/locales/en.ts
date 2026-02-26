@@ -55,6 +55,7 @@ export const en = {
         gemsHint: 'You can earn Gems from lessons and quests',
         errors: {
             notEnoughGems: 'Not enough Gems',
+            doubleXpAlreadyActive: 'Double XP is already active.',
             openCheckoutFailed: 'Could not open the checkout page',
             checkoutSessionFailed: 'Failed to create checkout session',
             checkoutProcessFailed: 'An error occurred during checkout',
@@ -176,6 +177,13 @@ export const en = {
         energyBlockedMessage: 'Not enough energy. Wait for refill or activate subscription in Shop.',
         originalVariantLabel: 'Original',
         completeTitle: 'Lesson Complete!',
+        doubleXpNudge: {
+            title: 'Activate Double XP for the next 15 minutes?',
+            body: 'Start Double XP now for 20 Gems and keep the momentum going.',
+            cta: 'Start for 20 Gems',
+            dismiss: 'Dismiss',
+            purchased: 'Double XP started (15 minutes).',
+        },
         howDoYouFeelNow: 'How do you feel now?',
         feedbackThanks: '🙏 Thanks for the feedback!',
         continue: 'Continue',

@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Alert, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../lib/theme";
 import { useAppState } from "../lib/state";
 import { QuestionRenderer } from "../components/QuestionRenderer";
@@ -24,8 +25,16 @@ import i18n from "../lib/i18n";
 import entitlements from "../config/entitlements.json";
 import { useAuth } from "../lib/AuthContext";
 import { syncDailyReminders } from "../lib/notifications";
-import { getComboXpConfig } from "../lib/gamificationConfig";
+import { getComboXpConfig, getDoubleXpNudgeConfig } from "../lib/gamificationConfig";
 import { computeComboBonusXp } from "../lib/comboXp";
+import {
+  consumeDailyNudgeQuota,
+  getDailyNudgeRemaining,
+  getLocalDateKey,
+  normalizeDoubleXpNudgeState,
+  shouldShowDoubleXpNudge,
+  type DoubleXpNudgeState,
+} from "../lib/doubleXpNudge";
 import {
   getLessonCompletionQuestIncrements,
   getStreakQuestIncrement,
@@ -52,6 +61,7 @@ const FIRST_SESSION_LESSON_SIZE = normalizePositiveInt(
   Math.min(5, DEFAULT_LESSON_SIZE)
 );
 const comboXpConfig = getComboXpConfig();
+const doubleXpNudgeConfig = getDoubleXpNudgeConfig();
 
 export default function LessonScreen() {
   const params = useLocalSearchParams<{ file: string; genre: string }>();
@@ -68,6 +78,9 @@ export default function LessonScreen() {
     claimComebackRewardOnLessonComplete,
     energy,
     maxEnergy,
+    gems,
+    buyDoubleXP,
+    isDoubleXpActive,
   } = useAppState();
   const { user } = useAuth();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
@@ -88,6 +101,9 @@ export default function LessonScreen() {
   const lessonStartTrackedRef = useRef<string | null>(null); // lesson_start多重発火防止
   const lessonCompleteTrackedRef = useRef<string | null>(null); // lesson_complete多重発火防止
   const usedComboBonusXpRef = useRef(0); // レッスン単位のコンボ追加XP累積
+  const nudgeEvaluatedRef = useRef(false);
+  const [showDoubleXpNudge, setShowDoubleXpNudge] = useState(false);
+  const nudgeStorageUserId = user?.id ?? "local";
   const listSeparator = i18n.locale.startsWith("ja") ? "、" : ", ";
 
   useEffect(() => {
@@ -175,6 +191,8 @@ export default function LessonScreen() {
         );
       }
       usedComboBonusXpRef.current = 0;
+      nudgeEvaluatedRef.current = false;
+      setShowDoubleXpNudge(false);
       setCurrentLesson(lesson);
       setOriginalQuestions(effectiveQuestions);
       setQuestions(effectiveQuestions);
@@ -197,6 +215,67 @@ export default function LessonScreen() {
       router.back();
     }
   }
+
+  useEffect(() => {
+    if (!isComplete || nudgeEvaluatedRef.current) return;
+
+    const evaluateNudge = async () => {
+      const today = getLocalDateKey();
+      const storageKey = `double_xp_nudge_state_${nudgeStorageUserId}`;
+      let parsedState: DoubleXpNudgeState = { lastShownDate: null, shownCountToday: 0 };
+
+      try {
+        const saved = await AsyncStorage.getItem(storageKey);
+        parsedState = normalizeDoubleXpNudgeState(saved ? JSON.parse(saved) : null);
+      } catch (error) {
+        console.error("[DoubleXpNudge] Failed to read state:", error);
+      }
+
+      const shouldShow = shouldShowDoubleXpNudge({
+        enabled: doubleXpNudgeConfig.enabled,
+        isComplete,
+        isDoubleXpActive,
+        gems,
+        minGems: doubleXpNudgeConfig.min_gems,
+        requireInactiveBoost: doubleXpNudgeConfig.require_inactive_boost,
+        dailyShowLimit: doubleXpNudgeConfig.daily_show_limit,
+        state: parsedState,
+        today,
+      });
+
+      if (!shouldShow) {
+        setShowDoubleXpNudge(false);
+        nudgeEvaluatedRef.current = true;
+        return;
+      }
+
+      const nextState = consumeDailyNudgeQuota(parsedState, today);
+      const dailyRemainingAfterShow = getDailyNudgeRemaining(
+        nextState,
+        doubleXpNudgeConfig.daily_show_limit,
+        today
+      );
+
+      try {
+        await AsyncStorage.setItem(storageKey, JSON.stringify(nextState));
+      } catch (error) {
+        console.error("[DoubleXpNudge] Failed to persist state:", error);
+      }
+
+      setShowDoubleXpNudge(true);
+      nudgeEvaluatedRef.current = true;
+      Analytics.track("double_xp_nudge_shown", {
+        source: "lesson_complete",
+        gems,
+        dailyRemainingAfterShow,
+      });
+    };
+
+    evaluateNudge().catch((error) => {
+      console.error("[DoubleXpNudge] Failed to evaluate:", error);
+      nudgeEvaluatedRef.current = true;
+    });
+  }, [isComplete, gems, isDoubleXpActive, nudgeStorageUserId]);
 
   // Intervention問題が表示されたときにshownをログ
   const currentQuestion = questions[currentIndex];
@@ -409,6 +488,46 @@ export default function LessonScreen() {
             {feltBetterSubmitted && (
               <View style={styles.feltBetterThanks}>
                 <Text style={styles.feltBetterThanksText}>{i18n.t("lesson.feedbackThanks")}</Text>
+              </View>
+            )}
+
+            {showDoubleXpNudge && (
+              <View style={styles.doubleXpNudgeCard}>
+                <Text style={styles.doubleXpNudgeTitle}>{i18n.t("lesson.doubleXpNudge.title")}</Text>
+                <Text style={styles.doubleXpNudgeBody}>{i18n.t("lesson.doubleXpNudge.body")}</Text>
+                <View style={styles.doubleXpNudgeActions}>
+                  <TouchableOpacity
+                    style={styles.doubleXpNudgeDismissButton}
+                    onPress={() => setShowDoubleXpNudge(false)}
+                  >
+                    <Text style={styles.doubleXpNudgeDismissText}>
+                      {i18n.t("lesson.doubleXpNudge.dismiss")}
+                    </Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    style={styles.doubleXpNudgeCtaButton}
+                    onPress={() => {
+                      Analytics.track("double_xp_nudge_clicked", {
+                        source: "lesson_complete",
+                        gems,
+                      });
+                      const result = buyDoubleXP("lesson_complete_nudge");
+                      if (result.success) {
+                        setShowDoubleXpNudge(false);
+                        Alert.alert(i18n.t("common.ok"), i18n.t("lesson.doubleXpNudge.purchased"));
+                        return;
+                      }
+
+                      if (result.reason === "already_active") {
+                        Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.doubleXpAlreadyActive"));
+                        return;
+                      }
+                      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.notEnoughGems"));
+                    }}
+                  >
+                    <Text style={styles.doubleXpNudgeCtaText}>{i18n.t("lesson.doubleXpNudge.cta")}</Text>
+                  </TouchableOpacity>
+                </View>
               </View>
             )}
 
@@ -868,6 +987,54 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
+  },
+  doubleXpNudgeCard: {
+    width: "100%",
+    backgroundColor: "rgba(34, 197, 94, 0.12)",
+    borderColor: "rgba(34, 197, 94, 0.35)",
+    borderWidth: 1,
+    borderRadius: 14,
+    padding: 14,
+    marginBottom: 20,
+  },
+  doubleXpNudgeTitle: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: theme.colors.text,
+    marginBottom: 6,
+  },
+  doubleXpNudgeBody: {
+    fontSize: 13,
+    color: theme.colors.sub,
+    lineHeight: 18,
+    marginBottom: 12,
+  },
+  doubleXpNudgeActions: {
+    flexDirection: "row",
+    justifyContent: "flex-end",
+    gap: 10,
+  },
+  doubleXpNudgeDismissButton: {
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: "rgba(0,0,0,0.06)",
+  },
+  doubleXpNudgeDismissText: {
+    color: theme.colors.sub,
+    fontSize: 13,
+    fontWeight: "600",
+  },
+  doubleXpNudgeCtaButton: {
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 8,
+    backgroundColor: theme.colors.success,
+  },
+  doubleXpNudgeCtaText: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "700",
   },
   gradeSummaryContainer: {
     width: '100%',

@@ -236,6 +236,34 @@ export type EnergyFullRefillPurchasedEvent = {
   };
 };
 
+export type DoubleXpNudgeShownEvent = {
+  name: 'double_xp_nudge_shown';
+  properties: {
+    source: 'lesson_complete';
+    gems: number;
+    dailyRemainingAfterShow: number;
+  };
+};
+
+export type DoubleXpNudgeClickedEvent = {
+  name: 'double_xp_nudge_clicked';
+  properties: {
+    source: 'lesson_complete';
+    gems: number;
+  };
+};
+
+export type DoubleXpPurchasedEvent = {
+  name: 'double_xp_purchased';
+  properties: {
+    source: 'shop_item' | 'lesson_complete_nudge';
+    costGems: number;
+    gemsBefore: number;
+    gemsAfter: number;
+    activeUntil: string;
+  };
+};
+
 export type BadgeUnlockedEvent = {
   name: 'badge_unlocked';
   properties: {
@@ -368,6 +396,9 @@ export type TrackedEvent =
   | ComboXpBonusAppliedEvent
   | FeltBetterXpAwardedEvent
   | EnergyFullRefillPurchasedEvent
+  | DoubleXpNudgeShownEvent
+  | DoubleXpNudgeClickedEvent
+  | DoubleXpPurchasedEvent
   | BadgeUnlockedEvent
   | QuestCycleResetEvent
   | QuestRotationAppliedEvent

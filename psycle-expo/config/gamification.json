@@ -37,6 +37,12 @@
             "daily_limit": 1
         }
     },
+    "double_xp_nudge": {
+        "enabled": true,
+        "daily_show_limit": 1,
+        "min_gems": 20,
+        "require_inactive_boost": true
+    },
     "league_matchmaking": {
         "relative_gap_weight": 1.0,
         "variance_penalty_weight": 0.35,

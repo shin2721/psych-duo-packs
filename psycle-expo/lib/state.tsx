@@ -69,6 +69,10 @@ import {
   evaluateEnergyFullRefillPurchase,
   type EnergyFullRefillFailureReason,
 } from "./energyFullRefill";
+import {
+  evaluateDoubleXpPurchase,
+  type DoubleXpPurchaseFailureReason,
+} from "./doubleXpPurchase";
 
 interface EntitlementsConfig {
   plans?: {
@@ -329,7 +333,12 @@ interface AppState {
   };
   // Double XP Boost
   doubleXpEndTime: number | null;
-  buyDoubleXP: () => boolean;
+  buyDoubleXP: (
+    source?: "shop_item" | "lesson_complete_nudge"
+  ) => {
+    success: boolean;
+    reason?: DoubleXpPurchaseFailureReason;
+  };
   isDoubleXpActive: boolean;
   // Daily goal system
   dailyGoal: number;
@@ -1851,14 +1860,40 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return { success: true };
   };
 
-  const buyDoubleXP = (): boolean => {
-    const cost = 20; // 20 gems for 15 minutes of double XP
-    if (spendGems(cost)) {
-      const DURATION_MS = 15 * 60 * 1000; // 15 minutes
-      setDoubleXpEndTime(Date.now() + DURATION_MS);
-      return true;
+  const buyDoubleXP = (
+    source: "shop_item" | "lesson_complete_nudge" = "shop_item"
+  ): {
+    success: boolean;
+    reason?: DoubleXpPurchaseFailureReason;
+  } => {
+    const cost = 20;
+    const DURATION_MS = 15 * 60 * 1000;
+    const nowMs = Date.now();
+    const purchase = evaluateDoubleXpPurchase({
+      gems,
+      costGems: cost,
+      isActive: isDoubleXpActive,
+      nowMs,
+      durationMs: DURATION_MS,
+    });
+
+    if (!purchase.success) {
+      return { success: false, reason: purchase.reason };
     }
-    return false;
+
+    const gemsBefore = gems;
+    setGems(purchase.gemsAfter);
+    setDoubleXpEndTime(purchase.activeUntilMs);
+
+    Analytics.track("double_xp_purchased", {
+      source,
+      costGems: cost,
+      gemsBefore,
+      gemsAfter: purchase.gemsAfter,
+      activeUntil: new Date(purchase.activeUntilMs).toISOString(),
+    });
+
+    return { success: true };
   };
 
   const useFreeze = (): boolean => {
