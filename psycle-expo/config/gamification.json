@@ -44,7 +44,7 @@
         "require_inactive_boost": true
     },
     "event_campaign": {
-        "enabled": false,
+        "enabled": true,
         "id": "spring_challenge_2026",
         "start_at": "2026-04-29T00:00:00+09:00",
         "end_at": "2026-05-06T23:59:59+09:00",
