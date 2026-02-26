@@ -179,4 +179,12 @@ export const BADGES: Badge[] = [
         category: 'social',
         unlockCondition: () => false,
     },
+    {
+        id: 'event_spring_2026',
+        name: '春イベント完走',
+        description: 'Spring Challenge 2026 を完走',
+        icon: 'sparkles',
+        category: 'performance',
+        unlockCondition: () => false,
+    },
 ];

@@ -63,6 +63,27 @@ export interface DoubleXpNudgeConfig {
     require_inactive_boost: boolean;
 }
 
+export type EventQuestMetric = "lesson_complete" | "streak5_milestone";
+
+export interface EventQuestTemplateConfig {
+    template_id: string;
+    metric: EventQuestMetric;
+    need: number;
+    reward_gems: number;
+    title_key: string;
+}
+
+export interface EventCampaignConfig {
+    enabled: boolean;
+    id: string;
+    start_at: string;
+    end_at: string;
+    title_key: string;
+    community_target_lessons: number;
+    reward_badge_id: string;
+    quests: EventQuestTemplateConfig[];
+}
+
 export interface LeagueMatchmakingConfig {
     relative_gap_weight: number;
     variance_penalty_weight: number;
@@ -85,6 +106,7 @@ export interface GamificationConfig {
     combo_xp: ComboXpConfig;
     shop_sinks: ShopSinksConfig;
     double_xp_nudge: DoubleXpNudgeConfig;
+    event_campaign: EventCampaignConfig;
     league_matchmaking: LeagueMatchmakingConfig;
     notifications: NotificationsConfig;
 }
@@ -135,6 +157,31 @@ const DEFAULT_CONFIG: GamificationConfig = {
         min_gems: 20,
         require_inactive_boost: true,
     },
+    event_campaign: {
+        enabled: false,
+        id: "spring_challenge_2026",
+        start_at: "2026-04-29T00:00:00+09:00",
+        end_at: "2026-05-06T23:59:59+09:00",
+        title_key: "events.spring2026.title",
+        community_target_lessons: 10000,
+        reward_badge_id: "event_spring_2026",
+        quests: [
+            {
+                template_id: "ev_lessons_20",
+                metric: "lesson_complete",
+                need: 20,
+                reward_gems: 20,
+                title_key: "events.spring2026.quest_lessons_20",
+            },
+            {
+                template_id: "ev_streak5_10",
+                metric: "streak5_milestone",
+                need: 10,
+                reward_gems: 30,
+                title_key: "events.spring2026.quest_streak5_10",
+            },
+        ],
+    },
     league_matchmaking: {
         relative_gap_weight: 1.0,
         variance_penalty_weight: 0.35,
@@ -182,6 +229,13 @@ function loadConfig(): GamificationConfig {
                 ...DEFAULT_CONFIG.double_xp_nudge,
                 ...configData.double_xp_nudge,
             },
+            event_campaign: {
+                ...DEFAULT_CONFIG.event_campaign,
+                ...configData.event_campaign,
+                quests: Array.isArray(configData.event_campaign?.quests)
+                    ? configData.event_campaign.quests
+                    : DEFAULT_CONFIG.event_campaign.quests,
+            },
             league_matchmaking: {
                 ...DEFAULT_CONFIG.league_matchmaking,
                 ...configData.league_matchmaking,
@@ -224,6 +278,39 @@ export function getShopSinksConfig(): ShopSinksConfig {
 
 export function getDoubleXpNudgeConfig(): DoubleXpNudgeConfig {
     return gamificationConfig.double_xp_nudge;
+}
+
+export function getEventCampaignConfig(): EventCampaignConfig | null {
+    const config = gamificationConfig.event_campaign;
+    if (!config || typeof config !== "object") {
+        return null;
+    }
+    if (!config.enabled) {
+        return null;
+    }
+    if (
+        typeof config.id !== "string" ||
+        typeof config.start_at !== "string" ||
+        typeof config.end_at !== "string" ||
+        typeof config.title_key !== "string" ||
+        typeof config.reward_badge_id !== "string" ||
+        !Array.isArray(config.quests)
+    ) {
+        return null;
+    }
+
+    const isValidQuest = (quest: EventQuestTemplateConfig): boolean =>
+        typeof quest.template_id === "string" &&
+        (quest.metric === "lesson_complete" || quest.metric === "streak5_milestone") &&
+        Number.isFinite(quest.need) &&
+        Number.isFinite(quest.reward_gems) &&
+        typeof quest.title_key === "string";
+
+    if (!config.quests.every(isValidQuest)) {
+        return null;
+    }
+
+    return config;
 }
 
 export function getLeagueMatchmakingConfig(): LeagueMatchmakingConfig {

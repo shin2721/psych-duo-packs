@@ -372,6 +372,51 @@ export type ComebackRewardExpiredEvent = {
   };
 };
 
+export type EventShownEvent = {
+  name: 'event_shown';
+  properties: {
+    eventId: string;
+    source: 'quests_tab';
+  };
+};
+
+export type CommunityGoalShownEvent = {
+  name: 'community_goal_shown';
+  properties: {
+    eventId: string;
+    targetLessons: number;
+    source: 'quests_tab';
+  };
+};
+
+export type EventStartedEvent = {
+  name: 'event_started';
+  properties: {
+    eventId: string;
+    source: 'metric_progress';
+  };
+};
+
+export type EventQuestRewardedEvent = {
+  name: 'event_quest_rewarded';
+  properties: {
+    eventId: string;
+    templateId: string;
+    metric: 'lesson_complete' | 'streak5_milestone';
+    rewardGems: number;
+    source: 'metric_progress';
+  };
+};
+
+export type EventCompletedEvent = {
+  name: 'event_completed';
+  properties: {
+    eventId: string;
+    rewardBadgeId: string;
+    source: 'metric_progress';
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -408,4 +453,9 @@ export type TrackedEvent =
   | StreakMilestoneRewardedEvent
   | ComebackRewardOfferedEvent
   | ComebackRewardClaimedEvent
-  | ComebackRewardExpiredEvent;
+  | ComebackRewardExpiredEvent
+  | EventShownEvent
+  | CommunityGoalShownEvent
+  | EventStartedEvent
+  | EventQuestRewardedEvent
+  | EventCompletedEvent;

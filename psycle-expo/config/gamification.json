@@ -43,6 +43,31 @@
         "min_gems": 20,
         "require_inactive_boost": true
     },
+    "event_campaign": {
+        "enabled": false,
+        "id": "spring_challenge_2026",
+        "start_at": "2026-04-29T00:00:00+09:00",
+        "end_at": "2026-05-06T23:59:59+09:00",
+        "title_key": "events.spring2026.title",
+        "community_target_lessons": 10000,
+        "reward_badge_id": "event_spring_2026",
+        "quests": [
+            {
+                "template_id": "ev_lessons_20",
+                "metric": "lesson_complete",
+                "need": 20,
+                "reward_gems": 20,
+                "title_key": "events.spring2026.quest_lessons_20"
+            },
+            {
+                "template_id": "ev_streak5_10",
+                "metric": "streak5_milestone",
+                "need": 10,
+                "reward_gems": 30,
+                "title_key": "events.spring2026.quest_streak5_10"
+            }
+        ]
+    },
     "league_matchmaking": {
         "relative_gap_weight": 1.0,
         "variance_penalty_weight": 0.35,

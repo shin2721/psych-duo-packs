@@ -270,3 +270,34 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 - 表示頻度はローカル日付ベースで1日1回。
 - `double_xp_nudge_clicked / double_xp_nudge_shown` をCTR、
   `double_xp_purchased(source='lesson_complete_nudge') / double_xp_nudge_clicked` をCVRとして週次監視する。
+
+## v1.34-mini Event Campaign Addendum
+
+### 追加イベント
+
+- `event_shown`
+  - `eventId`
+  - `source`: `quests_tab`
+- `community_goal_shown`
+  - `eventId`
+  - `targetLessons`
+  - `source`: `quests_tab`
+- `event_started`
+  - `eventId`
+  - `source`: `metric_progress`
+- `event_quest_rewarded`
+  - `eventId`
+  - `templateId`
+  - `metric`: `lesson_complete | streak5_milestone`
+  - `rewardGems`
+  - `source`: `metric_progress`
+- `event_completed`
+  - `eventId`
+  - `rewardBadgeId`
+  - `source`: `metric_progress`
+
+### 運用メモ
+
+- v1.34-mini は本流クエスト（daily/weekly/monthly）に侵襲せず、イベント状態を独立管理する。
+- 初期設定は `event_campaign.enabled=false`。設定切替のみで起動/停止できる。
+- 共同目標はテキスト表示のみ（実数集計RPCなし）。

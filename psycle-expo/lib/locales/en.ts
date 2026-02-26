@@ -396,6 +396,11 @@ export const en = {
         monthly: 'Monthly Quests',
         daily: 'Daily Quests',
         weekly: 'Weekly Quests',
+        event: {
+            remaining: '%{time} left',
+            communityGoal: 'Goal: Together %{target} lessons',
+            completed: 'Completed',
+        },
         templates: {
             daily: {
                 lessons2: 'Complete 2 lessons',
@@ -410,6 +415,13 @@ export const en = {
                 lessons15: 'Complete 15 lessons this week',
                 streak5x5: 'Hit five 5-correct streaks',
             },
+        },
+    },
+    events: {
+        spring2026: {
+            title: 'Spring Challenge 2026',
+            quest_lessons_20: 'Complete 20 lessons during the event',
+            quest_streak5_10: 'Reach a 5-correct streak 10 times',
         },
     },
     lessonScreen: {

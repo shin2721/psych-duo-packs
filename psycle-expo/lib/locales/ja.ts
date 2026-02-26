@@ -396,6 +396,11 @@ export const ja = {
         monthly: 'マンスリークエスト',
         daily: 'デイリークエスト',
         weekly: 'ウィークリークエスト',
+        event: {
+            remaining: '残り %{time}',
+            communityGoal: '目標: みんなで %{target} レッスン',
+            completed: '完了',
+        },
         templates: {
             daily: {
                 lessons2: 'レッスンを2回完了',
@@ -410,6 +415,13 @@ export const ja = {
                 lessons15: '週に15レッスン完了',
                 streak5x5: '5問連続正解を5回達成',
             },
+        },
+    },
+    events: {
+        spring2026: {
+            title: 'Spring Challenge 2026',
+            quest_lessons_20: '期間中に20レッスン完了',
+            quest_streak5_10: '5問連続正解を10回達成',
         },
     },
     lessonScreen: {

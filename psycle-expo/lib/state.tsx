@@ -15,7 +15,13 @@ import {
   type StreakRepairOffer,
 } from "./streakRepair";
 import { consumeNextBadgeToastItem, enqueueBadgeToastIds } from "./badgeToastQueue";
-import { getShopSinksConfig, getStreakMilestonesConfig } from "./gamificationConfig";
+import {
+  getEventCampaignConfig,
+  getShopSinksConfig,
+  getStreakMilestonesConfig,
+  type EventCampaignConfig,
+  type EventQuestMetric,
+} from "./gamificationConfig";
 import {
   getClaimableStreakMilestone,
   normalizeClaimedMilestones,
@@ -31,6 +37,15 @@ import {
   isComebackOfferExpired,
   type ComebackRewardOffer,
 } from "./comebackReward";
+import {
+  applyEventMetricProgress,
+  buildInitialEventState,
+  isEventWindowActive,
+  normalizeEventCampaignState,
+  reconcileEventStateOnAccess,
+  type EventCampaignState,
+  type EventQuestInstance,
+} from "./eventCampaign";
 import {
   consumeNextComebackRewardToastItem,
   enqueueComebackRewardToast,
@@ -141,6 +156,12 @@ const QUEST_SCHEMA_VERSION = 2;
 const ENERGY_REFILL_MS = ENERGY_REFILL_MINUTES * 60 * 1000;
 const streakMilestonesConfig = getStreakMilestonesConfig();
 const shopSinksConfig = getShopSinksConfig();
+
+function getActiveEventCampaignConfig(now: Date = new Date()): EventCampaignConfig | null {
+  const config = getEventCampaignConfig();
+  if (!config) return null;
+  return isEventWindowActive(now, config) ? config : null;
+}
 
 function isTrackedStreakMilestoneDay(day: number): day is 3 | 7 | 30 {
   return day === 3 || day === 7 || day === 30;
@@ -293,6 +314,14 @@ interface AppState {
   questionsAnswered: number; // Total questions answered
   updateSkill: (isCorrect: boolean, itemDifficulty?: number) => void;
   quests: QuestInstance[];
+  eventCampaign: {
+    id: string;
+    titleKey: string;
+    communityTargetLessons: number;
+    startAt: string;
+    endAt: string;
+  } | null;
+  eventQuests: EventQuestInstance[];
   hasPendingDailyQuests: boolean;
   incrementQuest: (id: string, step?: number) => void;
   incrementQuestMetric: (metric: QuestMetric, step?: number) => void;
@@ -416,6 +445,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [questCycleKeys, setQuestCycleKeys] = useState<QuestCycleKeys>(initialQuestCycleKeys);
   const [questRotationPrev, setQuestRotationPrev] = useState<QuestRotationSelection>(
     initialQuestState.rotationSelection
+  );
+  const initialEventConfig = getActiveEventCampaignConfig();
+  const [eventCampaignState, setEventCampaignState] = useState<EventCampaignState | null>(
+    initialEventConfig ? buildInitialEventState(initialEventConfig) : null
+  );
+  const eventCampaignStateRef = useRef<EventCampaignState | null>(
+    initialEventConfig ? buildInitialEventState(initialEventConfig) : null
   );
   const questsRef = useRef<QuestInstance[]>(initialQuestState.quests);
   const questCycleKeysRef = useRef<QuestCycleKeys>(initialQuestCycleKeys);
@@ -668,6 +704,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [questRotationPrev]);
 
   useEffect(() => {
+    eventCampaignStateRef.current = eventCampaignState;
+  }, [eventCampaignState]);
+
+  useEffect(() => {
     badgeToastQueueRef.current = badgeToastQueue;
   }, [badgeToastQueue]);
 
@@ -737,6 +777,20 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     },
     []
   );
+
+  const reconcileEventCampaign = useCallback(() => {
+    const activeConfig = getActiveEventCampaignConfig(new Date());
+    if (!activeConfig) {
+      if (eventCampaignStateRef.current) {
+        setEventCampaignState(null);
+      }
+      return;
+    }
+
+    setEventCampaignState((prev) =>
+      reconcileEventStateOnAccess(prev, activeConfig, new Date())
+    );
+  }, []);
 
   useEffect(() => {
     if (!user || !isStateHydrated || !badgesHydrated) return;
@@ -813,6 +867,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       questCycleKeysRef.current = resetCycleKeys;
       setQuestRotationPrev(resetQuestState.rotationSelection);
       questRotationPrevRef.current = resetQuestState.rotationSelection;
+      setEventCampaignState(null);
+      eventCampaignStateRef.current = null;
       badgeToastQueueRef.current = [];
       streakMilestoneToastQueueRef.current = [];
       comebackRewardToastQueueRef.current = [];
@@ -846,6 +902,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedStreakRepairOffer,
           savedComebackRewardOffer,
           savedClaimedStreakMilestones,
+          savedEventCampaignState,
         ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
@@ -866,6 +923,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`streak_repair_offer_${user.id}`),
           AsyncStorage.getItem(`comeback_reward_offer_${user.id}`),
           AsyncStorage.getItem(`streak_milestones_claimed_${user.id}`),
+          AsyncStorage.getItem(`event_campaign_state_${user.id}`),
         ]);
 
         if (cancelled) return;
@@ -1149,6 +1207,30 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           claimedStreakMilestonesRef.current = [];
         }
 
+        const activeEventConfig = getActiveEventCampaignConfig();
+        if (activeEventConfig) {
+          let nextEventCampaignState: EventCampaignState | null = null;
+          if (savedEventCampaignState) {
+            try {
+              nextEventCampaignState = normalizeEventCampaignState(
+                JSON.parse(savedEventCampaignState)
+              );
+            } catch {
+              nextEventCampaignState = null;
+            }
+          }
+          nextEventCampaignState = reconcileEventStateOnAccess(
+            nextEventCampaignState,
+            activeEventConfig,
+            new Date()
+          );
+          setEventCampaignState(nextEventCampaignState);
+          eventCampaignStateRef.current = nextEventCampaignState;
+        } else {
+          setEventCampaignState(null);
+          eventCampaignStateRef.current = null;
+        }
+
         // Freeze一本化: streaks.tsから読み込み
         const streakData = await getStreakData();
         if (cancelled) return;
@@ -1170,6 +1252,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedStreakRepairOffer,
           savedComebackRewardOffer,
           savedClaimedStreakMilestones,
+          savedEventCampaignState,
           freezes: streakData.freezesRemaining,
         });
       } catch (e) {
@@ -1346,6 +1429,15 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [claimedStreakMilestones, user, isStateHydrated]);
 
   useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    if (!eventCampaignState) {
+      AsyncStorage.removeItem(`event_campaign_state_${user.id}`).catch(() => { });
+      return;
+    }
+    AsyncStorage.setItem(`event_campaign_state_${user.id}`, JSON.stringify(eventCampaignState));
+  }, [eventCampaignState, user, isStateHydrated]);
+
+  useEffect(() => {
     if (!streakRepairOffer || !streakRepairOffer.active) return;
     const nowMs = Date.now();
     const remainingMs = streakRepairOffer.expiresAtMs - nowMs;
@@ -1406,9 +1498,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!user || !isStateHydrated) return;
     reconcileQuestCycles("cycle_reconcile");
-    const interval = setInterval(() => reconcileQuestCycles("cycle_reconcile"), 60000);
+    reconcileEventCampaign();
+    const interval = setInterval(() => {
+      reconcileQuestCycles("cycle_reconcile");
+      reconcileEventCampaign();
+    }, 60000);
     return () => clearInterval(interval);
-  }, [user, isStateHydrated, reconcileQuestCycles]);
+  }, [user, isStateHydrated, reconcileQuestCycles, reconcileEventCampaign]);
 
   useEffect(() => {
     if (!user || !isStateHydrated) return;
@@ -1732,6 +1828,110 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       questsRef.current = next;
       return next;
     });
+
+    const activeEventConfig = getActiveEventCampaignConfig(new Date());
+    if (!activeEventConfig) {
+      if (eventCampaignStateRef.current) {
+        setEventCampaignState(null);
+      }
+      return;
+    }
+
+    let rewardedQuests: EventQuestInstance[] = [];
+    let rewardedGems = 0;
+    let startedNow = false;
+    let completedNow = false;
+
+    setEventCampaignState((prev) => {
+      const reconciled = reconcileEventStateOnAccess(prev, activeEventConfig, new Date());
+      const progressed = applyEventMetricProgress(
+        reconciled,
+        metric as EventQuestMetric,
+        step
+      );
+
+      let nextStarted = progressed.started;
+      let nextCompleted = progressed.completed;
+
+      const nextQuests = progressed.quests.map((quest) => {
+        if (quest.progress >= quest.need && !quest.claimed) {
+          const claimedQuest = { ...quest, claimed: true };
+          rewardedQuests.push(claimedQuest);
+          rewardedGems += claimedQuest.rewardGems;
+          return claimedQuest;
+        }
+        return quest;
+      });
+
+      if (!nextStarted && nextQuests.some((quest) => quest.progress > 0)) {
+        nextStarted = true;
+        startedNow = true;
+      }
+
+      if (!nextCompleted && nextQuests.length > 0 && nextQuests.every((quest) => quest.claimed)) {
+        nextCompleted = true;
+        completedNow = true;
+      }
+
+      return {
+        ...progressed,
+        started: nextStarted,
+        completed: nextCompleted,
+        quests: nextQuests,
+      };
+    });
+
+    if (rewardedGems > 0) {
+      setGems((prev) => prev + rewardedGems);
+    }
+
+    rewardedQuests.forEach((quest) => {
+      Analytics.track("event_quest_rewarded", {
+        eventId: activeEventConfig.id,
+        templateId: quest.templateId,
+        metric: quest.metric,
+        rewardGems: quest.rewardGems,
+        source: "metric_progress",
+      });
+    });
+
+    if (startedNow) {
+      Analytics.track("event_started", {
+        eventId: activeEventConfig.id,
+        source: "metric_progress",
+      });
+    }
+
+    if (completedNow) {
+      const rewardBadgeId = activeEventConfig.reward_badge_id;
+      Analytics.track("event_completed", {
+        eventId: activeEventConfig.id,
+        rewardBadgeId,
+        source: "metric_progress",
+      });
+
+      if (user) {
+        supabase
+          .from("user_badges")
+          .insert({ user_id: user.id, badge_id: rewardBadgeId })
+          .then(({ error }) => {
+            if (error && error.code !== "23505") {
+              console.error("Failed to unlock event badge:", error);
+              return;
+            }
+            setUnlockedBadges((prev) => {
+              if (prev.has(rewardBadgeId)) return prev;
+              const next = new Set(prev);
+              next.add(rewardBadgeId);
+              return next;
+            });
+            setBadgeToastQueue((prev) => enqueueBadgeToastIds(prev, [rewardBadgeId]));
+          })
+          .catch((error) => {
+            console.error("Failed to unlock event badge:", error);
+          });
+      }
+    }
   };
 
   const claimQuest = (id: string) => {
@@ -2091,6 +2291,21 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const hasProAccess = hasProItemAccess(planId);
   const canAccessMistakesHub = canUseMistakesHub(userId, planId);
   const mistakesHubRemaining = getMistakesHubRemaining(userId, planId);
+  const activeEventConfig = getActiveEventCampaignConfig(new Date());
+  const eventCampaign =
+    activeEventConfig && eventCampaignState?.eventId === activeEventConfig.id
+      ? {
+          id: activeEventConfig.id,
+          titleKey: activeEventConfig.title_key,
+          communityTargetLessons: activeEventConfig.community_target_lessons,
+          startAt: activeEventConfig.start_at,
+          endAt: activeEventConfig.end_at,
+        }
+      : null;
+  const eventQuests =
+    eventCampaign && eventCampaignState?.eventId === activeEventConfig?.id
+      ? eventCampaignState.quests
+      : [];
   const hasPendingDailyQuests = quests.some((quest) => quest.type === "daily" && quest.progress < quest.need);
 
   // MistakesHub methods
@@ -2178,6 +2393,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     questionsAnswered,
     updateSkill,
     quests,
+    eventCampaign,
+    eventQuests,
     hasPendingDailyQuests,
     incrementQuest,
     incrementQuestMetric,
