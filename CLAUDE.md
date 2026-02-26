@@ -51,3 +51,17 @@ If any check fails, do not continue analysis. Report the failure and resolve syn
 - Work only on `main`.
 - Do not create or switch to `claude/*` branches.
 - Do not create PRs for routine sync/review replies.
+
+## Cross-Agent Review Presets
+
+When the user asks for Codex/Claude cross-review, generate the prompt with:
+
+```bash
+./tools/generate_cross_review_prompt.sh <mode> [<range>]
+```
+
+Modes:
+- `codex_impl_by_claude`
+- `claude_impl_by_codex`
+- `codex_plan_by_claude`
+- `claude_plan_by_codex`
