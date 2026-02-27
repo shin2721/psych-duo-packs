@@ -337,7 +337,7 @@ export type LeagueAutoJoinedOnXpEvent = {
 export type StreakMilestoneRewardedEvent = {
   name: 'streak_milestone_rewarded';
   properties: {
-    day: 3 | 7 | 30 | 60 | 100 | 365;
+    day: 3 | 7 | 14 | 30 | 60 | 100 | 365;
     rewardGems: number;
     source: 'streak_update';
     lifetimeOnce: true;
@@ -349,6 +349,7 @@ export type ComebackRewardOfferedEvent = {
   properties: {
     daysSinceStudy: number;
     rewardEnergy: number;
+    rewardGems: number;
     thresholdDays: number;
     source: 'streak_update';
   };
@@ -358,6 +359,7 @@ export type ComebackRewardClaimedEvent = {
   name: 'comeback_reward_claimed';
   properties: {
     rewardEnergy: number;
+    rewardGems: number;
     daysSinceStudy: number;
     source: 'lesson_complete';
   };

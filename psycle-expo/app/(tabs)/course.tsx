@@ -206,6 +206,7 @@ export default function CourseScreen() {
               {i18n.t("course.comebackReward.body", {
                 days: activeComebackRewardOffer.daysSinceStudy,
                 energy: activeComebackRewardOffer.rewardEnergy,
+                gems: activeComebackRewardOffer.rewardGems,
               })}
             </Text>
           </View>

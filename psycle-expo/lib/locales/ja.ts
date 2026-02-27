@@ -8,7 +8,7 @@ export const ja = {
         ok: 'OK',
         badgeUnlocked: 'バッジ獲得: %{badgeName}',
         streakMilestoneRewarded: '連続%{day}日達成: +%{gems} Gems',
-        comebackRewardClaimed: 'おかえり報酬: +%{energy} Energy',
+        comebackRewardClaimed: 'おかえり報酬: +%{energy} Energy / +%{gems} Gems',
     },
     shop: {
         title: 'ショップ',
@@ -303,7 +303,7 @@ export const ja = {
         },
         comebackReward: {
             title: 'おかえりボーナス',
-            body: '%{days}日ぶりの復帰です。今日の初回レッスン完了で +%{energy} Energy',
+            body: '%{days}日ぶりの復帰です。今日の初回レッスン完了で +%{energy} Energy / +%{gems} Gems',
             cta: '今すぐ再開',
         },
     },

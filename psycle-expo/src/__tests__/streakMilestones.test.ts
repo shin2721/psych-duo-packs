@@ -9,6 +9,7 @@ const config: StreakMilestonesConfig = {
   rewards: [
     { day: 3, gems: 5 },
     { day: 7, gems: 10 },
+    { day: 14, gems: 15 },
     { day: 30, gems: 20 },
     { day: 60, gems: 30 },
     { day: 100, gems: 50 },
@@ -20,6 +21,7 @@ describe("streak milestones", () => {
   test.each([
     [3, 5],
     [7, 10],
+    [14, 15],
     [30, 20],
     [60, 30],
     [100, 50],
@@ -33,7 +35,7 @@ describe("streak milestones", () => {
     expect(claimable).toEqual({ day: newStreak, gems });
   });
 
-  test.each([2, 4, 8, 99])("newStreak=%i is not claimable", (newStreak) => {
+  test.each([2, 4, 8, 13, 99])("newStreak=%i is not claimable", (newStreak) => {
     const claimable = getClaimableStreakMilestone({
       newStreak,
       claimedMilestones: [],

@@ -9,6 +9,7 @@ export interface ComebackRewardOffer {
   triggerDate: string; // YYYY-MM-DD (local)
   daysSinceStudy: number;
   rewardEnergy: number;
+  rewardGems: number;
   expiresAtMs: number;
 }
 
@@ -40,6 +41,7 @@ export function createComebackRewardOffer(input: {
   daysSinceStudy: number;
   thresholdDays: number;
   rewardEnergy: number;
+  rewardGems?: number;
   now?: Date;
 }): ComebackRewardOffer | null {
   const now = input.now ?? new Date();
@@ -48,13 +50,39 @@ export function createComebackRewardOffer(input: {
   }
 
   const rewardEnergy = Math.max(1, toPositiveInt(input.rewardEnergy, 2));
+  const rewardGems = Math.max(0, toPositiveInt(input.rewardGems ?? 0, 0));
 
   return {
     active: true,
     triggerDate: toDateKeyLocal(now),
     daysSinceStudy: toPositiveInt(input.daysSinceStudy),
     rewardEnergy,
+    rewardGems,
     expiresAtMs: getEndOfLocalDayMs(now),
+  };
+}
+
+export function normalizeComebackRewardOffer(raw: unknown): ComebackRewardOffer | null {
+  if (!raw || typeof raw !== "object") return null;
+  const source = raw as Partial<ComebackRewardOffer>;
+
+  if (
+    typeof source.active !== "boolean" ||
+    typeof source.triggerDate !== "string" ||
+    typeof source.daysSinceStudy !== "number" ||
+    typeof source.rewardEnergy !== "number" ||
+    typeof source.expiresAtMs !== "number"
+  ) {
+    return null;
+  }
+
+  return {
+    active: source.active,
+    triggerDate: source.triggerDate,
+    daysSinceStudy: toPositiveInt(source.daysSinceStudy, 0),
+    rewardEnergy: Math.max(1, toPositiveInt(source.rewardEnergy, 2)),
+    rewardGems: Math.max(0, toPositiveInt(source.rewardGems ?? 0, 0)),
+    expiresAtMs: source.expiresAtMs,
   };
 }
 

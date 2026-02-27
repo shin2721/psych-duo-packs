@@ -146,6 +146,7 @@ function GamificationToastBridge() {
         String(
           i18n.t("common.comebackRewardClaimed", {
             energy: toastItem.rewardEnergy,
+            gems: toastItem.rewardGems,
           })
         )
       );

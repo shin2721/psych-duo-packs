@@ -191,6 +191,7 @@ const DEFAULT_CONFIG: GamificationConfig = {
     rewards: [
       { day: 3, gems: 5 },
       { day: 7, gems: 10 },
+      { day: 14, gems: 15 },
       { day: 30, gems: 20 },
       { day: 60, gems: 30 },
       { day: 100, gems: 50 },

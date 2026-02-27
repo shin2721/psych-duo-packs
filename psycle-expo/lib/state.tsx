@@ -37,6 +37,7 @@ import {
   canClaimComebackReward,
   createComebackRewardOffer,
   isComebackOfferExpired,
+  normalizeComebackRewardOffer,
   type ComebackRewardOffer,
 } from "./comebackReward";
 import {
@@ -162,6 +163,7 @@ const ENERGY_STREAK_BONUS_DAILY_CAP = normalizePositiveInt(
 );
 const COMEBACK_REWARD_THRESHOLD_DAYS = 7;
 const COMEBACK_REWARD_ENERGY = 2;
+const COMEBACK_REWARD_GEMS = 10;
 const QUEST_SCHEMA_VERSION = 2;
 const ENERGY_REFILL_MS = ENERGY_REFILL_MINUTES * 60 * 1000;
 const streakMilestonesConfig = getStreakMilestonesConfig();
@@ -174,8 +176,8 @@ function getActiveEventCampaignConfig(now: Date = new Date()): EventCampaignConf
   return isEventWindowActive(now, config) ? config : null;
 }
 
-function isTrackedStreakMilestoneDay(day: number): day is 3 | 7 | 30 | 60 | 100 | 365 {
-  return day === 3 || day === 7 || day === 30 || day === 60 || day === 100 || day === 365;
+function isTrackedStreakMilestoneDay(day: number): day is 3 | 7 | 14 | 30 | 60 | 100 | 365 {
+  return day === 3 || day === 7 || day === 14 || day === 30 || day === 60 || day === 100 || day === 365;
 }
 
 function adjustQuestNeedsBySegment(
@@ -1253,8 +1255,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
         if (savedComebackRewardOffer) {
           try {
-            const parsedOffer = JSON.parse(savedComebackRewardOffer) as ComebackRewardOffer;
-            if (!isComebackOfferExpired(parsedOffer)) {
+            const parsedOffer = normalizeComebackRewardOffer(JSON.parse(savedComebackRewardOffer));
+            if (parsedOffer && !isComebackOfferExpired(parsedOffer)) {
               setComebackRewardOffer(parsedOffer);
             } else {
               if (parsedOffer?.active) {
@@ -1870,6 +1872,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           daysSinceStudy,
           thresholdDays: COMEBACK_REWARD_THRESHOLD_DAYS,
           rewardEnergy: adjustedComebackReward,
+          rewardGems: COMEBACK_REWARD_GEMS,
         });
 
         if (offer) {
@@ -1877,6 +1880,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           Analytics.track("comeback_reward_offered", {
             daysSinceStudy: offer.daysSinceStudy,
             rewardEnergy: offer.rewardEnergy,
+            rewardGems: offer.rewardGems,
             thresholdDays: COMEBACK_REWARD_THRESHOLD_DAYS,
             source: "streak_update",
           });
@@ -2365,13 +2369,23 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       return { awarded: false, reason: "no_offer" };
     }
 
-    addEnergy(comebackRewardOffer.rewardEnergy);
+    const rewardEnergy = Math.max(1, Math.floor(comebackRewardOffer.rewardEnergy));
+    const rewardGems = Math.max(0, Math.floor(comebackRewardOffer.rewardGems ?? 0));
+
+    addEnergy(rewardEnergy);
+    if (rewardGems > 0) {
+      addGems(rewardGems);
+    }
     setComebackRewardOffer({ ...comebackRewardOffer, active: false });
     setComebackRewardToastQueue((prev) =>
-      enqueueComebackRewardToast(prev, { rewardEnergy: comebackRewardOffer.rewardEnergy })
+      enqueueComebackRewardToast(prev, {
+        rewardEnergy,
+        rewardGems,
+      })
     );
     Analytics.track("comeback_reward_claimed", {
-      rewardEnergy: comebackRewardOffer.rewardEnergy,
+      rewardEnergy,
+      rewardGems,
       daysSinceStudy: comebackRewardOffer.daysSinceStudy,
       source: "lesson_complete",
     });

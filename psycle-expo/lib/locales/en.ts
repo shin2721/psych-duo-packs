@@ -8,7 +8,7 @@ export const en = {
         ok: 'OK',
         badgeUnlocked: 'Badge unlocked: %{badgeName}',
         streakMilestoneRewarded: 'Streak day %{day} reached: +%{gems} Gems',
-        comebackRewardClaimed: 'Welcome-back reward: +%{energy} Energy',
+        comebackRewardClaimed: 'Welcome-back reward: +%{energy} Energy / +%{gems} Gems',
     },
     shop: {
         title: 'Shop',
@@ -303,7 +303,7 @@ export const en = {
         },
         comebackReward: {
             title: 'Welcome Back Bonus',
-            body: 'You are back after %{days} days. Finish your first lesson today to earn +%{energy} Energy.',
+            body: 'You are back after %{days} days. Finish your first lesson today to earn +%{energy} Energy / +%{gems} Gems.',
             cta: 'Resume now',
         },
     },

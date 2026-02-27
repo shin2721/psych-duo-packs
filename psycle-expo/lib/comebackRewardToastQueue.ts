@@ -1,5 +1,6 @@
 export interface ComebackRewardToastItem {
   rewardEnergy: number;
+  rewardGems: number;
 }
 
 export function enqueueComebackRewardToast(

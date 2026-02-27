@@ -2,6 +2,7 @@ import {
   canClaimComebackReward,
   createComebackRewardOffer,
   isComebackEligible,
+  normalizeComebackRewardOffer,
 } from "../../lib/comebackReward";
 
 describe("comeback reward", () => {
@@ -15,12 +16,14 @@ describe("comeback reward", () => {
       daysSinceStudy: 7,
       thresholdDays: 7,
       rewardEnergy: 2,
+      rewardGems: 10,
       now,
     });
 
     expect(offer).not.toBeNull();
     expect(offer?.active).toBe(true);
     expect(offer?.rewardEnergy).toBe(2);
+    expect(offer?.rewardGems).toBe(10);
   });
 
   test("offer is claimable on trigger day and expires after day end", () => {
@@ -29,6 +32,7 @@ describe("comeback reward", () => {
       daysSinceStudy: 8,
       thresholdDays: 7,
       rewardEnergy: 2,
+      rewardGems: 10,
       now,
     });
     expect(offer).not.toBeNull();
@@ -57,6 +61,7 @@ describe("comeback reward", () => {
       daysSinceStudy: 9,
       thresholdDays: 7,
       rewardEnergy: 2,
+      rewardGems: 10,
       now,
     });
     expect(offer).not.toBeNull();
@@ -78,6 +83,7 @@ describe("comeback reward", () => {
       daysSinceStudy: 7,
       thresholdDays: 7,
       rewardEnergy: 2,
+      rewardGems: 10,
       now,
     });
     expect(offer).not.toBeNull();
@@ -90,5 +96,18 @@ describe("comeback reward", () => {
       nowMs: offer.expiresAtMs - 1,
     });
     expect(result).toEqual({ claimable: false, reason: "subscription_excluded" });
+  });
+
+  test("legacy offer without rewardGems normalizes safely", () => {
+    const normalized = normalizeComebackRewardOffer({
+      active: true,
+      triggerDate: "2026-02-25",
+      daysSinceStudy: 7,
+      rewardEnergy: 2,
+      expiresAtMs: Date.now() + 1000,
+    });
+
+    expect(normalized).not.toBeNull();
+    expect(normalized?.rewardGems).toBe(0);
   });
 });
