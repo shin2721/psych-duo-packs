@@ -421,6 +421,7 @@ export const en = {
         spring2026: {
             title: 'Spring Challenge 2026',
             quest_lessons_20: 'Complete 20 lessons during the event',
+            quest_streak5_5: 'Reach a 5-correct streak 5 times',
             quest_streak5_10: 'Reach a 5-correct streak 10 times',
         },
     },

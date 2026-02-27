@@ -22,11 +22,11 @@ const BASE_CONFIG: EventCampaignConfig = {
       title_key: "events.spring2026.quest_lessons_20",
     },
     {
-      template_id: "ev_streak5_10",
+      template_id: "ev_streak5_5",
       metric: "streak5_milestone",
-      need: 10,
+      need: 5,
       reward_gems: 30,
-      title_key: "events.spring2026.quest_streak5_10",
+      title_key: "events.spring2026.quest_streak5_5",
     },
   ],
 };

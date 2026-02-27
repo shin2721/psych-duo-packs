@@ -307,3 +307,23 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 - v1.34-mini は本流クエスト（daily/weekly/monthly）に侵襲せず、イベント状態を独立管理する。
 - 現在設定は `event_campaign.enabled=true`。表示可否は `start_at/end_at` の期間判定で自動制御され、緊急停止時は `enabled=false` で即停止できる。
 - 共同目標はテキスト表示のみ（実数集計RPCなし）。
+
+## v1.35 Streak + Event Tuning Addendum
+
+### 変更点
+
+- `streak_milestones` を長期帯まで拡張
+  - `day=60 => +30 Gems`
+  - `day=100 => +50 Gems`
+  - `day=365 => +100 Gems`
+- `Spring Challenge 2026` の `streak5` クエスト難易度を調整
+  - `ev_streak5_10` から `ev_streak5_5` に変更
+  - `need: 10 -> 5`（報酬30 Gemsは維持）
+
+### 監視観点
+
+- `streak_milestone_rewarded`
+  - `day in {60,100,365}` の発火有無と件数推移
+- `event_completed / event_started`
+  - 目標レンジ: `0.20 ~ 0.50`
+  - 期間中にレンジを大きく下回る場合は次回イベントの難易度再調整を検討

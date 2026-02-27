@@ -18,7 +18,10 @@
         "rewards": [
             { "day": 3, "gems": 5 },
             { "day": 7, "gems": 10 },
-            { "day": 30, "gems": 20 }
+            { "day": 30, "gems": 20 },
+            { "day": 60, "gems": 30 },
+            { "day": 100, "gems": 50 },
+            { "day": 365, "gems": 100 }
         ]
     },
     "combo_xp": {
@@ -60,11 +63,11 @@
                 "title_key": "events.spring2026.quest_lessons_20"
             },
             {
-                "template_id": "ev_streak5_10",
+                "template_id": "ev_streak5_5",
                 "metric": "streak5_milestone",
-                "need": 10,
+                "need": 5,
                 "reward_gems": 30,
-                "title_key": "events.spring2026.quest_streak5_10"
+                "title_key": "events.spring2026.quest_streak5_5"
             }
         ]
     },

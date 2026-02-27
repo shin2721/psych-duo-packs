@@ -85,6 +85,30 @@ export const BADGES: Badge[] = [
         category: 'streak',
         unlockCondition: (stats) => stats.streak >= 30,
     },
+    {
+        id: 'streak_60',
+        name: '60日連続',
+        description: '60日連続で学習',
+        icon: 'flame',
+        category: 'streak',
+        unlockCondition: (stats) => stats.streak >= 60,
+    },
+    {
+        id: 'streak_100',
+        name: '100日連続',
+        description: '100日連続で学習',
+        icon: 'flame',
+        category: 'streak',
+        unlockCondition: (stats) => stats.streak >= 100,
+    },
+    {
+        id: 'streak_365',
+        name: '365日連続',
+        description: '365日連続で学習',
+        icon: 'flame',
+        category: 'streak',
+        unlockCondition: (stats) => stats.streak >= 365,
+    },
 
     // Performance Badges
     {
