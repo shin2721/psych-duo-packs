@@ -2,10 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../lib/AuthContext';
+import { useAppState } from '../../lib/state';
 import { theme } from '../../lib/theme';
 import { FriendSearch } from '../../components/FriendSearch';
+import {
+    buildWeeklyFriendChallenge,
+    evaluateFriendChallengeProgress,
+    type WeeklyFriendChallenge,
+} from '../../lib/friendChallenges';
+import { Analytics } from '../../lib/analytics';
+import i18n from '../../lib/i18n';
 
 interface Friend {
     friend_id: string;
@@ -29,21 +38,60 @@ interface LeaderboardProfile {
 }
 
 type ViewType = 'friends' | 'requests' | 'search';
+const FRIEND_CHALLENGE_REWARD_GEMS = 15;
+
+function getFriendChallengeClaimKey(userId: string, weekId: string): string {
+    return `friend_challenge_claimed_${userId}_${weekId}`;
+}
 
 export default function FriendsScreen() {
     const [view, setView] = useState<ViewType>('friends');
     const [friends, setFriends] = useState<Friend[]>([]);
     const [requests, setRequests] = useState<FriendRequest[]>([]);
+    const [friendChallenge, setFriendChallenge] = useState<WeeklyFriendChallenge | null>(null);
+    const [friendChallengeClaimed, setFriendChallengeClaimed] = useState(false);
     const [loading, setLoading] = useState(false);
     const { user } = useAuth();
+    const { addGems } = useAppState();
 
     useEffect(() => {
         if (view === 'friends') {
             fetchFriends();
+            fetchFriendChallenge();
         } else if (view === 'requests') {
             fetchRequests();
         }
     }, [view]);
+
+    const fetchFriendChallenge = async () => {
+        if (!user) {
+            setFriendChallenge(null);
+            setFriendChallengeClaimed(false);
+            return;
+        }
+
+        try {
+            const challenge = await buildWeeklyFriendChallenge(user.id);
+            setFriendChallenge(challenge);
+            if (!challenge) {
+                setFriendChallengeClaimed(false);
+                return;
+            }
+
+            const claimKey = getFriendChallengeClaimKey(user.id, challenge.weekId);
+            const claimed = await AsyncStorage.getItem(claimKey);
+            setFriendChallengeClaimed(claimed === '1');
+
+            Analytics.track('friend_challenge_shown', {
+                weekId: challenge.weekId,
+                source: 'friends_tab',
+            });
+        } catch (error) {
+            console.error('Error fetching friend challenge:', error);
+            setFriendChallenge(null);
+            setFriendChallengeClaimed(false);
+        }
+    };
 
     const fetchFriends = async () => {
         if (!user) return;
@@ -201,6 +249,50 @@ export default function FriendsScreen() {
         );
     };
 
+    const claimFriendChallengeReward = async () => {
+        if (!user || !friendChallenge || friendChallengeClaimed) return;
+
+        const progress = evaluateFriendChallengeProgress({
+            myWeeklyXp: friendChallenge.myWeeklyXp,
+            opponentWeeklyXp: friendChallenge.opponentWeeklyXp,
+        });
+
+        if (!progress.completed) {
+            Alert.alert(
+                String(i18n.t('common.error')),
+                String(i18n.t('friends.challenge.notCompleted'))
+            );
+            return;
+        }
+
+        const claimKey = getFriendChallengeClaimKey(user.id, friendChallenge.weekId);
+        try {
+            await AsyncStorage.setItem(claimKey, '1');
+            addGems(FRIEND_CHALLENGE_REWARD_GEMS);
+            setFriendChallengeClaimed(true);
+            Analytics.track('friend_challenge_completed', {
+                weekId: friendChallenge.weekId,
+                opponentId: friendChallenge.opponentId,
+                rewardGems: FRIEND_CHALLENGE_REWARD_GEMS,
+                source: 'friends_tab',
+            });
+            Alert.alert(
+                String(i18n.t('common.ok')),
+                String(i18n.t('friends.challenge.rewardClaimed', { gems: FRIEND_CHALLENGE_REWARD_GEMS }))
+            );
+        } catch (error) {
+            console.error('Error claiming friend challenge reward:', error);
+            Alert.alert(String(i18n.t('common.error')), String(i18n.t('friends.challenge.rewardFailed')));
+        }
+    };
+
+    const friendChallengeProgress = friendChallenge
+        ? evaluateFriendChallengeProgress({
+            myWeeklyXp: friendChallenge.myWeeklyXp,
+            opponentWeeklyXp: friendChallenge.opponentWeeklyXp,
+        })
+        : null;
+
     const renderFriend = ({ item }: { item: Friend }) => (
         <View style={styles.card}>
             <View style={styles.userInfo}>
@@ -277,20 +369,74 @@ export default function FriendsScreen() {
 
             <View style={styles.content}>
                 {view === 'friends' && (
-                    friends.length === 0 ? (
-                        <View style={styles.emptyContainer}>
-                            <Ionicons name="people" size={64} color={theme.colors.sub} />
-                            <Text style={styles.emptyText}>No friends yet</Text>
-                            <Text style={styles.emptySubtext}>Search for users to add friends</Text>
-                        </View>
-                    ) : (
-                        <FlatList
-                            data={friends}
-                            renderItem={renderFriend}
-                            keyExtractor={(item) => item.friend_id}
-                            contentContainerStyle={styles.list}
-                        />
-                    )
+                    <>
+                        {friendChallenge && friendChallengeProgress && (
+                            <View style={styles.challengeCard}>
+                                <View style={styles.challengeHeaderRow}>
+                                    <Ionicons name="trophy" size={18} color={theme.colors.warn} />
+                                    <Text style={styles.challengeTitle}>
+                                        {String(i18n.t('friends.challenge.title'))}
+                                    </Text>
+                                </View>
+                                <Text style={styles.challengeSubtitle}>
+                                    {String(i18n.t('friends.challenge.subtitle', { name: friendChallenge.opponentName }))}
+                                </Text>
+                                <Text style={styles.challengeProgress}>
+                                    {String(
+                                        i18n.t('friends.challenge.progress', {
+                                            mine: friendChallengeProgress.myWeeklyXp,
+                                            theirs: friendChallengeProgress.opponentWeeklyXp,
+                                        })
+                                    )}
+                                </Text>
+                                <Text
+                                    style={[
+                                        styles.challengeStatus,
+                                        friendChallengeProgress.completed
+                                            ? styles.challengeStatusReady
+                                            : styles.challengeStatusPending,
+                                    ]}
+                                >
+                                    {friendChallengeProgress.completed
+                                        ? String(i18n.t('friends.challenge.readyToClaim'))
+                                        : String(i18n.t('friends.challenge.keepGoing'))}
+                                </Text>
+                                <Pressable
+                                    style={[
+                                        styles.challengeButton,
+                                        (friendChallengeClaimed || !friendChallengeProgress.completed) &&
+                                            styles.challengeButtonDisabled,
+                                    ]}
+                                    disabled={friendChallengeClaimed || !friendChallengeProgress.completed}
+                                    onPress={claimFriendChallengeReward}
+                                >
+                                    <Text style={styles.challengeButtonText}>
+                                        {friendChallengeClaimed
+                                            ? String(i18n.t('friends.challenge.claimed'))
+                                            : String(
+                                                  i18n.t('friends.challenge.claim', {
+                                                      gems: FRIEND_CHALLENGE_REWARD_GEMS,
+                                                  })
+                                              )}
+                                    </Text>
+                                </Pressable>
+                            </View>
+                        )}
+                        {friends.length === 0 ? (
+                            <View style={styles.emptyContainer}>
+                                <Ionicons name="people" size={64} color={theme.colors.sub} />
+                                <Text style={styles.emptyText}>No friends yet</Text>
+                                <Text style={styles.emptySubtext}>Search for users to add friends</Text>
+                            </View>
+                        ) : (
+                            <FlatList
+                                data={friends}
+                                renderItem={renderFriend}
+                                keyExtractor={(item) => item.friend_id}
+                                contentContainerStyle={styles.list}
+                            />
+                        )}
+                    </>
                 )}
 
                 {view === 'requests' && (
@@ -362,6 +508,60 @@ const styles = StyleSheet.create({
     },
     list: {
         paddingBottom: 20,
+    },
+    challengeCard: {
+        backgroundColor: theme.colors.surface,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: theme.colors.line,
+        padding: 14,
+        marginBottom: 12,
+    },
+    challengeHeaderRow: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        marginBottom: 6,
+    },
+    challengeTitle: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: theme.colors.text,
+    },
+    challengeSubtitle: {
+        fontSize: 13,
+        color: theme.colors.sub,
+        marginBottom: 4,
+    },
+    challengeProgress: {
+        fontSize: 14,
+        color: theme.colors.text,
+        marginBottom: 6,
+    },
+    challengeStatus: {
+        fontSize: 13,
+        fontWeight: '600',
+        marginBottom: 10,
+    },
+    challengeStatusReady: {
+        color: theme.colors.success,
+    },
+    challengeStatusPending: {
+        color: theme.colors.sub,
+    },
+    challengeButton: {
+        backgroundColor: theme.colors.primary,
+        borderRadius: 8,
+        paddingVertical: 10,
+        alignItems: 'center',
+    },
+    challengeButtonDisabled: {
+        opacity: 0.45,
+    },
+    challengeButtonText: {
+        color: '#fff',
+        fontWeight: '700',
+        fontSize: 14,
     },
     card: {
         flexDirection: 'row',

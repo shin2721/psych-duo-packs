@@ -17,10 +17,12 @@ import {
 import { consumeNextBadgeToastItem, enqueueBadgeToastIds } from "./badgeToastQueue";
 import {
   getEventCampaignConfig,
+  getPersonalizationConfig,
   getShopSinksConfig,
   getStreakMilestonesConfig,
   type EventCampaignConfig,
   type EventQuestMetric,
+  type PersonalizationSegment,
 } from "./gamificationConfig";
 import {
   getClaimableStreakMilestone,
@@ -58,6 +60,7 @@ import {
 } from "./questCycles";
 import {
   createMonthlyFixedQuestInstances,
+  getQuestTemplateNeed,
   type QuestInstance,
   type QuestMetric,
 } from "./questDefinitions";
@@ -75,6 +78,13 @@ import {
   getMistakesHubRemaining,
   hasProItemAccess,
 } from "../src/featureGate";
+import {
+  deriveUserSegment,
+  getAdjustedComebackReward,
+  getAdjustedQuestNeed,
+  normalizePersonalizationSegment,
+  shouldReassignSegment,
+} from "./personalization";
 import { selectMistakesHubItems } from "../src/features/mistakesHub";
 import { Analytics } from "./analytics";
 import type { PlanId } from "./types/plan";
@@ -156,6 +166,7 @@ const QUEST_SCHEMA_VERSION = 2;
 const ENERGY_REFILL_MS = ENERGY_REFILL_MINUTES * 60 * 1000;
 const streakMilestonesConfig = getStreakMilestonesConfig();
 const shopSinksConfig = getShopSinksConfig();
+const personalizationConfig = getPersonalizationConfig();
 
 function getActiveEventCampaignConfig(now: Date = new Date()): EventCampaignConfig | null {
   const config = getEventCampaignConfig();
@@ -165,6 +176,31 @@ function getActiveEventCampaignConfig(now: Date = new Date()): EventCampaignConf
 
 function isTrackedStreakMilestoneDay(day: number): day is 3 | 7 | 30 | 60 | 100 | 365 {
   return day === 3 || day === 7 || day === 30 || day === 60 || day === 100 || day === 365;
+}
+
+function adjustQuestNeedsBySegment(
+  quests: QuestInstance[],
+  segment: PersonalizationSegment
+): QuestInstance[] {
+  if (!personalizationConfig.enabled) return quests;
+
+  let changed = false;
+  const next = quests.map((quest) => {
+    if (quest.type === "monthly" || quest.claimed) return quest;
+
+    const baseNeed = getQuestTemplateNeed(quest.templateId) ?? quest.need;
+    const adjustedNeed = getAdjustedQuestNeed(baseNeed, segment, personalizationConfig);
+    if (adjustedNeed === quest.need) return quest;
+
+    changed = true;
+    return {
+      ...quest,
+      need: adjustedNeed,
+      progress: Math.min(quest.progress, adjustedNeed),
+    };
+  });
+
+  return changed ? next : quests;
 }
 
 function createInitialQuestState(cycleKeys: QuestCycleKeys): {
@@ -450,9 +486,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [eventCampaignState, setEventCampaignState] = useState<EventCampaignState | null>(
     initialEventConfig ? buildInitialEventState(initialEventConfig) : null
   );
+  const [personalizationSegment, setPersonalizationSegment] = useState<PersonalizationSegment>("new");
+  const [personalizationAssignedAtMs, setPersonalizationAssignedAtMs] = useState<number | null>(null);
   const eventCampaignStateRef = useRef<EventCampaignState | null>(
     initialEventConfig ? buildInitialEventState(initialEventConfig) : null
   );
+  const personalizationSegmentRef = useRef<PersonalizationSegment>("new");
+  const personalizationAssignedAtMsRef = useRef<number | null>(null);
+  const liveOpsActivationRef = useRef<string | null>(null);
   const questsRef = useRef<QuestInstance[]>(initialQuestState.quests);
   const questCycleKeysRef = useRef<QuestCycleKeys>(initialQuestCycleKeys);
   const questRotationPrevRef = useRef<QuestRotationSelection>(initialQuestState.rotationSelection);
@@ -708,6 +749,14 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [eventCampaignState]);
 
   useEffect(() => {
+    personalizationSegmentRef.current = personalizationSegment;
+  }, [personalizationSegment]);
+
+  useEffect(() => {
+    personalizationAssignedAtMsRef.current = personalizationAssignedAtMs;
+  }, [personalizationAssignedAtMs]);
+
+  useEffect(() => {
     badgeToastQueueRef.current = badgeToastQueue;
   }, [badgeToastQueue]);
 
@@ -736,8 +785,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       });
 
       if (reconcileResult.changedTypes.length > 0) {
-        questsRef.current = reconcileResult.quests;
-        setQuests(reconcileResult.quests);
+        const adjustedQuests = adjustQuestNeedsBySegment(
+          reconcileResult.quests,
+          personalizationSegmentRef.current
+        );
+        questsRef.current = adjustedQuests;
+        setQuests(adjustedQuests);
         questRotationPrevRef.current = reconcileResult.selection;
         setQuestRotationPrev(reconcileResult.selection);
 
@@ -752,8 +805,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           dailyChanged: reconcileResult.changedTypes.includes("daily"),
           weeklyChanged: reconcileResult.changedTypes.includes("weekly"),
           monthlyChanged: reconcileResult.changedTypes.includes("monthly"),
-          dailyCount: reconcileResult.quests.filter((quest) => quest.type === "daily").length,
-          weeklyCount: reconcileResult.quests.filter((quest) => quest.type === "weekly").length,
+          dailyCount: adjustedQuests.filter((quest) => quest.type === "daily").length,
+          weeklyCount: adjustedQuests.filter((quest) => quest.type === "weekly").length,
           source,
         });
 
@@ -784,7 +837,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       if (eventCampaignStateRef.current) {
         setEventCampaignState(null);
       }
+      liveOpsActivationRef.current = null;
       return;
+    }
+
+    if (liveOpsActivationRef.current !== activeConfig.id) {
+      liveOpsActivationRef.current = activeConfig.id;
+      Analytics.track("liveops_event_activated", {
+        eventId: activeConfig.id,
+        source: "event_reconcile",
+      });
     }
 
     setEventCampaignState((prev) =>
@@ -869,6 +931,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       questRotationPrevRef.current = resetQuestState.rotationSelection;
       setEventCampaignState(null);
       eventCampaignStateRef.current = null;
+      setPersonalizationSegment("new");
+      personalizationSegmentRef.current = "new";
+      setPersonalizationAssignedAtMs(null);
+      personalizationAssignedAtMsRef.current = null;
+      liveOpsActivationRef.current = null;
       badgeToastQueueRef.current = [];
       streakMilestoneToastQueueRef.current = [];
       comebackRewardToastQueueRef.current = [];
@@ -903,6 +970,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedComebackRewardOffer,
           savedClaimedStreakMilestones,
           savedEventCampaignState,
+          savedPersonalizationSegment,
+          savedPersonalizationAssignedAtMs,
         ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
@@ -924,6 +993,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`comeback_reward_offer_${user.id}`),
           AsyncStorage.getItem(`streak_milestones_claimed_${user.id}`),
           AsyncStorage.getItem(`event_campaign_state_${user.id}`),
+          AsyncStorage.getItem(`personalization_segment_${user.id}`),
+          AsyncStorage.getItem(`personalization_segment_assigned_at_${user.id}`),
         ]);
 
         if (cancelled) return;
@@ -931,6 +1002,15 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         if (savedXp) setXP(parseInt(savedXp, 10));
         if (savedGems) setGems(parseInt(savedGems, 10));
         if (savedStreak) setStreak(parseInt(savedStreak, 10));
+        const initialSegment = normalizePersonalizationSegment(savedPersonalizationSegment);
+        setPersonalizationSegment(initialSegment);
+        personalizationSegmentRef.current = initialSegment;
+        const parsedPersonalizationAssignedAt = Number.parseInt(savedPersonalizationAssignedAtMs ?? "", 10);
+        const initialAssignedAt = Number.isFinite(parsedPersonalizationAssignedAt)
+          ? parsedPersonalizationAssignedAt
+          : null;
+        setPersonalizationAssignedAtMs(initialAssignedAt);
+        personalizationAssignedAtMsRef.current = initialAssignedAt;
 
         const nowQuestCycleKeys = getQuestCycleKeys();
         let loadedQuestCycleKeys = nowQuestCycleKeys;
@@ -1069,8 +1149,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           setGems((prev) => prev + pendingAutoClaimGems);
         }
 
-        setQuests(loadedQuests);
-        questsRef.current = loadedQuests;
+        const adjustedLoadedQuests = adjustQuestNeedsBySegment(loadedQuests, initialSegment);
+        setQuests(adjustedLoadedQuests);
+        questsRef.current = adjustedLoadedQuests;
         setQuestCycleKeys(nowQuestCycleKeys);
         questCycleKeysRef.current = nowQuestCycleKeys;
         setQuestRotationPrev(loadedRotationSelection);
@@ -1438,6 +1519,23 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [eventCampaignState, user, isStateHydrated]);
 
   useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(`personalization_segment_${user.id}`, personalizationSegment);
+  }, [personalizationSegment, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    if (personalizationAssignedAtMs === null) {
+      AsyncStorage.removeItem(`personalization_segment_assigned_at_${user.id}`).catch(() => { });
+      return;
+    }
+    AsyncStorage.setItem(
+      `personalization_segment_assigned_at_${user.id}`,
+      personalizationAssignedAtMs.toString()
+    );
+  }, [personalizationAssignedAtMs, user, isStateHydrated]);
+
+  useEffect(() => {
     if (!streakRepairOffer || !streakRepairOffer.active) return;
     const nowMs = Date.now();
     const remainingMs = streakRepairOffer.expiresAtMs - nowMs;
@@ -1569,6 +1667,94 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return Math.floor(diffMs / (24 * 60 * 60 * 1000));
   }
 
+  function getDateDaysAgo(daysAgo: number): string {
+    const date = new Date();
+    date.setDate(date.getDate() - Math.max(0, Math.floor(daysAgo)));
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(
+      date.getDate()
+    ).padStart(2, "0")}`;
+  }
+
+  const assignPersonalizationSegment = useCallback(async () => {
+    if (!user || !isStateHydrated || !personalizationConfig.enabled) return;
+    if (
+      !shouldReassignSegment({
+        lastAssignedAtMs: personalizationAssignedAtMsRef.current,
+        cooldownHours: personalizationConfig.segment_reassign_cooldown_hours,
+      })
+    ) {
+      return;
+    }
+
+    let lessonsCompleted7d = 0;
+    try {
+      const fromDate = getDateDaysAgo(6);
+      const { data, error } = await supabase
+        .from("streak_history")
+        .select("lessons_completed")
+        .eq("user_id", user.id)
+        .gte("date", fromDate);
+      if (error) throw error;
+
+      lessonsCompleted7d = (data ?? []).reduce((sum, row) => {
+        const value = Number((row as { lessons_completed?: number | null }).lessons_completed ?? 0);
+        return sum + (Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0);
+      }, 0);
+    } catch (error) {
+      if (__DEV__) {
+        console.warn("[Personalization] Failed to fetch 7d lesson counts:", error);
+      }
+      lessonsCompleted7d = 0;
+    }
+
+    const daysSinceStudy = getDaysSinceDate(lastActivityDate);
+    const nextSegment = deriveUserSegment({
+      lessonsCompleted7d,
+      daysSinceStudy,
+      currentStreak: streak,
+    });
+    const nowMs = Date.now();
+    const segmentChanged = nextSegment !== personalizationSegmentRef.current;
+
+    personalizationAssignedAtMsRef.current = nowMs;
+    setPersonalizationAssignedAtMs(nowMs);
+
+    if (!segmentChanged && personalizationSegmentRef.current === nextSegment) {
+      return;
+    }
+
+    personalizationSegmentRef.current = nextSegment;
+    setPersonalizationSegment(nextSegment);
+    setQuests((prev) => {
+      const adjusted = adjustQuestNeedsBySegment(prev, nextSegment);
+      questsRef.current = adjusted;
+      return adjusted;
+    });
+
+    Analytics.track("personalization_segment_assigned", {
+      segment: nextSegment,
+      lessonsCompleted7d,
+      daysSinceStudy,
+      source: "daily_reassign",
+    });
+  }, [user, isStateHydrated, lastActivityDate, streak]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated || !personalizationConfig.enabled) return;
+
+    assignPersonalizationSegment().catch((error) => {
+      console.warn("[Personalization] Initial segment assignment failed:", error);
+    });
+
+    const interval = setInterval(() => {
+      assignPersonalizationSegment().catch((error) => {
+        console.warn("[Personalization] Segment reassignment failed:", error);
+      });
+    }, 60000);
+
+    return () => clearInterval(interval);
+  }, [user, isStateHydrated, assignPersonalizationSegment]);
+
   // Check and reset daily progress
   useEffect(() => {
     const today = getTodayDate();
@@ -1674,20 +1860,27 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setLastActivityDate(today);
 
     if (!isSubscriptionActive) {
-      const offer = createComebackRewardOffer({
-        daysSinceStudy,
-        thresholdDays: COMEBACK_REWARD_THRESHOLD_DAYS,
-        rewardEnergy: COMEBACK_REWARD_ENERGY,
-      });
-
-      if (offer) {
-        setComebackRewardOffer(offer);
-        Analytics.track("comeback_reward_offered", {
-          daysSinceStudy: offer.daysSinceStudy,
-          rewardEnergy: offer.rewardEnergy,
+      const adjustedComebackReward = getAdjustedComebackReward(
+        COMEBACK_REWARD_ENERGY,
+        personalizationSegmentRef.current,
+        personalizationConfig
+      );
+      if (adjustedComebackReward > 0) {
+        const offer = createComebackRewardOffer({
+          daysSinceStudy,
           thresholdDays: COMEBACK_REWARD_THRESHOLD_DAYS,
-          source: "streak_update",
+          rewardEnergy: adjustedComebackReward,
         });
+
+        if (offer) {
+          setComebackRewardOffer(offer);
+          Analytics.track("comeback_reward_offered", {
+            daysSinceStudy: offer.daysSinceStudy,
+            rewardEnergy: offer.rewardEnergy,
+            thresholdDays: COMEBACK_REWARD_THRESHOLD_DAYS,
+            source: "streak_update",
+          });
+        }
       }
     }
 

@@ -46,6 +46,46 @@
         "min_gems": 20,
         "require_inactive_boost": true
     },
+    "experiments": {
+        "enabled": false,
+        "experiments": {
+            "double_xp_nudge_lesson_complete": {
+                "enabled": false,
+                "variants": [
+                    {
+                        "id": "control",
+                        "weight": 50,
+                        "payload": {
+                            "copyStyle": "default"
+                        }
+                    },
+                    {
+                        "id": "variant_a",
+                        "weight": 50,
+                        "payload": {
+                            "copyStyle": "urgency"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "personalization": {
+        "enabled": false,
+        "segment_reassign_cooldown_hours": 24,
+        "quest_need_adjustment": {
+            "new": -1,
+            "active": 0,
+            "at_risk": -1,
+            "power": 1
+        },
+        "comeback_reward_adjustment": {
+            "new": 0,
+            "active": 0,
+            "at_risk": 1,
+            "power": 0
+        }
+    },
     "event_campaign": {
         "enabled": true,
         "id": "spring_challenge_2026",
@@ -68,6 +108,37 @@
                 "need": 5,
                 "reward_gems": 30,
                 "title_key": "events.spring2026.quest_streak5_5"
+            }
+        ]
+    },
+    "liveops": {
+        "enabled": false,
+        "max_active_campaigns": 1,
+        "campaigns": [
+            {
+                "enabled": true,
+                "id": "spring_challenge_2026",
+                "start_at": "2026-04-29T00:00:00+09:00",
+                "end_at": "2026-05-06T23:59:59+09:00",
+                "title_key": "events.spring2026.title",
+                "community_target_lessons": 10000,
+                "reward_badge_id": "event_spring_2026",
+                "quests": [
+                    {
+                        "template_id": "ev_lessons_20",
+                        "metric": "lesson_complete",
+                        "need": 20,
+                        "reward_gems": 20,
+                        "title_key": "events.spring2026.quest_lessons_20"
+                    },
+                    {
+                        "template_id": "ev_streak5_5",
+                        "metric": "streak5_milestone",
+                        "need": 5,
+                        "reward_gems": 30,
+                        "title_key": "events.spring2026.quest_streak5_5"
+                    }
+                ]
             }
         ]
     },

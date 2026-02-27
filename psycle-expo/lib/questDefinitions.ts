@@ -160,6 +160,16 @@ export const MONTHLY_FIXED_QUEST_TEMPLATES: QuestTemplate[] = [
   },
 ];
 
+const QUEST_TEMPLATE_BY_ID = (() => {
+  const map = new Map<string, QuestTemplate>();
+  [...DAILY_QUEST_TEMPLATES, ...WEEKLY_QUEST_TEMPLATES, ...MONTHLY_FIXED_QUEST_TEMPLATES].forEach(
+    (template) => {
+      map.set(template.templateId, template);
+    }
+  );
+  return map;
+})();
+
 export function createQuestInstanceFromTemplate(template: QuestTemplate, cycleKey: string): QuestInstance {
   return {
     id: `${template.templateId}__${cycleKey}`,
@@ -182,4 +192,10 @@ export function createMonthlyFixedQuestInstances(cycleKey: string): QuestInstanc
     ...createQuestInstanceFromTemplate(template, cycleKey),
     id: template.templateId,
   }));
+}
+
+export function getQuestTemplateNeed(templateId: string): number | null {
+  const template = QUEST_TEMPLATE_BY_ID.get(templateId);
+  if (!template) return null;
+  return template.need;
 }

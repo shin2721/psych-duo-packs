@@ -417,6 +417,61 @@ export type EventCompletedEvent = {
   };
 };
 
+export type ExperimentExposedEvent = {
+  name: 'experiment_exposed';
+  properties: {
+    experimentId: string;
+    variantId: string;
+    source: 'lesson_complete_nudge';
+  };
+};
+
+export type ExperimentConvertedEvent = {
+  name: 'experiment_converted';
+  properties: {
+    experimentId: string;
+    variantId: string;
+    source: 'lesson_complete_nudge';
+    conversion: 'double_xp_purchased';
+  };
+};
+
+export type PersonalizationSegmentAssignedEvent = {
+  name: 'personalization_segment_assigned';
+  properties: {
+    segment: 'new' | 'active' | 'at_risk' | 'power';
+    lessonsCompleted7d: number;
+    daysSinceStudy: number;
+    source: 'daily_reassign';
+  };
+};
+
+export type FriendChallengeShownEvent = {
+  name: 'friend_challenge_shown';
+  properties: {
+    weekId: string;
+    source: 'friends_tab';
+  };
+};
+
+export type FriendChallengeCompletedEvent = {
+  name: 'friend_challenge_completed';
+  properties: {
+    weekId: string;
+    opponentId: string;
+    rewardGems: number;
+    source: 'friends_tab';
+  };
+};
+
+export type LiveOpsEventActivatedEvent = {
+  name: 'liveops_event_activated';
+  properties: {
+    eventId: string;
+    source: 'event_reconcile';
+  };
+};
+
 export type TrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
@@ -458,4 +513,10 @@ export type TrackedEvent =
   | CommunityGoalShownEvent
   | EventStartedEvent
   | EventQuestRewardedEvent
-  | EventCompletedEvent;
+  | EventCompletedEvent
+  | ExperimentExposedEvent
+  | ExperimentConvertedEvent
+  | PersonalizationSegmentAssignedEvent
+  | FriendChallengeShownEvent
+  | FriendChallengeCompletedEvent
+  | LiveOpsEventActivatedEvent;

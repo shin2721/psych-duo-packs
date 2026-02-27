@@ -35,6 +35,7 @@ import {
   shouldShowDoubleXpNudge,
   type DoubleXpNudgeState,
 } from "../lib/doubleXpNudge";
+import { assignExperiment } from "../lib/experimentEngine";
 import {
   getLessonCompletionQuestIncrements,
   getStreakQuestIncrement,
@@ -103,6 +104,7 @@ export default function LessonScreen() {
   const usedComboBonusXpRef = useRef(0); // レッスン単位のコンボ追加XP累積
   const nudgeEvaluatedRef = useRef(false);
   const [showDoubleXpNudge, setShowDoubleXpNudge] = useState(false);
+  const nudgeExperimentRef = useRef<{ experimentId: string; variantId: string } | null>(null);
   const nudgeStorageUserId = user?.id ?? "local";
   const listSeparator = i18n.locale.startsWith("ja") ? "、" : ", ";
 
@@ -193,6 +195,7 @@ export default function LessonScreen() {
       usedComboBonusXpRef.current = 0;
       nudgeEvaluatedRef.current = false;
       setShowDoubleXpNudge(false);
+      nudgeExperimentRef.current = null;
       setCurrentLesson(lesson);
       setOriginalQuestions(effectiveQuestions);
       setQuestions(effectiveQuestions);
@@ -245,6 +248,7 @@ export default function LessonScreen() {
 
       if (!shouldShow) {
         setShowDoubleXpNudge(false);
+        nudgeExperimentRef.current = null;
         nudgeEvaluatedRef.current = true;
         return;
       }
@@ -255,6 +259,14 @@ export default function LessonScreen() {
         doubleXpNudgeConfig.daily_show_limit,
         today
       );
+
+      const assignment = assignExperiment(
+        user?.id ?? nudgeStorageUserId,
+        "double_xp_nudge_lesson_complete"
+      );
+      nudgeExperimentRef.current = assignment
+        ? { experimentId: assignment.experimentId, variantId: assignment.variantId }
+        : null;
 
       try {
         await AsyncStorage.setItem(storageKey, JSON.stringify(nextState));
@@ -269,6 +281,23 @@ export default function LessonScreen() {
         gems,
         dailyRemainingAfterShow,
       });
+
+      if (assignment) {
+        const exposureKey = `experiment_exposed_${assignment.experimentId}_${nudgeStorageUserId}_${today}`;
+        try {
+          const alreadyExposed = await AsyncStorage.getItem(exposureKey);
+          if (!alreadyExposed) {
+            Analytics.track("experiment_exposed", {
+              experimentId: assignment.experimentId,
+              variantId: assignment.variantId,
+              source: "lesson_complete_nudge",
+            });
+            await AsyncStorage.setItem(exposureKey, "1");
+          }
+        } catch (error) {
+          console.error("[Experiment] Failed to persist exposure state:", error);
+        }
+      }
     };
 
     evaluateNudge().catch((error) => {
@@ -513,6 +542,14 @@ export default function LessonScreen() {
                       });
                       const result = buyDoubleXP("lesson_complete_nudge");
                       if (result.success) {
+                        if (nudgeExperimentRef.current) {
+                          Analytics.track("experiment_converted", {
+                            experimentId: nudgeExperimentRef.current.experimentId,
+                            variantId: nudgeExperimentRef.current.variantId,
+                            source: "lesson_complete_nudge",
+                            conversion: "double_xp_purchased",
+                          });
+                        }
                         setShowDoubleXpNudge(false);
                         Alert.alert(i18n.t("common.ok"), i18n.t("lesson.doubleXpNudge.purchased"));
                         return;

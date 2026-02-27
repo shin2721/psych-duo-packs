@@ -507,6 +507,20 @@ export const ja = {
             master: 'マスター',
         },
     },
+    friends: {
+        challenge: {
+            title: '週間フレンドチャレンジ',
+            subtitle: '今週の対戦相手: %{name}',
+            progress: 'あなた %{mine} XP ・ 相手 %{theirs} XP',
+            readyToClaim: 'チャレンジ達成。報酬を受け取れます。',
+            keepGoing: 'もう少しで追い越せます。',
+            claim: '+%{gems} Gems を受け取る',
+            claimed: '受け取り済み',
+            notCompleted: '相手以上のXPに達してから受け取れます。',
+            rewardClaimed: '報酬を受け取りました: +%{gems} Gems',
+            rewardFailed: '報酬の受け取りに失敗しました。',
+        },
+    },
     onboarding: {
         subtitle: '1日3分で、心を強くする。',
         start: 'はじめる',

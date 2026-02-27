@@ -327,3 +327,40 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 - `event_completed / event_started`
   - 目標レンジ: `0.20 ~ 0.50`
   - 期間中にレンジを大きく下回る場合は次回イベントの難易度再調整を検討
+
+## v1.36 Growth Foundation Addendum
+
+### 追加イベント
+
+- `experiment_exposed`
+  - `experimentId`
+  - `variantId`
+  - `source`: `lesson_complete_nudge`
+- `experiment_converted`
+  - `experimentId`
+  - `variantId`
+  - `source`: `lesson_complete_nudge`
+  - `conversion`: `double_xp_purchased`
+- `personalization_segment_assigned`
+  - `segment`: `new | active | at_risk | power`
+  - `lessonsCompleted7d`
+  - `daysSinceStudy`
+  - `source`: `daily_reassign`
+- `friend_challenge_shown`
+  - `weekId`
+  - `source`: `friends_tab`
+- `friend_challenge_completed`
+  - `weekId`
+  - `opponentId`
+  - `rewardGems`
+  - `source`: `friends_tab`
+- `liveops_event_activated`
+  - `eventId`
+  - `source`: `event_reconcile`
+
+### 運用メモ
+
+- 実験導線はまず A/A で稼働確認し、variant 間の主要KPI差分が ±2%以内であることをゲートにする。
+- 個別最適化セグメントは 24h クールダウンで再判定し、短周期で揺れないようにする。
+- 友達チャレンジは表示だけでなく完了率を監視する。目安は `friend_challenge_completed / friend_challenge_shown >= 0.15`。
+- LiveOps は設定ベースで有効化されるため、イベント切替時は `liveops_event_activated` 発火を最初に確認する。

@@ -507,6 +507,20 @@ export const en = {
             master: 'Master',
         },
     },
+    friends: {
+        challenge: {
+            title: 'Weekly Friend Challenge',
+            subtitle: 'This week vs %{name}',
+            progress: 'You %{mine} XP · Opponent %{theirs} XP',
+            readyToClaim: 'Challenge completed. Claim your reward.',
+            keepGoing: 'Keep going to overtake your friend.',
+            claim: 'Claim +%{gems} Gems',
+            claimed: 'Reward claimed',
+            notCompleted: 'Reach or beat your friend XP first.',
+            rewardClaimed: 'Reward claimed: +%{gems} Gems',
+            rewardFailed: 'Failed to claim challenge reward.',
+        },
+    },
     onboarding: {
         subtitle: 'Build mental strength in just 3 minutes a day.',
         start: 'Get Started',
