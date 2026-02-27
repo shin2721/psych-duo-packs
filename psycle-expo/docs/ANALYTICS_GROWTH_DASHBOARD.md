@@ -204,6 +204,12 @@ npm run analytics:posthog:dashboard:dry
 npm run analytics:posthog:dashboard
 ```
 
+5. KPIレポートJSONを生成（監視用）
+
+```bash
+npm run analytics:posthog:kpi-report
+```
+
 補足:
 - 既存ダッシュボードを置き換える場合は `--replace` を付ける
 - スクリプト: `scripts/create-posthog-growth-dashboard.mjs`
