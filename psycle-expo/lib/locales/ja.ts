@@ -422,7 +422,6 @@ export const ja = {
             title: 'Spring Challenge 2026',
             quest_lessons_20: '期間中に20レッスン完了',
             quest_streak5_5: '5問連続正解を5回達成',
-            quest_streak5_10: '5問連続正解を10回達成',
         },
     },
     lessonScreen: {

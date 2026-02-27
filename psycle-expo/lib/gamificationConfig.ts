@@ -133,6 +133,9 @@ const DEFAULT_CONFIG: GamificationConfig = {
             { day: 3, gems: 5 },
             { day: 7, gems: 10 },
             { day: 30, gems: 20 },
+            { day: 60, gems: 30 },
+            { day: 100, gems: 50 },
+            { day: 365, gems: 100 },
         ],
     },
     combo_xp: {
@@ -158,7 +161,7 @@ const DEFAULT_CONFIG: GamificationConfig = {
         require_inactive_boost: true,
     },
     event_campaign: {
-        enabled: false,
+        enabled: true,
         id: "spring_challenge_2026",
         start_at: "2026-04-29T00:00:00+09:00",
         end_at: "2026-05-06T23:59:59+09:00",
@@ -174,11 +177,11 @@ const DEFAULT_CONFIG: GamificationConfig = {
                 title_key: "events.spring2026.quest_lessons_20",
             },
             {
-                template_id: "ev_streak5_10",
+                template_id: "ev_streak5_5",
                 metric: "streak5_milestone",
-                need: 10,
+                need: 5,
                 reward_gems: 30,
-                title_key: "events.spring2026.quest_streak5_10",
+                title_key: "events.spring2026.quest_streak5_5",
             },
         ],
     },

@@ -337,7 +337,7 @@ export type LeagueAutoJoinedOnXpEvent = {
 export type StreakMilestoneRewardedEvent = {
   name: 'streak_milestone_rewarded';
   properties: {
-    day: 3 | 7 | 30;
+    day: 3 | 7 | 30 | 60 | 100 | 365;
     rewardGems: number;
     source: 'streak_update';
     lifetimeOnce: true;

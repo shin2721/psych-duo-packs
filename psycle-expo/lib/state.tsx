@@ -163,8 +163,8 @@ function getActiveEventCampaignConfig(now: Date = new Date()): EventCampaignConf
   return isEventWindowActive(now, config) ? config : null;
 }
 
-function isTrackedStreakMilestoneDay(day: number): day is 3 | 7 | 30 {
-  return day === 3 || day === 7 || day === 30;
+function isTrackedStreakMilestoneDay(day: number): day is 3 | 7 | 30 | 60 | 100 | 365 {
+  return day === 3 || day === 7 || day === 30 || day === 60 || day === 100 || day === 365;
 }
 
 function createInitialQuestState(cycleKeys: QuestCycleKeys): {
