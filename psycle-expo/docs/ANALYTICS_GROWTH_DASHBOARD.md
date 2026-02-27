@@ -299,5 +299,5 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 ### 運用メモ
 
 - v1.34-mini は本流クエスト（daily/weekly/monthly）に侵襲せず、イベント状態を独立管理する。
-- 初期設定は `event_campaign.enabled=false`。設定切替のみで起動/停止できる。
+- 現在設定は `event_campaign.enabled=true`。表示可否は `start_at/end_at` の期間判定で自動制御され、緊急停止時は `enabled=false` で即停止できる。
 - 共同目標はテキスト表示のみ（実数集計RPCなし）。
