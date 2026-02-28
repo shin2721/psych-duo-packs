@@ -175,6 +175,9 @@ function GamificationToastBridge() {
       const toastItem = consumeNextComebackRewardToast();
       if (!toastItem) return;
 
+      void sounds.play("levelUp");
+      void hapticFeedback.success();
+
       setMessage(
         String(
           i18n.t("common.comebackRewardClaimed", {
