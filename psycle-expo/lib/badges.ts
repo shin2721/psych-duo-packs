@@ -87,7 +87,7 @@ export const BADGES: Badge[] = [
     },
     {
         id: 'streak_60',
-        name: '60日連続',
+        name: '2ヶ月連続',
         description: '60日連続で学習',
         icon: 'flame',
         category: 'streak',
@@ -95,7 +95,7 @@ export const BADGES: Badge[] = [
     },
     {
         id: 'streak_100',
-        name: '100日連続',
+        name: '100日達成',
         description: '100日連続で学習',
         icon: 'flame',
         category: 'streak',
@@ -103,7 +103,7 @@ export const BADGES: Badge[] = [
     },
     {
         id: 'streak_365',
-        name: '365日連続',
+        name: '1年連続',
         description: '365日連続で学習',
         icon: 'flame',
         category: 'streak',
