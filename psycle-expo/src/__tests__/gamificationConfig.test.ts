@@ -1,14 +1,29 @@
 import {
   getComebackRewardConfig,
   getDailyGoalConfig,
+  getDoubleXpBoostConfig,
   getExperimentsConfig,
   getFriendChallengeConfig,
+  getInitialGems,
   getPersonalizationConfig,
   getQuestRerollConfig,
   getQuestRewardsConfig,
+  getStreakRepairConfig,
 } from "../../lib/gamificationConfig";
 
 describe("gamificationConfig", () => {
+  test("initial gems and boost/repair configs keep current defaults", () => {
+    expect(getInitialGems()).toBe(50);
+    expect(getDoubleXpBoostConfig()).toEqual({
+      cost_gems: 20,
+      duration_minutes: 15,
+    });
+    expect(getStreakRepairConfig()).toEqual({
+      cost_gems: 50,
+      window_hours: 48,
+    });
+  });
+
   test("comeback reward config keeps current defaults", () => {
     const config = getComebackRewardConfig();
     expect(config.threshold_days).toBe(7);
@@ -42,5 +57,13 @@ describe("gamificationConfig", () => {
   test("experiments and personalization stay disabled by default for A/A gate", () => {
     expect(getExperimentsConfig().enabled).toBe(false);
     expect(getPersonalizationConfig().enabled).toBe(false);
+  });
+
+  test("experiment rollout percentage defaults to 100 and stays within 0-100", () => {
+    const experiments = getExperimentsConfig();
+    const definition = experiments.experiments.double_xp_nudge_lesson_complete;
+    expect(definition.rollout_percentage).toBe(100);
+    expect(definition.rollout_percentage).toBeGreaterThanOrEqual(0);
+    expect(definition.rollout_percentage).toBeLessThanOrEqual(100);
   });
 });

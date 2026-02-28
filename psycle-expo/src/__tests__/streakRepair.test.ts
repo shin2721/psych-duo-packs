@@ -18,6 +18,20 @@ describe("streakRepair", () => {
     });
   });
 
+  test("supports custom cost and expiry window options", () => {
+    const nowMs = Date.UTC(2026, 1, 22, 9, 0, 0);
+    const offer = createStreakRepairOffer(12, nowMs, {
+      costGems: 35,
+      windowMs: 24 * 60 * 60 * 1000,
+    });
+    expect(offer).toEqual({
+      previousStreak: 12,
+      costGems: 35,
+      expiresAtMs: nowMs + 24 * 60 * 60 * 1000,
+      active: true,
+    });
+  });
+
   test("purchases successfully within 48h when gems are enough", () => {
     const nowMs = Date.UTC(2026, 1, 22, 9, 0, 0);
     const offer = createStreakRepairOffer(9, nowMs);

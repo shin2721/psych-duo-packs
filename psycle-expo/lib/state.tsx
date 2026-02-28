@@ -18,11 +18,14 @@ import { consumeNextBadgeToastItem, enqueueBadgeToastIds } from "./badgeToastQue
 import {
   getComebackRewardConfig,
   getDailyGoalConfig,
+  getDoubleXpBoostConfig,
   getEventCampaignConfig,
+  getInitialGems,
   getPersonalizationConfig,
   getQuestRerollConfig,
   getQuestRewardsConfig,
   getShopSinksConfig,
+  getStreakRepairConfig,
   getStreakMilestonesConfig,
   type EventCampaignConfig,
   type EventQuestMetric,
@@ -181,11 +184,18 @@ const comebackRewardConfig = getComebackRewardConfig();
 const dailyGoalConfig = getDailyGoalConfig();
 const questRewardsConfig = getQuestRewardsConfig();
 const questRerollConfig = getQuestRerollConfig();
+const doubleXpBoostConfig = getDoubleXpBoostConfig();
+const streakRepairConfig = getStreakRepairConfig();
+const INITIAL_GEMS = normalizeNonNegativeInt(getInitialGems(), 50);
 const COMEBACK_REWARD_THRESHOLD_DAYS = normalizePositiveInt(comebackRewardConfig.threshold_days, 7);
 const COMEBACK_REWARD_ENERGY = normalizePositiveInt(comebackRewardConfig.reward_energy, 2);
 const COMEBACK_REWARD_GEMS = normalizeNonNegativeInt(comebackRewardConfig.reward_gems, 10);
 const DAILY_GOAL_DEFAULT_XP = normalizePositiveInt(dailyGoalConfig.default_xp, 10);
 const DAILY_GOAL_REWARD_GEMS = normalizeNonNegativeInt(dailyGoalConfig.reward_gems, 5);
+const DOUBLE_XP_COST_GEMS = normalizeNonNegativeInt(doubleXpBoostConfig.cost_gems, 20);
+const DOUBLE_XP_DURATION_MS = normalizePositiveInt(doubleXpBoostConfig.duration_minutes, 15) * 60 * 1000;
+const STREAK_REPAIR_COST_GEMS = normalizePositiveInt(streakRepairConfig.cost_gems, 50);
+const STREAK_REPAIR_WINDOW_MS = normalizePositiveInt(streakRepairConfig.window_hours, 48) * 60 * 60 * 1000;
 const QUEST_CLAIM_BONUS_GEMS_BY_TYPE = {
   daily: normalizeNonNegativeInt(questRewardsConfig.claim_bonus_gems_by_type.daily, 5),
   weekly: normalizeNonNegativeInt(questRewardsConfig.claim_bonus_gems_by_type.weekly, 10),
@@ -555,7 +565,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [comebackRewardOffer, setComebackRewardOffer] = useState<ComebackRewardOffer | null>(null);
 
   // Currency system
-  const [gems, setGems] = useState(50); // Start with 50 gems
+  const [gems, setGems] = useState(INITIAL_GEMS);
 
   // Double XP Boost
   const [doubleXpEndTime, setDoubleXpEndTime] = useState<number | null>(null);
@@ -1946,7 +1956,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     } else {
       // Break streak
       newStreak = 1;
-      const offer = createStreakRepairOffer(previousStreak);
+      const offer = createStreakRepairOffer(previousStreak, Date.now(), {
+        costGems: STREAK_REPAIR_COST_GEMS,
+        windowMs: STREAK_REPAIR_WINDOW_MS,
+      });
       if (offer) {
         setStreakRepairOffer(offer);
         Analytics.track("streak_repair_offered", {
@@ -2450,15 +2463,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     success: boolean;
     reason?: DoubleXpPurchaseFailureReason;
   } => {
-    const cost = 20;
-    const DURATION_MS = 15 * 60 * 1000;
     const nowMs = Date.now();
     const purchase = evaluateDoubleXpPurchase({
       gems,
-      costGems: cost,
+      costGems: DOUBLE_XP_COST_GEMS,
       isActive: isDoubleXpActive,
       nowMs,
-      durationMs: DURATION_MS,
+      durationMs: DOUBLE_XP_DURATION_MS,
     });
 
     if (!purchase.success) {
@@ -2471,7 +2482,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
     Analytics.track("double_xp_purchased", {
       source,
-      costGems: cost,
+      costGems: DOUBLE_XP_COST_GEMS,
       gemsBefore,
       gemsAfter: purchase.gemsAfter,
       activeUntil: new Date(purchase.activeUntilMs).toISOString(),
@@ -2525,7 +2536,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
     Analytics.track("streak_repair_purchased", {
       previousStreak: result.restoredStreak,
-      costGems: streakRepairOffer?.costGems ?? 50,
+      costGems: streakRepairOffer?.costGems ?? STREAK_REPAIR_COST_GEMS,
       gemsBefore,
       gemsAfter: result.nextGems,
     });

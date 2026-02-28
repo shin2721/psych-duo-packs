@@ -1,5 +1,6 @@
 {
     "version": 1,
+    "initial_gems": 50,
     "xp_rewards": {
         "correct_answer": 5,
         "lesson_complete": 20,
@@ -41,6 +42,14 @@
             "daily_limit": 1
         }
     },
+    "double_xp_boost": {
+        "cost_gems": 20,
+        "duration_minutes": 15
+    },
+    "streak_repair": {
+        "cost_gems": 50,
+        "window_hours": 48
+    },
     "double_xp_nudge": {
         "enabled": true,
         "daily_show_limit": 1,
@@ -76,6 +85,7 @@
         "experiments": {
             "double_xp_nudge_lesson_complete": {
                 "enabled": false,
+                "rollout_percentage": 100,
                 "variants": [
                     {
                         "id": "control",

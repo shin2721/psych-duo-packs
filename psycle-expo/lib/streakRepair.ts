@@ -1,6 +1,11 @@
 export const STREAK_REPAIR_COST_GEMS = 50;
 export const STREAK_REPAIR_WINDOW_MS = 48 * 60 * 60 * 1000;
 
+export interface StreakRepairOfferOptions {
+  costGems?: number;
+  windowMs?: number;
+}
+
 export interface StreakRepairOffer {
   previousStreak: number;
   costGems: number;
@@ -18,12 +23,24 @@ export interface StreakRepairPurchaseResult {
   restoredStreak: number;
 }
 
-export function createStreakRepairOffer(previousStreak: number, nowMs: number = Date.now()): StreakRepairOffer | null {
+export function createStreakRepairOffer(
+  previousStreak: number,
+  nowMs: number = Date.now(),
+  options?: StreakRepairOfferOptions
+): StreakRepairOffer | null {
   if (!Number.isFinite(previousStreak) || previousStreak <= 1) return null;
+  const costGems =
+    typeof options?.costGems === "number" && Number.isFinite(options.costGems) && options.costGems > 0
+      ? Math.floor(options.costGems)
+      : STREAK_REPAIR_COST_GEMS;
+  const windowMs =
+    typeof options?.windowMs === "number" && Number.isFinite(options.windowMs) && options.windowMs > 0
+      ? Math.floor(options.windowMs)
+      : STREAK_REPAIR_WINDOW_MS;
   return {
     previousStreak: Math.floor(previousStreak),
-    costGems: STREAK_REPAIR_COST_GEMS,
-    expiresAtMs: nowMs + STREAK_REPAIR_WINDOW_MS,
+    costGems,
+    expiresAtMs: nowMs + windowMs,
     active: true,
   };
 }

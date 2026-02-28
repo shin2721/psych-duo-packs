@@ -2,6 +2,7 @@ import {
   assignExperiment,
   assignVariant,
   getVariantPayload,
+  isUserInRollout,
   isExperimentEnabled,
 } from "../../lib/experimentEngine";
 
@@ -34,5 +35,16 @@ describe("experimentEngine", () => {
   test("disabled experiments are not assignable by default config", () => {
     expect(isExperimentEnabled("double_xp_nudge_lesson_complete")).toBe(false);
     expect(assignExperiment("user_3", "double_xp_nudge_lesson_complete")).toBeNull();
+  });
+
+  test("rollout gate returns false at 0% and true at 100%", () => {
+    expect(isUserInRollout("user_1", "exp_rollout", 0)).toBe(false);
+    expect(isUserInRollout("user_1", "exp_rollout", 100)).toBe(true);
+  });
+
+  test("rollout gate is deterministic for same user and experiment", () => {
+    const first = isUserInRollout("user_9", "exp_rollout", 37);
+    const second = isUserInRollout("user_9", "exp_rollout", 37);
+    expect(first).toBe(second);
   });
 });

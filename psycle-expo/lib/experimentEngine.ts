@@ -30,11 +30,24 @@ function normalizeVariants(variants: ExperimentVariantConfig[]): ExperimentVaria
   return normalized;
 }
 
+function normalizeRolloutPercentage(value: number | undefined): number {
+  if (!Number.isFinite(value)) return 100;
+  return Math.min(100, Math.max(0, Math.floor(Number(value))));
+}
+
+export function isUserInRollout(userId: string, experimentId: string, rolloutPercentage: number): boolean {
+  const normalizedRollout = normalizeRolloutPercentage(rolloutPercentage);
+  if (normalizedRollout <= 0) return false;
+  if (normalizedRollout >= 100) return true;
+  return hashToUnitInterval(`${userId}:${experimentId}:rollout`) < normalizedRollout / 100;
+}
+
 export function isExperimentEnabled(experimentId: string): boolean {
   const config = getExperimentsConfig();
   if (!config.enabled) return false;
   const definition = config.experiments[experimentId];
   if (!definition || !definition.enabled) return false;
+  if (normalizeRolloutPercentage(definition.rollout_percentage) <= 0) return false;
   return normalizeVariants(definition.variants).length > 0;
 }
 
@@ -89,6 +102,7 @@ export function assignExperiment(
   if (!isExperimentEnabled(experimentId)) return null;
   const definition = getExperimentDefinition(experimentId);
   if (!definition) return null;
+  if (!isUserInRollout(userId, experimentId, definition.rollout_percentage)) return null;
 
   const variantId = assignVariant(userId, experimentId, definition.variants);
   return {

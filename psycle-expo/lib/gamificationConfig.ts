@@ -55,6 +55,16 @@ export interface ShopSinksConfig {
   energy_full_refill: EnergyFullRefillSinkConfig;
 }
 
+export interface DoubleXpBoostConfig {
+  cost_gems: number;
+  duration_minutes: number;
+}
+
+export interface StreakRepairConfig {
+  cost_gems: number;
+  window_hours: number;
+}
+
 export interface DoubleXpNudgeConfig {
   enabled: boolean;
   daily_show_limit: number;
@@ -133,6 +143,7 @@ export interface ExperimentVariantConfig {
 
 export interface ExperimentDefinitionConfig {
   enabled: boolean;
+  rollout_percentage: number;
   variants: ExperimentVariantConfig[];
 }
 
@@ -158,12 +169,15 @@ export interface LiveOpsConfig {
 
 export interface GamificationConfig {
   version: number;
+  initial_gems: number;
   xp_rewards: XPRewards;
   freeze: FreezeConfig;
   streak: StreakConfig;
   streak_milestones: StreakMilestonesConfig;
   combo_xp: ComboXpConfig;
   shop_sinks: ShopSinksConfig;
+  double_xp_boost: DoubleXpBoostConfig;
+  streak_repair: StreakRepairConfig;
   double_xp_nudge: DoubleXpNudgeConfig;
   comeback_reward: ComebackRewardConfig;
   daily_goal: DailyGoalConfig;
@@ -207,6 +221,7 @@ const DEFAULT_EVENT_CAMPAIGN: EventCampaignConfig = {
 // Default values (fallback if config is corrupted)
 const DEFAULT_CONFIG: GamificationConfig = {
   version: 1,
+  initial_gems: 50,
   xp_rewards: {
     correct_answer: 5,
     lesson_complete: 20,
@@ -248,6 +263,14 @@ const DEFAULT_CONFIG: GamificationConfig = {
       daily_limit: 1,
     },
   },
+  double_xp_boost: {
+    cost_gems: 20,
+    duration_minutes: 15,
+  },
+  streak_repair: {
+    cost_gems: 50,
+    window_hours: 48,
+  },
   double_xp_nudge: {
     enabled: true,
     daily_show_limit: 1,
@@ -284,6 +307,7 @@ const DEFAULT_CONFIG: GamificationConfig = {
     experiments: {
       double_xp_nudge_lesson_complete: {
         enabled: false,
+        rollout_percentage: 100,
         variants: [
           { id: "control", weight: 50, payload: { copyStyle: "default" } },
           { id: "variant_a", weight: 50, payload: { copyStyle: "urgency" } },
@@ -355,6 +379,9 @@ function normalizeExperiments(value: unknown): ExperimentsConfig {
     const fallback = DEFAULT_CONFIG.experiments.experiments[experimentId];
     normalizedExperiments[experimentId] = {
       enabled: typeof definition?.enabled === "boolean" ? definition.enabled : fallback?.enabled ?? false,
+      rollout_percentage: Number.isFinite(definition?.rollout_percentage as number)
+        ? Math.min(100, Math.max(0, Math.floor(Number(definition?.rollout_percentage))))
+        : fallback?.rollout_percentage ?? 100,
       variants: normalizeVariants(definition?.variants, fallback?.variants ?? []),
     };
   });
@@ -432,6 +459,9 @@ function loadConfig(): GamificationConfig {
     const source = configData as any;
     return {
       version: source.version ?? DEFAULT_CONFIG.version,
+      initial_gems: Number.isFinite(source.initial_gems)
+        ? Math.max(0, Math.floor(Number(source.initial_gems)))
+        : DEFAULT_CONFIG.initial_gems,
       xp_rewards: { ...DEFAULT_CONFIG.xp_rewards, ...source.xp_rewards },
       freeze: { ...DEFAULT_CONFIG.freeze, ...source.freeze },
       streak: { ...DEFAULT_CONFIG.streak, ...source.streak },
@@ -456,6 +486,14 @@ function loadConfig(): GamificationConfig {
           ...DEFAULT_CONFIG.shop_sinks.energy_full_refill,
           ...source.shop_sinks?.energy_full_refill,
         },
+      },
+      double_xp_boost: {
+        ...DEFAULT_CONFIG.double_xp_boost,
+        ...source.double_xp_boost,
+      },
+      streak_repair: {
+        ...DEFAULT_CONFIG.streak_repair,
+        ...source.streak_repair,
       },
       double_xp_nudge: {
         ...DEFAULT_CONFIG.double_xp_nudge,
@@ -533,6 +571,10 @@ export function getXpRewards(): XPRewards {
   return gamificationConfig.xp_rewards;
 }
 
+export function getInitialGems(): number {
+  return gamificationConfig.initial_gems;
+}
+
 export function getFreezeConfig(): FreezeConfig {
   return gamificationConfig.freeze;
 }
@@ -551,6 +593,14 @@ export function getComboXpConfig(): ComboXpConfig {
 
 export function getShopSinksConfig(): ShopSinksConfig {
   return gamificationConfig.shop_sinks;
+}
+
+export function getDoubleXpBoostConfig(): DoubleXpBoostConfig {
+  return gamificationConfig.double_xp_boost;
+}
+
+export function getStreakRepairConfig(): StreakRepairConfig {
+  return gamificationConfig.streak_repair;
 }
 
 export function getDoubleXpNudgeConfig(): DoubleXpNudgeConfig {

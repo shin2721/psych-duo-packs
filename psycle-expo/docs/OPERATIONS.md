@@ -433,10 +433,11 @@ npm run promote:lesson {domain} {basename}
   - `personalization.enabled=false`
 
 ### 手順
-1. 計測補完入りのアプリを配備し、7日間は設定を `false` のまま運用する。
-2. `experiment_exposed` / `experiment_converted` の配線を内部検証で確認し、欠落がないことを確認する。
-3. A/A検証では主要KPI差分が `±2%` 以内であることを合格条件にする。
-4. 合格後のみ段階的に `experiments.enabled=true` を検討する（`personalization` は別ゲートで判定）。
+1. 計測補完入りのアプリを配備し、`experiments.enabled=false` で通常イベント欠落がないことを確認する。
+2. A/A時は `experiments.enabled=true` にし、対象実験を `enabled=true`、`control/variant` の `payload` を同一に設定する。
+3. `rollout_percentage` を `5% -> 20% -> 50% -> 100%` で段階展開し、各段階を `24-48h` 観測する。
+4. A/A検証では主要KPI差分が `±2%` 以内であることを合格条件にする。
+5. 合格後にのみ variant payload を本実験内容に差し替える（`personalization` は別ゲートで判定）。
 
 ### ロールバック
 1. 異常検知時は同日中に `experiments.enabled=false`, `personalization.enabled=false` へ戻す。
