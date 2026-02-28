@@ -15,6 +15,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
 import { LEAGUE_TIERS } from '../lib/league';
+import { Analytics } from '../lib/analytics';
 import { LeagueResult, claimReward } from '../lib/leagueReward';
 import i18n from '../lib/i18n';
 
@@ -43,6 +44,13 @@ export function LeagueResultModal({
 
         const claimed = await claimReward(result.reward.id);
         if (claimed) {
+            Analytics.track("league_reward_claimed", {
+                rewardId: result.reward.id,
+                gems: claimed.gemsAdded,
+                badgesCount: claimed.badgesAwarded.length,
+                weekId: result.reward.week_id,
+                source: "league_result_modal",
+            });
             onClaim(claimed.gemsAdded, claimed.badgesAwarded, claimed.newBalance);
         }
 

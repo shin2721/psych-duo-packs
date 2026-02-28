@@ -2,16 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../lib/AuthContext';
 import { useAppState } from '../../lib/state';
 import { theme } from '../../lib/theme';
 import { FriendSearch } from '../../components/FriendSearch';
 import {
-    buildWeeklyFriendChallenge,
-    evaluateFriendChallengeProgress,
-    type WeeklyFriendChallenge,
+  buildWeeklyFriendChallenge,
+  claimFriendChallengeReward as claimFriendChallengeRewardOnce,
+  evaluateFriendChallengeProgress,
+  getFriendChallengeRewardGems,
+  hasFriendChallengeClaimed,
+  type WeeklyFriendChallenge,
 } from '../../lib/friendChallenges';
 import { Analytics } from '../../lib/analytics';
 import i18n from '../../lib/i18n';
@@ -38,11 +40,7 @@ interface LeaderboardProfile {
 }
 
 type ViewType = 'friends' | 'requests' | 'search';
-const FRIEND_CHALLENGE_REWARD_GEMS = 15;
-
-function getFriendChallengeClaimKey(userId: string, weekId: string): string {
-    return `friend_challenge_claimed_${userId}_${weekId}`;
-}
+const FRIEND_CHALLENGE_REWARD_GEMS = getFriendChallengeRewardGems();
 
 export default function FriendsScreen() {
     const [view, setView] = useState<ViewType>('friends');
@@ -78,9 +76,8 @@ export default function FriendsScreen() {
                 return;
             }
 
-            const claimKey = getFriendChallengeClaimKey(user.id, challenge.weekId);
-            const claimed = await AsyncStorage.getItem(claimKey);
-            setFriendChallengeClaimed(claimed === '1');
+            const claimed = await hasFriendChallengeClaimed(user.id, challenge.weekId);
+            setFriendChallengeClaimed(claimed);
 
             Analytics.track('friend_challenge_shown', {
                 weekId: challenge.weekId,
@@ -249,7 +246,7 @@ export default function FriendsScreen() {
         );
     };
 
-    const claimFriendChallengeReward = async () => {
+    const handleClaimFriendChallengeReward = async () => {
         if (!user || !friendChallenge || friendChallengeClaimed) return;
 
         const progress = evaluateFriendChallengeProgress({
@@ -265,21 +262,37 @@ export default function FriendsScreen() {
             return;
         }
 
-        const claimKey = getFriendChallengeClaimKey(user.id, friendChallenge.weekId);
         try {
-            await AsyncStorage.setItem(claimKey, '1');
-            addGems(FRIEND_CHALLENGE_REWARD_GEMS);
-            setFriendChallengeClaimed(true);
-            Analytics.track('friend_challenge_completed', {
+            const claimResult = await claimFriendChallengeRewardOnce({
+                userId: user.id,
                 weekId: friendChallenge.weekId,
                 opponentId: friendChallenge.opponentId,
                 rewardGems: FRIEND_CHALLENGE_REWARD_GEMS,
-                source: 'friends_tab',
             });
-            Alert.alert(
-                String(i18n.t('common.ok')),
-                String(i18n.t('friends.challenge.rewardClaimed', { gems: FRIEND_CHALLENGE_REWARD_GEMS }))
-            );
+
+            if (claimResult === 'claimed') {
+                addGems(FRIEND_CHALLENGE_REWARD_GEMS);
+                setFriendChallengeClaimed(true);
+                Analytics.track('friend_challenge_completed', {
+                    weekId: friendChallenge.weekId,
+                    opponentId: friendChallenge.opponentId,
+                    rewardGems: FRIEND_CHALLENGE_REWARD_GEMS,
+                    source: 'friends_tab',
+                });
+                Alert.alert(
+                    String(i18n.t('common.ok')),
+                    String(i18n.t('friends.challenge.rewardClaimed', { gems: FRIEND_CHALLENGE_REWARD_GEMS }))
+                );
+                return;
+            }
+
+            if (claimResult === 'already_claimed') {
+                setFriendChallengeClaimed(true);
+                Alert.alert(String(i18n.t('common.ok')), String(i18n.t('friends.challenge.claimed')));
+                return;
+            }
+
+            throw new Error('friend challenge claim failed');
         } catch (error) {
             console.error('Error claiming friend challenge reward:', error);
             Alert.alert(String(i18n.t('common.error')), String(i18n.t('friends.challenge.rewardFailed')));
@@ -408,7 +421,7 @@ export default function FriendsScreen() {
                                             styles.challengeButtonDisabled,
                                     ]}
                                     disabled={friendChallengeClaimed || !friendChallengeProgress.completed}
-                                    onPress={claimFriendChallengeReward}
+                                    onPress={handleClaimFriendChallengeReward}
                                 >
                                     <Text style={styles.challengeButtonText}>
                                         {friendChallengeClaimed

@@ -332,6 +332,43 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 
 ### 追加イベント
 
+- `quest_claimed`
+  - `templateId`
+  - `type`: `daily | weekly | monthly`
+  - `rewardXp`
+  - `rewardGems`
+  - `source`: `manual_claim`
+- `freeze_used`
+  - `freezesRemaining`
+  - `streak`
+  - `source`: `streak_protection`
+- `daily_goal_reached`
+  - `dailyGoal`
+  - `dailyXp`
+  - `gemsAwarded`
+  - `source`: `xp_gain`
+- `league_reward_claimed`
+  - `rewardId`
+  - `gems`
+  - `badgesCount`
+  - `weekId`
+  - `source`: `league_result_modal`
+- `quest_cycle_reset`
+  - `dailyReset`
+  - `weeklyReset`
+  - `monthlyReset`
+  - `source`: `cycle_reconcile`
+- `plan_select`
+  - `source`: `shop_tab`
+  - `planId`
+- `checkout_start`
+  - `source`: `shop_tab`
+  - `planId`
+- `checkout_failed`
+  - `source`: `shop_tab | billing_lib`
+  - `planId`（任意）
+  - `reason`
+  - `status`（任意）
 - `experiment_exposed`
   - `experimentId`
   - `variantId`
@@ -364,3 +401,10 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 - 個別最適化セグメントは 24h クールダウンで再判定し、短周期で揺れないようにする。
 - 友達チャレンジは表示だけでなく完了率を監視する。目安は `friend_challenge_completed / friend_challenge_shown >= 0.15`。
 - LiveOps は設定ベースで有効化されるため、イベント切替時は `liveops_event_activated` 発火を最初に確認する。
+
+### A/A運用ゲート（固定）
+
+1. `experiments.enabled=false`, `personalization.enabled=false` を配備したまま、まずイベント欠落・計測配線が正常発火することを確認する。
+2. A/A期間を7日確保し、同一導線で割当差がある場合でも主要KPI差分が `±2%` 以内であることを確認する。
+3. `lesson_complete_user_rate_7d` と `paid_plan_changes_per_checkout_7d` に悪化がない場合のみ、段階的に `experiments.enabled=true` を検討する。
+4. 異常時は設定を即 `false` に戻し、同日中にロールバックする。

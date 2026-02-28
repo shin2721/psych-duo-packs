@@ -419,3 +419,25 @@ npm run promote:lesson {domain} {basename}
     ├── mental_l01.evidence.json
     └── index.ts
 ```
+
+---
+
+## 8. A/A Gate Runbook（Experiment/Personalization）
+
+### 目的
+- `experiments` / `personalization` の有効化前に、計測配線と分岐安定性を確認する。
+
+### 既定値
+- `config/gamification.json`
+  - `experiments.enabled=false`
+  - `personalization.enabled=false`
+
+### 手順
+1. 計測補完入りのアプリを配備し、7日間は設定を `false` のまま運用する。
+2. `experiment_exposed` / `experiment_converted` の配線を内部検証で確認し、欠落がないことを確認する。
+3. A/A検証では主要KPI差分が `±2%` 以内であることを合格条件にする。
+4. 合格後のみ段階的に `experiments.enabled=true` を検討する（`personalization` は別ゲートで判定）。
+
+### ロールバック
+1. 異常検知時は同日中に `experiments.enabled=false`, `personalization.enabled=false` へ戻す。
+2. 影響期間のイベント欠落/異常値をダッシュボード注記に残す。

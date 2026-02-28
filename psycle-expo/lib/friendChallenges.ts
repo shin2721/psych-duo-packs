@@ -1,5 +1,6 @@
 import { getCurrentWeekId } from "./league";
 import { supabase } from "./supabase";
+import { getFriendChallengeConfig } from "./gamificationConfig";
 
 export interface WeeklyFriendChallenge {
   weekId: string;
@@ -18,9 +19,17 @@ export interface FriendChallengeProgress {
   xpGap: number;
 }
 
+export type FriendChallengeClaimResult = "claimed" | "already_claimed" | "error";
+
 function normalizeXp(value: unknown): number {
   const parsed = Number(value);
   return Number.isFinite(parsed) ? Math.max(0, Math.floor(parsed)) : 0;
+}
+
+function normalizeNonNegativeInt(value: unknown, fallback = 0): number {
+  const parsed = Number(value);
+  if (!Number.isFinite(parsed)) return fallback;
+  return Math.max(0, Math.floor(parsed));
 }
 
 function pickClosestOpponent(
@@ -38,6 +47,62 @@ function pickClosestOpponent(
   });
 
   return sorted[0] ?? null;
+}
+
+export function getFriendChallengeRewardGems(): number {
+  const config = getFriendChallengeConfig();
+  return normalizeNonNegativeInt(config.reward_gems, 15);
+}
+
+export function resolveFriendChallengeClaimResult(input: {
+  insertErrorCode?: string | null;
+  inserted: boolean;
+}): FriendChallengeClaimResult {
+  if (input.inserted) return "claimed";
+  if (input.insertErrorCode === "23505") return "already_claimed";
+  return "error";
+}
+
+export async function hasFriendChallengeClaimed(userId: string, weekId: string): Promise<boolean> {
+  if (!userId || !weekId) return false;
+
+  const { data, error } = await supabase
+    .from("friend_challenge_claims")
+    .select("week_id")
+    .eq("user_id", userId)
+    .eq("week_id", weekId)
+    .maybeSingle();
+
+  if (error) {
+    console.warn("[FriendChallenge] Failed to fetch claim state:", error);
+    return false;
+  }
+
+  return Boolean(data?.week_id);
+}
+
+export async function claimFriendChallengeReward(input: {
+  userId: string;
+  weekId: string;
+  opponentId: string;
+  rewardGems: number;
+}): Promise<FriendChallengeClaimResult> {
+  const rewardGems = normalizeNonNegativeInt(input.rewardGems, 0);
+  if (!input.userId || !input.weekId || !input.opponentId || rewardGems <= 0) {
+    return "error";
+  }
+
+  const { error } = await supabase.from("friend_challenge_claims").insert({
+    user_id: input.userId,
+    week_id: input.weekId,
+    opponent_id: input.opponentId,
+    reward_gems: rewardGems,
+  });
+
+  return resolveFriendChallengeClaimResult({
+    insertErrorCode: error?.code ?? null,
+    inserted: !error,
+  });
 }
 
 export function evaluateFriendChallengeProgress(input: {

@@ -62,6 +62,29 @@ export interface DoubleXpNudgeConfig {
   require_inactive_boost: boolean;
 }
 
+export interface ComebackRewardConfig {
+  threshold_days: number;
+  reward_energy: number;
+  reward_gems: number;
+}
+
+export interface DailyGoalConfig {
+  default_xp: number;
+  reward_gems: number;
+}
+
+export interface FriendChallengeConfig {
+  reward_gems: number;
+}
+
+export interface QuestRewardsConfig {
+  claim_bonus_gems_by_type: {
+    daily: number;
+    weekly: number;
+    monthly: number;
+  };
+}
+
 export type EventQuestMetric = "lesson_complete" | "streak5_milestone";
 
 export interface EventQuestTemplateConfig {
@@ -136,6 +159,10 @@ export interface GamificationConfig {
   combo_xp: ComboXpConfig;
   shop_sinks: ShopSinksConfig;
   double_xp_nudge: DoubleXpNudgeConfig;
+  comeback_reward: ComebackRewardConfig;
+  daily_goal: DailyGoalConfig;
+  friend_challenge: FriendChallengeConfig;
+  quest_rewards: QuestRewardsConfig;
   event_campaign: EventCampaignConfig;
   experiments: ExperimentsConfig;
   personalization: PersonalizationConfig;
@@ -219,6 +246,25 @@ const DEFAULT_CONFIG: GamificationConfig = {
     daily_show_limit: 1,
     min_gems: 20,
     require_inactive_boost: true,
+  },
+  comeback_reward: {
+    threshold_days: 7,
+    reward_energy: 2,
+    reward_gems: 10,
+  },
+  daily_goal: {
+    default_xp: 10,
+    reward_gems: 5,
+  },
+  friend_challenge: {
+    reward_gems: 15,
+  },
+  quest_rewards: {
+    claim_bonus_gems_by_type: {
+      daily: 10,
+      weekly: 10,
+      monthly: 10,
+    },
   },
   event_campaign: DEFAULT_EVENT_CAMPAIGN,
   experiments: {
@@ -403,6 +449,26 @@ function loadConfig(): GamificationConfig {
         ...DEFAULT_CONFIG.double_xp_nudge,
         ...source.double_xp_nudge,
       },
+      comeback_reward: {
+        ...DEFAULT_CONFIG.comeback_reward,
+        ...source.comeback_reward,
+      },
+      daily_goal: {
+        ...DEFAULT_CONFIG.daily_goal,
+        ...source.daily_goal,
+      },
+      friend_challenge: {
+        ...DEFAULT_CONFIG.friend_challenge,
+        ...source.friend_challenge,
+      },
+      quest_rewards: {
+        ...DEFAULT_CONFIG.quest_rewards,
+        ...source.quest_rewards,
+        claim_bonus_gems_by_type: {
+          ...DEFAULT_CONFIG.quest_rewards.claim_bonus_gems_by_type,
+          ...source.quest_rewards?.claim_bonus_gems_by_type,
+        },
+      },
       event_campaign: normalizeEventCampaign(source.event_campaign, DEFAULT_CONFIG.event_campaign),
       experiments: normalizeExperiments(source.experiments),
       personalization: normalizePersonalization(source.personalization),
@@ -473,6 +539,22 @@ export function getShopSinksConfig(): ShopSinksConfig {
 
 export function getDoubleXpNudgeConfig(): DoubleXpNudgeConfig {
   return gamificationConfig.double_xp_nudge;
+}
+
+export function getComebackRewardConfig(): ComebackRewardConfig {
+  return gamificationConfig.comeback_reward;
+}
+
+export function getDailyGoalConfig(): DailyGoalConfig {
+  return gamificationConfig.daily_goal;
+}
+
+export function getFriendChallengeConfig(): FriendChallengeConfig {
+  return gamificationConfig.friend_challenge;
+}
+
+export function getQuestRewardsConfig(): QuestRewardsConfig {
+  return gamificationConfig.quest_rewards;
 }
 
 export function getExperimentsConfig(): ExperimentsConfig {

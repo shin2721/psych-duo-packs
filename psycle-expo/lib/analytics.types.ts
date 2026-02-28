@@ -307,6 +307,73 @@ export type QuestAutoClaimedOnCycleEvent = {
   };
 };
 
+export type QuestClaimedEvent = {
+  name: 'quest_claimed';
+  properties: {
+    templateId: string;
+    type: 'daily' | 'weekly' | 'monthly';
+    rewardXp: number;
+    rewardGems: number;
+    source: 'manual_claim';
+  };
+};
+
+export type FreezeUsedEvent = {
+  name: 'freeze_used';
+  properties: {
+    freezesRemaining: number;
+    streak: number;
+    source: 'streak_protection';
+  };
+};
+
+export type DailyGoalReachedEvent = {
+  name: 'daily_goal_reached';
+  properties: {
+    dailyGoal: number;
+    dailyXp: number;
+    gemsAwarded: number;
+    source: 'xp_gain';
+  };
+};
+
+export type LeagueRewardClaimedEvent = {
+  name: 'league_reward_claimed';
+  properties: {
+    rewardId: string;
+    gems: number;
+    badgesCount: number;
+    weekId: string;
+    source: 'league_result_modal';
+  };
+};
+
+export type PlanSelectEvent = {
+  name: 'plan_select';
+  properties: {
+    source: 'shop_tab';
+    planId: 'pro' | 'max';
+  };
+};
+
+export type CheckoutStartEvent = {
+  name: 'checkout_start';
+  properties: {
+    source: 'shop_tab';
+    planId: 'pro' | 'max';
+  };
+};
+
+export type CheckoutFailedEvent = {
+  name: 'checkout_failed';
+  properties: {
+    source: 'shop_tab' | 'billing_lib';
+    planId?: 'pro' | 'max';
+    reason: string;
+    status?: number;
+  };
+};
+
 export type LeagueMatchmakingAppliedEvent = {
   name: 'league_matchmaking_applied';
   properties: {
@@ -505,6 +572,13 @@ export type TrackedEvent =
   | QuestCycleResetEvent
   | QuestRotationAppliedEvent
   | QuestAutoClaimedOnCycleEvent
+  | QuestClaimedEvent
+  | FreezeUsedEvent
+  | DailyGoalReachedEvent
+  | LeagueRewardClaimedEvent
+  | PlanSelectEvent
+  | CheckoutStartEvent
+  | CheckoutFailedEvent
   | LeagueMatchmakingAppliedEvent
   | LeagueAutoJoinedOnXpEvent
   | StreakMilestoneRewardedEvent

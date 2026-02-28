@@ -47,6 +47,25 @@
         "min_gems": 20,
         "require_inactive_boost": true
     },
+    "comeback_reward": {
+        "threshold_days": 7,
+        "reward_energy": 2,
+        "reward_gems": 10
+    },
+    "daily_goal": {
+        "default_xp": 10,
+        "reward_gems": 5
+    },
+    "friend_challenge": {
+        "reward_gems": 15
+    },
+    "quest_rewards": {
+        "claim_bonus_gems_by_type": {
+            "daily": 10,
+            "weekly": 10,
+            "monthly": 10
+        }
+    },
     "experiments": {
         "enabled": false,
         "experiments": {
