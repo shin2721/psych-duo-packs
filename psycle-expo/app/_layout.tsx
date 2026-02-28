@@ -157,6 +157,9 @@ function GamificationToastBridge() {
       const toastItem = consumeNextStreakMilestoneToast();
       if (!toastItem) return;
 
+      void sounds.play("levelUp");
+      void hapticFeedback.success();
+
       setMessage(
         String(
           i18n.t("common.streakMilestoneRewarded", {
