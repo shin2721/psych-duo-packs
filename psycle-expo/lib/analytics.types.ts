@@ -139,7 +139,12 @@ export type NotificationPermissionResultEvent = {
 export type ReminderScheduledEvent = {
   name: 'reminder_scheduled';
   properties: {
-    kind: 'streak_risk' | 'daily_quest_deadline' | 'league_demotion_risk';
+    kind:
+      | 'streak_risk'
+      | 'daily_quest_deadline'
+      | 'league_demotion_risk'
+      | 'streak_broken'
+      | 'energy_recharged';
     scheduledAt: string;
     source: 'sync_daily_reminders';
   };
@@ -148,7 +153,12 @@ export type ReminderScheduledEvent = {
 export type ReminderOpenedEvent = {
   name: 'reminder_opened';
   properties: {
-    kind: 'streak_risk' | 'daily_quest_deadline' | 'league_demotion_risk';
+    kind:
+      | 'streak_risk'
+      | 'daily_quest_deadline'
+      | 'league_demotion_risk'
+      | 'streak_broken'
+      | 'energy_recharged';
     source: 'notification_tap';
   };
 };

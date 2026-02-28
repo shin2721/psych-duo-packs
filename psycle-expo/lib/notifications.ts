@@ -15,6 +15,8 @@ const DEFAULT_PATH_BY_KIND: Record<ReminderKind, '/(tabs)/course' | '/(tabs)/que
   streak_risk: '/(tabs)/course',
   daily_quest_deadline: '/(tabs)/quests',
   league_demotion_risk: '/(tabs)/leaderboard',
+  streak_broken: '/(tabs)/course',
+  energy_recharged: '/(tabs)/course',
 };
 
 Notifications.setNotificationHandler({
@@ -149,9 +151,24 @@ async function scheduleReminder(params: {
 export async function syncDailyReminders(input: {
   userId: string;
   hasPendingDailyQuests: boolean;
+  streakRepairOffer?: { active: boolean; expiresAtMs: number } | null;
+  energy?: number;
+  maxEnergy?: number;
+  lastEnergyUpdateTime?: number | null;
+  energyRefillMinutes?: number;
+  isSubscriptionActive?: boolean;
   now?: Date;
 }): Promise<void> {
-  const { userId, hasPendingDailyQuests } = input;
+  const {
+    userId,
+    hasPendingDailyQuests,
+    streakRepairOffer,
+    energy,
+    maxEnergy,
+    lastEnergyUpdateTime,
+    energyRefillMinutes,
+    isSubscriptionActive,
+  } = input;
   const now = input.now ?? new Date();
 
   if (!userId) return;
@@ -185,9 +202,59 @@ export async function syncDailyReminders(input: {
     isLeagueDemotionRisk,
   });
 
+  const extraPlan: typeof plan = [];
+  const nowMs = now.getTime();
+
+  if (streakRepairOffer?.active && Number.isFinite(streakRepairOffer.expiresAtMs)) {
+    const expiresAtMs = Math.floor(streakRepairOffer.expiresAtMs);
+    const scheduledMs = Math.min(expiresAtMs - 60 * 1000, nowMs + 5 * 60 * 1000);
+    if (scheduledMs > nowMs) {
+      extraPlan.push({
+        kind: 'streak_broken',
+        path: '/(tabs)/course',
+        titleKey: 'notifications.streakBroken.title',
+        bodyKey: 'notifications.streakBroken.body',
+        mode: 'once',
+        hour: 0,
+        minute: 0,
+        scheduledAt: new Date(scheduledMs).toISOString(),
+      });
+    }
+  }
+
+  if (
+    !isSubscriptionActive &&
+    Number.isFinite(energy) &&
+    Number.isFinite(maxEnergy) &&
+    Number.isFinite(lastEnergyUpdateTime) &&
+    Number.isFinite(energyRefillMinutes)
+  ) {
+    const safeEnergy = Math.max(0, Math.floor(Number(energy)));
+    const safeMaxEnergy = Math.max(0, Math.floor(Number(maxEnergy)));
+    const remainingEnergy = safeMaxEnergy - safeEnergy;
+    if (remainingEnergy > 0) {
+      const refillMs = Math.max(1, Math.floor(Number(energyRefillMinutes))) * 60 * 1000;
+      const targetMs = Math.floor(Number(lastEnergyUpdateTime)) + remainingEnergy * refillMs;
+      if (targetMs > nowMs) {
+        extraPlan.push({
+          kind: 'energy_recharged',
+          path: '/(tabs)/course',
+          titleKey: 'notifications.energyRecharged.title',
+          bodyKey: 'notifications.energyRecharged.body',
+          mode: 'once',
+          hour: 0,
+          minute: 0,
+          scheduledAt: new Date(targetMs).toISOString(),
+        });
+      }
+    }
+  }
+
+  const fullPlan = [...plan, ...extraPlan];
+
   await cancelPsycleReminders();
 
-  for (const item of plan) {
+  for (const item of fullPlan) {
     await scheduleReminder({
       kind: item.kind,
       path: item.path,

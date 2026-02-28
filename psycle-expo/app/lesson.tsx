@@ -25,6 +25,8 @@ import i18n from "../lib/i18n";
 import entitlements from "../config/entitlements.json";
 import { useAuth } from "../lib/AuthContext";
 import { syncDailyReminders } from "../lib/notifications";
+import { sounds } from "../lib/sounds";
+import { hapticFeedback } from "../lib/haptics";
 import { getComboXpConfig, getDoubleXpNudgeConfig } from "../lib/gamificationConfig";
 import { computeComboBonusXp } from "../lib/comboXp";
 import {
@@ -79,6 +81,10 @@ export default function LessonScreen() {
     claimComebackRewardOnLessonComplete,
     energy,
     maxEnergy,
+    lastEnergyUpdateTime,
+    energyRefillMinutes,
+    isSubscriptionActive,
+    streakRepairOffer,
     gems,
     buyDoubleXP,
     isDoubleXpActive,
@@ -439,6 +445,12 @@ export default function LessonScreen() {
         syncDailyReminders({
           userId: user.id,
           hasPendingDailyQuests,
+          streakRepairOffer,
+          energy,
+          maxEnergy,
+          lastEnergyUpdateTime,
+          energyRefillMinutes,
+          isSubscriptionActive,
         }).catch((error) => {
           console.error("[Notifications] Failed to sync reminders from lesson:", error);
         });
@@ -883,6 +895,8 @@ export default function LessonScreen() {
         onContinue={handleAnswer}
         onComboChange={setCombo}
         onComboMilestone={(milestone, questionId) => {
+          void sounds.play("fever");
+          void hapticFeedback.medium();
           Analytics.track("combo_milestone_shown", {
             milestone,
             lessonId: params.file,

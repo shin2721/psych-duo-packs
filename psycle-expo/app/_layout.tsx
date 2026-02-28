@@ -11,6 +11,8 @@ import { registerNotificationResponseHandler, syncDailyReminders } from "../lib/
 import { BADGES } from "../lib/badges";
 import i18n from "../lib/i18n";
 import { InlineToast } from "../components/InlineToast";
+import { sounds } from "../lib/sounds";
+import { hapticFeedback } from "../lib/haptics";
 
 // Suppress network errors during development
 LogBox.ignoreLogs([
@@ -75,7 +77,16 @@ function RootLayoutNav() {
 
 function ReminderBootstrap() {
   const { session } = useAuth();
-  const { isStateHydrated, hasPendingDailyQuests } = useAppState();
+  const {
+    isStateHydrated,
+    hasPendingDailyQuests,
+    streakRepairOffer,
+    energy,
+    maxEnergy,
+    lastEnergyUpdateTime,
+    energyRefillMinutes,
+    isSubscriptionActive,
+  } = useAppState();
   const router = useRouter();
 
   useEffect(() => {
@@ -92,10 +103,26 @@ function ReminderBootstrap() {
     syncDailyReminders({
       userId,
       hasPendingDailyQuests,
+      streakRepairOffer,
+      energy,
+      maxEnergy,
+      lastEnergyUpdateTime,
+      energyRefillMinutes,
+      isSubscriptionActive,
     }).catch((error) => {
       console.error("[Notifications] Failed to sync reminders:", error);
     });
-  }, [session?.user?.id, isStateHydrated, hasPendingDailyQuests]);
+  }, [
+    session?.user?.id,
+    isStateHydrated,
+    hasPendingDailyQuests,
+    streakRepairOffer,
+    energy,
+    maxEnergy,
+    lastEnergyUpdateTime,
+    energyRefillMinutes,
+    isSubscriptionActive,
+  ]);
 
   return null;
 }
@@ -117,6 +144,9 @@ function GamificationToastBridge() {
     if (badgeToastQueue.length > 0) {
       const badgeId = consumeNextBadgeToast();
       if (!badgeId) return;
+
+      void sounds.play("levelUp");
+      void hapticFeedback.success();
 
       const badgeName = BADGES.find((badge) => badge.id === badgeId)?.name || badgeId;
       setMessage(String(i18n.t("common.badgeUnlocked", { badgeName })));

@@ -1,7 +1,12 @@
 import type { StudyRiskStatus } from './streaks';
 import type { NotificationsConfig } from './gamificationConfig';
 
-export type ReminderKind = 'streak_risk' | 'daily_quest_deadline' | 'league_demotion_risk';
+export type ReminderKind =
+  | 'streak_risk'
+  | 'daily_quest_deadline'
+  | 'league_demotion_risk'
+  | 'streak_broken'
+  | 'energy_recharged';
 
 export interface ReminderPlanItem {
   kind: ReminderKind;

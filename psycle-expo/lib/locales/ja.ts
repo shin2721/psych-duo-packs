@@ -128,6 +128,14 @@ export const ja = {
             title: 'リーグ注意',
             body: '降格圏にいます。今週中にあと少しXPを積みましょう',
         },
+        streakBroken: {
+            title: '連続記録が途切れました',
+            body: '48時間以内ならストリーク修復が可能です。',
+        },
+        energyRecharged: {
+            title: 'エネルギーが満タンです',
+            body: 'エネルギーが回復しました。学習を再開しましょう。',
+        },
     },
     tabs: {
         learn: '学ぶ',

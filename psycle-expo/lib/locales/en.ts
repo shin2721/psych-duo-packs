@@ -128,6 +128,14 @@ export const en = {
             title: 'League warning',
             body: 'You are in the demotion zone. Earn a bit more XP today.',
         },
+        streakBroken: {
+            title: 'Streak broken',
+            body: 'Your streak can still be repaired within 48 hours.',
+        },
+        energyRecharged: {
+            title: 'Energy is full',
+            body: 'Your energy has fully recharged. Jump back in.',
+        },
     },
     tabs: {
         learn: 'Learn',
