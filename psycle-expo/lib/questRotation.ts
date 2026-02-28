@@ -55,6 +55,11 @@ interface ReconcileQuestBoardOnCycleChangeInput {
   prevKeys: QuestCycleKeys;
   nextKeys: QuestCycleKeys;
   previousSelection?: QuestRotationSelection | null;
+  claimBonusGemsByType?: {
+    daily: number;
+    weekly: number;
+    monthly: number;
+  };
   random?: () => number;
 }
 
@@ -190,11 +195,18 @@ export function reconcileQuestBoardOnCycleChange(
   const claimable = input.quests.filter(
     (quest) => changedTypeSet.has(quest.type) && quest.progress >= quest.need && !quest.claimed
   );
+  const claimBonusGemsByType = {
+    daily: 10,
+    weekly: 10,
+    monthly: 10,
+    ...input.claimBonusGemsByType,
+  };
 
   const autoClaimed = claimable.reduce<QuestAutoClaimSummary>(
     (acc, quest) => {
       acc.claimedCount += 1;
       acc.totalRewardXp += quest.rewardXp;
+      acc.totalRewardGems += Math.max(0, Math.floor(claimBonusGemsByType[quest.type] ?? 0));
       return acc;
     },
     {
@@ -203,7 +215,6 @@ export function reconcileQuestBoardOnCycleChange(
       totalRewardGems: 0,
     }
   );
-  autoClaimed.totalRewardGems = autoClaimed.claimedCount * 10;
 
   const previousSelection = normalizeQuestRotationSelection(input.previousSelection ?? currentSelection);
   const random = normalizeRandom(input.random);

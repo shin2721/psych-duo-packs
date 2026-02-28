@@ -143,6 +143,7 @@ export default function QuestsScreen() {
     const canClaim = completed && !q.claimed;
     const title = q.titleKey ? String(i18n.t(q.titleKey)) : q.title;
     const canReroll = q.type === "daily" || q.type === "weekly";
+    const canRerollAction = canReroll && !completed && dailyQuestRerollRemaining > 0;
 
     return (
       <Card key={q.id} style={styles.questCard}>
@@ -156,8 +157,14 @@ export default function QuestsScreen() {
             {canReroll && (
               <View style={styles.rerollRow}>
                 <Pressable
-                  style={({ pressed }) => [styles.rerollButton, pressed && styles.rerollButtonPressed]}
+                  disabled={!canRerollAction}
+                  style={({ pressed }) => [
+                    styles.rerollButton,
+                    !canRerollAction && styles.rerollButtonDisabled,
+                    pressed && canRerollAction && styles.rerollButtonPressed,
+                  ]}
                   onPress={() => {
+                    if (!canRerollAction) return;
                     const result = rerollQuest(q.id);
                     if (!result.success) {
                       showRerollError(result.reason);
@@ -370,6 +377,9 @@ const styles = StyleSheet.create({
   },
   rerollButtonPressed: {
     opacity: 0.7,
+  },
+  rerollButtonDisabled: {
+    opacity: 0.4,
   },
   rerollButtonText: {
     fontSize: 12,

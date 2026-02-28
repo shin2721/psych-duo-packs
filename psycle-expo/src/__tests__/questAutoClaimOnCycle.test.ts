@@ -68,6 +68,11 @@ describe("quest auto claim on cycle change", () => {
       quests,
       prevKeys: PREV_KEYS,
       nextKeys: NEXT_KEYS_DAILY_CHANGED,
+      claimBonusGemsByType: {
+        daily: 5,
+        weekly: 10,
+        monthly: 15,
+      },
       previousSelection: {
         daily: ["qd_lessons_3", "qd_lessons_5", "qd_streak5_1"],
         weekly: ["qw_lessons_10", "qw_streak5_5"],
@@ -79,7 +84,7 @@ describe("quest auto claim on cycle change", () => {
     expect(result.autoClaimed).toEqual({
       claimedCount: 1,
       totalRewardXp: 30,
-      totalRewardGems: 10,
+      totalRewardGems: 5,
     });
     expect(result.quests.filter((q) => q.type === "daily")).toHaveLength(3);
     expect(result.quests.filter((q) => q.type === "daily").every((q) => q.cycleKey === NEXT_KEYS_DAILY_CHANGED.daily)).toBe(true);

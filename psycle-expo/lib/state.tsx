@@ -821,6 +821,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         prevKeys,
         nextKeys,
         previousSelection: questRotationPrevRef.current,
+        claimBonusGemsByType: QUEST_CLAIM_BONUS_GEMS_BY_TYPE,
       });
 
         if (reconcileResult.changedTypes.length > 0) {
@@ -1133,7 +1134,10 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
               (sum, quest) => sum + quest.rewardXp,
               0
             );
-            pendingAutoClaimGems += claimableOnMigration.length * 10;
+            pendingAutoClaimGems += claimableOnMigration.reduce(
+              (sum, quest) => sum + (QUEST_CLAIM_BONUS_GEMS_BY_TYPE[quest.type] ?? 0),
+              0
+            );
             Analytics.track("quest_auto_claimed_on_cycle", {
               claimedCount: claimableOnMigration.length,
               totalRewardXp: pendingAutoClaimXp,
@@ -1168,6 +1172,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
             prevKeys: loadedQuestCycleKeys,
             nextKeys: nowQuestCycleKeys,
             previousSelection: loadedRotationSelection,
+            claimBonusGemsByType: QUEST_CLAIM_BONUS_GEMS_BY_TYPE,
           });
           loadedQuests = reconcileResult.quests;
           loadedRotationSelection = reconcileResult.selection;
