@@ -793,8 +793,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     claimedStreakMilestonesRef.current = claimedStreakMilestones;
   }, [claimedStreakMilestones]);
 
-	  const reconcileQuestCycles = useCallback(
-	    (source: "cycle_reconcile" | "schema_migration" = "cycle_reconcile") => {
+    const reconcileQuestCycles = useCallback(
+      (source: "cycle_reconcile" | "schema_migration" = "cycle_reconcile") => {
       const prevKeys = questCycleKeysRef.current;
       const nextKeys = getQuestCycleKeys();
 
@@ -805,7 +805,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         previousSelection: questRotationPrevRef.current,
       });
 
-	      if (reconcileResult.changedTypes.length > 0) {
+        if (reconcileResult.changedTypes.length > 0) {
         const adjustedQuests = adjustQuestNeedsBySegment(
           reconcileResult.quests,
           personalizationSegmentRef.current
@@ -818,21 +818,21 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         if (reconcileResult.autoClaimed.totalRewardXp > 0) {
           setXP((prev) => prev + reconcileResult.autoClaimed.totalRewardXp);
         }
-	        if (reconcileResult.autoClaimed.totalRewardGems > 0) {
-	          setGems((prev) => prev + reconcileResult.autoClaimed.totalRewardGems);
-	        }
+          if (reconcileResult.autoClaimed.totalRewardGems > 0) {
+            setGems((prev) => prev + reconcileResult.autoClaimed.totalRewardGems);
+          }
 
-	        if (source === "cycle_reconcile") {
-	          Analytics.track("quest_cycle_reset", {
-	            dailyReset: reconcileResult.changedTypes.includes("daily"),
-	            weeklyReset: reconcileResult.changedTypes.includes("weekly"),
-	            monthlyReset: reconcileResult.changedTypes.includes("monthly"),
-	            source: "cycle_reconcile",
-	          });
-	        }
+          if (source === "cycle_reconcile") {
+            Analytics.track("quest_cycle_reset", {
+              dailyReset: reconcileResult.changedTypes.includes("daily"),
+              weeklyReset: reconcileResult.changedTypes.includes("weekly"),
+              monthlyReset: reconcileResult.changedTypes.includes("monthly"),
+              source: "cycle_reconcile",
+            });
+          }
 
-	        Analytics.track("quest_rotation_applied", {
-	          dailyChanged: reconcileResult.changedTypes.includes("daily"),
+          Analytics.track("quest_rotation_applied", {
+            dailyChanged: reconcileResult.changedTypes.includes("daily"),
           weeklyChanged: reconcileResult.changedTypes.includes("weekly"),
           monthlyChanged: reconcileResult.changedTypes.includes("monthly"),
           dailyCount: adjustedQuests.filter((quest) => quest.type === "daily").length,
@@ -926,8 +926,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   }, [mistakes, user, isStateHydrated]);
 
 
-	  // Daily goal system
-	  const [dailyGoal, setDailyGoalState] = useState(DAILY_GOAL_DEFAULT_XP);
+    // Daily goal system
+    const [dailyGoal, setDailyGoalState] = useState(DAILY_GOAL_DEFAULT_XP);
   const [dailyXP, setDailyXP] = useState(0);
   const [dailyGoalLastReset, setDailyGoalLastReset] = useState(getTodayDate());
 
@@ -1136,8 +1136,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
             weeklyCount: loadedQuests.filter((quest) => quest.type === "weekly").length,
             source: "schema_migration",
           });
-	        } else {
-	          const reconcileResult = reconcileQuestBoardOnCycleChange({
+          } else {
+            const reconcileResult = reconcileQuestBoardOnCycleChange({
             quests: loadedQuests,
             prevKeys: loadedQuestCycleKeys,
             nextKeys: nowQuestCycleKeys,
@@ -1146,17 +1146,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           loadedQuests = reconcileResult.quests;
           loadedRotationSelection = reconcileResult.selection;
 
-	          if (reconcileResult.changedTypes.length > 0) {
-	            Analytics.track("quest_cycle_reset", {
-	              dailyReset: reconcileResult.changedTypes.includes("daily"),
-	              weeklyReset: reconcileResult.changedTypes.includes("weekly"),
-	              monthlyReset: reconcileResult.changedTypes.includes("monthly"),
-	              source: "cycle_reconcile",
-	            });
+            if (reconcileResult.changedTypes.length > 0) {
+              Analytics.track("quest_cycle_reset", {
+                dailyReset: reconcileResult.changedTypes.includes("daily"),
+                weeklyReset: reconcileResult.changedTypes.includes("weekly"),
+                monthlyReset: reconcileResult.changedTypes.includes("monthly"),
+                source: "cycle_reconcile",
+              });
 
-	            pendingAutoClaimXp += reconcileResult.autoClaimed.totalRewardXp;
-	            pendingAutoClaimGems += reconcileResult.autoClaimed.totalRewardGems;
-	            Analytics.track("quest_rotation_applied", {
+              pendingAutoClaimXp += reconcileResult.autoClaimed.totalRewardXp;
+              pendingAutoClaimGems += reconcileResult.autoClaimed.totalRewardGems;
+              Analytics.track("quest_rotation_applied", {
               dailyChanged: reconcileResult.changedTypes.includes("daily"),
               weeklyChanged: reconcileResult.changedTypes.includes("weekly"),
               monthlyChanged: reconcileResult.changedTypes.includes("monthly"),
@@ -1985,27 +1985,27 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const isDoubleXpActive = doubleXpEndTime !== null && Date.now() < doubleXpEndTime;
 
   // Add XP and update daily progress + streak
-	  const addXp = async (amount: number) => {
+    const addXp = async (amount: number) => {
     // Apply Double XP boost if active
     const effectiveAmount = isDoubleXpActive ? amount * 2 : amount;
     const newXP = xp + effectiveAmount;
     setXP(newXP);
-	    setDailyXP((prev) => {
-	      const newDailyXP = prev + effectiveAmount;
-	      // Award gems when daily goal is reached
-	      if (prev < dailyGoal && newDailyXP >= dailyGoal) {
-	        if (DAILY_GOAL_REWARD_GEMS > 0) {
-	          addGems(DAILY_GOAL_REWARD_GEMS);
-	        }
-	        Analytics.track("daily_goal_reached", {
-	          dailyGoal,
-	          dailyXp: newDailyXP,
-	          gemsAwarded: DAILY_GOAL_REWARD_GEMS,
-	          source: "xp_gain",
-	        });
-	      }
-	      return newDailyXP;
-	    });
+      setDailyXP((prev) => {
+        const newDailyXP = prev + effectiveAmount;
+        // Award gems when daily goal is reached
+        if (prev < dailyGoal && newDailyXP >= dailyGoal) {
+          if (DAILY_GOAL_REWARD_GEMS > 0) {
+            addGems(DAILY_GOAL_REWARD_GEMS);
+          }
+          Analytics.track("daily_goal_reached", {
+            dailyGoal,
+            dailyXp: newDailyXP,
+            gemsAwarded: DAILY_GOAL_REWARD_GEMS,
+            source: "xp_gain",
+          });
+        }
+        return newDailyXP;
+      });
     updateStreak(); // Keep old streak logic for backward compatibility
     updateStreakForToday(newXP); // Update Supabase streak with latest XP
 
@@ -2174,26 +2174,26 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     }
   };
 
-	  const claimQuest = (id: string) => {
-	    reconcileQuestCycles("cycle_reconcile");
-	    setQuests((prev) => {
-	      const next = prev.map((q) => {
-	        if (q.id === id && q.progress >= q.need && !q.claimed) {
-	          const rewardGems = QUEST_CLAIM_BONUS_GEMS_BY_TYPE[q.type] ?? 0;
-	          addXp(q.rewardXp);
-	          if (rewardGems > 0) {
-	            addGems(rewardGems);
-	          }
-	          Analytics.track("quest_claimed", {
-	            templateId: q.templateId,
-	            type: q.type,
-	            rewardXp: q.rewardXp,
-	            rewardGems,
-	            source: "manual_claim",
-	          });
-	          return { ...q, claimed: true, chestState: "opening" as const };
-	        }
-	        return q;
+    const claimQuest = (id: string) => {
+      reconcileQuestCycles("cycle_reconcile");
+      setQuests((prev) => {
+        const next = prev.map((q) => {
+          if (q.id === id && q.progress >= q.need && !q.claimed) {
+            const rewardGems = QUEST_CLAIM_BONUS_GEMS_BY_TYPE[q.type] ?? 0;
+            addXp(q.rewardXp);
+            if (rewardGems > 0) {
+              addGems(rewardGems);
+            }
+            Analytics.track("quest_claimed", {
+              templateId: q.templateId,
+              type: q.type,
+              rewardXp: q.rewardXp,
+              rewardGems,
+              source: "manual_claim",
+            });
+            return { ...q, claimed: true, chestState: "opening" as const };
+          }
+          return q;
       });
       questsRef.current = next;
       return next;
@@ -2346,18 +2346,18 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     return { success: true };
   };
 
-	  const useFreeze = (): boolean => {
-	    if (freezeCount > 0) {
-	      const nextCount = freezeCount - 1;
-	      setFreezeCount((prev) => prev - 1);
-	      Analytics.track("freeze_used", {
-	        freezesRemaining: nextCount,
-	        streak,
-	        source: "streak_protection",
-	      });
-	      // Action Streak側のFreezeも減らす（一本化）
-	      useFreezeStreak().catch(e => console.error("Failed to use freeze from streak data", e));
-	      return true;
+    const useFreeze = (): boolean => {
+      if (freezeCount > 0) {
+        const nextCount = freezeCount - 1;
+        setFreezeCount((prev) => prev - 1);
+        Analytics.track("freeze_used", {
+          freezesRemaining: nextCount,
+          streak,
+          source: "streak_protection",
+        });
+        // Action Streak側のFreezeも減らす（一本化）
+        useFreezeStreak().catch(e => console.error("Failed to use freeze from streak data", e));
+        return true;
     }
     return false;
   };
