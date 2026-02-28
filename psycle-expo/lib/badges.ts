@@ -78,6 +78,14 @@ export const BADGES: Badge[] = [
         unlockCondition: (stats) => stats.streak >= 7,
     },
     {
+        id: 'streak_14',
+        name: '2週間連続',
+        description: '14日連続で学習',
+        icon: 'flame',
+        category: 'streak',
+        unlockCondition: (stats) => stats.streak >= 14,
+    },
+    {
         id: 'streak_30',
         name: '1ヶ月連続',
         description: '30日連続で学習',

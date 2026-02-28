@@ -39,4 +39,29 @@ describe("badges progress labels", () => {
     expect(level10?.name).not.toContain("レベル");
     expect(level10?.description).not.toContain("レベル");
   });
+
+  test("streak_14 is unlocked by 14-day streak", () => {
+    const badge = BADGES.find((item) => item.id === "streak_14");
+    expect(badge).toBeDefined();
+
+    const before = badge?.unlockCondition({
+      completedLessons: 0,
+      streak: 13,
+      xp: 0,
+      mistakesCleared: 0,
+      friendCount: 0,
+      leaderboardRank: 0,
+    });
+    expect(before).toBe(false);
+
+    const reached = badge?.unlockCondition({
+      completedLessons: 0,
+      streak: 14,
+      xp: 0,
+      mistakesCleared: 0,
+      friendCount: 0,
+      leaderboardRank: 0,
+    });
+    expect(reached).toBe(true);
+  });
 });
