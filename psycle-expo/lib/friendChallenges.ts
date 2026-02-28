@@ -111,7 +111,7 @@ export function evaluateFriendChallengeProgress(input: {
 }): FriendChallengeProgress {
   const myWeeklyXp = normalizeXp(input.myWeeklyXp);
   const opponentWeeklyXp = normalizeXp(input.opponentWeeklyXp);
-  const completed = myWeeklyXp >= opponentWeeklyXp;
+  const completed = myWeeklyXp >= opponentWeeklyXp && myWeeklyXp > 0;
 
   return {
     completed,

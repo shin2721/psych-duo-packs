@@ -4,6 +4,7 @@ import {
   getExperimentsConfig,
   getFriendChallengeConfig,
   getPersonalizationConfig,
+  getQuestRerollConfig,
   getQuestRewardsConfig,
 } from "../../lib/gamificationConfig";
 
@@ -26,9 +27,16 @@ describe("gamificationConfig", () => {
 
   test("quest reward claim gems map is present for all quest types", () => {
     const rewardConfig = getQuestRewardsConfig().claim_bonus_gems_by_type;
-    expect(rewardConfig.daily).toBe(10);
+    expect(rewardConfig.daily).toBe(5);
     expect(rewardConfig.weekly).toBe(10);
-    expect(rewardConfig.monthly).toBe(10);
+    expect(rewardConfig.monthly).toBe(15);
+  });
+
+  test("quest reroll config keeps safe defaults", () => {
+    const config = getQuestRerollConfig();
+    expect(config.enabled).toBe(true);
+    expect(config.cost_gems).toBe(5);
+    expect(config.daily_limit).toBe(1);
   });
 
   test("experiments and personalization stay disabled by default for A/A gate", () => {

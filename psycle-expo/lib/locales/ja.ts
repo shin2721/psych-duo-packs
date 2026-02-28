@@ -401,6 +401,18 @@ export const ja = {
             communityGoal: '目標: みんなで %{target} レッスン',
             completed: '完了',
         },
+        reroll: {
+            cta: 'リロール',
+            remaining: 'リロール残り: %{count}',
+            errors: {
+                disabled: '現在リロールは利用できません。',
+                invalid_type: 'このクエストはリロールできません。',
+                limit_reached: '本日のリロール回数に達しました。',
+                insufficient_gems: 'リロールに必要なGemsが足りません。',
+                already_completed: '達成済みクエストはリロールできません。',
+                no_candidate: '入れ替え可能なクエストがありません。',
+            },
+        },
         templates: {
             daily: {
                 lessons2: 'レッスンを2回完了',
@@ -414,6 +426,13 @@ export const ja = {
                 lessons10: '週に10レッスン完了',
                 lessons15: '週に15レッスン完了',
                 streak5x5: '5問連続正解を5回達成',
+            },
+            monthly: {
+                lessons50: '月に50レッスン完了',
+                breathTempo60: '呼吸ゲームで60秒達成',
+                echoSteps3: 'エコーステップ3回クリア',
+                balance5: 'バランスゲーム5回クリア',
+                budgetPerfect3: '予算ゲームでパーフェクト達成',
             },
         },
     },

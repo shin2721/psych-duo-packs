@@ -14,7 +14,7 @@ import {
 } from "../../lib/friendChallenges";
 
 describe("friendChallenges", () => {
-  test("progress is completed when my xp is greater than opponent", () => {
+  test("progress is completed when my xp is greater than opponent and positive", () => {
     const progress = evaluateFriendChallengeProgress({
       myWeeklyXp: 120,
       opponentWeeklyXp: 100,
@@ -22,6 +22,24 @@ describe("friendChallenges", () => {
 
     expect(progress.completed).toBe(true);
     expect(progress.xpGap).toBe(20);
+  });
+
+  test("progress is not completed when both users have zero xp", () => {
+    const progress = evaluateFriendChallengeProgress({
+      myWeeklyXp: 0,
+      opponentWeeklyXp: 0,
+    });
+
+    expect(progress.completed).toBe(false);
+  });
+
+  test("progress is completed when my xp is positive and not less than opponent", () => {
+    const progress = evaluateFriendChallengeProgress({
+      myWeeklyXp: 1,
+      opponentWeeklyXp: 0,
+    });
+
+    expect(progress.completed).toBe(true);
   });
 
   test("progress normalizes negative values to zero", () => {

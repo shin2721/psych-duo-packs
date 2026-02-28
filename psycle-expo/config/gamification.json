@@ -61,10 +61,15 @@
     },
     "quest_rewards": {
         "claim_bonus_gems_by_type": {
-            "daily": 10,
+            "daily": 5,
             "weekly": 10,
-            "monthly": 10
+            "monthly": 15
         }
+    },
+    "quest_reroll": {
+        "enabled": true,
+        "cost_gems": 5,
+        "daily_limit": 1
     },
     "experiments": {
         "enabled": false,

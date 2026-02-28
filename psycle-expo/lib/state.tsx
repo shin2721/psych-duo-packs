@@ -20,6 +20,7 @@ import {
   getDailyGoalConfig,
   getEventCampaignConfig,
   getPersonalizationConfig,
+  getQuestRerollConfig,
   getQuestRewardsConfig,
   getShopSinksConfig,
   getStreakMilestonesConfig,
@@ -74,6 +75,7 @@ import {
   extractSelectionFromQuests,
   normalizeQuestRotationSelection,
   reconcileQuestBoardOnCycleChange,
+  rerollQuestInstance,
   type QuestRotationSelection,
 } from "./questRotation";
 import {
@@ -178,16 +180,19 @@ const personalizationConfig = getPersonalizationConfig();
 const comebackRewardConfig = getComebackRewardConfig();
 const dailyGoalConfig = getDailyGoalConfig();
 const questRewardsConfig = getQuestRewardsConfig();
+const questRerollConfig = getQuestRerollConfig();
 const COMEBACK_REWARD_THRESHOLD_DAYS = normalizePositiveInt(comebackRewardConfig.threshold_days, 7);
 const COMEBACK_REWARD_ENERGY = normalizePositiveInt(comebackRewardConfig.reward_energy, 2);
 const COMEBACK_REWARD_GEMS = normalizeNonNegativeInt(comebackRewardConfig.reward_gems, 10);
 const DAILY_GOAL_DEFAULT_XP = normalizePositiveInt(dailyGoalConfig.default_xp, 10);
 const DAILY_GOAL_REWARD_GEMS = normalizeNonNegativeInt(dailyGoalConfig.reward_gems, 5);
 const QUEST_CLAIM_BONUS_GEMS_BY_TYPE = {
-  daily: normalizeNonNegativeInt(questRewardsConfig.claim_bonus_gems_by_type.daily, 10),
+  daily: normalizeNonNegativeInt(questRewardsConfig.claim_bonus_gems_by_type.daily, 5),
   weekly: normalizeNonNegativeInt(questRewardsConfig.claim_bonus_gems_by_type.weekly, 10),
-  monthly: normalizeNonNegativeInt(questRewardsConfig.claim_bonus_gems_by_type.monthly, 10),
+  monthly: normalizeNonNegativeInt(questRewardsConfig.claim_bonus_gems_by_type.monthly, 15),
 } as const;
+const QUEST_REROLL_COST_GEMS = normalizeNonNegativeInt(questRerollConfig.cost_gems, 5);
+const QUEST_REROLL_DAILY_LIMIT = normalizePositiveInt(questRerollConfig.daily_limit, 1);
 
 function getActiveEventCampaignConfig(now: Date = new Date()): EventCampaignConfig | null {
   const config = getEventCampaignConfig();
@@ -383,6 +388,18 @@ interface AppState {
   incrementQuest: (id: string, step?: number) => void;
   incrementQuestMetric: (metric: QuestMetric, step?: number) => void;
   claimQuest: (id: string) => void;
+  rerollQuest: (
+    questId: string
+  ) => {
+    success: boolean;
+    reason?:
+      | "disabled"
+      | "invalid_type"
+      | "limit_reached"
+      | "insufficient_gems"
+      | "already_completed"
+      | "no_candidate";
+  };
   badgeToastQueue: string[];
   consumeNextBadgeToast: () => string | null;
   streakMilestoneToastQueue: StreakMilestoneToastItem[];
@@ -440,6 +457,7 @@ interface AppState {
   energyRefillMinutes: number;
   dailyEnergyBonusRemaining: number;
   dailyEnergyRefillRemaining: number;
+  dailyQuestRerollRemaining: number;
   lastEnergyUpdateTime: number | null;
   // Plan & Entitlements
   planId: PlanId;
@@ -938,6 +956,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [dailyEnergyBonusCount, setDailyEnergyBonusCount] = useState(0);
   const [dailyEnergyRefillDate, setDailyEnergyRefillDate] = useState(getTodayDate());
   const [dailyEnergyRefillCount, setDailyEnergyRefillCount] = useState(0);
+  const [dailyQuestRerollDate, setDailyQuestRerollDate] = useState(getTodayDate());
+  const [dailyQuestRerollCount, setDailyQuestRerollCount] = useState(0);
   const [firstLaunchAtMs, setFirstLaunchAtMs] = useState<number | null>(null);
 
   // Load persisted state on mount (LOCAL FIRST, then Supabase sync in background)
@@ -959,6 +979,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       questCycleKeysRef.current = resetCycleKeys;
       setQuestRotationPrev(resetQuestState.rotationSelection);
       questRotationPrevRef.current = resetQuestState.rotationSelection;
+      setDailyQuestRerollDate(getTodayDate());
+      setDailyQuestRerollCount(0);
       setEventCampaignState(null);
       eventCampaignStateRef.current = null;
       setPersonalizationSegment("new");
@@ -993,6 +1015,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyBonusCount,
           savedEnergyRefillDate,
           savedEnergyRefillCount,
+          savedQuestRerollDate,
+          savedQuestRerollCount,
           savedMistakes,
           savedFirstLaunchAt,
           savedFirstDayBonusTracked,
@@ -1016,6 +1040,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`energy_bonus_count_${user.id}`),
           AsyncStorage.getItem(`energy_refill_date_${user.id}`),
           AsyncStorage.getItem(`energy_refill_count_${user.id}`),
+          AsyncStorage.getItem(`quest_reroll_date_${user.id}`),
+          AsyncStorage.getItem(`quest_reroll_count_${user.id}`),
           AsyncStorage.getItem(`mistakes_${user.id}`),
           AsyncStorage.getItem(`first_launch_at_${user.id}`),
           AsyncStorage.getItem(`first_day_energy_bonus_tracked_${user.id}`),
@@ -1218,6 +1244,13 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           const parsedEnergyRefillCount = parseInt(savedEnergyRefillCount, 10);
           if (!Number.isNaN(parsedEnergyRefillCount)) setDailyEnergyRefillCount(parsedEnergyRefillCount);
         }
+        if (savedQuestRerollDate) {
+          setDailyQuestRerollDate(savedQuestRerollDate);
+        }
+        if (savedQuestRerollCount) {
+          const parsedQuestRerollCount = parseInt(savedQuestRerollCount, 10);
+          if (!Number.isNaN(parsedQuestRerollCount)) setDailyQuestRerollCount(parsedQuestRerollCount);
+        }
         const initializeFirstLaunch = async () => {
           const firstLaunchAt = Date.now();
           setFirstLaunchAtMs(firstLaunchAt);
@@ -1366,6 +1399,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEnergyBonusCount,
           savedEnergyRefillDate,
           savedEnergyRefillCount,
+          savedQuestRerollDate,
+          savedQuestRerollCount,
           savedFirstLaunchAt,
           savedStreakRepairOffer,
           savedComebackRewardOffer,
@@ -1514,6 +1549,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     if (!user || !isStateHydrated) return;
     AsyncStorage.setItem(`energy_refill_count_${user.id}`, dailyEnergyRefillCount.toString());
   }, [dailyEnergyRefillCount, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(`quest_reroll_date_${user.id}`, dailyQuestRerollDate);
+  }, [dailyQuestRerollDate, user, isStateHydrated]);
+
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(`quest_reroll_count_${user.id}`, dailyQuestRerollCount.toString());
+  }, [dailyQuestRerollCount, user, isStateHydrated]);
 
   useEffect(() => {
     if (!user || !isStateHydrated || firstLaunchAtMs === null) return;
@@ -1828,6 +1873,20 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const interval = setInterval(resetEnergyRefillIfNeeded, 60000);
     return () => clearInterval(interval);
   }, [dailyEnergyRefillDate]);
+
+  useEffect(() => {
+    const resetQuestRerollIfNeeded = () => {
+      const today = getTodayDate();
+      if (dailyQuestRerollDate !== today) {
+        setDailyQuestRerollDate(today);
+        setDailyQuestRerollCount(0);
+      }
+    };
+
+    resetQuestRerollIfNeeded();
+    const interval = setInterval(resetQuestRerollIfNeeded, 60000);
+    return () => clearInterval(interval);
+  }, [dailyQuestRerollDate]);
 
   // Update streak when studying
   const updateStreak = () => {
@@ -2174,26 +2233,26 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     }
   };
 
-    const claimQuest = (id: string) => {
-      reconcileQuestCycles("cycle_reconcile");
-      setQuests((prev) => {
-        const next = prev.map((q) => {
-          if (q.id === id && q.progress >= q.need && !q.claimed) {
-            const rewardGems = QUEST_CLAIM_BONUS_GEMS_BY_TYPE[q.type] ?? 0;
-            addXp(q.rewardXp);
-            if (rewardGems > 0) {
-              addGems(rewardGems);
-            }
-            Analytics.track("quest_claimed", {
-              templateId: q.templateId,
-              type: q.type,
-              rewardXp: q.rewardXp,
-              rewardGems,
-              source: "manual_claim",
-            });
-            return { ...q, claimed: true, chestState: "opening" as const };
+  const claimQuest = (id: string) => {
+    reconcileQuestCycles("cycle_reconcile");
+    setQuests((prev) => {
+      const next = prev.map((q) => {
+        if (q.id === id && q.progress >= q.need && !q.claimed) {
+          const rewardGems = QUEST_CLAIM_BONUS_GEMS_BY_TYPE[q.type] ?? 0;
+          addXp(q.rewardXp);
+          if (rewardGems > 0) {
+            addGems(rewardGems);
           }
-          return q;
+          Analytics.track("quest_claimed", {
+            templateId: q.templateId,
+            type: q.type,
+            rewardXp: q.rewardXp,
+            rewardGems,
+            source: "manual_claim",
+          });
+          return { ...q, claimed: true, chestState: "opening" as const };
+        }
+        return q;
       });
       questsRef.current = next;
       return next;
@@ -2206,6 +2265,76 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
         return next;
       });
     }, 1200);
+  };
+
+  const rerollQuest = (
+    questId: string
+  ): {
+    success: boolean;
+    reason?:
+      | "disabled"
+      | "invalid_type"
+      | "limit_reached"
+      | "insufficient_gems"
+      | "already_completed"
+      | "no_candidate";
+  } => {
+    reconcileQuestCycles("cycle_reconcile");
+
+    if (!questRerollConfig.enabled) {
+      return { success: false, reason: "disabled" };
+    }
+
+    const targetQuest = questsRef.current.find((quest) => quest.id === questId);
+    if (!targetQuest) {
+      return { success: false, reason: "no_candidate" };
+    }
+
+    if (targetQuest.type !== "daily" && targetQuest.type !== "weekly") {
+      return { success: false, reason: "invalid_type" };
+    }
+
+    const today = getTodayDate();
+    const usedCount = dailyQuestRerollDate === today ? dailyQuestRerollCount : 0;
+    if (usedCount >= QUEST_REROLL_DAILY_LIMIT) {
+      return { success: false, reason: "limit_reached" };
+    }
+
+    if (gems < QUEST_REROLL_COST_GEMS) {
+      return { success: false, reason: "insufficient_gems" };
+    }
+
+    if (targetQuest.claimed || targetQuest.progress >= targetQuest.need) {
+      return { success: false, reason: "already_completed" };
+    }
+
+    const rerolled = rerollQuestInstance({
+      quests: questsRef.current,
+      questId,
+    });
+    if (!rerolled.success) {
+      return { success: false, reason: rerolled.reason };
+    }
+
+    const nextQuests = rerolled.quests;
+    questsRef.current = nextQuests;
+    setQuests(nextQuests);
+    setGems((prev) => prev - QUEST_REROLL_COST_GEMS);
+    setDailyQuestRerollDate(today);
+    setDailyQuestRerollCount(usedCount + 1);
+
+    if (rerolled.oldTemplateId && rerolled.newTemplateId && rerolled.type) {
+      Analytics.track("quest_rerolled", {
+        questId,
+        type: rerolled.type,
+        oldTemplateId: rerolled.oldTemplateId,
+        newTemplateId: rerolled.newTemplateId,
+        costGems: QUEST_REROLL_COST_GEMS,
+        source: "quests_tab",
+      });
+    }
+
+    return { success: true };
   };
 
   const consumeNextBadgeToast = (): string | null => {
@@ -2553,6 +2682,12 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     const usedCount = dailyEnergyRefillDate === today ? dailyEnergyRefillCount : 0;
     return Math.max(0, config.daily_limit - usedCount);
   })();
+  const dailyQuestRerollRemaining = (() => {
+    if (!questRerollConfig.enabled) return 0;
+    const today = getTodayDate();
+    const usedCount = dailyQuestRerollDate === today ? dailyQuestRerollCount : 0;
+    return Math.max(0, QUEST_REROLL_DAILY_LIMIT - usedCount);
+  })();
 
   const hasProAccess = hasProItemAccess(planId);
   const canAccessMistakesHub = canUseMistakesHub(userId, planId);
@@ -2665,6 +2800,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     incrementQuest,
     incrementQuestMetric,
     claimQuest,
+    rerollQuest,
     badgeToastQueue,
     consumeNextBadgeToast,
     streakMilestoneToastQueue,
@@ -2703,6 +2839,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     energyRefillMinutes,
     dailyEnergyBonusRemaining,
     dailyEnergyRefillRemaining,
+    dailyQuestRerollRemaining,
     lastEnergyUpdateTime,
     planId,
     setPlanId,

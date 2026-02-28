@@ -125,6 +125,7 @@ export const MONTHLY_FIXED_QUEST_TEMPLATES: QuestTemplate[] = [
     need: 50,
     rewardXp: 150,
     title: "月に50レッスン完了",
+    titleKey: "quests.templates.monthly.lessons50",
   },
   {
     templateId: "q_monthly_breathTempo",
@@ -133,6 +134,7 @@ export const MONTHLY_FIXED_QUEST_TEMPLATES: QuestTemplate[] = [
     need: 60,
     rewardXp: 120,
     title: "呼吸ゲームで60秒達成",
+    titleKey: "quests.templates.monthly.breathTempo60",
   },
   {
     templateId: "q_monthly_echoSteps",
@@ -141,6 +143,7 @@ export const MONTHLY_FIXED_QUEST_TEMPLATES: QuestTemplate[] = [
     need: 3,
     rewardXp: 100,
     title: "エコーステップ3回クリア",
+    titleKey: "quests.templates.monthly.echoSteps3",
   },
   {
     templateId: "q_monthly_balance",
@@ -149,6 +152,7 @@ export const MONTHLY_FIXED_QUEST_TEMPLATES: QuestTemplate[] = [
     need: 5,
     rewardXp: 110,
     title: "バランスゲーム5回クリア",
+    titleKey: "quests.templates.monthly.balance5",
   },
   {
     templateId: "q_monthly_budget",
@@ -157,6 +161,7 @@ export const MONTHLY_FIXED_QUEST_TEMPLATES: QuestTemplate[] = [
     need: 3,
     rewardXp: 150,
     title: "予算ゲームでパーフェクト達成",
+    titleKey: "quests.templates.monthly.budgetPerfect3",
   },
 ];
 

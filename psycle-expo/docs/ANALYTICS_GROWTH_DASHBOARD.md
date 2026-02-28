@@ -391,6 +391,13 @@ v1.20でローカル通知リマインドの観測イベントを追加。
   - `opponentId`
   - `rewardGems`
   - `source`: `friends_tab`
+- `quest_rerolled`
+  - `questId`
+  - `type`: `daily | weekly`
+  - `oldTemplateId`
+  - `newTemplateId`
+  - `costGems`
+  - `source`: `quests_tab`
 - `liveops_event_activated`
   - `eventId`
   - `source`: `event_reconcile`
@@ -400,6 +407,7 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 - 実験導線はまず A/A で稼働確認し、variant 間の主要KPI差分が ±2%以内であることをゲートにする。
 - 個別最適化セグメントは 24h クールダウンで再判定し、短周期で揺れないようにする。
 - 友達チャレンジは表示だけでなく完了率を監視する。目安は `friend_challenge_completed / friend_challenge_shown >= 0.15`。
+- クエストリロールは `quest_rerolled` 件数と、`quest_claimed` の type 別分布をセットで監視する（供給/消費バランス確認）。
 - LiveOps は設定ベースで有効化されるため、イベント切替時は `liveops_event_activated` 発火を最初に確認する。
 
 ### A/A運用ゲート（固定）

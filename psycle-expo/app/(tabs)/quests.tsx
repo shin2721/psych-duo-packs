@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
+import { View, Text, ScrollView, Pressable, StyleSheet, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
@@ -36,6 +36,8 @@ export default function QuestsScreen() {
     xp,
     quests,
     claimQuest,
+    rerollQuest,
+    dailyQuestRerollRemaining,
     streakHistory,
     eventCampaign,
     eventQuests,
@@ -123,10 +125,24 @@ export default function QuestsScreen() {
     });
   }, [eventCampaign, todayKey, user?.id]);
 
+  const showRerollError = (
+    reason?:
+      | "disabled"
+      | "invalid_type"
+      | "limit_reached"
+      | "insufficient_gems"
+      | "already_completed"
+      | "no_candidate"
+  ) => {
+    const key = reason ?? "no_candidate";
+    Alert.alert(String(i18n.t("common.error")), String(i18n.t(`quests.reroll.errors.${key}`)));
+  };
+
   const renderQuest = (q: any) => {
     const completed = q.progress >= q.need;
     const canClaim = completed && !q.claimed;
     const title = q.titleKey ? String(i18n.t(q.titleKey)) : q.title;
+    const canReroll = q.type === "daily" || q.type === "weekly";
 
     return (
       <Card key={q.id} style={styles.questCard}>
@@ -137,6 +153,24 @@ export default function QuestsScreen() {
               {q.progress} / {q.need}
             </Text>
             <ProgressBar value={q.progress} max={q.need} style={styles.progressBar} />
+            {canReroll && (
+              <View style={styles.rerollRow}>
+                <Pressable
+                  style={({ pressed }) => [styles.rerollButton, pressed && styles.rerollButtonPressed]}
+                  onPress={() => {
+                    const result = rerollQuest(q.id);
+                    if (!result.success) {
+                      showRerollError(result.reason);
+                    }
+                  }}
+                >
+                  <Text style={styles.rerollButtonText}>{i18n.t("quests.reroll.cta")}</Text>
+                </Pressable>
+                <Text style={styles.rerollRemaining}>
+                  {i18n.t("quests.reroll.remaining", { count: dailyQuestRerollRemaining })}
+                </Text>
+              </View>
+            )}
           </View>
           <Chest
             state={q.chestState}
@@ -321,4 +355,29 @@ const styles = StyleSheet.create({
   questTitle: { fontSize: 14, fontWeight: "700", color: theme.colors.text },
   questDesc: { fontSize: 12, color: theme.colors.sub, marginTop: 2 },
   progressBar: { marginTop: theme.spacing.xs },
+  rerollRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: theme.spacing.sm,
+    marginTop: theme.spacing.xs,
+  },
+  rerollButton: {
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: theme.colors.accent,
+    paddingVertical: 4,
+    paddingHorizontal: 10,
+  },
+  rerollButtonPressed: {
+    opacity: 0.7,
+  },
+  rerollButtonText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: theme.colors.accent,
+  },
+  rerollRemaining: {
+    fontSize: 11,
+    color: theme.colors.sub,
+  },
 });

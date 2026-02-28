@@ -318,6 +318,18 @@ export type QuestClaimedEvent = {
   };
 };
 
+export type QuestRerolledEvent = {
+  name: 'quest_rerolled';
+  properties: {
+    questId: string;
+    type: 'daily' | 'weekly';
+    oldTemplateId: string;
+    newTemplateId: string;
+    costGems: number;
+    source: 'quests_tab';
+  };
+};
+
 export type FreezeUsedEvent = {
   name: 'freeze_used';
   properties: {
@@ -573,6 +585,7 @@ export type TrackedEvent =
   | QuestRotationAppliedEvent
   | QuestAutoClaimedOnCycleEvent
   | QuestClaimedEvent
+  | QuestRerolledEvent
   | FreezeUsedEvent
   | DailyGoalReachedEvent
   | LeagueRewardClaimedEvent

@@ -85,6 +85,12 @@ export interface QuestRewardsConfig {
   };
 }
 
+export interface QuestRerollConfig {
+  enabled: boolean;
+  cost_gems: number;
+  daily_limit: number;
+}
+
 export type EventQuestMetric = "lesson_complete" | "streak5_milestone";
 
 export interface EventQuestTemplateConfig {
@@ -163,6 +169,7 @@ export interface GamificationConfig {
   daily_goal: DailyGoalConfig;
   friend_challenge: FriendChallengeConfig;
   quest_rewards: QuestRewardsConfig;
+  quest_reroll: QuestRerollConfig;
   event_campaign: EventCampaignConfig;
   experiments: ExperimentsConfig;
   personalization: PersonalizationConfig;
@@ -261,10 +268,15 @@ const DEFAULT_CONFIG: GamificationConfig = {
   },
   quest_rewards: {
     claim_bonus_gems_by_type: {
-      daily: 10,
+      daily: 5,
       weekly: 10,
-      monthly: 10,
+      monthly: 15,
     },
+  },
+  quest_reroll: {
+    enabled: true,
+    cost_gems: 5,
+    daily_limit: 1,
   },
   event_campaign: DEFAULT_EVENT_CAMPAIGN,
   experiments: {
@@ -469,6 +481,10 @@ function loadConfig(): GamificationConfig {
           ...source.quest_rewards?.claim_bonus_gems_by_type,
         },
       },
+      quest_reroll: {
+        ...DEFAULT_CONFIG.quest_reroll,
+        ...source.quest_reroll,
+      },
       event_campaign: normalizeEventCampaign(source.event_campaign, DEFAULT_CONFIG.event_campaign),
       experiments: normalizeExperiments(source.experiments),
       personalization: normalizePersonalization(source.personalization),
@@ -555,6 +571,10 @@ export function getFriendChallengeConfig(): FriendChallengeConfig {
 
 export function getQuestRewardsConfig(): QuestRewardsConfig {
   return gamificationConfig.quest_rewards;
+}
+
+export function getQuestRerollConfig(): QuestRerollConfig {
+  return gamificationConfig.quest_reroll;
 }
 
 export function getExperimentsConfig(): ExperimentsConfig {

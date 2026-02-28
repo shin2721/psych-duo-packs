@@ -401,6 +401,18 @@ export const en = {
             communityGoal: 'Goal: Together %{target} lessons',
             completed: 'Completed',
         },
+        reroll: {
+            cta: 'Reroll',
+            remaining: 'Rerolls left: %{count}',
+            errors: {
+                disabled: 'Quest reroll is currently unavailable.',
+                invalid_type: 'This quest cannot be rerolled.',
+                limit_reached: 'Daily reroll limit reached.',
+                insufficient_gems: 'Not enough Gems to reroll.',
+                already_completed: 'Completed quests cannot be rerolled.',
+                no_candidate: 'No alternative quest is available.',
+            },
+        },
         templates: {
             daily: {
                 lessons2: 'Complete 2 lessons',
@@ -414,6 +426,13 @@ export const en = {
                 lessons10: 'Complete 10 lessons this week',
                 lessons15: 'Complete 15 lessons this week',
                 streak5x5: 'Hit five 5-correct streaks',
+            },
+            monthly: {
+                lessons50: 'Complete 50 lessons this month',
+                breathTempo60: 'Reach 60s in Breath Tempo',
+                echoSteps3: 'Clear Echo Steps 3 times',
+                balance5: 'Clear Balance game 5 times',
+                budgetPerfect3: 'Get perfect in Budget game 3 times',
             },
         },
     },

@@ -29,6 +29,20 @@ export interface QuestReconcileResult {
   autoClaimed: QuestAutoClaimSummary;
 }
 
+export type QuestRerollFailureReason =
+  | "invalid_type"
+  | "already_completed"
+  | "no_candidate";
+
+export interface QuestRerollResult {
+  success: boolean;
+  reason?: QuestRerollFailureReason;
+  quests: QuestInstance[];
+  oldTemplateId?: string;
+  newTemplateId?: string;
+  type?: "daily" | "weekly";
+}
+
 interface BuildQuestBoardForCyclesInput {
   cycleKeys: QuestCycleKeys;
   previousSelection?: QuestRotationSelection | null;
@@ -240,4 +254,59 @@ export function applyQuestMetricProgress(
       progress: Math.min(quest.need, quest.progress + safeStep),
     };
   });
+}
+
+interface RerollQuestInstanceInput {
+  quests: QuestInstance[];
+  questId: string;
+  random?: () => number;
+}
+
+export function rerollQuestInstance(input: RerollQuestInstanceInput): QuestRerollResult {
+  const random = normalizeRandom(input.random);
+  const targetIndex = input.quests.findIndex((quest) => quest.id === input.questId);
+  if (targetIndex < 0) {
+    return { success: false, reason: "no_candidate", quests: input.quests };
+  }
+
+  const target = input.quests[targetIndex];
+  if (target.type !== "daily" && target.type !== "weekly") {
+    return { success: false, reason: "invalid_type", quests: input.quests };
+  }
+
+  if (target.claimed || target.progress >= target.need) {
+    return { success: false, reason: "already_completed", quests: input.quests };
+  }
+
+  const selectedTemplateIds = new Set(
+    input.quests
+      .filter((quest) => quest.type === target.type)
+      .map((quest) => quest.templateId)
+  );
+  const templates = target.type === "daily" ? DAILY_QUEST_TEMPLATES : WEEKLY_QUEST_TEMPLATES;
+  const candidateTemplates = templates.filter(
+    (template) => !selectedTemplateIds.has(template.templateId)
+  );
+
+  if (candidateTemplates.length === 0) {
+    return { success: false, reason: "no_candidate", quests: input.quests };
+  }
+
+  const pickedIndex = Math.max(
+    0,
+    Math.min(candidateTemplates.length - 1, Math.floor(random() * candidateTemplates.length))
+  );
+  const pickedTemplate = candidateTemplates[pickedIndex];
+  const replacement = createQuestInstanceFromTemplate(pickedTemplate, target.cycleKey);
+
+  const nextQuests = [...input.quests];
+  nextQuests[targetIndex] = replacement;
+
+  return {
+    success: true,
+    quests: nextQuests,
+    oldTemplateId: target.templateId,
+    newTemplateId: pickedTemplate.templateId,
+    type: target.type,
+  };
 }
