@@ -321,6 +321,14 @@ const DEFAULT_CONFIG: GamificationConfig = {
           { id: "variant_a", weight: 50, payload: { copyStyle: "urgency" } },
         ],
       },
+      pro_trial_checkout: {
+        enabled: false,
+        rollout_percentage: 5,
+        variants: [
+          { id: "control", weight: 50, payload: { trialDays: 0 } },
+          { id: "variant_a", weight: 50, payload: { trialDays: 7 } },
+        ],
+      },
     },
   },
   personalization: {

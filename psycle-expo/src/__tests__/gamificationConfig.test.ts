@@ -65,11 +65,16 @@ describe("gamificationConfig", () => {
   test("experiment rollout percentage is normalized and current config is 5%", () => {
     const experiments = getExperimentsConfig();
     const definition = experiments.experiments.double_xp_nudge_lesson_complete;
+    const trialDefinition = experiments.experiments.pro_trial_checkout;
     expect(definition.enabled).toBe(true);
     expect(definition.rollout_percentage).toBe(5);
     expect(definition.rollout_percentage).toBeGreaterThanOrEqual(0);
     expect(definition.rollout_percentage).toBeLessThanOrEqual(100);
     expect(definition.variants[0]?.payload).toEqual({ copyStyle: "default" });
     expect(definition.variants[1]?.payload).toEqual({ copyStyle: "default" });
+    expect(trialDefinition.enabled).toBe(false);
+    expect(trialDefinition.rollout_percentage).toBe(5);
+    expect(trialDefinition.variants[0]?.payload).toEqual({ trialDays: 0 });
+    expect(trialDefinition.variants[1]?.payload).toEqual({ trialDays: 7 });
   });
 });

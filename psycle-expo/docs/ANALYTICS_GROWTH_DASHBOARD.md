@@ -364,6 +364,8 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 - `checkout_start`
   - `source`: `shop_tab`
   - `planId`
+  - `billingPeriod`: `monthly | yearly`
+  - `trialDays`
 - `checkout_failed`
   - `source`: `shop_tab | billing_lib`
   - `planId`（任意）
@@ -417,6 +419,7 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 - クエストリロールは `quest_rerolled` 件数と、`quest_claimed` の type 別分布をセットで監視する（供給/消費バランス確認）。
 - LiveOps は設定ベースで有効化されるため、イベント切替時は `liveops_event_activated` 発火を最初に確認する。
 - 決済ファネルの完結率は `plan_changed / checkout_start` を基準に監視する。
+- `pro_trial_checkout` 実験時は `checkout_start` を `trialDays` で分解して追跡する（0日 vs 7日）。
 
 ### A/A運用ゲート（固定）
 
@@ -436,3 +439,11 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 | 2026-03-__ | 20 |  |  |  |  | pending |
 | 2026-03-__ | 50 |  |  |  |  | pending |
 | 2026-03-__ | 100 |  |  |  |  | pending |
+
+### ProトライアルA/B記録欄（v1.40+）
+
+| Date (JST) | rollout % | experiment_id | checkout_start (trial=0) | checkout_start (trial=7) | plan_changed_rate (trial=0) | plan_changed_rate (trial=7) | D7 Δ | Refund Δ | Judge |
+|---|---:|---|---:|---:|---:|---:|---:|---:|---|
+| 2026-03-__ | 5 | pro_trial_checkout |  |  |  |  |  |  | pending |
+| 2026-03-__ | 20 | pro_trial_checkout |  |  |  |  |  |  | pending |
+| 2026-03-__ | 50 | pro_trial_checkout |  |  |  |  |  |  | pending |

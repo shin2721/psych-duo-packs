@@ -6,12 +6,24 @@ import { theme } from "../../lib/theme";
 import { useAppState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
-import { getPurchasablePlans, getSupabaseFunctionsUrl, type PlanConfig } from "../../lib/plans";
-import { getPlanPrice } from "../../lib/pricing";
+import {
+  getPurchasablePlans,
+  getSupabaseFunctionsUrl,
+  resolvePlanPriceId,
+  supportsPlanBillingPeriod,
+  type PlanConfig,
+} from "../../lib/plans";
+import {
+  getPlanPrice,
+  getYearlyDiscount,
+  getYearlyMonthlyEquivalent,
+  type BillingPeriod,
+} from "../../lib/pricing";
 import { getShopSinksConfig } from "../../lib/gamificationConfig";
 import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
 import { Analytics } from "../../lib/analytics";
+import { assignExperiment } from "../../lib/experimentEngine";
 import type { EnergyFullRefillFailureReason } from "../../lib/energyFullRefill";
 import type { DoubleXpPurchaseFailureReason } from "../../lib/doubleXpPurchase";
 
@@ -51,6 +63,7 @@ export default function ShopScreen() {
   const { user } = useAuth();
   const [justPurchased, setJustPurchased] = useState<string | null>(null);
   const [isSubscribing, setIsSubscribing] = useState(false);
+  const [proBillingPeriod, setProBillingPeriod] = useState<BillingPeriod>("monthly");
   const [nowTs, setNowTs] = useState(Date.now());
   const dateLocaleByLanguage: Record<string, string> = {
     ja: "ja-JP",
@@ -117,7 +130,24 @@ export default function ShopScreen() {
     }
   };
 
+  const resolveCheckoutTrialDays = (): number => {
+    if (!user?.id) return 0;
+    const assignment = assignExperiment(user.id, "pro_trial_checkout");
+    if (!assignment) return 0;
+    const value = Number(assignment.payload?.trialDays);
+    if (!Number.isFinite(value)) return 0;
+    return Math.max(0, Math.min(30, Math.floor(value)));
+  };
+
   const handleSubscribe = async (plan: PlanConfig) => {
+    const billingPeriod: BillingPeriod = plan.id === "pro" ? proBillingPeriod : "monthly";
+    if (!supportsPlanBillingPeriod(plan.id, billingPeriod)) {
+      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.billingPeriodUnavailable"));
+      return;
+    }
+
+    const trialDays = plan.id === "pro" ? resolveCheckoutTrialDays() : 0;
+    const resolvedPriceId = resolvePlanPriceId(plan.id, billingPeriod);
     const source = "shop_tab";
     Analytics.track("plan_select", {
       source,
@@ -148,6 +178,8 @@ export default function ShopScreen() {
     Analytics.track("checkout_start", {
       source,
       planId: plan.id,
+      billingPeriod,
+      trialDays,
     });
 
     setIsSubscribing(true);
@@ -160,7 +192,9 @@ export default function ShopScreen() {
         },
         body: JSON.stringify({
           planId: plan.id,
-          priceId: plan.priceId,
+          billingPeriod,
+          trialDays,
+          priceId: resolvedPriceId ?? undefined,
           userId: user.id,
           email: user.email,
         }),
@@ -206,14 +240,17 @@ export default function ShopScreen() {
     }
   };
 
-  const formatPlanMonthlyPrice = (plan: PlanConfig): string => {
+  const formatPlanPrice = (plan: PlanConfig, billingPeriod: BillingPeriod): string => {
     const planType = plan.id === "max" ? "max" : "pro";
     try {
-      return getPlanPrice(planType, "monthly");
+      return getPlanPrice(planType, billingPeriod);
     } catch {
       return `¥${plan.priceMonthly.toLocaleString()}`;
     }
   };
+
+  const purchasablePlans = getPurchasablePlans();
+  const shouldShowProBillingToggle = purchasablePlans.some((plan) => plan.id === "pro");
 
   const shopItems: ShopItem[] = [
     {
@@ -323,9 +360,51 @@ export default function ShopScreen() {
           )}
         </View>
 
+        {shouldShowProBillingToggle && (
+          <View style={styles.billingPeriodToggle}>
+            <Pressable
+              style={[
+                styles.billingPeriodOption,
+                proBillingPeriod === "monthly" && styles.billingPeriodOptionActive,
+              ]}
+              onPress={() => setProBillingPeriod("monthly")}
+            >
+              <Text
+                style={[
+                  styles.billingPeriodOptionText,
+                  proBillingPeriod === "monthly" && styles.billingPeriodOptionTextActive,
+                ]}
+              >
+                {i18n.t("shop.subscription.monthly")}
+              </Text>
+            </Pressable>
+            <Pressable
+              style={[
+                styles.billingPeriodOption,
+                proBillingPeriod === "yearly" && styles.billingPeriodOptionActive,
+              ]}
+              onPress={() => setProBillingPeriod("yearly")}
+            >
+              <Text
+                style={[
+                  styles.billingPeriodOptionText,
+                  proBillingPeriod === "yearly" && styles.billingPeriodOptionTextActive,
+                ]}
+              >
+                {i18n.t("shop.subscription.yearly")}
+              </Text>
+            </Pressable>
+          </View>
+        )}
+
         {/* Plan Cards */}
         <View style={styles.plansContainer}>
-          {getPurchasablePlans().map((plan) => (
+
+          {purchasablePlans.map((plan) => {
+            const selectedPeriod: BillingPeriod = plan.id === "pro" ? proBillingPeriod : "monthly";
+            const showYearlyMeta = plan.id === "pro" && selectedPeriod === "yearly";
+
+            return (
             <View key={plan.id} style={styles.planCard}>
               {plan.popular && (
                 <View style={styles.popularBadge}>
@@ -334,8 +413,28 @@ export default function ShopScreen() {
               )}
               <View style={styles.planHeader}>
                 <Text style={styles.planName}>{plan.name}</Text>
-                <Text style={styles.planPrice}>{formatPlanMonthlyPrice(plan)}</Text>
-                <Text style={styles.planPeriod}>{i18n.t("shop.subscription.monthlySuffix")}</Text>
+                <Text style={styles.planPrice}>{formatPlanPrice(plan, selectedPeriod)}</Text>
+                <Text style={styles.planPeriod}>
+                  {selectedPeriod === "yearly"
+                    ? i18n.t("shop.subscription.yearlySuffix")
+                    : i18n.t("shop.subscription.monthlySuffix")}
+                </Text>
+                {showYearlyMeta && (
+                  <View style={styles.yearlyMeta}>
+                    <Text style={styles.yearlyEquivalent}>
+                      {i18n.t("shop.subscription.yearlyEquivalent", {
+                        price: getYearlyMonthlyEquivalent("pro"),
+                      })}
+                    </Text>
+                    <View style={styles.yearlyDiscountBadge}>
+                      <Text style={styles.yearlyDiscountText}>
+                        {i18n.t("shop.subscription.yearlyDiscount", {
+                          percent: getYearlyDiscount("pro"),
+                        })}
+                      </Text>
+                    </View>
+                  </View>
+                )}
               </View>
               <View style={styles.planFeatures}>
                 {plan.features.map((feature, index) => (
@@ -363,7 +462,8 @@ export default function ShopScreen() {
                 </Text>
               </Pressable>
             </View>
-          ))}
+          );
+        })}
         </View>
 
         {/* Divider */}
@@ -650,6 +750,34 @@ const styles = StyleSheet.create({
     gap: 12,
     marginBottom: 24,
   },
+  billingPeriodToggle: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: theme.colors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+    padding: 4,
+    marginBottom: 12,
+  },
+  billingPeriodOption: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 8,
+    paddingVertical: 8,
+  },
+  billingPeriodOptionActive: {
+    backgroundColor: theme.colors.accent,
+  },
+  billingPeriodOptionText: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: theme.colors.sub,
+  },
+  billingPeriodOptionTextActive: {
+    color: "#fff",
+  },
   planCard: {
     flex: 1,
     backgroundColor: theme.colors.surface,
@@ -694,6 +822,29 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: theme.colors.sub,
     marginTop: 4,
+  },
+  yearlyMeta: {
+    marginTop: 8,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 8,
+  },
+  yearlyEquivalent: {
+    fontSize: 12,
+    color: theme.colors.sub,
+    flex: 1,
+  },
+  yearlyDiscountBadge: {
+    backgroundColor: theme.colors.card,
+    borderRadius: 999,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+  },
+  yearlyDiscountText: {
+    fontSize: 11,
+    fontWeight: "700",
+    color: theme.colors.accent,
   },
   planFeatures: {
     marginBottom: 20,

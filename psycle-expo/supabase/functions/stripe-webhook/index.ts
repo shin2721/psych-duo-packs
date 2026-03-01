@@ -9,6 +9,7 @@ const webhookSecret = Deno.env.get("STRIPE_WEBHOOK_SECRET");
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
 const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 const stripePricePro = Deno.env.get("STRIPE_PRICE_PRO");
+const stripePriceProYearly = Deno.env.get("STRIPE_PRICE_PRO_YEARLY");
 const stripePriceMax = Deno.env.get("STRIPE_PRICE_MAX");
 
 if (!stripeSecret) throw new Error("Missing STRIPE_SECRET_KEY");
@@ -32,6 +33,7 @@ function responseJson(body: unknown, status = 200) {
 function resolvePlanIdFromPriceId(priceId?: string | null): PlanId | null {
   if (!priceId) return null;
   if (stripePricePro && priceId === stripePricePro) return "pro";
+  if (stripePriceProYearly && priceId === stripePriceProYearly) return "pro";
   if (stripePriceMax && priceId === stripePriceMax) return "max";
   return null;
 }

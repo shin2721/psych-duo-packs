@@ -2,10 +2,30 @@
 
 import { Linking } from "react-native";
 import { Analytics } from "./analytics";
-import { getPlanById, getSupabaseFunctionsUrl, isPlanPurchasable } from "./plans";
+import type { BillingPeriod } from "./pricing";
+import {
+  getPlanById,
+  getSupabaseFunctionsUrl,
+  isPlanPurchasable,
+  resolvePlanPriceId,
+  supportsPlanBillingPeriod,
+} from "./plans";
 import type { PlanId } from "./types/plan";
 
-export async function buyPlan(plan: "pro" | "max", uid: string, email: string): Promise<boolean> {
+type BuyPlanOptions = {
+  billingPeriod?: BillingPeriod;
+  trialDays?: number;
+};
+
+export async function buyPlan(
+  plan: "pro" | "max",
+  uid: string,
+  email: string,
+  options?: BuyPlanOptions
+): Promise<boolean> {
+  const billingPeriod = options?.billingPeriod ?? "monthly";
+  const trialDays = Math.max(0, Math.floor(options?.trialDays ?? 0));
+
   if (!isPlanPurchasable(plan)) {
     Analytics.track("checkout_failed", {
       source: "billing_lib",
@@ -13,6 +33,16 @@ export async function buyPlan(plan: "pro" | "max", uid: string, email: string): 
       reason: "plan_disabled",
     });
     alert(`${plan.toUpperCase()}プランは現在停止中です。`);
+    return false;
+  }
+
+  if (!supportsPlanBillingPeriod(plan, billingPeriod)) {
+    Analytics.track("checkout_failed", {
+      source: "billing_lib",
+      planId: plan,
+      reason: "billing_period_unsupported",
+    });
+    alert("選択した支払い期間は現在利用できません。");
     return false;
   }
 
@@ -38,6 +68,7 @@ export async function buyPlan(plan: "pro" | "max", uid: string, email: string): 
   }
 
   const selectedPlan = getPlanById(plan);
+  const resolvedPriceId = resolvePlanPriceId(plan, billingPeriod);
   if (!selectedPlan) {
     Analytics.track("checkout_failed", {
       source: "billing_lib",
@@ -54,7 +85,9 @@ export async function buyPlan(plan: "pro" | "max", uid: string, email: string): 
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         planId: plan,
-        priceId: selectedPlan.priceId,
+        billingPeriod,
+        trialDays: plan === "pro" ? trialDays : 0,
+        priceId: resolvedPriceId ?? undefined,
         userId: uid,
         email,
       }),

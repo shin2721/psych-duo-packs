@@ -383,6 +383,8 @@ export type CheckoutStartEvent = {
   properties: {
     source: 'shop_tab';
     planId: 'pro' | 'max';
+    billingPeriod: 'monthly' | 'yearly';
+    trialDays: number;
   };
 };
 

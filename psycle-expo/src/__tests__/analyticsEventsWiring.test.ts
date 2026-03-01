@@ -81,6 +81,8 @@ describe("analytics events wiring", () => {
         properties: {
           source: "shop_tab",
           planId: "pro",
+          billingPeriod: "monthly",
+          trialDays: 0,
         },
       },
       {

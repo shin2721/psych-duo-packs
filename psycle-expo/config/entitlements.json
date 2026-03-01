@@ -43,7 +43,9 @@
           "mode": "off"
         }
       },
-      "stripe_price_id": "price_1SJ82EJDXOz4c0ISSpJmO8sx"
+      "stripe_price_id": "price_1SJ82EJDXOz4c0ISSpJmO8sx",
+      "stripe_price_id_monthly": "price_1SJ82EJDXOz4c0ISSpJmO8sx",
+      "stripe_price_id_yearly": ""
     },
     "max": {
       "id": "max",
@@ -66,7 +68,8 @@
           "mode": "off"
         }
       },
-      "stripe_price_id": "price_1SJ82FJDXOz4c0ISrrFASipQ"
+      "stripe_price_id": "price_1SJ82FJDXOz4c0ISrrFASipQ",
+      "stripe_price_id_monthly": "price_1SJ82FJDXOz4c0ISrrFASipQ"
     }
   },
   "defaults": {

@@ -22,6 +22,7 @@
 - `STRIPE_SECRET_KEY`
 - `STRIPE_WEBHOOK_SECRET`
 - `STRIPE_PRICE_PRO`
+- `STRIPE_PRICE_PRO_YEARLY` (Pro年額を有効化する場合)
 - `STRIPE_PRICE_MAX` (reserved for future Max relaunch)
 - `FRONTEND_SUCCESS_URL`
 - `FRONTEND_CANCEL_URL`
@@ -455,6 +456,13 @@ npm run promote:lesson {domain} {basename}
 | 2026-03-__ | 50% | 24-48h | | | | | pending | | |
 | 2026-03-__ | 100% | 24-48h | | | | | pending | | |
 
+### A/A合格判定（固定）
+- exposed: `experiment_exposed > 0`（当日欠損なし）
+- converted: `experiment_converted >= 0`（欠損なし）
+- `lesson_complete_user_rate_7d` の variant 差分が `±2%` 以内
+- `paid_plan_changes_per_checkout_7d` の variant 差分が `±2%` 以内
+- 上記を満たさない場合は同日中に `experiments.enabled=false` へロールバックし、時刻・影響範囲・復旧時刻を Notes に記録
+
 ### 先行リリース検証チェックリスト（v1.39.x）
 - [ ] E2E: Course paywall -> Shop 遷移（`paywall_upgrade_clicked`）
 - [ ] E2E: MistakesHub start -> complete（`mistakes_hub_session_started/completed`）
@@ -475,3 +483,24 @@ npm run promote:lesson {domain} {basename}
   - `supabase/migrations/weekly_leagues.sql`
 - [ ] RLS runtime確認（実DBで本人/他人アカウント検証）
 - [ ] 実機E2E確認（paywall/shop, mistakes hub, league reward, friend claim）
+
+## 9. v1.40 P2 Rollout（Pro年額 + Proトライアル）
+
+### 適用条件
+- P1 A/Aの100%段階まで完了し、A/A合格判定を満たしていること
+- `checkout.max_plan_enabled=false` を維持したまま開始すること
+- `personalization.enabled=false`, `liveops.enabled=false` を維持すること
+
+### Pro年額（先行）
+1. `entitlements.json` の `plans.pro.stripe_price_id_yearly` に有効な Stripe Price ID を設定
+2. `create-checkout-session` の `STRIPE_PRICE_PRO_YEARLY` シークレットを設定
+3. Shop で Pro 年額トグルを有効化した状態で checkout URL の生成を確認
+
+### ProトライアルA/B（先行）
+1. 実験ID `pro_trial_checkout` を利用（control: `trialDays=0`, variant: `trialDays=7`）
+2. 初期ロールアウト `5%` で開始し、`5 -> 20 -> 50` の順に段階展開
+3. 判定KPI:
+   - `checkout_start -> plan_changed` 完了率
+   - D7残存
+   - 返金率（Stripe）
+4. 悪化時は当該実験のみ `enabled=false` で停止

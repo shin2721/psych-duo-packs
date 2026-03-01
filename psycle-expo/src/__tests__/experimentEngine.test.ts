@@ -46,6 +46,14 @@ describe("experimentEngine", () => {
     }
   });
 
+  test("pro_trial_checkout keeps deterministic rollout buckets", () => {
+    const first = isUserInRollout("user_10", "pro_trial_checkout", 5);
+    const second = isUserInRollout("user_10", "pro_trial_checkout", 5);
+    expect(first).toBe(second);
+    expect(isExperimentEnabled("pro_trial_checkout")).toBe(false);
+    expect(assignExperiment("user_10", "pro_trial_checkout")).toBeNull();
+  });
+
   test("rollout gate returns false at 0% and true at 100%", () => {
     expect(isUserInRollout("user_1", "exp_rollout", 0)).toBe(false);
     expect(isUserInRollout("user_1", "exp_rollout", 100)).toBe(true);

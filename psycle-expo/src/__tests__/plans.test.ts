@@ -6,7 +6,12 @@ jest.mock("../../lib/gamificationConfig", () => ({
 }));
 
 const { getCheckoutConfig } = require("../../lib/gamificationConfig");
-const { getPurchasablePlans, isPlanPurchasable } = require("../../lib/plans");
+const {
+  getPurchasablePlans,
+  isPlanPurchasable,
+  resolvePlanPriceId,
+  supportsPlanBillingPeriod,
+} = require("../../lib/plans");
 
 const mockedGetCheckoutConfig = getCheckoutConfig as jest.MockedFunction<typeof getCheckoutConfig>;
 
@@ -39,5 +44,22 @@ describe("plans", () => {
   test("getPurchasablePlans includes Max when gate is on", () => {
     mockedGetCheckoutConfig.mockReturnValue({ max_plan_enabled: true });
     expect(getPurchasablePlans().map((plan: { id: string }) => plan.id)).toEqual(["pro", "max"]);
+  });
+
+  test("billing period support is plan-specific", () => {
+    expect(supportsPlanBillingPeriod("pro", "monthly")).toBe(true);
+    expect(supportsPlanBillingPeriod("pro", "yearly")).toBe(true);
+    expect(supportsPlanBillingPeriod("max", "monthly")).toBe(true);
+    expect(supportsPlanBillingPeriod("max", "yearly")).toBe(false);
+  });
+
+  test("price id resolution is monthly-first and yearly-safe", () => {
+    expect(resolvePlanPriceId("pro", "monthly")).toEqual(expect.any(String));
+    const proYearly = resolvePlanPriceId("pro", "yearly");
+    if (proYearly !== null) {
+      expect(proYearly).toEqual(expect.any(String));
+    }
+    expect(resolvePlanPriceId("max", "monthly")).toEqual(expect.any(String));
+    expect(resolvePlanPriceId("max", "yearly")).toBeNull();
   });
 });
