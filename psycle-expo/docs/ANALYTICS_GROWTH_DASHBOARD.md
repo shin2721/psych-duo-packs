@@ -414,6 +414,9 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 ### 運用メモ
 
 - 実験導線はまず A/A で稼働確認し、variant 間の主要KPI差分が ±2%以内であることをゲートにする。
+- 実行順は固定する: `A/A完了 -> Pro年額(固定運用) -> ProトライアルA/B -> Pro月額価格A/B`。
+- 実験は同時併走しない（trialが安定するまで価格A/Bを開始しない）。
+- 現在値（2026-03-01 JST）: `experiments.enabled=false`, `double_xp_nudge_lesson_complete.rollout=5`, `pro_trial_checkout.enabled=false`, `pro_monthly_price_jp.enabled=false`。
 - 個別最適化セグメントは 24h クールダウンで再判定し、短周期で揺れないようにする。
 - 友達チャレンジは表示だけでなく完了率を監視する。目安は `friend_challenge_completed / friend_challenge_shown >= 0.15`。
 - クエストリロールは `quest_rerolled` 件数と、`quest_claimed` の type 別分布をセットで監視する（供給/消費バランス確認）。
@@ -452,9 +455,9 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 
 | Date (JST) | rollout % | experiment_id | cohort | checkout_start (control) | checkout_start (variant_a) | plan_changed_rate (control) | plan_changed_rate (variant_a) | D7 Δ | Refund Δ | Judge |
 |---|---:|---|---|---:|---:|---:|---:|---:|---:|---|
-| TBD | 5 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |
-| TBD | 20 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |
-| TBD | 50 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |
+| 2026-03-15 | 5 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending (start after trial pass) |
+| 2026-03-17 | 20 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |
+| 2026-03-19 | 50 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |
 
 ### v1.41 監視SQL（HogQL）
 

@@ -529,13 +529,43 @@ npm run promote:lesson {domain} {basename}
 - `checkout.max_plan_enabled=false` は維持する（Max再開はAI解説実装後）。
 - Pro年額は `¥7,800`（JP）を初期値とする。
 - 価格保護ルール: 既存課金ユーザーは据え置き（価格実験は新規コホートのみ）。
+- 実験は同時併走しない（A/A完了後にtrial、trial安定後に価格A/B）。
 
-### 実行順
-1. **Step 1（7日）**: Pro機能統合（Mistakes Hub含む）、価格据え置きベースライン取得
-2. **Step 2（14日）**: Pro年額導線を有効化（`stripe_price_id_yearly` と `STRIPE_PRICE_PRO_YEARLY` 設定）
-3. **Step 3（2-4週）**: `pro_monthly_price_jp` 実験で新規14日以内のみ `¥980 vs ¥1,480`
+### 現在値スナップショット（2026-03-01 JST）
+- `config/gamification.json`
+  - `experiments.enabled=false`
+  - `double_xp_nudge_lesson_complete.enabled=true`, `rollout_percentage=5`
+  - `pro_trial_checkout.enabled=false`
+  - `pro_monthly_price_jp.enabled=false`
+  - `checkout.max_plan_enabled=false`
+  - `personalization.enabled=false`, `liveops.enabled=false`
+- `config/entitlements.json`
+  - `plans.pro.stripe_price_id_yearly=""`
+  - `plans.pro.stripe_price_id_monthly_v2=""`
 
-### Step 3 対象条件
+### 実行順（固定）
+1. **Phase 0（T0前）**: `experiments.enabled=false` を維持し、Release-Day smoke のみ実施。
+2. **Phase 1（A/A）**: `experiments.enabled=true` に戻し、`double_xp_nudge_lesson_complete` を `5 -> 20 -> 50 -> 100` で展開（各24-48h）。
+3. **Phase 2（固定運用）**: Pro年額のみ有効化（`¥980/月`, `¥7,800/年`）し、14日観測。
+4. **Phase 3（A/B）**: `pro_trial_checkout` を `5 -> 20 -> 50` で段階展開。
+5. **Phase 4（A/B）**: `pro_monthly_price_jp` を `5 -> 20 -> 50` で段階展開（JP新規14日free限定）。
+
+### フェーズ遷移ゲート
+- Phase 1 合格条件（各段階）:
+  - `experiment_exposed > 0`
+  - `experiment_converted >= 0`
+  - `lesson_complete_user_rate_7d` 差分 `±2%` 以内
+  - `paid_plan_changes_per_checkout_7d` 差分 `±2%` 以内
+- Phase 2 合格条件:
+  - `checkout_start(billingPeriod=yearly)` 欠損なし
+  - `plan_changed` 欠損なし
+  - 返金率悪化なし
+- Phase 3/4 合格条件:
+  - `plan_changed / checkout_start` 改善または横ばい
+  - D7残存悪化なし
+  - 返金率悪化なし
+
+### Phase 4 対象条件（価格A/B）
 - `profiles.plan_id = free`
 - `account_age_days <= 14`
 - 地域JP
