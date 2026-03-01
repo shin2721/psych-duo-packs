@@ -15,6 +15,7 @@ export default function MistakesHubScreen() {
     mistakesHubSessionItems,
     clearMistakesHubSession,
     addXp,
+    addReviewEvent,
   } = useAppState();
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -57,6 +58,19 @@ export default function MistakesHubScreen() {
   };
 
   const handleContinue = (isCorrect: boolean, xp: number) => {
+    const currentQuestion = questions[currentIndex];
+    const currentItemId = currentQuestion?.source_id ?? currentQuestion?.id;
+    const resolvedSessionItem = typeof currentItemId === "string"
+      ? mistakesHubSessionItems.find((item) => item.itemId === currentItemId)
+      : undefined;
+    if (typeof currentItemId === "string" && resolvedSessionItem?.lessonId) {
+      addReviewEvent({
+        itemId: currentItemId,
+        lessonId: resolvedSessionItem.lessonId,
+        result: isCorrect ? "correct" : "incorrect",
+      });
+    }
+
     const nextClearedCount = isCorrect ? clearedCount + 1 : clearedCount;
 
     if (isCorrect) {

@@ -12,7 +12,7 @@ import { XPGainAnimation } from "../components/XPGainAnimation";
 import i18n from "../lib/i18n";
 
 export default function ReviewScreen() {
-    const { mistakes, getDueMistakes, processReviewResult, addXp } = useAppState();
+    const { mistakes, getDueMistakes, processReviewResult, addXp, addReviewEvent } = useAppState();
     const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isSessionActive, setIsSessionActive] = useState(false);
@@ -52,6 +52,14 @@ export default function ReviewScreen() {
         if (!questionId) {
             return;
         }
+        const currentMistake = mistakes.find(m => m.id === questionId);
+        if (currentMistake?.lessonId) {
+            addReviewEvent({
+                itemId: questionId,
+                lessonId: currentMistake.lessonId,
+                result: isCorrect ? "correct" : "incorrect",
+            });
+        }
 
         if (isCorrect) {
             // Haptic feedback
@@ -61,9 +69,8 @@ export default function ReviewScreen() {
             processReviewResult(questionId, true);
 
             // Check the mistake's new box to determine next review time
-            const mistake = mistakes.find(m => m.id === questionId);
-            if (mistake) {
-                const nextBox = mistake.box + 1;
+            if (currentMistake) {
+                const nextBox = currentMistake.box + 1;
                 if (nextBox >= 5) {
                     setNextReviewInfo(i18n.t("review.mastered"));
                     setClearedCount(prev => prev + 1);
