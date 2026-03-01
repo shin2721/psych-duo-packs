@@ -41,6 +41,7 @@
     "content:i18n:report": "node scripts/validate-lesson-locales.js",
     "content:i18n:check": "node scripts/gen-lesson-locale-index.js && git diff --exit-code data/lessons/mental_units/index.ts data/lessons/health_units/index.ts data/lessons/money_units/index.ts data/lessons/social_units/index.ts data/lessons/study_units/index.ts data/lessons/work_units/index.ts && node scripts/validate-lesson-locales.js --check && npm run content:i18n:smoke",
     "content:i18n:smoke": "node scripts/check-lesson-locale-routing.js",
+    "review:factcheck": "bash scripts/review-factcheck.sh",
     "content:i18n:locale-purity": "node scripts/lint-locale-json-purity.js",
     "content:i18n:en-purity": "node scripts/lint-locale-json-purity.js --langs=en",
     "content:i18n:glossary": "node scripts/lint-translation-glossary.js",

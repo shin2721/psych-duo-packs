@@ -34,6 +34,26 @@ Rules:
 
 If any check fails, stop and report the failure. Do not continue analysis on stale code.
 
+## Review Fact-Check Guard (Mandatory Before Any High-Severity Finding)
+
+Before asserting a high-severity issue (`P0/P1`, "未実装", "未接続", "壊れている"), run:
+
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+npm run review:factcheck
+```
+
+Then verify the target path with direct evidence commands (`rg`/`grep`) and include file:line proof.
+
+Rules:
+- Do not publish `P0/P1` without explicit `file:line` evidence.
+- If evidence is incomplete, mark the claim as `未確認` (do not phrase as confirmed).
+- For integration issues, collect at least two evidence points:
+  1) caller side (UI/entrypoint) and
+  2) callee side (state/lib/function).
+- Use `docs/REVIEW_FACTCHECK_TEMPLATE.md` format for review output.
+- If script checks fail, report the failure first and stop conclusion writing.
+
 ## Project Overview
 
 **Psycle** is a Duolingo-inspired mobile app for learning evidence-based psychology techniques. Built with React Native, Expo SDK 54, and TypeScript.
@@ -503,18 +523,17 @@ Current implementation uses `DUMMY_USER_ID = "user_local"` throughout. No authen
 3. Update feature gates to use authenticated user context
 4. Add user profile storage for plan entitlements
 
-### Energy System (Not Implemented)
-Despite `energy` configuration in `entitlements.json`, **energy consumption is not implemented**. The config exists as future-proofing. To activate:
-- Add energy state to `lib/state.tsx`
-- Consume energy at lesson start
-- Implement daily refill for Free tier
-- Add gem-based energy refills
+### Energy System
+Energy system is implemented and connected:
+- `lib/state.tsx` manages energy state, consume/recover logic, refill policy, and analytics.
+- `app/lesson.tsx` consumes energy at lesson start via `consumeEnergy(lessonEnergyCost)`.
+- On insufficient energy, lesson flow is blocked and routes users to Shop with tracking.
 
 ### MistakesHub Data Flow
-Review events are stored **in-memory only** in `lib/state.tsx`. No persistence across app restarts. For production:
-- Store `reviewEvents` in AsyncStorage or backend
-- Implement proper spaced repetition algorithm
-- Consider using ML-based difficulty estimation (p-value tracking exists but not used)
+Review events are persisted in AsyncStorage by `lib/state.tsx` and loaded at hydration:
+- Keyed storage: `review_events_${user.id}`
+- Session builder resolves item/lesson pairs for MistakesHub practice runs
+- `app/review.tsx` and `app/mistakes-hub.tsx` both feed back review events
 
 ### Question Type Explosion
 The project has evolved to support 15+ question types, but `QuestionRenderer` only handles 3 legacy types. New types like `scenario`, `therapist`, `critique` are generated but need custom renderers. Current workaround: map everything to `multiple_choice`. Future: extend renderer or create type-specific components.
