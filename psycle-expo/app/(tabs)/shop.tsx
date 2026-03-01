@@ -84,6 +84,14 @@ export default function ShopScreen() {
     return () => clearInterval(interval);
   }, []);
 
+  const proYearlyAvailable = supportsPlanBillingPeriod("pro", "yearly");
+
+  useEffect(() => {
+    if (!proYearlyAvailable && proBillingPeriod === "yearly") {
+      setProBillingPeriod("monthly");
+    }
+  }, [proYearlyAvailable, proBillingPeriod]);
+
   const energyRecoveryMinutesRemaining = (() => {
     if (isSubscriptionActive) return null;
     if (energy >= maxEnergy || lastEnergyUpdateTime === null) return null;
@@ -250,7 +258,8 @@ export default function ShopScreen() {
   };
 
   const purchasablePlans = getPurchasablePlans();
-  const shouldShowProBillingToggle = purchasablePlans.some((plan) => plan.id === "pro");
+  const shouldShowProBillingToggle =
+    purchasablePlans.some((plan) => plan.id === "pro") && proYearlyAvailable;
 
   const shopItems: ShopItem[] = [
     {
@@ -401,7 +410,9 @@ export default function ShopScreen() {
         <View style={styles.plansContainer}>
 
           {purchasablePlans.map((plan) => {
-            const selectedPeriod: BillingPeriod = plan.id === "pro" ? proBillingPeriod : "monthly";
+            const selectedPeriod: BillingPeriod = plan.id === "pro"
+              ? (proYearlyAvailable ? proBillingPeriod : "monthly")
+              : "monthly";
             const showYearlyMeta = plan.id === "pro" && selectedPeriod === "yearly";
 
             return (

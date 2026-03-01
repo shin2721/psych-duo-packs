@@ -492,6 +492,7 @@ npm run promote:lesson {domain} {basename}
 - `personalization.enabled=false`, `liveops.enabled=false` を維持すること
 
 ### Pro年額（先行）
+0. Shop上のPro年額UIは `entitlements.json` の `plans.pro.stripe_price_id_yearly` が非空の場合のみ表示される。
 1. `entitlements.json` の `plans.pro.stripe_price_id_yearly` に有効な Stripe Price ID を設定
 2. `create-checkout-session` の `STRIPE_PRICE_PRO_YEARLY` シークレットを設定
 3. Shop で Pro 年額トグルを有効化した状態で checkout URL の生成を確認

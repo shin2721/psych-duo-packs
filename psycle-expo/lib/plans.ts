@@ -50,7 +50,7 @@ export const PLANS: PlanConfig[] = [
       ...(PRO_PRICE_ID_YEARLY ? { yearly: PRO_PRICE_ID_YEARLY } : {}),
     },
     priceMonthly: 980,
-    supportsYearly: true,
+    supportsYearly: Boolean(PRO_PRICE_ID_YEARLY),
     features: [
       "全300+レッスン無制限アクセス",
       "スマート復習（苦手克服モード）",
@@ -93,8 +93,7 @@ export function getPlanById(planId: PlanId): PlanConfig | undefined {
 
 export function supportsPlanBillingPeriod(planId: PaidPlanId, period: BillingPeriod): boolean {
   if (period === "monthly") return true;
-  const plan = getPlanById(planId);
-  return Boolean(plan?.supportsYearly);
+  return resolvePlanPriceId(planId, "yearly") !== null;
 }
 
 export function resolvePlanPriceId(planId: PlanId, period: BillingPeriod = "monthly"): string | null {

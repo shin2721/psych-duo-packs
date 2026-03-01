@@ -48,17 +48,14 @@ describe("plans", () => {
 
   test("billing period support is plan-specific", () => {
     expect(supportsPlanBillingPeriod("pro", "monthly")).toBe(true);
-    expect(supportsPlanBillingPeriod("pro", "yearly")).toBe(true);
+    expect(supportsPlanBillingPeriod("pro", "yearly")).toBe(false);
     expect(supportsPlanBillingPeriod("max", "monthly")).toBe(true);
     expect(supportsPlanBillingPeriod("max", "yearly")).toBe(false);
   });
 
   test("price id resolution is monthly-first and yearly-safe", () => {
     expect(resolvePlanPriceId("pro", "monthly")).toEqual(expect.any(String));
-    const proYearly = resolvePlanPriceId("pro", "yearly");
-    if (proYearly !== null) {
-      expect(proYearly).toEqual(expect.any(String));
-    }
+    expect(resolvePlanPriceId("pro", "yearly")).toBeNull();
     expect(resolvePlanPriceId("max", "monthly")).toEqual(expect.any(String));
     expect(resolvePlanPriceId("max", "yearly")).toBeNull();
   });
