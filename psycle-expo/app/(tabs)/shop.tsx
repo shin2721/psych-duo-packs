@@ -307,11 +307,15 @@ export default function ShopScreen() {
       }
     } catch (error) {
       console.error("Checkout error:", error);
-      Analytics.track("checkout_failed", {
-        source,
-        planId: plan.id,
-        reason: "exception",
-      });
+      const isCheckoutHttpError =
+        error instanceof Error && error.message === "checkout_http_error";
+      if (!isCheckoutHttpError) {
+        Analytics.track("checkout_failed", {
+          source,
+          planId: plan.id,
+          reason: "exception",
+        });
+      }
       Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
     } finally {
       setIsSubscribing(false);
