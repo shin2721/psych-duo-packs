@@ -10,7 +10,7 @@ import { Modal } from "../../components/Modal";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { PaywallModal } from "../../components/PaywallModal";
 import { LeagueResultModal } from "../../components/LeagueResultModal";
-import { isLessonLocked, GenreId, shouldShowPaywall } from "../../lib/paywall";
+import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
 import { useAuth } from "../../lib/AuthContext";
 import { router } from "expo-router";
@@ -54,7 +54,7 @@ export default function CourseScreen() {
   const { user } = useAuth();
   const [modalNode, setModalNode] = useState<any>(null);
   const [paywallVisible, setPaywallVisible] = useState(false);
-  const [paywallGenre, setPaywallGenre] = useState<GenreId>('mental');
+  const [paywallContextGenre, setPaywallContextGenre] = useState<string | null>(null);
   const [leagueResult, setLeagueResult] = useState<LeagueResult | null>(null);
   const [showLeagueResult, setShowLeagueResult] = useState(false);
 
@@ -232,7 +232,7 @@ export default function CourseScreen() {
           // Paywall表示条件チェック（Study基準: レッスン完了3回以上）
           const lessonCompleteCount = completedLessons.size;
           if (shouldShowPaywall(lessonCompleteCount)) {
-            setPaywallGenre(selectedGenre as GenreId);
+            setPaywallContextGenre(selectedGenre);
             setPaywallVisible(true);
           } else {
             // 条件未達成：もう少し使ってみてメッセージ
@@ -261,11 +261,12 @@ export default function CourseScreen() {
         onUpgrade={() => {
           Analytics.track("paywall_upgrade_clicked", {
             source: "course_paywall_modal",
-            genreId: paywallGenre,
+            genreId: paywallContextGenre ?? selectedGenre,
             lessonCompleteCount: completedLessons.size,
           });
           router.push("/(tabs)/shop");
           setPaywallVisible(false);
+          setPaywallContextGenre(null);
         }}
       />
 

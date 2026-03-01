@@ -110,6 +110,14 @@ import {
   evaluateDoubleXpPurchase,
   type DoubleXpPurchaseFailureReason,
 } from "./doubleXpPurchase";
+import {
+  getPlanChangeDirection,
+  getPlanChangeSnapshotKey,
+  hasPlanSnapshotChanged,
+  normalizePlanIdValue,
+  parsePlanChangeSnapshot,
+  type PlanChangeSnapshot,
+} from "./planChangeTracking";
 
 interface EntitlementsConfig {
   plans?: {
@@ -186,46 +194,6 @@ function normalizeProbability(value: number | null | undefined, fallback: number
   if (value < 0) return 0;
   if (value > 1) return 1;
   return value;
-}
-
-type PlanChangeSnapshot = {
-  planId: PlanId;
-  activeUntil: string | null;
-};
-
-const PLAN_CHANGE_SNAPSHOT_KEY_PREFIX = "plan_change_snapshot_";
-const PLAN_PRIORITY: Record<PlanId, number> = {
-  free: 0,
-  pro: 1,
-  max: 2,
-};
-
-function normalizePlanIdValue(value: unknown): PlanId | null {
-  if (value === "free" || value === "pro" || value === "max") return value;
-  return null;
-}
-
-function parsePlanChangeSnapshot(raw: string | null): PlanChangeSnapshot | null {
-  if (!raw) return null;
-  try {
-    const parsed = JSON.parse(raw) as Partial<PlanChangeSnapshot>;
-    const planId = normalizePlanIdValue(parsed.planId);
-    if (!planId) return null;
-    return {
-      planId,
-      activeUntil: typeof parsed.activeUntil === "string" ? parsed.activeUntil : null,
-    };
-  } catch {
-    return null;
-  }
-}
-
-function hasPlanSnapshotChanged(
-  prev: PlanChangeSnapshot | null,
-  next: PlanChangeSnapshot
-): boolean {
-  if (!prev) return true;
-  return prev.planId !== next.planId || prev.activeUntil !== next.activeUntil;
 }
 
 const entitlementConfig = entitlements as EntitlementsConfig;
@@ -1149,7 +1117,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`event_campaign_state_${user.id}`),
           AsyncStorage.getItem(`personalization_segment_${user.id}`),
           AsyncStorage.getItem(`personalization_segment_assigned_at_${user.id}`),
-          AsyncStorage.getItem(`${PLAN_CHANGE_SNAPSHOT_KEY_PREFIX}${user.id}`),
+          AsyncStorage.getItem(getPlanChangeSnapshotKey(user.id)),
         ]);
         savedPlanChangeSnapshot = savedPlanChangeSnapshotValue;
 
@@ -1559,19 +1527,21 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
           if (hasPlanSnapshotChanged(previousPlanSnapshot, nextSnapshot)) {
             if (previousPlanSnapshot) {
-              const fromRank = PLAN_PRIORITY[previousPlanSnapshot.planId];
-              const toRank = PLAN_PRIORITY[nextSnapshot.planId];
+              const { isUpgrade, isDowngrade } = getPlanChangeDirection(
+                previousPlanSnapshot.planId,
+                nextSnapshot.planId
+              );
               Analytics.track("plan_changed", {
                 source: "profile_sync",
                 fromPlan: previousPlanSnapshot.planId,
                 toPlan: nextSnapshot.planId,
-                isUpgrade: toRank > fromRank,
-                isDowngrade: toRank < fromRank,
+                isUpgrade,
+                isDowngrade,
                 activeUntil: nextSnapshot.activeUntil,
               });
             }
             await AsyncStorage.setItem(
-              `${PLAN_CHANGE_SNAPSHOT_KEY_PREFIX}${user.id}`,
+              getPlanChangeSnapshotKey(user.id),
               JSON.stringify(nextSnapshot)
             );
           }

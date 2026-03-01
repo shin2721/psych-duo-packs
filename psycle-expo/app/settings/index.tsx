@@ -14,6 +14,10 @@ import i18n from "../../lib/i18n";
 import { useLocale } from "../../lib/LocaleContext";
 import { Analytics } from "../../lib/analytics";
 import {
+    getPlanChangeDirection,
+    getPlanChangeSnapshotKey,
+} from "../../lib/planChangeTracking";
+import {
     cancelPsycleReminders,
     ensureNotificationPermission,
     getNotificationPreference,
@@ -128,23 +132,19 @@ export default function SettingsScreen() {
                 const previousPlan = planId;
                 const restoredPlan = result.planId;
                 const restoredActiveUntil = result.activeUntil ?? null;
-                const planRank: Record<"free" | "pro" | "max", number> = {
-                    free: 0,
-                    pro: 1,
-                    max: 2,
-                };
+                const { isUpgrade, isDowngrade } = getPlanChangeDirection(previousPlan, restoredPlan);
                 setPlanId(restoredPlan);
                 setActiveUntil(restoredActiveUntil);
                 Analytics.track("plan_changed", {
                     source: "restore_purchases",
                     fromPlan: previousPlan,
                     toPlan: restoredPlan,
-                    isUpgrade: planRank[restoredPlan] > planRank[previousPlan],
-                    isDowngrade: planRank[restoredPlan] < planRank[previousPlan],
+                    isUpgrade,
+                    isDowngrade,
                     activeUntil: restoredActiveUntil,
                 });
                 await AsyncStorage.setItem(
-                    `plan_change_snapshot_${user.id}`,
+                    getPlanChangeSnapshotKey(user.id),
                     JSON.stringify({
                         planId: restoredPlan,
                         activeUntil: restoredActiveUntil,
