@@ -550,3 +550,43 @@ npm run promote:lesson {domain} {basename}
 - `plan_changed`（`priceVersion`）
 - `plan_changed / checkout_start` 完了率（priceVersion別）
 - D7残存、返金率
+
+### Release-Day Monetization Smoke（当日固定手順）
+1. **Pre-flight Secrets一致確認**
+   - `STRIPE_PRICE_PRO`
+   - `STRIPE_PRICE_PRO_YEARLY`
+   - `STRIPE_PRICE_PRO_MONTHLY_V2`（価格A/B時のみ）
+   - `SUPABASE_URL`
+   - `SUPABASE_SERVICE_ROLE_KEY`
+2. **UI/導線確認**
+   - 年額ID未設定: Pro年額トグル非表示
+   - 年額ID設定: Pro年額トグル表示
+   - Maxは非表示継続
+3. **Checkout成功確認**
+   - `checkout_start` 発火（`billingPeriod`, `trialDays`, `priceVersion`, `priceCohort`）
+   - checkout URL生成成功、Stripe遷移成功
+4. **Webhook反映確認**
+   - `profiles.plan_id='pro'`
+   - `profiles.active_until` 更新
+   - `plan_changed` 発火
+5. **フェアネス検証**
+   - 非対象ユーザーで `variant_a` 要求 -> `price_cohort_mismatch`（400）
+   - 対象ユーザーのみ `variant_a` checkout許可
+6. **停止手順**
+   - trialのみ停止: `pro_trial_checkout.enabled=false`
+   - 価格A/Bのみ停止: `pro_monthly_price_jp.enabled=false`
+   - 全実験停止: `experiments.enabled=false`
+
+### `price_cohort_mismatch` アラート規則（固定）
+- **Warning**
+  - 1時間で `>= 3` 件、または
+  - `checkout_start` 대비 `>= 0.5%`
+- **Critical**
+  - 1時間で `>= 10` 件、または
+  - `checkout_start` 대비 `>= 2.0%`
+
+### `price_cohort_mismatch` 異常時オペレーション
+1. まず対象実験のみ停止（trial または 価格A/B）。
+2. 15分以内に再計測する。
+3. 継続異常なら `experiments.enabled=false` で全停止する。
+4. 同日中に `OPERATIONS.md` 実績行へ時刻・影響・復旧方法を記録する。

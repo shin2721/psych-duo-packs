@@ -455,3 +455,101 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 | TBD | 5 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |
 | TBD | 20 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |
 | TBD | 50 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |
+
+### v1.41 監視SQL（HogQL）
+
+1. **`checkout_start` 分解（`billingPeriod/trialDays/priceVersion/priceCohort`）**
+
+```sql
+SELECT
+  toDate(timestamp) AS day,
+  properties.billingPeriod AS billing_period,
+  toInt(properties.trialDays) AS trial_days,
+  properties.priceVersion AS price_version,
+  properties.priceCohort AS price_cohort,
+  count() AS checkout_start_count
+FROM events
+WHERE event = 'checkout_start'
+  AND timestamp >= now() - INTERVAL 30 DAY
+  AND properties.env = 'prod'
+GROUP BY day, billing_period, trial_days, price_version, price_cohort
+ORDER BY day ASC, billing_period ASC, trial_days ASC, price_version ASC
+```
+
+2. **`plan_changed / checkout_start` 完了率（trialDays別・priceVersion別）**
+
+```sql
+WITH starts AS (
+  SELECT
+    toDate(timestamp) AS day,
+    properties.trialDays AS trial_days,
+    properties.priceVersion AS price_version,
+    count() AS checkout_start_count
+  FROM events
+  WHERE event = 'checkout_start'
+    AND timestamp >= now() - INTERVAL 30 DAY
+    AND properties.env = 'prod'
+  GROUP BY day, trial_days, price_version
+),
+changes AS (
+  SELECT
+    toDate(timestamp) AS day,
+    ifNull(properties.priceVersion, 'unknown') AS price_version,
+    count() AS plan_changed_count
+  FROM events
+  WHERE event = 'plan_changed'
+    AND timestamp >= now() - INTERVAL 30 DAY
+    AND properties.env = 'prod'
+  GROUP BY day, price_version
+)
+SELECT
+  s.day,
+  s.trial_days,
+  s.price_version,
+  s.checkout_start_count,
+  ifNull(c.plan_changed_count, 0) AS plan_changed_count,
+  round(ifNull(c.plan_changed_count, 0) / nullIf(s.checkout_start_count, 0), 4) AS completion_rate
+FROM starts s
+LEFT JOIN changes c
+  ON s.day = c.day
+ AND s.price_version = c.price_version
+ORDER BY s.day ASC, s.trial_days ASC, s.price_version ASC
+```
+
+3. **`checkout_failed` reason別（日次、`price_cohort_mismatch` 強調）**
+
+```sql
+SELECT
+  toDate(timestamp) AS day,
+  properties.reason AS reason,
+  count() AS failed_count,
+  countIf(properties.reason = 'price_cohort_mismatch') AS mismatch_count
+FROM events
+WHERE event = 'checkout_failed'
+  AND timestamp >= now() - INTERVAL 30 DAY
+  AND properties.env = 'prod'
+GROUP BY day, reason
+ORDER BY day ASC, failed_count DESC
+```
+
+4. **D7比較（control vs variant）**
+
+```sql
+SELECT
+  properties.priceVersion AS price_version,
+  countDistinct(distinct_id) AS exposed_users
+FROM events
+WHERE event = 'checkout_start'
+  AND timestamp >= now() - INTERVAL 30 DAY
+  AND properties.env = 'prod'
+GROUP BY price_version
+ORDER BY price_version ASC
+```
+
+> D7本体は既存Retention Insightで `priceVersion` Breakdown を使って比較する。
+
+### 判定式（固定）
+- 成功率: `plan_changed / checkout_start`
+- ガードレール:
+  - `lesson_complete_user_rate_7d` 変化 `±2%` 以内
+  - `paid_plan_changes_per_checkout_7d` 変化 `±2%` 以内
