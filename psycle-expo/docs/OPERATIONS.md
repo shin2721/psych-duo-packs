@@ -449,7 +449,7 @@ npm run promote:lesson {domain} {basename}
 ### A/A運用実績（記録欄）
 | Date (JST) | rollout_percentage | Duration | exposed_count | converted_count | KPI Δ (lesson_complete_user_rate_7d) | KPI Δ (paid_plan_changes_per_checkout_7d) | Judge | Owner | Notes |
 |---|---:|---|---:|---:|---:|---:|---|---|---|
-| 2026-03-01 | 5% | 24-48h | | | | | pending | | initial A/A start |
+| 2026-03-01 | 5% | 48h (in progress) | | | | | running | | initial A/A start |
 | 2026-03-__ | 20% | 24-48h | | | | | pending | | |
 | 2026-03-__ | 50% | 24-48h | | | | | pending | | |
 | 2026-03-__ | 100% | 24-48h | | | | | pending | | |
@@ -462,3 +462,15 @@ npm run promote:lesson {domain} {basename}
 - [ ] RLS: `friend_challenge_claims` は本人のみ SELECT/INSERT 可
 - [ ] RLS: `pending_rewards` は本人の claim のみ可
 - [ ] RLS: `league_members` UPDATE は本人行のみ可
+
+### 実施ログ（2026-03-01 JST）
+- [x] Regression smoke: `npx jest --watchman=false`（38 suites / 177 tests PASS）
+- [x] Regression smoke: `npm run validate:lessons`（PASS）
+- [x] Regression smoke: `npm run content:i18n:check`（PASS）
+- [x] Regression smoke: `npm run content:i18n:smoke`（PASS）
+- [x] RLS static policy確認（migration確認）
+  - `supabase/migrations/20260228_friend_challenge_claims.sql`
+  - `supabase/migrations/pending_rewards.sql`
+  - `supabase/migrations/weekly_leagues.sql`
+- [ ] RLS runtime確認（実DBで本人/他人アカウント検証）
+- [ ] 実機E2E確認（paywall/shop, mistakes hub, league reward, friend claim）
