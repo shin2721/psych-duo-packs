@@ -743,6 +743,9 @@ git push
 
 停止:
 ```bash
+# 必要なら v2 Price secret もクリア
+supabase secrets set STRIPE_PRICE_PRO_MONTHLY_V2= --project-ref "${PROJECT_REF}"
+
 cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
 # config/gamification.json: experiments.experiments.pro_monthly_price_jp.enabled=false
 git add config/gamification.json
