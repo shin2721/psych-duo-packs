@@ -284,6 +284,7 @@ export default function ShopScreen() {
           reason: "http_error",
           status: response.status,
         });
+        throw new Error("checkout_http_error");
       }
 
       const data = await response.json();
