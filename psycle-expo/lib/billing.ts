@@ -2,6 +2,7 @@
 
 import { Linking } from "react-native";
 import { Analytics } from "./analytics";
+import { supabase } from "./supabase";
 import type { BillingPeriod } from "./pricing";
 import {
   getPlanById,
@@ -72,6 +73,20 @@ export async function buyPlan(
     return false;
   }
 
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const accessToken = session?.access_token;
+  if (!accessToken) {
+    Analytics.track("checkout_failed", {
+      source: "billing_lib",
+      planId: plan,
+      reason: "missing_auth_token",
+    });
+    alert("ログイン情報を確認できませんでした。");
+    return false;
+  }
+
   const selectedPlan = getPlanById(plan);
   const resolvedPriceId = resolvePlanPriceId(plan, billingPeriod, priceVersion);
   if (!selectedPlan) {
@@ -87,7 +102,10 @@ export async function buyPlan(
   try {
     const res = await fetch(`${functionsUrl}/create-checkout-session`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
       body: JSON.stringify({
         planId: plan,
         billingPeriod,
@@ -95,8 +113,6 @@ export async function buyPlan(
         priceVersion,
         priceCohort,
         priceId: resolvedPriceId ?? undefined,
-        userId: uid,
-        email,
       }),
     });
 

@@ -64,7 +64,7 @@ export default function ShopScreen() {
     dailyEnergyBonusRemaining,
     dailyEnergyRefillRemaining,
   } = useAppState();
-  const { user } = useAuth();
+  const { user, session } = useAuth();
   const [justPurchased, setJustPurchased] = useState<string | null>(null);
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [proBillingPeriod, setProBillingPeriod] = useState<BillingPeriod>("monthly");
@@ -230,6 +230,16 @@ export default function ShopScreen() {
       return;
     }
 
+    if (!session?.access_token) {
+      Analytics.track("checkout_failed", {
+        source,
+        planId: plan.id,
+        reason: "missing_auth_token",
+      });
+      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      return;
+    }
+
     Analytics.track("checkout_start", {
       source,
       planId: plan.id,
@@ -264,6 +274,7 @@ export default function ShopScreen() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${session.access_token}`,
         },
         body: JSON.stringify({
           planId: plan.id,
@@ -272,8 +283,6 @@ export default function ShopScreen() {
           priceVersion,
           priceCohort,
           priceId: resolvedPriceId ?? undefined,
-          userId: user.id,
-          email: user.email,
         }),
       });
 

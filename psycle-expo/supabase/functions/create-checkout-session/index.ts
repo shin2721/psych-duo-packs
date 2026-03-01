@@ -31,8 +31,6 @@ type CheckoutPayload = {
   priceVersion?: string;
   priceCohort?: string;
   priceId?: string;
-  userId?: string;
-  email?: string;
 };
 
 function jsonResponse(body: unknown, status = 200) {
@@ -97,6 +95,13 @@ function normalizeTrialDays(value: number | undefined, planId: PlanId): number {
   return Math.min(30, normalized);
 }
 
+function extractBearerToken(authorizationHeader: string | null): string | null {
+  if (!authorizationHeader) return null;
+  const [scheme, token] = authorizationHeader.trim().split(/\s+/, 2);
+  if (scheme?.toLowerCase() !== "bearer" || !token) return null;
+  return token;
+}
+
 async function isEligibleForJpNew14dFreeCohort(userId: string): Promise<boolean> {
   const { data: profile, error: profileError } = await supabase
     .from("profiles")
@@ -129,7 +134,7 @@ Deno.serve(async (req) => {
     return new Response(null, {
       headers: {
         "Access-Control-Allow-Origin": allowOrigin,
-        "Access-Control-Allow-Headers": "content-type",
+        "Access-Control-Allow-Headers": "content-type,authorization",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
       },
     });
@@ -140,12 +145,25 @@ Deno.serve(async (req) => {
   }
 
   try {
+    const token = extractBearerToken(req.headers.get("authorization"));
+    if (!token) {
+      return jsonResponse({ error: "unauthorized" }, 401);
+    }
+
+    const { data: authData, error: authError } = await supabase.auth.getUser(token);
+    const authenticatedUser = authData?.user;
+    if (authError || !authenticatedUser?.id || !authenticatedUser.email) {
+      return jsonResponse({ error: "unauthorized" }, 401);
+    }
+
     const payload = (await req.json()) as CheckoutPayload;
+    const userId = authenticatedUser.id;
+    const email = authenticatedUser.email;
     const planId = normalizePlanId(payload.planId);
     const billingPeriod = normalizeBillingPeriod(payload.billingPeriod);
     const priceVersion = normalizePriceVersion(payload.priceVersion);
     const priceCohort = typeof payload.priceCohort === "string" ? payload.priceCohort : "default";
-    if (!planId || !payload.userId || !payload.email) {
+    if (!planId) {
       return jsonResponse({ error: "missing_params" }, 400);
     }
 
@@ -158,7 +176,7 @@ Deno.serve(async (req) => {
         return jsonResponse({ error: "price_cohort_mismatch" }, 400);
       }
 
-      const isEligible = await isEligibleForJpNew14dFreeCohort(payload.userId);
+      const isEligible = await isEligibleForJpNew14dFreeCohort(userId);
       if (!isEligible) {
         return jsonResponse({ error: "price_cohort_mismatch" }, 400);
       }
@@ -181,13 +199,13 @@ Deno.serve(async (req) => {
     const session = await stripe.checkout.sessions.create({
       mode: "subscription",
       allow_promotion_codes: true,
-      customer_email: payload.email,
+      customer_email: email,
       line_items: [{ price: resolvedPriceId, quantity: 1 }],
       success_url: successUrl,
       cancel_url: cancelUrl,
-      client_reference_id: payload.userId,
+      client_reference_id: userId,
       metadata: {
-        userId: payload.userId,
+        userId,
         planId,
         billingPeriod,
         trialDays: String(trialDays),
@@ -198,7 +216,7 @@ Deno.serve(async (req) => {
       subscription_data: {
         ...(trialDays > 0 ? { trial_period_days: trialDays } : {}),
         metadata: {
-          userId: payload.userId,
+          userId,
           planId,
           billingPeriod,
           trialDays: String(trialDays),
