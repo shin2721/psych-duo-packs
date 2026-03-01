@@ -430,7 +430,7 @@ npm run promote:lesson {domain} {basename}
 
 ### 既定値
 - `config/gamification.json`
-  - `experiments.enabled=true`
+  - `experiments.enabled=false`（配信直前にON）
   - `experiments.experiments.double_xp_nudge_lesson_complete.enabled=true`
   - `experiments.experiments.double_xp_nudge_lesson_complete.rollout_percentage=5`
   - `personalization.enabled=false`
@@ -451,7 +451,7 @@ npm run promote:lesson {domain} {basename}
 ### A/A運用実績（記録欄）
 | Date (JST) | rollout_percentage | Duration | exposed_count | converted_count | KPI Δ (lesson_complete_user_rate_7d) | KPI Δ (paid_plan_changes_per_checkout_7d) | Judge | Owner | Notes |
 |---|---:|---|---:|---:|---:|---:|---|---|---|
-| 2026-03-01 | 5% | 48h (in progress) | | | | | running | | initial A/A start |
+| 2026-03-01 | 5% | 48h (planned) | | | | | pending | | start after release traffic |
 | 2026-03-03 | 20% | 24-48h | | | | | pending | | promote only after 5% pass |
 | 2026-03-05 | 50% | 24-48h | | | | | pending | | promote only after 20% pass |
 | 2026-03-07 | 100% | 24-48h | | | | | pending | | promote only after 50% pass |
@@ -516,7 +516,7 @@ npm run promote:lesson {domain} {basename}
 4. 悪化時は当該実験のみ `enabled=false` で停止
 
 ### v1.40.3 実行ステータス（2026-03-01 JST）
-- P1: `double_xp_nudge_lesson_complete` は `rollout=5%` で運用中（判定待ち）。
+- P1: `double_xp_nudge_lesson_complete` は `rollout=5%` 設定済み。`experiments.enabled=false` で待機中。
 - P2-Pro年額: コード準備済み。`STRIPE_PRICE_PRO_YEARLY` と `entitlements.plans.pro.stripe_price_id_yearly` の設定待ち。
 - P2-Proトライアル: 実験定義済み（`pro_trial_checkout.enabled=false`）。P1合格後に5%開始。
 - Max開放: `checkout.max_plan_enabled=false` 維持。

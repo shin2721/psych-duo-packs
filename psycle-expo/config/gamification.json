@@ -84,7 +84,7 @@
         "daily_limit": 1
     },
     "experiments": {
-        "enabled": true,
+        "enabled": false,
         "experiments": {
             "double_xp_nudge_lesson_complete": {
                 "enabled": true,

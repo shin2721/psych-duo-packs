@@ -57,8 +57,8 @@ describe("gamificationConfig", () => {
     expect(config.daily_limit).toBe(1);
   });
 
-  test("experiments are enabled for A/A and personalization stays disabled", () => {
-    expect(getExperimentsConfig().enabled).toBe(true);
+  test("experiments stay disabled by default and personalization stays disabled", () => {
+    expect(getExperimentsConfig().enabled).toBe(false);
     expect(getPersonalizationConfig().enabled).toBe(false);
   });
 

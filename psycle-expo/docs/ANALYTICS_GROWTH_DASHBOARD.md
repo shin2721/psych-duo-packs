@@ -435,7 +435,7 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 
 | Date (JST) | rollout % | experiment_exposed | experiment_converted | lesson_complete_user_rate_7d | paid_plan_changes_per_checkout_7d | Judge |
 |---|---:|---:|---:|---:|---:|---|
-| 2026-03-01 | 5 |  |  |  |  | running (48h window) |
+| 2026-03-01 | 5 |  |  |  |  | pending (awaiting release traffic) |
 | 2026-03-03 | 20 |  |  |  |  | pending |
 | 2026-03-05 | 50 |  |  |  |  | pending |
 | 2026-03-07 | 100 |  |  |  |  | pending |

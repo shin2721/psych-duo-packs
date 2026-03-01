@@ -32,8 +32,9 @@ describe("experimentEngine", () => {
     expect(getVariantPayload("missing_experiment", "control")).toBeNull();
   });
 
-  test("double_xp_nudge_lesson_complete is enabled in config", () => {
-    expect(isExperimentEnabled("double_xp_nudge_lesson_complete")).toBe(true);
+  test("double_xp_nudge_lesson_complete stays disabled until rollout start", () => {
+    expect(isExperimentEnabled("double_xp_nudge_lesson_complete")).toBe(false);
+    expect(assignExperiment("user_aa_hold", "double_xp_nudge_lesson_complete")).toBeNull();
   });
 
   test("assignment is deterministic with rollout gating enabled", () => {
