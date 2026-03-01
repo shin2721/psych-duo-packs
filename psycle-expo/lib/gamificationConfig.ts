@@ -329,6 +329,14 @@ const DEFAULT_CONFIG: GamificationConfig = {
           { id: "variant_a", weight: 50, payload: { trialDays: 7 } },
         ],
       },
+      pro_monthly_price_jp: {
+        enabled: false,
+        rollout_percentage: 5,
+        variants: [
+          { id: "control", weight: 50, payload: { priceVersion: "control" } },
+          { id: "variant_a", weight: 50, payload: { priceVersion: "variant_a" } },
+        ],
+      },
     },
   },
   personalization: {

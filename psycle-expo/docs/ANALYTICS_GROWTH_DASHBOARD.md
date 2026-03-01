@@ -447,3 +447,11 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 | 2026-03-09 | 5 | pro_trial_checkout |  |  |  |  |  |  | pending (start after P1 pass) |
 | 2026-03-11 | 20 | pro_trial_checkout |  |  |  |  |  |  | pending |
 | 2026-03-13 | 50 | pro_trial_checkout |  |  |  |  |  |  | pending |
+
+### Pro月額価格A/B記録欄（v1.41+）
+
+| Date (JST) | rollout % | experiment_id | cohort | checkout_start (control) | checkout_start (variant_a) | plan_changed_rate (control) | plan_changed_rate (variant_a) | D7 Δ | Refund Δ | Judge |
+|---|---:|---|---|---:|---:|---:|---:|---:|---:|---|
+| TBD | 5 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |
+| TBD | 20 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |
+| TBD | 50 | pro_monthly_price_jp | jp_new_14d_free |  |  |  |  |  |  | pending |

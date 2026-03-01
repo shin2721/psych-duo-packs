@@ -54,7 +54,7 @@ export function PlanSelector() {
       features: [
         i18n.t("planSelector.featureUnlimitedEnergy"),
         i18n.t("planSelector.featureLiteFullAccess"),
-        i18n.t("planSelector.featureNoMistakesReview"),
+        i18n.t("planSelector.featureMistakesUnlimited"),
       ],
     },
   ];

@@ -83,6 +83,8 @@ describe("analytics events wiring", () => {
           planId: "pro",
           billingPeriod: "monthly",
           trialDays: 0,
+          priceVersion: "control",
+          priceCohort: "default",
         },
       },
       {
@@ -103,6 +105,7 @@ describe("analytics events wiring", () => {
           isUpgrade: true,
           isDowngrade: false,
           activeUntil: "2026-03-31T00:00:00.000Z",
+          priceVersion: "control",
         },
       },
     ];

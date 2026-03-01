@@ -385,6 +385,8 @@ export type CheckoutStartEvent = {
     planId: 'pro' | 'max';
     billingPeriod: 'monthly' | 'yearly';
     trialDays: number;
+    priceVersion: 'control' | 'variant_a';
+    priceCohort: string;
   };
 };
 
@@ -407,6 +409,7 @@ export type PlanChangedEvent = {
     isUpgrade: boolean;
     isDowngrade: boolean;
     activeUntil: string | null;
+    priceVersion?: 'control' | 'variant_a';
   };
 };
 

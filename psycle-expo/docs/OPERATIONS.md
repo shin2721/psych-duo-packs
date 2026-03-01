@@ -22,6 +22,7 @@
 - `STRIPE_SECRET_KEY`
 - `STRIPE_WEBHOOK_SECRET`
 - `STRIPE_PRICE_PRO`
+- `STRIPE_PRICE_PRO_MONTHLY_V2` (JP新規14日価格A/Bを有効化する場合)
 - `STRIPE_PRICE_PRO_YEARLY` (Pro年額を有効化する場合)
 - `STRIPE_PRICE_MAX` (reserved for future Max relaunch)
 - `FRONTEND_SUCCESS_URL`
@@ -520,3 +521,26 @@ npm run promote:lesson {domain} {basename}
 - P2-Pro年額: コード準備済み。`STRIPE_PRICE_PRO_YEARLY` と `entitlements.plans.pro.stripe_price_id_yearly` の設定待ち。
 - P2-Proトライアル: 実験定義済み（`pro_trial_checkout.enabled=false`）。P1合格後に5%開始。
 - Max開放: `checkout.max_plan_enabled=false` 維持。
+
+## 10. v1.41 Monetization Rollout（2層 + 新規限定価格A/B）
+
+### 固定方針
+- プランは `Free / Pro` の2層運用とし、ShopではMaxを表示しない。
+- `checkout.max_plan_enabled=false` は維持する（Max再開はAI解説実装後）。
+- Pro年額は `¥7,800`（JP）を初期値とする。
+
+### 実行順
+1. **Step 1（7日）**: Pro機能統合（Mistakes Hub含む）、価格据え置きベースライン取得
+2. **Step 2（14日）**: Pro年額導線を有効化（`stripe_price_id_yearly` と `STRIPE_PRICE_PRO_YEARLY` 設定）
+3. **Step 3（2-4週）**: `pro_monthly_price_jp` 実験で新規14日以内のみ `¥980 vs ¥1,480`
+
+### Step 3 対象条件
+- `profiles.plan_id = free`
+- `account_age_days <= 14`
+- 地域JP
+
+### 記録必須項目
+- `checkout_start`（`billingPeriod`, `trialDays`, `priceVersion`, `priceCohort`）
+- `plan_changed`（`priceVersion`）
+- `plan_changed / checkout_start` 完了率（priceVersion別）
+- D7残存、返金率

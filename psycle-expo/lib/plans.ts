@@ -5,6 +5,7 @@ import { getCheckoutConfig } from "./gamificationConfig";
 
 export type { PlanId } from "./types/plan";
 type PaidPlanId = Exclude<PlanId, "free">;
+export type PriceVersion = "control" | "variant_a";
 
 export interface PlanConfig {
   id: PaidPlanId;
@@ -12,6 +13,7 @@ export interface PlanConfig {
   priceId: string; // Stripe Price ID (monthly)
   priceIds: {
     monthly: string;
+    monthly_v2?: string;
     yearly?: string;
   };
   priceMonthly: number; // Display price in yen
@@ -33,6 +35,7 @@ const PRO_PRICE_ID_MONTHLY =
   normalizePriceId(entitlements.plans?.pro?.stripe_price_id_monthly) ??
   normalizePriceId(entitlements.plans?.pro?.stripe_price_id) ??
   PRO_PRICE_ID_MONTHLY_FALLBACK;
+const PRO_PRICE_ID_MONTHLY_V2 = normalizePriceId(entitlements.plans?.pro?.stripe_price_id_monthly_v2);
 const PRO_PRICE_ID_YEARLY = normalizePriceId(entitlements.plans?.pro?.stripe_price_id_yearly);
 
 const MAX_PRICE_ID_MONTHLY =
@@ -47,6 +50,7 @@ export const PLANS: PlanConfig[] = [
     priceId: PRO_PRICE_ID_MONTHLY,
     priceIds: {
       monthly: PRO_PRICE_ID_MONTHLY,
+      ...(PRO_PRICE_ID_MONTHLY_V2 ? { monthly_v2: PRO_PRICE_ID_MONTHLY_V2 } : {}),
       ...(PRO_PRICE_ID_YEARLY ? { yearly: PRO_PRICE_ID_YEARLY } : {}),
     },
     priceMonthly: 980,
@@ -96,11 +100,18 @@ export function supportsPlanBillingPeriod(planId: PaidPlanId, period: BillingPer
   return resolvePlanPriceId(planId, "yearly") !== null;
 }
 
-export function resolvePlanPriceId(planId: PlanId, period: BillingPeriod = "monthly"): string | null {
+export function resolvePlanPriceId(
+  planId: PlanId,
+  period: BillingPeriod = "monthly",
+  priceVersion: PriceVersion = "control"
+): string | null {
   const plan = getPlanById(planId);
   if (!plan) return null;
 
   if (period === "monthly") {
+    if (planId === "pro" && priceVersion === "variant_a") {
+      return plan.priceIds.monthly_v2 ?? plan.priceIds.monthly;
+    }
     return plan.priceIds.monthly;
   }
 
@@ -123,4 +134,13 @@ export function isPlanPurchasable(planId: PaidPlanId): boolean {
 
 export function getPurchasablePlans(): PlanConfig[] {
   return PLANS.filter((plan) => isPlanPurchasable(plan.id));
+}
+
+function isMaxStorefrontVisible(): boolean {
+  const maxAiExplainMode = entitlements.plans?.max?.features?.ai_explain?.mode;
+  return typeof maxAiExplainMode === "string" && maxAiExplainMode !== "off";
+}
+
+export function getStorefrontPlans(): PlanConfig[] {
+  return getPurchasablePlans().filter((plan) => plan.id !== "max" || isMaxStorefrontVisible());
 }

@@ -180,6 +180,7 @@ export const en = {
         benefits: {
             accessAllLevels: 'Access all 10 levels of content',
             smartReview: 'Smart review (mistake-focused practice)',
+            mistakesHub: 'Unlimited Mistakes Hub review',
             unlimitedEnergy: 'Unlimited energy',
             adFree: 'No ads',
         },
@@ -344,15 +345,15 @@ export const en = {
         disclaimer: 'Stripe is used for Pro/Max purchases.',
     },
     mistakesHubButton: {
-        upsellMessage: 'Unlock "Mistake Review" with Max\n\n✓ Picks 10 recent mistakes\n✓ Review as many times as you want\n✓ Automatically balances tags\n\nUpgrade now →',
+        upsellMessage: 'Unlock "Mistake Review" with Pro\n\n✓ Picks 10 recent mistakes\n✓ Review as many times as you want\n✓ Automatically balances tags\n\nUpgrade now →',
         notEnoughData: 'There is not enough review data yet.\nSolve a few more questions and try again.',
         sessionStarted: 'Review session started (%{count} questions)',
         titleAvailable: 'Review mistakes in 5 minutes',
-        titleLocked: '🔒 Review mistakes in 5 minutes (Max)',
+        titleLocked: '🔒 Review mistakes in 5 minutes (Pro)',
         subtitle: 'Focus on 10 recent stumbling points',
         statusUnlimited: 'Review sessions: Unlimited',
         statusRemaining: "Today's review sessions: %{remaining}/1 left",
-        statusLocked: 'Mistake Review is available on the Max plan',
+        statusLocked: 'Mistake Review is available on the Pro plan',
         itemCountReady: '%{count} review questions are ready',
     },
     review: {

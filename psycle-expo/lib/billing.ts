@@ -7,6 +7,7 @@ import {
   getPlanById,
   getSupabaseFunctionsUrl,
   isPlanPurchasable,
+  type PriceVersion,
   resolvePlanPriceId,
   supportsPlanBillingPeriod,
 } from "./plans";
@@ -15,6 +16,8 @@ import type { PlanId } from "./types/plan";
 type BuyPlanOptions = {
   billingPeriod?: BillingPeriod;
   trialDays?: number;
+  priceVersion?: PriceVersion;
+  priceCohort?: string;
 };
 
 export async function buyPlan(
@@ -25,6 +28,8 @@ export async function buyPlan(
 ): Promise<boolean> {
   const billingPeriod = options?.billingPeriod ?? "monthly";
   const trialDays = Math.max(0, Math.floor(options?.trialDays ?? 0));
+  const priceVersion = options?.priceVersion ?? "control";
+  const priceCohort = options?.priceCohort ?? "default";
 
   if (!isPlanPurchasable(plan)) {
     Analytics.track("checkout_failed", {
@@ -68,7 +73,7 @@ export async function buyPlan(
   }
 
   const selectedPlan = getPlanById(plan);
-  const resolvedPriceId = resolvePlanPriceId(plan, billingPeriod);
+  const resolvedPriceId = resolvePlanPriceId(plan, billingPeriod, priceVersion);
   if (!selectedPlan) {
     Analytics.track("checkout_failed", {
       source: "billing_lib",
@@ -87,6 +92,8 @@ export async function buyPlan(
         planId: plan,
         billingPeriod,
         trialDays: plan === "pro" ? trialDays : 0,
+        priceVersion,
+        priceCohort,
         priceId: resolvedPriceId ?? undefined,
         userId: uid,
         email,

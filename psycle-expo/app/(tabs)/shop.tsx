@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, StyleSheet, Pressable, ScrollView, Alert, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -7,13 +8,15 @@ import { useAppState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import {
-  getPurchasablePlans,
+  getStorefrontPlans,
   getSupabaseFunctionsUrl,
   resolvePlanPriceId,
   supportsPlanBillingPeriod,
+  type PriceVersion,
   type PlanConfig,
 } from "../../lib/plans";
 import {
+  detectUserRegion,
   getPlanPrice,
   getYearlyDiscount,
   getYearlyMonthlyEquivalent,
@@ -24,6 +27,7 @@ import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
 import { Analytics } from "../../lib/analytics";
 import { assignExperiment } from "../../lib/experimentEngine";
+import { getCheckoutContextKey } from "../../lib/planChangeTracking";
 import type { EnergyFullRefillFailureReason } from "../../lib/energyFullRefill";
 import type { DoubleXpPurchaseFailureReason } from "../../lib/doubleXpPurchase";
 
@@ -78,6 +82,14 @@ export default function ShopScreen() {
   const languageCode = String(i18n.locale || "ja").split("-")[0];
   const dateLocale = dateLocaleByLanguage[languageCode];
   const energyFullRefillConfig = getShopSinksConfig().energy_full_refill;
+  const userRegion = detectUserRegion();
+  const accountAgeDays = React.useMemo(() => {
+    if (!user?.created_at) return null;
+    const createdAtMs = Date.parse(user.created_at);
+    if (!Number.isFinite(createdAtMs)) return null;
+    const elapsedMs = Date.now() - createdAtMs;
+    return Math.max(0, Math.floor(elapsedMs / (24 * 60 * 60 * 1000)));
+  }, [user?.created_at]);
 
   useEffect(() => {
     const interval = setInterval(() => setNowTs(Date.now()), 60000);
@@ -147,6 +159,30 @@ export default function ShopScreen() {
     return Math.max(0, Math.min(30, Math.floor(value)));
   };
 
+  const resolveCheckoutPriceContext = (
+    plan: PlanConfig,
+    billingPeriod: BillingPeriod
+  ): { priceVersion: PriceVersion; priceCohort: string } => {
+    if (
+      plan.id !== "pro" ||
+      billingPeriod !== "monthly" ||
+      userRegion !== "JP" ||
+      planId !== "free" ||
+      !user?.id ||
+      accountAgeDays === null ||
+      accountAgeDays > 14
+    ) {
+      return { priceVersion: "control", priceCohort: "default" };
+    }
+
+    const assignment = assignExperiment(user.id, "pro_monthly_price_jp");
+    const priceVersion: PriceVersion = assignment?.variantId === "variant_a" ? "variant_a" : "control";
+    return {
+      priceVersion,
+      priceCohort: "jp_new_14d_free",
+    };
+  };
+
   const handleSubscribe = async (plan: PlanConfig) => {
     const billingPeriod: BillingPeriod = plan.id === "pro" ? proBillingPeriod : "monthly";
     if (!supportsPlanBillingPeriod(plan.id, billingPeriod)) {
@@ -155,12 +191,23 @@ export default function ShopScreen() {
     }
 
     const trialDays = plan.id === "pro" ? resolveCheckoutTrialDays() : 0;
-    const resolvedPriceId = resolvePlanPriceId(plan.id, billingPeriod);
+    const { priceVersion, priceCohort } = resolveCheckoutPriceContext(plan, billingPeriod);
+    const resolvedPriceId = resolvePlanPriceId(plan.id, billingPeriod, priceVersion);
     const source = "shop_tab";
     Analytics.track("plan_select", {
       source,
       planId: plan.id,
     });
+
+    if (!resolvedPriceId) {
+      Analytics.track("checkout_failed", {
+        source,
+        planId: plan.id,
+        reason: "price_id_unavailable",
+      });
+      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.billingPeriodUnavailable"));
+      return;
+    }
 
     if (!user?.id || !user?.email) {
       Analytics.track("checkout_failed", {
@@ -188,7 +235,27 @@ export default function ShopScreen() {
       planId: plan.id,
       billingPeriod,
       trialDays,
+      priceVersion,
+      priceCohort,
     });
+
+    if (user?.id) {
+      try {
+        await AsyncStorage.setItem(
+          getCheckoutContextKey(user.id),
+          JSON.stringify({
+            planId: plan.id,
+            billingPeriod,
+            trialDays,
+            priceVersion,
+            priceCohort,
+            startedAt: new Date().toISOString(),
+          })
+        );
+      } catch (error) {
+        console.warn("Failed to persist checkout context", error);
+      }
+    }
 
     setIsSubscribing(true);
     try {
@@ -202,6 +269,8 @@ export default function ShopScreen() {
           planId: plan.id,
           billingPeriod,
           trialDays,
+          priceVersion,
+          priceCohort,
           priceId: resolvedPriceId ?? undefined,
           userId: user.id,
           email: user.email,
@@ -257,7 +326,7 @@ export default function ShopScreen() {
     }
   };
 
-  const purchasablePlans = getPurchasablePlans();
+  const purchasablePlans = getStorefrontPlans();
   const shouldShowProBillingToggle =
     purchasablePlans.some((plan) => plan.id === "pro") && proYearlyAvailable;
 

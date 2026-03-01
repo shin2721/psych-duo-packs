@@ -180,6 +180,7 @@ export const ja = {
         benefits: {
             accessAllLevels: '全10レベルのコンテンツにアクセス',
             smartReview: 'スマート復習（苦手克服モード）',
+            mistakesHub: 'ミス復習（Mistakes Hub）無制限',
             unlimitedEnergy: 'エネルギー無制限',
             adFree: '広告なし',
         },
@@ -344,15 +345,15 @@ export const ja = {
         disclaimer: '※ Pro/Maxプランの購入にはStripe決済が使用されます',
     },
     mistakesHubButton: {
-        upsellMessage: 'Maxプランで「ミス復習」が使えます\n\n✓ 直近のミスを10問厳選\n✓ 無制限で何度でも復習可能\n✓ タグ配分を自動最適化\n\n今すぐアップグレード →',
+        upsellMessage: 'Proプランで「ミス復習」が使えます\n\n✓ 直近のミスを10問厳選\n✓ 無制限で何度でも復習可能\n✓ タグ配分を自動最適化\n\n今すぐアップグレード →',
         notEnoughData: '復習データがまだ十分ではありません\nもう少し問題を解いてから試してください',
         sessionStarted: '復習セッション開始（%{count}問）',
         titleAvailable: 'ミスだけ5分で復習',
-        titleLocked: '🔒 ミスだけ5分で復習（Max）',
+        titleLocked: '🔒 ミスだけ5分で復習（Pro）',
         subtitle: '直近のつまずきを10問だけ',
         statusUnlimited: '復習セッション: 無制限',
         statusRemaining: '本日の復習セッション: 残り %{remaining}/1',
-        statusLocked: 'ミス復習は Max プランで利用できます',
+        statusLocked: 'ミス復習は Pro プランで利用できます',
         itemCountReady: '%{count}問の復習問題が準備されています',
     },
     review: {

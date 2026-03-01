@@ -111,10 +111,12 @@ import {
   type DoubleXpPurchaseFailureReason,
 } from "./doubleXpPurchase";
 import {
+  getCheckoutContextKey,
   getPlanChangeDirection,
   getPlanChangeSnapshotKey,
   hasPlanSnapshotChanged,
   normalizePlanIdValue,
+  parseCheckoutContextSnapshot,
   parsePlanChangeSnapshot,
   type PlanChangeSnapshot,
 } from "./planChangeTracking";
@@ -1526,6 +1528,16 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           };
 
           if (hasPlanSnapshotChanged(previousPlanSnapshot, nextSnapshot)) {
+            const checkoutContext = parseCheckoutContextSnapshot(
+              await AsyncStorage.getItem(getCheckoutContextKey(user.id))
+            );
+            const hasPlanIdChanged = Boolean(
+              previousPlanSnapshot && previousPlanSnapshot.planId !== nextSnapshot.planId
+            );
+            const contextPriceVersion =
+              hasPlanIdChanged && checkoutContext?.planId === nextSnapshot.planId
+                ? checkoutContext.priceVersion
+                : null;
             if (previousPlanSnapshot) {
               const { isUpgrade, isDowngrade } = getPlanChangeDirection(
                 previousPlanSnapshot.planId,
@@ -1538,6 +1550,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
                 isUpgrade,
                 isDowngrade,
                 activeUntil: nextSnapshot.activeUntil,
+                priceVersion: contextPriceVersion ?? undefined,
               });
             }
             await AsyncStorage.setItem(

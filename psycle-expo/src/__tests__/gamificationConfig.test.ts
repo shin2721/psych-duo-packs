@@ -66,6 +66,7 @@ describe("gamificationConfig", () => {
     const experiments = getExperimentsConfig();
     const definition = experiments.experiments.double_xp_nudge_lesson_complete;
     const trialDefinition = experiments.experiments.pro_trial_checkout;
+    const monthlyPriceDefinition = experiments.experiments.pro_monthly_price_jp;
     expect(definition.enabled).toBe(true);
     expect(definition.rollout_percentage).toBe(5);
     expect(definition.rollout_percentage).toBeGreaterThanOrEqual(0);
@@ -76,5 +77,9 @@ describe("gamificationConfig", () => {
     expect(trialDefinition.rollout_percentage).toBe(5);
     expect(trialDefinition.variants[0]?.payload).toEqual({ trialDays: 0 });
     expect(trialDefinition.variants[1]?.payload).toEqual({ trialDays: 7 });
+    expect(monthlyPriceDefinition.enabled).toBe(false);
+    expect(monthlyPriceDefinition.rollout_percentage).toBe(5);
+    expect(monthlyPriceDefinition.variants[0]?.payload).toEqual({ priceVersion: "control" });
+    expect(monthlyPriceDefinition.variants[1]?.payload).toEqual({ priceVersion: "variant_a" });
   });
 });

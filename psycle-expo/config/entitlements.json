@@ -36,8 +36,8 @@
       },
       "features": {
         "mistakes_hub": {
-          "enabled": false,
-          "daily_limit": 0
+          "enabled": true,
+          "daily_limit": null
         },
         "ai_explain": {
           "mode": "off"
@@ -45,6 +45,7 @@
       },
       "stripe_price_id": "price_1SJ82EJDXOz4c0ISSpJmO8sx",
       "stripe_price_id_monthly": "price_1SJ82EJDXOz4c0ISSpJmO8sx",
+      "stripe_price_id_monthly_v2": "",
       "stripe_price_id_yearly": ""
     },
     "max": {

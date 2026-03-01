@@ -13,10 +13,13 @@ const allowOrigin = "*";
 
 type PlanId = "pro" | "max";
 type BillingPeriod = "monthly" | "yearly";
+type PriceVersion = "control" | "variant_a";
 type CheckoutPayload = {
   planId?: string;
   billingPeriod?: string;
   trialDays?: number;
+  priceVersion?: string;
+  priceCohort?: string;
   priceId?: string;
   userId?: string;
   email?: string;
@@ -35,15 +38,30 @@ function jsonResponse(body: unknown, status = 200) {
 function resolvePriceId(
   planId: PlanId,
   billingPeriod: BillingPeriod,
+  priceVersion: PriceVersion,
   inputPriceId?: string
 ): string | null {
   const envProMonthly = Deno.env.get("STRIPE_PRICE_PRO");
+  const envProMonthlyV2 = Deno.env.get("STRIPE_PRICE_PRO_MONTHLY_V2");
   const envProYearly = Deno.env.get("STRIPE_PRICE_PRO_YEARLY");
   const envMaxMonthly = Deno.env.get("STRIPE_PRICE_MAX");
 
-  if (planId === "pro" && billingPeriod === "monthly") return envProMonthly ?? inputPriceId ?? null;
-  if (planId === "pro" && billingPeriod === "yearly") return envProYearly ?? inputPriceId ?? null;
-  if (planId === "max" && billingPeriod === "monthly") return envMaxMonthly ?? inputPriceId ?? null;
+  if (planId === "pro" && billingPeriod === "monthly" && priceVersion === "variant_a") {
+    if (envProMonthlyV2 && inputPriceId && inputPriceId !== envProMonthlyV2) return null;
+    return envProMonthlyV2 ?? inputPriceId ?? null;
+  }
+  if (planId === "pro" && billingPeriod === "monthly") {
+    if (envProMonthly && inputPriceId && inputPriceId !== envProMonthly) return null;
+    return envProMonthly ?? inputPriceId ?? null;
+  }
+  if (planId === "pro" && billingPeriod === "yearly") {
+    if (envProYearly && inputPriceId && inputPriceId !== envProYearly) return null;
+    return envProYearly ?? inputPriceId ?? null;
+  }
+  if (planId === "max" && billingPeriod === "monthly") {
+    if (envMaxMonthly && inputPriceId && inputPriceId !== envMaxMonthly) return null;
+    return envMaxMonthly ?? inputPriceId ?? null;
+  }
   return null;
 }
 
@@ -55,6 +73,11 @@ function normalizePlanId(value?: string): PlanId | null {
 function normalizeBillingPeriod(value?: string): BillingPeriod {
   if (value === "yearly") return "yearly";
   return "monthly";
+}
+
+function normalizePriceVersion(value?: string): PriceVersion {
+  if (value === "variant_a") return "variant_a";
+  return "control";
 }
 
 function normalizeTrialDays(value: number | undefined, planId: PlanId): number {
@@ -83,11 +106,13 @@ Deno.serve(async (req) => {
     const payload = (await req.json()) as CheckoutPayload;
     const planId = normalizePlanId(payload.planId);
     const billingPeriod = normalizeBillingPeriod(payload.billingPeriod);
+    const priceVersion = normalizePriceVersion(payload.priceVersion);
+    const priceCohort = typeof payload.priceCohort === "string" ? payload.priceCohort : "default";
     if (!planId || !payload.userId || !payload.email) {
       return jsonResponse({ error: "missing_params" }, 400);
     }
 
-    const resolvedPriceId = resolvePriceId(planId, billingPeriod, payload.priceId);
+    const resolvedPriceId = resolvePriceId(planId, billingPeriod, priceVersion, payload.priceId);
 
     if (!resolvedPriceId) {
       return jsonResponse({ error: "missing_params" }, 400);
@@ -115,6 +140,8 @@ Deno.serve(async (req) => {
         billingPeriod,
         trialDays: String(trialDays),
         priceId: resolvedPriceId,
+        priceVersion,
+        priceCohort,
       },
       subscription_data: {
         ...(trialDays > 0 ? { trial_period_days: trialDays } : {}),
@@ -124,6 +151,8 @@ Deno.serve(async (req) => {
           billingPeriod,
           trialDays: String(trialDays),
           priceId: resolvedPriceId,
+          priceVersion,
+          priceCohort,
         },
       },
     });

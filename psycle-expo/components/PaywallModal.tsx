@@ -14,6 +14,7 @@ export function PaywallModal({ visible, onClose, onUpgrade }: PaywallModalProps)
     const benefits = [
         i18n.t('paywallModal.benefits.accessAllLevels'),
         i18n.t('paywallModal.benefits.smartReview'),
+        i18n.t('paywallModal.benefits.mistakesHub'),
         i18n.t('paywallModal.benefits.unlimitedEnergy'),
         i18n.t('paywallModal.benefits.adFree'),
     ];

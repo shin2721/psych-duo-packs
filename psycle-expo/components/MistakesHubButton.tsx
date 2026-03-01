@@ -9,8 +9,8 @@ import i18n from "../lib/i18n";
 /**
  * MistakesHub（個別化復習）へのアクセスボタン
  *
- * Free/Pro: 利用不可（アップセル表示）
- * Max: 無制限アクセス
+ * Free: 利用不可（アップセル表示）
+ * Pro: 無制限アクセス
  */
 export function MistakesHubButton() {
   const {

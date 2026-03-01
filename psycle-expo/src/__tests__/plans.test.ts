@@ -7,6 +7,7 @@ jest.mock("../../lib/gamificationConfig", () => ({
 
 const { getCheckoutConfig } = require("../../lib/gamificationConfig");
 const {
+  getStorefrontPlans,
   getPurchasablePlans,
   isPlanPurchasable,
   resolvePlanPriceId,
@@ -46,6 +47,11 @@ describe("plans", () => {
     expect(getPurchasablePlans().map((plan: { id: string }) => plan.id)).toEqual(["pro", "max"]);
   });
 
+  test("getStorefrontPlans hides Max while Max offer is frozen", () => {
+    mockedGetCheckoutConfig.mockReturnValue({ max_plan_enabled: true });
+    expect(getStorefrontPlans().map((plan: { id: string }) => plan.id)).toEqual(["pro"]);
+  });
+
   test("billing period support is plan-specific", () => {
     expect(supportsPlanBillingPeriod("pro", "monthly")).toBe(true);
     expect(supportsPlanBillingPeriod("pro", "yearly")).toBe(false);
@@ -55,6 +61,7 @@ describe("plans", () => {
 
   test("price id resolution is monthly-first and yearly-safe", () => {
     expect(resolvePlanPriceId("pro", "monthly")).toEqual(expect.any(String));
+    expect(resolvePlanPriceId("pro", "monthly", "variant_a")).toEqual(expect.any(String));
     expect(resolvePlanPriceId("pro", "yearly")).toBeNull();
     expect(resolvePlanPriceId("max", "monthly")).toEqual(expect.any(String));
     expect(resolvePlanPriceId("max", "yearly")).toBeNull();
