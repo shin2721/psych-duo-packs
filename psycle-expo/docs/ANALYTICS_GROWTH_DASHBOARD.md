@@ -369,6 +369,13 @@ v1.20でローカル通知リマインドの観測イベントを追加。
   - `planId`（任意）
   - `reason`
   - `status`（任意）
+- `plan_changed`
+  - `source`: `profile_sync | restore_purchases`
+  - `fromPlan`: `free | pro | max`
+  - `toPlan`: `free | pro | max`
+  - `isUpgrade`
+  - `isDowngrade`
+  - `activeUntil`
 - `experiment_exposed`
   - `experimentId`
   - `variantId`
@@ -409,6 +416,7 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 - 友達チャレンジは表示だけでなく完了率を監視する。目安は `friend_challenge_completed / friend_challenge_shown >= 0.15`。
 - クエストリロールは `quest_rerolled` 件数と、`quest_claimed` の type 別分布をセットで監視する（供給/消費バランス確認）。
 - LiveOps は設定ベースで有効化されるため、イベント切替時は `liveops_event_activated` 発火を最初に確認する。
+- 決済ファネルの完結率は `plan_changed / checkout_start` を基準に監視する。
 
 ### A/A運用ゲート（固定）
 

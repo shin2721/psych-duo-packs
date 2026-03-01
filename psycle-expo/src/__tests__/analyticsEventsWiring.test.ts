@@ -4,6 +4,7 @@ import type {
   DailyGoalReachedEvent,
   FreezeUsedEvent,
   LeagueRewardClaimedEvent,
+  PlanChangedEvent,
   PlanSelectEvent,
   QuestClaimedEvent,
   QuestCycleResetEvent,
@@ -16,6 +17,7 @@ describe("analytics events wiring", () => {
       | FreezeUsedEvent
       | DailyGoalReachedEvent
       | LeagueRewardClaimedEvent
+      | PlanChangedEvent
       | QuestCycleResetEvent
       | PlanSelectEvent
       | CheckoutStartEvent
@@ -90,6 +92,17 @@ describe("analytics events wiring", () => {
           status: 500,
         },
       },
+      {
+        name: "plan_changed",
+        properties: {
+          source: "profile_sync",
+          fromPlan: "free",
+          toPlan: "pro",
+          isUpgrade: true,
+          isDowngrade: false,
+          activeUntil: "2026-03-31T00:00:00.000Z",
+        },
+      },
     ];
 
     expect(events.map((event) => event.name)).toEqual([
@@ -101,6 +114,7 @@ describe("analytics events wiring", () => {
       "plan_select",
       "checkout_start",
       "checkout_failed",
+      "plan_changed",
     ]);
   });
 });

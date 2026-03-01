@@ -439,6 +439,7 @@ npm run promote:lesson {domain} {basename}
 1. A/A時は対象実験の `control/variant` の `payload` を同一に設定する（差分なし）。
 2. `rollout_percentage` を `5% -> 20% -> 50% -> 100%` で段階展開し、各段階を `24-48h` 観測する。
 3. `experiment_exposed` と `experiment_converted` が欠落なく収集されていることを各段階で確認する。
+   - 併せて monetization ガードレールとして `plan_changed / checkout_start` を日次確認する。
 4. A/A検証では主要KPI差分が `±2%` 以内であることを合格条件にする。
 5. 合格後にのみ variant payload を本実験内容に差し替える（`personalization` は別ゲートで判定）。
 

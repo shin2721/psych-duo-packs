@@ -2,23 +2,20 @@ import React from 'react';
 import { Modal, View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
-import { getPackInfo, GenreId } from '../lib/paywall';
 import i18n from '../lib/i18n';
 
 interface PaywallModalProps {
     visible: boolean;
-    genreId: GenreId;
     onClose: () => void;
     onUpgrade: () => void;
 }
 
-export function PaywallModal({ visible, genreId, onClose, onUpgrade }: PaywallModalProps) {
-    const packInfo = getPackInfo(genreId);
+export function PaywallModal({ visible, onClose, onUpgrade }: PaywallModalProps) {
     const benefits = [
         i18n.t('paywallModal.benefits.accessAllLevels'),
-        i18n.t('paywallModal.benefits.advancedEvidenceQuestions'),
-        i18n.t('paywallModal.benefits.practicalSkills'),
-        i18n.t('paywallModal.benefits.lifetimeAccess'),
+        i18n.t('paywallModal.benefits.smartReview'),
+        i18n.t('paywallModal.benefits.unlimitedEnergy'),
+        i18n.t('paywallModal.benefits.adFree'),
     ];
 
     const handleUpgrade = () => {
@@ -42,8 +39,8 @@ export function PaywallModal({ visible, genreId, onClose, onUpgrade }: PaywallMo
 
                     {/* Header */}
                     <View style={styles.header}>
-                        <Text style={styles.emoji}>{packInfo.emoji}</Text>
-                        <Text style={styles.title}>{packInfo.name}</Text>
+                        <Ionicons name="sparkles" size={48} color={theme.colors.primary} />
+                        <Text style={styles.title}>{i18n.t('paywallModal.title')}</Text>
                         <Text style={styles.subtitle}>{i18n.t('paywallModal.unlockLevels')}</Text>
                     </View>
 
@@ -60,17 +57,10 @@ export function PaywallModal({ visible, genreId, onClose, onUpgrade }: PaywallMo
 
                     {/* Price and Purchase Button */}
                     <View style={styles.footer}>
-                        <Text style={styles.price}>¥{Math.round(packInfo.price * 150)}</Text>
-                        <Text style={styles.priceSubtext}>{i18n.t('paywallModal.oneTimePurchase')}</Text>
-
                         <TouchableOpacity style={styles.purchaseButton} onPress={handleUpgrade}>
                             <Text style={styles.purchaseButtonText}>{i18n.t('shop.subscription.subscribe')}</Text>
                         </TouchableOpacity>
-
-                        {/* Dev note */}
-                        <Text style={styles.devNote}>
-                            {i18n.t('paywallModal.devNote')}
-                        </Text>
+                        <Text style={styles.ctaNote}>{i18n.t('paywallModal.ctaNote')}</Text>
                     </View>
                 </View>
             </View>
@@ -104,16 +94,12 @@ const styles = StyleSheet.create({
     header: {
         alignItems: 'center',
         marginBottom: theme.spacing.xl,
-    },
-    emoji: {
-        fontSize: 64,
-        marginBottom: theme.spacing.md,
+        gap: theme.spacing.sm,
     },
     title: {
         fontSize: 24,
         fontWeight: 'bold',
         color: theme.colors.text,
-        marginBottom: theme.spacing.xs,
     },
     subtitle: {
         fontSize: 14,
@@ -145,17 +131,6 @@ const styles = StyleSheet.create({
         borderTopColor: theme.colors.line,
         paddingTop: theme.spacing.lg,
     },
-    price: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: theme.colors.primary,
-        marginBottom: theme.spacing.xs,
-    },
-    priceSubtext: {
-        fontSize: 12,
-        color: theme.colors.sub,
-        marginBottom: theme.spacing.lg,
-    },
     purchaseButton: {
         backgroundColor: theme.colors.primary,
         paddingVertical: theme.spacing.md,
@@ -170,10 +145,10 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    devNote: {
-        fontSize: 10,
+    ctaNote: {
+        marginTop: theme.spacing.sm,
+        fontSize: 12,
         color: theme.colors.sub,
         textAlign: 'center',
-        fontStyle: 'italic',
     },
 });

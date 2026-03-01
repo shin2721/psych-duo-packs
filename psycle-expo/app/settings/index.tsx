@@ -12,6 +12,7 @@ import { useAppState } from "../../lib/state";
 import { getExportableJSON } from "../../lib/dogfood";
 import i18n from "../../lib/i18n";
 import { useLocale } from "../../lib/LocaleContext";
+import { Analytics } from "../../lib/analytics";
 import {
     cancelPsycleReminders,
     ensureNotificationPermission,
@@ -23,7 +24,7 @@ import {
 export default function SettingsScreen() {
     const router = useRouter();
     const { user, signOut } = useAuth();
-    const { setPlanId, setActiveUntil, hasPendingDailyQuests } = useAppState();
+    const { planId, setPlanId, setActiveUntil, hasPendingDailyQuests } = useAppState();
     const { locale, options: localeOptions, setLocale } = useLocale();
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
     const [soundEnabled, setSoundEnabled] = useState(true);
@@ -124,10 +125,31 @@ export default function SettingsScreen() {
         try {
             const result = await restorePurchases(user.id, user.email);
             if (result && result.restored && result.planId) {
-                setPlanId(result.planId);
-                if (result.activeUntil) {
-                    setActiveUntil(result.activeUntil);
-                }
+                const previousPlan = planId;
+                const restoredPlan = result.planId;
+                const restoredActiveUntil = result.activeUntil ?? null;
+                const planRank: Record<"free" | "pro" | "max", number> = {
+                    free: 0,
+                    pro: 1,
+                    max: 2,
+                };
+                setPlanId(restoredPlan);
+                setActiveUntil(restoredActiveUntil);
+                Analytics.track("plan_changed", {
+                    source: "restore_purchases",
+                    fromPlan: previousPlan,
+                    toPlan: restoredPlan,
+                    isUpgrade: planRank[restoredPlan] > planRank[previousPlan],
+                    isDowngrade: planRank[restoredPlan] < planRank[previousPlan],
+                    activeUntil: restoredActiveUntil,
+                });
+                await AsyncStorage.setItem(
+                    `plan_change_snapshot_${user.id}`,
+                    JSON.stringify({
+                        planId: restoredPlan,
+                        activeUntil: restoredActiveUntil,
+                    })
+                );
             }
         } finally {
             setIsRestoring(false);

@@ -257,7 +257,6 @@ export default function CourseScreen() {
 
       <PaywallModal
         visible={paywallVisible}
-        genreId={paywallGenre}
         onClose={() => setPaywallVisible(false)}
         onUpgrade={() => {
           Analytics.track("paywall_upgrade_clicked", {

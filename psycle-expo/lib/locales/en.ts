@@ -167,16 +167,15 @@ export const en = {
         claim: 'Claim',
     },
     paywallModal: {
-        unlockLevels: 'Unlock Levels 4-10',
-        benefitsTitle: 'Included in this pack:',
-        oneTimePurchase: 'One-time purchase (not a subscription)',
-        purchasePack: 'Buy Pack',
-        devNote: 'Mock mode: tapping unlocks immediately.',
+        title: 'Psycle Premium',
+        unlockLevels: 'Unlock Level 4+ with subscription',
+        benefitsTitle: 'Included with subscription:',
+        ctaNote: 'You can compare plans in Shop.',
         benefits: {
             accessAllLevels: 'Access all 10 levels of content',
-            advancedEvidenceQuestions: 'Advanced evidence-based questions',
-            practicalSkills: 'Build practical skills',
-            lifetimeAccess: 'Lifetime access (one-time purchase)',
+            smartReview: 'Smart review (mistake-focused practice)',
+            unlimitedEnergy: 'Unlimited energy',
+            adFree: 'No ads',
         },
     },
     lesson: {

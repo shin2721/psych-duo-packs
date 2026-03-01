@@ -32,7 +32,7 @@
       },
       "item_access": {
         "lite": true,
-        "pro": false
+        "pro": true
       },
       "features": {
         "mistakes_hub": {

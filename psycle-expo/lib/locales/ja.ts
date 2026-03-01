@@ -167,16 +167,15 @@ export const ja = {
         claim: '受け取る',
     },
     paywallModal: {
-        unlockLevels: 'Level 4-10 を解放',
-        benefitsTitle: 'このパックに含まれるもの:',
-        oneTimePurchase: '買い切り（サブスクではありません）',
-        purchasePack: 'パックを購入',
-        devNote: '※ 現在はモック版です。タップすると即座に解放されます。',
+        title: 'Psycle Premium',
+        unlockLevels: 'Level 4 以降をサブスクで解放',
+        benefitsTitle: 'サブスクで使える内容:',
+        ctaNote: 'プラン詳細はショップで確認できます。',
         benefits: {
             accessAllLevels: '全10レベルのコンテンツにアクセス',
-            advancedEvidenceQuestions: '学術論文ベースの高度な問題',
-            practicalSkills: '実践的なスキルを習得',
-            lifetimeAccess: '永久アクセス（買い切り）',
+            smartReview: 'スマート復習（苦手克服モード）',
+            unlimitedEnergy: 'エネルギー無制限',
+            adFree: '広告なし',
         },
     },
     lesson: {

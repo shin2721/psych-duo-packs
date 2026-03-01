@@ -45,11 +45,11 @@ describe("featureGate", () => {
       expect(hasProItemAccess("free")).toBe(false);
     });
 
-    test("Pro プランはPro問題にアクセス不可", () => {
-      expect(hasProItemAccess("pro")).toBe(false);
+    test("Pro プランはPro問題にアクセス可能", () => {
+      expect(hasProItemAccess("pro")).toBe(true);
     });
 
-    test("Max プランのみPro問題にアクセス可能", () => {
+    test("Max プランはPro問題にアクセス可能", () => {
       expect(hasProItemAccess("max")).toBe(true);
     });
   });

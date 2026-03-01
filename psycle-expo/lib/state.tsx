@@ -188,6 +188,46 @@ function normalizeProbability(value: number | null | undefined, fallback: number
   return value;
 }
 
+type PlanChangeSnapshot = {
+  planId: PlanId;
+  activeUntil: string | null;
+};
+
+const PLAN_CHANGE_SNAPSHOT_KEY_PREFIX = "plan_change_snapshot_";
+const PLAN_PRIORITY: Record<PlanId, number> = {
+  free: 0,
+  pro: 1,
+  max: 2,
+};
+
+function normalizePlanIdValue(value: unknown): PlanId | null {
+  if (value === "free" || value === "pro" || value === "max") return value;
+  return null;
+}
+
+function parsePlanChangeSnapshot(raw: string | null): PlanChangeSnapshot | null {
+  if (!raw) return null;
+  try {
+    const parsed = JSON.parse(raw) as Partial<PlanChangeSnapshot>;
+    const planId = normalizePlanIdValue(parsed.planId);
+    if (!planId) return null;
+    return {
+      planId,
+      activeUntil: typeof parsed.activeUntil === "string" ? parsed.activeUntil : null,
+    };
+  } catch {
+    return null;
+  }
+}
+
+function hasPlanSnapshotChanged(
+  prev: PlanChangeSnapshot | null,
+  next: PlanChangeSnapshot
+): boolean {
+  if (!prev) return true;
+  return prev.planId !== next.planId || prev.activeUntil !== next.activeUntil;
+}
+
 const entitlementConfig = entitlements as EntitlementsConfig;
 const FREE_BASE_MAX_ENERGY = normalizePositiveInt(
   entitlementConfig.plans?.free?.energy?.daily_cap ?? null,
@@ -1053,6 +1093,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     setIsStateHydrated(false);
 
     const loadState = async () => {
+      let savedPlanChangeSnapshot: string | null = null;
       // STEP 1: Load from local storage FIRST (instant)
       try {
         const [
@@ -1081,6 +1122,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedEventCampaignState,
           savedPersonalizationSegment,
           savedPersonalizationAssignedAtMs,
+          savedPlanChangeSnapshotValue,
         ] = await Promise.all([
           AsyncStorage.getItem(`xp_${user.id}`),
           AsyncStorage.getItem(`gems_${user.id}`),
@@ -1107,7 +1149,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`event_campaign_state_${user.id}`),
           AsyncStorage.getItem(`personalization_segment_${user.id}`),
           AsyncStorage.getItem(`personalization_segment_assigned_at_${user.id}`),
+          AsyncStorage.getItem(`${PLAN_CHANGE_SNAPSHOT_KEY_PREFIX}${user.id}`),
         ]);
+        savedPlanChangeSnapshot = savedPlanChangeSnapshotValue;
 
         if (cancelled) return;
 
@@ -1486,6 +1530,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       // STEP 2: Sync from Supabase in background (non-blocking)
       // This will update state if Supabase has newer data
       try {
+        const previousPlanSnapshot = parsePlanChangeSnapshot(savedPlanChangeSnapshot);
         const { data, error } = await supabase
           .from('profiles')
           .select('xp, gems, streak, plan_id, active_until')
@@ -1500,8 +1545,36 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           if (data.xp !== undefined) setXP(data.xp);
           if (data.gems !== undefined) setGems(data.gems);
           if (data.streak !== undefined) setStreak(data.streak);
-          if (data.plan_id) setPlanIdState(data.plan_id as PlanId);
-          if (data.active_until) setActiveUntilState(data.active_until);
+
+          const nextPlanId = normalizePlanIdValue(data.plan_id) ?? planId;
+          const nextActiveUntil = typeof data.active_until === "string" ? data.active_until : null;
+
+          setPlanIdState(nextPlanId);
+          setActiveUntilState(nextActiveUntil);
+
+          const nextSnapshot: PlanChangeSnapshot = {
+            planId: nextPlanId,
+            activeUntil: nextActiveUntil,
+          };
+
+          if (hasPlanSnapshotChanged(previousPlanSnapshot, nextSnapshot)) {
+            if (previousPlanSnapshot) {
+              const fromRank = PLAN_PRIORITY[previousPlanSnapshot.planId];
+              const toRank = PLAN_PRIORITY[nextSnapshot.planId];
+              Analytics.track("plan_changed", {
+                source: "profile_sync",
+                fromPlan: previousPlanSnapshot.planId,
+                toPlan: nextSnapshot.planId,
+                isUpgrade: toRank > fromRank,
+                isDowngrade: toRank < fromRank,
+                activeUntil: nextSnapshot.activeUntil,
+              });
+            }
+            await AsyncStorage.setItem(
+              `${PLAN_CHANGE_SNAPSHOT_KEY_PREFIX}${user.id}`,
+              JSON.stringify(nextSnapshot)
+            );
+          }
 
           // Fetch social stats (non-blocking)
           supabase

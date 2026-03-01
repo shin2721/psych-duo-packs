@@ -1,14 +1,6 @@
-// Paywall configuration and logic for genre-based monetization
+// Paywall configuration and logic for subscription-based monetization.
 
-export const PACK_PRICING = {
-    health: { price: 4.99, name: 'Health Pack', emoji: '💪' },
-    work: { price: 4.99, name: 'Work Pack', emoji: '💼' },
-    money: { price: 4.99, name: 'Money Pack', emoji: '💰' },
-    social: { price: 4.99, name: 'Social Pack', emoji: '👥' },
-    study: { price: 4.99, name: 'Study Pack', emoji: '📚' }
-} as const;
-
-export type GenreId = keyof typeof PACK_PRICING | 'mental';
+export type GenreId = "mental" | "health" | "work" | "money" | "social" | "study";
 
 export const FREE_TIER_LEVELS = 3; // Levels 1-3 are free for all genres
 
@@ -40,26 +32,6 @@ export function isLessonLocked(
     }
 
     return true;
-}
-
-/**
- * Gets the pack info for a genre
- */
-export function getPackInfo(genre: GenreId) {
-    if (genre === 'mental') {
-        return { price: 0, name: 'Mental Pack (Free)', emoji: '🧠' };
-    }
-    return PACK_PRICING[genre];
-}
-
-/**
- * Gets all available packs for purchase
- */
-export function getAvailablePacks() {
-    return Object.entries(PACK_PRICING).map(([id, info]) => ({
-        id,
-        ...info
-    }));
 }
 
 // Paywall表示条件（刺さった後に出す）

@@ -396,6 +396,18 @@ export type CheckoutFailedEvent = {
   };
 };
 
+export type PlanChangedEvent = {
+  name: 'plan_changed';
+  properties: {
+    source: 'profile_sync' | 'restore_purchases';
+    fromPlan: 'free' | 'pro' | 'max';
+    toPlan: 'free' | 'pro' | 'max';
+    isUpgrade: boolean;
+    isDowngrade: boolean;
+    activeUntil: string | null;
+  };
+};
+
 export type PaywallUpgradeClickedEvent = {
   name: 'paywall_upgrade_clicked';
   properties: {
@@ -628,6 +640,7 @@ export type TrackedEvent =
   | PlanSelectEvent
   | CheckoutStartEvent
   | CheckoutFailedEvent
+  | PlanChangedEvent
   | PaywallUpgradeClickedEvent
   | LeagueMatchmakingAppliedEvent
   | LeagueAutoJoinedOnXpEvent
