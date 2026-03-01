@@ -68,6 +68,9 @@
     "friend_challenge": {
         "reward_gems": 15
     },
+    "checkout": {
+        "max_plan_enabled": false
+    },
     "quest_rewards": {
         "claim_bonus_gems_by_type": {
             "daily": 5,

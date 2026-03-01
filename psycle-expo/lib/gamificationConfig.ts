@@ -87,6 +87,10 @@ export interface FriendChallengeConfig {
   reward_gems: number;
 }
 
+export interface CheckoutConfig {
+  max_plan_enabled: boolean;
+}
+
 export interface QuestRewardsConfig {
   claim_bonus_gems_by_type: {
     daily: number;
@@ -182,6 +186,7 @@ export interface GamificationConfig {
   comeback_reward: ComebackRewardConfig;
   daily_goal: DailyGoalConfig;
   friend_challenge: FriendChallengeConfig;
+  checkout: CheckoutConfig;
   quest_rewards: QuestRewardsConfig;
   quest_reroll: QuestRerollConfig;
   event_campaign: EventCampaignConfig;
@@ -288,6 +293,9 @@ const DEFAULT_CONFIG: GamificationConfig = {
   },
   friend_challenge: {
     reward_gems: 15,
+  },
+  checkout: {
+    max_plan_enabled: false,
   },
   quest_rewards: {
     claim_bonus_gems_by_type: {
@@ -511,6 +519,10 @@ function loadConfig(): GamificationConfig {
         ...DEFAULT_CONFIG.friend_challenge,
         ...source.friend_challenge,
       },
+      checkout: {
+        ...DEFAULT_CONFIG.checkout,
+        ...source.checkout,
+      },
       quest_rewards: {
         ...DEFAULT_CONFIG.quest_rewards,
         ...source.quest_rewards,
@@ -617,6 +629,10 @@ export function getDailyGoalConfig(): DailyGoalConfig {
 
 export function getFriendChallengeConfig(): FriendChallengeConfig {
   return gamificationConfig.friend_challenge;
+}
+
+export function getCheckoutConfig(): CheckoutConfig {
+  return gamificationConfig.checkout;
 }
 
 export function getQuestRewardsConfig(): QuestRewardsConfig {

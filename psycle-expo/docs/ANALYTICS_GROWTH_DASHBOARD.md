@@ -419,3 +419,12 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 5. `lesson_complete_user_rate_7d` と `paid_plan_changes_per_checkout_7d` に悪化がない場合のみ、本実験（payload差し替え）へ進む。
 6. 異常時は `experiments.enabled=false` に戻して同日中にロールバックする。
 7. このフェーズでは `personalization.enabled=false`, `liveops.enabled=false` を維持する。
+
+### A/A Baseline記録欄（v1.39.x）
+
+| Date (JST) | rollout % | experiment_exposed | experiment_converted | lesson_complete_user_rate_7d | paid_plan_changes_per_checkout_7d | Judge |
+|---|---:|---:|---:|---:|---:|---|
+| 2026-03-01 | 5 |  |  |  |  | pending |
+| 2026-03-__ | 20 |  |  |  |  | pending |
+| 2026-03-__ | 50 |  |  |  |  | pending |
+| 2026-03-__ | 100 |  |  |  |  | pending |

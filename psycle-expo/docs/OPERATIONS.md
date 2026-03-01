@@ -445,3 +445,20 @@ npm run promote:lesson {domain} {basename}
 ### ロールバック
 1. 異常検知時は同日中に `experiments.enabled=false`, `personalization.enabled=false` へ戻す。
 2. 影響期間のイベント欠落/異常値をダッシュボード注記に残す。
+
+### A/A運用実績（記録欄）
+| Date (JST) | rollout_percentage | Duration | exposed_count | converted_count | KPI Δ (lesson_complete_user_rate_7d) | KPI Δ (paid_plan_changes_per_checkout_7d) | Judge | Owner | Notes |
+|---|---:|---|---:|---:|---:|---:|---|---|---|
+| 2026-03-01 | 5% | 24-48h | | | | | pending | | initial A/A start |
+| 2026-03-__ | 20% | 24-48h | | | | | pending | | |
+| 2026-03-__ | 50% | 24-48h | | | | | pending | | |
+| 2026-03-__ | 100% | 24-48h | | | | | pending | | |
+
+### 先行リリース検証チェックリスト（v1.39.x）
+- [ ] E2E: Course paywall -> Shop 遷移（`paywall_upgrade_clicked`）
+- [ ] E2E: MistakesHub start -> complete（`mistakes_hub_session_started/completed`）
+- [ ] E2E: League reward claim（`league_reward_claimed`）
+- [ ] E2E: Friend challenge claim 冪等（二重受取不可）
+- [ ] RLS: `friend_challenge_claims` は本人のみ SELECT/INSERT 可
+- [ ] RLS: `pending_rewards` は本人の claim のみ可
+- [ ] RLS: `league_members` UPDATE は本人行のみ可

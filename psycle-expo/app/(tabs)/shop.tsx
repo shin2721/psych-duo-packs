@@ -6,7 +6,7 @@ import { theme } from "../../lib/theme";
 import { useAppState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
-import { PLANS, getSupabaseFunctionsUrl, type PlanConfig } from "../../lib/plans";
+import { getPurchasablePlans, getSupabaseFunctionsUrl, type PlanConfig } from "../../lib/plans";
 import { getPlanPrice } from "../../lib/pricing";
 import { getShopSinksConfig } from "../../lib/gamificationConfig";
 import i18n from "../../lib/i18n";
@@ -325,7 +325,7 @@ export default function ShopScreen() {
 
         {/* Plan Cards */}
         <View style={styles.plansContainer}>
-          {PLANS.filter(p => p.id === 'pro').map((plan) => (
+          {getPurchasablePlans().map((plan) => (
             <View key={plan.id} style={styles.planCard}>
               {plan.popular && (
                 <View style={styles.popularBadge}>

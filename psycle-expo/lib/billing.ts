@@ -2,17 +2,17 @@
 
 import { Linking } from "react-native";
 import { Analytics } from "./analytics";
-import { getPlanById, getSupabaseFunctionsUrl } from "./plans";
+import { getPlanById, getSupabaseFunctionsUrl, isPlanPurchasable } from "./plans";
 import type { PlanId } from "./types/plan";
 
 export async function buyPlan(plan: "pro" | "max", uid: string, email: string): Promise<boolean> {
-  if (plan === "max") {
+  if (!isPlanPurchasable(plan)) {
     Analytics.track("checkout_failed", {
       source: "billing_lib",
       planId: plan,
-      reason: "max_disabled",
+      reason: "plan_disabled",
     });
-    alert("Maxプランは現在停止中です。");
+    alert(`${plan.toUpperCase()}プランは現在停止中です。`);
     return false;
   }
 

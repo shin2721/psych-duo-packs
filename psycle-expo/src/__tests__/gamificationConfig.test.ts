@@ -1,5 +1,6 @@
 import {
   getComebackRewardConfig,
+  getCheckoutConfig,
   getDailyGoalConfig,
   getDoubleXpBoostConfig,
   getExperimentsConfig,
@@ -34,10 +35,12 @@ describe("gamificationConfig", () => {
   test("daily goal and friend challenge configs keep current defaults", () => {
     const dailyGoal = getDailyGoalConfig();
     const friendChallenge = getFriendChallengeConfig();
+    const checkout = getCheckoutConfig();
 
     expect(dailyGoal.default_xp).toBe(10);
     expect(dailyGoal.reward_gems).toBe(5);
     expect(friendChallenge.reward_gems).toBe(15);
+    expect(checkout.max_plan_enabled).toBe(false);
   });
 
   test("quest reward claim gems map is present for all quest types", () => {
