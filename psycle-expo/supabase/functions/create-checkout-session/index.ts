@@ -1,13 +1,23 @@
 import Stripe from "npm:stripe@16";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const stripeSecret = Deno.env.get("STRIPE_SECRET_KEY");
 if (!stripeSecret) {
   throw new Error("Missing STRIPE_SECRET_KEY");
 }
+const supabaseUrl = Deno.env.get("SUPABASE_URL");
+if (!supabaseUrl) {
+  throw new Error("Missing SUPABASE_URL");
+}
+const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
+if (!serviceRoleKey) {
+  throw new Error("Missing SUPABASE_SERVICE_ROLE_KEY");
+}
 
 const stripe = new Stripe(stripeSecret, {
   apiVersion: "2024-06-20",
 });
+const supabase = createClient(supabaseUrl, serviceRoleKey);
 
 const allowOrigin = "*";
 
@@ -87,6 +97,33 @@ function normalizeTrialDays(value: number | undefined, planId: PlanId): number {
   return Math.min(30, normalized);
 }
 
+async function isEligibleForJpNew14dFreeCohort(userId: string): Promise<boolean> {
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("plan_id")
+    .eq("id", userId)
+    .maybeSingle();
+
+  if (profileError || !profile || profile.plan_id !== "free") {
+    return false;
+  }
+
+  const { data: authData, error: authError } = await supabase.auth.admin.getUserById(userId);
+  const createdAt = authData?.user?.created_at;
+  if (authError || typeof createdAt !== "string") {
+    return false;
+  }
+
+  const createdAtMs = Date.parse(createdAt);
+  if (!Number.isFinite(createdAtMs)) {
+    return false;
+  }
+
+  const ageMs = Date.now() - createdAtMs;
+  const maxAgeMs = 14 * 24 * 60 * 60 * 1000;
+  return ageMs >= 0 && ageMs <= maxAgeMs;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, {
@@ -110,6 +147,21 @@ Deno.serve(async (req) => {
     const priceCohort = typeof payload.priceCohort === "string" ? payload.priceCohort : "default";
     if (!planId || !payload.userId || !payload.email) {
       return jsonResponse({ error: "missing_params" }, 400);
+    }
+
+    if (priceVersion === "variant_a") {
+      const isExpectedVariantContext =
+        planId === "pro" &&
+        billingPeriod === "monthly" &&
+        priceCohort === "jp_new_14d_free";
+      if (!isExpectedVariantContext) {
+        return jsonResponse({ error: "price_cohort_mismatch" }, 400);
+      }
+
+      const isEligible = await isEligibleForJpNew14dFreeCohort(payload.userId);
+      if (!isEligible) {
+        return jsonResponse({ error: "price_cohort_mismatch" }, 400);
+      }
     }
 
     const resolvedPriceId = resolvePriceId(planId, billingPeriod, priceVersion, payload.priceId);

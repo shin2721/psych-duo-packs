@@ -528,6 +528,7 @@ npm run promote:lesson {domain} {basename}
 - プランは `Free / Pro` の2層運用とし、ShopではMaxを表示しない。
 - `checkout.max_plan_enabled=false` は維持する（Max再開はAI解説実装後）。
 - Pro年額は `¥7,800`（JP）を初期値とする。
+- 価格保護ルール: 既存課金ユーザーは据え置き（価格実験は新規コホートのみ）。
 
 ### 実行順
 1. **Step 1（7日）**: Pro機能統合（Mistakes Hub含む）、価格据え置きベースライン取得
@@ -538,6 +539,11 @@ npm run promote:lesson {domain} {basename}
 - `profiles.plan_id = free`
 - `account_age_days <= 14`
 - 地域JP
+- サーバー検証: `priceVersion=variant_a` は `priceCohort=jp_new_14d_free` かつ上記条件一致時のみ許可し、それ以外は `price_cohort_mismatch` で拒否。
+
+### 運用ルール（フェアネス）
+- 実験対象外ユーザーには control 価格のみ提示する。
+- 既存課金ユーザーに `variant_a` 価格を適用しない。
 
 ### 記録必須項目
 - `checkout_start`（`billingPeriod`, `trialDays`, `priceVersion`, `priceCohort`）
