@@ -54,16 +54,19 @@ describe("gamificationConfig", () => {
     expect(config.daily_limit).toBe(1);
   });
 
-  test("experiments and personalization stay disabled by default for A/A gate", () => {
-    expect(getExperimentsConfig().enabled).toBe(false);
+  test("experiments are enabled for A/A and personalization stays disabled", () => {
+    expect(getExperimentsConfig().enabled).toBe(true);
     expect(getPersonalizationConfig().enabled).toBe(false);
   });
 
-  test("experiment rollout percentage defaults to 100 and stays within 0-100", () => {
+  test("experiment rollout percentage is normalized and current config is 5%", () => {
     const experiments = getExperimentsConfig();
     const definition = experiments.experiments.double_xp_nudge_lesson_complete;
-    expect(definition.rollout_percentage).toBe(100);
+    expect(definition.enabled).toBe(true);
+    expect(definition.rollout_percentage).toBe(5);
     expect(definition.rollout_percentage).toBeGreaterThanOrEqual(0);
     expect(definition.rollout_percentage).toBeLessThanOrEqual(100);
+    expect(definition.variants[0]?.payload).toEqual({ copyStyle: "default" });
+    expect(definition.variants[1]?.payload).toEqual({ copyStyle: "default" });
   });
 });

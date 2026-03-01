@@ -1,6 +1,7 @@
 // components/MistakesHubButton.tsx
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { router } from "expo-router";
 import { useAppState } from "../lib/state";
 import { theme } from "../lib/theme";
 import i18n from "../lib/i18n";
@@ -34,14 +35,17 @@ export function MistakesHubButton() {
       return;
     }
 
-    startMistakesHubSession();
-    alert(
-      String(
-        i18n.t("mistakesHubButton.sessionStarted", {
-          count: mistakesItems.length,
-        })
-      )
-    );
+    const result = startMistakesHubSession();
+    if (result.started) {
+      router.push("/mistakes-hub");
+      return;
+    }
+
+    if (result.reason === "not_available") {
+      alert(String(i18n.t("mistakesHubButton.upsellMessage")));
+      return;
+    }
+    alert(String(i18n.t("mistakesHubButton.notEnoughData")));
   };
 
   return (
@@ -50,10 +54,10 @@ export function MistakesHubButton() {
         style={[
           styles.button,
           !canAccessMistakesHub && styles.buttonLocked,
-          !hasEnoughData && styles.buttonDisabled,
+          canAccessMistakesHub && !hasEnoughData && styles.buttonDisabled,
         ]}
         onPress={handlePress}
-        disabled={!hasEnoughData}
+        disabled={canAccessMistakesHub && !hasEnoughData}
       >
         <Text style={styles.buttonTitle}>
           {canAccessMistakesHub

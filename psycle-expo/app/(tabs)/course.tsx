@@ -15,6 +15,7 @@ import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
 import { useAuth } from "../../lib/AuthContext";
 import { router } from "expo-router";
 import i18n from "../../lib/i18n";
+import { Analytics } from "../../lib/analytics";
 
 
 
@@ -42,8 +43,7 @@ export default function CourseScreen() {
     completedLessons,
     skill,
     xp,
-    purchasedPacks,
-    purchasePack,
+    hasProAccess,
     mistakes,
     addGems,
     setGemsDirectly,
@@ -90,7 +90,7 @@ export default function CourseScreen() {
     const level = levelMatch ? parseInt(levelMatch[1], 10) : 1;
 
     // Check if lesson is locked by paywall
-    const locked = isLessonLocked(selectedGenre, level, purchasedPacks);
+    const locked = isLessonLocked(selectedGenre, level, hasProAccess);
     if (locked) {
       return { ...node, status: "current", isLocked: true }; // Show as current but locked
     }
@@ -259,8 +259,13 @@ export default function CourseScreen() {
         visible={paywallVisible}
         genreId={paywallGenre}
         onClose={() => setPaywallVisible(false)}
-        onPurchase={(genreId) => {
-          purchasePack(genreId);
+        onUpgrade={() => {
+          Analytics.track("paywall_upgrade_clicked", {
+            source: "course_paywall_modal",
+            genreId: paywallGenre,
+            lessonCompleteCount: completedLessons.size,
+          });
+          router.push("/(tabs)/shop");
           setPaywallVisible(false);
         }}
       />

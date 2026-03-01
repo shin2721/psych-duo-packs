@@ -9,10 +9,10 @@ interface PaywallModalProps {
     visible: boolean;
     genreId: GenreId;
     onClose: () => void;
-    onPurchase: (genreId: string) => void;
+    onUpgrade: () => void;
 }
 
-export function PaywallModal({ visible, genreId, onClose, onPurchase }: PaywallModalProps) {
+export function PaywallModal({ visible, genreId, onClose, onUpgrade }: PaywallModalProps) {
     const packInfo = getPackInfo(genreId);
     const benefits = [
         i18n.t('paywallModal.benefits.accessAllLevels'),
@@ -21,8 +21,8 @@ export function PaywallModal({ visible, genreId, onClose, onPurchase }: PaywallM
         i18n.t('paywallModal.benefits.lifetimeAccess'),
     ];
 
-    const handlePurchase = () => {
-        onPurchase(genreId);
+    const handleUpgrade = () => {
+        onUpgrade();
         onClose();
     };
 
@@ -63,8 +63,8 @@ export function PaywallModal({ visible, genreId, onClose, onPurchase }: PaywallM
                         <Text style={styles.price}>¥{Math.round(packInfo.price * 150)}</Text>
                         <Text style={styles.priceSubtext}>{i18n.t('paywallModal.oneTimePurchase')}</Text>
 
-                        <TouchableOpacity style={styles.purchaseButton} onPress={handlePurchase}>
-                            <Text style={styles.purchaseButtonText}>{i18n.t('paywallModal.purchasePack')}</Text>
+                        <TouchableOpacity style={styles.purchaseButton} onPress={handleUpgrade}>
+                            <Text style={styles.purchaseButtonText}>{i18n.t('shop.subscription.subscribe')}</Text>
                         </TouchableOpacity>
 
                         {/* Dev note */}

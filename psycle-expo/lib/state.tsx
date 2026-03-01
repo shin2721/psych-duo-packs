@@ -94,7 +94,10 @@ import {
   normalizePersonalizationSegment,
   shouldReassignSegment,
 } from "./personalization";
-import { selectMistakesHubItems } from "../src/features/mistakesHub";
+import {
+  buildMistakesHubSessionItems,
+  selectMistakesHubItems,
+} from "../src/features/mistakesHub";
 import { Analytics } from "./analytics";
 import type { PlanId } from "./types/plan";
 import entitlements from "../config/entitlements.json";
@@ -136,6 +139,46 @@ function normalizeNonNegativeInt(value: number | null | undefined, fallback: num
   if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
   const normalized = Math.floor(value);
   return normalized >= 0 ? normalized : fallback;
+}
+
+function normalizeReviewEvents(raw: unknown): ReviewEvent[] {
+  if (!Array.isArray(raw)) return [];
+  const cutoffMs = Date.now() - 30 * 24 * 60 * 60 * 1000;
+
+  const normalized = raw
+    .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object")
+    .map((event) => {
+      const ts = Number(event.ts);
+      if (!Number.isFinite(ts)) return null;
+      if (ts < cutoffMs) return null;
+
+      const userId = typeof event.userId === "string" ? event.userId : "";
+      const itemId = typeof event.itemId === "string" ? event.itemId : "";
+      const lessonId = typeof event.lessonId === "string" ? event.lessonId : "";
+      const result = event.result === "incorrect" ? "incorrect" : event.result === "correct" ? "correct" : null;
+      if (!userId || !itemId || !lessonId || !result) return null;
+
+      const latencyMs = Number(event.latencyMs);
+      const dueAt = Number(event.dueAt);
+      const beta = Number(event.beta);
+      const p = Number(event.p);
+
+      return {
+        userId,
+        itemId,
+        lessonId,
+        ts: Math.floor(ts),
+        result,
+        latencyMs: Number.isFinite(latencyMs) ? latencyMs : undefined,
+        dueAt: Number.isFinite(dueAt) ? dueAt : undefined,
+        tags: Array.isArray(event.tags) ? event.tags.filter((tag): tag is string => typeof tag === "string") : undefined,
+        beta: Number.isFinite(beta) ? beta : undefined,
+        p: Number.isFinite(p) ? p : undefined,
+      } satisfies ReviewEvent;
+    })
+    .filter((event): event is ReviewEvent => event !== null);
+
+  return normalized.slice(-1000);
 }
 
 function normalizeProbability(value: number | null | undefined, fallback: number): number {
@@ -354,6 +397,7 @@ function migrateMonthlyQuests(
 interface ReviewEvent {
   userId: string;
   itemId: string;
+  lessonId: string;
   ts: number;
   result: "correct" | "incorrect";
   latencyMs?: number;
@@ -482,14 +526,15 @@ interface AppState {
   getMistakesHubItems: () => string[];
   canAccessMistakesHub: boolean;
   mistakesHubRemaining: number | null;
-  startMistakesHubSession: () => void;
+  startMistakesHubSession: () => {
+    started: boolean;
+    reason?: "not_available" | "insufficient_data" | "no_items";
+  };
+  mistakesHubSessionItems: Array<{ itemId: string; lessonId: string }>;
+  clearMistakesHubSession: () => void;
   // Lesson progress
   completedLessons: Set<string>;
   completeLesson: (lessonId: string) => void;
-  // Pack purchases (for paywall)
-  purchasedPacks: Set<string>;
-  purchasePack: (genreId: string) => void;
-  isPurchased: (genreId: string) => boolean;
   // Adaptive difficulty tracking
   recentQuestionTypes: string[]; // Last 5 question types
   recentAccuracy: number; // Rolling accuracy (0-1) from last 10 questions
@@ -520,6 +565,9 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   const [planId, setPlanIdState] = useState<PlanId>("free");
   const [activeUntil, setActiveUntilState] = useState<string | null>(null);
   const [reviewEvents, setReviewEvents] = useState<ReviewEvent[]>([]);
+  const [mistakesHubSessionItems, setMistakesHubSessionItems] = useState<
+    Array<{ itemId: string; lessonId: string }>
+  >([]);
 
   const { user } = useAuth();
   const userId = user?.id || "user_local";
@@ -579,18 +627,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
 
   function completeLesson(lessonId: string) {
     setCompletedLessons(prev => new Set(prev).add(lessonId));
-  }
-
-  // Pack purchases (for paywall)
-  const [purchasedPacks, setPurchasedPacks] = useState<Set<string>>(new Set());
-
-  function purchasePack(genreId: string) {
-    setPurchasedPacks(prev => new Set(prev).add(genreId));
-    // TODO: Sync to Supabase when real payments are implemented
-  }
-
-  function isPurchased(genreId: string): boolean {
-    return purchasedPacks.has(genreId);
   }
 
   // Adaptive difficulty tracking
@@ -954,6 +990,11 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     AsyncStorage.setItem(`mistakes_${user.id}`, JSON.stringify(mistakes));
   }, [mistakes, user, isStateHydrated]);
 
+  useEffect(() => {
+    if (!user || !isStateHydrated) return;
+    AsyncStorage.setItem(`review_events_${user.id}`, JSON.stringify(reviewEvents));
+  }, [reviewEvents, user, isStateHydrated]);
+
 
     // Daily goal system
     const [dailyGoal, setDailyGoalState] = useState(DAILY_GOAL_DEFAULT_XP);
@@ -975,6 +1016,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!user) {
       setIsStateHydrated(false);
+      setReviewEvents([]);
+      setMistakesHubSessionItems([]);
       setFirstLaunchAtMs(null);
       setStreakRepairOffer(null);
       setComebackRewardOffer(null);
@@ -1029,6 +1072,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           savedQuestRerollDate,
           savedQuestRerollCount,
           savedMistakes,
+          savedReviewEvents,
           savedFirstLaunchAt,
           savedFirstDayBonusTracked,
           savedStreakRepairOffer,
@@ -1054,6 +1098,7 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
           AsyncStorage.getItem(`quest_reroll_date_${user.id}`),
           AsyncStorage.getItem(`quest_reroll_count_${user.id}`),
           AsyncStorage.getItem(`mistakes_${user.id}`),
+          AsyncStorage.getItem(`review_events_${user.id}`),
           AsyncStorage.getItem(`first_launch_at_${user.id}`),
           AsyncStorage.getItem(`first_day_energy_bonus_tracked_${user.id}`),
           AsyncStorage.getItem(`streak_repair_offer_${user.id}`),
@@ -1313,6 +1358,17 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
             return m;
           });
           setMistakes(migratedMistakes);
+        }
+        if (savedReviewEvents) {
+          try {
+            const parsedReviewEvents = JSON.parse(savedReviewEvents);
+            setReviewEvents(normalizeReviewEvents(parsedReviewEvents));
+          } catch (error) {
+            console.warn("Failed to parse stored review events:", error);
+            setReviewEvents([]);
+          }
+        } else {
+          setReviewEvents([]);
         }
 
         if (savedStreakRepairOffer) {
@@ -2732,18 +2788,40 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
       userId: userId,
       ts: Date.now(),
     };
-    setReviewEvents((prev) => [...prev, fullEvent]);
+    setReviewEvents((prev) => normalizeReviewEvents([...prev, fullEvent]));
   };
 
   const getMistakesHubItemsFunc = (): string[] => {
     return selectMistakesHubItems(reviewEvents);
   };
 
+  const clearMistakesHubSessionFunc = () => {
+    setMistakesHubSessionItems([]);
+  };
+
   const startMistakesHubSessionFunc = () => {
-    if (canAccessMistakesHub) {
-      consumeMistakesHub(userId);
-      // TODO: Navigate to MistakesHub session screen
+    if (!canAccessMistakesHub) {
+      return { started: false as const, reason: "not_available" as const };
     }
+
+    const selectedItemIds = selectMistakesHubItems(reviewEvents).slice(0, 10);
+    if (selectedItemIds.length === 0) {
+      return { started: false as const, reason: "no_items" as const };
+    }
+
+    const sessionItems = buildMistakesHubSessionItems(reviewEvents, 10);
+    if (sessionItems.length < 5) {
+      return { started: false as const, reason: "insufficient_data" as const };
+    }
+
+    consumeMistakesHub(userId);
+    setMistakesHubSessionItems(sessionItems);
+    Analytics.track("mistakes_hub_session_started", {
+      itemCount: sessionItems.length,
+      source: "mistakes_hub_button",
+    });
+
+    return { started: true as const };
   };
 
   // Auto-recover energy over time (60 minutes per +1)
@@ -2789,14 +2867,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
   // Computed state
   // hasProAccess is already calculated at the top level
   // const hasProAccess = planId === "pro" || planId === "max"; 
-
-  // Determine actual purchased packs (packs + subscription unlock)
-  const effectivePurchasedPacks = new Set(purchasedPacks);
-  if (hasProAccess) {
-    effectivePurchasedPacks.add("all_access");
-    // Also unlock individual packs for UI consistency if needed, but all_access flag is cleaner
-    // effectivePurchasedPacks.add("health").add("work").add("money").add("social").add("study");
-  }
 
   // Value object to provide
   const value: AppState = {
@@ -2869,6 +2939,8 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     canAccessMistakesHub,
     mistakesHubRemaining,
     startMistakesHubSession: startMistakesHubSessionFunc,
+    mistakesHubSessionItems,
+    clearMistakesHubSession: clearMistakesHubSessionFunc,
     // Mistakes Hub (SRS)
     mistakes,
     addMistake,
@@ -2882,13 +2954,6 @@ export function AppStateProvider({ children }: { children: ReactNode }) {
     // Lesson progress
     completedLessons,
     completeLesson,
-    // Pack purchases
-    // Pass the effective purchased packs which includes subscription unlocks
-    // We cast to any because we are overriding the internal state with computed state for consumers
-    // In a real app, we might separate "ownedItems" from "accessRights"
-    purchasedPacks: effectivePurchasedPacks,
-    purchasePack,
-    isPurchased: (id) => effectivePurchasedPacks.has(id),
     // Adaptive difficulty tracking
     recentQuestionTypes,
     recentAccuracy,

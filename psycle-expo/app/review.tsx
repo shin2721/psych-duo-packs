@@ -3,9 +3,9 @@ import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import * as Haptics from "expo-haptics";
 import { theme } from "../lib/theme";
 import { useAppState } from "../lib/state";
+import { hapticFeedback } from "../lib/haptics";
 import { getQuestionFromId } from "../lib/lessons";
 import { QuestionRenderer, Question } from "../components/QuestionRenderer";
 import { XPGainAnimation } from "../components/XPGainAnimation";
@@ -48,16 +48,20 @@ export default function ReviewScreen() {
 
     const handleContinue = (isCorrect: boolean, xp: number) => {
         const currentQ = sessionQuestions[currentIndex];
+        const questionId = currentQ?.source_id ?? currentQ?.id;
+        if (!questionId) {
+            return;
+        }
 
         if (isCorrect) {
             // Haptic feedback
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            void hapticFeedback.success();
 
             // Process SRS result
-            processReviewResult(currentQ.source_id, true);
+            processReviewResult(questionId, true);
 
             // Check the mistake's new box to determine next review time
-            const mistake = mistakes.find(m => m.id === currentQ.source_id);
+            const mistake = mistakes.find(m => m.id === questionId);
             if (mistake) {
                 const nextBox = mistake.box + 1;
                 if (nextBox >= 5) {
@@ -81,9 +85,9 @@ export default function ReviewScreen() {
             }, 2000);
 
         } else {
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
+            void hapticFeedback.error();
             // Reset to Box 1
-            processReviewResult(currentQ.source_id, false);
+            processReviewResult(questionId, false);
             setNextReviewInfo(i18n.t("review.reviewAgainNeeded"));
             setTimeout(() => setNextReviewInfo(null), 2000);
         }

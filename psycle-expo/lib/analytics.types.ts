@@ -396,6 +396,15 @@ export type CheckoutFailedEvent = {
   };
 };
 
+export type PaywallUpgradeClickedEvent = {
+  name: 'paywall_upgrade_clicked';
+  properties: {
+    source: 'course_paywall_modal';
+    genreId: string;
+    lessonCompleteCount: number;
+  };
+};
+
 export type LeagueMatchmakingAppliedEvent = {
   name: 'league_matchmaking_applied';
   properties: {
@@ -555,6 +564,23 @@ export type FriendChallengeCompletedEvent = {
   };
 };
 
+export type MistakesHubSessionStartedEvent = {
+  name: 'mistakes_hub_session_started';
+  properties: {
+    itemCount: number;
+    source: 'mistakes_hub_button';
+  };
+};
+
+export type MistakesHubSessionCompletedEvent = {
+  name: 'mistakes_hub_session_completed';
+  properties: {
+    itemCount: number;
+    clearedCount: number;
+    source: 'mistakes_hub_screen';
+  };
+};
+
 export type LiveOpsEventActivatedEvent = {
   name: 'liveops_event_activated';
   properties: {
@@ -602,6 +628,7 @@ export type TrackedEvent =
   | PlanSelectEvent
   | CheckoutStartEvent
   | CheckoutFailedEvent
+  | PaywallUpgradeClickedEvent
   | LeagueMatchmakingAppliedEvent
   | LeagueAutoJoinedOnXpEvent
   | StreakMilestoneRewardedEvent
@@ -618,4 +645,6 @@ export type TrackedEvent =
   | PersonalizationSegmentAssignedEvent
   | FriendChallengeShownEvent
   | FriendChallengeCompletedEvent
+  | MistakesHubSessionStartedEvent
+  | MistakesHubSessionCompletedEvent
   | LiveOpsEventActivatedEvent;

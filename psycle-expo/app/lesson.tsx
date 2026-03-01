@@ -73,6 +73,7 @@ export default function LessonScreen() {
   const {
     completeLesson,
     addXp,
+    addReviewEvent,
     incrementQuestMetric,
     quests,
     consumeEnergy,
@@ -346,6 +347,15 @@ export default function LessonScreen() {
   async function handleAnswer(isCorrect: boolean, _xp: number) {
     const questionInHandler = questions[currentIndex];
     const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
+    const itemId = questionInHandler?.source_id || questionInHandler?.id;
+
+    if (typeof itemId === "string" && itemId.length > 0) {
+      addReviewEvent({
+        itemId,
+        lessonId: params.file,
+        result: isCorrect ? "correct" : "incorrect",
+      });
+    }
 
     // If incorrect and not in review round, add to review queue
     if (!isCorrect) {

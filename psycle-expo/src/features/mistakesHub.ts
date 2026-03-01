@@ -1,9 +1,10 @@
 // src/features/mistakesHub.ts
 import entitlements from "../../config/entitlements.json";
 
-interface ReviewEvent {
+export interface ReviewEvent {
   userId: string;
   itemId: string;
+  lessonId?: string;
   ts: number; // Unix timestamp (ms)
   result: "correct" | "incorrect";
   latencyMs?: number;
@@ -11,6 +12,11 @@ interface ReviewEvent {
   tags?: string[];
   beta?: number; // 難易度
   p?: number; // 想起確率
+}
+
+export interface MistakesHubSessionItem {
+  itemId: string;
+  lessonId: string;
 }
 
 interface ScoredItem {
@@ -143,6 +149,45 @@ export function selectMistakesHubItems(events: ReviewEvent[]): string[] {
   }
 
   return selected;
+}
+
+/**
+ * MistakesHubセッション用に問題IDとlessonIDの対応を解決する
+ * - selectMistakesHubItemsで選ばれた問題のみ対象
+ * - 各問題は最新イベントのlessonIdを採用
+ * - lessonIdを解決できない問題は除外
+ */
+export function buildMistakesHubSessionItems(
+  events: ReviewEvent[],
+  maxItems: number = MISTAKES_HUB_SIZE
+): MistakesHubSessionItem[] {
+  const selectedItemIds = selectMistakesHubItems(events).slice(0, maxItems);
+  if (selectedItemIds.length === 0) return [];
+  const selectedItemIdSet = new Set(selectedItemIds);
+
+  const latestLessonByItem = new Map<string, { lessonId: string; ts: number }>();
+
+  for (const event of events) {
+    if (!selectedItemIdSet.has(event.itemId)) continue;
+    const lessonId = typeof event.lessonId === "string" ? event.lessonId.trim() : "";
+    if (!lessonId) continue;
+
+    const existing = latestLessonByItem.get(event.itemId);
+    if (!existing || event.ts >= existing.ts) {
+      latestLessonByItem.set(event.itemId, { lessonId, ts: event.ts });
+    }
+  }
+
+  return selectedItemIds
+    .map((itemId) => {
+      const resolved = latestLessonByItem.get(itemId);
+      if (!resolved) return null;
+      return {
+        itemId,
+        lessonId: resolved.lessonId,
+      } satisfies MistakesHubSessionItem;
+    })
+    .filter((item): item is MistakesHubSessionItem => item !== null);
 }
 
 /**

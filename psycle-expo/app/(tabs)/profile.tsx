@@ -9,6 +9,7 @@ import { useAuth } from "../../lib/AuthContext";
 import { useAppState } from "../../lib/state";
 import { BADGES } from "../../lib/badges";
 import { BadgeIcon } from "../../components/BadgeIcon";
+import { MistakesHubButton } from "../../components/MistakesHubButton";
 import { StreakIcon, TrophyIcon } from "../../components/CustomIcons";
 import { getMyLeague } from "../../lib/league";
 import { formatProfileLeagueLabel } from "../../lib/profileLeagueLabel";
@@ -136,6 +137,7 @@ export default function ProfileScreen() {
                 {/* Quick Actions */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>{i18n.t("profile.sections.quickActions")}</Text>
+                    <MistakesHubButton />
                     <ActionRow
                         icon="calendar"
                         label={String(i18n.t("profile.actions.learningHistory"))}

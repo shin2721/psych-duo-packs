@@ -13,16 +13,16 @@ export type GenreId = keyof typeof PACK_PRICING | 'mental';
 export const FREE_TIER_LEVELS = 3; // Levels 1-3 are free for all genres
 
 /**
- * Determines if a lesson is locked based on genre, level, and purchased packs
+ * Determines if a lesson is locked based on genre, level, and subscription access.
  * @param genre - Genre ID (e.g., 'mental', 'health')
  * @param level - Lesson level (1-10)
- * @param purchasedPacks - Set of purchased genre IDs
+ * @param hasAllAccess - Whether user has Pro/Max style all-access entitlement
  * @returns true if lesson is locked, false if accessible
  */
 export function isLessonLocked(
     genre: string,
     level: number,
-    purchasedPacks: Set<string>
+    hasAllAccess: boolean
 ): boolean {
     // Mental genre is always free (all levels)
     if (genre === 'mental') {
@@ -34,18 +34,12 @@ export function isLessonLocked(
         return false;
     }
 
-    // Level 4+ requires pack purchase or Pro subscription
-    if (purchasedPacks.has(genre)) {
+    // Level 4+ requires all-access subscription.
+    if (hasAllAccess) {
         return false;
     }
 
-    // Check if user has Pro/Max plan (in entitlement context, we pass purchasedPacks but usually logic is external)
-    // However, this function signature only takes purchasedPacks string set.
-    // We need to check if 'pro' access unlocks everything.
-    // Since we can't access planId here directly without changing signature,
-    // we assume the caller handles this OR we check if "all_access" is in purchasedPacks (special flag).
-
-    return !purchasedPacks.has(genre) && !purchasedPacks.has("all_access");
+    return true;
 }
 
 /**

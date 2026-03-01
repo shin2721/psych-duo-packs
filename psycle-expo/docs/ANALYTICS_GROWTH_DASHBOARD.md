@@ -412,9 +412,10 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 
 ### A/A運用ゲート（固定）
 
-1. 事前確認として `experiments.enabled=false`, `personalization.enabled=false` で通常イベント欠落がないことを確認する。
-2. A/A開始時は `experiments.enabled=true` にし、対象実験も `enabled=true`、かつ `control/variant` の `payload` を同一に設定する。
+1. `experiments.enabled=true` かつ対象実験 `double_xp_nudge_lesson_complete.enabled=true` で開始し、`control/variant` の `payload` は同一に固定する（A/A）。
+2. 初期ロールアウトは `rollout_percentage=5`。
 3. `rollout_percentage` を `5% -> 20% -> 50% -> 100%` で段階展開し、各段階を `24-48h` 観測する。
 4. A/A期間は7日確保し、主要KPI差分が `±2%` 以内であることを合格条件にする。
 5. `lesson_complete_user_rate_7d` と `paid_plan_changes_per_checkout_7d` に悪化がない場合のみ、本実験（payload差し替え）へ進む。
-6. 異常時は設定を即 `false` に戻し、同日中にロールバックする。
+6. 異常時は `experiments.enabled=false` に戻して同日中にロールバックする。
+7. このフェーズでは `personalization.enabled=false`, `liveops.enabled=false` を維持する。

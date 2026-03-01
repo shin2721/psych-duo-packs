@@ -1,6 +1,13 @@
-import { getPaywallProgress, shouldShowPaywall } from '../../lib/paywall';
+import { getPaywallProgress, isLessonLocked, shouldShowPaywall } from '../../lib/paywall';
 
 describe('paywall (study-only)', () => {
+  test('isLessonLocked uses hasAllAccess entitlement', () => {
+    expect(isLessonLocked('mental', 8, false)).toBe(false);
+    expect(isLessonLocked('money', 3, false)).toBe(false);
+    expect(isLessonLocked('money', 4, false)).toBe(true);
+    expect(isLessonLocked('money', 4, true)).toBe(false);
+  });
+
   test('lessonCompleteCount = 2 -> hidden', () => {
     expect(shouldShowPaywall(2)).toBe(false);
   });

@@ -429,13 +429,16 @@ npm run promote:lesson {domain} {basename}
 
 ### 既定値
 - `config/gamification.json`
-  - `experiments.enabled=false`
+  - `experiments.enabled=true`
+  - `experiments.experiments.double_xp_nudge_lesson_complete.enabled=true`
+  - `experiments.experiments.double_xp_nudge_lesson_complete.rollout_percentage=5`
   - `personalization.enabled=false`
+  - `liveops.enabled=false`
 
 ### 手順
-1. 計測補完入りのアプリを配備し、`experiments.enabled=false` で通常イベント欠落がないことを確認する。
-2. A/A時は `experiments.enabled=true` にし、対象実験を `enabled=true`、`control/variant` の `payload` を同一に設定する。
-3. `rollout_percentage` を `5% -> 20% -> 50% -> 100%` で段階展開し、各段階を `24-48h` 観測する。
+1. A/A時は対象実験の `control/variant` の `payload` を同一に設定する（差分なし）。
+2. `rollout_percentage` を `5% -> 20% -> 50% -> 100%` で段階展開し、各段階を `24-48h` 観測する。
+3. `experiment_exposed` と `experiment_converted` が欠落なく収集されていることを各段階で確認する。
 4. A/A検証では主要KPI差分が `±2%` 以内であることを合格条件にする。
 5. 合格後にのみ variant payload を本実験内容に差し替える（`personalization` は別ゲートで判定）。
 

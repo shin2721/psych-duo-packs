@@ -81,11 +81,11 @@
         "daily_limit": 1
     },
     "experiments": {
-        "enabled": false,
+        "enabled": true,
         "experiments": {
             "double_xp_nudge_lesson_complete": {
-                "enabled": false,
-                "rollout_percentage": 100,
+                "enabled": true,
+                "rollout_percentage": 5,
                 "variants": [
                     {
                         "id": "control",
@@ -98,7 +98,7 @@
                         "id": "variant_a",
                         "weight": 50,
                         "payload": {
-                            "copyStyle": "urgency"
+                            "copyStyle": "default"
                         }
                     }
                 ]

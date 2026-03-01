@@ -4,10 +4,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as Haptics from "expo-haptics";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
 import { openBillingPortal, restorePurchases } from "../../lib/billing";
+import { hapticFeedback } from "../../lib/haptics";
 import { useAppState } from "../../lib/state";
 import { getExportableJSON } from "../../lib/dogfood";
 import i18n from "../../lib/i18n";
@@ -105,7 +105,7 @@ export default function SettingsScreen() {
         if (titleTapCount.current >= 5) {
             // Success! Navigate to debug screen
             titleTapCount.current = 0;
-            Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
+            void hapticFeedback.success();
             router.push('/debug/analytics');
         } else {
             // Reset after 2 seconds of no taps

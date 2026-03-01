@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { View, Text, StyleSheet, Animated } from 'react-native';
 import { theme } from '../lib/theme';
-import * as Haptics from 'expo-haptics';
+import { hapticFeedback } from '../lib/haptics';
 
 interface XPGainAnimationProps {
     amount: number;
@@ -15,7 +15,7 @@ export function XPGainAnimation({ amount, onComplete }: XPGainAnimationProps) {
 
     useEffect(() => {
         // Trigger haptic feedback
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        void hapticFeedback.medium();
 
         // Animate the XP gain
         Animated.parallel([

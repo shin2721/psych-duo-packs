@@ -32,9 +32,18 @@ describe("experimentEngine", () => {
     expect(getVariantPayload("missing_experiment", "control")).toBeNull();
   });
 
-  test("disabled experiments are not assignable by default config", () => {
-    expect(isExperimentEnabled("double_xp_nudge_lesson_complete")).toBe(false);
-    expect(assignExperiment("user_3", "double_xp_nudge_lesson_complete")).toBeNull();
+  test("double_xp_nudge_lesson_complete is enabled in config", () => {
+    expect(isExperimentEnabled("double_xp_nudge_lesson_complete")).toBe(true);
+  });
+
+  test("assignment is deterministic with rollout gating enabled", () => {
+    const first = assignExperiment("user_3", "double_xp_nudge_lesson_complete");
+    const second = assignExperiment("user_3", "double_xp_nudge_lesson_complete");
+    expect(second).toEqual(first);
+    if (first) {
+      expect(first.experimentId).toBe("double_xp_nudge_lesson_complete");
+      expect(["control", "variant_a"]).toContain(first.variantId);
+    }
   });
 
   test("rollout gate returns false at 0% and true at 100%", () => {

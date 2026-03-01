@@ -1,7 +1,7 @@
 import React, { useState, useRef, useMemo, useEffect } from "react";
 import { View, Text, Pressable, StyleSheet, PanResponder, Animated, TextInput, Image } from "react-native";
-import * as Haptics from 'expo-haptics';
 import { Ionicons } from "@expo/vector-icons";
+import { hapticFeedback } from "../lib/haptics";
 import { theme } from "../lib/theme";
 import { AnimatedButton } from "./AnimatedButton";
 import i18n from "../lib/i18n";
@@ -53,7 +53,7 @@ export function SelectAll({
             ]}
             onPress={() => {
               // Light impact on selection
-              Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light);
+              void hapticFeedback.light();
               onToggle(index);
             }}
             disabled={showResult && !isSurvey} // Allow changing selection in survey mode until submitted? Or disable if showResult implies submission
@@ -220,7 +220,7 @@ export function SwipeJudgment({
         // Component logic: onSwipe triggers parent, which sets showResult/isCorrect.
         // We can't know isCorrect HERE immediately unless passed or calculated.
         // But visuals update fast. Let's trigger a 'Selection' impact first.
-        Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
+        void hapticFeedback.medium();
 
         onSwipe(direction);
         Animated.spring(pan, {
