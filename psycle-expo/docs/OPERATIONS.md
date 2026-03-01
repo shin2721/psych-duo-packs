@@ -607,6 +607,149 @@ npm run promote:lesson {domain} {basename}
    - 価格A/Bのみ停止: `pro_monthly_price_jp.enabled=false`
    - 全実験停止: `experiments.enabled=false`
 
+### T0実行コマンド（固定）
+> 目的: 当日オペレーションで迷わないように、実行順とコマンドを固定する。  
+> ルール: 実験同時併走は禁止（常に1実験のみ進行）。
+
+#### 共通初期化
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+export PROJECT_REF="$(grep '^EXPO_PUBLIC_SUPABASE_FUNCTION_URL=' .env.local | sed -E 's#.*https://([^.]+)\.functions\.supabase\.co#\1#')"
+echo "PROJECT_REF=${PROJECT_REF}"
+```
+
+#### Phase 0（T0前）
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+npx jest --watchman=false
+npm run validate:lessons
+npm run content:i18n:check
+npm run content:i18n:smoke
+
+jq '.experiments.enabled,
+    .experiments.experiments.double_xp_nudge_lesson_complete.enabled,
+    .experiments.experiments.double_xp_nudge_lesson_complete.rollout_percentage,
+    .experiments.experiments.pro_trial_checkout.enabled,
+    .experiments.experiments.pro_monthly_price_jp.enabled,
+    .checkout.max_plan_enabled' config/gamification.json
+
+jq '.plans.pro.stripe_price_id_yearly,
+    .plans.pro.stripe_price_id_monthly_v2' config/entitlements.json
+
+supabase secrets list --project-ref "${PROJECT_REF}"
+```
+
+#### Phase 1（A/A: double_xp）
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+# config/gamification.json: experiments.enabled=true
+git add config/gamification.json
+git commit -m "ops(experiments): enable experiments for AA start"
+git push
+
+# 合格時のみ rollout を 5 -> 20 -> 50 -> 100 に更新
+git add config/gamification.json
+git commit -m "ops(experiments): promote double_xp AA rollout to <20|50|100>"
+git push
+```
+
+ロールバック:
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+# config/gamification.json: experiments.enabled=false
+git add config/gamification.json
+git commit -m "ops(experiments): emergency disable experiments"
+git push
+```
+
+#### Phase 2（Pro年額固定運用）
+```bash
+supabase secrets set STRIPE_PRICE_PRO_YEARLY=price_xxx --project-ref "${PROJECT_REF}"
+```
+
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+# config/entitlements.json: plans.pro.stripe_price_id_yearly="price_xxx"
+git add config/entitlements.json
+git commit -m "ops(monetization): set pro yearly price id"
+git push
+```
+
+障害時の戻し:
+```bash
+supabase secrets set STRIPE_PRICE_PRO_YEARLY= --project-ref "${PROJECT_REF}"
+```
+
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+# config/entitlements.json: plans.pro.stripe_price_id_yearly=""
+git add config/entitlements.json
+git commit -m "ops(monetization): rollback pro yearly price id"
+git push
+```
+
+#### Phase 3（ProトライアルA/B）
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+# config/gamification.json:
+# experiments.experiments.pro_trial_checkout.enabled=true
+# experiments.experiments.pro_trial_checkout.rollout_percentage=5
+git add config/gamification.json
+git commit -m "ops(experiments): enable pro_trial_checkout at 5%"
+git push
+
+# 合格時のみ rollout を 5 -> 20 -> 50 に更新
+git add config/gamification.json
+git commit -m "ops(experiments): promote pro_trial_checkout rollout to <20|50>"
+git push
+```
+
+停止:
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+# config/gamification.json: experiments.experiments.pro_trial_checkout.enabled=false
+git add config/gamification.json
+git commit -m "ops(experiments): disable pro_trial_checkout"
+git push
+```
+
+#### Phase 4（Pro月額価格A/B）
+```bash
+supabase secrets set STRIPE_PRICE_PRO_MONTHLY_V2=price_xxx --project-ref "${PROJECT_REF}"
+```
+
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+# config/entitlements.json: plans.pro.stripe_price_id_monthly_v2="price_xxx"
+git add config/entitlements.json
+git commit -m "ops(monetization): set pro monthly v2 price id"
+git push
+```
+
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+# config/gamification.json:
+# experiments.experiments.pro_monthly_price_jp.enabled=true
+# experiments.experiments.pro_monthly_price_jp.rollout_percentage=5
+git add config/gamification.json
+git commit -m "ops(experiments): enable pro_monthly_price_jp at 5%"
+git push
+
+# 合格時のみ rollout を 5 -> 20 -> 50 に更新
+git add config/gamification.json
+git commit -m "ops(experiments): promote pro_monthly_price_jp rollout to <20|50>"
+git push
+```
+
+停止:
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+# config/gamification.json: experiments.experiments.pro_monthly_price_jp.enabled=false
+git add config/gamification.json
+git commit -m "ops(experiments): disable pro_monthly_price_jp"
+git push
+```
+
 ### `price_cohort_mismatch` アラート規則（固定）
 - **Warning**
   - 1時間で `>= 3` 件、または
