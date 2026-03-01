@@ -452,9 +452,9 @@ npm run promote:lesson {domain} {basename}
 | Date (JST) | rollout_percentage | Duration | exposed_count | converted_count | KPI Δ (lesson_complete_user_rate_7d) | KPI Δ (paid_plan_changes_per_checkout_7d) | Judge | Owner | Notes |
 |---|---:|---|---:|---:|---:|---:|---|---|---|
 | 2026-03-01 | 5% | 48h (in progress) | | | | | running | | initial A/A start |
-| 2026-03-__ | 20% | 24-48h | | | | | pending | | |
-| 2026-03-__ | 50% | 24-48h | | | | | pending | | |
-| 2026-03-__ | 100% | 24-48h | | | | | pending | | |
+| 2026-03-03 | 20% | 24-48h | | | | | pending | | promote only after 5% pass |
+| 2026-03-05 | 50% | 24-48h | | | | | pending | | promote only after 20% pass |
+| 2026-03-07 | 100% | 24-48h | | | | | pending | | promote only after 50% pass |
 
 ### A/A合格判定（固定）
 - exposed: `experiment_exposed > 0`（当日欠損なし）
@@ -484,6 +484,15 @@ npm run promote:lesson {domain} {basename}
 - [ ] RLS runtime確認（実DBで本人/他人アカウント検証）
 - [ ] 実機E2E確認（paywall/shop, mistakes hub, league reward, friend claim）
 
+### 実施ログ（2026-03-01 JST / v1.40.3）
+- [x] Regression smoke: `npx jest --watchman=false`（39 suites / 184 tests PASS）
+- [x] Regression smoke: `npm run validate:lessons`（PASS）
+- [x] Regression smoke: `npm run content:i18n:check`（PASS）
+- [x] Regression smoke: `npm run content:i18n:smoke`（PASS）
+- [ ] A/A 5% 判定（2026-03-03 JST）
+- [ ] RLS runtime確認（実DBで本人/他人アカウント検証）
+- [ ] 実機E2E確認（paywall/shop, mistakes hub, league reward, friend claim）
+
 ## 9. v1.40 P2 Rollout（Pro年額 + Proトライアル）
 
 ### 適用条件
@@ -505,3 +514,9 @@ npm run promote:lesson {domain} {basename}
    - D7残存
    - 返金率（Stripe）
 4. 悪化時は当該実験のみ `enabled=false` で停止
+
+### v1.40.3 実行ステータス（2026-03-01 JST）
+- P1: `double_xp_nudge_lesson_complete` は `rollout=5%` で運用中（判定待ち）。
+- P2-Pro年額: コード準備済み。`STRIPE_PRICE_PRO_YEARLY` と `entitlements.plans.pro.stripe_price_id_yearly` の設定待ち。
+- P2-Proトライアル: 実験定義済み（`pro_trial_checkout.enabled=false`）。P1合格後に5%開始。
+- Max開放: `checkout.max_plan_enabled=false` 維持。

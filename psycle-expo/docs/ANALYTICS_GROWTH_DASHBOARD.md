@@ -436,14 +436,14 @@ v1.20でローカル通知リマインドの観測イベントを追加。
 | Date (JST) | rollout % | experiment_exposed | experiment_converted | lesson_complete_user_rate_7d | paid_plan_changes_per_checkout_7d | Judge |
 |---|---:|---:|---:|---:|---:|---|
 | 2026-03-01 | 5 |  |  |  |  | running (48h window) |
-| 2026-03-__ | 20 |  |  |  |  | pending |
-| 2026-03-__ | 50 |  |  |  |  | pending |
-| 2026-03-__ | 100 |  |  |  |  | pending |
+| 2026-03-03 | 20 |  |  |  |  | pending |
+| 2026-03-05 | 50 |  |  |  |  | pending |
+| 2026-03-07 | 100 |  |  |  |  | pending |
 
 ### ProトライアルA/B記録欄（v1.40+）
 
 | Date (JST) | rollout % | experiment_id | checkout_start (trial=0) | checkout_start (trial=7) | plan_changed_rate (trial=0) | plan_changed_rate (trial=7) | D7 Δ | Refund Δ | Judge |
 |---|---:|---|---:|---:|---:|---:|---:|---:|---|
-| 2026-03-__ | 5 | pro_trial_checkout |  |  |  |  |  |  | pending |
-| 2026-03-__ | 20 | pro_trial_checkout |  |  |  |  |  |  | pending |
-| 2026-03-__ | 50 | pro_trial_checkout |  |  |  |  |  |  | pending |
+| 2026-03-09 | 5 | pro_trial_checkout |  |  |  |  |  |  | pending (start after P1 pass) |
+| 2026-03-11 | 20 | pro_trial_checkout |  |  |  |  |  |  | pending |
+| 2026-03-13 | 50 | pro_trial_checkout |  |  |  |  |  |  | pending |
