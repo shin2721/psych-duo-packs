@@ -494,6 +494,19 @@ npm run promote:lesson {domain} {basename}
 - [ ] RLS runtime確認（実DBで本人/他人アカウント検証）
 - [ ] 実機E2E確認（paywall/shop, mistakes hub, league reward, friend claim）
 
+### 実施ログ（2026-03-02 JST / v1.41.x Remaining Critical Path）
+- [x] Regression smoke: `npx jest --watchman=false`（41 suites / 199 tests PASS）
+- [x] Regression smoke: `npm run validate:lessons`（PASS）
+- [x] Regression smoke: `npm run content:i18n:check`（PASS）
+- [x] Regression smoke: `npm run content:i18n:smoke`（PASS）
+- [x] `PROJECT_REF` 導出と `supabase secrets list` 実行（`nudmnbmasmtacoluyvqo`）
+- [ ] `STRIPE_PRICE_PRO_YEARLY` 未設定（Phase 2開始前に投入が必要）
+- [ ] `STRIPE_PRICE_PRO_MONTHLY_V2` 未設定（Phase 4開始前に投入が必要）
+- [ ] RLS runtime確認（実DBで本人/他人アカウント検証）
+  - ブロッカー: 2アカウントの実トークンと実DB接続コンテキストがこの実行環境にない
+- [ ] 実機E2E確認（paywall/shop, mistakes hub, league reward, friend claim）
+  - ブロッカー: iOS実機と運用用計測ダッシュボード確認がこの実行環境にない
+
 ## 9. v1.40 P2 Rollout（Pro年額 + Proトライアル）
 
 ### 適用条件
