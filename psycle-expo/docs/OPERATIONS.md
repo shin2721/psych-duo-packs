@@ -507,6 +507,24 @@ npm run promote:lesson {domain} {basename}
 - [ ] 実機E2E確認（paywall/shop, mistakes hub, league reward, friend claim）
   - ブロッカー: iOS実機と運用用計測ダッシュボード確認がこの実行環境にない
 
+### 実施ログ（2026-03-02 12:58 JST / v1.41.x Assistant-Driven Max Coverage）
+- [x] Regression smoke: `npx jest --watchman=false`（41 suites / 199 tests PASS）
+- [x] Regression smoke: `npm run validate:lessons`（PASS）
+- [x] Regression smoke: `npm run content:i18n:check`（PASS）
+- [x] Regression smoke: `npm run content:i18n:smoke`（PASS）
+- [x] `EXPO_PUBLIC_SUPABASE_URL` から `PROJECT_REF` 導出を確認（`nudmnbmasmtacoluyvqo`）
+- [x] `supabase secrets list --project-ref "nudmnbmasmtacoluyvqo"` 実行
+  - 確認済み: `STRIPE_PRICE_PRO`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+  - 未投入: `STRIPE_PRICE_PRO_YEARLY`, `STRIPE_PRICE_PRO_MONTHLY_V2`
+- [x] Connectivity gate 実行
+  - `curl -I https://nudmnbmasmtacoluyvqo.supabase.co` -> `Could not resolve host`（DNS解決失敗）
+  - `curl -I https://nudmnbmasmtacoluyvqo.functions.supabase.co` -> 到達可（HTTP 540）
+- [ ] RLS runtime確認（Phase 1 前必須）
+  - ブロッカー: `nudmnbmasmtacoluyvqo.supabase.co` がこの実行環境でDNS解決不可のため、PostgREST/Auth直叩き検証を実施できない
+  - 対応: DNS到達性が回復した環境で同一手順を再実行し、PASS/FAILを本セクションに追記
+- [ ] 実機E2E確認（Phase 1 前必須）
+  - ブロッカー: 物理iPhone/TestFlight操作はこの実行環境から代行不可（ユーザー実施）
+
 ## 9. v1.40 P2 Rollout（Pro年額 + Proトライアル）
 
 ### 適用条件
