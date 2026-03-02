@@ -529,6 +529,31 @@ npm run promote:lesson {domain} {basename}
 - [ ] 実機E2E確認（Phase 1 前必須）
   - ブロッカー: 物理iPhone/TestFlight操作はこの実行環境から代行不可（ユーザー実施）
 
+### 実施ログ（2026-03-02 19:36 JST / v1.41.x RLS Runtime Attempt）
+- [x] Supabase project status確認: `ACTIVE_HEALTHY`（`supabase projects list --output json`）
+- [x] `supabase link --project-ref nudmnbmasmtacoluyvqo` 成功
+- [x] `supabase db push` 実行
+  - 適用: `20260228_friend_challenge_claims.sql`
+  - `supabase migration list` で local/remote が一致
+- [x] RLS runtime（A/Bテストユーザー）実行
+  - `friend_challenge_claims`
+    - A own SELECT: PASS
+    - A other(B) SELECT: PASS（0件）
+    - A own INSERT: PASS
+    - A user_id=B INSERT: PASS（拒否）
+  - `pending_rewards` + `claim_league_reward`
+    - A own INSERT: PASS
+    - A own claim: FAIL（HTTP 400, `column "gems" does not exist`）
+    - A re-claim: FAIL（同上）
+    - B claim A reward: FAIL扱い（期待は success=false だが、前提のA own claimが失敗）
+  - `league_members`
+    - `leagues` テーブルが空（`[]`）
+    - `league_id` は NOT NULL のため、検証用メンバー行を作成できず own/other UPDATE検証を実施不能
+  - 後処理: テストユーザーの self-delete（`DELETE /auth/v1/user`）は HTTP 405 で不可
+- [ ] RLS runtime確認（Phase 1 前必須）
+  - ブロッカー1: `claim_league_reward` が実DBスキーマと不整合（`gems` 列参照エラー）
+  - ブロッカー2: `league_members` 検証に必要な `leagues` 行がなく、seedなしでは update テストを完了できない
+
 ## 9. v1.40 P2 Rollout（Pro年額 + Proトライアル）
 
 ### 適用条件
