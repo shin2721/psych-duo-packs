@@ -521,6 +521,7 @@ npm run promote:lesson {domain} {basename}
   - `curl -I https://nudmnbmasmtacoluyvqo.functions.supabase.co` -> 到達可（HTTP 540）
 - [x] ブロッカー切り分け（Supabase CLI）
   - `supabase projects list --output json` で `ref=nudmnbmasmtacoluyvqo` の `status=INACTIVE` を確認
+  - `supabase link --project-ref nudmnbmasmtacoluyvqo` 実行時に `project is paused` / `An admin must unpause it from the Supabase dashboard` を確認
   - 判定: RLS runtime未実施の主因は実行環境のDNS設定単体ではなく、プロジェクト非アクティブ状態
 - [ ] RLS runtime確認（Phase 1 前必須）
   - ブロッカー: `nudmnbmasmtacoluyvqo` が `INACTIVE` のため `*.supabase.co` が解決不能で、PostgREST/Auth直叩き検証を実施できない
