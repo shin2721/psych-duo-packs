@@ -8,6 +8,8 @@ const stripeSecret = Deno.env.get("STRIPE_SECRET_KEY");
 const supabaseUrl = Deno.env.get("SUPABASE_URL");
 const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 const stripePricePro = Deno.env.get("STRIPE_PRICE_PRO");
+const stripePriceProV2 = Deno.env.get("STRIPE_PRICE_PRO_MONTHLY_V2");
+const stripePriceProYearly = Deno.env.get("STRIPE_PRICE_PRO_YEARLY");
 const stripePriceMax = Deno.env.get("STRIPE_PRICE_MAX");
 
 if (!stripeSecret) throw new Error("Missing STRIPE_SECRET_KEY");
@@ -30,8 +32,17 @@ function jsonResponse(body: unknown, status = 200) {
 function resolvePlanId(metadataPlanId?: string | null, priceId?: string | null): PlanId | null {
   if (metadataPlanId === "pro" || metadataPlanId === "max") return metadataPlanId;
   if (priceId && stripePricePro && priceId === stripePricePro) return "pro";
+  if (priceId && stripePriceProV2 && priceId === stripePriceProV2) return "pro";
+  if (priceId && stripePriceProYearly && priceId === stripePriceProYearly) return "pro";
   if (priceId && stripePriceMax && priceId === stripePriceMax) return "max";
   return null;
+}
+
+function extractBearerToken(authorizationHeader: string | null): string | null {
+  if (!authorizationHeader) return null;
+  const [scheme, token] = authorizationHeader.trim().split(/\s+/, 2);
+  if (scheme?.toLowerCase() !== "bearer" || !token) return null;
+  return token;
 }
 
 Deno.serve(async (req) => {
@@ -39,7 +50,7 @@ Deno.serve(async (req) => {
     return new Response(null, {
       headers: {
         "Access-Control-Allow-Origin": allowOrigin,
-        "Access-Control-Allow-Headers": "content-type",
+        "Access-Control-Allow-Headers": "content-type,authorization",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
       },
     });
@@ -50,10 +61,18 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { uid, email } = await req.json();
-    if (!uid || !email || typeof uid !== "string" || typeof email !== "string") {
-      return jsonResponse({ error: "missing_params" }, 400);
+    const token = extractBearerToken(req.headers.get("authorization"));
+    if (!token) {
+      return jsonResponse({ error: "unauthorized" }, 401);
     }
+
+    const { data: authData, error: authError } = await supabase.auth.getUser(token);
+    const authenticatedUser = authData?.user;
+    if (authError || !authenticatedUser?.id || !authenticatedUser.email) {
+      return jsonResponse({ error: "unauthorized" }, 401);
+    }
+    const uid = authenticatedUser.id;
+    const email = authenticatedUser.email;
 
     const customers = await stripe.customers.list({
       email,

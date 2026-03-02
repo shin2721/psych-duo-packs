@@ -121,13 +121,13 @@ export default function SettingsScreen() {
     };
 
     const handleRestorePurchases = async () => {
-        if (!user?.id || !user?.email) {
+        if (!user?.id) {
             Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.loginRequiredForRestore"));
             return;
         }
         setIsRestoring(true);
         try {
-            const result = await restorePurchases(user.id, user.email);
+            const result = await restorePurchases();
             if (result && result.restored && result.planId) {
                 const previousPlan = planId;
                 const restoredPlan = result.planId;
@@ -157,14 +157,14 @@ export default function SettingsScreen() {
     };
 
     const handleOpenBillingPortal = async () => {
-        if (!user?.email) {
+        if (!user?.id) {
             Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.loginRequiredForBillingPortal"));
             return;
         }
 
         setIsOpeningPortal(true);
         try {
-            const ok = await openBillingPortal(user.email);
+            const ok = await openBillingPortal();
             if (!ok) {
                 Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.billingPortalUnavailable"));
             }

@@ -146,17 +146,32 @@ export async function buyPlan(
   }
 }
 
-export async function openBillingPortal(email: string): Promise<boolean> {
+export async function openBillingPortal(): Promise<boolean> {
   const functionsUrl = getSupabaseFunctionsUrl();
-  if (!functionsUrl || !email) {
+  if (!functionsUrl) {
+    return false;
+  }
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const accessToken = session?.access_token;
+  if (!accessToken) {
+    Analytics.track("checkout_failed", {
+      source: "billing_lib",
+      reason: "missing_auth_token",
+    });
     return false;
   }
 
   try {
     const res = await fetch(`${functionsUrl}/portal`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({}),
     });
 
     if (!res.ok) throw new Error("Failed to create portal session");
@@ -177,12 +192,24 @@ export async function openBillingPortal(email: string): Promise<boolean> {
  * 購入を復元する（App Store審査で必須）
  * サーバーサイドでユーザーの購入履歴を確認し、entitlementを復元する
  */
-export async function restorePurchases(uid: string, email: string): Promise<{ restored: boolean; planId?: PlanId; activeUntil?: string | null } | false> {
+export async function restorePurchases(): Promise<{ restored: boolean; planId?: PlanId; activeUntil?: string | null } | false> {
   const functionsUrl = getSupabaseFunctionsUrl();
-  if (!functionsUrl || !uid || !email) {
+  if (!functionsUrl) {
     Analytics.track("checkout_failed", {
       source: "billing_lib",
-      reason: !functionsUrl ? "functions_url_missing" : "missing_user_context",
+      reason: "functions_url_missing",
+    });
+    return false;
+  }
+
+  const {
+    data: { session },
+  } = await supabase.auth.getSession();
+  const accessToken = session?.access_token;
+  if (!accessToken) {
+    Analytics.track("checkout_failed", {
+      source: "billing_lib",
+      reason: "missing_auth_token",
     });
     return false;
   }
@@ -190,8 +217,11 @@ export async function restorePurchases(uid: string, email: string): Promise<{ re
   try {
     const res = await fetch(`${functionsUrl}/restore-purchases`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ uid, email }),
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({}),
     });
 
     if (!res.ok) {

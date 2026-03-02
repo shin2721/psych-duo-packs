@@ -1,10 +1,16 @@
 import Stripe from "npm:stripe@16";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const allowOrigin = "*";
 const stripeSecret = Deno.env.get("STRIPE_SECRET_KEY");
+const supabaseUrl = Deno.env.get("SUPABASE_URL");
+const serviceRoleKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
 if (!stripeSecret) throw new Error("Missing STRIPE_SECRET_KEY");
+if (!supabaseUrl) throw new Error("Missing SUPABASE_URL");
+if (!serviceRoleKey) throw new Error("Missing SUPABASE_SERVICE_ROLE_KEY");
 
 const stripe = new Stripe(stripeSecret, { apiVersion: "2024-06-20" });
+const supabase = createClient(supabaseUrl, serviceRoleKey);
 
 function jsonResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), {
@@ -16,12 +22,19 @@ function jsonResponse(body: unknown, status = 200) {
   });
 }
 
+function extractBearerToken(authorizationHeader: string | null): string | null {
+  if (!authorizationHeader) return null;
+  const [scheme, token] = authorizationHeader.trim().split(/\s+/, 2);
+  if (scheme?.toLowerCase() !== "bearer" || !token) return null;
+  return token;
+}
+
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") {
     return new Response(null, {
       headers: {
         "Access-Control-Allow-Origin": allowOrigin,
-        "Access-Control-Allow-Headers": "content-type",
+        "Access-Control-Allow-Headers": "content-type,authorization",
         "Access-Control-Allow-Methods": "POST, OPTIONS",
       },
     });
@@ -32,9 +45,15 @@ Deno.serve(async (req) => {
   }
 
   try {
-    const { email } = await req.json();
-    if (!email || typeof email !== "string") {
-      return jsonResponse({ error: "missing_email" }, 400);
+    const token = extractBearerToken(req.headers.get("authorization"));
+    if (!token) {
+      return jsonResponse({ error: "unauthorized" }, 401);
+    }
+
+    const { data: authData, error: authError } = await supabase.auth.getUser(token);
+    const email = authData?.user?.email;
+    if (authError || typeof email !== "string") {
+      return jsonResponse({ error: "unauthorized" }, 401);
     }
 
     const frontendSuccessUrl = Deno.env.get("FRONTEND_SUCCESS_URL");
