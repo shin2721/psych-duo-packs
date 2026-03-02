@@ -3,6 +3,7 @@ import { Modal, View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'rea
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
 import i18n from '../lib/i18n';
+import { getPlanPrice } from '../lib/pricing';
 
 interface PaywallModalProps {
     visible: boolean;
@@ -11,6 +12,14 @@ interface PaywallModalProps {
 }
 
 export function PaywallModal({ visible, onClose, onUpgrade }: PaywallModalProps) {
+    const proMonthlyPrice = (() => {
+        try {
+            return getPlanPrice('pro', 'monthly');
+        } catch {
+            return i18n.t('shop.subscription.pro.price');
+        }
+    })();
+
     const benefits = [
         i18n.t('paywallModal.benefits.accessAllLevels'),
         i18n.t('paywallModal.benefits.smartReview'),
@@ -58,9 +67,13 @@ export function PaywallModal({ visible, onClose, onUpgrade }: PaywallModalProps)
 
                     {/* Price and Purchase Button */}
                     <View style={styles.footer}>
+                        <Text style={styles.priceFrom}>
+                            {i18n.t('paywallModal.priceFrom', { price: proMonthlyPrice })}
+                        </Text>
                         <TouchableOpacity style={styles.purchaseButton} onPress={handleUpgrade}>
                             <Text style={styles.purchaseButtonText}>{i18n.t('shop.subscription.subscribe')}</Text>
                         </TouchableOpacity>
+                        <Text style={styles.cancelAnytime}>{i18n.t('paywallModal.cancelAnytime')}</Text>
                         <Text style={styles.ctaNote}>{i18n.t('paywallModal.ctaNote')}</Text>
                     </View>
                 </View>
@@ -132,6 +145,12 @@ const styles = StyleSheet.create({
         borderTopColor: theme.colors.line,
         paddingTop: theme.spacing.lg,
     },
+    priceFrom: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: theme.colors.text,
+        marginBottom: theme.spacing.md,
+    },
     purchaseButton: {
         backgroundColor: theme.colors.primary,
         paddingVertical: theme.spacing.md,
@@ -146,8 +165,14 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
-    ctaNote: {
+    cancelAnytime: {
         marginTop: theme.spacing.sm,
+        fontSize: 12,
+        color: theme.colors.sub,
+        textAlign: 'center',
+    },
+    ctaNote: {
+        marginTop: 4,
         fontSize: 12,
         color: theme.colors.sub,
         textAlign: 'center',

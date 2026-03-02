@@ -34,6 +34,7 @@ export const ja = {
             processing: '処理中...',
             active: '有効中',
             subscribe: '登録する',
+            cancelAnytime: 'いつでも解約可能',
             activePlan: '%{plan}プラン有効中',
             expiresOn: '有効期限: %{date}',
         },
@@ -176,6 +177,8 @@ export const ja = {
         title: 'Psycle Premium',
         unlockLevels: 'Level 4 以降をサブスクで解放',
         benefitsTitle: 'サブスクで使える内容:',
+        priceFrom: '月額 %{price} から',
+        cancelAnytime: 'いつでも解約できます',
         ctaNote: 'プラン詳細はショップで確認できます。',
         benefits: {
             accessAllLevels: '全10レベルのコンテンツにアクセス',

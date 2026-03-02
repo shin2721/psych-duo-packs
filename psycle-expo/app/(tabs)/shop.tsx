@@ -555,6 +555,7 @@ export default function ShopScreen() {
                       : i18n.t("shop.subscription.subscribe")}
                 </Text>
               </Pressable>
+              <Text style={styles.cancelAnytimeText}>{i18n.t("shop.subscription.cancelAnytime")}</Text>
             </View>
           );
         })}
@@ -970,6 +971,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
     color: "#fff",
+  },
+  cancelAnytimeText: {
+    marginTop: 8,
+    fontSize: 12,
+    color: theme.colors.sub,
+    textAlign: "center",
   },
   divider: {
     height: 1,

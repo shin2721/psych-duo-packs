@@ -31,6 +31,7 @@ export const fr = {
             processing: 'Traitement...',
             active: 'Actif',
             subscribe: "S'abonner",
+            cancelAnytime: 'Résiliable à tout moment',
             activePlan: 'Plan %{plan} actif',
             expiresOn: "Expire le : %{date}",
         },
@@ -134,6 +135,8 @@ export const fr = {
         title: 'Psycle Premium',
         unlockLevels: 'Débloquer le niveau 4+ avec un abonnement',
         benefitsTitle: 'Inclus avec l’abonnement :',
+        priceFrom: 'À partir de %{price}/mois',
+        cancelAnytime: 'Résiliable à tout moment',
         ctaNote: 'Vous pouvez comparer les offres dans la Boutique.',
         benefits: {
             accessAllLevels: 'Accès aux 10 niveaux de contenu',

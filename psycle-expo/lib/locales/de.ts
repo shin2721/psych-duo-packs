@@ -31,6 +31,7 @@ export const de = {
             processing: 'Wird verarbeitet...',
             active: 'Aktiv',
             subscribe: 'Abonnieren',
+            cancelAnytime: 'Jederzeit kündbar',
             activePlan: '%{plan}-Plan aktiv',
             expiresOn: 'Gültig bis: %{date}',
         },
@@ -134,6 +135,8 @@ export const de = {
         title: 'Psycle Premium',
         unlockLevels: 'Level 4+ mit einem Abo freischalten',
         benefitsTitle: 'Im Abo enthalten:',
+        priceFrom: 'Ab %{price}/Monat',
+        cancelAnytime: 'Jederzeit kündbar',
         ctaNote: 'Du kannst die Pläne im Shop vergleichen.',
         benefits: {
             accessAllLevels: 'Zugang zu allen 10 Inhaltsstufen',

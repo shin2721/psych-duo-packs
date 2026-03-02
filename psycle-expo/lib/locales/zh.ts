@@ -31,6 +31,7 @@ export const zh = {
             processing: '处理中...',
             active: '生效中',
             subscribe: '订阅',
+            cancelAnytime: '可随时取消',
             activePlan: '%{plan} 套餐生效中',
             expiresOn: '有效期至：%{date}',
         },
@@ -134,6 +135,8 @@ export const zh = {
         title: 'Psycle Premium',
         unlockLevels: '订阅后解锁 Level 4+',
         benefitsTitle: '订阅包含：',
+        priceFrom: '每月 %{price} 起',
+        cancelAnytime: '可随时取消',
         ctaNote: '你可以在商店比较套餐。',
         benefits: {
             accessAllLevels: '访问全部 10 个等级内容',

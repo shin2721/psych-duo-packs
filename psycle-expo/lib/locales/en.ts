@@ -34,6 +34,7 @@ export const en = {
             processing: 'Processing...',
             active: 'Active',
             subscribe: 'Subscribe',
+            cancelAnytime: 'Cancel anytime',
             activePlan: '%{plan} plan active',
             expiresOn: 'Expires on: %{date}',
         },
@@ -176,6 +177,8 @@ export const en = {
         title: 'Psycle Premium',
         unlockLevels: 'Unlock Level 4+ with subscription',
         benefitsTitle: 'Included with subscription:',
+        priceFrom: 'From %{price} per month',
+        cancelAnytime: 'Cancel anytime',
         ctaNote: 'You can compare plans in Shop.',
         benefits: {
             accessAllLevels: 'Access all 10 levels of content',

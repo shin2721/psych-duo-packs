@@ -31,6 +31,7 @@ export const ko = {
             processing: '처리 중...',
             active: '이용 중',
             subscribe: '구독하기',
+            cancelAnytime: '언제든 해지 가능',
             activePlan: '%{plan} 플랜 이용 중',
             expiresOn: '유효기간: %{date}',
         },
@@ -134,6 +135,8 @@ export const ko = {
         title: 'Psycle Premium',
         unlockLevels: '구독으로 레벨 4+ 잠금 해제',
         benefitsTitle: '구독에 포함된 혜택:',
+        priceFrom: '월 %{price}부터',
+        cancelAnytime: '언제든 해지 가능',
         ctaNote: '상점에서 플랜을 비교할 수 있습니다.',
         benefits: {
             accessAllLevels: '전체 10레벨 콘텐츠 이용',
