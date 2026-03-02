@@ -555,6 +555,30 @@ npm run promote:lesson {domain} {basename}
   - ブロッカー2: `league_members` 検証に必要な `leagues` 行がなく、seedなしでは update テストを完了できない
   - ブロッカー3: `profiles` に `xp/gems/streak/plan_id` が存在せず、`select=xp,gems,streak,plan_id,active_until` が `42703`（column does not exist）で失敗
 
+### 実施ログ（2026-03-02 19:42 JST / v1.41.x RLS Runtime Re-check）
+- [x] `supabase db push` 実行（`20260302_profiles_compat_and_reward_fix.sql` 適用）
+  - `profiles` に `xp/level/streak/gems/plan_id` を補完し、`plan` と同期
+  - `claim_league_reward` を `profiles.gems` 前提で再定義
+  - 現在週の `leagues` 行をseed
+- [x] RLS runtime（A/Bテストユーザー）再実行
+  - `friend_challenge_claims`
+    - A own SELECT: PASS
+    - A other(B) SELECT: PASS（0件）
+    - A own INSERT: PASS
+    - A user_id=B INSERT: PASS（拒否）
+  - `pending_rewards` + `claim_league_reward`
+    - A own INSERT: PASS
+    - A own claim: PASS（`success=true`）
+    - A re-claim: PASS（HTTP 200 / `success=false`）
+    - B claim A reward: PASS（HTTP 200 / `success=false`）
+  - `league_members`
+    - A own membership INSERT: PASS
+    - B own membership INSERT: PASS
+    - A own row UPDATE: PASS
+    - A other(B) row UPDATE: PASS（拒否/無効、B側 weekly_xp 不変）
+- [x] RLS runtime確認（Phase 1 前必須）完了
+- [ ] 実機E2E確認（Phase 1 前必須）
+
 ## 9. v1.40 P2 Rollout（Pro年額 + Proトライアル）
 
 ### 適用条件
