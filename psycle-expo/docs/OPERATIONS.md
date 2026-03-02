@@ -553,6 +553,7 @@ npm run promote:lesson {domain} {basename}
 - [ ] RLS runtime確認（Phase 1 前必須）
   - ブロッカー1: `claim_league_reward` が実DBスキーマと不整合（`gems` 列参照エラー）
   - ブロッカー2: `league_members` 検証に必要な `leagues` 行がなく、seedなしでは update テストを完了できない
+  - ブロッカー3: `profiles` に `xp/gems/streak/plan_id` が存在せず、`select=xp,gems,streak,plan_id,active_until` が `42703`（column does not exist）で失敗
 
 ## 9. v1.40 P2 Rollout（Pro年額 + Proトライアル）
 
