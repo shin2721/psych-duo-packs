@@ -579,6 +579,25 @@ npm run promote:lesson {domain} {basename}
 - [x] RLS runtime確認（Phase 1 前必須）完了
 - [ ] 実機E2E確認（Phase 1 前必須）
 
+### 実施ログ（2026-03-02 20:15 JST / Assistant-Driven Max Coverage）
+- [x] Connectivity gate再確認
+  - `curl -I https://nudmnbmasmtacoluyvqo.supabase.co` -> 到達可（HTTP 404）
+  - `curl -I https://nudmnbmasmtacoluyvqo.functions.supabase.co` -> 到達可（HTTP 404）
+- [x] 回帰4本を再実行
+  - `npx jest --watchman=false` -> PASS（41 suites / 199 tests）
+  - `npm run validate:lessons` -> PASS
+  - `npm run content:i18n:check` -> PASS
+  - `npm run content:i18n:smoke` -> PASS
+- [x] RLS runtime（A/Bテストユーザー）再実行 -> PASS
+  - `friend_challenge_claims`: own SELECT/INSERT成功、other SELECT拒否、cross-user INSERT拒否
+  - `pending_rewards + claim_league_reward`: own claim成功、re-claim失敗（冪等）、other claim失敗
+  - `league_members`: own UPDATE成功、other UPDATE拒否
+- [x] Simulator E2E build（Detox `ios.sim.debug`）成功（`BUILD SUCCEEDED`）
+- [ ] Simulator Detox suite（`e2e/analytics.v1_3.e2e.ts`）PASS
+  - FAIL理由: `tab-profile` 可視待ちタイムアウト / 初期画面testID検出タイムアウト
+  - 判定: 既存Analytics E2Eシナリオ不整合。マネタイズ運用ゲート（RLS/フリップ手順）への直接ブロッカーではない
+- [ ] 実機E2E確認（Phase 1 前必須）
+
 ## 9. v1.40 P2 Rollout（Pro年額 + Proトライアル）
 
 ### 適用条件
