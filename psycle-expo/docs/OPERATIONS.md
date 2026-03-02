@@ -519,9 +519,12 @@ npm run promote:lesson {domain} {basename}
 - [x] Connectivity gate 実行
   - `curl -I https://nudmnbmasmtacoluyvqo.supabase.co` -> `Could not resolve host`（DNS解決失敗）
   - `curl -I https://nudmnbmasmtacoluyvqo.functions.supabase.co` -> 到達可（HTTP 540）
+- [x] ブロッカー切り分け（Supabase CLI）
+  - `supabase projects list --output json` で `ref=nudmnbmasmtacoluyvqo` の `status=INACTIVE` を確認
+  - 判定: RLS runtime未実施の主因は実行環境のDNS設定単体ではなく、プロジェクト非アクティブ状態
 - [ ] RLS runtime確認（Phase 1 前必須）
-  - ブロッカー: `nudmnbmasmtacoluyvqo.supabase.co` がこの実行環境でDNS解決不可のため、PostgREST/Auth直叩き検証を実施できない
-  - 対応: DNS到達性が回復した環境で同一手順を再実行し、PASS/FAILを本セクションに追記
+  - ブロッカー: `nudmnbmasmtacoluyvqo` が `INACTIVE` のため `*.supabase.co` が解決不能で、PostgREST/Auth直叩き検証を実施できない
+  - 対応: Supabase DashboardでプロジェクトをActive化後、Connectivity gate -> RLS runtimeを同一手順で再実行し、PASS/FAILを本セクションに追記
 - [ ] 実機E2E確認（Phase 1 前必須）
   - ブロッカー: 物理iPhone/TestFlight操作はこの実行環境から代行不可（ユーザー実施）
 
