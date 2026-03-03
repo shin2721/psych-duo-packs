@@ -37,15 +37,11 @@ export type GateFailureRecord = {
   warnings?: string[];
 };
 
-const OUTPUT_DIR = join(__dirname, "..", "output");
-const METRICS_DIR = join(OUTPUT_DIR, "_metrics");
+const METRICS_DIR = join(__dirname, "..", "output", "_metrics");
 const PATROL_RUNS_FILE = join(METRICS_DIR, "patrol_runs.jsonl");
 const GATE_FAILURES_FILE = join(METRICS_DIR, "gate_failures.jsonl");
 
 function ensureMetricsDir(): void {
-  if (!existsSync(OUTPUT_DIR)) {
-    mkdirSync(OUTPUT_DIR, { recursive: true });
-  }
   if (!existsSync(METRICS_DIR)) {
     mkdirSync(METRICS_DIR, { recursive: true });
   }

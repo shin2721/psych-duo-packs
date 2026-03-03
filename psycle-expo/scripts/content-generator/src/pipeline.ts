@@ -38,6 +38,15 @@ async function runPipeline(config: PipelineConfig): Promise<GenerationResult> {
         };
     }
 
+    const normalizedDomain = normalizeDomain(config.seed.domain);
+    if (!normalizedDomain) {
+        return {
+            success: false,
+            attempts: 0,
+            error: `Invalid domain: ${String(config.seed.domain)}`,
+        };
+    }
+
     const genAI = new GoogleGenerativeAI(apiKey);
     let attempts = 0;
 
@@ -46,12 +55,6 @@ async function runPipeline(config: PipelineConfig): Promise<GenerationResult> {
         console.log(`\n🔄 Attempt ${attempts}/${config.maxRetries}`);
 
         try {
-            const normalizedDomain = normalizeDomain(config.seed.domain);
-            if (!normalizedDomain) {
-                console.log(`🚫 Invalid domain: ${String(config.seed.domain)}`);
-                continue;
-            }
-
             // Step 1: Generate
             console.log("📝 Generating question...");
             const question = await generateQuestion(

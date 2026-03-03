@@ -72,4 +72,26 @@ describe("content-generator deterministic gate", () => {
     expect(result.passed).toBe(false);
     expect(result.hardViolations).toContain("domain_missing_or_unknown");
   });
+
+  test("adds warning when scene specificity is weak", () => {
+    const question = makeQuestion({
+      question: "最近、なんとなく気分が重い。",
+    });
+    const result = evaluateDeterministicGate(question, { expectedDomain: "mental" });
+
+    expect(result.passed).toBe(true);
+    expect(result.hardViolations).toHaveLength(0);
+    expect(result.warnings).toContain("scene_specificity_weak");
+  });
+
+  test("adds warning when actionable advice lacks timebox or dose", () => {
+    const question = makeQuestion({
+      actionable_advice: "落ち着いて相手に対応することを意識する。",
+    });
+    const result = evaluateDeterministicGate(question, { expectedDomain: "work" });
+
+    expect(result.passed).toBe(true);
+    expect(result.hardViolations).toHaveLength(0);
+    expect(result.warnings).toContain("action_timebox_or_dose_weak");
+  });
 });
