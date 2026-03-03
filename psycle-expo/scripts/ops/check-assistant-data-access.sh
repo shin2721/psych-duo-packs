@@ -122,11 +122,19 @@ check_posthog_query_scope() {
     log_pass "PostHog query API accessible (query:read OK)"
   else
     if grep -q "query:read" "$body_file"; then
-      log_fail "PostHog token missing required scope: query:read"
+      local insights_status
+      insights_status="$(curl -sS -o /dev/null -w "%{http_code}" \
+        -H "Authorization: Bearer $token" \
+        "$host/api/projects/$project_id/insights/?limit=1" || true)"
+      if [[ "$insights_status" == "200" ]]; then
+        log_warn "PostHog token lacks query:read, but insights read is available (monitoring fallback active)"
+      else
+        log_fail "PostHog token missing query:read and insights read fallback failed (HTTP $insights_status)"
+      fi
     else
       log_fail "PostHog query API failed (HTTP $status)"
+      head -1 "$body_file" | sed 's/^/        /'
     fi
-    head -1 "$body_file" | sed 's/^/        /'
   fi
 
   rm -f "$body_file"
