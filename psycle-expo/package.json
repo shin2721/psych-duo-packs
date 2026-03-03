@@ -66,7 +66,8 @@
     "e2e:build:ios:release": "detox build --configuration ios.sim.release",
     "e2e:ios:debug": "detox test --configuration ios.sim.debug",
     "e2e:build:ios:debug": "detox build --configuration ios.sim.debug",
-    "ops:data-access:check": "bash scripts/ops/check-assistant-data-access.sh"
+    "ops:data-access:check": "bash scripts/ops/check-assistant-data-access.sh",
+    "ops:stripe:snapshot": "bash scripts/ops/stripe-monetization-snapshot.sh"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.68.0",
