@@ -3,6 +3,7 @@ import { readFileSync } from "fs";
 import { join } from "path";
 import { Seed, QuestionType, GeneratedQuestion, GeneratedQuestionSchema } from "./types";
 import { BLACKLISTED_TOPICS, CAUTIONARY_TOPICS } from "./blacklist";
+import { PhaseId, getPhaseObjective, inferPhaseFromQuestionType, isValidPhase } from "./phasePolicy";
 
 const PROMPTS_DIR = join(__dirname, "..", "prompts");
 
@@ -91,12 +92,15 @@ export async function generateQuestion(
   genAI: GoogleGenerativeAI,
   seed: Seed,
   questionType: QuestionType,
-  difficulty: "easy" | "medium" | "hard"
+  difficulty: "easy" | "medium" | "hard",
+  targetPhase?: PhaseId
 ): Promise<GeneratedQuestion> {
   const fireflyPersona = loadFireflyPersona();
   const schemaExample = getQuestionTypeSchema(questionType);
 
   const xpMap = { easy: 10, medium: 15, hard: 20 };
+  const resolvedPhase = targetPhase ?? inferPhaseFromQuestionType(questionType);
+  const phaseObjective = getPhaseObjective(resolvedPhase);
 
   const systemInstruction = `あなたはPsycleアプリのコンテンツジェネレーターです。
 
@@ -164,11 +168,17 @@ ${schemaExample}
 
 ## 必須フィールド（全問題タイプ共通）
 - id: "${seed.domain}_generated_${Date.now()}"
+- phase: ${resolvedPhase}
 - source_id: 上記idと同じ
 - difficulty: "${difficulty}"
 - xp: ${xpMap[difficulty]}
 - evidence_grade: "${seed.evidence_grade}"
 - actionable_advice: "💡 今日のアクション：\\n具体的な行動指示（Fireflyの口調で）"
+
+## 5-Phaseコンテキスト（必須）
+- この問題は **Phase ${resolvedPhase}** です
+- 目的: ${phaseObjective}
+- 上記目的に合う問題文・解説で書くこと
 
 ## 品質基準
 1. 文脈の適正化: 極端な例を避け、現実的なシチュエーションを設定する
@@ -214,6 +224,9 @@ JSONのみを出力してください。`;
   }
 
   const parsed = JSON.parse(content);
+  if (!isValidPhase(parsed.phase)) {
+    parsed.phase = resolvedPhase;
+  }
 
   // Validate with Zod
   const validated = GeneratedQuestionSchema.parse(parsed);

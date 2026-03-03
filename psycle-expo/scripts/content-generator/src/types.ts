@@ -35,6 +35,7 @@ export type QuestionType = z.infer<typeof QuestionTypeSchema>;
 // Generated Question Schema
 export const GeneratedQuestionSchema = z.object({
     id: z.string(),
+    phase: z.number().int().min(1).max(5),
     type: QuestionTypeSchema,
     question: z.string(),
     choices: z.array(z.string()).optional(),

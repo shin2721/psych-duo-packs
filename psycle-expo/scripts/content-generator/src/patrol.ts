@@ -20,9 +20,10 @@ import { config } from "dotenv";
 import { checkRelevance, extractSeedFromNews, RawNewsItem, ExtractedSeed } from "./extractor";
 import { generateQuestion } from "./generator";
 import { evaluateQuestion, formatCriticReport } from "./critic";
-import { QuestionType, GeneratedQuestion } from "./types";
+import { GeneratedQuestion } from "./types";
 import { sleep, importContent } from "./importer";
 import { checkAndBundle } from "./bundler";
+import { getPhaseForIndex, getQuestionTypeForPhase, isSupportedDomain } from "./phasePolicy";
 
 config({ path: join(__dirname, "..", ".env") });
 
@@ -195,13 +196,15 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
 
     // Step 4: Generate Questions
     console.log("\n📝 Step 4: Generating Questions...");
-    const questionTypes: QuestionType[] = ["swipe_judgment", "multiple_choice"];
+    let phaseCursor = 0;
 
     for (const seed of seeds) {
-        const qType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+        const targetPhase = getPhaseForIndex(phaseCursor);
+        phaseCursor++;
+        const qType = getQuestionTypeForPhase(targetPhase);
 
         try {
-            console.log(`   Generating ${qType} for "${seed.core_principle}"...`);
+            console.log(`   Generating phase ${targetPhase} (${qType}) for "${seed.core_principle}"...`);
 
             // Convert ExtractedSeed to Seed format (exclude inherited id and meta)
             const { originalLink, extractionConfidence, id: _existingId, ...seedWithoutMeta } = seed;
@@ -211,7 +214,7 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                 suggested_question_types: [qType],
             };
 
-            const question = await generateQuestion(genAI, fullSeed as any, qType, "medium");
+            const question = await generateQuestion(genAI, fullSeed as any, qType, "medium", targetPhase);
             result.questionsGenerated++;
 
             // Step 5: Evaluate
@@ -223,10 +226,16 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                 result.questionsPassed++;
                 result.savedQuestions.push(question);
 
-                // Attach domain from seed for Domain Router
+                const domain = seedWithoutMeta.domain;
+                if (!isSupportedDomain(domain)) {
+                    console.error(`   ❌ Fail Fast: missing/unknown domain "${String(domain)}"`);
+                    continue;
+                }
+
+                // Attach domain from seed for Domain Router (no fallback)
                 const questionWithDomain = {
                     ...question,
-                    domain: seedWithoutMeta.domain || "social", // Fallback to social
+                    domain,
                 };
 
                 // Save to file

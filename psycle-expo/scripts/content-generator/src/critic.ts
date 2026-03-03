@@ -222,25 +222,48 @@ Output JSON only.`);
   const criticResult = JSON.parse(content) as any; // Using any temporarily as types need update
 
   // Strict Pass/Fail Logic: Any violation = FAIL
-  const violations = criticResult.violations;
-  const hasViolation =
-    violations.scientific_integrity ||
-    violations.ux_standards ||
-    violations.success_granularity ||
-    violations.evidence_template ||
-    violations.life_scene_first ||
-    violations.no_level_collapse ||
-    violations.user_can_be_right ||
-    violations.psychoeducation_first ||
-    violations.citation_reality ||
-    violations.mechanism_over_outcome ||
-    violations.claim_evidence_binding ||
-    violations.dose_and_timebox ||
-    violations.counterexample_first;
-
-  criticResult.passed = !hasViolation;
+  criticResult.passed = !hasHardViolations(criticResult.violations);
 
   return criticResult;
+}
+
+type ViolationFlags = CriticResult["violations"];
+
+export function hasHardViolations(violations: ViolationFlags | undefined): boolean {
+  const v = {
+    scientific_integrity: false,
+    ux_standards: false,
+    success_granularity: false,
+    evidence_template: false,
+    life_scene_first: false,
+    no_level_collapse: false,
+    user_can_be_right: false,
+    psychoeducation_first: false,
+    citation_reality: false,
+    mechanism_over_outcome: false,
+    claim_evidence_binding: false,
+    dose_and_timebox: false,
+    counterexample_first: false,
+    vocabulary_hygiene: false,
+    ...(violations || {}),
+  };
+
+  return (
+    v.scientific_integrity ||
+    v.ux_standards ||
+    v.success_granularity ||
+    v.evidence_template ||
+    v.life_scene_first ||
+    v.no_level_collapse ||
+    v.user_can_be_right ||
+    v.psychoeducation_first ||
+    v.citation_reality ||
+    v.mechanism_over_outcome ||
+    v.claim_evidence_binding ||
+    v.dose_and_timebox ||
+    v.counterexample_first ||
+    v.vocabulary_hygiene
+  );
 }
 
 export function formatCriticReport(result: CriticResult): string {
