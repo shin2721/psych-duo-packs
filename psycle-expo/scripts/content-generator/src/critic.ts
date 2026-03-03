@@ -1,5 +1,6 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GeneratedQuestion, CriticResult } from "./types";
+import { CONTENT_MODELS } from "./modelConfig";
 
 const CRITIC_SYSTEM_PROMPT = `You are a Rule Audit AI for Psycle content.
 Do NOT evaluate "quality" or "humor".
@@ -198,7 +199,7 @@ export async function evaluateQuestion(
   question: GeneratedQuestion
 ): Promise<CriticResult> {
   const model = genAI.getGenerativeModel({
-    model: "gemini-2.0-flash",
+    model: CONTENT_MODELS.critic,
     systemInstruction: CRITIC_SYSTEM_PROMPT,
     generationConfig: {
       responseMimeType: "application/json",

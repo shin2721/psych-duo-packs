@@ -16,6 +16,7 @@ const FAIL_WORDS_REGEX =
   /(治る|治療できる|確実に|絶対|100%|証明された|科学的に確定|人生が変わる|劇的に改善)/;
 
 const PRINCIPLE_DIRECT_REGEX = /(原理とは|バイアスとは|ファラシーとは|理論とは)/;
+const CONDITIONAL_FAIL_WORD_REGEX = /必ず/;
 
 function resolveDomain(question: GeneratedQuestion, context?: DeterministicGateContext): unknown {
   const candidate = (question as { domain?: unknown }).domain;
@@ -75,6 +76,15 @@ export function evaluateDeterministicGate(
     hardViolations.push("vocabulary_fail_words");
   }
 
+  if (CONDITIONAL_FAIL_WORD_REGEX.test(combinedText)) {
+    const isDebunkingContext = question.type === "swipe_judgment" && question.is_true === false;
+    if (isDebunkingContext) {
+      warnings.push("vocabulary_warn_conditional");
+    } else {
+      hardViolations.push("vocabulary_fail_words_conditional");
+    }
+  }
+
   const firstHalfLength = Math.max(1, Math.ceil(questionText.length / 2));
   const firstHalfQuestion = questionText.slice(0, firstHalfLength);
   if (PRINCIPLE_DIRECT_REGEX.test(firstHalfQuestion)) {
@@ -86,7 +96,7 @@ export function evaluateDeterministicGate(
   }
 
   if (!hasActionTimeboxAndDose(actionableAdvice)) {
-    warnings.push("action_timebox_or_dose_weak");
+    hardViolations.push("action_timebox_or_dose_missing");
   }
 
   return {

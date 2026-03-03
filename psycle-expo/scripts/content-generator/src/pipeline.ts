@@ -61,7 +61,9 @@ async function runPipeline(config: PipelineConfig): Promise<GenerationResult> {
                 genAI,
                 { ...config.seed, domain: normalizedDomain },
                 config.questionType,
-                config.difficulty
+                config.difficulty,
+                undefined,
+                { enforceExpandedDetails: true }
             );
             console.log("✅ Question generated");
 

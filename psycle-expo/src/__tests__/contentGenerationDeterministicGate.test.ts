@@ -90,8 +90,30 @@ describe("content-generator deterministic gate", () => {
     });
     const result = evaluateDeterministicGate(question, { expectedDomain: "work" });
 
+    expect(result.passed).toBe(false);
+    expect(result.hardViolations).toContain("action_timebox_or_dose_missing");
+  });
+
+  test("fails when 必ず appears outside debunking context", () => {
+    const question = makeQuestion({
+      explanation: "この方法は必ずうまくいく。",
+      is_true: true,
+    });
+    const result = evaluateDeterministicGate(question, { expectedDomain: "mental" });
+
+    expect(result.passed).toBe(false);
+    expect(result.hardViolations).toContain("vocabulary_fail_words_conditional");
+  });
+
+  test("warns when 必ず appears in debunking swipe context", () => {
+    const question = makeQuestion({
+      explanation: "『必ず』は危険な断定表現だ。",
+      is_true: false,
+    });
+    const result = evaluateDeterministicGate(question, { expectedDomain: "mental" });
+
     expect(result.passed).toBe(true);
     expect(result.hardViolations).toHaveLength(0);
-    expect(result.warnings).toContain("action_timebox_or_dose_weak");
+    expect(result.warnings).toContain("vocabulary_warn_conditional");
   });
 });

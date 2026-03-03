@@ -270,7 +270,9 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                 suggested_question_types: [qType],
             };
 
-            const question = await generateQuestion(genAI, fullSeed as any, qType, "medium", targetPhase);
+            const question = await generateQuestion(genAI, fullSeed as any, qType, "medium", targetPhase, {
+                enforceExpandedDetails: true,
+            });
             result.questionsGenerated++;
 
             const gate = evaluateDeterministicGate(question, { expectedDomain: normalizedDomain });

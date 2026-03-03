@@ -1,5 +1,8 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { Seed } from "./types";
+import { z } from "zod";
+import { Seed, SeedSchema } from "./types";
+import { normalizeDomain } from "./phasePolicy";
+import { CONTENT_MODELS } from "./modelConfig";
 
 export interface RawNewsItem {
     title: string;
@@ -18,6 +21,50 @@ export interface RelevanceResult {
 export interface ExtractedSeed extends Seed {
     originalLink: string;
     extractionConfidence: number; // 0-1
+}
+
+const ExtractedSeedPayloadSchema = SeedSchema.omit({
+    id: true,
+    suggested_question_types: true,
+    domain: true,
+}).extend({
+    domain: z.string().min(1),
+    extractionConfidence: z.number().min(0).max(1).optional(),
+});
+
+export type ExtractedSeedPayload = z.infer<typeof ExtractedSeedPayloadSchema>;
+
+export function parseExtractedSeedPayload(raw: unknown, originalLink: string): ExtractedSeed | null {
+    const payloadResult = ExtractedSeedPayloadSchema.safeParse(raw);
+    if (!payloadResult.success) {
+        console.warn("[extractor] invalid payload:", payloadResult.error.issues.map((issue) => issue.message).join("; "));
+        return null;
+    }
+
+    const normalizedDomain = normalizeDomain(payloadResult.data.domain);
+    if (!normalizedDomain) {
+        console.warn("[extractor] invalid domain:", payloadResult.data.domain);
+        return null;
+    }
+
+    const payload = payloadResult.data;
+    const generatedId = `extracted_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
+    return {
+        id: generatedId,
+        domain: normalizedDomain as Seed["domain"],
+        core_principle: payload.core_principle,
+        core_principle_en: payload.core_principle_en,
+        counter_intuitive_insight: payload.counter_intuitive_insight,
+        common_misconception: payload.common_misconception,
+        actionable_tactic: payload.actionable_tactic,
+        academic_reference: payload.academic_reference,
+        evidence_grade: payload.evidence_grade,
+        suggested_question_types: [],
+        cultural_notes: payload.cultural_notes,
+        originalLink,
+        extractionConfidence: payload.extractionConfidence ?? 0.7,
+    };
 }
 
 const RELEVANCE_PROMPT = `あなたはPsycleアプリのコンテンツキュレーターです。
@@ -78,7 +125,7 @@ export async function checkRelevance(
     newsItem: RawNewsItem
 ): Promise<RelevanceResult> {
     const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash",
+        model: CONTENT_MODELS.relevance,
         systemInstruction: RELEVANCE_PROMPT,
         generationConfig: {
             responseMimeType: "application/json",
@@ -107,7 +154,7 @@ export async function extractSeedFromNews(
     newsItem: RawNewsItem
 ): Promise<ExtractedSeed | null> {
     const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash",
+        model: CONTENT_MODELS.extractor,
         systemInstruction: EXTRACTOR_PROMPT,
         generationConfig: {
             responseMimeType: "application/json",
@@ -136,8 +183,5 @@ export async function extractSeedFromNews(
         return null;
     }
 
-    return {
-        ...parsed,
-        originalLink: newsItem.link,
-    } as ExtractedSeed;
+    return parseExtractedSeedPayload(parsed, newsItem.link);
 }
