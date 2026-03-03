@@ -21,7 +21,7 @@ const DOMAINS = [
     { key: "mental", dir: "mental_units", prefix: "mental_auto" },
     { key: "money", dir: "money_units", prefix: "money_auto" },
     { key: "health", dir: "health_units", prefix: "health_auto" },
-    { key: "productivity", dir: "study_units", prefix: "study_auto" },
+    { key: "study", dir: "study_units", prefix: "study_auto" },
     { key: "work", dir: "work_units", prefix: "work_auto" },
 ];
 

@@ -23,7 +23,7 @@ import { evaluateQuestion, formatCriticReport } from "./critic";
 import { GeneratedQuestion } from "./types";
 import { sleep, importContent } from "./importer";
 import { checkAndBundle } from "./bundler";
-import { getPhaseForIndex, getQuestionTypeForPhase, isSupportedDomain } from "./phasePolicy";
+import { getPhaseForIndex, getQuestionTypeForPhase, normalizeDomain } from "./phasePolicy";
 import { evaluateDeterministicGate } from "./deterministicGate";
 import { loadSourceRegistry } from "./sourceRegistry";
 import { appendGateFailure, appendPatrolMetrics, type PatrolRunMetrics, type SourceRunMetrics } from "./metrics";
@@ -254,16 +254,22 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
 
             // Convert ExtractedSeed to Seed format (exclude inherited id and meta)
             const { originalLink, extractionConfidence, id: _existingId, ...seedWithoutMeta } = seed;
+            const normalizedDomain = normalizeDomain(seedWithoutMeta.domain);
+            if (!normalizedDomain) {
+                console.error(`   ❌ Fail Fast: missing/unknown domain "${String(seedWithoutMeta.domain)}"`);
+                continue;
+            }
             const fullSeed = {
                 id: `patrol_${Date.now()}`,
                 ...seedWithoutMeta,
+                domain: normalizedDomain,
                 suggested_question_types: [qType],
             };
 
             const question = await generateQuestion(genAI, fullSeed as any, qType, "medium", targetPhase);
             result.questionsGenerated++;
 
-            const gate = evaluateDeterministicGate(question, { expectedDomain: seedWithoutMeta.domain });
+            const gate = evaluateDeterministicGate(question, { expectedDomain: normalizedDomain });
             if (!gate.passed) {
                 for (const reason of gate.hardViolations) {
                     gateFailureReasons[reason] = (gateFailureReasons[reason] || 0) + 1;
@@ -274,7 +280,7 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                     source: seedSourceName,
                     phase: question.phase,
                     questionType: question.type,
-                    domain: String(seedWithoutMeta.domain ?? ""),
+                    domain: normalizedDomain,
                     hardViolations: gate.hardViolations,
                     warnings: gate.warnings,
                 });
@@ -293,16 +299,10 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                 result.questionsPassed++;
                 result.savedQuestions.push(question);
 
-                const domain = seedWithoutMeta.domain;
-                if (!isSupportedDomain(domain)) {
-                    console.error(`   ❌ Fail Fast: missing/unknown domain "${String(domain)}"`);
-                    continue;
-                }
-
                 // Attach domain from seed for Domain Router (no fallback)
                 const questionWithDomain = {
                     ...question,
-                    domain,
+                    domain: normalizedDomain,
                 };
 
                 // Save to file

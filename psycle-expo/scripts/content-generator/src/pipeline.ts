@@ -7,6 +7,7 @@ import { generateQuestion } from "./generator";
 import { evaluateQuestion, formatCriticReport } from "./critic";
 import { evaluateDeterministicGate } from "./deterministicGate";
 import { appendGateFailure } from "./metrics";
+import { normalizeDomain } from "./phasePolicy";
 
 // Load environment variables
 config({ path: join(__dirname, "..", ".env") });
@@ -45,23 +46,29 @@ async function runPipeline(config: PipelineConfig): Promise<GenerationResult> {
         console.log(`\n🔄 Attempt ${attempts}/${config.maxRetries}`);
 
         try {
+            const normalizedDomain = normalizeDomain(config.seed.domain);
+            if (!normalizedDomain) {
+                console.log(`🚫 Invalid domain: ${String(config.seed.domain)}`);
+                continue;
+            }
+
             // Step 1: Generate
             console.log("📝 Generating question...");
             const question = await generateQuestion(
                 genAI,
-                config.seed,
+                { ...config.seed, domain: normalizedDomain },
                 config.questionType,
                 config.difficulty
             );
             console.log("✅ Question generated");
 
-            const gate = evaluateDeterministicGate(question, { expectedDomain: config.seed.domain });
+            const gate = evaluateDeterministicGate(question, { expectedDomain: normalizedDomain });
             if (!gate.passed) {
                 appendGateFailure({
                     timestamp: new Date().toISOString(),
                     phase: question.phase,
                     questionType: question.type,
-                    domain: String(config.seed.domain),
+                    domain: normalizedDomain,
                     hardViolations: gate.hardViolations,
                     warnings: gate.warnings,
                 });

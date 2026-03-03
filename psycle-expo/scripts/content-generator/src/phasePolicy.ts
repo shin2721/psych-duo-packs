@@ -23,6 +23,11 @@ const SUPPORTED_DOMAINS = new Set([
     "relationships",
 ]);
 
+const DOMAIN_ALIAS_MAP: Record<string, string> = {
+    productivity: "study",
+    relationships: "social",
+};
+
 export function getPhaseForIndex(index: number): PhaseId {
     const normalized = index % PHASE_SEQUENCE.length;
     return PHASE_SEQUENCE[normalized];
@@ -38,6 +43,13 @@ export function isValidPhase(value: unknown): value is PhaseId {
 
 export function isSupportedDomain(value: unknown): value is string {
     return typeof value === "string" && SUPPORTED_DOMAINS.has(value.toLowerCase());
+}
+
+export function normalizeDomain(value: unknown): string | null {
+    if (typeof value !== "string") return null;
+    const normalized = value.toLowerCase();
+    if (!SUPPORTED_DOMAINS.has(normalized)) return null;
+    return DOMAIN_ALIAS_MAP[normalized] || normalized;
 }
 
 export function inferPhaseFromQuestionType(questionType: QuestionType): PhaseId {

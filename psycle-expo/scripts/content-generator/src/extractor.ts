@@ -55,7 +55,7 @@ const EXTRACTOR_PROMPT = `あなたはPsycleアプリの「抽出エージェン
   "common_misconception": "よくある誤解（多くの人が信じている間違い、30文字以内）",
   "actionable_tactic": "具体的アクション（今日からできること、30文字以内）",
   "academic_reference": "出典（著者名 + 年 + 大学/ジャーナル）",
-  "domain": "social | mental | money | productivity | relationships",
+  "domain": "social | mental | money | health | work | study (alias: productivity, relationships)",
   "evidence_grade": "gold | silver | bronze",
   "cultural_notes": "日本文化での注意点（あれば）",
   "extractionConfidence": 0.8

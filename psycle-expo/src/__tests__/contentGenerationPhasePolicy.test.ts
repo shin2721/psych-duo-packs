@@ -2,6 +2,7 @@ import {
   getPhaseForIndex,
   getQuestionTypeForPhase,
   isSupportedDomain,
+  normalizeDomain,
   selectBalancedPhaseItems,
 } from "../../scripts/content-generator/src/phasePolicy";
 import { hasHardViolations } from "../../scripts/content-generator/src/critic";
@@ -27,8 +28,18 @@ describe("content-generator phase policy", () => {
   test("supports only known domains", () => {
     expect(isSupportedDomain("mental")).toBe(true);
     expect(isSupportedDomain("social")).toBe(true);
+    expect(isSupportedDomain("productivity")).toBe(true);
+    expect(isSupportedDomain("relationships")).toBe(true);
     expect(isSupportedDomain("unknown")).toBe(false);
     expect(isSupportedDomain(undefined)).toBe(false);
+  });
+
+  test("normalizes domain aliases to canonical domains", () => {
+    expect(normalizeDomain("study")).toBe("study");
+    expect(normalizeDomain("productivity")).toBe("study");
+    expect(normalizeDomain("relationships")).toBe("social");
+    expect(normalizeDomain("social")).toBe("social");
+    expect(normalizeDomain("unknown")).toBeNull();
   });
 
   test("returns null when any phase has fewer than 2 questions", () => {
