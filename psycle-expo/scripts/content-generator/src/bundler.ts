@@ -7,6 +7,7 @@
 import { appendFileSync, readdirSync, readFileSync, writeFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 import { isValidPhase, selectBalancedPhaseItems } from "./phasePolicy";
+import { GeneratedQuestionSchema } from "./types";
 
 const LESSONS_ROOT = join(__dirname, "..", "..", "..", "data", "lessons");
 const THRESHOLD = 10; // Questions needed to form a lesson
@@ -84,7 +85,13 @@ function bundleDomain(domain: typeof DOMAINS[0]): BundleResult | null {
         const sourcePath = join(autoDir, file);
         try {
             const content = readFileSync(sourcePath, "utf-8");
-            const question = JSON.parse(content);
+            const parsed = JSON.parse(content);
+            const validated = GeneratedQuestionSchema.safeParse(parsed);
+            if (!validated.success) {
+                rejectFile(autoDir, sourcePath, file, "schema_invalid");
+                continue;
+            }
+            const question = validated.data;
             if (!isValidPhase(question.phase)) {
                 rejectFile(autoDir, sourcePath, file, "invalid_or_missing_phase");
                 continue;

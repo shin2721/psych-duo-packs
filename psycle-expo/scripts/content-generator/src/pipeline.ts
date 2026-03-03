@@ -5,6 +5,8 @@ import { config } from "dotenv";
 import { Seed, QuestionType, GenerationResult, PipelineConfig } from "./types";
 import { generateQuestion } from "./generator";
 import { evaluateQuestion, formatCriticReport } from "./critic";
+import { evaluateDeterministicGate } from "./deterministicGate";
+import { appendGateFailure } from "./metrics";
 
 // Load environment variables
 config({ path: join(__dirname, "..", ".env") });
@@ -52,6 +54,20 @@ async function runPipeline(config: PipelineConfig): Promise<GenerationResult> {
                 config.difficulty
             );
             console.log("✅ Question generated");
+
+            const gate = evaluateDeterministicGate(question, { expectedDomain: config.seed.domain });
+            if (!gate.passed) {
+                appendGateFailure({
+                    timestamp: new Date().toISOString(),
+                    phase: question.phase,
+                    questionType: question.type,
+                    domain: String(config.seed.domain),
+                    hardViolations: gate.hardViolations,
+                    warnings: gate.warnings,
+                });
+                console.log(`🚫 Deterministic gate failed: ${gate.hardViolations.join(", ")}`);
+                continue;
+            }
 
             // Step 2: Evaluate
             console.log("🔍 Evaluating quality...");
