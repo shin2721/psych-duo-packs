@@ -25,7 +25,7 @@ import { sleep, importContent } from "./importer";
 import { checkAndBundle } from "./bundler";
 import { getPhaseForIndex, getQuestionTypeForPhase, normalizeDomain } from "./phasePolicy";
 import { evaluateDeterministicGate } from "./deterministicGate";
-import { loadSourceRegistry } from "./sourceRegistry";
+import { getLastSourceRegistryLoadInfo, loadSourceRegistry } from "./sourceRegistry";
 import { appendGateFailure, appendPatrolMetrics, type PatrolRunMetrics, type SourceRunMetrics } from "./metrics";
 
 config({ path: join(__dirname, "..", ".env") });
@@ -71,6 +71,7 @@ interface PatrolResult {
 async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promise<PatrolResult> {
     const { dryRun = false, limit = 5 } = options;
     const sources = loadSourceRegistry();
+    const sourceRegistryLoadInfo = getLastSourceRegistryLoadInfo();
     const sourceStatsById: Record<string, SourceRunMetrics> = {};
     const sourceIdByName: Record<string, string> = {};
     for (const source of sources) {
@@ -91,6 +92,9 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
 
     console.log("🚀 Psycle Patrol: Full Automation Mode");
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    if (sourceRegistryLoadInfo.usedFallback) {
+        console.warn(`[source-registry] fallback to defaults: ${sourceRegistryLoadInfo.reason || "unknown_reason"}`);
+    }
     console.log(`📚 Sources enabled: ${sources.length}`);
     if (dryRun) console.log("⚠️  DRY RUN: No API calls will be made.");
 

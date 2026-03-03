@@ -13,7 +13,8 @@
         "patrol:dry": "ts-node src/patrol.ts --dry-run",
         "validate:types": "ts-node src/validate_types.ts",
         "bundle": "ts-node src/bundler.ts",
-        "metrics:summary": "ts-node src/metrics_report.ts"
+        "metrics:summary": "ts-node src/metrics_report.ts",
+        "sources:validate": "ts-node src/sourceRegistry.ts --validate"
     },
     "dependencies": {
         "@google/generative-ai": "^0.21.0",
