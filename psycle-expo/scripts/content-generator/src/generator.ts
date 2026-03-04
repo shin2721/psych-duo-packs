@@ -255,7 +255,12 @@ ${schemaExample}
 - difficulty: "${difficulty}"
 - xp: ${xpMap[difficulty]}
 - evidence_grade: "${seed.evidence_grade}"
-- actionable_advice: "💡 今日のアクション：\\n具体的な行動指示（Fireflyの口調で）"
+- actionable_advice: "💡 今日のアクション：\\n今日1回、30秒〜2分でできる具体的行動（Fireflyの口調）"
+
+actionable_advice は次を必須にすること:
+- dose: 回数/秒数/分数を必ず入れる（例: 1回, 30秒, 2分）
+- timebox: 今日/明日/今週 のどれかを必ず入れる
+- 抽象表現のみ（例: 「落ち着いて対応する」）は禁止
 
 ## expanded_details（必須）
 全問題で expanded_details を必ず出力すること。欠落は禁止。

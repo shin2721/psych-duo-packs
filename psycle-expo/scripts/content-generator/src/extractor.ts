@@ -23,6 +23,12 @@ export interface ExtractedSeed extends Seed {
     extractionConfidence: number; // 0-1
 }
 
+export const RelevanceResultSchema = z.object({
+    isRelevant: z.boolean(),
+    reason: z.string(),
+    psychologyScore: z.number().min(0).max(10),
+});
+
 const ExtractedSeedPayloadSchema = SeedSchema.omit({
     id: true,
     suggested_question_types: true,
@@ -33,6 +39,14 @@ const ExtractedSeedPayloadSchema = SeedSchema.omit({
 });
 
 export type ExtractedSeedPayload = z.infer<typeof ExtractedSeedPayloadSchema>;
+
+export function parseRelevanceResult(raw: unknown): RelevanceResult | null {
+    const parsed = RelevanceResultSchema.safeParse(raw);
+    if (!parsed.success) {
+        return null;
+    }
+    return parsed.data;
+}
 
 export function parseExtractedSeedPayload(raw: unknown, originalLink: string): ExtractedSeed | null {
     const payloadResult = ExtractedSeedPayloadSchema.safeParse(raw);
@@ -146,7 +160,12 @@ export async function checkRelevance(
         return { isRelevant: false, reason: "No response", psychologyScore: 0 };
     }
 
-    return JSON.parse(content) as RelevanceResult;
+    const parsed = parseRelevanceResult(JSON.parse(content));
+    if (!parsed) {
+        console.warn("[extractor] invalid relevance payload");
+        return { isRelevant: false, reason: "Invalid relevance payload", psychologyScore: 0 };
+    }
+    return parsed;
 }
 
 export async function extractSeedFromNews(

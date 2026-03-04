@@ -20,7 +20,7 @@ import { config } from "dotenv";
 import { checkRelevance, extractSeedFromNews, RawNewsItem, ExtractedSeed } from "./extractor";
 import { generateQuestion } from "./generator";
 import { evaluateQuestion, formatCriticReport } from "./critic";
-import { GeneratedQuestion } from "./types";
+import { GeneratedQuestion, Seed, SeedSchema } from "./types";
 import { sleep, importContent } from "./importer";
 import { checkAndBundle } from "./bundler";
 import { getPhaseForIndex, getQuestionTypeForPhase, normalizeDomain } from "./phasePolicy";
@@ -263,14 +263,25 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                 console.error(`   ❌ Fail Fast: missing/unknown domain "${String(seedWithoutMeta.domain)}"`);
                 continue;
             }
-            const fullSeed = {
+            const fullSeedCandidate = {
                 id: `patrol_${Date.now()}`,
                 ...seedWithoutMeta,
                 domain: normalizedDomain,
                 suggested_question_types: [qType],
             };
+            const fullSeedParse = SeedSchema.safeParse(fullSeedCandidate);
+            if (!fullSeedParse.success) {
+                console.error(
+                    `   ❌ seed_schema_invalid: ${fullSeedParse.error.issues.map((issue) => issue.message).join("; ")}`
+                );
+                const seedSourceName = seedSourceByLink.get(seed.originalLink);
+                const sourceId = seedSourceName ? sourceIdByName[seedSourceName] : undefined;
+                if (sourceId) sourceStatsById[sourceId].errors += 1;
+                continue;
+            }
+            const fullSeed: Seed = fullSeedParse.data;
 
-            const question = await generateQuestion(genAI, fullSeed as any, qType, "medium", targetPhase, {
+            const question = await generateQuestion(genAI, fullSeed, qType, "medium", targetPhase, {
                 enforceExpandedDetails: true,
             });
             result.questionsGenerated++;

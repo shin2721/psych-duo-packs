@@ -1,4 +1,4 @@
-import { parseExtractedSeedPayload } from "../../scripts/content-generator/src/extractor";
+import { parseExtractedSeedPayload, parseRelevanceResult } from "../../scripts/content-generator/src/extractor";
 
 function makePayload(overrides: Record<string, unknown> = {}) {
   return {
@@ -55,3 +55,43 @@ describe("content-generator extractor payload validation", () => {
   });
 });
 
+describe("content-generator relevance payload validation", () => {
+  test("returns relevance result when payload is valid", () => {
+    const parsed = parseRelevanceResult({
+      isRelevant: true,
+      reason: "心理学関連の研究",
+      psychologyScore: 8,
+    });
+
+    expect(parsed).toEqual({
+      isRelevant: true,
+      reason: "心理学関連の研究",
+      psychologyScore: 8,
+    });
+  });
+
+  test("returns null when psychologyScore is wrong type", () => {
+    const parsed = parseRelevanceResult({
+      isRelevant: true,
+      reason: "心理学関連の研究",
+      psychologyScore: "8",
+    });
+    expect(parsed).toBeNull();
+  });
+
+  test("returns null when psychologyScore is out of range", () => {
+    const tooLow = parseRelevanceResult({
+      isRelevant: true,
+      reason: "心理学関連の研究",
+      psychologyScore: -1,
+    });
+    const tooHigh = parseRelevanceResult({
+      isRelevant: true,
+      reason: "心理学関連の研究",
+      psychologyScore: 11,
+    });
+
+    expect(tooLow).toBeNull();
+    expect(tooHigh).toBeNull();
+  });
+});
