@@ -6,7 +6,7 @@ type Seed = {
 };
 
 describe("content-generator seed domain coverage", () => {
-  test("keeps at least two seeds for each canonical domain", () => {
+  test("keeps at least three seeds for each canonical domain", () => {
     const filePath = join(
       __dirname,
       "../../scripts/content-generator/seeds/psychology_seeds.json"
@@ -20,8 +20,7 @@ describe("content-generator seed domain coverage", () => {
 
     const requiredDomains = ["social", "money", "mental", "health", "work", "study"] as const;
     for (const domain of requiredDomains) {
-      expect(domainCounts[domain] || 0).toBeGreaterThanOrEqual(2);
+      expect(domainCounts[domain] || 0).toBeGreaterThanOrEqual(3);
     }
   });
 });
-

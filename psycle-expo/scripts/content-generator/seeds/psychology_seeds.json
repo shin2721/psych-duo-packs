@@ -337,5 +337,21 @@
             "consequence_scenario"
         ],
         "cultural_notes": "単元別ドリル中心の学習習慣に対する改善提案として説明しやすい"
+    },
+    {
+        "id": "seed_022",
+        "domain": "money",
+        "core_principle": "デフォルト効果",
+        "core_principle_en": "Default Effect",
+        "counter_intuitive_insight": "迷ったときほど、最初から選ばれている設定が意思決定を支配する",
+        "common_misconception": "人は価格や条件を比較して合理的に選ぶ",
+        "actionable_tactic": "固定費の見直しでは、まず『自動更新OFF』を初期設定にしてから必要なものだけONに戻す",
+        "academic_reference": "Johnson, E. J., & Goldstein, D. (2003). Do defaults save lives?. Science",
+        "evidence_grade": "gold",
+        "suggested_question_types": [
+            "swipe_judgment",
+            "multiple_choice"
+        ],
+        "cultural_notes": "日本のサブスクや携帯プランでも、初期設定のまま継続しやすい傾向を説明しやすい"
     }
 ]

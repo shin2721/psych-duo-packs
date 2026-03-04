@@ -1,5 +1,5 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { GeneratedQuestion, CriticResult } from "./types";
+import { GeneratedQuestion, CriticResult, CriticResultSchema } from "./types";
 import { CONTENT_MODELS } from "./modelConfig";
 
 const CRITIC_SYSTEM_PROMPT = `You are a Rule Audit AI for Psycle content.
@@ -220,12 +220,33 @@ Output JSON only.`);
     throw new Error("No content in critic response");
   }
 
-  const criticResult = JSON.parse(content) as any; // Using any temporarily as types need update
+  let parsedJson: unknown;
+  try {
+    parsedJson = JSON.parse(content);
+  } catch {
+    console.warn("[critic] invalid payload: malformed JSON");
+    throw new Error("Invalid critic payload");
+  }
+
+  const criticResult = parseCriticResult(parsedJson);
+  if (!criticResult) {
+    console.warn("[critic] invalid payload: schema mismatch");
+    throw new Error("Invalid critic payload");
+  }
 
   // Strict Pass/Fail Logic: Any violation = FAIL
-  criticResult.passed = !hasHardViolations(criticResult.violations);
+  return {
+    ...criticResult,
+    passed: !hasHardViolations(criticResult.violations),
+  };
+}
 
-  return criticResult;
+export function parseCriticResult(raw: unknown): CriticResult | null {
+  const parsed = CriticResultSchema.safeParse(raw);
+  if (!parsed.success) {
+    return null;
+  }
+  return parsed.data;
 }
 
 type ViolationFlags = CriticResult["violations"];
@@ -283,10 +304,21 @@ export function formatCriticReport(result: CriticResult): string {
     claim_evidence_binding: false,
     dose_and_timebox: false,
     counterexample_first: false,
+    vocabulary_hygiene: false,
+  };
+  const w = result.warnings || {
+    scene_specificity: false,
+    twist_line: false,
+    vocabulary_warn: false,
+    choice_tension: false,
+    source_fit: false,
+    tiny_metric: false,
+    comparator: false,
+    countermove: false,
   };
 
   // 3-level citation check display
-  const citationLevel = (result as any).citation_reality_level || "ok";
+  const citationLevel = result.citation_reality_level || "ok";
   const citationDisplay = citationLevel === "ng"
     ? "🚨 NG (VIOLATION)"
     : citationLevel === "weak"
@@ -306,21 +338,21 @@ ${statusEmoji} Audit Result: ${result.passed ? "PASSED" : "NEEDS_REVIEW"}
   - User Can Be Right: ${v.user_can_be_right ? "🚨 VIOLATION" : "OK"}
   - Psychoeducation First: ${v.psychoeducation_first ? "🚨 VIOLATION" : "OK"}
   - Citation Reality: ${citationDisplay}
-  - Mechanism > Outcome: ${(v as any).mechanism_over_outcome ? "🚨 VIOLATION" : "OK"}
-  - Claim-Evidence Binding: ${(v as any).claim_evidence_binding ? "🚨 VIOLATION" : "OK"}
-  - Dose & Timebox: ${(v as any).dose_and_timebox ? "🚨 VIOLATION" : "OK"}
-  - Counterexample First: ${(v as any).counterexample_first ? "🚨 VIOLATION" : "OK"}
-  - Vocabulary Hygiene: ${(v as any).vocabulary_hygiene ? "🚨 VIOLATION (FAIL words)" : "OK"}
+  - Mechanism > Outcome: ${v.mechanism_over_outcome ? "🚨 VIOLATION" : "OK"}
+  - Claim-Evidence Binding: ${v.claim_evidence_binding ? "🚨 VIOLATION" : "OK"}
+  - Dose & Timebox: ${v.dose_and_timebox ? "🚨 VIOLATION" : "OK"}
+  - Counterexample First: ${v.counterexample_first ? "🚨 VIOLATION" : "OK"}
+  - Vocabulary Hygiene: ${v.vocabulary_hygiene ? "🚨 VIOLATION (FAIL words)" : "OK"}
 
 📢 Engagement Warnings:
-  - Scene Specificity: ${(result as any).warnings?.scene_specificity ? "⚠️ WARN (add concrete details)" : "OK"}
-  - Twist Line: ${(result as any).warnings?.twist_line ? "⚠️ WARN (add counterintuitive insight)" : "OK"}
-  - Vocabulary (WARN): ${(result as any).warnings?.vocabulary_warn ? "⚠️ WARN (review wording)" : "OK"}
-  - Choice Tension: ${(result as any).warnings?.choice_tension ? "⚠️ WARN (add empathy)" : "OK"}
-  - Source Fit: ${(result as any).warnings?.source_fit ? "⚠️ WARN (source_id mismatch)" : "OK"}
-  - Tiny Metric: ${(result as any).warnings?.tiny_metric ? "⚠️ WARN (intervention needs tiny_metric)" : "OK"}
-  - Comparator: ${(result as any).warnings?.comparator ? "⚠️ WARN (intervention needs comparator)" : "OK"}
-  - Countermove: ${(result as any).warnings?.countermove ? "⚠️ WARN (try_this needs fallback)" : "OK"}
+  - Scene Specificity: ${w.scene_specificity ? "⚠️ WARN (add concrete details)" : "OK"}
+  - Twist Line: ${w.twist_line ? "⚠️ WARN (add counterintuitive insight)" : "OK"}
+  - Vocabulary (WARN): ${w.vocabulary_warn ? "⚠️ WARN (review wording)" : "OK"}
+  - Choice Tension: ${w.choice_tension ? "⚠️ WARN (add empathy)" : "OK"}
+  - Source Fit: ${w.source_fit ? "⚠️ WARN (source_id mismatch)" : "OK"}
+  - Tiny Metric: ${w.tiny_metric ? "⚠️ WARN (intervention needs tiny_metric)" : "OK"}
+  - Comparator: ${w.comparator ? "⚠️ WARN (intervention needs comparator)" : "OK"}
+  - Countermove: ${w.countermove ? "⚠️ WARN (try_this needs fallback)" : "OK"}
 
 💬 Audit Log:
 ${result.feedback}
