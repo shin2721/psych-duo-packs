@@ -17,11 +17,27 @@ interface LeaderboardEntry {
     updated_at: string;
 }
 
+const FETCH_TIMEOUT_MS = 10_000;
+
+function withTimeout<T>(promise: Promise<T>, label: string): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+        const timer = setTimeout(() => {
+            reject(new Error(`[leaderboard] ${label} timed out after ${FETCH_TIMEOUT_MS}ms`));
+        }, FETCH_TIMEOUT_MS);
+
+        promise
+            .then((value) => resolve(value))
+            .catch((error) => reject(error))
+            .finally(() => clearTimeout(timer));
+    });
+}
+
 export default function LeaderboardScreen() {
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [leagueInfo, setLeagueInfo] = useState<LeagueInfo | null>(null);
     const [view, setView] = useState<'league' | 'global' | 'friends'>('league');
     const [loading, setLoading] = useState(true);
+    const [loadError, setLoadError] = useState<string | null>(null);
     const [friendIds, setFriendIds] = useState<Set<string>>(new Set());
     const [pendingRequestIds, setPendingRequestIds] = useState<Set<string>>(new Set());
     const { user } = useAuth();
@@ -48,23 +64,29 @@ export default function LeaderboardScreen() {
 
         try {
             // Fetch friend IDs
-            const { data: friends } = await supabase
+            const { data: friends } = await withTimeout(
+                supabase
                 .from('friendships')
                 .select('friend_id')
-                .eq('user_id', user.id);
+                .eq('user_id', user.id),
+                'friendships fetch'
+            );
 
             setFriendIds(new Set(friends?.map(f => f.friend_id) || []));
 
             // Fetch pending request IDs
-            const { data: requests } = await supabase
+            const { data: requests } = await withTimeout(
+                supabase
                 .from('friend_requests')
                 .select('to_user_id')
                 .eq('from_user_id', user.id)
-                .eq('status', 'pending');
+                .eq('status', 'pending'),
+                'friend requests fetch'
+            );
 
             setPendingRequestIds(new Set(requests?.map(r => r.to_user_id) || []));
         } catch (error) {
-            console.error('Error fetching friend status:', error);
+            console.error('[leaderboard] failed to fetch friend status', error);
         }
     };
 
@@ -106,18 +128,25 @@ export default function LeaderboardScreen() {
     };
 
     const fetchLeague = async () => {
-        if (!user) return;
+        if (!user) {
+            setLoadError(null);
+            setLoading(false);
+            setLeagueInfo(null);
+            return;
+        }
         setLoading(true);
+        setLoadError(null);
         try {
-            let info = await getMyLeague(user.id);
+            let info = await withTimeout(getMyLeague(user.id), 'getMyLeague');
             if (!info) {
                 // Not in a league yet, try to join
-                await ensureJoinedLeagueForCurrentWeek(user.id);
-                info = await getMyLeague(user.id);
+                await withTimeout(ensureJoinedLeagueForCurrentWeek(user.id), 'ensureJoinedLeagueForCurrentWeek');
+                info = await withTimeout(getMyLeague(user.id), 'getMyLeague after join');
             }
             setLeagueInfo(info);
         } catch (error) {
-            console.error('Error fetching league:', error);
+            console.error('[leaderboard] failed to fetch league', error);
+            setLoadError(String(i18n.t('leaderboard.emptyData')));
         } finally {
             setLoading(false);
         }
@@ -125,23 +154,34 @@ export default function LeaderboardScreen() {
 
     const fetchLeaderboard = async () => {
         setLoading(true);
+        setLoadError(null);
         try {
             if (view === 'global') {
                 // Fetch top 100 users by XP
-                const { data, error } = await supabase
+                const { data, error } = await withTimeout(
+                    supabase
                     .from('leaderboard')
                     .select('*')
                     .order('total_xp', { ascending: false })
-                    .limit(100);
+                    .limit(100),
+                    'global leaderboard fetch'
+                );
 
                 if (error) throw error;
                 setLeaderboard(data || []);
             } else {
+                if (!user?.id) {
+                    setLeaderboard([]);
+                    return;
+                }
                 // Fetch friends' rankings
-                const { data: friends, error: friendsError } = await supabase
+                const { data: friends, error: friendsError } = await withTimeout(
+                    supabase
                     .from('friendships')
                     .select('friend_id')
-                    .eq('user_id', user?.id);
+                    .eq('user_id', user.id),
+                    'friend ids fetch'
+                );
 
                 if (friendsError) throw friendsError;
 
@@ -150,21 +190,33 @@ export default function LeaderboardScreen() {
                 if (friendIds.length === 0) {
                     setLeaderboard([]);
                 } else {
-                    const { data, error } = await supabase
+                    const { data, error } = await withTimeout(
+                        supabase
                         .from('leaderboard')
                         .select('*')
                         .in('user_id', friendIds)
-                        .order('total_xp', { ascending: false });
+                        .order('total_xp', { ascending: false }),
+                        'friends leaderboard fetch'
+                    );
 
                     if (error) throw error;
                     setLeaderboard(data || []);
                 }
             }
         } catch (error) {
-            console.error('Error fetching leaderboard:', error);
+            console.error('[leaderboard] failed to fetch leaderboard', error);
+            setLoadError(String(i18n.t('leaderboard.emptyData')));
         } finally {
             setLoading(false);
         }
+    };
+
+    const handleRetry = () => {
+        if (view === 'league') {
+            void fetchLeague();
+            return;
+        }
+        void fetchLeaderboard();
     };
 
     const renderLeaderboardRow = ({ item, index }: { item: LeaderboardEntry; index: number }) => {
@@ -252,8 +304,16 @@ export default function LeaderboardScreen() {
             </View>
 
             {loading ? (
-                <View style={styles.loadingContainer}>
+                <View style={styles.loadingContainer} testID="leaderboard-loading">
                     <ActivityIndicator size="large" color={theme.colors.primary} />
+                </View>
+            ) : loadError ? (
+                <View style={styles.emptyContainer} testID="leaderboard-error">
+                    <Text style={styles.errorTitle}>{i18n.t('common.error')}</Text>
+                    <Text style={styles.emptyText}>{loadError}</Text>
+                    <Pressable style={styles.retryButton} onPress={handleRetry} testID="leaderboard-retry">
+                        <Text style={styles.retryButtonText}>{i18n.t('common.retry')}</Text>
+                    </Pressable>
                 </View>
             ) : view === 'league' ? (
                 // League view
@@ -395,6 +455,24 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: theme.colors.sub,
         textAlign: 'center',
+    },
+    errorTitle: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: theme.colors.text,
+        marginBottom: 8,
+    },
+    retryButton: {
+        marginTop: 14,
+        backgroundColor: theme.colors.primary,
+        borderRadius: 10,
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+    },
+    retryButtonText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: '700',
     },
     list: {
         padding: 16,

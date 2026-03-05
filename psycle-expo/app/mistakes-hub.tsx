@@ -1,5 +1,5 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useMemo, useRef, useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -28,15 +28,6 @@ export default function MistakesHubScreen() {
       .map((item) => getQuestionFromId(item.lessonId, item.itemId))
       .filter((question): question is Question => Boolean(question));
   }, [mistakesHubSessionItems]);
-
-  useEffect(() => {
-    if (mistakesHubSessionItems.length > 0) return;
-    Alert.alert(
-      String(i18n.t("common.error")),
-      String(i18n.t("mistakesHubButton.notEnoughData")),
-      [{ text: String(i18n.t("common.ok")), onPress: () => router.back() }]
-    );
-  }, [mistakesHubSessionItems.length]);
 
   const finishSession = (nextClearedCount: number) => {
     if (!completionTrackedRef.current) {
@@ -86,14 +77,10 @@ export default function MistakesHubScreen() {
     finishSession(nextClearedCount);
   };
 
-  if (mistakesHubSessionItems.length === 0) {
-    return <SafeAreaView style={styles.container} />;
-  }
-
-  if (questions.length === 0) {
+  if (mistakesHubSessionItems.length === 0 || questions.length === 0) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.emptyState}>
+      <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
+        <View style={styles.emptyState} testID="mistakes-hub-empty">
           <Text style={styles.emptyTitle}>{i18n.t("review.emptyTitle")}</Text>
           <Text style={styles.emptyText}>{i18n.t("mistakesHubButton.notEnoughData")}</Text>
           <Pressable style={styles.primaryButton} onPress={handleClose}>
@@ -106,7 +93,7 @@ export default function MistakesHubScreen() {
 
   if (isComplete) {
     return (
-      <SafeAreaView style={styles.container}>
+      <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
         <View style={styles.resultContainer}>
           <Text style={styles.resultTitle}>{i18n.t("review.doneTitle")}</Text>
           <Text style={styles.resultBody}>
@@ -126,7 +113,7 @@ export default function MistakesHubScreen() {
   const currentQuestion = questions[currentIndex];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
       <View style={styles.header}>
         <Pressable style={styles.closeButton} onPress={handleClose}>
           <Ionicons name="close" size={24} color={theme.colors.text} />
