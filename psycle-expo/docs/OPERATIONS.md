@@ -446,28 +446,42 @@ npm run promote:lesson {domain} {basename}
   - MFA/規約同意
   - モデル切替の最終承認
 
-#### 収益化前モード（無料枠・週1ヘルスチェック）
-目的: 本格ベンチ前に、パイプライン生存確認と計測配線維持のみ行う。
+#### 収益化前モード（APIなし・週1監査）
+目的: 生成を無理に回さず、品質監査と配線健全性の維持を行う。
 
 - 収益化前（MRR 30万円/月未満）は、月次ベンチを停止する。
-- 週1で以下のみ実行する:
-```bash
-cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo/scripts/content-generator
-npm run patrol -- --limit=1
-```
-- 実行後に以下を確認する:
+- 週1で以下の監査ジョブのみ実行する:
 ```bash
 cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
-npm run content:metrics:summary -- --days=1
-npm run content:cost:summary -- --days=1
+npx jest --watchman=false
+npm run validate:lessons
+npm run content:i18n:check
+npm run content:i18n:smoke
+cd scripts/content-generator
+npx ts-node src/batch_critic.ts --local --report
 ```
 - 判定:
-  - `savedQuestions=0` は失敗扱いにしない（無料枠429を許容）
-  - 目的は「停止していないこと」と「metricsが追記されること」
+  - 回帰4本と `batch_critic --local` が完走すれば正常
+  - `patrol` は収益化前の定期ジョブでは実行しない
+  - `savedQuestions` は収益化前ヘルス指標に使わない
+
+#### 収益化前の生成分担（Claude/Codex）
+目的: API課金なしで生成品質を維持し、原則運用を継続する。
+
+- Claude担当:
+  - 5-Phase意図に沿った問題案の作成
+  - 文体・ニュアンス・心理学トーンの調整
+- Codex担当:
+  - JSON構造化
+  - deterministic gate / local critic / validate / bundle の実行
+  - 失敗理由の修正反映と監査ログ整理
+- Owner担当:
+  - 最終承認
+  - 本番昇格可否の判断
 
 #### 収益化前の異常時ルール
 - `unknown_model_rate > 0` が出た場合は、同日中に `costConfig.ts` の単価テーブル更新候補として記録する（コード更新は別バッチ）。
-- `patrol` が起動しない/metrics追記なしの場合は最優先で復旧し、復旧時刻をJSTで記録する。
+- 監査ジョブが失敗した場合は最優先で復旧し、復旧時刻をJSTで記録する。
 
 #### 事前チェック
 ```bash
