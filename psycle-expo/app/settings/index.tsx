@@ -36,6 +36,12 @@ export default function SettingsScreen() {
     const [isOpeningPortal, setIsOpeningPortal] = useState(false);
     const [isRestoring, setIsRestoring] = useState(false);
     const [isLanguageModalVisible, setIsLanguageModalVisible] = useState(false);
+    const [portalStatus, setPortalStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [restoreStatus, setRestoreStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
+    const [portalStatusMessage, setPortalStatusMessage] = useState("");
+    const [restoreStatusMessage, setRestoreStatusMessage] = useState("");
+    const portalStatusTimer = useRef<NodeJS.Timeout | null>(null);
+    const restoreStatusTimer = useRef<NodeJS.Timeout | null>(null);
     const isAnalyticsDebugEnabled = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
 
     // Secret 5-tap entry for Analytics Debug (DEV + E2E release)
@@ -56,8 +62,54 @@ export default function SettingsScreen() {
 
         return () => {
             mounted = false;
+            if (portalStatusTimer.current) {
+                clearTimeout(portalStatusTimer.current);
+            }
+            if (restoreStatusTimer.current) {
+                clearTimeout(restoreStatusTimer.current);
+            }
         };
     }, []);
+
+    const scheduleStatusReset = (
+        timerRef: React.MutableRefObject<NodeJS.Timeout | null>,
+        setStatus: React.Dispatch<React.SetStateAction<"idle" | "loading" | "success" | "error">>,
+        setMessage: React.Dispatch<React.SetStateAction<string>>
+    ) => {
+        if (timerRef.current) {
+            clearTimeout(timerRef.current);
+        }
+        timerRef.current = setTimeout(() => {
+            setStatus("idle");
+            setMessage("");
+        }, 5000);
+    };
+
+    const updateRestoreStatus = (status: "idle" | "loading" | "success" | "error", message = "") => {
+        setRestoreStatus(status);
+        setRestoreStatusMessage(message);
+        if (status === "success" || status === "error") {
+            scheduleStatusReset(restoreStatusTimer, setRestoreStatus, setRestoreStatusMessage);
+            return;
+        }
+        if (restoreStatusTimer.current) {
+            clearTimeout(restoreStatusTimer.current);
+            restoreStatusTimer.current = null;
+        }
+    };
+
+    const updatePortalStatus = (status: "idle" | "loading" | "success" | "error", message = "") => {
+        setPortalStatus(status);
+        setPortalStatusMessage(message);
+        if (status === "success" || status === "error") {
+            scheduleStatusReset(portalStatusTimer, setPortalStatus, setPortalStatusMessage);
+            return;
+        }
+        if (portalStatusTimer.current) {
+            clearTimeout(portalStatusTimer.current);
+            portalStatusTimer.current = null;
+        }
+    };
 
     const handleNotificationToggle = async (enabled: boolean) => {
         setNotificationsEnabled(enabled);
@@ -122,10 +174,12 @@ export default function SettingsScreen() {
 
     const handleRestorePurchases = async () => {
         if (!user?.id) {
+            updateRestoreStatus("error", String(i18n.t("settings.loginRequiredForRestore")));
             Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.loginRequiredForRestore"));
             return;
         }
         setIsRestoring(true);
+        updateRestoreStatus("loading", String(i18n.t("settings.restoreStatusLoading")));
         try {
             const result = await restorePurchases();
             if (result && result.restored && result.planId) {
@@ -150,7 +204,13 @@ export default function SettingsScreen() {
                         activeUntil: restoredActiveUntil,
                     })
                 );
+                updateRestoreStatus("success", String(i18n.t("settings.restoreStatusSuccess")));
+                return;
             }
+            updateRestoreStatus("error", String(i18n.t("settings.restoreStatusError")));
+        } catch (error) {
+            console.error("Restore purchases error:", error);
+            updateRestoreStatus("error", String(i18n.t("settings.restoreStatusError")));
         } finally {
             setIsRestoring(false);
         }
@@ -158,16 +218,24 @@ export default function SettingsScreen() {
 
     const handleOpenBillingPortal = async () => {
         if (!user?.id) {
+            updatePortalStatus("error", String(i18n.t("settings.loginRequiredForBillingPortal")));
             Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.loginRequiredForBillingPortal"));
             return;
         }
 
         setIsOpeningPortal(true);
+        updatePortalStatus("loading", String(i18n.t("settings.billingStatusLoading")));
         try {
             const ok = await openBillingPortal();
             if (!ok) {
+                updatePortalStatus("error", String(i18n.t("settings.billingStatusError")));
                 Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.billingPortalUnavailable"));
+                return;
             }
+            updatePortalStatus("success", String(i18n.t("settings.billingStatusSuccess")));
+        } catch (error) {
+            console.error("Open billing portal error:", error);
+            updatePortalStatus("error", String(i18n.t("settings.billingStatusError")));
         } finally {
             setIsOpeningPortal(false);
         }
@@ -226,7 +294,7 @@ export default function SettingsScreen() {
             <ScrollView testID="settings-scroll">
                 {/* Header */}
                 <View style={styles.header}>
-                    <Pressable onPress={() => router.back()} style={styles.backButton}>
+                    <Pressable onPress={() => router.back()} style={styles.backButton} testID="settings-back">
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
                     <Pressable onPress={handleTitleTap} testID="settings-title-tap">
@@ -308,11 +376,25 @@ export default function SettingsScreen() {
                         label={isRestoring ? i18n.t("settings.restoring") : i18n.t("settings.restorePurchases")}
                         onPress={handleRestorePurchases}
                     />
+                    {restoreStatus !== "idle" && (
+                        <SettingStatusRow
+                            status={restoreStatus}
+                            message={restoreStatusMessage}
+                            testID="settings-restore-status"
+                        />
+                    )}
                     <SettingRow
                         icon="card"
                         label={isOpeningPortal ? i18n.t("settings.openingPortal") : i18n.t("settings.manageBilling")}
                         onPress={handleOpenBillingPortal}
                     />
+                    {portalStatus !== "idle" && (
+                        <SettingStatusRow
+                            status={portalStatus}
+                            message={portalStatusMessage}
+                            testID="settings-billing-status"
+                        />
+                    )}
                 </View>
 
                 {/* Debug Section (Dev + E2E release) */}
@@ -389,6 +471,30 @@ export default function SettingsScreen() {
                 </Pressable>
             </Modal>
         </SafeAreaView>
+    );
+}
+
+function SettingStatusRow({
+    status,
+    message,
+    testID,
+}: {
+    status: "loading" | "success" | "error";
+    message: string;
+    testID: string;
+}) {
+    return (
+        <View style={styles.statusRow} testID={testID}>
+            <Text
+                style={[
+                    styles.statusText,
+                    status === "success" && styles.statusTextSuccess,
+                    status === "error" && styles.statusTextError,
+                ]}
+            >
+                {message}
+            </Text>
+        </View>
     );
 }
 
@@ -507,6 +613,24 @@ const styles = StyleSheet.create({
     settingValue: {
         fontSize: 14,
         color: theme.colors.sub,
+    },
+    statusRow: {
+        paddingHorizontal: theme.spacing.lg,
+        paddingTop: theme.spacing.xs,
+        paddingBottom: theme.spacing.sm,
+        backgroundColor: theme.colors.surface,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.colors.line,
+    },
+    statusText: {
+        fontSize: 12,
+        color: theme.colors.sub,
+    },
+    statusTextSuccess: {
+        color: theme.colors.success,
+    },
+    statusTextError: {
+        color: theme.colors.error,
     },
     destructiveText: {
         color: "#FF6B6B",
