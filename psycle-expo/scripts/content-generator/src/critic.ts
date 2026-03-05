@@ -1,6 +1,7 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { GeneratedQuestion, CriticResult, CriticResultSchema } from "./types";
 import { CONTENT_MODELS } from "./modelConfig";
+import { extractUsageMetadata, UsageTokens } from "./metrics";
 
 const CRITIC_SYSTEM_PROMPT = `You are a Rule Audit AI for Psycle content.
 Do NOT evaluate "quality" or "humor".
@@ -196,7 +197,8 @@ Check evidence data consistency:
 
 export async function evaluateQuestion(
   genAI: GoogleGenerativeAI,
-  question: GeneratedQuestion
+  question: GeneratedQuestion,
+  options: { onUsage?: (usage: UsageTokens) => void } = {}
 ): Promise<CriticResult> {
   const model = genAI.getGenerativeModel({
     model: CONTENT_MODELS.critic,
@@ -214,6 +216,7 @@ ${JSON.stringify(question, null, 2)}
 Output JSON only.`);
 
   const response = result.response;
+  options.onUsage?.(extractUsageMetadata(response));
   const content = response.text();
 
   if (!content) {

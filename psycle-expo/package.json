@@ -69,6 +69,7 @@
     "ops:data-access:check": "bash scripts/ops/check-assistant-data-access.sh",
     "ops:stripe:snapshot": "bash scripts/ops/stripe-monetization-snapshot.sh",
     "content:metrics:summary": "cd scripts/content-generator && npm run metrics:summary --",
+    "content:cost:summary": "cd scripts/content-generator && npm run cost:summary --",
     "content:sources:validate": "cd scripts/content-generator && npm run sources:validate --"
   },
   "dependencies": {

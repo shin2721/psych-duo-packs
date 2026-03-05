@@ -422,6 +422,64 @@ npm run promote:lesson {domain} {basename}
     └── index.ts
 ```
 
+### Generator GA Cutover Runbook（Cost Optimization）
+
+目的: 収益化後に `Saved Question単価` を主指標として generator モデルを比較し、手動承認で切替する。
+
+固定方針:
+- 開始条件: MRR 30万円/月 到達
+- 実施頻度: 月1回
+- baseline: `gemini-3-flash-preview`（デフォルト）
+- candidate: `CONTENT_MODEL_GENERATOR=gemini-2.5-flash`
+- 切替: 自動切替禁止（owner 手動承認のみ）
+
+#### 事前チェック
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+npx jest --watchman=false
+npm run validate:lessons
+npm run content:i18n:check
+npm run content:i18n:smoke
+npm run content:metrics:summary -- --days=7
+npm run content:cost:summary -- --days=7
+```
+
+#### 比較実行（30日窓）
+```bash
+# baseline run
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo/scripts/content-generator
+npm run patrol -- --limit=5
+
+# candidate run
+CONTENT_MODEL_GENERATOR=gemini-2.5-flash npm run patrol -- --limit=5
+```
+
+#### 判定指標（30日窓）
+- 主指標: `costPerSavedQuestionJpy` が baseline より改善
+- ガードレール:
+  - `deterministicPassed / questionsGenerated` が baseline 比 -10pt 以内
+  - `criticPassed / deterministicPassed` が baseline 比 -10pt 以内
+  - `Invalid critic payload` 率 <= 1%
+
+#### 停止・ロールバック
+- 異常時は 1日以内に baseline へ復帰（env override を外す）
+- 記録項目（JST絶対時刻）:
+  - 実行日
+  - baseline / candidate の run 数
+  - costPerSavedQuestionJpy
+  - ガードレール差分
+  - 判定（pass / rollback）
+  - 復旧時刻
+
+#### 監視コマンド
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+npm run content:metrics:summary -- --days=1
+npm run content:cost:summary -- --days=1
+npm run content:metrics:summary -- --days=30
+npm run content:cost:summary -- --days=30
+```
+
 ---
 
 ## 8. A/A Gate Runbook（Experiment/Personalization）

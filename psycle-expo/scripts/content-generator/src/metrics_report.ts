@@ -26,6 +26,7 @@ function main(): void {
       acc.criticPassed += row.criticPassed;
       acc.savedQuestions += row.savedQuestions;
       acc.bundledLessons += row.bundledLessons;
+      acc.estimatedCostJpy += row.costSummary?.estimatedCostJpy || 0;
       return acc;
     },
     {
@@ -37,6 +38,7 @@ function main(): void {
       criticPassed: 0,
       savedQuestions: 0,
       bundledLessons: 0,
+      estimatedCostJpy: 0,
     }
   );
 
@@ -71,6 +73,12 @@ function main(): void {
     )})`
   );
   console.log(`Saved questions: ${totals.savedQuestions} (${toPercent(totals.savedQuestions, totals.questionsGenerated)})`);
+  console.log(`Estimated API cost (JPY): ¥${totals.estimatedCostJpy.toFixed(2)}`);
+  console.log(
+    `Cost per saved question (JPY): ${
+      totals.savedQuestions > 0 ? `¥${(totals.estimatedCostJpy / totals.savedQuestions).toFixed(2)}` : "N/A"
+    }`
+  );
   console.log(`Bundled lessons: ${totals.bundledLessons}`);
 
   if (topReasons.length > 0) {

@@ -5,6 +5,7 @@ import { Seed, QuestionType, GeneratedQuestion, GeneratedQuestionSchema } from "
 import { BLACKLISTED_TOPICS, CAUTIONARY_TOPICS } from "./blacklist";
 import { PhaseId, getPhaseObjective, inferPhaseFromQuestionType, isValidPhase } from "./phasePolicy";
 import { CONTENT_MODELS } from "./modelConfig";
+import { extractUsageMetadata, UsageTokens } from "./metrics";
 
 const PROMPTS_DIR = join(__dirname, "..", "prompts");
 
@@ -91,6 +92,7 @@ function getQuestionTypeSchema(type: QuestionType): string {
 
 export type GenerateQuestionOptions = {
   enforceExpandedDetails?: boolean;
+  onUsage?: (usage: UsageTokens) => void;
 };
 
 function isNonEmptyString(value: unknown): value is string {
@@ -335,6 +337,7 @@ JSONのみを出力してください。`;
 
   const result = await model.generateContent(userPrompt);
   const response = result.response;
+  options.onUsage?.(extractUsageMetadata(response));
   const content = response.text();
 
   if (!content) {

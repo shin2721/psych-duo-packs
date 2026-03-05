@@ -3,6 +3,7 @@ import { z } from "zod";
 import { Seed, SeedSchema } from "./types";
 import { normalizeDomain } from "./phasePolicy";
 import { CONTENT_MODELS } from "./modelConfig";
+import { extractUsageMetadata, UsageTokens } from "./metrics";
 
 export interface RawNewsItem {
     title: string;
@@ -22,6 +23,10 @@ export interface ExtractedSeed extends Seed {
     originalLink: string;
     extractionConfidence: number; // 0-1
 }
+
+export type LLMUsageCallbackOptions = {
+    onUsage?: (usage: UsageTokens) => void;
+};
 
 export const RelevanceResultSchema = z.object({
     isRelevant: z.boolean(),
@@ -136,7 +141,8 @@ const EXTRACTOR_PROMPT = `あなたはPsycleアプリの「抽出エージェン
 
 export async function checkRelevance(
     genAI: GoogleGenerativeAI,
-    newsItem: RawNewsItem
+    newsItem: RawNewsItem,
+    options: LLMUsageCallbackOptions = {}
 ): Promise<RelevanceResult> {
     const model = genAI.getGenerativeModel({
         model: CONTENT_MODELS.relevance,
@@ -154,7 +160,9 @@ export async function checkRelevance(
 ソース: ${newsItem.source}`;
 
     const result = await model.generateContent(userPrompt);
-    const content = result.response.text();
+    const response = result.response;
+    options.onUsage?.(extractUsageMetadata(response));
+    const content = response.text();
 
     if (!content) {
         return { isRelevant: false, reason: "No response", psychologyScore: 0 };
@@ -170,7 +178,8 @@ export async function checkRelevance(
 
 export async function extractSeedFromNews(
     genAI: GoogleGenerativeAI,
-    newsItem: RawNewsItem
+    newsItem: RawNewsItem,
+    options: LLMUsageCallbackOptions = {}
 ): Promise<ExtractedSeed | null> {
     const model = genAI.getGenerativeModel({
         model: CONTENT_MODELS.extractor,
@@ -190,7 +199,9 @@ export async function extractSeedFromNews(
 公開日: ${newsItem.pubDate}`;
 
     const result = await model.generateContent(userPrompt);
-    const content = result.response.text();
+    const response = result.response;
+    options.onUsage?.(extractUsageMetadata(response));
+    const content = response.text();
 
     if (!content) {
         return null;

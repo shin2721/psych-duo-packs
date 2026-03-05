@@ -26,7 +26,16 @@ import { checkAndBundle } from "./bundler";
 import { getPhaseForIndex, getQuestionTypeForPhase, normalizeDomain } from "./phasePolicy";
 import { evaluateDeterministicGate } from "./deterministicGate";
 import { getLastSourceRegistryLoadInfo, loadSourceRegistry } from "./sourceRegistry";
-import { appendGateFailure, appendPatrolMetrics, type PatrolRunMetrics, type SourceRunMetrics } from "./metrics";
+import {
+    appendGateFailure,
+    appendPatrolMetrics,
+    createModelUsageSummary,
+    recordModelUsage,
+    type PatrolRunMetrics,
+    type SourceRunMetrics,
+} from "./metrics";
+import { CONTENT_MODELS } from "./modelConfig";
+import { estimateRunCostJpy } from "./costConfig";
 
 config({ path: join(__dirname, "..", ".env") });
 
@@ -89,6 +98,12 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
     }
     const gateFailureReasons: Record<string, number> = {};
     const seedSourceByLink = new Map<string, string>();
+    const modelUsage = createModelUsageSummary({
+        relevance: CONTENT_MODELS.relevance,
+        extractor: CONTENT_MODELS.extractor,
+        generator: CONTENT_MODELS.generator,
+        critic: CONTENT_MODELS.critic,
+    });
 
     console.log("🚀 Psycle Patrol: Full Automation Mode");
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -178,6 +193,13 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
             bundledLessons: 0,
             sources: sourceStatsById,
             gateFailureReasons,
+            modelUsage,
+            costSummary: {
+                currency: "JPY",
+                estimatedCostJpy: 0,
+                costPerSavedQuestionJpy: null,
+                unknownModelRate: 0,
+            },
         };
         appendPatrolMetrics(dryRunMetrics);
         return result;
@@ -198,7 +220,11 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
 
     for (const item of rawItems.slice(0, limit)) {
         try {
-            const relevance = await checkRelevance(genAI, item);
+            const relevance = await checkRelevance(genAI, item, {
+                onUsage: (usage) => {
+                    recordModelUsage(modelUsage, "relevance", CONTENT_MODELS.relevance, usage);
+                },
+            });
             console.log(`   [${relevance.psychologyScore}/10] ${item.title.slice(0, 40)}...`);
 
             if (relevance.isRelevant && relevance.psychologyScore >= 5) {
@@ -223,7 +249,11 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
 
     for (const item of relevantItems) {
         try {
-            const seed = await extractSeedFromNews(genAI, item);
+            const seed = await extractSeedFromNews(genAI, item, {
+                onUsage: (usage) => {
+                    recordModelUsage(modelUsage, "extractor", CONTENT_MODELS.extractor, usage);
+                },
+            });
             if (seed) {
                 seeds.push(seed);
                 seedSourceByLink.set(seed.originalLink, item.source);
@@ -283,6 +313,9 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
 
             const question = await generateQuestion(genAI, fullSeed, qType, "medium", targetPhase, {
                 enforceExpandedDetails: true,
+                onUsage: (usage) => {
+                    recordModelUsage(modelUsage, "generator", CONTENT_MODELS.generator, usage);
+                },
             });
             result.questionsGenerated++;
 
@@ -308,7 +341,11 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
 
             // Step 5: Evaluate
             console.log("   🔍 Evaluating...");
-            const criticResult = await evaluateQuestion(genAI, question);
+            const criticResult = await evaluateQuestion(genAI, question, {
+                onUsage: (usage) => {
+                    recordModelUsage(modelUsage, "critic", CONTENT_MODELS.critic, usage);
+                },
+            });
             console.log(formatCriticReport(criticResult));
 
             if (criticResult.passed) {
@@ -366,6 +403,10 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
     if (bundleResults.length > 0) {
         console.log(`   🎉 Created ${bundleResults.length} new lesson(s)!`);
     }
+    const runCost = estimateRunCostJpy(modelUsage, result.savedQuestions.length);
+    if (runCost.unknownModelRate > 0) {
+        console.warn(`[cost] unknown_model_rate=${(runCost.unknownModelRate * 100).toFixed(1)}%`);
+    }
 
     const patrolMetrics: PatrolRunMetrics = {
         timestamp: new Date().toISOString(),
@@ -380,6 +421,13 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
         bundledLessons: bundleResults.length,
         sources: sourceStatsById,
         gateFailureReasons,
+        modelUsage,
+        costSummary: {
+            currency: "JPY",
+            estimatedCostJpy: runCost.estimatedCostJpy,
+            costPerSavedQuestionJpy: runCost.costPerSavedQuestionJpy,
+            unknownModelRate: runCost.unknownModelRate,
+        },
     };
     appendPatrolMetrics(patrolMetrics);
 
