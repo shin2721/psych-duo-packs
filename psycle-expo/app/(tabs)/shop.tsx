@@ -423,6 +423,28 @@ export default function ShopScreen() {
           </View>
         )}
 
+        {proYearlyAvailable && (
+          <View style={styles.yearlySummaryCard} testID="shop-yearly-summary">
+            <View style={styles.yearlySummaryHeader}>
+              <Ionicons name="wallet" size={16} color={theme.colors.accent} />
+              <Text style={styles.yearlySummaryTitle}>{i18n.t("shop.subscription.yearly")}</Text>
+            </View>
+            <Text style={styles.yearlySummaryLine}>
+              {i18n.t("shop.subscription.yearlyEquivalent", {
+                price: getYearlyMonthlyEquivalent("pro"),
+              })}
+            </Text>
+            <Text style={styles.yearlySummaryDiscount}>
+              {i18n.t("shop.subscription.yearlyDiscount", {
+                percent: getYearlyDiscount("pro"),
+              })}
+            </Text>
+            <Text style={styles.yearlySummaryTrust}>
+              {i18n.t("shop.subscription.cancelAnytime")}
+            </Text>
+          </View>
+        )}
+
         <View style={styles.energyStatusCard}>
           <View style={styles.energyStatusHeader}>
             <EnergyIcon size={20} />
@@ -839,6 +861,38 @@ const styles = StyleSheet.create({
   energyStatusValue: {
     fontWeight: "700",
     color: theme.colors.text,
+  },
+  yearlySummaryCard: {
+    backgroundColor: theme.colors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+    padding: 14,
+    marginBottom: 12,
+    gap: 4,
+  },
+  yearlySummaryHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  yearlySummaryTitle: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: theme.colors.text,
+  },
+  yearlySummaryLine: {
+    fontSize: 13,
+    color: theme.colors.sub,
+  },
+  yearlySummaryDiscount: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: theme.colors.accent,
+  },
+  yearlySummaryTrust: {
+    fontSize: 12,
+    color: theme.colors.sub,
   },
   plansContainer: {
     flexDirection: "row",
