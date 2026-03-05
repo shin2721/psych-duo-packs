@@ -433,6 +433,42 @@ npm run promote:lesson {domain} {basename}
 - candidate: `CONTENT_MODEL_GENERATOR=gemini-2.5-flash`
 - 切替: 自動切替禁止（owner 手動承認のみ）
 
+#### Roles（固定）
+- Codex担当:
+  - `patrol` 実行
+  - 日次/週次集計
+  - 異常検知
+  - 比較レポート作成
+  - ロールバック実行（承認済み範囲）
+- Owner担当:
+  - API課金有効化
+  - ダッシュボード権限操作
+  - MFA/規約同意
+  - モデル切替の最終承認
+
+#### 収益化前モード（無料枠・週1ヘルスチェック）
+目的: 本格ベンチ前に、パイプライン生存確認と計測配線維持のみ行う。
+
+- 収益化前（MRR 30万円/月未満）は、月次ベンチを停止する。
+- 週1で以下のみ実行する:
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo/scripts/content-generator
+npm run patrol -- --limit=1
+```
+- 実行後に以下を確認する:
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+npm run content:metrics:summary -- --days=1
+npm run content:cost:summary -- --days=1
+```
+- 判定:
+  - `savedQuestions=0` は失敗扱いにしない（無料枠429を許容）
+  - 目的は「停止していないこと」と「metricsが追記されること」
+
+#### 収益化前の異常時ルール
+- `unknown_model_rate > 0` が出た場合は、同日中に `costConfig.ts` の単価テーブル更新候補として記録する（コード更新は別バッチ）。
+- `patrol` が起動しない/metrics追記なしの場合は最優先で復旧し、復旧時刻をJSTで記録する。
+
 #### 事前チェック
 ```bash
 cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
