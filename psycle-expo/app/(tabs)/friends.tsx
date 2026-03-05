@@ -108,7 +108,7 @@ export default function FriendsScreen() {
                 const profile = leaderboardMap.get(item.friend_id);
                 return {
                 friend_id: item.friend_id,
-                username: profile?.username || 'Unknown',
+                username: profile?.username || String(i18n.t('friends.fallbackUnknownUser')),
                 total_xp: profile?.total_xp || 0,
                 current_streak: profile?.current_streak || 0,
                 };
@@ -142,7 +142,7 @@ export default function FriendsScreen() {
                 return {
                 id: item.id,
                 from_user_id: item.from_user_id,
-                username: profile?.username || 'Unknown',
+                username: profile?.username || String(i18n.t('friends.fallbackUnknownUser')),
                 total_xp: profile?.total_xp || 0,
                 };
             });
@@ -195,11 +195,14 @@ export default function FriendsScreen() {
                 { user_id: fromUserId, friend_id: user.id },
             ]);
 
-            Alert.alert('Success', 'Friend request accepted!');
+            Alert.alert(
+                String(i18n.t('friends.alerts.requestAcceptedTitle')),
+                String(i18n.t('friends.alerts.requestAcceptedMessage'))
+            );
             fetchRequests();
         } catch (error) {
             console.error('Error accepting request:', error);
-            Alert.alert('Error', 'Failed to accept friend request');
+            Alert.alert(String(i18n.t('common.error')), String(i18n.t('friends.alerts.acceptFailed')));
         }
     };
 
@@ -213,7 +216,7 @@ export default function FriendsScreen() {
             fetchRequests();
         } catch (error) {
             console.error('Error rejecting request:', error);
-            Alert.alert('Error', 'Failed to reject friend request');
+            Alert.alert(String(i18n.t('common.error')), String(i18n.t('friends.alerts.rejectFailed')));
         }
     };
 
@@ -221,12 +224,12 @@ export default function FriendsScreen() {
         if (!user) return;
 
         Alert.alert(
-            'Remove Friend',
-            'Are you sure you want to remove this friend?',
+            String(i18n.t('friends.alerts.removeTitle')),
+            String(i18n.t('friends.alerts.removeMessage')),
             [
-                { text: 'Cancel', style: 'cancel' },
+                { text: String(i18n.t('common.cancel')), style: 'cancel' },
                 {
-                    text: 'Remove',
+                    text: String(i18n.t('friends.alerts.removeConfirm')),
                     style: 'destructive',
                     onPress: async () => {
                         try {
@@ -238,7 +241,7 @@ export default function FriendsScreen() {
                             fetchFriends();
                         } catch (error) {
                             console.error('Error removing friend:', error);
-                            Alert.alert('Error', 'Failed to remove friend');
+                            Alert.alert(String(i18n.t('common.error')), String(i18n.t('friends.alerts.removeFailed')));
                         }
                     },
                 },
@@ -311,8 +314,12 @@ export default function FriendsScreen() {
             <View style={styles.userInfo}>
                 <Text style={styles.username}>{item.username}</Text>
                 <View style={styles.stats}>
-                    <Text style={styles.statText}>⭐ {item.total_xp} XP</Text>
-                    <Text style={styles.statText}>🔥 {item.current_streak} day streak</Text>
+                    <Text style={styles.statText}>
+                        {String(i18n.t('friends.stats.xpValue', { xp: item.total_xp }))}
+                    </Text>
+                    <Text style={styles.statText}>
+                        {String(i18n.t('friends.stats.streakValue', { count: item.current_streak }))}
+                    </Text>
                 </View>
             </View>
             <Pressable
@@ -328,7 +335,9 @@ export default function FriendsScreen() {
         <View style={styles.card}>
             <View style={styles.userInfo}>
                 <Text style={styles.username}>{item.username}</Text>
-                <Text style={styles.statText}>⭐ {item.total_xp} XP</Text>
+                <Text style={styles.statText}>
+                    {String(i18n.t('friends.stats.xpValue', { xp: item.total_xp }))}
+                </Text>
             </View>
             <View style={styles.requestActions}>
                 <Pressable
@@ -348,34 +357,39 @@ export default function FriendsScreen() {
     );
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container} testID="friends-screen">
             <View style={styles.header}>
-                <Text style={styles.title}>Friends</Text>
+                <Text style={styles.title}>{String(i18n.t('friends.title'))}</Text>
             </View>
 
             <View style={styles.segmentedControl}>
                 <Pressable
                     style={[styles.segment, view === 'friends' && styles.activeSegment]}
                     onPress={() => setView('friends')}
+                    testID="friends-tab-friends"
                 >
                     <Text style={[styles.segmentText, view === 'friends' && styles.activeSegmentText]}>
-                        Friends
+                        {String(i18n.t('friends.tabs.friends'))}
                     </Text>
                 </Pressable>
                 <Pressable
                     style={[styles.segment, view === 'requests' && styles.activeSegment]}
                     onPress={() => setView('requests')}
+                    testID="friends-tab-requests"
                 >
                     <Text style={[styles.segmentText, view === 'requests' && styles.activeSegmentText]}>
-                        Requests {requests.length > 0 && `(${requests.length})`}
+                        {requests.length > 0
+                            ? String(i18n.t('friends.tabs.requestsWithCount', { count: requests.length }))
+                            : String(i18n.t('friends.tabs.requests'))}
                     </Text>
                 </Pressable>
                 <Pressable
                     style={[styles.segment, view === 'search' && styles.activeSegment]}
                     onPress={() => setView('search')}
+                    testID="friends-tab-search"
                 >
                     <Text style={[styles.segmentText, view === 'search' && styles.activeSegmentText]}>
-                        Search
+                        {String(i18n.t('friends.tabs.search'))}
                     </Text>
                 </Pressable>
             </View>
@@ -436,10 +450,10 @@ export default function FriendsScreen() {
                             </View>
                         )}
                         {friends.length === 0 ? (
-                            <View style={styles.emptyContainer}>
+                            <View style={styles.emptyContainer} testID="friends-empty">
                                 <Ionicons name="people" size={64} color={theme.colors.sub} />
-                                <Text style={styles.emptyText}>No friends yet</Text>
-                                <Text style={styles.emptySubtext}>Search for users to add friends</Text>
+                                <Text style={styles.emptyText}>{String(i18n.t('friends.empty.friendsTitle'))}</Text>
+                                <Text style={styles.emptySubtext}>{String(i18n.t('friends.empty.friendsSubtitle'))}</Text>
                             </View>
                         ) : (
                             <FlatList
@@ -454,9 +468,9 @@ export default function FriendsScreen() {
 
                 {view === 'requests' && (
                     requests.length === 0 ? (
-                        <View style={styles.emptyContainer}>
+                        <View style={styles.emptyContainer} testID="requests-empty">
                             <Ionicons name="mail" size={64} color={theme.colors.sub} />
-                            <Text style={styles.emptyText}>No pending requests</Text>
+                            <Text style={styles.emptyText}>{String(i18n.t('friends.empty.requestsTitle'))}</Text>
                         </View>
                     ) : (
                         <FlatList

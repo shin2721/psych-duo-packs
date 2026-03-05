@@ -544,6 +544,33 @@ export const ja = {
         },
     },
     friends: {
+        title: 'フレンド',
+        tabs: {
+            friends: 'フレンド',
+            requests: 'リクエスト',
+            requestsWithCount: 'リクエスト (%{count})',
+            search: '検索',
+        },
+        fallbackUnknownUser: '不明なユーザー',
+        stats: {
+            xpValue: '⭐ %{xp} XP',
+            streakValue: '🔥 %{count}日連続',
+        },
+        empty: {
+            friendsTitle: 'まだフレンドがいません',
+            friendsSubtitle: 'ユーザーを検索してフレンドを追加しましょう',
+            requestsTitle: '保留中のリクエストはありません',
+        },
+        alerts: {
+            requestAcceptedTitle: '完了',
+            requestAcceptedMessage: 'フレンド申請を承認しました',
+            acceptFailed: 'フレンド申請の承認に失敗しました',
+            rejectFailed: 'フレンド申請の拒否に失敗しました',
+            removeTitle: 'フレンドを削除',
+            removeMessage: 'このフレンドを削除しますか？',
+            removeConfirm: '削除する',
+            removeFailed: 'フレンドの削除に失敗しました',
+        },
         challenge: {
             title: '週間フレンドチャレンジ',
             subtitle: '今週の対戦相手: %{name}',
@@ -555,6 +582,19 @@ export const ja = {
             notCompleted: '相手以上のXPに達してから受け取れます。',
             rewardClaimed: '報酬を受け取りました: +%{gems} Gems',
             rewardFailed: '報酬の受け取りに失敗しました。',
+        },
+    },
+    friendSearch: {
+        placeholder: 'ユーザー名で検索...',
+        empty: 'ユーザーが見つかりません',
+        cta: {
+            add: '追加',
+            sent: '送信済み',
+        },
+        alerts: {
+            alreadySent: 'フレンド申請はすでに送信済みです',
+            sent: 'フレンド申請を送信しました',
+            failed: 'フレンド申請の送信に失敗しました',
         },
     },
     onboarding: {

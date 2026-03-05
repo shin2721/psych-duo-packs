@@ -4,6 +4,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/AuthContext';
 import { theme } from '../lib/theme';
+import i18n from '../lib/i18n';
 
 interface SearchResult {
     user_id: string;
@@ -59,18 +60,18 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
             if (error) {
                 if (error.code === '23505') {
                     // Unique constraint violation - request already exists
-                    alert('Friend request already sent');
+                    alert(String(i18n.t('friendSearch.alerts.alreadySent')));
                 } else {
                     throw error;
                 }
             } else {
                 setSentRequests(prev => new Set(prev).add(toUserId));
                 onRequestSent?.();
-                alert('Friend request sent!');
+                alert(String(i18n.t('friendSearch.alerts.sent')));
             }
         } catch (error) {
             console.error('Error sending friend request:', error);
-            alert('Failed to send friend request');
+            alert(String(i18n.t('friendSearch.alerts.failed')));
         }
     };
 
@@ -81,11 +82,15 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
             <View style={styles.resultCard}>
                 <View style={styles.userInfo}>
                     <Text style={styles.username}>{item.username}</Text>
-                    <View style={styles.stats}>
-                        <Text style={styles.statText}>⭐ {item.total_xp} XP</Text>
-                        <Text style={styles.statText}>🔥 {item.current_streak} day streak</Text>
-                    </View>
+                <View style={styles.stats}>
+                    <Text style={styles.statText}>
+                        {String(i18n.t('friends.stats.xpValue', { xp: item.total_xp }))}
+                    </Text>
+                    <Text style={styles.statText}>
+                        {String(i18n.t('friends.stats.streakValue', { count: item.current_streak }))}
+                    </Text>
                 </View>
+            </View>
                 <Pressable
                     style={[styles.addButton, requestSent && styles.addButtonDisabled]}
                     onPress={() => sendFriendRequest(item.user_id)}
@@ -97,7 +102,9 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
                         color="#fff"
                     />
                     <Text style={styles.addButtonText}>
-                        {requestSent ? 'Sent' : 'Add'}
+                        {requestSent
+                            ? String(i18n.t('friendSearch.cta.sent'))
+                            : String(i18n.t('friendSearch.cta.add'))}
                     </Text>
                 </Pressable>
             </View>
@@ -110,7 +117,7 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
                 <Ionicons name="search" size={20} color={theme.colors.sub} />
                 <TextInput
                     style={styles.searchInput}
-                    placeholder="Search by username..."
+                    placeholder={String(i18n.t('friendSearch.placeholder'))}
                     placeholderTextColor={theme.colors.sub}
                     value={searchQuery}
                     onChangeText={setSearchQuery}
@@ -129,9 +136,9 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
                     <ActivityIndicator size="large" color={theme.colors.primary} />
                 </View>
             ) : searchResults.length === 0 && searchQuery.length > 0 ? (
-                <View style={styles.emptyContainer}>
+                <View style={styles.emptyContainer} testID="friend-search-empty">
                     <Ionicons name="search" size={48} color={theme.colors.sub} />
-                    <Text style={styles.emptyText}>No users found</Text>
+                    <Text style={styles.emptyText}>{String(i18n.t('friendSearch.empty'))}</Text>
                 </View>
             ) : (
                 <FlatList

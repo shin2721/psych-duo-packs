@@ -544,6 +544,33 @@ export const en = {
         },
     },
     friends: {
+        title: 'Friends',
+        tabs: {
+            friends: 'Friends',
+            requests: 'Requests',
+            requestsWithCount: 'Requests (%{count})',
+            search: 'Search',
+        },
+        fallbackUnknownUser: 'Unknown',
+        stats: {
+            xpValue: '⭐ %{xp} XP',
+            streakValue: '🔥 %{count} day streak',
+        },
+        empty: {
+            friendsTitle: 'No friends yet',
+            friendsSubtitle: 'Search for users to add friends',
+            requestsTitle: 'No pending requests',
+        },
+        alerts: {
+            requestAcceptedTitle: 'Success',
+            requestAcceptedMessage: 'Friend request accepted!',
+            acceptFailed: 'Failed to accept friend request',
+            rejectFailed: 'Failed to reject friend request',
+            removeTitle: 'Remove Friend',
+            removeMessage: 'Are you sure you want to remove this friend?',
+            removeConfirm: 'Remove',
+            removeFailed: 'Failed to remove friend',
+        },
         challenge: {
             title: 'Weekly Friend Challenge',
             subtitle: 'This week vs %{name}',
@@ -555,6 +582,19 @@ export const en = {
             notCompleted: 'Reach or beat your friend XP first.',
             rewardClaimed: 'Reward claimed: +%{gems} Gems',
             rewardFailed: 'Failed to claim challenge reward.',
+        },
+    },
+    friendSearch: {
+        placeholder: 'Search by username...',
+        empty: 'No users found',
+        cta: {
+            add: 'Add',
+            sent: 'Sent',
+        },
+        alerts: {
+            alreadySent: 'Friend request already sent',
+            sent: 'Friend request sent!',
+            failed: 'Failed to send friend request',
         },
     },
     onboarding: {
