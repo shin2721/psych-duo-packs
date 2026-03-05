@@ -291,6 +291,10 @@ export const zh = {
         statusUnlimited: '复习会话：不限次数',
         statusRemaining: '今日复习会话：剩余 %{remaining}/1',
         statusLocked: '错题复习仅限 Max 套餐使用',
+        statusNeedData: '至少需要5道错题才能开始复习',
+        routeHintLocked: '升级到 Max 后可进入该复习路线',
+        routeHintInsufficientData: '再完成一些题目即可解锁该复习路线',
+        routeHintReady: '现在即可开始复习',
         itemCountReady: '已准备好 %{count} 道复习题',
     },
     review: {

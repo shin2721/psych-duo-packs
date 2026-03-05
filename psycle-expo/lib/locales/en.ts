@@ -357,6 +357,10 @@ export const en = {
         statusUnlimited: 'Review sessions: Unlimited',
         statusRemaining: "Today's review sessions: %{remaining}/1 left",
         statusLocked: 'Mistake Review is available on the Pro plan',
+        statusNeedData: 'Need at least 5 mistakes to start a review session',
+        routeHintLocked: 'Upgrade to Pro to open Mistake Review',
+        routeHintInsufficientData: 'Answer more questions to unlock this review route',
+        routeHintReady: 'Ready to review now',
         itemCountReady: '%{count} review questions are ready',
     },
     review: {

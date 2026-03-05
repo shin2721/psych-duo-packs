@@ -14,7 +14,6 @@ import i18n from "../lib/i18n";
  */
 export function MistakesHubButton() {
   const {
-    planId,
     canAccessMistakesHub,
     mistakesHubRemaining,
     getMistakesHubItems,
@@ -24,14 +23,14 @@ export function MistakesHubButton() {
   const mistakesItems = getMistakesHubItems();
   const hasEnoughData = mistakesItems.length >= 5; // 最低5問必要
 
-  const handlePress = () => {
-    if (!canAccessMistakesHub) {
-      alert(String(i18n.t("mistakesHubButton.upsellMessage")));
-      return;
-    }
+  const availabilityState: "locked" | "insufficient_data" | "ready" = !canAccessMistakesHub
+    ? "locked"
+    : hasEnoughData
+      ? "ready"
+      : "insufficient_data";
 
-    if (!hasEnoughData) {
-      alert(String(i18n.t("mistakesHubButton.notEnoughData")));
+  const handlePress = () => {
+    if (availabilityState !== "ready") {
       return;
     }
 
@@ -41,16 +40,13 @@ export function MistakesHubButton() {
       return;
     }
 
-    if (result.reason === "not_available") {
-      alert(String(i18n.t("mistakesHubButton.upsellMessage")));
-      return;
-    }
-    alert(String(i18n.t("mistakesHubButton.notEnoughData")));
+    // Non-blocking for known states; keep route discoverable.
   };
 
   return (
     <View style={styles.container}>
       <TouchableOpacity
+        testID="mistakes-hub-button"
         style={[
           styles.button,
           !canAccessMistakesHub && styles.buttonLocked,
@@ -69,7 +65,9 @@ export function MistakesHubButton() {
 
       {canAccessMistakesHub ? (
         <Text style={styles.statusText}>
-          {mistakesHubRemaining === null
+          {!hasEnoughData
+            ? i18n.t("mistakesHubButton.statusNeedData")
+            : mistakesHubRemaining === null
             ? i18n.t("mistakesHubButton.statusUnlimited")
             : i18n.t("mistakesHubButton.statusRemaining", {
                 remaining: mistakesHubRemaining,
@@ -78,6 +76,14 @@ export function MistakesHubButton() {
       ) : (
         <Text style={styles.statusText}>{i18n.t("mistakesHubButton.statusLocked")}</Text>
       )}
+
+      <Text style={styles.hintText} testID="mistakes-hub-status">
+        {availabilityState === "locked"
+          ? i18n.t("mistakesHubButton.routeHintLocked")
+          : availabilityState === "insufficient_data"
+            ? i18n.t("mistakesHubButton.routeHintInsufficientData")
+            : i18n.t("mistakesHubButton.routeHintReady")}
+      </Text>
 
       {hasEnoughData && (
         <Text style={styles.itemCount}>
@@ -123,6 +129,12 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: theme.colors.text,
     opacity: 0.7,
+    textAlign: "center",
+    marginBottom: theme.spacing.xs,
+  },
+  hintText: {
+    fontSize: 12,
+    color: theme.colors.sub,
     textAlign: "center",
     marginBottom: theme.spacing.xs,
   },

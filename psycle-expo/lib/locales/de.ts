@@ -291,6 +291,10 @@ export const de = {
         statusUnlimited: 'Wiederholungssitzungen: Unbegrenzt',
         statusRemaining: 'Heutige Wiederholungssitzungen: %{remaining}/1 übrig',
         statusLocked: 'Die Fehler-Wiederholung ist im Max-Plan verfügbar',
+        statusNeedData: 'Mindestens 5 Fehler sind für den Start erforderlich',
+        routeHintLocked: 'Upgrade auf Max, um diese Review-Route zu öffnen',
+        routeHintInsufficientData: 'Löse mehr Fragen, um diese Route freizuschalten',
+        routeHintReady: 'Jetzt bereit für die Wiederholung',
         itemCountReady: '%{count} Wiederholungsfragen sind bereit',
     },
     review: {

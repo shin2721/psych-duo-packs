@@ -291,6 +291,10 @@ export const pt = {
         statusUnlimited: 'Sessões de revisão: Ilimitadas',
         statusRemaining: 'Sessões de revisão de hoje: %{remaining}/1 restantes',
         statusLocked: 'A revisão de erros está disponível no plano Max',
+        statusNeedData: 'São necessários ao menos 5 erros para iniciar a revisão',
+        routeHintLocked: 'Faça upgrade para Max para abrir esta rota de revisão',
+        routeHintInsufficientData: 'Resolva mais perguntas para desbloquear esta rota',
+        routeHintReady: 'Pronto para revisar agora',
         itemCountReady: '%{count} perguntas de revisão estão prontas',
     },
     review: {

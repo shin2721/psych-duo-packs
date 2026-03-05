@@ -291,6 +291,10 @@ export const ko = {
         statusUnlimited: '복습 세션: 무제한',
         statusRemaining: '오늘의 복습 세션: %{remaining}/1회 남음',
         statusLocked: '실수 복습은 Max 플랜에서 이용할 수 있습니다',
+        statusNeedData: '복습 시작에는 최소 5개의 오답이 필요합니다',
+        routeHintLocked: 'Max로 업그레이드하면 이 복습 경로를 열 수 있습니다',
+        routeHintInsufficientData: '문제를 더 풀면 이 복습 경로가 열립니다',
+        routeHintReady: '지금 바로 복습을 시작할 수 있습니다',
         itemCountReady: '%{count}개의 복습 문제가 준비되었습니다',
     },
     review: {

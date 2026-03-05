@@ -291,6 +291,10 @@ export const fr = {
         statusUnlimited: 'Sessions de révision : illimitées',
         statusRemaining: 'Sessions de révision du jour : %{remaining}/1 restantes',
         statusLocked: 'La révision des erreurs est disponible avec le plan Max',
+        statusNeedData: 'Au moins 5 erreurs sont nécessaires pour lancer la révision',
+        routeHintLocked: 'Passe à Max pour ouvrir cette route de révision',
+        routeHintInsufficientData: 'Résous plus de questions pour débloquer cette route',
+        routeHintReady: 'Prêt à réviser maintenant',
         itemCountReady: '%{count} questions de révision sont prêtes',
     },
     review: {

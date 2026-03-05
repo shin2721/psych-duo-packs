@@ -87,6 +87,7 @@ export default function ProfileScreen() {
                     <Pressable
                         style={styles.editButton}
                         onPress={() => router.push("/settings/edit-profile")}
+                        testID="profile-edit-profile"
                     >
                         <Text style={styles.editButtonText}>{i18n.t("profile.editButton")}</Text>
                     </Pressable>
@@ -137,7 +138,9 @@ export default function ProfileScreen() {
                 {/* Quick Actions */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>{i18n.t("profile.sections.quickActions")}</Text>
-                    <MistakesHubButton />
+                    <View testID="profile-mistakes-hub-action">
+                        <MistakesHubButton />
+                    </View>
                     <ActionRow
                         icon="calendar"
                         label={String(i18n.t("profile.actions.learningHistory"))}

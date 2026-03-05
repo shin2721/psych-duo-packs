@@ -291,6 +291,10 @@ export const es = {
         statusUnlimited: 'Sesiones de repaso: Ilimitadas',
         statusRemaining: 'Sesiones de repaso de hoy: quedan %{remaining}/1',
         statusLocked: 'La revisión de errores está disponible en el plan Max',
+        statusNeedData: 'Se necesitan al menos 5 errores para iniciar la revisión',
+        routeHintLocked: 'Mejora a Max para abrir esta ruta de revisión',
+        routeHintInsufficientData: 'Resuelve más preguntas para desbloquear esta ruta',
+        routeHintReady: 'Listo para iniciar la revisión ahora',
         itemCountReady: '%{count} preguntas de repaso están listas',
     },
     review: {

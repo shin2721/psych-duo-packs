@@ -357,6 +357,10 @@ export const ja = {
         statusUnlimited: '復習セッション: 無制限',
         statusRemaining: '本日の復習セッション: 残り %{remaining}/1',
         statusLocked: 'ミス復習は Pro プランで利用できます',
+        statusNeedData: '復習開始にはミス問題が5問以上必要です',
+        routeHintLocked: 'Proにアップグレードするとミス復習を開けます',
+        routeHintInsufficientData: 'あと少し問題を解くとこの復習導線が有効になります',
+        routeHintReady: '今すぐ復習を開始できます',
         itemCountReady: '%{count}問の復習問題が準備されています',
     },
     review: {
