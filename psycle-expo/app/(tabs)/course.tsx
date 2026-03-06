@@ -275,6 +275,12 @@ export default function CourseScreen() {
             ]}
             onPress={handleNextStepPress}
             testID="course-next-step-cta"
+            accessibilityRole="button"
+            accessibilityLabel={
+              nextActionNode.isLocked
+                ? `${String(i18n.t("course.nextStep.lockedTitle"))}. ${String(i18n.t("course.nextStep.ctaLocked"))}`
+                : `${String(i18n.t("course.nextStep.readyTitle"))}. ${String(i18n.t("course.nextStep.ctaReady"))}`
+            }
           >
             <Text style={styles.nextStepButtonText}>
               {nextActionNode.isLocked

@@ -95,6 +95,11 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
                     style={[styles.addButton, requestSent && styles.addButtonDisabled]}
                     onPress={() => sendFriendRequest(item.user_id)}
                     disabled={requestSent}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${requestSent
+                        ? String(i18n.t('friendSearch.cta.sent'))
+                        : String(i18n.t('friendSearch.cta.add'))}: ${item.username}`}
+                    accessibilityState={{ disabled: requestSent }}
                 >
                     <Ionicons
                         name={requestSent ? "checkmark-circle" : "person-add"}

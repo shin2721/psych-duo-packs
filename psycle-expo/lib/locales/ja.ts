@@ -326,6 +326,12 @@ export const ja = {
             ctaReady: 'レッスンを開く',
             ctaLocked: '解放方法を見る',
         },
+        accessibility: {
+            nodeCurrent: '現在のレッスンノード %{number}',
+            nodeLocked: 'ロック中のレッスンノード %{number}',
+            nodeCompleted: '完了したレッスンノード %{number}',
+            nodeAvailable: '利用可能なレッスンノード %{number}',
+        },
         rewardClaimedTitle: '報酬を受け取りました！',
         rewardClaimedMessage: '%{gems} Gems と %{badges}個のバッジを獲得しました。',
         streakRepair: {

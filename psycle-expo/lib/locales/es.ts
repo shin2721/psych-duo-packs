@@ -276,6 +276,12 @@ export const es = {
             ctaReady: 'Abrir lección',
             ctaLocked: 'Ver opciones de desbloqueo',
         },
+        accessibility: {
+            nodeCurrent: 'Nodo de lección actual %{number}',
+            nodeLocked: 'Nodo de lección bloqueado %{number}',
+            nodeCompleted: 'Nodo de lección completado %{number}',
+            nodeAvailable: 'Nodo de lección disponible %{number}',
+        },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
     },

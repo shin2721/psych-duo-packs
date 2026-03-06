@@ -484,6 +484,9 @@ export default function ShopScreen() {
                 proBillingPeriod === "monthly" && styles.billingPeriodOptionActive,
               ]}
               onPress={() => setProBillingPeriod("monthly")}
+              accessibilityRole="button"
+              accessibilityLabel={String(i18n.t("shop.subscription.monthly"))}
+              accessibilityState={{ selected: proBillingPeriod === "monthly" }}
             >
               <Text
                 style={[
@@ -500,6 +503,9 @@ export default function ShopScreen() {
                 proBillingPeriod === "yearly" && styles.billingPeriodOptionActive,
               ]}
               onPress={() => setProBillingPeriod("yearly")}
+              accessibilityRole="button"
+              accessibilityLabel={String(i18n.t("shop.subscription.yearly"))}
+              accessibilityState={{ selected: proBillingPeriod === "yearly" }}
             >
               <Text
                 style={[
@@ -570,6 +576,16 @@ export default function ShopScreen() {
                 ]}
                 onPress={() => handleSubscribe(plan)}
                 disabled={isSubscribing || (planId === plan.id && isSubscriptionActive)}
+                accessibilityRole="button"
+                accessibilityLabel={`${plan.name}, ${formatPlanPrice(plan, selectedPeriod)}, ${String(
+                  selectedPeriod === "yearly"
+                    ? i18n.t("shop.subscription.yearly")
+                    : i18n.t("shop.subscription.monthly")
+                )}`}
+                accessibilityState={{
+                  disabled: isSubscribing || (planId === plan.id && isSubscriptionActive),
+                  selected: planId === plan.id && isSubscriptionActive,
+                }}
               >
                 <Text style={styles.subscribeButtonText}>
                   {isSubscribing

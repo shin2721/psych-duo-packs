@@ -442,7 +442,23 @@ function LevelIndicator({ level, x, y, isLeft, isMilestone, color }: { level: nu
 }
 
 // ==================== GLOWING NODE COMPONENT ====================
-function GlowingNode({ node, x, y, isMilestone, onPress, themeColor }: { node: TrailNode; x: number; y: number; isMilestone: boolean; onPress: () => void; themeColor?: string }) {
+function GlowingNode({
+  node,
+  x,
+  y,
+  isMilestone,
+  onPress,
+  themeColor,
+  nodeIndex,
+}: {
+  node: TrailNode;
+  x: number;
+  y: number;
+  isMilestone: boolean;
+  onPress: () => void;
+  themeColor?: string;
+  nodeIndex: number;
+}) {
   const scale = useRef(new Animated.Value(1)).current;
   const outerRingScale = useRef(new Animated.Value(1)).current;
   const outerRingOpacity = useRef(new Animated.Value(0.3)).current;
@@ -451,6 +467,19 @@ function GlowingNode({ node, x, y, isMilestone, onPress, themeColor }: { node: T
   const nodeSize = isMilestone ? MILESTONE_NODE_SIZE : NODE_SIZE;
   const activeGlow = themeColor || GLOW_COLOR_BRIGHT;
   const activeSuccess = themeColor || theme.colors.success;
+  const nodeNumber = nodeIndex + 1;
+  const accessibilityLabel = (() => {
+    if (node.status === "done") {
+      return String(i18n.t("course.accessibility.nodeCompleted", { number: nodeNumber }));
+    }
+    if (node.isLocked) {
+      return String(i18n.t("course.accessibility.nodeLocked", { number: nodeNumber }));
+    }
+    if (node.status === "current") {
+      return String(i18n.t("course.accessibility.nodeCurrent", { number: nodeNumber }));
+    }
+    return String(i18n.t("course.accessibility.nodeAvailable", { number: nodeNumber }));
+  })();
 
   useEffect(() => {
     // All nodes float gently (案4)
@@ -592,6 +621,12 @@ function GlowingNode({ node, x, y, isMilestone, onPress, themeColor }: { node: T
           onPress={node.isLocked || node.status === "current" ? onPress : undefined}
           disabled={!node.isLocked && node.status !== "current"}
           testID={`lesson-node-${node.id}`}
+          accessibilityRole="button"
+          accessibilityLabel={accessibilityLabel}
+          accessibilityState={{
+            disabled: !node.isLocked && node.status !== "current",
+            selected: node.status === "current",
+          }}
         >
           {getIcon()}
         </Pressable>
@@ -817,6 +852,7 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
               isMilestone={isMilestone}
               onPress={() => node.status === "locked" ? onLockedPress?.(node.id) : onStart?.(node.id)}
               themeColor={themeColor}
+              nodeIndex={index}
             />
           </View>
         );

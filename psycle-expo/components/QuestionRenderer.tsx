@@ -59,6 +59,11 @@ export const areSelectAllAnswersCorrect = (question: Question, selectedIndexes: 
   return JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
 };
 
+const getChoiceAccessibilityState = (isSelected: boolean, disabled: boolean) => ({
+  selected: isSelected,
+  disabled,
+});
+
 export function QuestionRenderer({ question, onContinue, combo: externalCombo, onComboChange, onComboMilestone }: Props) {
   const questionText = getQuestionText(question);
   const questionChoices = getQuestionChoices(question);
@@ -690,7 +695,13 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
                 )}
                 {/* term_cardは自動的に続けるボタンを表示 */}
                 {!showResult && (
-                  <Pressable style={styles.continueButton} onPress={() => setShowResult(true)} testID="question-continue">
+                  <Pressable
+                    style={styles.continueButton}
+                    onPress={() => setShowResult(true)}
+                    testID="question-continue"
+                    accessibilityRole="button"
+                    accessibilityLabel={String(i18n.t("lesson.continue"))}
+                  >
                     <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
                     <Ionicons name="arrow-forward" size={20} color="#fff" />
                   </Pressable>
@@ -789,7 +800,13 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
                 })()}
 
                 {/* 次へボタン (Moved before explanation to ensure visibility) */}
-                <AnimatedButton style={styles.continueButton} onPress={handleContinue} testID="question-continue">
+                <AnimatedButton
+                  style={styles.continueButton}
+                  onPress={handleContinue}
+                  testID="question-continue"
+                  accessibilityRole="button"
+                  accessibilityLabel={String(i18n.t("lesson.continue"))}
+                >
                   <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
                   <Ionicons name="arrow-forward" size={20} color="#fff" />
                 </AnimatedButton>
@@ -967,6 +984,9 @@ function MultipleChoice({
             onPress={() => onSelect(index)}
             disabled={showResult}
             testID={`answer-choice-${index}`}
+            accessibilityRole="button"
+            accessibilityLabel={choice}
+            accessibilityState={getChoiceAccessibilityState(isSelected, showResult)}
           >
             <Text style={[
               styles.choiceText,
@@ -1023,6 +1043,9 @@ function TrueFalse({
               onPress={() => onSelect(index)}
               disabled={showResult}
               testID={`answer-choice-${index}`}
+              accessibilityRole="button"
+              accessibilityLabel={choice}
+              accessibilityState={getChoiceAccessibilityState(isSelected, showResult)}
             >
               <Text style={[
                 styles.choiceText,
@@ -1073,6 +1096,9 @@ function FillBlank({
             onPress={() => onSelect(index)}
             disabled={showResult}
             testID={`answer-choice-${index}`}
+            accessibilityRole="button"
+            accessibilityLabel={choice}
+            accessibilityState={getChoiceAccessibilityState(isSelected, showResult)}
           >
             <Text style={[styles.choiceText, isSelected && styles.selectedChoiceText]}>
               {choice}

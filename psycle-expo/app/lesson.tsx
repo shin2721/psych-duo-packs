@@ -845,7 +845,13 @@ export default function LessonScreen() {
               );
             })()}
 
-            <TouchableOpacity onPress={() => router.replace("/(tabs)/course")} style={styles.continueButton} testID="lesson-complete-continue">
+            <TouchableOpacity
+              onPress={() => router.replace("/(tabs)/course")}
+              style={styles.continueButton}
+              testID="lesson-complete-continue"
+              accessibilityRole="button"
+              accessibilityLabel={String(i18n.t("lesson.continue"))}
+            >
               <Text style={styles.continueText}>{i18n.t("lesson.continue")}</Text>
             </TouchableOpacity>
           </ScrollView>

@@ -326,6 +326,12 @@ export const en = {
             ctaReady: 'Open lesson',
             ctaLocked: 'See unlock options',
         },
+        accessibility: {
+            nodeCurrent: 'Current lesson node %{number}',
+            nodeLocked: 'Locked lesson node %{number}',
+            nodeCompleted: 'Completed lesson node %{number}',
+            nodeAvailable: 'Available lesson node %{number}',
+        },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
         streakRepair: {

@@ -65,6 +65,8 @@ export default function ProfileScreen() {
                         style={styles.settingsButton}
                         onPress={() => router.push("/settings")}
                         testID="profile-open-settings"
+                        accessibilityRole="button"
+                        accessibilityLabel={String(i18n.t("settings.title"))}
                     >
                         <Ionicons name="settings-outline" size={24} color={theme.colors.text} />
                     </Pressable>
@@ -88,6 +90,8 @@ export default function ProfileScreen() {
                         style={styles.editButton}
                         onPress={() => router.push("/settings/edit-profile")}
                         testID="profile-edit-profile"
+                        accessibilityRole="button"
+                        accessibilityLabel={String(i18n.t("profile.editButton"))}
                     >
                         <Text style={styles.editButtonText}>{i18n.t("profile.editButton")}</Text>
                     </Pressable>

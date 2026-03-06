@@ -276,6 +276,12 @@ export const pt = {
             ctaReady: 'Abrir lição',
             ctaLocked: 'Ver opções de desbloqueio',
         },
+        accessibility: {
+            nodeCurrent: 'Nó da lição atual %{number}',
+            nodeLocked: 'Nó de lição bloqueado %{number}',
+            nodeCompleted: 'Nó de lição concluído %{number}',
+            nodeAvailable: 'Nó de lição disponível %{number}',
+        },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
     },

@@ -54,6 +54,13 @@ export function MistakesHubButton() {
         ]}
         onPress={handlePress}
         disabled={canAccessMistakesHub && !hasEnoughData}
+        accessibilityRole="button"
+        accessibilityLabel={
+          availabilityState === "locked"
+            ? String(i18n.t("mistakesHubButton.titleLocked"))
+            : String(i18n.t("mistakesHubButton.titleAvailable"))
+        }
+        accessibilityState={{ disabled: canAccessMistakesHub && !hasEnoughData }}
       >
         <Text style={styles.buttonTitle}>
           {canAccessMistakesHub

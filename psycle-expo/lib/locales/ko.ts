@@ -276,6 +276,12 @@ export const ko = {
             ctaReady: '레슨 열기',
             ctaLocked: '해제 방법 보기',
         },
+        accessibility: {
+            nodeCurrent: '현재 레슨 노드 %{number}',
+            nodeLocked: '잠긴 레슨 노드 %{number}',
+            nodeCompleted: '완료한 레슨 노드 %{number}',
+            nodeAvailable: '이용 가능한 레슨 노드 %{number}',
+        },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
     },

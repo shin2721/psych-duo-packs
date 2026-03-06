@@ -276,6 +276,12 @@ export const de = {
             ctaReady: 'Lektion öffnen',
             ctaLocked: 'Freischaltung ansehen',
         },
+        accessibility: {
+            nodeCurrent: 'Aktueller Lektionsknoten %{number}',
+            nodeLocked: 'Gesperrter Lektionsknoten %{number}',
+            nodeCompleted: 'Abgeschlossener Lektionsknoten %{number}',
+            nodeAvailable: 'Verfügbarer Lektionsknoten %{number}',
+        },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
     },

@@ -276,6 +276,12 @@ export const zh = {
             ctaReady: '打开课程',
             ctaLocked: '查看解锁方式',
         },
+        accessibility: {
+            nodeCurrent: '当前课程节点 %{number}',
+            nodeLocked: '已锁定课程节点 %{number}',
+            nodeCompleted: '已完成课程节点 %{number}',
+            nodeAvailable: '可用课程节点 %{number}',
+        },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
     },

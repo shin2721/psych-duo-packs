@@ -321,6 +321,8 @@ export default function FriendsScreen() {
             <Pressable
                 style={styles.removeButton}
                 onPress={() => removeFriend(item.friend_id)}
+                accessibilityRole="button"
+                accessibilityLabel={`${String(i18n.t('friends.alerts.removeTitle'))}: ${item.username}`}
             >
                 <Ionicons name="person-remove" size={20} color={theme.colors.error} />
             </Pressable>
@@ -339,12 +341,16 @@ export default function FriendsScreen() {
                 <Pressable
                     style={[styles.actionButton, styles.acceptButton]}
                     onPress={() => acceptRequest(item.id, item.from_user_id)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${String(i18n.t('friends.alerts.requestAcceptedMessage'))}: ${item.username}`}
                 >
                     <Ionicons name="checkmark" size={20} color="#fff" />
                 </Pressable>
                 <Pressable
                     style={[styles.actionButton, styles.rejectButton]}
                     onPress={() => rejectRequest(item.id)}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${String(i18n.t('friends.tabs.requests'))}: ${item.username}`}
                 >
                     <Ionicons name="close" size={20} color="#fff" />
                 </Pressable>
@@ -363,6 +369,9 @@ export default function FriendsScreen() {
                     style={[styles.segment, view === 'friends' && styles.activeSegment]}
                     onPress={() => setView('friends')}
                     testID="friends-tab-friends"
+                    accessibilityRole="button"
+                    accessibilityLabel={String(i18n.t('friends.tabs.friends'))}
+                    accessibilityState={{ selected: view === 'friends' }}
                 >
                     <Text style={[styles.segmentText, view === 'friends' && styles.activeSegmentText]}>
                         {String(i18n.t('friends.tabs.friends'))}
@@ -372,6 +381,13 @@ export default function FriendsScreen() {
                     style={[styles.segment, view === 'requests' && styles.activeSegment]}
                     onPress={() => setView('requests')}
                     testID="friends-tab-requests"
+                    accessibilityRole="button"
+                    accessibilityLabel={
+                        requests.length > 0
+                            ? String(i18n.t('friends.tabs.requestsWithCount', { count: requests.length }))
+                            : String(i18n.t('friends.tabs.requests'))
+                    }
+                    accessibilityState={{ selected: view === 'requests' }}
                 >
                     <Text style={[styles.segmentText, view === 'requests' && styles.activeSegmentText]}>
                         {requests.length > 0
@@ -383,6 +399,9 @@ export default function FriendsScreen() {
                     style={[styles.segment, view === 'search' && styles.activeSegment]}
                     onPress={() => setView('search')}
                     testID="friends-tab-search"
+                    accessibilityRole="button"
+                    accessibilityLabel={String(i18n.t('friends.tabs.search'))}
+                    accessibilityState={{ selected: view === 'search' }}
                 >
                     <Text style={[styles.segmentText, view === 'search' && styles.activeSegmentText]}>
                         {String(i18n.t('friends.tabs.search'))}
@@ -432,6 +451,19 @@ export default function FriendsScreen() {
                                     ]}
                                     disabled={friendChallengeClaimed || !friendChallengeProgress.completed}
                                     onPress={handleClaimFriendChallengeReward}
+                                    accessibilityRole="button"
+                                    accessibilityLabel={
+                                        friendChallengeClaimed
+                                            ? String(i18n.t('friends.challenge.claimed'))
+                                            : String(
+                                                  i18n.t('friends.challenge.claim', {
+                                                      gems: FRIEND_CHALLENGE_REWARD_GEMS,
+                                                  })
+                                              )
+                                    }
+                                    accessibilityState={{
+                                        disabled: friendChallengeClaimed || !friendChallengeProgress.completed,
+                                    }}
                                 >
                                     <Text style={styles.challengeButtonText}>
                                         {friendChallengeClaimed
