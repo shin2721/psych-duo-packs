@@ -39,11 +39,11 @@ export default function EditProfileScreen() {
         <SafeAreaView style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <Pressable onPress={() => router.back()} style={styles.backButton}>
+                <Pressable onPress={() => router.back()} style={styles.backButton} testID="edit-profile-close">
                     <Ionicons name="close" size={24} color={theme.colors.text} />
                 </Pressable>
                 <Text style={styles.headerTitle}>{i18n.t("profile.editButton")}</Text>
-                <Pressable onPress={handleSave} disabled={isSaving}>
+                <Pressable onPress={handleSave} disabled={isSaving} testID="edit-profile-save">
                     <Text style={[styles.saveButton, isSaving && styles.saveButtonDisabled]}>
                         {i18n.t("common.save")}
                     </Text>
@@ -71,6 +71,7 @@ export default function EditProfileScreen() {
                     onChangeText={setUsername}
                     placeholder={String(i18n.t("editProfile.usernamePlaceholder"))}
                     placeholderTextColor={theme.colors.sub}
+                    testID="edit-profile-username"
                 />
             </View>
         </SafeAreaView>

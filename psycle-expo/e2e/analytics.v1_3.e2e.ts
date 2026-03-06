@@ -47,7 +47,12 @@ describe('Analytics v1.3 E2E', () => {
       console.log('🚀 Starting Scenario A: Initial Launch');
 
       // Step 1: Launch app (triggers app_open, session_start, app_ready)
-      await device.launchApp({ newInstance: true });
+      await device.launchApp({
+        newInstance: true,
+        permissions: {
+          notifications: 'YES',
+        },
+      });
       await device.disableSynchronization();
       await sleep(1000);
       if (USE_DEV_CLIENT_BOOTSTRAP) {
@@ -84,9 +89,11 @@ describe('Analytics v1.3 E2E', () => {
         await element(by.id('auth-guest-login')).tap();
         await sleep(2000);
       }
+      await dismissBlockingSystemAlerts();
 
       // Step 4: Navigate to first lesson
       await waitFor(element(by.id('tab-course'))).toBeVisible().withTimeout(45000);
+      await dismissBlockingSystemAlerts();
       await element(by.id('tab-course')).tap();
       
       // Wait for course screen to load
@@ -574,6 +581,30 @@ async function tapFirstVisibleText(texts: string[], timeoutMs: number): Promise<
     await sleep(250);
   }
   return false;
+}
+
+async function dismissBlockingSystemAlerts(): Promise<void> {
+  // Common iOS permission/system dialog actions (ja/en).
+  const dismissTexts = [
+    '許可しない',
+    '許可',
+    'OK',
+    '閉じる',
+    '今はしない',
+    '後で',
+    "Don’t Allow",
+    "Don't Allow",
+    'Allow',
+    'Not Now',
+    'Later',
+    'Close',
+  ];
+
+  for (let i = 0; i < 3; i++) {
+    const tapped = await tapFirstVisibleText(dismissTexts, 1200);
+    if (!tapped) return;
+    await sleep(400);
+  }
 }
 
 function resolveDevServerUrl(): string {

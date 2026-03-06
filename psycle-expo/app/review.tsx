@@ -114,7 +114,7 @@ export default function ReviewScreen() {
 
     if (dueCount === 0) {
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container} testID="review-screen">
                 <View style={styles.header}>
                     <Pressable onPress={() => router.back()} style={styles.backButton}>
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
@@ -135,7 +135,7 @@ export default function ReviewScreen() {
 
     if (showResults) {
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container} testID="review-screen">
                 <View style={styles.resultContainer}>
                     <Text style={styles.resultTitle}>{i18n.t("review.doneTitle")}</Text>
                     <Text style={styles.resultText}>
@@ -154,7 +154,7 @@ export default function ReviewScreen() {
 
     if (!isSessionActive) {
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container} testID="review-screen">
                 <View style={styles.header}>
                     <Pressable onPress={() => router.back()} style={styles.backButton}>
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
@@ -182,7 +182,7 @@ export default function ReviewScreen() {
     const currentQuestion = sessionQuestions[currentIndex];
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container} testID="review-screen">
             <View style={styles.header}>
                 <Pressable onPress={() => router.back()} style={styles.backButton}>
                     <Ionicons name="close" size={24} color={theme.colors.text} />

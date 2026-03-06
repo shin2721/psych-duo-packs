@@ -130,6 +130,7 @@ export default function TabLayout() {
             name="quests"
             options={{
               title: i18n.t("tabs.quests"),
+              tabBarButtonTestID: "tab-quests",
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="home" size={size} color={color} focused={focused} />
               ),
@@ -139,6 +140,7 @@ export default function TabLayout() {
             name="leaderboard"
             options={{
               title: i18n.t("tabs.ranking"),
+              tabBarButtonTestID: "tab-leaderboard",
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="trophy" size={size} color={color} focused={focused} />
               ),
@@ -148,6 +150,7 @@ export default function TabLayout() {
             name="friends"
             options={{
               title: i18n.t("tabs.friends"),
+              tabBarButtonTestID: "tab-friends",
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="people" size={size} color={color} focused={focused} />
               ),
@@ -157,6 +160,7 @@ export default function TabLayout() {
             name="shop"
             options={{
               title: i18n.t("tabs.shop"),
+              tabBarButtonTestID: "tab-shop",
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="storefront" size={size} color={color} focused={focused} />
               ),

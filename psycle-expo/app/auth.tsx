@@ -1,12 +1,15 @@
 import React, { useState } from 'react';
 import { View, TextInput, Button, StyleSheet, Alert, Text } from 'react-native';
 import { supabase } from '../lib/supabase';
+import { useAuth } from '../lib/AuthContext';
 import i18n from '../lib/i18n';
 
 export default function AuthScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
+    const { signInAsGuest } = useAuth();
+    const e2eAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
 
     async function signInWithEmail() {
         setLoading(true);
@@ -43,6 +46,7 @@ export default function AuthScreen() {
                     placeholder={i18n.t('auth.emailPlaceholder')}
                     autoCapitalize="none"
                     keyboardType="email-address"
+                    testID="auth-email-input"
                 />
                 <TextInput
                     style={styles.input}
@@ -51,15 +55,39 @@ export default function AuthScreen() {
                     secureTextEntry={true}
                     placeholder={i18n.t('auth.passwordPlaceholder')}
                     autoCapitalize="none"
+                    testID="auth-password-input"
                 />
             </View>
 
             <View style={styles.buttonContainer}>
                 <View style={styles.primaryButton}>
-                    <Button title={loading ? i18n.t('common.loading') : i18n.t('auth.signIn')} disabled={loading} onPress={signInWithEmail} />
+                    <Button
+                        title={loading ? i18n.t('common.loading') : i18n.t('auth.signIn')}
+                        disabled={loading}
+                        onPress={signInWithEmail}
+                        testID="auth-signin-button"
+                    />
                 </View>
-                <Button title={i18n.t('auth.signUp')} disabled={loading} onPress={signUpWithEmail} color="#2e78b7" />
+                <Button
+                    title={i18n.t('auth.signUp')}
+                    disabled={loading}
+                    onPress={signUpWithEmail}
+                    color="#2e78b7"
+                    testID="auth-signup-button"
+                />
             </View>
+
+            {e2eAnalyticsMode && (
+                <View style={styles.guestButtonContainer}>
+                    <Button
+                        title={i18n.t('auth.guestLogin')}
+                        onPress={signInAsGuest}
+                        color="#888"
+                        disabled={loading}
+                        testID="auth-guest-login"
+                    />
+                </View>
+            )}
         </View>
     );
 }
@@ -97,5 +125,11 @@ const styles = StyleSheet.create({
     },
     primaryButton: {
         marginBottom: 10,
+    },
+    guestButtonContainer: {
+        marginTop: 20,
+        borderTopWidth: 1,
+        borderTopColor: '#ddd',
+        paddingTop: 20,
     },
 });
