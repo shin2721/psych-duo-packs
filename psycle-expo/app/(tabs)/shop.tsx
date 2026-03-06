@@ -4,7 +4,7 @@ import { View, Text, StyleSheet, Pressable, ScrollView, Linking } from "react-na
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
-import { useAppState } from "../../lib/state";
+import { useBillingState, useEconomyState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import {
@@ -52,9 +52,6 @@ export default function ShopScreen() {
     buyFreeze,
     buyEnergyFullRefill,
     freezeCount,
-    planId,
-    isSubscriptionActive,
-    activeUntil,
     buyDoubleXP,
     isDoubleXpActive,
     doubleXpEndTime,
@@ -64,7 +61,8 @@ export default function ShopScreen() {
     energyRefillMinutes,
     dailyEnergyBonusRemaining,
     dailyEnergyRefillRemaining,
-  } = useAppState();
+  } = useEconomyState();
+  const { planId, isSubscriptionActive, activeUntil } = useBillingState();
   const { user, session } = useAuth();
   const [justPurchased, setJustPurchased] = useState<string | null>(null);
   const [isSubscribing, setIsSubscribing] = useState(false);

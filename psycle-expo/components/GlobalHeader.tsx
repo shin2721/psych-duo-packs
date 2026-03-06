@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
-import { useAppState } from "../lib/state";
+import { useBillingState, useEconomyState, useProgressionState } from "../lib/state";
 import { router } from "expo-router";
 import { genres } from "../lib/data";
 import { StreakIcon, GemIcon, EnergyIcon, MentalIcon, MoneyIcon, WorkIcon, HealthIcon, SocialIcon, StudyIcon } from "./CustomIcons";
@@ -22,7 +22,9 @@ const getGenreIcon = (id: string, size: number = 28) => {
 };
 
 export function GlobalHeader() {
-  const { gems, selectedGenre, setSelectedGenre, energy, isSubscriptionActive, streak } = useAppState();
+  const { gems, energy } = useEconomyState();
+  const { selectedGenre, setSelectedGenre, streak } = useProgressionState();
+  const { isSubscriptionActive } = useBillingState();
   const [menuVisible, setMenuVisible] = useState(false);
 
   return (

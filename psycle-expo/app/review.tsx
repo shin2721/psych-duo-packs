@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
-import { useAppState } from "../lib/state";
+import { usePracticeState, useProgressionState } from "../lib/state";
 import { hapticFeedback } from "../lib/haptics";
 import { getQuestionFromId } from "../lib/lessons";
 import { QuestionRenderer, Question } from "../components/QuestionRenderer";
@@ -13,7 +13,8 @@ import { SupportStatePanel } from "../components/SupportStatePanel";
 import i18n from "../lib/i18n";
 
 export default function ReviewScreen() {
-    const { mistakes, getDueMistakes, processReviewResult, addXp, addReviewEvent } = useAppState();
+    const { mistakes, getDueMistakes, processReviewResult, addReviewEvent } = usePracticeState();
+    const { addXp } = useProgressionState();
     const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isSessionActive, setIsSessionActive] = useState(false);

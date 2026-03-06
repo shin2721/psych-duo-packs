@@ -48,6 +48,14 @@ jest.mock('../../lib/state', () => ({
     setActiveUntil: jest.fn(),
     hasPendingDailyQuests: false,
   }),
+  useBillingState: () => ({
+    planId: 'free',
+    setPlanId: jest.fn(),
+    setActiveUntil: jest.fn(),
+  }),
+  useProgressionState: () => ({
+    hasPendingDailyQuests: false,
+  }),
 }));
 
 jest.mock('../../lib/LocaleContext', () => ({

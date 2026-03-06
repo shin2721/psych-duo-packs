@@ -9,7 +9,7 @@ import { useAuth } from "../../lib/AuthContext";
 import { useToast } from "../../components/ToastProvider";
 import { openBillingPortal, restorePurchases } from "../../lib/billing";
 import { hapticFeedback } from "../../lib/haptics";
-import { useAppState } from "../../lib/state";
+import { useBillingState, useProgressionState } from "../../lib/state";
 import { getExportableJSON } from "../../lib/dogfood";
 import i18n from "../../lib/i18n";
 import { useLocale } from "../../lib/LocaleContext";
@@ -29,7 +29,8 @@ import {
 export default function SettingsScreen() {
     const router = useRouter();
     const { user, signOut } = useAuth();
-    const { planId, setPlanId, setActiveUntil, hasPendingDailyQuests } = useAppState();
+    const { planId, setPlanId, setActiveUntil } = useBillingState();
+    const { hasPendingDailyQuests } = useProgressionState();
     const { locale, options: localeOptions, setLocale } = useLocale();
     const [notificationsEnabled, setNotificationsEnabled] = useState(false);
     const [soundEnabled, setSoundEnabled] = useState(true);

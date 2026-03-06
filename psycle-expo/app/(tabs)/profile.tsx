@@ -6,7 +6,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
-import { useAppState } from "../../lib/state";
+import { useProgressionState } from "../../lib/state";
 import { BADGES } from "../../lib/badges";
 import { BadgeIcon } from "../../components/BadgeIcon";
 import { MistakesHubButton } from "../../components/MistakesHubButton";
@@ -18,7 +18,7 @@ import i18n from "../../lib/i18n";
 export default function ProfileScreen() {
     const router = useRouter();
     const { user } = useAuth();
-    const { xp, streak, completedLessons, unlockedBadges } = useAppState();
+    const { xp, streak, completedLessons, unlockedBadges } = useProgressionState();
     const [leagueLabel, setLeagueLabel] = React.useState<string>("...");
     const [leagueLoading, setLeagueLoading] = React.useState(true);
 
