@@ -1,10 +1,11 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Pressable, TextInput, Alert, ScrollView } from "react-native";
+import { View, Text, StyleSheet, Pressable, TextInput, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
+import { useToast } from "../../components/ToastProvider";
 import { supabase } from "../../lib/supabase";
 import i18n from "../../lib/i18n";
 
@@ -13,6 +14,7 @@ export default function EditProfileScreen() {
     const { user } = useAuth();
     const [username, setUsername] = useState(user?.email?.split("@")[0] || "");
     const [isSaving, setIsSaving] = useState(false);
+    const { showToast } = useToast();
 
     const handleSave = async () => {
         if (!user) return;
@@ -26,10 +28,10 @@ export default function EditProfileScreen() {
 
             if (error) throw error;
 
-            Alert.alert(String(i18n.t("editProfile.successTitle")), String(i18n.t("editProfile.successMessage")));
+            showToast(String(i18n.t("editProfile.successMessage")), "success");
             router.back();
         } catch (error: any) {
-            Alert.alert(String(i18n.t("common.error")), error.message);
+            showToast(String(error.message), "error");
         } finally {
             setIsSaving(false);
         }

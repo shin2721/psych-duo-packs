@@ -24,6 +24,7 @@ import { formatCitation } from "../lib/evidenceUtils";
 import i18n from "../lib/i18n";
 import entitlements from "../config/entitlements.json";
 import { useAuth } from "../lib/AuthContext";
+import { useToast } from "../components/ToastProvider";
 import { syncDailyReminders } from "../lib/notifications";
 import { sounds } from "../lib/sounds";
 import { hapticFeedback } from "../lib/haptics";
@@ -91,6 +92,7 @@ export default function LessonScreen() {
     isDoubleXpActive,
   } = useAppState();
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
@@ -573,15 +575,15 @@ export default function LessonScreen() {
                           });
                         }
                         setShowDoubleXpNudge(false);
-                        Alert.alert(i18n.t("common.ok"), i18n.t("lesson.doubleXpNudge.purchased"));
+                        showToast(String(i18n.t("lesson.doubleXpNudge.purchased")), "success");
                         return;
                       }
 
                       if (result.reason === "already_active") {
-                        Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.doubleXpAlreadyActive"));
+                        showToast(String(i18n.t("shop.errors.doubleXpAlreadyActive")), "error");
                         return;
                       }
-                      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.notEnoughGems"));
+                      showToast(String(i18n.t("shop.errors.notEnoughGems")), "error");
                     }}
                   >
                     <Text style={styles.doubleXpNudgeCtaText}>{i18n.t("lesson.doubleXpNudge.cta")}</Text>

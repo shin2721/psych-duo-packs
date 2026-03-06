@@ -2,10 +2,12 @@ export const de = {
     common: {
         loading: 'Laden...',
         error: 'Ein Fehler ist aufgetreten',
+        unexpectedError: 'Es ist ein Problem aufgetreten. Bitte versuche es erneut.',
         save: 'Speichern',
         cancel: 'Abbrechen',
         close: 'Schließen',
         ok: 'OK',
+        retry: 'Erneut versuchen',
     },
     shop: {
         title: 'Shop',

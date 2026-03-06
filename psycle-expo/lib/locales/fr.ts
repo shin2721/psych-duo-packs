@@ -2,10 +2,12 @@ export const fr = {
     common: {
         loading: 'Chargement...',
         error: 'Une erreur est survenue',
+        unexpectedError: 'Un problème est survenu. Réessayez.',
         save: 'Enregistrer',
         cancel: 'Annuler',
         close: 'Fermer',
         ok: 'OK',
+        retry: 'Réessayer',
     },
     shop: {
         title: 'Boutique',

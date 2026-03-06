@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { View, TextInput, Button, StyleSheet, Alert, Text } from 'react-native';
+import { View, TextInput, Button, StyleSheet, Text } from 'react-native';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/AuthContext';
+import { useToast } from '../components/ToastProvider';
 import i18n from '../lib/i18n';
 
 export default function AuthScreen() {
@@ -9,6 +10,7 @@ export default function AuthScreen() {
     const [password, setPassword] = useState('');
     const [loading, setLoading] = useState(false);
     const { signInAsGuest } = useAuth();
+    const { showToast } = useToast();
     const e2eAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
 
     async function signInWithEmail() {
@@ -18,7 +20,7 @@ export default function AuthScreen() {
             password,
         });
 
-        if (error) Alert.alert(error.message);
+        if (error) showToast(error.message, 'error');
         setLoading(false);
     }
 
@@ -29,8 +31,8 @@ export default function AuthScreen() {
             password,
         });
 
-        if (error) Alert.alert(error.message);
-        else Alert.alert(i18n.t('auth.verifyEmail'));
+        if (error) showToast(error.message, 'error');
+        else showToast(String(i18n.t('auth.verifyEmail')), 'success');
         setLoading(false);
     }
 

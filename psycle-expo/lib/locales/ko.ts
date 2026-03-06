@@ -2,10 +2,12 @@ export const ko = {
     common: {
         loading: '로딩 중...',
         error: '오류가 발생했습니다',
+        unexpectedError: '문제가 발생했습니다. 다시 시도해 주세요.',
         save: '저장',
         cancel: '취소',
         close: '닫기',
         ok: '확인',
+        retry: '다시 시도',
     },
     shop: {
         title: '상점',

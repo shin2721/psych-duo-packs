@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, StyleSheet, Pressable, ScrollView, Alert, Linking } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView, Linking } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
@@ -25,6 +25,7 @@ import {
 import { getShopSinksConfig } from "../../lib/gamificationConfig";
 import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
+import { useToast } from "../../components/ToastProvider";
 import { Analytics } from "../../lib/analytics";
 import { assignExperiment } from "../../lib/experimentEngine";
 import { getCheckoutContextKey } from "../../lib/planChangeTracking";
@@ -68,6 +69,7 @@ export default function ShopScreen() {
   const [justPurchased, setJustPurchased] = useState<string | null>(null);
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [proBillingPeriod, setProBillingPeriod] = useState<BillingPeriod>("monthly");
+  const { showToast } = useToast();
   const [nowTs, setNowTs] = useState(Date.now());
   const dateLocaleByLanguage: Record<string, string> = {
     ja: "ja-JP",
@@ -127,7 +129,7 @@ export default function ShopScreen() {
     if (result.success) {
       setJustPurchased(item.id);
       setTimeout(() => setJustPurchased(null), 2000);
-      Alert.alert(i18n.t('common.ok'), `${item.name}`);
+      showToast(String(item.name), "success");
     } else {
       const message = (() => {
         switch (result.reason) {
@@ -146,7 +148,7 @@ export default function ShopScreen() {
             return i18n.t("shop.errors.notEnoughGems");
         }
       })();
-      Alert.alert(i18n.t('common.error'), message);
+      showToast(String(message), "error");
     }
   };
 
@@ -186,7 +188,7 @@ export default function ShopScreen() {
   const handleSubscribe = async (plan: PlanConfig) => {
     const billingPeriod: BillingPeriod = plan.id === "pro" ? proBillingPeriod : "monthly";
     if (!supportsPlanBillingPeriod(plan.id, billingPeriod)) {
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.billingPeriodUnavailable"));
+      showToast(String(i18n.t("shop.errors.billingPeriodUnavailable")), "error");
       return;
     }
 
@@ -205,7 +207,7 @@ export default function ShopScreen() {
         planId: plan.id,
         reason: "price_id_unavailable",
       });
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.billingPeriodUnavailable"));
+      showToast(String(i18n.t("shop.errors.billingPeriodUnavailable")), "error");
       return;
     }
 
@@ -215,7 +217,7 @@ export default function ShopScreen() {
         planId: plan.id,
         reason: "missing_user_context",
       });
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      showToast(String(i18n.t("shop.errors.checkoutProcessFailed")), "error");
       return;
     }
 
@@ -226,7 +228,7 @@ export default function ShopScreen() {
         planId: plan.id,
         reason: "functions_url_missing",
       });
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      showToast(String(i18n.t("shop.errors.checkoutProcessFailed")), "error");
       return;
     }
 
@@ -236,7 +238,7 @@ export default function ShopScreen() {
         planId: plan.id,
         reason: "missing_auth_token",
       });
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      showToast(String(i18n.t("shop.errors.checkoutProcessFailed")), "error");
       return;
     }
 
@@ -304,7 +306,7 @@ export default function ShopScreen() {
         if (supported) {
           await Linking.openURL(data.url);
         } else {
-          Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.openCheckoutFailed"));
+          showToast(String(i18n.t("shop.errors.openCheckoutFailed")), "error");
         }
       } else {
         Analytics.track("checkout_failed", {
@@ -312,7 +314,7 @@ export default function ShopScreen() {
           planId: plan.id,
           reason: "missing_checkout_url",
         });
-        Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutSessionFailed"));
+        showToast(String(i18n.t("shop.errors.checkoutSessionFailed")), "error");
       }
     } catch (error) {
       console.error("Checkout error:", error);
@@ -325,7 +327,7 @@ export default function ShopScreen() {
           reason: "exception",
         });
       }
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      showToast(String(i18n.t("shop.errors.checkoutProcessFailed")), "error");
     } finally {
       setIsSubscribing(false);
     }

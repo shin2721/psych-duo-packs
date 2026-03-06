@@ -5,6 +5,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../lib/AuthContext';
 import { useAppState } from '../../lib/state';
+import { useToast } from '../../components/ToastProvider';
 import { theme } from '../../lib/theme';
 import { FriendSearch } from '../../components/FriendSearch';
 import {
@@ -51,6 +52,7 @@ export default function FriendsScreen() {
     const [loading, setLoading] = useState(false);
     const { user } = useAuth();
     const { addGems } = useAppState();
+    const { showToast } = useToast();
 
     useEffect(() => {
         if (view === 'friends') {
@@ -195,14 +197,11 @@ export default function FriendsScreen() {
                 { user_id: fromUserId, friend_id: user.id },
             ]);
 
-            Alert.alert(
-                String(i18n.t('friends.alerts.requestAcceptedTitle')),
-                String(i18n.t('friends.alerts.requestAcceptedMessage'))
-            );
+            showToast(String(i18n.t('friends.alerts.requestAcceptedMessage')), 'success');
             fetchRequests();
         } catch (error) {
             console.error('Error accepting request:', error);
-            Alert.alert(String(i18n.t('common.error')), String(i18n.t('friends.alerts.acceptFailed')));
+            showToast(String(i18n.t('friends.alerts.acceptFailed')), 'error');
         }
     };
 
@@ -216,7 +215,7 @@ export default function FriendsScreen() {
             fetchRequests();
         } catch (error) {
             console.error('Error rejecting request:', error);
-            Alert.alert(String(i18n.t('common.error')), String(i18n.t('friends.alerts.rejectFailed')));
+            showToast(String(i18n.t('friends.alerts.rejectFailed')), 'error');
         }
     };
 
@@ -241,7 +240,7 @@ export default function FriendsScreen() {
                             fetchFriends();
                         } catch (error) {
                             console.error('Error removing friend:', error);
-                            Alert.alert(String(i18n.t('common.error')), String(i18n.t('friends.alerts.removeFailed')));
+                            showToast(String(i18n.t('friends.alerts.removeFailed')), 'error');
                         }
                     },
                 },
@@ -258,10 +257,7 @@ export default function FriendsScreen() {
         });
 
         if (!progress.completed) {
-            Alert.alert(
-                String(i18n.t('common.error')),
-                String(i18n.t('friends.challenge.notCompleted'))
-            );
+            showToast(String(i18n.t('friends.challenge.notCompleted')), 'error');
             return;
         }
 
@@ -282,23 +278,23 @@ export default function FriendsScreen() {
                     rewardGems: FRIEND_CHALLENGE_REWARD_GEMS,
                     source: 'friends_tab',
                 });
-                Alert.alert(
-                    String(i18n.t('common.ok')),
-                    String(i18n.t('friends.challenge.rewardClaimed', { gems: FRIEND_CHALLENGE_REWARD_GEMS }))
+                showToast(
+                    String(i18n.t('friends.challenge.rewardClaimed', { gems: FRIEND_CHALLENGE_REWARD_GEMS })),
+                    'success'
                 );
                 return;
             }
 
             if (claimResult === 'already_claimed') {
                 setFriendChallengeClaimed(true);
-                Alert.alert(String(i18n.t('common.ok')), String(i18n.t('friends.challenge.claimed')));
+                showToast(String(i18n.t('friends.challenge.claimed')), 'success');
                 return;
             }
 
             throw new Error('friend challenge claim failed');
         } catch (error) {
             console.error('Error claiming friend challenge reward:', error);
-            Alert.alert(String(i18n.t('common.error')), String(i18n.t('friends.challenge.rewardFailed')));
+            showToast(String(i18n.t('friends.challenge.rewardFailed')), 'error');
         }
     };
 

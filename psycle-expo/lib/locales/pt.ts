@@ -2,10 +2,12 @@ export const pt = {
     common: {
         loading: 'Carregando...',
         error: 'Ocorreu um erro',
+        unexpectedError: 'Algo deu errado. Tente novamente.',
         save: 'Salvar',
         cancel: 'Cancelar',
         close: 'Fechar',
         ok: 'OK',
+        retry: 'Tentar novamente',
     },
     shop: {
         title: 'Loja',

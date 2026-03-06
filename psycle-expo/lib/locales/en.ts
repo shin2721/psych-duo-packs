@@ -2,10 +2,12 @@ export const en = {
     common: {
         loading: 'Loading...',
         error: 'An error occurred',
+        unexpectedError: 'Something went wrong. Please try again.',
         save: 'Save',
         cancel: 'Cancel',
         close: 'Close',
         ok: 'OK',
+        retry: 'Try Again',
         badgeUnlocked: 'Badge unlocked: %{badgeName}',
         streakMilestoneRewarded: 'Streak day %{day} reached: +%{gems} Gems',
         comebackRewardClaimed: 'Welcome-back reward: +%{energy} Energy / +%{gems} Gems',

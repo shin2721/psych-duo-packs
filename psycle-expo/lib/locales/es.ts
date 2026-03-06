@@ -2,10 +2,12 @@ export const es = {
     common: {
         loading: 'Cargando...',
         error: 'Ocurrió un error',
+        unexpectedError: 'Algo salió mal. Inténtalo de nuevo.',
         save: 'Guardar',
         cancel: 'Cancelar',
         close: 'Cerrar',
         ok: 'OK',
+        retry: 'Intentar de nuevo',
     },
     shop: {
         title: 'Tienda',

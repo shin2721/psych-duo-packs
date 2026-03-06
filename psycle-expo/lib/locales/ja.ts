@@ -2,10 +2,12 @@ export const ja = {
     common: {
         loading: '読み込み中...',
         error: 'エラーが発生しました',
+        unexpectedError: '問題が発生しました。もう一度お試しください。',
         save: '保存',
         cancel: 'キャンセル',
         close: '閉じる',
         ok: 'OK',
+        retry: 'もう一度',
         badgeUnlocked: 'バッジ獲得: %{badgeName}',
         streakMilestoneRewarded: '連続%{day}日達成: +%{gems} Gems',
         comebackRewardClaimed: 'おかえり報酬: +%{energy} Energy / +%{gems} Gems',

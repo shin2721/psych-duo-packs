@@ -2,10 +2,12 @@ export const zh = {
     common: {
         loading: '加载中...',
         error: '发生错误',
+        unexpectedError: '发生了问题，请重试。',
         save: '保存',
         cancel: '取消',
         close: '关闭',
         ok: '确定',
+        retry: '重试',
     },
     shop: {
         title: '商店',

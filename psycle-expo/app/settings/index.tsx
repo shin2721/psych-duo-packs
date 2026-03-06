@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
+import { useToast } from "../../components/ToastProvider";
 import { openBillingPortal, restorePurchases } from "../../lib/billing";
 import { hapticFeedback } from "../../lib/haptics";
 import { useAppState } from "../../lib/state";
@@ -40,6 +41,7 @@ export default function SettingsScreen() {
     const [restoreStatus, setRestoreStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
     const [portalStatusMessage, setPortalStatusMessage] = useState("");
     const [restoreStatusMessage, setRestoreStatusMessage] = useState("");
+    const { showToast } = useToast();
     const portalStatusTimer = useRef<NodeJS.Timeout | null>(null);
     const restoreStatusTimer = useRef<NodeJS.Timeout | null>(null);
     const isAnalyticsDebugEnabled = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
@@ -175,7 +177,7 @@ export default function SettingsScreen() {
     const handleRestorePurchases = async () => {
         if (!user?.id) {
             updateRestoreStatus("error", String(i18n.t("settings.loginRequiredForRestore")));
-            Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.loginRequiredForRestore"));
+            showToast(String(i18n.t("settings.loginRequiredForRestore")), "error");
             return;
         }
         setIsRestoring(true);
@@ -205,12 +207,15 @@ export default function SettingsScreen() {
                     })
                 );
                 updateRestoreStatus("success", String(i18n.t("settings.restoreStatusSuccess")));
+                showToast(String(i18n.t("settings.restoreStatusSuccess")), "success");
                 return;
             }
             updateRestoreStatus("error", String(i18n.t("settings.restoreStatusError")));
+            showToast(String(i18n.t("settings.restoreStatusError")), "error");
         } catch (error) {
             console.error("Restore purchases error:", error);
             updateRestoreStatus("error", String(i18n.t("settings.restoreStatusError")));
+            showToast(String(i18n.t("settings.restoreStatusError")), "error");
         } finally {
             setIsRestoring(false);
         }
@@ -219,7 +224,7 @@ export default function SettingsScreen() {
     const handleOpenBillingPortal = async () => {
         if (!user?.id) {
             updatePortalStatus("error", String(i18n.t("settings.loginRequiredForBillingPortal")));
-            Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.loginRequiredForBillingPortal"));
+            showToast(String(i18n.t("settings.loginRequiredForBillingPortal")), "error");
             return;
         }
 
@@ -229,13 +234,15 @@ export default function SettingsScreen() {
             const ok = await openBillingPortal();
             if (!ok) {
                 updatePortalStatus("error", String(i18n.t("settings.billingStatusError")));
-                Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.billingPortalUnavailable"));
+                showToast(String(i18n.t("settings.billingPortalUnavailable")), "error");
                 return;
             }
             updatePortalStatus("success", String(i18n.t("settings.billingStatusSuccess")));
+            showToast(String(i18n.t("settings.billingStatusSuccess")), "success");
         } catch (error) {
             console.error("Open billing portal error:", error);
             updatePortalStatus("error", String(i18n.t("settings.billingStatusError")));
+            showToast(String(i18n.t("settings.billingStatusError")), "error");
         } finally {
             setIsOpeningPortal(false);
         }
@@ -261,7 +268,7 @@ export default function SettingsScreen() {
 
     const handleResetOnboarding = async () => {
         await AsyncStorage.removeItem("hasSeenOnboarding");
-        Alert.alert(i18n.t("settings.resetDoneTitle"), i18n.t("settings.resetDoneMessage"));
+        showToast(String(i18n.t("settings.resetDoneMessage")), "success");
     };
 
     const handleClearData = async () => {
@@ -275,7 +282,7 @@ export default function SettingsScreen() {
                     style: "destructive",
                     onPress: async () => {
                         await AsyncStorage.clear();
-                        Alert.alert(i18n.t("settings.completed"), i18n.t("settings.localDataDeleted"));
+                        showToast(String(i18n.t("settings.localDataDeleted")), "success");
                     },
                 },
             ]
@@ -434,7 +441,7 @@ export default function SettingsScreen() {
                                             title: i18n.t("settings.dogfoodDataTitle")
                                         });
                                     } catch (e) {
-                                        Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.exportFailed"));
+                                        showToast(String(i18n.t("settings.exportFailed")), "error");
                                     }
                                 }}
                             />
