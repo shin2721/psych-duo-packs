@@ -105,6 +105,24 @@ export default function CourseScreen() {
     if (index === 0 || prevCompleted) return { ...node, status: "current" };
     return { ...node, status: "locked" };
   });
+  const nextActionNode = currentTrail.find(
+    (node) => node.status === "current" && !!node.lessonFile
+  );
+
+  const handleLockedLessonAccess = async () => {
+    const lessonCompleteCount = completedLessons.size;
+    if (shouldShowPaywall(lessonCompleteCount)) {
+      setPaywallContextGenre(selectedGenre);
+      setPaywallVisible(true);
+      return;
+    }
+
+    Alert.alert(
+      i18n.t("course.keepUsingTitle"),
+      i18n.t("course.keepUsingMessage"),
+      [{ text: i18n.t("common.ok") }]
+    );
+  };
 
   const handleStart = () => {
     if (!modalNode) {
@@ -154,6 +172,15 @@ export default function CourseScreen() {
     if (fallbackNode) {
       setModalNode(fallbackNode.id);
     }
+  };
+
+  const handleNextStepPress = () => {
+    if (!nextActionNode) return;
+    if (nextActionNode.isLocked) {
+      void handleLockedLessonAccess();
+      return;
+    }
+    setModalNode(nextActionNode.id);
   };
 
   return (
@@ -219,29 +246,51 @@ export default function CourseScreen() {
         </View>
       )}
 
-      {/* Stats Cards REMOVED as per minimal design requirement */}
-
-
-
+      {nextActionNode && (
+        <View style={styles.nextStepCard} testID="course-next-step-card">
+          <View style={styles.nextStepHeader}>
+            <View style={styles.nextStepIconWrap}>
+              <Ionicons
+                name={nextActionNode.isLocked ? "lock-closed" : "play"}
+                size={16}
+                color={nextActionNode.isLocked ? theme.colors.warn : theme.colors.accent}
+              />
+            </View>
+            <Text style={styles.nextStepLabel}>{i18n.t("course.nextStep.label")}</Text>
+          </View>
+          <Text style={styles.nextStepTitle}>
+            {nextActionNode.isLocked
+              ? i18n.t("course.nextStep.lockedTitle")
+              : i18n.t("course.nextStep.readyTitle")}
+          </Text>
+          <Text style={styles.nextStepBody}>
+            {nextActionNode.isLocked
+              ? i18n.t("course.nextStep.lockedBody")
+              : i18n.t("course.nextStep.readyBody")}
+          </Text>
+          <Pressable
+            style={[
+              styles.nextStepButton,
+              nextActionNode.isLocked && styles.nextStepButtonLocked,
+            ]}
+            onPress={handleNextStepPress}
+            testID="course-next-step-cta"
+          >
+            <Text style={styles.nextStepButtonText}>
+              {nextActionNode.isLocked
+                ? i18n.t("course.nextStep.ctaLocked")
+                : i18n.t("course.nextStep.ctaReady")}
+            </Text>
+          </Pressable>
+        </View>
+      )}
 
       <Trail
         trail={currentTrail}
         hideLabels
         onStart={(nodeId) => setModalNode(nodeId)}
-        onLockedPress={async () => {
-          // Paywall表示条件チェック（Study基準: レッスン完了3回以上）
-          const lessonCompleteCount = completedLessons.size;
-          if (shouldShowPaywall(lessonCompleteCount)) {
-            setPaywallContextGenre(selectedGenre);
-            setPaywallVisible(true);
-          } else {
-            // 条件未達成：もう少し使ってみてメッセージ
-            Alert.alert(
-              i18n.t("course.keepUsingTitle"),
-              i18n.t("course.keepUsingMessage"),
-              [{ text: i18n.t("common.ok") }]
-            );
-          }
+        onLockedPress={() => {
+          void handleLockedLessonAccess();
         }}
         themeColor={themeColor}
       />
@@ -369,6 +418,63 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontWeight: "800",
     fontSize: 12,
+  },
+  nextStepCard: {
+    marginHorizontal: 16,
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+    backgroundColor: theme.colors.card,
+    gap: 6,
+  },
+  nextStepHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  nextStepIconWrap: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(59, 130, 246, 0.16)",
+  },
+  nextStepLabel: {
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 0.4,
+    color: theme.colors.sub,
+    textTransform: "uppercase",
+  },
+  nextStepTitle: {
+    fontSize: 17,
+    fontWeight: "800",
+    color: theme.colors.text,
+  },
+  nextStepBody: {
+    fontSize: 13,
+    lineHeight: 19,
+    color: theme.colors.sub,
+  },
+  nextStepButton: {
+    marginTop: 4,
+    alignSelf: "flex-start",
+    borderRadius: 999,
+    backgroundColor: theme.colors.primary,
+    paddingHorizontal: 14,
+    paddingVertical: 10,
+  },
+  nextStepButtonLocked: {
+    backgroundColor: theme.colors.warn,
+  },
+  nextStepButtonText: {
+    color: "#fff",
+    fontSize: 13,
+    fontWeight: "800",
   },
   header: {
     // Empty header reserved for spacing if needed, or remove completely.

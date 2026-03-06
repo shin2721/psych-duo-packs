@@ -9,6 +9,7 @@ import { hapticFeedback } from "../lib/haptics";
 import { getQuestionFromId } from "../lib/lessons";
 import { QuestionRenderer, Question } from "../components/QuestionRenderer";
 import { XPGainAnimation } from "../components/XPGainAnimation";
+import { SupportStatePanel } from "../components/SupportStatePanel";
 import i18n from "../lib/i18n";
 
 export default function ReviewScreen() {
@@ -121,14 +122,13 @@ export default function ReviewScreen() {
                     </Pressable>
                     <Text style={styles.title}>{i18n.t("review.title")}</Text>
                 </View>
-                <View style={styles.emptyState}>
-                    <Ionicons name="checkmark-circle-outline" size={80} color={theme.colors.success} />
-                    <Text style={styles.emptyTitle}>{i18n.t("review.emptyTitle")}</Text>
-                    <Text style={styles.emptyText}>{i18n.t("review.emptyText")}</Text>
-                    <Pressable style={styles.button} onPress={() => router.back()}>
-                        <Text style={styles.buttonText}>{i18n.t("review.backToCourse")}</Text>
-                    </Pressable>
-                </View>
+                <SupportStatePanel
+                    icon="checkmark-circle-outline"
+                    title={String(i18n.t("review.emptyTitle"))}
+                    body={String(i18n.t("review.emptyText"))}
+                    ctaLabel={String(i18n.t("review.backToCourse"))}
+                    onPress={() => router.back()}
+                />
             </SafeAreaView>
         );
     }
@@ -136,18 +136,18 @@ export default function ReviewScreen() {
     if (showResults) {
         return (
             <SafeAreaView style={styles.container} testID="review-screen">
-                <View style={styles.resultContainer}>
-                    <Text style={styles.resultTitle}>{i18n.t("review.doneTitle")}</Text>
-                    <Text style={styles.resultText}>
-                        {i18n.t("review.resultSummary", {
+                <SupportStatePanel
+                    icon="sparkles-outline"
+                    title={String(i18n.t("review.doneTitle"))}
+                    body={String(
+                        i18n.t("review.resultSummary", {
                             total: sessionQuestions.length,
                             cleared: clearedCount,
-                        })}
-                    </Text>
-                    <Pressable style={styles.button} onPress={() => router.back()}>
-                        <Text style={styles.buttonText}>{i18n.t("review.backToCourse")}</Text>
-                    </Pressable>
-                </View>
+                        })
+                    )}
+                    ctaLabel={String(i18n.t("review.backToCourse"))}
+                    onPress={() => router.back()}
+                />
             </SafeAreaView>
         );
     }
@@ -250,25 +250,6 @@ const styles = StyleSheet.create({
         height: "100%",
         backgroundColor: theme.colors.primary,
     },
-    emptyState: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: theme.spacing.xl,
-    },
-    emptyTitle: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: theme.colors.text,
-        marginTop: theme.spacing.md,
-        marginBottom: theme.spacing.sm,
-    },
-    emptyText: {
-        fontSize: 16,
-        color: theme.colors.sub,
-        textAlign: "center",
-        marginBottom: theme.spacing.xl,
-    },
     introContainer: {
         flex: 1,
         padding: theme.spacing.xl,
@@ -311,23 +292,6 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 18,
         fontWeight: "bold",
-    },
-    resultContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: theme.spacing.xl,
-    },
-    resultTitle: {
-        fontSize: 28,
-        fontWeight: "bold",
-        color: theme.colors.text,
-        marginBottom: theme.spacing.md,
-    },
-    resultText: {
-        fontSize: 18,
-        color: theme.colors.sub,
-        marginBottom: theme.spacing.xl,
     },
     reviewFeedback: {
         position: "absolute",

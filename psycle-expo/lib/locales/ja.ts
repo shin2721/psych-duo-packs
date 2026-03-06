@@ -315,6 +315,15 @@ export const ja = {
         startLessonTitle: 'レッスンを開始',
         startLessonDescription: 'このレッスンで %{xp} XP 獲得できます。',
         startButton: '開始',
+        nextStep: {
+            label: '次の一歩',
+            readyTitle: '次のレッスンに進めます',
+            readyBody: '今の学習ルートの続きからそのまま始めましょう。',
+            lockedTitle: 'このレッスンはまだロック中です',
+            lockedBody: 'もう少し進めるか、Pro を解放するとこのルートを開けます。',
+            ctaReady: 'レッスンを開く',
+            ctaLocked: '解放方法を見る',
+        },
         rewardClaimedTitle: '報酬を受け取りました！',
         rewardClaimedMessage: '%{gems} Gems と %{badges}個のバッジを獲得しました。',
         streakRepair: {

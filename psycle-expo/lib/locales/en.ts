@@ -315,6 +315,15 @@ export const en = {
         startLessonTitle: 'Start Lesson',
         startLessonDescription: 'You can earn %{xp} XP in this lesson.',
         startButton: 'Start',
+        nextStep: {
+            label: 'Next step',
+            readyTitle: 'Your next lesson is ready',
+            readyBody: 'Continue from the lesson path you already unlocked.',
+            lockedTitle: 'This lesson is still locked',
+            lockedBody: 'Complete a little more or unlock Pro to open this route.',
+            ctaReady: 'Open lesson',
+            ctaLocked: 'See unlock options',
+        },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
         streakRepair: {

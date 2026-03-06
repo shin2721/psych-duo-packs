@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { QuestionRenderer, type Question } from "../components/QuestionRenderer";
 import { Analytics } from "../lib/analytics";
 import { getQuestionFromId } from "../lib/lessons";
+import { SupportStatePanel } from "../components/SupportStatePanel";
 import { useAppState } from "../lib/state";
 import { theme } from "../lib/theme";
 import i18n from "../lib/i18n";
@@ -80,12 +81,14 @@ export default function MistakesHubScreen() {
   if (mistakesHubSessionItems.length === 0 || questions.length === 0) {
     return (
       <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
-        <View style={styles.emptyState} testID="mistakes-hub-empty">
-          <Text style={styles.emptyTitle}>{i18n.t("review.emptyTitle")}</Text>
-          <Text style={styles.emptyText}>{i18n.t("mistakesHubButton.notEnoughData")}</Text>
-          <Pressable style={styles.primaryButton} onPress={handleClose}>
-            <Text style={styles.primaryButtonText}>{i18n.t("review.backToCourse")}</Text>
-          </Pressable>
+        <View testID="mistakes-hub-empty" style={styles.statePanelWrap}>
+          <SupportStatePanel
+            icon="albums-outline"
+            title={String(i18n.t("review.emptyTitle"))}
+            body={String(i18n.t("mistakesHubButton.notEnoughData"))}
+            ctaLabel={String(i18n.t("review.backToCourse"))}
+            onPress={handleClose}
+          />
         </View>
       </SafeAreaView>
     );
@@ -94,18 +97,18 @@ export default function MistakesHubScreen() {
   if (isComplete) {
     return (
       <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
-        <View style={styles.resultContainer}>
-          <Text style={styles.resultTitle}>{i18n.t("review.doneTitle")}</Text>
-          <Text style={styles.resultBody}>
-            {i18n.t("review.resultSummary", {
+        <SupportStatePanel
+          icon="sparkles-outline"
+          title={String(i18n.t("review.doneTitle"))}
+          body={String(
+            i18n.t("review.resultSummary", {
               total: questions.length,
               cleared: clearedCount,
-            })}
-          </Text>
-          <Pressable style={styles.primaryButton} onPress={() => router.back()}>
-            <Text style={styles.primaryButtonText}>{i18n.t("review.backToCourse")}</Text>
-          </Pressable>
-        </View>
+            })
+          )}
+          ctaLabel={String(i18n.t("review.backToCourse"))}
+          onPress={() => router.back()}
+        />
       </SafeAreaView>
     );
   }
@@ -164,49 +167,7 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: theme.colors.primary,
   },
-  emptyState: {
+  statePanelWrap: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: theme.spacing.xl,
-    gap: theme.spacing.md,
-  },
-  emptyTitle: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: theme.colors.text,
-  },
-  emptyText: {
-    textAlign: "center",
-    color: theme.colors.sub,
-    lineHeight: 20,
-  },
-  resultContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: theme.spacing.xl,
-    gap: theme.spacing.md,
-  },
-  resultTitle: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: theme.colors.text,
-  },
-  resultBody: {
-    fontSize: 16,
-    color: theme.colors.sub,
-    textAlign: "center",
-  },
-  primaryButton: {
-    marginTop: theme.spacing.lg,
-    backgroundColor: theme.colors.primary,
-    paddingHorizontal: theme.spacing.xl,
-    paddingVertical: theme.spacing.md,
-    borderRadius: 999,
-  },
-  primaryButtonText: {
-    color: "#fff",
-    fontWeight: "700",
   },
 });

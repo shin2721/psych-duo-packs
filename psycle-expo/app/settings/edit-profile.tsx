@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Pressable, TextInput, Alert } from "react-native";
+import { View, Text, StyleSheet, Pressable, TextInput, Alert, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -50,30 +50,36 @@ export default function EditProfileScreen() {
                 </Pressable>
             </View>
 
-            {/* Avatar Selection */}
-            <View style={styles.section}>
-                <Text style={styles.sectionTitle}>{i18n.t("editProfile.avatar")}</Text>
-                <View style={styles.avatarGrid}>
-                    {["person", "happy", "star", "heart", "flash", "leaf"].map((icon) => (
-                        <Pressable key={icon} style={styles.avatarOption}>
-                            <Ionicons name={icon as any} size={32} color={theme.colors.primary} />
-                        </Pressable>
-                    ))}
+            <ScrollView contentContainerStyle={styles.scrollContent}>
+                {/* Avatar Selection */}
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>{i18n.t("editProfile.avatar")}</Text>
+                    <View style={styles.sectionCard}>
+                        <View style={styles.avatarGrid}>
+                            {["person", "happy", "star", "heart", "flash", "leaf"].map((icon) => (
+                                <Pressable key={icon} style={styles.avatarOption}>
+                                    <Ionicons name={icon as any} size={32} color={theme.colors.primary} />
+                                </Pressable>
+                            ))}
+                        </View>
+                    </View>
                 </View>
-            </View>
 
-            {/* Username Input */}
-            <View style={styles.section}>
-                <Text style={styles.sectionTitle}>{i18n.t("editProfile.username")}</Text>
-                <TextInput
-                    style={styles.input}
-                    value={username}
-                    onChangeText={setUsername}
-                    placeholder={String(i18n.t("editProfile.usernamePlaceholder"))}
-                    placeholderTextColor={theme.colors.sub}
-                    testID="edit-profile-username"
-                />
-            </View>
+                {/* Username Input */}
+                <View style={styles.section}>
+                    <Text style={styles.sectionTitle}>{i18n.t("editProfile.username")}</Text>
+                    <View style={styles.sectionCard}>
+                        <TextInput
+                            style={styles.input}
+                            value={username}
+                            onChangeText={setUsername}
+                            placeholder={String(i18n.t("editProfile.usernamePlaceholder"))}
+                            placeholderTextColor={theme.colors.sub}
+                            testID="edit-profile-username"
+                        />
+                    </View>
+                </View>
+            </ScrollView>
         </SafeAreaView>
     );
 }
@@ -82,6 +88,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.colors.bg,
+    },
+    scrollContent: {
+        paddingBottom: theme.spacing.xl,
     },
     header: {
         flexDirection: "row",
@@ -110,6 +119,13 @@ const styles = StyleSheet.create({
     section: {
         padding: theme.spacing.lg,
     },
+    sectionCard: {
+        borderRadius: theme.radius.lg,
+        borderWidth: 1,
+        borderColor: theme.colors.line,
+        backgroundColor: theme.colors.surface,
+        padding: theme.spacing.md,
+    },
     sectionTitle: {
         fontSize: 14,
         fontWeight: "600",
@@ -133,10 +149,12 @@ const styles = StyleSheet.create({
         borderColor: "transparent",
     },
     input: {
-        backgroundColor: theme.colors.surface,
+        backgroundColor: theme.colors.card,
         padding: theme.spacing.md,
         borderRadius: theme.radius.md,
         fontSize: 16,
         color: theme.colors.text,
+        borderWidth: 1,
+        borderColor: theme.colors.line,
     },
 });

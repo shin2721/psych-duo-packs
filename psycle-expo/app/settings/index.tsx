@@ -306,133 +306,151 @@ export default function SettingsScreen() {
                 {/* Account Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>{i18n.t("settings.account")}</Text>
-                    <SettingRow
-                        icon="mail"
-                        label={i18n.t("settings.emailAddress")}
-                        value={user?.email || ""}
-                        onPress={() => { }}
-                    />
-                    <SettingRow
-                        icon="log-out"
-                        label={i18n.t("settings.logout")}
-                        onPress={handleSignOut}
-                        isDestructive
-                    />
+                    <View style={styles.sectionCard}>
+                        <SettingRow
+                            icon="mail"
+                            label={i18n.t("settings.emailAddress")}
+                            value={user?.email || ""}
+                            onPress={() => { }}
+                        />
+                        <SettingRow
+                            icon="log-out"
+                            label={i18n.t("settings.logout")}
+                            onPress={handleSignOut}
+                            isDestructive
+                            showDivider={false}
+                        />
+                    </View>
                 </View>
 
                 {/* Preferences Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>{i18n.t("settings.preferences")}</Text>
-                    <SettingToggle
-                        icon="notifications"
-                        label={i18n.t("settings.notifications")}
-                        value={notificationsEnabled}
-                        onValueChange={(value) => {
-                            handleNotificationToggle(value).catch((error) => {
-                                console.error("Failed to update notification preference:", error);
-                            });
-                        }}
-                    />
-                    <SettingToggle
-                        icon="volume-high"
-                        label={i18n.t("settings.sound")}
-                        value={soundEnabled}
-                        onValueChange={setSoundEnabled}
-                    />
-                    <SettingToggle
-                        icon="phone-portrait"
-                        label={i18n.t("settings.haptics")}
-                        value={hapticsEnabled}
-                        onValueChange={setHapticsEnabled}
-                    />
-                    <SettingRow
-                        icon="language"
-                        label={i18n.t("settings.language")}
-                        value={selectedLanguage}
-                        onPress={() => setIsLanguageModalVisible(true)}
-                    />
+                    <View style={styles.sectionCard}>
+                        <SettingToggle
+                            icon="notifications"
+                            label={i18n.t("settings.notifications")}
+                            value={notificationsEnabled}
+                            onValueChange={(value) => {
+                                handleNotificationToggle(value).catch((error) => {
+                                    console.error("Failed to update notification preference:", error);
+                                });
+                            }}
+                        />
+                        <SettingToggle
+                            icon="volume-high"
+                            label={i18n.t("settings.sound")}
+                            value={soundEnabled}
+                            onValueChange={setSoundEnabled}
+                        />
+                        <SettingToggle
+                            icon="phone-portrait"
+                            label={i18n.t("settings.haptics")}
+                            value={hapticsEnabled}
+                            onValueChange={setHapticsEnabled}
+                        />
+                        <SettingRow
+                            icon="language"
+                            label={i18n.t("settings.language")}
+                            value={selectedLanguage}
+                            onPress={() => setIsLanguageModalVisible(true)}
+                            showDivider={false}
+                        />
+                    </View>
                 </View>
 
                 {/* Support Section */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>{i18n.t("settings.support")}</Text>
-                    <SettingRow
-                        icon="help-circle"
-                        label={i18n.t("settings.helpFaq")}
-                        onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/help")}
-                    />
-                    <SettingRow
-                        icon="shield-checkmark"
-                        label={i18n.t("settings.privacy")}
-                        onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/privacy")}
-                    />
-                    <SettingRow
-                        icon="document-text"
-                        label={i18n.t("settings.terms")}
-                        onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/terms")}
-                    />
-                    <SettingRow
-                        icon="refresh-circle"
-                        label={isRestoring ? i18n.t("settings.restoring") : i18n.t("settings.restorePurchases")}
-                        onPress={handleRestorePurchases}
-                    />
-                    {restoreStatus !== "idle" && (
-                        <SettingStatusRow
-                            status={restoreStatus}
-                            message={restoreStatusMessage}
-                            testID="settings-restore-status"
+                    <View style={styles.sectionCard}>
+                        <SettingRow
+                            icon="help-circle"
+                            label={i18n.t("settings.helpFaq")}
+                            onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/help")}
                         />
-                    )}
-                    <SettingRow
-                        icon="card"
-                        label={isOpeningPortal ? i18n.t("settings.openingPortal") : i18n.t("settings.manageBilling")}
-                        onPress={handleOpenBillingPortal}
-                    />
-                    {portalStatus !== "idle" && (
-                        <SettingStatusRow
-                            status={portalStatus}
-                            message={portalStatusMessage}
-                            testID="settings-billing-status"
+                        <SettingRow
+                            icon="shield-checkmark"
+                            label={i18n.t("settings.privacy")}
+                            onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/privacy")}
                         />
-                    )}
+                        <SettingRow
+                            icon="document-text"
+                            label={i18n.t("settings.terms")}
+                            onPress={() => Linking.openURL("https://shin2721.github.io/psych-duo-packs/terms")}
+                            showDivider={false}
+                        />
+                    </View>
+                    <View style={styles.sectionCard}>
+                        <SettingRow
+                            icon="refresh-circle"
+                            label={isRestoring ? i18n.t("settings.restoring") : i18n.t("settings.restorePurchases")}
+                            onPress={handleRestorePurchases}
+                            showDivider={restoreStatus === "idle"}
+                        />
+                        {restoreStatus !== "idle" && (
+                            <SettingStatusRow
+                                status={restoreStatus}
+                                message={restoreStatusMessage}
+                                testID="settings-restore-status"
+                            />
+                        )}
+                    </View>
+                    <View style={styles.sectionCard}>
+                        <SettingRow
+                            icon="card"
+                            label={isOpeningPortal ? i18n.t("settings.openingPortal") : i18n.t("settings.manageBilling")}
+                            onPress={handleOpenBillingPortal}
+                            showDivider={portalStatus === "idle"}
+                        />
+                        {portalStatus !== "idle" && (
+                            <SettingStatusRow
+                                status={portalStatus}
+                                message={portalStatusMessage}
+                                testID="settings-billing-status"
+                            />
+                        )}
+                    </View>
                 </View>
 
                 {/* Debug Section (Dev + E2E release) */}
                 {isAnalyticsDebugEnabled && (
                     <View style={styles.section}>
                         <Text style={styles.sectionTitle}>{i18n.t("settings.debug")}</Text>
-                        <SettingRow
-                            icon="analytics"
-                            label="Analytics Debug"
-                            onPress={() => router.push('/debug/analytics')}
-                            testID="open-analytics-debug"
-                        />
-                        <SettingRow
-                            icon="analytics"
-                            label={i18n.t("settings.exportDogfoodData")}
-                            onPress={async () => {
-                                try {
-                                    const json = await getExportableJSON();
-                                    await Share.share({
-                                        message: json,
-                                        title: i18n.t("settings.dogfoodDataTitle")
-                                    });
-                                } catch (e) {
-                                    Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.exportFailed"));
-                                }
-                            }}
-                        />
-                        <SettingRow
-                            icon="refresh"
-                            label={i18n.t("settings.resetOnboarding")}
-                            onPress={handleResetOnboarding}
-                        />
-                        <SettingRow
-                            icon="trash"
-                            label={i18n.t("settings.clearLocalData")}
-                            onPress={handleClearData}
-                            isDestructive
-                        />
+                        <View style={styles.sectionCard}>
+                            <SettingRow
+                                icon="analytics"
+                                label="Analytics Debug"
+                                onPress={() => router.push('/debug/analytics')}
+                                testID="open-analytics-debug"
+                            />
+                            <SettingRow
+                                icon="analytics"
+                                label={i18n.t("settings.exportDogfoodData")}
+                                onPress={async () => {
+                                    try {
+                                        const json = await getExportableJSON();
+                                        await Share.share({
+                                            message: json,
+                                            title: i18n.t("settings.dogfoodDataTitle")
+                                        });
+                                    } catch (e) {
+                                        Alert.alert(i18n.t("settings.errorTitle"), i18n.t("settings.exportFailed"));
+                                    }
+                                }}
+                            />
+                            <SettingRow
+                                icon="refresh"
+                                label={i18n.t("settings.resetOnboarding")}
+                                onPress={handleResetOnboarding}
+                            />
+                            <SettingRow
+                                icon="trash"
+                                label={i18n.t("settings.clearLocalData")}
+                                onPress={handleClearData}
+                                isDestructive
+                                showDivider={false}
+                            />
+                        </View>
                     </View>
                 )}
 
@@ -505,6 +523,7 @@ function SettingRow({
     onPress,
     isDestructive = false,
     testID,
+    showDivider = true,
 }: {
     icon: any;
     label: string;
@@ -512,9 +531,14 @@ function SettingRow({
     onPress: () => void;
     isDestructive?: boolean;
     testID?: string;
+    showDivider?: boolean;
 }) {
     return (
-        <Pressable style={styles.settingRow} onPress={onPress} testID={testID}>
+        <Pressable
+            style={[styles.settingRow, !showDivider && styles.settingRowNoDivider]}
+            onPress={onPress}
+            testID={testID}
+        >
             <View style={styles.settingLeft}>
                 <Ionicons
                     name={icon}
@@ -539,14 +563,16 @@ function SettingToggle({
     label,
     value,
     onValueChange,
+    showDivider = true,
 }: {
     icon: any;
     label: string;
     value: boolean;
     onValueChange: (value: boolean) => void;
+    showDivider?: boolean;
 }) {
     return (
-        <View style={styles.settingRow}>
+        <View style={[styles.settingRow, !showDivider && styles.settingRowNoDivider]}>
             <View style={styles.settingLeft}>
                 <Ionicons name={icon} size={24} color={theme.colors.text} />
                 <Text style={styles.settingLabel}>{label}</Text>
@@ -583,6 +609,14 @@ const styles = StyleSheet.create({
     section: {
         marginTop: theme.spacing.lg,
     },
+    sectionCard: {
+        marginHorizontal: theme.spacing.lg,
+        borderRadius: theme.radius.lg,
+        borderWidth: 1,
+        borderColor: theme.colors.line,
+        backgroundColor: theme.colors.surface,
+        overflow: "hidden",
+    },
     sectionTitle: {
         fontSize: 14,
         fontWeight: "600",
@@ -597,9 +631,11 @@ const styles = StyleSheet.create({
         alignItems: "center",
         paddingVertical: theme.spacing.md,
         paddingHorizontal: theme.spacing.lg,
-        backgroundColor: theme.colors.surface,
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.line,
+    },
+    settingRowNoDivider: {
+        borderBottomWidth: 0,
     },
     settingLeft: {
         flexDirection: "row",
@@ -616,11 +652,8 @@ const styles = StyleSheet.create({
     },
     statusRow: {
         paddingHorizontal: theme.spacing.lg,
-        paddingTop: theme.spacing.xs,
-        paddingBottom: theme.spacing.sm,
-        backgroundColor: theme.colors.surface,
-        borderBottomWidth: 1,
-        borderBottomColor: theme.colors.line,
+        paddingTop: 0,
+        paddingBottom: theme.spacing.md,
     },
     statusText: {
         fontSize: 12,
