@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../lib/AuthContext';
-import { useAppState } from '../../lib/state';
+import { useEconomyState } from '../../lib/state';
 import { useToast } from '../../components/ToastProvider';
 import { theme } from '../../lib/theme';
 import { FriendSearch } from '../../components/FriendSearch';
@@ -51,7 +51,7 @@ export default function FriendsScreen() {
     const [friendChallengeClaimed, setFriendChallengeClaimed] = useState(false);
     const [loading, setLoading] = useState(false);
     const { user } = useAuth();
-    const { addGems } = useAppState();
+    const { addGems } = useEconomyState();
     const { showToast } = useToast();
 
     useEffect(() => {

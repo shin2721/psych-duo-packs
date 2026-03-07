@@ -1,7 +1,7 @@
 // components/PlanSelector.tsx
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useAppState } from "../lib/state";
+import { useBillingState, usePracticeState } from "../lib/state";
 import { theme } from "../lib/theme";
 import { buyPlan } from "../lib/billing";
 import { getPlanPrice, detectUserRegion } from "../lib/pricing";
@@ -12,7 +12,8 @@ import i18n from "../lib/i18n";
  * 地域別価格に対応
  */
 export function PlanSelector() {
-  const { planId, setPlanId, hasProAccess, canAccessMistakesHub } = useAppState();
+  const { planId, setPlanId, hasProAccess } = useBillingState();
+  const { canAccessMistakesHub } = usePracticeState();
   const userRegion = detectUserRegion();
 
   // デモ用：仮のユーザー情報（実際はSupabase authから取得）

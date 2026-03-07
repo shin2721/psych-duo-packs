@@ -3,7 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { theme } from "../../lib/theme";
-import { useAppState } from "../../lib/state";
+import { useProgressionState } from "../../lib/state";
 import { GameResult } from "../../lib/games.extra";
 import { BreathTempo } from "../../components/games/BreathTempo";
 import { EchoSteps } from "../../components/games/EchoSteps";
@@ -12,7 +12,7 @@ import { BudgetBonds } from "../../components/games/BudgetBonds";
 
 export default function GameScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
-  const { addXp, incrementQuest, incrementQuestMetric } = useAppState();
+  const { addXp, incrementQuest, incrementQuestMetric } = useProgressionState();
 
   const handleDone = (result: GameResult) => {
     addXp(result.xp);

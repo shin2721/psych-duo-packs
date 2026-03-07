@@ -2,7 +2,7 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { router } from "expo-router";
-import { useAppState } from "../lib/state";
+import { usePracticeState } from "../lib/state";
 import { theme } from "../lib/theme";
 import i18n from "../lib/i18n";
 
@@ -18,7 +18,7 @@ export function MistakesHubButton() {
     mistakesHubRemaining,
     getMistakesHubItems,
     startMistakesHubSession,
-  } = useAppState();
+  } = usePracticeState();
 
   const mistakesItems = getMistakesHubItems();
   const hasEnoughData = mistakesItems.length >= 5; // 最低5問必要

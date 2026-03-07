@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Pressable, StyleSheet, Animated, ScrollView, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { HapticFeedback } from "../lib/HapticFeedback";
-import { useAppState } from "../lib/state";
+import { useProgressionState } from "../lib/state";
 import { QuestionImage, QuestionAudio } from "./QuestionMedia";
 import { Audio } from "expo-av";
 import { theme } from "../lib/theme";
@@ -93,7 +93,7 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null); // For quick_reflex
   const [inputText, setInputText] = useState<string>(""); // For micro_input
   const [consequenceSelection, setConsequenceSelection] = useState<boolean | null>(null); // For consequence_scenario
-  const { addXp, updateSkill } = useAppState();
+  const { addXp, updateSkill } = useProgressionState();
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const slideAnim = useRef(new Animated.Value(30)).current;

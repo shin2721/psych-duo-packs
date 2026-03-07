@@ -1,5 +1,10 @@
 import { Stack, useRouter, useSegments } from "expo-router";
-import { AppStateProvider, useAppState } from "../lib/state";
+import {
+  AppStateProvider,
+  useBillingState,
+  useEconomyState,
+  useProgressionState,
+} from "../lib/state";
 import { AuthProvider, useAuth } from "../lib/AuthContext";
 import { OnboardingProvider, useOnboarding } from "../lib/OnboardingContext";
 import { useEffect, useState } from "react";
@@ -81,16 +86,23 @@ function RootLayoutNav() {
 function ReminderBootstrap() {
   const { session } = useAuth();
   const {
-    isStateHydrated,
     hasPendingDailyQuests,
     streakRepairOffer,
+    isStateHydrated: isProgressionHydrated,
+  } = useProgressionState();
+  const {
     energy,
     maxEnergy,
     lastEnergyUpdateTime,
     energyRefillMinutes,
+    isHydrated: isEconomyHydrated,
+  } = useEconomyState();
+  const {
     isSubscriptionActive,
-  } = useAppState();
+    isHydrated: isBillingHydrated,
+  } = useBillingState();
   const router = useRouter();
+  const isStateHydrated = isProgressionHydrated && isEconomyHydrated && isBillingHydrated;
 
   useEffect(() => {
     const unsubscribe = registerNotificationResponseHandler((path) => {
@@ -139,7 +151,7 @@ function GamificationToastBridge() {
     consumeNextStreakMilestoneToast,
     comebackRewardToastQueue,
     consumeNextComebackRewardToast,
-  } = useAppState();
+  } = useProgressionState();
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
