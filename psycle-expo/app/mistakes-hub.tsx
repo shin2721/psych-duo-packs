@@ -7,7 +7,7 @@ import { QuestionRenderer, type Question } from "../components/QuestionRenderer"
 import { Analytics } from "../lib/analytics";
 import { getQuestionFromId } from "../lib/lessons";
 import { SupportStatePanel } from "../components/SupportStatePanel";
-import { useAppState } from "../lib/state";
+import { usePracticeState, useProgressionState } from "../lib/state";
 import { theme } from "../lib/theme";
 import i18n from "../lib/i18n";
 
@@ -15,9 +15,9 @@ export default function MistakesHubScreen() {
   const {
     mistakesHubSessionItems,
     clearMistakesHubSession,
-    addXp,
     addReviewEvent,
-  } = useAppState();
+  } = usePracticeState();
+  const { addXp } = useProgressionState();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [clearedCount, setClearedCount] = useState(0);

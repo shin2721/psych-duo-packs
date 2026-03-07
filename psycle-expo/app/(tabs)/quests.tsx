@@ -3,7 +3,7 @@ import { View, Text, ScrollView, Pressable, StyleSheet, Alert } from "react-nati
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
-import { useAppState } from "../../lib/state";
+import { useProgressionState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { Analytics } from "../../lib/analytics";
 import { Card, ProgressBar, SectionHeader } from "../../components/ui";
@@ -41,7 +41,7 @@ export default function QuestsScreen() {
     streakHistory,
     eventCampaign,
     eventQuests,
-  } = useAppState();
+  } = useProgressionState();
   const { user } = useAuth();
   const currentMonth = new Date().getMonth() + 1;
   const [nowMs, setNowMs] = useState(() => Date.now());
