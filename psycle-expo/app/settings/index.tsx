@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView, Switch, Alert, Linking, Share, Modal } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView, Switch, Alert, Linking, Share, Modal, type AccessibilityState } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -302,7 +302,13 @@ export default function SettingsScreen() {
             <ScrollView testID="settings-scroll">
                 {/* Header */}
                 <View style={styles.header}>
-                    <Pressable onPress={() => router.back()} style={styles.backButton} testID="settings-back">
+                    <Pressable
+                        onPress={() => router.back()}
+                        style={styles.backButton}
+                        testID="settings-back"
+                        accessibilityRole="button"
+                        accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("settings.title")}`}
+                    >
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
                     <Pressable onPress={handleTitleTap} testID="settings-title-tap">
@@ -326,6 +332,7 @@ export default function SettingsScreen() {
                             label={i18n.t("settings.logout")}
                             onPress={handleSignOut}
                             isDestructive
+                            accessibilityLabel={String(i18n.t("settings.logout"))}
                             showDivider={false}
                         />
                     </View>
@@ -362,6 +369,7 @@ export default function SettingsScreen() {
                             label={i18n.t("settings.language")}
                             value={selectedLanguage}
                             onPress={() => setIsLanguageModalVisible(true)}
+                            accessibilityLabel={`${i18n.t("settings.language")}, ${selectedLanguage}`}
                             showDivider={false}
                         />
                     </View>
@@ -393,6 +401,8 @@ export default function SettingsScreen() {
                             icon="refresh-circle"
                             label={isRestoring ? i18n.t("settings.restoring") : i18n.t("settings.restorePurchases")}
                             onPress={handleRestorePurchases}
+                            accessibilityLabel={String(i18n.t("settings.restorePurchases"))}
+                            accessibilityState={{ busy: isRestoring }}
                             showDivider={restoreStatus === "idle"}
                         />
                         {restoreStatus !== "idle" && (
@@ -408,6 +418,8 @@ export default function SettingsScreen() {
                             icon="card"
                             label={isOpeningPortal ? i18n.t("settings.openingPortal") : i18n.t("settings.manageBilling")}
                             onPress={handleOpenBillingPortal}
+                            accessibilityLabel={String(i18n.t("settings.manageBilling"))}
+                            accessibilityState={{ busy: isOpeningPortal }}
                             showDivider={portalStatus === "idle"}
                         />
                         {portalStatus !== "idle" && (
@@ -429,6 +441,7 @@ export default function SettingsScreen() {
                                 icon="analytics"
                                 label="Analytics Debug"
                                 onPress={() => router.push('/debug/analytics')}
+                                accessibilityLabel="Analytics Debug"
                                 testID="open-analytics-debug"
                             />
                             <SettingRow
@@ -445,17 +458,20 @@ export default function SettingsScreen() {
                                         showToast(String(i18n.t("settings.exportFailed")), "error");
                                     }
                                 }}
+                                accessibilityLabel={String(i18n.t("settings.exportDogfoodData"))}
                             />
                             <SettingRow
                                 icon="refresh"
                                 label={i18n.t("settings.resetOnboarding")}
                                 onPress={handleResetOnboarding}
+                                accessibilityLabel={String(i18n.t("settings.resetOnboarding"))}
                             />
                             <SettingRow
                                 icon="trash"
                                 label={i18n.t("settings.clearLocalData")}
                                 onPress={handleClearData}
                                 isDestructive
+                                accessibilityLabel={String(i18n.t("settings.clearLocalData"))}
                                 showDivider={false}
                             />
                         </View>
@@ -483,6 +499,9 @@ export default function SettingsScreen() {
                                 key={item.code}
                                 style={styles.languageOption}
                                 onPress={() => handleSelectLanguage(item.code)}
+                                accessibilityRole="button"
+                                accessibilityLabel={item.label}
+                                accessibilityState={{ selected: locale === item.code }}
                             >
                                 <Text style={styles.languageLabel}>{item.label}</Text>
                                 {locale === item.code && (
@@ -490,7 +509,12 @@ export default function SettingsScreen() {
                                 )}
                             </Pressable>
                         ))}
-                        <Pressable style={styles.modalCloseButton} onPress={() => setIsLanguageModalVisible(false)}>
+                        <Pressable
+                            style={styles.modalCloseButton}
+                            onPress={() => setIsLanguageModalVisible(false)}
+                            accessibilityRole="button"
+                            accessibilityLabel={String(i18n.t("common.close"))}
+                        >
                             <Text style={styles.modalCloseText}>{i18n.t("common.close")}</Text>
                         </Pressable>
                     </Pressable>
@@ -532,6 +556,9 @@ function SettingRow({
     isDestructive = false,
     testID,
     showDivider = true,
+    accessibilityLabel,
+    accessibilityHint,
+    accessibilityState,
 }: {
     icon: any;
     label: string;
@@ -540,12 +567,19 @@ function SettingRow({
     isDestructive?: boolean;
     testID?: string;
     showDivider?: boolean;
+    accessibilityLabel?: string;
+    accessibilityHint?: string;
+    accessibilityState?: AccessibilityState;
 }) {
     return (
         <Pressable
             style={[styles.settingRow, !showDivider && styles.settingRowNoDivider]}
             onPress={onPress}
             testID={testID}
+            accessibilityRole="button"
+            accessibilityLabel={accessibilityLabel ?? (value ? `${label}, ${value}` : label)}
+            accessibilityHint={accessibilityHint}
+            accessibilityState={accessibilityState}
         >
             <View style={styles.settingLeft}>
                 <Ionicons
@@ -590,6 +624,9 @@ function SettingToggle({
                 onValueChange={onValueChange}
                 trackColor={{ false: theme.colors.surface, true: theme.colors.primary }}
                 thumbColor="#fff"
+                accessibilityRole="switch"
+                accessibilityLabel={label}
+                accessibilityState={{ checked: value }}
             />
         </View>
     );

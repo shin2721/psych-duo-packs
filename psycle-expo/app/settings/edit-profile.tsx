@@ -41,11 +41,24 @@ export default function EditProfileScreen() {
         <SafeAreaView style={styles.container}>
             {/* Header */}
             <View style={styles.header}>
-                <Pressable onPress={() => router.back()} style={styles.backButton} testID="edit-profile-close">
+                <Pressable
+                    onPress={() => router.back()}
+                    style={styles.backButton}
+                    testID="edit-profile-close"
+                    accessibilityRole="button"
+                    accessibilityLabel={String(i18n.t("common.close"))}
+                >
                     <Ionicons name="close" size={24} color={theme.colors.text} />
                 </Pressable>
                 <Text style={styles.headerTitle}>{i18n.t("profile.editButton")}</Text>
-                <Pressable onPress={handleSave} disabled={isSaving} testID="edit-profile-save">
+                <Pressable
+                    onPress={handleSave}
+                    disabled={isSaving}
+                    testID="edit-profile-save"
+                    accessibilityRole="button"
+                    accessibilityLabel={String(i18n.t("common.save"))}
+                    accessibilityState={{ disabled: isSaving }}
+                >
                     <Text style={[styles.saveButton, isSaving && styles.saveButtonDisabled]}>
                         {i18n.t("common.save")}
                     </Text>
@@ -58,8 +71,13 @@ export default function EditProfileScreen() {
                     <Text style={styles.sectionTitle}>{i18n.t("editProfile.avatar")}</Text>
                     <View style={styles.sectionCard}>
                         <View style={styles.avatarGrid}>
-                            {["person", "happy", "star", "heart", "flash", "leaf"].map((icon) => (
-                                <Pressable key={icon} style={styles.avatarOption}>
+                            {["person", "happy", "star", "heart", "flash", "leaf"].map((icon, index) => (
+                                <Pressable
+                                    key={icon}
+                                    style={styles.avatarOption}
+                                    accessibilityRole="button"
+                                    accessibilityLabel={`${i18n.t("editProfile.avatar")} ${index + 1}`}
+                                >
                                     <Ionicons name={icon as any} size={32} color={theme.colors.primary} />
                                 </Pressable>
                             ))}
@@ -78,6 +96,7 @@ export default function EditProfileScreen() {
                             placeholder={String(i18n.t("editProfile.usernamePlaceholder"))}
                             placeholderTextColor={theme.colors.sub}
                             testID="edit-profile-username"
+                            accessibilityLabel={String(i18n.t("editProfile.username"))}
                         />
                     </View>
                 </View>

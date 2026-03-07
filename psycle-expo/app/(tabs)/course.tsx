@@ -125,7 +125,6 @@ export default function CourseScreen() {
 
     // Navigate to lesson screen
     if (__DEV__) console.log(`[course.tsx] Navigating to: /lesson?file=${node.lessonFile}&genre=${selectedGenre}`);
-    // Alert.alert("Debug", `Navigating to: ${node.lessonFile}`);
     router.replace(`/lesson?file=${node.lessonFile}&genre=${selectedGenre}`);
     setModalNode(null);
   };
