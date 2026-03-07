@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../lib/AuthContext';
@@ -7,6 +7,7 @@ import { theme } from '../../lib/theme';
 import { TrophyIcon, StreakIcon } from '../../components/CustomIcons';
 import { ensureJoinedLeagueForCurrentWeek, getMyLeague, LeagueInfo } from '../../lib/league';
 import i18n from '../../lib/i18n';
+import { useToast } from '../../components/ToastProvider';
 
 interface LeaderboardEntry {
     id: string;
@@ -41,6 +42,7 @@ export default function LeaderboardScreen() {
     const [friendIds, setFriendIds] = useState<Set<string>>(new Set());
     const [pendingRequestIds, setPendingRequestIds] = useState<Set<string>>(new Set());
     const { user } = useAuth();
+    const { showToast } = useToast();
     const tierNames: Record<number, string> = {
         0: String(i18n.t('leaderboard.tiers.bronze')),
         1: String(i18n.t('leaderboard.tiers.silver')),
@@ -104,26 +106,17 @@ export default function LeaderboardScreen() {
 
             if (error) {
                 if (error.code === '23505') {
-                    Alert.alert(
-                        String(i18n.t('leaderboard.alerts.alreadySentTitle')),
-                        String(i18n.t('leaderboard.alerts.alreadySentMessage'))
-                    );
+                    showToast(String(i18n.t('leaderboard.alerts.alreadySentMessage')));
                 } else {
                     throw error;
                 }
             } else {
                 setPendingRequestIds(prev => new Set(prev).add(toUserId));
-                Alert.alert(
-                    String(i18n.t('leaderboard.alerts.successTitle')),
-                    String(i18n.t('leaderboard.alerts.successMessage'))
-                );
+                showToast(String(i18n.t('leaderboard.alerts.successMessage')), 'success');
             }
         } catch (error) {
             console.error('Error sending friend request:', error);
-            Alert.alert(
-                String(i18n.t('common.error')),
-                String(i18n.t('leaderboard.alerts.failedToSend'))
-            );
+            showToast(String(i18n.t('leaderboard.alerts.failedToSend')), 'error');
         }
     };
 

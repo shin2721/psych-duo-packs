@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet, Pressable, Alert } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
@@ -16,6 +16,7 @@ import { useAuth } from "../../lib/AuthContext";
 import { router } from "expo-router";
 import i18n from "../../lib/i18n";
 import { Analytics } from "../../lib/analytics";
+import { useToast } from "../../components/ToastProvider";
 
 
 
@@ -40,6 +41,7 @@ export default function CourseScreen() {
   const { hasProAccess } = useBillingState();
   const { setGemsDirectly } = useEconomyState();
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [modalNode, setModalNode] = useState<any>(null);
   const [paywallVisible, setPaywallVisible] = useState(false);
   const [paywallContextGenre, setPaywallContextGenre] = useState<string | null>(null);
@@ -105,11 +107,7 @@ export default function CourseScreen() {
       return;
     }
 
-    Alert.alert(
-      i18n.t("course.keepUsingTitle"),
-      i18n.t("course.keepUsingMessage"),
-      [{ text: i18n.t("common.ok") }]
-    );
+    showToast(String(i18n.t("course.keepUsingMessage")));
   };
 
   const handleStart = () => {
@@ -192,17 +190,11 @@ export default function CourseScreen() {
               const result = purchaseStreakRepair();
               if (!result.success) {
                 if (result.reason === "insufficient_gems") {
-                  Alert.alert(
-                    i18n.t("course.streakRepair.title"),
-                    i18n.t("course.streakRepair.insufficientGems")
-                  );
+                  showToast(String(i18n.t("course.streakRepair.insufficientGems")), "error");
                   return;
                 }
                 if (result.reason === "expired") {
-                  Alert.alert(
-                    i18n.t("course.streakRepair.title"),
-                    i18n.t("course.streakRepair.expired")
-                  );
+                  showToast(String(i18n.t("course.streakRepair.expired")), "error");
                 }
               }
             }}
@@ -322,9 +314,14 @@ export default function CourseScreen() {
             if (newBalance !== undefined) {
               setGemsDirectly(newBalance);
             }
-            Alert.alert(
-              i18n.t("course.rewardClaimedTitle"),
-              i18n.t("course.rewardClaimedMessage", { gems: claimedGems, badges: claimedBadges.length })
+            showToast(
+              String(
+                i18n.t("course.rewardClaimedMessage", {
+                  gems: claimedGems,
+                  badges: claimedBadges.length,
+                })
+              ),
+              "success"
             );
           }}
           onDismiss={() => setShowLeagueResult(false)}

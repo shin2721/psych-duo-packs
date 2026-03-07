@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { View, Text, ScrollView, Pressable, StyleSheet, Alert } from "react-native";
+import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
@@ -11,6 +11,7 @@ import { Chest } from "../../components/Chest";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { StreakCalendar } from "../../components/StreakCalendar";
 import i18n from "../../lib/i18n";
+import { useToast } from "../../components/ToastProvider";
 
 function getTodayKeyFromNow(nowMs: number): string {
   const date = new Date(nowMs);
@@ -43,6 +44,7 @@ export default function QuestsScreen() {
     eventQuests,
   } = useProgressionState();
   const { user } = useAuth();
+  const { showToast } = useToast();
   const currentMonth = new Date().getMonth() + 1;
   const [nowMs, setNowMs] = useState(() => Date.now());
 
@@ -135,7 +137,7 @@ export default function QuestsScreen() {
       | "no_candidate"
   ) => {
     const key = reason ?? "no_candidate";
-    Alert.alert(String(i18n.t("common.error")), String(i18n.t(`quests.reroll.errors.${key}`)));
+    showToast(String(i18n.t(`quests.reroll.errors.${key}`)), "error");
   };
 
   const renderQuest = (q: any) => {

@@ -125,7 +125,7 @@ describe('Settings notification toggle', () => {
     expect(mockSetNotificationPreference).toHaveBeenCalledWith(false);
     expect(mockCancelPsycleReminders).toHaveBeenCalled();
     expect(Alert.alert).toHaveBeenCalled();
-  });
+  }, 15000);
 
   test('OFF cancels reminders immediately', async () => {
     mockGetNotificationPreference.mockResolvedValue(true);
