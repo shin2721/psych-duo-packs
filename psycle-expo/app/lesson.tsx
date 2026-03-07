@@ -230,7 +230,7 @@ export default function LessonScreen() {
     } catch (error) {
       console.error("Failed to load lesson:", error);
       const message = error instanceof Error ? error.message : String(error);
-      Alert.alert(i18n.t("lesson.errorTitle"), i18n.t("lesson.loadFailed", { message }));
+      showToast(String(i18n.t("lesson.loadFailed", { message })), "error");
       router.back();
     }
   }
