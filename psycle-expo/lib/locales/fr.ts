@@ -122,6 +122,14 @@ export const fr = {
         shop: 'Boutique',
         profile: 'Profil',
     },
+    globalHeader: {
+        selectCourse: 'Choisir un parcours',
+    },
+    streakCalendar: {
+        title: "Activité d'apprentissage",
+        less: 'Moins',
+        more: 'Plus',
+    },
     evidenceBottomSheet: {
         sourceLabel: '📖 Source',
         sourceType: {
@@ -363,6 +371,7 @@ export const fr = {
         actions: {
             learningHistory: "Historique d'apprentissage",
             detailedStats: 'Statistiques détaillées',
+            comingSoon: 'Bientôt disponible',
         },
     },
     editProfile: {
@@ -543,6 +552,9 @@ export const fr = {
         passwordPlaceholder: 'Mot de passe',
         signIn: 'Se connecter',
         signUp: 'Créer un compte',
+        forgotPassword: 'Mot de passe oublié ?',
+        resetPasswordSent: 'E-mail de réinitialisation envoyé. Vérifie ta boîte mail.',
+        resetPasswordFailed: 'Impossible d’envoyer l’e-mail de réinitialisation.',
         guestLogin: 'Connexion invité (Dev)',
         verifyEmail: 'Vérifie ta boîte mail pour confirmer ton adresse !',
     }

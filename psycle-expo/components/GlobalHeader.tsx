@@ -8,6 +8,7 @@ import { genres } from "../lib/data";
 import { StreakIcon, GemIcon, EnergyIcon, MentalIcon, MoneyIcon, WorkIcon, HealthIcon, SocialIcon, StudyIcon } from "./CustomIcons";
 import { Modal, TouchableWithoutFeedback } from "react-native";
 import { Analytics } from "../lib/analytics";
+import i18n from "../lib/i18n";
 
 const getGenreIcon = (id: string, size: number = 28) => {
   switch (id) {
@@ -76,7 +77,7 @@ export function GlobalHeader() {
           <View style={styles.modalOverlay}>
             <TouchableWithoutFeedback>
               <View style={styles.menuContainer}>
-                <Text style={styles.menuTitle}>コースを選択</Text>
+                <Text style={styles.menuTitle}>{i18n.t("globalHeader.selectCourse")}</Text>
                 <View style={styles.menuGrid}>
                   {genres.map((g) => (
                     <Pressable

@@ -122,6 +122,14 @@ export const es = {
         shop: 'Tienda',
         profile: 'Perfil',
     },
+    globalHeader: {
+        selectCourse: 'Elegir curso',
+    },
+    streakCalendar: {
+        title: 'Actividad de aprendizaje',
+        less: 'Menos',
+        more: 'Más',
+    },
     evidenceBottomSheet: {
         sourceLabel: '📖 Fuente',
         sourceType: {
@@ -363,6 +371,7 @@ export const es = {
         actions: {
             learningHistory: 'Historial de aprendizaje',
             detailedStats: 'Estadísticas detalladas',
+            comingSoon: 'Próximamente',
         },
     },
     editProfile: {
@@ -543,6 +552,9 @@ export const es = {
         passwordPlaceholder: 'Contraseña',
         signIn: 'Iniciar sesión',
         signUp: 'Registrarse',
+        forgotPassword: '¿Olvidaste tu contraseña?',
+        resetPasswordSent: 'Se envió el correo para restablecer la contraseña. Revisa tu bandeja de entrada.',
+        resetPasswordFailed: 'No se pudo enviar el correo para restablecer la contraseña.',
         guestLogin: 'Inicio como invitado (Dev)',
         verifyEmail: '¡Revisa tu bandeja de entrada para verificar el correo!',
     }

@@ -122,6 +122,14 @@ export const ko = {
         shop: '상점',
         profile: '프로필',
     },
+    globalHeader: {
+        selectCourse: '코스 선택',
+    },
+    streakCalendar: {
+        title: '학습 활동',
+        less: '적음',
+        more: '많음',
+    },
     evidenceBottomSheet: {
         sourceLabel: '📖 출처',
         sourceType: {
@@ -363,6 +371,7 @@ export const ko = {
         actions: {
             learningHistory: '학습 기록',
             detailedStats: '상세 통계',
+            comingSoon: '곧 제공 예정',
         },
     },
     editProfile: {
@@ -543,6 +552,9 @@ export const ko = {
         passwordPlaceholder: '비밀번호',
         signIn: '로그인',
         signUp: '회원가입',
+        forgotPassword: '비밀번호를 잊으셨나요?',
+        resetPasswordSent: '비밀번호 재설정 이메일을 보냈습니다. 받은편지함을 확인하세요.',
+        resetPasswordFailed: '비밀번호 재설정 이메일을 보낼 수 없습니다.',
         guestLogin: '게스트 로그인 (Dev)',
         verifyEmail: '이메일 인증을 위해 받은편지함을 확인해 주세요!',
     }

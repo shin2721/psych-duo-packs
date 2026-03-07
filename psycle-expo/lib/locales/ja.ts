@@ -160,6 +160,14 @@ export const ja = {
         shop: 'ショップ',
         profile: 'プロフィール',
     },
+    globalHeader: {
+        selectCourse: 'コースを選択',
+    },
+    streakCalendar: {
+        title: '学習アクティビティ',
+        less: '少ない',
+        more: '多い',
+    },
     evidenceBottomSheet: {
         sourceLabel: '📖 出典',
         sourceType: {
@@ -426,6 +434,7 @@ export const ja = {
         actions: {
             learningHistory: '学習履歴',
             detailedStats: '詳細統計',
+            comingSoon: '近日公開',
         },
     },
     editProfile: {
@@ -647,12 +656,15 @@ export const ja = {
         },
     },
     auth: {
-        title: 'Psycle Login',
+        title: 'Psycleにログイン',
         emailPlaceholder: 'email@address.com',
-        passwordPlaceholder: 'Password',
-        signIn: 'Sign in',
-        signUp: 'Sign up',
-        guestLogin: 'Guest Login (Dev)',
+        passwordPlaceholder: 'パスワード',
+        signIn: 'ログイン',
+        signUp: '新規登録',
+        forgotPassword: 'パスワードをお忘れですか？',
+        resetPasswordSent: 'パスワード再設定メールを送信しました。受信箱を確認してください。',
+        resetPasswordFailed: 'パスワード再設定メールを送信できませんでした。',
+        guestLogin: 'ゲストログイン (Dev)',
         verifyEmail: '確認メールを送信しました。受信箱を確認してください。',
     }
 };

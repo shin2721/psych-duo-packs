@@ -122,6 +122,14 @@ export const zh = {
         shop: '商店',
         profile: '个人资料',
     },
+    globalHeader: {
+        selectCourse: '选择课程',
+    },
+    streakCalendar: {
+        title: '学习活动',
+        less: '较少',
+        more: '较多',
+    },
     evidenceBottomSheet: {
         sourceLabel: '📖 来源',
         sourceType: {
@@ -363,6 +371,7 @@ export const zh = {
         actions: {
             learningHistory: '学习记录',
             detailedStats: '详细统计',
+            comingSoon: '即将推出',
         },
     },
     editProfile: {
@@ -543,6 +552,9 @@ export const zh = {
         passwordPlaceholder: '密码',
         signIn: '登录',
         signUp: '注册',
+        forgotPassword: '忘记密码？',
+        resetPasswordSent: '密码重置邮件已发送，请检查收件箱。',
+        resetPasswordFailed: '无法发送密码重置邮件。',
         guestLogin: '访客登录 (Dev)',
         verifyEmail: '请检查你的收件箱以完成邮箱验证！',
     }

@@ -160,6 +160,14 @@ export const en = {
         shop: 'Shop',
         profile: 'Profile',
     },
+    globalHeader: {
+        selectCourse: 'Choose a course',
+    },
+    streakCalendar: {
+        title: 'Learning Activity',
+        less: 'Less',
+        more: 'More',
+    },
     evidenceBottomSheet: {
         sourceLabel: '📖 Source',
         sourceType: {
@@ -426,6 +434,7 @@ export const en = {
         actions: {
             learningHistory: 'Learning History',
             detailedStats: 'Detailed Stats',
+            comingSoon: 'Coming soon',
         },
     },
     editProfile: {
@@ -652,6 +661,9 @@ export const en = {
         passwordPlaceholder: 'Password',
         signIn: 'Sign in',
         signUp: 'Sign up',
+        forgotPassword: 'Forgot password?',
+        resetPasswordSent: 'Password reset email sent. Check your inbox.',
+        resetPasswordFailed: 'Could not send password reset email.',
         guestLogin: 'Guest Login (Dev)',
         verifyEmail: 'Check your inbox for email verification!',
     }

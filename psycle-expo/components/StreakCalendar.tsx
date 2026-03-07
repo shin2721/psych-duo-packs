@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { theme } from '../lib/theme';
 import { dateKey } from '../lib/streaks';
+import i18n from '../lib/i18n';
 
 interface StreakDay {
     date: string;
@@ -58,7 +59,7 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Learning Activity</Text>
+            <Text style={styles.title}>{i18n.t('streakCalendar.title')}</Text>
             <View style={styles.calendar}>
                 {days.map((day, index) => (
                     <View key={index} style={styles.dayContainer}>
@@ -78,12 +79,12 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
                 ))}
             </View>
             <View style={styles.legend}>
-                <Text style={styles.legendText}>Less</Text>
+                <Text style={styles.legendText}>{i18n.t('streakCalendar.less')}</Text>
                 <View style={[styles.legendBox, { backgroundColor: theme.colors.line }]} />
                 <View style={[styles.legendBox, { backgroundColor: 'rgba(168, 255, 96, 0.25)' }]} />
                 <View style={[styles.legendBox, { backgroundColor: 'rgba(168, 255, 96, 0.55)' }]} />
                 <View style={[styles.legendBox, { backgroundColor: '#a8ff60' }]} />
-                <Text style={styles.legendText}>More</Text>
+                <Text style={styles.legendText}>{i18n.t('streakCalendar.more')}</Text>
             </View>
         </View>
     );

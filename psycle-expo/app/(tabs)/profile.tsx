@@ -148,12 +148,14 @@ export default function ProfileScreen() {
                     <ActionRow
                         icon="calendar"
                         label={String(i18n.t("profile.actions.learningHistory"))}
-                        onPress={() => { }}
+                        detail={String(i18n.t("profile.actions.comingSoon"))}
+                        disabled
                     />
                     <ActionRow
                         icon="stats-chart"
                         label={String(i18n.t("profile.actions.detailedStats"))}
-                        onPress={() => { }}
+                        detail={String(i18n.t("profile.actions.comingSoon"))}
+                        disabled
                     />
                 </View>
             </ScrollView>
@@ -171,14 +173,35 @@ function StatCard({ icon, label, value, color, customIcon }: { icon?: any; label
     );
 }
 
-function ActionRow({ icon, label, onPress }: { icon: any; label: string; onPress: () => void }) {
+function ActionRow({
+    icon,
+    label,
+    onPress,
+    detail,
+    disabled = false,
+}: {
+    icon: any;
+    label: string;
+    onPress?: () => void;
+    detail?: string;
+    disabled?: boolean;
+}) {
     return (
-        <Pressable style={styles.actionRow} onPress={onPress}>
+        <Pressable
+            style={[styles.actionRow, disabled && styles.actionRowDisabled]}
+            onPress={disabled ? undefined : onPress}
+            disabled={disabled}
+            accessibilityRole="button"
+            accessibilityState={disabled ? { disabled: true } : undefined}
+        >
             <View style={styles.actionLeft}>
-                <Ionicons name={icon} size={24} color={theme.colors.text} />
-                <Text style={styles.actionLabel}>{label}</Text>
+                <Ionicons name={icon} size={24} color={disabled ? theme.colors.sub : theme.colors.text} />
+                <View style={styles.actionTextBlock}>
+                    <Text style={[styles.actionLabel, disabled && styles.actionLabelDisabled]}>{label}</Text>
+                    {detail ? <Text style={styles.actionDetail}>{detail}</Text> : null}
+                </View>
             </View>
-            <Ionicons name="chevron-forward" size={20} color={theme.colors.sub} />
+            {!disabled ? <Ionicons name="chevron-forward" size={20} color={theme.colors.sub} /> : null}
         </Pressable>
     );
 }
@@ -286,14 +309,29 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.line,
     },
+    actionRowDisabled: {
+        opacity: 0.72,
+    },
     actionLeft: {
         flexDirection: "row",
         alignItems: "center",
         gap: theme.spacing.md,
+        flex: 1,
+    },
+    actionTextBlock: {
+        flex: 1,
     },
     actionLabel: {
         fontSize: 16,
         color: theme.colors.text,
+    },
+    actionLabelDisabled: {
+        color: theme.colors.sub,
+    },
+    actionDetail: {
+        marginTop: 2,
+        fontSize: 12,
+        color: theme.colors.sub,
     },
     badgeScroll: {
         paddingHorizontal: theme.spacing.md,
