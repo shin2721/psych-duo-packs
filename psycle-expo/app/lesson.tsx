@@ -5,7 +5,12 @@ import { useLocalSearchParams, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../lib/theme";
-import { useAppState } from "../lib/state";
+import {
+  useBillingState,
+  useEconomyState,
+  usePracticeState,
+  useProgressionState,
+} from "../lib/state";
 import { QuestionRenderer } from "../components/QuestionRenderer";
 import { loadLessons, Lesson } from "../lib/lessons";
 import { ScrollView, TouchableOpacity } from "react-native";
@@ -74,23 +79,25 @@ export default function LessonScreen() {
   const {
     completeLesson,
     addXp,
-    addReviewEvent,
     incrementQuestMetric,
     quests,
+    claimComebackRewardOnLessonComplete,
+    streakRepairOffer,
+  } = useProgressionState();
+  const { addReviewEvent } = usePracticeState();
+  const {
     consumeEnergy,
     lessonEnergyCost,
     tryTriggerStreakEnergyBonus,
-    claimComebackRewardOnLessonComplete,
     energy,
     maxEnergy,
     lastEnergyUpdateTime,
     energyRefillMinutes,
-    isSubscriptionActive,
-    streakRepairOffer,
     gems,
     buyDoubleXP,
     isDoubleXpActive,
-  } = useAppState();
+  } = useEconomyState();
+  const { isSubscriptionActive } = useBillingState();
   const { user } = useAuth();
   const { showToast } = useToast();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);

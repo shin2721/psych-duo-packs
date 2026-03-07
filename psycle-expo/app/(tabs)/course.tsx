@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { genres, trailsByGenre } from "../../lib/data";
-import { useAppState } from "../../lib/state";
+import { useBillingState, useEconomyState, useProgressionState } from "../../lib/state";
 import { Trail } from "../../components/trail";
 import { Modal } from "../../components/Modal";
 import { GlobalHeader } from "../../components/GlobalHeader";
@@ -32,25 +32,13 @@ const GENRE_COLORS: Record<string, string> = {
 export default function CourseScreen() {
   const {
     selectedGenre,
-    setSelectedGenre,
-    addXp,
-    incrementQuest,
-    streak,
-    dailyXP,
-    dailyGoal,
-    freezeCount,
-    gems,
     completedLessons,
-    skill,
-    xp,
-    hasProAccess,
-    mistakes,
-    addGems,
-    setGemsDirectly,
     streakRepairOffer,
     purchaseStreakRepair,
     comebackRewardOffer,
-  } = useAppState();
+  } = useProgressionState();
+  const { hasProAccess } = useBillingState();
+  const { setGemsDirectly } = useEconomyState();
   const { user } = useAuth();
   const [modalNode, setModalNode] = useState<any>(null);
   const [paywallVisible, setPaywallVisible] = useState(false);
@@ -144,7 +132,6 @@ export default function CourseScreen() {
     setModalNode(null);
   };
 
-  const dailyProgress = Math.min((dailyXP / dailyGoal) * 100, 100);
   const activeStreakRepairOffer = streakRepairOffer?.active && streakRepairOffer.expiresAtMs > Date.now()
     ? streakRepairOffer
     : null;
