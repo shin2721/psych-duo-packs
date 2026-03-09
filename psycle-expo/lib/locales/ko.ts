@@ -124,11 +124,20 @@ export const ko = {
     },
     globalHeader: {
         selectCourse: '코스 선택',
+        a11y: {
+            courseSelector: '코스 선택. 현재: %{course}',
+            streak: '연속 학습 %{count}일',
+            gems: '젬 %{count}',
+            energy: '에너지 %{count}',
+            energyUnlimited: '에너지 무제한',
+        },
     },
     streakCalendar: {
         title: '학습 활동',
         less: '적음',
         more: '많음',
+        dayActive: '%{date}: %{xp} XP, %{lessons}개 레슨 완료',
+        dayInactive: '%{date}: 학습 기록 없음',
     },
     evidenceBottomSheet: {
         sourceLabel: '📖 출처',
@@ -562,6 +571,9 @@ export const ko = {
             userAlreadyRegistered: '이미 등록된 이메일입니다.',
             emailNotConfirmed: '이메일 인증이 아직 완료되지 않았습니다. 받은편지함을 확인하세요.',
             invalidEmail: '유효한 이메일 주소를 입력하세요.',
+            requiredEmail: '이메일 주소를 입력하세요.',
+            requiredPassword: '비밀번호를 입력하세요.',
+            passwordTooShort: '비밀번호는 최소 %{count}자 이상이어야 합니다.',
             rateLimited: '시도가 너무 많습니다. 잠시 후 다시 시도하세요.',
         },
         guestLogin: '게스트 로그인 (Dev)',

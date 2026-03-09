@@ -7,12 +7,14 @@ import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
 import { useProgressionState } from "../../lib/state";
+import { supabase } from "../../lib/supabase";
 import { BADGES } from "../../lib/badges";
 import { BadgeIcon } from "../../components/BadgeIcon";
 import { MistakesHubButton } from "../../components/MistakesHubButton";
 import { StreakIcon, TrophyIcon } from "../../components/CustomIcons";
 import { getMyLeague } from "../../lib/league";
 import { formatProfileLeagueLabel } from "../../lib/profileLeagueLabel";
+import { isProfileAvatarIcon, type ProfileAvatarIcon } from "../../lib/avatarIcons";
 import i18n from "../../lib/i18n";
 
 export default function ProfileScreen() {
@@ -21,8 +23,38 @@ export default function ProfileScreen() {
     const { xp, streak, completedLessons, unlockedBadges } = useProgressionState();
     const [leagueLabel, setLeagueLabel] = React.useState<string>("...");
     const [leagueLoading, setLeagueLoading] = React.useState(true);
+    const [profileUsername, setProfileUsername] = React.useState<string | null>(null);
+    const [avatarIcon, setAvatarIcon] = React.useState<ProfileAvatarIcon>("person");
 
-    const username = user?.email?.split("@")[0] || String(i18n.t("profile.userFallback"));
+    const username = profileUsername || user?.email?.split("@")[0] || String(i18n.t("profile.userFallback"));
+
+    const refreshProfile = React.useCallback(async () => {
+        if (!user?.id) {
+            setProfileUsername(null);
+            setAvatarIcon("person");
+            return;
+        }
+
+        try {
+            const { data, error } = await supabase
+                .from("profiles")
+                .select("username, avatar_icon")
+                .eq("id", user.id)
+                .single();
+            if (error) throw error;
+
+            setProfileUsername(
+                typeof data?.username === "string" && data.username.length > 0
+                    ? data.username
+                    : null
+            );
+            setAvatarIcon(isProfileAvatarIcon(data?.avatar_icon) ? data.avatar_icon : "person");
+        } catch (error) {
+            console.error("Failed to load profile data:", error);
+            setProfileUsername(null);
+            setAvatarIcon("person");
+        }
+    }, [user?.id]);
 
     const refreshLeague = React.useCallback(async () => {
         if (!user?.id) {
@@ -46,13 +78,15 @@ export default function ProfileScreen() {
     }, [user?.id]);
 
     React.useEffect(() => {
+        refreshProfile();
         refreshLeague();
-    }, [refreshLeague]);
+    }, [refreshLeague, refreshProfile]);
 
     useFocusEffect(
         React.useCallback(() => {
+            refreshProfile();
             refreshLeague();
-        }, [refreshLeague])
+        }, [refreshLeague, refreshProfile])
     );
 
     return (
@@ -77,7 +111,7 @@ export default function ProfileScreen() {
                     {/* Avatar */}
                     <View style={styles.avatarContainer}>
                         <View style={styles.avatar}>
-                            <Ionicons name="person" size={48} color={theme.colors.primary} />
+                            <Ionicons name={avatarIcon as any} size={48} color={theme.colors.primary} />
                         </View>
                     </View>
 

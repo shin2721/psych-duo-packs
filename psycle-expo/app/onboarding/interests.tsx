@@ -83,6 +83,9 @@ export default function InterestsScreen() {
                                 ]}
                                 onPress={() => toggleGenre(genre.id)}
                                 testID={`onboarding-genre-${genre.id}`}
+                                accessibilityRole="button"
+                                accessibilityLabel={getGenreLabel(genre.id, genre.label)}
+                                accessibilityState={{ selected: isSelected }}
                             >
                                 <Ionicons
                                     name={iconMap[genre.icon]}

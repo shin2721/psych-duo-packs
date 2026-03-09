@@ -22,28 +22,53 @@ const getGenreIcon = (id: string, size: number = 28) => {
   }
 };
 
+const getGenreLabel = (id: string, fallback: string) => {
+  const key = `onboarding.genres.${id}`;
+  const translated = i18n.t(key);
+  return translated === key ? fallback : translated;
+};
+
 export function GlobalHeader() {
   const { gems, energy } = useEconomyState();
   const { selectedGenre, setSelectedGenre, streak } = useProgressionState();
   const { isSubscriptionActive } = useBillingState();
   const [menuVisible, setMenuVisible] = useState(false);
+  const selectedGenreLabel = getGenreLabel(
+    selectedGenre,
+    genres.find((genre) => genre.id === selectedGenre)?.label || selectedGenre
+  );
 
   return (
     <>
       <View style={styles.container}>
         {/* 1. Course Selector */}
-        <Pressable style={styles.item} onPress={() => setMenuVisible(true)}>
+        <Pressable
+          style={styles.item}
+          onPress={() => setMenuVisible(true)}
+          accessibilityRole="button"
+          accessibilityLabel={String(i18n.t("globalHeader.a11y.courseSelector", { course: selectedGenreLabel }))}
+        >
           {getGenreIcon(selectedGenre, 36)}
         </Pressable>
 
         {/* 2. Study Streak */}
-        <Pressable style={styles.item} onPress={() => router.push("/(tabs)/course")}>
+        <Pressable
+          style={styles.item}
+          onPress={() => router.push("/(tabs)/course")}
+          accessibilityRole="button"
+          accessibilityLabel={String(i18n.t("globalHeader.a11y.streak", { count: streak }))}
+        >
           <StreakIcon size={24} />
           <Text style={[styles.value, { color: "#f97316" }]}>{streak}</Text>
         </Pressable>
 
         {/* 3. Gems */}
-        <Pressable style={styles.item} onPress={() => router.push("/(tabs)/shop")}>
+        <Pressable
+          style={styles.item}
+          onPress={() => router.push("/(tabs)/shop")}
+          accessibilityRole="button"
+          accessibilityLabel={String(i18n.t("globalHeader.a11y.gems", { count: gems }))}
+        >
           <GemIcon size={22} />
           <Text style={[styles.value, { color: "#3debf6" }]}>{gems}</Text>
         </Pressable>
@@ -55,6 +80,13 @@ export function GlobalHeader() {
             Analytics.track("shop_open_from_energy", { source: "header_energy_tap" });
             router.push("/(tabs)/shop");
           }}
+          accessibilityRole="button"
+          accessibilityLabel={String(
+            i18n.t(
+              isSubscriptionActive ? "globalHeader.a11y.energyUnlimited" : "globalHeader.a11y.energy",
+              { count: energy }
+            )
+          )}
         >
           <EnergyIcon
             size={22}
@@ -90,6 +122,9 @@ export function GlobalHeader() {
                         setSelectedGenre(g.id);
                         setMenuVisible(false);
                       }}
+                      accessibilityRole="button"
+                      accessibilityLabel={getGenreLabel(g.id, g.label)}
+                      accessibilityState={selectedGenre === g.id ? { selected: true } : undefined}
                     >
                       <View style={{ marginBottom: 4 }}>
                         {getGenreIcon(g.id, 40)}
@@ -97,7 +132,7 @@ export function GlobalHeader() {
                       <Text style={[
                         styles.menuLabel,
                         selectedGenre === g.id && styles.menuLabelActive
-                      ]}>{g.label}</Text>
+                      ]}>{getGenreLabel(g.id, g.label)}</Text>
                       {selectedGenre === g.id && (
                         <View style={styles.checkBadge}>
                           <Ionicons name="checkmark" size={12} color="white" />

@@ -124,11 +124,20 @@ export const pt = {
     },
     globalHeader: {
         selectCourse: 'Escolher curso',
+        a11y: {
+            courseSelector: 'Seletor de curso. Atual: %{course}',
+            streak: 'Sequência: %{count} dias',
+            gems: 'Gemas: %{count}',
+            energy: 'Energia: %{count}',
+            energyUnlimited: 'Energia ilimitada',
+        },
     },
     streakCalendar: {
         title: 'Atividade de estudo',
         less: 'Menos',
         more: 'Mais',
+        dayActive: '%{date}: %{xp} XP, %{lessons} lições concluídas',
+        dayInactive: '%{date}: sem atividade',
     },
     evidenceBottomSheet: {
         sourceLabel: '📖 Fonte',
@@ -562,6 +571,9 @@ export const pt = {
             userAlreadyRegistered: 'Este e-mail já está registrado.',
             emailNotConfirmed: 'Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada.',
             invalidEmail: 'Digite um e-mail válido.',
+            requiredEmail: 'Digite seu e-mail.',
+            requiredPassword: 'Digite sua senha.',
+            passwordTooShort: 'A senha deve ter pelo menos %{count} caracteres.',
             rateLimited: 'Tentativas demais. Aguarde um momento e tente novamente.',
         },
         guestLogin: 'Login como convidado (Dev)',

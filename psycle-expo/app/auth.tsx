@@ -7,6 +7,8 @@ import { useToast } from '../components/ToastProvider';
 import i18n from '../lib/i18n';
 import { theme } from '../lib/theme';
 
+const MIN_SIGN_UP_PASSWORD_LENGTH = 6;
+
 function mapAuthErrorMessage(message: string): string {
     const normalized = message.trim().toLowerCase();
 
@@ -46,19 +48,56 @@ function mapAuthErrorMessage(message: string): string {
     return message;
 }
 
+function isValidEmail(value: string): boolean {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+}
+
 export default function AuthScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
+    const passwordInputRef = React.useRef<TextInput>(null);
     const { signInAsGuest } = useAuth();
     const { showToast } = useToast();
     const e2eAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
 
+    function getValidationError(mode: 'signIn' | 'signUp' | 'reset'): string | null {
+        const trimmedEmail = email.trim();
+
+        if (!trimmedEmail) {
+            return String(i18n.t('auth.errors.requiredEmail'));
+        }
+
+        if (!isValidEmail(trimmedEmail)) {
+            return String(i18n.t('auth.errors.invalidEmail'));
+        }
+
+        if (mode === 'reset') return null;
+
+        if (!password.trim()) {
+            return String(i18n.t('auth.errors.requiredPassword'));
+        }
+
+        if (mode === 'signUp' && password.length < MIN_SIGN_UP_PASSWORD_LENGTH) {
+            return String(
+                i18n.t('auth.errors.passwordTooShort', { count: MIN_SIGN_UP_PASSWORD_LENGTH })
+            );
+        }
+
+        return null;
+    }
+
     async function signInWithEmail() {
+        const validationError = getValidationError('signIn');
+        if (validationError) {
+            showToast(validationError, 'error');
+            return;
+        }
+
         setLoading(true);
         const { error } = await supabase.auth.signInWithPassword({
-            email,
+            email: email.trim(),
             password,
         });
 
@@ -67,9 +106,15 @@ export default function AuthScreen() {
     }
 
     async function signUpWithEmail() {
+        const validationError = getValidationError('signUp');
+        if (validationError) {
+            showToast(validationError, 'error');
+            return;
+        }
+
         setLoading(true);
         const { error } = await supabase.auth.signUp({
-            email,
+            email: email.trim(),
             password,
         });
 
@@ -79,12 +124,13 @@ export default function AuthScreen() {
     }
 
     async function sendPasswordReset() {
-        const trimmedEmail = email.trim();
-        if (!trimmedEmail) {
-            showToast(String(i18n.t('auth.errors.invalidEmail')), 'error');
+        const validationError = getValidationError('reset');
+        if (validationError) {
+            showToast(validationError, 'error');
             return;
         }
 
+        const trimmedEmail = email.trim();
         setLoading(true);
         const { error } = await supabase.auth.resetPasswordForEmail(trimmedEmail);
         if (error) {
@@ -113,10 +159,13 @@ export default function AuthScreen() {
                         autoCapitalize="none"
                         autoCorrect={false}
                         keyboardType="email-address"
+                        returnKeyType="next"
+                        onSubmitEditing={() => passwordInputRef.current?.focus()}
                         testID="auth-email-input"
                     />
                     <View style={styles.passwordField}>
                         <TextInput
+                            ref={passwordInputRef}
                             style={[styles.input, styles.passwordInput]}
                             onChangeText={(text) => setPassword(text)}
                             value={password}
@@ -125,6 +174,12 @@ export default function AuthScreen() {
                             placeholderTextColor={theme.colors.sub}
                             autoCapitalize="none"
                             autoCorrect={false}
+                            returnKeyType="done"
+                            onSubmitEditing={() => {
+                                if (!loading) {
+                                    void signInWithEmail();
+                                }
+                            }}
                             testID="auth-password-input"
                         />
                         <Pressable

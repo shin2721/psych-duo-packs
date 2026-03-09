@@ -124,11 +124,20 @@ export const zh = {
     },
     globalHeader: {
         selectCourse: '选择课程',
+        a11y: {
+            courseSelector: '课程选择器。当前：%{course}',
+            streak: '连续学习：%{count} 天',
+            gems: '宝石：%{count}',
+            energy: '体力：%{count}',
+            energyUnlimited: '体力无限',
+        },
     },
     streakCalendar: {
         title: '学习活动',
         less: '较少',
         more: '较多',
+        dayActive: '%{date}：获得 %{xp} XP，完成 %{lessons} 课',
+        dayInactive: '%{date}：无学习记录',
     },
     evidenceBottomSheet: {
         sourceLabel: '📖 来源',
@@ -562,6 +571,9 @@ export const zh = {
             userAlreadyRegistered: '该邮箱已注册。',
             emailNotConfirmed: '邮箱尚未验证，请检查收件箱。',
             invalidEmail: '请输入有效的邮箱地址。',
+            requiredEmail: '请输入邮箱地址。',
+            requiredPassword: '请输入密码。',
+            passwordTooShort: '密码至少需要 %{count} 个字符。',
             rateLimited: '尝试次数过多，请稍后再试。',
         },
         guestLogin: '访客登录 (Dev)',

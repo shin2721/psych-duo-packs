@@ -124,11 +124,20 @@ export const fr = {
     },
     globalHeader: {
         selectCourse: 'Choisir un parcours',
+        a11y: {
+            courseSelector: 'Sélecteur de cours. Actuel : %{course}',
+            streak: 'Série : %{count} jours',
+            gems: 'Gemmes : %{count}',
+            energy: 'Énergie : %{count}',
+            energyUnlimited: 'Énergie illimitée',
+        },
     },
     streakCalendar: {
         title: "Activité d'apprentissage",
         less: 'Moins',
         more: 'Plus',
+        dayActive: '%{date} : %{xp} XP, %{lessons} leçons terminées',
+        dayInactive: '%{date} : aucune activité',
     },
     evidenceBottomSheet: {
         sourceLabel: '📖 Source',
@@ -562,6 +571,9 @@ export const fr = {
             userAlreadyRegistered: 'Cette adresse e-mail est déjà enregistrée.',
             emailNotConfirmed: 'Ton e-mail n’est pas encore confirmé. Vérifie ta boîte mail.',
             invalidEmail: 'Saisis une adresse e-mail valide.',
+            requiredEmail: 'Saisissez votre adresse e-mail.',
+            requiredPassword: 'Saisissez votre mot de passe.',
+            passwordTooShort: 'Le mot de passe doit contenir au moins %{count} caractères.',
             rateLimited: 'Trop de tentatives. Attends un moment puis réessaie.',
         },
         guestLogin: 'Connexion invité (Dev)',

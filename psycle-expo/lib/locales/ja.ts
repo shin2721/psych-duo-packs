@@ -162,11 +162,20 @@ export const ja = {
     },
     globalHeader: {
         selectCourse: 'コースを選択',
+        a11y: {
+            courseSelector: 'コース選択。現在: %{course}',
+            streak: '連続学習 %{count}日',
+            gems: 'ジェム %{count}',
+            energy: 'エナジー %{count}',
+            energyUnlimited: 'エナジー 無制限',
+        },
     },
     streakCalendar: {
         title: '学習アクティビティ',
         less: '少ない',
         more: '多い',
+        dayActive: '%{date}: %{xp} XP、%{lessons} レッスン完了',
+        dayInactive: '%{date}: 学習履歴なし',
     },
     evidenceBottomSheet: {
         sourceLabel: '📖 出典',
@@ -671,6 +680,9 @@ export const ja = {
             userAlreadyRegistered: 'このメールアドレスは既に登録されています。',
             emailNotConfirmed: 'メール確認が完了していません。受信箱を確認してください。',
             invalidEmail: '有効なメールアドレスを入力してください。',
+            requiredEmail: 'メールアドレスを入力してください。',
+            requiredPassword: 'パスワードを入力してください。',
+            passwordTooShort: 'パスワードは%{count}文字以上で入力してください。',
             rateLimited: '試行回数が多すぎます。少し待ってから再度お試しください。',
         },
         guestLogin: 'ゲストログイン (Dev)',

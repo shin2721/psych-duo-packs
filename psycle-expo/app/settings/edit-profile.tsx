@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Pressable, TextInput, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
@@ -7,14 +7,51 @@ import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
 import { useToast } from "../../components/ToastProvider";
 import { supabase } from "../../lib/supabase";
+import { PROFILE_AVATAR_ICONS, isProfileAvatarIcon, type ProfileAvatarIcon } from "../../lib/avatarIcons";
 import i18n from "../../lib/i18n";
 
 export default function EditProfileScreen() {
     const router = useRouter();
     const { user } = useAuth();
     const [username, setUsername] = useState(user?.email?.split("@")[0] || "");
+    const [selectedAvatar, setSelectedAvatar] = useState<ProfileAvatarIcon>("person");
     const [isSaving, setIsSaving] = useState(false);
     const { showToast } = useToast();
+
+    useEffect(() => {
+        if (!user?.id) return;
+
+        let cancelled = false;
+
+        const loadProfile = async () => {
+            try {
+                const { data, error } = await supabase
+                    .from("profiles")
+                    .select("username, avatar_icon")
+                    .eq("id", user.id)
+                    .single();
+
+                if (error) throw error;
+                if (cancelled || !data) return;
+
+                if (typeof data.username === "string" && data.username.length > 0) {
+                    setUsername(data.username);
+                }
+
+                if (isProfileAvatarIcon(data.avatar_icon)) {
+                    setSelectedAvatar(data.avatar_icon);
+                }
+            } catch (error) {
+                console.error("Failed to load profile settings:", error);
+            }
+        };
+
+        void loadProfile();
+
+        return () => {
+            cancelled = true;
+        };
+    }, [user?.id]);
 
     const handleSave = async () => {
         if (!user) return;
@@ -23,7 +60,7 @@ export default function EditProfileScreen() {
         try {
             const { error } = await supabase
                 .from("profiles")
-                .update({ username })
+                .update({ username: username.trim(), avatar_icon: selectedAvatar })
                 .eq("id", user.id);
 
             if (error) throw error;
@@ -71,16 +108,21 @@ export default function EditProfileScreen() {
                     <Text style={styles.sectionTitle}>{i18n.t("editProfile.avatar")}</Text>
                     <View style={styles.sectionCard}>
                         <View style={styles.avatarGrid}>
-                            {["person", "happy", "star", "heart", "flash", "leaf"].map((icon, index) => (
+                            {PROFILE_AVATAR_ICONS.map((icon, index) => {
+                                const isSelected = selectedAvatar === icon;
+                                return (
                                 <Pressable
                                     key={icon}
-                                    style={styles.avatarOption}
+                                    style={[styles.avatarOption, isSelected && styles.avatarOptionSelected]}
+                                    onPress={() => setSelectedAvatar(icon)}
                                     accessibilityRole="button"
                                     accessibilityLabel={`${i18n.t("editProfile.avatar")} ${index + 1}`}
+                                    accessibilityState={{ selected: isSelected }}
                                 >
                                     <Ionicons name={icon as any} size={32} color={theme.colors.primary} />
                                 </Pressable>
-                            ))}
+                                );
+                            })}
                         </View>
                     </View>
                 </View>
@@ -163,11 +205,15 @@ const styles = StyleSheet.create({
         width: 60,
         height: 60,
         borderRadius: 30,
-        backgroundColor: theme.colors.surface,
+        backgroundColor: theme.colors.card,
         justifyContent: "center",
         alignItems: "center",
         borderWidth: 2,
         borderColor: "transparent",
+    },
+    avatarOptionSelected: {
+        borderColor: theme.colors.primary,
+        backgroundColor: "rgba(58, 134, 255, 0.12)",
     },
     input: {
         backgroundColor: theme.colors.card,
