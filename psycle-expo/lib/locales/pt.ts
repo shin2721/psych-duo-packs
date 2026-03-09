@@ -555,6 +555,15 @@ export const pt = {
         forgotPassword: 'Esqueceu a senha?',
         resetPasswordSent: 'E-mail de redefinição de senha enviado. Verifique sua caixa de entrada.',
         resetPasswordFailed: 'Não foi possível enviar o e-mail de redefinição de senha.',
+        showPassword: 'Mostrar senha',
+        hidePassword: 'Ocultar senha',
+        errors: {
+            invalidCredentials: 'O e-mail ou a senha estão incorretos.',
+            userAlreadyRegistered: 'Este e-mail já está registrado.',
+            emailNotConfirmed: 'Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada.',
+            invalidEmail: 'Digite um e-mail válido.',
+            rateLimited: 'Tentativas demais. Aguarde um momento e tente novamente.',
+        },
         guestLogin: 'Login como convidado (Dev)',
         verifyEmail: 'Confira sua caixa de entrada para confirmar o e-mail!',
     }

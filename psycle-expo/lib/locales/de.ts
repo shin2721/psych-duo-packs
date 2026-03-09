@@ -555,6 +555,15 @@ export const de = {
         forgotPassword: 'Passwort vergessen?',
         resetPasswordSent: 'E-Mail zum Zurücksetzen des Passworts gesendet. Bitte Postfach prüfen.',
         resetPasswordFailed: 'E-Mail zum Zurücksetzen des Passworts konnte nicht gesendet werden.',
+        showPassword: 'Passwort anzeigen',
+        hidePassword: 'Passwort verbergen',
+        errors: {
+            invalidCredentials: 'E-Mail oder Passwort ist nicht korrekt.',
+            userAlreadyRegistered: 'Diese E-Mail-Adresse ist bereits registriert.',
+            emailNotConfirmed: 'Deine E-Mail ist noch nicht bestätigt. Bitte Postfach prüfen.',
+            invalidEmail: 'Bitte gib eine gültige E-Mail-Adresse ein.',
+            rateLimited: 'Zu viele Versuche. Bitte warte kurz und versuche es erneut.',
+        },
         guestLogin: 'Gast-Login (Dev)',
         verifyEmail: 'Bitte prüfe dein Postfach für die E-Mail-Bestätigung!',
     }

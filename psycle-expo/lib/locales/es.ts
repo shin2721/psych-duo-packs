@@ -555,6 +555,15 @@ export const es = {
         forgotPassword: '¿Olvidaste tu contraseña?',
         resetPasswordSent: 'Se envió el correo para restablecer la contraseña. Revisa tu bandeja de entrada.',
         resetPasswordFailed: 'No se pudo enviar el correo para restablecer la contraseña.',
+        showPassword: 'Mostrar contraseña',
+        hidePassword: 'Ocultar contraseña',
+        errors: {
+            invalidCredentials: 'El correo o la contraseña no son correctos.',
+            userAlreadyRegistered: 'Este correo ya está registrado.',
+            emailNotConfirmed: 'Tu correo aún no está verificado. Revisa tu bandeja de entrada.',
+            invalidEmail: 'Introduce un correo válido.',
+            rateLimited: 'Demasiados intentos. Espera un momento y vuelve a intentarlo.',
+        },
         guestLogin: 'Inicio como invitado (Dev)',
         verifyEmail: '¡Revisa tu bandeja de entrada para verificar el correo!',
     }

@@ -555,6 +555,15 @@ export const zh = {
         forgotPassword: '忘记密码？',
         resetPasswordSent: '密码重置邮件已发送，请检查收件箱。',
         resetPasswordFailed: '无法发送密码重置邮件。',
+        showPassword: '显示密码',
+        hidePassword: '隐藏密码',
+        errors: {
+            invalidCredentials: '邮箱或密码不正确。',
+            userAlreadyRegistered: '该邮箱已注册。',
+            emailNotConfirmed: '邮箱尚未验证，请检查收件箱。',
+            invalidEmail: '请输入有效的邮箱地址。',
+            rateLimited: '尝试次数过多，请稍后再试。',
+        },
         guestLogin: '访客登录 (Dev)',
         verifyEmail: '请检查你的收件箱以完成邮箱验证！',
     }

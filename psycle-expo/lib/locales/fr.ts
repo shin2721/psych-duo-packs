@@ -555,6 +555,15 @@ export const fr = {
         forgotPassword: 'Mot de passe oublié ?',
         resetPasswordSent: 'E-mail de réinitialisation envoyé. Vérifie ta boîte mail.',
         resetPasswordFailed: 'Impossible d’envoyer l’e-mail de réinitialisation.',
+        showPassword: 'Afficher le mot de passe',
+        hidePassword: 'Masquer le mot de passe',
+        errors: {
+            invalidCredentials: 'L’e-mail ou le mot de passe est incorrect.',
+            userAlreadyRegistered: 'Cette adresse e-mail est déjà enregistrée.',
+            emailNotConfirmed: 'Ton e-mail n’est pas encore confirmé. Vérifie ta boîte mail.',
+            invalidEmail: 'Saisis une adresse e-mail valide.',
+            rateLimited: 'Trop de tentatives. Attends un moment puis réessaie.',
+        },
         guestLogin: 'Connexion invité (Dev)',
         verifyEmail: 'Vérifie ta boîte mail pour confirmer ton adresse !',
     }

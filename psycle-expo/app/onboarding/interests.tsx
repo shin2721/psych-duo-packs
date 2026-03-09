@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
 import { genres } from "../../lib/data";
 import { useOnboarding } from "../../lib/OnboardingContext";
+import { hapticFeedback } from "../../lib/haptics";
 import i18n from "../../lib/i18n";
 
 export default function InterestsScreen() {
@@ -16,6 +17,7 @@ export default function InterestsScreen() {
     const [selectedGenres, setSelectedGenres] = useState<string[]>(e2eAnalyticsMode ? ["mental"] : []);
 
     const toggleGenre = (genreId: string) => {
+        void hapticFeedback.light();
         setSelectedGenres(prev =>
             prev.includes(genreId)
                 ? prev.filter(id => id !== genreId)
@@ -32,6 +34,7 @@ export default function InterestsScreen() {
         }
 
         // Complete onboarding (updates context and AsyncStorage)
+        void hapticFeedback.success();
         await completeOnboarding();
 
         // Navigation is handled by RootLayout based on state change, 

@@ -17,6 +17,7 @@ import { ScrollView, TouchableOpacity } from "react-native";
 import { StarBackground } from "../components/StarBackground";
 import { VictoryConfetti } from "../components/VictoryConfetti";
 import { FireflyLoader } from "../components/FireflyLoader";
+import { XPGainAnimation } from "../components/XPGainAnimation";
 import { logFeltBetter, logInterventionInteraction, hasLoggedShownThisSession, markShownLogged, resetSessionTracking } from "../lib/dogfood";
 import { getEvidenceSummary, getTryValueColor } from "../lib/evidenceSummary";
 import { recordStudyCompletion, addXP, XP_REWARDS } from "../lib/streaks";
@@ -120,7 +121,9 @@ export default function LessonScreen() {
   const usedComboBonusXpRef = useRef(0); // レッスン単位のコンボ追加XP累積
   const nudgeEvaluatedRef = useRef(false);
   const [showDoubleXpNudge, setShowDoubleXpNudge] = useState(false);
+  const [xpAnimation, setXpAnimation] = useState({ visible: false, amount: 0, key: 0 });
   const nudgeExperimentRef = useRef<{ experimentId: string; variantId: string } | null>(null);
+  const xpAnimationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const nudgeStorageUserId = user?.id ?? "local";
   const listSeparator = i18n.locale.startsWith("ja") ? "、" : ", ";
 
@@ -132,6 +135,14 @@ export default function LessonScreen() {
       loadLesson();
     }
   }, [fileParam]);
+
+  useEffect(() => {
+    return () => {
+      if (xpAnimationTimeoutRef.current) {
+        clearTimeout(xpAnimationTimeoutRef.current);
+      }
+    };
+  }, []);
 
   async function loadLesson() {
     try {
@@ -400,7 +411,19 @@ export default function LessonScreen() {
         config: comboXpConfig,
       });
       usedComboBonusXpRef.current = comboBonus.nextUsedBonusXp;
-      addXp(baseXp + comboBonus.bonusXp);
+      const awardedXp = baseXp + comboBonus.bonusXp;
+      addXp(awardedXp);
+      if (xpAnimationTimeoutRef.current) {
+        clearTimeout(xpAnimationTimeoutRef.current);
+      }
+      setXpAnimation((prev) => ({
+        visible: true,
+        amount: awardedXp,
+        key: prev.key + 1,
+      }));
+      xpAnimationTimeoutRef.current = setTimeout(() => {
+        setXpAnimation((prev) => ({ ...prev, visible: false }));
+      }, 1400);
 
       if (comboBonus.bonusXp > 0) {
         Analytics.track("combo_xp_bonus_applied", {
@@ -929,6 +952,9 @@ export default function LessonScreen() {
           });
         }}
       />
+      {xpAnimation.visible && (
+        <XPGainAnimation key={xpAnimation.key} amount={xpAnimation.amount} />
+      )}
     </SafeAreaView>
   );
 }

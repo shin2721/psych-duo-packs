@@ -664,6 +664,15 @@ export const ja = {
         forgotPassword: 'パスワードをお忘れですか？',
         resetPasswordSent: 'パスワード再設定メールを送信しました。受信箱を確認してください。',
         resetPasswordFailed: 'パスワード再設定メールを送信できませんでした。',
+        showPassword: 'パスワードを表示',
+        hidePassword: 'パスワードを隠す',
+        errors: {
+            invalidCredentials: 'メールアドレスまたはパスワードが違います。',
+            userAlreadyRegistered: 'このメールアドレスは既に登録されています。',
+            emailNotConfirmed: 'メール確認が完了していません。受信箱を確認してください。',
+            invalidEmail: '有効なメールアドレスを入力してください。',
+            rateLimited: '試行回数が多すぎます。少し待ってから再度お試しください。',
+        },
         guestLogin: 'ゲストログイン (Dev)',
         verifyEmail: '確認メールを送信しました。受信箱を確認してください。',
     }

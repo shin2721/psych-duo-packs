@@ -1,14 +1,55 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, Text, Pressable } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/AuthContext';
 import { useToast } from '../components/ToastProvider';
 import i18n from '../lib/i18n';
 import { theme } from '../lib/theme';
 
+function mapAuthErrorMessage(message: string): string {
+    const normalized = message.trim().toLowerCase();
+
+    if (normalized.includes('invalid login credentials') || normalized.includes('invalid credentials')) {
+        return String(i18n.t('auth.errors.invalidCredentials'));
+    }
+
+    if (normalized.includes('user already registered')) {
+        return String(i18n.t('auth.errors.userAlreadyRegistered'));
+    }
+
+    if (
+        normalized.includes('email not confirmed') ||
+        normalized.includes('email not verified') ||
+        normalized.includes('confirm your email')
+    ) {
+        return String(i18n.t('auth.errors.emailNotConfirmed'));
+    }
+
+    if (
+        normalized.includes('invalid email') ||
+        normalized.includes('unable to validate email') ||
+        normalized.includes('email address')
+    ) {
+        return String(i18n.t('auth.errors.invalidEmail'));
+    }
+
+    if (
+        normalized.includes('rate limit') ||
+        normalized.includes('too many requests') ||
+        normalized.includes('security purposes') ||
+        normalized.includes('over_email_send_rate_limit')
+    ) {
+        return String(i18n.t('auth.errors.rateLimited'));
+    }
+
+    return message;
+}
+
 export default function AuthScreen() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [showPassword, setShowPassword] = useState(false);
     const [loading, setLoading] = useState(false);
     const { signInAsGuest } = useAuth();
     const { showToast } = useToast();
@@ -21,7 +62,7 @@ export default function AuthScreen() {
             password,
         });
 
-        if (error) showToast(error.message, 'error');
+        if (error) showToast(mapAuthErrorMessage(error.message), 'error');
         setLoading(false);
     }
 
@@ -32,7 +73,7 @@ export default function AuthScreen() {
             password,
         });
 
-        if (error) showToast(error.message, 'error');
+        if (error) showToast(mapAuthErrorMessage(error.message), 'error');
         else showToast(String(i18n.t('auth.verifyEmail')), 'success');
         setLoading(false);
     }
@@ -40,14 +81,17 @@ export default function AuthScreen() {
     async function sendPasswordReset() {
         const trimmedEmail = email.trim();
         if (!trimmedEmail) {
-            showToast(String(i18n.t('auth.resetPasswordFailed')), 'error');
+            showToast(String(i18n.t('auth.errors.invalidEmail')), 'error');
             return;
         }
 
         setLoading(true);
         const { error } = await supabase.auth.resetPasswordForEmail(trimmedEmail);
         if (error) {
-            showToast(error.message || String(i18n.t('auth.resetPasswordFailed')), 'error');
+            showToast(
+                error.message ? mapAuthErrorMessage(error.message) : String(i18n.t('auth.resetPasswordFailed')),
+                'error'
+            );
         } else {
             showToast(String(i18n.t('auth.resetPasswordSent')), 'success');
         }
@@ -71,17 +115,32 @@ export default function AuthScreen() {
                         keyboardType="email-address"
                         testID="auth-email-input"
                     />
-                    <TextInput
-                        style={styles.input}
-                        onChangeText={(text) => setPassword(text)}
-                        value={password}
-                        secureTextEntry={true}
-                        placeholder={i18n.t('auth.passwordPlaceholder')}
-                        placeholderTextColor={theme.colors.sub}
-                        autoCapitalize="none"
-                        autoCorrect={false}
-                        testID="auth-password-input"
-                    />
+                    <View style={styles.passwordField}>
+                        <TextInput
+                            style={[styles.input, styles.passwordInput]}
+                            onChangeText={(text) => setPassword(text)}
+                            value={password}
+                            secureTextEntry={!showPassword}
+                            placeholder={i18n.t('auth.passwordPlaceholder')}
+                            placeholderTextColor={theme.colors.sub}
+                            autoCapitalize="none"
+                            autoCorrect={false}
+                            testID="auth-password-input"
+                        />
+                        <Pressable
+                            style={styles.passwordToggle}
+                            onPress={() => setShowPassword((prev) => !prev)}
+                            accessibilityRole="button"
+                            accessibilityLabel={String(i18n.t(showPassword ? 'auth.hidePassword' : 'auth.showPassword'))}
+                            testID="auth-password-visibility-toggle"
+                        >
+                            <Ionicons
+                                name={showPassword ? 'eye-off-outline' : 'eye-outline'}
+                                size={20}
+                                color={theme.colors.sub}
+                            />
+                        </Pressable>
+                    </View>
                 </View>
 
                 <Pressable
@@ -160,6 +219,9 @@ const styles = StyleSheet.create({
     inputContainer: {
         marginBottom: theme.spacing.sm,
     },
+    passwordField: {
+        position: 'relative',
+    },
     input: {
         backgroundColor: theme.colors.card,
         color: theme.colors.text,
@@ -170,6 +232,17 @@ const styles = StyleSheet.create({
         paddingHorizontal: 16,
         borderRadius: theme.radius.md,
         fontSize: 16,
+    },
+    passwordInput: {
+        paddingRight: 48,
+    },
+    passwordToggle: {
+        position: 'absolute',
+        right: 14,
+        top: 0,
+        bottom: theme.spacing.sm,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
     linkButton: {
         alignSelf: 'flex-end',

@@ -555,6 +555,15 @@ export const ko = {
         forgotPassword: '비밀번호를 잊으셨나요?',
         resetPasswordSent: '비밀번호 재설정 이메일을 보냈습니다. 받은편지함을 확인하세요.',
         resetPasswordFailed: '비밀번호 재설정 이메일을 보낼 수 없습니다.',
+        showPassword: '비밀번호 표시',
+        hidePassword: '비밀번호 숨기기',
+        errors: {
+            invalidCredentials: '이메일 또는 비밀번호가 올바르지 않습니다.',
+            userAlreadyRegistered: '이미 등록된 이메일입니다.',
+            emailNotConfirmed: '이메일 인증이 아직 완료되지 않았습니다. 받은편지함을 확인하세요.',
+            invalidEmail: '유효한 이메일 주소를 입력하세요.',
+            rateLimited: '시도가 너무 많습니다. 잠시 후 다시 시도하세요.',
+        },
         guestLogin: '게스트 로그인 (Dev)',
         verifyEmail: '이메일 인증을 위해 받은편지함을 확인해 주세요!',
     }

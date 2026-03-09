@@ -664,6 +664,15 @@ export const en = {
         forgotPassword: 'Forgot password?',
         resetPasswordSent: 'Password reset email sent. Check your inbox.',
         resetPasswordFailed: 'Could not send password reset email.',
+        showPassword: 'Show password',
+        hidePassword: 'Hide password',
+        errors: {
+            invalidCredentials: 'Your email or password is incorrect.',
+            userAlreadyRegistered: 'This email address is already registered.',
+            emailNotConfirmed: 'Your email is not confirmed yet. Check your inbox.',
+            invalidEmail: 'Enter a valid email address.',
+            rateLimited: 'Too many attempts. Please wait a moment and try again.',
+        },
         guestLogin: 'Guest Login (Dev)',
         verifyEmail: 'Check your inbox for email verification!',
     }
