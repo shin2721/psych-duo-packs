@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
 import { Badge } from "../lib/badges";
+import i18n from "../lib/i18n";
 
 interface BadgeIconProps {
     badge: Badge;
@@ -11,11 +12,19 @@ interface BadgeIconProps {
 }
 
 export function BadgeIcon({ badge, isUnlocked, onPress }: BadgeIconProps) {
+    const accessibilityLabel = isUnlocked
+        ? badge.name
+        : `${badge.name} ${String(i18n.t("badges.accessibility.lockedSuffix"))}`;
+
     return (
         <Pressable
             style={[styles.container, !isUnlocked && styles.locked]}
             onPress={onPress}
             disabled={!isUnlocked}
+            accessible
+            accessibilityRole="button"
+            accessibilityState={{ disabled: !isUnlocked }}
+            accessibilityLabel={accessibilityLabel}
         >
             <View style={[styles.iconContainer, !isUnlocked && styles.lockedIcon]}>
                 <Ionicons

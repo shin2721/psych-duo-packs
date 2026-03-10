@@ -12,7 +12,13 @@ interface InlineToastProps {
 export function InlineToast({ message, tone = "default" }: InlineToastProps) {
   const toneStyle = tone === "success" ? styles.toastSuccess : tone === "error" ? styles.toastError : null;
   return (
-    <View pointerEvents="none" style={styles.wrapper}>
+    <View
+      pointerEvents="none"
+      style={styles.wrapper}
+      accessible
+      accessibilityRole="alert"
+      accessibilityLiveRegion="polite"
+    >
       <View style={[styles.toast, toneStyle]}>
         <Text style={styles.message}>{message}</Text>
       </View>

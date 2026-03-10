@@ -116,7 +116,9 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.sm,
   },
   buttonLocked: {
-    backgroundColor: "#999",
+    backgroundColor: theme.colors.line,
+    borderWidth: 1,
+    borderColor: theme.colors.sub,
   },
   buttonDisabled: {
     opacity: 0.5,

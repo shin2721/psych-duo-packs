@@ -63,6 +63,7 @@ export const es = {
         energyStatus: {
             title: 'Estado de energía',
             currentLabel: 'Actual: ',
+            currentUnlimitedA11y: 'Energía actual: ilimitada con Pro',
             nextRefillLabel: 'Próxima recarga en: ',
             full: 'Lleno',
             minutes: '%{minutes} min',
@@ -301,6 +302,12 @@ export const es = {
         },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+        streakRepair: {
+            accessibilityHint: 'Gasta gemas para restaurar tu racha.',
+        },
+        comebackReward: {
+            accessibilityHint: 'Comienza una lección para reclamar tu recompensa de regreso.',
+        },
     },
     planSelector: {
         title: 'Selecciona un plan',
@@ -381,6 +388,11 @@ export const es = {
             learningHistory: 'Historial de aprendizaje',
             detailedStats: 'Estadísticas detalladas',
             comingSoon: 'Próximamente',
+        },
+    },
+    badges: {
+        accessibility: {
+            lockedSuffix: '(bloqueado)',
         },
     },
     editProfile: {

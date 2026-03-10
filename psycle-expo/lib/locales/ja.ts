@@ -76,6 +76,7 @@ export const ja = {
         energyStatus: {
             title: 'エネルギー状況',
             currentLabel: '現在: ',
+            currentUnlimitedA11y: '現在のエネルギー: Proで無制限',
             nextRefillLabel: '次回回復まで: ',
             full: '満タン',
             minutes: '%{minutes}分',
@@ -355,6 +356,7 @@ export const ja = {
             title: '連続記録リペア',
             body: 'あと%{hours}時間以内なら、%{cost} Gemsで%{streak}日ストリークを復元できます。',
             cta: '復元する',
+            accessibilityHint: 'ジェムを使ってストリークを修復します。',
             expired: 'この復元オファーは期限切れです。',
             insufficientGems: '復元に必要なGemsが足りません。',
         },
@@ -362,6 +364,7 @@ export const ja = {
             title: 'おかえりボーナス',
             body: '%{days}日ぶりの復帰です。今日の初回レッスン完了で +%{energy} Energy / +%{gems} Gems',
             cta: '今すぐ再開',
+            accessibilityHint: 'レッスンを始めて復帰報酬を受け取ります。',
         },
     },
     planSelector: {
@@ -444,6 +447,11 @@ export const ja = {
             learningHistory: '学習履歴',
             detailedStats: '詳細統計',
             comingSoon: '近日公開',
+        },
+    },
+    badges: {
+        accessibility: {
+            lockedSuffix: '未獲得',
         },
     },
     editProfile: {

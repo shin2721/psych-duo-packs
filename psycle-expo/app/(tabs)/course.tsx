@@ -185,6 +185,9 @@ export default function CourseScreen() {
           </View>
           <Pressable
             style={styles.streakRepairButton}
+            accessibilityRole="button"
+            accessibilityLabel={String(i18n.t("course.streakRepair.cta"))}
+            accessibilityHint={String(i18n.t("course.streakRepair.accessibilityHint"))}
             onPress={() => {
               const result = purchaseStreakRepair();
               if (!result.success) {
@@ -217,6 +220,9 @@ export default function CourseScreen() {
           </View>
           <Pressable
             style={styles.comebackButton}
+            accessibilityRole="button"
+            accessibilityLabel={String(i18n.t("course.comebackReward.cta"))}
+            accessibilityHint={String(i18n.t("course.comebackReward.accessibilityHint"))}
             onPress={handleStartComebackLesson}
           >
             <Text style={styles.comebackButtonText}>{i18n.t("course.comebackReward.cta")}</Text>

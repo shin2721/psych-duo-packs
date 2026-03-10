@@ -37,10 +37,12 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!toast) return;
 
+    const timeoutMs = toast.tone === "error" ? 4000 : 2500;
+
     timerRef.current = setTimeout(() => {
       setToast(null);
       timerRef.current = null;
-    }, 2500);
+    }, timeoutMs);
 
     return () => {
       if (timerRef.current) {

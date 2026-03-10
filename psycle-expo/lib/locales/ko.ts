@@ -63,6 +63,7 @@ export const ko = {
         energyStatus: {
             title: '에너지 상태',
             currentLabel: '현재: ',
+            currentUnlimitedA11y: '현재 에너지: Pro로 무제한',
             nextRefillLabel: '다음 회복까지: ',
             full: '가득 참',
             minutes: '%{minutes}분',
@@ -301,6 +302,12 @@ export const ko = {
         },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+        streakRepair: {
+            accessibilityHint: '젬을 사용해 연속 기록을 복구합니다.',
+        },
+        comebackReward: {
+            accessibilityHint: '레슨을 시작해 복귀 보상을 받습니다.',
+        },
     },
     planSelector: {
         title: '플랜 선택',
@@ -381,6 +388,11 @@ export const ko = {
             learningHistory: '학습 기록',
             detailedStats: '상세 통계',
             comingSoon: '곧 제공 예정',
+        },
+    },
+    badges: {
+        accessibility: {
+            lockedSuffix: '미획득',
         },
     },
     editProfile: {

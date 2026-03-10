@@ -76,6 +76,7 @@ export const en = {
         energyStatus: {
             title: 'Energy status',
             currentLabel: 'Current: ',
+            currentUnlimitedA11y: 'Current energy: unlimited with Pro',
             nextRefillLabel: 'Next refill in: ',
             full: 'Full',
             minutes: '%{minutes} min',
@@ -355,6 +356,7 @@ export const en = {
             title: 'Streak Repair',
             body: 'Restore your %{streak}-day streak within %{hours}h for %{cost} Gems.',
             cta: 'Restore',
+            accessibilityHint: 'Spend Gems to restore your streak.',
             expired: 'This repair offer has expired.',
             insufficientGems: 'You need more Gems to restore your streak.',
         },
@@ -362,6 +364,7 @@ export const en = {
             title: 'Welcome Back Bonus',
             body: 'You are back after %{days} days. Finish your first lesson today to earn +%{energy} Energy / +%{gems} Gems.',
             cta: 'Resume now',
+            accessibilityHint: 'Start a lesson to claim your welcome-back reward.',
         },
     },
     planSelector: {
@@ -444,6 +447,11 @@ export const en = {
             learningHistory: 'Learning History',
             detailedStats: 'Detailed Stats',
             comingSoon: 'Coming soon',
+        },
+    },
+    badges: {
+        accessibility: {
+            lockedSuffix: '(locked)',
         },
     },
     editProfile: {

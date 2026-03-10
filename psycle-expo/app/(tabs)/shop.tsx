@@ -450,7 +450,15 @@ export default function ShopScreen() {
             <EnergyIcon size={20} />
             <Text style={styles.energyStatusTitle}>{i18n.t("shop.energyStatus.title")}</Text>
           </View>
-          <Text style={styles.energyStatusRow}>
+          <Text
+            style={styles.energyStatusRow}
+            accessible
+            accessibilityLabel={
+              isSubscriptionActive
+                ? String(i18n.t("shop.energyStatus.currentUnlimitedA11y"))
+                : `${String(i18n.t("shop.energyStatus.currentLabel"))}${energy}/${maxEnergy}`
+            }
+          >
             {i18n.t("shop.energyStatus.currentLabel")}
             <Text style={styles.energyStatusValue}>
               {isSubscriptionActive ? "∞" : `${energy}/${maxEnergy}`}

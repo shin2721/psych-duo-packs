@@ -63,6 +63,7 @@ export const zh = {
         energyStatus: {
             title: '能量状态',
             currentLabel: '当前：',
+            currentUnlimitedA11y: '当前能量：Pro 会员无限',
             nextRefillLabel: '下次恢复还有：',
             full: '已满',
             minutes: '%{minutes} 分钟',
@@ -301,6 +302,12 @@ export const zh = {
         },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+        streakRepair: {
+            accessibilityHint: '消耗 Gems 恢复你的连胜。',
+        },
+        comebackReward: {
+            accessibilityHint: '开始一节课程以领取回归奖励。',
+        },
     },
     planSelector: {
         title: '选择套餐',
@@ -381,6 +388,11 @@ export const zh = {
             learningHistory: '学习记录',
             detailedStats: '详细统计',
             comingSoon: '即将推出',
+        },
+    },
+    badges: {
+        accessibility: {
+            lockedSuffix: '（未解锁）',
         },
     },
     editProfile: {
