@@ -8,6 +8,8 @@
     "ios": "expo start --ios --dev-client",
     "web": "expo start --web",
     "tunnel": "expo start --tunnel --dev-client",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
+    "typecheck:app": "npm run typecheck",
     "questions": "node scripts/generate_questions.mjs",
     "update-content": "cd scripts/content-generator && npm run patrol",
     "verify:curated": "cd scripts/content-generator && npx ts-node src/batch_critic.ts --local",

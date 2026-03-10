@@ -1,0 +1,24 @@
+{
+  "extends": "expo/tsconfig.base.json",
+  "compilerOptions": {
+    "strict": true
+  },
+  "include": [
+    "app/**/*.ts",
+    "app/**/*.tsx",
+    "components/**/*.ts",
+    "components/**/*.tsx",
+    "lib/**/*.ts",
+    "lib/**/*.tsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "types/**/*.ts",
+    "types/**/*.tsx"
+  ],
+  "exclude": [
+    "e2e",
+    "scripts",
+    "src/__tests__",
+    "supabase/functions"
+  ]
+}
