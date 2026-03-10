@@ -49,6 +49,8 @@ export const de = {
                 activeWithMinutes: 'Aktiv! Noch %{minutes} Min.',
             }
             ,
+            buyButtonA11y: '%{name} für %{price} Edelsteine kaufen',
+            purchasedA11y: '%{name} gekauft',
             ownedCount: 'Besitz: %{count}',
         },
         comingSoon: 'Weitere Items erscheinen in Kürze!',

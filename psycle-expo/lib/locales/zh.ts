@@ -49,6 +49,8 @@ export const zh = {
                 activeWithMinutes: '激活中！剩余 %{minutes} 分钟',
             }
             ,
+            buyButtonA11y: '花费 %{price} Gems 购买 %{name}',
+            purchasedA11y: '%{name} 已购买',
             ownedCount: '持有数：%{count}',
         },
         comingSoon: '更多道具即将上线！',

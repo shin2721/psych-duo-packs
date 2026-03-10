@@ -645,6 +645,14 @@ export default function ShopScreen() {
                 justPurchased === item.id && styles.buyButtonSuccess,
               ]}
               onPress={() => handlePurchase(item)}
+              accessible
+              accessibilityRole="button"
+              accessibilityLabel={
+                justPurchased === item.id
+                  ? String(i18n.t("shop.items.purchasedA11y", { name: item.name }))
+                  : String(i18n.t("shop.items.buyButtonA11y", { name: item.name, price: item.price }))
+              }
+              accessibilityState={{ disabled: false }}
             >
               {justPurchased === item.id ? (
                 <Ionicons name="checkmark" size={20} color="#fff" />

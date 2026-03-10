@@ -57,6 +57,8 @@ export const ja = {
                 activeWithMinutes: '発動中！残り %{minutes}分',
             }
             ,
+            buyButtonA11y: '%{name}を%{price}ジェムで購入',
+            purchasedA11y: '%{name}を購入済み',
             ownedCount: '所持数: %{count}',
         },
         comingSoon: 'さらなるアイテムが近日公開！',

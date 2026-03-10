@@ -49,6 +49,8 @@ export const ko = {
                 activeWithMinutes: '활성화됨! %{minutes}분 남음',
             }
             ,
+            buyButtonA11y: '%{price} 젬으로 %{name} 구매',
+            purchasedA11y: '%{name} 구매 완료',
             ownedCount: '보유 수량: %{count}',
         },
         comingSoon: '더 많은 아이템이 곧 공개됩니다!',

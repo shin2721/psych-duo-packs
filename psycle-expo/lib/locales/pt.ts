@@ -49,6 +49,8 @@ export const pt = {
                 activeWithMinutes: 'Ativo! Restam %{minutes} min',
             }
             ,
+            buyButtonA11y: 'Comprar %{name} por %{price} gemas',
+            purchasedA11y: '%{name} comprado',
             ownedCount: 'Em posse: %{count}',
         },
         comingSoon: 'Mais itens em breve!',
