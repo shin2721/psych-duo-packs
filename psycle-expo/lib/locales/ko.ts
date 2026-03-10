@@ -400,6 +400,104 @@ export const ko = {
             lockedHint: '잠금 상태를 알려줍니다',
             lockedMessage: '이 배지는 아직 잠겨 있어요.',
         },
+        catalog: {
+            first_lesson: {
+                name: '첫걸음',
+                description: '첫 레슨 완료',
+            },
+            level_5: {
+                name: '레슨 5회 완료',
+                description: '레슨 5회를 완료',
+            },
+            level_10: {
+                name: '레슨 10회 완료',
+                description: '레슨 10회를 완료',
+            },
+            lessons_50: {
+                name: '꾸준함은 힘이 된다',
+                description: '레슨 50회를 완료',
+            },
+            lessons_100: {
+                name: '백전연마',
+                description: '레슨 100회를 완료',
+            },
+            streak_3: {
+                name: '3일 연속',
+                description: '3일 연속 학습',
+            },
+            streak_7: {
+                name: '1주 연속',
+                description: '7일 연속 학습',
+            },
+            streak_14: {
+                name: '2주 연속',
+                description: '14일 연속 학습',
+            },
+            streak_30: {
+                name: '1개월 연속',
+                description: '30일 연속 학습',
+            },
+            streak_60: {
+                name: '2개월 연속',
+                description: '60일 연속 학습',
+            },
+            streak_100: {
+                name: '100일 달성',
+                description: '100일 연속 학습',
+            },
+            streak_365: {
+                name: '1년 연속',
+                description: '365일 연속 학습',
+            },
+            xp_1000: {
+                name: 'XP 1000 달성',
+                description: '총 XP 1000 달성',
+            },
+            xp_5000: {
+                name: 'XP 5000 달성',
+                description: '총 XP 5000 달성',
+            },
+            mistake_master: {
+                name: '실수 극복',
+                description: '실수 10개 극복',
+            },
+            first_friend: {
+                name: '첫 친구',
+                description: '첫 친구 추가',
+            },
+            top_10: {
+                name: 'TOP 10 진입',
+                description: '리더보드 TOP 10 진입',
+            },
+            league_silver: {
+                name: '실버 승급',
+                description: '실버 리그 승급',
+            },
+            league_gold: {
+                name: '골드 승급',
+                description: '골드 리그 승급',
+            },
+            league_platinum: {
+                name: '플래티넘 승급',
+                description: '플래티넘 리그 승급',
+            },
+            league_diamond: {
+                name: '다이아몬드 승급',
+                description: '다이아몬드 리그 승급',
+            },
+            league_master: {
+                name: '마스터 승급',
+                description: '마스터 리그 승급',
+            },
+            league_first_place: {
+                name: '리그 1위',
+                description: '리그에서 1위 달성',
+            },
+            event_spring_2026: {
+                name: '봄 이벤트 완주',
+                description: 'Spring Challenge 2026 완주',
+            },
+        },
     },
     editProfile: {
         avatar: '아바타',

@@ -459,6 +459,104 @@ export const ja = {
             lockedHint: 'ロック状態を表示',
             lockedMessage: 'このバッジはまだ未獲得です。',
         },
+        catalog: {
+            first_lesson: {
+                name: '初めの一歩',
+                description: '最初のレッスンを完了',
+            },
+            level_5: {
+                name: '5レッスン完了',
+                description: '5レッスンを完了',
+            },
+            level_10: {
+                name: '10レッスン完了',
+                description: '10レッスンを完了',
+            },
+            lessons_50: {
+                name: '継続は力なり',
+                description: '50レッスンを完了',
+            },
+            lessons_100: {
+                name: '百戦錬磨',
+                description: '100レッスンを完了',
+            },
+            streak_3: {
+                name: '3日連続',
+                description: '3日連続で学習',
+            },
+            streak_7: {
+                name: '1週間連続',
+                description: '7日連続で学習',
+            },
+            streak_14: {
+                name: '2週間連続',
+                description: '14日連続で学習',
+            },
+            streak_30: {
+                name: '1ヶ月連続',
+                description: '30日連続で学習',
+            },
+            streak_60: {
+                name: '2ヶ月連続',
+                description: '60日連続で学習',
+            },
+            streak_100: {
+                name: '100日達成',
+                description: '100日連続で学習',
+            },
+            streak_365: {
+                name: '1年連続',
+                description: '365日連続で学習',
+            },
+            xp_1000: {
+                name: 'XP 1000達成',
+                description: '総XP 1000に到達',
+            },
+            xp_5000: {
+                name: 'XP 5000達成',
+                description: '総XP 5000に到達',
+            },
+            mistake_master: {
+                name: 'ミステイク克服',
+                description: '10個のミスを克服',
+            },
+            first_friend: {
+                name: '初めての友達',
+                description: '最初のフレンドを追加',
+            },
+            top_10: {
+                name: 'トップ10入り',
+                description: 'リーダーボードでトップ10に入る',
+            },
+            league_silver: {
+                name: 'シルバー昇格',
+                description: 'シルバーリーグに昇格',
+            },
+            league_gold: {
+                name: 'ゴールド昇格',
+                description: 'ゴールドリーグに昇格',
+            },
+            league_platinum: {
+                name: 'プラチナ昇格',
+                description: 'プラチナリーグに昇格',
+            },
+            league_diamond: {
+                name: 'ダイヤモンド昇格',
+                description: 'ダイヤモンドリーグに昇格',
+            },
+            league_master: {
+                name: 'マスター昇格',
+                description: 'マスターリーグに昇格',
+            },
+            league_first_place: {
+                name: 'リーグ1位',
+                description: 'リーグで1位を獲得',
+            },
+            event_spring_2026: {
+                name: '春イベント完走',
+                description: 'Spring Challenge 2026 を完走',
+            },
+        },
     },
     editProfile: {
         avatar: 'アバター',

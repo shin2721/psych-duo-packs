@@ -400,6 +400,104 @@ export const fr = {
             lockedHint: 'Indique l’état de verrouillage',
             lockedMessage: 'Ce badge est encore verrouillé.',
         },
+        catalog: {
+            first_lesson: {
+                name: 'Premier pas',
+                description: 'Termine ta première leçon',
+            },
+            level_5: {
+                name: '5 leçons terminées',
+                description: 'Termine 5 leçons',
+            },
+            level_10: {
+                name: '10 leçons terminées',
+                description: 'Termine 10 leçons',
+            },
+            lessons_50: {
+                name: 'La persévérance paie',
+                description: 'Termine 50 leçons',
+            },
+            lessons_100: {
+                name: 'Vétéran aguerri',
+                description: 'Termine 100 leçons',
+            },
+            streak_3: {
+                name: '3 jours d’affilee',
+                description: 'Étudie 3 jours d’affilée',
+            },
+            streak_7: {
+                name: '1 semaine d’affilée',
+                description: 'Étudie 7 jours d’affilée',
+            },
+            streak_14: {
+                name: '2 semaines d’affilée',
+                description: 'Étudie 14 jours d’affilée',
+            },
+            streak_30: {
+                name: '1 mois d’affilée',
+                description: 'Étudie 30 jours d’affilée',
+            },
+            streak_60: {
+                name: '2 mois d’affilée',
+                description: 'Étudie 60 jours d’affilée',
+            },
+            streak_100: {
+                name: '100 jours d’affilée',
+                description: 'Étudie 100 jours d’affilée',
+            },
+            streak_365: {
+                name: '1 an d’affilée',
+                description: 'Étudie 365 jours d’affilée',
+            },
+            xp_1000: {
+                name: '1000 XP atteints',
+                description: 'Atteins 1000 XP au total',
+            },
+            xp_5000: {
+                name: '5000 XP atteints',
+                description: 'Atteins 5000 XP au total',
+            },
+            mistake_master: {
+                name: 'Maître des erreurs',
+                description: 'Corrige 10 erreurs',
+            },
+            first_friend: {
+                name: 'Premier ami',
+                description: 'Ajoute ton premier ami',
+            },
+            top_10: {
+                name: 'Top 10',
+                description: 'Entre dans le top 10 du classement',
+            },
+            league_silver: {
+                name: 'Promotion Argent',
+                description: 'Passe en ligue Argent',
+            },
+            league_gold: {
+                name: 'Promotion Or',
+                description: 'Passe en ligue Or',
+            },
+            league_platinum: {
+                name: 'Promotion Platine',
+                description: 'Passe en ligue Platine',
+            },
+            league_diamond: {
+                name: 'Promotion Diamant',
+                description: 'Passe en ligue Diamant',
+            },
+            league_master: {
+                name: 'Promotion Maître',
+                description: 'Passe en ligue Maître',
+            },
+            league_first_place: {
+                name: 'Champion de ligue',
+                description: 'Termine 1er de ta ligue',
+            },
+            event_spring_2026: {
+                name: 'Défi du printemps terminé',
+                description: 'Termine Spring Challenge 2026',
+            },
+        },
     },
     editProfile: {
         avatar: 'Avatar',

@@ -400,6 +400,104 @@ export const pt = {
             lockedHint: 'Mostra o status de bloqueio',
             lockedMessage: 'Este emblema ainda está bloqueado.',
         },
+        catalog: {
+            first_lesson: {
+                name: 'Primeiro passo',
+                description: 'Complete sua primeira lição',
+            },
+            level_5: {
+                name: '5 lições concluídas',
+                description: 'Complete 5 lições',
+            },
+            level_10: {
+                name: '10 lições concluídas',
+                description: 'Complete 10 lições',
+            },
+            lessons_50: {
+                name: 'Persistência compensa',
+                description: 'Complete 50 lições',
+            },
+            lessons_100: {
+                name: 'Veterano de guerra',
+                description: 'Complete 100 lições',
+            },
+            streak_3: {
+                name: '3 dias seguidos',
+                description: 'Estude 3 dias seguidos',
+            },
+            streak_7: {
+                name: '1 semana seguida',
+                description: 'Estude 7 dias seguidos',
+            },
+            streak_14: {
+                name: '2 semanas seguidas',
+                description: 'Estude 14 dias seguidos',
+            },
+            streak_30: {
+                name: '1 mes seguido',
+                description: 'Estude 30 dias seguidos',
+            },
+            streak_60: {
+                name: '2 meses seguidos',
+                description: 'Estude 60 dias seguidos',
+            },
+            streak_100: {
+                name: '100 dias seguidos',
+                description: 'Estude 100 dias seguidos',
+            },
+            streak_365: {
+                name: '1 ano seguido',
+                description: 'Estude 365 dias seguidos',
+            },
+            xp_1000: {
+                name: '1000 XP alcançados',
+                description: 'Alcance 1000 XP no total',
+            },
+            xp_5000: {
+                name: '5000 XP alcançados',
+                description: 'Alcance 5000 XP no total',
+            },
+            mistake_master: {
+                name: 'Mestre dos erros',
+                description: 'Supere 10 erros',
+            },
+            first_friend: {
+                name: 'Primeiro amigo',
+                description: 'Adicione seu primeiro amigo',
+            },
+            top_10: {
+                name: 'Top 10',
+                description: 'Entre no top 10 do ranking',
+            },
+            league_silver: {
+                name: 'Promoção para Prata',
+                description: 'Suba para a liga Prata',
+            },
+            league_gold: {
+                name: 'Promoção para Ouro',
+                description: 'Suba para a liga Ouro',
+            },
+            league_platinum: {
+                name: 'Promoção para Platina',
+                description: 'Suba para a liga Platina',
+            },
+            league_diamond: {
+                name: 'Promoção para Diamante',
+                description: 'Suba para a liga Diamante',
+            },
+            league_master: {
+                name: 'Promoção para Mestre',
+                description: 'Suba para a liga Mestre',
+            },
+            league_first_place: {
+                name: 'Campeão da liga',
+                description: 'Termine em 1º na sua liga',
+            },
+            event_spring_2026: {
+                name: 'Evento de primavera concluído',
+                description: 'Complete Spring Challenge 2026',
+            },
+        },
     },
     editProfile: {
         avatar: 'Avatar',

@@ -459,6 +459,104 @@ export const en = {
             lockedHint: 'Shows lock status',
             lockedMessage: 'This badge is still locked.',
         },
+        catalog: {
+            first_lesson: {
+                name: 'First Step',
+                description: 'Complete your first lesson',
+            },
+            level_5: {
+                name: '5 Lessons Complete',
+                description: 'Complete 5 lessons',
+            },
+            level_10: {
+                name: '10 Lessons Complete',
+                description: 'Complete 10 lessons',
+            },
+            lessons_50: {
+                name: 'Practice Pays Off',
+                description: 'Complete 50 lessons',
+            },
+            lessons_100: {
+                name: 'Battle-Hardened',
+                description: 'Complete 100 lessons',
+            },
+            streak_3: {
+                name: '3-Day Streak',
+                description: 'Learn 3 days in a row',
+            },
+            streak_7: {
+                name: '1-Week Streak',
+                description: 'Learn 7 days in a row',
+            },
+            streak_14: {
+                name: '2-Week Streak',
+                description: 'Learn 14 days in a row',
+            },
+            streak_30: {
+                name: '1-Month Streak',
+                description: 'Learn 30 days in a row',
+            },
+            streak_60: {
+                name: '2-Month Streak',
+                description: 'Learn 60 days in a row',
+            },
+            streak_100: {
+                name: '100-Day Streak',
+                description: 'Learn 100 days in a row',
+            },
+            streak_365: {
+                name: '1-Year Streak',
+                description: 'Learn 365 days in a row',
+            },
+            xp_1000: {
+                name: '1,000 XP Reached',
+                description: 'Reach 1,000 total XP',
+            },
+            xp_5000: {
+                name: '5,000 XP Reached',
+                description: 'Reach 5,000 total XP',
+            },
+            mistake_master: {
+                name: 'Mistake Mastered',
+                description: 'Clear 10 mistakes',
+            },
+            first_friend: {
+                name: 'First Friend',
+                description: 'Add your first friend',
+            },
+            top_10: {
+                name: 'Top 10',
+                description: 'Reach the top 10 on the leaderboard',
+            },
+            league_silver: {
+                name: 'Promoted to Silver',
+                description: 'Reach Silver League',
+            },
+            league_gold: {
+                name: 'Promoted to Gold',
+                description: 'Reach Gold League',
+            },
+            league_platinum: {
+                name: 'Promoted to Platinum',
+                description: 'Reach Platinum League',
+            },
+            league_diamond: {
+                name: 'Promoted to Diamond',
+                description: 'Reach Diamond League',
+            },
+            league_master: {
+                name: 'Promoted to Master',
+                description: 'Reach Master League',
+            },
+            league_first_place: {
+                name: 'League Champion',
+                description: 'Finish 1st in your league',
+            },
+            event_spring_2026: {
+                name: 'Spring Event Finisher',
+                description: 'Complete Spring Challenge 2026',
+            },
+        },
     },
     editProfile: {
         avatar: 'Avatar',

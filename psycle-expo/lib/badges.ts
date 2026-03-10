@@ -1,3 +1,5 @@
+import i18n from "./i18n";
+
 // Badge definitions
 export interface Badge {
     id: string;
@@ -17,206 +19,182 @@ export interface BadgeStats {
     leaderboardRank: number;
 }
 
+interface BadgeConfig {
+    id: string;
+    icon: string;
+    category: Badge["category"];
+    unlockCondition: Badge["unlockCondition"];
+}
+
+function createBadge(config: BadgeConfig): Badge {
+    const translationBase = `badges.catalog.${config.id}`;
+
+    return {
+        id: config.id,
+        get name() {
+            return String(i18n.t(`${translationBase}.name`));
+        },
+        get description() {
+            return String(i18n.t(`${translationBase}.description`));
+        },
+        icon: config.icon,
+        category: config.category,
+        unlockCondition: config.unlockCondition,
+    };
+}
+
 export const BADGES: Badge[] = [
     // Progress Badges
-    {
+    createBadge({
         id: 'first_lesson',
-        name: '初めの一歩',
-        description: '最初のレッスンを完了',
         icon: 'rocket',
         category: 'progress',
         unlockCondition: (stats) => stats.completedLessons >= 1,
-    },
-    {
+    }),
+    createBadge({
         id: 'level_5',
-        name: '5レッスン完了',
-        description: '5レッスンを完了',
         icon: 'star',
         category: 'progress',
         unlockCondition: (stats) => stats.completedLessons >= 5,
-    },
-    {
+    }),
+    createBadge({
         id: 'level_10',
-        name: '10レッスン完了',
-        description: '10レッスンを完了',
         icon: 'star-half',
         category: 'progress',
         unlockCondition: (stats) => stats.completedLessons >= 10,
-    },
-    {
+    }),
+    createBadge({
         id: 'lessons_50',
-        name: '継続は力なり',
-        description: '50レッスンを完了',
         icon: 'trophy',
         category: 'progress',
         unlockCondition: (stats) => stats.completedLessons >= 50,
-    },
-    {
+    }),
+    createBadge({
         id: 'lessons_100',
-        name: '百戦錬磨',
-        description: '100レッスンを完了',
         icon: 'medal',
         category: 'progress',
         unlockCondition: (stats) => stats.completedLessons >= 100,
-    },
+    }),
 
     // Streak Badges
-    {
+    createBadge({
         id: 'streak_3',
-        name: '3日連続',
-        description: '3日連続で学習',
         icon: 'flame',
         category: 'streak',
         unlockCondition: (stats) => stats.streak >= 3,
-    },
-    {
+    }),
+    createBadge({
         id: 'streak_7',
-        name: '1週間連続',
-        description: '7日連続で学習',
         icon: 'flame',
         category: 'streak',
         unlockCondition: (stats) => stats.streak >= 7,
-    },
-    {
+    }),
+    createBadge({
         id: 'streak_14',
-        name: '2週間連続',
-        description: '14日連続で学習',
         icon: 'flame',
         category: 'streak',
         unlockCondition: (stats) => stats.streak >= 14,
-    },
-    {
+    }),
+    createBadge({
         id: 'streak_30',
-        name: '1ヶ月連続',
-        description: '30日連続で学習',
         icon: 'flame',
         category: 'streak',
         unlockCondition: (stats) => stats.streak >= 30,
-    },
-    {
+    }),
+    createBadge({
         id: 'streak_60',
-        name: '2ヶ月連続',
-        description: '60日連続で学習',
         icon: 'flame',
         category: 'streak',
         unlockCondition: (stats) => stats.streak >= 60,
-    },
-    {
+    }),
+    createBadge({
         id: 'streak_100',
-        name: '100日達成',
-        description: '100日連続で学習',
         icon: 'flame',
         category: 'streak',
         unlockCondition: (stats) => stats.streak >= 100,
-    },
-    {
+    }),
+    createBadge({
         id: 'streak_365',
-        name: '1年連続',
-        description: '365日連続で学習',
         icon: 'flame',
         category: 'streak',
         unlockCondition: (stats) => stats.streak >= 365,
-    },
+    }),
 
     // Performance Badges
-    {
+    createBadge({
         id: 'xp_1000',
-        name: 'XP 1000達成',
-        description: '総XP 1000に到達',
         icon: 'flash',
         category: 'performance',
         unlockCondition: (stats) => stats.xp >= 1000,
-    },
-    {
+    }),
+    createBadge({
         id: 'xp_5000',
-        name: 'XP 5000達成',
-        description: '総XP 5000に到達',
         icon: 'flash',
         category: 'performance',
         unlockCondition: (stats) => stats.xp >= 5000,
-    },
-    {
+    }),
+    createBadge({
         id: 'mistake_master',
-        name: 'ミステイク克服',
-        description: '10個のミスを克服',
         icon: 'checkmark-circle',
         category: 'performance',
         unlockCondition: (stats) => stats.mistakesCleared >= 10,
-    },
+    }),
 
     // Social Badges
-    {
+    createBadge({
         id: 'first_friend',
-        name: '初めての友達',
-        description: '最初のフレンドを追加',
         icon: 'people',
         category: 'social',
         unlockCondition: (stats) => stats.friendCount >= 1,
-    },
-    {
+    }),
+    createBadge({
         id: 'top_10',
-        name: 'トップ10入り',
-        description: 'リーダーボードでトップ10に入る',
         icon: 'podium',
         category: 'social',
         unlockCondition: (stats) => stats.leaderboardRank <= 10 && stats.leaderboardRank > 0,
-    },
+    }),
 
     // League Badges
-    {
+    createBadge({
         id: 'league_silver',
-        name: 'シルバー昇格',
-        description: 'シルバーリーグに昇格',
         icon: 'medal',
         category: 'social',
         unlockCondition: () => false, // Manually awarded
-    },
-    {
+    }),
+    createBadge({
         id: 'league_gold',
-        name: 'ゴールド昇格',
-        description: 'ゴールドリーグに昇格',
         icon: 'medal',
         category: 'social',
         unlockCondition: () => false,
-    },
-    {
+    }),
+    createBadge({
         id: 'league_platinum',
-        name: 'プラチナ昇格',
-        description: 'プラチナリーグに昇格',
         icon: 'diamond',
         category: 'social',
         unlockCondition: () => false,
-    },
-    {
+    }),
+    createBadge({
         id: 'league_diamond',
-        name: 'ダイヤモンド昇格',
-        description: 'ダイヤモンドリーグに昇格',
         icon: 'diamond',
         category: 'social',
         unlockCondition: () => false,
-    },
-    {
+    }),
+    createBadge({
         id: 'league_master',
-        name: 'マスター昇格',
-        description: 'マスターリーグに昇格',
         icon: 'ribbon',
         category: 'social',
         unlockCondition: () => false,
-    },
-    {
+    }),
+    createBadge({
         id: 'league_first_place',
-        name: 'リーグ1位',
-        description: 'リーグで1位を獲得',
         icon: 'trophy',
         category: 'social',
         unlockCondition: () => false,
-    },
-    {
+    }),
+    createBadge({
         id: 'event_spring_2026',
-        name: '春イベント完走',
-        description: 'Spring Challenge 2026 を完走',
         icon: 'sparkles',
         category: 'performance',
         unlockCondition: () => false,
-    },
+    }),
 ];

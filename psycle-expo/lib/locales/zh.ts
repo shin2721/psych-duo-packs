@@ -400,6 +400,104 @@ export const zh = {
             lockedHint: '显示锁定状态',
             lockedMessage: '这个徽章仍未解锁。',
         },
+        catalog: {
+            first_lesson: {
+                name: '第一步',
+                description: '完成第一节课',
+            },
+            level_5: {
+                name: '完成 5 节课',
+                description: '完成 5 节课',
+            },
+            level_10: {
+                name: '完成 10 节课',
+                description: '完成 10 节课',
+            },
+            lessons_50: {
+                name: '坚持就是力量',
+                description: '完成 50 节课',
+            },
+            lessons_100: {
+                name: '身经百战',
+                description: '完成 100 节课',
+            },
+            streak_3: {
+                name: '连续 3 天',
+                description: '连续学习 3 天',
+            },
+            streak_7: {
+                name: '连续 1 周',
+                description: '连续学习 7 天',
+            },
+            streak_14: {
+                name: '连续 2 周',
+                description: '连续学习 14 天',
+            },
+            streak_30: {
+                name: '连续 1 个月',
+                description: '连续学习 30 天',
+            },
+            streak_60: {
+                name: '连续 2 个月',
+                description: '连续学习 60 天',
+            },
+            streak_100: {
+                name: '连续 100 天',
+                description: '连续学习 100 天',
+            },
+            streak_365: {
+                name: '连续 1 年',
+                description: '连续学习 365 天',
+            },
+            xp_1000: {
+                name: '达到 1000 XP',
+                description: '总 XP 达到 1000',
+            },
+            xp_5000: {
+                name: '达到 5000 XP',
+                description: '总 XP 达到 5000',
+            },
+            mistake_master: {
+                name: '攻克错题',
+                description: '攻克 10 个错题',
+            },
+            first_friend: {
+                name: '第一个朋友',
+                description: '添加第一个好友',
+            },
+            top_10: {
+                name: '进入前 10',
+                description: '进入排行榜前 10',
+            },
+            league_silver: {
+                name: '晋升白银',
+                description: '晋升到白银联赛',
+            },
+            league_gold: {
+                name: '晋升黄金',
+                description: '晋升到黄金联赛',
+            },
+            league_platinum: {
+                name: '晋升白金',
+                description: '晋升到白金联赛',
+            },
+            league_diamond: {
+                name: '晋升钻石',
+                description: '晋升到钻石联赛',
+            },
+            league_master: {
+                name: '晋升大师',
+                description: '晋升到大师联赛',
+            },
+            league_first_place: {
+                name: '联赛第一',
+                description: '在联赛中获得第一名',
+            },
+            event_spring_2026: {
+                name: '春季活动完赛',
+                description: '完成 Spring Challenge 2026',
+            },
+        },
     },
     editProfile: {
         avatar: '头像',
