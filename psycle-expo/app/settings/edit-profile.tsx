@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Pressable, TextInput, ScrollView } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, StyleSheet, Pressable, TextInput, ScrollView, Alert } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useNavigation, usePreventRemove } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
@@ -10,13 +11,70 @@ import { supabase } from "../../lib/supabase";
 import { PROFILE_AVATAR_ICONS, isProfileAvatarIcon, type ProfileAvatarIcon } from "../../lib/avatarIcons";
 import i18n from "../../lib/i18n";
 
+const MIN_USERNAME_LENGTH = 3;
+
+function mapEditProfileErrorMessage(message: string): string {
+    const normalized = message.trim().toLowerCase();
+
+    if (normalized.includes("duplicate key value") || normalized.includes("profiles_username_key")) {
+        return String(i18n.t("editProfile.errors.usernameTaken"));
+    }
+
+    if (
+        normalized.includes("username_length") ||
+        normalized.includes("char_length(username)") ||
+        normalized.includes("check constraint")
+    ) {
+        return String(i18n.t("editProfile.errors.usernameTooShort", { count: MIN_USERNAME_LENGTH }));
+    }
+
+    return String(i18n.t("editProfile.errors.saveFailed"));
+}
+
 export default function EditProfileScreen() {
     const router = useRouter();
+    const navigation = useNavigation();
     const { user } = useAuth();
     const [username, setUsername] = useState(user?.email?.split("@")[0] || "");
     const [selectedAvatar, setSelectedAvatar] = useState<ProfileAvatarIcon>("person");
+    const [initialUsername, setInitialUsername] = useState(user?.email?.split("@")[0] || "");
+    const [initialAvatar, setInitialAvatar] = useState<ProfileAvatarIcon>("person");
     const [isSaving, setIsSaving] = useState(false);
     const { showToast } = useToast();
+    const allowRemovalRef = useRef(false);
+
+    const normalizedUsername = username.trim();
+    const isDirty =
+        normalizedUsername !== initialUsername.trim() || selectedAvatar !== initialAvatar;
+
+    const promptDiscardChanges = React.useCallback((onDiscard: () => void) => {
+        Alert.alert(
+            String(i18n.t("editProfile.discardTitle")),
+            String(i18n.t("editProfile.discardMessage")),
+            [
+                { text: String(i18n.t("common.cancel")), style: "cancel" },
+                {
+                    text: String(i18n.t("editProfile.discardConfirm")),
+                    style: "destructive",
+                    onPress: onDiscard,
+                },
+            ]
+        );
+    }, []);
+
+    const handleValidationError = React.useCallback((): string | null => {
+        if (!normalizedUsername) {
+            return String(i18n.t("editProfile.errors.requiredUsername"));
+        }
+
+        if (normalizedUsername.length < MIN_USERNAME_LENGTH) {
+            return String(
+                i18n.t("editProfile.errors.usernameTooShort", { count: MIN_USERNAME_LENGTH })
+            );
+        }
+
+        return null;
+    }, [normalizedUsername]);
 
     useEffect(() => {
         if (!user?.id) return;
@@ -36,10 +94,12 @@ export default function EditProfileScreen() {
 
                 if (typeof data.username === "string" && data.username.length > 0) {
                     setUsername(data.username);
+                    setInitialUsername(data.username);
                 }
 
                 if (isProfileAvatarIcon(data.avatar_icon)) {
                     setSelectedAvatar(data.avatar_icon);
+                    setInitialAvatar(data.avatar_icon);
                 }
             } catch (error) {
                 console.error("Failed to load profile settings:", error);
@@ -53,22 +113,42 @@ export default function EditProfileScreen() {
         };
     }, [user?.id]);
 
+    usePreventRemove(isDirty && !isSaving, ({ data }) => {
+        if (allowRemovalRef.current) {
+            return;
+        }
+
+        promptDiscardChanges(() => {
+            allowRemovalRef.current = true;
+            navigation.dispatch(data.action);
+        });
+    });
+
     const handleSave = async () => {
         if (!user) return;
+
+        const validationError = handleValidationError();
+        if (validationError) {
+            showToast(validationError, "error");
+            return;
+        }
 
         setIsSaving(true);
         try {
             const { error } = await supabase
                 .from("profiles")
-                .update({ username: username.trim(), avatar_icon: selectedAvatar })
+                .update({ username: normalizedUsername, avatar_icon: selectedAvatar })
                 .eq("id", user.id);
 
             if (error) throw error;
 
+            setInitialUsername(normalizedUsername);
+            setInitialAvatar(selectedAvatar);
+            allowRemovalRef.current = true;
             showToast(String(i18n.t("editProfile.successMessage")), "success");
             router.back();
         } catch (error: any) {
-            showToast(String(error.message), "error");
+            showToast(mapEditProfileErrorMessage(String(error?.message || "")), "error");
         } finally {
             setIsSaving(false);
         }
@@ -79,7 +159,18 @@ export default function EditProfileScreen() {
             {/* Header */}
             <View style={styles.header}>
                 <Pressable
-                    onPress={() => router.back()}
+                    onPress={() => {
+                        if (!isDirty || isSaving) {
+                            allowRemovalRef.current = true;
+                            router.back();
+                            return;
+                        }
+
+                        promptDiscardChanges(() => {
+                            allowRemovalRef.current = true;
+                            router.back();
+                        });
+                    }}
                     style={styles.backButton}
                     testID="edit-profile-close"
                     accessibilityRole="button"

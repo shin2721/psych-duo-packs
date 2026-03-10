@@ -389,6 +389,15 @@ export const zh = {
         usernamePlaceholder: '输入用户名',
         successTitle: '成功',
         successMessage: '个人资料已更新。',
+        discardTitle: '要放弃更改吗？',
+        discardMessage: '你的个人资料更改尚未保存。',
+        discardConfirm: '放弃',
+        errors: {
+            requiredUsername: '请输入用户名。',
+            usernameTooShort: '用户名至少需要 %{count} 个字符。',
+            saveFailed: '无法更新个人资料，请重试。',
+            usernameTaken: '该用户名已被使用。',
+        },
     },
     quests: {
         monthTitle: '%{month} 月任务',

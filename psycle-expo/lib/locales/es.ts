@@ -389,6 +389,15 @@ export const es = {
         usernamePlaceholder: 'Introduce el nombre de usuario',
         successTitle: 'Éxito',
         successMessage: 'Perfil actualizado.',
+        discardTitle: '¿Descartar cambios?',
+        discardMessage: 'Los cambios del perfil aún no se han guardado.',
+        discardConfirm: 'Descartar',
+        errors: {
+            requiredUsername: 'Introduce un nombre de usuario.',
+            usernameTooShort: 'El nombre de usuario debe tener al menos %{count} caracteres.',
+            saveFailed: 'No se pudo actualizar el perfil. Inténtalo de nuevo.',
+            usernameTaken: 'Ese nombre de usuario ya está en uso.',
+        },
     },
     quests: {
         monthTitle: 'Misiones de %{month}',

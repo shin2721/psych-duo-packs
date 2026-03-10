@@ -389,6 +389,15 @@ export const de = {
         usernamePlaceholder: 'Benutzernamen eingeben',
         successTitle: 'Erfolg',
         successMessage: 'Profil wurde aktualisiert.',
+        discardTitle: 'Änderungen verwerfen?',
+        discardMessage: 'Deine Profiländerungen wurden noch nicht gespeichert.',
+        discardConfirm: 'Verwerfen',
+        errors: {
+            requiredUsername: 'Gib einen Benutzernamen ein.',
+            usernameTooShort: 'Der Benutzername muss mindestens %{count} Zeichen lang sein.',
+            saveFailed: 'Profil konnte nicht aktualisiert werden. Bitte versuche es erneut.',
+            usernameTaken: 'Dieser Benutzername ist bereits vergeben.',
+        },
     },
     quests: {
         monthTitle: 'Quests %{month}',

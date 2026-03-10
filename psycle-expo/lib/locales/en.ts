@@ -452,6 +452,15 @@ export const en = {
         usernamePlaceholder: 'Enter username',
         successTitle: 'Success',
         successMessage: 'Profile updated.',
+        discardTitle: 'Discard changes?',
+        discardMessage: 'Your profile changes have not been saved.',
+        discardConfirm: 'Discard',
+        errors: {
+            requiredUsername: 'Enter a username.',
+            usernameTooShort: 'Username must be at least %{count} characters.',
+            saveFailed: 'Could not update your profile. Please try again.',
+            usernameTaken: 'That username is already taken.',
+        },
     },
     quests: {
         monthTitle: '%{month} Quests',

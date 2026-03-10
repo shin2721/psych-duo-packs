@@ -389,6 +389,15 @@ export const fr = {
         usernamePlaceholder: "Saisir le nom d'utilisateur",
         successTitle: 'Succès',
         successMessage: 'Profil mis à jour.',
+        discardTitle: 'Ignorer les modifications ?',
+        discardMessage: 'Les modifications du profil ne sont pas encore enregistrées.',
+        discardConfirm: 'Ignorer',
+        errors: {
+            requiredUsername: "Saisissez un nom d'utilisateur.",
+            usernameTooShort: "Le nom d'utilisateur doit contenir au moins %{count} caractères.",
+            saveFailed: 'Impossible de mettre à jour le profil. Réessayez.',
+            usernameTaken: "Ce nom d'utilisateur est déjà utilisé.",
+        },
     },
     quests: {
         monthTitle: 'Quêtes de %{month}',

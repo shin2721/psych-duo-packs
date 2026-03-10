@@ -452,6 +452,15 @@ export const ja = {
         usernamePlaceholder: 'ユーザー名を入力',
         successTitle: '成功',
         successMessage: 'プロフィールを更新しました。',
+        discardTitle: '変更を破棄しますか？',
+        discardMessage: 'プロフィールの変更はまだ保存されていません。',
+        discardConfirm: '破棄する',
+        errors: {
+            requiredUsername: 'ユーザー名を入力してください。',
+            usernameTooShort: 'ユーザー名は%{count}文字以上で入力してください。',
+            saveFailed: 'プロフィールを更新できませんでした。もう一度お試しください。',
+            usernameTaken: 'このユーザー名はすでに使われています。',
+        },
     },
     quests: {
         monthTitle: '%{month}月のクエスト',

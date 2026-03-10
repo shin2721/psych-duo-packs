@@ -199,7 +199,11 @@ export default function ProfileScreen() {
 
 function StatCard({ icon, label, value, color, customIcon }: { icon?: any; label: string; value: string; color: string; customIcon?: React.ReactNode }) {
     return (
-        <View style={styles.statCard}>
+        <View
+            style={styles.statCard}
+            accessible
+            accessibilityLabel={`${label}, ${value}`}
+        >
             {customIcon ? customIcon : <Ionicons name={icon} size={32} color={color} />}
             <Text style={styles.statValue}>{value}</Text>
             <Text style={styles.statLabel}>{label}</Text>

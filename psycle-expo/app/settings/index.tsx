@@ -28,6 +28,7 @@ import {
 
 export default function SettingsScreen() {
     const router = useRouter();
+    const currentYear = new Date().getFullYear();
     const { user, signOut } = useAuth();
     const { planId, setPlanId, setActiveUntil } = useBillingState();
     const { hasPendingDailyQuests } = useProgressionState();
@@ -481,7 +482,7 @@ export default function SettingsScreen() {
                 {/* App Info */}
                 <View style={styles.appInfo}>
                     <Text style={styles.appInfoText}>Psycle v1.0.0</Text>
-                    <Text style={styles.appInfoText}>© 2024 Psycle</Text>
+                    <Text style={styles.appInfoText}>© {currentYear} Psycle</Text>
                 </View>
             </ScrollView>
 

@@ -389,6 +389,15 @@ export const ko = {
         usernamePlaceholder: '사용자명을 입력하세요',
         successTitle: '성공',
         successMessage: '프로필이 업데이트되었습니다.',
+        discardTitle: '변경 사항을 버릴까요?',
+        discardMessage: '프로필 변경 사항이 아직 저장되지 않았습니다.',
+        discardConfirm: '버리기',
+        errors: {
+            requiredUsername: '사용자명을 입력하세요.',
+            usernameTooShort: '사용자명은 최소 %{count}자 이상이어야 합니다.',
+            saveFailed: '프로필을 업데이트하지 못했습니다. 다시 시도하세요.',
+            usernameTaken: '이미 사용 중인 사용자명입니다.',
+        },
     },
     quests: {
         monthTitle: '%{month}월 퀘스트',
