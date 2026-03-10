@@ -397,6 +397,8 @@ export const ko = {
     badges: {
         accessibility: {
             lockedSuffix: '미획득',
+            lockedHint: '잠금 상태를 알려줍니다',
+            lockedMessage: '이 배지는 아직 잠겨 있어요.',
         },
     },
     editProfile: {

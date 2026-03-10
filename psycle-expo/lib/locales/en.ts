@@ -456,6 +456,8 @@ export const en = {
     badges: {
         accessibility: {
             lockedSuffix: '(locked)',
+            lockedHint: 'Shows lock status',
+            lockedMessage: 'This badge is still locked.',
         },
     },
     editProfile: {

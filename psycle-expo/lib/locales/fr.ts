@@ -397,6 +397,8 @@ export const fr = {
     badges: {
         accessibility: {
             lockedSuffix: '(verrouillé)',
+            lockedHint: 'Indique l’état de verrouillage',
+            lockedMessage: 'Ce badge est encore verrouillé.',
         },
     },
     editProfile: {

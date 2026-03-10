@@ -397,6 +397,8 @@ export const de = {
     badges: {
         accessibility: {
             lockedSuffix: '(gesperrt)',
+            lockedHint: 'Zeigt den Sperrstatus an',
+            lockedMessage: 'Dieses Abzeichen ist noch gesperrt.',
         },
     },
     editProfile: {

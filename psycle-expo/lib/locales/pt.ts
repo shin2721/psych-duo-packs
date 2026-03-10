@@ -397,6 +397,8 @@ export const pt = {
     badges: {
         accessibility: {
             lockedSuffix: '(bloqueado)',
+            lockedHint: 'Mostra o status de bloqueio',
+            lockedMessage: 'Este emblema ainda está bloqueado.',
         },
     },
     editProfile: {

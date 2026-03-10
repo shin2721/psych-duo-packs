@@ -397,6 +397,8 @@ export const zh = {
     badges: {
         accessibility: {
             lockedSuffix: '（未解锁）',
+            lockedHint: '显示锁定状态',
+            lockedMessage: '这个徽章仍未解锁。',
         },
     },
     editProfile: {

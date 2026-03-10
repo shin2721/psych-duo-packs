@@ -456,6 +456,8 @@ export const ja = {
     badges: {
         accessibility: {
             lockedSuffix: '未獲得',
+            lockedHint: 'ロック状態を表示',
+            lockedMessage: 'このバッジはまだ未獲得です。',
         },
     },
     editProfile: {
