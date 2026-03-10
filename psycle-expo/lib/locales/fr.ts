@@ -2,6 +2,8 @@ export const fr = {
     common: {
         loading: 'Chargement...',
         error: 'Une erreur est survenue',
+        toastSuccessPrefix: 'Succès :',
+        toastErrorPrefix: 'Erreur :',
         unexpectedError: 'Un problème est survenu. Réessayez.',
         save: 'Enregistrer',
         cancel: 'Annuler',

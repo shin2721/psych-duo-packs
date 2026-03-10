@@ -2,6 +2,8 @@ export const es = {
     common: {
         loading: 'Cargando...',
         error: 'Ocurrió un error',
+        toastSuccessPrefix: 'Éxito:',
+        toastErrorPrefix: 'Error:',
         unexpectedError: 'Algo salió mal. Inténtalo de nuevo.',
         save: 'Guardar',
         cancel: 'Cancelar',

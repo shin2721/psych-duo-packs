@@ -4,6 +4,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
 import { Badge } from "../lib/badges";
 import i18n from "../lib/i18n";
+import { useToast } from "./ToastProvider";
 
 interface BadgeIconProps {
     badge: Badge;
@@ -12,19 +13,30 @@ interface BadgeIconProps {
 }
 
 export function BadgeIcon({ badge, isUnlocked, onPress }: BadgeIconProps) {
+    const { showToast } = useToast();
     const accessibilityLabel = isUnlocked
         ? badge.name
         : `${badge.name} ${String(i18n.t("badges.accessibility.lockedSuffix"))}`;
+    const accessibilityHint = isUnlocked ? undefined : badge.description;
+    const isInteractive = !isUnlocked || Boolean(onPress);
+
+    const handlePress = React.useCallback(() => {
+        if (isUnlocked) {
+            onPress?.();
+            return;
+        }
+
+        showToast(badge.description);
+    }, [badge.description, isUnlocked, onPress, showToast]);
 
     return (
         <Pressable
             style={[styles.container, !isUnlocked && styles.locked]}
-            onPress={onPress}
-            disabled={!isUnlocked}
+            onPress={isInteractive ? handlePress : undefined}
             accessible
-            accessibilityRole="button"
-            accessibilityState={{ disabled: !isUnlocked }}
+            accessibilityRole={isInteractive ? "button" : undefined}
             accessibilityLabel={accessibilityLabel}
+            accessibilityHint={accessibilityHint}
         >
             <View style={[styles.iconContainer, !isUnlocked && styles.lockedIcon]}>
                 <Ionicons

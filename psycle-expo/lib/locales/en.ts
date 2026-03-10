@@ -2,6 +2,8 @@ export const en = {
     common: {
         loading: 'Loading...',
         error: 'An error occurred',
+        toastSuccessPrefix: 'Success:',
+        toastErrorPrefix: 'Error:',
         unexpectedError: 'Something went wrong. Please try again.',
         save: 'Save',
         cancel: 'Cancel',

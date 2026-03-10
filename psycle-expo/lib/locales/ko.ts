@@ -2,6 +2,8 @@ export const ko = {
     common: {
         loading: '로딩 중...',
         error: '오류가 발생했습니다',
+        toastSuccessPrefix: '성공:',
+        toastErrorPrefix: '오류:',
         unexpectedError: '문제가 발생했습니다. 다시 시도해 주세요.',
         save: '저장',
         cancel: '취소',

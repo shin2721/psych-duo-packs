@@ -2,6 +2,8 @@ export const ja = {
     common: {
         loading: '読み込み中...',
         error: 'エラーが発生しました',
+        toastSuccessPrefix: '成功:',
+        toastErrorPrefix: 'エラー:',
         unexpectedError: '問題が発生しました。もう一度お試しください。',
         save: '保存',
         cancel: 'キャンセル',

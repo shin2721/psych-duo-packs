@@ -533,6 +533,23 @@ export default function ShopScreen() {
               ? (proYearlyAvailable ? proBillingPeriod : "monthly")
               : "monthly";
             const showYearlyMeta = plan.id === "pro" && selectedPeriod === "yearly";
+            const subscribeStatusLabel = isSubscribing
+              ? String(i18n.t("shop.subscription.processing"))
+              : planId === plan.id && isSubscriptionActive
+                ? String(i18n.t("shop.subscription.active"))
+                : null;
+            const subscribeAccessibilityLabel = [
+              plan.name,
+              formatPlanPrice(plan, selectedPeriod),
+              String(
+                selectedPeriod === "yearly"
+                  ? i18n.t("shop.subscription.yearly")
+                  : i18n.t("shop.subscription.monthly")
+              ),
+              subscribeStatusLabel,
+            ]
+              .filter(Boolean)
+              .join(", ");
 
             return (
             <View key={plan.id} style={styles.planCard}>
@@ -583,12 +600,9 @@ export default function ShopScreen() {
                 onPress={() => handleSubscribe(plan)}
                 disabled={isSubscribing || (planId === plan.id && isSubscriptionActive)}
                 accessibilityRole="button"
-                accessibilityLabel={`${plan.name}, ${formatPlanPrice(plan, selectedPeriod)}, ${String(
-                  selectedPeriod === "yearly"
-                    ? i18n.t("shop.subscription.yearly")
-                    : i18n.t("shop.subscription.monthly")
-                )}`}
+                accessibilityLabel={subscribeAccessibilityLabel}
                 accessibilityState={{
+                  busy: isSubscribing,
                   disabled: isSubscribing || (planId === plan.id && isSubscriptionActive),
                   selected: planId === plan.id && isSubscriptionActive,
                 }}
