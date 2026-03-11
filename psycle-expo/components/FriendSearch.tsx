@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, TextInput, FlatList, StyleSheet, Pressable, ActivityIndicator, Keyboard } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -30,6 +30,15 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
     const bottomTabBarHeight = useBottomTabBarHeight();
     const resultsBottomInset = bottomTabBarHeight + theme.spacing.lg;
     const searchRequestIdRef = useRef(0);
+
+    useEffect(() => {
+        if (searchQuery !== '') return;
+
+        searchRequestIdRef.current += 1;
+        setSearchResults([]);
+        setSearchError(null);
+        setLoading(false);
+    }, [searchQuery]);
 
     const handleSearch = async () => {
         const trimmedQuery = searchQuery.trim();

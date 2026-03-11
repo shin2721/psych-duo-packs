@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { Audio } from 'expo-av';
 import i18n from '../lib/i18n';
+import { theme } from '../lib/theme';
 
 interface QuestionImageProps {
     uri: string;
@@ -18,7 +19,7 @@ export function QuestionImage({ uri, caption }: QuestionImageProps) {
         <View style={styles.imageContainer}>
             {loading && (
                 <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color="#6366f1" />
+                    <ActivityIndicator size="large" color={theme.colors.primary} />
                 </View>
             )}
             <Image
@@ -156,22 +157,22 @@ const styles = StyleSheet.create({
     caption: {
         padding: 12,
         fontSize: 14,
-        color: '#666',
+        color: theme.colors.sub,
         fontStyle: 'italic',
         textAlign: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.surface,
     },
     errorText: {
         padding: 12,
         fontSize: 14,
-        color: '#ef4444',
+        color: theme.colors.error,
         textAlign: 'center',
     },
     audioButton: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#6366f1',
+        backgroundColor: theme.colors.primary,
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 8,
@@ -179,7 +180,7 @@ const styles = StyleSheet.create({
         gap: 8,
     },
     audioButtonPlaying: {
-        backgroundColor: '#4f46e5',
+        backgroundColor: theme.colors.primaryLight,
     },
     audioIcon: {
         fontSize: 20,
