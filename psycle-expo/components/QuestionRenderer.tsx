@@ -30,7 +30,7 @@ import i18n from "../lib/i18n";
 import { getComboMilestone, getNextCombo } from "../lib/comboMilestone";
 
 import { Question } from "../types/question";
-export { Question };
+export type { Question };
 
 
 import { sounds } from "../lib/sounds";

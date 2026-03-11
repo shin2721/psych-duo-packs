@@ -14,19 +14,21 @@ npm i
 
 ### 2. DEV環境でプリチェック実行
 ```bash
-npx expo start
-# または
-npm run ios
+npm run typecheck
+npm run test:billing:smoke
+npm run test:settings-notifications:smoke
+npm run e2e:build:ios:release
+npm run e2e:ios:release -- --testPathPattern='ui.full_touch.e2e.ts'
 ```
 
-**実行内容**: [docs/TESTFLIGHT_PRECHECK.md](docs/TESTFLIGHT_PRECHECK.md) のチェック1-5を全て実行
+**実行内容**: release simulator gate を固定順で通す
 
 **確認項目**:
-- ✅ DEV環境でAnalytics正常動作
-- ✅ 初回起動(app_open=1)再現
-- ✅ 2回目起動(app_open=0)確認  
-- ✅ レッスン完了イベント確認
-- ✅ Release環境でDebug完全無効化
+- ✅ app typecheck 正常
+- ✅ billing / settings 通知まわりの targeted Jest 正常
+- ✅ iOS release simulator build 正常
+- ✅ `ui.full_touch.e2e.ts` 正常
+- ✅ watchman recrawl / `ts-jest isolatedModules` deprecation が出ない
 
 ### 3. EAS準備
 ```bash
@@ -92,8 +94,16 @@ App Store Connect → TestFlight で「テスト準備完了」まで待機（5-
 
 ### TestFlightアプリで確認
 1. TestFlightアプリでPsycleインストール
-2. アプリ起動 → 設定で「設定」5回タップ
-3. Debug画面が開かないことを確認（Release版確認）
+2. `course / quests / leaderboard / friends / shop / profile / settings` を開き、下端コンテンツが崩れないことを確認
+3. lesson を 1 周し、question/result/completion の CTA が home indicator に埋もれないことを確認
+4. `leaderboard` の `league / global / friends` と `friends` の `friends / requests / search` を素早く切り替え、stale 表示が混ざらないことを確認
+5. `restore purchases` と `manage billing` を 1 回ずつ試し、blocking `alert()` ではなく status row + toast で完結することを確認
+6. 購入導線が踏める場合は、失敗時も toast のみで完結することを確認
+7. Release版として、設定で「設定」を5回タップしても debug 画面が開かないことを確認
+
+### 結果の残し方
+- 問題なし: `TestFlight smoke passed`
+- 問題あり: 画面名 / 前提 / 再現手順 / 期待結果 / 実結果 を残す
 
 ---
 

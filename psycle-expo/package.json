@@ -10,6 +10,8 @@
     "tunnel": "expo start --tunnel --dev-client",
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "typecheck:app": "npm run typecheck",
+    "test:billing:smoke": "jest --watchman=false --runInBand src/__tests__/billing.test.ts",
+    "test:settings-notifications:smoke": "jest --watchman=false --runInBand src/__tests__/settingsNotificationsToggle.test.ts",
     "questions": "node scripts/generate_questions.mjs",
     "update-content": "cd scripts/content-generator && npm run patrol",
     "verify:curated": "cd scripts/content-generator && npx ts-node src/batch_critic.ts --local",
@@ -115,7 +117,8 @@
     "testRunner": {
       "args": {
         "config": "e2e/jest.config.js",
-        "maxWorkers": 1
+        "maxWorkers": 1,
+        "watchman": false
       },
       "jest": {
         "setupFilesAfterEnv": [
