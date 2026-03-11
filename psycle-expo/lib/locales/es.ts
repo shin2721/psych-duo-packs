@@ -91,6 +91,7 @@ export const es = {
         restoring: 'Restaurando...',
         restoreStatusLoading: 'Verificando compras...',
         restoreStatusSuccess: 'Compras restauradas correctamente.',
+        restoreStatusNotFound: 'No se encontraron compras para restaurar.',
         restoreStatusError: 'No se pudieron restaurar las compras.',
         manageBilling: 'Gestionar facturación',
         openingPortal: 'Abriendo portal de facturación...',

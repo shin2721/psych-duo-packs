@@ -91,6 +91,7 @@ export const fr = {
         restoring: 'Restauration...',
         restoreStatusLoading: 'Vérification des achats...',
         restoreStatusSuccess: 'Achats restaurés avec succès.',
+        restoreStatusNotFound: 'Aucun achat restaurable n’a été trouvé.',
         restoreStatusError: 'Échec de la restauration des achats.',
         manageBilling: 'Gérer la facturation',
         openingPortal: 'Ouverture du portail de facturation...',

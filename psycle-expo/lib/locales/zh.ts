@@ -91,6 +91,7 @@ export const zh = {
         restoring: '恢复中...',
         restoreStatusLoading: '正在检查购买记录...',
         restoreStatusSuccess: '购买恢复成功。',
+        restoreStatusNotFound: '未找到可恢复的购买记录。',
         restoreStatusError: '购买恢复失败。',
         manageBilling: '管理账单',
         openingPortal: '正在打开账单门户...',

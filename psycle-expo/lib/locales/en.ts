@@ -104,6 +104,7 @@ export const en = {
         restoring: 'Restoring...',
         restoreStatusLoading: 'Checking purchases...',
         restoreStatusSuccess: 'Purchases restored successfully.',
+        restoreStatusNotFound: 'No restorable purchases were found.',
         restoreStatusError: 'Failed to restore purchases.',
         manageBilling: 'Manage Billing',
         openingPortal: 'Opening billing portal...',

@@ -91,6 +91,7 @@ export const de = {
         restoring: 'Wird wiederhergestellt...',
         restoreStatusLoading: 'Käufe werden überprüft...',
         restoreStatusSuccess: 'Käufe erfolgreich wiederhergestellt.',
+        restoreStatusNotFound: 'Es wurden keine wiederherstellbaren Käufe gefunden.',
         restoreStatusError: 'Käufe konnten nicht wiederhergestellt werden.',
         manageBilling: 'Abrechnung verwalten',
         openingPortal: 'Abrechnungsportal wird geöffnet...',

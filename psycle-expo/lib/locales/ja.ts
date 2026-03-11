@@ -104,6 +104,7 @@ export const ja = {
         restoring: '復元中...',
         restoreStatusLoading: '購入情報を確認しています...',
         restoreStatusSuccess: '購入の復元が完了しました。',
+        restoreStatusNotFound: '復元可能な購入が見つかりませんでした。',
         restoreStatusError: '購入の復元に失敗しました。',
         manageBilling: '請求を管理',
         openingPortal: '請求ポータルを開いています...',

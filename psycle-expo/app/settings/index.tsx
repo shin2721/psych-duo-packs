@@ -186,7 +186,7 @@ export default function SettingsScreen() {
         updateRestoreStatus("loading", String(i18n.t("settings.restoreStatusLoading")));
         try {
             const result = await restorePurchases();
-            if (result && result.restored && result.planId) {
+            if (result.status === "restored") {
                 const previousPlan = planId;
                 const restoredPlan = result.planId;
                 const restoredActiveUntil = result.activeUntil ?? null;
@@ -212,6 +212,11 @@ export default function SettingsScreen() {
                 showToast(String(i18n.t("settings.restoreStatusSuccess")), "success");
                 return;
             }
+            if (result.status === "not_found") {
+                updateRestoreStatus("error", String(i18n.t("settings.restoreStatusNotFound")));
+                showToast(String(i18n.t("settings.restoreStatusNotFound")));
+                return;
+            }
             updateRestoreStatus("error", String(i18n.t("settings.restoreStatusError")));
             showToast(String(i18n.t("settings.restoreStatusError")), "error");
         } catch (error) {
@@ -233,8 +238,8 @@ export default function SettingsScreen() {
         setIsOpeningPortal(true);
         updatePortalStatus("loading", String(i18n.t("settings.billingStatusLoading")));
         try {
-            const ok = await openBillingPortal();
-            if (!ok) {
+            const result = await openBillingPortal();
+            if (!result.ok) {
                 updatePortalStatus("error", String(i18n.t("settings.billingStatusError")));
                 showToast(String(i18n.t("settings.billingPortalUnavailable")), "error");
                 return;

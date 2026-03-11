@@ -91,6 +91,7 @@ export const ko = {
         restoring: '복원 중...',
         restoreStatusLoading: '구매 정보를 확인하는 중...',
         restoreStatusSuccess: '구매 복원이 완료되었습니다.',
+        restoreStatusNotFound: '복원할 수 있는 구매 내역이 없습니다.',
         restoreStatusError: '구매 복원에 실패했습니다.',
         manageBilling: '청구 관리',
         openingPortal: '청구 포털을 여는 중...',
