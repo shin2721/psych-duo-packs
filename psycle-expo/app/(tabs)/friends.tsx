@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, Alert, ActivityIndicator } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -50,25 +50,45 @@ export default function FriendsScreen() {
     const [requests, setRequests] = useState<FriendRequest[]>([]);
     const [friendChallenge, setFriendChallenge] = useState<WeeklyFriendChallenge | null>(null);
     const [friendChallengeClaimed, setFriendChallengeClaimed] = useState(false);
-    const [loading, setLoading] = useState(false);
-    const [loadError, setLoadError] = useState<string | null>(null);
+    const [friendsLoading, setFriendsLoading] = useState(false);
+    const [friendsError, setFriendsError] = useState<string | null>(null);
+    const [requestsLoading, setRequestsLoading] = useState(false);
+    const [requestsError, setRequestsError] = useState<string | null>(null);
     const { user } = useAuth();
     const { addGems } = useEconomyState();
     const { showToast } = useToast();
     const bottomTabBarHeight = useBottomTabBarHeight();
     const listBottomInset = bottomTabBarHeight + theme.spacing.lg;
+    const viewRef = useRef<ViewType>(view);
+    const friendsRequestIdRef = useRef(0);
+    const requestsRequestIdRef = useRef(0);
+    const challengeRequestIdRef = useRef(0);
+
+    useEffect(() => {
+        viewRef.current = view;
+    }, [view]);
 
     useEffect(() => {
         if (view === 'friends') {
-            fetchFriends();
-            fetchFriendChallenge();
+            requestsRequestIdRef.current += 1;
+            void fetchFriends();
+            void fetchFriendChallenge();
         } else if (view === 'requests') {
-            fetchRequests();
+            friendsRequestIdRef.current += 1;
+            challengeRequestIdRef.current += 1;
+            void fetchRequests();
+        } else {
+            friendsRequestIdRef.current += 1;
+            requestsRequestIdRef.current += 1;
+            challengeRequestIdRef.current += 1;
         }
     }, [view]);
 
     const fetchFriendChallenge = async () => {
+        const requestId = ++challengeRequestIdRef.current;
+
         if (!user) {
+            if (requestId !== challengeRequestIdRef.current) return;
             setFriendChallenge(null);
             setFriendChallengeClaimed(false);
             return;
@@ -76,6 +96,7 @@ export default function FriendsScreen() {
 
         try {
             const challenge = await buildWeeklyFriendChallenge(user.id);
+            if (requestId !== challengeRequestIdRef.current) return;
             setFriendChallenge(challenge);
             if (!challenge) {
                 setFriendChallengeClaimed(false);
@@ -83,6 +104,7 @@ export default function FriendsScreen() {
             }
 
             const claimed = await hasFriendChallengeClaimed(user.id, challenge.weekId);
+            if (requestId !== challengeRequestIdRef.current) return;
             setFriendChallengeClaimed(claimed);
 
             Analytics.track('friend_challenge_shown', {
@@ -90,6 +112,7 @@ export default function FriendsScreen() {
                 source: 'friends_tab',
             });
         } catch (error) {
+            if (requestId !== challengeRequestIdRef.current) return;
             console.error('Error fetching friend challenge:', error);
             setFriendChallenge(null);
             setFriendChallengeClaimed(false);
@@ -97,10 +120,18 @@ export default function FriendsScreen() {
     };
 
     const fetchFriends = async () => {
-        if (!user) return;
+        const requestId = ++friendsRequestIdRef.current;
 
-        setLoading(true);
-        setLoadError(null);
+        if (!user) {
+            if (requestId !== friendsRequestIdRef.current) return;
+            setFriends([]);
+            setFriendsError(null);
+            setFriendsLoading(false);
+            return;
+        }
+
+        setFriendsLoading(true);
+        setFriendsError(null);
         try {
             const { data, error } = await supabase
                 .from('friendships')
@@ -121,20 +152,32 @@ export default function FriendsScreen() {
                 };
             });
 
+            if (requestId !== friendsRequestIdRef.current) return;
             setFriends(formattedFriends);
         } catch (error) {
+            if (requestId !== friendsRequestIdRef.current) return;
             console.error('Error fetching friends:', error);
-            setLoadError(String(i18n.t('common.unexpectedError')));
+            setFriendsError(String(i18n.t('common.unexpectedError')));
         } finally {
-            setLoading(false);
+            if (requestId === friendsRequestIdRef.current) {
+                setFriendsLoading(false);
+            }
         }
     };
 
     const fetchRequests = async () => {
-        if (!user) return;
+        const requestId = ++requestsRequestIdRef.current;
 
-        setLoading(true);
-        setLoadError(null);
+        if (!user) {
+            if (requestId !== requestsRequestIdRef.current) return;
+            setRequests([]);
+            setRequestsError(null);
+            setRequestsLoading(false);
+            return;
+        }
+
+        setRequestsLoading(true);
+        setRequestsError(null);
         try {
             const { data, error } = await supabase
                 .from('friend_requests')
@@ -156,12 +199,16 @@ export default function FriendsScreen() {
                 };
             });
 
+            if (requestId !== requestsRequestIdRef.current) return;
             setRequests(formattedRequests);
         } catch (error) {
+            if (requestId !== requestsRequestIdRef.current) return;
             console.error('Error fetching requests:', error);
-            setLoadError(String(i18n.t('common.unexpectedError')));
+            setRequestsError(String(i18n.t('common.unexpectedError')));
         } finally {
-            setLoading(false);
+            if (requestId === requestsRequestIdRef.current) {
+                setRequestsLoading(false);
+            }
         }
     };
 
@@ -206,7 +253,9 @@ export default function FriendsScreen() {
             ]);
 
             showToast(String(i18n.t('friends.alerts.requestAcceptedMessage')), 'success');
-            fetchRequests();
+            if (viewRef.current === 'requests') {
+                void fetchRequests();
+            }
         } catch (error) {
             console.error('Error accepting request:', error);
             showToast(String(i18n.t('friends.alerts.acceptFailed')), 'error');
@@ -220,7 +269,9 @@ export default function FriendsScreen() {
                 .update({ status: 'rejected' })
                 .eq('id', requestId);
 
-            fetchRequests();
+            if (viewRef.current === 'requests') {
+                void fetchRequests();
+            }
         } catch (error) {
             console.error('Error rejecting request:', error);
             showToast(String(i18n.t('friends.alerts.rejectFailed')), 'error');
@@ -245,7 +296,9 @@ export default function FriendsScreen() {
                                 .delete()
                                 .or(`and(user_id.eq.${user.id},friend_id.eq.${friendId}),and(user_id.eq.${friendId},friend_id.eq.${user.id})`);
 
-                            fetchFriends();
+                            if (viewRef.current === 'friends') {
+                                void fetchFriends();
+                            }
                         } catch (error) {
                             console.error('Error removing friend:', error);
                             showToast(String(i18n.t('friends.alerts.removeFailed')), 'error');
@@ -370,11 +423,11 @@ export default function FriendsScreen() {
         </View>
     );
 
-    const renderLoadError = (retry: () => void) => (
+    const renderLoadError = (message: string | null, retry: () => void, testID: string) => (
         <View style={styles.emptyContainer} testID="friends-load-error">
             <Text style={styles.errorTitle}>{String(i18n.t('common.error'))}</Text>
-            <Text style={styles.emptyText}>{loadError}</Text>
-            <Pressable style={styles.retryButton} onPress={retry} testID="friends-retry">
+            <Text style={styles.emptyText}>{message}</Text>
+            <Pressable style={styles.retryButton} onPress={retry} testID={testID}>
                 <Text style={styles.retryButtonText}>{String(i18n.t('common.retry'))}</Text>
             </Pressable>
         </View>
@@ -434,12 +487,12 @@ export default function FriendsScreen() {
             <View style={styles.content}>
                 {view === 'friends' && (
                     <>
-                        {loading ? (
+                        {friendsLoading ? (
                             <View style={styles.emptyContainer} testID="friends-loading">
                                 <ActivityIndicator size="large" color={theme.colors.primary} />
                             </View>
-                        ) : loadError ? (
-                            renderLoadError(fetchFriends)
+                        ) : friendsError ? (
+                            renderLoadError(friendsError, fetchFriends, 'friends-retry')
                         ) : (
                             <>
                         {friendChallenge && friendChallengeProgress && (
@@ -527,12 +580,12 @@ export default function FriendsScreen() {
                 )}
 
                 {view === 'requests' && (
-                    loading ? (
+                    requestsLoading ? (
                         <View style={styles.emptyContainer} testID="requests-loading">
                             <ActivityIndicator size="large" color={theme.colors.primary} />
                         </View>
-                    ) : loadError ? (
-                        renderLoadError(fetchRequests)
+                    ) : requestsError ? (
+                        renderLoadError(requestsError, fetchRequests, 'requests-retry')
                     ) : requests.length === 0 ? (
                         <View style={styles.emptyContainer} testID="requests-empty">
                             <Ionicons name="mail" size={64} color={theme.colors.sub} />

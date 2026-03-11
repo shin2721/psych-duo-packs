@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
@@ -52,14 +52,18 @@ export default function LeaderboardScreen() {
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [leagueInfo, setLeagueInfo] = useState<LeagueInfo | null>(null);
     const [view, setView] = useState<'league' | 'global' | 'friends'>('league');
-    const [loading, setLoading] = useState(true);
-    const [loadError, setLoadError] = useState<string | null>(null);
+    const [leagueLoading, setLeagueLoading] = useState(true);
+    const [leagueError, setLeagueError] = useState<string | null>(null);
+    const [boardLoading, setBoardLoading] = useState(false);
+    const [boardError, setBoardError] = useState<string | null>(null);
     const [friendIds, setFriendIds] = useState<Set<string>>(new Set());
     const [pendingRequestIds, setPendingRequestIds] = useState<Set<string>>(new Set());
     const { user } = useAuth();
     const { showToast } = useToast();
     const bottomTabBarHeight = useBottomTabBarHeight();
     const listBottomInset = bottomTabBarHeight + theme.spacing.lg;
+    const leagueRequestIdRef = useRef(0);
+    const boardRequestIdRef = useRef(0);
     const tierNames: Record<number, string> = {
         0: String(i18n.t('leaderboard.tiers.bronze')),
         1: String(i18n.t('leaderboard.tiers.silver')),
@@ -72,9 +76,11 @@ export default function LeaderboardScreen() {
     useEffect(() => {
         fetchFriendStatus();
         if (view === 'league') {
-            fetchLeague();
+            boardRequestIdRef.current += 1;
+            void fetchLeague();
         } else {
-            fetchLeaderboard();
+            leagueRequestIdRef.current += 1;
+            void fetchLeaderboard(view);
         }
     }, [view]);
 
@@ -138,14 +144,17 @@ export default function LeaderboardScreen() {
     };
 
     const fetchLeague = async () => {
+        const requestId = ++leagueRequestIdRef.current;
+
         if (!user) {
-            setLoadError(null);
-            setLoading(false);
+            if (requestId !== leagueRequestIdRef.current) return;
+            setLeagueError(null);
+            setLeagueLoading(false);
             setLeagueInfo(null);
             return;
         }
-        setLoading(true);
-        setLoadError(null);
+        setLeagueLoading(true);
+        setLeagueError(null);
         try {
             let info = await withTimeout(getMyLeague(user.id), 'getMyLeague');
             if (!info) {
@@ -153,20 +162,26 @@ export default function LeaderboardScreen() {
                 await withTimeout(ensureJoinedLeagueForCurrentWeek(user.id), 'ensureJoinedLeagueForCurrentWeek');
                 info = await withTimeout(getMyLeague(user.id), 'getMyLeague after join');
             }
+            if (requestId !== leagueRequestIdRef.current) return;
             setLeagueInfo(info);
         } catch (error) {
+            if (requestId !== leagueRequestIdRef.current) return;
             console.error('[leaderboard] failed to fetch league', error);
-            setLoadError(String(i18n.t('leaderboard.emptyData')));
+            setLeagueError(String(i18n.t('leaderboard.emptyData')));
         } finally {
-            setLoading(false);
+            if (requestId === leagueRequestIdRef.current) {
+                setLeagueLoading(false);
+            }
         }
     };
 
-    const fetchLeaderboard = async () => {
-        setLoading(true);
-        setLoadError(null);
+    const fetchLeaderboard = async (targetView: 'global' | 'friends') => {
+        const requestId = ++boardRequestIdRef.current;
+
+        setBoardLoading(true);
+        setBoardError(null);
         try {
-            if (view === 'global') {
+            if (targetView === 'global') {
                 // Fetch top 100 users by XP
                 const { data, error } = await withTimeout<LeaderboardResponse>(
                     supabase
@@ -178,9 +193,11 @@ export default function LeaderboardScreen() {
                 );
 
                 if (error) throw error;
+                if (requestId !== boardRequestIdRef.current) return;
                 setLeaderboard(data || []);
             } else {
                 if (!user?.id) {
+                    if (requestId !== boardRequestIdRef.current) return;
                     setLeaderboard([]);
                     return;
                 }
@@ -198,6 +215,7 @@ export default function LeaderboardScreen() {
                 const friendIds = friends?.map((friend) => friend.friend_id) || [];
 
                 if (friendIds.length === 0) {
+                    if (requestId !== boardRequestIdRef.current) return;
                     setLeaderboard([]);
                 } else {
                     const { data, error } = await withTimeout<LeaderboardResponse>(
@@ -210,14 +228,18 @@ export default function LeaderboardScreen() {
                     );
 
                     if (error) throw error;
+                    if (requestId !== boardRequestIdRef.current) return;
                     setLeaderboard(data || []);
                 }
             }
         } catch (error) {
+            if (requestId !== boardRequestIdRef.current) return;
             console.error('[leaderboard] failed to fetch leaderboard', error);
-            setLoadError(String(i18n.t('leaderboard.emptyData')));
+            setBoardError(String(i18n.t('leaderboard.emptyData')));
         } finally {
-            setLoading(false);
+            if (requestId === boardRequestIdRef.current) {
+                setBoardLoading(false);
+            }
         }
     };
 
@@ -226,8 +248,11 @@ export default function LeaderboardScreen() {
             void fetchLeague();
             return;
         }
-        void fetchLeaderboard();
+        void fetchLeaderboard(view);
     };
+
+    const currentLoading = view === 'league' ? leagueLoading : boardLoading;
+    const currentError = view === 'league' ? leagueError : boardError;
 
     const renderLeaderboardRow = ({ item, index }: { item: LeaderboardEntry; index: number }) => {
         const rank = index + 1;
@@ -317,14 +342,14 @@ export default function LeaderboardScreen() {
                 </View>
             </View>
 
-            {loading ? (
+            {currentLoading ? (
                 <View style={styles.loadingContainer} testID="leaderboard-loading">
                     <ActivityIndicator size="large" color={theme.colors.primary} />
                 </View>
-            ) : loadError ? (
+            ) : currentError ? (
                 <View style={styles.emptyContainer} testID="leaderboard-error">
                     <Text style={styles.errorTitle}>{i18n.t('common.error')}</Text>
-                    <Text style={styles.emptyText}>{loadError}</Text>
+                    <Text style={styles.emptyText}>{currentError}</Text>
                     <Pressable style={styles.retryButton} onPress={handleRetry} testID="leaderboard-retry">
                         <Text style={styles.retryButtonText}>{i18n.t('common.retry')}</Text>
                     </Pressable>

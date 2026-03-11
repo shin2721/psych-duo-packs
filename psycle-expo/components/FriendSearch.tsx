@@ -4,6 +4,7 @@ import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/AuthContext';
+import { useToast } from './ToastProvider';
 import { theme } from '../lib/theme';
 import i18n from '../lib/i18n';
 
@@ -25,6 +26,7 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
     const [searchError, setSearchError] = useState<string | null>(null);
     const [sentRequests, setSentRequests] = useState<Set<string>>(new Set());
     const { user } = useAuth();
+    const { showToast } = useToast();
     const bottomTabBarHeight = useBottomTabBarHeight();
     const resultsBottomInset = bottomTabBarHeight + theme.spacing.lg;
 
@@ -66,20 +68,19 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
 
             if (error) {
                 if (error.code === '23505') {
-                    // Unique constraint violation - request already exists
-                    alert(String(i18n.t('friendSearch.alerts.alreadySent')));
+                    showToast(String(i18n.t('friendSearch.alerts.alreadySent')));
                 } else {
                     throw error;
                 }
             } else {
                 setSentRequests(prev => new Set(prev).add(toUserId));
                 Keyboard.dismiss();
+                showToast(String(i18n.t('friendSearch.alerts.sent')), 'success');
                 onRequestSent?.();
-                alert(String(i18n.t('friendSearch.alerts.sent')));
             }
         } catch (error) {
             console.error('Error sending friend request:', error);
-            alert(String(i18n.t('friendSearch.alerts.failed')));
+            showToast(String(i18n.t('friendSearch.alerts.failed')), 'error');
         }
     };
 

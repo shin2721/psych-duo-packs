@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useMemo } from "react";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { View, Pressable, StyleSheet, Dimensions, ScrollView, Animated } from "react-native";
 import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
@@ -638,6 +639,8 @@ function GlowingNode({
 // ==================== MAIN TRAIL COMPONENT ====================
 export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }: Props) {
   const activePathColor = themeColor || PATH_COLOR_DONE;
+  const bottomTabBarHeight = useBottomTabBarHeight();
+  const trailBottomInset = bottomTabBarHeight + theme.spacing.lg;
   // Find the index of the current node for path coloring
   const currentIndex = useMemo(() => {
     return trail.findIndex(n => n.status === "current");
@@ -770,7 +773,7 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
   }, [currentIndex, nodePositions]);
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, { minHeight: totalHeight }]}>
+    <ScrollView contentContainerStyle={[styles.container, { minHeight: totalHeight, paddingBottom: trailBottomInset }]}>
       {/* Background Gradient REMOVED - Using Global Star Background */}
       {/* <BackgroundGradient height={totalHeight} /> */}
 
@@ -879,7 +882,6 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
 const styles = StyleSheet.create({
   container: {
     position: "relative",
-    paddingBottom: 100,
   },
   node: {
     alignItems: "center",
