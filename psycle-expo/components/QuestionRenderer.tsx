@@ -42,7 +42,7 @@ interface Props {
   onComboMilestone?: (milestone: 3 | 5 | 10, questionId: string) => void;
 }
 
-export const getQuestionText = (question: Question) => question.text ?? question.question ?? "";
+export const getQuestionText = (question: Question) => question.question ?? "";
 
 export const getQuestionChoices = (question: Question) => question.choices ?? [];
 
@@ -507,7 +507,7 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
             <MultipleChoice
               choices={questionChoices}
               selectedIndex={selectedIndex}
-              correctIndex={question.correct_index}
+              correctIndex={question.correct_index ?? null}
               showResult={showResult}
               onSelect={handleSelect}
             />
@@ -546,7 +546,7 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
               <QuickReflex
                 choices={questionChoices}
                 selectedIndex={selectedIndex}
-                correctIndex={question.correct_index || 0}
+                correctIndex={question.correct_index ?? 0}
                 showResult={showResult}
                 onSelect={handleSelect}
                 timeLimit={question.time_limit || 2000}
@@ -762,11 +762,18 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
                 {!isCorrect && (() => {
                   // 正解テキストを問題タイプごとに生成
                   let correctAnswerText = "";
+                  const choices = questionChoices;
 
-                  if ((question.type === "multiple_choice" || question.type === "fill_blank_tap" || question.type === "conversation" || question.type === "quick_reflex" || question.type === "swipe_judgment" || question.type === "consequence_scenario" || question.type === "interactive_practice") && (question.choices && typeof question.correct_index === 'number')) {
-                    correctAnswerText = question.choices[question.correct_index];
-                  } else if (question.type === "select_all" && question.choices && question.correct_answers) {
-                    correctAnswerText = question.correct_answers.map(i => question.choices[i]).join(i18n.t("questionRenderer.listSeparator"));
+                  if ((question.type === "multiple_choice" || question.type === "fill_blank_tap" || question.type === "conversation" || question.type === "quick_reflex" || question.type === "swipe_judgment" || question.type === "consequence_scenario" || question.type === "interactive_practice") && typeof question.correct_index === 'number') {
+                    const correctChoice = choices[question.correct_index];
+                    if (typeof correctChoice === "string") {
+                      correctAnswerText = correctChoice;
+                    }
+                  } else if (question.type === "select_all" && question.correct_answers) {
+                    correctAnswerText = question.correct_answers
+                      .map((index) => choices[index])
+                      .filter((choice): choice is string => typeof choice === "string")
+                      .join(i18n.t("questionRenderer.listSeparator"));
                   } else if (question.type === "swipe_judgment" && question.swipe_labels) {
                     correctAnswerText = question.is_true ? `→ ${question.swipe_labels.right}` : `← ${question.swipe_labels.left}`;
                   } else if (question.type === "sort_order" && question.correct_order) {
@@ -1017,7 +1024,7 @@ function TrueFalse({
 }: {
   choices: string[];
   selectedIndex: number | null;
-  correctIndex: number;
+  correctIndex?: number;
   showResult: boolean;
   onSelect: (index: number) => void;
 }) {
@@ -1026,7 +1033,7 @@ function TrueFalse({
       <View style={{ flexDirection: 'row', gap: 12, height: 180 }}>
         {choices.map((choice, index) => {
           const isSelected = selectedIndex === index;
-          const isCorrect = index === correctIndex;
+          const isCorrect = typeof correctIndex === "number" && index === correctIndex;
           const shouldShowCorrect = showResult && isCorrect;
           const shouldShowIncorrect = showResult && isSelected && !isCorrect;
 
@@ -1072,7 +1079,7 @@ function FillBlank({
 }: {
   choices: string[];
   selectedIndex: number | null;
-  correctIndex: number;
+  correctIndex?: number;
   showResult: boolean;
   onSelect: (index: number) => void;
 }) {
@@ -1080,7 +1087,7 @@ function FillBlank({
     <View style={styles.choicesContainer}>
       {choices.map((choice, index) => {
         const isSelected = selectedIndex === index;
-        const isCorrect = index === correctIndex;
+        const isCorrect = typeof correctIndex === "number" && index === correctIndex;
         const shouldShowCorrect = showResult && isCorrect;
         const shouldShowIncorrect = showResult && isSelected && !isCorrect;
 

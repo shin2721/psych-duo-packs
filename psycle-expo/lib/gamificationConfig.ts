@@ -375,19 +375,20 @@ const DEFAULT_CONFIG: GamificationConfig = {
 
 function normalizeVariants(value: unknown, fallback: ExperimentVariantConfig[]): ExperimentVariantConfig[] {
   if (!Array.isArray(value)) return fallback;
-  const normalized = value
-    .map((variant) => {
-      if (!variant || typeof variant !== "object") return null;
-      const raw = variant as Partial<ExperimentVariantConfig>;
-      if (typeof raw.id !== "string" || raw.id.length === 0) return null;
-      const weight = Number.isFinite(raw.weight as number) ? Math.max(0, Number(raw.weight)) : 0;
-      return {
-        id: raw.id,
-        weight,
-        payload: raw.payload && typeof raw.payload === "object" ? raw.payload : {},
-      };
-    })
-    .filter((item): item is ExperimentVariantConfig => item !== null);
+  const normalized: ExperimentVariantConfig[] = [];
+
+  for (const variant of value) {
+    if (!variant || typeof variant !== "object") continue;
+    const raw = variant as Partial<ExperimentVariantConfig>;
+    if (typeof raw.id !== "string" || raw.id.length === 0) continue;
+    const weight = Number.isFinite(raw.weight as number) ? Math.max(0, Number(raw.weight)) : 0;
+    normalized.push({
+      id: raw.id,
+      weight,
+      payload: raw.payload && typeof raw.payload === "object" ? raw.payload : {},
+    });
+  }
+
   return normalized.length > 0 ? normalized : fallback;
 }
 

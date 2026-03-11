@@ -26,7 +26,6 @@ import {
   markFirstLessonComplete,
 } from "../lib/onboarding";
 import { Analytics } from "../lib/analytics";
-import { formatCitation } from "../lib/evidenceUtils";
 import i18n from "../lib/i18n";
 import entitlements from "../config/entitlements.json";
 import { useAuth } from "../lib/AuthContext";
@@ -866,7 +865,7 @@ export default function LessonScreen() {
                       <Text style={styles.theoryText}>
                         {i18n.t("lesson.basedOnResearchPrefix")}
                         {"\n"}
-                        {formatCitation(ref)}
+                        {ref.citation}
                         {i18n.t("lesson.basedOnResearchSuffix")}
                       </Text>
                     </View>

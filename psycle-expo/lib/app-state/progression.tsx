@@ -431,14 +431,19 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
     }
 
     setBadgesHydrated(false);
-    supabase
-      .from("user_badges")
-      .select("badge_id")
-      .eq("user_id", user.id)
+    Promise.resolve(
+      supabase
+        .from("user_badges")
+        .select("badge_id")
+        .eq("user_id", user.id)
+    )
       .then(({ data, error }) => {
         if (cancelled) return;
         if (error) console.error("Failed to load user badges:", error);
         if (data) setUnlockedBadges(new Set(data.map((row) => row.badge_id)));
+      })
+      .catch((error: unknown) => {
+        if (!cancelled) console.error("Failed to load user badges:", error);
       })
       .finally(() => {
         if (!cancelled) setBadgesHydrated(true);
@@ -1380,9 +1385,11 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
       });
 
       if (user) {
-        supabase
-          .from("user_badges")
-          .insert({ user_id: user.id, badge_id: rewardBadgeId })
+        Promise.resolve(
+          supabase
+            .from("user_badges")
+            .insert({ user_id: user.id, badge_id: rewardBadgeId })
+        )
           .then(({ error }) => {
             if (error && error.code !== "23505") {
               console.error("Failed to unlock event badge:", error);
@@ -1396,7 +1403,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
             });
             setBadgeToastQueue((prev) => enqueueBadgeToastIds(prev, [rewardBadgeId]));
           })
-          .catch((error) => {
+          .catch((error: unknown) => {
             console.error("Failed to unlock event badge:", error);
           });
       }
@@ -1590,8 +1597,12 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
   };
 
   const activeEventConfig = getActiveEventCampaignConfig(new Date());
-  const eventCampaign: EventCampaignSummary | null =
+  const matchingEventCampaignState =
     activeEventConfig && eventCampaignState?.eventId === activeEventConfig.id
+      ? eventCampaignState
+      : null;
+  const eventCampaign: EventCampaignSummary | null =
+    activeEventConfig && matchingEventCampaignState
       ? {
           id: activeEventConfig.id,
           titleKey: activeEventConfig.title_key,
@@ -1600,7 +1611,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
           endAt: activeEventConfig.end_at,
         }
       : null;
-  const eventQuests = eventCampaign && eventCampaignState?.eventId === activeEventConfig?.id ? eventCampaignState.quests : [];
+  const eventQuests = matchingEventCampaignState ? matchingEventCampaignState.quests : [];
   const hasPendingDailyQuests = quests.some((quest) => quest.type === "daily" && quest.progress < quest.need);
 
   const value = useMemo<ProgressionContextValue>(

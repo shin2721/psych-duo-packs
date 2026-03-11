@@ -14,38 +14,39 @@ const PracticeStateContext = createContext<PracticeContextValue | undefined>(und
 function normalizeReviewEvents(raw: unknown): ReviewEvent[] {
   if (!Array.isArray(raw)) return [];
   const cutoffMs = Date.now() - 30 * 24 * 60 * 60 * 1000;
+  const normalized: ReviewEvent[] = [];
 
-  const normalized = raw
-    .filter((item): item is Record<string, unknown> => Boolean(item) && typeof item === "object")
-    .map((event) => {
-      const ts = Number(event.ts);
-      if (!Number.isFinite(ts) || ts < cutoffMs) return null;
+  for (const item of raw) {
+    if (!item || typeof item !== "object") continue;
 
-      const userId = typeof event.userId === "string" ? event.userId : "";
-      const itemId = typeof event.itemId === "string" ? event.itemId : "";
-      const lessonId = typeof event.lessonId === "string" ? event.lessonId : "";
-      const result = event.result === "incorrect" ? "incorrect" : event.result === "correct" ? "correct" : null;
-      if (!userId || !itemId || !lessonId || !result) return null;
+    const event = item as Record<string, unknown>;
+    const ts = Number(event.ts);
+    if (!Number.isFinite(ts) || ts < cutoffMs) continue;
 
-      const latencyMs = Number(event.latencyMs);
-      const dueAt = Number(event.dueAt);
-      const beta = Number(event.beta);
-      const p = Number(event.p);
+    const userId = typeof event.userId === "string" ? event.userId : "";
+    const itemId = typeof event.itemId === "string" ? event.itemId : "";
+    const lessonId = typeof event.lessonId === "string" ? event.lessonId : "";
+    const result = event.result === "incorrect" ? "incorrect" : event.result === "correct" ? "correct" : null;
+    if (!userId || !itemId || !lessonId || !result) continue;
 
-      return {
-        userId,
-        itemId,
-        lessonId,
-        ts: Math.floor(ts),
-        result,
-        latencyMs: Number.isFinite(latencyMs) ? latencyMs : undefined,
-        dueAt: Number.isFinite(dueAt) ? dueAt : undefined,
-        tags: Array.isArray(event.tags) ? event.tags.filter((tag): tag is string => typeof tag === "string") : undefined,
-        beta: Number.isFinite(beta) ? beta : undefined,
-        p: Number.isFinite(p) ? p : undefined,
-      } satisfies ReviewEvent;
-    })
-    .filter((event): event is ReviewEvent => event !== null);
+    const latencyMs = Number(event.latencyMs);
+    const dueAt = Number(event.dueAt);
+    const beta = Number(event.beta);
+    const p = Number(event.p);
+
+    normalized.push({
+      userId,
+      itemId,
+      lessonId,
+      ts: Math.floor(ts),
+      result,
+      latencyMs: Number.isFinite(latencyMs) ? latencyMs : undefined,
+      dueAt: Number.isFinite(dueAt) ? dueAt : undefined,
+      tags: Array.isArray(event.tags) ? event.tags.filter((tag): tag is string => typeof tag === "string") : undefined,
+      beta: Number.isFinite(beta) ? beta : undefined,
+      p: Number.isFinite(p) ? p : undefined,
+    });
+  }
 
   return normalized.slice(-1000);
 }

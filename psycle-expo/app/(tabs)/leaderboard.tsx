@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import type { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../lib/AuthContext';
 import { theme } from '../../lib/theme';
@@ -18,15 +19,27 @@ interface LeaderboardEntry {
     updated_at: string;
 }
 
+interface FriendshipRow {
+    friend_id: string;
+}
+
+interface FriendRequestRow {
+    to_user_id: string;
+}
+
+type LeaderboardResponse = PostgrestSingleResponse<LeaderboardEntry[]>;
+type FriendshipResponse = PostgrestSingleResponse<FriendshipRow[]>;
+type FriendRequestResponse = PostgrestSingleResponse<FriendRequestRow[]>;
+
 const FETCH_TIMEOUT_MS = 10_000;
 
-function withTimeout<T>(promise: Promise<T>, label: string): Promise<T> {
+function withTimeout<T>(promise: PromiseLike<T>, label: string): Promise<T> {
     return new Promise<T>((resolve, reject) => {
         const timer = setTimeout(() => {
             reject(new Error(`[leaderboard] ${label} timed out after ${FETCH_TIMEOUT_MS}ms`));
         }, FETCH_TIMEOUT_MS);
 
-        promise
+        Promise.resolve(promise)
             .then((value) => resolve(value))
             .catch((error) => reject(error))
             .finally(() => clearTimeout(timer));
@@ -66,7 +79,7 @@ export default function LeaderboardScreen() {
 
         try {
             // Fetch friend IDs
-            const { data: friends } = await withTimeout(
+            const { data: friends } = await withTimeout<FriendshipResponse>(
                 supabase
                 .from('friendships')
                 .select('friend_id')
@@ -74,10 +87,10 @@ export default function LeaderboardScreen() {
                 'friendships fetch'
             );
 
-            setFriendIds(new Set(friends?.map(f => f.friend_id) || []));
+            setFriendIds(new Set(friends?.map((friend) => friend.friend_id) || []));
 
             // Fetch pending request IDs
-            const { data: requests } = await withTimeout(
+            const { data: requests } = await withTimeout<FriendRequestResponse>(
                 supabase
                 .from('friend_requests')
                 .select('to_user_id')
@@ -86,7 +99,7 @@ export default function LeaderboardScreen() {
                 'friend requests fetch'
             );
 
-            setPendingRequestIds(new Set(requests?.map(r => r.to_user_id) || []));
+            setPendingRequestIds(new Set(requests?.map((request) => request.to_user_id) || []));
         } catch (error) {
             console.error('[leaderboard] failed to fetch friend status', error);
         }
@@ -151,7 +164,7 @@ export default function LeaderboardScreen() {
         try {
             if (view === 'global') {
                 // Fetch top 100 users by XP
-                const { data, error } = await withTimeout(
+                const { data, error } = await withTimeout<LeaderboardResponse>(
                     supabase
                     .from('leaderboard')
                     .select('*')
@@ -168,7 +181,7 @@ export default function LeaderboardScreen() {
                     return;
                 }
                 // Fetch friends' rankings
-                const { data: friends, error: friendsError } = await withTimeout(
+                const { data: friends, error: friendsError } = await withTimeout<FriendshipResponse>(
                     supabase
                     .from('friendships')
                     .select('friend_id')
@@ -178,12 +191,12 @@ export default function LeaderboardScreen() {
 
                 if (friendsError) throw friendsError;
 
-                const friendIds = friends?.map(f => f.friend_id) || [];
+                const friendIds = friends?.map((friend) => friend.friend_id) || [];
 
                 if (friendIds.length === 0) {
                     setLeaderboard([]);
                 } else {
-                    const { data, error } = await withTimeout(
+                    const { data, error } = await withTimeout<LeaderboardResponse>(
                         supabase
                         .from('leaderboard')
                         .select('*')

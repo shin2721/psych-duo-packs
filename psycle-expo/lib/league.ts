@@ -5,7 +5,7 @@
  * North Star: 「勝てる確率」を配る
  */
 
-import Analytics from './analytics';
+import { Analytics } from './analytics';
 import { getLeagueMatchmakingConfig, type LeagueMatchmakingConfig } from './gamificationConfig';
 import { supabase } from './supabase';
 
@@ -621,6 +621,10 @@ export async function joinLeague(userId: string, tier?: number): Promise<string 
       variancePenaltyWeight: matchmakingConfig.variance_penalty_weight,
       source: 'join_league',
     });
+
+    if (!targetLeagueId) {
+      throw new Error('[League] Missing target league id before join');
+    }
 
     const { error: joinError } = await supabase.from('league_members').insert({
       league_id: targetLeagueId,

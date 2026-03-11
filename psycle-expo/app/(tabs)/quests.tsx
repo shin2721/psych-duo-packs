@@ -3,7 +3,7 @@ import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
-import { useProgressionState } from "../../lib/state";
+import { useEconomyState, useProgressionState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { Analytics } from "../../lib/analytics";
 import { Card, ProgressBar, SectionHeader } from "../../components/ui";
@@ -38,11 +38,11 @@ export default function QuestsScreen() {
     quests,
     claimQuest,
     rerollQuest,
-    dailyQuestRerollRemaining,
     streakHistory,
     eventCampaign,
     eventQuests,
   } = useProgressionState();
+  const { dailyQuestRerollRemaining } = useEconomyState();
   const { user } = useAuth();
   const { showToast } = useToast();
   const currentMonth = new Date().getMonth() + 1;

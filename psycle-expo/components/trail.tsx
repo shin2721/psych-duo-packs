@@ -3,6 +3,7 @@ import { View, Pressable, StyleSheet, Dimensions, ScrollView, Animated } from "r
 import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import i18n from "../lib/i18n";
 import { theme } from "../lib/theme";
 
 // ==================== TYPES ====================
@@ -547,14 +548,13 @@ function GlowingNode({
   const getIcon = () => {
     if (node.isLocked) return <Ionicons name="lock-closed" size={isMilestone ? 24 : 20} color={style.iconColor} />;
     if (node.status === "done") return <Ionicons name="checkmark" size={isMilestone ? 30 : 26} color={style.iconColor} />;
+    if (node.type === "review_blackhole") {
+      return <Ionicons name="planet" size={isMilestone ? 32 : 28} color={style.iconColor} />;
+    }
     if (node.status === "locked" || node.status === "future") {
       // Milestone nodes show a star icon even when locked
       if (isMilestone) return <Ionicons name="star" size={24} color={style.iconColor} />;
       return null;
-    }
-    if (node.type === "review_blackhole") {
-      if (node.status === "done") return <Ionicons name="checkmark" size={isMilestone ? 30 : 26} color={style.iconColor} />;
-      return <Ionicons name="planet" size={isMilestone ? 32 : 28} color={style.iconColor} />;
     }
     return <Ionicons name={node.icon as any} size={isMilestone ? 32 : 28} color={style.iconColor} />;
   };
