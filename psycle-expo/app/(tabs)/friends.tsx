@@ -82,7 +82,7 @@ export default function FriendsScreen() {
             requestsRequestIdRef.current += 1;
             challengeRequestIdRef.current += 1;
         }
-    }, [view]);
+    }, [view, user?.id]);
 
     const fetchFriendChallenge = async () => {
         const requestId = ++challengeRequestIdRef.current;

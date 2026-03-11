@@ -64,6 +64,7 @@ export default function LeaderboardScreen() {
     const listBottomInset = bottomTabBarHeight + theme.spacing.lg;
     const leagueRequestIdRef = useRef(0);
     const boardRequestIdRef = useRef(0);
+    const friendStatusRequestIdRef = useRef(0);
     const tierNames: Record<number, string> = {
         0: String(i18n.t('leaderboard.tiers.bronze')),
         1: String(i18n.t('leaderboard.tiers.silver')),
@@ -74,7 +75,7 @@ export default function LeaderboardScreen() {
     };
 
     useEffect(() => {
-        fetchFriendStatus();
+        void fetchFriendStatus();
         if (view === 'league') {
             boardRequestIdRef.current += 1;
             void fetchLeague();
@@ -82,10 +83,17 @@ export default function LeaderboardScreen() {
             leagueRequestIdRef.current += 1;
             void fetchLeaderboard(view);
         }
-    }, [view]);
+    }, [view, user?.id]);
 
     const fetchFriendStatus = async () => {
-        if (!user) return;
+        const requestId = ++friendStatusRequestIdRef.current;
+
+        if (!user) {
+            if (requestId !== friendStatusRequestIdRef.current) return;
+            setFriendIds(new Set());
+            setPendingRequestIds(new Set());
+            return;
+        }
 
         try {
             // Fetch friend IDs
@@ -97,6 +105,7 @@ export default function LeaderboardScreen() {
                 'friendships fetch'
             );
 
+            if (requestId !== friendStatusRequestIdRef.current) return;
             setFriendIds(new Set(friends?.map((friend) => friend.friend_id) || []));
 
             // Fetch pending request IDs
@@ -109,8 +118,10 @@ export default function LeaderboardScreen() {
                 'friend requests fetch'
             );
 
+            if (requestId !== friendStatusRequestIdRef.current) return;
             setPendingRequestIds(new Set(requests?.map((request) => request.to_user_id) || []));
         } catch (error) {
+            if (requestId !== friendStatusRequestIdRef.current) return;
             console.error('[leaderboard] failed to fetch friend status', error);
         }
     };

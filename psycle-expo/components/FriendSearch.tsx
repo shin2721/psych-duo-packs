@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { View, Text, TextInput, FlatList, StyleSheet, Pressable, ActivityIndicator, Keyboard } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
@@ -29,9 +29,12 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
     const { showToast } = useToast();
     const bottomTabBarHeight = useBottomTabBarHeight();
     const resultsBottomInset = bottomTabBarHeight + theme.spacing.lg;
+    const searchRequestIdRef = useRef(0);
 
     const handleSearch = async () => {
-        if (!searchQuery.trim()) return;
+        const trimmedQuery = searchQuery.trim();
+        if (!trimmedQuery) return;
+        const requestId = ++searchRequestIdRef.current;
 
         Keyboard.dismiss();
         setLoading(true);
@@ -40,17 +43,21 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
             const { data, error } = await supabase
                 .from('leaderboard')
                 .select('user_id, username, total_xp, current_streak')
-                .ilike('username', `%${searchQuery.trim()}%`)
+                .ilike('username', `%${trimmedQuery}%`)
                 .neq('user_id', user?.id || '')
                 .limit(10);
 
             if (error) throw error;
+            if (requestId !== searchRequestIdRef.current) return;
             setSearchResults(data || []);
         } catch (error) {
+            if (requestId !== searchRequestIdRef.current) return;
             console.error('Search error:', error);
             setSearchError(String(i18n.t('common.unexpectedError')));
         } finally {
-            setLoading(false);
+            if (requestId === searchRequestIdRef.current) {
+                setLoading(false);
+            }
         }
     };
 
