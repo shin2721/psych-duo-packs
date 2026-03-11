@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Pressable, StyleSheet, Animated, ScrollView, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { HapticFeedback } from "../lib/HapticFeedback";
 import { useProgressionState } from "../lib/state";
 import { QuestionImage, QuestionAudio } from "./QuestionMedia";
@@ -67,6 +68,8 @@ const getChoiceAccessibilityState = (isSelected: boolean, disabled: boolean) => 
 export function QuestionRenderer({ question, onContinue, combo: externalCombo, onComboChange, onComboMilestone }: Props) {
   const questionText = getQuestionText(question);
   const questionChoices = getQuestionChoices(question);
+  const insets = useSafeAreaInsets();
+  const scrollBottomInset = insets.bottom + theme.spacing.xl;
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]); // For select_all
@@ -474,7 +477,7 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
         <ComboFeedback combo={combo} visible={showCombo} />
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[styles.scrollContent, { paddingBottom: scrollBottomInset }]}
           showsVerticalScrollIndicator={true}
           scrollEnabled={scrollEnabled}
         >
@@ -1126,7 +1129,6 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 100,
   },
   difficultyBadge: {
     flexDirection: "row",

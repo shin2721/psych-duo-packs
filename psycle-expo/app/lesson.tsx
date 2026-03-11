@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Alert, Pressable } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -73,6 +73,8 @@ const comboXpConfig = getComboXpConfig();
 const doubleXpNudgeConfig = getDoubleXpNudgeConfig();
 
 export default function LessonScreen() {
+  const insets = useSafeAreaInsets();
+  const completionBottomInset = insets.bottom + theme.spacing.lg;
   const params = useLocalSearchParams<{ file: string; genre: string }>();
   const fileParam = params.file; // Extract to primitive string
   const isE2EAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
@@ -519,7 +521,7 @@ export default function LessonScreen() {
         <VictoryConfetti />
 
         <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
-          <ScrollView contentContainerStyle={styles.completionContainer}>
+          <ScrollView contentContainerStyle={[styles.completionContainer, { paddingBottom: completionBottomInset }]}>
             <Text style={styles.completionTitle}>{i18n.t("lesson.completeTitle")}</Text>
             <Text style={styles.completionSub}>+{XP_REWARDS.LESSON_COMPLETE} XP</Text>
 
@@ -1015,7 +1017,6 @@ const styles = StyleSheet.create({
   completionContainer: {
     padding: 24,
     alignItems: 'center',
-    paddingBottom: 40,
   },
   completionTitle: {
     fontSize: 28,
