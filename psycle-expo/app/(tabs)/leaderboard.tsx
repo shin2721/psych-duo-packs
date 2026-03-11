@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import type { PostgrestSingleResponse } from '@supabase/supabase-js';
@@ -57,6 +58,8 @@ export default function LeaderboardScreen() {
     const [pendingRequestIds, setPendingRequestIds] = useState<Set<string>>(new Set());
     const { user } = useAuth();
     const { showToast } = useToast();
+    const bottomTabBarHeight = useBottomTabBarHeight();
+    const listBottomInset = bottomTabBarHeight + theme.spacing.lg;
     const tierNames: Record<number, string> = {
         0: String(i18n.t('leaderboard.tiers.bronze')),
         1: String(i18n.t('leaderboard.tiers.silver')),
@@ -239,7 +242,11 @@ export default function LeaderboardScreen() {
                     <Text style={styles.rankText}>{medal || `#${rank}`}</Text>
                 </View>
                 <View style={styles.userInfo}>
-                    <Text style={[styles.username, isCurrentUser && styles.currentUsername]}>
+                    <Text
+                        style={[styles.username, isCurrentUser && styles.currentUsername]}
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                    >
                         {item.username}
                         {isCurrentUser && ` ${i18n.t('leaderboard.youSuffix')}`}
                     </Text>
@@ -366,7 +373,11 @@ export default function LeaderboardScreen() {
                                             <Text style={styles.rankText}>{medal || `#${item.rank}`}</Text>
                                         </View>
                                         <View style={styles.userInfo}>
-                                            <Text style={[styles.username, item.is_self && styles.currentUsername]}>
+                                            <Text
+                                                style={[styles.username, item.is_self && styles.currentUsername]}
+                                                numberOfLines={1}
+                                                ellipsizeMode="tail"
+                                            >
                                                 {item.username}
                                                 {item.is_self && ` ${i18n.t('leaderboard.youSuffix')}`}
                                             </Text>
@@ -378,7 +389,7 @@ export default function LeaderboardScreen() {
                                 );
                             }}
                             keyExtractor={(item) => item.user_id}
-                            contentContainerStyle={styles.list}
+                            contentContainerStyle={[styles.list, { paddingBottom: listBottomInset }]}
                         />
                     </View>
                 ) : (
@@ -399,7 +410,7 @@ export default function LeaderboardScreen() {
                     data={leaderboard}
                     renderItem={renderLeaderboardRow}
                     keyExtractor={(item) => item.id}
-                    contentContainerStyle={styles.list}
+                    contentContainerStyle={[styles.list, { paddingBottom: listBottomInset }]}
                 />
             )}
         </SafeAreaView>
@@ -516,6 +527,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: theme.colors.text,
         marginBottom: 4,
+        flexShrink: 1,
     },
     currentUsername: {
         color: theme.colors.primary,

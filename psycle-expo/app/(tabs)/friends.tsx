@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, Pressable, Alert } from 'react-native';
+import { View, Text, FlatList, StyleSheet, Pressable, Alert, ActivityIndicator } from 'react-native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../../lib/supabase';
@@ -50,9 +51,12 @@ export default function FriendsScreen() {
     const [friendChallenge, setFriendChallenge] = useState<WeeklyFriendChallenge | null>(null);
     const [friendChallengeClaimed, setFriendChallengeClaimed] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [loadError, setLoadError] = useState<string | null>(null);
     const { user } = useAuth();
     const { addGems } = useEconomyState();
     const { showToast } = useToast();
+    const bottomTabBarHeight = useBottomTabBarHeight();
+    const listBottomInset = bottomTabBarHeight + theme.spacing.lg;
 
     useEffect(() => {
         if (view === 'friends') {
@@ -96,6 +100,7 @@ export default function FriendsScreen() {
         if (!user) return;
 
         setLoading(true);
+        setLoadError(null);
         try {
             const { data, error } = await supabase
                 .from('friendships')
@@ -119,6 +124,7 @@ export default function FriendsScreen() {
             setFriends(formattedFriends);
         } catch (error) {
             console.error('Error fetching friends:', error);
+            setLoadError(String(i18n.t('common.unexpectedError')));
         } finally {
             setLoading(false);
         }
@@ -128,6 +134,7 @@ export default function FriendsScreen() {
         if (!user) return;
 
         setLoading(true);
+        setLoadError(null);
         try {
             const { data, error } = await supabase
                 .from('friend_requests')
@@ -152,6 +159,7 @@ export default function FriendsScreen() {
             setRequests(formattedRequests);
         } catch (error) {
             console.error('Error fetching requests:', error);
+            setLoadError(String(i18n.t('common.unexpectedError')));
         } finally {
             setLoading(false);
         }
@@ -308,7 +316,9 @@ export default function FriendsScreen() {
     const renderFriend = ({ item }: { item: Friend }) => (
         <View style={styles.card}>
             <View style={styles.userInfo}>
-                <Text style={styles.username}>{item.username}</Text>
+                <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
+                    {item.username}
+                </Text>
                 <View style={styles.stats}>
                     <Text style={styles.statText}>
                         {String(i18n.t('friends.stats.xpValue', { xp: item.total_xp }))}
@@ -332,7 +342,9 @@ export default function FriendsScreen() {
     const renderRequest = ({ item }: { item: FriendRequest }) => (
         <View style={styles.card}>
             <View style={styles.userInfo}>
-                <Text style={styles.username}>{item.username}</Text>
+                <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
+                    {item.username}
+                </Text>
                 <Text style={styles.statText}>
                     {String(i18n.t('friends.stats.xpValue', { xp: item.total_xp }))}
                 </Text>
@@ -355,6 +367,16 @@ export default function FriendsScreen() {
                     <Ionicons name="close" size={20} color="#fff" />
                 </Pressable>
             </View>
+        </View>
+    );
+
+    const renderLoadError = (retry: () => void) => (
+        <View style={styles.emptyContainer} testID="friends-load-error">
+            <Text style={styles.errorTitle}>{String(i18n.t('common.error'))}</Text>
+            <Text style={styles.emptyText}>{loadError}</Text>
+            <Pressable style={styles.retryButton} onPress={retry} testID="friends-retry">
+                <Text style={styles.retryButtonText}>{String(i18n.t('common.retry'))}</Text>
+            </Pressable>
         </View>
     );
 
@@ -412,6 +434,14 @@ export default function FriendsScreen() {
             <View style={styles.content}>
                 {view === 'friends' && (
                     <>
+                        {loading ? (
+                            <View style={styles.emptyContainer} testID="friends-loading">
+                                <ActivityIndicator size="large" color={theme.colors.primary} />
+                            </View>
+                        ) : loadError ? (
+                            renderLoadError(fetchFriends)
+                        ) : (
+                            <>
                         {friendChallenge && friendChallengeProgress && (
                             <View style={styles.challengeCard}>
                                 <View style={styles.challengeHeaderRow}>
@@ -488,14 +518,22 @@ export default function FriendsScreen() {
                                 data={friends}
                                 renderItem={renderFriend}
                                 keyExtractor={(item) => item.friend_id}
-                                contentContainerStyle={styles.list}
+                                contentContainerStyle={[styles.list, { paddingBottom: listBottomInset }]}
                             />
+                        )}
+                            </>
                         )}
                     </>
                 )}
 
                 {view === 'requests' && (
-                    requests.length === 0 ? (
+                    loading ? (
+                        <View style={styles.emptyContainer} testID="requests-loading">
+                            <ActivityIndicator size="large" color={theme.colors.primary} />
+                        </View>
+                    ) : loadError ? (
+                        renderLoadError(fetchRequests)
+                    ) : requests.length === 0 ? (
                         <View style={styles.emptyContainer} testID="requests-empty">
                             <Ionicons name="mail" size={64} color={theme.colors.sub} />
                             <Text style={styles.emptyText}>{String(i18n.t('friends.empty.requestsTitle'))}</Text>
@@ -505,7 +543,7 @@ export default function FriendsScreen() {
                             data={requests}
                             renderItem={renderRequest}
                             keyExtractor={(item) => item.id}
-                            contentContainerStyle={styles.list}
+                            contentContainerStyle={[styles.list, { paddingBottom: listBottomInset }]}
                         />
                     )
                 )}
@@ -636,6 +674,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: theme.colors.text,
         marginBottom: 4,
+        flexShrink: 1,
     },
     stats: {
         flexDirection: 'row',
@@ -680,10 +719,29 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: theme.colors.text,
         marginTop: 16,
+        textAlign: 'center',
     },
     emptySubtext: {
         fontSize: 14,
         color: theme.colors.sub,
         marginTop: 8,
+        textAlign: 'center',
+    },
+    errorTitle: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: theme.colors.text,
+    },
+    retryButton: {
+        marginTop: 14,
+        backgroundColor: theme.colors.primary,
+        borderRadius: 10,
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+    },
+    retryButtonText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: '700',
     },
 });

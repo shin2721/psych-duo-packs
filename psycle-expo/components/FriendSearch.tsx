@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
+import { View, Text, TextInput, FlatList, StyleSheet, Pressable, ActivityIndicator, Keyboard } from 'react-native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/AuthContext';
@@ -21,18 +22,23 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
     const [loading, setLoading] = useState(false);
+    const [searchError, setSearchError] = useState<string | null>(null);
     const [sentRequests, setSentRequests] = useState<Set<string>>(new Set());
     const { user } = useAuth();
+    const bottomTabBarHeight = useBottomTabBarHeight();
+    const resultsBottomInset = bottomTabBarHeight + theme.spacing.lg;
 
     const handleSearch = async () => {
         if (!searchQuery.trim()) return;
 
+        Keyboard.dismiss();
         setLoading(true);
+        setSearchError(null);
         try {
             const { data, error } = await supabase
                 .from('leaderboard')
                 .select('user_id, username, total_xp, current_streak')
-                .ilike('username', `%${searchQuery}%`)
+                .ilike('username', `%${searchQuery.trim()}%`)
                 .neq('user_id', user?.id || '')
                 .limit(10);
 
@@ -40,6 +46,7 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
             setSearchResults(data || []);
         } catch (error) {
             console.error('Search error:', error);
+            setSearchError(String(i18n.t('common.unexpectedError')));
         } finally {
             setLoading(false);
         }
@@ -66,6 +73,7 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
                 }
             } else {
                 setSentRequests(prev => new Set(prev).add(toUserId));
+                Keyboard.dismiss();
                 onRequestSent?.();
                 alert(String(i18n.t('friendSearch.alerts.sent')));
             }
@@ -81,7 +89,9 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
         return (
             <View style={styles.resultCard}>
                 <View style={styles.userInfo}>
-                    <Text style={styles.username}>{item.username}</Text>
+                    <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
+                        {item.username}
+                    </Text>
                 <View style={styles.stats}>
                     <Text style={styles.statText}>
                         {String(i18n.t('friends.stats.xpValue', { xp: item.total_xp }))}
@@ -140,6 +150,14 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
                 <View style={styles.loadingContainer}>
                     <ActivityIndicator size="large" color={theme.colors.primary} />
                 </View>
+            ) : searchError ? (
+                <View style={styles.emptyContainer} testID="friend-search-error">
+                    <Text style={styles.errorTitle}>{String(i18n.t('common.error'))}</Text>
+                    <Text style={styles.emptyText}>{searchError}</Text>
+                    <Pressable style={styles.retryButton} onPress={handleSearch} testID="friend-search-retry">
+                        <Text style={styles.retryButtonText}>{String(i18n.t('common.retry'))}</Text>
+                    </Pressable>
+                </View>
             ) : searchResults.length === 0 && searchQuery.length > 0 ? (
                 <View style={styles.emptyContainer} testID="friend-search-empty">
                     <Ionicons name="search" size={48} color={theme.colors.sub} />
@@ -150,7 +168,8 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
                     data={searchResults}
                     renderItem={renderSearchResult}
                     keyExtractor={(item) => item.user_id}
-                    contentContainerStyle={styles.resultsList}
+                    contentContainerStyle={[styles.resultsList, { paddingBottom: resultsBottomInset }]}
+                    keyboardShouldPersistTaps="handled"
                 />
             )}
         </View>
@@ -191,6 +210,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         color: theme.colors.sub,
         marginTop: 12,
+        textAlign: 'center',
     },
     resultsList: {
         padding: 4,
@@ -213,6 +233,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: theme.colors.text,
         marginBottom: 4,
+        flexShrink: 1,
     },
     stats: {
         flexDirection: 'row',
@@ -238,5 +259,22 @@ const styles = StyleSheet.create({
         fontSize: 14,
         fontWeight: '600',
         color: '#fff',
+    },
+    errorTitle: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: theme.colors.text,
+    },
+    retryButton: {
+        marginTop: 14,
+        backgroundColor: theme.colors.primary,
+        borderRadius: 10,
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+    },
+    retryButtonText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: '700',
     },
 });

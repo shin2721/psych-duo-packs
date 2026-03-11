@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
@@ -25,6 +26,8 @@ export default function ProfileScreen() {
     const [leagueLoading, setLeagueLoading] = React.useState(true);
     const [profileUsername, setProfileUsername] = React.useState<string | null>(null);
     const [avatarIcon, setAvatarIcon] = React.useState<ProfileAvatarIcon>("person");
+    const bottomTabBarHeight = useBottomTabBarHeight();
+    const scrollBottomInset = bottomTabBarHeight + theme.spacing.lg;
 
     const username = profileUsername || user?.email?.split("@")[0] || String(i18n.t("profile.userFallback"));
 
@@ -91,7 +94,7 @@ export default function ProfileScreen() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView contentContainerStyle={{ paddingBottom: scrollBottomInset }}>
                 {/* Header */}
                 <View style={styles.header}>
                     <Text style={styles.headerTitle}>{i18n.t("profile.title")}</Text>
@@ -116,8 +119,12 @@ export default function ProfileScreen() {
                     </View>
 
                     {/* Username */}
-                    <Text style={styles.username}>{username}</Text>
-                    <Text style={styles.email}>{user?.email}</Text>
+                    <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
+                        {username}
+                    </Text>
+                    <Text style={styles.email} numberOfLines={1} ellipsizeMode="tail">
+                        {user?.email}
+                    </Text>
 
                     {/* Edit Button */}
                     <Pressable
@@ -205,7 +212,9 @@ function StatCard({ icon, label, value, color, customIcon }: { icon?: any; label
             accessibilityLabel={`${label}, ${value}`}
         >
             {customIcon ? customIcon : <Ionicons name={icon} size={32} color={color} />}
-            <Text style={styles.statValue}>{value}</Text>
+            <Text style={styles.statValue} numberOfLines={1} ellipsizeMode="tail">
+                {value}
+            </Text>
             <Text style={styles.statLabel}>{label}</Text>
         </View>
     );
@@ -292,11 +301,13 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: theme.colors.text,
         marginBottom: theme.spacing.xs,
+        maxWidth: "100%",
     },
     email: {
         fontSize: 14,
         color: theme.colors.sub,
         marginBottom: theme.spacing.lg,
+        maxWidth: "100%",
     },
     editButton: {
         paddingVertical: theme.spacing.sm,
@@ -328,6 +339,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: theme.colors.text,
         marginTop: theme.spacing.sm,
+        maxWidth: "100%",
     },
     statLabel: {
         fontSize: 12,

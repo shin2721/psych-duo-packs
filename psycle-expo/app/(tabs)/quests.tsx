@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
@@ -45,6 +46,8 @@ export default function QuestsScreen() {
   const { dailyQuestRerollRemaining } = useEconomyState();
   const { user } = useAuth();
   const { showToast } = useToast();
+  const bottomTabBarHeight = useBottomTabBarHeight();
+  const scrollBottomInset = bottomTabBarHeight + theme.spacing.lg;
   const currentMonth = new Date().getMonth() + 1;
   const [nowMs, setNowMs] = useState(() => Date.now());
 
@@ -151,7 +154,9 @@ export default function QuestsScreen() {
       <Card key={q.id} style={styles.questCard}>
         <View style={styles.questRow}>
           <View style={styles.questInfo}>
-            <Text style={styles.questTitle}>{title}</Text>
+            <Text style={styles.questTitle} numberOfLines={1} ellipsizeMode="tail">
+              {title}
+            </Text>
             <Text style={styles.questDesc}>
               {q.progress} / {q.need}
             </Text>
@@ -195,7 +200,7 @@ export default function QuestsScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <GlobalHeader />
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView contentContainerStyle={[styles.scroll, { paddingBottom: scrollBottomInset }]}>
         <View style={styles.headerRow}>
           <Text style={styles.title}>{i18n.t("quests.monthTitle", { month: currentMonth })}</Text>
           <Text style={styles.xpText}>{xp} XP</Text>

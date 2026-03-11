@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { View, Text, StyleSheet, Pressable, ScrollView, Linking } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
@@ -69,6 +70,9 @@ export default function ShopScreen() {
   const [proBillingPeriod, setProBillingPeriod] = useState<BillingPeriod>("monthly");
   const { showToast } = useToast();
   const [nowTs, setNowTs] = useState(Date.now());
+  const bottomTabBarHeight = useBottomTabBarHeight();
+  const itemsBottomInset = bottomTabBarHeight + theme.spacing.lg;
+  const footerBottomInset = bottomTabBarHeight + theme.spacing.md;
   const dateLocaleByLanguage: Record<string, string> = {
     ja: "ja-JP",
     en: "en-US",
@@ -400,7 +404,10 @@ export default function ShopScreen() {
       </View>
 
       {/* Subscription Plans */}
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.itemsContainer}>
+      <ScrollView
+        style={styles.scrollView}
+        contentContainerStyle={[styles.itemsContainer, { paddingBottom: itemsBottomInset }]}
+      >
         <View style={styles.sectionHeader}>
           <Ionicons name="sparkles" size={24} color={theme.colors.accent} />
           <Text style={styles.sectionTitle}>{i18n.t("shop.sections.premiumPlans")}</Text>
@@ -559,7 +566,9 @@ export default function ShopScreen() {
                 </View>
               )}
               <View style={styles.planHeader}>
-                <Text style={styles.planName}>{plan.name}</Text>
+                <Text style={styles.planName} numberOfLines={1} ellipsizeMode="tail">
+                  {plan.name}
+                </Text>
                 <Text style={styles.planPrice}>{formatPlanPrice(plan, selectedPeriod)}</Text>
                 <Text style={styles.planPeriod}>
                   {selectedPeriod === "yearly"
@@ -688,7 +697,7 @@ export default function ShopScreen() {
       </ScrollView>
 
       {/* Info Footer */}
-      <View style={styles.footer}>
+      <View style={[styles.footer, { paddingBottom: footerBottomInset }]}>
         <Ionicons name="information-circle-outline" size={20} color={theme.colors.sub} />
         <Text style={styles.footerText}>{i18n.t("shop.gemsHint")}</Text>
       </View>
@@ -1008,6 +1017,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: theme.colors.text,
     marginBottom: 8,
+    maxWidth: "100%",
   },
   planPrice: {
     fontSize: 32,
