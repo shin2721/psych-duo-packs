@@ -9,9 +9,10 @@ interface ChestProps {
   onOpen?: () => void;
   size?: "sm" | "md";
   label?: string;
+  testID?: string;
 }
 
-export function Chest({ state, onOpen, size = "sm", label }: ChestProps) {
+export function Chest({ state, onOpen, size = "sm", label, testID }: ChestProps) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const rotateAnim = useRef(new Animated.Value(0)).current;
 
@@ -45,7 +46,7 @@ export function Chest({ state, onOpen, size = "sm", label }: ChestProps) {
   const disabled = state === "opened" || !onOpen;
 
   return (
-    <Pressable onPress={onOpen} disabled={disabled} style={styles.container}>
+    <Pressable onPress={onOpen} disabled={disabled} style={styles.container} testID={testID}>
       <Animated.View
         style={[
           styles.chestWrapper,

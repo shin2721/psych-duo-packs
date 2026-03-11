@@ -405,6 +405,7 @@ export default function ShopScreen() {
 
       {/* Subscription Plans */}
       <ScrollView
+        testID="shop-scroll"
         style={styles.scrollView}
         contentContainerStyle={[styles.itemsContainer, { paddingBottom: itemsBottomInset }]}
       >
@@ -492,6 +493,7 @@ export default function ShopScreen() {
         {shouldShowProBillingToggle && (
           <View style={styles.billingPeriodToggle}>
             <Pressable
+              testID="shop-billing-monthly"
               style={[
                 styles.billingPeriodOption,
                 proBillingPeriod === "monthly" && styles.billingPeriodOptionActive,
@@ -511,6 +513,7 @@ export default function ShopScreen() {
               </Text>
             </Pressable>
             <Pressable
+              testID="shop-billing-yearly"
               style={[
                 styles.billingPeriodOption,
                 proBillingPeriod === "yearly" && styles.billingPeriodOptionActive,
@@ -559,7 +562,7 @@ export default function ShopScreen() {
               .join(", ");
 
             return (
-            <View key={plan.id} style={styles.planCard}>
+            <View key={plan.id} style={styles.planCard} testID={`shop-plan-${plan.id}`}>
               {plan.popular && (
                 <View style={styles.popularBadge}>
                   <Text style={styles.popularText}>{i18n.t("shop.subscription.popular")}</Text>
@@ -601,6 +604,7 @@ export default function ShopScreen() {
                 ))}
               </View>
               <Pressable
+                testID={`shop-subscribe-${plan.id}`}
                 style={[
                   styles.subscribeButton,
                   planId === plan.id && isSubscriptionActive && styles.subscribeButtonActive,
@@ -640,7 +644,7 @@ export default function ShopScreen() {
 
         {/* Shop Items */}
         {shopItems.map((item) => (
-          <View key={item.id} style={styles.itemCard}>
+          <View key={item.id} style={styles.itemCard} testID={`shop-item-${item.id}`}>
             <View style={styles.itemIcon}>
               {item.customIcon ? (
                 item.customIcon
@@ -663,6 +667,7 @@ export default function ShopScreen() {
               )}
             </View>
             <Pressable
+              testID={`shop-buy-${item.id}`}
               style={[
                 styles.buyButton,
                 justPurchased === item.id && styles.buyButtonSuccess,

@@ -273,7 +273,10 @@ export default function LeaderboardScreen() {
         const hasPendingRequest = pendingRequestIds.has(item.user_id);
 
         return (
-            <View style={[styles.row, isCurrentUser && styles.currentUserRow]}>
+            <View
+                style={[styles.row, isCurrentUser && styles.currentUserRow]}
+                testID={`leaderboard-row-${index}`}
+            >
                 <View style={styles.rankContainer}>
                     <Text style={styles.rankText}>{medal || `#${rank}`}</Text>
                 </View>
@@ -298,6 +301,7 @@ export default function LeaderboardScreen() {
                 </View>
                 {!isCurrentUser && view === 'global' && (
                     <Pressable
+                        testID={`leaderboard-add-friend-${item.user_id}`}
                         style={[
                             styles.addFriendButton,
                             (isFriend || hasPendingRequest) && styles.addFriendButtonDisabled,
@@ -393,7 +397,8 @@ export default function LeaderboardScreen() {
                         {/* Members List */}
                         <FlatList
                             data={leagueInfo.members}
-                            renderItem={({ item }) => {
+                            testID="leaderboard-league-list"
+                            renderItem={({ item, index }) => {
                                 const isPromotion = item.rank <= leagueInfo.promotion_zone;
                                 const isDemotion = item.rank >= leagueInfo.demotion_zone;
                                 const medal = item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : '';
@@ -404,7 +409,9 @@ export default function LeaderboardScreen() {
                                         item.is_self && styles.currentUserRow,
                                         isPromotion && styles.promotionRow,
                                         isDemotion && styles.demotionRow,
-                                    ]}>
+                                    ]}
+                                        testID={`leaderboard-league-row-${item.rank ?? index + 1}`}
+                                    >
                                         <View style={styles.rankContainer}>
                                             <Text style={styles.rankText}>{medal || `#${item.rank}`}</Text>
                                         </View>
@@ -446,6 +453,7 @@ export default function LeaderboardScreen() {
                     data={leaderboard}
                     renderItem={renderLeaderboardRow}
                     keyExtractor={(item) => item.id}
+                    testID={`leaderboard-list-${view}`}
                     contentContainerStyle={[styles.list, { paddingBottom: listBottomInset }]}
                 />
             )}

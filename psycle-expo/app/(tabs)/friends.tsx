@@ -367,7 +367,7 @@ export default function FriendsScreen() {
         : null;
 
     const renderFriend = ({ item }: { item: Friend }) => (
-        <View style={styles.card}>
+        <View style={styles.card} testID={`friend-row-${item.friend_id}`}>
             <View style={styles.userInfo}>
                 <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
                     {item.username}
@@ -384,6 +384,7 @@ export default function FriendsScreen() {
             <Pressable
                 style={styles.removeButton}
                 onPress={() => removeFriend(item.friend_id)}
+                testID={`friend-remove-${item.friend_id}`}
                 accessibilityRole="button"
                 accessibilityLabel={`${String(i18n.t('friends.alerts.removeTitle'))}: ${item.username}`}
             >
@@ -393,7 +394,7 @@ export default function FriendsScreen() {
     );
 
     const renderRequest = ({ item }: { item: FriendRequest }) => (
-        <View style={styles.card}>
+        <View style={styles.card} testID={`request-row-${item.id}`}>
             <View style={styles.userInfo}>
                 <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
                     {item.username}
@@ -406,6 +407,7 @@ export default function FriendsScreen() {
                 <Pressable
                     style={[styles.actionButton, styles.acceptButton]}
                     onPress={() => acceptRequest(item.id, item.from_user_id)}
+                    testID={`request-accept-${item.id}`}
                     accessibilityRole="button"
                     accessibilityLabel={`${String(i18n.t('friends.alerts.requestAcceptedMessage'))}: ${item.username}`}
                 >
@@ -414,6 +416,7 @@ export default function FriendsScreen() {
                 <Pressable
                     style={[styles.actionButton, styles.rejectButton]}
                     onPress={() => rejectRequest(item.id)}
+                    testID={`request-reject-${item.id}`}
                     accessibilityRole="button"
                     accessibilityLabel={`${String(i18n.t('friends.tabs.requests'))}: ${item.username}`}
                 >
@@ -496,7 +499,7 @@ export default function FriendsScreen() {
                         ) : (
                             <>
                         {friendChallenge && friendChallengeProgress && (
-                            <View style={styles.challengeCard}>
+                            <View style={styles.challengeCard} testID="friends-challenge-card">
                                 <View style={styles.challengeHeaderRow}>
                                     <Ionicons name="trophy" size={18} color={theme.colors.warn} />
                                     <Text style={styles.challengeTitle}>
@@ -571,6 +574,7 @@ export default function FriendsScreen() {
                                 data={friends}
                                 renderItem={renderFriend}
                                 keyExtractor={(item) => item.friend_id}
+                                testID="friends-list"
                                 contentContainerStyle={[styles.list, { paddingBottom: listBottomInset }]}
                             />
                         )}
@@ -596,6 +600,7 @@ export default function FriendsScreen() {
                             data={requests}
                             renderItem={renderRequest}
                             keyExtractor={(item) => item.id}
+                            testID="requests-list"
                             contentContainerStyle={[styles.list, { paddingBottom: listBottomInset }]}
                         />
                     )

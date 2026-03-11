@@ -46,7 +46,7 @@ export default function MistakesHubScreen() {
 
   const handleClose = () => {
     clearMistakesHubSession();
-    router.back();
+    router.replace("/(tabs)/course");
   };
 
   const handleContinue = (isCorrect: boolean, xp: number) => {
@@ -107,7 +107,7 @@ export default function MistakesHubScreen() {
             })
           )}
           ctaLabel={String(i18n.t("review.backToCourse"))}
-          onPress={() => router.back()}
+          onPress={() => router.replace("/(tabs)/course")}
         />
       </SafeAreaView>
     );
@@ -118,7 +118,7 @@ export default function MistakesHubScreen() {
   return (
     <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
       <View style={styles.header}>
-        <Pressable style={styles.closeButton} onPress={handleClose}>
+        <Pressable style={styles.closeButton} onPress={handleClose} testID="mistakes-hub-close">
           <Ionicons name="close" size={24} color={theme.colors.text} />
         </Pressable>
         <View style={styles.progressTrack}>

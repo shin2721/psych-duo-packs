@@ -185,6 +185,7 @@ export default function AuthScreen() {
                         <Pressable
                             style={styles.passwordToggle}
                             onPress={() => setShowPassword((prev) => !prev)}
+                            hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
                             accessibilityRole="button"
                             accessibilityLabel={String(i18n.t(showPassword ? 'auth.hidePassword' : 'auth.showPassword'))}
                             testID="auth-password-visibility-toggle"
@@ -296,6 +297,8 @@ const styles = StyleSheet.create({
         right: 14,
         top: 0,
         bottom: theme.spacing.sm,
+        minWidth: 44,
+        minHeight: 44,
         justifyContent: 'center',
         alignItems: 'center',
     },
