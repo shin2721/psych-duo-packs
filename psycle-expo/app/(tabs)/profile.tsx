@@ -262,6 +262,10 @@ const styles = StyleSheet.create({
     },
     settingsButton: {
         padding: theme.spacing.xs,
+        minWidth: 44,
+        minHeight: 44,
+        alignItems: "center",
+        justifyContent: "center",
     },
     profileCard: {
         backgroundColor: theme.colors.surface,

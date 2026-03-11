@@ -84,7 +84,7 @@ const styles = StyleSheet.create({
     color: theme.colors.sub,
   },
   pillTextActive: {
-    color: "#001",
+    color: "#fff",
   },
   sectionHeader: {
     fontSize: 16,

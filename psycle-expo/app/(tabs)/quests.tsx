@@ -376,6 +376,9 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.accent,
     paddingVertical: 4,
     paddingHorizontal: 10,
+    minHeight: 44,
+    justifyContent: "center",
+    alignItems: "center",
   },
   rerollButtonPressed: {
     opacity: 0.7,

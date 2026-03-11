@@ -370,6 +370,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 8,
+    minHeight: 44,
+    justifyContent: "center",
+    alignItems: "center",
   },
   streakRepairButtonText: {
     color: "#fff",
@@ -408,6 +411,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 8,
+    minHeight: 44,
+    justifyContent: "center",
+    alignItems: "center",
   },
   comebackButtonText: {
     color: "#fff",

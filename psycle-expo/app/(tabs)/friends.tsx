@@ -647,6 +647,10 @@ const styles = StyleSheet.create({
     },
     removeButton: {
         padding: 8,
+        minWidth: 44,
+        minHeight: 44,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     requestActions: {
         flexDirection: 'row',

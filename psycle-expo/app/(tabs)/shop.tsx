@@ -806,6 +806,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 12,
     minWidth: 70,
+    minHeight: 44,
     justifyContent: "center",
   },
   buyButtonSuccess: {

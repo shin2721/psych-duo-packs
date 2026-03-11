@@ -165,6 +165,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     minWidth: 44, // Minimum touch area
+    minHeight: 44,
     justifyContent: 'center',
   },
   value: {

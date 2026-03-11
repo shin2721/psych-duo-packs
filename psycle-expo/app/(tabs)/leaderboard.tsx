@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
 import type { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
@@ -273,7 +274,7 @@ export default function LeaderboardScreen() {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container} edges={['top']}>
             <View style={styles.header}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 }}>
                     <TrophyIcon size={32} />
@@ -401,7 +402,7 @@ export default function LeaderboardScreen() {
                     contentContainerStyle={styles.list}
                 />
             )}
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -412,7 +413,6 @@ const styles = StyleSheet.create({
     },
     header: {
         padding: 20,
-        paddingTop: 60,
         backgroundColor: theme.colors.surface,
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.line,
@@ -530,8 +530,12 @@ const styles = StyleSheet.create({
     },
     addFriendButton: {
         padding: 8,
+        minWidth: 44,
+        minHeight: 44,
         borderRadius: 8,
         backgroundColor: theme.colors.surface,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     addFriendButtonDisabled: {
         opacity: 0.5,

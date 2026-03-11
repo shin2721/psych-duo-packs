@@ -1,5 +1,6 @@
 import React from "react";
 import { View, Text, Pressable, Modal as RNModal, StyleSheet } from "react-native";
+import i18n from "../lib/i18n";
 import { theme } from "../lib/theme";
 
 interface ModalProps {
@@ -20,7 +21,7 @@ export function Modal({ visible, title, description, primaryLabel, onPrimary, on
           <Text style={styles.description}>{description}</Text>
           <View style={styles.buttons}>
             <Pressable style={[styles.button, styles.buttonSecondary]} onPress={onCancel}>
-              <Text style={styles.buttonSecondaryText}>キャンセル</Text>
+              <Text style={styles.buttonSecondaryText}>{i18n.t("common.cancel")}</Text>
             </Pressable>
             <Pressable style={[styles.button, styles.buttonPrimary]} onPress={onPrimary} testID="modal-primary-button">
               <Text style={styles.buttonPrimaryText}>{primaryLabel}</Text>
@@ -73,7 +74,7 @@ const styles = StyleSheet.create({
   buttonPrimaryText: {
     fontSize: 16,
     fontWeight: "800",
-    color: "#001",
+    color: "#fff",
   },
   buttonSecondary: {
     backgroundColor: theme.colors.surface,
