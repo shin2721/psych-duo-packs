@@ -34,8 +34,10 @@ const { buyPlan, openBillingPortal, restorePurchases } = require("../../lib/bill
 
 describe("billing auth hardening", () => {
   const fetchMock = jest.fn();
+  let consoleErrorSpy: jest.SpyInstance;
 
   beforeEach(() => {
+    consoleErrorSpy = jest.spyOn(console, "error").mockImplementation(() => undefined);
     fetchMock.mockReset();
     (global as unknown as { fetch: typeof fetch }).fetch = fetchMock as unknown as typeof fetch;
     (Linking.openURL as jest.Mock).mockReset();
@@ -48,6 +50,10 @@ describe("billing auth hardening", () => {
     (getPlanById as jest.Mock).mockReturnValue({ id: "pro" });
     (resolvePlanPriceId as jest.Mock).mockReturnValue("price_123");
     (supportsPlanBillingPeriod as jest.Mock).mockReturnValue(true);
+  });
+
+  afterEach(() => {
+    consoleErrorSpy.mockRestore();
   });
 
   test("openBillingPortal returns false and tracks missing_auth_token when session is absent", async () => {
@@ -183,6 +189,7 @@ describe("billing auth hardening", () => {
     const result = await restorePurchases();
 
     expect(result).toEqual({ status: "error", reason: "restore_failed" });
+    expect(consoleErrorSpy).toHaveBeenCalledWith("restorePurchases error:", expect.any(Error));
   });
 
   test("buyPlan returns billing_period_unsupported without fetching", async () => {
@@ -210,5 +217,6 @@ describe("billing auth hardening", () => {
     const result = await buyPlan("pro", "user_1", "user@example.com");
 
     expect(result).toEqual({ ok: false, reason: "checkout_session_failed" });
+    expect(consoleErrorSpy).toHaveBeenCalledWith("buyPlan error:", expect.any(Error));
   });
 });
