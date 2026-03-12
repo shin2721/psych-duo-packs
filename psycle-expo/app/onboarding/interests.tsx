@@ -60,7 +60,12 @@ export default function InterestsScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Pressable onPress={() => router.back()} style={styles.backButton}>
+                <Pressable
+                    onPress={() => router.back()}
+                    style={styles.backButton}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("onboarding.interests.title")}`}
+                >
                     <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                 </Pressable>
             </View>

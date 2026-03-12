@@ -308,6 +308,17 @@ export default function LeaderboardScreen() {
                         ]}
                         onPress={() => sendFriendRequest(item.user_id)}
                         disabled={isFriend || hasPendingRequest}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${String(
+                            i18n.t(
+                                isFriend
+                                    ? 'friends.tabs.friends'
+                                    : hasPendingRequest
+                                      ? 'friendSearch.cta.sent'
+                                      : 'friendSearch.cta.add'
+                            )
+                        )}: ${item.username}`}
+                        accessibilityState={{ disabled: isFriend || hasPendingRequest }}
                     >
                         <Ionicons
                             name={isFriend ? "checkmark-circle" : hasPendingRequest ? "time" : "person-add"}

@@ -157,7 +157,11 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
                     returnKeyType="search"
                 />
                 {searchQuery.length > 0 && (
-                    <Pressable onPress={() => setSearchQuery('')}>
+                    <Pressable
+                        onPress={() => setSearchQuery('')}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${String(i18n.t('common.close'))}: ${String(i18n.t('friendSearch.placeholder'))}`}
+                    >
                         <Ionicons name="close-circle" size={20} color={theme.colors.sub} />
                     </Pressable>
                 )}
