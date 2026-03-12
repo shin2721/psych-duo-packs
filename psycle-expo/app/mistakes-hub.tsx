@@ -118,7 +118,13 @@ export default function MistakesHubScreen() {
   return (
     <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
       <View style={styles.header}>
-        <Pressable style={styles.closeButton} onPress={handleClose} testID="mistakes-hub-close">
+        <Pressable
+          style={styles.closeButton}
+          onPress={handleClose}
+          testID="mistakes-hub-close"
+          accessibilityRole="button"
+          accessibilityLabel={`${i18n.t("common.close")}: ${i18n.t("mistakesHub.title")}`}
+        >
           <Ionicons name="close" size={24} color={theme.colors.text} />
         </Pressable>
         <View style={styles.progressTrack}>

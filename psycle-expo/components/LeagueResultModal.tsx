@@ -11,6 +11,7 @@ import {
     StyleSheet,
     Modal,
     Pressable,
+    ActivityIndicator,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
@@ -130,12 +131,16 @@ export function LeagueResultModal({
                         style={[styles.button, claiming && styles.buttonDisabled]}
                         onPress={handleClaim}
                         disabled={claiming}
+                        accessibilityState={{ busy: claiming, disabled: claiming }}
                     >
-                        <Text style={styles.buttonText}>
-                            {claiming
-                                ? i18n.t('leagueResultModal.claiming')
-                                : i18n.t('leagueResultModal.claim')}
-                        </Text>
+                        {claiming ? (
+                            <View style={styles.buttonContent}>
+                                <ActivityIndicator size="small" color="#fff" />
+                                <Text style={styles.buttonText}>{i18n.t('leagueResultModal.claiming')}</Text>
+                            </View>
+                        ) : (
+                            <Text style={styles.buttonText}>{i18n.t('leagueResultModal.claim')}</Text>
+                        )}
                     </Pressable>
                 </View>
             </View>
@@ -218,6 +223,12 @@ const styles = StyleSheet.create({
     },
     buttonDisabled: {
         opacity: 0.6,
+    },
+    buttonContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
     },
     buttonText: {
         fontSize: 18,

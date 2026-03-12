@@ -73,6 +73,9 @@ export function PaywallModal({ visible, onClose, onUpgrade }: PaywallModalProps)
                         style={[styles.closeButton, isSubmitting && styles.closeButtonDisabled]}
                         onPress={handleClose}
                         disabled={isSubmitting}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${i18n.t('common.close')}: ${i18n.t('paywallModal.title')}`}
+                        accessibilityState={{ disabled: isSubmitting }}
                     >
                         <Ionicons name="close" size={24} color={theme.colors.text} />
                     </TouchableOpacity>

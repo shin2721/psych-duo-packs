@@ -118,7 +118,12 @@ export default function ReviewScreen() {
         return (
             <SafeAreaView style={styles.container} testID="review-screen">
                 <View style={styles.header}>
-                    <Pressable onPress={() => router.back()} style={styles.backButton}>
+                    <Pressable
+                        onPress={() => router.back()}
+                        style={styles.backButton}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("review.title")}`}
+                    >
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
                     <Text style={styles.title}>{i18n.t("review.title")}</Text>
@@ -157,7 +162,12 @@ export default function ReviewScreen() {
         return (
             <SafeAreaView style={styles.container} testID="review-screen">
                 <View style={styles.header}>
-                    <Pressable onPress={() => router.back()} style={styles.backButton}>
+                    <Pressable
+                        onPress={() => router.back()}
+                        style={styles.backButton}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("review.title")}`}
+                    >
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
                     <Text style={styles.title}>{i18n.t("review.title")}</Text>
@@ -185,7 +195,12 @@ export default function ReviewScreen() {
     return (
         <SafeAreaView style={styles.container} testID="review-screen">
             <View style={styles.header}>
-                <Pressable onPress={() => router.back()} style={styles.backButton}>
+                <Pressable
+                    onPress={() => router.back()}
+                    style={styles.backButton}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${i18n.t("common.close")}: ${i18n.t("review.title")}`}
+                >
                     <Ionicons name="close" size={24} color={theme.colors.text} />
                 </Pressable>
                 <View style={styles.progressBar}>

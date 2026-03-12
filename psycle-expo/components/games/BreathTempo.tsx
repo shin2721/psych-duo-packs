@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
   tapText: {
     fontSize: 20,
     fontWeight: "800",
-    color: "#001",
+    color: theme.colors.bg,
   },
   skipButton: {
     paddingVertical: theme.spacing.sm,

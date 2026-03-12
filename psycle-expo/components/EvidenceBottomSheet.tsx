@@ -128,7 +128,12 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                 {/* Handle bar + Close button row */}
                 <View style={styles.headerRow}>
                     <View style={styles.handle} />
-                    <TouchableOpacity onPress={onClose} style={styles.closeButton}>
+                    <TouchableOpacity
+                        onPress={onClose}
+                        style={styles.closeButton}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${i18n.t('common.close')}: ${i18n.t('lesson.showDetails')}`}
+                    >
                         <Ionicons name="close" size={22} color="#fff" />
                     </TouchableOpacity>
                 </View>
