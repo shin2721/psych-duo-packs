@@ -10,6 +10,7 @@ import { Modal } from "../../components/Modal";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { PaywallModal } from "../../components/PaywallModal";
 import { LeagueResultModal } from "../../components/LeagueResultModal";
+import { Button } from "../../components/ui";
 import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
 import { useAuth } from "../../lib/AuthContext";
@@ -252,26 +253,25 @@ export default function CourseScreen() {
               ? i18n.t("course.nextStep.lockedBody")
               : i18n.t("course.nextStep.readyBody")}
           </Text>
-          <Pressable
+          <Button
+            label={String(
+              nextActionNode.isLocked
+                ? i18n.t("course.nextStep.ctaLocked")
+                : i18n.t("course.nextStep.ctaReady")
+            )}
+            size="sm"
+            onPress={handleNextStepPress}
+            testID="course-next-step-cta"
             style={[
               styles.nextStepButton,
               nextActionNode.isLocked && styles.nextStepButtonLocked,
             ]}
-            onPress={handleNextStepPress}
-            testID="course-next-step-cta"
-            accessibilityRole="button"
             accessibilityLabel={
               nextActionNode.isLocked
                 ? `${String(i18n.t("course.nextStep.lockedTitle"))}. ${String(i18n.t("course.nextStep.ctaLocked"))}`
                 : `${String(i18n.t("course.nextStep.readyTitle"))}. ${String(i18n.t("course.nextStep.ctaReady"))}`
             }
-          >
-            <Text style={styles.nextStepButtonText}>
-              {nextActionNode.isLocked
-                ? i18n.t("course.nextStep.ctaLocked")
-                : i18n.t("course.nextStep.ctaReady")}
-            </Text>
-          </Pressable>
+          />
         </View>
       )}
 
@@ -465,17 +465,9 @@ const styles = StyleSheet.create({
     marginTop: 4,
     alignSelf: "flex-start",
     borderRadius: 999,
-    backgroundColor: theme.colors.primary,
-    paddingHorizontal: 14,
-    paddingVertical: 10,
   },
   nextStepButtonLocked: {
     backgroundColor: theme.colors.warn,
-  },
-  nextStepButtonText: {
-    color: "#fff",
-    fontSize: 13,
-    fontWeight: "800",
   },
   header: {
     // Empty header reserved for spacing if needed, or remove completely.

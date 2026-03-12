@@ -1,9 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { Modal, View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
+import { Modal, View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
 import i18n from '../lib/i18n';
 import { getPlanPrice } from '../lib/pricing';
+import { Button } from './ui';
 
 interface PaywallModalProps {
     visible: boolean;
@@ -103,21 +104,13 @@ export function PaywallModal({ visible, onClose, onUpgrade }: PaywallModalProps)
                         <Text style={styles.priceFrom}>
                             {i18n.t('paywallModal.priceFrom', { price: proMonthlyPrice })}
                         </Text>
-                        <TouchableOpacity
-                            style={[styles.purchaseButton, isSubmitting && styles.purchaseButtonDisabled]}
+                        <Button
+                            label={String(isSubmitting ? i18n.t('common.processing') : i18n.t('shop.subscription.subscribe'))}
                             onPress={handleUpgrade}
+                            loading={isSubmitting}
                             disabled={isSubmitting}
-                            accessibilityState={{ busy: isSubmitting, disabled: isSubmitting }}
-                        >
-                            {isSubmitting ? (
-                                <View style={styles.purchaseButtonContent}>
-                                    <ActivityIndicator size="small" color="#FFFFFF" />
-                                    <Text style={styles.purchaseButtonText}>{i18n.t('common.processing')}</Text>
-                                </View>
-                            ) : (
-                                <Text style={styles.purchaseButtonText}>{i18n.t('shop.subscription.subscribe')}</Text>
-                            )}
-                        </TouchableOpacity>
+                            style={styles.purchaseButton}
+                        />
                         <Text style={styles.cancelAnytime}>{i18n.t('paywallModal.cancelAnytime')}</Text>
                         <Text style={styles.ctaNote}>{i18n.t('paywallModal.ctaNote')}</Text>
                     </View>
@@ -159,20 +152,18 @@ const styles = StyleSheet.create({
         gap: theme.spacing.sm,
     },
     title: {
-        fontSize: 24,
-        fontWeight: 'bold',
+        ...theme.typography.h2,
         color: theme.colors.text,
     },
     subtitle: {
-        fontSize: 14,
+        ...theme.typography.label,
         color: theme.colors.sub,
     },
     benefitsContainer: {
         marginBottom: theme.spacing.lg,
     },
     benefitsTitle: {
-        fontSize: 16,
-        fontWeight: '600',
+        ...theme.typography.label,
         color: theme.colors.text,
         marginBottom: theme.spacing.md,
     },
@@ -182,7 +173,7 @@ const styles = StyleSheet.create({
         marginBottom: theme.spacing.md,
     },
     benefitText: {
-        fontSize: 14,
+        ...theme.typography.label,
         color: theme.colors.text,
         marginLeft: theme.spacing.sm,
         flex: 1,
@@ -194,43 +185,24 @@ const styles = StyleSheet.create({
         paddingTop: theme.spacing.lg,
     },
     priceFrom: {
-        fontSize: 16,
+        ...theme.typography.body,
         fontWeight: '700',
         color: theme.colors.text,
         marginBottom: theme.spacing.md,
     },
     purchaseButton: {
-        backgroundColor: theme.colors.primary,
-        paddingVertical: theme.spacing.md,
-        paddingHorizontal: theme.spacing.xl,
-        borderRadius: theme.radius.lg,
         width: '100%',
-        alignItems: 'center',
         marginBottom: theme.spacing.md,
-    },
-    purchaseButtonDisabled: {
-        opacity: 0.7,
-    },
-    purchaseButtonContent: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: theme.spacing.sm,
-    },
-    purchaseButtonText: {
-        color: '#FFFFFF',
-        fontSize: 16,
-        fontWeight: 'bold',
     },
     cancelAnytime: {
         marginTop: theme.spacing.sm,
-        fontSize: 12,
+        ...theme.typography.caption,
         color: theme.colors.sub,
         textAlign: 'center',
     },
     ctaNote: {
         marginTop: 4,
-        fontSize: 12,
+        ...theme.typography.caption,
         color: theme.colors.sub,
         textAlign: 'center',
     },

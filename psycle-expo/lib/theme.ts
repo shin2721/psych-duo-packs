@@ -25,4 +25,51 @@ export const theme = {
     lg: 24,
     xl: 32,
   },
+  typography: {
+    h1: {
+      fontSize: 28,
+      fontWeight: "800" as const,
+      lineHeight: 36,
+    },
+    h2: {
+      fontSize: 24,
+      fontWeight: "700" as const,
+      lineHeight: 32,
+    },
+    h3: {
+      fontSize: 20,
+      fontWeight: "700" as const,
+      lineHeight: 28,
+    },
+    body: {
+      fontSize: 16,
+      fontWeight: "500" as const,
+      lineHeight: 24,
+    },
+    label: {
+      fontSize: 14,
+      fontWeight: "600" as const,
+      lineHeight: 20,
+    },
+    caption: {
+      fontSize: 12,
+      fontWeight: "500" as const,
+      lineHeight: 16,
+    },
+    buttonSm: {
+      fontSize: 13,
+      fontWeight: "800" as const,
+      lineHeight: 18,
+    },
+    buttonMd: {
+      fontSize: 16,
+      fontWeight: "800" as const,
+      lineHeight: 22,
+    },
+    buttonLg: {
+      fontSize: 18,
+      fontWeight: "700" as const,
+      lineHeight: 24,
+    },
+  },
 };

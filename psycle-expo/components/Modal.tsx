@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, Pressable, Modal as RNModal, StyleSheet } from "react-native";
 import i18n from "../lib/i18n";
 import { theme } from "../lib/theme";
+import { Button } from "./ui";
 
 interface ModalProps {
   visible: boolean;
@@ -20,12 +21,18 @@ export function Modal({ visible, title, description, primaryLabel, onPrimary, on
           <Text style={styles.title}>{title}</Text>
           <Text style={styles.description}>{description}</Text>
           <View style={styles.buttons}>
-            <Pressable style={[styles.button, styles.buttonSecondary]} onPress={onCancel}>
-              <Text style={styles.buttonSecondaryText}>{i18n.t("common.cancel")}</Text>
-            </Pressable>
-            <Pressable style={[styles.button, styles.buttonPrimary]} onPress={onPrimary} testID="modal-primary-button">
-              <Text style={styles.buttonPrimaryText}>{primaryLabel}</Text>
-            </Pressable>
+            <Button
+              label={String(i18n.t("common.cancel"))}
+              variant="secondary"
+              onPress={onCancel}
+              style={styles.button}
+            />
+            <Button
+              label={primaryLabel}
+              onPress={onPrimary}
+              testID="modal-primary-button"
+              style={[styles.button, styles.buttonPrimary]}
+            />
           </View>
         </Pressable>
       </Pressable>
@@ -48,13 +55,12 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "800",
+    ...theme.typography.h3,
     color: theme.colors.text,
     marginBottom: theme.spacing.sm,
   },
   description: {
-    fontSize: 14,
+    ...theme.typography.label,
     color: theme.colors.sub,
     marginBottom: theme.spacing.md,
   },
@@ -64,24 +70,8 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    paddingVertical: theme.spacing.sm,
-    borderRadius: theme.radius.md,
-    alignItems: "center",
   },
   buttonPrimary: {
     backgroundColor: theme.colors.accent,
-  },
-  buttonPrimaryText: {
-    fontSize: 16,
-    fontWeight: "800",
-    color: "#fff",
-  },
-  buttonSecondary: {
-    backgroundColor: theme.colors.surface,
-  },
-  buttonSecondaryText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: theme.colors.text,
   },
 });
