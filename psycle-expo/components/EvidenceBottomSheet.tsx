@@ -90,7 +90,11 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                 }
             },
             onPanResponderRelease: (_, gestureState) => {
-                if (gestureState.dy > 100) {
+                const shouldClose =
+                    gestureState.dy > 150 ||
+                    (gestureState.dy > 90 && gestureState.vy > 1.1);
+
+                if (shouldClose) {
                     onClose();
                 } else {
                     Animated.spring(translateY, {

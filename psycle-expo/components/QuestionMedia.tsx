@@ -4,6 +4,22 @@ import { Audio } from 'expo-av';
 import i18n from '../lib/i18n';
 import { theme } from '../lib/theme';
 
+async function cleanupSound(audioSound: Audio.Sound | null) {
+    if (!audioSound) return;
+
+    try {
+        await audioSound.stopAsync();
+    } catch {
+        // Best-effort cleanup; stopAsync may fail if the sound is already unloaded.
+    }
+
+    try {
+        await audioSound.unloadAsync();
+    } catch {
+        // Ignore unload failures during teardown to avoid noisy cleanup errors.
+    }
+}
+
 interface QuestionImageProps {
     uri: string;
     caption?: string;
@@ -55,10 +71,7 @@ export function QuestionAudio({ uri }: QuestionAudioProps) {
 
     useEffect(() => {
         return () => {
-            // Cleanup: unload sound when component unmounts
-            if (sound) {
-                sound.unloadAsync();
-            }
+            void cleanupSound(sound);
         };
     }, [sound]);
 
@@ -81,6 +94,9 @@ export function QuestionAudio({ uri }: QuestionAudioProps) {
                     setIsLoading(false);
                     return;
                 }
+
+                await cleanupSound(sound);
+                setSound(null);
             }
 
             // Load and play new sound

@@ -1,5 +1,5 @@
-import React from 'react';
-import { Modal, View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
+import React, { useEffect, useRef, useState } from 'react';
+import { Modal, View, Text, StyleSheet, TouchableOpacity, ScrollView, ActivityIndicator } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
 import i18n from '../lib/i18n';
@@ -8,10 +8,20 @@ import { getPlanPrice } from '../lib/pricing';
 interface PaywallModalProps {
     visible: boolean;
     onClose: () => void;
-    onUpgrade: () => void;
+    onUpgrade: () => void | Promise<void>;
 }
 
 export function PaywallModal({ visible, onClose, onUpgrade }: PaywallModalProps) {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const mountedRef = useRef(true);
+
+    useEffect(() => {
+        mountedRef.current = true;
+        return () => {
+            mountedRef.current = false;
+        };
+    }, []);
+
     const proMonthlyPrice = (() => {
         try {
             return getPlanPrice('pro', 'monthly');
@@ -28,9 +38,25 @@ export function PaywallModal({ visible, onClose, onUpgrade }: PaywallModalProps)
         i18n.t('paywallModal.benefits.adFree'),
     ];
 
-    const handleUpgrade = () => {
-        onUpgrade();
-        onClose();
+    const handleClose = () => {
+        if (!isSubmitting) {
+            onClose();
+        }
+    };
+
+    const handleUpgrade = async () => {
+        if (isSubmitting) return;
+        setIsSubmitting(true);
+
+        try {
+            await Promise.resolve(onUpgrade());
+        } catch (error) {
+            console.error('[PaywallModal] Upgrade failed:', error);
+        } finally {
+            if (mountedRef.current) {
+                setIsSubmitting(false);
+            }
+        }
     };
 
     return (
@@ -38,12 +64,16 @@ export function PaywallModal({ visible, onClose, onUpgrade }: PaywallModalProps)
             visible={visible}
             transparent
             animationType="slide"
-            onRequestClose={onClose}
+            onRequestClose={handleClose}
         >
             <View style={styles.overlay}>
                 <View style={styles.modal}>
                     {/* Close button */}
-                    <TouchableOpacity style={styles.closeButton} onPress={onClose}>
+                    <TouchableOpacity
+                        style={[styles.closeButton, isSubmitting && styles.closeButtonDisabled]}
+                        onPress={handleClose}
+                        disabled={isSubmitting}
+                    >
                         <Ionicons name="close" size={24} color={theme.colors.text} />
                     </TouchableOpacity>
 
@@ -70,8 +100,20 @@ export function PaywallModal({ visible, onClose, onUpgrade }: PaywallModalProps)
                         <Text style={styles.priceFrom}>
                             {i18n.t('paywallModal.priceFrom', { price: proMonthlyPrice })}
                         </Text>
-                        <TouchableOpacity style={styles.purchaseButton} onPress={handleUpgrade}>
-                            <Text style={styles.purchaseButtonText}>{i18n.t('shop.subscription.subscribe')}</Text>
+                        <TouchableOpacity
+                            style={[styles.purchaseButton, isSubmitting && styles.purchaseButtonDisabled]}
+                            onPress={handleUpgrade}
+                            disabled={isSubmitting}
+                            accessibilityState={{ busy: isSubmitting, disabled: isSubmitting }}
+                        >
+                            {isSubmitting ? (
+                                <View style={styles.purchaseButtonContent}>
+                                    <ActivityIndicator size="small" color="#FFFFFF" />
+                                    <Text style={styles.purchaseButtonText}>{i18n.t('common.processing')}</Text>
+                                </View>
+                            ) : (
+                                <Text style={styles.purchaseButtonText}>{i18n.t('shop.subscription.subscribe')}</Text>
+                            )}
                         </TouchableOpacity>
                         <Text style={styles.cancelAnytime}>{i18n.t('paywallModal.cancelAnytime')}</Text>
                         <Text style={styles.ctaNote}>{i18n.t('paywallModal.ctaNote')}</Text>
@@ -104,6 +146,9 @@ const styles = StyleSheet.create({
         right: theme.spacing.md,
         zIndex: 10,
         padding: theme.spacing.sm,
+    },
+    closeButtonDisabled: {
+        opacity: 0.5,
     },
     header: {
         alignItems: 'center',
@@ -159,6 +204,15 @@ const styles = StyleSheet.create({
         width: '100%',
         alignItems: 'center',
         marginBottom: theme.spacing.md,
+    },
+    purchaseButtonDisabled: {
+        opacity: 0.7,
+    },
+    purchaseButtonContent: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: theme.spacing.sm,
     },
     purchaseButtonText: {
         color: '#FFFFFF',
