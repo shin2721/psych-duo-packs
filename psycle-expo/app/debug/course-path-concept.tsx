@@ -15,7 +15,7 @@ import { Button, Pill, ProgressBar } from "../../components/ui";
 import { StarBackground } from "../../components/StarBackground";
 import { theme } from "../../lib/theme";
 
-type OrbitNodeStatus = "done" | "current" | "locked" | "reward";
+type OrbitNodeStatus = "done" | "locked" | "reward";
 
 type OrbitNode = {
   id: string;
@@ -30,42 +30,34 @@ const orbitNodes: OrbitNode[] = [
   {
     id: "check-in",
     label: "Check-in",
-    shortLabel: "IN",
+    shortLabel: "",
     icon: "sparkles",
     status: "done",
-    angle: -110,
+    angle: -128,
   },
   {
     id: "warm-up",
     label: "Warm-up",
-    shortLabel: "UP",
+    shortLabel: "",
     icon: "flash",
     status: "done",
-    angle: -28,
-  },
-  {
-    id: "lesson",
-    label: "Reframe Lesson",
-    shortLabel: "L3",
-    icon: "play",
-    status: "current",
-    angle: 38,
+    angle: -20,
   },
   {
     id: "mini-game",
     label: "Mini Game",
-    shortLabel: "GM",
+    shortLabel: "",
     icon: "game-controller",
     status: "locked",
-    angle: 120,
+    angle: 132,
   },
   {
     id: "reward",
     label: "Reward Chest",
-    shortLabel: "XP",
+    shortLabel: "",
     icon: "gift",
     status: "reward",
-    angle: 208,
+    angle: 220,
   },
 ];
 
@@ -84,35 +76,35 @@ function OrbitNodeChip({ node, x, y }: { node: OrbitNode; x: number; y: number }
         },
       ]}
     >
-      {node.status === "current" && <View style={styles.currentNodeAura} />}
       <Pressable
         accessibilityRole="button"
         accessibilityLabel={`${node.label}, ${node.status}`}
         style={[
           styles.node,
           node.status === "done" && styles.nodeDone,
-          node.status === "current" && styles.nodeCurrent,
           node.status === "locked" && styles.nodeLocked,
           node.status === "reward" && styles.nodeReward,
         ]}
       >
         {node.status === "done" ? (
-          <Ionicons name="checkmark" size={24} color="#081119" />
+          <Ionicons name={node.icon} size={20} color="#081119" />
         ) : (
           <>
             <Ionicons
               name={node.icon}
-              size={18}
+              size={20}
               color={node.status === "locked" ? theme.colors.sub : "#fff"}
             />
-            <Text
-              style={[
-                styles.nodeLabel,
-                node.status === "locked" && styles.nodeLabelLocked,
-              ]}
-            >
-              {node.shortLabel}
-            </Text>
+            {node.shortLabel ? (
+              <Text
+                style={[
+                  styles.nodeLabel,
+                  node.status === "locked" && styles.nodeLabelLocked,
+                ]}
+              >
+                {node.shortLabel}
+              </Text>
+            ) : null}
           </>
         )}
       </Pressable>
@@ -123,16 +115,15 @@ function OrbitNodeChip({ node, x, y }: { node: OrbitNode; x: number; y: number }
 
 function OrbitHero() {
   const center = ORBIT_SIZE / 2;
-  const radius = ORBIT_SIZE / 2 - 54;
+  const radius = ORBIT_SIZE / 2 - 52;
 
   return (
     <View style={styles.heroSection}>
       <View style={styles.heroCopy}>
         <Text style={styles.eyebrow}>Tonight&apos;s loop</Text>
-        <Text style={styles.heroTitle}>Anxiety Reframe Sprint</Text>
+        <Text style={styles.heroTitle}>Anxiety Reframe Orbit</Text>
         <Text style={styles.heroBody}>
-          Keep the Psycle node ritual, but compress it into one finishable orbit:
-          check in, reframe, play, review, collect.
+          One orbit to finish tonight: arrive, reframe, play, collect.
         </Text>
       </View>
 
@@ -159,10 +150,6 @@ function OrbitHero() {
           <View style={styles.ringMiddle} />
           <View style={styles.ringInner} />
 
-          <View style={styles.lockBadge}>
-            <Ionicons name="lock-closed" size={16} color={theme.colors.sub} />
-          </View>
-
           {orbitNodes.map((node) => {
             const angleInRadians = (node.angle * Math.PI) / 180;
             const x = center + radius * Math.cos(angleInRadians);
@@ -177,14 +164,14 @@ function OrbitHero() {
             end={{ x: 0.9, y: 1 }}
             style={styles.coreOrb}
           >
-            <Text style={styles.coreKicker}>Current ritual</Text>
+            <Text style={styles.coreKicker}>Tonight&apos;s lesson</Text>
             <Text style={styles.coreTitle}>Lesson 3</Text>
             <Text style={styles.coreBody}>
               Turn &quot;I am stuck&quot; into one workable thought.
             </Text>
             <View style={styles.coreReward}>
               <Ionicons name="flash" size={14} color="#081119" />
-              <Text style={styles.coreRewardText}>+38 XP when the loop closes</Text>
+              <Text style={styles.coreRewardText}>+38 XP when you close the orbit</Text>
             </View>
           </LinearGradient>
         </View>
@@ -196,12 +183,12 @@ function OrbitHero() {
           <Text style={styles.metaLabel}>today&apos;s orbit</Text>
         </View>
         <View style={styles.metaChip}>
-          <Text style={styles.metaValue}>1 game</Text>
-          <Text style={styles.metaLabel}>before the chest</Text>
+          <Text style={styles.metaValue}>1 lesson</Text>
+          <Text style={styles.metaLabel}>plus one mini game</Text>
         </View>
         <View style={styles.metaChip}>
-          <Text style={styles.metaValue}>6 streak</Text>
-          <Text style={styles.metaLabel}>embers alive</Text>
+          <Text style={styles.metaValue}>1 chest</Text>
+          <Text style={styles.metaLabel}>reward at the end</Text>
         </View>
       </View>
 
@@ -249,14 +236,9 @@ export default function CoursePathConceptScreen() {
           </Pressable>
           <View style={styles.topTextWrap}>
             <Text style={styles.screenEyebrow}>Course concept</Text>
-            <Text style={styles.screenTitle}>Psycle circular daily path</Text>
+            <Text style={styles.screenTitle}>Circular daily orbit</Text>
           </View>
         </View>
-
-        <Text style={styles.screenBody}>
-          Your circular idea, rebuilt so the orbit itself feels like Psycle&apos;s
-          world instead of a generic product card.
-        </Text>
 
         <View style={styles.genreRow}>
           {genres.map((genre, index) => (
@@ -318,7 +300,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.lg,
     paddingTop: theme.spacing.md,
     paddingBottom: theme.spacing.xl,
-    gap: theme.spacing.lg,
+    gap: theme.spacing.md,
   },
   topRow: {
     flexDirection: "row",
@@ -348,11 +330,6 @@ const styles = StyleSheet.create({
     ...theme.typography.h2,
     color: theme.colors.text,
   },
-  screenBody: {
-    ...theme.typography.body,
-    color: "rgba(222,233,247,0.76)",
-    maxWidth: 560,
-  },
   genreRow: {
     flexDirection: "row",
     marginRight: -theme.spacing.sm,
@@ -360,16 +337,16 @@ const styles = StyleSheet.create({
   heroSection: {
     borderRadius: 34,
     paddingHorizontal: theme.spacing.lg,
-    paddingTop: theme.spacing.xl,
+    paddingTop: theme.spacing.lg,
     paddingBottom: theme.spacing.xl,
     overflow: "hidden",
     backgroundColor: "rgba(4,14,33,0.84)",
     borderWidth: 1,
     borderColor: "rgba(65,104,162,0.42)",
-    gap: theme.spacing.lg,
+    gap: theme.spacing.md,
   },
   heroCopy: {
-    gap: theme.spacing.xs,
+    gap: 4,
   },
   eyebrow: {
     ...theme.typography.caption,
@@ -378,18 +355,17 @@ const styles = StyleSheet.create({
     letterSpacing: 1.1,
   },
   heroTitle: {
-    ...theme.typography.h1,
+    ...theme.typography.h2,
     color: theme.colors.text,
   },
   heroBody: {
-    ...theme.typography.body,
-    color: "rgba(216,228,245,0.76)",
-    maxWidth: 560,
+    ...theme.typography.label,
+    color: "rgba(216,228,245,0.74)",
   },
   orbitStage: {
     alignItems: "center",
     justifyContent: "center",
-    minHeight: ORBIT_SIZE + 40,
+    minHeight: ORBIT_SIZE + 14,
   },
   orbitMistLeft: {
     position: "absolute",
@@ -403,7 +379,7 @@ const styles = StyleSheet.create({
   orbitMistRight: {
     position: "absolute",
     right: -80,
-    top: ORBIT_SIZE * 0.24,
+    top: ORBIT_SIZE * 0.2,
     width: 200,
     height: 140,
     borderRadius: 70,
@@ -440,40 +416,17 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(168,255,96,0.16)",
   },
-  lockBadge: {
-    position: "absolute",
-    top: 18,
-    right: 30,
-    width: 42,
-    height: 42,
-    borderRadius: 21,
-    backgroundColor: "rgba(6,16,34,0.94)",
-    borderWidth: 1,
-    borderColor: theme.colors.line,
-    alignItems: "center",
-    justifyContent: "center",
-    zIndex: 4,
-  },
   nodeWrap: {
     position: "absolute",
     width: 74,
     alignItems: "center",
-    gap: 8,
+    gap: 6,
     zIndex: 3,
   },
-  currentNodeAura: {
-    position: "absolute",
-    top: -8,
-    width: 90,
-    height: 90,
-    borderRadius: 45,
-    backgroundColor: "rgba(58,173,255,0.16)",
-    transform: [{ scale: 1.05 }],
-  },
   node: {
-    width: 74,
-    height: 74,
-    borderRadius: 37,
+    width: 68,
+    height: 68,
+    borderRadius: 34,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "rgba(9,22,48,0.92)",
@@ -487,15 +440,6 @@ const styles = StyleSheet.create({
     shadowColor: "#b5ff64",
     shadowOpacity: 0.4,
     shadowRadius: 14,
-    shadowOffset: { width: 0, height: 0 },
-  },
-  nodeCurrent: {
-    backgroundColor: "rgba(28,97,255,0.95)",
-    borderColor: "rgba(96,178,255,0.95)",
-    transform: [{ scale: 1.08 }],
-    shadowColor: "rgba(51,220,255,0.75)",
-    shadowOpacity: 0.45,
-    shadowRadius: 20,
     shadowOffset: { width: 0, height: 0 },
   },
   nodeLocked: {
@@ -522,14 +466,15 @@ const styles = StyleSheet.create({
     ...theme.typography.caption,
     color: "rgba(216,228,245,0.82)",
     textAlign: "center",
+    maxWidth: 86,
   },
   coreOrb: {
-    width: 182,
-    height: 182,
-    borderRadius: 91,
+    width: 196,
+    height: 196,
+    borderRadius: 98,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: theme.spacing.lg,
+    paddingHorizontal: 22,
     shadowColor: "rgba(51,220,255,0.9)",
     shadowOpacity: 0.45,
     shadowRadius: 30,
@@ -544,7 +489,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.9,
   },
   coreTitle: {
-    ...theme.typography.h3,
+    ...theme.typography.h2,
     color: "#fff",
     textAlign: "center",
     marginTop: 3,
@@ -554,12 +499,13 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,0.92)",
     marginTop: 6,
     textAlign: "center",
+    maxWidth: 150,
   },
   coreReward: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    marginTop: theme.spacing.sm,
+    marginTop: 10,
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: 6,
     borderRadius: 999,
@@ -602,6 +548,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(65,104,162,0.42)",
     gap: theme.spacing.md,
+    marginTop: theme.spacing.sm,
   },
   weeklyHeader: {
     flexDirection: "row",
