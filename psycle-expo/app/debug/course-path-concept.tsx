@@ -121,15 +121,19 @@ function OrbitHero() {
     <View style={styles.heroSection}>
       <View style={styles.heroCopy}>
         <Text style={styles.eyebrow}>Tonight&apos;s loop</Text>
-        <Text style={styles.heroTitle}>Anxiety Reframe Orbit</Text>
+        <Text style={styles.heroTitle}>Anxiety Reframe</Text>
         <Text style={styles.heroBody}>
-          One orbit to finish tonight: arrive, reframe, play, collect.
+          A short orbit you can actually finish tonight.
         </Text>
       </View>
 
       <View style={styles.orbitStage} testID="course-path-concept-orbit">
         <View style={styles.orbitMistLeft} />
         <View style={styles.orbitMistRight} />
+        <View style={styles.orbitTimeChip}>
+          <Ionicons name="flash" size={14} color={theme.colors.accent} />
+          <Text style={styles.orbitTimeText}>7 min session</Text>
+        </View>
 
         <View
           style={[
@@ -164,31 +168,16 @@ function OrbitHero() {
             end={{ x: 0.9, y: 1 }}
             style={styles.coreOrb}
           >
-            <Text style={styles.coreKicker}>Tonight&apos;s lesson</Text>
+            <Text style={styles.coreKicker}>Current ritual</Text>
             <Text style={styles.coreTitle}>Lesson 3</Text>
             <Text style={styles.coreBody}>
-              Turn &quot;I am stuck&quot; into one workable thought.
+              Reframe one stuck thought.
             </Text>
-            <View style={styles.coreReward}>
+            <View style={styles.coreRewardPill}>
               <Ionicons name="flash" size={14} color="#081119" />
-              <Text style={styles.coreRewardText}>+38 XP when you close the orbit</Text>
+              <Text style={styles.coreRewardText}>+38 XP</Text>
             </View>
           </LinearGradient>
-        </View>
-      </View>
-
-      <View style={styles.metaRow}>
-        <View style={styles.metaChip}>
-          <Text style={styles.metaValue}>7 min</Text>
-          <Text style={styles.metaLabel}>today&apos;s orbit</Text>
-        </View>
-        <View style={styles.metaChip}>
-          <Text style={styles.metaValue}>1 lesson</Text>
-          <Text style={styles.metaLabel}>plus one mini game</Text>
-        </View>
-        <View style={styles.metaChip}>
-          <Text style={styles.metaValue}>1 chest</Text>
-          <Text style={styles.metaLabel}>reward at the end</Text>
         </View>
       </View>
 
@@ -201,8 +190,8 @@ function OrbitHero() {
         />
         <Button
           label="Switch genre"
-          variant="secondary"
-          size="lg"
+          variant="text"
+          size="md"
           onPress={() => {}}
           testID="course-path-concept-switch"
         />
@@ -236,7 +225,7 @@ export default function CoursePathConceptScreen() {
           </Pressable>
           <View style={styles.topTextWrap}>
             <Text style={styles.screenEyebrow}>Course concept</Text>
-            <Text style={styles.screenTitle}>Circular daily orbit</Text>
+            <Text style={styles.screenTitle}>Tonight&apos;s orbit</Text>
           </View>
         </View>
 
@@ -335,18 +324,13 @@ const styles = StyleSheet.create({
     marginRight: -theme.spacing.sm,
   },
   heroSection: {
-    borderRadius: 34,
-    paddingHorizontal: theme.spacing.lg,
-    paddingTop: theme.spacing.lg,
-    paddingBottom: theme.spacing.xl,
-    overflow: "hidden",
-    backgroundColor: "rgba(4,14,33,0.84)",
-    borderWidth: 1,
-    borderColor: "rgba(65,104,162,0.42)",
+    paddingTop: theme.spacing.sm,
+    paddingBottom: theme.spacing.lg,
     gap: theme.spacing.md,
   },
   heroCopy: {
     gap: 4,
+    paddingHorizontal: theme.spacing.xs,
   },
   eyebrow: {
     ...theme.typography.caption,
@@ -365,7 +349,25 @@ const styles = StyleSheet.create({
   orbitStage: {
     alignItems: "center",
     justifyContent: "center",
-    minHeight: ORBIT_SIZE + 14,
+    minHeight: ORBIT_SIZE + 36,
+  },
+  orbitTimeChip: {
+    position: "absolute",
+    top: 0,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 6,
+    borderRadius: 999,
+    backgroundColor: "rgba(4,14,33,0.88)",
+    borderWidth: 1,
+    borderColor: "rgba(74,108,166,0.42)",
+    zIndex: 4,
+  },
+  orbitTimeText: {
+    ...theme.typography.caption,
+    color: theme.colors.text,
   },
   orbitMistLeft: {
     position: "absolute",
@@ -469,12 +471,12 @@ const styles = StyleSheet.create({
     maxWidth: 86,
   },
   coreOrb: {
-    width: 196,
-    height: 196,
-    borderRadius: 98,
+    width: 190,
+    height: 190,
+    borderRadius: 95,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: 22,
+    paddingHorizontal: 20,
     shadowColor: "rgba(51,220,255,0.9)",
     shadowOpacity: 0.45,
     shadowRadius: 30,
@@ -492,20 +494,20 @@ const styles = StyleSheet.create({
     ...theme.typography.h2,
     color: "#fff",
     textAlign: "center",
-    marginTop: 3,
+    marginTop: 4,
   },
   coreBody: {
     ...theme.typography.caption,
     color: "rgba(255,255,255,0.92)",
-    marginTop: 6,
+    marginTop: 8,
     textAlign: "center",
-    maxWidth: 150,
+    maxWidth: 136,
   },
-  coreReward: {
+  coreRewardPill: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
-    marginTop: 10,
+    marginTop: 12,
     paddingHorizontal: theme.spacing.sm,
     paddingVertical: 6,
     borderRadius: 999,
@@ -516,30 +518,9 @@ const styles = StyleSheet.create({
     color: "#081119",
     fontWeight: "700",
   },
-  metaRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: theme.spacing.sm,
-  },
-  metaChip: {
-    flex: 1,
-    borderRadius: theme.radius.lg,
-    padding: theme.spacing.sm,
-    backgroundColor: "rgba(8,19,42,0.86)",
-    borderWidth: 1,
-    borderColor: "rgba(74,108,166,0.46)",
-  },
-  metaValue: {
-    ...theme.typography.label,
-    color: theme.colors.text,
-  },
-  metaLabel: {
-    ...theme.typography.caption,
-    color: "rgba(216,228,245,0.68)",
-    marginTop: 2,
-  },
   ctaStack: {
     gap: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.sm,
   },
   weeklyShell: {
     borderRadius: 26,
@@ -548,7 +529,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "rgba(65,104,162,0.42)",
     gap: theme.spacing.md,
-    marginTop: theme.spacing.sm,
+    marginTop: theme.spacing.lg,
   },
   weeklyHeader: {
     flexDirection: "row",
