@@ -1,6 +1,7 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import {
+  Dimensions,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -10,7 +11,8 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import { Button, Card, Pill, ProgressBar, SectionHeader } from "../../components/ui";
+import { Button, Pill, ProgressBar } from "../../components/ui";
+import { StarBackground } from "../../components/StarBackground";
 import { theme } from "../../lib/theme";
 
 type OrbitNodeStatus = "done" | "current" | "locked" | "reward";
@@ -31,7 +33,7 @@ const orbitNodes: OrbitNode[] = [
     shortLabel: "IN",
     icon: "sparkles",
     status: "done",
-    angle: -90,
+    angle: -110,
   },
   {
     id: "warm-up",
@@ -39,15 +41,15 @@ const orbitNodes: OrbitNode[] = [
     shortLabel: "UP",
     icon: "flash",
     status: "done",
-    angle: -18,
+    angle: -28,
   },
   {
     id: "lesson",
-    label: "Core Lesson",
+    label: "Reframe Lesson",
     shortLabel: "L3",
     icon: "play",
     status: "current",
-    angle: 54,
+    angle: 38,
   },
   {
     id: "mini-game",
@@ -55,7 +57,7 @@ const orbitNodes: OrbitNode[] = [
     shortLabel: "GM",
     icon: "game-controller",
     status: "locked",
-    angle: 126,
+    angle: 120,
   },
   {
     id: "reward",
@@ -63,136 +65,173 @@ const orbitNodes: OrbitNode[] = [
     shortLabel: "XP",
     icon: "gift",
     status: "reward",
-    angle: 198,
+    angle: 208,
   },
 ];
 
 const genres = ["Mental", "Money", "Work", "Health", "Social", "Study"];
+const SCREEN_WIDTH = Dimensions.get("window").width;
+const ORBIT_SIZE = Math.min(SCREEN_WIDTH - 44, 372);
 
-function OrbitPathCard() {
-  const size = 300;
-  const center = size / 2;
-  const radius = 102;
+function OrbitNodeChip({ node, x, y }: { node: OrbitNode; x: number; y: number }) {
+  return (
+    <View
+      style={[
+        styles.nodeWrap,
+        {
+          left: x - 37,
+          top: y - 37,
+        },
+      ]}
+    >
+      {node.status === "current" && <View style={styles.currentNodeAura} />}
+      <Pressable
+        accessibilityRole="button"
+        accessibilityLabel={`${node.label}, ${node.status}`}
+        style={[
+          styles.node,
+          node.status === "done" && styles.nodeDone,
+          node.status === "current" && styles.nodeCurrent,
+          node.status === "locked" && styles.nodeLocked,
+          node.status === "reward" && styles.nodeReward,
+        ]}
+      >
+        {node.status === "done" ? (
+          <Ionicons name="checkmark" size={24} color="#081119" />
+        ) : (
+          <>
+            <Ionicons
+              name={node.icon}
+              size={18}
+              color={node.status === "locked" ? theme.colors.sub : "#fff"}
+            />
+            <Text
+              style={[
+                styles.nodeLabel,
+                node.status === "locked" && styles.nodeLabelLocked,
+              ]}
+            >
+              {node.shortLabel}
+            </Text>
+          </>
+        )}
+      </Pressable>
+      <Text style={styles.nodeCaption}>{node.label}</Text>
+    </View>
+  );
+}
+
+function OrbitHero() {
+  const center = ORBIT_SIZE / 2;
+  const radius = ORBIT_SIZE / 2 - 54;
 
   return (
-    <Card style={styles.orbitCard}>
-      <View style={styles.orbitHeader}>
-        <View>
-          <Text style={styles.kicker}>Today&apos;s Path</Text>
-          <Text style={styles.cardTitle}>Anxiety Reframe Sprint</Text>
-          <Text style={styles.cardBody}>
-            One focused lesson, one quick game, one review loop. Enough structure to
-            feel guided, but not a 100-node obligation.
-          </Text>
-        </View>
-        <View style={styles.badgeBubble}>
-          <Ionicons name="flame" size={18} color={theme.colors.warn} />
-          <Text style={styles.badgeBubbleText}>6</Text>
-        </View>
+    <View style={styles.heroSection}>
+      <View style={styles.heroCopy}>
+        <Text style={styles.eyebrow}>Tonight&apos;s loop</Text>
+        <Text style={styles.heroTitle}>Anxiety Reframe Sprint</Text>
+        <Text style={styles.heroBody}>
+          Keep the Psycle node ritual, but compress it into one finishable orbit:
+          check in, reframe, play, review, collect.
+        </Text>
       </View>
 
-      <View style={styles.orbitWrap} testID="course-path-concept-orbit">
-        <View style={[styles.orbitRing, { width: size, height: size }]}>
-          <View style={styles.orbitTrackOuter} />
-          <View style={styles.orbitTrackInner} />
+      <View style={styles.orbitStage} testID="course-path-concept-orbit">
+        <View style={styles.orbitMistLeft} />
+        <View style={styles.orbitMistRight} />
+
+        <View
+          style={[
+            styles.orbitShell,
+            {
+              width: ORBIT_SIZE,
+              height: ORBIT_SIZE,
+            },
+          ]}
+        >
+          <LinearGradient
+            colors={["rgba(58,173,255,0.28)", "rgba(58,173,255,0)", "rgba(168,255,96,0.16)"]}
+            start={{ x: 0.15, y: 0.1 }}
+            end={{ x: 0.9, y: 0.95 }}
+            style={styles.orbitHalo}
+          />
+          <View style={styles.ringOuter} />
+          <View style={styles.ringMiddle} />
+          <View style={styles.ringInner} />
+
+          <View style={styles.lockBadge}>
+            <Ionicons name="lock-closed" size={16} color={theme.colors.sub} />
+          </View>
 
           {orbitNodes.map((node) => {
             const angleInRadians = (node.angle * Math.PI) / 180;
             const x = center + radius * Math.cos(angleInRadians);
             const y = center + radius * Math.sin(angleInRadians);
 
-            return (
-              <View
-                key={node.id}
-                style={[
-                  styles.nodeWrap,
-                  {
-                    left: x - 32,
-                    top: y - 32,
-                  },
-                ]}
-              >
-                <Pressable
-                  accessibilityRole="button"
-                  accessibilityLabel={`${node.label}, ${node.status}`}
-                  style={[
-                    styles.node,
-                    node.status === "done" && styles.nodeDone,
-                    node.status === "current" && styles.nodeCurrent,
-                    node.status === "locked" && styles.nodeLocked,
-                    node.status === "reward" && styles.nodeReward,
-                  ]}
-                >
-                  {node.status === "done" ? (
-                    <Ionicons name="checkmark" size={22} color="#fff" />
-                  ) : (
-                    <>
-                      <Ionicons
-                        name={node.icon}
-                        size={18}
-                        color={node.status === "locked" ? theme.colors.sub : "#fff"}
-                      />
-                      <Text
-                        style={[
-                          styles.nodeLabel,
-                          node.status === "locked" && styles.nodeLabelLocked,
-                        ]}
-                      >
-                        {node.shortLabel}
-                      </Text>
-                    </>
-                  )}
-                </Pressable>
-                <Text style={styles.nodeCaption}>{node.label}</Text>
-              </View>
-            );
+            return <OrbitNodeChip key={node.id} node={node} x={x} y={y} />;
           })}
 
           <LinearGradient
-            colors={["rgba(59,130,246,0.9)", "rgba(34,211,238,0.85)"]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 1 }}
-            style={styles.orbitCore}
+            colors={["rgba(39,111,255,0.98)", "rgba(51,220,255,0.92)"]}
+            start={{ x: 0.1, y: 0.1 }}
+            end={{ x: 0.9, y: 1 }}
+            style={styles.coreOrb}
           >
-            <Text style={styles.orbitCoreKicker}>Current</Text>
-            <Text style={styles.orbitCoreTitle}>Lesson 3</Text>
-            <Text style={styles.orbitCoreBody}>Turn "I&apos;m stuck" into a reframe.</Text>
+            <Text style={styles.coreKicker}>Current ritual</Text>
+            <Text style={styles.coreTitle}>Lesson 3</Text>
+            <Text style={styles.coreBody}>
+              Turn &quot;I am stuck&quot; into one workable thought.
+            </Text>
+            <View style={styles.coreReward}>
+              <Ionicons name="flash" size={14} color="#081119" />
+              <Text style={styles.coreRewardText}>+38 XP when the loop closes</Text>
+            </View>
           </LinearGradient>
         </View>
       </View>
 
-      <View style={styles.pathMetaRow}>
-        <View style={styles.pathMetaItem}>
-          <Text style={styles.pathMetaValue}>7 min</Text>
-          <Text style={styles.pathMetaLabel}>today&apos;s run</Text>
+      <View style={styles.metaRow}>
+        <View style={styles.metaChip}>
+          <Text style={styles.metaValue}>7 min</Text>
+          <Text style={styles.metaLabel}>today&apos;s orbit</Text>
         </View>
-        <View style={styles.pathMetaItem}>
-          <Text style={styles.pathMetaValue}>+38 XP</Text>
-          <Text style={styles.pathMetaLabel}>if you finish</Text>
+        <View style={styles.metaChip}>
+          <Text style={styles.metaValue}>1 game</Text>
+          <Text style={styles.metaLabel}>before the chest</Text>
         </View>
-        <View style={styles.pathMetaItem}>
-          <Text style={styles.pathMetaValue}>1 chest</Text>
-          <Text style={styles.pathMetaLabel}>reward loop</Text>
+        <View style={styles.metaChip}>
+          <Text style={styles.metaValue}>6 streak</Text>
+          <Text style={styles.metaLabel}>embers alive</Text>
         </View>
       </View>
 
-      <View style={styles.ctaRow}>
-        <Button label="Start today’s path" size="lg" onPress={() => {}} testID="course-path-concept-start" />
+      <View style={styles.ctaStack}>
         <Button
-          label="Browse genres"
+          label="Enter today’s orbit"
+          size="lg"
+          onPress={() => {}}
+          testID="course-path-concept-start"
+        />
+        <Button
+          label="Switch genre"
           variant="secondary"
           size="lg"
           onPress={() => {}}
-          testID="course-path-concept-browse"
+          testID="course-path-concept-switch"
         />
       </View>
-    </Card>
+    </View>
   );
 }
 
 export default function CoursePathConceptScreen() {
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
+      <StarBackground combo={6} />
+
+      <View style={styles.topGlow} pointerEvents="none" />
+      <View style={styles.bottomGlow} pointerEvents="none" />
+
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
@@ -210,13 +249,13 @@ export default function CoursePathConceptScreen() {
           </Pressable>
           <View style={styles.topTextWrap}>
             <Text style={styles.screenEyebrow}>Course concept</Text>
-            <Text style={styles.screenTitle}>Circular daily path mock</Text>
+            <Text style={styles.screenTitle}>Psycle circular daily path</Text>
           </View>
         </View>
 
         <Text style={styles.screenBody}>
-          This is the version I would explore first instead of a long always-visible
-          trail. The user sees a compact ring for today, not the full curriculum.
+          Your circular idea, rebuilt so the orbit itself feels like Psycle&apos;s
+          world instead of a generic product card.
         </Text>
 
         <View style={styles.genreRow}>
@@ -225,39 +264,28 @@ export default function CoursePathConceptScreen() {
           ))}
         </View>
 
-        <OrbitPathCard />
+        <OrbitHero />
 
-        <SectionHeader title="Why this shape" />
-        <Card>
-          <Text style={styles.reasonTitle}>Less map pressure, more daily clarity</Text>
-          <Text style={styles.reasonBody}>
-            The ring makes the day feel finishable. It keeps Duolingo&apos;s playful node
-            language, but the emphasis moves from “the whole course” to “the next
-            few meaningful steps.”
-          </Text>
-        </Card>
-
-        <SectionHeader title="Weekly challenge" />
-        <Card>
-          <View style={styles.challengeHeader}>
+        <View style={styles.weeklyShell}>
+          <View style={styles.weeklyHeader}>
             <View>
-              <Text style={styles.challengeTitle}>Three focused sessions this week</Text>
-              <Text style={styles.challengeBody}>Mental reframe, one review, one mini game.</Text>
+              <Text style={styles.weeklyEyebrow}>Weekly challenge</Text>
+              <Text style={styles.weeklyTitle}>Three focused sessions this week</Text>
             </View>
-            <Text style={styles.challengeCount}>3/5</Text>
+            <Text style={styles.weeklyCount}>3/5</Text>
           </View>
-          <ProgressBar value={3} max={5} style={styles.challengeBar} />
-          <View style={styles.challengeTags}>
-            <View style={styles.challengeTag}>
+          <ProgressBar value={3} max={5} style={styles.weeklyBar} />
+          <View style={styles.weeklyTagRow}>
+            <View style={styles.weeklyTag}>
               <Ionicons name="flash" size={14} color={theme.colors.accent} />
-              <Text style={styles.challengeTagText}>+120 XP</Text>
+              <Text style={styles.weeklyTagText}>+120 XP</Text>
             </View>
-            <View style={styles.challengeTag}>
+            <View style={styles.weeklyTag}>
               <Ionicons name="gift" size={14} color={theme.colors.warn} />
-              <Text style={styles.challengeTagText}>gold chest</Text>
+              <Text style={styles.weeklyTagText}>gold chest</Text>
             </View>
           </View>
-        </Card>
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
@@ -268,8 +296,27 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: theme.colors.bg,
   },
+  topGlow: {
+    position: "absolute",
+    top: -110,
+    left: SCREEN_WIDTH * 0.44,
+    width: 280,
+    height: 280,
+    borderRadius: 140,
+    backgroundColor: "rgba(51,220,255,0.18)",
+  },
+  bottomGlow: {
+    position: "absolute",
+    bottom: 160,
+    left: -90,
+    width: 240,
+    height: 240,
+    borderRadius: 120,
+    backgroundColor: "rgba(168,255,96,0.09)",
+  },
   scrollContent: {
-    padding: theme.spacing.lg,
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.md,
     paddingBottom: theme.spacing.xl,
     gap: theme.spacing.lg,
   },
@@ -284,9 +331,9 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: theme.colors.surface,
+    backgroundColor: "rgba(7,16,33,0.78)",
     borderWidth: 1,
-    borderColor: theme.colors.line,
+    borderColor: "rgba(73,103,161,0.5)",
   },
   topTextWrap: {
     flex: 1,
@@ -295,7 +342,7 @@ const styles = StyleSheet.create({
     ...theme.typography.caption,
     color: theme.colors.accent,
     textTransform: "uppercase",
-    letterSpacing: 0.8,
+    letterSpacing: 0.9,
   },
   screenTitle: {
     ...theme.typography.h2,
@@ -303,139 +350,165 @@ const styles = StyleSheet.create({
   },
   screenBody: {
     ...theme.typography.body,
-    color: theme.colors.sub,
+    color: "rgba(222,233,247,0.76)",
+    maxWidth: 560,
   },
   genreRow: {
     flexDirection: "row",
     marginRight: -theme.spacing.sm,
   },
-  orbitCard: {
-    padding: theme.spacing.lg,
-    gap: theme.spacing.lg,
+  heroSection: {
+    borderRadius: 34,
+    paddingHorizontal: theme.spacing.lg,
+    paddingTop: theme.spacing.xl,
+    paddingBottom: theme.spacing.xl,
+    overflow: "hidden",
+    backgroundColor: "rgba(4,14,33,0.84)",
     borderWidth: 1,
-    borderColor: theme.colors.line,
+    borderColor: "rgba(65,104,162,0.42)",
+    gap: theme.spacing.lg,
   },
-  orbitHeader: {
-    flexDirection: "row",
-    gap: theme.spacing.md,
-    justifyContent: "space-between",
+  heroCopy: {
+    gap: theme.spacing.xs,
   },
-  kicker: {
+  eyebrow: {
     ...theme.typography.caption,
     color: theme.colors.accent,
     textTransform: "uppercase",
-    letterSpacing: 0.8,
+    letterSpacing: 1.1,
   },
-  cardTitle: {
-    ...theme.typography.h3,
+  heroTitle: {
+    ...theme.typography.h1,
     color: theme.colors.text,
-    marginTop: 2,
   },
-  cardBody: {
+  heroBody: {
     ...theme.typography.body,
-    color: theme.colors.sub,
-    marginTop: theme.spacing.xs,
+    color: "rgba(216,228,245,0.76)",
+    maxWidth: 560,
   },
-  badgeBubble: {
-    minWidth: 56,
-    height: 56,
-    borderRadius: 28,
-    backgroundColor: theme.colors.surface,
-    borderWidth: 1,
-    borderColor: theme.colors.line,
+  orbitStage: {
     alignItems: "center",
     justifyContent: "center",
-    gap: 2,
+    minHeight: ORBIT_SIZE + 40,
   },
-  badgeBubbleText: {
-    ...theme.typography.label,
-    color: theme.colors.text,
+  orbitMistLeft: {
+    position: "absolute",
+    left: -100,
+    top: ORBIT_SIZE * 0.38,
+    width: 180,
+    height: 120,
+    borderRadius: 60,
+    backgroundColor: "rgba(168,255,96,0.08)",
   },
-  orbitWrap: {
-    alignItems: "center",
+  orbitMistRight: {
+    position: "absolute",
+    right: -80,
+    top: ORBIT_SIZE * 0.24,
+    width: 200,
+    height: 140,
+    borderRadius: 70,
+    backgroundColor: "rgba(51,220,255,0.11)",
   },
-  orbitRing: {
+  orbitShell: {
     alignItems: "center",
     justifyContent: "center",
     position: "relative",
   },
-  orbitTrackOuter: {
-    position: "absolute",
-    inset: 24,
+  orbitHalo: {
+    ...StyleSheet.absoluteFillObject,
     borderRadius: 999,
+    transform: [{ scale: 1.18 }],
+  },
+  ringOuter: {
+    position: "absolute",
+    inset: 8,
+    borderRadius: 999,
+    borderWidth: 1.5,
+    borderColor: "rgba(87,123,192,0.4)",
+  },
+  ringMiddle: {
+    position: "absolute",
+    inset: 28,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "rgba(122,175,255,0.26)",
+  },
+  ringInner: {
+    position: "absolute",
+    inset: 46,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "rgba(168,255,96,0.16)",
+  },
+  lockBadge: {
+    position: "absolute",
+    top: 18,
+    right: 30,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    backgroundColor: "rgba(6,16,34,0.94)",
     borderWidth: 1,
     borderColor: theme.colors.line,
-  },
-  orbitTrackInner: {
-    position: "absolute",
-    inset: 48,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: "rgba(96,165,250,0.28)",
-  },
-  orbitCore: {
-    width: 146,
-    height: 146,
-    borderRadius: 73,
     alignItems: "center",
     justifyContent: "center",
-    paddingHorizontal: theme.spacing.md,
-    shadowColor: theme.colors.primaryLight,
-    shadowOpacity: 0.35,
-    shadowRadius: 20,
-    shadowOffset: { width: 0, height: 10 },
-    elevation: 8,
-  },
-  orbitCoreKicker: {
-    ...theme.typography.caption,
-    color: "rgba(255,255,255,0.82)",
-    textTransform: "uppercase",
-    letterSpacing: 0.8,
-  },
-  orbitCoreTitle: {
-    ...theme.typography.h3,
-    color: "#fff",
-    marginTop: 2,
-  },
-  orbitCoreBody: {
-    ...theme.typography.caption,
-    color: "rgba(255,255,255,0.9)",
-    marginTop: 6,
-    textAlign: "center",
+    zIndex: 4,
   },
   nodeWrap: {
     position: "absolute",
-    width: 64,
+    width: 74,
     alignItems: "center",
-    gap: 6,
+    gap: 8,
+    zIndex: 3,
+  },
+  currentNodeAura: {
+    position: "absolute",
+    top: -8,
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    backgroundColor: "rgba(58,173,255,0.16)",
+    transform: [{ scale: 1.05 }],
   },
   node: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 74,
+    height: 74,
+    borderRadius: 37,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: theme.colors.surface,
+    backgroundColor: "rgba(9,22,48,0.92)",
     borderWidth: 2,
-    borderColor: theme.colors.line,
+    borderColor: "rgba(74,108,166,0.72)",
     gap: 2,
   },
   nodeDone: {
-    backgroundColor: theme.colors.success,
-    borderColor: theme.colors.success,
+    backgroundColor: "#b5ff64",
+    borderColor: "#e7ffaf",
+    shadowColor: "#b5ff64",
+    shadowOpacity: 0.4,
+    shadowRadius: 14,
+    shadowOffset: { width: 0, height: 0 },
   },
   nodeCurrent: {
-    backgroundColor: theme.colors.primary,
-    borderColor: theme.colors.primaryLight,
+    backgroundColor: "rgba(28,97,255,0.95)",
+    borderColor: "rgba(96,178,255,0.95)",
     transform: [{ scale: 1.08 }],
+    shadowColor: "rgba(51,220,255,0.75)",
+    shadowOpacity: 0.45,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 0 },
   },
   nodeLocked: {
-    backgroundColor: theme.colors.bg,
-    borderColor: theme.colors.line,
+    backgroundColor: "rgba(4,15,35,0.95)",
+    borderColor: "rgba(65,89,136,0.55)",
   },
   nodeReward: {
-    backgroundColor: theme.colors.warn,
-    borderColor: "#fcd34d",
+    backgroundColor: "rgba(255,174,47,0.94)",
+    borderColor: "#ffec9d",
+    shadowColor: "#ffcc69",
+    shadowOpacity: 0.32,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 0 },
   },
   nodeLabel: {
     ...theme.typography.caption,
@@ -447,83 +520,130 @@ const styles = StyleSheet.create({
   },
   nodeCaption: {
     ...theme.typography.caption,
-    color: theme.colors.sub,
+    color: "rgba(216,228,245,0.82)",
     textAlign: "center",
   },
-  pathMetaRow: {
+  coreOrb: {
+    width: 182,
+    height: 182,
+    borderRadius: 91,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: theme.spacing.lg,
+    shadowColor: "rgba(51,220,255,0.9)",
+    shadowOpacity: 0.45,
+    shadowRadius: 30,
+    shadowOffset: { width: 0, height: 10 },
+    elevation: 10,
+    zIndex: 2,
+  },
+  coreKicker: {
+    ...theme.typography.caption,
+    color: "rgba(255,255,255,0.82)",
+    textTransform: "uppercase",
+    letterSpacing: 0.9,
+  },
+  coreTitle: {
+    ...theme.typography.h3,
+    color: "#fff",
+    textAlign: "center",
+    marginTop: 3,
+  },
+  coreBody: {
+    ...theme.typography.caption,
+    color: "rgba(255,255,255,0.92)",
+    marginTop: 6,
+    textAlign: "center",
+  },
+  coreReward: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    marginTop: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 6,
+    borderRadius: 999,
+    backgroundColor: "rgba(255,255,255,0.18)",
+  },
+  coreRewardText: {
+    ...theme.typography.caption,
+    color: "#081119",
+    fontWeight: "700",
+  },
+  metaRow: {
     flexDirection: "row",
     justifyContent: "space-between",
     gap: theme.spacing.sm,
   },
-  pathMetaItem: {
+  metaChip: {
     flex: 1,
-    backgroundColor: theme.colors.surface,
-    borderWidth: 1,
-    borderColor: theme.colors.line,
-    borderRadius: theme.radius.md,
+    borderRadius: theme.radius.lg,
     padding: theme.spacing.sm,
+    backgroundColor: "rgba(8,19,42,0.86)",
+    borderWidth: 1,
+    borderColor: "rgba(74,108,166,0.46)",
   },
-  pathMetaValue: {
+  metaValue: {
     ...theme.typography.label,
     color: theme.colors.text,
   },
-  pathMetaLabel: {
+  metaLabel: {
     ...theme.typography.caption,
-    color: theme.colors.sub,
+    color: "rgba(216,228,245,0.68)",
     marginTop: 2,
   },
-  ctaRow: {
+  ctaStack: {
     gap: theme.spacing.sm,
   },
-  reasonTitle: {
-    ...theme.typography.h3,
-    color: theme.colors.text,
+  weeklyShell: {
+    borderRadius: 26,
+    padding: theme.spacing.lg,
+    backgroundColor: "rgba(4,14,33,0.82)",
+    borderWidth: 1,
+    borderColor: "rgba(65,104,162,0.42)",
+    gap: theme.spacing.md,
   },
-  reasonBody: {
-    ...theme.typography.body,
-    color: theme.colors.sub,
-    marginTop: theme.spacing.xs,
-  },
-  challengeHeader: {
+  weeklyHeader: {
     flexDirection: "row",
     justifyContent: "space-between",
     gap: theme.spacing.md,
     alignItems: "flex-start",
   },
-  challengeTitle: {
+  weeklyEyebrow: {
+    ...theme.typography.caption,
+    color: theme.colors.accent,
+    textTransform: "uppercase",
+    letterSpacing: 0.9,
+  },
+  weeklyTitle: {
     ...theme.typography.h3,
     color: theme.colors.text,
+    marginTop: 2,
   },
-  challengeBody: {
-    ...theme.typography.caption,
-    color: theme.colors.sub,
-    marginTop: 4,
-  },
-  challengeCount: {
+  weeklyCount: {
     ...theme.typography.h2,
     color: theme.colors.accent,
   },
-  challengeBar: {
-    marginTop: theme.spacing.md,
+  weeklyBar: {
+    marginTop: theme.spacing.xs,
   },
-  challengeTags: {
+  weeklyTagRow: {
     flexDirection: "row",
     gap: theme.spacing.sm,
-    marginTop: theme.spacing.md,
     flexWrap: "wrap",
   },
-  challengeTag: {
+  weeklyTag: {
     flexDirection: "row",
     alignItems: "center",
     gap: 6,
     paddingHorizontal: theme.spacing.sm,
-    paddingVertical: theme.spacing.xs,
-    borderRadius: theme.radius.xl,
-    backgroundColor: theme.colors.surface,
+    paddingVertical: 6,
+    borderRadius: 999,
+    backgroundColor: "rgba(8,19,42,0.86)",
     borderWidth: 1,
-    borderColor: theme.colors.line,
+    borderColor: "rgba(74,108,166,0.46)",
   },
-  challengeTagText: {
+  weeklyTagText: {
     ...theme.typography.caption,
     color: theme.colors.text,
   },
