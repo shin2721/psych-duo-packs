@@ -60,6 +60,10 @@ logs/
 # Detox/E2E artifacts
 artifacts/
 
+# Content generator runtime outputs
+scripts/content-generator/output/_metrics/
+scripts/content-generator/processed_urls.json
+
 # IMPORTANT: When creating distribution archives (zip/tar), ensure .env files are excluded
 # Example exclusion patterns for common archive tools:
 # zip -r app.zip . -x "*.env*" ".env*"

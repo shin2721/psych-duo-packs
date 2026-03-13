@@ -8,6 +8,10 @@
     "ios": "expo start --ios --dev-client",
     "web": "expo start --web",
     "tunnel": "expo start --tunnel --dev-client",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit",
+    "typecheck:app": "npm run typecheck",
+    "test:billing:smoke": "jest --watchman=false --runInBand src/__tests__/billing.test.ts",
+    "test:settings-notifications:smoke": "jest --watchman=false --runInBand src/__tests__/settingsNotificationsToggle.test.ts",
     "questions": "node scripts/generate_questions.mjs",
     "update-content": "cd scripts/content-generator && npm run patrol",
     "verify:curated": "cd scripts/content-generator && npx ts-node src/batch_critic.ts --local",
@@ -65,7 +69,12 @@
     "e2e:ios:release": "detox test --configuration ios.sim.release",
     "e2e:build:ios:release": "detox build --configuration ios.sim.release",
     "e2e:ios:debug": "detox test --configuration ios.sim.debug",
-    "e2e:build:ios:debug": "detox build --configuration ios.sim.debug"
+    "e2e:build:ios:debug": "detox build --configuration ios.sim.debug",
+    "ops:data-access:check": "bash scripts/ops/check-assistant-data-access.sh",
+    "ops:stripe:snapshot": "bash scripts/ops/stripe-monetization-snapshot.sh",
+    "content:metrics:summary": "cd scripts/content-generator && npm run metrics:summary --",
+    "content:cost:summary": "cd scripts/content-generator && npm run cost:summary --",
+    "content:sources:validate": "cd scripts/content-generator && npm run sources:validate --"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.68.0",
@@ -108,7 +117,8 @@
     "testRunner": {
       "args": {
         "config": "e2e/jest.config.js",
-        "maxWorkers": 1
+        "maxWorkers": 1,
+        "watchman": false
       },
       "jest": {
         "setupFilesAfterEnv": [
@@ -119,20 +129,20 @@
     "apps": {
       "ios.debug": {
         "type": "ios.app",
-        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/psycleexpo.app",
-        "build": "xcodebuild -workspace ios/psycleexpo.xcworkspace -scheme psycleexpo -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build"
+        "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/Psycle.app",
+        "build": "xcodebuild -workspace ios/Psycle.xcworkspace -scheme Psycle -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build"
       },
       "ios.release": {
         "type": "ios.app",
-        "binaryPath": "ios/build-release/Build/Products/Release-iphonesimulator/psycleexpo.app",
-        "build": "EXPO_PUBLIC_E2E_ANALYTICS_DEBUG=1 xcodebuild -workspace ios/psycleexpo.xcworkspace -scheme psycleexpo -configuration Release -sdk iphonesimulator -derivedDataPath ios/build-release"
+        "binaryPath": "ios/build-release/Build/Products/Release-iphonesimulator/Psycle.app",
+        "build": "EXPO_PUBLIC_E2E_ANALYTICS_DEBUG=1 xcodebuild -workspace ios/Psycle.xcworkspace -scheme Psycle -configuration Release -sdk iphonesimulator -derivedDataPath ios/build-release"
       }
     },
     "devices": {
       "simulator": {
         "type": "ios.simulator",
         "device": {
-          "type": "iPhone 16"
+          "type": "iPhone 17 Pro"
         }
       }
     },
@@ -164,5 +174,8 @@
     "ts-jest": "^29.4.6",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
+  },
+  "overrides": {
+    "baseline-browser-mapping": "2.10.0"
   }
 }

@@ -1,21 +1,23 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet, Pressable, Alert } from "react-native";
+import { View, Text, ScrollView, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { genres, trailsByGenre } from "../../lib/data";
-import { useAppState } from "../../lib/state";
+import { useBillingState, useEconomyState, useProgressionState } from "../../lib/state";
 import { Trail } from "../../components/trail";
 import { Modal } from "../../components/Modal";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { PaywallModal } from "../../components/PaywallModal";
 import { LeagueResultModal } from "../../components/LeagueResultModal";
+import { Button } from "../../components/ui";
 import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
 import { useAuth } from "../../lib/AuthContext";
 import { router } from "expo-router";
 import i18n from "../../lib/i18n";
 import { Analytics } from "../../lib/analytics";
+import { useToast } from "../../components/ToastProvider";
 
 
 
@@ -32,26 +34,15 @@ const GENRE_COLORS: Record<string, string> = {
 export default function CourseScreen() {
   const {
     selectedGenre,
-    setSelectedGenre,
-    addXp,
-    incrementQuest,
-    streak,
-    dailyXP,
-    dailyGoal,
-    freezeCount,
-    gems,
     completedLessons,
-    skill,
-    xp,
-    hasProAccess,
-    mistakes,
-    addGems,
-    setGemsDirectly,
     streakRepairOffer,
     purchaseStreakRepair,
     comebackRewardOffer,
-  } = useAppState();
+  } = useProgressionState();
+  const { hasProAccess } = useBillingState();
+  const { setGemsDirectly } = useEconomyState();
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [modalNode, setModalNode] = useState<any>(null);
   const [paywallVisible, setPaywallVisible] = useState(false);
   const [paywallContextGenre, setPaywallContextGenre] = useState<string | null>(null);
@@ -105,6 +96,20 @@ export default function CourseScreen() {
     if (index === 0 || prevCompleted) return { ...node, status: "current" };
     return { ...node, status: "locked" };
   });
+  const nextActionNode = currentTrail.find(
+    (node) => node.status === "current" && !!node.lessonFile
+  );
+
+  const handleLockedLessonAccess = async () => {
+    const lessonCompleteCount = completedLessons.size;
+    if (shouldShowPaywall(lessonCompleteCount)) {
+      setPaywallContextGenre(selectedGenre);
+      setPaywallVisible(true);
+      return;
+    }
+
+    showToast(String(i18n.t("course.keepUsingMessage")));
+  };
 
   const handleStart = () => {
     if (!modalNode) {
@@ -121,12 +126,10 @@ export default function CourseScreen() {
 
     // Navigate to lesson screen
     if (__DEV__) console.log(`[course.tsx] Navigating to: /lesson?file=${node.lessonFile}&genre=${selectedGenre}`);
-    // Alert.alert("Debug", `Navigating to: ${node.lessonFile}`);
     router.replace(`/lesson?file=${node.lessonFile}&genre=${selectedGenre}`);
     setModalNode(null);
   };
 
-  const dailyProgress = Math.min((dailyXP / dailyGoal) * 100, 100);
   const activeStreakRepairOffer = streakRepairOffer?.active && streakRepairOffer.expiresAtMs > Date.now()
     ? streakRepairOffer
     : null;
@@ -156,6 +159,15 @@ export default function CourseScreen() {
     }
   };
 
+  const handleNextStepPress = () => {
+    if (!nextActionNode) return;
+    if (nextActionNode.isLocked) {
+      void handleLockedLessonAccess();
+      return;
+    }
+    setModalNode(nextActionNode.id);
+  };
+
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
       <GlobalHeader />
@@ -174,21 +186,18 @@ export default function CourseScreen() {
           </View>
           <Pressable
             style={styles.streakRepairButton}
+            accessibilityRole="button"
+            accessibilityLabel={String(i18n.t("course.streakRepair.cta"))}
+            accessibilityHint={String(i18n.t("course.streakRepair.accessibilityHint"))}
             onPress={() => {
               const result = purchaseStreakRepair();
               if (!result.success) {
                 if (result.reason === "insufficient_gems") {
-                  Alert.alert(
-                    i18n.t("course.streakRepair.title"),
-                    i18n.t("course.streakRepair.insufficientGems")
-                  );
+                  showToast(String(i18n.t("course.streakRepair.insufficientGems")), "error");
                   return;
                 }
                 if (result.reason === "expired") {
-                  Alert.alert(
-                    i18n.t("course.streakRepair.title"),
-                    i18n.t("course.streakRepair.expired")
-                  );
+                  showToast(String(i18n.t("course.streakRepair.expired")), "error");
                 }
               }
             }}
@@ -212,6 +221,9 @@ export default function CourseScreen() {
           </View>
           <Pressable
             style={styles.comebackButton}
+            accessibilityRole="button"
+            accessibilityLabel={String(i18n.t("course.comebackReward.cta"))}
+            accessibilityHint={String(i18n.t("course.comebackReward.accessibilityHint"))}
             onPress={handleStartComebackLesson}
           >
             <Text style={styles.comebackButtonText}>{i18n.t("course.comebackReward.cta")}</Text>
@@ -219,29 +231,56 @@ export default function CourseScreen() {
         </View>
       )}
 
-      {/* Stats Cards REMOVED as per minimal design requirement */}
-
-
-
+      {nextActionNode && (
+        <View style={styles.nextStepCard} testID="course-next-step-card">
+          <View style={styles.nextStepHeader}>
+            <View style={styles.nextStepIconWrap}>
+              <Ionicons
+                name={nextActionNode.isLocked ? "lock-closed" : "play"}
+                size={16}
+                color={nextActionNode.isLocked ? theme.colors.warn : theme.colors.accent}
+              />
+            </View>
+            <Text style={styles.nextStepLabel}>{i18n.t("course.nextStep.label")}</Text>
+          </View>
+          <Text style={styles.nextStepTitle}>
+            {nextActionNode.isLocked
+              ? i18n.t("course.nextStep.lockedTitle")
+              : i18n.t("course.nextStep.readyTitle")}
+          </Text>
+          <Text style={styles.nextStepBody}>
+            {nextActionNode.isLocked
+              ? i18n.t("course.nextStep.lockedBody")
+              : i18n.t("course.nextStep.readyBody")}
+          </Text>
+          <Button
+            label={String(
+              nextActionNode.isLocked
+                ? i18n.t("course.nextStep.ctaLocked")
+                : i18n.t("course.nextStep.ctaReady")
+            )}
+            size="sm"
+            onPress={handleNextStepPress}
+            testID="course-next-step-cta"
+            style={[
+              styles.nextStepButton,
+              nextActionNode.isLocked && styles.nextStepButtonLocked,
+            ]}
+            accessibilityLabel={
+              nextActionNode.isLocked
+                ? `${String(i18n.t("course.nextStep.lockedTitle"))}. ${String(i18n.t("course.nextStep.ctaLocked"))}`
+                : `${String(i18n.t("course.nextStep.readyTitle"))}. ${String(i18n.t("course.nextStep.ctaReady"))}`
+            }
+          />
+        </View>
+      )}
 
       <Trail
         trail={currentTrail}
         hideLabels
         onStart={(nodeId) => setModalNode(nodeId)}
-        onLockedPress={async () => {
-          // Paywall表示条件チェック（Study基準: レッスン完了3回以上）
-          const lessonCompleteCount = completedLessons.size;
-          if (shouldShowPaywall(lessonCompleteCount)) {
-            setPaywallContextGenre(selectedGenre);
-            setPaywallVisible(true);
-          } else {
-            // 条件未達成：もう少し使ってみてメッセージ
-            Alert.alert(
-              i18n.t("course.keepUsingTitle"),
-              i18n.t("course.keepUsingMessage"),
-              [{ text: i18n.t("common.ok") }]
-            );
-          }
+        onLockedPress={() => {
+          void handleLockedLessonAccess();
         }}
         themeColor={themeColor}
       />
@@ -280,9 +319,14 @@ export default function CourseScreen() {
             if (newBalance !== undefined) {
               setGemsDirectly(newBalance);
             }
-            Alert.alert(
-              i18n.t("course.rewardClaimedTitle"),
-              i18n.t("course.rewardClaimedMessage", { gems: claimedGems, badges: claimedBadges.length })
+            showToast(
+              String(
+                i18n.t("course.rewardClaimedMessage", {
+                  gems: claimedGems,
+                  badges: claimedBadges.length,
+                })
+              ),
+              "success"
             );
           }}
           onDismiss={() => setShowLeagueResult(false)}
@@ -326,6 +370,9 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 8,
+    minHeight: 44,
+    justifyContent: "center",
+    alignItems: "center",
   },
   streakRepairButtonText: {
     color: "#fff",
@@ -364,11 +411,63 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 8,
+    minHeight: 44,
+    justifyContent: "center",
+    alignItems: "center",
   },
   comebackButtonText: {
     color: "#fff",
     fontWeight: "800",
     fontSize: 12,
+  },
+  nextStepCard: {
+    marginHorizontal: 16,
+    marginTop: 10,
+    marginBottom: 10,
+    padding: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+    backgroundColor: theme.colors.card,
+    gap: 6,
+  },
+  nextStepHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  nextStepIconWrap: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(59, 130, 246, 0.16)",
+  },
+  nextStepLabel: {
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 0.4,
+    color: theme.colors.sub,
+    textTransform: "uppercase",
+  },
+  nextStepTitle: {
+    fontSize: 17,
+    fontWeight: "800",
+    color: theme.colors.text,
+  },
+  nextStepBody: {
+    fontSize: 13,
+    lineHeight: 19,
+    color: theme.colors.sub,
+  },
+  nextStepButton: {
+    marginTop: 4,
+    alignSelf: "flex-start",
+    borderRadius: 999,
+  },
+  nextStepButtonLocked: {
+    backgroundColor: theme.colors.warn,
   },
   header: {
     // Empty header reserved for spacing if needed, or remove completely.

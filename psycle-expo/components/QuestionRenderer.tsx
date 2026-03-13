@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, Pressable, StyleSheet, Animated, ScrollView, TextInput, TouchableOpacity, Alert } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { HapticFeedback } from "../lib/HapticFeedback";
-import { useAppState } from "../lib/state";
+import { useProgressionState } from "../lib/state";
 import { QuestionImage, QuestionAudio } from "./QuestionMedia";
 import { Audio } from "expo-av";
 import { theme } from "../lib/theme";
@@ -29,7 +30,7 @@ import i18n from "../lib/i18n";
 import { getComboMilestone, getNextCombo } from "../lib/comboMilestone";
 
 import { Question } from "../types/question";
-export { Question };
+export type { Question };
 
 
 import { sounds } from "../lib/sounds";
@@ -42,7 +43,7 @@ interface Props {
   onComboMilestone?: (milestone: 3 | 5 | 10, questionId: string) => void;
 }
 
-export const getQuestionText = (question: Question) => question.text ?? question.question ?? "";
+export const getQuestionText = (question: Question) => question.question ?? "";
 
 export const getQuestionChoices = (question: Question) => question.choices ?? [];
 
@@ -59,9 +60,16 @@ export const areSelectAllAnswersCorrect = (question: Question, selectedIndexes: 
   return JSON.stringify(sortedSelected) === JSON.stringify(sortedCorrect);
 };
 
+const getChoiceAccessibilityState = (isSelected: boolean, disabled: boolean) => ({
+  selected: isSelected,
+  disabled,
+});
+
 export function QuestionRenderer({ question, onContinue, combo: externalCombo, onComboChange, onComboMilestone }: Props) {
   const questionText = getQuestionText(question);
   const questionChoices = getQuestionChoices(question);
+  const insets = useSafeAreaInsets();
+  const scrollBottomInset = insets.bottom + theme.spacing.xl;
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]); // For select_all
@@ -88,7 +96,7 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
   const [timeRemaining, setTimeRemaining] = useState<number | null>(null); // For quick_reflex
   const [inputText, setInputText] = useState<string>(""); // For micro_input
   const [consequenceSelection, setConsequenceSelection] = useState<boolean | null>(null); // For consequence_scenario
-  const { addXp, updateSkill } = useAppState();
+  const { addXp, updateSkill } = useProgressionState();
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
   const slideAnim = useRef(new Animated.Value(30)).current;
@@ -469,7 +477,7 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
         <ComboFeedback combo={combo} visible={showCombo} />
         <ScrollView
           style={styles.scrollView}
-          contentContainerStyle={styles.scrollContent}
+          contentContainerStyle={[styles.scrollContent, { paddingBottom: scrollBottomInset }]}
           showsVerticalScrollIndicator={true}
           scrollEnabled={scrollEnabled}
         >
@@ -502,7 +510,7 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
             <MultipleChoice
               choices={questionChoices}
               selectedIndex={selectedIndex}
-              correctIndex={question.correct_index}
+              correctIndex={question.correct_index ?? null}
               showResult={showResult}
               onSelect={handleSelect}
             />
@@ -541,7 +549,7 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
               <QuickReflex
                 choices={questionChoices}
                 selectedIndex={selectedIndex}
-                correctIndex={question.correct_index || 0}
+                correctIndex={question.correct_index ?? 0}
                 showResult={showResult}
                 onSelect={handleSelect}
                 timeLimit={question.time_limit || 2000}
@@ -690,7 +698,13 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
                 )}
                 {/* term_cardは自動的に続けるボタンを表示 */}
                 {!showResult && (
-                  <Pressable style={styles.continueButton} onPress={() => setShowResult(true)} testID="question-continue">
+                  <Pressable
+                    style={styles.continueButton}
+                    onPress={() => setShowResult(true)}
+                    testID="question-continue"
+                    accessibilityRole="button"
+                    accessibilityLabel={String(i18n.t("lesson.continue"))}
+                  >
                     <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
                     <Ionicons name="arrow-forward" size={20} color="#fff" />
                   </Pressable>
@@ -751,11 +765,18 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
                 {!isCorrect && (() => {
                   // 正解テキストを問題タイプごとに生成
                   let correctAnswerText = "";
+                  const choices = questionChoices;
 
-                  if ((question.type === "multiple_choice" || question.type === "fill_blank_tap" || question.type === "conversation" || question.type === "quick_reflex" || question.type === "swipe_judgment" || question.type === "consequence_scenario" || question.type === "interactive_practice") && (question.choices && typeof question.correct_index === 'number')) {
-                    correctAnswerText = question.choices[question.correct_index];
-                  } else if (question.type === "select_all" && question.choices && question.correct_answers) {
-                    correctAnswerText = question.correct_answers.map(i => question.choices[i]).join(i18n.t("questionRenderer.listSeparator"));
+                  if ((question.type === "multiple_choice" || question.type === "fill_blank_tap" || question.type === "conversation" || question.type === "quick_reflex" || question.type === "swipe_judgment" || question.type === "consequence_scenario" || question.type === "interactive_practice") && typeof question.correct_index === 'number') {
+                    const correctChoice = choices[question.correct_index];
+                    if (typeof correctChoice === "string") {
+                      correctAnswerText = correctChoice;
+                    }
+                  } else if (question.type === "select_all" && question.correct_answers) {
+                    correctAnswerText = question.correct_answers
+                      .map((index) => choices[index])
+                      .filter((choice): choice is string => typeof choice === "string")
+                      .join(i18n.t("questionRenderer.listSeparator"));
                   } else if (question.type === "swipe_judgment" && question.swipe_labels) {
                     correctAnswerText = question.is_true ? `→ ${question.swipe_labels.right}` : `← ${question.swipe_labels.left}`;
                   } else if (question.type === "sort_order" && question.correct_order) {
@@ -789,7 +810,13 @@ export function QuestionRenderer({ question, onContinue, combo: externalCombo, o
                 })()}
 
                 {/* 次へボタン (Moved before explanation to ensure visibility) */}
-                <AnimatedButton style={styles.continueButton} onPress={handleContinue} testID="question-continue">
+                <AnimatedButton
+                  style={styles.continueButton}
+                  onPress={handleContinue}
+                  testID="question-continue"
+                  accessibilityRole="button"
+                  accessibilityLabel={String(i18n.t("lesson.continue"))}
+                >
                   <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
                   <Ionicons name="arrow-forward" size={20} color="#fff" />
                 </AnimatedButton>
@@ -967,6 +994,9 @@ function MultipleChoice({
             onPress={() => onSelect(index)}
             disabled={showResult}
             testID={`answer-choice-${index}`}
+            accessibilityRole="button"
+            accessibilityLabel={choice}
+            accessibilityState={getChoiceAccessibilityState(isSelected, showResult)}
           >
             <Text style={[
               styles.choiceText,
@@ -997,7 +1027,7 @@ function TrueFalse({
 }: {
   choices: string[];
   selectedIndex: number | null;
-  correctIndex: number;
+  correctIndex?: number;
   showResult: boolean;
   onSelect: (index: number) => void;
 }) {
@@ -1006,7 +1036,7 @@ function TrueFalse({
       <View style={{ flexDirection: 'row', gap: 12, height: 180 }}>
         {choices.map((choice, index) => {
           const isSelected = selectedIndex === index;
-          const isCorrect = index === correctIndex;
+          const isCorrect = typeof correctIndex === "number" && index === correctIndex;
           const shouldShowCorrect = showResult && isCorrect;
           const shouldShowIncorrect = showResult && isSelected && !isCorrect;
 
@@ -1023,6 +1053,9 @@ function TrueFalse({
               onPress={() => onSelect(index)}
               disabled={showResult}
               testID={`answer-choice-${index}`}
+              accessibilityRole="button"
+              accessibilityLabel={choice}
+              accessibilityState={getChoiceAccessibilityState(isSelected, showResult)}
             >
               <Text style={[
                 styles.choiceText,
@@ -1049,7 +1082,7 @@ function FillBlank({
 }: {
   choices: string[];
   selectedIndex: number | null;
-  correctIndex: number;
+  correctIndex?: number;
   showResult: boolean;
   onSelect: (index: number) => void;
 }) {
@@ -1057,7 +1090,7 @@ function FillBlank({
     <View style={styles.choicesContainer}>
       {choices.map((choice, index) => {
         const isSelected = selectedIndex === index;
-        const isCorrect = index === correctIndex;
+        const isCorrect = typeof correctIndex === "number" && index === correctIndex;
         const shouldShowCorrect = showResult && isCorrect;
         const shouldShowIncorrect = showResult && isSelected && !isCorrect;
 
@@ -1073,6 +1106,9 @@ function FillBlank({
             onPress={() => onSelect(index)}
             disabled={showResult}
             testID={`answer-choice-${index}`}
+            accessibilityRole="button"
+            accessibilityLabel={choice}
+            accessibilityState={getChoiceAccessibilityState(isSelected, showResult)}
           >
             <Text style={[styles.choiceText, isSelected && styles.selectedChoiceText]}>
               {choice}
@@ -1093,7 +1129,6 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     padding: 20,
-    paddingBottom: 100,
   },
   difficultyBadge: {
     flexDirection: "row",

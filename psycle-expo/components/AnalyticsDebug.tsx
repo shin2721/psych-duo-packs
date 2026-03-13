@@ -21,6 +21,7 @@ import { useRouter } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
 import * as Clipboard from 'expo-clipboard';
 import { theme } from '../lib/theme';
+import { useToast } from './ToastProvider';
 import { Analytics } from '../lib/analytics';
 import {
     getDebugState,
@@ -39,6 +40,7 @@ if (!isAnalyticsDebugEnabled) {
 
 export default function AnalyticsDebug() {
     const router = useRouter();
+    const { showToast } = useToast();
     const [state, setState] = useState<DebugState>(getDebugState());
     const [isResetting, setIsResetting] = useState(false);
 
@@ -68,7 +70,7 @@ export default function AnalyticsDebug() {
                             // Reset Analytics state
                             await Analytics.resetAnalyticsStateForDebug(false);
                             setState(getDebugState());
-                            Alert.alert('Reset Complete', 'Restart the app to begin a fresh E2E test.');
+                            showToast('Restart the app to begin a fresh E2E test.', 'success');
                         } finally {
                             setIsResetting(false);
                         }
@@ -81,7 +83,7 @@ export default function AnalyticsDebug() {
     const handleCopyReport = async () => {
         const report = getDebugReport();
         await Clipboard.setStringAsync(report);
-        Alert.alert('Copied', 'Debug report copied to clipboard.');
+        showToast('Debug report copied to clipboard.', 'success');
     };
 
     const handleSecondLaunchModeToggle = (value: boolean) => {

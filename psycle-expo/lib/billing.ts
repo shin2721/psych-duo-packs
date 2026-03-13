@@ -21,12 +21,43 @@ type BuyPlanOptions = {
   priceCohort?: string;
 };
 
+export type BuyPlanFailureReason =
+  | "plan_disabled"
+  | "billing_period_unsupported"
+  | "functions_url_missing"
+  | "missing_user_context"
+  | "missing_auth_token"
+  | "invalid_plan"
+  | "checkout_session_failed"
+  | "open_url_failed"
+  | "unknown";
+
+export type BuyPlanResult =
+  | { ok: true }
+  | { ok: false; reason: BuyPlanFailureReason };
+
+export type OpenBillingPortalFailureReason =
+  | "functions_url_missing"
+  | "missing_auth_token"
+  | "portal_session_failed"
+  | "open_url_failed"
+  | "unknown";
+
+export type OpenBillingPortalResult =
+  | { ok: true }
+  | { ok: false; reason: OpenBillingPortalFailureReason };
+
+export type RestorePurchasesResult =
+  | { status: "restored"; planId: PlanId; activeUntil: string | null }
+  | { status: "not_found" }
+  | { status: "error"; reason: "functions_url_missing" | "missing_auth_token" | "restore_failed" | "unknown" };
+
 export async function buyPlan(
   plan: "pro" | "max",
   uid: string,
   email: string,
   options?: BuyPlanOptions
-): Promise<boolean> {
+): Promise<BuyPlanResult> {
   const billingPeriod = options?.billingPeriod ?? "monthly";
   const trialDays = Math.max(0, Math.floor(options?.trialDays ?? 0));
   const priceVersion = options?.priceVersion ?? "control";
@@ -38,8 +69,7 @@ export async function buyPlan(
       planId: plan,
       reason: "plan_disabled",
     });
-    alert(`${plan.toUpperCase()}プランは現在停止中です。`);
-    return false;
+    return { ok: false, reason: "plan_disabled" };
   }
 
   if (!supportsPlanBillingPeriod(plan, billingPeriod)) {
@@ -48,8 +78,7 @@ export async function buyPlan(
       planId: plan,
       reason: "billing_period_unsupported",
     });
-    alert("選択した支払い期間は現在利用できません。");
-    return false;
+    return { ok: false, reason: "billing_period_unsupported" };
   }
 
   const functionsUrl = getSupabaseFunctionsUrl();
@@ -59,8 +88,7 @@ export async function buyPlan(
       planId: plan,
       reason: "functions_url_missing",
     });
-    alert("決済設定が未完了です。しばらくしてから再度お試しください。");
-    return false;
+    return { ok: false, reason: "functions_url_missing" };
   }
 
   if (!uid || !email) {
@@ -69,8 +97,7 @@ export async function buyPlan(
       planId: plan,
       reason: "missing_user_context",
     });
-    alert("ログイン情報を確認できませんでした。");
-    return false;
+    return { ok: false, reason: "missing_user_context" };
   }
 
   const {
@@ -83,8 +110,7 @@ export async function buyPlan(
       planId: plan,
       reason: "missing_auth_token",
     });
-    alert("ログイン情報を確認できませんでした。");
-    return false;
+    return { ok: false, reason: "missing_auth_token" };
   }
 
   const selectedPlan = getPlanById(plan);
@@ -95,8 +121,7 @@ export async function buyPlan(
       planId: plan,
       reason: "invalid_plan",
     });
-    alert("選択したプラン情報を読み込めませんでした。");
-    return false;
+    return { ok: false, reason: "invalid_plan" };
   }
 
   try {
@@ -127,29 +152,33 @@ export async function buyPlan(
     }
 
     const { url } = await res.json();
-    if (!url) {
+    if (typeof url !== "string" || !url) {
       Analytics.track("checkout_failed", {
         source: "billing_lib",
         planId: plan,
         reason: "missing_checkout_url",
       });
-      throw new Error("Missing checkout url");
+      return { ok: false, reason: "checkout_session_failed" };
     }
 
     // ブラウザでCheckoutを開く
-    await Linking.openURL(url);
-    return true;
+    try {
+      await Linking.openURL(url);
+      return { ok: true };
+    } catch (error) {
+      console.error("buyPlan openURL error:", error);
+      return { ok: false, reason: "open_url_failed" };
+    }
   } catch (error) {
     console.error("buyPlan error:", error);
-    alert("決済画面の起動に失敗しました");
-    return false;
+    return { ok: false, reason: "checkout_session_failed" };
   }
 }
 
-export async function openBillingPortal(): Promise<boolean> {
+export async function openBillingPortal(): Promise<OpenBillingPortalResult> {
   const functionsUrl = getSupabaseFunctionsUrl();
   if (!functionsUrl) {
-    return false;
+    return { ok: false, reason: "functions_url_missing" };
   }
 
   const {
@@ -161,7 +190,7 @@ export async function openBillingPortal(): Promise<boolean> {
       source: "billing_lib",
       reason: "missing_auth_token",
     });
-    return false;
+    return { ok: false, reason: "missing_auth_token" };
   }
 
   try {
@@ -177,14 +206,21 @@ export async function openBillingPortal(): Promise<boolean> {
     if (!res.ok) throw new Error("Failed to create portal session");
 
     const { url } = await res.json();
+    if (typeof url !== "string" || !url) {
+      return { ok: false, reason: "portal_session_failed" };
+    }
 
     // ブラウザでCustomer Portalを開く
-    await Linking.openURL(url);
-    return true;
+    try {
+      await Linking.openURL(url);
+      return { ok: true };
+    } catch (error) {
+      console.error("openBillingPortal openURL error:", error);
+      return { ok: false, reason: "open_url_failed" };
+    }
   } catch (error) {
     console.error("openBillingPortal error:", error);
-    alert("請求ポータルの起動に失敗しました");
-    return false;
+    return { ok: false, reason: "portal_session_failed" };
   }
 }
 
@@ -192,14 +228,14 @@ export async function openBillingPortal(): Promise<boolean> {
  * 購入を復元する（App Store審査で必須）
  * サーバーサイドでユーザーの購入履歴を確認し、entitlementを復元する
  */
-export async function restorePurchases(): Promise<{ restored: boolean; planId?: PlanId; activeUntil?: string | null } | false> {
+export async function restorePurchases(): Promise<RestorePurchasesResult> {
   const functionsUrl = getSupabaseFunctionsUrl();
   if (!functionsUrl) {
     Analytics.track("checkout_failed", {
       source: "billing_lib",
       reason: "functions_url_missing",
     });
-    return false;
+    return { status: "error", reason: "functions_url_missing" };
   }
 
   const {
@@ -211,7 +247,7 @@ export async function restorePurchases(): Promise<{ restored: boolean; planId?: 
       source: "billing_lib",
       reason: "missing_auth_token",
     });
-    return false;
+    return { status: "error", reason: "missing_auth_token" };
   }
 
   try {
@@ -232,15 +268,16 @@ export async function restorePurchases(): Promise<{ restored: boolean; planId?: 
     const data = await res.json();
 
     if (data.restored && data.planId) {
-      alert(`購入を復元しました！プラン: ${data.planId.toUpperCase()}`);
-      return data as { restored: boolean; planId?: PlanId; activeUntil?: string | null };
-    } else {
-      alert("復元可能な購入が見つかりませんでした。");
-      return false;
+      return {
+        status: "restored",
+        planId: data.planId as PlanId,
+        activeUntil: data.activeUntil ?? null,
+      };
     }
+
+    return { status: "not_found" };
   } catch (error) {
     console.error("restorePurchases error:", error);
-    alert("購入の復元に失敗しました。しばらくしてから再度お試しください。");
-    return false;
+    return { status: "error", reason: "restore_failed" };
   }
 }

@@ -8,6 +8,7 @@ type AuthContextType = {
     user: User | null;
     isLoading: boolean;
     signIn: () => void;
+    signInAsGuest: () => void;
     signOut: () => void;
 };
 
@@ -16,6 +17,7 @@ const AuthContext = createContext<AuthContextType>({
     user: null,
     isLoading: true,
     signIn: () => { },
+    signInAsGuest: () => { },
     signOut: () => { },
 });
 
@@ -24,15 +26,32 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [session, setSession] = useState<Session | null>(null);
     const [isLoading, setIsLoading] = useState(true);
+    const canUseGuestSession = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
 
     useEffect(() => {
         const initSession = async () => {
-            // Cleanup legacy guest session key once.
-            await AsyncStorage.removeItem('guestSession').catch(() => { });
+            if (!canUseGuestSession) {
+                // Cleanup legacy guest session key once in normal mode.
+                await AsyncStorage.removeItem('guestSession').catch(() => { });
+            } else {
+                // In E2E analytics mode, allow local guest session bootstrap.
+                try {
+                    const guestSessionStr = await AsyncStorage.getItem('guestSession');
+                    if (guestSessionStr) {
+                        setSession(JSON.parse(guestSessionStr));
+                        setIsLoading(false);
+                    }
+                } catch (error) {
+                    if (__DEV__) console.warn('Failed to load guest session for E2E mode', error);
+                }
+            }
 
             try {
                 const { data: { session: supabaseSession } } = await supabase.auth.getSession();
                 setSession(supabaseSession ?? null);
+                if (supabaseSession) {
+                    await AsyncStorage.removeItem('guestSession').catch(() => { });
+                }
             } catch (error) {
                 if (__DEV__) console.log('Supabase auth check failed');
             } finally {
@@ -51,6 +70,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     const signOut = async () => {
         await supabase.auth.signOut();
+        await AsyncStorage.removeItem('guestSession').catch(() => { });
         setSession(null);
     };
 
@@ -59,11 +79,41 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         // But we can expose a method if needed for global access
     };
 
+    const signInAsGuest = async () => {
+        if (!canUseGuestSession) return;
+
+        const guestUser: User = {
+            id: `guest_user_${Date.now()}`,
+            app_metadata: {},
+            user_metadata: {},
+            aud: 'authenticated',
+            created_at: new Date().toISOString(),
+        };
+
+        const guestSession: Session = {
+            access_token: 'guest_token',
+            refresh_token: 'guest_refresh',
+            expires_in: 3600,
+            token_type: 'bearer',
+            user: guestUser,
+        };
+
+        try {
+            await AsyncStorage.setItem('guestSession', JSON.stringify(guestSession));
+            setSession(guestSession);
+        } catch (error) {
+            console.error('Error saving guest session:', error);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     const value = {
         session,
         user: session?.user ?? null,
         isLoading,
         signIn,
+        signInAsGuest,
         signOut,
     };
 

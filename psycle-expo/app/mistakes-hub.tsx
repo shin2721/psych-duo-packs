@@ -1,12 +1,13 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useMemo, useRef, useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { QuestionRenderer, type Question } from "../components/QuestionRenderer";
 import { Analytics } from "../lib/analytics";
 import { getQuestionFromId } from "../lib/lessons";
-import { useAppState } from "../lib/state";
+import { SupportStatePanel } from "../components/SupportStatePanel";
+import { usePracticeState, useProgressionState } from "../lib/state";
 import { theme } from "../lib/theme";
 import i18n from "../lib/i18n";
 
@@ -14,9 +15,9 @@ export default function MistakesHubScreen() {
   const {
     mistakesHubSessionItems,
     clearMistakesHubSession,
-    addXp,
     addReviewEvent,
-  } = useAppState();
+  } = usePracticeState();
+  const { addXp } = useProgressionState();
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [clearedCount, setClearedCount] = useState(0);
@@ -28,15 +29,6 @@ export default function MistakesHubScreen() {
       .map((item) => getQuestionFromId(item.lessonId, item.itemId))
       .filter((question): question is Question => Boolean(question));
   }, [mistakesHubSessionItems]);
-
-  useEffect(() => {
-    if (mistakesHubSessionItems.length > 0) return;
-    Alert.alert(
-      String(i18n.t("common.error")),
-      String(i18n.t("mistakesHubButton.notEnoughData")),
-      [{ text: String(i18n.t("common.ok")), onPress: () => router.back() }]
-    );
-  }, [mistakesHubSessionItems.length]);
 
   const finishSession = (nextClearedCount: number) => {
     if (!completionTrackedRef.current) {
@@ -54,7 +46,7 @@ export default function MistakesHubScreen() {
 
   const handleClose = () => {
     clearMistakesHubSession();
-    router.back();
+    router.replace("/(tabs)/course");
   };
 
   const handleContinue = (isCorrect: boolean, xp: number) => {
@@ -86,19 +78,17 @@ export default function MistakesHubScreen() {
     finishSession(nextClearedCount);
   };
 
-  if (mistakesHubSessionItems.length === 0) {
-    return <SafeAreaView style={styles.container} />;
-  }
-
-  if (questions.length === 0) {
+  if (mistakesHubSessionItems.length === 0 || questions.length === 0) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.emptyState}>
-          <Text style={styles.emptyTitle}>{i18n.t("review.emptyTitle")}</Text>
-          <Text style={styles.emptyText}>{i18n.t("mistakesHubButton.notEnoughData")}</Text>
-          <Pressable style={styles.primaryButton} onPress={handleClose}>
-            <Text style={styles.primaryButtonText}>{i18n.t("review.backToCourse")}</Text>
-          </Pressable>
+      <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
+        <View testID="mistakes-hub-empty" style={styles.statePanelWrap}>
+          <SupportStatePanel
+            icon="albums-outline"
+            title={String(i18n.t("review.emptyTitle"))}
+            body={String(i18n.t("mistakesHubButton.notEnoughData"))}
+            ctaLabel={String(i18n.t("review.backToCourse"))}
+            onPress={handleClose}
+          />
         </View>
       </SafeAreaView>
     );
@@ -106,19 +96,19 @@ export default function MistakesHubScreen() {
 
   if (isComplete) {
     return (
-      <SafeAreaView style={styles.container}>
-        <View style={styles.resultContainer}>
-          <Text style={styles.resultTitle}>{i18n.t("review.doneTitle")}</Text>
-          <Text style={styles.resultBody}>
-            {i18n.t("review.resultSummary", {
+      <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
+        <SupportStatePanel
+          icon="sparkles-outline"
+          title={String(i18n.t("review.doneTitle"))}
+          body={String(
+            i18n.t("review.resultSummary", {
               total: questions.length,
               cleared: clearedCount,
-            })}
-          </Text>
-          <Pressable style={styles.primaryButton} onPress={() => router.back()}>
-            <Text style={styles.primaryButtonText}>{i18n.t("review.backToCourse")}</Text>
-          </Pressable>
-        </View>
+            })
+          )}
+          ctaLabel={String(i18n.t("review.backToCourse"))}
+          onPress={() => router.replace("/(tabs)/course")}
+        />
       </SafeAreaView>
     );
   }
@@ -126,9 +116,15 @@ export default function MistakesHubScreen() {
   const currentQuestion = questions[currentIndex];
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
       <View style={styles.header}>
-        <Pressable style={styles.closeButton} onPress={handleClose}>
+        <Pressable
+          style={styles.closeButton}
+          onPress={handleClose}
+          testID="mistakes-hub-close"
+          accessibilityRole="button"
+          accessibilityLabel={`${i18n.t("common.close")}: ${i18n.t("mistakesHub.title")}`}
+        >
           <Ionicons name="close" size={24} color={theme.colors.text} />
         </Pressable>
         <View style={styles.progressTrack}>
@@ -177,49 +173,7 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: theme.colors.primary,
   },
-  emptyState: {
+  statePanelWrap: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: theme.spacing.xl,
-    gap: theme.spacing.md,
-  },
-  emptyTitle: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: theme.colors.text,
-  },
-  emptyText: {
-    textAlign: "center",
-    color: theme.colors.sub,
-    lineHeight: 20,
-  },
-  resultContainer: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    paddingHorizontal: theme.spacing.xl,
-    gap: theme.spacing.md,
-  },
-  resultTitle: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: theme.colors.text,
-  },
-  resultBody: {
-    fontSize: 16,
-    color: theme.colors.sub,
-    textAlign: "center",
-  },
-  primaryButton: {
-    marginTop: theme.spacing.lg,
-    backgroundColor: theme.colors.primary,
-    paddingHorizontal: theme.spacing.xl,
-    paddingVertical: theme.spacing.md,
-    borderRadius: 999,
-  },
-  primaryButtonText: {
-    color: "#fff",
-    fontWeight: "700",
   },
 });

@@ -1,17 +1,23 @@
 import React, { useState, useEffect, useRef } from "react";
 import { View, Text, StyleSheet, Alert, Pressable } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../lib/theme";
-import { useAppState } from "../lib/state";
+import {
+  useBillingState,
+  useEconomyState,
+  usePracticeState,
+  useProgressionState,
+} from "../lib/state";
 import { QuestionRenderer } from "../components/QuestionRenderer";
 import { loadLessons, Lesson } from "../lib/lessons";
 import { ScrollView, TouchableOpacity } from "react-native";
 import { StarBackground } from "../components/StarBackground";
 import { VictoryConfetti } from "../components/VictoryConfetti";
 import { FireflyLoader } from "../components/FireflyLoader";
+import { XPGainAnimation } from "../components/XPGainAnimation";
 import { logFeltBetter, logInterventionInteraction, hasLoggedShownThisSession, markShownLogged, resetSessionTracking } from "../lib/dogfood";
 import { getEvidenceSummary, getTryValueColor } from "../lib/evidenceSummary";
 import { recordStudyCompletion, addXP, XP_REWARDS } from "../lib/streaks";
@@ -20,10 +26,10 @@ import {
   markFirstLessonComplete,
 } from "../lib/onboarding";
 import { Analytics } from "../lib/analytics";
-import { formatCitation } from "../lib/evidenceUtils";
 import i18n from "../lib/i18n";
 import entitlements from "../config/entitlements.json";
 import { useAuth } from "../lib/AuthContext";
+import { useToast } from "../components/ToastProvider";
 import { syncDailyReminders } from "../lib/notifications";
 import { sounds } from "../lib/sounds";
 import { hapticFeedback } from "../lib/haptics";
@@ -67,30 +73,35 @@ const comboXpConfig = getComboXpConfig();
 const doubleXpNudgeConfig = getDoubleXpNudgeConfig();
 
 export default function LessonScreen() {
+  const insets = useSafeAreaInsets();
+  const completionBottomInset = insets.bottom + theme.spacing.lg;
   const params = useLocalSearchParams<{ file: string; genre: string }>();
   const fileParam = params.file; // Extract to primitive string
   const isE2EAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
   const {
     completeLesson,
     addXp,
-    addReviewEvent,
     incrementQuestMetric,
     quests,
+    claimComebackRewardOnLessonComplete,
+    streakRepairOffer,
+  } = useProgressionState();
+  const { addReviewEvent } = usePracticeState();
+  const {
     consumeEnergy,
     lessonEnergyCost,
     tryTriggerStreakEnergyBonus,
-    claimComebackRewardOnLessonComplete,
     energy,
     maxEnergy,
     lastEnergyUpdateTime,
     energyRefillMinutes,
-    isSubscriptionActive,
-    streakRepairOffer,
     gems,
     buyDoubleXP,
     isDoubleXpActive,
-  } = useAppState();
+  } = useEconomyState();
+  const { isSubscriptionActive } = useBillingState();
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
   const [questions, setQuestions] = useState<any[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
@@ -111,7 +122,9 @@ export default function LessonScreen() {
   const usedComboBonusXpRef = useRef(0); // レッスン単位のコンボ追加XP累積
   const nudgeEvaluatedRef = useRef(false);
   const [showDoubleXpNudge, setShowDoubleXpNudge] = useState(false);
+  const [xpAnimation, setXpAnimation] = useState({ visible: false, amount: 0, key: 0 });
   const nudgeExperimentRef = useRef<{ experimentId: string; variantId: string } | null>(null);
+  const xpAnimationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const nudgeStorageUserId = user?.id ?? "local";
   const listSeparator = i18n.locale.startsWith("ja") ? "、" : ", ";
 
@@ -123,6 +136,14 @@ export default function LessonScreen() {
       loadLesson();
     }
   }, [fileParam]);
+
+  useEffect(() => {
+    return () => {
+      if (xpAnimationTimeoutRef.current) {
+        clearTimeout(xpAnimationTimeoutRef.current);
+      }
+    };
+  }, []);
 
   async function loadLesson() {
     try {
@@ -221,7 +242,7 @@ export default function LessonScreen() {
     } catch (error) {
       console.error("Failed to load lesson:", error);
       const message = error instanceof Error ? error.message : String(error);
-      Alert.alert(i18n.t("lesson.errorTitle"), i18n.t("lesson.loadFailed", { message }));
+      showToast(String(i18n.t("lesson.loadFailed", { message })), "error");
       router.back();
     }
   }
@@ -391,7 +412,19 @@ export default function LessonScreen() {
         config: comboXpConfig,
       });
       usedComboBonusXpRef.current = comboBonus.nextUsedBonusXp;
-      addXp(baseXp + comboBonus.bonusXp);
+      const awardedXp = baseXp + comboBonus.bonusXp;
+      addXp(awardedXp);
+      if (xpAnimationTimeoutRef.current) {
+        clearTimeout(xpAnimationTimeoutRef.current);
+      }
+      setXpAnimation((prev) => ({
+        visible: true,
+        amount: awardedXp,
+        key: prev.key + 1,
+      }));
+      xpAnimationTimeoutRef.current = setTimeout(() => {
+        setXpAnimation((prev) => ({ ...prev, visible: false }));
+      }, 1400);
 
       if (comboBonus.bonusXp > 0) {
         Analytics.track("combo_xp_bonus_applied", {
@@ -488,7 +521,7 @@ export default function LessonScreen() {
         <VictoryConfetti />
 
         <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
-          <ScrollView contentContainerStyle={styles.completionContainer}>
+          <ScrollView contentContainerStyle={[styles.completionContainer, { paddingBottom: completionBottomInset }]}>
             <Text style={styles.completionTitle}>{i18n.t("lesson.completeTitle")}</Text>
             <Text style={styles.completionSub}>+{XP_REWARDS.LESSON_COMPLETE} XP</Text>
 
@@ -573,15 +606,15 @@ export default function LessonScreen() {
                           });
                         }
                         setShowDoubleXpNudge(false);
-                        Alert.alert(i18n.t("common.ok"), i18n.t("lesson.doubleXpNudge.purchased"));
+                        showToast(String(i18n.t("lesson.doubleXpNudge.purchased")), "success");
                         return;
                       }
 
                       if (result.reason === "already_active") {
-                        Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.doubleXpAlreadyActive"));
+                        showToast(String(i18n.t("shop.errors.doubleXpAlreadyActive")), "error");
                         return;
                       }
-                      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.notEnoughGems"));
+                      showToast(String(i18n.t("shop.errors.notEnoughGems")), "error");
                     }}
                   >
                     <Text style={styles.doubleXpNudgeCtaText}>{i18n.t("lesson.doubleXpNudge.cta")}</Text>
@@ -834,7 +867,7 @@ export default function LessonScreen() {
                       <Text style={styles.theoryText}>
                         {i18n.t("lesson.basedOnResearchPrefix")}
                         {"\n"}
-                        {formatCitation(ref)}
+                        {ref.citation}
                         {i18n.t("lesson.basedOnResearchSuffix")}
                       </Text>
                     </View>
@@ -843,7 +876,13 @@ export default function LessonScreen() {
               );
             })()}
 
-            <TouchableOpacity onPress={() => router.replace("/(tabs)/course")} style={styles.continueButton} testID="lesson-complete-continue">
+            <TouchableOpacity
+              onPress={() => router.replace("/(tabs)/course")}
+              style={styles.continueButton}
+              testID="lesson-complete-continue"
+              accessibilityRole="button"
+              accessibilityLabel={String(i18n.t("lesson.continue"))}
+            >
               <Text style={styles.continueText}>{i18n.t("lesson.continue")}</Text>
             </TouchableOpacity>
           </ScrollView>
@@ -914,6 +953,9 @@ export default function LessonScreen() {
           });
         }}
       />
+      {xpAnimation.visible && (
+        <XPGainAnimation key={xpAnimation.key} amount={xpAnimation.amount} />
+      )}
     </SafeAreaView>
   );
 }
@@ -975,7 +1017,6 @@ const styles = StyleSheet.create({
   completionContainer: {
     padding: 24,
     alignItems: 'center',
-    paddingBottom: 40,
   },
   completionTitle: {
     fontSize: 28,

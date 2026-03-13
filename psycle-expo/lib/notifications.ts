@@ -108,9 +108,9 @@ async function scheduleReminder(params: {
         },
       },
       trigger: {
+        type: Notifications.SchedulableTriggerInputTypes.DAILY,
         hour,
         minute,
-        repeats: true,
       },
     });
 

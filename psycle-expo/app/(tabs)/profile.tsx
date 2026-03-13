@@ -1,28 +1,63 @@
 import React from "react";
 import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { useFocusEffect } from "@react-navigation/native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { useAuth } from "../../lib/AuthContext";
-import { useAppState } from "../../lib/state";
+import { useProgressionState } from "../../lib/state";
+import { supabase } from "../../lib/supabase";
 import { BADGES } from "../../lib/badges";
 import { BadgeIcon } from "../../components/BadgeIcon";
 import { MistakesHubButton } from "../../components/MistakesHubButton";
 import { StreakIcon, TrophyIcon } from "../../components/CustomIcons";
 import { getMyLeague } from "../../lib/league";
 import { formatProfileLeagueLabel } from "../../lib/profileLeagueLabel";
+import { isProfileAvatarIcon, type ProfileAvatarIcon } from "../../lib/avatarIcons";
 import i18n from "../../lib/i18n";
 
 export default function ProfileScreen() {
     const router = useRouter();
     const { user } = useAuth();
-    const { xp, streak, completedLessons, unlockedBadges } = useAppState();
+    const { xp, streak, completedLessons, unlockedBadges } = useProgressionState();
     const [leagueLabel, setLeagueLabel] = React.useState<string>("...");
     const [leagueLoading, setLeagueLoading] = React.useState(true);
+    const [profileUsername, setProfileUsername] = React.useState<string | null>(null);
+    const [avatarIcon, setAvatarIcon] = React.useState<ProfileAvatarIcon>("person");
+    const bottomTabBarHeight = useBottomTabBarHeight();
+    const scrollBottomInset = bottomTabBarHeight + theme.spacing.lg;
 
-    const username = user?.email?.split("@")[0] || String(i18n.t("profile.userFallback"));
+    const username = profileUsername || user?.email?.split("@")[0] || String(i18n.t("profile.userFallback"));
+
+    const refreshProfile = React.useCallback(async () => {
+        if (!user?.id) {
+            setProfileUsername(null);
+            setAvatarIcon("person");
+            return;
+        }
+
+        try {
+            const { data, error } = await supabase
+                .from("profiles")
+                .select("username, avatar_icon")
+                .eq("id", user.id)
+                .single();
+            if (error) throw error;
+
+            setProfileUsername(
+                typeof data?.username === "string" && data.username.length > 0
+                    ? data.username
+                    : null
+            );
+            setAvatarIcon(isProfileAvatarIcon(data?.avatar_icon) ? data.avatar_icon : "person");
+        } catch (error) {
+            console.error("Failed to load profile data:", error);
+            setProfileUsername(null);
+            setAvatarIcon("person");
+        }
+    }, [user?.id]);
 
     const refreshLeague = React.useCallback(async () => {
         if (!user?.id) {
@@ -46,18 +81,20 @@ export default function ProfileScreen() {
     }, [user?.id]);
 
     React.useEffect(() => {
+        refreshProfile();
         refreshLeague();
-    }, [refreshLeague]);
+    }, [refreshLeague, refreshProfile]);
 
     useFocusEffect(
         React.useCallback(() => {
+            refreshProfile();
             refreshLeague();
-        }, [refreshLeague])
+        }, [refreshLeague, refreshProfile])
     );
 
     return (
         <SafeAreaView style={styles.container}>
-            <ScrollView>
+            <ScrollView contentContainerStyle={{ paddingBottom: scrollBottomInset }}>
                 {/* Header */}
                 <View style={styles.header}>
                     <Text style={styles.headerTitle}>{i18n.t("profile.title")}</Text>
@@ -65,6 +102,8 @@ export default function ProfileScreen() {
                         style={styles.settingsButton}
                         onPress={() => router.push("/settings")}
                         testID="profile-open-settings"
+                        accessibilityRole="button"
+                        accessibilityLabel={String(i18n.t("settings.title"))}
                     >
                         <Ionicons name="settings-outline" size={24} color={theme.colors.text} />
                     </Pressable>
@@ -75,18 +114,25 @@ export default function ProfileScreen() {
                     {/* Avatar */}
                     <View style={styles.avatarContainer}>
                         <View style={styles.avatar}>
-                            <Ionicons name="person" size={48} color={theme.colors.primary} />
+                            <Ionicons name={avatarIcon as any} size={48} color={theme.colors.primary} />
                         </View>
                     </View>
 
                     {/* Username */}
-                    <Text style={styles.username}>{username}</Text>
-                    <Text style={styles.email}>{user?.email}</Text>
+                    <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
+                        {username}
+                    </Text>
+                    <Text style={styles.email} numberOfLines={1} ellipsizeMode="tail">
+                        {user?.email}
+                    </Text>
 
                     {/* Edit Button */}
                     <Pressable
                         style={styles.editButton}
                         onPress={() => router.push("/settings/edit-profile")}
+                        testID="profile-edit-profile"
+                        accessibilityRole="button"
+                        accessibilityLabel={String(i18n.t("profile.editButton"))}
                     >
                         <Text style={styles.editButtonText}>{i18n.t("profile.editButton")}</Text>
                     </Pressable>
@@ -137,16 +183,20 @@ export default function ProfileScreen() {
                 {/* Quick Actions */}
                 <View style={styles.section}>
                     <Text style={styles.sectionTitle}>{i18n.t("profile.sections.quickActions")}</Text>
-                    <MistakesHubButton />
+                    <View testID="profile-mistakes-hub-action">
+                        <MistakesHubButton />
+                    </View>
                     <ActionRow
                         icon="calendar"
                         label={String(i18n.t("profile.actions.learningHistory"))}
-                        onPress={() => { }}
+                        detail={String(i18n.t("profile.actions.comingSoon"))}
+                        disabled
                     />
                     <ActionRow
                         icon="stats-chart"
                         label={String(i18n.t("profile.actions.detailedStats"))}
-                        onPress={() => { }}
+                        detail={String(i18n.t("profile.actions.comingSoon"))}
+                        disabled
                     />
                 </View>
             </ScrollView>
@@ -156,22 +206,49 @@ export default function ProfileScreen() {
 
 function StatCard({ icon, label, value, color, customIcon }: { icon?: any; label: string; value: string; color: string; customIcon?: React.ReactNode }) {
     return (
-        <View style={styles.statCard}>
+        <View
+            style={styles.statCard}
+            accessible
+            accessibilityLabel={`${label}, ${value}`}
+        >
             {customIcon ? customIcon : <Ionicons name={icon} size={32} color={color} />}
-            <Text style={styles.statValue}>{value}</Text>
+            <Text style={styles.statValue} numberOfLines={1} ellipsizeMode="tail">
+                {value}
+            </Text>
             <Text style={styles.statLabel}>{label}</Text>
         </View>
     );
 }
 
-function ActionRow({ icon, label, onPress }: { icon: any; label: string; onPress: () => void }) {
+function ActionRow({
+    icon,
+    label,
+    onPress,
+    detail,
+    disabled = false,
+}: {
+    icon: any;
+    label: string;
+    onPress?: () => void;
+    detail?: string;
+    disabled?: boolean;
+}) {
     return (
-        <Pressable style={styles.actionRow} onPress={onPress}>
+        <Pressable
+            style={[styles.actionRow, disabled && styles.actionRowDisabled]}
+            onPress={disabled ? undefined : onPress}
+            disabled={disabled}
+            accessibilityRole="button"
+            accessibilityState={disabled ? { disabled: true } : undefined}
+        >
             <View style={styles.actionLeft}>
-                <Ionicons name={icon} size={24} color={theme.colors.text} />
-                <Text style={styles.actionLabel}>{label}</Text>
+                <Ionicons name={icon} size={24} color={disabled ? theme.colors.sub : theme.colors.text} />
+                <View style={styles.actionTextBlock}>
+                    <Text style={[styles.actionLabel, disabled && styles.actionLabelDisabled]}>{label}</Text>
+                    {detail ? <Text style={styles.actionDetail}>{detail}</Text> : null}
+                </View>
             </View>
-            <Ionicons name="chevron-forward" size={20} color={theme.colors.sub} />
+            {!disabled ? <Ionicons name="chevron-forward" size={20} color={theme.colors.sub} /> : null}
         </Pressable>
     );
 }
@@ -194,6 +271,10 @@ const styles = StyleSheet.create({
     },
     settingsButton: {
         padding: theme.spacing.xs,
+        minWidth: 44,
+        minHeight: 44,
+        alignItems: "center",
+        justifyContent: "center",
     },
     profileCard: {
         backgroundColor: theme.colors.surface,
@@ -220,11 +301,13 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: theme.colors.text,
         marginBottom: theme.spacing.xs,
+        maxWidth: "100%",
     },
     email: {
         fontSize: 14,
         color: theme.colors.sub,
         marginBottom: theme.spacing.lg,
+        maxWidth: "100%",
     },
     editButton: {
         paddingVertical: theme.spacing.sm,
@@ -256,6 +339,7 @@ const styles = StyleSheet.create({
         fontWeight: "bold",
         color: theme.colors.text,
         marginTop: theme.spacing.sm,
+        maxWidth: "100%",
     },
     statLabel: {
         fontSize: 12,
@@ -279,14 +363,29 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.line,
     },
+    actionRowDisabled: {
+        opacity: 0.72,
+    },
     actionLeft: {
         flexDirection: "row",
         alignItems: "center",
         gap: theme.spacing.md,
+        flex: 1,
+    },
+    actionTextBlock: {
+        flex: 1,
     },
     actionLabel: {
         fontSize: 16,
         color: theme.colors.text,
+    },
+    actionLabelDisabled: {
+        color: theme.colors.sub,
+    },
+    actionDetail: {
+        marginTop: 2,
+        fontSize: 12,
+        color: theme.colors.sub,
     },
     badgeScroll: {
         paddingHorizontal: theme.spacing.md,

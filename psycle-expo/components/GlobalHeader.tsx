@@ -2,12 +2,13 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
-import { useAppState } from "../lib/state";
+import { useBillingState, useEconomyState, useProgressionState } from "../lib/state";
 import { router } from "expo-router";
 import { genres } from "../lib/data";
 import { StreakIcon, GemIcon, EnergyIcon, MentalIcon, MoneyIcon, WorkIcon, HealthIcon, SocialIcon, StudyIcon } from "./CustomIcons";
 import { Modal, TouchableWithoutFeedback } from "react-native";
 import { Analytics } from "../lib/analytics";
+import i18n from "../lib/i18n";
 
 const getGenreIcon = (id: string, size: number = 28) => {
   switch (id) {
@@ -21,26 +22,53 @@ const getGenreIcon = (id: string, size: number = 28) => {
   }
 };
 
+const getGenreLabel = (id: string, fallback: string) => {
+  const key = `onboarding.genres.${id}`;
+  const translated = i18n.t(key);
+  return translated === key ? fallback : translated;
+};
+
 export function GlobalHeader() {
-  const { gems, selectedGenre, setSelectedGenre, energy, isSubscriptionActive, streak } = useAppState();
+  const { gems, energy } = useEconomyState();
+  const { selectedGenre, setSelectedGenre, streak } = useProgressionState();
+  const { isSubscriptionActive } = useBillingState();
   const [menuVisible, setMenuVisible] = useState(false);
+  const selectedGenreLabel = getGenreLabel(
+    selectedGenre,
+    genres.find((genre) => genre.id === selectedGenre)?.label || selectedGenre
+  );
 
   return (
     <>
       <View style={styles.container}>
         {/* 1. Course Selector */}
-        <Pressable style={styles.item} onPress={() => setMenuVisible(true)}>
+        <Pressable
+          style={styles.item}
+          onPress={() => setMenuVisible(true)}
+          accessibilityRole="button"
+          accessibilityLabel={String(i18n.t("globalHeader.a11y.courseSelector", { course: selectedGenreLabel }))}
+        >
           {getGenreIcon(selectedGenre, 36)}
         </Pressable>
 
         {/* 2. Study Streak */}
-        <Pressable style={styles.item} onPress={() => router.push("/(tabs)/course")}>
+        <Pressable
+          style={styles.item}
+          onPress={() => router.push("/(tabs)/course")}
+          accessibilityRole="button"
+          accessibilityLabel={String(i18n.t("globalHeader.a11y.streak", { count: streak }))}
+        >
           <StreakIcon size={24} />
           <Text style={[styles.value, { color: "#f97316" }]}>{streak}</Text>
         </Pressable>
 
         {/* 3. Gems */}
-        <Pressable style={styles.item} onPress={() => router.push("/(tabs)/shop")}>
+        <Pressable
+          style={styles.item}
+          onPress={() => router.push("/(tabs)/shop")}
+          accessibilityRole="button"
+          accessibilityLabel={String(i18n.t("globalHeader.a11y.gems", { count: gems }))}
+        >
           <GemIcon size={22} />
           <Text style={[styles.value, { color: "#3debf6" }]}>{gems}</Text>
         </Pressable>
@@ -52,6 +80,13 @@ export function GlobalHeader() {
             Analytics.track("shop_open_from_energy", { source: "header_energy_tap" });
             router.push("/(tabs)/shop");
           }}
+          accessibilityRole="button"
+          accessibilityLabel={String(
+            i18n.t(
+              isSubscriptionActive ? "globalHeader.a11y.energyUnlimited" : "globalHeader.a11y.energy",
+              { count: energy }
+            )
+          )}
         >
           <EnergyIcon
             size={22}
@@ -74,7 +109,7 @@ export function GlobalHeader() {
           <View style={styles.modalOverlay}>
             <TouchableWithoutFeedback>
               <View style={styles.menuContainer}>
-                <Text style={styles.menuTitle}>コースを選択</Text>
+                <Text style={styles.menuTitle}>{i18n.t("globalHeader.selectCourse")}</Text>
                 <View style={styles.menuGrid}>
                   {genres.map((g) => (
                     <Pressable
@@ -87,6 +122,9 @@ export function GlobalHeader() {
                         setSelectedGenre(g.id);
                         setMenuVisible(false);
                       }}
+                      accessibilityRole="button"
+                      accessibilityLabel={getGenreLabel(g.id, g.label)}
+                      accessibilityState={selectedGenre === g.id ? { selected: true } : undefined}
                     >
                       <View style={{ marginBottom: 4 }}>
                         {getGenreIcon(g.id, 40)}
@@ -94,7 +132,7 @@ export function GlobalHeader() {
                       <Text style={[
                         styles.menuLabel,
                         selectedGenre === g.id && styles.menuLabelActive
-                      ]}>{g.label}</Text>
+                      ]}>{getGenreLabel(g.id, g.label)}</Text>
                       {selectedGenre === g.id && (
                         <View style={styles.checkBadge}>
                           <Ionicons name="checkmark" size={12} color="white" />
@@ -127,6 +165,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 8,
     minWidth: 44, // Minimum touch area
+    minHeight: 44,
     justifyContent: 'center',
   },
   value: {

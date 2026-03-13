@@ -20,9 +20,22 @@ import { config } from "dotenv";
 import { checkRelevance, extractSeedFromNews, RawNewsItem, ExtractedSeed } from "./extractor";
 import { generateQuestion } from "./generator";
 import { evaluateQuestion, formatCriticReport } from "./critic";
-import { QuestionType, GeneratedQuestion } from "./types";
+import { GeneratedQuestion, Seed, SeedSchema } from "./types";
 import { sleep, importContent } from "./importer";
 import { checkAndBundle } from "./bundler";
+import { getPhaseForIndex, getQuestionTypeForPhase, normalizeDomain } from "./phasePolicy";
+import { evaluateDeterministicGate } from "./deterministicGate";
+import { getLastSourceRegistryLoadInfo, loadSourceRegistry } from "./sourceRegistry";
+import {
+    appendGateFailure,
+    appendPatrolMetrics,
+    createModelUsageSummary,
+    recordModelUsage,
+    type PatrolRunMetrics,
+    type SourceRunMetrics,
+} from "./metrics";
+import { CONTENT_MODELS } from "./modelConfig";
+import { estimateRunCostJpy } from "./costConfig";
 
 config({ path: join(__dirname, "..", ".env") });
 
@@ -47,13 +60,6 @@ function saveHistory(history: Set<string>): void {
     writeFileSync(HISTORY_PATH, JSON.stringify([...history], null, 2), "utf-8");
 }
 
-const SOURCES = [
-    {
-        name: "ScienceDaily (Psychology)",
-        url: "https://www.sciencedaily.com/rss/mind_brain/psychology.xml",
-    },
-];
-
 const KEYWORDS = [
     "bias", "decision", "behavior", "habit", "motivation", "willpower",
     "stress", "burnout", "empathy", "influence", "persuasion", "cognitive",
@@ -65,15 +71,46 @@ interface PatrolResult {
     relevantNews: number;
     seedsExtracted: number;
     questionsGenerated: number;
+    deterministicPassed: number;
+    criticPassed: number;
     questionsPassed: number;
     savedQuestions: GeneratedQuestion[];
 }
 
 async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promise<PatrolResult> {
     const { dryRun = false, limit = 5 } = options;
+    const sources = loadSourceRegistry();
+    const sourceRegistryLoadInfo = getLastSourceRegistryLoadInfo();
+    const sourceStatsById: Record<string, SourceRunMetrics> = {};
+    const sourceIdByName: Record<string, string> = {};
+    for (const source of sources) {
+        sourceStatsById[source.id] = {
+            id: source.id,
+            name: source.name,
+            url: source.url,
+            fetched: 0,
+            items: 0,
+            relevant: 0,
+            seeds: 0,
+            errors: 0,
+        };
+        sourceIdByName[source.name] = source.id;
+    }
+    const gateFailureReasons: Record<string, number> = {};
+    const seedSourceByLink = new Map<string, string>();
+    const modelUsage = createModelUsageSummary({
+        relevance: CONTENT_MODELS.relevance,
+        extractor: CONTENT_MODELS.extractor,
+        generator: CONTENT_MODELS.generator,
+        critic: CONTENT_MODELS.critic,
+    });
 
     console.log("🚀 Psycle Patrol: Full Automation Mode");
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    if (sourceRegistryLoadInfo.usedFallback) {
+        console.warn(`[source-registry] fallback to defaults: ${sourceRegistryLoadInfo.reason || "unknown_reason"}`);
+    }
+    console.log(`📚 Sources enabled: ${sources.length}`);
     if (dryRun) console.log("⚠️  DRY RUN: No API calls will be made.");
 
     const result: PatrolResult = {
@@ -81,6 +118,8 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
         relevantNews: 0,
         seedsExtracted: 0,
         questionsGenerated: 0,
+        deterministicPassed: 0,
+        criticPassed: 0,
         questionsPassed: 0,
         savedQuestions: [],
     };
@@ -96,10 +135,11 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
     const history = loadHistory();
     let skippedDuplicates = 0;
 
-    for (const source of SOURCES) {
+    for (const source of sources) {
         try {
             const feed = await parser.parseURL(source.url);
             const items = feed.items.slice(0, 10);
+            sourceStatsById[source.id].fetched += items.length;
 
             for (const item of items) {
                 const title = item.title || "";
@@ -116,6 +156,7 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                 }
 
                 if (match.length > 0) {
+                    sourceStatsById[source.id].items += 1;
                     rawItems.push({
                         title,
                         link: item.link || "",
@@ -126,6 +167,7 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                 }
             }
         } catch (error) {
+            sourceStatsById[source.id].errors += 1;
             console.error(`❌ Error fetching ${source.name}:`, error);
         }
     }
@@ -138,6 +180,28 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
         rawItems.slice(0, limit).forEach((item, i) => {
             console.log(`   [${i + 1}] ${item.title}`);
         });
+        const dryRunMetrics: PatrolRunMetrics = {
+            timestamp: new Date().toISOString(),
+            dryRun: true,
+            newsFound: result.newsFound,
+            relevantNews: result.relevantNews,
+            seedsExtracted: result.seedsExtracted,
+            questionsGenerated: result.questionsGenerated,
+            deterministicPassed: result.deterministicPassed,
+            criticPassed: result.criticPassed,
+            savedQuestions: result.savedQuestions.length,
+            bundledLessons: 0,
+            sources: sourceStatsById,
+            gateFailureReasons,
+            modelUsage,
+            costSummary: {
+                currency: "JPY",
+                estimatedCostJpy: 0,
+                costPerSavedQuestionJpy: null,
+                unknownModelRate: 0,
+            },
+        };
+        appendPatrolMetrics(dryRunMetrics);
         return result;
     }
 
@@ -156,15 +220,23 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
 
     for (const item of rawItems.slice(0, limit)) {
         try {
-            const relevance = await checkRelevance(genAI, item);
+            const relevance = await checkRelevance(genAI, item, {
+                onUsage: (usage) => {
+                    recordModelUsage(modelUsage, "relevance", CONTENT_MODELS.relevance, usage);
+                },
+            });
             console.log(`   [${relevance.psychologyScore}/10] ${item.title.slice(0, 40)}...`);
 
             if (relevance.isRelevant && relevance.psychologyScore >= 5) {
                 relevantItems.push(item);
+                const sourceId = sourceIdByName[item.source];
+                if (sourceId) sourceStatsById[sourceId].relevant += 1;
             }
             await sleep(2000); // Rate limit protection
         } catch (error) {
             console.error(`   ❌ Error:`, error);
+            const sourceId = sourceIdByName[item.source];
+            if (sourceId) sourceStatsById[sourceId].errors += 1;
         }
     }
 
@@ -177,9 +249,16 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
 
     for (const item of relevantItems) {
         try {
-            const seed = await extractSeedFromNews(genAI, item);
+            const seed = await extractSeedFromNews(genAI, item, {
+                onUsage: (usage) => {
+                    recordModelUsage(modelUsage, "extractor", CONTENT_MODELS.extractor, usage);
+                },
+            });
             if (seed) {
                 seeds.push(seed);
+                seedSourceByLink.set(seed.originalLink, item.source);
+                const sourceId = sourceIdByName[item.source];
+                if (sourceId) sourceStatsById[sourceId].seeds += 1;
                 console.log(`   ✅ ${seed.core_principle}`);
             } else {
                 console.log(`   ⏭️  Skipped: ${item.title.slice(0, 40)}...`);
@@ -187,6 +266,8 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
             await sleep(2000); // Rate limit protection
         } catch (error) {
             console.error(`   ❌ Error:`, error);
+            const sourceId = sourceIdByName[item.source];
+            if (sourceId) sourceStatsById[sourceId].errors += 1;
         }
     }
 
@@ -195,38 +276,87 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
 
     // Step 4: Generate Questions
     console.log("\n📝 Step 4: Generating Questions...");
-    const questionTypes: QuestionType[] = ["swipe_judgment", "multiple_choice"];
+    let phaseCursor = 0;
 
     for (const seed of seeds) {
-        const qType = questionTypes[Math.floor(Math.random() * questionTypes.length)];
+        const targetPhase = getPhaseForIndex(phaseCursor);
+        phaseCursor++;
+        const qType = getQuestionTypeForPhase(targetPhase);
 
         try {
-            console.log(`   Generating ${qType} for "${seed.core_principle}"...`);
+            console.log(`   Generating phase ${targetPhase} (${qType}) for "${seed.core_principle}"...`);
 
             // Convert ExtractedSeed to Seed format (exclude inherited id and meta)
             const { originalLink, extractionConfidence, id: _existingId, ...seedWithoutMeta } = seed;
-            const fullSeed = {
+            const normalizedDomain = normalizeDomain(seedWithoutMeta.domain);
+            if (!normalizedDomain) {
+                console.error(`   ❌ Fail Fast: missing/unknown domain "${String(seedWithoutMeta.domain)}"`);
+                continue;
+            }
+            const fullSeedCandidate = {
                 id: `patrol_${Date.now()}`,
                 ...seedWithoutMeta,
+                domain: normalizedDomain,
                 suggested_question_types: [qType],
             };
+            const fullSeedParse = SeedSchema.safeParse(fullSeedCandidate);
+            if (!fullSeedParse.success) {
+                console.error(
+                    `   ❌ seed_schema_invalid: ${fullSeedParse.error.issues.map((issue) => issue.message).join("; ")}`
+                );
+                const seedSourceName = seedSourceByLink.get(seed.originalLink);
+                const sourceId = seedSourceName ? sourceIdByName[seedSourceName] : undefined;
+                if (sourceId) sourceStatsById[sourceId].errors += 1;
+                continue;
+            }
+            const fullSeed: Seed = fullSeedParse.data;
 
-            const question = await generateQuestion(genAI, fullSeed as any, qType, "medium");
+            const question = await generateQuestion(genAI, fullSeed, qType, "medium", targetPhase, {
+                enforceExpandedDetails: true,
+                onUsage: (usage) => {
+                    recordModelUsage(modelUsage, "generator", CONTENT_MODELS.generator, usage);
+                },
+            });
             result.questionsGenerated++;
+
+            const gate = evaluateDeterministicGate(question, { expectedDomain: normalizedDomain });
+            if (!gate.passed) {
+                for (const reason of gate.hardViolations) {
+                    gateFailureReasons[reason] = (gateFailureReasons[reason] || 0) + 1;
+                }
+                const seedSourceName = seedSourceByLink.get(seed.originalLink);
+                appendGateFailure({
+                    timestamp: new Date().toISOString(),
+                    source: seedSourceName,
+                    phase: question.phase,
+                    questionType: question.type,
+                    domain: normalizedDomain,
+                    hardViolations: gate.hardViolations,
+                    warnings: gate.warnings,
+                });
+                console.error(`   ❌ Deterministic gate failed: ${gate.hardViolations.join(", ")}`);
+                continue;
+            }
+            result.deterministicPassed++;
 
             // Step 5: Evaluate
             console.log("   🔍 Evaluating...");
-            const criticResult = await evaluateQuestion(genAI, question);
+            const criticResult = await evaluateQuestion(genAI, question, {
+                onUsage: (usage) => {
+                    recordModelUsage(modelUsage, "critic", CONTENT_MODELS.critic, usage);
+                },
+            });
             console.log(formatCriticReport(criticResult));
 
             if (criticResult.passed) {
+                result.criticPassed++;
                 result.questionsPassed++;
                 result.savedQuestions.push(question);
 
-                // Attach domain from seed for Domain Router
+                // Attach domain from seed for Domain Router (no fallback)
                 const questionWithDomain = {
                     ...question,
-                    domain: seedWithoutMeta.domain || "social", // Fallback to social
+                    domain: normalizedDomain,
                 };
 
                 // Save to file
@@ -241,6 +371,9 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
             await sleep(3000); // Rate limit protection (longer for generation + critic)
         } catch (error) {
             console.error(`   ❌ Error:`, error);
+            const seedSourceName = seedSourceByLink.get(seed.originalLink);
+            const sourceId = seedSourceName ? sourceIdByName[seedSourceName] : undefined;
+            if (sourceId) sourceStatsById[sourceId].errors += 1;
         }
     }
 
@@ -251,7 +384,9 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
     console.log(`   🤖 Relevant: ${result.relevantNews}`);
     console.log(`   🧬 Seeds extracted: ${result.seedsExtracted}`);
     console.log(`   📝 Questions generated: ${result.questionsGenerated}`);
-    console.log(`   ✅ Passed quality: ${result.questionsPassed}`);
+    console.log(`   ✅ Deterministic pass: ${result.deterministicPassed}`);
+    console.log(`   ✅ Critic pass: ${result.criticPassed}`);
+    console.log(`   ✅ Saved: ${result.questionsPassed}`);
 
     // Save history
     saveHistory(history);
@@ -268,6 +403,33 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
     if (bundleResults.length > 0) {
         console.log(`   🎉 Created ${bundleResults.length} new lesson(s)!`);
     }
+    const runCost = estimateRunCostJpy(modelUsage, result.savedQuestions.length);
+    if (runCost.unknownModelRate > 0) {
+        console.warn(`[cost] unknown_model_rate=${(runCost.unknownModelRate * 100).toFixed(1)}%`);
+    }
+
+    const patrolMetrics: PatrolRunMetrics = {
+        timestamp: new Date().toISOString(),
+        dryRun: false,
+        newsFound: result.newsFound,
+        relevantNews: result.relevantNews,
+        seedsExtracted: result.seedsExtracted,
+        questionsGenerated: result.questionsGenerated,
+        deterministicPassed: result.deterministicPassed,
+        criticPassed: result.criticPassed,
+        savedQuestions: result.savedQuestions.length,
+        bundledLessons: bundleResults.length,
+        sources: sourceStatsById,
+        gateFailureReasons,
+        modelUsage,
+        costSummary: {
+            currency: "JPY",
+            estimatedCostJpy: runCost.estimatedCostJpy,
+            costPerSavedQuestionJpy: runCost.costPerSavedQuestionJpy,
+            unknownModelRate: runCost.unknownModelRate,
+        },
+    };
+    appendPatrolMetrics(patrolMetrics);
 
     return result;
 }

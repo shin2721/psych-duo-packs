@@ -422,6 +422,114 @@ npm run promote:lesson {domain} {basename}
     └── index.ts
 ```
 
+### Generator GA Cutover Runbook（Cost Optimization）
+
+目的: 収益化後に `Saved Question単価` を主指標として generator モデルを比較し、手動承認で切替する。
+
+固定方針:
+- 開始条件: MRR 30万円/月 到達
+- 実施頻度: 月1回
+- baseline: `gemini-3-flash-preview`（デフォルト）
+- candidate: `CONTENT_MODEL_GENERATOR=gemini-2.5-flash`
+- 切替: 自動切替禁止（owner 手動承認のみ）
+
+#### Roles（固定）
+- Codex担当:
+  - `patrol` 実行
+  - 日次/週次集計
+  - 異常検知
+  - 比較レポート作成
+  - ロールバック実行（承認済み範囲）
+- Owner担当:
+  - API課金有効化
+  - ダッシュボード権限操作
+  - MFA/規約同意
+  - モデル切替の最終承認
+
+#### 収益化前モード（APIなし・週1監査）
+目的: 生成を無理に回さず、品質監査と配線健全性の維持を行う。
+
+- 収益化前（MRR 30万円/月未満）は、月次ベンチを停止する。
+- 週1で以下の監査ジョブのみ実行する:
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+npx jest --watchman=false
+npm run validate:lessons
+npm run content:i18n:check
+npm run content:i18n:smoke
+cd scripts/content-generator
+npx ts-node src/batch_critic.ts --local --report
+```
+- 判定:
+  - 回帰4本と `batch_critic --local` が完走すれば正常
+  - `patrol` は収益化前の定期ジョブでは実行しない
+  - `savedQuestions` は収益化前ヘルス指標に使わない
+
+#### 収益化前の生成分担（Claude/Codex）
+目的: API課金なしで生成品質を維持し、原則運用を継続する。
+
+- Claude担当:
+  - 5-Phase意図に沿った問題案の作成
+  - 文体・ニュアンス・心理学トーンの調整
+- Codex担当:
+  - JSON構造化
+  - deterministic gate / local critic / validate / bundle の実行
+  - 失敗理由の修正反映と監査ログ整理
+- Owner担当:
+  - 最終承認
+  - 本番昇格可否の判断
+
+#### 収益化前の異常時ルール
+- `unknown_model_rate > 0` が出た場合は、同日中に `costConfig.ts` の単価テーブル更新候補として記録する（コード更新は別バッチ）。
+- 監査ジョブが失敗した場合は最優先で復旧し、復旧時刻をJSTで記録する。
+
+#### 事前チェック
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+npx jest --watchman=false
+npm run validate:lessons
+npm run content:i18n:check
+npm run content:i18n:smoke
+npm run content:metrics:summary -- --days=7
+npm run content:cost:summary -- --days=7
+```
+
+#### 比較実行（30日窓）
+```bash
+# baseline run
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo/scripts/content-generator
+npm run patrol -- --limit=5
+
+# candidate run
+CONTENT_MODEL_GENERATOR=gemini-2.5-flash npm run patrol -- --limit=5
+```
+
+#### 判定指標（30日窓）
+- 主指標: `costPerSavedQuestionJpy` が baseline より改善
+- ガードレール:
+  - `deterministicPassed / questionsGenerated` が baseline 比 -10pt 以内
+  - `criticPassed / deterministicPassed` が baseline 比 -10pt 以内
+  - `Invalid critic payload` 率 <= 1%
+
+#### 停止・ロールバック
+- 異常時は 1日以内に baseline へ復帰（env override を外す）
+- 記録項目（JST絶対時刻）:
+  - 実行日
+  - baseline / candidate の run 数
+  - costPerSavedQuestionJpy
+  - ガードレール差分
+  - 判定（pass / rollback）
+  - 復旧時刻
+
+#### 監視コマンド
+```bash
+cd /Users/mashitashinji/dev/psych-duo-packs/psycle-expo
+npm run content:metrics:summary -- --days=1
+npm run content:cost:summary -- --days=1
+npm run content:metrics:summary -- --days=30
+npm run content:cost:summary -- --days=30
+```
+
 ---
 
 ## 8. A/A Gate Runbook（Experiment/Personalization）
@@ -493,6 +601,110 @@ npm run promote:lesson {domain} {basename}
 - [ ] A/A 5% 判定（2026-03-03 JST）
 - [ ] RLS runtime確認（実DBで本人/他人アカウント検証）
 - [ ] 実機E2E確認（paywall/shop, mistakes hub, league reward, friend claim）
+
+### 実施ログ（2026-03-02 JST / v1.41.x Remaining Critical Path）
+- [x] Regression smoke: `npx jest --watchman=false`（41 suites / 199 tests PASS）
+- [x] Regression smoke: `npm run validate:lessons`（PASS）
+- [x] Regression smoke: `npm run content:i18n:check`（PASS）
+- [x] Regression smoke: `npm run content:i18n:smoke`（PASS）
+- [x] `PROJECT_REF` 導出と `supabase secrets list` 実行（`nudmnbmasmtacoluyvqo`）
+- [ ] `STRIPE_PRICE_PRO_YEARLY` 未設定（Phase 2開始前に投入が必要）
+- [ ] `STRIPE_PRICE_PRO_MONTHLY_V2` 未設定（Phase 4開始前に投入が必要）
+- [ ] RLS runtime確認（実DBで本人/他人アカウント検証）
+  - ブロッカー: 2アカウントの実トークンと実DB接続コンテキストがこの実行環境にない
+- [ ] 実機E2E確認（paywall/shop, mistakes hub, league reward, friend claim）
+  - ブロッカー: iOS実機と運用用計測ダッシュボード確認がこの実行環境にない
+
+### 実施ログ（2026-03-02 12:58 JST / v1.41.x Assistant-Driven Max Coverage）
+- [x] Regression smoke: `npx jest --watchman=false`（41 suites / 199 tests PASS）
+- [x] Regression smoke: `npm run validate:lessons`（PASS）
+- [x] Regression smoke: `npm run content:i18n:check`（PASS）
+- [x] Regression smoke: `npm run content:i18n:smoke`（PASS）
+- [x] `EXPO_PUBLIC_SUPABASE_URL` から `PROJECT_REF` 導出を確認（`nudmnbmasmtacoluyvqo`）
+- [x] `supabase secrets list --project-ref "nudmnbmasmtacoluyvqo"` 実行
+  - 確認済み: `STRIPE_PRICE_PRO`, `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`
+  - 未投入: `STRIPE_PRICE_PRO_YEARLY`, `STRIPE_PRICE_PRO_MONTHLY_V2`
+- [x] Connectivity gate 実行
+  - `curl -I https://nudmnbmasmtacoluyvqo.supabase.co` -> `Could not resolve host`（DNS解決失敗）
+  - `curl -I https://nudmnbmasmtacoluyvqo.functions.supabase.co` -> 到達可（HTTP 540）
+- [x] ブロッカー切り分け（Supabase CLI）
+  - `supabase projects list --output json` で `ref=nudmnbmasmtacoluyvqo` の `status=INACTIVE` を確認
+  - `supabase link --project-ref nudmnbmasmtacoluyvqo` 実行時に `project is paused` / `An admin must unpause it from the Supabase dashboard` を確認
+  - 判定: RLS runtime未実施の主因は実行環境のDNS設定単体ではなく、プロジェクト非アクティブ状態
+- [ ] RLS runtime確認（Phase 1 前必須）
+  - ブロッカー: `nudmnbmasmtacoluyvqo` が `INACTIVE` のため `*.supabase.co` が解決不能で、PostgREST/Auth直叩き検証を実施できない
+  - 対応: Supabase DashboardでプロジェクトをActive化後、Connectivity gate -> RLS runtimeを同一手順で再実行し、PASS/FAILを本セクションに追記
+- [ ] 実機E2E確認（Phase 1 前必須）
+  - ブロッカー: 物理iPhone/TestFlight操作はこの実行環境から代行不可（ユーザー実施）
+
+### 実施ログ（2026-03-02 19:36 JST / v1.41.x RLS Runtime Attempt）
+- [x] Supabase project status確認: `ACTIVE_HEALTHY`（`supabase projects list --output json`）
+- [x] `supabase link --project-ref nudmnbmasmtacoluyvqo` 成功
+- [x] `supabase db push` 実行
+  - 適用: `20260228_friend_challenge_claims.sql`
+  - `supabase migration list` で local/remote が一致
+- [x] RLS runtime（A/Bテストユーザー）実行
+  - `friend_challenge_claims`
+    - A own SELECT: PASS
+    - A other(B) SELECT: PASS（0件）
+    - A own INSERT: PASS
+    - A user_id=B INSERT: PASS（拒否）
+  - `pending_rewards` + `claim_league_reward`
+    - A own INSERT: PASS
+    - A own claim: FAIL（HTTP 400, `column "gems" does not exist`）
+    - A re-claim: FAIL（同上）
+    - B claim A reward: FAIL扱い（期待は success=false だが、前提のA own claimが失敗）
+  - `league_members`
+    - `leagues` テーブルが空（`[]`）
+    - `league_id` は NOT NULL のため、検証用メンバー行を作成できず own/other UPDATE検証を実施不能
+  - 後処理: テストユーザーの self-delete（`DELETE /auth/v1/user`）は HTTP 405 で不可
+- [ ] RLS runtime確認（Phase 1 前必須）
+  - ブロッカー1: `claim_league_reward` が実DBスキーマと不整合（`gems` 列参照エラー）
+  - ブロッカー2: `league_members` 検証に必要な `leagues` 行がなく、seedなしでは update テストを完了できない
+  - ブロッカー3: `profiles` に `xp/gems/streak/plan_id` が存在せず、`select=xp,gems,streak,plan_id,active_until` が `42703`（column does not exist）で失敗
+
+### 実施ログ（2026-03-02 19:42 JST / v1.41.x RLS Runtime Re-check）
+- [x] `supabase db push` 実行（`20260302_profiles_compat_and_reward_fix.sql` 適用）
+  - `profiles` に `xp/level/streak/gems/plan_id` を補完し、`plan` と同期
+  - `claim_league_reward` を `profiles.gems` 前提で再定義
+  - 現在週の `leagues` 行をseed
+- [x] RLS runtime（A/Bテストユーザー）再実行
+  - `friend_challenge_claims`
+    - A own SELECT: PASS
+    - A other(B) SELECT: PASS（0件）
+    - A own INSERT: PASS
+    - A user_id=B INSERT: PASS（拒否）
+  - `pending_rewards` + `claim_league_reward`
+    - A own INSERT: PASS
+    - A own claim: PASS（`success=true`）
+    - A re-claim: PASS（HTTP 200 / `success=false`）
+    - B claim A reward: PASS（HTTP 200 / `success=false`）
+  - `league_members`
+    - A own membership INSERT: PASS
+    - B own membership INSERT: PASS
+    - A own row UPDATE: PASS
+    - A other(B) row UPDATE: PASS（拒否/無効、B側 weekly_xp 不変）
+- [x] RLS runtime確認（Phase 1 前必須）完了
+- [ ] 実機E2E確認（Phase 1 前必須）
+
+### 実施ログ（2026-03-02 20:15 JST / Assistant-Driven Max Coverage）
+- [x] Connectivity gate再確認
+  - `curl -I https://nudmnbmasmtacoluyvqo.supabase.co` -> 到達可（HTTP 404）
+  - `curl -I https://nudmnbmasmtacoluyvqo.functions.supabase.co` -> 到達可（HTTP 404）
+- [x] 回帰4本を再実行
+  - `npx jest --watchman=false` -> PASS（41 suites / 199 tests）
+  - `npm run validate:lessons` -> PASS
+  - `npm run content:i18n:check` -> PASS
+  - `npm run content:i18n:smoke` -> PASS
+- [x] RLS runtime（A/Bテストユーザー）再実行 -> PASS
+  - `friend_challenge_claims`: own SELECT/INSERT成功、other SELECT拒否、cross-user INSERT拒否
+  - `pending_rewards + claim_league_reward`: own claim成功、re-claim失敗（冪等）、other claim失敗
+  - `league_members`: own UPDATE成功、other UPDATE拒否
+- [x] Simulator E2E build（Detox `ios.sim.debug`）成功（`BUILD SUCCEEDED`）
+- [ ] Simulator Detox suite（`e2e/analytics.v1_3.e2e.ts`）PASS
+  - FAIL理由: `tab-profile` 可視待ちタイムアウト / 初期画面testID検出タイムアウト
+  - 判定: 既存Analytics E2Eシナリオ不整合。マネタイズ運用ゲート（RLS/フリップ手順）への直接ブロッカーではない
+- [ ] 実機E2E確認（Phase 1 前必須）
 
 ## 9. v1.40 P2 Rollout（Pro年額 + Proトライアル）
 

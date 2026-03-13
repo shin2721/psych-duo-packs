@@ -1,5 +1,14 @@
 import React, { ReactNode } from "react";
-import { View, Text, Pressable, StyleSheet, ViewStyle } from "react-native";
+import {
+  ActivityIndicator,
+  Pressable,
+  StyleProp,
+  StyleSheet,
+  Text,
+  TextStyle,
+  View,
+  ViewStyle,
+} from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { theme } from "../lib/theme";
 
@@ -51,6 +60,137 @@ export function SectionHeader({ title }: { title: string }) {
   return <Text style={styles.sectionHeader}>{title}</Text>;
 }
 
+interface ButtonProps {
+  label: string;
+  onPress?: () => void;
+  variant?: "primary" | "secondary" | "text";
+  size?: "sm" | "md" | "lg";
+  disabled?: boolean;
+  loading?: boolean;
+  leftIcon?: ReactNode;
+  rightIcon?: ReactNode;
+  accessibilityLabel?: string;
+  accessibilityHint?: string;
+  testID?: string;
+  style?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextStyle>;
+}
+
+export function Button({
+  label,
+  onPress,
+  variant = "primary",
+  size = "md",
+  disabled = false,
+  loading = false,
+  leftIcon,
+  rightIcon,
+  accessibilityLabel,
+  accessibilityHint,
+  testID,
+  style,
+  labelStyle,
+}: ButtonProps) {
+  const isDisabled = disabled || loading || !onPress;
+  const variantStyles = buttonVariantStyles[variant];
+  const sizeStyles = buttonSizeStyles[size];
+
+  return (
+    <Pressable
+      onPress={onPress}
+      disabled={isDisabled}
+      testID={testID}
+      accessibilityRole="button"
+      accessibilityLabel={accessibilityLabel ?? label}
+      accessibilityHint={accessibilityHint}
+      accessibilityState={{ disabled: isDisabled, busy: loading }}
+      style={({ pressed }) => [
+        styles.button,
+        sizeStyles.container,
+        variantStyles.container,
+        isDisabled && styles.buttonDisabled,
+        pressed && !isDisabled && styles.buttonPressed,
+        style,
+      ]}
+    >
+      <View style={styles.buttonContent}>
+        {loading ? (
+          <ActivityIndicator size="small" color={variantStyles.spinnerColor} />
+        ) : (
+          leftIcon
+        )}
+        <Text style={[styles.buttonText, sizeStyles.label, variantStyles.label, labelStyle]}>
+          {label}
+        </Text>
+        {!loading && rightIcon}
+      </View>
+    </Pressable>
+  );
+}
+
+const spinnerColorMap = {
+  primary: "#fff",
+  secondary: theme.colors.text,
+  text: theme.colors.primaryLight,
+} as const;
+
+const buttonVariantStyles = {
+  primary: {
+    container: {
+      backgroundColor: theme.colors.primary,
+    },
+    label: {
+      color: "#fff",
+    },
+    spinnerColor: spinnerColorMap.primary,
+  },
+  secondary: {
+    container: {
+      backgroundColor: theme.colors.surface,
+    },
+    label: {
+      color: theme.colors.text,
+    },
+    spinnerColor: spinnerColorMap.secondary,
+  },
+  text: {
+    container: {
+      backgroundColor: "transparent",
+    },
+    label: {
+      color: theme.colors.primaryLight,
+    },
+    spinnerColor: spinnerColorMap.text,
+  },
+} as const;
+
+const buttonSizeStyles = {
+  sm: {
+    container: {
+      minHeight: 44,
+      paddingHorizontal: 14,
+      paddingVertical: 10,
+    },
+    label: theme.typography.buttonSm,
+  },
+  md: {
+    container: {
+      minHeight: 44,
+      paddingHorizontal: 16,
+      paddingVertical: 12,
+    },
+    label: theme.typography.buttonMd,
+  },
+  lg: {
+    container: {
+      minHeight: 52,
+      paddingHorizontal: 20,
+      paddingVertical: 14,
+    },
+    label: theme.typography.buttonLg,
+  },
+} as const;
+
 const styles = StyleSheet.create({
   card: {
     backgroundColor: theme.colors.card,
@@ -84,13 +224,34 @@ const styles = StyleSheet.create({
     color: theme.colors.sub,
   },
   pillTextActive: {
-    color: "#001",
+    color: "#fff",
   },
   sectionHeader: {
-    fontSize: 16,
+    ...theme.typography.body,
     fontWeight: "700",
     color: theme.colors.text,
     marginTop: theme.spacing.md,
     marginBottom: theme.spacing.sm,
+  },
+  button: {
+    minWidth: 44,
+    borderRadius: theme.radius.md,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  buttonContent: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: theme.spacing.sm,
+  },
+  buttonText: {
+    textAlign: "center",
+  },
+  buttonDisabled: {
+    opacity: 0.7,
+  },
+  buttonPressed: {
+    opacity: 0.88,
   },
 });

@@ -6,6 +6,11 @@ import { theme } from "../lib/theme";
 import { AnimatedButton } from "./AnimatedButton";
 import i18n from "../lib/i18n";
 
+const getChoiceAccessibilityState = (isSelected: boolean, disabled: boolean) => ({
+  selected: isSelected,
+  disabled,
+});
+
 // 複数選択（即座フィードバック）
 export function SelectAll({
   choices,
@@ -58,6 +63,9 @@ export function SelectAll({
             }}
             disabled={showResult && !isSurvey} // Allow changing selection in survey mode until submitted? Or disable if showResult implies submission
             testID={`answer-choice-${index}`}
+            accessibilityRole="button"
+            accessibilityLabel={choice}
+            accessibilityState={getChoiceAccessibilityState(isSelected, showResult && !isSurvey)}
           >
             <View style={styles.checkboxContainer}>
               <View style={[
@@ -128,6 +136,9 @@ export function FillBlankTap({
               onPress={() => onSelect(index)}
               disabled={showResult}
               testID={`answer-choice-${index}`}
+              accessibilityRole="button"
+              accessibilityLabel={choice}
+              accessibilityState={getChoiceAccessibilityState(isSelected, showResult)}
             >
               <Text style={styles.fillBlankText}>
                 {choice}
@@ -347,6 +358,9 @@ export function Conversation({
               onPress={() => onSelect(index)}
               disabled={showResult}
               testID={`answer-choice-${index}`}
+              accessibilityRole="button"
+              accessibilityLabel={choice}
+              accessibilityState={getChoiceAccessibilityState(isSelected, showResult)}
             >
               <Text style={styles.choiceText}>
                 {choice}
@@ -643,6 +657,9 @@ export function Matching({
                 ]}
                 onPress={() => handleLeftPress(index)}
                 disabled={isMatched}
+                accessibilityRole="button"
+                accessibilityLabel={item}
+                accessibilityState={getChoiceAccessibilityState(selectedLeft === index, isMatched)}
               >
                 <Text style={styles.matchingItemText}>
                   {item}
@@ -674,6 +691,9 @@ export function Matching({
                 ]}
                 onPress={() => handleRightPress(index)}
                 disabled={isMatched}
+                accessibilityRole="button"
+                accessibilityLabel={item}
+                accessibilityState={getChoiceAccessibilityState(selectedRight === index, isMatched)}
               >
                 <Text style={styles.matchingItemText}>
                   {item}
@@ -822,6 +842,9 @@ export function QuickReflex({
               onPress={() => !isTimeUp && onSelect(index)}
               disabled={showResult || isTimeUp}
               testID={`answer-choice-${index}`}
+              accessibilityRole="button"
+              accessibilityLabel={choice}
+              accessibilityState={getChoiceAccessibilityState(isSelected, showResult || isTimeUp)}
             >
               <Text
                 style={[
@@ -899,6 +922,13 @@ export function MicroInput({
           onPress={onSubmit}
           disabled={!inputText.trim()}
           testID="answer-choice-submit"
+          accessibilityRole="button"
+          accessibilityLabel={String(
+            inputText.trim()
+              ? i18n.t("questionTypes.microInputCheckAnswer")
+              : i18n.t("questionTypes.microInputPleaseInput")
+          )}
+          accessibilityState={{ disabled: !inputText.trim() }}
         >
           <Text style={styles.submitButtonText}>
             {inputText.trim() ? i18n.t("questionTypes.microInputCheckAnswer") : i18n.t("questionTypes.microInputPleaseInput")}
@@ -1457,6 +1487,9 @@ export function ConsequenceScenario({
           onPress={() => handlePress("positive")}
           disabled={showResult}
           testID="answer-choice-positive"
+          accessibilityRole="button"
+          accessibilityLabel={String(i18n.t("questionTypes.consequencePositive"))}
+          accessibilityState={getChoiceAccessibilityState(selected === "positive", showResult)}
         >
           <Ionicons name="happy-outline" size={32} color={selected === "positive" || (showResult && consequenceType === "positive") ? "#fff" : "#cbd5e1"} />
           <Text style={[styles.consequenceButtonText, { color: selected === "positive" || (showResult && consequenceType === "positive") ? "#fff" : "#cbd5e1" }]}>{i18n.t("questionTypes.consequencePositive")}</Text>
@@ -1474,6 +1507,9 @@ export function ConsequenceScenario({
           onPress={() => handlePress("negative")}
           disabled={showResult}
           testID="answer-choice-negative"
+          accessibilityRole="button"
+          accessibilityLabel={String(i18n.t("questionTypes.consequenceNegative"))}
+          accessibilityState={getChoiceAccessibilityState(selected === "negative", showResult)}
         >
           <Ionicons name="sad-outline" size={32} color={selected === "negative" || (showResult && consequenceType === "negative") ? "#fff" : "#cbd5e1"} />
           <Text style={[styles.consequenceButtonText, { color: selected === "negative" || (showResult && consequenceType === "negative") ? "#fff" : "#cbd5e1" }]}>{i18n.t("questionTypes.consequenceNegative")}</Text>

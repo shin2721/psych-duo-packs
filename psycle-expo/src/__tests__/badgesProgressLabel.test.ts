@@ -1,6 +1,13 @@
 import { BADGES } from "../../lib/badges";
+import i18n from "../../lib/i18n";
 
 describe("badges progress labels", () => {
+  const originalLocale = i18n.locale;
+
+  afterEach(() => {
+    i18n.locale = originalLocale;
+  });
+
   test("level_5 is unlocked by completed lessons and uses lessons wording", () => {
     const badge = BADGES.find((item) => item.id === "level_5");
     expect(badge).toBeDefined();
@@ -63,5 +70,16 @@ describe("badges progress labels", () => {
       leaderboardRank: 0,
     });
     expect(reached).toBe(true);
+  });
+
+  test("badge names follow the active locale", () => {
+    const badge = BADGES.find((item) => item.id === "first_lesson");
+    expect(badge).toBeDefined();
+
+    i18n.locale = "ja";
+    expect(badge?.name).toBe("初めの一歩");
+
+    i18n.locale = "en";
+    expect(badge?.name).toBe("First Step");
   });
 });

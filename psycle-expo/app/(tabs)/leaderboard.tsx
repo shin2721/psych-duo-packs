@@ -1,12 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator, Alert } from 'react-native';
+import React, { useState, useEffect, useRef } from 'react';
+import { View, Text, FlatList, StyleSheet, Pressable, ActivityIndicator } from 'react-native';
+import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
+import type { PostgrestSingleResponse } from '@supabase/supabase-js';
 import { supabase } from '../../lib/supabase';
 import { useAuth } from '../../lib/AuthContext';
 import { theme } from '../../lib/theme';
 import { TrophyIcon, StreakIcon } from '../../components/CustomIcons';
 import { ensureJoinedLeagueForCurrentWeek, getMyLeague, LeagueInfo } from '../../lib/league';
 import i18n from '../../lib/i18n';
+import { useToast } from '../../components/ToastProvider';
 
 interface LeaderboardEntry {
     id: string;
@@ -17,14 +21,50 @@ interface LeaderboardEntry {
     updated_at: string;
 }
 
+interface FriendshipRow {
+    friend_id: string;
+}
+
+interface FriendRequestRow {
+    to_user_id: string;
+}
+
+type LeaderboardResponse = PostgrestSingleResponse<LeaderboardEntry[]>;
+type FriendshipResponse = PostgrestSingleResponse<FriendshipRow[]>;
+type FriendRequestResponse = PostgrestSingleResponse<FriendRequestRow[]>;
+
+const FETCH_TIMEOUT_MS = 10_000;
+
+function withTimeout<T>(promise: PromiseLike<T>, label: string): Promise<T> {
+    return new Promise<T>((resolve, reject) => {
+        const timer = setTimeout(() => {
+            reject(new Error(`[leaderboard] ${label} timed out after ${FETCH_TIMEOUT_MS}ms`));
+        }, FETCH_TIMEOUT_MS);
+
+        Promise.resolve(promise)
+            .then((value) => resolve(value))
+            .catch((error) => reject(error))
+            .finally(() => clearTimeout(timer));
+    });
+}
+
 export default function LeaderboardScreen() {
     const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
     const [leagueInfo, setLeagueInfo] = useState<LeagueInfo | null>(null);
     const [view, setView] = useState<'league' | 'global' | 'friends'>('league');
-    const [loading, setLoading] = useState(true);
+    const [leagueLoading, setLeagueLoading] = useState(true);
+    const [leagueError, setLeagueError] = useState<string | null>(null);
+    const [boardLoading, setBoardLoading] = useState(false);
+    const [boardError, setBoardError] = useState<string | null>(null);
     const [friendIds, setFriendIds] = useState<Set<string>>(new Set());
     const [pendingRequestIds, setPendingRequestIds] = useState<Set<string>>(new Set());
     const { user } = useAuth();
+    const { showToast } = useToast();
+    const bottomTabBarHeight = useBottomTabBarHeight();
+    const listBottomInset = bottomTabBarHeight + theme.spacing.lg;
+    const leagueRequestIdRef = useRef(0);
+    const boardRequestIdRef = useRef(0);
+    const friendStatusRequestIdRef = useRef(0);
     const tierNames: Record<number, string> = {
         0: String(i18n.t('leaderboard.tiers.bronze')),
         1: String(i18n.t('leaderboard.tiers.silver')),
@@ -35,36 +75,54 @@ export default function LeaderboardScreen() {
     };
 
     useEffect(() => {
-        fetchFriendStatus();
+        void fetchFriendStatus();
         if (view === 'league') {
-            fetchLeague();
+            boardRequestIdRef.current += 1;
+            void fetchLeague();
         } else {
-            fetchLeaderboard();
+            leagueRequestIdRef.current += 1;
+            void fetchLeaderboard(view);
         }
-    }, [view]);
+    }, [view, user?.id]);
 
     const fetchFriendStatus = async () => {
-        if (!user) return;
+        const requestId = ++friendStatusRequestIdRef.current;
+
+        if (!user) {
+            if (requestId !== friendStatusRequestIdRef.current) return;
+            setFriendIds(new Set());
+            setPendingRequestIds(new Set());
+            return;
+        }
 
         try {
             // Fetch friend IDs
-            const { data: friends } = await supabase
+            const { data: friends } = await withTimeout<FriendshipResponse>(
+                supabase
                 .from('friendships')
                 .select('friend_id')
-                .eq('user_id', user.id);
+                .eq('user_id', user.id),
+                'friendships fetch'
+            );
 
-            setFriendIds(new Set(friends?.map(f => f.friend_id) || []));
+            if (requestId !== friendStatusRequestIdRef.current) return;
+            setFriendIds(new Set(friends?.map((friend) => friend.friend_id) || []));
 
             // Fetch pending request IDs
-            const { data: requests } = await supabase
+            const { data: requests } = await withTimeout<FriendRequestResponse>(
+                supabase
                 .from('friend_requests')
                 .select('to_user_id')
                 .eq('from_user_id', user.id)
-                .eq('status', 'pending');
+                .eq('status', 'pending'),
+                'friend requests fetch'
+            );
 
-            setPendingRequestIds(new Set(requests?.map(r => r.to_user_id) || []));
+            if (requestId !== friendStatusRequestIdRef.current) return;
+            setPendingRequestIds(new Set(requests?.map((request) => request.to_user_id) || []));
         } catch (error) {
-            console.error('Error fetching friend status:', error);
+            if (requestId !== friendStatusRequestIdRef.current) return;
+            console.error('[leaderboard] failed to fetch friend status', error);
         }
     };
 
@@ -82,90 +140,130 @@ export default function LeaderboardScreen() {
 
             if (error) {
                 if (error.code === '23505') {
-                    Alert.alert(
-                        String(i18n.t('leaderboard.alerts.alreadySentTitle')),
-                        String(i18n.t('leaderboard.alerts.alreadySentMessage'))
-                    );
+                    showToast(String(i18n.t('leaderboard.alerts.alreadySentMessage')));
                 } else {
                     throw error;
                 }
             } else {
                 setPendingRequestIds(prev => new Set(prev).add(toUserId));
-                Alert.alert(
-                    String(i18n.t('leaderboard.alerts.successTitle')),
-                    String(i18n.t('leaderboard.alerts.successMessage'))
-                );
+                showToast(String(i18n.t('leaderboard.alerts.successMessage')), 'success');
             }
         } catch (error) {
             console.error('Error sending friend request:', error);
-            Alert.alert(
-                String(i18n.t('common.error')),
-                String(i18n.t('leaderboard.alerts.failedToSend'))
-            );
+            showToast(String(i18n.t('leaderboard.alerts.failedToSend')), 'error');
         }
     };
 
     const fetchLeague = async () => {
-        if (!user) return;
-        setLoading(true);
+        const requestId = ++leagueRequestIdRef.current;
+
+        if (!user) {
+            if (requestId !== leagueRequestIdRef.current) return;
+            setLeagueError(null);
+            setLeagueLoading(false);
+            setLeagueInfo(null);
+            return;
+        }
+        setLeagueLoading(true);
+        setLeagueError(null);
         try {
-            let info = await getMyLeague(user.id);
+            let info = await withTimeout(getMyLeague(user.id), 'getMyLeague');
             if (!info) {
                 // Not in a league yet, try to join
-                await ensureJoinedLeagueForCurrentWeek(user.id);
-                info = await getMyLeague(user.id);
+                await withTimeout(ensureJoinedLeagueForCurrentWeek(user.id), 'ensureJoinedLeagueForCurrentWeek');
+                info = await withTimeout(getMyLeague(user.id), 'getMyLeague after join');
             }
+            if (requestId !== leagueRequestIdRef.current) return;
             setLeagueInfo(info);
         } catch (error) {
-            console.error('Error fetching league:', error);
+            if (requestId !== leagueRequestIdRef.current) return;
+            console.error('[leaderboard] failed to fetch league', error);
+            setLeagueError(String(i18n.t('leaderboard.emptyData')));
         } finally {
-            setLoading(false);
+            if (requestId === leagueRequestIdRef.current) {
+                setLeagueLoading(false);
+            }
         }
     };
 
-    const fetchLeaderboard = async () => {
-        setLoading(true);
+    const fetchLeaderboard = async (targetView: 'global' | 'friends') => {
+        const requestId = ++boardRequestIdRef.current;
+
+        setBoardLoading(true);
+        setBoardError(null);
         try {
-            if (view === 'global') {
+            if (targetView === 'global') {
                 // Fetch top 100 users by XP
-                const { data, error } = await supabase
+                const { data, error } = await withTimeout<LeaderboardResponse>(
+                    supabase
                     .from('leaderboard')
                     .select('*')
                     .order('total_xp', { ascending: false })
-                    .limit(100);
+                    .limit(100),
+                    'global leaderboard fetch'
+                );
 
                 if (error) throw error;
+                if (requestId !== boardRequestIdRef.current) return;
                 setLeaderboard(data || []);
             } else {
+                if (!user?.id) {
+                    if (requestId !== boardRequestIdRef.current) return;
+                    setLeaderboard([]);
+                    return;
+                }
                 // Fetch friends' rankings
-                const { data: friends, error: friendsError } = await supabase
+                const { data: friends, error: friendsError } = await withTimeout<FriendshipResponse>(
+                    supabase
                     .from('friendships')
                     .select('friend_id')
-                    .eq('user_id', user?.id);
+                    .eq('user_id', user.id),
+                    'friend ids fetch'
+                );
 
                 if (friendsError) throw friendsError;
 
-                const friendIds = friends?.map(f => f.friend_id) || [];
+                const friendIds = friends?.map((friend) => friend.friend_id) || [];
 
                 if (friendIds.length === 0) {
+                    if (requestId !== boardRequestIdRef.current) return;
                     setLeaderboard([]);
                 } else {
-                    const { data, error } = await supabase
+                    const { data, error } = await withTimeout<LeaderboardResponse>(
+                        supabase
                         .from('leaderboard')
                         .select('*')
                         .in('user_id', friendIds)
-                        .order('total_xp', { ascending: false });
+                        .order('total_xp', { ascending: false }),
+                        'friends leaderboard fetch'
+                    );
 
                     if (error) throw error;
+                    if (requestId !== boardRequestIdRef.current) return;
                     setLeaderboard(data || []);
                 }
             }
         } catch (error) {
-            console.error('Error fetching leaderboard:', error);
+            if (requestId !== boardRequestIdRef.current) return;
+            console.error('[leaderboard] failed to fetch leaderboard', error);
+            setBoardError(String(i18n.t('leaderboard.emptyData')));
         } finally {
-            setLoading(false);
+            if (requestId === boardRequestIdRef.current) {
+                setBoardLoading(false);
+            }
         }
     };
+
+    const handleRetry = () => {
+        if (view === 'league') {
+            void fetchLeague();
+            return;
+        }
+        void fetchLeaderboard(view);
+    };
+
+    const currentLoading = view === 'league' ? leagueLoading : boardLoading;
+    const currentError = view === 'league' ? leagueError : boardError;
 
     const renderLeaderboardRow = ({ item, index }: { item: LeaderboardEntry; index: number }) => {
         const rank = index + 1;
@@ -175,12 +273,19 @@ export default function LeaderboardScreen() {
         const hasPendingRequest = pendingRequestIds.has(item.user_id);
 
         return (
-            <View style={[styles.row, isCurrentUser && styles.currentUserRow]}>
+            <View
+                style={[styles.row, isCurrentUser && styles.currentUserRow]}
+                testID={`leaderboard-row-${index}`}
+            >
                 <View style={styles.rankContainer}>
                     <Text style={styles.rankText}>{medal || `#${rank}`}</Text>
                 </View>
                 <View style={styles.userInfo}>
-                    <Text style={[styles.username, isCurrentUser && styles.currentUsername]}>
+                    <Text
+                        style={[styles.username, isCurrentUser && styles.currentUsername]}
+                        numberOfLines={1}
+                        ellipsizeMode="tail"
+                    >
                         {item.username}
                         {isCurrentUser && ` ${i18n.t('leaderboard.youSuffix')}`}
                     </Text>
@@ -196,12 +301,24 @@ export default function LeaderboardScreen() {
                 </View>
                 {!isCurrentUser && view === 'global' && (
                     <Pressable
+                        testID={`leaderboard-add-friend-${item.user_id}`}
                         style={[
                             styles.addFriendButton,
                             (isFriend || hasPendingRequest) && styles.addFriendButtonDisabled,
                         ]}
                         onPress={() => sendFriendRequest(item.user_id)}
                         disabled={isFriend || hasPendingRequest}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${String(
+                            i18n.t(
+                                isFriend
+                                    ? 'friends.tabs.friends'
+                                    : hasPendingRequest
+                                      ? 'friendSearch.cta.sent'
+                                      : 'friendSearch.cta.add'
+                            )
+                        )}: ${item.username}`}
+                        accessibilityState={{ disabled: isFriend || hasPendingRequest }}
                     >
                         <Ionicons
                             name={isFriend ? "checkmark-circle" : hasPendingRequest ? "time" : "person-add"}
@@ -215,7 +332,7 @@ export default function LeaderboardScreen() {
     };
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={styles.container} edges={['top']}>
             <View style={styles.header}>
                 <View style={{ flexDirection: 'row', alignItems: 'center', gap: 12, marginBottom: 16 }}>
                     <TrophyIcon size={32} />
@@ -251,9 +368,17 @@ export default function LeaderboardScreen() {
                 </View>
             </View>
 
-            {loading ? (
-                <View style={styles.loadingContainer}>
+            {currentLoading ? (
+                <View style={styles.loadingContainer} testID="leaderboard-loading">
                     <ActivityIndicator size="large" color={theme.colors.primary} />
+                </View>
+            ) : currentError ? (
+                <View style={styles.emptyContainer} testID="leaderboard-error">
+                    <Text style={styles.errorTitle}>{i18n.t('common.error')}</Text>
+                    <Text style={styles.emptyText}>{currentError}</Text>
+                    <Pressable style={styles.retryButton} onPress={handleRetry} testID="leaderboard-retry">
+                        <Text style={styles.retryButtonText}>{i18n.t('common.retry')}</Text>
+                    </Pressable>
                 </View>
             ) : view === 'league' ? (
                 // League view
@@ -283,7 +408,8 @@ export default function LeaderboardScreen() {
                         {/* Members List */}
                         <FlatList
                             data={leagueInfo.members}
-                            renderItem={({ item }) => {
+                            testID="leaderboard-league-list"
+                            renderItem={({ item, index }) => {
                                 const isPromotion = item.rank <= leagueInfo.promotion_zone;
                                 const isDemotion = item.rank >= leagueInfo.demotion_zone;
                                 const medal = item.rank === 1 ? '🥇' : item.rank === 2 ? '🥈' : item.rank === 3 ? '🥉' : '';
@@ -294,12 +420,18 @@ export default function LeaderboardScreen() {
                                         item.is_self && styles.currentUserRow,
                                         isPromotion && styles.promotionRow,
                                         isDemotion && styles.demotionRow,
-                                    ]}>
+                                    ]}
+                                        testID={`leaderboard-league-row-${item.rank ?? index + 1}`}
+                                    >
                                         <View style={styles.rankContainer}>
                                             <Text style={styles.rankText}>{medal || `#${item.rank}`}</Text>
                                         </View>
                                         <View style={styles.userInfo}>
-                                            <Text style={[styles.username, item.is_self && styles.currentUsername]}>
+                                            <Text
+                                                style={[styles.username, item.is_self && styles.currentUsername]}
+                                                numberOfLines={1}
+                                                ellipsizeMode="tail"
+                                            >
                                                 {item.username}
                                                 {item.is_self && ` ${i18n.t('leaderboard.youSuffix')}`}
                                             </Text>
@@ -311,7 +443,7 @@ export default function LeaderboardScreen() {
                                 );
                             }}
                             keyExtractor={(item) => item.user_id}
-                            contentContainerStyle={styles.list}
+                            contentContainerStyle={[styles.list, { paddingBottom: listBottomInset }]}
                         />
                     </View>
                 ) : (
@@ -332,10 +464,11 @@ export default function LeaderboardScreen() {
                     data={leaderboard}
                     renderItem={renderLeaderboardRow}
                     keyExtractor={(item) => item.id}
-                    contentContainerStyle={styles.list}
+                    testID={`leaderboard-list-${view}`}
+                    contentContainerStyle={[styles.list, { paddingBottom: listBottomInset }]}
                 />
             )}
-        </View>
+        </SafeAreaView>
     );
 }
 
@@ -346,7 +479,6 @@ const styles = StyleSheet.create({
     },
     header: {
         padding: 20,
-        paddingTop: 60,
         backgroundColor: theme.colors.surface,
         borderBottomWidth: 1,
         borderBottomColor: theme.colors.line,
@@ -396,6 +528,24 @@ const styles = StyleSheet.create({
         color: theme.colors.sub,
         textAlign: 'center',
     },
+    errorTitle: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: theme.colors.text,
+        marginBottom: 8,
+    },
+    retryButton: {
+        marginTop: 14,
+        backgroundColor: theme.colors.primary,
+        borderRadius: 10,
+        paddingHorizontal: 16,
+        paddingVertical: 10,
+    },
+    retryButtonText: {
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: '700',
+    },
     list: {
         padding: 16,
     },
@@ -432,6 +582,7 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         color: theme.colors.text,
         marginBottom: 4,
+        flexShrink: 1,
     },
     currentUsername: {
         color: theme.colors.primary,
@@ -446,8 +597,12 @@ const styles = StyleSheet.create({
     },
     addFriendButton: {
         padding: 8,
+        minWidth: 44,
+        minHeight: 44,
         borderRadius: 8,
         backgroundColor: theme.colors.surface,
+        alignItems: 'center',
+        justifyContent: 'center',
     },
     addFriendButtonDisabled: {
         opacity: 0.5,

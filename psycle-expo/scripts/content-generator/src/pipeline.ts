@@ -5,6 +5,9 @@ import { config } from "dotenv";
 import { Seed, QuestionType, GenerationResult, PipelineConfig } from "./types";
 import { generateQuestion } from "./generator";
 import { evaluateQuestion, formatCriticReport } from "./critic";
+import { evaluateDeterministicGate } from "./deterministicGate";
+import { appendGateFailure } from "./metrics";
+import { normalizeDomain } from "./phasePolicy";
 
 // Load environment variables
 config({ path: join(__dirname, "..", ".env") });
@@ -35,6 +38,15 @@ async function runPipeline(config: PipelineConfig): Promise<GenerationResult> {
         };
     }
 
+    const normalizedDomain = normalizeDomain(config.seed.domain);
+    if (!normalizedDomain) {
+        return {
+            success: false,
+            attempts: 0,
+            error: `Invalid domain: ${String(config.seed.domain)}`,
+        };
+    }
+
     const genAI = new GoogleGenerativeAI(apiKey);
     let attempts = 0;
 
@@ -47,11 +59,27 @@ async function runPipeline(config: PipelineConfig): Promise<GenerationResult> {
             console.log("📝 Generating question...");
             const question = await generateQuestion(
                 genAI,
-                config.seed,
+                { ...config.seed, domain: normalizedDomain },
                 config.questionType,
-                config.difficulty
+                config.difficulty,
+                undefined,
+                { enforceExpandedDetails: true }
             );
             console.log("✅ Question generated");
+
+            const gate = evaluateDeterministicGate(question, { expectedDomain: normalizedDomain });
+            if (!gate.passed) {
+                appendGateFailure({
+                    timestamp: new Date().toISOString(),
+                    phase: question.phase,
+                    questionType: question.type,
+                    domain: normalizedDomain,
+                    hardViolations: gate.hardViolations,
+                    warnings: gate.warnings,
+                });
+                console.log(`🚫 Deterministic gate failed: ${gate.hardViolations.join(", ")}`);
+                continue;
+            }
 
             // Step 2: Evaluate
             console.log("🔍 Evaluating quality...");

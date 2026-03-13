@@ -7,6 +7,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
 import { genres } from "../../lib/data";
 import { useOnboarding } from "../../lib/OnboardingContext";
+import { hapticFeedback } from "../../lib/haptics";
 import i18n from "../../lib/i18n";
 
 export default function InterestsScreen() {
@@ -16,6 +17,7 @@ export default function InterestsScreen() {
     const [selectedGenres, setSelectedGenres] = useState<string[]>(e2eAnalyticsMode ? ["mental"] : []);
 
     const toggleGenre = (genreId: string) => {
+        void hapticFeedback.light();
         setSelectedGenres(prev =>
             prev.includes(genreId)
                 ? prev.filter(id => id !== genreId)
@@ -32,6 +34,7 @@ export default function InterestsScreen() {
         }
 
         // Complete onboarding (updates context and AsyncStorage)
+        void hapticFeedback.success();
         await completeOnboarding();
 
         // Navigation is handled by RootLayout based on state change, 
@@ -57,7 +60,12 @@ export default function InterestsScreen() {
     return (
         <SafeAreaView style={styles.container}>
             <View style={styles.header}>
-                <Pressable onPress={() => router.back()} style={styles.backButton}>
+                <Pressable
+                    onPress={() => router.back()}
+                    style={styles.backButton}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("onboarding.interests.title")}`}
+                >
                     <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                 </Pressable>
             </View>
@@ -80,6 +88,9 @@ export default function InterestsScreen() {
                                 ]}
                                 onPress={() => toggleGenre(genre.id)}
                                 testID={`onboarding-genre-${genre.id}`}
+                                accessibilityRole="button"
+                                accessibilityLabel={getGenreLabel(genre.id, genre.label)}
+                                accessibilityState={{ selected: isSelected }}
                             >
                                 <Ionicons
                                     name={iconMap[genre.icon]}

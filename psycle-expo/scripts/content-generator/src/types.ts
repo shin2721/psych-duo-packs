@@ -3,7 +3,7 @@ import { z } from "zod";
 // Seed Dataset Schema
 export const SeedSchema = z.object({
     id: z.string(),
-    domain: z.enum(["social", "money", "mental", "health", "work", "study"]),
+    domain: z.enum(["social", "money", "mental", "health", "work", "study", "productivity", "relationships"]),
     core_principle: z.string(),
     core_principle_en: z.string(),
     counter_intuitive_insight: z.string(),
@@ -35,6 +35,7 @@ export type QuestionType = z.infer<typeof QuestionTypeSchema>;
 // Generated Question Schema
 export const GeneratedQuestionSchema = z.object({
     id: z.string(),
+    phase: z.number().int().min(1).max(5),
     type: QuestionTypeSchema,
     question: z.string(),
     choices: z.array(z.string()).optional(),

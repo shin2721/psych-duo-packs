@@ -3,6 +3,8 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
 import { Badge } from "../lib/badges";
+import i18n from "../lib/i18n";
+import { useToast } from "./ToastProvider";
 
 interface BadgeIconProps {
     badge: Badge;
@@ -11,12 +13,26 @@ interface BadgeIconProps {
 }
 
 export function BadgeIcon({ badge, isUnlocked, onPress }: BadgeIconProps) {
-    return (
-        <Pressable
-            style={[styles.container, !isUnlocked && styles.locked]}
-            onPress={onPress}
-            disabled={!isUnlocked}
-        >
+    const { showToast } = useToast();
+    const accessibilityLabel = isUnlocked
+        ? badge.name
+        : `${badge.name} ${String(i18n.t("badges.accessibility.lockedSuffix"))}`;
+    const lockedAccessibilityHint = String(i18n.t("badges.accessibility.lockedHint"));
+    const lockedMessage = String(i18n.t("badges.accessibility.lockedMessage"));
+    const accessibilityHint = isUnlocked ? undefined : lockedAccessibilityHint;
+    const isInteractive = !isUnlocked || Boolean(onPress);
+
+    const handlePress = React.useCallback(() => {
+        if (isUnlocked) {
+            onPress?.();
+            return;
+        }
+
+        showToast(lockedMessage);
+    }, [isUnlocked, lockedMessage, onPress, showToast]);
+
+    const content = (
+        <>
             <View style={[styles.iconContainer, !isUnlocked && styles.lockedIcon]}>
                 <Ionicons
                     name={badge.icon as any}
@@ -27,6 +43,32 @@ export function BadgeIcon({ badge, isUnlocked, onPress }: BadgeIconProps) {
             <Text style={[styles.name, !isUnlocked && styles.lockedText]} numberOfLines={2}>
                 {badge.name}
             </Text>
+        </>
+    );
+
+    if (!isInteractive) {
+        return (
+            <View
+                style={styles.container}
+                accessible
+                accessibilityRole="image"
+                accessibilityLabel={accessibilityLabel}
+            >
+                {content}
+            </View>
+        );
+    }
+
+    return (
+        <Pressable
+            style={[styles.container, !isUnlocked && styles.locked]}
+            onPress={isInteractive ? handlePress : undefined}
+            accessible
+            accessibilityRole="button"
+            accessibilityLabel={accessibilityLabel}
+            accessibilityHint={accessibilityHint}
+        >
+            {content}
         </Pressable>
     );
 }

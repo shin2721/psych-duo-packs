@@ -1,8 +1,10 @@
 import React, { useRef, useEffect, useMemo } from "react";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { View, Pressable, StyleSheet, Dimensions, ScrollView, Animated } from "react-native";
 import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import i18n from "../lib/i18n";
 import { theme } from "../lib/theme";
 
 // ==================== TYPES ====================
@@ -442,7 +444,23 @@ function LevelIndicator({ level, x, y, isLeft, isMilestone, color }: { level: nu
 }
 
 // ==================== GLOWING NODE COMPONENT ====================
-function GlowingNode({ node, x, y, isMilestone, onPress, themeColor }: { node: TrailNode; x: number; y: number; isMilestone: boolean; onPress: () => void; themeColor?: string }) {
+function GlowingNode({
+  node,
+  x,
+  y,
+  isMilestone,
+  onPress,
+  themeColor,
+  nodeIndex,
+}: {
+  node: TrailNode;
+  x: number;
+  y: number;
+  isMilestone: boolean;
+  onPress: () => void;
+  themeColor?: string;
+  nodeIndex: number;
+}) {
   const scale = useRef(new Animated.Value(1)).current;
   const outerRingScale = useRef(new Animated.Value(1)).current;
   const outerRingOpacity = useRef(new Animated.Value(0.3)).current;
@@ -451,6 +469,19 @@ function GlowingNode({ node, x, y, isMilestone, onPress, themeColor }: { node: T
   const nodeSize = isMilestone ? MILESTONE_NODE_SIZE : NODE_SIZE;
   const activeGlow = themeColor || GLOW_COLOR_BRIGHT;
   const activeSuccess = themeColor || theme.colors.success;
+  const nodeNumber = nodeIndex + 1;
+  const accessibilityLabel = (() => {
+    if (node.status === "done") {
+      return String(i18n.t("course.accessibility.nodeCompleted", { number: nodeNumber }));
+    }
+    if (node.isLocked) {
+      return String(i18n.t("course.accessibility.nodeLocked", { number: nodeNumber }));
+    }
+    if (node.status === "current") {
+      return String(i18n.t("course.accessibility.nodeCurrent", { number: nodeNumber }));
+    }
+    return String(i18n.t("course.accessibility.nodeAvailable", { number: nodeNumber }));
+  })();
 
   useEffect(() => {
     // All nodes float gently (案4)
@@ -518,14 +549,13 @@ function GlowingNode({ node, x, y, isMilestone, onPress, themeColor }: { node: T
   const getIcon = () => {
     if (node.isLocked) return <Ionicons name="lock-closed" size={isMilestone ? 24 : 20} color={style.iconColor} />;
     if (node.status === "done") return <Ionicons name="checkmark" size={isMilestone ? 30 : 26} color={style.iconColor} />;
+    if (node.type === "review_blackhole") {
+      return <Ionicons name="planet" size={isMilestone ? 32 : 28} color={style.iconColor} />;
+    }
     if (node.status === "locked" || node.status === "future") {
       // Milestone nodes show a star icon even when locked
       if (isMilestone) return <Ionicons name="star" size={24} color={style.iconColor} />;
       return null;
-    }
-    if (node.type === "review_blackhole") {
-      if (node.status === "done") return <Ionicons name="checkmark" size={isMilestone ? 30 : 26} color={style.iconColor} />;
-      return <Ionicons name="planet" size={isMilestone ? 32 : 28} color={style.iconColor} />;
     }
     return <Ionicons name={node.icon as any} size={isMilestone ? 32 : 28} color={style.iconColor} />;
   };
@@ -592,6 +622,12 @@ function GlowingNode({ node, x, y, isMilestone, onPress, themeColor }: { node: T
           onPress={node.isLocked || node.status === "current" ? onPress : undefined}
           disabled={!node.isLocked && node.status !== "current"}
           testID={`lesson-node-${node.id}`}
+          accessibilityRole="button"
+          accessibilityLabel={accessibilityLabel}
+          accessibilityState={{
+            disabled: !node.isLocked && node.status !== "current",
+            selected: node.status === "current",
+          }}
         >
           {getIcon()}
         </Pressable>
@@ -603,6 +639,8 @@ function GlowingNode({ node, x, y, isMilestone, onPress, themeColor }: { node: T
 // ==================== MAIN TRAIL COMPONENT ====================
 export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }: Props) {
   const activePathColor = themeColor || PATH_COLOR_DONE;
+  const bottomTabBarHeight = useBottomTabBarHeight();
+  const trailBottomInset = bottomTabBarHeight + theme.spacing.lg;
   // Find the index of the current node for path coloring
   const currentIndex = useMemo(() => {
     return trail.findIndex(n => n.status === "current");
@@ -735,7 +773,7 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
   }, [currentIndex, nodePositions]);
 
   return (
-    <ScrollView contentContainerStyle={[styles.container, { minHeight: totalHeight }]}>
+    <ScrollView contentContainerStyle={[styles.container, { minHeight: totalHeight, paddingBottom: trailBottomInset }]}>
       {/* Background Gradient REMOVED - Using Global Star Background */}
       {/* <BackgroundGradient height={totalHeight} /> */}
 
@@ -817,6 +855,7 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
               isMilestone={isMilestone}
               onPress={() => node.status === "locked" ? onLockedPress?.(node.id) : onStart?.(node.id)}
               themeColor={themeColor}
+              nodeIndex={index}
             />
           </View>
         );
@@ -843,7 +882,6 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
 const styles = StyleSheet.create({
   container: {
     position: "relative",
-    paddingBottom: 100,
   },
   node: {
     alignItems: "center",

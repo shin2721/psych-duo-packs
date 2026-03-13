@@ -47,7 +47,12 @@ describe('Analytics v1.3 E2E', () => {
       console.log('🚀 Starting Scenario A: Initial Launch');
 
       // Step 1: Launch app (triggers app_open, session_start, app_ready)
-      await device.launchApp({ newInstance: true });
+      await device.launchApp({
+        newInstance: true,
+        permissions: {
+          notifications: 'YES',
+        },
+      });
       await device.disableSynchronization();
       await sleep(1000);
       if (USE_DEV_CLIENT_BOOTSTRAP) {
@@ -84,9 +89,11 @@ describe('Analytics v1.3 E2E', () => {
         await element(by.id('auth-guest-login')).tap();
         await sleep(2000);
       }
+      await dismissBlockingSystemAlerts();
 
       // Step 4: Navigate to first lesson
       await waitFor(element(by.id('tab-course'))).toBeVisible().withTimeout(45000);
+      await dismissBlockingSystemAlerts();
       await element(by.id('tab-course')).tap();
       
       // Wait for course screen to load
@@ -281,46 +288,45 @@ describe('Analytics v1.3 E2E', () => {
 
 async function navigateToAnalyticsDebug(): Promise<void> {
   try {
-    if (await isVisibleById('analytics-status', 1200)) {
+    if (await isVisibleById('analytics-status', 2500)) {
       return;
     }
     
     // Navigate to profile tab
     await waitFor(element(by.id('tab-profile'))).toBeVisible().withTimeout(15000);
     await element(by.id('tab-profile')).tap();
-    await sleep(800);
+    await sleep(1000);
+    await dismissBlockingSystemAlerts();
 
     // Open settings screen
-    await waitFor(element(by.id('profile-open-settings'))).toBeVisible().withTimeout(10000);
-    await element(by.id('profile-open-settings')).tap();
-    await sleep(800);
+    await openSettingsFromProfile();
 
     // In E2E release builds the debug row should be visible directly, but it may be off-screen.
     // If not found, fallback to the legacy 5-tap unlock path and retry.
     await waitFor(element(by.id('settings-title-tap'))).toBeVisible().withTimeout(10000);
     let openedFromSettings = await openAnalyticsDebugFromSettings();
-    if (!openedFromSettings && !(await isVisibleById('analytics-status', 1200))) {
+    if (!openedFromSettings && !(await isVisibleById('analytics-status', 2500))) {
       for (let i = 0; i < 5; i++) {
         await element(by.id('settings-title-tap')).tap();
-        await sleep(180);
+        await sleep(220);
       }
       openedFromSettings = await openAnalyticsDebugFromSettings();
     }
 
-    if (!openedFromSettings && !(await isVisibleById('analytics-status', 1500))) {
+    if (!openedFromSettings && !(await isVisibleById('analytics-status', 3000))) {
       throw new Error('Could not open analytics debug from settings');
     }
     
     // Wait for debug screen to load (with retry taps for flaky transitions).
     for (let i = 0; i < 10; i++) {
-      if (await isVisibleById('analytics-status', 1000)) {
+      if (await isVisibleById('analytics-status', 2500)) {
         await sleep(500);
         return;
       }
-      if (await isVisibleById('open-analytics-debug', 800)) {
+      if (await isVisibleById('open-analytics-debug', 2000)) {
         await element(by.id('open-analytics-debug')).tap();
       }
-      await sleep(700);
+      await sleep(900);
     }
     await device.takeScreenshot(`analytics-debug-open-failed-${Date.now()}`);
     throw new Error('Analytics debug screen did not become visible');
@@ -491,12 +497,43 @@ async function tapModalPrimaryUntilLessonOpens(): Promise<void> {
 
 async function openAnalyticsDebugFromSettings(): Promise<boolean> {
   await scrollUntilVisibleById('settings-scroll', 'open-analytics-debug', 8);
-  if (await isVisibleById('open-analytics-debug', 1200)) {
+  if (await isVisibleById('open-analytics-debug', 5000)) {
     await element(by.id('open-analytics-debug')).tap();
-    await sleep(500);
+    await sleep(900);
     return true;
   }
+  await device.takeScreenshot(`analytics-debug-row-missing-${Date.now()}`);
   return false;
+}
+
+async function openSettingsFromProfile(): Promise<void> {
+  for (let attempt = 0; attempt < 3; attempt++) {
+    await waitFor(element(by.id('profile-open-settings'))).toBeVisible().withTimeout(15000);
+    await sleep(700);
+
+    try {
+      await element(by.id('profile-open-settings')).tap();
+    } catch (error) {
+      if (attempt === 2) {
+        await device.takeScreenshot(`analytics-settings-open-failed-${Date.now()}`);
+        throw error;
+      }
+    }
+
+    if (await isVisibleById('settings-scroll', 6000)) {
+      return;
+    }
+
+    await sleep(1000);
+    if (attempt < 2) {
+      await element(by.id('tab-profile')).tap();
+      await sleep(1000);
+      await dismissBlockingSystemAlerts();
+    }
+  }
+
+  await device.takeScreenshot(`analytics-settings-open-missing-${Date.now()}`);
+  throw new Error('Could not open settings from profile');
 }
 
 async function scrollUntilVisibleById(anchorTestID: string, targetTestID: string, maxSwipes = 6): Promise<void> {
@@ -574,6 +611,30 @@ async function tapFirstVisibleText(texts: string[], timeoutMs: number): Promise<
     await sleep(250);
   }
   return false;
+}
+
+async function dismissBlockingSystemAlerts(): Promise<void> {
+  // Common iOS permission/system dialog actions (ja/en).
+  const dismissTexts = [
+    '許可しない',
+    '許可',
+    'OK',
+    '閉じる',
+    '今はしない',
+    '後で',
+    "Don’t Allow",
+    "Don't Allow",
+    'Allow',
+    'Not Now',
+    'Later',
+    'Close',
+  ];
+
+  for (let i = 0; i < 3; i++) {
+    const tapped = await tapFirstVisibleText(dismissTexts, 1200);
+    if (!tapped) return;
+    await sleep(400);
+  }
 }
 
 function resolveDevServerUrl(): string {

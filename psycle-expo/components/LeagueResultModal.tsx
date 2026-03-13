@@ -10,7 +10,6 @@ import {
     Text,
     StyleSheet,
     Modal,
-    Pressable,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
@@ -18,6 +17,7 @@ import { LEAGUE_TIERS } from '../lib/league';
 import { Analytics } from '../lib/analytics';
 import { LeagueResult, claimReward } from '../lib/leagueReward';
 import i18n from '../lib/i18n';
+import { Button } from './ui';
 
 interface LeagueResultModalProps {
     visible: boolean;
@@ -126,17 +126,14 @@ export function LeagueResultModal({
                     </View>
 
                     {/* Claim Button */}
-                    <Pressable
-                        style={[styles.button, claiming && styles.buttonDisabled]}
+                    <Button
+                        label={String(claiming ? i18n.t('leagueResultModal.claiming') : i18n.t('leagueResultModal.claim'))}
                         onPress={handleClaim}
+                        loading={claiming}
                         disabled={claiming}
-                    >
-                        <Text style={styles.buttonText}>
-                            {claiming
-                                ? i18n.t('leagueResultModal.claiming')
-                                : i18n.t('leagueResultModal.claim')}
-                        </Text>
-                    </Pressable>
+                        size="lg"
+                        style={styles.button}
+                    />
                 </View>
             </View>
         </Modal>
@@ -166,13 +163,12 @@ const styles = StyleSheet.create({
         fontSize: 64,
     },
     title: {
-        fontSize: 28,
-        fontWeight: 'bold',
+        ...theme.typography.h1,
         color: theme.colors.text,
         marginBottom: 8,
     },
     rank: {
-        fontSize: 18,
+        ...theme.typography.body,
         color: theme.colors.sub,
         marginBottom: 16,
     },
@@ -180,8 +176,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     tierName: {
-        fontSize: 20,
-        fontWeight: 'bold',
+        ...theme.typography.h3,
     },
     rewardsContainer: {
         width: '100%',
@@ -191,7 +186,7 @@ const styles = StyleSheet.create({
         marginBottom: 24,
     },
     rewardsTitle: {
-        fontSize: 14,
+        ...theme.typography.label,
         color: theme.colors.sub,
         marginBottom: 12,
         textAlign: 'center',
@@ -204,24 +199,11 @@ const styles = StyleSheet.create({
         marginBottom: 8,
     },
     rewardText: {
-        fontSize: 18,
+        ...theme.typography.body,
         fontWeight: '600',
         color: theme.colors.text,
     },
     button: {
-        backgroundColor: theme.colors.primary,
-        paddingVertical: 14,
-        paddingHorizontal: 48,
-        borderRadius: 12,
         width: '100%',
-        alignItems: 'center',
-    },
-    buttonDisabled: {
-        opacity: 0.6,
-    },
-    buttonText: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: '#fff',
     },
 });

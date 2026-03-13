@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react";
 import { View, Animated, Easing } from "react-native";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { theme } from "../../lib/theme";
 import i18n from "../../lib/i18n";
 import { StarBackground } from "../../components/StarBackground";
@@ -78,6 +79,11 @@ const TransparentTheme = {
 };
 
 export default function TabLayout() {
+  const insets = useSafeAreaInsets();
+  const baseHeight = 64;
+  const tabBarHeight = baseHeight + insets.bottom;
+  const tabBarBottomPadding = Math.max(insets.bottom, 8);
+
   return (
     <ThemeProvider value={TransparentTheme}>
       <View style={{ flex: 1 }}>
@@ -93,8 +99,9 @@ export default function TabLayout() {
               backgroundColor: "rgba(15, 23, 42, 0.8)", // Semi-transparent surface color
               borderTopColor: "rgba(255,255,255,0.1)",
               borderTopWidth: 0,
-              height: 88,
+              height: tabBarHeight,
               paddingTop: 8,
+              paddingBottom: tabBarBottomPadding,
               position: 'absolute', // Float tab bar over background
               bottom: 0,
               left: 0,
@@ -130,6 +137,7 @@ export default function TabLayout() {
             name="quests"
             options={{
               title: i18n.t("tabs.quests"),
+              tabBarButtonTestID: "tab-quests",
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="home" size={size} color={color} focused={focused} />
               ),
@@ -139,6 +147,7 @@ export default function TabLayout() {
             name="leaderboard"
             options={{
               title: i18n.t("tabs.ranking"),
+              tabBarButtonTestID: "tab-leaderboard",
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="trophy" size={size} color={color} focused={focused} />
               ),
@@ -148,6 +157,7 @@ export default function TabLayout() {
             name="friends"
             options={{
               title: i18n.t("tabs.friends"),
+              tabBarButtonTestID: "tab-friends",
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="people" size={size} color={color} focused={focused} />
               ),
@@ -157,6 +167,7 @@ export default function TabLayout() {
             name="shop"
             options={{
               title: i18n.t("tabs.shop"),
+              tabBarButtonTestID: "tab-shop",
               tabBarIcon: ({ color, size, focused }) => (
                 <FireflyTabBarIcon name="storefront" size={size} color={color} focused={focused} />
               ),

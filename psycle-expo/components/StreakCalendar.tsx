@@ -2,6 +2,7 @@ import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { theme } from '../lib/theme';
 import { dateKey } from '../lib/streaks';
+import i18n from '../lib/i18n';
 
 interface StreakDay {
     date: string;
@@ -56,12 +57,44 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
         return day === 1 || day === 15 ? day.toString() : '';
     };
 
+    const getAccessibleDate = (dateString: string) => {
+        const [year, month, day] = dateString.split("-").map(Number);
+        return new Intl.DateTimeFormat(i18n.locale, {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+        }).format(new Date(year, month - 1, day));
+    };
+
+    const getDayAccessibilityLabel = (day: { date: string; data?: StreakDay }) => {
+        const formattedDate = getAccessibleDate(day.date);
+        const xp = day.data?.xp || 0;
+        const lessons = day.data?.lessonsCompleted || 0;
+
+        if (xp === 0 && lessons === 0) {
+            return String(i18n.t("streakCalendar.dayInactive", { date: formattedDate }));
+        }
+
+        return String(
+            i18n.t("streakCalendar.dayActive", {
+                date: formattedDate,
+                xp,
+                lessons,
+            })
+        );
+    };
+
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Learning Activity</Text>
+            <Text style={styles.title}>{i18n.t('streakCalendar.title')}</Text>
             <View style={styles.calendar}>
                 {days.map((day, index) => (
-                    <View key={index} style={styles.dayContainer}>
+                    <View
+                        key={index}
+                        style={styles.dayContainer}
+                        accessible
+                        accessibilityLabel={getDayAccessibilityLabel(day)}
+                    >
                         <View
                             style={[
                                 styles.day,
@@ -78,12 +111,12 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
                 ))}
             </View>
             <View style={styles.legend}>
-                <Text style={styles.legendText}>Less</Text>
-                <View style={[styles.legendBox, { backgroundColor: theme.colors.line }]} />
-                <View style={[styles.legendBox, { backgroundColor: 'rgba(168, 255, 96, 0.25)' }]} />
-                <View style={[styles.legendBox, { backgroundColor: 'rgba(168, 255, 96, 0.55)' }]} />
-                <View style={[styles.legendBox, { backgroundColor: '#a8ff60' }]} />
-                <Text style={styles.legendText}>More</Text>
+                <Text style={styles.legendText}>{i18n.t('streakCalendar.less')}</Text>
+                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: theme.colors.line }]} />
+                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: 'rgba(168, 255, 96, 0.25)' }]} />
+                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: 'rgba(168, 255, 96, 0.55)' }]} />
+                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: '#a8ff60' }]} />
+                <Text style={styles.legendText}>{i18n.t('streakCalendar.more')}</Text>
             </View>
         </View>
     );

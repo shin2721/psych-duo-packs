@@ -2,10 +2,14 @@ export const zh = {
     common: {
         loading: '加载中...',
         error: '发生错误',
+        toastSuccessPrefix: '成功:',
+        toastErrorPrefix: '错误:',
+        unexpectedError: '发生了问题，请重试。',
         save: '保存',
         cancel: '取消',
         close: '关闭',
         ok: '确定',
+        retry: '重试',
     },
     shop: {
         title: '商店',
@@ -31,6 +35,7 @@ export const zh = {
             processing: '处理中...',
             active: '生效中',
             subscribe: '订阅',
+            cancelAnytime: '可随时取消',
             activePlan: '%{plan} 套餐生效中',
             expiresOn: '有效期至：%{date}',
         },
@@ -46,6 +51,8 @@ export const zh = {
                 activeWithMinutes: '激活中！剩余 %{minutes} 分钟',
             }
             ,
+            buyButtonA11y: '花费 %{price} Gems 购买 %{name}',
+            purchasedA11y: '%{name} 已购买',
             ownedCount: '持有数：%{count}',
         },
         comingSoon: '更多道具即将上线！',
@@ -60,6 +67,7 @@ export const zh = {
         energyStatus: {
             title: '能量状态',
             currentLabel: '当前：',
+            currentUnlimitedA11y: '当前能量：Pro 会员无限',
             nextRefillLabel: '下次恢复还有：',
             full: '已满',
             minutes: '%{minutes} 分钟',
@@ -81,10 +89,21 @@ export const zh = {
         helpFaq: '帮助与常见问题',
         restorePurchases: '恢复购买',
         restoring: '恢复中...',
+        restoreStatusLoading: '正在检查购买记录...',
+        restoreStatusSuccess: '购买恢复成功。',
+        restoreStatusNotFound: '未找到可恢复的购买记录。',
+        restoreStatusError: '购买恢复失败。',
+        manageBilling: '管理账单',
+        openingPortal: '正在打开账单门户...',
+        billingStatusLoading: '正在打开账单门户...',
+        billingStatusSuccess: '账单门户已成功打开。',
+        billingStatusError: '无法打开账单门户。',
         privacy: '隐私政策',
         terms: '服务条款',
         errorTitle: '错误',
         loginRequiredForRestore: '恢复购买前需要先登录。',
+        loginRequiredForBillingPortal: '打开账单门户前需要先登录。',
+        billingPortalUnavailable: '账单门户当前不可用。',
         signOutTitle: '退出登录',
         signOutConfirm: '确定要退出登录吗？',
         resetDoneTitle: '重置完成',
@@ -108,6 +127,23 @@ export const zh = {
         friends: '好友',
         shop: '商店',
         profile: '个人资料',
+    },
+    globalHeader: {
+        selectCourse: '选择课程',
+        a11y: {
+            courseSelector: '课程选择器。当前：%{course}',
+            streak: '连续学习：%{count} 天',
+            gems: '宝石：%{count}',
+            energy: '体力：%{count}',
+            energyUnlimited: '体力无限',
+        },
+    },
+    streakCalendar: {
+        title: '学习活动',
+        less: '较少',
+        more: '较多',
+        dayActive: '%{date}：获得 %{xp} XP，完成 %{lessons} 课',
+        dayInactive: '%{date}：无学习记录',
     },
     evidenceBottomSheet: {
         sourceLabel: '📖 来源',
@@ -134,6 +170,8 @@ export const zh = {
         title: 'Psycle Premium',
         unlockLevels: '订阅后解锁 Level 4+',
         benefitsTitle: '订阅包含：',
+        priceFrom: '每月 %{price} 起',
+        cancelAnytime: '可随时取消',
         ctaNote: '你可以在商店比较套餐。',
         benefits: {
             accessAllLevels: '访问全部 10 个等级内容',
@@ -252,8 +290,29 @@ export const zh = {
         startLessonTitle: 'Start Lesson',
         startLessonDescription: 'You can earn %{xp} XP in this lesson.',
         startButton: 'Start',
+        nextStep: {
+            label: '下一步',
+            readyTitle: '下一节课已经准备好了',
+            readyBody: '沿着你已经解锁的学习路径继续前进。',
+            lockedTitle: '这节课暂时仍被锁定',
+            lockedBody: '再完成一些内容，或升级 Pro 来解锁这条路径。',
+            ctaReady: '打开课程',
+            ctaLocked: '查看解锁方式',
+        },
+        accessibility: {
+            nodeCurrent: '当前课程节点 %{number}',
+            nodeLocked: '已锁定课程节点 %{number}',
+            nodeCompleted: '已完成课程节点 %{number}',
+            nodeAvailable: '可用课程节点 %{number}',
+        },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+        streakRepair: {
+            accessibilityHint: '消耗 Gems 恢复你的连胜。',
+        },
+        comebackReward: {
+            accessibilityHint: '开始一节课程以领取回归奖励。',
+        },
     },
     planSelector: {
         title: '选择套餐',
@@ -288,6 +347,10 @@ export const zh = {
         statusUnlimited: '复习会话：不限次数',
         statusRemaining: '今日复习会话：剩余 %{remaining}/1',
         statusLocked: '错题复习仅限 Max 套餐使用',
+        statusNeedData: '至少需要5道错题才能开始复习',
+        routeHintLocked: '升级到 Max 后可进入该复习路线',
+        routeHintInsufficientData: '再完成一些题目即可解锁该复习路线',
+        routeHintReady: '现在即可开始复习',
         itemCountReady: '已准备好 %{count} 道复习题',
     },
     review: {
@@ -329,6 +392,112 @@ export const zh = {
         actions: {
             learningHistory: '学习记录',
             detailedStats: '详细统计',
+            comingSoon: '即将推出',
+        },
+    },
+    badges: {
+        accessibility: {
+            lockedSuffix: '（未解锁）',
+            lockedHint: '显示锁定状态',
+            lockedMessage: '这个徽章仍未解锁。',
+        },
+        catalog: {
+            first_lesson: {
+                name: '第一步',
+                description: '完成第一节课',
+            },
+            level_5: {
+                name: '完成 5 节课',
+                description: '完成 5 节课',
+            },
+            level_10: {
+                name: '完成 10 节课',
+                description: '完成 10 节课',
+            },
+            lessons_50: {
+                name: '坚持就是力量',
+                description: '完成 50 节课',
+            },
+            lessons_100: {
+                name: '身经百战',
+                description: '完成 100 节课',
+            },
+            streak_3: {
+                name: '连续 3 天',
+                description: '连续学习 3 天',
+            },
+            streak_7: {
+                name: '连续 1 周',
+                description: '连续学习 7 天',
+            },
+            streak_14: {
+                name: '连续 2 周',
+                description: '连续学习 14 天',
+            },
+            streak_30: {
+                name: '连续 1 个月',
+                description: '连续学习 30 天',
+            },
+            streak_60: {
+                name: '连续 2 个月',
+                description: '连续学习 60 天',
+            },
+            streak_100: {
+                name: '连续 100 天',
+                description: '连续学习 100 天',
+            },
+            streak_365: {
+                name: '连续 1 年',
+                description: '连续学习 365 天',
+            },
+            xp_1000: {
+                name: '达到 1000 XP',
+                description: '总 XP 达到 1000',
+            },
+            xp_5000: {
+                name: '达到 5000 XP',
+                description: '总 XP 达到 5000',
+            },
+            mistake_master: {
+                name: '攻克错题',
+                description: '攻克 10 个错题',
+            },
+            first_friend: {
+                name: '第一个朋友',
+                description: '添加第一个好友',
+            },
+            top_10: {
+                name: '进入前 10',
+                description: '进入排行榜前 10',
+            },
+            league_silver: {
+                name: '晋升白银',
+                description: '晋升到白银联赛',
+            },
+            league_gold: {
+                name: '晋升黄金',
+                description: '晋升到黄金联赛',
+            },
+            league_platinum: {
+                name: '晋升白金',
+                description: '晋升到白金联赛',
+            },
+            league_diamond: {
+                name: '晋升钻石',
+                description: '晋升到钻石联赛',
+            },
+            league_master: {
+                name: '晋升大师',
+                description: '晋升到大师联赛',
+            },
+            league_first_place: {
+                name: '联赛第一',
+                description: '在联赛中获得第一名',
+            },
+            event_spring_2026: {
+                name: '春季活动完赛',
+                description: '完成 Spring Challenge 2026',
+            },
         },
     },
     editProfile: {
@@ -337,6 +506,15 @@ export const zh = {
         usernamePlaceholder: '输入用户名',
         successTitle: '成功',
         successMessage: '个人资料已更新。',
+        discardTitle: '要放弃更改吗？',
+        discardMessage: '你的个人资料更改尚未保存。',
+        discardConfirm: '放弃',
+        errors: {
+            requiredUsername: '请输入用户名。',
+            usernameTooShort: '用户名至少需要 %{count} 个字符。',
+            saveFailed: '无法更新个人资料，请重试。',
+            usernameTaken: '该用户名已被使用。',
+        },
     },
     quests: {
         monthTitle: '%{month} 月任务',
@@ -427,6 +605,60 @@ export const zh = {
             master: '大师',
         },
     },
+    friends: {
+        title: '好友',
+        tabs: {
+            friends: '好友',
+            requests: '请求',
+            requestsWithCount: '请求 (%{count})',
+            search: '搜索',
+        },
+        fallbackUnknownUser: '未知用户',
+        stats: {
+            xpValue: '⭐ %{xp} XP',
+            streakValue: '🔥 连续 %{count} 天',
+        },
+        empty: {
+            friendsTitle: '还没有好友',
+            friendsSubtitle: '搜索用户并添加好友',
+            requestsTitle: '暂无待处理请求',
+        },
+        alerts: {
+            requestAcceptedTitle: '成功',
+            requestAcceptedMessage: '已接受好友请求',
+            acceptFailed: '接受好友请求失败',
+            rejectFailed: '拒绝好友请求失败',
+            removeTitle: '移除好友',
+            removeMessage: '确定要移除这位好友吗？',
+            removeConfirm: '移除',
+            removeFailed: '移除好友失败',
+        },
+        challenge: {
+            title: '每周好友挑战',
+            subtitle: '本周对手：%{name}',
+            progress: '你 %{mine} XP · 对手 %{theirs} XP',
+            readyToClaim: '挑战已完成，可领取奖励。',
+            keepGoing: '继续努力，超过你的好友。',
+            claim: '领取 +%{gems} Gems',
+            claimed: '已领取',
+            notCompleted: '先达到或超过好友 XP 才能领取。',
+            rewardClaimed: '奖励已领取：+%{gems} Gems',
+            rewardFailed: '领取奖励失败。',
+        },
+    },
+    friendSearch: {
+        placeholder: '按用户名搜索...',
+        empty: '未找到用户',
+        cta: {
+            add: '添加',
+            sent: '已发送',
+        },
+        alerts: {
+            alreadySent: '好友请求已发送',
+            sent: '好友请求已发送！',
+            failed: '发送好友请求失败',
+        },
+    },
     onboarding: {
         subtitle: '每天只需3分钟，强化你的心理韧性。',
         start: '开始',
@@ -455,6 +687,21 @@ export const zh = {
         passwordPlaceholder: '密码',
         signIn: '登录',
         signUp: '注册',
+        forgotPassword: '忘记密码？',
+        resetPasswordSent: '密码重置邮件已发送，请检查收件箱。',
+        resetPasswordFailed: '无法发送密码重置邮件。',
+        showPassword: '显示密码',
+        hidePassword: '隐藏密码',
+        errors: {
+            invalidCredentials: '邮箱或密码不正确。',
+            userAlreadyRegistered: '该邮箱已注册。',
+            emailNotConfirmed: '邮箱尚未验证，请检查收件箱。',
+            invalidEmail: '请输入有效的邮箱地址。',
+            requiredEmail: '请输入邮箱地址。',
+            requiredPassword: '请输入密码。',
+            passwordTooShort: '密码至少需要 %{count} 个字符。',
+            rateLimited: '尝试次数过多，请稍后再试。',
+        },
         guestLogin: '访客登录 (Dev)',
         verifyEmail: '请检查你的收件箱以完成邮箱验证！',
     }

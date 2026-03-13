@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react';
 import { StyleSheet, View } from 'react-native';
 import Animated, {
+    cancelAnimation,
     useSharedValue,
     useAnimatedStyle,
     withRepeat,
     withTiming,
     withSequence,
     Easing,
-    withDelay,
 } from 'react-native-reanimated';
 
 // Import assets
@@ -35,10 +35,10 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
     const headTranslateY = useSharedValue(0);
     const armRotation = useSharedValue(0);
 
-    // State Reactions
     useEffect(() => {
+        [bodyTranslateY, bodyScale, wingRotation, headRotation, armRotation].forEach(cancelAnimation);
+
         if (state === 'happy') {
-            // Happy Jump / Flip
             bodyTranslateY.value = withSequence(
                 withTiming(-20, { duration: 200 }),
                 withRepeat(
@@ -46,40 +46,97 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
                         withTiming(-30, { duration: 300, easing: Easing.out(Easing.quad) }),
                         withTiming(0, { duration: 300, easing: Easing.in(Easing.quad) })
                     ),
-                    2, // Jump twice
+                    2,
                     true
                 )
             );
-            // Spin
-            wingRotation.value = withRepeat(withTiming(45, { duration: 50 }), -1, true); // Flap super fast
-        } else if (state === 'idle') {
-            // Restore Breathing
-            bodyTranslateY.value = withRepeat(
+            bodyScale.value = withRepeat(
                 withSequence(
-                    withTiming(-5, { duration: 1500, easing: Easing.inOut(Easing.quad) }),
-                    withTiming(0, { duration: 1500, easing: Easing.inOut(Easing.quad) })
+                    withTiming(1.12, { duration: 250, easing: Easing.out(Easing.quad) }),
+                    withTiming(1, { duration: 250, easing: Easing.inOut(Easing.quad) })
                 ),
                 -1,
                 true
             );
-        }
-    }, [state]);
-
-    useEffect(() => {
-        // Initial Breathing (start immediately if idle)
-        if (state === 'idle') {
-            bodyTranslateY.value = withRepeat(
+            wingRotation.value = withRepeat(
                 withSequence(
-                    withTiming(-5, { duration: 1500, easing: Easing.inOut(Easing.quad) }),
-                    withTiming(0, { duration: 1500, easing: Easing.inOut(Easing.quad) })
+                    withTiming(45, { duration: 60, easing: Easing.linear }),
+                    withTiming(-30, { duration: 60, easing: Easing.linear })
                 ),
                 -1,
                 true
             );
+            headRotation.value = withRepeat(
+                withSequence(
+                    withTiming(10, { duration: 250, easing: Easing.inOut(Easing.quad) }),
+                    withTiming(-10, { duration: 250, easing: Easing.inOut(Easing.quad) })
+                ),
+                -1,
+                true
+            );
+            armRotation.value = withRepeat(
+                withSequence(
+                    withTiming(18, { duration: 250, easing: Easing.inOut(Easing.quad) }),
+                    withTiming(-18, { duration: 250, easing: Easing.inOut(Easing.quad) })
+                ),
+                -1,
+                true
+            );
+            return;
         }
-        // ... (other body parts omitted for brevity, keeping existing random drifts)
-        // Ideally we reset all animations on state change, but mixing is fine for now.
 
+        if (state === 'thinking') {
+            bodyTranslateY.value = withRepeat(
+                withSequence(
+                    withTiming(-2, { duration: 1800, easing: Easing.inOut(Easing.quad) }),
+                    withTiming(1, { duration: 1800, easing: Easing.inOut(Easing.quad) })
+                ),
+                -1,
+                true
+            );
+            bodyScale.value = withRepeat(
+                withSequence(
+                    withTiming(1.01, { duration: 1800, easing: Easing.inOut(Easing.quad) }),
+                    withTiming(0.99, { duration: 1800, easing: Easing.inOut(Easing.quad) })
+                ),
+                -1,
+                true
+            );
+            wingRotation.value = withRepeat(
+                withSequence(
+                    withTiming(8, { duration: 180, easing: Easing.linear }),
+                    withTiming(-4, { duration: 180, easing: Easing.linear })
+                ),
+                -1,
+                true
+            );
+            headRotation.value = withRepeat(
+                withSequence(
+                    withTiming(-8, { duration: 2200, easing: Easing.inOut(Easing.quad) }),
+                    withTiming(6, { duration: 2200, easing: Easing.inOut(Easing.quad) })
+                ),
+                -1,
+                true
+            );
+            armRotation.value = withRepeat(
+                withSequence(
+                    withTiming(4, { duration: 2200, easing: Easing.inOut(Easing.quad) }),
+                    withTiming(-2, { duration: 2200, easing: Easing.inOut(Easing.quad) })
+                ),
+                -1,
+                true
+            );
+            return;
+        }
+
+        bodyTranslateY.value = withRepeat(
+            withSequence(
+                withTiming(-5, { duration: 1500, easing: Easing.inOut(Easing.quad) }),
+                withTiming(0, { duration: 1500, easing: Easing.inOut(Easing.quad) })
+            ),
+            -1,
+            true
+        );
         bodyScale.value = withRepeat(
             withSequence(
                 withTiming(1.02, { duration: 1500, easing: Easing.inOut(Easing.quad) }),
@@ -88,8 +145,6 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
             -1,
             true
         );
-
-        // Wing Flapping (Fast)
         wingRotation.value = withRepeat(
             withSequence(
                 withTiming(15, { duration: 100, easing: Easing.linear }),
@@ -98,8 +153,6 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
             -1,
             true
         );
-
-        // Head Bobbing/Tilting (Slower, slightly offset from body)
         headRotation.value = withRepeat(
             withSequence(
                 withTiming(5, { duration: 2000, easing: Easing.inOut(Easing.quad) }),
@@ -108,8 +161,6 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
             -1,
             true
         );
-
-        // Arms waving slightly
         armRotation.value = withRepeat(
             withSequence(
                 withTiming(10, { duration: 2000, easing: Easing.inOut(Easing.quad) }),
@@ -118,7 +169,7 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
             -1,
             true
         );
-    }, []);
+    }, [state]);
 
     // Animated Styles
     const rBodyStyle = useAnimatedStyle(() => {

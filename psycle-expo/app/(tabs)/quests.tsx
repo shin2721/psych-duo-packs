@@ -1,9 +1,10 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { View, Text, ScrollView, Pressable, StyleSheet, Alert } from "react-native";
+import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
-import { useAppState } from "../../lib/state";
+import { useEconomyState, useProgressionState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { Analytics } from "../../lib/analytics";
 import { Card, ProgressBar, SectionHeader } from "../../components/ui";
@@ -11,6 +12,7 @@ import { Chest } from "../../components/Chest";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { StreakCalendar } from "../../components/StreakCalendar";
 import i18n from "../../lib/i18n";
+import { useToast } from "../../components/ToastProvider";
 
 function getTodayKeyFromNow(nowMs: number): string {
   const date = new Date(nowMs);
@@ -37,12 +39,15 @@ export default function QuestsScreen() {
     quests,
     claimQuest,
     rerollQuest,
-    dailyQuestRerollRemaining,
     streakHistory,
     eventCampaign,
     eventQuests,
-  } = useAppState();
+  } = useProgressionState();
+  const { dailyQuestRerollRemaining } = useEconomyState();
   const { user } = useAuth();
+  const { showToast } = useToast();
+  const bottomTabBarHeight = useBottomTabBarHeight();
+  const scrollBottomInset = bottomTabBarHeight + theme.spacing.lg;
   const currentMonth = new Date().getMonth() + 1;
   const [nowMs, setNowMs] = useState(() => Date.now());
 
@@ -135,7 +140,7 @@ export default function QuestsScreen() {
       | "no_candidate"
   ) => {
     const key = reason ?? "no_candidate";
-    Alert.alert(String(i18n.t("common.error")), String(i18n.t(`quests.reroll.errors.${key}`)));
+    showToast(String(i18n.t(`quests.reroll.errors.${key}`)), "error");
   };
 
   const renderQuest = (q: any) => {
@@ -146,125 +151,140 @@ export default function QuestsScreen() {
     const canRerollAction = canReroll && !completed && dailyQuestRerollRemaining > 0;
 
     return (
-      <Card key={q.id} style={styles.questCard}>
-        <View style={styles.questRow}>
-          <View style={styles.questInfo}>
-            <Text style={styles.questTitle}>{title}</Text>
-            <Text style={styles.questDesc}>
-              {q.progress} / {q.need}
-            </Text>
-            <ProgressBar value={q.progress} max={q.need} style={styles.progressBar} />
-            {canReroll && (
-              <View style={styles.rerollRow}>
-                <Pressable
-                  disabled={!canRerollAction}
-                  style={({ pressed }) => [
-                    styles.rerollButton,
-                    !canRerollAction && styles.rerollButtonDisabled,
-                    pressed && canRerollAction && styles.rerollButtonPressed,
-                  ]}
-                  onPress={() => {
-                    if (!canRerollAction) return;
-                    const result = rerollQuest(q.id);
-                    if (!result.success) {
-                      showRerollError(result.reason);
-                    }
-                  }}
-                >
-                  <Text style={styles.rerollButtonText}>{i18n.t("quests.reroll.cta")}</Text>
-                </Pressable>
-                <Text style={styles.rerollRemaining}>
-                  {i18n.t("quests.reroll.remaining", { count: dailyQuestRerollRemaining })}
-                </Text>
-              </View>
-            )}
+      <View key={q.id} testID={`quest-card-${q.type}-${q.id}`}>
+        <Card style={styles.questCard}>
+          <View style={styles.questRow}>
+            <View style={styles.questInfo}>
+              <Text style={styles.questTitle} numberOfLines={1} ellipsizeMode="tail">
+                {title}
+              </Text>
+              <Text style={styles.questDesc}>
+                {q.progress} / {q.need}
+              </Text>
+              <ProgressBar value={q.progress} max={q.need} style={styles.progressBar} />
+              {canReroll && (
+                <View style={styles.rerollRow}>
+                  <Pressable
+                    disabled={!canRerollAction}
+                    testID={`quest-reroll-${q.id}`}
+                    style={({ pressed }) => [
+                      styles.rerollButton,
+                      !canRerollAction && styles.rerollButtonDisabled,
+                      pressed && canRerollAction && styles.rerollButtonPressed,
+                    ]}
+                    onPress={() => {
+                      if (!canRerollAction) return;
+                      const result = rerollQuest(q.id);
+                      if (!result.success) {
+                        showRerollError(result.reason);
+                      }
+                    }}
+                  >
+                    <Text style={styles.rerollButtonText}>{i18n.t("quests.reroll.cta")}</Text>
+                  </Pressable>
+                  <Text style={styles.rerollRemaining}>
+                    {i18n.t("quests.reroll.remaining", { count: dailyQuestRerollRemaining })}
+                  </Text>
+                </View>
+              )}
+            </View>
+            <Chest
+              state={q.chestState}
+              onOpen={canClaim ? () => claimQuest(q.id) : undefined}
+              size="sm"
+              label={`${q.rewardXp}`}
+              testID={`quest-chest-${q.id}`}
+            />
           </View>
-          <Chest
-            state={q.chestState}
-            onOpen={canClaim ? () => claimQuest(q.id) : undefined}
-            size="sm"
-            label={`${q.rewardXp}`}
-          />
-        </View>
-      </Card>
+        </Card>
+      </View>
     );
   };
 
   return (
-    <SafeAreaView style={styles.container} edges={["top"]}>
+    <SafeAreaView style={styles.container} edges={["top"]} testID="quests-screen">
       <GlobalHeader />
-      <ScrollView contentContainerStyle={styles.scroll}>
+      <ScrollView
+        testID="quests-scroll"
+        contentContainerStyle={[styles.scroll, { paddingBottom: scrollBottomInset }]}
+      >
         <View style={styles.headerRow}>
           <Text style={styles.title}>{i18n.t("quests.monthTitle", { month: currentMonth })}</Text>
           <Text style={styles.xpText}>{xp} XP</Text>
         </View>
 
-        {/* Streak Calendar */}
-        <StreakCalendar history={streakHistory} />
+        <View testID="quests-streak-calendar">
+          <StreakCalendar history={streakHistory} />
+        </View>
 
         {eventCampaign && eventQuests.length > 0 && (
-          <Card style={styles.eventCard}>
-            <View style={styles.eventHeaderRow}>
-              <Text style={styles.eventTitle}>{i18n.t(eventCampaign.titleKey)}</Text>
-              <Text style={styles.eventRemaining}>
-                {i18n.t("quests.event.remaining", {
-                  time: formatRemaining(eventRemainingMs),
+          <View testID="quests-event-card">
+            <Card style={styles.eventCard}>
+              <View style={styles.eventHeaderRow}>
+                <Text style={styles.eventTitle}>{i18n.t(eventCampaign.titleKey)}</Text>
+                <Text style={styles.eventRemaining}>
+                  {i18n.t("quests.event.remaining", {
+                    time: formatRemaining(eventRemainingMs),
+                  })}
+                </Text>
+              </View>
+              <Text style={styles.eventCommunityGoal}>
+                {i18n.t("quests.event.communityGoal", {
+                  target: eventCampaign.communityTargetLessons,
                 })}
               </Text>
-            </View>
-            <Text style={styles.eventCommunityGoal}>
-              {i18n.t("quests.event.communityGoal", {
-                target: eventCampaign.communityTargetLessons,
-              })}
-            </Text>
-            <View style={styles.eventQuestList}>
-              {eventQuests.map((quest) => {
-                const completed = quest.claimed || quest.progress >= quest.need;
-                return (
-                  <View key={quest.id} style={styles.eventQuestRow}>
-                    <View style={styles.eventQuestInfo}>
-                      <Text style={styles.eventQuestTitle}>{i18n.t(quest.titleKey)}</Text>
-                      <Text style={styles.eventQuestProgress}>
-                        {quest.progress} / {quest.need}
-                      </Text>
-                      <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} />
+              <View style={styles.eventQuestList}>
+                {eventQuests.map((quest) => {
+                  const completed = quest.claimed || quest.progress >= quest.need;
+                  return (
+                    <View key={quest.id} style={styles.eventQuestRow} testID={`quests-event-${quest.id}`}>
+                      <View style={styles.eventQuestInfo}>
+                        <Text style={styles.eventQuestTitle}>{i18n.t(quest.titleKey)}</Text>
+                        <Text style={styles.eventQuestProgress}>
+                          {quest.progress} / {quest.need}
+                        </Text>
+                        <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} />
+                      </View>
+                      <View style={styles.eventQuestReward}>
+                        <Text style={styles.eventQuestGems}>+{quest.rewardGems} Gems</Text>
+                        {completed && (
+                          <Text style={styles.eventQuestCompleted}>{i18n.t("quests.event.completed")}</Text>
+                        )}
+                      </View>
                     </View>
-                    <View style={styles.eventQuestReward}>
-                      <Text style={styles.eventQuestGems}>+{quest.rewardGems} Gems</Text>
-                      {completed && (
-                        <Text style={styles.eventQuestCompleted}>{i18n.t("quests.event.completed")}</Text>
-                      )}
-                    </View>
-                  </View>
-                );
-              })}
-            </View>
-          </Card>
+                  );
+                })}
+              </View>
+            </Card>
+          </View>
         )}
 
         {monthly.length > 0 && (
-          <Card style={styles.monthlyCard}>
-            <Text style={styles.monthlyLabel}>{i18n.t("quests.monthly")}</Text>
-            {monthly.map((q) => (
-              <View key={q.id} style={styles.monthlyRow}>
-                <View style={styles.monthlyInfo}>
-                  <Text style={styles.monthlyTitle}>
-                    {q.titleKey ? String(i18n.t(q.titleKey)) : q.title}
-                  </Text>
-                  <ProgressBar value={q.progress} max={q.need} style={styles.progressBar} />
-                  <Text style={styles.monthlyProgress}>
-                    {q.progress} / {q.need}
-                  </Text>
+          <View testID="quests-monthly-card">
+            <Card style={styles.monthlyCard}>
+              <Text style={styles.monthlyLabel}>{i18n.t("quests.monthly")}</Text>
+              {monthly.map((q) => (
+                <View key={q.id} style={styles.monthlyRow} testID={`quests-monthly-${q.id}`}>
+                  <View style={styles.monthlyInfo}>
+                    <Text style={styles.monthlyTitle}>
+                      {q.titleKey ? String(i18n.t(q.titleKey)) : q.title}
+                    </Text>
+                    <ProgressBar value={q.progress} max={q.need} style={styles.progressBar} />
+                    <Text style={styles.monthlyProgress}>
+                      {q.progress} / {q.need}
+                    </Text>
+                  </View>
+                  <Chest
+                    state={q.chestState}
+                    onOpen={q.progress >= q.need && !q.claimed ? () => claimQuest(q.id) : undefined}
+                    size="md"
+                    label={`${q.rewardXp}`}
+                    testID={`quest-chest-${q.id}`}
+                  />
                 </View>
-                <Chest
-                  state={q.chestState}
-                  onOpen={q.progress >= q.need && !q.claimed ? () => claimQuest(q.id) : undefined}
-                  size="md"
-                  label={`${q.rewardXp}`}
-                />
-              </View>
-            ))}
-          </Card>
+              ))}
+            </Card>
+          </View>
         )}
 
         <SectionHeader title={String(i18n.t("quests.daily"))} />
@@ -374,6 +394,9 @@ const styles = StyleSheet.create({
     borderColor: theme.colors.accent,
     paddingVertical: 4,
     paddingHorizontal: 10,
+    minHeight: 44,
+    justifyContent: "center",
+    alignItems: "center",
   },
   rerollButtonPressed: {
     opacity: 0.7,

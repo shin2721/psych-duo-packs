@@ -4,15 +4,17 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
-import { useAppState } from "../lib/state";
+import { usePracticeState, useProgressionState } from "../lib/state";
 import { hapticFeedback } from "../lib/haptics";
 import { getQuestionFromId } from "../lib/lessons";
 import { QuestionRenderer, Question } from "../components/QuestionRenderer";
 import { XPGainAnimation } from "../components/XPGainAnimation";
+import { SupportStatePanel } from "../components/SupportStatePanel";
 import i18n from "../lib/i18n";
 
 export default function ReviewScreen() {
-    const { mistakes, getDueMistakes, processReviewResult, addXp, addReviewEvent } = useAppState();
+    const { mistakes, getDueMistakes, processReviewResult, addReviewEvent } = usePracticeState();
+    const { addXp } = useProgressionState();
     const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
     const [isSessionActive, setIsSessionActive] = useState(false);
@@ -114,49 +116,58 @@ export default function ReviewScreen() {
 
     if (dueCount === 0) {
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container} testID="review-screen">
                 <View style={styles.header}>
-                    <Pressable onPress={() => router.back()} style={styles.backButton}>
+                    <Pressable
+                        onPress={() => router.back()}
+                        style={styles.backButton}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("review.title")}`}
+                    >
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
                     <Text style={styles.title}>{i18n.t("review.title")}</Text>
                 </View>
-                <View style={styles.emptyState}>
-                    <Ionicons name="checkmark-circle-outline" size={80} color={theme.colors.success} />
-                    <Text style={styles.emptyTitle}>{i18n.t("review.emptyTitle")}</Text>
-                    <Text style={styles.emptyText}>{i18n.t("review.emptyText")}</Text>
-                    <Pressable style={styles.button} onPress={() => router.back()}>
-                        <Text style={styles.buttonText}>{i18n.t("review.backToCourse")}</Text>
-                    </Pressable>
-                </View>
+                <SupportStatePanel
+                    icon="checkmark-circle-outline"
+                    title={String(i18n.t("review.emptyTitle"))}
+                    body={String(i18n.t("review.emptyText"))}
+                    ctaLabel={String(i18n.t("review.backToCourse"))}
+                    onPress={() => router.back()}
+                />
             </SafeAreaView>
         );
     }
 
     if (showResults) {
         return (
-            <SafeAreaView style={styles.container}>
-                <View style={styles.resultContainer}>
-                    <Text style={styles.resultTitle}>{i18n.t("review.doneTitle")}</Text>
-                    <Text style={styles.resultText}>
-                        {i18n.t("review.resultSummary", {
+            <SafeAreaView style={styles.container} testID="review-screen">
+                <SupportStatePanel
+                    icon="sparkles-outline"
+                    title={String(i18n.t("review.doneTitle"))}
+                    body={String(
+                        i18n.t("review.resultSummary", {
                             total: sessionQuestions.length,
                             cleared: clearedCount,
-                        })}
-                    </Text>
-                    <Pressable style={styles.button} onPress={() => router.back()}>
-                        <Text style={styles.buttonText}>{i18n.t("review.backToCourse")}</Text>
-                    </Pressable>
-                </View>
+                        })
+                    )}
+                    ctaLabel={String(i18n.t("review.backToCourse"))}
+                    onPress={() => router.back()}
+                />
             </SafeAreaView>
         );
     }
 
     if (!isSessionActive) {
         return (
-            <SafeAreaView style={styles.container}>
+            <SafeAreaView style={styles.container} testID="review-screen">
                 <View style={styles.header}>
-                    <Pressable onPress={() => router.back()} style={styles.backButton}>
+                    <Pressable
+                        onPress={() => router.back()}
+                        style={styles.backButton}
+                        accessibilityRole="button"
+                        accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("review.title")}`}
+                    >
                         <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
                     </Pressable>
                     <Text style={styles.title}>{i18n.t("review.title")}</Text>
@@ -182,9 +193,14 @@ export default function ReviewScreen() {
     const currentQuestion = sessionQuestions[currentIndex];
 
     return (
-        <SafeAreaView style={styles.container}>
+        <SafeAreaView style={styles.container} testID="review-screen">
             <View style={styles.header}>
-                <Pressable onPress={() => router.back()} style={styles.backButton}>
+                <Pressable
+                    onPress={() => router.back()}
+                    style={styles.backButton}
+                    accessibilityRole="button"
+                    accessibilityLabel={`${i18n.t("common.close")}: ${i18n.t("review.title")}`}
+                >
                     <Ionicons name="close" size={24} color={theme.colors.text} />
                 </Pressable>
                 <View style={styles.progressBar}>
@@ -250,25 +266,6 @@ const styles = StyleSheet.create({
         height: "100%",
         backgroundColor: theme.colors.primary,
     },
-    emptyState: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: theme.spacing.xl,
-    },
-    emptyTitle: {
-        fontSize: 24,
-        fontWeight: "bold",
-        color: theme.colors.text,
-        marginTop: theme.spacing.md,
-        marginBottom: theme.spacing.sm,
-    },
-    emptyText: {
-        fontSize: 16,
-        color: theme.colors.sub,
-        textAlign: "center",
-        marginBottom: theme.spacing.xl,
-    },
     introContainer: {
         flex: 1,
         padding: theme.spacing.xl,
@@ -311,23 +308,6 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: 18,
         fontWeight: "bold",
-    },
-    resultContainer: {
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-        padding: theme.spacing.xl,
-    },
-    resultTitle: {
-        fontSize: 28,
-        fontWeight: "bold",
-        color: theme.colors.text,
-        marginBottom: theme.spacing.md,
-    },
-    resultText: {
-        fontSize: 18,
-        color: theme.colors.sub,
-        marginBottom: theme.spacing.xl,
     },
     reviewFeedback: {
         position: "absolute",

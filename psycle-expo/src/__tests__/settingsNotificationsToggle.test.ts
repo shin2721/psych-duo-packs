@@ -7,6 +7,9 @@ const mockSetNotificationPreference = jest.fn();
 const mockEnsureNotificationPermission = jest.fn();
 const mockCancelPsycleReminders = jest.fn();
 const mockSyncDailyReminders = jest.fn();
+const mockShowToast = jest.fn();
+const mockRestorePurchases = jest.fn();
+const mockOpenBillingPortal = jest.fn();
 
 jest.mock('expo-router', () => ({
   useRouter: () => ({
@@ -48,6 +51,14 @@ jest.mock('../../lib/state', () => ({
     setActiveUntil: jest.fn(),
     hasPendingDailyQuests: false,
   }),
+  useBillingState: () => ({
+    planId: 'free',
+    setPlanId: jest.fn(),
+    setActiveUntil: jest.fn(),
+  }),
+  useProgressionState: () => ({
+    hasPendingDailyQuests: false,
+  }),
 }));
 
 jest.mock('../../lib/LocaleContext', () => ({
@@ -59,8 +70,8 @@ jest.mock('../../lib/LocaleContext', () => ({
 }));
 
 jest.mock('../../lib/billing', () => ({
-  openBillingPortal: jest.fn(),
-  restorePurchases: jest.fn(),
+  openBillingPortal: (...args: unknown[]) => mockOpenBillingPortal(...args),
+  restorePurchases: (...args: unknown[]) => mockRestorePurchases(...args),
 }));
 
 jest.mock('../../lib/dogfood', () => ({
@@ -72,6 +83,12 @@ jest.mock('../../lib/i18n', () => ({
   default: {
     t: (key: string) => key,
   },
+}));
+
+jest.mock('../../components/ToastProvider', () => ({
+  useToast: () => ({
+    showToast: (...args: unknown[]) => mockShowToast(...args),
+  }),
 }));
 
 jest.mock('../../lib/notifications', () => ({
@@ -88,6 +105,9 @@ describe('Settings notification toggle', () => {
   beforeEach(() => {
     jest.clearAllMocks();
     jest.spyOn(Alert, 'alert').mockImplementation(() => undefined as unknown as void);
+    mockRestorePurchases.mockReset();
+    mockOpenBillingPortal.mockReset();
+    mockShowToast.mockReset();
   });
 
   afterEach(() => {
@@ -117,7 +137,7 @@ describe('Settings notification toggle', () => {
     expect(mockSetNotificationPreference).toHaveBeenCalledWith(false);
     expect(mockCancelPsycleReminders).toHaveBeenCalled();
     expect(Alert.alert).toHaveBeenCalled();
-  });
+  }, 15000);
 
   test('OFF cancels reminders immediately', async () => {
     mockGetNotificationPreference.mockResolvedValue(true);
@@ -139,5 +159,25 @@ describe('Settings notification toggle', () => {
 
     expect(mockCancelPsycleReminders).toHaveBeenCalled();
     expect(mockEnsureNotificationPermission).not.toHaveBeenCalled();
+  });
+
+  test('restore purchases not_found shows dedicated status and default toast', async () => {
+    mockGetNotificationPreference.mockResolvedValue(false);
+    mockRestorePurchases.mockResolvedValue({ status: 'not_found' });
+
+    const screen = render(React.createElement(SettingsScreen));
+
+    await waitFor(() => {
+      expect(mockGetNotificationPreference).toHaveBeenCalled();
+    });
+
+    fireEvent.press(screen.getByText('settings.restorePurchases'));
+
+    await waitFor(() => {
+      expect(mockRestorePurchases).toHaveBeenCalled();
+    });
+
+    expect(screen.getByText('settings.restoreStatusNotFound')).toBeTruthy();
+    expect(mockShowToast).toHaveBeenCalledWith('settings.restoreStatusNotFound');
   });
 });

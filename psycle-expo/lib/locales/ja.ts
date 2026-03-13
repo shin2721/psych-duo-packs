@@ -2,10 +2,14 @@ export const ja = {
     common: {
         loading: '読み込み中...',
         error: 'エラーが発生しました',
+        toastSuccessPrefix: '成功:',
+        toastErrorPrefix: 'エラー:',
+        unexpectedError: '問題が発生しました。もう一度お試しください。',
         save: '保存',
         cancel: 'キャンセル',
         close: '閉じる',
         ok: 'OK',
+        retry: 'もう一度',
         badgeUnlocked: 'バッジ獲得: %{badgeName}',
         streakMilestoneRewarded: '連続%{day}日達成: +%{gems} Gems',
         comebackRewardClaimed: 'おかえり報酬: +%{energy} Energy / +%{gems} Gems',
@@ -34,6 +38,7 @@ export const ja = {
             processing: '処理中...',
             active: '有効中',
             subscribe: '登録する',
+            cancelAnytime: 'いつでも解約可能',
             activePlan: '%{plan}プラン有効中',
             expiresOn: '有効期限: %{date}',
         },
@@ -54,6 +59,8 @@ export const ja = {
                 activeWithMinutes: '発動中！残り %{minutes}分',
             }
             ,
+            buyButtonA11y: '%{name}を%{price}ジェムで購入',
+            purchasedA11y: '%{name}を購入済み',
             ownedCount: '所持数: %{count}',
         },
         comingSoon: 'さらなるアイテムが近日公開！',
@@ -73,6 +80,7 @@ export const ja = {
         energyStatus: {
             title: 'エネルギー状況',
             currentLabel: '現在: ',
+            currentUnlimitedA11y: '現在のエネルギー: Proで無制限',
             nextRefillLabel: '次回回復まで: ',
             full: '満タン',
             minutes: '%{minutes}分',
@@ -94,8 +102,15 @@ export const ja = {
         helpFaq: 'ヘルプ・FAQ',
         restorePurchases: '購入を復元',
         restoring: '復元中...',
+        restoreStatusLoading: '購入情報を確認しています...',
+        restoreStatusSuccess: '購入の復元が完了しました。',
+        restoreStatusNotFound: '復元可能な購入が見つかりませんでした。',
+        restoreStatusError: '購入の復元に失敗しました。',
         manageBilling: '請求を管理',
         openingPortal: '請求ポータルを開いています...',
+        billingStatusLoading: '請求ポータルを開いています...',
+        billingStatusSuccess: '請求ポータルを開きました。',
+        billingStatusError: '請求ポータルを開けませんでした。',
         privacy: 'プライバシーポリシー',
         terms: '利用規約',
         errorTitle: 'エラー',
@@ -151,6 +166,23 @@ export const ja = {
         shop: 'ショップ',
         profile: 'プロフィール',
     },
+    globalHeader: {
+        selectCourse: 'コースを選択',
+        a11y: {
+            courseSelector: 'コース選択。現在: %{course}',
+            streak: '連続学習 %{count}日',
+            gems: 'ジェム %{count}',
+            energy: 'エナジー %{count}',
+            energyUnlimited: 'エナジー 無制限',
+        },
+    },
+    streakCalendar: {
+        title: '学習アクティビティ',
+        less: '少ない',
+        more: '多い',
+        dayActive: '%{date}: %{xp} XP、%{lessons} レッスン完了',
+        dayInactive: '%{date}: 学習履歴なし',
+    },
     evidenceBottomSheet: {
         sourceLabel: '📖 出典',
         sourceType: {
@@ -176,6 +208,8 @@ export const ja = {
         title: 'Psycle Premium',
         unlockLevels: 'Level 4 以降をサブスクで解放',
         benefitsTitle: 'サブスクで使える内容:',
+        priceFrom: '月額 %{price} から',
+        cancelAnytime: 'いつでも解約できます',
         ctaNote: 'プラン詳細はショップで確認できます。',
         benefits: {
             accessAllLevels: '全10レベルのコンテンツにアクセス',
@@ -306,12 +340,28 @@ export const ja = {
         startLessonTitle: 'レッスンを開始',
         startLessonDescription: 'このレッスンで %{xp} XP 獲得できます。',
         startButton: '開始',
+        nextStep: {
+            label: '次の一歩',
+            readyTitle: '次のレッスンに進めます',
+            readyBody: '今の学習ルートの続きからそのまま始めましょう。',
+            lockedTitle: 'このレッスンはまだロック中です',
+            lockedBody: 'もう少し進めるか、Pro を解放するとこのルートを開けます。',
+            ctaReady: 'レッスンを開く',
+            ctaLocked: '解放方法を見る',
+        },
+        accessibility: {
+            nodeCurrent: '現在のレッスンノード %{number}',
+            nodeLocked: 'ロック中のレッスンノード %{number}',
+            nodeCompleted: '完了したレッスンノード %{number}',
+            nodeAvailable: '利用可能なレッスンノード %{number}',
+        },
         rewardClaimedTitle: '報酬を受け取りました！',
         rewardClaimedMessage: '%{gems} Gems と %{badges}個のバッジを獲得しました。',
         streakRepair: {
             title: '連続記録リペア',
             body: 'あと%{hours}時間以内なら、%{cost} Gemsで%{streak}日ストリークを復元できます。',
             cta: '復元する',
+            accessibilityHint: 'ジェムを使ってストリークを修復します。',
             expired: 'この復元オファーは期限切れです。',
             insufficientGems: '復元に必要なGemsが足りません。',
         },
@@ -319,6 +369,7 @@ export const ja = {
             title: 'おかえりボーナス',
             body: '%{days}日ぶりの復帰です。今日の初回レッスン完了で +%{energy} Energy / +%{gems} Gems',
             cta: '今すぐ再開',
+            accessibilityHint: 'レッスンを始めて復帰報酬を受け取ります。',
         },
     },
     planSelector: {
@@ -354,6 +405,10 @@ export const ja = {
         statusUnlimited: '復習セッション: 無制限',
         statusRemaining: '本日の復習セッション: 残り %{remaining}/1',
         statusLocked: 'ミス復習は Pro プランで利用できます',
+        statusNeedData: '復習開始にはミス問題が5問以上必要です',
+        routeHintLocked: 'Proにアップグレードするとミス復習を開けます',
+        routeHintInsufficientData: 'あと少し問題を解くとこの復習導線が有効になります',
+        routeHintReady: '今すぐ復習を開始できます',
         itemCountReady: '%{count}問の復習問題が準備されています',
     },
     review: {
@@ -396,6 +451,112 @@ export const ja = {
         actions: {
             learningHistory: '学習履歴',
             detailedStats: '詳細統計',
+            comingSoon: '近日公開',
+        },
+    },
+    badges: {
+        accessibility: {
+            lockedSuffix: '未獲得',
+            lockedHint: 'ロック状態を表示',
+            lockedMessage: 'このバッジはまだ未獲得です。',
+        },
+        catalog: {
+            first_lesson: {
+                name: '初めの一歩',
+                description: '最初のレッスンを完了',
+            },
+            level_5: {
+                name: '5レッスン完了',
+                description: '5レッスンを完了',
+            },
+            level_10: {
+                name: '10レッスン完了',
+                description: '10レッスンを完了',
+            },
+            lessons_50: {
+                name: '継続は力なり',
+                description: '50レッスンを完了',
+            },
+            lessons_100: {
+                name: '百戦錬磨',
+                description: '100レッスンを完了',
+            },
+            streak_3: {
+                name: '3日連続',
+                description: '3日連続で学習',
+            },
+            streak_7: {
+                name: '1週間連続',
+                description: '7日連続で学習',
+            },
+            streak_14: {
+                name: '2週間連続',
+                description: '14日連続で学習',
+            },
+            streak_30: {
+                name: '1ヶ月連続',
+                description: '30日連続で学習',
+            },
+            streak_60: {
+                name: '2ヶ月連続',
+                description: '60日連続で学習',
+            },
+            streak_100: {
+                name: '100日達成',
+                description: '100日連続で学習',
+            },
+            streak_365: {
+                name: '1年連続',
+                description: '365日連続で学習',
+            },
+            xp_1000: {
+                name: 'XP 1000達成',
+                description: '総XP 1000に到達',
+            },
+            xp_5000: {
+                name: 'XP 5000達成',
+                description: '総XP 5000に到達',
+            },
+            mistake_master: {
+                name: 'ミステイク克服',
+                description: '10個のミスを克服',
+            },
+            first_friend: {
+                name: '初めての友達',
+                description: '最初のフレンドを追加',
+            },
+            top_10: {
+                name: 'トップ10入り',
+                description: 'リーダーボードでトップ10に入る',
+            },
+            league_silver: {
+                name: 'シルバー昇格',
+                description: 'シルバーリーグに昇格',
+            },
+            league_gold: {
+                name: 'ゴールド昇格',
+                description: 'ゴールドリーグに昇格',
+            },
+            league_platinum: {
+                name: 'プラチナ昇格',
+                description: 'プラチナリーグに昇格',
+            },
+            league_diamond: {
+                name: 'ダイヤモンド昇格',
+                description: 'ダイヤモンドリーグに昇格',
+            },
+            league_master: {
+                name: 'マスター昇格',
+                description: 'マスターリーグに昇格',
+            },
+            league_first_place: {
+                name: 'リーグ1位',
+                description: 'リーグで1位を獲得',
+            },
+            event_spring_2026: {
+                name: '春イベント完走',
+                description: 'Spring Challenge 2026 を完走',
+            },
         },
     },
     editProfile: {
@@ -404,6 +565,15 @@ export const ja = {
         usernamePlaceholder: 'ユーザー名を入力',
         successTitle: '成功',
         successMessage: 'プロフィールを更新しました。',
+        discardTitle: '変更を破棄しますか？',
+        discardMessage: 'プロフィールの変更はまだ保存されていません。',
+        discardConfirm: '破棄する',
+        errors: {
+            requiredUsername: 'ユーザー名を入力してください。',
+            usernameTooShort: 'ユーザー名は%{count}文字以上で入力してください。',
+            saveFailed: 'プロフィールを更新できませんでした。もう一度お試しください。',
+            usernameTaken: 'このユーザー名はすでに使われています。',
+        },
     },
     quests: {
         monthTitle: '%{month}月のクエスト',
@@ -541,6 +711,33 @@ export const ja = {
         },
     },
     friends: {
+        title: 'フレンド',
+        tabs: {
+            friends: 'フレンド',
+            requests: 'リクエスト',
+            requestsWithCount: 'リクエスト (%{count})',
+            search: '検索',
+        },
+        fallbackUnknownUser: '不明なユーザー',
+        stats: {
+            xpValue: '⭐ %{xp} XP',
+            streakValue: '🔥 %{count}日連続',
+        },
+        empty: {
+            friendsTitle: 'まだフレンドがいません',
+            friendsSubtitle: 'ユーザーを検索してフレンドを追加しましょう',
+            requestsTitle: '保留中のリクエストはありません',
+        },
+        alerts: {
+            requestAcceptedTitle: '完了',
+            requestAcceptedMessage: 'フレンド申請を承認しました',
+            acceptFailed: 'フレンド申請の承認に失敗しました',
+            rejectFailed: 'フレンド申請の拒否に失敗しました',
+            removeTitle: 'フレンドを削除',
+            removeMessage: 'このフレンドを削除しますか？',
+            removeConfirm: '削除する',
+            removeFailed: 'フレンドの削除に失敗しました',
+        },
         challenge: {
             title: '週間フレンドチャレンジ',
             subtitle: '今週の対戦相手: %{name}',
@@ -552,6 +749,19 @@ export const ja = {
             notCompleted: '相手以上のXPに達してから受け取れます。',
             rewardClaimed: '報酬を受け取りました: +%{gems} Gems',
             rewardFailed: '報酬の受け取りに失敗しました。',
+        },
+    },
+    friendSearch: {
+        placeholder: 'ユーザー名で検索...',
+        empty: 'ユーザーが見つかりません',
+        cta: {
+            add: '追加',
+            sent: '送信済み',
+        },
+        alerts: {
+            alreadySent: 'フレンド申請はすでに送信済みです',
+            sent: 'フレンド申請を送信しました',
+            failed: 'フレンド申請の送信に失敗しました',
         },
     },
     onboarding: {
@@ -577,12 +787,27 @@ export const ja = {
         },
     },
     auth: {
-        title: 'Psycle Login',
+        title: 'Psycleにログイン',
         emailPlaceholder: 'email@address.com',
-        passwordPlaceholder: 'Password',
-        signIn: 'Sign in',
-        signUp: 'Sign up',
-        guestLogin: 'Guest Login (Dev)',
+        passwordPlaceholder: 'パスワード',
+        signIn: 'ログイン',
+        signUp: '新規登録',
+        forgotPassword: 'パスワードをお忘れですか？',
+        resetPasswordSent: 'パスワード再設定メールを送信しました。受信箱を確認してください。',
+        resetPasswordFailed: 'パスワード再設定メールを送信できませんでした。',
+        showPassword: 'パスワードを表示',
+        hidePassword: 'パスワードを隠す',
+        errors: {
+            invalidCredentials: 'メールアドレスまたはパスワードが違います。',
+            userAlreadyRegistered: 'このメールアドレスは既に登録されています。',
+            emailNotConfirmed: 'メール確認が完了していません。受信箱を確認してください。',
+            invalidEmail: '有効なメールアドレスを入力してください。',
+            requiredEmail: 'メールアドレスを入力してください。',
+            requiredPassword: 'パスワードを入力してください。',
+            passwordTooShort: 'パスワードは%{count}文字以上で入力してください。',
+            rateLimited: '試行回数が多すぎます。少し待ってから再度お試しください。',
+        },
+        guestLogin: 'ゲストログイン (Dev)',
         verifyEmail: '確認メールを送信しました。受信箱を確認してください。',
     }
 };

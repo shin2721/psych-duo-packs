@@ -1,19 +1,22 @@
 // components/PlanSelector.tsx
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { useAppState } from "../lib/state";
+import { useBillingState, usePracticeState } from "../lib/state";
 import { theme } from "../lib/theme";
 import { buyPlan } from "../lib/billing";
 import { getPlanPrice, detectUserRegion } from "../lib/pricing";
 import i18n from "../lib/i18n";
+import { useToast } from "./ToastProvider";
 
 /**
  * プラン選択UI（Free/Pro）
  * 地域別価格に対応
  */
 export function PlanSelector() {
-  const { planId, setPlanId, hasProAccess, canAccessMistakesHub } = useAppState();
+  const { planId, setPlanId, hasProAccess } = useBillingState();
+  const { canAccessMistakesHub } = usePracticeState();
   const userRegion = detectUserRegion();
+  const { showToast } = useToast();
 
   // デモ用：仮のユーザー情報（実際はSupabase authから取得）
   const demoUser = {
@@ -30,9 +33,21 @@ export function PlanSelector() {
 
     // Proは決済画面へ
     try {
-      await buyPlan(selectedPlan, demoUser.uid, demoUser.email);
+      const result = await buyPlan(selectedPlan, demoUser.uid, demoUser.email);
+      if (!result.ok) {
+        const messageKey =
+          result.reason === "billing_period_unsupported"
+            ? "shop.errors.billingPeriodUnavailable"
+            : result.reason === "open_url_failed"
+              ? "shop.errors.openCheckoutFailed"
+              : result.reason === "checkout_session_failed"
+                ? "shop.errors.checkoutSessionFailed"
+                : "shop.errors.checkoutProcessFailed";
+        showToast(String(i18n.t(messageKey)), "error");
+      }
     } catch (error) {
       console.error("Plan purchase error:", error);
+      showToast(String(i18n.t("shop.errors.checkoutProcessFailed")), "error");
     }
   };
 

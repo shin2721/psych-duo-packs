@@ -1,5 +1,10 @@
 import { Stack, useRouter, useSegments } from "expo-router";
-import { AppStateProvider, useAppState } from "../lib/state";
+import {
+  AppStateProvider,
+  useBillingState,
+  useEconomyState,
+  useProgressionState,
+} from "../lib/state";
 import { AuthProvider, useAuth } from "../lib/AuthContext";
 import { OnboardingProvider, useOnboarding } from "../lib/OnboardingContext";
 import { useEffect, useState } from "react";
@@ -10,7 +15,8 @@ import { LocaleProvider, useLocale } from "../lib/LocaleContext";
 import { registerNotificationResponseHandler, syncDailyReminders } from "../lib/notifications";
 import { BADGES } from "../lib/badges";
 import i18n from "../lib/i18n";
-import { InlineToast } from "../components/InlineToast";
+import { AppErrorBoundary } from "../components/AppErrorBoundary";
+import { ToastProvider, useToast } from "../components/ToastProvider";
 import { sounds } from "../lib/sounds";
 import { hapticFeedback } from "../lib/haptics";
 
@@ -65,12 +71,14 @@ function RootLayoutNav() {
 
   return (
     <AppStateProvider>
-      <ReminderBootstrap />
-      <GamificationToastBridge />
-      <Stack key={`locale-${locale}`} screenOptions={{ headerShown: false }}>
-        <Stack.Screen name="(tabs)" />
-        <Stack.Screen name="onboarding" />
-      </Stack>
+      <ToastProvider>
+        <ReminderBootstrap />
+        <GamificationToastBridge />
+        <Stack key={`locale-${locale}`} screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="(tabs)" />
+          <Stack.Screen name="onboarding" />
+        </Stack>
+      </ToastProvider>
     </AppStateProvider>
   );
 }
@@ -78,16 +86,23 @@ function RootLayoutNav() {
 function ReminderBootstrap() {
   const { session } = useAuth();
   const {
-    isStateHydrated,
     hasPendingDailyQuests,
     streakRepairOffer,
+    isStateHydrated: isProgressionHydrated,
+  } = useProgressionState();
+  const {
     energy,
     maxEnergy,
     lastEnergyUpdateTime,
     energyRefillMinutes,
+    isHydrated: isEconomyHydrated,
+  } = useEconomyState();
+  const {
     isSubscriptionActive,
-  } = useAppState();
+    isHydrated: isBillingHydrated,
+  } = useBillingState();
   const router = useRouter();
+  const isStateHydrated = isProgressionHydrated && isEconomyHydrated && isBillingHydrated;
 
   useEffect(() => {
     const unsubscribe = registerNotificationResponseHandler((path) => {
@@ -128,6 +143,7 @@ function ReminderBootstrap() {
 }
 
 function GamificationToastBridge() {
+  const { showToast } = useToast();
   const {
     badgeToastQueue,
     consumeNextBadgeToast,
@@ -135,7 +151,7 @@ function GamificationToastBridge() {
     consumeNextStreakMilestoneToast,
     comebackRewardToastQueue,
     consumeNextComebackRewardToast,
-  } = useAppState();
+  } = useProgressionState();
   const [message, setMessage] = useState<string | null>(null);
 
   useEffect(() => {
@@ -199,12 +215,12 @@ function GamificationToastBridge() {
 
   useEffect(() => {
     if (!message) return;
+    showToast(message, "success");
     const timer = setTimeout(() => setMessage(null), 2500);
     return () => clearTimeout(timer);
-  }, [message]);
+  }, [message, showToast]);
 
-  if (!message) return null;
-  return <InlineToast message={message} />;
+  return null;
 }
 
 export default function RootLayout() {
@@ -227,13 +243,15 @@ export default function RootLayout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
-      <AuthProvider>
-        <OnboardingProvider>
-          <LocaleProvider>
-            <RootLayoutNav />
-          </LocaleProvider>
-        </OnboardingProvider>
-      </AuthProvider>
+      <AppErrorBoundary>
+        <AuthProvider>
+          <OnboardingProvider>
+            <LocaleProvider>
+              <RootLayoutNav />
+            </LocaleProvider>
+          </OnboardingProvider>
+        </AuthProvider>
+      </AppErrorBoundary>
     </GestureHandlerRootView>
   );
 }

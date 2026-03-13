@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { View, Text, StyleSheet, Pressable, ScrollView, Alert, Linking } from "react-native";
+import { View, Text, StyleSheet, Pressable, ScrollView, Linking } from "react-native";
+import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
-import { useAppState } from "../../lib/state";
+import { useBillingState, useEconomyState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import {
@@ -25,6 +26,7 @@ import {
 import { getShopSinksConfig } from "../../lib/gamificationConfig";
 import i18n from "../../lib/i18n";
 import { GemIcon, EnergyIcon } from "../../components/CustomIcons";
+import { useToast } from "../../components/ToastProvider";
 import { Analytics } from "../../lib/analytics";
 import { assignExperiment } from "../../lib/experimentEngine";
 import { getCheckoutContextKey } from "../../lib/planChangeTracking";
@@ -51,9 +53,6 @@ export default function ShopScreen() {
     buyFreeze,
     buyEnergyFullRefill,
     freezeCount,
-    planId,
-    isSubscriptionActive,
-    activeUntil,
     buyDoubleXP,
     isDoubleXpActive,
     doubleXpEndTime,
@@ -63,12 +62,17 @@ export default function ShopScreen() {
     energyRefillMinutes,
     dailyEnergyBonusRemaining,
     dailyEnergyRefillRemaining,
-  } = useAppState();
+  } = useEconomyState();
+  const { planId, isSubscriptionActive, activeUntil } = useBillingState();
   const { user, session } = useAuth();
   const [justPurchased, setJustPurchased] = useState<string | null>(null);
   const [isSubscribing, setIsSubscribing] = useState(false);
   const [proBillingPeriod, setProBillingPeriod] = useState<BillingPeriod>("monthly");
+  const { showToast } = useToast();
   const [nowTs, setNowTs] = useState(Date.now());
+  const bottomTabBarHeight = useBottomTabBarHeight();
+  const itemsBottomInset = bottomTabBarHeight + theme.spacing.lg;
+  const footerBottomInset = bottomTabBarHeight + theme.spacing.md;
   const dateLocaleByLanguage: Record<string, string> = {
     ja: "ja-JP",
     en: "en-US",
@@ -127,7 +131,7 @@ export default function ShopScreen() {
     if (result.success) {
       setJustPurchased(item.id);
       setTimeout(() => setJustPurchased(null), 2000);
-      Alert.alert(i18n.t('common.ok'), `${item.name}`);
+      showToast(String(item.name), "success");
     } else {
       const message = (() => {
         switch (result.reason) {
@@ -146,7 +150,7 @@ export default function ShopScreen() {
             return i18n.t("shop.errors.notEnoughGems");
         }
       })();
-      Alert.alert(i18n.t('common.error'), message);
+      showToast(String(message), "error");
     }
   };
 
@@ -186,7 +190,7 @@ export default function ShopScreen() {
   const handleSubscribe = async (plan: PlanConfig) => {
     const billingPeriod: BillingPeriod = plan.id === "pro" ? proBillingPeriod : "monthly";
     if (!supportsPlanBillingPeriod(plan.id, billingPeriod)) {
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.billingPeriodUnavailable"));
+      showToast(String(i18n.t("shop.errors.billingPeriodUnavailable")), "error");
       return;
     }
 
@@ -205,7 +209,7 @@ export default function ShopScreen() {
         planId: plan.id,
         reason: "price_id_unavailable",
       });
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.billingPeriodUnavailable"));
+      showToast(String(i18n.t("shop.errors.billingPeriodUnavailable")), "error");
       return;
     }
 
@@ -215,7 +219,7 @@ export default function ShopScreen() {
         planId: plan.id,
         reason: "missing_user_context",
       });
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      showToast(String(i18n.t("shop.errors.checkoutProcessFailed")), "error");
       return;
     }
 
@@ -226,7 +230,7 @@ export default function ShopScreen() {
         planId: plan.id,
         reason: "functions_url_missing",
       });
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      showToast(String(i18n.t("shop.errors.checkoutProcessFailed")), "error");
       return;
     }
 
@@ -236,7 +240,7 @@ export default function ShopScreen() {
         planId: plan.id,
         reason: "missing_auth_token",
       });
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      showToast(String(i18n.t("shop.errors.checkoutProcessFailed")), "error");
       return;
     }
 
@@ -304,7 +308,7 @@ export default function ShopScreen() {
         if (supported) {
           await Linking.openURL(data.url);
         } else {
-          Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.openCheckoutFailed"));
+          showToast(String(i18n.t("shop.errors.openCheckoutFailed")), "error");
         }
       } else {
         Analytics.track("checkout_failed", {
@@ -312,7 +316,7 @@ export default function ShopScreen() {
           planId: plan.id,
           reason: "missing_checkout_url",
         });
-        Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutSessionFailed"));
+        showToast(String(i18n.t("shop.errors.checkoutSessionFailed")), "error");
       }
     } catch (error) {
       console.error("Checkout error:", error);
@@ -325,7 +329,7 @@ export default function ShopScreen() {
           reason: "exception",
         });
       }
-      Alert.alert(i18n.t("common.error"), i18n.t("shop.errors.checkoutProcessFailed"));
+      showToast(String(i18n.t("shop.errors.checkoutProcessFailed")), "error");
     } finally {
       setIsSubscribing(false);
     }
@@ -400,7 +404,11 @@ export default function ShopScreen() {
       </View>
 
       {/* Subscription Plans */}
-      <ScrollView style={styles.scrollView} contentContainerStyle={styles.itemsContainer}>
+      <ScrollView
+        testID="shop-scroll"
+        style={styles.scrollView}
+        contentContainerStyle={[styles.itemsContainer, { paddingBottom: itemsBottomInset }]}
+      >
         <View style={styles.sectionHeader}>
           <Ionicons name="sparkles" size={24} color={theme.colors.accent} />
           <Text style={styles.sectionTitle}>{i18n.t("shop.sections.premiumPlans")}</Text>
@@ -423,12 +431,42 @@ export default function ShopScreen() {
           </View>
         )}
 
+        {proYearlyAvailable && (
+          <View style={styles.yearlySummaryCard} testID="shop-yearly-summary">
+            <View style={styles.yearlySummaryHeader}>
+              <Ionicons name="wallet" size={16} color={theme.colors.accent} />
+              <Text style={styles.yearlySummaryTitle}>{i18n.t("shop.subscription.yearly")}</Text>
+            </View>
+            <Text style={styles.yearlySummaryLine}>
+              {i18n.t("shop.subscription.yearlyEquivalent", {
+                price: getYearlyMonthlyEquivalent("pro"),
+              })}
+            </Text>
+            <Text style={styles.yearlySummaryDiscount}>
+              {i18n.t("shop.subscription.yearlyDiscount", {
+                percent: getYearlyDiscount("pro"),
+              })}
+            </Text>
+            <Text style={styles.yearlySummaryTrust}>
+              {i18n.t("shop.subscription.cancelAnytime")}
+            </Text>
+          </View>
+        )}
+
         <View style={styles.energyStatusCard}>
           <View style={styles.energyStatusHeader}>
             <EnergyIcon size={20} />
             <Text style={styles.energyStatusTitle}>{i18n.t("shop.energyStatus.title")}</Text>
           </View>
-          <Text style={styles.energyStatusRow}>
+          <Text
+            style={styles.energyStatusRow}
+            accessible
+            accessibilityLabel={
+              isSubscriptionActive
+                ? String(i18n.t("shop.energyStatus.currentUnlimitedA11y"))
+                : `${String(i18n.t("shop.energyStatus.currentLabel"))}${energy}/${maxEnergy}`
+            }
+          >
             {i18n.t("shop.energyStatus.currentLabel")}
             <Text style={styles.energyStatusValue}>
               {isSubscriptionActive ? "∞" : `${energy}/${maxEnergy}`}
@@ -455,11 +493,15 @@ export default function ShopScreen() {
         {shouldShowProBillingToggle && (
           <View style={styles.billingPeriodToggle}>
             <Pressable
+              testID="shop-billing-monthly"
               style={[
                 styles.billingPeriodOption,
                 proBillingPeriod === "monthly" && styles.billingPeriodOptionActive,
               ]}
               onPress={() => setProBillingPeriod("monthly")}
+              accessibilityRole="button"
+              accessibilityLabel={String(i18n.t("shop.subscription.monthly"))}
+              accessibilityState={{ selected: proBillingPeriod === "monthly" }}
             >
               <Text
                 style={[
@@ -471,11 +513,15 @@ export default function ShopScreen() {
               </Text>
             </Pressable>
             <Pressable
+              testID="shop-billing-yearly"
               style={[
                 styles.billingPeriodOption,
                 proBillingPeriod === "yearly" && styles.billingPeriodOptionActive,
               ]}
               onPress={() => setProBillingPeriod("yearly")}
+              accessibilityRole="button"
+              accessibilityLabel={String(i18n.t("shop.subscription.yearly"))}
+              accessibilityState={{ selected: proBillingPeriod === "yearly" }}
             >
               <Text
                 style={[
@@ -497,16 +543,35 @@ export default function ShopScreen() {
               ? (proYearlyAvailable ? proBillingPeriod : "monthly")
               : "monthly";
             const showYearlyMeta = plan.id === "pro" && selectedPeriod === "yearly";
+            const subscribeStatusLabel = isSubscribing
+              ? String(i18n.t("shop.subscription.processing"))
+              : planId === plan.id && isSubscriptionActive
+                ? String(i18n.t("shop.subscription.active"))
+                : null;
+            const subscribeAccessibilityLabel = [
+              plan.name,
+              formatPlanPrice(plan, selectedPeriod),
+              String(
+                selectedPeriod === "yearly"
+                  ? i18n.t("shop.subscription.yearly")
+                  : i18n.t("shop.subscription.monthly")
+              ),
+              subscribeStatusLabel,
+            ]
+              .filter(Boolean)
+              .join(", ");
 
             return (
-            <View key={plan.id} style={styles.planCard}>
+            <View key={plan.id} style={styles.planCard} testID={`shop-plan-${plan.id}`}>
               {plan.popular && (
                 <View style={styles.popularBadge}>
                   <Text style={styles.popularText}>{i18n.t("shop.subscription.popular")}</Text>
                 </View>
               )}
               <View style={styles.planHeader}>
-                <Text style={styles.planName}>{plan.name}</Text>
+                <Text style={styles.planName} numberOfLines={1} ellipsizeMode="tail">
+                  {plan.name}
+                </Text>
                 <Text style={styles.planPrice}>{formatPlanPrice(plan, selectedPeriod)}</Text>
                 <Text style={styles.planPeriod}>
                   {selectedPeriod === "yearly"
@@ -539,6 +604,7 @@ export default function ShopScreen() {
                 ))}
               </View>
               <Pressable
+                testID={`shop-subscribe-${plan.id}`}
                 style={[
                   styles.subscribeButton,
                   planId === plan.id && isSubscriptionActive && styles.subscribeButtonActive,
@@ -546,6 +612,13 @@ export default function ShopScreen() {
                 ]}
                 onPress={() => handleSubscribe(plan)}
                 disabled={isSubscribing || (planId === plan.id && isSubscriptionActive)}
+                accessibilityRole="button"
+                accessibilityLabel={subscribeAccessibilityLabel}
+                accessibilityState={{
+                  busy: isSubscribing,
+                  disabled: isSubscribing || (planId === plan.id && isSubscriptionActive),
+                  selected: planId === plan.id && isSubscriptionActive,
+                }}
               >
                 <Text style={styles.subscribeButtonText}>
                   {isSubscribing
@@ -555,6 +628,7 @@ export default function ShopScreen() {
                       : i18n.t("shop.subscription.subscribe")}
                 </Text>
               </Pressable>
+              <Text style={styles.cancelAnytimeText}>{i18n.t("shop.subscription.cancelAnytime")}</Text>
             </View>
           );
         })}
@@ -570,7 +644,7 @@ export default function ShopScreen() {
 
         {/* Shop Items */}
         {shopItems.map((item) => (
-          <View key={item.id} style={styles.itemCard}>
+          <View key={item.id} style={styles.itemCard} testID={`shop-item-${item.id}`}>
             <View style={styles.itemIcon}>
               {item.customIcon ? (
                 item.customIcon
@@ -593,11 +667,20 @@ export default function ShopScreen() {
               )}
             </View>
             <Pressable
+              testID={`shop-buy-${item.id}`}
               style={[
                 styles.buyButton,
                 justPurchased === item.id && styles.buyButtonSuccess,
               ]}
               onPress={() => handlePurchase(item)}
+              accessible
+              accessibilityRole="button"
+              accessibilityLabel={
+                justPurchased === item.id
+                  ? String(i18n.t("shop.items.purchasedA11y", { name: item.name }))
+                  : String(i18n.t("shop.items.buyButtonA11y", { name: item.name, price: item.price }))
+              }
+              accessibilityState={{ disabled: false }}
             >
               {justPurchased === item.id ? (
                 <Ionicons name="checkmark" size={20} color="#fff" />
@@ -619,7 +702,7 @@ export default function ShopScreen() {
       </ScrollView>
 
       {/* Info Footer */}
-      <View style={styles.footer}>
+      <View style={[styles.footer, { paddingBottom: footerBottomInset }]}>
         <Ionicons name="information-circle-outline" size={20} color={theme.colors.sub} />
         <Text style={styles.footerText}>{i18n.t("shop.gemsHint")}</Text>
       </View>
@@ -737,6 +820,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 16,
     borderRadius: 12,
     minWidth: 70,
+    minHeight: 44,
     justifyContent: "center",
   },
   buyButtonSuccess: {
@@ -839,6 +923,38 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     color: theme.colors.text,
   },
+  yearlySummaryCard: {
+    backgroundColor: theme.colors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+    padding: 14,
+    marginBottom: 12,
+    gap: 4,
+  },
+  yearlySummaryHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+  },
+  yearlySummaryTitle: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: theme.colors.text,
+  },
+  yearlySummaryLine: {
+    fontSize: 13,
+    color: theme.colors.sub,
+  },
+  yearlySummaryDiscount: {
+    fontSize: 13,
+    fontWeight: "700",
+    color: theme.colors.accent,
+  },
+  yearlySummaryTrust: {
+    fontSize: 12,
+    color: theme.colors.sub,
+  },
   plansContainer: {
     flexDirection: "row",
     gap: 12,
@@ -906,6 +1022,7 @@ const styles = StyleSheet.create({
     fontWeight: "800",
     color: theme.colors.text,
     marginBottom: 8,
+    maxWidth: "100%",
   },
   planPrice: {
     fontSize: 32,
@@ -970,6 +1087,12 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
     color: "#fff",
+  },
+  cancelAnytimeText: {
+    marginTop: 8,
+    fontSize: 12,
+    color: theme.colors.sub,
+    textAlign: "center",
   },
   divider: {
     height: 1,

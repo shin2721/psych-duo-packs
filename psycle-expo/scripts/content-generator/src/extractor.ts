@@ -1,5 +1,9 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { Seed } from "./types";
+import { z } from "zod";
+import { Seed, SeedSchema } from "./types";
+import { normalizeDomain } from "./phasePolicy";
+import { CONTENT_MODELS } from "./modelConfig";
+import { extractUsageMetadata, UsageTokens } from "./metrics";
 
 export interface RawNewsItem {
     title: string;
@@ -18,6 +22,68 @@ export interface RelevanceResult {
 export interface ExtractedSeed extends Seed {
     originalLink: string;
     extractionConfidence: number; // 0-1
+}
+
+export type LLMUsageCallbackOptions = {
+    onUsage?: (usage: UsageTokens) => void;
+};
+
+export const RelevanceResultSchema = z.object({
+    isRelevant: z.boolean(),
+    reason: z.string(),
+    psychologyScore: z.number().min(0).max(10),
+});
+
+const ExtractedSeedPayloadSchema = SeedSchema.omit({
+    id: true,
+    suggested_question_types: true,
+    domain: true,
+}).extend({
+    domain: z.string().min(1),
+    extractionConfidence: z.number().min(0).max(1).optional(),
+});
+
+export type ExtractedSeedPayload = z.infer<typeof ExtractedSeedPayloadSchema>;
+
+export function parseRelevanceResult(raw: unknown): RelevanceResult | null {
+    const parsed = RelevanceResultSchema.safeParse(raw);
+    if (!parsed.success) {
+        return null;
+    }
+    return parsed.data;
+}
+
+export function parseExtractedSeedPayload(raw: unknown, originalLink: string): ExtractedSeed | null {
+    const payloadResult = ExtractedSeedPayloadSchema.safeParse(raw);
+    if (!payloadResult.success) {
+        console.warn("[extractor] invalid payload:", payloadResult.error.issues.map((issue) => issue.message).join("; "));
+        return null;
+    }
+
+    const normalizedDomain = normalizeDomain(payloadResult.data.domain);
+    if (!normalizedDomain) {
+        console.warn("[extractor] invalid domain:", payloadResult.data.domain);
+        return null;
+    }
+
+    const payload = payloadResult.data;
+    const generatedId = `extracted_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+
+    return {
+        id: generatedId,
+        domain: normalizedDomain as Seed["domain"],
+        core_principle: payload.core_principle,
+        core_principle_en: payload.core_principle_en,
+        counter_intuitive_insight: payload.counter_intuitive_insight,
+        common_misconception: payload.common_misconception,
+        actionable_tactic: payload.actionable_tactic,
+        academic_reference: payload.academic_reference,
+        evidence_grade: payload.evidence_grade,
+        suggested_question_types: [],
+        cultural_notes: payload.cultural_notes,
+        originalLink,
+        extractionConfidence: payload.extractionConfidence ?? 0.7,
+    };
 }
 
 const RELEVANCE_PROMPT = `あなたはPsycleアプリのコンテンツキュレーターです。
@@ -55,7 +121,7 @@ const EXTRACTOR_PROMPT = `あなたはPsycleアプリの「抽出エージェン
   "common_misconception": "よくある誤解（多くの人が信じている間違い、30文字以内）",
   "actionable_tactic": "具体的アクション（今日からできること、30文字以内）",
   "academic_reference": "出典（著者名 + 年 + 大学/ジャーナル）",
-  "domain": "social | mental | money | productivity | relationships",
+  "domain": "social | mental | money | health | work | study (alias: productivity, relationships)",
   "evidence_grade": "gold | silver | bronze",
   "cultural_notes": "日本文化での注意点（あれば）",
   "extractionConfidence": 0.8
@@ -75,10 +141,11 @@ const EXTRACTOR_PROMPT = `あなたはPsycleアプリの「抽出エージェン
 
 export async function checkRelevance(
     genAI: GoogleGenerativeAI,
-    newsItem: RawNewsItem
+    newsItem: RawNewsItem,
+    options: LLMUsageCallbackOptions = {}
 ): Promise<RelevanceResult> {
     const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash",
+        model: CONTENT_MODELS.relevance,
         systemInstruction: RELEVANCE_PROMPT,
         generationConfig: {
             responseMimeType: "application/json",
@@ -93,21 +160,29 @@ export async function checkRelevance(
 ソース: ${newsItem.source}`;
 
     const result = await model.generateContent(userPrompt);
-    const content = result.response.text();
+    const response = result.response;
+    options.onUsage?.(extractUsageMetadata(response));
+    const content = response.text();
 
     if (!content) {
         return { isRelevant: false, reason: "No response", psychologyScore: 0 };
     }
 
-    return JSON.parse(content) as RelevanceResult;
+    const parsed = parseRelevanceResult(JSON.parse(content));
+    if (!parsed) {
+        console.warn("[extractor] invalid relevance payload");
+        return { isRelevant: false, reason: "Invalid relevance payload", psychologyScore: 0 };
+    }
+    return parsed;
 }
 
 export async function extractSeedFromNews(
     genAI: GoogleGenerativeAI,
-    newsItem: RawNewsItem
+    newsItem: RawNewsItem,
+    options: LLMUsageCallbackOptions = {}
 ): Promise<ExtractedSeed | null> {
     const model = genAI.getGenerativeModel({
-        model: "gemini-2.5-flash",
+        model: CONTENT_MODELS.extractor,
         systemInstruction: EXTRACTOR_PROMPT,
         generationConfig: {
             responseMimeType: "application/json",
@@ -124,7 +199,9 @@ export async function extractSeedFromNews(
 公開日: ${newsItem.pubDate}`;
 
     const result = await model.generateContent(userPrompt);
-    const content = result.response.text();
+    const response = result.response;
+    options.onUsage?.(extractUsageMetadata(response));
+    const content = response.text();
 
     if (!content) {
         return null;
@@ -136,8 +213,5 @@ export async function extractSeedFromNews(
         return null;
     }
 
-    return {
-        ...parsed,
-        originalLink: newsItem.link,
-    } as ExtractedSeed;
+    return parseExtractedSeedPayload(parsed, newsItem.link);
 }

@@ -2,10 +2,14 @@ export const ko = {
     common: {
         loading: '로딩 중...',
         error: '오류가 발생했습니다',
+        toastSuccessPrefix: '성공:',
+        toastErrorPrefix: '오류:',
+        unexpectedError: '문제가 발생했습니다. 다시 시도해 주세요.',
         save: '저장',
         cancel: '취소',
         close: '닫기',
         ok: '확인',
+        retry: '다시 시도',
     },
     shop: {
         title: '상점',
@@ -31,6 +35,7 @@ export const ko = {
             processing: '처리 중...',
             active: '이용 중',
             subscribe: '구독하기',
+            cancelAnytime: '언제든 해지 가능',
             activePlan: '%{plan} 플랜 이용 중',
             expiresOn: '유효기간: %{date}',
         },
@@ -46,6 +51,8 @@ export const ko = {
                 activeWithMinutes: '활성화됨! %{minutes}분 남음',
             }
             ,
+            buyButtonA11y: '%{price} 젬으로 %{name} 구매',
+            purchasedA11y: '%{name} 구매 완료',
             ownedCount: '보유 수량: %{count}',
         },
         comingSoon: '더 많은 아이템이 곧 공개됩니다!',
@@ -60,6 +67,7 @@ export const ko = {
         energyStatus: {
             title: '에너지 상태',
             currentLabel: '현재: ',
+            currentUnlimitedA11y: '현재 에너지: Pro로 무제한',
             nextRefillLabel: '다음 회복까지: ',
             full: '가득 참',
             minutes: '%{minutes}분',
@@ -81,10 +89,21 @@ export const ko = {
         helpFaq: '도움말 및 FAQ',
         restorePurchases: '구매 복원',
         restoring: '복원 중...',
+        restoreStatusLoading: '구매 정보를 확인하는 중...',
+        restoreStatusSuccess: '구매 복원이 완료되었습니다.',
+        restoreStatusNotFound: '복원할 수 있는 구매 내역이 없습니다.',
+        restoreStatusError: '구매 복원에 실패했습니다.',
+        manageBilling: '청구 관리',
+        openingPortal: '청구 포털을 여는 중...',
+        billingStatusLoading: '청구 포털을 여는 중...',
+        billingStatusSuccess: '청구 포털이 열렸습니다.',
+        billingStatusError: '청구 포털을 열지 못했습니다.',
         privacy: '개인정보 처리방침',
         terms: '이용 약관',
         errorTitle: '오류',
         loginRequiredForRestore: '구매 복원을 하려면 로그인해야 합니다.',
+        loginRequiredForBillingPortal: '청구 포털을 열려면 로그인해야 합니다.',
+        billingPortalUnavailable: '현재 청구 포털을 열 수 없습니다.',
         signOutTitle: '로그아웃',
         signOutConfirm: '정말 로그아웃하시겠습니까?',
         resetDoneTitle: '재설정 완료',
@@ -108,6 +127,23 @@ export const ko = {
         friends: '친구',
         shop: '상점',
         profile: '프로필',
+    },
+    globalHeader: {
+        selectCourse: '코스 선택',
+        a11y: {
+            courseSelector: '코스 선택. 현재: %{course}',
+            streak: '연속 학습 %{count}일',
+            gems: '젬 %{count}',
+            energy: '에너지 %{count}',
+            energyUnlimited: '에너지 무제한',
+        },
+    },
+    streakCalendar: {
+        title: '학습 활동',
+        less: '적음',
+        more: '많음',
+        dayActive: '%{date}: %{xp} XP, %{lessons}개 레슨 완료',
+        dayInactive: '%{date}: 학습 기록 없음',
     },
     evidenceBottomSheet: {
         sourceLabel: '📖 출처',
@@ -134,6 +170,8 @@ export const ko = {
         title: 'Psycle Premium',
         unlockLevels: '구독으로 레벨 4+ 잠금 해제',
         benefitsTitle: '구독에 포함된 혜택:',
+        priceFrom: '월 %{price}부터',
+        cancelAnytime: '언제든 해지 가능',
         ctaNote: '상점에서 플랜을 비교할 수 있습니다.',
         benefits: {
             accessAllLevels: '전체 10레벨 콘텐츠 이용',
@@ -252,8 +290,29 @@ export const ko = {
         startLessonTitle: 'Start Lesson',
         startLessonDescription: 'You can earn %{xp} XP in this lesson.',
         startButton: 'Start',
+        nextStep: {
+            label: '다음 단계',
+            readyTitle: '다음 레슨을 바로 시작할 수 있어요',
+            readyBody: '이미 열어 둔 학습 경로에서 그대로 이어서 진행하세요.',
+            lockedTitle: '이 레슨은 아직 잠겨 있어요',
+            lockedBody: '조금 더 진행하거나 Pro를 열면 이 경로를 시작할 수 있어요.',
+            ctaReady: '레슨 열기',
+            ctaLocked: '해제 방법 보기',
+        },
+        accessibility: {
+            nodeCurrent: '현재 레슨 노드 %{number}',
+            nodeLocked: '잠긴 레슨 노드 %{number}',
+            nodeCompleted: '완료한 레슨 노드 %{number}',
+            nodeAvailable: '이용 가능한 레슨 노드 %{number}',
+        },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+        streakRepair: {
+            accessibilityHint: '젬을 사용해 연속 기록을 복구합니다.',
+        },
+        comebackReward: {
+            accessibilityHint: '레슨을 시작해 복귀 보상을 받습니다.',
+        },
     },
     planSelector: {
         title: '플랜 선택',
@@ -288,6 +347,10 @@ export const ko = {
         statusUnlimited: '복습 세션: 무제한',
         statusRemaining: '오늘의 복습 세션: %{remaining}/1회 남음',
         statusLocked: '실수 복습은 Max 플랜에서 이용할 수 있습니다',
+        statusNeedData: '복습 시작에는 최소 5개의 오답이 필요합니다',
+        routeHintLocked: 'Max로 업그레이드하면 이 복습 경로를 열 수 있습니다',
+        routeHintInsufficientData: '문제를 더 풀면 이 복습 경로가 열립니다',
+        routeHintReady: '지금 바로 복습을 시작할 수 있습니다',
         itemCountReady: '%{count}개의 복습 문제가 준비되었습니다',
     },
     review: {
@@ -329,6 +392,112 @@ export const ko = {
         actions: {
             learningHistory: '학습 기록',
             detailedStats: '상세 통계',
+            comingSoon: '곧 제공 예정',
+        },
+    },
+    badges: {
+        accessibility: {
+            lockedSuffix: '미획득',
+            lockedHint: '잠금 상태를 알려줍니다',
+            lockedMessage: '이 배지는 아직 잠겨 있어요.',
+        },
+        catalog: {
+            first_lesson: {
+                name: '첫걸음',
+                description: '첫 레슨 완료',
+            },
+            level_5: {
+                name: '레슨 5회 완료',
+                description: '레슨 5회를 완료',
+            },
+            level_10: {
+                name: '레슨 10회 완료',
+                description: '레슨 10회를 완료',
+            },
+            lessons_50: {
+                name: '꾸준함은 힘이 된다',
+                description: '레슨 50회를 완료',
+            },
+            lessons_100: {
+                name: '백전연마',
+                description: '레슨 100회를 완료',
+            },
+            streak_3: {
+                name: '3일 연속',
+                description: '3일 연속 학습',
+            },
+            streak_7: {
+                name: '1주 연속',
+                description: '7일 연속 학습',
+            },
+            streak_14: {
+                name: '2주 연속',
+                description: '14일 연속 학습',
+            },
+            streak_30: {
+                name: '1개월 연속',
+                description: '30일 연속 학습',
+            },
+            streak_60: {
+                name: '2개월 연속',
+                description: '60일 연속 학습',
+            },
+            streak_100: {
+                name: '100일 달성',
+                description: '100일 연속 학습',
+            },
+            streak_365: {
+                name: '1년 연속',
+                description: '365일 연속 학습',
+            },
+            xp_1000: {
+                name: 'XP 1000 달성',
+                description: '총 XP 1000 달성',
+            },
+            xp_5000: {
+                name: 'XP 5000 달성',
+                description: '총 XP 5000 달성',
+            },
+            mistake_master: {
+                name: '실수 극복',
+                description: '실수 10개 극복',
+            },
+            first_friend: {
+                name: '첫 친구',
+                description: '첫 친구 추가',
+            },
+            top_10: {
+                name: 'TOP 10 진입',
+                description: '리더보드 TOP 10 진입',
+            },
+            league_silver: {
+                name: '실버 승급',
+                description: '실버 리그 승급',
+            },
+            league_gold: {
+                name: '골드 승급',
+                description: '골드 리그 승급',
+            },
+            league_platinum: {
+                name: '플래티넘 승급',
+                description: '플래티넘 리그 승급',
+            },
+            league_diamond: {
+                name: '다이아몬드 승급',
+                description: '다이아몬드 리그 승급',
+            },
+            league_master: {
+                name: '마스터 승급',
+                description: '마스터 리그 승급',
+            },
+            league_first_place: {
+                name: '리그 1위',
+                description: '리그에서 1위 달성',
+            },
+            event_spring_2026: {
+                name: '봄 이벤트 완주',
+                description: 'Spring Challenge 2026 완주',
+            },
         },
     },
     editProfile: {
@@ -337,6 +506,15 @@ export const ko = {
         usernamePlaceholder: '사용자명을 입력하세요',
         successTitle: '성공',
         successMessage: '프로필이 업데이트되었습니다.',
+        discardTitle: '변경 사항을 버릴까요?',
+        discardMessage: '프로필 변경 사항이 아직 저장되지 않았습니다.',
+        discardConfirm: '버리기',
+        errors: {
+            requiredUsername: '사용자명을 입력하세요.',
+            usernameTooShort: '사용자명은 최소 %{count}자 이상이어야 합니다.',
+            saveFailed: '프로필을 업데이트하지 못했습니다. 다시 시도하세요.',
+            usernameTaken: '이미 사용 중인 사용자명입니다.',
+        },
     },
     quests: {
         monthTitle: '%{month}월 퀘스트',
@@ -427,6 +605,60 @@ export const ko = {
             master: '마스터',
         },
     },
+    friends: {
+        title: '친구',
+        tabs: {
+            friends: '친구',
+            requests: '요청',
+            requestsWithCount: '요청 (%{count})',
+            search: '검색',
+        },
+        fallbackUnknownUser: '알 수 없음',
+        stats: {
+            xpValue: '⭐ %{xp} XP',
+            streakValue: '🔥 %{count}일 연속',
+        },
+        empty: {
+            friendsTitle: '아직 친구가 없습니다',
+            friendsSubtitle: '사용자를 검색해 친구를 추가하세요',
+            requestsTitle: '대기 중인 요청이 없습니다',
+        },
+        alerts: {
+            requestAcceptedTitle: '성공',
+            requestAcceptedMessage: '친구 요청을 수락했습니다!',
+            acceptFailed: '친구 요청 수락에 실패했습니다',
+            rejectFailed: '친구 요청 거절에 실패했습니다',
+            removeTitle: '친구 삭제',
+            removeMessage: '이 친구를 삭제하시겠어요?',
+            removeConfirm: '삭제',
+            removeFailed: '친구 삭제에 실패했습니다',
+        },
+        challenge: {
+            title: '주간 친구 챌린지',
+            subtitle: '이번 주 상대: %{name}',
+            progress: '나 %{mine} XP · 상대 %{theirs} XP',
+            readyToClaim: '챌린지 달성! 보상을 받을 수 있어요.',
+            keepGoing: '조금만 더 하면 추월할 수 있어요.',
+            claim: '+%{gems} Gems 받기',
+            claimed: '수령 완료',
+            notCompleted: '상대 XP 이상 달성 후 수령할 수 있어요.',
+            rewardClaimed: '보상 수령 완료: +%{gems} Gems',
+            rewardFailed: '보상 수령에 실패했습니다.',
+        },
+    },
+    friendSearch: {
+        placeholder: '사용자명으로 검색...',
+        empty: '사용자를 찾을 수 없습니다',
+        cta: {
+            add: '추가',
+            sent: '전송됨',
+        },
+        alerts: {
+            alreadySent: '친구 요청을 이미 보냈습니다',
+            sent: '친구 요청을 보냈습니다!',
+            failed: '친구 요청 전송에 실패했습니다',
+        },
+    },
     onboarding: {
         subtitle: '하루 3분으로 마음의 근력을 키우세요.',
         start: '시작하기',
@@ -455,6 +687,21 @@ export const ko = {
         passwordPlaceholder: '비밀번호',
         signIn: '로그인',
         signUp: '회원가입',
+        forgotPassword: '비밀번호를 잊으셨나요?',
+        resetPasswordSent: '비밀번호 재설정 이메일을 보냈습니다. 받은편지함을 확인하세요.',
+        resetPasswordFailed: '비밀번호 재설정 이메일을 보낼 수 없습니다.',
+        showPassword: '비밀번호 표시',
+        hidePassword: '비밀번호 숨기기',
+        errors: {
+            invalidCredentials: '이메일 또는 비밀번호가 올바르지 않습니다.',
+            userAlreadyRegistered: '이미 등록된 이메일입니다.',
+            emailNotConfirmed: '이메일 인증이 아직 완료되지 않았습니다. 받은편지함을 확인하세요.',
+            invalidEmail: '유효한 이메일 주소를 입력하세요.',
+            requiredEmail: '이메일 주소를 입력하세요.',
+            requiredPassword: '비밀번호를 입력하세요.',
+            passwordTooShort: '비밀번호는 최소 %{count}자 이상이어야 합니다.',
+            rateLimited: '시도가 너무 많습니다. 잠시 후 다시 시도하세요.',
+        },
         guestLogin: '게스트 로그인 (Dev)',
         verifyEmail: '이메일 인증을 위해 받은편지함을 확인해 주세요!',
     }

@@ -2,10 +2,14 @@ export const pt = {
     common: {
         loading: 'Carregando...',
         error: 'Ocorreu um erro',
+        toastSuccessPrefix: 'Sucesso:',
+        toastErrorPrefix: 'Erro:',
+        unexpectedError: 'Algo deu errado. Tente novamente.',
         save: 'Salvar',
         cancel: 'Cancelar',
         close: 'Fechar',
         ok: 'OK',
+        retry: 'Tentar novamente',
     },
     shop: {
         title: 'Loja',
@@ -31,6 +35,7 @@ export const pt = {
             processing: 'Processando...',
             active: 'Ativo',
             subscribe: 'Assinar',
+            cancelAnytime: 'Cancele a qualquer momento',
             activePlan: 'Plano %{plan} ativo',
             expiresOn: 'Válido até: %{date}',
         },
@@ -46,6 +51,8 @@ export const pt = {
                 activeWithMinutes: 'Ativo! Restam %{minutes} min',
             }
             ,
+            buyButtonA11y: 'Comprar %{name} por %{price} gemas',
+            purchasedA11y: '%{name} comprado',
             ownedCount: 'Em posse: %{count}',
         },
         comingSoon: 'Mais itens em breve!',
@@ -60,6 +67,7 @@ export const pt = {
         energyStatus: {
             title: 'Estado de energia',
             currentLabel: 'Atual: ',
+            currentUnlimitedA11y: 'Energia atual: ilimitada com Pro',
             nextRefillLabel: 'Próxima recarga em: ',
             full: 'Cheio',
             minutes: '%{minutes} min',
@@ -81,10 +89,21 @@ export const pt = {
         helpFaq: 'Ajuda e FAQ',
         restorePurchases: 'Restaurar compras',
         restoring: 'Restaurando...',
+        restoreStatusLoading: 'Verificando compras...',
+        restoreStatusSuccess: 'Compras restauradas com sucesso.',
+        restoreStatusNotFound: 'Nenhuma compra restaurável foi encontrada.',
+        restoreStatusError: 'Falha ao restaurar compras.',
+        manageBilling: 'Gerenciar cobrança',
+        openingPortal: 'Abrindo portal de cobrança...',
+        billingStatusLoading: 'Abrindo portal de cobrança...',
+        billingStatusSuccess: 'Portal de cobrança aberto com sucesso.',
+        billingStatusError: 'Falha ao abrir o portal de cobrança.',
         privacy: 'Política de privacidade',
         terms: 'Termos de serviço',
         errorTitle: 'Erro',
         loginRequiredForRestore: 'Você precisa estar conectado para restaurar compras.',
+        loginRequiredForBillingPortal: 'Você precisa estar conectado para abrir o portal de cobrança.',
+        billingPortalUnavailable: 'O portal de cobrança está indisponível no momento.',
         signOutTitle: 'Sair',
         signOutConfirm: 'Tem certeza de que deseja sair?',
         resetDoneTitle: 'Redefinição concluída',
@@ -108,6 +127,23 @@ export const pt = {
         friends: 'Amigos',
         shop: 'Loja',
         profile: 'Perfil',
+    },
+    globalHeader: {
+        selectCourse: 'Escolher curso',
+        a11y: {
+            courseSelector: 'Seletor de curso. Atual: %{course}',
+            streak: 'Sequência: %{count} dias',
+            gems: 'Gemas: %{count}',
+            energy: 'Energia: %{count}',
+            energyUnlimited: 'Energia ilimitada',
+        },
+    },
+    streakCalendar: {
+        title: 'Atividade de estudo',
+        less: 'Menos',
+        more: 'Mais',
+        dayActive: '%{date}: %{xp} XP, %{lessons} lições concluídas',
+        dayInactive: '%{date}: sem atividade',
     },
     evidenceBottomSheet: {
         sourceLabel: '📖 Fonte',
@@ -134,6 +170,8 @@ export const pt = {
         title: 'Psycle Premium',
         unlockLevels: 'Desbloqueie o nível 4+ com assinatura',
         benefitsTitle: 'Incluído na assinatura:',
+        priceFrom: 'A partir de %{price}/mês',
+        cancelAnytime: 'Cancele a qualquer momento',
         ctaNote: 'Você pode comparar os planos na Loja.',
         benefits: {
             accessAllLevels: 'Acesso aos 10 níveis de conteúdo',
@@ -252,8 +290,29 @@ export const pt = {
         startLessonTitle: 'Start Lesson',
         startLessonDescription: 'You can earn %{xp} XP in this lesson.',
         startButton: 'Start',
+        nextStep: {
+            label: 'Próximo passo',
+            readyTitle: 'Sua próxima lição está pronta',
+            readyBody: 'Continue pelo caminho de estudo que você já desbloqueou.',
+            lockedTitle: 'Esta lição ainda está bloqueada',
+            lockedBody: 'Avance um pouco mais ou desbloqueie o Pro para abrir esta rota.',
+            ctaReady: 'Abrir lição',
+            ctaLocked: 'Ver opções de desbloqueio',
+        },
+        accessibility: {
+            nodeCurrent: 'Nó da lição atual %{number}',
+            nodeLocked: 'Nó de lição bloqueado %{number}',
+            nodeCompleted: 'Nó de lição concluído %{number}',
+            nodeAvailable: 'Nó de lição disponível %{number}',
+        },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
+        streakRepair: {
+            accessibilityHint: 'Gaste gemas para restaurar sua sequência.',
+        },
+        comebackReward: {
+            accessibilityHint: 'Comece uma lição para receber sua recompensa de retorno.',
+        },
     },
     planSelector: {
         title: 'Escolher plano',
@@ -288,6 +347,10 @@ export const pt = {
         statusUnlimited: 'Sessões de revisão: Ilimitadas',
         statusRemaining: 'Sessões de revisão de hoje: %{remaining}/1 restantes',
         statusLocked: 'A revisão de erros está disponível no plano Max',
+        statusNeedData: 'São necessários ao menos 5 erros para iniciar a revisão',
+        routeHintLocked: 'Faça upgrade para Max para abrir esta rota de revisão',
+        routeHintInsufficientData: 'Resolva mais perguntas para desbloquear esta rota',
+        routeHintReady: 'Pronto para revisar agora',
         itemCountReady: '%{count} perguntas de revisão estão prontas',
     },
     review: {
@@ -329,6 +392,112 @@ export const pt = {
         actions: {
             learningHistory: 'Histórico de estudo',
             detailedStats: 'Estatísticas detalhadas',
+            comingSoon: 'Em breve',
+        },
+    },
+    badges: {
+        accessibility: {
+            lockedSuffix: '(bloqueado)',
+            lockedHint: 'Mostra o status de bloqueio',
+            lockedMessage: 'Este emblema ainda está bloqueado.',
+        },
+        catalog: {
+            first_lesson: {
+                name: 'Primeiro passo',
+                description: 'Complete sua primeira lição',
+            },
+            level_5: {
+                name: '5 lições concluídas',
+                description: 'Complete 5 lições',
+            },
+            level_10: {
+                name: '10 lições concluídas',
+                description: 'Complete 10 lições',
+            },
+            lessons_50: {
+                name: 'Persistência compensa',
+                description: 'Complete 50 lições',
+            },
+            lessons_100: {
+                name: 'Veterano de guerra',
+                description: 'Complete 100 lições',
+            },
+            streak_3: {
+                name: '3 dias seguidos',
+                description: 'Estude 3 dias seguidos',
+            },
+            streak_7: {
+                name: '1 semana seguida',
+                description: 'Estude 7 dias seguidos',
+            },
+            streak_14: {
+                name: '2 semanas seguidas',
+                description: 'Estude 14 dias seguidos',
+            },
+            streak_30: {
+                name: '1 mes seguido',
+                description: 'Estude 30 dias seguidos',
+            },
+            streak_60: {
+                name: '2 meses seguidos',
+                description: 'Estude 60 dias seguidos',
+            },
+            streak_100: {
+                name: '100 dias seguidos',
+                description: 'Estude 100 dias seguidos',
+            },
+            streak_365: {
+                name: '1 ano seguido',
+                description: 'Estude 365 dias seguidos',
+            },
+            xp_1000: {
+                name: '1000 XP alcançados',
+                description: 'Alcance 1000 XP no total',
+            },
+            xp_5000: {
+                name: '5000 XP alcançados',
+                description: 'Alcance 5000 XP no total',
+            },
+            mistake_master: {
+                name: 'Mestre dos erros',
+                description: 'Supere 10 erros',
+            },
+            first_friend: {
+                name: 'Primeiro amigo',
+                description: 'Adicione seu primeiro amigo',
+            },
+            top_10: {
+                name: 'Top 10',
+                description: 'Entre no top 10 do ranking',
+            },
+            league_silver: {
+                name: 'Promoção para Prata',
+                description: 'Suba para a liga Prata',
+            },
+            league_gold: {
+                name: 'Promoção para Ouro',
+                description: 'Suba para a liga Ouro',
+            },
+            league_platinum: {
+                name: 'Promoção para Platina',
+                description: 'Suba para a liga Platina',
+            },
+            league_diamond: {
+                name: 'Promoção para Diamante',
+                description: 'Suba para a liga Diamante',
+            },
+            league_master: {
+                name: 'Promoção para Mestre',
+                description: 'Suba para a liga Mestre',
+            },
+            league_first_place: {
+                name: 'Campeão da liga',
+                description: 'Termine em 1º na sua liga',
+            },
+            event_spring_2026: {
+                name: 'Evento de primavera concluído',
+                description: 'Complete Spring Challenge 2026',
+            },
         },
     },
     editProfile: {
@@ -337,6 +506,15 @@ export const pt = {
         usernamePlaceholder: 'Digite o nome de usuário',
         successTitle: 'Sucesso',
         successMessage: 'Perfil atualizado.',
+        discardTitle: 'Descartar alterações?',
+        discardMessage: 'As alterações do perfil ainda não foram salvas.',
+        discardConfirm: 'Descartar',
+        errors: {
+            requiredUsername: 'Digite um nome de usuário.',
+            usernameTooShort: 'O nome de usuário deve ter pelo menos %{count} caracteres.',
+            saveFailed: 'Não foi possível atualizar o perfil. Tente novamente.',
+            usernameTaken: 'Esse nome de usuário já está em uso.',
+        },
     },
     quests: {
         monthTitle: 'Missões de %{month}',
@@ -427,6 +605,60 @@ export const pt = {
             master: 'Mestre',
         },
     },
+    friends: {
+        title: 'Amigos',
+        tabs: {
+            friends: 'Amigos',
+            requests: 'Solicitações',
+            requestsWithCount: 'Solicitações (%{count})',
+            search: 'Buscar',
+        },
+        fallbackUnknownUser: 'Desconhecido',
+        stats: {
+            xpValue: '⭐ %{xp} XP',
+            streakValue: '🔥 %{count} dias seguidos',
+        },
+        empty: {
+            friendsTitle: 'Você ainda não tem amigos',
+            friendsSubtitle: 'Busque usuários para adicionar amigos',
+            requestsTitle: 'Nenhuma solicitação pendente',
+        },
+        alerts: {
+            requestAcceptedTitle: 'Sucesso',
+            requestAcceptedMessage: 'Solicitação de amizade aceita!',
+            acceptFailed: 'Falha ao aceitar solicitação de amizade',
+            rejectFailed: 'Falha ao recusar solicitação de amizade',
+            removeTitle: 'Remover amigo',
+            removeMessage: 'Tem certeza de que deseja remover este amigo?',
+            removeConfirm: 'Remover',
+            removeFailed: 'Falha ao remover amigo',
+        },
+        challenge: {
+            title: 'Desafio semanal entre amigos',
+            subtitle: 'Nesta semana vs %{name}',
+            progress: 'Você %{mine} XP · Oponente %{theirs} XP',
+            readyToClaim: 'Desafio concluído. Resgate sua recompensa.',
+            keepGoing: 'Continue para ultrapassar seu amigo.',
+            claim: 'Resgatar +%{gems} Gems',
+            claimed: 'Recompensa resgatada',
+            notCompleted: 'Alcance ou supere o XP do seu amigo primeiro.',
+            rewardClaimed: 'Recompensa resgatada: +%{gems} Gems',
+            rewardFailed: 'Falha ao resgatar recompensa.',
+        },
+    },
+    friendSearch: {
+        placeholder: 'Buscar por nome de usuário...',
+        empty: 'Nenhum usuário encontrado',
+        cta: {
+            add: 'Adicionar',
+            sent: 'Enviada',
+        },
+        alerts: {
+            alreadySent: 'Solicitação de amizade já enviada',
+            sent: 'Solicitação de amizade enviada!',
+            failed: 'Falha ao enviar solicitação de amizade',
+        },
+    },
     onboarding: {
         subtitle: 'Fortaleça sua mente em apenas 3 minutos por dia.',
         start: 'Começar',
@@ -455,6 +687,21 @@ export const pt = {
         passwordPlaceholder: 'Senha',
         signIn: 'Entrar',
         signUp: 'Cadastrar',
+        forgotPassword: 'Esqueceu a senha?',
+        resetPasswordSent: 'E-mail de redefinição de senha enviado. Verifique sua caixa de entrada.',
+        resetPasswordFailed: 'Não foi possível enviar o e-mail de redefinição de senha.',
+        showPassword: 'Mostrar senha',
+        hidePassword: 'Ocultar senha',
+        errors: {
+            invalidCredentials: 'O e-mail ou a senha estão incorretos.',
+            userAlreadyRegistered: 'Este e-mail já está registrado.',
+            emailNotConfirmed: 'Seu e-mail ainda não foi confirmado. Verifique sua caixa de entrada.',
+            invalidEmail: 'Digite um e-mail válido.',
+            requiredEmail: 'Digite seu e-mail.',
+            requiredPassword: 'Digite sua senha.',
+            passwordTooShort: 'A senha deve ter pelo menos %{count} caracteres.',
+            rateLimited: 'Tentativas demais. Aguarde um momento e tente novamente.',
+        },
         guestLogin: 'Login como convidado (Dev)',
         verifyEmail: 'Confira sua caixa de entrada para confirmar o e-mail!',
     }

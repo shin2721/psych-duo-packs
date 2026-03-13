@@ -2,6 +2,23 @@ import React, { useState, useEffect } from 'react';
 import { View, Image, Text, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { Audio } from 'expo-av';
 import i18n from '../lib/i18n';
+import { theme } from '../lib/theme';
+
+async function cleanupSound(audioSound: Audio.Sound | null) {
+    if (!audioSound) return;
+
+    try {
+        await audioSound.stopAsync();
+    } catch {
+        // Best-effort cleanup; stopAsync may fail if the sound is already unloaded.
+    }
+
+    try {
+        await audioSound.unloadAsync();
+    } catch {
+        // Ignore unload failures during teardown to avoid noisy cleanup errors.
+    }
+}
 
 interface QuestionImageProps {
     uri: string;
@@ -18,7 +35,7 @@ export function QuestionImage({ uri, caption }: QuestionImageProps) {
         <View style={styles.imageContainer}>
             {loading && (
                 <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color="#6366f1" />
+                    <ActivityIndicator size="large" color={theme.colors.primary} />
                 </View>
             )}
             <Image
@@ -54,10 +71,7 @@ export function QuestionAudio({ uri }: QuestionAudioProps) {
 
     useEffect(() => {
         return () => {
-            // Cleanup: unload sound when component unmounts
-            if (sound) {
-                sound.unloadAsync();
-            }
+            void cleanupSound(sound);
         };
     }, [sound]);
 
@@ -80,6 +94,9 @@ export function QuestionAudio({ uri }: QuestionAudioProps) {
                     setIsLoading(false);
                     return;
                 }
+
+                await cleanupSound(sound);
+                setSound(null);
             }
 
             // Load and play new sound
@@ -156,22 +173,22 @@ const styles = StyleSheet.create({
     caption: {
         padding: 12,
         fontSize: 14,
-        color: '#666',
+        color: theme.colors.sub,
         fontStyle: 'italic',
         textAlign: 'center',
-        backgroundColor: '#fff',
+        backgroundColor: theme.colors.surface,
     },
     errorText: {
         padding: 12,
         fontSize: 14,
-        color: '#ef4444',
+        color: theme.colors.error,
         textAlign: 'center',
     },
     audioButton: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#6366f1',
+        backgroundColor: theme.colors.primary,
         paddingVertical: 12,
         paddingHorizontal: 20,
         borderRadius: 8,
@@ -179,7 +196,7 @@ const styles = StyleSheet.create({
         gap: 8,
     },
     audioButtonPlaying: {
-        backgroundColor: '#4f46e5',
+        backgroundColor: theme.colors.primaryLight,
     },
     audioIcon: {
         fontSize: 20,
