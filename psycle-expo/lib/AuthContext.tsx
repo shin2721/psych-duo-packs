@@ -26,11 +26,11 @@ export const useAuth = () => useContext(AuthContext);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [session, setSession] = useState<Session | null>(null);
     const [isLoading, setIsLoading] = useState(true);
-    const e2eAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
+    const canUseGuestSession = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
 
     useEffect(() => {
         const initSession = async () => {
-            if (!e2eAnalyticsMode) {
+            if (!canUseGuestSession) {
                 // Cleanup legacy guest session key once in normal mode.
                 await AsyncStorage.removeItem('guestSession').catch(() => { });
             } else {
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     const signInAsGuest = async () => {
-        if (!e2eAnalyticsMode) return;
+        if (!canUseGuestSession) return;
 
         const guestUser: User = {
             id: `guest_user_${Date.now()}`,

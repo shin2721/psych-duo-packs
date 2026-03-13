@@ -60,7 +60,7 @@ export default function AuthScreen() {
     const passwordInputRef = React.useRef<TextInput>(null);
     const { signInAsGuest } = useAuth();
     const { showToast } = useToast();
-    const e2eAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
+    const canUseGuestLogin = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === '1';
 
     function getValidationError(mode: 'signIn' | 'signUp' | 'reset'): string | null {
         const trimmedEmail = email.trim();
@@ -233,7 +233,7 @@ export default function AuthScreen() {
                     </Pressable>
                 </View>
 
-                {e2eAnalyticsMode && (
+                {canUseGuestLogin && (
                     <View style={styles.guestButtonContainer}>
                         <Pressable
                             style={[styles.guestButton, loading && styles.buttonDisabled]}
