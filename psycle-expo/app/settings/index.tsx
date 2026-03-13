@@ -451,6 +451,13 @@ export default function SettingsScreen() {
                                 testID="open-analytics-debug"
                             />
                             <SettingRow
+                                icon="planet"
+                                label="Course Orbit Concept"
+                                onPress={() => router.push('/debug/course-path-concept')}
+                                accessibilityLabel="Course Orbit Concept"
+                                testID="open-course-path-concept"
+                            />
+                            <SettingRow
                                 icon="analytics"
                                 label={i18n.t("settings.exportDogfoodData")}
                                 onPress={async () => {
