@@ -15,7 +15,7 @@ import { Button, Card, Pill, ProgressBar } from "../../components/ui";
 import { StarBackground } from "../../components/StarBackground";
 import { theme } from "../../lib/theme";
 
-type CompareView = "codex" | "claude";
+type CompareView = "final" | "codex" | "claude";
 type OrbitNodeStatus = "done" | "locked" | "reward";
 
 type OrbitNode = {
@@ -70,6 +70,7 @@ function CompareTabs({
 }) {
   return (
     <View style={styles.tabsRow}>
+      <Pill label="Final" active={view === "final"} onPress={() => onChange("final")} />
       <Pill label="Codex" active={view === "codex"} onPress={() => onChange("codex")} />
       <Pill label="Claude" active={view === "claude"} onPress={() => onChange("claude")} />
     </View>
@@ -290,8 +291,144 @@ function ClaudeTrailConcept() {
   );
 }
 
+function FinalHybridConcept() {
+  const center = 134;
+  const radius = 94;
+  const finalNodes = [
+    { id: "arrival", label: "Arrive", icon: "sparkles" as const, status: "done" as const, angle: -130 },
+    { id: "lesson", label: "Reframe", icon: "flash" as const, status: "current" as const, angle: -18 },
+    { id: "play", label: "Play", icon: "game-controller" as const, status: "locked" as const, angle: 122 },
+    { id: "reward", label: "Collect", icon: "gift" as const, status: "reward" as const, angle: 210 },
+  ];
+
+  return (
+    <View style={styles.sectionGap}>
+      <Card style={styles.finalHeroCard}>
+        <View style={styles.finalHeroCopy}>
+          <Text style={styles.sectionEyebrow}>Tonight&apos;s focus</Text>
+          <Text style={styles.finalHeroTitle}>Anxiety Reframe Sprint</Text>
+          <Text style={styles.finalHeroBody}>
+            Keep the orbit ritual, but start with one clear next step you can finish tonight.
+          </Text>
+        </View>
+
+        <View style={styles.finalStatRow}>
+          <View style={styles.finalStatChip}>
+            <Ionicons name="flash" size={14} color={theme.colors.accent} />
+            <Text style={styles.finalStatText}>7 min</Text>
+          </View>
+          <View style={styles.finalStatChip}>
+            <Ionicons name="leaf" size={14} color="#b5ff64" />
+            <Text style={styles.finalStatText}>1 lesson</Text>
+          </View>
+          <View style={styles.finalStatChip}>
+            <Ionicons name="gift" size={14} color="#ffbf3c" />
+            <Text style={styles.finalStatText}>1 reward</Text>
+          </View>
+        </View>
+
+        <View style={styles.finalHeroActionRow}>
+          <Button
+            label="Resume lesson 3"
+            size="lg"
+            onPress={() => {}}
+            style={styles.finalPrimaryButton}
+          />
+          <Pressable style={styles.secondaryLink} onPress={() => {}}>
+            <Text style={styles.secondaryLinkText}>Switch genre</Text>
+          </Pressable>
+        </View>
+      </Card>
+
+      <Card style={styles.finalOrbitCard}>
+        <View style={styles.finalOrbitHeader}>
+          <View>
+            <Text style={styles.sectionEyebrow}>Tonight&apos;s orbit</Text>
+            <Text style={styles.finalOrbitTitle}>Feel the path, don&apos;t decode it</Text>
+          </View>
+          <View style={styles.finalProgressChip}>
+            <Text style={styles.finalProgressText}>2 / 4 closed</Text>
+          </View>
+        </View>
+
+        <View style={styles.finalOrbitStage}>
+          <View style={styles.finalOrbitHalo} />
+          <View style={styles.finalOrbitRingOuter} />
+          <View style={styles.finalOrbitRingInner} />
+
+          {finalNodes.map((node) => {
+            const angleInRadians = (node.angle * Math.PI) / 180;
+            const x = center + radius * Math.cos(angleInRadians);
+            const y = center + radius * Math.sin(angleInRadians);
+
+            return (
+              <View
+                key={node.id}
+                style={[
+                  styles.finalNodeWrap,
+                  {
+                    left: x - 32,
+                    top: y - 32,
+                  },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.finalNode,
+                    node.status === "done" && styles.finalNodeDone,
+                    node.status === "current" && styles.finalNodeCurrent,
+                    node.status === "locked" && styles.finalNodeLocked,
+                    node.status === "reward" && styles.finalNodeReward,
+                  ]}
+                >
+                  <Ionicons
+                    name={node.icon}
+                    size={20}
+                    color={
+                      node.status === "done"
+                        ? "#081119"
+                        : node.status === "current"
+                          ? "#081119"
+                          : node.status === "reward"
+                            ? "#fff"
+                            : theme.colors.sub
+                    }
+                  />
+                </View>
+                <Text style={styles.finalNodeLabel}>{node.label}</Text>
+              </View>
+            );
+          })}
+
+          <LinearGradient
+            colors={["rgba(59,130,246,0.98)", "rgba(34,211,238,0.9)"]}
+            start={{ x: 0.1, y: 0.15 }}
+            end={{ x: 0.9, y: 1 }}
+            style={styles.finalCoreOrb}
+          >
+            <Text style={styles.finalCoreKicker}>Current ritual</Text>
+            <Text style={styles.finalCoreTitle}>Lesson 3</Text>
+            <Text style={styles.finalCoreBody}>Turn one stuck thought into a workable reframe.</Text>
+          </LinearGradient>
+        </View>
+      </Card>
+
+      <Card style={styles.weeklyShell}>
+        <View style={styles.weeklyHeader}>
+          <View style={styles.weeklyTextWrap}>
+            <Text style={styles.sectionEyebrow}>Weekly challenge</Text>
+            <Text style={styles.weeklyTitle}>Three focused sessions this week</Text>
+          </View>
+          <Text style={styles.weeklyCount}>3/5</Text>
+        </View>
+        <ProgressBar value={3} max={5} style={styles.weeklyBar} />
+      </Card>
+    </View>
+  );
+}
+
 export default function CourseConceptsCompareScreen() {
-  const [view, setView] = useState<CompareView>("codex");
+  const [view, setView] = useState<CompareView>("final");
 
   return (
     <SafeAreaView style={styles.container} edges={["top"]}>
@@ -307,7 +444,13 @@ export default function CourseConceptsCompareScreen() {
       >
         <Header title="Course concepts" subtitle="Compare in simulator" />
         <CompareTabs view={view} onChange={setView} />
-        {view === "codex" ? <CodexOrbitConcept /> : <ClaudeTrailConcept />}
+        {view === "final" ? (
+          <FinalHybridConcept />
+        ) : view === "codex" ? (
+          <CodexOrbitConcept />
+        ) : (
+          <ClaudeTrailConcept />
+        )}
       </ScrollView>
     </SafeAreaView>
   );
@@ -600,6 +743,183 @@ const styles = StyleSheet.create({
   claudeNextStepBody: {
     ...theme.typography.label,
     color: theme.colors.sub,
+  },
+  finalHeroCard: {
+    gap: theme.spacing.md,
+    padding: theme.spacing.lg,
+  },
+  finalHeroCopy: {
+    gap: theme.spacing.xs,
+  },
+  finalHeroTitle: {
+    ...theme.typography.h2,
+    color: theme.colors.text,
+  },
+  finalHeroBody: {
+    ...theme.typography.label,
+    color: "rgba(216,228,245,0.78)",
+  },
+  finalStatRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: theme.spacing.sm,
+  },
+  finalStatChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: "rgba(6,19,41,0.92)",
+    borderWidth: 1,
+    borderColor: "rgba(73,103,161,0.28)",
+  },
+  finalStatText: {
+    ...theme.typography.caption,
+    color: theme.colors.text,
+  },
+  finalHeroActionRow: {
+    gap: theme.spacing.xs,
+  },
+  finalPrimaryButton: {
+    width: "100%",
+  },
+  finalOrbitCard: {
+    gap: theme.spacing.md,
+    paddingTop: theme.spacing.lg,
+    overflow: "hidden",
+  },
+  finalOrbitHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    gap: theme.spacing.md,
+  },
+  finalOrbitTitle: {
+    ...theme.typography.h3,
+    color: theme.colors.text,
+    maxWidth: 220,
+  },
+  finalProgressChip: {
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: "rgba(6,19,41,0.92)",
+    borderWidth: 1,
+    borderColor: "rgba(73,103,161,0.28)",
+  },
+  finalProgressText: {
+    ...theme.typography.caption,
+    color: theme.colors.sub,
+  },
+  finalOrbitStage: {
+    height: 268,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  finalOrbitHalo: {
+    position: "absolute",
+    width: 268,
+    height: 268,
+    borderRadius: 999,
+    backgroundColor: "rgba(54,127,255,0.14)",
+    transform: [{ scale: 1.08 }],
+  },
+  finalOrbitRingOuter: {
+    position: "absolute",
+    width: 252,
+    height: 252,
+    borderRadius: 999,
+    borderWidth: 1.5,
+    borderColor: "rgba(87,123,192,0.38)",
+  },
+  finalOrbitRingInner: {
+    position: "absolute",
+    width: 188,
+    height: 188,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "rgba(168,255,96,0.18)",
+  },
+  finalNodeWrap: {
+    position: "absolute",
+    width: 64,
+    alignItems: "center",
+    gap: 6,
+    zIndex: 3,
+  },
+  finalNode: {
+    width: 64,
+    height: 64,
+    borderRadius: 32,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(5,17,38,0.96)",
+    borderWidth: 2,
+    borderColor: "rgba(65,89,136,0.55)",
+  },
+  finalNodeDone: {
+    backgroundColor: "#b5ff64",
+    borderColor: "#e7ffaf",
+    shadowColor: "#b5ff64",
+    shadowOpacity: 0.32,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 0 },
+  },
+  finalNodeCurrent: {
+    backgroundColor: "#7ce8ff",
+    borderColor: "#d4fbff",
+    shadowColor: "#22d3ee",
+    shadowOpacity: 0.28,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 0 },
+  },
+  finalNodeLocked: {
+    backgroundColor: "rgba(5,17,38,0.96)",
+    borderColor: "rgba(65,89,136,0.55)",
+  },
+  finalNodeReward: {
+    backgroundColor: "rgba(255,174,47,0.96)",
+    borderColor: "#ffec9d",
+  },
+  finalNodeLabel: {
+    ...theme.typography.caption,
+    color: "rgba(216,228,245,0.84)",
+    textAlign: "center",
+  },
+  finalCoreOrb: {
+    width: 152,
+    height: 152,
+    borderRadius: 76,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 16,
+    gap: 6,
+    shadowColor: "rgba(34,211,238,0.85)",
+    shadowOpacity: 0.32,
+    shadowRadius: 24,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 8,
+    zIndex: 2,
+  },
+  finalCoreKicker: {
+    ...theme.typography.caption,
+    color: "rgba(255,255,255,0.78)",
+    textTransform: "uppercase",
+    letterSpacing: 1,
+  },
+  finalCoreTitle: {
+    ...theme.typography.h2,
+    color: "#fff",
+    textAlign: "center",
+  },
+  finalCoreBody: {
+    ...theme.typography.caption,
+    color: "rgba(255,255,255,0.92)",
+    textAlign: "center",
+    maxWidth: 116,
   },
   trailShell: {
     position: "relative",
