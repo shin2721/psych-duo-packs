@@ -11,10 +11,16 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { LinearGradient } from "expo-linear-gradient";
+import { WebView } from "react-native-webview";
 import { Button, Card, Pill, ProgressBar } from "../../components/ui";
 import { StarBackground } from "../../components/StarBackground";
 import { theme } from "../../lib/theme";
 import i18n from "../../lib/i18n";
+import {
+  claudePreviewCommit,
+  claudePreviewHtml,
+  claudePreviewSource,
+} from "./generated/claude-preview";
 
 type CompareView = "final" | "codex" | "claude";
 type OrbitNodeStatus = "done" | "locked" | "reward";
@@ -344,86 +350,26 @@ function ClaudeTrailConcept() {
   return (
     <View style={styles.sectionGap}>
       <View style={styles.copyBlock}>
-        <Text style={styles.sectionEyebrow}>Chapter 1 · Mental</Text>
-        <Text style={styles.sectionTitle}>Cognitive reframe</Text>
-        <Text style={styles.sectionBody}>A clearer trail that shows what is done, what is next, and what is still waiting.</Text>
+        <Text style={styles.sectionEyebrow}>Claude branch preview</Text>
+        <Text style={styles.sectionTitle}>Warm trail vision</Text>
+        <Text style={styles.sectionBody}>
+          In-app render of the latest Claude HTML snapshot so the compare screen stays aligned with the branch.
+        </Text>
       </View>
 
-      <View style={styles.claudeProgressRow}>
-        <View style={styles.claudeProgressRing}>
-          <View style={styles.claudeProgressRingInner}>
-            <Text style={styles.claudeProgressRingText}>3/7</Text>
-          </View>
-        </View>
-        <View style={styles.claudeProgressInfo}>
-          <Text style={styles.claudeProgressTitle}>4 lessons left</Text>
-          <Text style={styles.claudeProgressSubtitle}>Finish this chapter to unlock a star badge.</Text>
-        </View>
+      <View style={styles.claudePreviewMeta}>
+        <Text style={styles.claudePreviewMetaText}>Synced from {claudePreviewCommit}</Text>
+        <Text style={styles.claudePreviewMetaSubtext}>{claudePreviewSource}</Text>
       </View>
 
-      <View style={styles.claudeTrailShell}>
-        <View style={styles.claudeSpine} />
-        <View style={styles.claudeSpineDone} />
-
-        {claudeTrailNodes.slice(0, 3).map((node) => (
-          <ClaudeTrailNode
-            key={node.id}
-            title={node.title}
-            description={node.description}
-            icon={node.icon}
-            status={node.status as Exclude<ClaudeNodeStatus, "current">}
-            xp={node.xp}
-            doneLabel={node.doneLabel}
-          />
-        ))}
-
-        <Card style={styles.claudeHeroCard}>
-          <View style={styles.claudeHeroInner}>
-            <View style={styles.claudeCurrentCircle}>
-              <Ionicons name="leaf" size={24} color="#fff" />
-            </View>
-            <View style={styles.claudeHeroContent}>
-              <Text style={styles.claudeHeroTitle}>Reframe lesson</Text>
-              <Text style={styles.claudeHeroBody}>
-                Recast a difficult event from a more workable angle.
-              </Text>
-              <View style={styles.claudeHeroMetaRow}>
-                <View style={styles.claudeHeroMetaPill}>
-                  <Text style={styles.claudeHeroMetaText}>+24 XP</Text>
-                </View>
-                <View style={styles.claudeHeroMetaPillMuted}>
-                  <Text style={styles.claudeHeroMetaTextMuted}>5 min</Text>
-                </View>
-                <View style={styles.claudeHeroMetaPillWarm}>
-                  <Text style={styles.claudeHeroMetaTextWarm}>MCQ</Text>
-                </View>
-              </View>
-              <Button label="Start lesson" size="md" onPress={() => {}} style={styles.claudeHeroButton} />
-            </View>
-          </View>
-        </Card>
-
-        <View style={styles.claudeDividerRow}>
-          <View style={styles.claudeDividerLine} />
-          <Text style={styles.claudeDividerLabel}>Continue</Text>
-          <View style={styles.claudeDividerLine} />
-        </View>
-
-        {claudeTrailNodes.slice(3).map((node) => (
-          <ClaudeTrailNode
-            key={node.id}
-            title={node.title}
-            description={node.description}
-            icon={node.icon}
-            status={node.status as Exclude<ClaudeNodeStatus, "current">}
-          />
-        ))}
-
-        <View style={styles.claudeNextChapterHint}>
-          <Text style={styles.sectionEyebrow}>Chapter 2</Text>
-          <Text style={styles.claudeNextChapterTitle}>Emotion literacy</Text>
-          <Text style={styles.claudeNextChapterBody}>The next chapter is already peeking through below the current run.</Text>
-        </View>
+      <View style={styles.claudeWebviewShell}>
+        <WebView
+          originWhitelist={["*"]}
+          source={{ html: claudePreviewHtml, baseUrl: "https://localhost" }}
+          scrollEnabled={false}
+          automaticallyAdjustContentInsets={false}
+          style={styles.claudeWebview}
+        />
       </View>
     </View>
   );
@@ -833,6 +779,30 @@ const styles = StyleSheet.create({
   },
   weeklyBar: {
     marginTop: theme.spacing.sm,
+  },
+  claudePreviewMeta: {
+    gap: 2,
+    paddingHorizontal: theme.spacing.xs,
+  },
+  claudePreviewMetaText: {
+    ...theme.typography.label,
+    color: theme.colors.text,
+  },
+  claudePreviewMetaSubtext: {
+    ...theme.typography.caption,
+    color: theme.colors.sub,
+  },
+  claudeWebviewShell: {
+    height: 980,
+    borderRadius: 28,
+    overflow: "hidden",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.08)",
+    backgroundColor: "rgba(7,16,33,0.72)",
+  },
+  claudeWebview: {
+    flex: 1,
+    backgroundColor: "transparent",
   },
   claudeProgressRow: {
     flexDirection: "row",
