@@ -431,15 +431,16 @@ function ClaudeTrailConcept() {
 
 function FinalHybridConcept() {
   const finalNodes = [
-    { id: "lesson-3", label: "L3", icon: "leaf" as const, state: "current" as const, angle: -90 },
-    { id: "lesson-4", label: "L4", icon: "ellipse-outline" as const, state: "locked" as const, angle: -10 },
-    { id: "lesson-5", label: "L5", icon: "ellipse-outline" as const, state: "locked" as const, angle: 80 },
-    { id: "lesson-6", label: "L6", icon: "gift" as const, state: "reward" as const, angle: 164 },
-    { id: "lesson-2", label: "L2", icon: "checkmark" as const, state: "done" as const, angle: 232 },
+    { id: "lesson-1", label: "L1", icon: "checkmark" as const, state: "done" as const, angle: -124 },
+    { id: "lesson-2", label: "L2", icon: "checkmark" as const, state: "done" as const, angle: -52 },
+    { id: "lesson-3", label: "L3", icon: "leaf" as const, state: "current" as const, angle: 0 },
+    { id: "lesson-4", label: "L4", icon: "ellipse-outline" as const, state: "locked" as const, angle: 58 },
+    { id: "lesson-5", label: "L5", icon: "ellipse-outline" as const, state: "locked" as const, angle: 126 },
+    { id: "lesson-6", label: "L6", icon: "gift" as const, state: "reward" as const, angle: 196 },
   ];
-  const stageSize = 268;
+  const stageSize = 276;
   const center = stageSize / 2;
-  const radius = stageSize / 2 - 42;
+  const radius = stageSize / 2 - 38;
 
   return (
     <View style={styles.sectionGap}>
@@ -467,10 +468,8 @@ function FinalHybridConcept() {
       </Card>
 
       <View style={styles.finalCourseTrailWrap}>
-        <View style={styles.finalOrbitStage}>
-          <View style={styles.finalOrbitHalo} />
-          <View style={styles.finalOrbitRingOuter} />
-          <View style={styles.finalOrbitRingInner} />
+        <View style={styles.finalSimpleRingStage}>
+          <View style={styles.finalSimpleRingGuide} />
 
           {finalNodes.map((node) => {
             const angleInRadians = (node.angle * Math.PI) / 180;
@@ -509,29 +508,33 @@ function FinalHybridConcept() {
                     }
                   />
                 </View>
-                <Text
-                  style={[
-                    styles.finalNodeLabel,
-                    node.state === "current" && styles.finalNodeLabelCurrentReal,
-                  ]}
-                >
-                  {node.label}
-                </Text>
               </View>
             );
           })}
 
-          <LinearGradient
-            colors={["rgba(236,72,153,0.96)", "rgba(255,110,194,0.92)"]}
-            start={{ x: 0.12, y: 0.12 }}
-            end={{ x: 0.88, y: 1 }}
-            style={styles.finalCourseCurrentNode}
-          >
-            <Ionicons name="leaf" size={40} color="#081119" />
-          </LinearGradient>
+          <View style={styles.finalSimpleRingCenter}>
+            <Text style={styles.finalSimpleRingCenterEyebrow}>Mental unit</Text>
+            <Text style={styles.finalSimpleRingCenterTitle}>6 lessons</Text>
+            <Text style={styles.finalSimpleRingCenterBody}>Current: Lesson 3</Text>
+          </View>
         </View>
-        <View style={styles.finalCourseTrailMeta}>
-          <Text style={styles.finalCourseTrailMetaText}>Mental path · circular draft</Text>
+        <View style={styles.finalSimpleRingLegend}>
+          <View style={styles.finalSimpleLegendItem}>
+            <View style={[styles.finalLegendDot, styles.finalNodeDone]} />
+            <Text style={styles.finalSimpleLegendText}>done</Text>
+          </View>
+          <View style={styles.finalSimpleLegendItem}>
+            <View style={[styles.finalLegendDot, styles.finalNodeCurrent]} />
+            <Text style={styles.finalSimpleLegendText}>current</Text>
+          </View>
+          <View style={styles.finalSimpleLegendItem}>
+            <View style={[styles.finalLegendDot, styles.finalNodeLocked]} />
+            <Text style={styles.finalSimpleLegendText}>locked</Text>
+          </View>
+          <View style={styles.finalSimpleLegendItem}>
+            <View style={[styles.finalLegendDot, styles.finalNodeReward]} />
+            <Text style={styles.finalSimpleLegendText}>reward</Text>
+          </View>
         </View>
       </View>
     </View>
@@ -1144,6 +1147,76 @@ const styles = StyleSheet.create({
     gap: theme.spacing.sm,
     alignItems: "center",
     paddingTop: theme.spacing.sm,
+  },
+  finalSimpleRingStage: {
+    width: 276,
+    height: 276,
+    alignItems: "center",
+    justifyContent: "center",
+    position: "relative",
+  },
+  finalSimpleRingGuide: {
+    position: "absolute",
+    width: 248,
+    height: 248,
+    borderRadius: 999,
+    borderWidth: 2,
+    borderColor: "rgba(87,123,192,0.34)",
+  },
+  finalSimpleRingCenter: {
+    width: 126,
+    height: 126,
+    borderRadius: 63,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 2,
+    paddingHorizontal: 14,
+    backgroundColor: "rgba(8,18,39,0.96)",
+    borderWidth: 1.5,
+    borderColor: "rgba(73,103,161,0.3)",
+  },
+  finalSimpleRingCenterEyebrow: {
+    ...theme.typography.caption,
+    color: theme.colors.accent,
+    textTransform: "uppercase",
+    letterSpacing: 0.8,
+  },
+  finalSimpleRingCenterTitle: {
+    ...theme.typography.h3,
+    color: theme.colors.text,
+    textAlign: "center",
+  },
+  finalSimpleRingCenterBody: {
+    ...theme.typography.caption,
+    color: theme.colors.sub,
+    textAlign: "center",
+  },
+  finalSimpleRingLegend: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    gap: theme.spacing.sm,
+  },
+  finalSimpleLegendItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 6,
+    borderRadius: 999,
+    backgroundColor: "rgba(6,19,41,0.78)",
+    borderWidth: 1,
+    borderColor: "rgba(73,103,161,0.22)",
+  },
+  finalLegendDot: {
+    width: 12,
+    height: 12,
+    borderRadius: 999,
+  },
+  finalSimpleLegendText: {
+    ...theme.typography.caption,
+    color: theme.colors.sub,
+    textTransform: "capitalize",
   },
   finalHeroTitle: {
     ...theme.typography.h2,
