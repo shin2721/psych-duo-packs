@@ -14,6 +14,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Button, Card, Pill, ProgressBar } from "../../components/ui";
 import { StarBackground } from "../../components/StarBackground";
 import { theme } from "../../lib/theme";
+import i18n from "../../lib/i18n";
 
 type CompareView = "final" | "codex" | "claude";
 type OrbitNodeStatus = "done" | "locked" | "reward";
@@ -430,10 +431,11 @@ function ClaudeTrailConcept() {
 
 function FinalHybridConcept() {
   const finalNodes = [
-    { id: "arrival", label: "Arrive", icon: "sparkles" as const, state: "done" as const, angle: -132 },
-    { id: "lesson", label: "Reframe", icon: "leaf" as const, state: "current" as const, angle: -18 },
-    { id: "play", label: "Play", icon: "game-controller" as const, state: "locked" as const, angle: 128 },
-    { id: "reward", label: "Collect", icon: "gift" as const, state: "reward" as const, angle: 222 },
+    { id: "lesson-3", label: "L3", icon: "leaf" as const, state: "current" as const, angle: -90 },
+    { id: "lesson-4", label: "L4", icon: "ellipse-outline" as const, state: "locked" as const, angle: -10 },
+    { id: "lesson-5", label: "L5", icon: "ellipse-outline" as const, state: "locked" as const, angle: 80 },
+    { id: "lesson-6", label: "L6", icon: "gift" as const, state: "reward" as const, angle: 164 },
+    { id: "lesson-2", label: "L2", icon: "checkmark" as const, state: "done" as const, angle: 232 },
   ];
   const stageSize = 268;
   const center = stageSize / 2;
@@ -441,23 +443,30 @@ function FinalHybridConcept() {
 
   return (
     <View style={styles.sectionGap}>
-      <View style={styles.copyBlock}>
-        <Text style={styles.sectionEyebrow}>Tonight&apos;s focus</Text>
-        <Text style={styles.sectionTitle}>Anxiety Reframe</Text>
-        <Text style={styles.sectionBody}>A compact orbit that feels like Psycle, not a task list.</Text>
-      </View>
-
-      <Card style={styles.finalOrbitCard}>
-        <View style={styles.finalPathHeader}>
-          <View style={styles.finalPathHeaderCopy}>
-            <Text style={styles.sectionEyebrow}>Tonight&apos;s orbit</Text>
-            <Text style={styles.finalPathTitle}>Four clear steps</Text>
+      <Card style={styles.finalCourseNextStepCard}>
+        <View style={styles.finalCourseNextStepHeader}>
+          <View style={styles.finalCourseNextStepIconWrap}>
+            <Ionicons name="play" size={16} color={theme.colors.accent} />
           </View>
-          <View style={styles.finalProgressChip}>
-            <Text style={styles.finalProgressText}>2 of 4</Text>
-          </View>
+          <Text style={styles.finalCourseNextStepLabel}>
+            {String(i18n.t("course.nextStep.label"))}
+          </Text>
         </View>
+        <Text style={styles.finalCourseNextStepTitle}>
+          {String(i18n.t("course.nextStep.readyTitle"))}
+        </Text>
+        <Text style={styles.finalCourseNextStepBody}>
+          {String(i18n.t("course.nextStep.readyBody"))}
+        </Text>
+        <Button
+          label={String(i18n.t("course.nextStep.ctaReady"))}
+          size="sm"
+          onPress={() => {}}
+          style={styles.finalCourseNextStepButton}
+        />
+      </Card>
 
+      <View style={styles.finalCourseTrailWrap}>
         <View style={styles.finalOrbitStage}>
           <View style={styles.finalOrbitHalo} />
           <View style={styles.finalOrbitRingOuter} />
@@ -500,56 +509,31 @@ function FinalHybridConcept() {
                     }
                   />
                 </View>
-                <Text style={styles.finalNodeLabel}>{node.label}</Text>
+                <Text
+                  style={[
+                    styles.finalNodeLabel,
+                    node.state === "current" && styles.finalNodeLabelCurrentReal,
+                  ]}
+                >
+                  {node.label}
+                </Text>
               </View>
             );
           })}
 
           <LinearGradient
-            colors={["rgba(52,120,255,0.98)", "rgba(53,209,255,0.9)"]}
+            colors={["rgba(236,72,153,0.96)", "rgba(255,110,194,0.92)"]}
             start={{ x: 0.12, y: 0.12 }}
             end={{ x: 0.88, y: 1 }}
-            style={styles.finalCoreOrb}
+            style={styles.finalCourseCurrentNode}
           >
-            <Text style={styles.finalCoreKicker}>Current lesson</Text>
-            <Text style={styles.finalCoreTitle}>Lesson 3</Text>
-            <Text style={styles.finalCoreBody}>Turn one stuck thought into a workable reframe.</Text>
+            <Ionicons name="leaf" size={40} color="#081119" />
           </LinearGradient>
         </View>
-
-        <View style={styles.finalStatRow}>
-          <View style={styles.finalStatChip}>
-            <Ionicons name="time-outline" size={14} color={theme.colors.accent} />
-            <Text style={styles.finalStatText}>7 min</Text>
-          </View>
-          <View style={styles.finalStatChip}>
-            <Ionicons name="flash" size={14} color={theme.colors.accent} />
-            <Text style={styles.finalStatText}>+38 XP</Text>
-          </View>
-          <View style={styles.finalStatChip}>
-            <Ionicons name="gift" size={14} color="#ffbf3c" />
-            <Text style={styles.finalStatText}>1 chest</Text>
-          </View>
+        <View style={styles.finalCourseTrailMeta}>
+          <Text style={styles.finalCourseTrailMetaText}>Mental path · circular draft</Text>
         </View>
-
-        <Button
-          label="Enter tonight’s orbit"
-          size="lg"
-          onPress={() => {}}
-          style={styles.finalPrimaryButton}
-        />
-      </Card>
-
-      <Card style={styles.weeklyShell}>
-        <View style={styles.weeklyHeader}>
-          <View style={styles.weeklyTextWrap}>
-            <Text style={styles.sectionEyebrow}>Weekly challenge</Text>
-            <Text style={styles.weeklyTitle}>Three focused sessions this week</Text>
-          </View>
-          <Text style={styles.weeklyCount}>3/5</Text>
-        </View>
-        <ProgressBar value={3} max={5} style={styles.weeklyBar} />
-      </Card>
+      </View>
     </View>
   );
 }
@@ -1113,6 +1097,54 @@ const styles = StyleSheet.create({
     gap: theme.spacing.md,
     padding: theme.spacing.lg,
   },
+  finalCourseNextStepCard: {
+    gap: 6,
+    padding: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+    backgroundColor: theme.colors.card,
+  },
+  finalCourseNextStepHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  finalCourseNextStepIconWrap: {
+    width: 28,
+    height: 28,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(59, 130, 246, 0.16)",
+  },
+  finalCourseNextStepLabel: {
+    fontSize: 12,
+    fontWeight: "700",
+    letterSpacing: 0.4,
+    color: theme.colors.sub,
+    textTransform: "uppercase",
+  },
+  finalCourseNextStepTitle: {
+    fontSize: 17,
+    fontWeight: "800",
+    color: theme.colors.text,
+  },
+  finalCourseNextStepBody: {
+    fontSize: 13,
+    lineHeight: 19,
+    color: theme.colors.sub,
+  },
+  finalCourseNextStepButton: {
+    marginTop: 4,
+    alignSelf: "flex-start",
+    borderRadius: 999,
+  },
+  finalCourseTrailWrap: {
+    gap: theme.spacing.sm,
+    alignItems: "center",
+    paddingTop: theme.spacing.sm,
+  },
   finalHeroTitle: {
     ...theme.typography.h2,
     color: theme.colors.text,
@@ -1376,6 +1408,10 @@ const styles = StyleSheet.create({
     color: "rgba(216,228,245,0.84)",
     textAlign: "center",
   },
+  finalNodeLabelCurrentReal: {
+    color: theme.colors.text,
+    fontWeight: "700",
+  },
   finalCoreOrb: {
     width: 152,
     height: 152,
@@ -1407,6 +1443,27 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,0.92)",
     textAlign: "center",
     maxWidth: 116,
+  },
+  finalCourseCurrentNode: {
+    width: 140,
+    height: 140,
+    borderRadius: 70,
+    alignItems: "center",
+    justifyContent: "center",
+    shadowColor: "rgba(236,72,153,0.88)",
+    shadowOpacity: 0.36,
+    shadowRadius: 20,
+    shadowOffset: { width: 0, height: 8 },
+    elevation: 8,
+    zIndex: 2,
+  },
+  finalCourseTrailMeta: {
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  finalCourseTrailMetaText: {
+    ...theme.typography.caption,
+    color: "rgba(216,228,245,0.56)",
   },
   trailShell: {
     position: "relative",
