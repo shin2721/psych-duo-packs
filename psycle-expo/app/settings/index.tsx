@@ -451,6 +451,13 @@ export default function SettingsScreen() {
                                 testID="open-analytics-debug"
                             />
                             <SettingRow
+                                icon="git-compare"
+                                label="Course Concepts Compare"
+                                onPress={() => router.push('/debug/course-concepts-compare')}
+                                accessibilityLabel="Course Concepts Compare"
+                                testID="open-course-concepts-compare"
+                            />
+                            <SettingRow
                                 icon="planet"
                                 label="Course Orbit Concept"
                                 onPress={() => router.push('/debug/course-path-concept')}
