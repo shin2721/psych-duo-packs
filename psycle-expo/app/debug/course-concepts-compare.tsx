@@ -146,35 +146,9 @@ function PsycleConcept() {
 
   return (
     <View style={styles.sectionGap}>
-      <Card style={styles.nextStepCard}>
-        <View style={styles.nextStepHeader}>
-          <View style={styles.nextStepIconWrap}>
-            <Ionicons name="play" size={16} color={theme.colors.accent} />
-          </View>
-          <Text style={styles.nextStepLabel}>
-            {String(i18n.t("course.nextStep.label"))}
-          </Text>
-        </View>
-        <Text style={styles.nextStepTitle}>
-          {String(i18n.t("course.nextStep.readyTitle"))}
-        </Text>
-        <Text style={styles.nextStepBody}>
-          {String(i18n.t("course.nextStep.readyBody"))}
-        </Text>
-        <Button
-          label={String(i18n.t("course.nextStep.ctaReady"))}
-          size="sm"
-          onPress={() => {}}
-          style={styles.nextStepButton}
-        />
-      </Card>
-
       <Card style={styles.ringCard}>
         <Text style={styles.sectionEyebrow}>Mental unit</Text>
-        <Text style={styles.ringTitle}>Six-lesson ring</Text>
-        <Text style={styles.ringBody}>
-          Keep the current lesson clear, keep the rest atmospheric.
-        </Text>
+        <Text style={styles.ringTitle}>Current chapter ring</Text>
 
         <View
           style={[
@@ -345,42 +319,6 @@ const styles = StyleSheet.create({
   },
   sectionGap: {
     gap: theme.spacing.lg,
-  },
-  nextStepCard: {
-    padding: theme.spacing.lg,
-    borderWidth: 1,
-    borderColor: "rgba(73,103,161,0.5)",
-    gap: theme.spacing.md,
-  },
-  nextStepHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: theme.spacing.sm,
-  },
-  nextStepIconWrap: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(33,53,94,0.9)",
-  },
-  nextStepLabel: {
-    ...theme.typography.body,
-    color: theme.colors.text,
-    fontWeight: "700",
-  },
-  nextStepTitle: {
-    ...theme.typography.h2,
-    color: theme.colors.text,
-  },
-  nextStepBody: {
-    ...theme.typography.body,
-    color: "rgba(216,228,245,0.74)",
-  },
-  nextStepButton: {
-    alignSelf: "flex-start",
-    minWidth: 160,
   },
   ringCard: {
     padding: theme.spacing.lg,
