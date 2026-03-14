@@ -429,124 +429,111 @@ function ClaudeTrailConcept() {
 }
 
 function FinalHybridConcept() {
-  const center = 134;
-  const radius = 94;
   const finalNodes = [
-    { id: "arrival", label: "Arrive", icon: "sparkles" as const, status: "done" as const, angle: -130 },
-    { id: "lesson", label: "Reframe", icon: "flash" as const, status: "current" as const, angle: -18 },
-    { id: "play", label: "Play", icon: "game-controller" as const, status: "locked" as const, angle: 122 },
-    { id: "reward", label: "Collect", icon: "gift" as const, status: "reward" as const, angle: 210 },
+    { id: "arrival", label: "Arrive", icon: "sparkles" as const, state: "done" as const },
+    { id: "lesson", label: "Reframe", icon: "leaf" as const, state: "current" as const },
+    { id: "play", label: "Play", icon: "game-controller" as const, state: "next" as const },
+    { id: "reward", label: "Collect", icon: "gift" as const, state: "reward" as const },
   ];
 
   return (
     <View style={styles.sectionGap}>
       <Card style={styles.finalHeroCard}>
-        <View style={styles.finalHeroCopy}>
-          <Text style={styles.sectionEyebrow}>Tonight&apos;s focus</Text>
-          <Text style={styles.finalHeroTitle}>Anxiety Reframe Sprint</Text>
-          <Text style={styles.finalHeroBody}>
-            Keep the orbit ritual, but start with one clear next step you can finish tonight.
-          </Text>
-        </View>
+        <Text style={styles.sectionEyebrow}>Tonight&apos;s focus</Text>
+        <Text style={styles.finalHeroTitle}>Anxiety Reframe</Text>
+        <Text style={styles.finalHeroBody}>
+          One short lesson, one quick reset, one clean reward.
+        </Text>
 
         <View style={styles.finalStatRow}>
           <View style={styles.finalStatChip}>
-            <Ionicons name="flash" size={14} color={theme.colors.accent} />
+            <Ionicons name="time-outline" size={14} color={theme.colors.accent} />
             <Text style={styles.finalStatText}>7 min</Text>
           </View>
           <View style={styles.finalStatChip}>
-            <Ionicons name="leaf" size={14} color="#b5ff64" />
-            <Text style={styles.finalStatText}>1 lesson</Text>
+            <Ionicons name="flash" size={14} color={theme.colors.accent} />
+            <Text style={styles.finalStatText}>+38 XP</Text>
           </View>
           <View style={styles.finalStatChip}>
             <Ionicons name="gift" size={14} color="#ffbf3c" />
-            <Text style={styles.finalStatText}>1 reward</Text>
+            <Text style={styles.finalStatText}>1 chest</Text>
           </View>
         </View>
 
-        <View style={styles.finalHeroActionRow}>
-          <Button
-            label="Resume lesson 3"
-            size="lg"
-            onPress={() => {}}
-            style={styles.finalPrimaryButton}
-          />
-          <Pressable style={styles.secondaryLink} onPress={() => {}}>
-            <Text style={styles.secondaryLinkText}>Switch genre</Text>
-          </Pressable>
-        </View>
+        <Button
+          label="Resume lesson 3"
+          size="lg"
+          onPress={() => {}}
+          style={styles.finalPrimaryButton}
+        />
       </Card>
 
-      <Card style={styles.finalOrbitCard}>
-        <View style={styles.finalOrbitHeader}>
-          <View>
-            <Text style={styles.sectionEyebrow}>Tonight&apos;s orbit</Text>
-            <Text style={styles.finalOrbitTitle}>Feel the path, don&apos;t decode it</Text>
+      <Card style={styles.finalPathCard}>
+        <View style={styles.finalPathHeader}>
+          <View style={styles.finalPathHeaderCopy}>
+            <Text style={styles.sectionEyebrow}>Tonight&apos;s path</Text>
+            <Text style={styles.finalPathTitle}>Four clear steps</Text>
           </View>
           <View style={styles.finalProgressChip}>
-            <Text style={styles.finalProgressText}>2 / 4 closed</Text>
+            <Text style={styles.finalProgressText}>2 of 4</Text>
           </View>
         </View>
 
-        <View style={styles.finalOrbitStage}>
-          <View style={styles.finalOrbitHalo} />
-          <View style={styles.finalOrbitRingOuter} />
-          <View style={styles.finalOrbitRingInner} />
-
-          {finalNodes.map((node) => {
-            const angleInRadians = (node.angle * Math.PI) / 180;
-            const x = center + radius * Math.cos(angleInRadians);
-            const y = center + radius * Math.sin(angleInRadians);
-
-            return (
+        <View style={styles.finalPathStage}>
+          <View style={styles.finalPathLine} />
+          {finalNodes.map((node) => (
+            <View key={node.id} style={styles.finalPathNodeWrap}>
               <View
-                key={node.id}
                 style={[
-                  styles.finalNodeWrap,
-                  {
-                    left: x - 32,
-                    top: y - 32,
-                  },
+                  styles.finalPathNode,
+                  node.state === "done" && styles.finalPathNodeDone,
+                  node.state === "current" && styles.finalPathNodeCurrent,
+                  node.state === "next" && styles.finalPathNodeNext,
+                  node.state === "reward" && styles.finalPathNodeReward,
                 ]}
               >
-                <View
-                  style={[
-                    styles.finalNode,
-                    node.status === "done" && styles.finalNodeDone,
-                    node.status === "current" && styles.finalNodeCurrent,
-                    node.status === "locked" && styles.finalNodeLocked,
-                    node.status === "reward" && styles.finalNodeReward,
-                  ]}
-                >
-                  <Ionicons
-                    name={node.icon}
-                    size={20}
-                    color={
-                      node.status === "done"
+                <Ionicons
+                  name={node.icon}
+                  size={18}
+                  color={
+                    node.state === "done"
+                      ? "#081119"
+                      : node.state === "current"
                         ? "#081119"
-                        : node.status === "current"
-                          ? "#081119"
-                          : node.status === "reward"
-                            ? "#fff"
-                            : theme.colors.sub
-                    }
-                  />
-                </View>
-                <Text style={styles.finalNodeLabel}>{node.label}</Text>
+                        : node.state === "reward"
+                          ? "#fff"
+                          : theme.colors.sub
+                  }
+                />
               </View>
-            );
-          })}
+              <Text
+                style={[
+                  styles.finalPathNodeLabel,
+                  node.state === "current" && styles.finalPathNodeLabelCurrent,
+                ]}
+              >
+                {node.label}
+              </Text>
+            </View>
+          ))}
+        </View>
 
-          <LinearGradient
-            colors={["rgba(59,130,246,0.98)", "rgba(34,211,238,0.9)"]}
-            start={{ x: 0.1, y: 0.15 }}
-            end={{ x: 0.9, y: 1 }}
-            style={styles.finalCoreOrb}
-          >
-            <Text style={styles.finalCoreKicker}>Current ritual</Text>
-            <Text style={styles.finalCoreTitle}>Lesson 3</Text>
-            <Text style={styles.finalCoreBody}>Turn one stuck thought into a workable reframe.</Text>
-          </LinearGradient>
+        <View style={styles.finalPathFocusCard}>
+          <Text style={styles.finalPathFocusKicker}>Current step</Text>
+          <Text style={styles.finalPathFocusTitle}>Lesson 3</Text>
+          <Text style={styles.finalPathFocusBody}>
+            Turn one stuck thought into a workable reframe.
+          </Text>
+          <View style={styles.finalPathFocusMeta}>
+            <View style={styles.finalPathFocusMetaChip}>
+              <Ionicons name="flash" size={14} color={theme.colors.accent} />
+              <Text style={styles.finalPathFocusMetaText}>+38 XP</Text>
+            </View>
+            <View style={styles.finalPathFocusMetaChip}>
+              <Ionicons name="time-outline" size={14} color={theme.colors.sub} />
+              <Text style={styles.finalPathFocusMetaText}>5 min</Text>
+            </View>
+          </View>
         </View>
       </Card>
 
@@ -1123,16 +1110,13 @@ const styles = StyleSheet.create({
     gap: theme.spacing.md,
     padding: theme.spacing.lg,
   },
-  finalHeroCopy: {
-    gap: theme.spacing.xs,
-  },
   finalHeroTitle: {
     ...theme.typography.h2,
     color: theme.colors.text,
   },
   finalHeroBody: {
     ...theme.typography.label,
-    color: "rgba(216,228,245,0.78)",
+    color: "rgba(216,228,245,0.74)",
   },
   finalStatRow: {
     flexDirection: "row",
@@ -1154,11 +1138,136 @@ const styles = StyleSheet.create({
     ...theme.typography.caption,
     color: theme.colors.text,
   },
-  finalHeroActionRow: {
-    gap: theme.spacing.xs,
-  },
   finalPrimaryButton: {
     width: "100%",
+  },
+  finalPathCard: {
+    gap: theme.spacing.md,
+    padding: theme.spacing.lg,
+  },
+  finalPathHeader: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    gap: theme.spacing.md,
+  },
+  finalPathHeaderCopy: {
+    flex: 1,
+    gap: 2,
+  },
+  finalPathTitle: {
+    ...theme.typography.h3,
+    color: theme.colors.text,
+  },
+  finalPathStage: {
+    position: "relative",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "space-between",
+    minHeight: 96,
+    paddingTop: theme.spacing.xs,
+  },
+  finalPathLine: {
+    position: "absolute",
+    top: 28,
+    left: 28,
+    right: 28,
+    height: 2,
+    borderRadius: 999,
+    backgroundColor: "rgba(73,103,161,0.28)",
+  },
+  finalPathNodeWrap: {
+    width: 72,
+    alignItems: "center",
+    gap: 8,
+    zIndex: 2,
+  },
+  finalPathNode: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(6,19,41,0.96)",
+    borderWidth: 1.5,
+    borderColor: "rgba(73,103,161,0.38)",
+  },
+  finalPathNodeDone: {
+    backgroundColor: "#b5ff64",
+    borderColor: "#e7ffaf",
+    shadowColor: "#b5ff64",
+    shadowOpacity: 0.26,
+    shadowRadius: 10,
+    shadowOffset: { width: 0, height: 0 },
+  },
+  finalPathNodeCurrent: {
+    width: 62,
+    height: 62,
+    borderRadius: 31,
+    backgroundColor: theme.colors.accent,
+    borderColor: "#aef6ff",
+    shadowColor: theme.colors.accent,
+    shadowOpacity: 0.24,
+    shadowRadius: 12,
+    shadowOffset: { width: 0, height: 0 },
+  },
+  finalPathNodeNext: {
+    backgroundColor: "rgba(9,22,48,0.98)",
+    borderColor: "rgba(87,123,192,0.38)",
+  },
+  finalPathNodeReward: {
+    backgroundColor: "rgba(255,174,47,0.96)",
+    borderColor: "#ffec9d",
+  },
+  finalPathNodeLabel: {
+    ...theme.typography.caption,
+    color: "rgba(216,228,245,0.72)",
+    textAlign: "center",
+  },
+  finalPathNodeLabelCurrent: {
+    color: theme.colors.text,
+    fontWeight: "700",
+  },
+  finalPathFocusCard: {
+    gap: theme.spacing.xs,
+    padding: theme.spacing.md,
+    borderRadius: theme.radius.lg,
+    backgroundColor: "rgba(6,19,41,0.92)",
+    borderWidth: 1,
+    borderColor: "rgba(73,103,161,0.22)",
+  },
+  finalPathFocusKicker: {
+    ...theme.typography.caption,
+    color: theme.colors.accent,
+    textTransform: "uppercase",
+    letterSpacing: 1.1,
+  },
+  finalPathFocusTitle: {
+    ...theme.typography.h3,
+    color: theme.colors.text,
+  },
+  finalPathFocusBody: {
+    ...theme.typography.label,
+    color: theme.colors.sub,
+  },
+  finalPathFocusMeta: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: theme.spacing.sm,
+    marginTop: theme.spacing.xs,
+  },
+  finalPathFocusMetaChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
+    paddingHorizontal: theme.spacing.sm,
+    paddingVertical: 8,
+    borderRadius: 999,
+    backgroundColor: "rgba(255,255,255,0.04)",
+  },
+  finalPathFocusMetaText: {
+    ...theme.typography.caption,
+    color: theme.colors.text,
   },
   finalOrbitCard: {
     gap: theme.spacing.md,
