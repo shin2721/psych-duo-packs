@@ -9,6 +9,7 @@ const monorepoRoot = path.resolve(workspaceRoot, "..");
 const remoteRef = "origin/claude/evaluate-probabilistic-fix-UXBGS";
 
 const remoteCandidates = [
+  "psycle-expo/design-previews/trail-vision-v2.html",
   "psycle-expo/design-previews/trail-vision.html",
   "psycle-expo/design-previews/claude/mockup-preview.html",
 ];

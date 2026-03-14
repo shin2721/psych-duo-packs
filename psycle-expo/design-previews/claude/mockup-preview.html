@@ -3,32 +3,45 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=414, initial-scale=1">
-<title>Psycle Trail — Vision Concept</title>
+<title>Psycle Trail — Real Vision</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,800;9..144,900&display=swap');
 
 :root {
-  --bg: #06080f;
-  --surface: #0c1018;
-  --card: rgba(14, 18, 30, 0.85);
-  --glass: rgba(255,255,255,0.03);
-  --glass-border: rgba(255,255,255,0.06);
-  --text: #f0f2f7;
-  --sub: #6b7a94;
-  --dim: #2e3a50;
-  --accent: #c084fc;    /* soft purple */
-  --accent2: #818cf8;   /* indigo */
-  --warm: #fb923c;      /* warm orange */
-  --mint: #34d399;
-  --rose: #fb7185;
-  --gold: #fbbf24;
+  --bg: #faf8f4;
+  --surface: #fff;
+  --card: #fff;
+  --text: #1a1a1a;
+  --sub: #8a8578;
+  --mute: #c5bfb3;
+  --line: #ebe7df;
+
+  /* Warm palette */
+  --clay: #c4704b;
+  --clay-soft: #f0d5c8;
+  --sage: #6b8f71;
+  --sage-soft: #dce8dd;
+  --sand: #d4a96a;
+  --sand-soft: #f5e6cd;
+  --plum: #7c5e8a;
+  --plum-soft: #e3d5ea;
+  --sky: #5d8aa8;
+  --sky-soft: #d0e2ed;
+
+  /* Functional */
+  --done: var(--sage);
+  --done-bg: var(--sage-soft);
+  --current: var(--clay);
+  --current-bg: #fdf0ea;
+  --locked-bg: #f3f1ec;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 body {
-  background: #020408;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: #e8e4dc;
+  font-family: 'Inter', -apple-system, sans-serif;
   color: var(--text);
   display: flex;
   justify-content: center;
@@ -38,7 +51,7 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* ═══ Device Frame ═══ */
+/* ═══ Device ═══ */
 .device {
   width: 393px;
   height: 852px;
@@ -47,827 +60,693 @@ body {
   overflow: hidden;
   position: relative;
   box-shadow:
-    0 0 0 1px rgba(255,255,255,0.06),
-    0 40px 80px -20px rgba(0,0,0,0.8),
-    0 0 120px -40px rgba(192,132,252,0.08);
+    0 0 0 1px rgba(0,0,0,0.04),
+    0 20px 60px -15px rgba(0,0,0,0.15),
+    0 40px 100px -20px rgba(0,0,0,0.1);
 }
-.device-scroll {
+.scroll {
   width: 100%;
   height: 100%;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
 }
-.device-scroll::-webkit-scrollbar { display: none; }
+.scroll::-webkit-scrollbar { display: none; }
 
-/* ═══ Ambient background ═══ */
-.ambient {
-  position: absolute;
-  top: 0; left: 0; right: 0;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-.ambient .orb {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(80px);
-  opacity: 0.12;
-}
-.ambient .orb-1 {
-  width: 300px; height: 300px;
-  background: var(--accent);
-  top: -80px; left: -60px;
-  animation: drift 20s ease-in-out infinite;
-}
-.ambient .orb-2 {
-  width: 200px; height: 200px;
-  background: var(--accent2);
-  top: 400px; right: -40px;
-  animation: drift 25s ease-in-out infinite reverse;
-}
-.ambient .orb-3 {
-  width: 250px; height: 250px;
-  background: var(--rose);
-  top: 900px; left: -30px;
-  animation: drift 22s ease-in-out infinite 5s;
-}
-.ambient .orb-4 {
-  width: 180px; height: 180px;
-  background: var(--mint);
-  top: 1400px; right: -50px;
-  animation: drift 18s ease-in-out infinite 3s;
-}
-@keyframes drift {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  33% { transform: translate(20px, 30px) scale(1.1); }
-  66% { transform: translate(-15px, -20px) scale(0.95); }
+/* ═══ Island ═══ */
+.island { display: flex; justify-content: center; padding-top: 12px; position: sticky; top: 0; z-index: 100; }
+.island-pill { width: 126px; height: 36px; background: #000; border-radius: 20px; }
+
+/* ═══ Status ═══ */
+.status {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 4px 30px 0; font-size: 12px; font-weight: 600; color: var(--sub);
 }
 
-/* Stars */
-.stars {
-  position: absolute;
-  top: 0; left: 0; right: 0; height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
-.star {
-  position: absolute;
-  border-radius: 50%;
-  background: #fff;
-  animation: twinkle var(--dur, 4s) ease-in-out infinite var(--delay, 0s);
-}
-@keyframes twinkle {
-  0%, 100% { opacity: var(--o1, 0.15); }
-  50% { opacity: var(--o2, 0.5); }
+/* ═══ Header ═══ */
+.header { padding: 20px 24px 0; }
+.header .back {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  display: inline-flex; align-items: center; justify-content: center;
+  font-size: 18px; color: var(--sub); cursor: pointer;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
 }
 
-/* ═══ Dynamic Island ═══ */
-.island {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  display: flex;
-  justify-content: center;
-  padding-top: 12px;
+/* ═══ Chapter title — editorial style ═══ */
+.chapter-title {
+  padding: 28px 24px 0;
 }
-.island-pill {
-  width: 126px;
-  height: 36px;
-  background: #000;
-  border-radius: 20px;
-}
-
-/* ═══ Status bar ═══ */
-.status-row {
-  display: flex;
-  justify-content: space-between;
+.chapter-title .eyebrow {
+  display: inline-flex;
   align-items: center;
-  padding: 4px 30px 0;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--sub);
-  position: relative;
-  z-index: 10;
-}
-
-/* ═══ Top nav ═══ */
-.top-nav {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 24px 0;
-  position: relative;
-  z-index: 10;
-}
-.top-nav .back-btn {
-  width: 36px; height: 36px;
-  border-radius: 12px;
-  background: var(--glass);
-  border: 1px solid var(--glass-border);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 16px;
-  color: var(--sub);
-  cursor: pointer;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-}
-.top-nav .streak-pill {
-  margin-left: auto;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  background: rgba(251,191,36,0.08);
-  border: 1px solid rgba(251,191,36,0.15);
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--gold);
-}
-
-/* ═══ Chapter header ═══ */
-.chapter-header {
-  padding: 20px 24px 0;
-  position: relative;
-  z-index: 10;
-}
-.chapter-header .ch-eyebrow {
+  gap: 6px;
   font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.16em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 6px;
+  color: var(--clay);
+  margin-bottom: 10px;
 }
-.chapter-header h1 {
-  font-size: 26px;
+.chapter-title .eyebrow .dot {
+  width: 6px; height: 6px;
+  background: var(--clay);
+  border-radius: 50%;
+}
+.chapter-title h1 {
+  font-family: 'Fraunces', serif;
+  font-size: 36px;
   font-weight: 800;
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-  background: linear-gradient(135deg, var(--text), rgba(255,255,255,0.7));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-.chapter-header .ch-sub {
-  font-size: 13px;
-  color: var(--sub);
-  margin-top: 6px;
-  line-height: 1.4;
-}
-
-/* ═══ Progress ring ═══ */
-.progress-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 24px 4px;
-  position: relative;
-  z-index: 10;
-}
-.progress-ring {
-  width: 40px; height: 40px;
-  position: relative;
-}
-.progress-ring svg {
-  transform: rotate(-90deg);
-}
-.progress-ring .ring-text {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 11px;
-  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: -0.03em;
   color: var(--text);
 }
-.progress-info {
+.chapter-title .desc {
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--sub);
+  margin-top: 8px;
+  max-width: 300px;
+}
+
+/* ═══ Stats strip ═══ */
+.stats-strip {
+  display: flex;
+  gap: 0;
+  margin: 20px 24px 0;
+  background: var(--surface);
+  border-radius: 16px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+}
+.stat-item {
   flex: 1;
+  padding: 14px 0;
+  text-align: center;
+  position: relative;
 }
-.progress-info .pi-label {
-  font-size: 13px;
-  font-weight: 600;
+.stat-item + .stat-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 25%; bottom: 25%;
+  width: 1px;
+  background: var(--line);
+}
+.stat-item .stat-val {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 800;
   color: var(--text);
 }
-.progress-info .pi-sub {
+.stat-item .stat-label {
   font-size: 11px;
-  color: var(--sub);
+  color: var(--mute);
   margin-top: 1px;
+  font-weight: 500;
 }
 
-/* ═══ Trail container ═══ */
+/* ═══ Trail ═══ */
 .trail {
+  padding: 28px 0 40px;
   position: relative;
-  padding: 20px 0 120px;
-  z-index: 5;
 }
 
-/* Spine / connector */
-.spine {
+/* The organic path line */
+.trail-path {
   position: absolute;
-  left: 44px;
+  left: 45px;
   top: 0;
   bottom: 0;
   width: 2px;
   z-index: 1;
 }
-.spine-segment {
+.trail-path .seg {
   position: absolute;
   left: 0;
   width: 2px;
+  border-radius: 1px;
 }
-.spine-segment.done {
-  background: linear-gradient(180deg, var(--accent), var(--accent2));
-  opacity: 0.6;
-  box-shadow: 0 0 8px rgba(192,132,252,0.2);
+.trail-path .seg-done {
+  background: var(--done);
+  opacity: 0.35;
 }
-.spine-segment.future {
-  background: var(--dim);
-  opacity: 0.3;
+.trail-path .seg-future {
+  background: var(--mute);
+  opacity: 0.2;
+  /* dashed effect */
+  background: repeating-linear-gradient(
+    180deg,
+    var(--mute) 0px,
+    var(--mute) 6px,
+    transparent 6px,
+    transparent 12px
+  );
 }
 
-/* ═══ Node base ═══ */
+/* ═══ Node ═══ */
 .node {
   position: relative;
   z-index: 5;
-  padding: 0 20px;
+  padding: 0 24px 0 24px;
 }
-.node-inner {
+.node-row {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  padding: 12px 0;
+  padding: 10px 0;
 }
 
-/* Circle */
-.n-circle {
-  width: 50px;
-  height: 50px;
+/* Circle variants */
+.n-orb {
+  width: 44px;
+  height: 44px;
   border-radius: 50%;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 18px;
   position: relative;
   z-index: 3;
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: all 0.3s ease;
 }
 
-/* Done */
-.node.done .n-circle {
-  background: linear-gradient(145deg, rgba(192,132,252,0.15), rgba(129,140,248,0.1));
-  border: 1.5px solid rgba(192,132,252,0.25);
+/* Done orb */
+.node.done .n-orb {
+  background: var(--done-bg);
+  border: 2px solid var(--done);
 }
-.node.done .n-circle .emoji { opacity: 0.7; filter: saturate(0.6); }
+.node.done .n-orb .icon { opacity: 0.7; }
+.done-tick {
+  position: absolute;
+  bottom: -3px; right: -3px;
+  width: 18px; height: 18px;
+  background: var(--done);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; color: #fff; font-weight: 900;
+  border: 2.5px solid var(--bg);
+  z-index: 4;
+}
 
-/* Current */
-.node.current .n-circle {
-  width: 56px;
-  height: 56px;
-  background: linear-gradient(145deg, var(--accent), var(--accent2));
+/* Current orb */
+.node.current .n-orb {
+  width: 52px; height: 52px;
+  background: var(--current);
+  color: #fff;
   box-shadow:
-    0 0 0 4px rgba(192,132,252,0.12),
-    0 8px 32px -4px rgba(192,132,252,0.5),
-    inset 0 1px 1px rgba(255,255,255,0.2);
-  animation: breathe 3s ease-in-out infinite;
-}
-@keyframes breathe {
-  0%, 100% {
-    box-shadow:
-      0 0 0 4px rgba(192,132,252,0.12),
-      0 8px 32px -4px rgba(192,132,252,0.5),
-      inset 0 1px 1px rgba(255,255,255,0.2);
-  }
-  50% {
-    box-shadow:
-      0 0 0 8px rgba(192,132,252,0.06),
-      0 8px 40px -4px rgba(192,132,252,0.6),
-      inset 0 1px 1px rgba(255,255,255,0.2);
-  }
-}
-.node.current .n-circle .emoji { filter: brightness(1.1); }
-
-/* Locked */
-.node.locked .n-circle {
-  background: rgba(255,255,255,0.02);
-  border: 1.5px solid rgba(255,255,255,0.06);
-}
-.node.locked .n-circle .emoji { opacity: 0.18; filter: saturate(0) brightness(0.6); }
-
-/* Milestone */
-.node.milestone .n-circle {
-  width: 56px;
-  height: 56px;
+    0 0 0 5px rgba(196,112,75,0.12),
+    0 6px 20px -4px rgba(196,112,75,0.35);
+  animation: pulse 3s ease-in-out infinite;
   font-size: 22px;
 }
-.node.milestone.done .n-circle {
-  background: linear-gradient(145deg, rgba(251,191,36,0.15), rgba(251,191,36,0.05));
-  border-color: rgba(251,191,36,0.3);
+@keyframes pulse {
+  0%, 100% { box-shadow: 0 0 0 5px rgba(196,112,75,0.12), 0 6px 20px -4px rgba(196,112,75,0.35); }
+  50% { box-shadow: 0 0 0 10px rgba(196,112,75,0.06), 0 6px 24px -4px rgba(196,112,75,0.4); }
+}
+
+/* Locked orb */
+.node.locked .n-orb {
+  background: var(--locked-bg);
+  border: 1.5px dashed var(--mute);
+  color: var(--mute);
+}
+.node.locked .n-orb .icon { opacity: 0.35; filter: saturate(0); }
+
+/* Reward & milestone locked variants */
+.node.reward .n-orb {
+  background: var(--sand-soft);
+  border: 1.5px dashed var(--sand);
+}
+.node.game .n-orb {
+  background: var(--sky-soft);
+  border: 1.5px dashed var(--sky);
+}
+.node.milestone .n-orb {
+  background: var(--plum-soft);
+  border: 1.5px dashed var(--plum);
+  width: 52px; height: 52px;
+  font-size: 20px;
 }
 
 /* ═══ Node text ═══ */
-.n-body {
+.n-content {
   flex: 1;
-  padding-top: 4px;
+  padding-top: 2px;
   min-width: 0;
 }
-.n-title {
+.n-label {
   font-size: 15px;
   font-weight: 700;
-  line-height: 1.3;
   color: var(--text);
-  letter-spacing: -0.01em;
+  line-height: 1.3;
 }
-.n-desc {
-  font-size: 12px;
+.n-sub {
+  font-size: 12.5px;
   color: var(--sub);
   line-height: 1.45;
   margin-top: 2px;
 }
-.n-meta {
+.n-tags {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-top: 5px;
+  gap: 6px;
+  margin-top: 6px;
+  flex-wrap: wrap;
 }
-.n-meta .xp-badge {
+.tag {
   font-size: 11px;
   font-weight: 600;
-  color: var(--accent);
-  padding: 2px 8px;
-  border-radius: 6px;
-  background: rgba(192,132,252,0.08);
+  padding: 3px 9px;
+  border-radius: 8px;
 }
-.n-meta .check-done {
-  font-size: 11px;
-  color: var(--mint);
+.tag-xp {
+  color: var(--sage);
+  background: var(--sage-soft);
+}
+.tag-done {
+  color: var(--sage);
   font-weight: 600;
-}
-.n-meta .time-badge {
   font-size: 11px;
-  color: var(--sub);
 }
 
-/* Locked text */
-.node.locked .n-title { color: var(--dim); }
-.node.locked .n-desc { color: rgba(255,255,255,0.1); }
+/* locked text */
+.node.locked .n-label { color: var(--mute); }
+.node.locked .n-sub { color: rgba(0,0,0,0.15); }
 
-/* Done: subtler text */
-.node.done .n-title { color: rgba(240,242,247,0.6); }
-.node.done .n-desc { color: rgba(107,122,148,0.6); }
+/* done: subtle */
+.node.done .n-label { color: rgba(26,26,26,0.55); }
+.node.done .n-sub { color: rgba(138,133,120,0.5); }
+.node.done .tag-xp { opacity: 0.5; }
 
-/* ═══ Current node: hero card ═══ */
-.hero-card {
+/* ═══ Hero card ═══ */
+.hero {
+  margin: 8px 20px 12px;
   position: relative;
-  z-index: 5;
-  margin: 4px 20px 8px;
+  z-index: 10;
 }
-.hero-card-inner {
-  display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  background: var(--card);
-  border: 1px solid rgba(192,132,252,0.15);
-  border-radius: 20px;
-  padding: 18px;
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+.hero-inner {
+  background: var(--current-bg);
+  border: 1.5px solid rgba(196,112,75,0.2);
+  border-radius: 24px;
+  padding: 22px 20px;
   position: relative;
   overflow: hidden;
 }
-/* Subtle gradient shine */
-.hero-card-inner::before {
+/* Organic accent shape */
+.hero-inner::before {
   content: '';
   position: absolute;
-  top: -40px; right: -40px;
-  width: 120px; height: 120px;
-  background: radial-gradient(circle, rgba(192,132,252,0.1), transparent 70%);
+  top: -30px; right: -30px;
+  width: 100px; height: 100px;
+  background: rgba(196,112,75,0.06);
+  border-radius: 50%;
   pointer-events: none;
 }
-.hero-content {
-  flex: 1;
-  min-width: 0;
+.hero-inner::after {
+  content: '';
+  position: absolute;
+  bottom: -20px; left: -20px;
+  width: 80px; height: 80px;
+  background: rgba(196,112,75,0.04);
+  border-radius: 50%;
+  pointer-events: none;
 }
-.hero-content .n-title {
-  font-size: 17px;
+
+.hero-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+}
+.hero-text {
+  flex: 1;
+}
+.hero-text .n-label {
+  font-family: 'Fraunces', serif;
+  font-size: 20px;
   font-weight: 800;
+  letter-spacing: -0.02em;
   color: var(--text);
 }
-.hero-content .n-desc {
-  font-size: 13px;
+.hero-text .n-sub {
+  font-size: 13.5px;
   color: var(--sub);
   margin-top: 4px;
   line-height: 1.5;
 }
-.hero-meta {
+.hero-tags {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-top: 8px;
+  gap: 6px;
+  margin-top: 10px;
   flex-wrap: wrap;
 }
-.hero-meta .pill {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 10px;
-  border-radius: 8px;
+.hero-tags .tag {
+  font-size: 11.5px;
+  padding: 4px 11px;
+  border-radius: 10px;
 }
-.hero-meta .pill-xp {
-  color: var(--accent);
-  background: rgba(192,132,252,0.1);
+.htag-xp {
+  color: var(--clay);
+  background: rgba(196,112,75,0.1);
 }
-.hero-meta .pill-time {
+.htag-time {
   color: var(--sub);
-  background: rgba(255,255,255,0.04);
+  background: rgba(0,0,0,0.04);
 }
-.hero-meta .pill-type {
-  color: var(--warm);
-  background: rgba(251,146,60,0.1);
+.htag-type {
+  color: var(--plum);
+  background: var(--plum-soft);
 }
 
 .hero-cta {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  margin-top: 14px;
-  padding: 12px 0;
-  border-radius: 14px;
-  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  gap: 10px;
+  margin-top: 18px;
+  padding: 14px 0;
+  border-radius: 16px;
+  background: var(--clay);
   color: #fff;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 700;
-  letter-spacing: -0.01em;
   cursor: pointer;
-  box-shadow: 0 4px 24px -4px rgba(192,132,252,0.5);
+  box-shadow: 0 4px 16px -4px rgba(196,112,75,0.4);
   transition: all 0.2s;
+  letter-spacing: -0.01em;
 }
 .hero-cta:hover {
   transform: translateY(-1px);
-  box-shadow: 0 8px 32px -4px rgba(192,132,252,0.6);
-}
-.hero-cta .play-icon {
-  width: 20px; height: 20px;
-  background: rgba(255,255,255,0.2);
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
+  box-shadow: 0 6px 24px -4px rgba(196,112,75,0.5);
 }
 
-/* ═══ Section break ═══ */
-.section-break {
+/* ═══ Divider ═══ */
+.divider {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 20px 24px 8px;
-  position: relative;
-  z-index: 10;
+  padding: 16px 28px 8px;
 }
-.section-break .sb-line {
+.divider .d-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, var(--dim), transparent);
+  background: var(--line);
 }
-.section-break .sb-label {
+.divider .d-text {
   font-size: 10px;
   font-weight: 700;
-  letter-spacing: 0.18em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--dim);
-  white-space: nowrap;
+  color: var(--mute);
 }
 
-/* ═══ Reward node special ═══ */
-.node.reward .n-circle {
-  background: linear-gradient(145deg, rgba(251,191,36,0.12), rgba(251,146,60,0.08));
-  border: 1.5px solid rgba(251,191,36,0.2);
+/* ═══ Next chapter peek ═══ */
+.next-chapter {
+  padding: 24px 24px 0;
+  position: relative;
+  z-index: 5;
 }
-.node.reward.locked .n-circle {
-  background: rgba(255,255,255,0.02);
-  border: 1.5px solid rgba(251,191,36,0.08);
+.next-chapter .eyebrow {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--plum);
+  opacity: 0.5;
 }
-
-/* ═══ Game node special ═══ */
-.node.game .n-circle {
-  background: linear-gradient(145deg, rgba(129,140,248,0.12), rgba(99,102,241,0.08));
-  border: 1.5px solid rgba(129,140,248,0.2);
+.next-chapter h2 {
+  font-family: 'Fraunces', serif;
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--mute);
+  margin-top: 4px;
 }
-.node.game.locked .n-circle {
-  background: rgba(255,255,255,0.02);
-  border: 1.5px solid rgba(129,140,248,0.08);
-}
-
-/* ═══ Bottom fade ═══ */
-.bottom-fade {
-  position: fixed;
-  bottom: 0;
-  width: 393px;
-  height: 100px;
-  background: linear-gradient(to top, var(--bg), transparent);
-  pointer-events: none;
-  z-index: 50;
-  border-radius: 0 0 48px 48px;
+.next-chapter .peek-desc {
+  font-size: 13px;
+  color: rgba(0,0,0,0.15);
+  margin-top: 4px;
 }
 
-/* ═══ Completion confetti hint ═══ */
-.done-check {
-  position: absolute;
-  bottom: -2px;
-  right: -2px;
-  width: 18px;
-  height: 18px;
-  background: var(--mint);
-  border-radius: 50%;
+/* peek nodes */
+.peek-nodes {
+  padding: 12px 24px 0;
+}
+.peek-node {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  color: #000;
-  font-weight: 900;
-  border: 2px solid var(--bg);
-  z-index: 4;
+  gap: 14px;
+  padding: 8px 0;
+}
+.peek-node .p-orb {
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  background: rgba(0,0,0,0.025);
+  border: 1px dashed rgba(0,0,0,0.07);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 14px;
+  opacity: 0.3;
+}
+.peek-node .p-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--mute);
+  opacity: 0.4;
+}
+.peek-node:last-child .p-label { opacity: 0.25; }
+.peek-node:last-child .p-orb { opacity: 0.2; }
+
+/* ═══ Bottom safe area ═══ */
+.safe-bottom { height: 60px; }
+
+/* ═══ Streak badge (top right) ═══ */
+.streak-badge {
+  position: absolute;
+  top: 22px;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  border-radius: 12px;
+  background: var(--sand-soft);
+  border: 1px solid rgba(212,169,106,0.2);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--sand);
 }
 
-/* ═══ Scroll hint ═══ */
-.scroll-hint {
-  text-align: center;
-  padding: 40px 0 20px;
-  position: relative;
-  z-index: 10;
-}
-.scroll-hint span {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--dim);
-  letter-spacing: 0.1em;
-}
-.scroll-hint .arrow {
-  display: block;
-  margin-top: 4px;
-  animation: bob 2s ease-in-out infinite;
-  color: var(--dim);
-  font-size: 14px;
-}
-@keyframes bob {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(4px); }
+/* ═══ Subtle texture ═══ */
+.texture {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  opacity: 0.015;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 </style>
 </head>
 <body>
 
+<div class="texture"></div>
+
 <div class="device">
-  <div class="device-scroll">
+  <div class="scroll">
 
-    <!-- Ambient BG -->
-    <div class="ambient">
-      <div class="orb orb-1"></div>
-      <div class="orb orb-2"></div>
-      <div class="orb orb-3"></div>
-      <div class="orb orb-4"></div>
-    </div>
-
-    <!-- Stars -->
-    <div class="stars">
-      <div class="star" style="left:12%;top:8%;width:1.5px;height:1.5px;--o1:0.1;--o2:0.4;--dur:5s;--delay:0s;"></div>
-      <div class="star" style="left:45%;top:5%;width:1px;height:1px;--o1:0.15;--o2:0.35;--dur:4s;--delay:1s;"></div>
-      <div class="star" style="left:78%;top:12%;width:2px;height:2px;--o1:0.08;--o2:0.45;--dur:6s;--delay:2s;"></div>
-      <div class="star" style="left:25%;top:22%;width:1px;height:1px;--o1:0.12;--o2:0.3;--dur:5.5s;--delay:0.5s;"></div>
-      <div class="star" style="left:62%;top:18%;width:1.5px;height:1.5px;--o1:0.1;--o2:0.5;--dur:4.5s;--delay:3s;"></div>
-      <div class="star" style="left:88%;top:30%;width:1px;height:1px;--o1:0.15;--o2:0.35;--dur:5s;--delay:1.5s;"></div>
-      <div class="star" style="left:8%;top:40%;width:1.5px;height:1.5px;--o1:0.1;--o2:0.4;--dur:4s;--delay:2.5s;"></div>
-      <div class="star" style="left:52%;top:35%;width:1px;height:1px;--o1:0.08;--o2:0.3;--dur:6s;--delay:0s;"></div>
-      <div class="star" style="left:35%;top:50%;width:1px;height:1px;--o1:0.12;--o2:0.35;--dur:5s;--delay:4s;"></div>
-      <div class="star" style="left:72%;top:55%;width:1.5px;height:1.5px;--o1:0.1;--o2:0.45;--dur:4.5s;--delay:1s;"></div>
-      <div class="star" style="left:18%;top:65%;width:1px;height:1px;--o1:0.15;--o2:0.3;--dur:5.5s;--delay:3.5s;"></div>
-      <div class="star" style="left:90%;top:70%;width:1px;height:1px;--o1:0.1;--o2:0.4;--dur:4s;--delay:2s;"></div>
-    </div>
-
-    <!-- Dynamic Island -->
     <div class="island"><div class="island-pill"></div></div>
+    <div class="status"><span>12:23</span><span style="letter-spacing:2px;">●●●●</span></div>
 
-    <!-- Status bar -->
-    <div class="status-row">
-      <span>12:23</span>
-      <span style="letter-spacing: 2px;">●●●●</span>
-    </div>
-
-    <!-- Top nav -->
-    <div class="top-nav">
-      <div class="back-btn">←</div>
-      <div class="streak-pill">
+    <!-- Header -->
+    <div class="header" style="position:relative;">
+      <div class="back">←</div>
+      <div class="streak-badge">
         <span>🔥</span>
         <span>12日</span>
       </div>
     </div>
 
-    <!-- Chapter header -->
-    <div class="chapter-header">
-      <div class="ch-eyebrow">Chapter 1 · メンタル</div>
-      <h1>認知の再構成</h1>
-      <div class="ch-sub">ネガティブ思考パターンを認識し、<br>柔軟な視点を身につける</div>
+    <!-- Chapter Title -->
+    <div class="chapter-title">
+      <div class="eyebrow">
+        <span class="dot"></span>
+        Chapter 1
+      </div>
+      <h1>認知の<br>再構成</h1>
+      <div class="desc">ネガティブな自動思考を捉え、<br>より柔軟な視点へ書き換える</div>
     </div>
 
-    <!-- Progress ring -->
-    <div class="progress-row">
-      <div class="progress-ring">
-        <svg width="40" height="40" viewBox="0 0 40 40">
-          <circle cx="20" cy="20" r="16" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="3"/>
-          <circle cx="20" cy="20" r="16" fill="none" stroke="url(#prog-grad)" stroke-width="3"
-            stroke-dasharray="100.5" stroke-dashoffset="57.4" stroke-linecap="round"/>
-          <defs>
-            <linearGradient id="prog-grad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="var(--accent)"/>
-              <stop offset="100%" stop-color="var(--accent2)"/>
-            </linearGradient>
-          </defs>
-        </svg>
-        <div class="ring-text">3/7</div>
+    <!-- Stats -->
+    <div class="stats-strip">
+      <div class="stat-item">
+        <div class="stat-val">3<span style="font-size:14px;color:var(--mute);font-family:Inter;">/7</span></div>
+        <div class="stat-label">完了</div>
       </div>
-      <div class="progress-info">
-        <div class="pi-label">あと4レッスン</div>
-        <div class="pi-sub">このチャプターを完了で ⭐ バッジ獲得</div>
+      <div class="stat-item">
+        <div class="stat-val">24</div>
+        <div class="stat-label">獲得 XP</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-val" style="font-size:18px;">⭐</div>
+        <div class="stat-label">次の報酬</div>
       </div>
     </div>
 
     <!-- ═══ TRAIL ═══ -->
     <div class="trail">
 
-      <!-- Spine segments -->
-      <div class="spine">
-        <div class="spine-segment done" style="top: 22px; height: 210px;"></div>
-        <div class="spine-segment future" style="top: 232px; height: 900px;"></div>
+      <div class="trail-path">
+        <div class="seg seg-done" style="top:12px; height:220px;"></div>
+        <div class="seg seg-future" style="top:232px; height:700px;"></div>
       </div>
 
-      <!-- ── Node 1: Done ── -->
+      <!-- Done 1 -->
       <div class="node done">
-        <div class="node-inner">
-          <div class="n-circle">
-            <span class="emoji">💬</span>
-            <div class="done-check">✓</div>
+        <div class="node-row">
+          <div class="n-orb">
+            <span class="icon">💬</span>
+            <div class="done-tick">✓</div>
           </div>
-          <div class="n-body">
-            <div class="n-title">チェックイン</div>
-            <div class="n-desc">今日の気分を5段階で記録</div>
-            <div class="n-meta">
-              <span class="xp-badge">+4 XP</span>
-              <span class="check-done">完了</span>
+          <div class="n-content">
+            <div class="n-label">チェックイン</div>
+            <div class="n-sub">今日の気分を5段階で記録</div>
+            <div class="n-tags">
+              <span class="tag tag-xp">+4 XP</span>
+              <span class="tag-done">完了</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ── Node 2: Done ── -->
+      <!-- Done 2 -->
       <div class="node done">
-        <div class="node-inner">
-          <div class="n-circle">
-            <span class="emoji">🪞</span>
-            <div class="done-check">✓</div>
+        <div class="node-row">
+          <div class="n-orb">
+            <span class="icon">🪞</span>
+            <div class="done-tick">✓</div>
           </div>
-          <div class="n-body">
-            <div class="n-title">思考キャッチ</div>
-            <div class="n-desc">自動思考を見つけてラベリング</div>
-            <div class="n-meta">
-              <span class="xp-badge">+12 XP</span>
-              <span class="check-done">完了</span>
+          <div class="n-content">
+            <div class="n-label">思考キャッチ</div>
+            <div class="n-sub">自動思考を見つけてラベリング</div>
+            <div class="n-tags">
+              <span class="tag tag-xp">+12 XP</span>
+              <span class="tag-done">完了</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ── Node 3: Done ── -->
+      <!-- Done 3 -->
       <div class="node done">
-        <div class="node-inner">
-          <div class="n-circle">
-            <span class="emoji">🌬️</span>
-            <div class="done-check">✓</div>
+        <div class="node-row">
+          <div class="n-orb">
+            <span class="icon">🌬️</span>
+            <div class="done-tick">✓</div>
           </div>
-          <div class="n-body">
-            <div class="n-title">呼吸プレップ</div>
-            <div class="n-desc">4-7-8 リズムで自律神経を整える</div>
-            <div class="n-meta">
-              <span class="xp-badge">+8 XP</span>
-              <span class="check-done">完了</span>
+          <div class="n-content">
+            <div class="n-label">呼吸プレップ</div>
+            <div class="n-sub">4-7-8 リズムで自律神経を整える</div>
+            <div class="n-tags">
+              <span class="tag tag-xp">+8 XP</span>
+              <span class="tag-done">完了</span>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- ── Node 4: CURRENT → hero card ── -->
-      <div class="hero-card">
-        <div class="hero-card-inner">
-          <div class="node current" style="padding:0;">
-            <div class="n-circle">
-              <span class="emoji">🍃</span>
+      <!-- ═══ HERO: Current ═══ -->
+      <div class="hero">
+        <div class="hero-inner">
+          <div class="hero-top">
+            <div class="node current" style="padding:0;">
+              <div class="n-orb">
+                <span class="icon">🍃</span>
+              </div>
+            </div>
+            <div class="hero-text">
+              <div class="n-label">リフレーム・レッスン</div>
+              <div class="n-sub">ネガティブな出来事を別の角度から捉え直す認知的再評価の技法</div>
+              <div class="hero-tags">
+                <span class="tag htag-xp">+24 XP</span>
+                <span class="tag htag-time">約5分</span>
+                <span class="tag htag-type">MCQ</span>
+              </div>
             </div>
           </div>
-          <div class="hero-content">
-            <div class="n-title">リフレーム・レッスン</div>
-            <div class="n-desc">ネガティブな出来事を別の角度から<br>捉え直す認知的再評価の技法</div>
-            <div class="hero-meta">
-              <span class="pill pill-xp">+24 XP</span>
-              <span class="pill pill-time">約5分</span>
-              <span class="pill pill-type">MCQ</span>
-            </div>
-            <div class="hero-cta">
-              <div class="play-icon">▶</div>
-              レッスンを始める
-            </div>
+          <div class="hero-cta">
+            レッスンを始める →
           </div>
         </div>
       </div>
 
-      <!-- Section break -->
-      <div class="section-break">
-        <div class="sb-line"></div>
-        <div class="sb-label">つづき</div>
-        <div class="sb-line"></div>
+      <!-- Divider -->
+      <div class="divider">
+        <div class="d-line"></div>
+        <div class="d-text">つづき</div>
+        <div class="d-line"></div>
       </div>
 
-      <!-- ── Node 5: Reward (locked) ── -->
-      <div class="node reward locked">
-        <div class="node-inner">
-          <div class="n-circle">
-            <span class="emoji">🎁</span>
+      <!-- Locked: Reward -->
+      <div class="node locked reward">
+        <div class="node-row">
+          <div class="n-orb">
+            <span class="icon">🎁</span>
           </div>
-          <div class="n-body">
-            <div class="n-title">報酬チェスト</div>
-            <div class="n-desc">ジェム & カスタムバッジ</div>
+          <div class="n-content">
+            <div class="n-label">報酬チェスト</div>
+            <div class="n-sub">ジェム & カスタムバッジ</div>
           </div>
         </div>
       </div>
 
-      <!-- ── Node 6: Game (locked) ── -->
-      <div class="node game locked">
-        <div class="node-inner">
-          <div class="n-circle">
-            <span class="emoji">⚖️</span>
+      <!-- Locked: Game -->
+      <div class="node locked game">
+        <div class="node-row">
+          <div class="n-orb">
+            <span class="icon">⚖️</span>
           </div>
-          <div class="n-body">
-            <div class="n-title">エビデンス・バランス</div>
-            <div class="n-desc">根拠を天秤にかけるミニゲーム</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ── Node 7: Milestone (locked) ── -->
-      <div class="node milestone locked">
-        <div class="node-inner">
-          <div class="n-circle">
-            <span class="emoji">⭐</span>
-          </div>
-          <div class="n-body">
-            <div class="n-title">チャプター復習</div>
-            <div class="n-desc">まとめテスト · 全問正解でゴールドバッジ</div>
+          <div class="n-content">
+            <div class="n-label">エビデンス・バランス</div>
+            <div class="n-sub">根拠を天秤にかけるミニゲーム</div>
           </div>
         </div>
       </div>
 
-      <!-- Scroll hint -->
-      <div class="scroll-hint">
-        <span>CHAPTER 2</span>
-        <span class="arrow">↓</span>
-      </div>
-
-      <!-- ── Peek: next chapter ── -->
-      <div style="padding: 0 24px; position: relative; z-index: 10;">
-        <div class="ch-eyebrow" style="font-size:10px; opacity:0.4;">Chapter 2</div>
-        <div style="font-size:18px; font-weight:800; color:var(--dim); margin-top:2px;">感情の理解</div>
-        <div style="font-size:12px; color:rgba(255,255,255,0.12); margin-top:4px;">感情のメカニズムを学び、うまく付き合う方法を探る</div>
-      </div>
-
-      <div style="padding: 16px 20px 0;">
-        <div class="node locked" style="opacity: 0.35;">
-          <div class="node-inner">
-            <div class="n-circle"><span class="emoji">🎭</span></div>
-            <div class="n-body">
-              <div class="n-title">感情ホイール</div>
-              <div class="n-desc">6つの基本感情を識別する</div>
-            </div>
+      <!-- Locked: Milestone -->
+      <div class="node locked milestone">
+        <div class="node-row">
+          <div class="n-orb">
+            <span class="icon">⭐</span>
           </div>
-        </div>
-        <div class="node locked" style="opacity: 0.2;">
-          <div class="node-inner">
-            <div class="n-circle"><span class="emoji">🌊</span></div>
-            <div class="n-body">
-              <div class="n-title">感情サーフィン</div>
-              <div class="n-desc">波のように感情を受け流す</div>
-            </div>
+          <div class="n-content">
+            <div class="n-label">チャプター復習</div>
+            <div class="n-sub">まとめテスト · 全問正解でゴールドバッジ</div>
           </div>
         </div>
       </div>
 
     </div><!-- /trail -->
 
-  </div><!-- /device-scroll -->
+    <!-- Next chapter peek -->
+    <div class="next-chapter">
+      <div class="eyebrow">Chapter 2</div>
+      <h2>感情の理解</h2>
+      <div class="peek-desc">感情のメカニズムを学び、<br>うまく付き合う方法を探る</div>
+    </div>
 
-  <div class="bottom-fade"></div>
+    <div class="peek-nodes">
+      <div class="peek-node">
+        <div class="p-orb">🎭</div>
+        <div class="p-label">感情ホイール</div>
+      </div>
+      <div class="peek-node">
+        <div class="p-orb">🌊</div>
+        <div class="p-label">感情サーフィン</div>
+      </div>
+    </div>
+
+    <div class="safe-bottom"></div>
+
+  </div><!-- /scroll -->
 </div><!-- /device -->
 
 </body>
