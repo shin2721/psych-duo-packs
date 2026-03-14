@@ -17,6 +17,7 @@ import { theme } from "../../lib/theme";
 
 type CompareView = "final" | "codex" | "claude";
 type OrbitNodeStatus = "done" | "locked" | "reward";
+type ClaudeNodeStatus = "done" | "current" | "locked" | "reward" | "game" | "milestone";
 
 type OrbitNode = {
   id: string;
@@ -34,6 +35,72 @@ const orbitNodes: OrbitNode[] = [
   { id: "warm-up", label: "Warm-up", icon: "flash", status: "done", angle: -18 },
   { id: "mini-game", label: "Mini Game", icon: "game-controller", status: "locked", angle: 132 },
   { id: "reward", label: "Reward Chest", icon: "gift", status: "reward", angle: 220 },
+];
+
+const claudeTrailNodes: Array<{
+  id: string;
+  title: string;
+  description: string;
+  icon: string;
+  status: ClaudeNodeStatus;
+  xp?: string;
+  doneLabel?: string;
+  side?: "left" | "right";
+}> = [
+  {
+    id: "check-in",
+    title: "Check-in",
+    description: "Rate how your mind feels before you start.",
+    icon: "sparkles",
+    status: "done",
+    xp: "+4 XP",
+    doneLabel: "Done",
+    side: "left",
+  },
+  {
+    id: "thought-catch",
+    title: "Thought catch",
+    description: "Name the automatic thought you want to work on.",
+    icon: "scan",
+    status: "done",
+    xp: "+12 XP",
+    doneLabel: "Done",
+    side: "right",
+  },
+  {
+    id: "breath-prep",
+    title: "Breath prep",
+    description: "Settle your nervous system before the lesson.",
+    icon: "leaf",
+    status: "done",
+    xp: "+8 XP",
+    doneLabel: "Done",
+    side: "left",
+  },
+  {
+    id: "reward",
+    title: "Reward chest",
+    description: "Gems and a custom badge wait here.",
+    icon: "gift",
+    status: "reward",
+    side: "left",
+  },
+  {
+    id: "game",
+    title: "Evidence balance",
+    description: "A mini game that weighs the evidence.",
+    icon: "game-controller",
+    status: "game",
+    side: "right",
+  },
+  {
+    id: "milestone",
+    title: "Chapter review",
+    description: "A final check with a gold badge on a clean run.",
+    icon: "star",
+    status: "milestone",
+    side: "left",
+  },
 ];
 
 function Header({
@@ -200,93 +267,163 @@ function CodexOrbitConcept() {
   );
 }
 
-function TrailNode({
-  label,
+function ClaudeTrailNode({
+  title,
+  description,
+  icon,
   status,
-  side,
+  xp,
+  doneLabel,
 }: {
-  label: string;
-  status: "done" | "current" | "locked" | "game";
-  side: "left" | "right";
+  title: string;
+  description: string;
+  icon: string;
+  status: Exclude<ClaudeNodeStatus, "current">;
+  xp?: string;
+  doneLabel?: string;
 }) {
-  const iconName =
-    status === "done" ? "checkmark" : status === "current" ? "leaf" : status === "game" ? "game-controller" : "lock-closed";
+  const circleStyle =
+    status === "done"
+      ? styles.claudeNodeCircleDone
+      : status === "reward"
+        ? styles.claudeNodeCircleReward
+        : status === "game"
+          ? styles.claudeNodeCircleGame
+          : status === "milestone"
+            ? styles.claudeNodeCircleMilestone
+            : styles.claudeNodeCircleLocked;
 
   return (
-    <View
-      style={[
-        styles.trailRow,
-        side === "left" ? styles.trailRowLeft : styles.trailRowRight,
-      ]}
-    >
-      <View style={styles.trailNodeWrap}>
-        <View
+    <View style={styles.claudeNodeRow}>
+      <View style={[styles.claudeNodeCircle, circleStyle]}>
+        <Ionicons
+          name={icon as keyof typeof Ionicons.glyphMap}
+          size={22}
+          color={status === "done" ? "#081119" : theme.colors.text}
+        />
+        {status === "done" ? (
+          <View style={styles.claudeDoneBadge}>
+            <Ionicons name="checkmark" size={10} color="#081119" />
+          </View>
+        ) : null}
+      </View>
+      <View style={styles.claudeNodeBody}>
+        <Text
           style={[
-            styles.trailNode,
-            status === "done" && styles.trailNodeDone,
-            status === "current" && styles.trailNodeCurrent,
-            status === "locked" && styles.trailNodeLocked,
+            styles.claudeNodeTitle,
+            status === "locked" && styles.claudeNodeTitleLocked,
           ]}
         >
-          <Ionicons
-            name={iconName}
-            size={24}
-            color={
-              status === "done"
-                ? "#081119"
-                : status === "current"
-                  ? "#fff"
-                  : theme.colors.sub
-            }
-          />
-        </View>
-        <Text style={styles.trailNodeLabel}>{label}</Text>
+          {title}
+        </Text>
+        <Text
+          style={[
+            styles.claudeNodeDescription,
+            status === "locked" && styles.claudeNodeDescriptionLocked,
+          ]}
+        >
+          {description}
+        </Text>
+        {xp || doneLabel ? (
+          <View style={styles.claudeNodeMetaRow}>
+            {xp ? (
+              <View style={styles.claudeXpBadge}>
+                <Text style={styles.claudeXpBadgeText}>{xp}</Text>
+              </View>
+            ) : null}
+            {doneLabel ? <Text style={styles.claudeDoneText}>{doneLabel}</Text> : null}
+          </View>
+        ) : null}
       </View>
     </View>
   );
 }
 
 function ClaudeTrailConcept() {
-  const trailRows = useMemo(
-    () => [
-      { label: "Check-in", status: "done" as const, side: "left" as const },
-      { label: "Mood reset", status: "done" as const, side: "right" as const },
-      { label: "Breathing prep", status: "done" as const, side: "left" as const },
-      { label: "Reframe lesson", status: "current" as const, side: "right" as const },
-      { label: "Reward chest", status: "locked" as const, side: "left" as const },
-      { label: "Mini game", status: "game" as const, side: "right" as const },
-      { label: "Review loop", status: "locked" as const, side: "left" as const },
-    ],
-    [],
-  );
-
   return (
     <View style={styles.sectionGap}>
-      <Card style={styles.claudeNextStepCard}>
-        <View style={styles.claudeNextStepHeader}>
-          <View style={styles.claudeNextStepIcon}>
-            <Ionicons name="play" size={18} color={theme.colors.accent} />
-          </View>
-          <Text style={styles.sectionEyebrow}>Next step</Text>
-        </View>
-        <Text style={styles.claudeNextStepTitle}>Start the next lesson</Text>
-        <Text style={styles.claudeNextStepBody}>A familiar trail with one clear next move at the top.</Text>
-        <Button label="Start lesson" size="md" onPress={() => {}} />
-      </Card>
-
-      <View style={styles.trailShell}>
-        <View style={styles.trailSpine} />
-        {trailRows.map((row) => (
-          <TrailNode key={`${row.side}-${row.label}`} {...row} />
-        ))}
+      <View style={styles.copyBlock}>
+        <Text style={styles.sectionEyebrow}>Chapter 1 · Mental</Text>
+        <Text style={styles.sectionTitle}>Cognitive reframe</Text>
+        <Text style={styles.sectionBody}>A clearer trail that shows what is done, what is next, and what is still waiting.</Text>
       </View>
 
-      <Card style={styles.compareNotesCard}>
-        <Text style={styles.sectionEyebrow}>Claude concept</Text>
-        <Text style={styles.compareNotesBody}>
-          Longer trail, stronger map feeling, less emphasis on a single daily orbit.
-        </Text>
-      </Card>
+      <View style={styles.claudeProgressRow}>
+        <View style={styles.claudeProgressRing}>
+          <View style={styles.claudeProgressRingInner}>
+            <Text style={styles.claudeProgressRingText}>3/7</Text>
+          </View>
+        </View>
+        <View style={styles.claudeProgressInfo}>
+          <Text style={styles.claudeProgressTitle}>4 lessons left</Text>
+          <Text style={styles.claudeProgressSubtitle}>Finish this chapter to unlock a star badge.</Text>
+        </View>
+      </View>
+
+      <View style={styles.claudeTrailShell}>
+        <View style={styles.claudeSpine} />
+        <View style={styles.claudeSpineDone} />
+
+        {claudeTrailNodes.slice(0, 3).map((node) => (
+          <ClaudeTrailNode
+            key={node.id}
+            title={node.title}
+            description={node.description}
+            icon={node.icon}
+            status={node.status as Exclude<ClaudeNodeStatus, "current">}
+            xp={node.xp}
+            doneLabel={node.doneLabel}
+          />
+        ))}
+
+        <Card style={styles.claudeHeroCard}>
+          <View style={styles.claudeHeroInner}>
+            <View style={styles.claudeCurrentCircle}>
+              <Ionicons name="leaf" size={24} color="#fff" />
+            </View>
+            <View style={styles.claudeHeroContent}>
+              <Text style={styles.claudeHeroTitle}>Reframe lesson</Text>
+              <Text style={styles.claudeHeroBody}>
+                Recast a difficult event from a more workable angle.
+              </Text>
+              <View style={styles.claudeHeroMetaRow}>
+                <View style={styles.claudeHeroMetaPill}>
+                  <Text style={styles.claudeHeroMetaText}>+24 XP</Text>
+                </View>
+                <View style={styles.claudeHeroMetaPillMuted}>
+                  <Text style={styles.claudeHeroMetaTextMuted}>5 min</Text>
+                </View>
+                <View style={styles.claudeHeroMetaPillWarm}>
+                  <Text style={styles.claudeHeroMetaTextWarm}>MCQ</Text>
+                </View>
+              </View>
+              <Button label="Start lesson" size="md" onPress={() => {}} style={styles.claudeHeroButton} />
+            </View>
+          </View>
+        </Card>
+
+        <View style={styles.claudeDividerRow}>
+          <View style={styles.claudeDividerLine} />
+          <Text style={styles.claudeDividerLabel}>Continue</Text>
+          <View style={styles.claudeDividerLine} />
+        </View>
+
+        {claudeTrailNodes.slice(3).map((node) => (
+          <ClaudeTrailNode
+            key={node.id}
+            title={node.title}
+            description={node.description}
+            icon={node.icon}
+            status={node.status as Exclude<ClaudeNodeStatus, "current">}
+          />
+        ))}
+
+        <View style={styles.claudeNextChapterHint}>
+          <Text style={styles.sectionEyebrow}>Chapter 2</Text>
+          <Text style={styles.claudeNextChapterTitle}>Emotion literacy</Text>
+          <Text style={styles.claudeNextChapterBody}>The next chapter is already peeking through below the current run.</Text>
+        </View>
+      </View>
     </View>
   );
 }
@@ -720,29 +857,267 @@ const styles = StyleSheet.create({
   weeklyBar: {
     marginTop: theme.spacing.sm,
   },
-  claudeNextStepCard: {
-    gap: theme.spacing.md,
-  },
-  claudeNextStepHeader: {
+  claudeProgressRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.xs,
   },
-  claudeNextStepIcon: {
+  claudeProgressRing: {
     width: 40,
     height: 40,
     borderRadius: 20,
+    borderWidth: 3,
+    borderColor: theme.colors.accent,
+    padding: 3,
+    backgroundColor: "rgba(7,16,33,0.7)",
+  },
+  claudeProgressRingInner: {
+    flex: 1,
+    borderRadius: 999,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "rgba(59,130,246,0.14)",
+    backgroundColor: "rgba(255,255,255,0.04)",
   },
-  claudeNextStepTitle: {
+  claudeProgressRingText: {
+    ...theme.typography.caption,
+    color: theme.colors.text,
+    fontWeight: "800",
+  },
+  claudeProgressInfo: {
+    flex: 1,
+    gap: 2,
+  },
+  claudeProgressTitle: {
+    ...theme.typography.label,
+    color: theme.colors.text,
+  },
+  claudeProgressSubtitle: {
+    ...theme.typography.caption,
+    color: theme.colors.sub,
+  },
+  claudeTrailShell: {
+    position: "relative",
+    paddingTop: theme.spacing.sm,
+    paddingBottom: theme.spacing.xl,
+    paddingHorizontal: theme.spacing.xs,
+    gap: theme.spacing.sm,
+  },
+  claudeSpine: {
+    position: "absolute",
+    left: theme.spacing.xs + 24,
+    top: 18,
+    bottom: 40,
+    width: 2,
+    borderRadius: 999,
+    backgroundColor: "rgba(76,94,132,0.28)",
+  },
+  claudeSpineDone: {
+    position: "absolute",
+    left: theme.spacing.xs + 24,
+    top: 18,
+    width: 2,
+    height: 210,
+    borderRadius: 999,
+    backgroundColor: "rgba(192,132,252,0.55)",
+  },
+  claudeNodeRow: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: theme.spacing.md,
+    paddingHorizontal: theme.spacing.xs,
+    zIndex: 2,
+  },
+  claudeNodeCircle: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(7,16,33,0.9)",
+    borderWidth: 1.5,
+    borderColor: "rgba(255,255,255,0.08)",
+  },
+  claudeNodeCircleDone: {
+    backgroundColor: "rgba(192,132,252,0.14)",
+    borderColor: "rgba(192,132,252,0.25)",
+  },
+  claudeNodeCircleReward: {
+    backgroundColor: "rgba(251,191,36,0.12)",
+    borderColor: "rgba(251,191,36,0.22)",
+  },
+  claudeNodeCircleGame: {
+    backgroundColor: "rgba(129,140,248,0.12)",
+    borderColor: "rgba(129,140,248,0.22)",
+  },
+  claudeNodeCircleMilestone: {
+    backgroundColor: "rgba(251,191,36,0.08)",
+    borderColor: "rgba(251,191,36,0.16)",
+  },
+  claudeNodeCircleLocked: {
+    backgroundColor: "rgba(255,255,255,0.02)",
+    borderColor: "rgba(255,255,255,0.06)",
+  },
+  claudeDoneBadge: {
+    position: "absolute",
+    right: -2,
+    bottom: -2,
+    width: 18,
+    height: 18,
+    borderRadius: 9,
+    backgroundColor: "#34d399",
+    borderWidth: 2,
+    borderColor: theme.colors.bg,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  claudeNodeBody: {
+    flex: 1,
+    paddingTop: 4,
+    gap: 2,
+  },
+  claudeNodeTitle: {
+    ...theme.typography.label,
+    color: theme.colors.text,
+  },
+  claudeNodeTitleLocked: {
+    color: "rgba(111,125,152,0.72)",
+  },
+  claudeNodeDescription: {
+    ...theme.typography.caption,
+    color: theme.colors.sub,
+  },
+  claudeNodeDescriptionLocked: {
+    color: "rgba(111,125,152,0.42)",
+  },
+  claudeNodeMetaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    marginTop: 4,
+  },
+  claudeXpBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 6,
+    backgroundColor: "rgba(192,132,252,0.08)",
+  },
+  claudeXpBadgeText: {
+    ...theme.typography.caption,
+    color: theme.colors.accent,
+  },
+  claudeDoneText: {
+    ...theme.typography.caption,
+    color: "#34d399",
+  },
+  claudeHeroCard: {
+    padding: 0,
+    overflow: "hidden",
+  },
+  claudeHeroInner: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: theme.spacing.md,
+    padding: theme.spacing.lg,
+    backgroundColor: "rgba(14,18,30,0.86)",
+    borderWidth: 1,
+    borderColor: "rgba(192,132,252,0.14)",
+  },
+  claudeCurrentCircle: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: theme.colors.accent,
+    shadowColor: theme.colors.accent,
+    shadowOpacity: 0.34,
+    shadowRadius: 16,
+    shadowOffset: { width: 0, height: 6 },
+  },
+  claudeHeroContent: {
+    flex: 1,
+    gap: theme.spacing.xs,
+  },
+  claudeHeroTitle: {
     ...theme.typography.h3,
     color: theme.colors.text,
   },
-  claudeNextStepBody: {
-    ...theme.typography.label,
+  claudeHeroBody: {
+    ...theme.typography.caption,
     color: theme.colors.sub,
+    lineHeight: 18,
+  },
+  claudeHeroMetaRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    flexWrap: "wrap",
+    gap: 8,
+    marginTop: 4,
+  },
+  claudeHeroMetaPill: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    backgroundColor: "rgba(192,132,252,0.1)",
+  },
+  claudeHeroMetaPillMuted: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    backgroundColor: "rgba(255,255,255,0.04)",
+  },
+  claudeHeroMetaPillWarm: {
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 8,
+    backgroundColor: "rgba(251,146,60,0.12)",
+  },
+  claudeHeroMetaText: {
+    ...theme.typography.caption,
+    color: theme.colors.accent,
+  },
+  claudeHeroMetaTextMuted: {
+    ...theme.typography.caption,
+    color: theme.colors.sub,
+  },
+  claudeHeroMetaTextWarm: {
+    ...theme.typography.caption,
+    color: "#fb923c",
+  },
+  claudeHeroButton: {
+    marginTop: theme.spacing.sm,
+  },
+  claudeDividerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.xs,
+    marginTop: theme.spacing.xs,
+  },
+  claudeDividerLine: {
+    flex: 1,
+    height: 1,
+    backgroundColor: "rgba(76,94,132,0.28)",
+  },
+  claudeDividerLabel: {
+    ...theme.typography.caption,
+    color: "rgba(111,125,152,0.72)",
+    textTransform: "uppercase",
+    letterSpacing: 1.2,
+  },
+  claudeNextChapterHint: {
+    paddingHorizontal: theme.spacing.xs,
+    gap: 4,
+    marginTop: theme.spacing.md,
+  },
+  claudeNextChapterTitle: {
+    ...theme.typography.h3,
+    color: "rgba(111,125,152,0.72)",
+  },
+  claudeNextChapterBody: {
+    ...theme.typography.caption,
+    color: "rgba(111,125,152,0.52)",
   },
   finalHeroCard: {
     gap: theme.spacing.md,
