@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=414, initial-scale=1">
+<title>Trail UI リデザイン提案 — Before / After</title>
+<style>
+  :root {
+    --bg: #0b1220;
+    --card: #111c31;
+    --line: #2d3e5f;
+    --text: #e5e7eb;
+    --sub: #8898b0;
+    --accent: #22d3ee;
+    --success: #22c55e;
+    --pink: #ec4899;
+    --path-done: #ec4899;
+    --path-future: rgba(255,255,255,0.12);
+    --glow-green: #a8ff60;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #060d18;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Hiragino Sans', sans-serif;
+    color: var(--text);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+  }
+
+  .page-header {
+    text-align: center;
+    max-width: 800px;
+  }
+  .page-header .eyebrow {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-size: 32px;
+    font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .page-header p {
+    font-size: 14px;
+    color: var(--sub);
+    line-height: 1.6;
+  }
+
+  /* ── Side by side ── */
+  .compare {
+    display: flex;
+    gap: 32px;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .panel {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    align-items: center;
+  }
+  .panel-label {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 4px 16px;
+    border-radius: 20px;
+    background: rgba(255,255,255,0.06);
+  }
+  .panel-label.before { color: #f87171; }
+  .panel-label.after { color: #34d399; }
+
+  /* ── Device frame ── */
+  .device {
+    width: 375px;
+    height: 812px;
+    background: var(--bg);
+    border-radius: 40px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+    border: 3px solid #222;
+  }
+  .device-inner {
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    position: relative;
+  }
+  .device-inner::-webkit-scrollbar { display: none; }
+
+  /* ── Stars BG (shared) ── */
+  .stars-bg {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    pointer-events: none;
+    background:
+      radial-gradient(1px 1px at 30px 80px, rgba(255,255,255,0.35), transparent),
+      radial-gradient(1px 1px at 120px 40px, rgba(255,255,255,0.25), transparent),
+      radial-gradient(1px 1px at 210px 120px, rgba(255,255,255,0.3), transparent),
+      radial-gradient(1px 1px at 310px 60px, rgba(255,255,255,0.2), transparent),
+      radial-gradient(1px 1px at 60px 200px, rgba(255,255,255,0.25), transparent),
+      radial-gradient(1px 1px at 250px 180px, rgba(255,255,255,0.15), transparent),
+      radial-gradient(1px 1px at 170px 300px, rgba(255,255,255,0.2), transparent),
+      radial-gradient(1px 1px at 340px 350px, rgba(255,255,255,0.25), transparent),
+      radial-gradient(1px 1px at 90px 420px, rgba(255,255,255,0.15), transparent),
+      radial-gradient(1px 1px at 280px 500px, rgba(255,255,255,0.2), transparent);
+  }
+
+  /* ── Status bar ── */
+  .status-bar {
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 28px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text);
+    position: relative;
+    z-index: 10;
+  }
+
+  /* ── Header (shared) ── */
+  .header {
+    padding: 0 20px 12px;
+    position: relative;
+    z-index: 10;
+  }
+  .header .back { font-size: 20px; margin-bottom: 4px; color: var(--sub); }
+  .header .genre-label {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--pink);
+    margin-bottom: 2px;
+  }
+  .header h2 {
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  /* ════════════════════════════════════════
+     BEFORE: Current implementation
+     ════════════════════════════════════════ */
+
+  .trail-before {
+    position: relative;
+    padding: 20px 0 80px;
+  }
+
+  /* Next step card (before) */
+  .next-step-card-before {
+    margin: 0 16px 16px;
+    padding: 14px;
+    border-radius: 14px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    position: relative;
+    z-index: 10;
+  }
+  .next-step-card-before .nsc-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .next-step-card-before .nsc-icon {
+    width: 28px; height: 28px;
+    border-radius: 14px;
+    background: rgba(59,130,246,0.16);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 12px;
+  }
+  .next-step-card-before .nsc-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.4px;
+    color: var(--accent);
+    text-transform: uppercase;
+  }
+  .next-step-card-before h3 { font-size: 17px; font-weight: 800; margin-bottom: 4px; }
+  .next-step-card-before p { font-size: 13px; color: var(--sub); line-height: 1.4; margin-bottom: 8px; }
+  .next-step-card-before .btn-blue {
+    display: inline-block;
+    padding: 8px 20px;
+    border-radius: 999px;
+    background: #3b82f6;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  /* SVG trail path (before) */
+  .trail-svg-before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    pointer-events: none;
+  }
+
+  /* Trail node (before) */
+  .trail-node-before {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    z-index: 5;
+  }
+  .trail-node-before .circle {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    position: relative;
+  }
+  .trail-node-before .circle.done {
+    background: var(--success);
+    box-shadow: 0 0 16px rgba(34,197,94,0.5);
+  }
+  .trail-node-before .circle.current {
+    background: #eaff00;
+    box-shadow: 0 0 30px rgba(234,255,0,0.6);
+    animation: pulse-before 3s ease-in-out infinite;
+  }
+  .trail-node-before .circle.locked {
+    background: transparent;
+    border: 2px solid rgba(255,255,255,0.15);
+  }
+  .trail-node-before .label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--sub);
+    white-space: nowrap;
+  }
+
+  @keyframes pulse-before {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+  }
+
+  /* Floating particles (before) */
+  .particle {
+    position: absolute;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: float-particle 4s ease-in-out infinite;
+  }
+  @keyframes float-particle {
+    0%, 100% { transform: translateY(0) translateX(0); opacity: 0.6; }
+    25% { transform: translateY(-15px) translateX(8px); opacity: 1; }
+    50% { transform: translateY(-5px) translateX(-5px); opacity: 0.4; }
+    75% { transform: translateY(-20px) translateX(12px); opacity: 0.8; }
+  }
+
+  /* ════════════════════════════════════════
+     AFTER: Proposed redesign
+     ════════════════════════════════════════ */
+
+  .trail-after {
+    position: relative;
+    padding: 8px 0 80px;
+  }
+
+  /* Section divider */
+  .section-divider {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 16px 24px 8px;
+    position: relative;
+    z-index: 10;
+  }
+  .section-divider .section-line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(236,72,153,0.3), transparent);
+  }
+  .section-divider .section-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--pink);
+    opacity: 0.7;
+  }
+
+  /* Trail node (after) - card-style */
+  .trail-node-after {
+    position: relative;
+    z-index: 5;
+    padding: 0 20px;
+    margin-bottom: 4px;
+  }
+
+  .node-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 0;
+  }
+
+  /* Connector line */
+  .connector {
+    position: absolute;
+    left: 47px;
+    width: 2px;
+    background: var(--path-future);
+    z-index: 1;
+  }
+  .connector.done {
+    background: linear-gradient(180deg, var(--path-done), var(--path-done));
+    box-shadow: 0 0 6px rgba(236,72,153,0.3);
+  }
+
+  .node-circle {
+    width: 54px;
+    height: 54px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 2;
+    transition: all 0.3s;
+  }
+  .node-circle.done {
+    background: linear-gradient(135deg, var(--success), #16a34a);
+    box-shadow: 0 2px 12px rgba(34,197,94,0.3);
+  }
+  .node-circle.done .icon { opacity: 0.9; }
+  .node-circle.current {
+    background: linear-gradient(135deg, var(--pink), #db2777);
+    box-shadow: 0 0 0 3px rgba(236,72,153,0.25), 0 4px 20px rgba(236,72,153,0.4);
+    animation: pulse-after 2.5s ease-in-out infinite;
+  }
+  .node-circle.locked {
+    background: rgba(255,255,255,0.04);
+    border: 1.5px solid rgba(255,255,255,0.12);
+  }
+  .node-circle.locked .icon { opacity: 0.25; }
+  .node-circle.milestone {
+    width: 62px;
+    height: 62px;
+    font-size: 24px;
+  }
+  .node-circle.milestone.done {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    box-shadow: 0 2px 16px rgba(251,191,36,0.4);
+  }
+
+  @keyframes pulse-after {
+    0%, 100% { box-shadow: 0 0 0 3px rgba(236,72,153,0.25), 0 4px 20px rgba(236,72,153,0.4); }
+    50% { box-shadow: 0 0 0 6px rgba(236,72,153,0.15), 0 4px 28px rgba(236,72,153,0.5); }
+  }
+
+  .node-info {
+    flex: 1;
+    min-width: 0;
+  }
+  .node-info .node-title {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: var(--text);
+  }
+  .node-info .node-sub {
+    font-size: 12px;
+    color: var(--sub);
+    line-height: 1.4;
+    margin-top: 1px;
+  }
+  .node-info .node-xp {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--pink);
+    margin-top: 3px;
+  }
+  .node-info.locked .node-title { color: rgba(255,255,255,0.3); }
+  .node-info.locked .node-sub { color: rgba(255,255,255,0.15); }
+
+  /* Current node CTA integrated */
+  .current-cta-row {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px 0;
+  }
+  .current-card {
+    flex: 1;
+    background: rgba(236,72,153,0.08);
+    border: 1px solid rgba(236,72,153,0.2);
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+  .current-card .node-title { font-size: 16px; font-weight: 800; }
+  .current-card .node-sub { margin-bottom: 10px; }
+  .current-card .btn-start {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 24px;
+    border-radius: 999px;
+    background: linear-gradient(135deg, var(--pink), #db2777);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    box-shadow: 0 4px 16px rgba(236,72,153,0.4);
+  }
+
+  /* Progress mini-bar */
+  .progress-mini {
+    margin: 0 20px 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 10;
+  }
+  .progress-mini .bar-bg {
+    flex: 1;
+    height: 4px;
+    background: rgba(255,255,255,0.08);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-mini .bar-fill {
+    height: 100%;
+    border-radius: 2px;
+    background: linear-gradient(90deg, var(--pink), #f472b6);
+  }
+  .progress-mini .bar-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--sub);
+    white-space: nowrap;
+  }
+
+  /* ── Explanation cards ── */
+  .explain-section {
+    max-width: 820px;
+    width: 100%;
+    display: grid;
+    gap: 16px;
+  }
+  .explain-section h2 {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 4px;
+  }
+  .explain-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+  @media (max-width: 700px) {
+    .explain-grid { grid-template-columns: 1fr; }
+    .compare { flex-direction: column; align-items: center; }
+  }
+  .explain-card {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 16px;
+  }
+  .explain-card h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 6px;
+  }
+  .explain-card p {
+    font-size: 13px;
+    color: var(--sub);
+    line-height: 1.6;
+  }
+  .explain-card .bad { color: #f87171; font-weight: 600; }
+  .explain-card .good { color: #34d399; font-weight: 600; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ Page Header ═══════════════════ -->
+<div class="page-header">
+  <div class="eyebrow">Trail UI Redesign</div>
+  <h1>Before → After 比較</h1>
+  <p>左: 現状のzigzagトレイル（装飾過多・単調）<br>右: 提案するリストトレイル（情報密度↑・装飾↓・CTA統合）</p>
+</div>
+
+<!-- ═══════════════════ Compare ═══════════════════ -->
+<div class="compare">
+
+  <!-- ──────── BEFORE ──────── -->
+  <div class="panel">
+    <div class="panel-label before">BEFORE — 現状</div>
+    <div class="device">
+      <div class="device-inner">
+        <div class="stars-bg"></div>
+
+        <!-- Floating particles (clutter) -->
+        <div class="particle" style="width:5px;height:5px;background:#a8ff60;left:40px;top:200px;animation-delay:0s;"></div>
+        <div class="particle" style="width:4px;height:4px;background:#ffdd60;left:300px;top:300px;animation-delay:0.5s;"></div>
+        <div class="particle" style="width:6px;height:6px;background:#ff9b60;left:80px;top:450px;animation-delay:1s;"></div>
+        <div class="particle" style="width:3px;height:3px;background:#60ffb0;left:280px;top:180px;animation-delay:1.5s;"></div>
+        <div class="particle" style="width:5px;height:5px;background:#a8ff60;left:200px;top:550px;animation-delay:2s;"></div>
+        <div class="particle" style="width:4px;height:4px;background:#ffaa40;left:150px;top:380px;animation-delay:0.8s;"></div>
+        <div class="particle" style="width:5px;height:5px;background:#a8ff60;left:330px;top:480px;animation-delay:1.2s;"></div>
+        <div class="particle" style="width:3px;height:3px;background:#ffdd60;left:60px;top:600px;animation-delay:2.2s;"></div>
+
+        <div class="status-bar">
+          <span>12:23</span>
+          <span>● ● ● ●</span>
+        </div>
+
+        <div class="header">
+          <div class="back">← </div>
+          <div class="genre-label">メンタル</div>
+          <h2>Course concepts</h2>
+        </div>
+
+        <!-- Next Step card (floating, disconnected) -->
+        <div class="next-step-card-before">
+          <div class="nsc-header">
+            <div class="nsc-icon">▶</div>
+            <div class="nsc-label">Next Step</div>
+          </div>
+          <h3>Start the next lesson</h3>
+          <p>A familiar trail with one clear next move at the top.</p>
+          <div class="btn-blue">Start lesson</div>
+        </div>
+
+        <!-- Trail (zigzag, monotonous) -->
+        <div class="trail-before" style="height: 900px;">
+          <svg class="trail-svg-before" viewBox="0 0 375 900" style="height:900px;">
+            <!-- Future path -->
+            <path d="M 100 60 C 100 120, 275 120, 275 180 C 275 240, 100 240, 100 300 C 100 360, 275 360, 275 420 C 275 480, 100 480, 100 540 C 100 600, 275 600, 275 660 C 275 720, 100 720, 100 780"
+              stroke="rgba(255,255,255,0.12)" stroke-width="6" fill="none"/>
+            <!-- Done path -->
+            <path d="M 100 60 C 100 120, 275 120, 275 180 C 275 240, 100 240, 100 300"
+              stroke="#ec4899" stroke-width="10" fill="none" opacity="0.3"/>
+            <path d="M 100 60 C 100 120, 275 120, 275 180 C 275 240, 100 240, 100 300"
+              stroke="#ec4899" stroke-width="4" fill="none" opacity="1"/>
+          </svg>
+
+          <!-- All done nodes look the same (green ✓) -->
+          <div class="trail-node-before" style="left: 70px; top: 35px;">
+            <div class="circle done">✓</div>
+            <span class="label">Check-in</span>
+          </div>
+          <div class="trail-node-before" style="left: 245px; top: 155px;">
+            <div class="circle done">✓</div>
+            <span class="label">Mood reset</span>
+          </div>
+          <div class="trail-node-before" style="left: 70px; top: 275px;">
+            <div class="circle done">✓</div>
+            <span class="label">Breathing</span>
+          </div>
+
+          <!-- Current: bright yellow blob -->
+          <div class="trail-node-before" style="left: 245px; top: 395px;">
+            <div class="circle current">🍃</div>
+            <span class="label">Reframe</span>
+          </div>
+
+          <!-- Locked: all identical dark circles -->
+          <div class="trail-node-before" style="left: 70px; top: 515px;">
+            <div class="circle locked">🔒</div>
+            <span class="label">Reward</span>
+          </div>
+          <div class="trail-node-before" style="left: 245px; top: 635px;">
+            <div class="circle locked">🔒</div>
+            <span class="label">Mini game</span>
+          </div>
+          <div class="trail-node-before" style="left: 70px; top: 755px;">
+            <div class="circle locked">🔒</div>
+            <span class="label">Review</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ──────── AFTER ──────── -->
+  <div class="panel">
+    <div class="panel-label after">AFTER — 提案</div>
+    <div class="device">
+      <div class="device-inner">
+        <div class="stars-bg" style="opacity: 0.4;"></div>
+
+        <div class="status-bar">
+          <span>12:23</span>
+          <span>● ● ● ●</span>
+        </div>
+
+        <div class="header">
+          <div class="back">←</div>
+          <div class="genre-label">メンタル · Chapter 1</div>
+          <h2>認知の再構成</h2>
+        </div>
+
+        <!-- Progress bar (section-level) -->
+        <div class="progress-mini">
+          <div class="bar-bg"><div class="bar-fill" style="width: 43%;"></div></div>
+          <div class="bar-label">3 / 7</div>
+        </div>
+
+        <div class="trail-after">
+
+          <!-- ── Done nodes: show unique icons, compact ── -->
+          <div class="trail-node-after">
+            <div style="position:relative;">
+              <div class="connector done" style="top: 32px; height: 46px;"></div>
+              <div class="node-row">
+                <div class="node-circle done">
+                  <span class="icon">💬</span>
+                </div>
+                <div class="node-info">
+                  <div class="node-title">チェックイン</div>
+                  <div class="node-sub">今日の気分を記録</div>
+                  <div class="node-xp">+4 XP ✓</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="trail-node-after">
+            <div style="position:relative;">
+              <div class="connector done" style="top: 32px; height: 46px;"></div>
+              <div class="node-row">
+                <div class="node-circle done">
+                  <span class="icon">🎭</span>
+                </div>
+                <div class="node-info">
+                  <div class="node-title">ムードリセット</div>
+                  <div class="node-sub">感情ラベリング練習</div>
+                  <div class="node-xp">+12 XP ✓</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="trail-node-after">
+            <div style="position:relative;">
+              <div class="connector done" style="top: 32px; height: 58px;"></div>
+              <div class="node-row">
+                <div class="node-circle done">
+                  <span class="icon">🌬️</span>
+                </div>
+                <div class="node-info">
+                  <div class="node-title">呼吸プレップ</div>
+                  <div class="node-sub">4-7-8 呼吸法</div>
+                  <div class="node-xp">+8 XP ✓</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── CURRENT NODE: CTA integrated directly ── -->
+          <div class="trail-node-after">
+            <div style="position:relative;">
+              <div class="connector" style="top: 80px; height: 32px;"></div>
+              <div class="current-cta-row">
+                <div class="node-circle current" style="align-self: flex-start; margin-top: 12px;">
+                  <span class="icon">🍃</span>
+                </div>
+                <div class="current-card">
+                  <div class="node-title">リフレーム・レッスン</div>
+                  <div class="node-sub">ネガティブ思考を別の角度から捉え直す技法を学ぶ</div>
+                  <div class="node-xp" style="margin-bottom: 8px;">+24 XP · 約5分</div>
+                  <div class="btn-start">▶ レッスンを始める</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section break -->
+          <div class="section-divider">
+            <div class="section-line"></div>
+            <div class="section-label">次のセクション</div>
+            <div class="section-line"></div>
+          </div>
+
+          <!-- ── Locked nodes: dimmed but show what's coming ── -->
+          <div class="trail-node-after">
+            <div style="position:relative;">
+              <div class="connector" style="top: 32px; height: 46px;"></div>
+              <div class="node-row">
+                <div class="node-circle locked">
+                  <span class="icon">🎁</span>
+                </div>
+                <div class="node-info locked">
+                  <div class="node-title">報酬チェスト</div>
+                  <div class="node-sub">ジェム & バッジを獲得</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="trail-node-after">
+            <div style="position:relative;">
+              <div class="connector" style="top: 32px; height: 46px;"></div>
+              <div class="node-row">
+                <div class="node-circle locked">
+                  <span class="icon">🎮</span>
+                </div>
+                <div class="node-info locked">
+                  <div class="node-title">ミニゲーム</div>
+                  <div class="node-sub">エビデンス・バランス</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Milestone node (5th) -->
+          <div class="trail-node-after">
+            <div style="position:relative;">
+              <div class="connector" style="top: 36px; height: 50px;"></div>
+              <div class="node-row">
+                <div class="node-circle locked milestone">
+                  <span class="icon">⭐</span>
+                </div>
+                <div class="node-info locked">
+                  <div class="node-title">チャプター復習</div>
+                  <div class="node-sub">まとめクイズ · ブラックホール</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="trail-node-after" style="opacity: 0.4;">
+            <div style="position:relative;">
+              <div class="node-row">
+                <div class="node-circle locked">
+                  <span class="icon">📖</span>
+                </div>
+                <div class="node-info locked">
+                  <div class="node-title">次のチャプターへ…</div>
+                  <div class="node-sub"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /trail-after -->
+      </div>
+    </div>
+  </div>
+
+</div><!-- /compare -->
+
+<!-- ═══════════════════ Explanation ═══════════════════ -->
+<div class="explain-section">
+  <h2>変更点の解説</h2>
+  <div class="explain-grid">
+    <div class="explain-card">
+      <h3>1. NEXT STEPカード廃止 → CTA統合</h3>
+      <p>
+        <span class="bad">Before:</span> カードが上に浮いてトレイルと分離。タップ先が2箇所。<br>
+        <span class="good">After:</span> currentノード自体にCTAボタンを統合。「ここを押せば始まる」が一目瞭然。
+      </p>
+    </div>
+    <div class="explain-card">
+      <h3>2. ノードに個性を持たせる</h3>
+      <p>
+        <span class="bad">Before:</span> 完了ノードは全部緑✓。何のレッスンだったか不明。<br>
+        <span class="good">After:</span> 完了後もアイコン・タイトル・獲得XPを表示。達成感と振り返りを両立。
+      </p>
+    </div>
+    <div class="explain-card">
+      <h3>3. 背景エフェクト大幅削減</h3>
+      <p>
+        <span class="bad">Before:</span> 星40個+パーティクル24個+firefly+流れ星。ノードが埋もれる。<br>
+        <span class="good">After:</span> 星のみ（opacity 40%）。コンテンツが主役。パフォーマンスも改善。
+      </p>
+    </div>
+    <div class="explain-card">
+      <h3>4. セクション区切り</h3>
+      <p>
+        <span class="bad">Before:</span> 100ノードが延々と同じリズムで並ぶ。章の区切りがない。<br>
+        <span class="good">After:</span> チャプター単位で区切り線。進捗バーで「あと何個」が明確。マイルストーンが視覚的に目立つ。
+      </p>
+    </div>
+    <div class="explain-card">
+      <h3>5. Zigzag → リストレイアウト</h3>
+      <p>
+        <span class="bad">Before:</span> 正弦波ジグザグが機械的。左右にラベルが散らばり読みにくい。<br>
+        <span class="good">After:</span> 左ドット+右テキストのリスト形式。情報密度が高く、スキャンしやすい。Duolingo Pathの良い部分を継承しつつ、テキスト情報を付加。
+      </p>
+    </div>
+    <div class="explain-card">
+      <h3>6. 表示範囲の制限</h3>
+      <p>
+        <span class="bad">Before:</span> 100ノード全描画。スクロール量膨大で現在地を見失う。<br>
+        <span class="good">After:</span> 1チャプター（7ノード前後）のみ表示。進行度に応じてチャプターを切り替え。認知負荷が激減。
+      </p>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
