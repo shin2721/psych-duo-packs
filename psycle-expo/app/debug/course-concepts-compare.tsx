@@ -430,20 +430,92 @@ function ClaudeTrailConcept() {
 
 function FinalHybridConcept() {
   const finalNodes = [
-    { id: "arrival", label: "Arrive", icon: "sparkles" as const, state: "done" as const },
-    { id: "lesson", label: "Reframe", icon: "leaf" as const, state: "current" as const },
-    { id: "play", label: "Play", icon: "game-controller" as const, state: "next" as const },
-    { id: "reward", label: "Collect", icon: "gift" as const, state: "reward" as const },
+    { id: "arrival", label: "Arrive", icon: "sparkles" as const, state: "done" as const, angle: -132 },
+    { id: "lesson", label: "Reframe", icon: "leaf" as const, state: "current" as const, angle: -18 },
+    { id: "play", label: "Play", icon: "game-controller" as const, state: "locked" as const, angle: 128 },
+    { id: "reward", label: "Collect", icon: "gift" as const, state: "reward" as const, angle: 222 },
   ];
+  const stageSize = 268;
+  const center = stageSize / 2;
+  const radius = stageSize / 2 - 42;
 
   return (
     <View style={styles.sectionGap}>
-      <Card style={styles.finalHeroCard}>
+      <View style={styles.copyBlock}>
         <Text style={styles.sectionEyebrow}>Tonight&apos;s focus</Text>
-        <Text style={styles.finalHeroTitle}>Anxiety Reframe</Text>
-        <Text style={styles.finalHeroBody}>
-          One short lesson, one quick reset, one clean reward.
-        </Text>
+        <Text style={styles.sectionTitle}>Anxiety Reframe</Text>
+        <Text style={styles.sectionBody}>A compact orbit that feels like Psycle, not a task list.</Text>
+      </View>
+
+      <Card style={styles.finalOrbitCard}>
+        <View style={styles.finalPathHeader}>
+          <View style={styles.finalPathHeaderCopy}>
+            <Text style={styles.sectionEyebrow}>Tonight&apos;s orbit</Text>
+            <Text style={styles.finalPathTitle}>Four clear steps</Text>
+          </View>
+          <View style={styles.finalProgressChip}>
+            <Text style={styles.finalProgressText}>2 of 4</Text>
+          </View>
+        </View>
+
+        <View style={styles.finalOrbitStage}>
+          <View style={styles.finalOrbitHalo} />
+          <View style={styles.finalOrbitRingOuter} />
+          <View style={styles.finalOrbitRingInner} />
+
+          {finalNodes.map((node) => {
+            const angleInRadians = (node.angle * Math.PI) / 180;
+            const x = center + radius * Math.cos(angleInRadians);
+            const y = center + radius * Math.sin(angleInRadians);
+
+            return (
+              <View
+                key={node.id}
+                style={[
+                  styles.finalNodeWrap,
+                  {
+                    left: x - 32,
+                    top: y - 32,
+                  },
+                ]}
+              >
+                <View
+                  style={[
+                    styles.finalNode,
+                    node.state === "done" && styles.finalNodeDone,
+                    node.state === "current" && styles.finalNodeCurrent,
+                    node.state === "locked" && styles.finalNodeLocked,
+                    node.state === "reward" && styles.finalNodeReward,
+                  ]}
+                >
+                  <Ionicons
+                    name={node.icon}
+                    size={20}
+                    color={
+                      node.state === "done" || node.state === "current"
+                        ? "#081119"
+                        : node.state === "reward"
+                          ? "#fff"
+                          : theme.colors.sub
+                    }
+                  />
+                </View>
+                <Text style={styles.finalNodeLabel}>{node.label}</Text>
+              </View>
+            );
+          })}
+
+          <LinearGradient
+            colors={["rgba(52,120,255,0.98)", "rgba(53,209,255,0.9)"]}
+            start={{ x: 0.12, y: 0.12 }}
+            end={{ x: 0.88, y: 1 }}
+            style={styles.finalCoreOrb}
+          >
+            <Text style={styles.finalCoreKicker}>Current lesson</Text>
+            <Text style={styles.finalCoreTitle}>Lesson 3</Text>
+            <Text style={styles.finalCoreBody}>Turn one stuck thought into a workable reframe.</Text>
+          </LinearGradient>
+        </View>
 
         <View style={styles.finalStatRow}>
           <View style={styles.finalStatChip}>
@@ -461,80 +533,11 @@ function FinalHybridConcept() {
         </View>
 
         <Button
-          label="Resume lesson 3"
+          label="Enter tonight’s orbit"
           size="lg"
           onPress={() => {}}
           style={styles.finalPrimaryButton}
         />
-      </Card>
-
-      <Card style={styles.finalPathCard}>
-        <View style={styles.finalPathHeader}>
-          <View style={styles.finalPathHeaderCopy}>
-            <Text style={styles.sectionEyebrow}>Tonight&apos;s path</Text>
-            <Text style={styles.finalPathTitle}>Four clear steps</Text>
-          </View>
-          <View style={styles.finalProgressChip}>
-            <Text style={styles.finalProgressText}>2 of 4</Text>
-          </View>
-        </View>
-
-        <View style={styles.finalPathStage}>
-          <View style={styles.finalPathLine} />
-          {finalNodes.map((node) => (
-            <View key={node.id} style={styles.finalPathNodeWrap}>
-              <View
-                style={[
-                  styles.finalPathNode,
-                  node.state === "done" && styles.finalPathNodeDone,
-                  node.state === "current" && styles.finalPathNodeCurrent,
-                  node.state === "next" && styles.finalPathNodeNext,
-                  node.state === "reward" && styles.finalPathNodeReward,
-                ]}
-              >
-                <Ionicons
-                  name={node.icon}
-                  size={18}
-                  color={
-                    node.state === "done"
-                      ? "#081119"
-                      : node.state === "current"
-                        ? "#081119"
-                        : node.state === "reward"
-                          ? "#fff"
-                          : theme.colors.sub
-                  }
-                />
-              </View>
-              <Text
-                style={[
-                  styles.finalPathNodeLabel,
-                  node.state === "current" && styles.finalPathNodeLabelCurrent,
-                ]}
-              >
-                {node.label}
-              </Text>
-            </View>
-          ))}
-        </View>
-
-        <View style={styles.finalPathFocusCard}>
-          <Text style={styles.finalPathFocusKicker}>Current step</Text>
-          <Text style={styles.finalPathFocusTitle}>Lesson 3</Text>
-          <Text style={styles.finalPathFocusBody}>
-            Turn one stuck thought into a workable reframe.
-          </Text>
-          <View style={styles.finalPathFocusMeta}>
-            <View style={styles.finalPathFocusMetaChip}>
-              <Ionicons name="flash" size={14} color={theme.colors.accent} />
-              <Text style={styles.finalPathFocusMetaText}>+38 XP</Text>
-            </View>
-            <View style={styles.finalPathFocusMetaChip}>
-              <Ionicons name="time-outline" size={14} color={theme.colors.sub} />
-              <Text style={styles.finalPathFocusMetaText}>5 min</Text>
-            </View>
-          </View>
-        </View>
       </Card>
 
       <Card style={styles.weeklyShell}>
