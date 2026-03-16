@@ -11,7 +11,7 @@ import {
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { WebView } from "react-native-webview";
-import { Button, Card, Pill } from "../../components/ui";
+import { Button, Pill } from "../../components/ui";
 import { StarBackground } from "../../components/StarBackground";
 import { theme } from "../../lib/theme";
 import i18n from "../../lib/i18n";
@@ -142,35 +142,53 @@ function RingNodeChip({
 
 function PsycleConcept() {
   const center = RING_SIZE / 2;
-  const radius = RING_SIZE / 2 - 36;
+  const radius = RING_SIZE / 2 - 44;
 
   return (
     <View style={styles.sectionGap}>
-      <Card style={styles.ringCard}>
+      <View style={styles.copyBlock}>
         <Text style={styles.sectionEyebrow}>Mental unit</Text>
-        <Text style={styles.ringTitle}>Current chapter ring</Text>
+        <Text style={styles.ringTitle}>Anxiety reframe</Text>
+        <Text style={styles.ringBody}>
+          A quiet six-step ring. Finish one lesson and keep the firefly moving.
+        </Text>
+      </View>
 
-        <View
-          style={[
-            styles.ringStage,
-            {
-              width: RING_SIZE,
-              height: RING_SIZE,
-            },
-          ]}
-        >
-          <View style={styles.fireflyAuraOuter} />
-          <View style={styles.fireflyAuraInner} />
-          <View style={styles.fireflyCore}>
-            <Ionicons name="leaf" size={28} color="#081119" />
+      <View style={styles.psycleShell}>
+        <View style={styles.ringHeaderRow}>
+          <View>
+            <Text style={styles.sectionEyebrow}>Current chapter</Text>
+            <Text style={styles.ringHeaderTitle}>Six-light ring</Text>
           </View>
+          <View style={styles.chapterBadge}>
+            <Text style={styles.chapterBadgeText}>2/6</Text>
+          </View>
+        </View>
 
-          {ringNodes.map((node) => {
-            const radians = (node.angle * Math.PI) / 180;
-            const x = center + radius * Math.cos(radians);
-            const y = center + radius * Math.sin(radians);
-            return <RingNodeChip key={node.id} node={node} x={x} y={y} />;
-          })}
+        <View style={styles.psycleStage}>
+          <View
+            style={[
+              styles.ringStage,
+              {
+                width: RING_SIZE,
+                height: RING_SIZE,
+              },
+            ]}
+          >
+            <View style={styles.fireflyHalo} />
+            <View style={styles.fireflyAuraOuter} />
+            <View style={styles.fireflyAuraInner} />
+            <View style={styles.fireflyCore}>
+              <Ionicons name="leaf" size={28} color="#081119" />
+            </View>
+
+            {ringNodes.map((node) => {
+              const radians = (node.angle * Math.PI) / 180;
+              const x = center + radius * Math.cos(radians);
+              const y = center + radius * Math.sin(radians);
+              return <RingNodeChip key={node.id} node={node} x={x} y={y} />;
+            })}
+          </View>
         </View>
 
         <View style={styles.currentStrip}>
@@ -181,24 +199,11 @@ function PsycleConcept() {
               Turn one stuck thought into a workable reframe.
             </Text>
           </View>
-          <View style={styles.currentMetaRow}>
-            <View style={styles.metaChip}>
-              <Ionicons name="time-outline" size={14} color={theme.colors.accent} />
-              <Text style={styles.metaChipText}>7 min</Text>
-            </View>
-            <View style={styles.metaChip}>
-              <Ionicons name="flash" size={14} color={theme.colors.accent} />
-              <Text style={styles.metaChipText}>+38 XP</Text>
-            </View>
-            <View style={styles.metaChip}>
-              <Ionicons name="gift" size={14} color={theme.colors.warn} />
-              <Text style={styles.metaChipText}>chest at L6</Text>
-            </View>
-          </View>
+          <Text style={styles.currentMetaInline}>7 min • +38 XP • chest at L6</Text>
         </View>
 
         <Button label="Open lesson 3" size="lg" onPress={() => {}} />
-      </Card>
+      </View>
     </View>
   );
 }
@@ -320,11 +325,40 @@ const styles = StyleSheet.create({
   sectionGap: {
     gap: theme.spacing.lg,
   },
-  ringCard: {
+  psycleShell: {
+    gap: theme.spacing.lg,
     padding: theme.spacing.lg,
+    borderRadius: theme.radius.xl,
     borderWidth: 1,
-    borderColor: "rgba(73,103,161,0.36)",
+    borderColor: "rgba(73,103,161,0.32)",
+    backgroundColor: "rgba(15,28,49,0.72)",
+  },
+  ringHeaderRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
     gap: theme.spacing.md,
+  },
+  ringHeaderTitle: {
+    ...theme.typography.h3,
+    color: theme.colors.text,
+  },
+  chapterBadge: {
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "rgba(73,103,161,0.45)",
+    backgroundColor: "rgba(8,18,38,0.66)",
+  },
+  chapterBadgeText: {
+    ...theme.typography.label,
+    color: theme.colors.text,
+  },
+  psycleStage: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: theme.spacing.md,
   },
   sectionEyebrow: {
     ...theme.typography.caption,
@@ -346,22 +380,29 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
+  fireflyHalo: {
+    position: "absolute",
+    width: 230,
+    height: 230,
+    borderRadius: 115,
+    backgroundColor: "rgba(232,72,159,0.10)",
+  },
   fireflyAuraOuter: {
     position: "absolute",
-    width: 124,
-    height: 124,
-    borderRadius: 62,
-    backgroundColor: "rgba(232,72,159,0.22)",
+    width: 136,
+    height: 136,
+    borderRadius: 68,
+    backgroundColor: "rgba(232,72,159,0.18)",
     shadowColor: "#e8489f",
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.32,
-    shadowRadius: 28,
+    shadowOpacity: 0.22,
+    shadowRadius: 24,
   },
   fireflyAuraInner: {
     position: "absolute",
-    width: 78,
-    height: 78,
-    borderRadius: 39,
+    width: 84,
+    height: 84,
+    borderRadius: 42,
     backgroundColor: "rgba(232,72,159,0.78)",
   },
   fireflyCore: {
@@ -392,6 +433,10 @@ const styles = StyleSheet.create({
   ringNodeCurrent: {
     backgroundColor: theme.colors.accent,
     borderColor: "rgba(217,252,255,0.9)",
+    shadowColor: theme.colors.accent,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.32,
+    shadowRadius: 20,
   },
   ringNodeLocked: {
     backgroundColor: "rgba(6,16,34,0.92)",
@@ -427,8 +472,12 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   currentStrip: {
-    paddingVertical: theme.spacing.sm,
     gap: theme.spacing.sm,
+    padding: theme.spacing.lg,
+    borderRadius: theme.radius.lg,
+    backgroundColor: "rgba(8,18,38,0.48)",
+    borderWidth: 1,
+    borderColor: "rgba(73,103,161,0.26)",
   },
   currentStripEyebrow: {
     ...theme.typography.caption,
@@ -444,23 +493,7 @@ const styles = StyleSheet.create({
     ...theme.typography.body,
     color: "rgba(216,228,245,0.74)",
   },
-  currentMetaRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: theme.spacing.sm,
-  },
-  metaChip: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    paddingHorizontal: theme.spacing.sm,
-    paddingVertical: 8,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: "rgba(73,103,161,0.45)",
-    backgroundColor: "rgba(8,18,38,0.72)",
-  },
-  metaChipText: {
+  currentMetaInline: {
     ...theme.typography.caption,
     color: theme.colors.text,
   },
