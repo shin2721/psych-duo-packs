@@ -148,60 +148,47 @@ function PsycleConcept() {
     <View style={styles.sectionGap}>
       <View style={styles.copyBlock}>
         <Text style={styles.sectionEyebrow}>Mental unit</Text>
-        <Text style={styles.ringTitle}>Anxiety reframe</Text>
-        <Text style={styles.ringBody}>
-          A quiet six-step ring. Finish one lesson and keep the firefly moving.
-        </Text>
+        <Text style={styles.ringTitle}>Six-light ring</Text>
       </View>
 
-      <View style={styles.psycleShell}>
-        <View style={styles.ringHeaderRow}>
-          <View>
-            <Text style={styles.sectionEyebrow}>Current chapter</Text>
-            <Text style={styles.ringHeaderTitle}>Six-light ring</Text>
-          </View>
-          <View style={styles.chapterBadge}>
-            <Text style={styles.chapterBadgeText}>2/6</Text>
-          </View>
+      <View style={styles.psycleStage}>
+        <View style={styles.ringCounter}>
+          <Text style={styles.ringCounterText}>2/6</Text>
         </View>
-
-        <View style={styles.psycleStage}>
-          <View
-            style={[
-              styles.ringStage,
-              {
-                width: RING_SIZE,
-                height: RING_SIZE,
-              },
-            ]}
-          >
-            <View style={styles.fireflyHalo} />
-            <View style={styles.fireflyAuraOuter} />
-            <View style={styles.fireflyAuraInner} />
-            <View style={styles.fireflyCore}>
-              <Ionicons name="leaf" size={28} color="#081119" />
-            </View>
-
-            {ringNodes.map((node) => {
-              const radians = (node.angle * Math.PI) / 180;
-              const x = center + radius * Math.cos(radians);
-              const y = center + radius * Math.sin(radians);
-              return <RingNodeChip key={node.id} node={node} x={x} y={y} />;
-            })}
+        <View
+          style={[
+            styles.ringStage,
+            {
+              width: RING_SIZE,
+              height: RING_SIZE,
+            },
+          ]}
+        >
+          <View style={styles.ringOuterGlow} />
+          <View style={styles.ringTrackOuter} />
+          <View style={styles.ringTrackInner} />
+          <View style={styles.fireflyAuraOuter} />
+          <View style={styles.fireflyAuraInner} />
+          <View style={styles.fireflyCore}>
+            <Ionicons name="leaf" size={30} color="#081119" />
           </View>
-        </View>
 
-        <View style={styles.currentStrip}>
-          <View>
-            <Text style={styles.currentStripEyebrow}>Current lesson</Text>
-            <Text style={styles.currentStripTitle}>Lesson 3</Text>
-            <Text style={styles.currentStripBody}>
-              Turn one stuck thought into a workable reframe.
-            </Text>
-          </View>
-          <Text style={styles.currentMetaInline}>7 min • +38 XP • chest at L6</Text>
+          {ringNodes.map((node) => {
+            const radians = (node.angle * Math.PI) / 180;
+            const x = center + radius * Math.cos(radians);
+            const y = center + radius * Math.sin(radians);
+            return <RingNodeChip key={node.id} node={node} x={x} y={y} />;
+          })}
         </View>
+      </View>
 
+      <View style={styles.currentStrip}>
+        <Text style={styles.currentStripEyebrow}>Current lesson</Text>
+        <Text style={styles.currentStripTitle}>Lesson 3</Text>
+        <Text style={styles.currentStripBody}>
+          Turn one stuck thought into a workable reframe.
+        </Text>
+        <Text style={styles.currentMetaInline}>7 min • +38 XP • chest at L6</Text>
         <Button label="Open lesson 3" size="lg" onPress={() => {}} />
       </View>
     </View>
@@ -325,40 +312,11 @@ const styles = StyleSheet.create({
   sectionGap: {
     gap: theme.spacing.lg,
   },
-  psycleShell: {
-    gap: theme.spacing.lg,
-    padding: theme.spacing.lg,
-    borderRadius: theme.radius.xl,
-    borderWidth: 1,
-    borderColor: "rgba(73,103,161,0.32)",
-    backgroundColor: "rgba(15,28,49,0.72)",
-  },
-  ringHeaderRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    gap: theme.spacing.md,
-  },
-  ringHeaderTitle: {
-    ...theme.typography.h3,
-    color: theme.colors.text,
-  },
-  chapterBadge: {
-    paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.sm,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: "rgba(73,103,161,0.45)",
-    backgroundColor: "rgba(8,18,38,0.66)",
-  },
-  chapterBadgeText: {
-    ...theme.typography.label,
-    color: theme.colors.text,
-  },
   psycleStage: {
     alignItems: "center",
     justifyContent: "center",
-    paddingVertical: theme.spacing.md,
+    paddingTop: theme.spacing.sm,
+    paddingBottom: theme.spacing.md,
   },
   sectionEyebrow: {
     ...theme.typography.caption,
@@ -380,18 +338,48 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-  fireflyHalo: {
+  ringCounter: {
+    alignSelf: "flex-end",
+    marginBottom: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "rgba(73,103,161,0.45)",
+    backgroundColor: "rgba(8,18,38,0.66)",
+  },
+  ringCounterText: {
+    ...theme.typography.label,
+    color: theme.colors.text,
+  },
+  ringOuterGlow: {
     position: "absolute",
-    width: 230,
-    height: 230,
-    borderRadius: 115,
-    backgroundColor: "rgba(232,72,159,0.10)",
+    width: RING_SIZE,
+    height: RING_SIZE,
+    borderRadius: RING_SIZE / 2,
+    backgroundColor: "rgba(78,137,255,0.10)",
+  },
+  ringTrackOuter: {
+    position: "absolute",
+    width: RING_SIZE - 32,
+    height: RING_SIZE - 32,
+    borderRadius: (RING_SIZE - 32) / 2,
+    borderWidth: 3,
+    borderColor: "rgba(111,146,214,0.55)",
+  },
+  ringTrackInner: {
+    position: "absolute",
+    width: RING_SIZE - 84,
+    height: RING_SIZE - 84,
+    borderRadius: (RING_SIZE - 84) / 2,
+    borderWidth: 2,
+    borderColor: "rgba(127,201,99,0.30)",
   },
   fireflyAuraOuter: {
     position: "absolute",
-    width: 136,
-    height: 136,
-    borderRadius: 68,
+    width: 152,
+    height: 152,
+    borderRadius: 76,
     backgroundColor: "rgba(232,72,159,0.18)",
     shadowColor: "#e8489f",
     shadowOffset: { width: 0, height: 0 },
@@ -400,15 +388,15 @@ const styles = StyleSheet.create({
   },
   fireflyAuraInner: {
     position: "absolute",
-    width: 84,
-    height: 84,
-    borderRadius: 42,
+    width: 92,
+    height: 92,
+    borderRadius: 46,
     backgroundColor: "rgba(232,72,159,0.78)",
   },
   fireflyCore: {
-    width: 64,
-    height: 64,
-    borderRadius: 32,
+    width: 70,
+    height: 70,
+    borderRadius: 35,
     alignItems: "center",
     justifyContent: "center",
   },
