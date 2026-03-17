@@ -286,11 +286,23 @@
     font-weight: 800;
   }
 
-  /* ═══ CONSTELLATION TRAIL ═══ */
+  /* ═══ CONSTELLATION TRAIL v3 — RICH ═══ */
   .trail {
     position: relative;
     height: 680px;
     overflow: hidden;
+  }
+  /* Nebula background layers */
+  .trail::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 25% 20%, rgba(80,60,160,0.12) 0%, transparent 70%),
+      radial-gradient(ellipse 50% 50% at 75% 55%, rgba(40,80,180,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 70% 30% at 50% 80%, rgba(60,30,120,0.06) 0%, transparent 70%);
+    z-index: 0;
+    pointer-events: none;
   }
   .trail svg.trail-path {
     position: absolute;
@@ -313,119 +325,194 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
   }
 
-  /* ── Done: bright star ── */
+  /* ── Done: bright star with cross-spike ── */
   .star.done .star-core {
-    width: 40px; height: 40px;
-    background: radial-gradient(circle, rgba(200,220,255,0.9) 0%, rgba(140,180,255,0.4) 50%, transparent 100%);
+    width: 36px; height: 36px;
+    background: radial-gradient(circle, rgba(210,225,255,0.95) 0%, rgba(160,190,255,0.3) 40%, transparent 70%);
     box-shadow:
-      0 0 8px rgba(180,210,255,0.5),
-      0 0 20px rgba(140,180,255,0.15);
+      0 0 6px rgba(200,220,255,0.6),
+      0 0 16px rgba(160,190,255,0.25),
+      0 0 32px rgba(140,170,255,0.08);
   }
-  /* inner bright point */
+  /* bright core point */
   .star.done .star-core::after {
     content: '';
-    width: 12px; height: 12px;
+    width: 10px; height: 10px;
     border-radius: 50%;
-    background: rgba(230,240,255,0.95);
-    box-shadow: 0 0 6px rgba(255,255,255,0.6);
+    background: #fff;
+    box-shadow: 0 0 8px rgba(255,255,255,0.8), 0 0 2px #fff;
+  }
+  /* cross diffraction spike via SVG in HTML (see below) */
+  .star.done .star-spike {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px; height: 60px;
+    pointer-events: none;
+    opacity: 0.5;
+    mix-blend-mode: screen;
+  }
+  /* twinkle */
+  .star.done { animation: twinkle var(--tw, 4s) ease-in-out infinite; }
+  @keyframes twinkle {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.65; }
   }
 
-  /* ── Current: supernova ── */
+  /* ── Current: supernova with rings ── */
+  .star.current {
+    z-index: 20;
+  }
   .star.current .star-core {
-    width: 64px; height: 64px;
-    background: radial-gradient(circle, rgba(168,255,96,0.3) 0%, rgba(168,255,96,0.08) 50%, transparent 100%);
-    border: 2px solid rgba(168,255,96,0.6);
+    width: 68px; height: 68px;
+    background:
+      radial-gradient(circle, rgba(168,255,96,0.35) 0%, rgba(168,255,96,0.08) 45%, transparent 70%);
+    border: 2px solid rgba(168,255,96,0.5);
     box-shadow:
-      0 0 20px rgba(168,255,96,0.4),
-      0 0 40px rgba(168,255,96,0.15),
-      0 0 60px rgba(168,255,96,0.05);
+      0 0 16px rgba(168,255,96,0.45),
+      0 0 40px rgba(168,255,96,0.2),
+      0 0 80px rgba(168,255,96,0.06);
     animation: supernova 2.5s ease-in-out infinite;
-    color: rgba(168,255,96,0.9);
-    font-size: 24px;
+    overflow: visible;
+  }
+  /* inner SVG icon container */
+  .star.current .star-core svg.star-icon {
+    width: 28px; height: 28px;
+    filter: drop-shadow(0 0 4px rgba(168,255,96,0.5));
+  }
+  /* outer expanding ring */
+  .star.current .ring-pulse {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    border: 1px solid rgba(168,255,96,0.3);
+    transform: translate(-50%, -50%) scale(1);
+    animation: ring-expand 3s ease-out infinite;
+    pointer-events: none;
+  }
+  @keyframes ring-expand {
+    0% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
+    100% { transform: translate(-50%, -50%) scale(1.8); opacity: 0; }
   }
   @keyframes supernova {
     0%, 100% {
-      box-shadow: 0 0 20px rgba(168,255,96,0.4), 0 0 40px rgba(168,255,96,0.15), 0 0 60px rgba(168,255,96,0.05);
+      box-shadow: 0 0 16px rgba(168,255,96,0.45), 0 0 40px rgba(168,255,96,0.2), 0 0 80px rgba(168,255,96,0.06);
       transform: scale(1);
     }
     50% {
-      box-shadow: 0 0 28px rgba(168,255,96,0.5), 0 0 56px rgba(168,255,96,0.2), 0 0 80px rgba(168,255,96,0.08);
-      transform: scale(1.05);
+      box-shadow: 0 0 24px rgba(168,255,96,0.55), 0 0 56px rgba(168,255,96,0.25), 0 0 96px rgba(168,255,96,0.1);
+      transform: scale(1.04);
     }
   }
-  /* play triangle below current */
+  /* play triangle */
   .star-play {
     width: 0; height: 0;
-    border-left: 7px solid transparent;
-    border-right: 7px solid transparent;
-    border-top: 10px solid rgba(168,255,96,0.7);
-    margin: 6px auto 0;
-    filter: drop-shadow(0 0 4px rgba(168,255,96,0.4));
-    animation: play-bounce 1.5s ease-in-out infinite;
+    border-left: 6px solid transparent;
+    border-right: 6px solid transparent;
+    border-top: 9px solid rgba(168,255,96,0.8);
+    margin: 8px auto 0;
+    filter: drop-shadow(0 0 6px rgba(168,255,96,0.5));
+    animation: play-bounce 1.8s ease-in-out infinite;
   }
   @keyframes play-bounce {
     0%, 100% { transform: translateY(0); opacity: 0.7; }
     50% { transform: translateY(3px); opacity: 1; }
   }
 
-  /* ── Locked: visible but muted ── */
+  /* ── Locked: ghostly star ── */
   .star.locked .star-core {
-    width: 28px; height: 28px;
-    background: radial-gradient(circle, rgba(120,140,180,0.12) 0%, transparent 70%);
-    border: 1px solid rgba(120,140,180,0.15);
-    box-shadow: 0 0 8px rgba(120,140,180,0.06);
+    width: 26px; height: 26px;
+    background: radial-gradient(circle, rgba(130,150,200,0.1) 0%, transparent 60%);
+    border: 1px solid rgba(130,150,200,0.12);
+    box-shadow: 0 0 6px rgba(130,150,200,0.05);
   }
   .star.locked .star-core::after {
     content: '';
-    width: 8px; height: 8px;
+    width: 6px; height: 6px;
     border-radius: 50%;
-    background: rgba(160,180,220,0.25);
-    box-shadow: 0 0 3px rgba(160,180,220,0.15);
+    background: rgba(160,180,220,0.2);
+    box-shadow: 0 0 2px rgba(160,180,220,0.15);
+  }
+  /* locked twinkle (very subtle) */
+  .star.locked { animation: twinkle-dim var(--tw, 6s) ease-in-out infinite; }
+  @keyframes twinkle-dim {
+    0%, 100% { opacity: 0.7; }
+    50% { opacity: 0.4; }
   }
 
-  /* ── Milestone: ringed star ── */
+  /* ── Milestone: ringed star with glow ── */
   .star.milestone .star-core {
-    width: 40px; height: 40px;
-    background: radial-gradient(circle, rgba(160,180,240,0.15) 0%, transparent 70%);
-    border: 1.5px solid rgba(160,180,240,0.25);
-    box-shadow: 0 0 12px rgba(160,180,240,0.1);
+    width: 38px; height: 38px;
+    background: radial-gradient(circle, rgba(170,190,255,0.15) 0%, transparent 60%);
+    border: 1.5px solid rgba(170,190,255,0.2);
+    box-shadow:
+      0 0 10px rgba(170,190,255,0.08),
+      0 0 24px rgba(170,190,255,0.04);
   }
   .star.milestone .star-core::after {
     content: '';
     width: 10px; height: 10px;
     border-radius: 50%;
-    background: rgba(180,200,250,0.3);
-    box-shadow: 0 0 4px rgba(180,200,250,0.2);
+    background: rgba(190,210,255,0.3);
+    box-shadow: 0 0 4px rgba(190,210,255,0.2);
   }
-  /* outer ring */
-  .star.milestone .star-core::before {
-    content: '';
+  .star.milestone .ring-outer {
     position: absolute;
-    width: 56px; height: 56px;
-    border-radius: 50%;
-    border: 1px solid rgba(160,180,240,0.15);
     top: 50%; left: 50%;
+    width: 54px; height: 54px;
+    border-radius: 50%;
+    border: 1px solid rgba(170,190,255,0.12);
     transform: translate(-50%, -50%);
+    pointer-events: none;
+  }
+  .star.milestone .ring-outer-2 {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 68px; height: 68px;
+    border-radius: 50%;
+    border: 1px solid rgba(170,190,255,0.06);
+    transform: translate(-50%, -50%);
+    pointer-events: none;
   }
 
-  /* ── Fireflies (current node only) ── */
+  /* ── Fireflies ── */
   .firefly {
     position: absolute;
-    width: 3px; height: 3px;
+    width: 2.5px; height: 2.5px;
     border-radius: 50%;
-    background: #eaff00;
-    box-shadow: 0 0 6px 1px rgba(234,255,0,0.4);
+    background: rgba(200,220,255,0.9);
+    box-shadow: 0 0 4px 1px rgba(180,210,255,0.4);
     z-index: 5;
     animation: fly var(--d, 5s) ease-in-out infinite;
     opacity: 0;
   }
   @keyframes fly {
     0%, 100% { opacity: 0; transform: translate(0, 0); }
-    30% { opacity: 0.7; transform: translate(var(--fx, 8px), var(--fy, -12px)); }
-    60% { opacity: 0.3; transform: translate(calc(var(--fx, 8px) * -0.5), calc(var(--fy, -12px) * 1.3)); }
-    80% { opacity: 0.6; }
+    25% { opacity: 0.8; transform: translate(var(--fx, 8px), var(--fy, -12px)); }
+    50% { opacity: 0.3; transform: translate(calc(var(--fx, 8px) * -0.5), calc(var(--fy, -12px) * 1.3)); }
+    75% { opacity: 0.6; }
+  }
+
+  /* ── Shooting star ── */
+  .shooting-star {
+    position: absolute;
+    width: 50px; height: 1px;
+    background: linear-gradient(90deg, rgba(255,255,255,0.6), transparent);
+    z-index: 2;
+    opacity: 0;
+    animation: shoot 8s linear infinite;
+    animation-delay: var(--delay, 3s);
+    transform-origin: left center;
+  }
+  @keyframes shoot {
+    0% { opacity: 0; transform: translate(0, 0) rotate(-30deg); }
+    2% { opacity: 1; }
+    8% { opacity: 0; transform: translate(120px, 60px) rotate(-30deg); }
+    100% { opacity: 0; }
   }
 
   /* ---- QUESTS SCREEN ---- */
@@ -963,71 +1050,102 @@
       </div>
 
       <div class="trail">
-        <!-- Constellation lines (SVG) -->
+        <!-- SVG: constellation lines + defs -->
         <svg class="trail-path" viewBox="0 0 390 680" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <filter id="line-glow" x="-40%" y="-40%" width="180%" height="180%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
+            <filter id="gl" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="4"/>
             </filter>
+            <filter id="gl2" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2"/>
+            </filter>
+            <linearGradient id="done-line" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(180,210,255,0.5)"/>
+              <stop offset="100%" stop-color="rgba(160,190,255,0.3)"/>
+            </linearGradient>
+            <linearGradient id="trans-line" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" stop-color="rgba(180,210,255,0.3)"/>
+              <stop offset="100%" stop-color="rgba(168,255,96,0.3)"/>
+            </linearGradient>
           </defs>
-          <!-- Done constellation lines: thin, bright, like star connections -->
-          <line x1="160" y1="42" x2="230" y2="120" stroke="rgba(180,210,255,0.35)" stroke-width="1" filter="url(#line-glow)"/>
-          <line x1="160" y1="42" x2="230" y2="120" stroke="rgba(200,220,255,0.5)" stroke-width="1"/>
-          <line x1="230" y1="120" x2="145" y2="205" stroke="rgba(180,210,255,0.35)" stroke-width="1" filter="url(#line-glow)"/>
-          <line x1="230" y1="120" x2="145" y2="205" stroke="rgba(200,220,255,0.5)" stroke-width="1"/>
-          <!-- Done → Current: transition glow -->
-          <line x1="145" y1="205" x2="215" y2="300" stroke="rgba(168,255,96,0.2)" stroke-width="1.5" filter="url(#line-glow)"/>
-          <line x1="145" y1="205" x2="215" y2="300" stroke="rgba(180,230,140,0.4)" stroke-width="1"/>
-          <!-- Current → Future: barely visible -->
-          <line x1="215" y1="300" x2="160" y2="390" stroke="rgba(100,120,160,0.06)" stroke-width="1"/>
-          <line x1="160" y1="390" x2="240" y2="472" stroke="rgba(100,120,160,0.05)" stroke-width="1"/>
-          <line x1="240" y1="472" x2="175" y2="555" stroke="rgba(100,120,160,0.04)" stroke-width="1"/>
-          <line x1="175" y1="555" x2="195" y2="640" stroke="rgba(100,120,160,0.03)" stroke-width="1"/>
+          <!-- Done lines: glow layer -->
+          <line x1="158" y1="38" x2="238" y2="108" stroke="rgba(160,190,255,0.25)" stroke-width="3" filter="url(#gl)"/>
+          <line x1="238" y1="108" x2="148" y2="188" stroke="rgba(160,190,255,0.25)" stroke-width="3" filter="url(#gl)"/>
+          <!-- Done lines: crisp layer -->
+          <line x1="158" y1="38" x2="238" y2="108" stroke="url(#done-line)" stroke-width="1.2" stroke-linecap="round"/>
+          <line x1="238" y1="108" x2="148" y2="188" stroke="url(#done-line)" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- Done → Current: gradient transition -->
+          <line x1="148" y1="188" x2="213" y2="288" stroke="rgba(168,255,96,0.15)" stroke-width="3" filter="url(#gl)"/>
+          <line x1="148" y1="188" x2="213" y2="288" stroke="url(#trans-line)" stroke-width="1.2" stroke-linecap="round"/>
+          <!-- Current → Future: ghostly -->
+          <line x1="213" y1="288" x2="155" y2="378" stroke="rgba(130,150,200,0.07)" stroke-width="0.8" filter="url(#gl2)"/>
+          <line x1="155" y1="378" x2="245" y2="458" stroke="rgba(130,150,200,0.06)" stroke-width="0.8" filter="url(#gl2)"/>
+          <line x1="245" y1="458" x2="178" y2="538" stroke="rgba(130,150,200,0.05)" stroke-width="0.8" filter="url(#gl2)"/>
+          <line x1="178" y1="538" x2="195" y2="618" stroke="rgba(130,150,200,0.04)" stroke-width="0.8" filter="url(#gl2)"/>
         </svg>
 
-        <!-- Fireflies: only near current node -->
-        <div class="firefly" style="top:280px;left:230px;--d:4s;--fx:12px;--fy:-18px;animation-delay:0s;"></div>
-        <div class="firefly" style="top:310px;left:195px;--d:5.5s;--fx:-10px;--fy:-14px;animation-delay:1.5s;"></div>
-        <div class="firefly" style="top:290px;left:250px;--d:6s;--fx:6px;--fy:-22px;animation-delay:3s;"></div>
+        <!-- Shooting star -->
+        <div class="shooting-star" style="top:60px;left:260px;--delay:2s;"></div>
+        <div class="shooting-star" style="top:430px;left:50px;--delay:7s;"></div>
 
-        <!-- ★ Star 1: Done -->
-        <div class="star done" style="left:140px;top:22px;">
+        <!-- Fireflies near current -->
+        <div class="firefly" style="top:270px;left:250px;--d:4s;--fx:14px;--fy:-18px;animation-delay:0s;"></div>
+        <div class="firefly" style="top:300px;left:185px;--d:5.5s;--fx:-12px;--fy:-14px;animation-delay:1.5s;"></div>
+        <div class="firefly" style="top:280px;left:265px;--d:6s;--fx:6px;--fy:-22px;animation-delay:3s;"></div>
+        <div class="firefly" style="top:295px;left:200px;--d:7s;--fx:-8px;--fy:10px;animation-delay:4.5s;"></div>
+
+        <!-- ★ Star 1: Done (twinkle offset) -->
+        <div class="star done" style="left:140px;top:20px;--tw:3.5s;">
           <div class="star-core"></div>
+          <svg class="star-spike" viewBox="0 0 60 60"><line x1="30" y1="4" x2="30" y2="56" stroke="rgba(200,220,255,0.4)" stroke-width="0.5"/><line x1="4" y1="30" x2="56" y2="30" stroke="rgba(200,220,255,0.4)" stroke-width="0.5"/></svg>
         </div>
 
         <!-- ★ Star 2: Done -->
-        <div class="star done" style="left:210px;top:100px;">
+        <div class="star done" style="left:220px;top:90px;--tw:4.2s;">
           <div class="star-core"></div>
+          <svg class="star-spike" viewBox="0 0 60 60"><line x1="30" y1="6" x2="30" y2="54" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"/><line x1="6" y1="30" x2="54" y2="30" stroke="rgba(200,220,255,0.35)" stroke-width="0.5"/></svg>
         </div>
 
         <!-- ★ Star 3: Done -->
-        <div class="star done" style="left:125px;top:185px;">
+        <div class="star done" style="left:130px;top:170px;--tw:3.8s;">
           <div class="star-core"></div>
+          <svg class="star-spike" viewBox="0 0 60 60"><line x1="30" y1="5" x2="30" y2="55" stroke="rgba(200,220,255,0.3)" stroke-width="0.5"/><line x1="5" y1="30" x2="55" y2="30" stroke="rgba(200,220,255,0.3)" stroke-width="0.5"/></svg>
         </div>
 
         <!-- ★ Star 4: CURRENT (supernova) -->
-        <div class="star current" style="left:183px;top:268px;">
-          <div class="star-core">🍃</div>
+        <div class="star current" style="left:180px;top:255px;">
+          <div class="star-core">
+            <!-- SVG leaf icon instead of emoji -->
+            <svg class="star-icon" viewBox="0 0 24 24" fill="none">
+              <path d="M17 8C17 8 15.5 5 12 4C8.5 3 5 5 4 8C3 11 4 15 8 17C10 18 12 18 12 18C12 18 11 14 12 11C13 8 17 8 17 8Z"
+                    fill="rgba(168,255,96,0.7)" stroke="rgba(168,255,96,0.9)" stroke-width="0.8"/>
+              <path d="M12 18C12 18 12.5 14 11 11" stroke="rgba(168,255,96,0.5)" stroke-width="0.6" fill="none"/>
+            </svg>
+          </div>
+          <div class="ring-pulse"></div>
+          <div class="ring-pulse" style="animation-delay:1s;"></div>
           <div class="star-play"></div>
         </div>
 
         <!-- ★ Star 5: Locked -->
-        <div class="star locked" style="left:148px;top:378px;">
+        <div class="star locked" style="left:142px;top:365px;--tw:5.5s;">
           <div class="star-core"></div>
         </div>
 
         <!-- ★ Star 6: Locked -->
-        <div class="star locked" style="left:228px;top:460px;">
+        <div class="star locked" style="left:232px;top:445px;--tw:6.2s;">
           <div class="star-core"></div>
         </div>
 
         <!-- ★ Star 7: Locked milestone -->
-        <div class="star locked milestone" style="left:163px;top:543px;">
+        <div class="star locked milestone" style="left:165px;top:525px;--tw:7s;">
           <div class="star-core"></div>
+          <div class="ring-outer"></div>
+          <div class="ring-outer-2"></div>
         </div>
 
         <!-- ★ Star 8: Locked -->
-        <div class="star locked" style="left:183px;top:628px;">
+        <div class="star locked" style="left:182px;top:605px;--tw:5s;">
           <div class="star-core"></div>
         </div>
       </div>
