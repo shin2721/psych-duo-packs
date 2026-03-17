@@ -286,7 +286,7 @@
     font-weight: 800;
   }
 
-  /* Trail */
+  /* ═══ CONSTELLATION TRAIL ═══ */
   .trail {
     position: relative;
     height: 680px;
@@ -299,150 +299,129 @@
     z-index: 1;
     pointer-events: none;
   }
-  .trail-node {
+
+  /* ── Star node (base) ── */
+  .star {
     position: absolute;
     z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
     cursor: pointer;
     transition: transform 0.2s;
   }
-  .trail-node:hover { transform: scale(1.08); }
-  .trail-orb {
-    width: 56px;
-    height: 56px;
+  .star:hover { transform: scale(1.12); }
+  .star-core {
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 22px;
-    position: relative;
-  }
-  .trail-lvl {
-    font-size: 10px;
-    font-weight: 700;
-    color: rgba(176,184,196,0.5);
   }
 
-  /* Done */
-  .trail-node.done .trail-orb {
-    background: rgba(34,197,94,0.15);
-    border: 2px solid rgba(34,197,94,0.5);
-    box-shadow: 0 0 12px rgba(34,197,94,0.2);
-  }
-  .trail-node.done .trail-orb .ico { opacity: 0.6; }
-  .trail-node.done .trail-lvl { color: rgba(34,197,94,0.5); }
-  .done-badge {
-    position: absolute;
-    bottom: -2px; right: -2px;
-    width: 18px; height: 18px;
-    background: #22c55e;
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 9px; color: #fff; font-weight: 900;
-    border: 2px solid #0b1220;
-    z-index: 3;
-  }
-
-  /* Current */
-  .trail-node.current .trail-orb {
-    width: 72px; height: 72px;
-    background: radial-gradient(circle, rgba(168,255,96,0.2) 0%, rgba(34,211,238,0.1) 70%, transparent 100%);
-    border: 2.5px solid #a8ff60;
+  /* ── Done: bright star ── */
+  .star.done .star-core {
+    width: 40px; height: 40px;
+    background: radial-gradient(circle, rgba(200,220,255,0.9) 0%, rgba(140,180,255,0.4) 50%, transparent 100%);
     box-shadow:
-      0 0 24px rgba(168,255,96,0.35),
-      0 0 48px rgba(168,255,96,0.12),
-      inset 0 0 16px rgba(168,255,96,0.06);
-    animation: node-pulse 2s ease-in-out infinite;
-    font-size: 28px;
+      0 0 8px rgba(180,210,255,0.5),
+      0 0 20px rgba(140,180,255,0.15);
   }
-  .trail-node.current .trail-lvl { display: none; }
-  .play-label {
-    margin-top: 2px;
-    padding: 4px 14px;
-    border-radius: 12px;
-    background: #a8ff60;
-    color: #0b1220;
-    font-size: 11px;
-    font-weight: 800;
-    letter-spacing: 0.05em;
-    box-shadow: 0 2px 10px rgba(168,255,96,0.35);
-    animation: glow-btn 2s ease-in-out infinite;
+  /* inner bright point */
+  .star.done .star-core::after {
+    content: '';
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: rgba(230,240,255,0.95);
+    box-shadow: 0 0 6px rgba(255,255,255,0.6);
   }
-  @keyframes node-pulse {
+
+  /* ── Current: supernova ── */
+  .star.current .star-core {
+    width: 64px; height: 64px;
+    background: radial-gradient(circle, rgba(168,255,96,0.3) 0%, rgba(168,255,96,0.08) 50%, transparent 100%);
+    border: 2px solid rgba(168,255,96,0.6);
+    box-shadow:
+      0 0 20px rgba(168,255,96,0.4),
+      0 0 40px rgba(168,255,96,0.15),
+      0 0 60px rgba(168,255,96,0.05);
+    animation: supernova 2.5s ease-in-out infinite;
+    color: rgba(168,255,96,0.9);
+    font-size: 24px;
+  }
+  @keyframes supernova {
     0%, 100% {
-      box-shadow: 0 0 24px rgba(168,255,96,0.35), 0 0 48px rgba(168,255,96,0.12), inset 0 0 16px rgba(168,255,96,0.06);
+      box-shadow: 0 0 20px rgba(168,255,96,0.4), 0 0 40px rgba(168,255,96,0.15), 0 0 60px rgba(168,255,96,0.05);
       transform: scale(1);
     }
     50% {
-      box-shadow: 0 0 32px rgba(168,255,96,0.45), 0 0 64px rgba(168,255,96,0.18), inset 0 0 20px rgba(168,255,96,0.1);
-      transform: scale(1.06);
+      box-shadow: 0 0 28px rgba(168,255,96,0.5), 0 0 56px rgba(168,255,96,0.2), 0 0 80px rgba(168,255,96,0.08);
+      transform: scale(1.05);
     }
   }
-  @keyframes glow-btn {
-    0%, 100% { box-shadow: 0 2px 10px rgba(168,255,96,0.35); }
-    50% { box-shadow: 0 4px 18px rgba(168,255,96,0.55); }
+  /* play triangle below current */
+  .star-play {
+    width: 0; height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 10px solid rgba(168,255,96,0.7);
+    margin: 6px auto 0;
+    filter: drop-shadow(0 0 4px rgba(168,255,96,0.4));
+    animation: play-bounce 1.5s ease-in-out infinite;
+  }
+  @keyframes play-bounce {
+    0%, 100% { transform: translateY(0); opacity: 0.7; }
+    50% { transform: translateY(3px); opacity: 1; }
   }
 
-  /* Locked */
-  .trail-node.locked .trail-orb {
+  /* ── Locked: dim point ── */
+  .star.locked .star-core {
+    width: 24px; height: 24px;
+    background: radial-gradient(circle, rgba(100,120,160,0.2) 0%, transparent 70%);
+    box-shadow: 0 0 4px rgba(100,120,160,0.1);
+  }
+  .star.locked .star-core::after {
+    content: '';
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(140,160,200,0.15);
+  }
+
+  /* ── Milestone: ringed star ── */
+  .star.milestone .star-core {
+    width: 36px; height: 36px;
+    background: radial-gradient(circle, rgba(140,160,220,0.15) 0%, transparent 70%);
+    border: 1px solid rgba(140,160,220,0.2);
+    box-shadow: 0 0 8px rgba(140,160,220,0.08);
+  }
+  .star.milestone .star-core::after {
+    content: '';
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(160,180,230,0.2);
+  }
+  /* outer ring */
+  .star.milestone .star-core::before {
+    content: '';
+    position: absolute;
     width: 48px; height: 48px;
-    background: rgba(45,62,95,0.25);
-    border: 1.5px solid rgba(45,62,95,0.5);
-  }
-  .trail-node.locked .ico { opacity: 0.18; filter: saturate(0); font-size: 18px; }
-  .trail-node.locked .trail-lvl { opacity: 0.25; }
-
-  /* Game node */
-  .trail-node.game .trail-orb {
-    background: rgba(34,211,238,0.08);
-    border-color: rgba(34,211,238,0.3);
-  }
-  /* Reward node */
-  .trail-node.reward .trail-orb {
-    background: rgba(234,255,0,0.06);
-    border-color: rgba(234,255,0,0.25);
-  }
-  /* Milestone */
-  .trail-node.milestone .trail-orb {
-    width: 58px; height: 58px;
-    background: rgba(59,130,246,0.08);
-    border-color: rgba(59,130,246,0.3);
+    border-radius: 50%;
+    border: 1px solid rgba(140,160,220,0.1);
+    top: -7px; left: -7px;
   }
 
-  /* Fireflies in trail */
-  .trail-firefly {
+  /* ── Fireflies (current node only) ── */
+  .firefly {
     position: absolute;
     width: 3px; height: 3px;
     border-radius: 50%;
     background: #eaff00;
     box-shadow: 0 0 6px 1px rgba(234,255,0,0.4);
     z-index: 5;
-    animation: fly-float var(--d, 5s) ease-in-out infinite;
+    animation: fly var(--d, 5s) ease-in-out infinite;
     opacity: 0;
   }
-  @keyframes fly-float {
+  @keyframes fly {
     0%, 100% { opacity: 0; transform: translate(0, 0); }
     30% { opacity: 0.7; transform: translate(var(--fx, 8px), var(--fy, -12px)); }
     60% { opacity: 0.3; transform: translate(calc(var(--fx, 8px) * -0.5), calc(var(--fy, -12px) * 1.3)); }
     80% { opacity: 0.6; }
-  }
-
-  /* Mist in trail */
-  .trail-mist {
-    position: absolute;
-    width: 200%; height: 80px;
-    background: linear-gradient(90deg, transparent 0%, rgba(11,18,32,0.5) 40%, transparent 100%);
-    z-index: 3;
-    pointer-events: none;
-    animation: mist-drift 18s linear infinite;
-    opacity: 0.4;
-  }
-  @keyframes mist-drift {
-    0% { transform: translateX(-50%); }
-    100% { transform: translateX(0); }
   }
 
   /* ---- QUESTS SCREEN ---- */
@@ -979,87 +958,73 @@
         </div>
       </div>
 
-      <!-- Genre label (compact) -->
-      <div style="padding:8px 20px 0;display:flex;align-items:center;justify-content:space-between;">
-        <span style="font-size:16px;font-weight:800;color:#e5e7eb;">🧠 認知の再構成</span>
-        <span style="font-size:11px;color:rgba(168,255,96,0.6);font-weight:600;">3/7</span>
-      </div>
-
       <div class="trail">
-        <!-- SVG sinusoidal path -->
+        <!-- Constellation lines (SVG) -->
         <svg class="trail-path" viewBox="0 0 390 680" preserveAspectRatio="xMidYMid meet">
           <defs>
-            <filter id="pg" x="-30%" y="-30%" width="160%" height="160%">
-              <feGaussianBlur in="SourceGraphic" stdDeviation="5"/>
-            </filter>
-            <filter id="pg2" x="-30%" y="-30%" width="160%" height="160%">
+            <filter id="line-glow" x="-40%" y="-40%" width="180%" height="180%">
               <feGaussianBlur in="SourceGraphic" stdDeviation="3"/>
             </filter>
           </defs>
-          <!-- Done glow -->
-          <path d="M 130 50 C 60 100, 80 160, 195 190 C 310 220, 320 280, 260 320"
-                fill="none" stroke="rgba(34,197,94,0.3)" stroke-width="4" stroke-linecap="round" filter="url(#pg)"/>
-          <!-- Done crisp -->
-          <path d="M 130 50 C 60 100, 80 160, 195 190 C 310 220, 320 280, 260 320"
-                fill="none" stroke="rgba(34,197,94,0.45)" stroke-width="2" stroke-linecap="round"/>
-          <!-- Current transition glow -->
-          <path d="M 260 320 C 200 360, 120 370, 170 420"
-                fill="none" stroke="rgba(168,255,96,0.2)" stroke-width="3" stroke-linecap="round" filter="url(#pg2)"/>
-          <path d="M 260 320 C 200 360, 120 370, 170 420"
-                fill="none" stroke="rgba(168,255,96,0.3)" stroke-width="2" stroke-linecap="round"/>
-          <!-- Future (dashed dim) -->
-          <path d="M 170 420 C 220 470, 300 480, 250 530 C 200 580, 100 590, 140 640"
-                fill="none" stroke="rgba(45,62,95,0.3)" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="6 8"/>
+          <!-- Done constellation lines: thin, bright, like star connections -->
+          <line x1="160" y1="42" x2="230" y2="120" stroke="rgba(180,210,255,0.35)" stroke-width="1" filter="url(#line-glow)"/>
+          <line x1="160" y1="42" x2="230" y2="120" stroke="rgba(200,220,255,0.5)" stroke-width="1"/>
+          <line x1="230" y1="120" x2="145" y2="205" stroke="rgba(180,210,255,0.35)" stroke-width="1" filter="url(#line-glow)"/>
+          <line x1="230" y1="120" x2="145" y2="205" stroke="rgba(200,220,255,0.5)" stroke-width="1"/>
+          <!-- Done → Current: transition glow -->
+          <line x1="145" y1="205" x2="215" y2="300" stroke="rgba(168,255,96,0.2)" stroke-width="1.5" filter="url(#line-glow)"/>
+          <line x1="145" y1="205" x2="215" y2="300" stroke="rgba(180,230,140,0.4)" stroke-width="1"/>
+          <!-- Current → Future: barely visible -->
+          <line x1="215" y1="300" x2="160" y2="390" stroke="rgba(100,120,160,0.06)" stroke-width="1"/>
+          <line x1="160" y1="390" x2="240" y2="472" stroke="rgba(100,120,160,0.05)" stroke-width="1"/>
+          <line x1="240" y1="472" x2="175" y2="555" stroke="rgba(100,120,160,0.04)" stroke-width="1"/>
+          <line x1="175" y1="555" x2="195" y2="640" stroke="rgba(100,120,160,0.03)" stroke-width="1"/>
         </svg>
 
-        <!-- Fireflies -->
-        <div class="trail-firefly" style="top:180px;left:220px;--d:5s;--fx:12px;--fy:-18px;animation-delay:0.5s;"></div>
-        <div class="trail-firefly" style="top:350px;left:140px;--d:6s;--fx:-10px;--fy:-15px;animation-delay:2s;"></div>
-        <div class="trail-firefly" style="top:500px;left:260px;--d:4.5s;--fx:8px;--fy:-20px;animation-delay:4s;"></div>
+        <!-- Fireflies: only near current node -->
+        <div class="firefly" style="top:280px;left:230px;--d:4s;--fx:12px;--fy:-18px;animation-delay:0s;"></div>
+        <div class="firefly" style="top:310px;left:195px;--d:5.5s;--fx:-10px;--fy:-14px;animation-delay:1.5s;"></div>
+        <div class="firefly" style="top:290px;left:250px;--d:6s;--fx:6px;--fy:-22px;animation-delay:3s;"></div>
 
-        <!-- Mist -->
-        <div class="trail-mist" style="top:380px;"></div>
-
-        <!-- Node 1: Done -->
-        <div class="trail-node done" style="left:102px;top:26px;">
-          <div class="trail-orb"><span class="ico">💬</span><div class="done-badge">✓</div></div>
-          <span class="trail-lvl">1</span>
+        <!-- ★ Star 1: Done -->
+        <div class="star done" style="left:140px;top:22px;">
+          <div class="star-core"></div>
         </div>
 
-        <!-- Node 2: Done -->
-        <div class="trail-node done" style="left:168px;top:160px;">
-          <div class="trail-orb"><span class="ico">🪞</span><div class="done-badge">✓</div></div>
-          <span class="trail-lvl">2</span>
+        <!-- ★ Star 2: Done -->
+        <div class="star done" style="left:210px;top:100px;">
+          <div class="star-core"></div>
         </div>
 
-        <!-- Node 3: Done -->
-        <div class="trail-node done" style="left:232px;top:292px;">
-          <div class="trail-orb"><span class="ico">🌬️</span><div class="done-badge">✓</div></div>
-          <span class="trail-lvl">3</span>
+        <!-- ★ Star 3: Done -->
+        <div class="star done" style="left:125px;top:185px;">
+          <div class="star-core"></div>
         </div>
 
-        <!-- Node 4: CURRENT -->
-        <div class="trail-node current" style="left:132px;top:385px;">
-          <div class="trail-orb"><span class="ico">🍃</span></div>
-          <div class="play-label">START</div>
+        <!-- ★ Star 4: CURRENT (supernova) -->
+        <div class="star current" style="left:183px;top:268px;">
+          <div class="star-core">🍃</div>
+          <div class="star-play"></div>
         </div>
 
-        <!-- Node 5: Locked reward -->
-        <div class="trail-node locked reward" style="left:222px;top:498px;">
-          <div class="trail-orb"><span class="ico">🎁</span></div>
-          <span class="trail-lvl">5</span>
+        <!-- ★ Star 5: Locked -->
+        <div class="star locked" style="left:148px;top:378px;">
+          <div class="star-core"></div>
         </div>
 
-        <!-- Node 6: Locked game -->
-        <div class="trail-node locked game" style="left:145px;top:570px;">
-          <div class="trail-orb"><span class="ico">⚖️</span></div>
-          <span class="trail-lvl">6</span>
+        <!-- ★ Star 6: Locked -->
+        <div class="star locked" style="left:228px;top:460px;">
+          <div class="star-core"></div>
         </div>
 
-        <!-- Node 7: Locked milestone -->
-        <div class="trail-node locked milestone" style="left:112px;top:622px;">
-          <div class="trail-orb"><span class="ico">⭐</span></div>
-          <span class="trail-lvl">7</span>
+        <!-- ★ Star 7: Locked milestone -->
+        <div class="star locked milestone" style="left:163px;top:543px;">
+          <div class="star-core"></div>
+        </div>
+
+        <!-- ★ Star 8: Locked -->
+        <div class="star locked" style="left:183px;top:628px;">
+          <div class="star-core"></div>
         </div>
       </div>
     </div>
