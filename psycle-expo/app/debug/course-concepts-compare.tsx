@@ -148,13 +148,14 @@ function PsycleConcept() {
     <View style={styles.sectionGap}>
       <View style={styles.copyBlock}>
         <Text style={styles.sectionEyebrow}>Mental unit</Text>
-        <Text style={styles.ringTitle}>Six-light ring</Text>
+        <Text style={styles.ringTitle}>Anxiety reframe</Text>
+        <Text style={styles.psycleIntro}>
+          One quiet ring. Follow the next light.
+        </Text>
       </View>
 
       <View style={styles.psycleStage}>
-        <View style={styles.ringCounter}>
-          <Text style={styles.ringCounterText}>2/6</Text>
-        </View>
+        <Text style={styles.ringProgressText}>2 of 6 complete</Text>
         <View
           style={[
             styles.ringStage,
@@ -164,7 +165,7 @@ function PsycleConcept() {
             },
           ]}
         >
-          <View style={styles.ringOuterGlow} />
+          <View style={styles.ringHalo} />
           <View style={styles.ringTrackOuter} />
           <View style={styles.ringTrackInner} />
           <View style={styles.fireflyAuraOuter} />
@@ -182,13 +183,17 @@ function PsycleConcept() {
         </View>
       </View>
 
-      <View style={styles.currentStrip}>
+      <View style={styles.currentLessonBlock}>
         <Text style={styles.currentStripEyebrow}>Current lesson</Text>
         <Text style={styles.currentStripTitle}>Lesson 3</Text>
         <Text style={styles.currentStripBody}>
           Turn one stuck thought into a workable reframe.
         </Text>
-        <Text style={styles.currentMetaInline}>7 min • +38 XP • chest at L6</Text>
+        <View style={styles.currentMetaRow}>
+          <Text style={styles.currentMetaPill}>7 min</Text>
+          <Text style={styles.currentMetaPill}>+38 XP</Text>
+          <Text style={styles.currentMetaPill}>chest at L6</Text>
+        </View>
         <Button label="Open lesson 3" size="lg" onPress={() => {}} />
       </View>
     </View>
@@ -315,8 +320,8 @@ const styles = StyleSheet.create({
   psycleStage: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: theme.spacing.sm,
-    paddingBottom: theme.spacing.md,
+    paddingTop: theme.spacing.xs,
+    paddingBottom: theme.spacing.sm,
   },
   sectionEyebrow: {
     ...theme.typography.caption,
@@ -332,32 +337,29 @@ const styles = StyleSheet.create({
     ...theme.typography.body,
     color: "rgba(216,228,245,0.74)",
   },
+  psycleIntro: {
+    ...theme.typography.body,
+    color: "rgba(216,228,245,0.72)",
+  },
   ringStage: {
     alignSelf: "center",
     position: "relative",
     justifyContent: "center",
     alignItems: "center",
   },
-  ringCounter: {
-    alignSelf: "flex-end",
+  ringProgressText: {
+    ...theme.typography.caption,
+    color: "rgba(216,228,245,0.64)",
+    textTransform: "uppercase",
+    letterSpacing: 1,
     marginBottom: theme.spacing.sm,
-    paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.sm,
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: "rgba(73,103,161,0.45)",
-    backgroundColor: "rgba(8,18,38,0.66)",
   },
-  ringCounterText: {
-    ...theme.typography.label,
-    color: theme.colors.text,
-  },
-  ringOuterGlow: {
+  ringHalo: {
     position: "absolute",
     width: RING_SIZE,
     height: RING_SIZE,
     borderRadius: RING_SIZE / 2,
-    backgroundColor: "rgba(78,137,255,0.10)",
+    backgroundColor: "rgba(78,137,255,0.08)",
   },
   ringTrackOuter: {
     position: "absolute",
@@ -461,11 +463,6 @@ const styles = StyleSheet.create({
   },
   currentStrip: {
     gap: theme.spacing.sm,
-    padding: theme.spacing.lg,
-    borderRadius: theme.radius.lg,
-    backgroundColor: "rgba(8,18,38,0.48)",
-    borderWidth: 1,
-    borderColor: "rgba(73,103,161,0.26)",
   },
   currentStripEyebrow: {
     ...theme.typography.caption,
@@ -484,6 +481,24 @@ const styles = StyleSheet.create({
   currentMetaInline: {
     ...theme.typography.caption,
     color: theme.colors.text,
+  },
+  currentLessonBlock: {
+    gap: theme.spacing.sm,
+  },
+  currentMetaRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: theme.spacing.sm,
+  },
+  currentMetaPill: {
+    ...theme.typography.caption,
+    color: theme.colors.text,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "rgba(73,103,161,0.36)",
+    backgroundColor: "rgba(8,18,38,0.36)",
   },
   copyBlock: {
     gap: theme.spacing.xs,
