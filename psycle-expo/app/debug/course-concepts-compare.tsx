@@ -29,7 +29,6 @@ type RingNode = {
   label: string;
   angle: number;
   state: RingNodeState;
-  badge?: "reward";
 };
 
 const SCREEN_WIDTH = Dimensions.get("window").width;
@@ -41,7 +40,7 @@ const ringNodes: RingNode[] = [
   { id: "l3", label: "L3", angle: 10, state: "current" },
   { id: "l4", label: "L4", angle: 70, state: "locked" },
   { id: "l5", label: "L5", angle: 130, state: "locked" },
-  { id: "l6", label: "L6", angle: 200, state: "locked", badge: "reward" },
+  { id: "l6", label: "L6", angle: 200, state: "locked" },
 ];
 
 function Header() {
@@ -113,28 +112,14 @@ function RingNodeChip({
           node.state === "locked" && styles.ringNodeLocked,
         ]}
       >
-        {node.state === "current" ? (
-          <Ionicons name="leaf" size={16} color="#081119" />
-        ) : (
-          <Text
-            style={[
-              styles.ringNodeLabel,
-              node.state === "locked" && styles.ringNodeLabelLocked,
-            ]}
-          >
-            {node.label}
-          </Text>
-        )}
-        {node.state === "done" ? (
-          <View style={styles.ringDoneBadge}>
-            <Ionicons name="checkmark" size={11} color="#081119" />
-          </View>
-        ) : null}
-        {node.badge === "reward" ? (
-          <View style={styles.ringRewardBadge}>
-            <Ionicons name="gift" size={10} color="#fff" />
-          </View>
-        ) : null}
+        <Text
+          style={[
+            styles.ringNodeLabel,
+            node.state === "locked" && styles.ringNodeLabelLocked,
+          ]}
+        >
+          {node.label}
+        </Text>
       </View>
     </View>
   );
@@ -142,20 +127,20 @@ function RingNodeChip({
 
 function PsycleConcept() {
   const center = RING_SIZE / 2;
-  const radius = RING_SIZE / 2 - 44;
+  const radius = RING_SIZE / 2 - 42;
 
   return (
     <View style={styles.sectionGap}>
-      <View style={styles.copyBlock}>
-        <Text style={styles.sectionEyebrow}>Mental unit</Text>
+      <View style={styles.psycleIntro}>
+        <View style={styles.ringHeader}>
+          <Text style={styles.currentStripEyebrow}>Mental unit</Text>
+          <Text style={styles.progressChip}>2 / 6</Text>
+        </View>
         <Text style={styles.ringTitle}>Anxiety reframe</Text>
-        <Text style={styles.psycleIntro}>
-          One quiet ring. Follow the next light.
-        </Text>
+        <Text style={styles.ringBody}>A quiet six-step ring with one clear next lesson.</Text>
       </View>
 
       <View style={styles.psycleStage}>
-        <Text style={styles.ringProgressText}>2 of 6 complete</Text>
         <View
           style={[
             styles.ringStage,
@@ -165,13 +150,9 @@ function PsycleConcept() {
             },
           ]}
         >
-          <View style={styles.ringHalo} />
-          <View style={styles.ringTrackOuter} />
-          <View style={styles.ringTrackInner} />
-          <View style={styles.fireflyAuraOuter} />
-          <View style={styles.fireflyAuraInner} />
-          <View style={styles.fireflyCore}>
-            <Ionicons name="leaf" size={30} color="#081119" />
+          <View style={styles.fireflyGlow} />
+          <View style={styles.fireflySeed}>
+            <Ionicons name="leaf" size={24} color="#081119" />
           </View>
 
           {ringNodes.map((node) => {
@@ -183,16 +164,14 @@ function PsycleConcept() {
         </View>
       </View>
 
-      <View style={styles.currentLessonBlock}>
-        <Text style={styles.currentStripEyebrow}>Current lesson</Text>
-        <Text style={styles.currentStripTitle}>Lesson 3</Text>
-        <Text style={styles.currentStripBody}>
-          Turn one stuck thought into a workable reframe.
-        </Text>
-        <View style={styles.currentMetaRow}>
-          <Text style={styles.currentMetaPill}>7 min</Text>
-          <Text style={styles.currentMetaPill}>+38 XP</Text>
-          <Text style={styles.currentMetaPill}>chest at L6</Text>
+      <View style={styles.currentLessonInline}>
+        <View style={styles.currentLessonCopy}>
+          <Text style={styles.currentStripEyebrow}>Current lesson</Text>
+          <Text style={styles.currentStripTitle}>Lesson 3</Text>
+          <Text style={styles.currentStripBody}>
+            Turn one stuck thought into a workable reframe.
+          </Text>
+          <Text style={styles.currentMetaInline}>7 min • +38 XP • chest at L6</Text>
         </View>
         <Button label="Open lesson 3" size="lg" onPress={() => {}} />
       </View>
@@ -317,11 +296,29 @@ const styles = StyleSheet.create({
   sectionGap: {
     gap: theme.spacing.lg,
   },
+  psycleIntro: {
+    gap: theme.spacing.md,
+  },
+  ringHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  progressChip: {
+    ...theme.typography.label,
+    color: theme.colors.text,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.sm,
+    borderRadius: 999,
+    borderWidth: 1,
+    borderColor: "rgba(73,103,161,0.36)",
+    backgroundColor: "rgba(8,18,38,0.42)",
+  },
   psycleStage: {
     alignItems: "center",
     justifyContent: "center",
-    paddingTop: theme.spacing.xs,
-    paddingBottom: theme.spacing.sm,
+    paddingTop: theme.spacing.sm,
+    paddingBottom: theme.spacing.md,
   },
   sectionEyebrow: {
     ...theme.typography.caption,
@@ -337,70 +334,30 @@ const styles = StyleSheet.create({
     ...theme.typography.body,
     color: "rgba(216,228,245,0.74)",
   },
-  psycleIntro: {
-    ...theme.typography.body,
-    color: "rgba(216,228,245,0.72)",
-  },
   ringStage: {
     alignSelf: "center",
     position: "relative",
     justifyContent: "center",
     alignItems: "center",
   },
-  ringProgressText: {
-    ...theme.typography.caption,
-    color: "rgba(216,228,245,0.64)",
-    textTransform: "uppercase",
-    letterSpacing: 1,
-    marginBottom: theme.spacing.sm,
-  },
-  ringHalo: {
+  fireflyGlow: {
     position: "absolute",
-    width: RING_SIZE,
-    height: RING_SIZE,
-    borderRadius: RING_SIZE / 2,
-    backgroundColor: "rgba(78,137,255,0.08)",
-  },
-  ringTrackOuter: {
-    position: "absolute",
-    width: RING_SIZE - 32,
-    height: RING_SIZE - 32,
-    borderRadius: (RING_SIZE - 32) / 2,
-    borderWidth: 3,
-    borderColor: "rgba(111,146,214,0.55)",
-  },
-  ringTrackInner: {
-    position: "absolute",
-    width: RING_SIZE - 84,
-    height: RING_SIZE - 84,
-    borderRadius: (RING_SIZE - 84) / 2,
-    borderWidth: 2,
-    borderColor: "rgba(127,201,99,0.30)",
-  },
-  fireflyAuraOuter: {
-    position: "absolute",
-    width: 152,
-    height: 152,
-    borderRadius: 76,
-    backgroundColor: "rgba(232,72,159,0.18)",
+    width: 168,
+    height: 168,
+    borderRadius: 84,
+    backgroundColor: "rgba(232,72,159,0.14)",
     shadowColor: "#e8489f",
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.22,
-    shadowRadius: 24,
+    shadowOpacity: 0.18,
+    shadowRadius: 28,
   },
-  fireflyAuraInner: {
-    position: "absolute",
-    width: 92,
-    height: 92,
-    borderRadius: 46,
-    backgroundColor: "rgba(232,72,159,0.78)",
-  },
-  fireflyCore: {
-    width: 70,
-    height: 70,
-    borderRadius: 35,
+  fireflySeed: {
+    width: 76,
+    height: 76,
+    borderRadius: 38,
     alignItems: "center",
     justifyContent: "center",
+    backgroundColor: "rgba(232,72,159,0.86)",
   },
   ringNodeWrap: {
     position: "absolute",
@@ -413,24 +370,28 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     alignItems: "center",
     justifyContent: "center",
-    borderWidth: 3,
+    borderWidth: 2,
     position: "relative",
   },
   ringNodeDone: {
     backgroundColor: "#a8ff60",
-    borderColor: "rgba(245,255,229,0.8)",
+    borderColor: "rgba(245,255,229,0.92)",
+    shadowColor: "#a8ff60",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.2,
+    shadowRadius: 12,
   },
   ringNodeCurrent: {
     backgroundColor: theme.colors.accent,
     borderColor: "rgba(217,252,255,0.9)",
     shadowColor: theme.colors.accent,
     shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.32,
-    shadowRadius: 20,
+    shadowOpacity: 0.28,
+    shadowRadius: 14,
   },
   ringNodeLocked: {
-    backgroundColor: "rgba(6,16,34,0.92)",
-    borderColor: "rgba(66,90,136,0.65)",
+    backgroundColor: "rgba(8,18,38,0.56)",
+    borderColor: "rgba(66,90,136,0.45)",
   },
   ringNodeLabel: {
     ...theme.typography.label,
@@ -438,28 +399,6 @@ const styles = StyleSheet.create({
   },
   ringNodeLabelLocked: {
     color: theme.colors.sub,
-  },
-  ringDoneBadge: {
-    position: "absolute",
-    top: -4,
-    right: -4,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: "#d9ffe8",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  ringRewardBadge: {
-    position: "absolute",
-    top: -4,
-    right: -4,
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: theme.colors.warn,
-    alignItems: "center",
-    justifyContent: "center",
   },
   currentStrip: {
     gap: theme.spacing.sm,
@@ -482,8 +421,12 @@ const styles = StyleSheet.create({
     ...theme.typography.caption,
     color: theme.colors.text,
   },
-  currentLessonBlock: {
-    gap: theme.spacing.sm,
+  currentLessonInline: {
+    gap: theme.spacing.md,
+    paddingTop: theme.spacing.sm,
+  },
+  currentLessonCopy: {
+    gap: theme.spacing.xs,
   },
   currentMetaRow: {
     flexDirection: "row",

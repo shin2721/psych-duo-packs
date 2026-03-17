@@ -3,25 +3,35 @@
 import { execFileSync } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
+const scriptDir = path.dirname(fileURLToPath(import.meta.url));
+const appRoot = path.resolve(scriptDir, "..");
 const workspaceRoot = path.resolve(process.cwd());
-const monorepoRoot = path.resolve(workspaceRoot, "..");
+const monorepoRoot = execFileSync(
+  "git",
+  ["-C", workspaceRoot, "rev-parse", "--show-toplevel"],
+  {
+    encoding: "utf8",
+    stdio: ["ignore", "pipe", "pipe"],
+  },
+).trim();
 const remoteRef = "origin/claude/evaluate-probabilistic-fix-UXBGS";
 
 const remoteCandidates = [
-  "psycle-expo/design-previews/claude/mockup-preview.html",
   "psycle-expo/design-previews/trail-vision-v2.html",
   "psycle-expo/design-previews/trail-vision.html",
+  "psycle-expo/design-previews/claude/mockup-preview.html",
 ];
 
 const outputHtmlPath = path.join(
-  workspaceRoot,
+  appRoot,
   "design-previews",
   "claude",
   "mockup-preview.html",
 );
 const generatedTsPath = path.join(
-  workspaceRoot,
+  appRoot,
   "app",
   "debug",
   "generated",
@@ -44,6 +54,22 @@ function readRemoteFile(ref, filePath) {
   }
 }
 
+function readRemoteFileCommitEpoch(ref, filePath) {
+  try {
+    const output = runGit([
+      "log",
+      "-1",
+      "--format=%ct",
+      ref,
+      "--",
+      filePath,
+    ]).trim();
+    return output ? Number(output) : null;
+  } catch {
+    return null;
+  }
+}
+
 function toTsTemplateString(source) {
   return source.replace(/\\/g, "\\\\").replace(/`/g, "\\`").replace(/\$\{/g, "\\${");
 }
@@ -55,12 +81,20 @@ try {
 
   const commit = runGit(["rev-parse", remoteRef]).trim().slice(0, 7);
 
+  const previewCandidates = remoteCandidates
+    .map((candidate) => ({
+      candidate,
+      updatedAt: readRemoteFileCommitEpoch(remoteRef, candidate),
+    }))
+    .filter((entry) => entry.updatedAt !== null)
+    .sort((a, b) => (b.updatedAt ?? 0) - (a.updatedAt ?? 0));
+
   let sourcePath = "";
   let html = "";
-  for (const candidate of remoteCandidates) {
-    const maybe = readRemoteFile(remoteRef, candidate);
+  for (const entry of previewCandidates) {
+    const maybe = readRemoteFile(remoteRef, entry.candidate);
     if (maybe) {
-      sourcePath = candidate;
+      sourcePath = entry.candidate;
       html = maybe;
       break;
     }
