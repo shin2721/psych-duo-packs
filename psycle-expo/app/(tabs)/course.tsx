@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import { genres, trailsByGenre } from "../../lib/data";
 import { useBillingState, useEconomyState, useProgressionState } from "../../lib/state";
-import { TrailV2 } from "../../components/trail-v2";
+import { TrailV3 } from "../../components/trail-v3";
 import { Modal } from "../../components/Modal";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { PaywallModal } from "../../components/PaywallModal";
@@ -119,7 +119,7 @@ export default function CourseScreen() {
     <SafeAreaView style={styles.container} edges={["top"]}>
       <GlobalHeader />
 
-      <TrailV2
+      <TrailV3
         trail={currentTrail}
         genre={genre}
         completedCount={completedCount}
@@ -184,5 +184,5 @@ export default function CourseScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "#faf8f4" },
+  container: { flex: 1, backgroundColor: "#0a0a2e" },
 });
