@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useMemo } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Ionicons } from "@expo/vector-icons";
 import { genres, trailsByGenre } from "../../lib/data";
 import { useBillingState, useEconomyState, useProgressionState } from "../../lib/state";
-import { Trail } from "../../components/trail";
+import { TrailV2 } from "../../components/trail-v2";
 import { Modal } from "../../components/Modal";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { PaywallModal } from "../../components/PaywallModal";
@@ -15,6 +16,16 @@ import { router } from "expo-router";
 import i18n from "../../lib/i18n";
 import { Analytics } from "../../lib/analytics";
 import { useToast } from "../../components/ToastProvider";
+
+// Genre descriptions for v2 chapter subtitle
+const GENRE_DESC: Record<string, string> = {
+  mental: "ネガティブな自動思考を捉え、\nより柔軟な視点へ書き換える",
+  money: "お金との付き合い方を\n心理学の視点から学ぶ",
+  work: "生産性と満足度を\n高める仕事の心理学",
+  health: "心と体の健康を\n科学的に理解する",
+  social: "人間関係のパターンを知り\nより良い繋がりを築く",
+  study: "効率的な学び方を\n認知科学から探る",
+};
 
 export default function CourseScreen() {
   const {
@@ -36,6 +47,7 @@ export default function CourseScreen() {
   const [leagueResult, setLeagueResult] = useState<LeagueResult | null>(null);
   const [showLeagueResult, setShowLeagueResult] = useState(false);
 
+  // リーグ結果チェック（アプリ起動時）
   useEffect(() => {
     async function checkLeagueResult() {
       if (!user) return;
@@ -51,6 +63,7 @@ export default function CourseScreen() {
   const baseTrail = trailsByGenre[selectedGenre] || trailsByGenre.mental;
   const genre = genres.find(g => g.id === selectedGenre) || genres[0];
 
+  // Compute status based on completed lessons and paywall
   const currentTrail = useMemo(() => {
     return baseTrail.map((node: any, index: number) => {
       const lessonFile = node.lessonFile;
@@ -74,6 +87,8 @@ export default function CourseScreen() {
       return { ...node, status: "locked" };
     });
   }, [baseTrail, selectedGenre, completedLessons, hasProAccess]);
+
+  const completedCount = currentTrail.filter((n: any) => n.status === "done").length;
 
   const handleLockedLessonAccess = async () => {
     const lessonCompleteCount = completedLessons.size;
@@ -104,8 +119,15 @@ export default function CourseScreen() {
     <SafeAreaView style={styles.container} edges={["top"]}>
       <GlobalHeader />
 
-      <Trail
+      <TrailV2
         trail={currentTrail}
+        genre={genre}
+        completedCount={completedCount}
+        totalCount={currentTrail.length}
+        totalXp={xp}
+        streakDays={streak}
+        chapterTitle={genre.label}
+        chapterDesc={GENRE_DESC[selectedGenre] || ""}
         onStart={(nodeId) => setModalNode(nodeId)}
         onLockedPress={() => {
           void handleLockedLessonAccess();
@@ -162,5 +184,5 @@ export default function CourseScreen() {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: "transparent" },
+  container: { flex: 1, backgroundColor: "#faf8f4" },
 });
