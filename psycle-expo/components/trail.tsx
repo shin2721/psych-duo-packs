@@ -1,7 +1,10 @@
 import React, { useRef, useEffect, useMemo } from "react";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { View, Pressable, StyleSheet, Dimensions, ScrollView, Animated } from "react-native";
-import Svg, { Path, Defs, LinearGradient, Stop } from "react-native-svg";
+import Svg, {
+  Path, Defs, LinearGradient, Stop,
+  Circle, RadialGradient, G, Rect,
+} from "react-native-svg";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import i18n from "../lib/i18n";
@@ -39,52 +42,11 @@ const GLOW_COLOR_BRIGHT = "#eaff00";
 const PATH_COLOR_DONE = "#22c55e";
 const PATH_COLOR_FUTURE = "rgba(255,255,255,0.15)";
 
-// Firefly color variations - more variety with warm colors
+// Firefly color variations
 const FIREFLY_COLORS = ["#a8ff60", "#ffdd60", "#ff9b60", "#ffdd60", "#60ffb0", "#ffaa40"];
 
-// ==================== VIGNETTE EFFECT ====================
-function Vignette({ height }: { height: number }) {
-  return (
-    <View style={[StyleSheet.absoluteFill, { height }]} pointerEvents="none">
-      {/* Top vignette - stronger gradient effect */}
-      <View style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: 180,
-        backgroundColor: "rgba(0,0,0,0.5)",
-      }} />
-      {/* Bottom vignette */}
-      <View style={{
-        position: "absolute",
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: 150,
-        backgroundColor: "rgba(0,0,0,0.35)",
-      }} />
-      {/* Left edge */}
-      <View style={{
-        position: "absolute",
-        top: 0,
-        left: 0,
-        bottom: 0,
-        width: 40,
-        backgroundColor: "rgba(0,0,0,0.3)",
-      }} />
-      {/* Right edge */}
-      <View style={{
-        position: "absolute",
-        top: 0,
-        right: 0,
-        bottom: 0,
-        width: 40,
-        backgroundColor: "rgba(0,0,0,0.3)",
-      }} />
-    </View>
-  );
-}
+// Star color temperature variations (cool to warm)
+const STAR_COLORS = ["#ccdcff", "#dde4ff", "#fff8f0", "#ffeedd", "#ffe4cc", "#ffd4aa"];
 
 // ==================== SHOOTING STAR ====================
 function ShootingStar({ totalHeight }: { totalHeight: number }) {
@@ -94,7 +56,6 @@ function ShootingStar({ totalHeight }: { totalHeight: number }) {
 
   useEffect(() => {
     const shootStar = () => {
-      // Random start position
       const startY = Math.random() * totalHeight * 0.5;
       translateY.setValue(startY);
       translateX.setValue(-50);
@@ -107,7 +68,6 @@ function ShootingStar({ totalHeight }: { totalHeight: number }) {
         ]),
         Animated.timing(opacity, { toValue: 0, duration: 100, useNativeDriver: true }),
       ]).start(() => {
-        // Wait random interval before next shooting star
         setTimeout(shootStar, 5000 + Math.random() * 10000);
       });
     };
@@ -132,109 +92,6 @@ function ShootingStar({ totalHeight }: { totalHeight: number }) {
         transform: [{ translateX }, { translateY }, { rotate: "35deg" }],
       }}
     />
-  );
-}
-
-// ==================== MIST LAYER ====================
-function MistLayer({ y, width }: { y: number; width: number }) {
-  const translateX = useRef(new Animated.Value(-width * 0.3)).current;
-  const opacity = useRef(new Animated.Value(0.3 + Math.random() * 0.2)).current;
-
-  useEffect(() => {
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(translateX, { toValue: width * 0.3, duration: 20000 + Math.random() * 10000, useNativeDriver: true }),
-        Animated.timing(translateX, { toValue: -width * 0.3, duration: 20000 + Math.random() * 10000, useNativeDriver: true }),
-      ])
-    ).start();
-  }, []);
-
-  return (
-    <Animated.View
-      style={{
-        position: "absolute",
-        left: -width * 0.5,
-        top: y,
-        width: width * 2,
-        height: 150,
-        backgroundColor: "rgba(168, 255, 96, 0.08)",
-        borderRadius: 75,
-        opacity,
-        transform: [{ translateX }],
-      }}
-    />
-  );
-}
-
-// ==================== CURRENT NODE LIGHT RAYS ====================
-function NodeRays({ x, y }: { x: number; y: number }) {
-  const rotation = useRef(new Animated.Value(0)).current;
-  const opacity = useRef(new Animated.Value(0.4)).current;
-  const scale = useRef(new Animated.Value(1)).current;
-
-  useEffect(() => {
-    // Slow rotation
-    Animated.loop(
-      Animated.timing(rotation, { toValue: 1, duration: 15000, useNativeDriver: true })
-    ).start();
-
-    // Subtle pulse
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(opacity, { toValue: 0.6, duration: 2000, useNativeDriver: true }),
-        Animated.timing(opacity, { toValue: 0.3, duration: 2000, useNativeDriver: true }),
-      ])
-    ).start();
-
-    // Scale pulse
-    Animated.loop(
-      Animated.sequence([
-        Animated.timing(scale, { toValue: 1.15, duration: 2500, useNativeDriver: true }),
-        Animated.timing(scale, { toValue: 1, duration: 2500, useNativeDriver: true }),
-      ])
-    ).start();
-  }, []);
-
-  const spin = rotation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["0deg", "360deg"],
-  });
-
-  const rays = Array.from({ length: 8 }, (_, i) => (i * 360) / 8);
-
-  return (
-    <Animated.View
-      style={{
-        position: "absolute",
-        left: x - 80,
-        top: y - 80,
-        width: 160,
-        height: 160,
-        opacity,
-        transform: [{ rotate: spin }, { scale }],
-      }}
-    >
-      {rays.map((angle) => (
-        <View
-          key={angle}
-          style={{
-            position: "absolute",
-            left: 76,
-            top: 20,
-            width: 8,
-            height: 60,
-            backgroundColor: GLOW_COLOR_BRIGHT,
-            borderRadius: 4,
-            opacity: 0.6,
-            transform: [
-              { translateY: 40 },
-              { rotate: `${angle}deg` },
-              { translateY: -40 },
-            ],
-          }}
-        />
-      ))}
-    </Animated.View>
   );
 }
 
@@ -309,13 +166,6 @@ function NodeSparkle({ x, y }: { x: number; y: number }) {
   );
 }
 
-// ==================== BACKGROUND GRADIENT ====================
-function BackgroundGradient({ height }: { height: number }) {
-  return (
-    <View style={[StyleSheet.absoluteFill, { height, backgroundColor: theme.colors.bg }]} />
-  );
-}
-
 // ==================== BACKGROUND STAR COMPONENT ====================
 function BackgroundStar({ x, y, size }: { x: number; y: number; size: number }) {
   const opacity = useRef(new Animated.Value(0.3 + Math.random() * 0.4)).current;
@@ -342,6 +192,13 @@ function BackgroundStar({ x, y, size }: { x: number; y: number; size: number }) 
         borderRadius: size / 2,
         backgroundColor: "#fff",
         opacity,
+        // Add subtle glow for larger stars
+        ...(size > 2 ? {
+          shadowColor: "#fff",
+          shadowOffset: { width: 0, height: 0 },
+          shadowOpacity: 0.8,
+          shadowRadius: size * 2,
+        } : {}),
       }}
     />
   );
@@ -360,7 +217,6 @@ function FloatingParticle({
 
   useEffect(() => {
     const timeout = setTimeout(() => {
-      // Smooth Y movement: 0 → up → 0 → down → 0 (no teleporting)
       Animated.loop(
         Animated.sequence([
           Animated.timing(translateY, { toValue: -moveY, duration: duration, useNativeDriver: true }),
@@ -369,7 +225,6 @@ function FloatingParticle({
           Animated.timing(translateY, { toValue: 0, duration: duration, useNativeDriver: true }),
         ])
       ).start();
-      // Smooth X movement
       Animated.loop(
         Animated.sequence([
           Animated.timing(translateX, { toValue: moveX, duration: duration * 0.9, useNativeDriver: true }),
@@ -378,7 +233,6 @@ function FloatingParticle({
           Animated.timing(translateX, { toValue: 0, duration: duration * 0.9, useNativeDriver: true }),
         ])
       ).start();
-      // Opacity pulsing
       Animated.loop(
         Animated.sequence([
           Animated.timing(opacity, { toValue: 1, duration: duration * 0.5, useNativeDriver: true }),
@@ -402,7 +256,7 @@ function FloatingParticle({
         shadowColor: color,
         shadowOffset: { width: 0, height: 0 },
         shadowOpacity: 1,
-        shadowRadius: size * 5, // Stronger glow
+        shadowRadius: size * 5,
         opacity,
         transform: [{ translateY }, { translateX }],
       }}
@@ -462,8 +316,7 @@ function GlowingNode({
   nodeIndex: number;
 }) {
   const scale = useRef(new Animated.Value(1)).current;
-  const outerRingScale = useRef(new Animated.Value(1)).current;
-  const outerRingOpacity = useRef(new Animated.Value(0.3)).current;
+  const outerGlowOpacity = useRef(new Animated.Value(0.5)).current;
   const floatY = useRef(new Animated.Value(0)).current;
 
   const nodeSize = isMilestone ? MILESTONE_NODE_SIZE : NODE_SIZE;
@@ -484,7 +337,7 @@ function GlowingNode({
   })();
 
   useEffect(() => {
-    // All nodes float gently (案4)
+    // All nodes float gently
     Animated.loop(
       Animated.sequence([
         Animated.timing(floatY, { toValue: -4, duration: 2000 + Math.random() * 500, useNativeDriver: true }),
@@ -493,24 +346,16 @@ function GlowingNode({
     ).start();
 
     if (node.status === "current") {
-      // Inner pulsing
       Animated.loop(
         Animated.sequence([
-          Animated.timing(scale, { toValue: 1.12, duration: 1500, useNativeDriver: true }),
-          Animated.timing(scale, { toValue: 1, duration: 1500, useNativeDriver: true }),
-        ])
-      ).start();
-      // Outer ring pulsing
-      Animated.loop(
-        Animated.sequence([
-          Animated.timing(outerRingScale, { toValue: 1.5, duration: 1500, useNativeDriver: true }),
-          Animated.timing(outerRingScale, { toValue: 1.2, duration: 1500, useNativeDriver: true }),
+          Animated.timing(scale, { toValue: 1.08, duration: 1800, useNativeDriver: true }),
+          Animated.timing(scale, { toValue: 1, duration: 1800, useNativeDriver: true }),
         ])
       ).start();
       Animated.loop(
         Animated.sequence([
-          Animated.timing(outerRingOpacity, { toValue: 0.6, duration: 1500, useNativeDriver: true }),
-          Animated.timing(outerRingOpacity, { toValue: 0.2, duration: 1500, useNativeDriver: true }),
+          Animated.timing(outerGlowOpacity, { toValue: 0.8, duration: 1800, useNativeDriver: true }),
+          Animated.timing(outerGlowOpacity, { toValue: 0.3, duration: 1800, useNativeDriver: true }),
         ])
       ).start();
     }
@@ -520,26 +365,25 @@ function GlowingNode({
     switch (node.status) {
       case "done":
         return {
-          bg: activeSuccess,
-          glow: activeSuccess,
-          iconColor: "#000",
-          borderWidth: 0,
+          bg: "rgba(34, 197, 94, 0.15)",
+          iconColor: activeSuccess,
+          borderWidth: 2.5,
+          borderColor: activeSuccess,
         };
       case "current":
         return {
-          bg: activeGlow,
-          glow: activeGlow,
-          iconColor: "#000",
-          borderWidth: 0,
+          bg: "rgba(11, 18, 32, 0.9)",
+          iconColor: activeGlow,
+          borderWidth: 3,
+          borderColor: activeGlow,
         };
       case "locked":
       case "future":
         return {
-          bg: "transparent",
-          glow: "transparent",
-          iconColor: "rgba(255,255,255,0.25)",
-          borderWidth: isMilestone ? 3 : 2,
-          borderColor: isMilestone ? "rgba(255,255,255,0.3)" : "rgba(255,255,255,0.15)",
+          bg: "rgba(255,255,255,0.03)",
+          iconColor: "rgba(255,255,255,0.2)",
+          borderWidth: 1.5,
+          borderColor: "rgba(255,255,255,0.1)",
         };
     }
   };
@@ -548,12 +392,11 @@ function GlowingNode({
 
   const getIcon = () => {
     if (node.isLocked) return <Ionicons name="lock-closed" size={isMilestone ? 24 : 20} color={style.iconColor} />;
-    if (node.status === "done") return <Ionicons name="checkmark" size={isMilestone ? 30 : 26} color={style.iconColor} />;
+    if (node.status === "done") return <Ionicons name="checkmark" size={isMilestone ? 28 : 24} color={style.iconColor} />;
     if (node.type === "review_blackhole") {
       return <Ionicons name="planet" size={isMilestone ? 32 : 28} color={style.iconColor} />;
     }
     if (node.status === "locked" || node.status === "future") {
-      // Milestone nodes show a star icon even when locked
       if (isMilestone) return <Ionicons name="star" size={24} color={style.iconColor} />;
       return null;
     }
@@ -569,36 +412,37 @@ function GlowingNode({
         transform: [{ translateY: floatY }],
       }}
     >
-      {/* Outer glow ring for current node - Very subtle to not wash out core color */}
+      {/* Current node outer glow via RN shadow (layered on top of SVG glow) */}
       {node.status === "current" && (
         <Animated.View
           style={{
             position: "absolute",
-            width: nodeSize * 1.4,
-            height: nodeSize * 1.4,
-            left: -nodeSize * 0.2,
-            top: -nodeSize * 0.2,
-            borderRadius: (nodeSize * 1.4) / 2,
-            backgroundColor: activeGlow,
-            transform: [{ scale: outerRingScale }],
-            opacity: 0.2, // Fixed low opacity for subtle glow
+            width: nodeSize,
+            height: nodeSize,
+            borderRadius: nodeSize / 2,
+            backgroundColor: "transparent",
+            shadowColor: activeGlow,
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 1,
+            shadowRadius: 25,
+            opacity: outerGlowOpacity,
           }}
         />
       )}
 
-      {/* Milestone special ring */}
-      {isMilestone && node.status !== "current" && (
+      {/* Done node subtle shadow glow */}
+      {node.status === "done" && (
         <View
           style={{
             position: "absolute",
-            width: nodeSize + 8,
-            height: nodeSize + 8,
-            left: -4,
-            top: -4,
-            borderRadius: (nodeSize + 8) / 2,
-            borderWidth: 1,
-            borderColor: node.status === "done" ? "rgba(34, 197, 94, 0.4)" : "rgba(255,255,255,0.1)",
-            borderStyle: "dashed",
+            width: nodeSize,
+            height: nodeSize,
+            borderRadius: nodeSize / 2,
+            backgroundColor: "transparent",
+            shadowColor: activeSuccess,
+            shadowOffset: { width: 0, height: 0 },
+            shadowOpacity: 0.6,
+            shadowRadius: 12,
           }}
         />
       )}
@@ -612,11 +456,8 @@ function GlowingNode({
               height: nodeSize,
               borderRadius: nodeSize / 2,
               backgroundColor: style.bg,
-              shadowColor: style.glow,
-              shadowOpacity: node.status === "current" ? 1 : node.status === "done" ? 0.7 : 0,
-              shadowRadius: node.status === "current" ? 30 : 15,
               borderWidth: style.borderWidth,
-              borderColor: style.borderWidth ? style.borderColor : undefined,
+              borderColor: style.borderColor,
             },
           ]}
           onPress={node.isLocked || node.status === "current" ? onPress : undefined}
@@ -636,12 +477,20 @@ function GlowingNode({
   );
 }
 
+// ==================== HELPER: hex to rgba ====================
+function hexToRgba(hex: string, alpha: number): string {
+  const h = hex.replace("#", "");
+  const r = parseInt(h.substring(0, 2), 16);
+  const g = parseInt(h.substring(2, 4), 16);
+  const b = parseInt(h.substring(4, 6), 16);
+  return `rgba(${r},${g},${b},${alpha})`;
+}
+
 // ==================== MAIN TRAIL COMPONENT ====================
 export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }: Props) {
   const activePathColor = themeColor || PATH_COLOR_DONE;
   const bottomTabBarHeight = useBottomTabBarHeight();
   const trailBottomInset = bottomTabBarHeight + theme.spacing.lg;
-  // Find the index of the current node for path coloring
   const currentIndex = useMemo(() => {
     return trail.findIndex(n => n.status === "current");
   }, [trail]);
@@ -656,14 +505,13 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
     });
   }, [trail.length]);
 
-  // Generate two path strings: one for completed, one for future (案1)
+  // Generate two path strings: one for completed, one for future
   const { pathDone, pathFuture } = useMemo(() => {
     if (nodePositions.length < 2) return { pathDone: "", pathFuture: "" };
 
     let pathDone = "";
     let pathFuture = "";
 
-    // Build the full path, but split at current node
     for (let i = 0; i < nodePositions.length; i++) {
       const curr = nodePositions[i];
 
@@ -689,22 +537,22 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
 
   const totalHeight = trail.length * NODE_SPACING + 200;
 
-  // Background stars - more stars with varied sizes for depth
+  // Background stars with color temperature variation
   const stars = useMemo(() => {
-    const count = 40; // Reduced from 100 for performance
+    const count = 60;
     return Array.from({ length: count }, (_, i) => ({
       id: i,
       x: Math.random() * SCREEN_WIDTH,
       y: Math.random() * totalHeight,
-      // More size variation: tiny (1px) to medium (4px) for depth effect
-      size: i < 20 ? 2.5 + Math.random() * 1.5 : 0.8 + Math.random() * 1.2,
+      size: i < 15 ? 2.5 + Math.random() * 1.5 : 0.8 + Math.random() * 1.2,
+      color: STAR_COLORS[Math.floor(Math.random() * STAR_COLORS.length)],
     }));
   }, [totalHeight]);
 
-  // Floating particles - Spread evenly with MORE jitter and color variations
+  // Floating particles
   const particles = useMemo(() => {
-    const cols = 4; // Reduced from 6 for performance
-    const rows = 4; // Reduced from 6 for performance
+    const cols = 4;
+    const rows = 4;
     const cellWidth = SCREEN_WIDTH / cols;
     const cellHeight = totalHeight / rows;
     const result: Array<{
@@ -712,11 +560,9 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
       moveX: number; moveY: number; duration: number; color: string;
     }> = [];
 
-    // Grid-based particles with high jitter
     for (let row = 0; row < rows; row++) {
       for (let col = 0; col < cols; col++) {
         const id = row * cols + col;
-        // More jitter: ±50% of cell size
         const jitterX = (Math.random() - 0.5) * cellWidth;
         const jitterY = (Math.random() - 0.5) * cellHeight;
         result.push({
@@ -733,7 +579,6 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
       }
     }
 
-    // Add 8 fully random particles for extra chaos (reduced from 20)
     for (let i = 0; i < 8; i++) {
       result.push({
         id: 100 + i,
@@ -755,7 +600,7 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
   const currentNodeFireflies = useMemo(() => {
     if (currentIndex < 0 || !nodePositions[currentIndex]) return [];
     const currentPos = nodePositions[currentIndex];
-    const count = 4; // Reduced from 8 for performance
+    const count = 4;
     return Array.from({ length: count }, (_, i) => {
       const angle = (i / count) * Math.PI * 2;
       const radius = 60 + Math.random() * 80;
@@ -772,20 +617,23 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
     });
   }, [currentIndex, nodePositions]);
 
+  // SVG star halos for brighter stars
+  const svgStarHalos = useMemo(() => {
+    return stars.filter(s => s.size > 2).map(s => ({
+      ...s,
+      haloRadius: s.size * 4,
+    }));
+  }, [stars]);
+
   return (
     <ScrollView contentContainerStyle={[styles.container, { minHeight: totalHeight, paddingBottom: trailBottomInset }]}>
-      {/* Background Gradient REMOVED - Using Global Star Background */}
-      {/* <BackgroundGradient height={totalHeight} /> */}
 
-
-      {/* Mist Layers REMOVED to match header color */}
-
-      {/* Background Stars */}
+      {/* Background Stars (dimmer ones as simple views) */}
       {stars.map((s) => (
         <BackgroundStar key={`star-${s.id}`} x={s.x} y={s.y} size={s.size} />
       ))}
 
-      {/* Floating Particles with color variations */}
+      {/* Floating Particles */}
       {particles.map((p) => (
         <FloatingParticle
           key={p.id}
@@ -814,24 +662,199 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
         />
       ))}
 
-      {/* SVG Paths - Future (gray) and Done (green) */}
+      {/* ============ MAIN SVG LAYER ============ */}
       <Svg height={totalHeight} width={SCREEN_WIDTH} style={StyleSheet.absoluteFill}>
-        {/* Future path (gray, underneath) */}
-        <Path d={pathFuture} stroke={PATH_COLOR_FUTURE} strokeWidth={8} fill="none" opacity={0.5} />
-        <Path d={pathFuture} stroke={PATH_COLOR_FUTURE} strokeWidth={2} fill="none" opacity={0.8} />
+        <Defs>
+          {/* Gradient for done path glow */}
+          <LinearGradient id="donePathGlow" x1="0" y1="0" x2="0" y2="1">
+            <Stop offset="0" stopColor={activePathColor} stopOpacity="0.6" />
+            <Stop offset="0.5" stopColor={activePathColor} stopOpacity="0.8" />
+            <Stop offset="1" stopColor={activePathColor} stopOpacity="0.6" />
+          </LinearGradient>
 
-        {/* Done path (vibrant color, on top) */}
+          {/* Radial gradient for current node glow */}
+          <RadialGradient id="currentNodeGlow" cx="50%" cy="50%" rx="50%" ry="50%">
+            <Stop offset="0" stopColor={themeColor || GLOW_COLOR_BRIGHT} stopOpacity="0.6" />
+            <Stop offset="0.3" stopColor={themeColor || GLOW_COLOR_BRIGHT} stopOpacity="0.3" />
+            <Stop offset="0.6" stopColor={themeColor || GLOW_COLOR_BRIGHT} stopOpacity="0.1" />
+            <Stop offset="1" stopColor={themeColor || GLOW_COLOR_BRIGHT} stopOpacity="0" />
+          </RadialGradient>
+
+          {/* Radial gradient for done node glow */}
+          <RadialGradient id="doneNodeGlow" cx="50%" cy="50%" rx="50%" ry="50%">
+            <Stop offset="0" stopColor={themeColor || theme.colors.success} stopOpacity="0.5" />
+            <Stop offset="0.4" stopColor={themeColor || theme.colors.success} stopOpacity="0.2" />
+            <Stop offset="0.7" stopColor={themeColor || theme.colors.success} stopOpacity="0.05" />
+            <Stop offset="1" stopColor={themeColor || theme.colors.success} stopOpacity="0" />
+          </RadialGradient>
+
+          {/* Radial gradient for star halos */}
+          <RadialGradient id="starHalo" cx="50%" cy="50%" rx="50%" ry="50%">
+            <Stop offset="0" stopColor="#ffffff" stopOpacity="0.8" />
+            <Stop offset="0.2" stopColor="#ffffff" stopOpacity="0.3" />
+            <Stop offset="0.5" stopColor="#ccdcff" stopOpacity="0.08" />
+            <Stop offset="1" stopColor="#ccdcff" stopOpacity="0" />
+          </RadialGradient>
+
+          {/* Radial gradient for locked/future node - dim ring */}
+          <RadialGradient id="lockedNodeGlow" cx="50%" cy="50%" rx="50%" ry="50%">
+            <Stop offset="0.6" stopColor="#ffffff" stopOpacity="0" />
+            <Stop offset="0.8" stopColor="#ffffff" stopOpacity="0.04" />
+            <Stop offset="0.95" stopColor="#ffffff" stopOpacity="0.02" />
+            <Stop offset="1" stopColor="#ffffff" stopOpacity="0" />
+          </RadialGradient>
+        </Defs>
+
+        {/* ---- Star halos for brighter stars ---- */}
+        {svgStarHalos.map((s) => (
+          <Circle
+            key={`halo-${s.id}`}
+            cx={s.x + s.size / 2}
+            cy={s.y + s.size / 2}
+            r={s.haloRadius}
+            fill="url(#starHalo)"
+            opacity={0.6}
+          />
+        ))}
+
+        {/* ---- NODE GLOWS (behind everything) ---- */}
+        {trail.map((node, index) => {
+          const { x, y } = nodePositions[index];
+          const isMilestone = (index + 1) % 5 === 0;
+          const nodeSize = isMilestone ? MILESTONE_NODE_SIZE : NODE_SIZE;
+
+          if (node.status === "current") {
+            // Multi-layer glow for current node
+            return (
+              <G key={`glow-${node.id}`}>
+                {/* Outermost atmospheric glow */}
+                <Circle cx={x} cy={y} r={nodeSize * 1.8} fill="url(#currentNodeGlow)" opacity={0.4} />
+                {/* Mid glow ring */}
+                <Circle cx={x} cy={y} r={nodeSize * 1.2} fill="url(#currentNodeGlow)" opacity={0.5} />
+                {/* Inner bright ring */}
+                <Circle
+                  cx={x} cy={y} r={nodeSize * 0.55}
+                  fill="none"
+                  stroke={themeColor || GLOW_COLOR_BRIGHT}
+                  strokeWidth={1}
+                  opacity={0.4}
+                />
+                {/* Outer decorative ring */}
+                <Circle
+                  cx={x} cy={y} r={nodeSize * 0.85}
+                  fill="none"
+                  stroke={themeColor || GLOW_COLOR_BRIGHT}
+                  strokeWidth={0.5}
+                  opacity={0.2}
+                  strokeDasharray="4,6"
+                />
+              </G>
+            );
+          }
+          if (node.status === "done") {
+            return (
+              <G key={`glow-${node.id}`}>
+                <Circle cx={x} cy={y} r={nodeSize * 1.2} fill="url(#doneNodeGlow)" opacity={0.6} />
+                <Circle cx={x} cy={y} r={nodeSize * 0.8} fill="url(#doneNodeGlow)" opacity={0.4} />
+              </G>
+            );
+          }
+          // Locked/future: very subtle presence
+          return (
+            <Circle
+              key={`glow-${node.id}`}
+              cx={x} cy={y} r={nodeSize * 0.9}
+              fill="url(#lockedNodeGlow)"
+              opacity={0.5}
+            />
+          );
+        })}
+
+        {/* ---- FUTURE PATH (dashed, subtle glow) ---- */}
+        {/* Widest glow layer */}
+        <Path d={pathFuture} stroke="rgba(255,255,255,0.03)" strokeWidth={16} fill="none" strokeLinecap="round" />
+        {/* Mid glow */}
+        <Path d={pathFuture} stroke="rgba(255,255,255,0.06)" strokeWidth={8} fill="none" strokeLinecap="round" />
+        {/* Core dashed line */}
+        <Path
+          d={pathFuture}
+          stroke="rgba(255,255,255,0.12)"
+          strokeWidth={2.5}
+          fill="none"
+          strokeLinecap="round"
+          strokeDasharray="8,12"
+        />
+
+        {/* ---- DONE PATH (multi-layer cinematic bloom) ---- */}
         {pathDone && (
-          <>
-            {/* Outer Glow - Stronger and more opaque to match header color */}
-            <Path d={pathDone} stroke={activePathColor} strokeWidth={14} fill="none" opacity={0.4} />
-            {/* Core - Almost solid */}
-            <Path d={pathDone} stroke={activePathColor} strokeWidth={6} fill="none" opacity={1.0} />
-          </>
+          <G>
+            {/* Layer 1: Widest atmospheric glow */}
+            <Path
+              d={pathDone}
+              stroke={hexToRgba(activePathColor, 0.06)}
+              strokeWidth={28}
+              fill="none"
+              strokeLinecap="round"
+            />
+            {/* Layer 2: Wide bloom */}
+            <Path
+              d={pathDone}
+              stroke={hexToRgba(activePathColor, 0.1)}
+              strokeWidth={18}
+              fill="none"
+              strokeLinecap="round"
+            />
+            {/* Layer 3: Mid glow */}
+            <Path
+              d={pathDone}
+              stroke={hexToRgba(activePathColor, 0.2)}
+              strokeWidth={10}
+              fill="none"
+              strokeLinecap="round"
+            />
+            {/* Layer 4: Inner glow */}
+            <Path
+              d={pathDone}
+              stroke={hexToRgba(activePathColor, 0.5)}
+              strokeWidth={5}
+              fill="none"
+              strokeLinecap="round"
+            />
+            {/* Layer 5: Bright core */}
+            <Path
+              d={pathDone}
+              stroke={activePathColor}
+              strokeWidth={2.5}
+              fill="none"
+              strokeLinecap="round"
+              opacity={0.9}
+            />
+            {/* Layer 6: White-hot center */}
+            <Path
+              d={pathDone}
+              stroke="#ffffff"
+              strokeWidth={1}
+              fill="none"
+              strokeLinecap="round"
+              opacity={0.5}
+            />
+          </G>
         )}
+
+        {/* ---- Connection dots at done nodes on path ---- */}
+        {trail.map((node, index) => {
+          if (node.status !== "done" && node.status !== "current") return null;
+          const { x, y } = nodePositions[index];
+          return (
+            <G key={`pathDot-${node.id}`}>
+              <Circle cx={x} cy={y} r={5} fill={activePathColor} opacity={0.8} />
+              <Circle cx={x} cy={y} r={3} fill="#ffffff" opacity={0.6} />
+            </G>
+          );
+        })}
       </Svg>
 
-      {/* Nodes */}
+      {/* ============ RN NODES (interactive layer) ============ */}
       {trail.map((node, index) => {
         const { x, y } = nodePositions[index];
         const isMilestone = (index + 1) % 5 === 0;
@@ -873,6 +896,9 @@ export function Trail({ trail, hideLabels, onStart, onLockedPress, themeColor }:
           />
         );
       })}
+
+      {/* Shooting star overlay */}
+      <ShootingStar totalHeight={totalHeight} />
 
     </ScrollView>
   );
