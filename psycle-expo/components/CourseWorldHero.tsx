@@ -47,9 +47,12 @@ const SYNAPSE: Record<string, string> = {
 
 interface Props {
   model: CourseWorldViewModel;
+  /** ID of the lesson the user should play next (fireflies target). Falls back to model.currentLesson. */
+  nextLessonId?: string;
   onNodePress?: (nodeId: string) => void;
   onPrimaryPress: () => void;
   onSupportPress?: () => void;
+  onUnitPress?: () => void;
   primaryTestID?: string;
   supportTestID?: string;
   testID?: string;
@@ -189,7 +192,8 @@ function HeroRing({
   const glowBreath = useBreath(0.5, 4000);
   const iconBreath = useBreath(0.85, 3200);
 
-  const arcOff = RING_CIRC * (1 - progress);
+  const displayProgress = Math.max(progress, 0.03); // minimum 3% arc
+  const arcOff = RING_CIRC * (1 - displayProgress);
   const dotDeg = (progress > 0 ? progress * 360 : 0) - 90;
   const dotRad = (dotDeg * Math.PI) / 180;
   const dotX = RING_CX + RING_R * Math.cos(dotRad);
@@ -251,7 +255,7 @@ function HeroRing({
         <Circle cx={RING_CX} cy={RING_CY} r={RING_R - RING_STROKE} fill="url(#inner)" />
         <Circle cx={RING_CX} cy={RING_CY} r={RING_R} fill="none"
           stroke="rgba(60,75,120,0.12)" strokeWidth={RING_STROKE} />
-        {progress > 0 && (
+        {displayProgress > 0 && (
           <Circle cx={RING_CX} cy={RING_CY} r={RING_R} fill="none"
             stroke="url(#arc)" strokeWidth={RING_STROKE} strokeLinecap="round"
             strokeDasharray={`${RING_CIRC}`} strokeDashoffset={arcOff}
@@ -295,12 +299,107 @@ function Background({ tc, syn }: { tc: string; syn: string }) {
   );
 }
 
+/* ── Fireflies drifting near ring ── */
+
+// Hero ring fireflies — orbit OUTSIDE the ring (ring radius ≈ 95px)
+const HERO_FIREFLY_CONFIGS = [
+  { cx: -140, cy: -50, driftX: 20, driftY: 24, dur: 12000, glowDur: 4000, size: 7 },
+  { cx: 135, cy: -35, driftX: 24, driftY: 18, dur: 14000, glowDur: 3500, size: 6 },
+  { cx: -120, cy: 70, driftX: 16, driftY: 22, dur: 16000, glowDur: 5000, size: 5 },
+  { cx: 125, cy: 60, driftX: 28, driftY: 20, dur: 11000, glowDur: 3800, size: 8 },
+  { cx: 20, cy: -145, driftX: 14, driftY: 16, dur: 18000, glowDur: 4500, size: 5 },
+];
+
+// Clock ring fireflies — orbit OUTSIDE the smaller clock ring (ring ≈ 78px)
+const CLOCK_FIREFLY_CONFIGS = [
+  { cx: -95, cy: -30, driftX: 14, driftY: 16, dur: 10000, glowDur: 3500, size: 5 },
+  { cx: 90, cy: -25, driftX: 16, driftY: 12, dur: 12000, glowDur: 3000, size: 5 },
+  { cx: -80, cy: 45, driftX: 12, driftY: 15, dur: 14000, glowDur: 4500, size: 4 },
+  { cx: 85, cy: 40, driftX: 18, driftY: 14, dur: 9000, glowDur: 3200, size: 6 },
+  { cx: 10, cy: -100, driftX: 10, driftY: 12, dur: 16000, glowDur: 4000, size: 4 },
+];
+
+interface FireflyConfig {
+  cx: number; cy: number; driftX: number; driftY: number;
+  dur: number; glowDur: number; size: number;
+}
+
+function Fireflies({ themeColor, synColor, configs }: {
+  themeColor: string; synColor: string; configs: FireflyConfig[];
+}) {
+  const anims = useRef(
+    configs.map(() => ({
+      driftX: new Animated.Value(0),
+      driftY: new Animated.Value(0),
+      glow: new Animated.Value(0),
+    }))
+  ).current;
+
+  useEffect(() => {
+    anims.forEach((a, i) => {
+      const cfg = configs[i];
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(a.driftX, { toValue: 1, duration: cfg.dur / 2, easing: EASE_SIN, useNativeDriver: true }),
+          Animated.timing(a.driftX, { toValue: -1, duration: cfg.dur, easing: EASE_SIN, useNativeDriver: true }),
+          Animated.timing(a.driftX, { toValue: 0, duration: cfg.dur / 2, easing: EASE_SIN, useNativeDriver: true }),
+        ])
+      ).start();
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(a.driftY, { toValue: -1, duration: cfg.dur * 0.6, easing: EASE_SIN, useNativeDriver: true }),
+          Animated.timing(a.driftY, { toValue: 1, duration: cfg.dur * 0.8, easing: EASE_SIN, useNativeDriver: true }),
+          Animated.timing(a.driftY, { toValue: 0, duration: cfg.dur * 0.6, easing: EASE_SIN, useNativeDriver: true }),
+        ])
+      ).start();
+      Animated.loop(
+        Animated.sequence([
+          Animated.timing(a.glow, { toValue: 1, duration: cfg.glowDur / 2, easing: EASE_SIN, useNativeDriver: true }),
+          Animated.timing(a.glow, { toValue: 0, duration: cfg.glowDur / 2, easing: EASE_SIN, useNativeDriver: true }),
+        ])
+      ).start();
+    });
+  }, []);
+
+  return (
+    <>
+      {configs.map((cfg, i) => {
+        const color = i % 2 === 0 ? themeColor : synColor;
+        const translateX = Animated.add(cfg.cx, Animated.multiply(anims[i].driftX, cfg.driftX));
+        const translateY = Animated.add(cfg.cy, Animated.multiply(anims[i].driftY, cfg.driftY));
+        const opacity = anims[i].glow.interpolate({ inputRange: [0, 1], outputRange: [0.25, 1.0] });
+
+        return (
+          <Animated.View
+            key={`firefly-${i}`}
+            style={{
+              position: "absolute",
+              alignSelf: "center",
+              width: cfg.size,
+              height: cfg.size,
+              borderRadius: cfg.size,
+              backgroundColor: color,
+              opacity,
+              shadowColor: color,
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 1,
+              shadowRadius: cfg.size * 4,
+              zIndex: 3,
+              transform: [{ translateX: translateX as any }, { translateY: translateY as any }],
+            }}
+          />
+        );
+      })}
+    </>
+  );
+}
+
 /* ================================================================== */
 /*  MAIN COMPONENT — Clock Dial Carousel                                */
 /* ================================================================== */
 
 export function CourseWorldHero({
-  model, onNodePress, onPrimaryPress,
+  model, nextLessonId, onNodePress, onPrimaryPress, onUnitPress,
   primaryTestID = "course-world-primary",
   testID = "course-world-hero",
 }: Props) {
@@ -339,13 +438,6 @@ export function CourseWorldHero({
   onNodePressRef.current = onNodePress;
   const onPrimaryPressRef = useRef(onPrimaryPress);
   onPrimaryPressRef.current = onPrimaryPress;
-
-  // Entrance
-  const cardY = useRef(new Animated.Value(24)).current;
-  useEffect(() => {
-    cardY.setValue(24);
-    Animated.timing(cardY, { toValue: 0, duration: 600, easing: EASE_DECEL, useNativeDriver: true }).start();
-  }, [cardY, les.id]);
 
   // Angle per lesson
   const anglePerLesson = N > 0 ? (2 * Math.PI) / N : 1;
@@ -495,7 +587,7 @@ export function CourseWorldHero({
   const heroOpacity = clockMode.interpolate({
     inputRange: [0, 0.3], outputRange: [1, 0], extrapolate: "clamp",
   });
-  const infoOpacity = clockMode.interpolate({
+  const headerOpacity = clockMode.interpolate({
     inputRange: [0, 0.2], outputRange: [1, 0], extrapolate: "clamp",
   });
   const clockOpacity = clockMode.interpolate({
@@ -504,6 +596,16 @@ export function CourseWorldHero({
   const clockScale = clockMode.interpolate({
     inputRange: [0, 1], outputRange: [0.5, 1],
   });
+
+  // Find the "next lesson to play" index — uses explicit prop if provided
+  const nextLessonIdx = useMemo(() => {
+    if (nextLessonId) {
+      const idx = allNodes.findIndex((n) => n.id === nextLessonId);
+      if (idx >= 0) return idx;
+    }
+    const idx = allNodes.findIndex((n) => n.status === "current" || (!n.isLocked && n.status !== "done"));
+    return idx >= 0 ? idx : currentIdx;
+  }, [allNodes, nextLessonId, currentIdx]);
 
   const CLOCK_ZONE = CLOCK_RADIUS * 3 + CLOCK_RING_SIZE + 60;
 
@@ -552,18 +654,24 @@ export function CourseWorldHero({
       <View style={st.spacerTop} />
 
       {/* Header */}
-      <Animated.View style={[st.header, { opacity: infoOpacity }]}>
-        <View style={st.unitBadge}>
+      <Animated.View style={[st.header, { opacity: headerOpacity }]}>
+        <Pressable style={st.unitBadge} onPress={onUnitPress} accessibilityRole="button" accessibilityLabel="ユニット選択">
           <View style={[st.unitDot, { backgroundColor: model.themeColor, shadowColor: model.themeColor }]} />
           <Text style={st.unitText}>{model.unitLabel}</Text>
-        </View>
-        <View style={st.progPill}>
-          <Text style={st.progText}>{model.progressLabel}</Text>
-        </View>
+          <Ionicons color="rgba(255,255,255,0.35)" name="chevron-down" size={14} />
+        </Pressable>
       </Animated.View>
 
       {/* Main interaction zone */}
       <View style={[st.interactionZone, { width: W, height: CLOCK_ZONE }]} {...panResponder.panHandlers}>
+
+        {/* Fireflies — hero ring (normal mode only, fades out with hero) */}
+        <Animated.View
+          style={[st.heroContainer, { zIndex: 15, opacity: heroOpacity }]}
+          pointerEvents="none"
+        >
+          <Fireflies themeColor={model.themeColor} synColor={syn} configs={HERO_FIREFLY_CONFIGS} />
+        </Animated.View>
 
         {/* Hero ring — normal mode (tap handled by PanResponder) */}
         <Animated.View
@@ -583,11 +691,12 @@ export function CourseWorldHero({
           width: CLOCK_ZONE,
           height: CLOCK_ZONE,
           opacity: clockOpacity,
-          transform: [{ scale: clockScale }, { translateY: CLOCK_RADIUS }],
+          transform: [{ scale: clockScale }],
         }]}>
           {clockItems.map(({ node, baseAngle, index }) => {
             const itemStyle = buildClockItemStyle(baseAngle);
             const isTop = index === topNodeIdx;
+            const isNextLesson = index === nextLessonIdx;
 
             return (
               <Animated.View
@@ -604,26 +713,17 @@ export function CourseWorldHero({
                   synColor={syn}
                   isTop={isTop}
                 />
+                {/* Fireflies around the next lesson to play */}
+                {isNextLesson && (
+                  <View style={{ position: "absolute", alignItems: "center", justifyContent: "center" }} pointerEvents="none">
+                    <Fireflies themeColor={model.themeColor} synColor={syn} configs={CLOCK_FIREFLY_CONFIGS} />
+                  </View>
+                )}
               </Animated.View>
             );
           })}
         </Animated.View>
       </View>
-
-      {/* Info — fades out in clock mode */}
-      <Animated.View style={[st.infoCard, {
-        transform: [{ translateY: cardY }],
-        opacity: infoOpacity,
-      }]}>
-        <Text style={[st.title, { textShadowColor: `${model.themeColor}66` }]} numberOfLines={2}>
-          {les.title}
-        </Text>
-        <Text style={st.body} numberOfLines={2}>{les.body}</Text>
-        <View style={[st.metaPill, { borderColor: `${model.themeColor}20` }]}>
-          <Ionicons color={model.themeColor} name="flash" size={13} />
-          <Text style={[st.metaText, { color: model.themeColor }]}>{les.meta}</Text>
-        </View>
-      </Animated.View>
 
       <View style={st.spacerBottom} />
     </View>
@@ -640,8 +740,8 @@ const st = StyleSheet.create({
   spacerBottom: { flex: 1 },
 
   header: {
-    flexDirection: "row", justifyContent: "space-between", alignItems: "center",
-    paddingHorizontal: 24, paddingTop: 16, height: 44,
+    flexDirection: "row", justifyContent: "flex-start", alignItems: "center",
+    paddingHorizontal: 24, paddingTop: 56, height: 80,
   },
   unitBadge: { flexDirection: "row", alignItems: "center", gap: 7 },
   unitDot: {
