@@ -3,53 +3,16 @@ import { Analytics } from "../analytics";
 import { useAuth } from "../AuthContext";
 import { buildMistakesHubSessionItems, selectMistakesHubItems } from "../../src/features/mistakesHub";
 import { canUseMistakesHub, consumeMistakesHub, getMistakesHubRemaining } from "../../src/featureGate";
+import { logDev } from "../devLog";
 import { useBillingState } from "./billing";
-import { getUserStorageKey, loadUserEntries, persistJson } from "./persistence";
+import { runHydrationTask } from "./hydration";
+import { createPersistJsonEffect } from "./persistEffects";
+import { loadPracticePersistenceSnapshot, normalizeReviewEvents } from "./practicePersistence";
 import type { MistakeItem, PracticeState, ReviewEvent } from "./types";
 
 type PracticeContextValue = PracticeState & { isHydrated: boolean };
 
 const PracticeStateContext = createContext<PracticeContextValue | undefined>(undefined);
-
-function normalizeReviewEvents(raw: unknown): ReviewEvent[] {
-  if (!Array.isArray(raw)) return [];
-  const cutoffMs = Date.now() - 30 * 24 * 60 * 60 * 1000;
-  const normalized: ReviewEvent[] = [];
-
-  for (const item of raw) {
-    if (!item || typeof item !== "object") continue;
-
-    const event = item as Record<string, unknown>;
-    const ts = Number(event.ts);
-    if (!Number.isFinite(ts) || ts < cutoffMs) continue;
-
-    const userId = typeof event.userId === "string" ? event.userId : "";
-    const itemId = typeof event.itemId === "string" ? event.itemId : "";
-    const lessonId = typeof event.lessonId === "string" ? event.lessonId : "";
-    const result = event.result === "incorrect" ? "incorrect" : event.result === "correct" ? "correct" : null;
-    if (!userId || !itemId || !lessonId || !result) continue;
-
-    const latencyMs = Number(event.latencyMs);
-    const dueAt = Number(event.dueAt);
-    const beta = Number(event.beta);
-    const p = Number(event.p);
-
-    normalized.push({
-      userId,
-      itemId,
-      lessonId,
-      ts: Math.floor(ts),
-      result,
-      latencyMs: Number.isFinite(latencyMs) ? latencyMs : undefined,
-      dueAt: Number.isFinite(dueAt) ? dueAt : undefined,
-      tags: Array.isArray(event.tags) ? event.tags.filter((tag): tag is string => typeof tag === "string") : undefined,
-      beta: Number.isFinite(beta) ? beta : undefined,
-      p: Number.isFinite(p) ? p : undefined,
-    });
-  }
-
-  return normalized.slice(-1000);
-}
 
 export function PracticeStateProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
@@ -74,68 +37,40 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
       return;
     }
 
-    let cancelled = false;
-    setIsHydrated(false);
-
-    const loadPractice = async () => {
-      try {
-        const saved = await loadUserEntries(user.id, ["mistakes", "reviewEvents"]);
-        if (cancelled) return;
-
-        if (saved.mistakes) {
-          const loadedMistakes = JSON.parse(saved.mistakes);
-          const migratedMistakes = loadedMistakes.map((m: any) => {
-            if (m.box === undefined) {
-              return {
-                ...m,
-                box: 1,
-                nextReviewDate: Date.now(),
-                interval: 0,
-              };
-            }
-            return m;
-          });
-          setMistakes(migratedMistakes);
-        } else {
-          setMistakes([]);
-        }
-
-        if (saved.reviewEvents) {
-          try {
-            setReviewEvents(normalizeReviewEvents(JSON.parse(saved.reviewEvents)));
-          } catch (error) {
-            console.warn("Failed to parse stored review events:", error);
-            setReviewEvents([]);
-          }
-        } else {
-          setReviewEvents([]);
-        }
-      } catch (error) {
-        if (__DEV__) {
-          console.log("Practice local storage read failed:", error);
-        }
-      } finally {
-        if (!cancelled) {
-          setIsHydrated(true);
-        }
-      }
-    };
-
-    loadPractice();
-    return () => {
-      cancelled = true;
-    };
+    return runHydrationTask({
+      setIsHydrated,
+      onStart: () => {
+        setMistakesHubSessionItems([]);
+      },
+      task: async ({ isCancelled }) => {
+        const saved = await loadPracticePersistenceSnapshot(user.id);
+        if (isCancelled()) return;
+        setMistakes(saved.mistakes);
+        setReviewEvents(saved.reviewEvents);
+      },
+      onError: (error) => {
+        logDev("Practice local storage read failed:", error);
+      },
+    });
   }, [user]);
 
   useEffect(() => {
-    if (!user || !isHydrated) return;
-    persistJson(getUserStorageKey("mistakes", user.id), mistakes).catch(() => {});
-  }, [isHydrated, mistakes, user]);
+    createPersistJsonEffect({
+      userId: user?.id,
+      isHydrated,
+      key: "mistakes",
+      value: mistakes,
+    });
+  }, [isHydrated, mistakes, user?.id]);
 
   useEffect(() => {
-    if (!user || !isHydrated) return;
-    persistJson(getUserStorageKey("reviewEvents", user.id), reviewEvents).catch(() => {});
-  }, [isHydrated, reviewEvents, user]);
+    createPersistJsonEffect({
+      userId: user?.id,
+      isHydrated,
+      key: "reviewEvents",
+      value: reviewEvents,
+    });
+  }, [isHydrated, reviewEvents, user?.id]);
 
   const addReviewEvent = (event: Omit<ReviewEvent, "userId" | "ts">) => {
     const fullEvent: ReviewEvent = {

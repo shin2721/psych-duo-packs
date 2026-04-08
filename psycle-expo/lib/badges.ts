@@ -1,11 +1,12 @@
 import i18n from "./i18n";
+import type { IoniconName } from "./ioniconName";
 
 // Badge definitions
 export interface Badge {
     id: string;
     name: string;
     description: string;
-    icon: string; // Ionicons name
+    icon: IoniconName;
     category: 'progress' | 'streak' | 'performance' | 'social';
     unlockCondition: (stats: BadgeStats) => boolean;
 }
@@ -21,7 +22,7 @@ export interface BadgeStats {
 
 interface BadgeConfig {
     id: string;
-    icon: string;
+    icon: IoniconName;
     category: Badge["category"];
     unlockCondition: Badge["unlockCondition"];
 }

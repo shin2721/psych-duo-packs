@@ -4,7 +4,14 @@ import {
   type QuestInstance,
   type QuestMetric,
 } from "../questDefinitions";
-import { buildQuestBoardForCycles, type QuestRotationSelection } from "../questRotation";
+import {
+  buildQuestBoardForCycles,
+  reconcileQuestBoardOnCycleChange,
+  rerollQuestInstance,
+  type QuestReconcileResult,
+  type QuestRerollResult,
+  type QuestRotationSelection,
+} from "../questRotation";
 import { getAdjustedQuestNeed } from "../personalization";
 import { getPersonalizationConfig, type PersonalizationSegment } from "../gamificationConfig";
 import type { QuestCycleKeys } from "../questCycles";
@@ -144,4 +151,135 @@ export function migrateMonthlyQuests(
       chestState: normalizeQuestChestState(previous.chestState),
     };
   });
+}
+
+export function reconcileQuestCyclesState(args: {
+  quests: QuestInstance[];
+  prevKeys: QuestCycleKeys;
+  nextKeys: QuestCycleKeys;
+  previousSelection: QuestRotationSelection;
+  claimBonusGemsByType: {
+    daily: number;
+    weekly: number;
+    monthly: number;
+  };
+}): QuestReconcileResult {
+  return reconcileQuestBoardOnCycleChange({
+    quests: args.quests,
+    prevKeys: args.prevKeys,
+    nextKeys: args.nextKeys,
+    previousSelection: args.previousSelection,
+    claimBonusGemsByType: args.claimBonusGemsByType,
+  });
+}
+
+export function claimQuestState(args: {
+  quests: QuestInstance[];
+  id: string;
+  claimBonusGemsByType: {
+    daily: number;
+    weekly: number;
+    monthly: number;
+  };
+}): {
+  nextQuests: QuestInstance[];
+  claimedQuest: QuestInstance | null;
+  rewardGems: number;
+} {
+  let claimedQuest: QuestInstance | null = null;
+  let rewardGems = 0;
+
+  const nextQuests = args.quests.map((quest) => {
+    if (quest.id !== args.id || quest.progress < quest.need || quest.claimed) {
+      return quest;
+    }
+
+    rewardGems = args.claimBonusGemsByType[quest.type] ?? 0;
+    claimedQuest = {
+      ...quest,
+      claimed: true,
+      chestState: "opening",
+    };
+    return claimedQuest;
+  });
+
+  return {
+    nextQuests,
+    claimedQuest,
+    rewardGems,
+  };
+}
+
+export function openClaimedQuestChestState(quests: QuestInstance[], id: string): QuestInstance[] {
+  return quests.map((quest) => (quest.id === id ? { ...quest, chestState: "opened" } : quest));
+}
+
+export function rerollQuestState(args: {
+  quests: QuestInstance[];
+  questId: string;
+  questRerollEnabled: boolean;
+  dailyLimit: number;
+  rerollCostGems: number;
+  dailyQuestRerollDate: string | null;
+  dailyQuestRerollCount: number;
+  todayDate: string;
+  gems: number;
+}):
+  | {
+      success: false;
+      reason:
+        | "disabled"
+        | "invalid_type"
+        | "limit_reached"
+        | "insufficient_gems"
+        | "already_completed"
+        | "no_candidate";
+    }
+  | {
+      success: true;
+      nextQuests: QuestInstance[];
+      nextGems: number;
+      nextRerollDate: string;
+      nextRerollCount: number;
+      oldTemplateId?: string;
+      newTemplateId?: string;
+      type?: "daily" | "weekly";
+    } {
+  if (!args.questRerollEnabled) return { success: false, reason: "disabled" };
+
+  const targetQuest = args.quests.find((quest) => quest.id === args.questId);
+  if (!targetQuest) return { success: false, reason: "no_candidate" };
+  if (targetQuest.type !== "daily" && targetQuest.type !== "weekly") {
+    return { success: false, reason: "invalid_type" };
+  }
+
+  const usedCount = args.dailyQuestRerollDate === args.todayDate ? args.dailyQuestRerollCount : 0;
+  if (usedCount >= args.dailyLimit) {
+    return { success: false, reason: "limit_reached" };
+  }
+  if (args.gems < args.rerollCostGems) {
+    return { success: false, reason: "insufficient_gems" };
+  }
+  if (targetQuest.claimed || targetQuest.progress >= targetQuest.need) {
+    return { success: false, reason: "already_completed" };
+  }
+
+  const rerolled: QuestRerollResult = rerollQuestInstance({
+    quests: args.quests,
+    questId: args.questId,
+  });
+  if (!rerolled.success) {
+    return { success: false, reason: rerolled.reason ?? "no_candidate" };
+  }
+
+  return {
+    success: true,
+    nextQuests: rerolled.quests,
+    nextGems: args.gems - args.rerollCostGems,
+    nextRerollDate: args.todayDate,
+    nextRerollCount: usedCount + 1,
+    oldTemplateId: rerolled.oldTemplateId,
+    newTemplateId: rerolled.newTemplateId,
+    type: rerolled.type,
+  };
 }

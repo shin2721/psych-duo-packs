@@ -1,19 +1,20 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useAuth } from "../AuthContext";
 import { Analytics } from "../analytics";
 import {
-  getCheckoutContextKey,
   getPlanChangeDirection,
-  getPlanChangeSnapshotKey,
   hasPlanSnapshotChanged,
   normalizePlanIdValue,
-  parseCheckoutContextSnapshot,
-  parsePlanChangeSnapshot,
   type PlanChangeSnapshot,
 } from "../planChangeTracking";
 import { supabase } from "../supabase";
 import { hasProItemAccess } from "../../src/featureGate";
+import { logDev } from "../devLog";
+import { runHydrationTask } from "./hydration";
+import {
+  loadBillingSnapshotContext,
+  persistPlanChangeSnapshot,
+} from "./billingStorage";
 import type { PlanId } from "../types/plan";
 import type { BillingState } from "./types";
 
@@ -35,14 +36,10 @@ export function BillingStateProvider({ children }: { children: React.ReactNode }
       return;
     }
 
-    let cancelled = false;
-    setIsHydrated(false);
-
-    const syncProfile = async () => {
-      try {
-        const previousPlanSnapshot = parsePlanChangeSnapshot(
-          await AsyncStorage.getItem(getPlanChangeSnapshotKey(user.id))
-        );
+    return runHydrationTask({
+      setIsHydrated,
+      task: async ({ isCancelled }) => {
+        const { checkoutContextSnapshot, planChangeSnapshot } = await loadBillingSnapshotContext(user.id);
 
         const { data, error } = await supabase
           .from("profiles")
@@ -50,7 +47,7 @@ export function BillingStateProvider({ children }: { children: React.ReactNode }
           .eq("id", user.id)
           .single();
 
-        if (cancelled) return;
+        if (isCancelled()) return;
         if (error) throw error;
 
         const nextPlanId = normalizePlanIdValue(data?.plan_id) ?? "free";
@@ -63,26 +60,23 @@ export function BillingStateProvider({ children }: { children: React.ReactNode }
           activeUntil: nextActiveUntil,
         };
 
-        if (hasPlanSnapshotChanged(previousPlanSnapshot, nextSnapshot)) {
-          const checkoutContext = parseCheckoutContextSnapshot(
-            await AsyncStorage.getItem(getCheckoutContextKey(user.id))
-          );
+        if (hasPlanSnapshotChanged(planChangeSnapshot, nextSnapshot)) {
           const hasPlanIdChanged = Boolean(
-            previousPlanSnapshot && previousPlanSnapshot.planId !== nextSnapshot.planId
+            planChangeSnapshot && planChangeSnapshot.planId !== nextSnapshot.planId
           );
           const contextPriceVersion =
-            hasPlanIdChanged && checkoutContext?.planId === nextSnapshot.planId
-              ? checkoutContext.priceVersion
+            hasPlanIdChanged && checkoutContextSnapshot?.planId === nextSnapshot.planId
+              ? checkoutContextSnapshot.priceVersion
               : null;
 
-          if (previousPlanSnapshot) {
+          if (planChangeSnapshot) {
             const { isUpgrade, isDowngrade } = getPlanChangeDirection(
-              previousPlanSnapshot.planId,
+              planChangeSnapshot.planId,
               nextSnapshot.planId
             );
             Analytics.track("plan_changed", {
               source: "profile_sync",
-              fromPlan: previousPlanSnapshot.planId,
+              fromPlan: planChangeSnapshot.planId,
               toPlan: nextSnapshot.planId,
               isUpgrade,
               isDowngrade,
@@ -91,26 +85,13 @@ export function BillingStateProvider({ children }: { children: React.ReactNode }
             });
           }
 
-          await AsyncStorage.setItem(
-            getPlanChangeSnapshotKey(user.id),
-            JSON.stringify(nextSnapshot)
-          );
+          await persistPlanChangeSnapshot(user.id, nextSnapshot);
         }
-      } catch (error) {
-        if (__DEV__) {
-          console.log("Billing sync failed (using local defaults):", error);
-        }
-      } finally {
-        if (!cancelled) {
-          setIsHydrated(true);
-        }
-      }
-    };
-
-    syncProfile();
-    return () => {
-      cancelled = true;
-    };
+      },
+      onError: (error) => {
+        logDev("Billing sync failed (using local defaults):", error);
+      },
+    });
   }, [user]);
 
   const isSubscriptionActive = useMemo(() => {

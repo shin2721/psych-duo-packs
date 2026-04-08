@@ -7,6 +7,7 @@
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Analytics } from './analytics';
+import { logDev } from './devLog';
 
 const STORAGE_KEY = '@psycle_streaks';
 
@@ -99,15 +100,13 @@ function trackStreakLost(
         freezesNeeded,
     });
 
-    if (__DEV__) {
-        console.log('[Analytics] streak_lost', {
-            streakType: 'study',
-            previousStreak,
-            gapDays,
-            freezesRemaining,
-            freezesNeeded,
-        });
-    }
+    logDev('[Analytics] streak_lost', {
+        streakType: 'study',
+        previousStreak,
+        gapDays,
+        freezesRemaining,
+        freezesNeeded,
+    });
 }
 
 export async function getStreakData(): Promise<StreakData> {
