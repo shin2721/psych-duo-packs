@@ -1,18 +1,20 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { View, Text, ScrollView, Pressable, StyleSheet } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
 import { useEconomyState, useProgressionState } from "../../lib/state";
 import { useAuth } from "../../lib/AuthContext";
-import { Analytics } from "../../lib/analytics";
-import { Card, ProgressBar, SectionHeader } from "../../components/ui";
-import { Chest } from "../../components/Chest";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { StreakCalendar } from "../../components/StreakCalendar";
 import i18n from "../../lib/i18n";
 import { useToast } from "../../components/ToastProvider";
+import {
+  EventCampaignSection,
+  MonthlyQuestSection,
+  QuestSection,
+} from "../../components/quests/QuestSections";
+import { useQuestEventImpressions } from "../../lib/quests/useQuestEventImpressions";
 
 function getTodayKeyFromNow(nowMs: number): string {
   const date = new Date(nowMs);
@@ -54,6 +56,7 @@ export default function QuestsScreen() {
   const monthly = quests.filter((q) => q.type === "monthly");
   const daily = quests.filter((q) => q.type === "daily");
   const weekly = quests.filter((q) => q.type === "weekly");
+  type QuestItem = (typeof quests)[number];
   const eventRemainingMs = useMemo(() => {
     if (!eventCampaign) return 0;
     const endMs = new Date(eventCampaign.endAt).getTime();
@@ -67,68 +70,11 @@ export default function QuestsScreen() {
     return () => clearInterval(interval);
   }, []);
 
-  useEffect(() => {
-    if (!eventCampaign) return;
-    const userId = user?.id ?? "local";
-    const key = `event_campaign_impressions_${userId}_${eventCampaign.id}`;
-
-    const trackEventSectionShown = async () => {
-      let nextState = {
-        eventShownDate: null as string | null,
-        communityGoalShownDate: null as string | null,
-      };
-
-      try {
-        const raw = await AsyncStorage.getItem(key);
-        if (raw) {
-          const parsed = JSON.parse(raw) as Partial<typeof nextState>;
-          nextState = {
-            eventShownDate:
-              typeof parsed.eventShownDate === "string" ? parsed.eventShownDate : null,
-            communityGoalShownDate:
-              typeof parsed.communityGoalShownDate === "string"
-                ? parsed.communityGoalShownDate
-                : null,
-          };
-        }
-      } catch (error) {
-        console.error("[EventCampaign] Failed to read impression state:", error);
-      }
-
-      let hasUpdate = false;
-
-      if (nextState.eventShownDate !== todayKey) {
-        Analytics.track("event_shown", {
-          eventId: eventCampaign.id,
-          source: "quests_tab",
-        });
-        nextState.eventShownDate = todayKey;
-        hasUpdate = true;
-      }
-
-      if (nextState.communityGoalShownDate !== todayKey) {
-        Analytics.track("community_goal_shown", {
-          eventId: eventCampaign.id,
-          targetLessons: eventCampaign.communityTargetLessons,
-          source: "quests_tab",
-        });
-        nextState.communityGoalShownDate = todayKey;
-        hasUpdate = true;
-      }
-
-      if (hasUpdate) {
-        try {
-          await AsyncStorage.setItem(key, JSON.stringify(nextState));
-        } catch (error) {
-          console.error("[EventCampaign] Failed to persist impression state:", error);
-        }
-      }
-    };
-
-    trackEventSectionShown().catch((error) => {
-      console.error("[EventCampaign] Failed to track impressions:", error);
-    });
-  }, [eventCampaign, todayKey, user?.id]);
+  useQuestEventImpressions({
+    eventCampaign,
+    todayKey,
+    userId: user?.id,
+  });
 
   const showRerollError = (
     reason?:
@@ -141,64 +87,6 @@ export default function QuestsScreen() {
   ) => {
     const key = reason ?? "no_candidate";
     showToast(String(i18n.t(`quests.reroll.errors.${key}`)), "error");
-  };
-
-  const renderQuest = (q: any) => {
-    const completed = q.progress >= q.need;
-    const canClaim = completed && !q.claimed;
-    const title = q.titleKey ? String(i18n.t(q.titleKey)) : q.title;
-    const canReroll = q.type === "daily" || q.type === "weekly";
-    const canRerollAction = canReroll && !completed && dailyQuestRerollRemaining > 0;
-
-    return (
-      <View key={q.id} testID={`quest-card-${q.type}-${q.id}`}>
-        <Card style={styles.questCard}>
-          <View style={styles.questRow}>
-            <View style={styles.questInfo}>
-              <Text style={styles.questTitle} numberOfLines={1} ellipsizeMode="tail">
-                {title}
-              </Text>
-              <Text style={styles.questDesc}>
-                {q.progress} / {q.need}
-              </Text>
-              <ProgressBar value={q.progress} max={q.need} style={styles.progressBar} />
-              {canReroll && (
-                <View style={styles.rerollRow}>
-                  <Pressable
-                    disabled={!canRerollAction}
-                    testID={`quest-reroll-${q.id}`}
-                    style={({ pressed }) => [
-                      styles.rerollButton,
-                      !canRerollAction && styles.rerollButtonDisabled,
-                      pressed && canRerollAction && styles.rerollButtonPressed,
-                    ]}
-                    onPress={() => {
-                      if (!canRerollAction) return;
-                      const result = rerollQuest(q.id);
-                      if (!result.success) {
-                        showRerollError(result.reason);
-                      }
-                    }}
-                  >
-                    <Text style={styles.rerollButtonText}>{i18n.t("quests.reroll.cta")}</Text>
-                  </Pressable>
-                  <Text style={styles.rerollRemaining}>
-                    {i18n.t("quests.reroll.remaining", { count: dailyQuestRerollRemaining })}
-                  </Text>
-                </View>
-              )}
-            </View>
-            <Chest
-              state={q.chestState}
-              onOpen={canClaim ? () => claimQuest(q.id) : undefined}
-              size="sm"
-              label={`${q.rewardXp}`}
-              testID={`quest-chest-${q.id}`}
-            />
-          </View>
-        </Card>
-      </View>
-    );
   };
 
   return (
@@ -217,85 +105,39 @@ export default function QuestsScreen() {
           <StreakCalendar history={streakHistory} />
         </View>
 
-        {eventCampaign && eventQuests.length > 0 && (
-          <View testID="quests-event-card">
-            <Card style={styles.eventCard}>
-              <View style={styles.eventHeaderRow}>
-                <Text style={styles.eventTitle}>{i18n.t(eventCampaign.titleKey)}</Text>
-                <Text style={styles.eventRemaining}>
-                  {i18n.t("quests.event.remaining", {
-                    time: formatRemaining(eventRemainingMs),
-                  })}
-                </Text>
-              </View>
-              <Text style={styles.eventCommunityGoal}>
-                {i18n.t("quests.event.communityGoal", {
-                  target: eventCampaign.communityTargetLessons,
-                })}
-              </Text>
-              <View style={styles.eventQuestList}>
-                {eventQuests.map((quest) => {
-                  const completed = quest.claimed || quest.progress >= quest.need;
-                  return (
-                    <View key={quest.id} style={styles.eventQuestRow} testID={`quests-event-${quest.id}`}>
-                      <View style={styles.eventQuestInfo}>
-                        <Text style={styles.eventQuestTitle}>{i18n.t(quest.titleKey)}</Text>
-                        <Text style={styles.eventQuestProgress}>
-                          {quest.progress} / {quest.need}
-                        </Text>
-                        <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} />
-                      </View>
-                      <View style={styles.eventQuestReward}>
-                        <Text style={styles.eventQuestGems}>+{quest.rewardGems} Gems</Text>
-                        {completed && (
-                          <Text style={styles.eventQuestCompleted}>{i18n.t("quests.event.completed")}</Text>
-                        )}
-                      </View>
-                    </View>
-                  );
-                })}
-              </View>
-            </Card>
-          </View>
-        )}
+        {eventCampaign && eventQuests.length > 0 ? (
+          <EventCampaignSection
+            eventCampaign={eventCampaign}
+            eventQuests={eventQuests}
+            eventRemainingLabel={formatRemaining(eventRemainingMs)}
+          />
+        ) : null}
 
-        {monthly.length > 0 && (
-          <View testID="quests-monthly-card">
-            <Card style={styles.monthlyCard}>
-              <Text style={styles.monthlyLabel}>{i18n.t("quests.monthly")}</Text>
-              {monthly.map((q) => (
-                <View key={q.id} style={styles.monthlyRow} testID={`quests-monthly-${q.id}`}>
-                  <View style={styles.monthlyInfo}>
-                    <Text style={styles.monthlyTitle}>
-                      {q.titleKey ? String(i18n.t(q.titleKey)) : q.title}
-                    </Text>
-                    <ProgressBar value={q.progress} max={q.need} style={styles.progressBar} />
-                    <Text style={styles.monthlyProgress}>
-                      {q.progress} / {q.need}
-                    </Text>
-                  </View>
-                  <Chest
-                    state={q.chestState}
-                    onOpen={q.progress >= q.need && !q.claimed ? () => claimQuest(q.id) : undefined}
-                    size="md"
-                    label={`${q.rewardXp}`}
-                    testID={`quest-chest-${q.id}`}
-                  />
-                </View>
-              ))}
-            </Card>
-          </View>
-        )}
-
-        <SectionHeader title={String(i18n.t("quests.daily"))} />
-        {daily.map(renderQuest)}
-
-        {weekly.length > 0 && (
-          <>
-            <SectionHeader title={String(i18n.t("quests.weekly"))} />
-            {weekly.map(renderQuest)}
-          </>
-        )}
+        <MonthlyQuestSection quests={monthly as QuestItem[]} onClaim={claimQuest} />
+        <QuestSection
+          title={String(i18n.t("quests.daily"))}
+          quests={daily as QuestItem[]}
+          dailyQuestRerollRemaining={dailyQuestRerollRemaining}
+          onClaim={claimQuest}
+          onReroll={(questId) => {
+            const result = rerollQuest(questId);
+            if (!result.success) {
+              showRerollError(result.reason);
+            }
+          }}
+        />
+        <QuestSection
+          title={String(i18n.t("quests.weekly"))}
+          quests={weekly as QuestItem[]}
+          dailyQuestRerollRemaining={dailyQuestRerollRemaining}
+          onClaim={claimQuest}
+          onReroll={(questId) => {
+            const result = rerollQuest(questId);
+            if (!result.success) {
+              showRerollError(result.reason);
+            }
+          }}
+        />
       </ScrollView>
     </SafeAreaView>
   );
@@ -307,110 +149,4 @@ const styles = StyleSheet.create({
   headerRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: theme.spacing.md },
   title: { fontSize: 24, fontWeight: "800", color: theme.colors.text },
   xpText: { fontSize: 18, fontWeight: "700", color: theme.colors.accent },
-  eventCard: {
-    marginBottom: theme.spacing.md,
-    padding: theme.spacing.lg,
-    borderColor: theme.colors.accent,
-    borderWidth: 1,
-  },
-  eventHeaderRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: theme.spacing.xs,
-  },
-  eventTitle: {
-    fontSize: 16,
-    fontWeight: "800",
-    color: theme.colors.text,
-  },
-  eventRemaining: {
-    fontSize: 12,
-    color: theme.colors.warn,
-    fontWeight: "700",
-  },
-  eventCommunityGoal: {
-    fontSize: 13,
-    color: theme.colors.sub,
-    marginBottom: theme.spacing.sm,
-  },
-  eventQuestList: {
-    gap: theme.spacing.sm,
-  },
-  eventQuestRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: theme.spacing.md,
-  },
-  eventQuestInfo: {
-    flex: 1,
-  },
-  eventQuestTitle: {
-    fontSize: 14,
-    fontWeight: "700",
-    color: theme.colors.text,
-  },
-  eventQuestProgress: {
-    fontSize: 12,
-    color: theme.colors.sub,
-    marginTop: 2,
-  },
-  eventQuestReward: {
-    alignItems: "flex-end",
-    minWidth: 84,
-  },
-  eventQuestGems: {
-    fontSize: 12,
-    fontWeight: "700",
-    color: theme.colors.accent,
-  },
-  eventQuestCompleted: {
-    fontSize: 11,
-    color: theme.colors.success,
-    marginTop: 4,
-    fontWeight: "700",
-  },
-  monthlyCard: { marginBottom: theme.spacing.md, padding: theme.spacing.lg },
-  monthlyLabel: { fontSize: 16, fontWeight: "700", color: theme.colors.accent, marginBottom: theme.spacing.sm },
-  monthlyRow: { flexDirection: "row", alignItems: "center", gap: theme.spacing.md },
-  monthlyInfo: { flex: 1 },
-  monthlyTitle: { fontSize: 16, fontWeight: "700", color: theme.colors.text, marginBottom: theme.spacing.xs },
-  monthlyProgress: { fontSize: 12, color: theme.colors.sub, marginTop: theme.spacing.xs },
-  questCard: { marginBottom: theme.spacing.sm },
-  questRow: { flexDirection: "row", alignItems: "center", gap: theme.spacing.md },
-  questInfo: { flex: 1 },
-  questTitle: { fontSize: 14, fontWeight: "700", color: theme.colors.text },
-  questDesc: { fontSize: 12, color: theme.colors.sub, marginTop: 2 },
-  progressBar: { marginTop: theme.spacing.xs },
-  rerollRow: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: theme.spacing.sm,
-    marginTop: theme.spacing.xs,
-  },
-  rerollButton: {
-    borderRadius: 999,
-    borderWidth: 1,
-    borderColor: theme.colors.accent,
-    paddingVertical: 4,
-    paddingHorizontal: 10,
-    minHeight: 44,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  rerollButtonPressed: {
-    opacity: 0.7,
-  },
-  rerollButtonDisabled: {
-    opacity: 0.4,
-  },
-  rerollButtonText: {
-    fontSize: 12,
-    fontWeight: "700",
-    color: theme.colors.accent,
-  },
-  rerollRemaining: {
-    fontSize: 11,
-    color: theme.colors.sub,
-  },
 });

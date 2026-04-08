@@ -9,9 +9,15 @@ import { useAuth } from "../../lib/AuthContext";
 import { useToast } from "../../components/ToastProvider";
 import { supabase } from "../../lib/supabase";
 import { PROFILE_AVATAR_ICONS, isProfileAvatarIcon, type ProfileAvatarIcon } from "../../lib/avatarIcons";
+import { warnDev } from "../../lib/devLog";
 import i18n from "../../lib/i18n";
 
 const MIN_USERNAME_LENGTH = 3;
+
+function isMissingColumnError(error: unknown) {
+    const maybeError = error as { code?: string; message?: string } | null;
+    return maybeError?.code === "42703" || maybeError?.message?.includes("column") === true;
+}
 
 function mapEditProfileErrorMessage(message: string): string {
     const normalized = message.trim().toLowerCase();
@@ -29,6 +35,12 @@ function mapEditProfileErrorMessage(message: string): string {
     }
 
     return String(i18n.t("editProfile.errors.saveFailed"));
+}
+
+function getErrorMessage(error: unknown): string {
+    if (error instanceof Error) return error.message;
+    if (typeof error === "string") return error;
+    return "";
 }
 
 export default function EditProfileScreen() {
@@ -102,7 +114,9 @@ export default function EditProfileScreen() {
                     setInitialAvatar(data.avatar_icon);
                 }
             } catch (error) {
-                console.error("Failed to load profile settings:", error);
+                if (!isMissingColumnError(error)) {
+                    warnDev("Failed to load profile settings:", error);
+                }
             }
         };
 
@@ -147,8 +161,8 @@ export default function EditProfileScreen() {
             allowRemovalRef.current = true;
             showToast(String(i18n.t("editProfile.successMessage")), "success");
             router.back();
-        } catch (error: any) {
-            showToast(mapEditProfileErrorMessage(String(error?.message || "")), "error");
+        } catch (error: unknown) {
+            showToast(mapEditProfileErrorMessage(getErrorMessage(error)), "error");
         } finally {
             setIsSaving(false);
         }
@@ -210,7 +224,7 @@ export default function EditProfileScreen() {
                                     accessibilityLabel={`${i18n.t("editProfile.avatar")} ${index + 1}`}
                                     accessibilityState={{ selected: isSelected }}
                                 >
-                                    <Ionicons name={icon as any} size={32} color={theme.colors.primary} />
+                                    <Ionicons name={icon} size={32} color={theme.colors.primary} />
                                 </Pressable>
                                 );
                             })}

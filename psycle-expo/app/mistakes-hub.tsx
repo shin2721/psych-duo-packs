@@ -1,12 +1,12 @@
 import React, { useMemo, useRef, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { StyleSheet } from "react-native";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { QuestionRenderer, type Question } from "../components/QuestionRenderer";
+import { SupportStatePanel } from "../components/SupportStatePanel";
 import { Analytics } from "../lib/analytics";
 import { getQuestionFromId } from "../lib/lessons";
-import { SupportStatePanel } from "../components/SupportStatePanel";
+import { MistakesHubSessionHeader, MistakesHubStateView } from "../components/review/MistakesHubSections";
 import { usePracticeState, useProgressionState } from "../lib/state";
 import { theme } from "../lib/theme";
 import i18n from "../lib/i18n";
@@ -16,6 +16,10 @@ export default function MistakesHubScreen() {
     mistakesHubSessionItems,
     clearMistakesHubSession,
     addReviewEvent,
+    canAccessMistakesHub,
+    getMistakesHubItems,
+    mistakesHubRemaining,
+    startMistakesHubSession,
   } = usePracticeState();
   const { addXp } = useProgressionState();
 
@@ -23,6 +27,8 @@ export default function MistakesHubScreen() {
   const [clearedCount, setClearedCount] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
   const completionTrackedRef = useRef(false);
+  const availableMistakesHubItems = getMistakesHubItems();
+  const hasEnoughData = availableMistakesHubItems.length >= 5;
 
   const questions = useMemo<Question[]>(() => {
     return mistakesHubSessionItems
@@ -47,6 +53,23 @@ export default function MistakesHubScreen() {
   const handleClose = () => {
     clearMistakesHubSession();
     router.replace("/(tabs)/course");
+  };
+
+  const handleOpenShop = () => {
+    clearMistakesHubSession();
+    router.replace("/(tabs)/shop");
+  };
+
+  const handleStartSession = () => {
+    const result = startMistakesHubSession();
+    if (!result.started) {
+      return;
+    }
+
+    setCurrentIndex(0);
+    setClearedCount(0);
+    setIsComplete(false);
+    completionTrackedRef.current = false;
   };
 
   const handleContinue = (isCorrect: boolean, xp: number) => {
@@ -78,18 +101,82 @@ export default function MistakesHubScreen() {
     finishSession(nextClearedCount);
   };
 
-  if (mistakesHubSessionItems.length === 0 || questions.length === 0) {
+  if (!canAccessMistakesHub) {
     return (
       <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
-        <View testID="mistakes-hub-empty" style={styles.statePanelWrap}>
-          <SupportStatePanel
+        <MistakesHubStateView
+          testID="mistakes-hub-locked"
+          icon="lock-closed-outline"
+          title={String(i18n.t("mistakesHubButton.titleLocked"))}
+          body={`${String(i18n.t("mistakesHubButton.statusLocked"))}\n\n${String(
+            i18n.t("mistakesHubButton.routeHintLocked")
+          )}`}
+          ctaLabel={String(i18n.t("tabs.shop"))}
+          onPress={handleOpenShop}
+        />
+      </SafeAreaView>
+    );
+  }
+
+  if (mistakesHubSessionItems.length === 0) {
+    if (!hasEnoughData) {
+      return (
+        <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
+          <MistakesHubStateView
+            testID="mistakes-hub-insufficient"
             icon="albums-outline"
-            title={String(i18n.t("review.emptyTitle"))}
-            body={String(i18n.t("mistakesHubButton.notEnoughData"))}
+            title={String(i18n.t("mistakesHubButton.titleAvailable"))}
+            body={`${String(i18n.t("mistakesHubButton.notEnoughData"))}\n\n${String(
+              i18n.t("mistakesHubButton.routeHintInsufficientData")
+            )}`}
             ctaLabel={String(i18n.t("review.backToCourse"))}
             onPress={handleClose}
           />
-        </View>
+        </SafeAreaView>
+      );
+    }
+
+    const sessionStatus = mistakesHubRemaining === null
+      ? String(i18n.t("mistakesHubButton.statusUnlimited"))
+      : String(
+          i18n.t("mistakesHubButton.statusRemaining", {
+            remaining: mistakesHubRemaining,
+          })
+        );
+
+    return (
+      <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
+        <MistakesHubStateView
+          testID="mistakes-hub-ready"
+          icon="play-circle-outline"
+          title={String(i18n.t("mistakesHubButton.titleAvailable"))}
+          body={`${String(i18n.t("mistakesHubButton.routeHintReady"))}\n\n${String(
+            i18n.t("mistakesHubButton.itemCountReady", {
+              count: availableMistakesHubItems.length,
+            })
+          )}\n${sessionStatus}`}
+          ctaLabel={String(
+            i18n.t("review.startButton", {
+              count: Math.min(availableMistakesHubItems.length, 10),
+            })
+          )}
+          onPress={handleStartSession}
+        />
+      </SafeAreaView>
+    );
+  }
+
+  if (questions.length === 0) {
+    return (
+      <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
+        <MistakesHubStateView
+          testID="mistakes-hub-empty"
+          icon="alert-circle-outline"
+          title={String(i18n.t("common.error"))}
+          body={String(i18n.t("common.unexpectedError"))}
+          ctaLabel={String(i18n.t("review.backToCourse"))}
+          onPress={handleClose}
+        />
       </SafeAreaView>
     );
   }
@@ -117,25 +204,7 @@ export default function MistakesHubScreen() {
 
   return (
     <SafeAreaView style={styles.container} testID="mistakes-hub-screen">
-      <View style={styles.header}>
-        <Pressable
-          style={styles.closeButton}
-          onPress={handleClose}
-          testID="mistakes-hub-close"
-          accessibilityRole="button"
-          accessibilityLabel={`${i18n.t("common.close")}: ${i18n.t("mistakesHub.title")}`}
-        >
-          <Ionicons name="close" size={24} color={theme.colors.text} />
-        </Pressable>
-        <View style={styles.progressTrack}>
-          <View
-            style={[
-              styles.progressFill,
-              { width: `${((currentIndex + 1) / questions.length) * 100}%` },
-            ]}
-          />
-        </View>
-      </View>
+      <MistakesHubSessionHeader progress={(currentIndex + 1) / questions.length} onClose={handleClose} />
 
       <QuestionRenderer
         question={currentQuestion}
@@ -149,31 +218,5 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: theme.colors.bg,
-  },
-  header: {
-    flexDirection: "row",
-    alignItems: "center",
-    paddingHorizontal: theme.spacing.md,
-    paddingVertical: theme.spacing.sm,
-    borderBottomWidth: 1,
-    borderBottomColor: theme.colors.line,
-    gap: theme.spacing.sm,
-  },
-  closeButton: {
-    padding: theme.spacing.xs,
-  },
-  progressTrack: {
-    flex: 1,
-    height: 8,
-    borderRadius: 999,
-    backgroundColor: theme.colors.surface,
-    overflow: "hidden",
-  },
-  progressFill: {
-    height: "100%",
-    backgroundColor: theme.colors.primary,
-  },
-  statePanelWrap: {
-    flex: 1,
   },
 });

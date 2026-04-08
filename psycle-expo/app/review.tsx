@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
 import { usePracticeState, useProgressionState } from "../lib/state";
 import { hapticFeedback } from "../lib/haptics";
@@ -10,6 +9,7 @@ import { getQuestionFromId } from "../lib/lessons";
 import { QuestionRenderer, Question } from "../components/QuestionRenderer";
 import { XPGainAnimation } from "../components/XPGainAnimation";
 import { SupportStatePanel } from "../components/SupportStatePanel";
+import { ReviewFeedbackBanner, ReviewIntroSection, ReviewScreenHeader } from "../components/review/ReviewSections";
 import i18n from "../lib/i18n";
 
 export default function ReviewScreen() {
@@ -117,17 +117,12 @@ export default function ReviewScreen() {
     if (dueCount === 0) {
         return (
             <SafeAreaView style={styles.container} testID="review-screen">
-                <View style={styles.header}>
-                    <Pressable
-                        onPress={() => router.back()}
-                        style={styles.backButton}
-                        accessibilityRole="button"
-                        accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("review.title")}`}
-                    >
-                        <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
-                    </Pressable>
-                    <Text style={styles.title}>{i18n.t("review.title")}</Text>
-                </View>
+                <ReviewScreenHeader
+                    title={String(i18n.t("review.title"))}
+                    icon="arrow-back"
+                    onPress={() => router.back()}
+                    accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("review.title")}`}
+                />
                 <SupportStatePanel
                     icon="checkmark-circle-outline"
                     title={String(i18n.t("review.emptyTitle"))}
@@ -161,31 +156,13 @@ export default function ReviewScreen() {
     if (!isSessionActive) {
         return (
             <SafeAreaView style={styles.container} testID="review-screen">
-                <View style={styles.header}>
-                    <Pressable
-                        onPress={() => router.back()}
-                        style={styles.backButton}
-                        accessibilityRole="button"
-                        accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("review.title")}`}
-                    >
-                        <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
-                    </Pressable>
-                    <Text style={styles.title}>{i18n.t("review.title")}</Text>
-                </View>
-                <View style={styles.introContainer}>
-                    <View style={styles.statsCard}>
-                        <Text style={styles.statsNumber}>{dueCount}</Text>
-                        <Text style={styles.statsLabel}>{i18n.t("review.pendingLabel")}</Text>
-                    </View>
-                    <Text style={styles.description}>
-                        {i18n.t("review.description")}
-                    </Text>
-                    <Pressable style={styles.button} onPress={handleStart}>
-                        <Text style={styles.buttonText}>
-                            {i18n.t("review.startButton", { count: Math.min(dueCount, 10) })}
-                        </Text>
-                    </Pressable>
-                </View>
+                <ReviewScreenHeader
+                    title={String(i18n.t("review.title"))}
+                    icon="arrow-back"
+                    onPress={() => router.back()}
+                    accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("review.title")}`}
+                />
+                <ReviewIntroSection dueCount={dueCount} onStart={handleStart} />
             </SafeAreaView>
         );
     }
@@ -194,24 +171,13 @@ export default function ReviewScreen() {
 
     return (
         <SafeAreaView style={styles.container} testID="review-screen">
-            <View style={styles.header}>
-                <Pressable
-                    onPress={() => router.back()}
-                    style={styles.backButton}
-                    accessibilityRole="button"
-                    accessibilityLabel={`${i18n.t("common.close")}: ${i18n.t("review.title")}`}
-                >
-                    <Ionicons name="close" size={24} color={theme.colors.text} />
-                </Pressable>
-                <View style={styles.progressBar}>
-                    <View
-                        style={[
-                            styles.progressFill,
-                            { width: `${((currentIndex + 1) / sessionQuestions.length) * 100}%` }
-                        ]}
-                    />
-                </View>
-            </View>
+            <ReviewScreenHeader
+                title={String(i18n.t("review.title"))}
+                icon="close"
+                onPress={() => router.back()}
+                progress={(currentIndex + 1) / sessionQuestions.length}
+                accessibilityLabel={`${i18n.t("common.close")}: ${i18n.t("review.title")}`}
+            />
 
             {currentQuestion && (
                 <QuestionRenderer
@@ -225,9 +191,7 @@ export default function ReviewScreen() {
             )}
 
             {nextReviewInfo && (
-                <View style={styles.reviewFeedback}>
-                    <Text style={styles.reviewFeedbackText}>{nextReviewInfo}</Text>
-                </View>
+                <ReviewFeedbackBanner message={nextReviewInfo} />
             )}
         </SafeAreaView>
     );
@@ -237,92 +201,5 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: theme.colors.bg,
-    },
-    header: {
-        flexDirection: "row",
-        alignItems: "center",
-        padding: theme.spacing.md,
-        borderBottomWidth: 1,
-        borderBottomColor: theme.colors.line,
-    },
-    backButton: {
-        padding: theme.spacing.xs,
-    },
-    title: {
-        fontSize: 18,
-        fontWeight: "bold",
-        color: theme.colors.text,
-        marginLeft: theme.spacing.sm,
-    },
-    progressBar: {
-        flex: 1,
-        height: 8,
-        backgroundColor: theme.colors.surface,
-        borderRadius: 4,
-        marginLeft: theme.spacing.md,
-        overflow: "hidden",
-    },
-    progressFill: {
-        height: "100%",
-        backgroundColor: theme.colors.primary,
-    },
-    introContainer: {
-        flex: 1,
-        padding: theme.spacing.xl,
-        justifyContent: "center",
-        alignItems: "center",
-    },
-    statsCard: {
-        backgroundColor: theme.colors.surface,
-        padding: theme.spacing.xl,
-        borderRadius: theme.radius.lg,
-        alignItems: "center",
-        marginBottom: theme.spacing.xl,
-        width: "100%",
-    },
-    statsNumber: {
-        fontSize: 48,
-        fontWeight: "bold",
-        color: theme.colors.primary,
-    },
-    statsLabel: {
-        fontSize: 16,
-        color: theme.colors.sub,
-    },
-    description: {
-        fontSize: 16,
-        color: theme.colors.text,
-        textAlign: "center",
-        marginBottom: theme.spacing.xl,
-        lineHeight: 24,
-    },
-    button: {
-        backgroundColor: theme.colors.primary,
-        paddingVertical: theme.spacing.md,
-        paddingHorizontal: theme.spacing.xl,
-        borderRadius: theme.radius.md, // Use md or lg, assuming full was meant to be large
-        width: "100%",
-        alignItems: "center",
-    },
-    buttonText: {
-        color: "#fff",
-        fontSize: 18,
-        fontWeight: "bold",
-    },
-    reviewFeedback: {
-        position: "absolute",
-        bottom: 120,
-        left: 0,
-        right: 0,
-        alignItems: "center",
-    },
-    reviewFeedbackText: {
-        fontSize: 16,
-        fontWeight: "600",
-        color: theme.colors.primary,
-        backgroundColor: theme.colors.surface,
-        paddingVertical: theme.spacing.sm,
-        paddingHorizontal: theme.spacing.lg,
-        borderRadius: theme.radius.lg,
     },
 });

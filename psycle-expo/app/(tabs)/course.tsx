@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, ScrollView, StyleSheet, Pressable } from "react-native";
+import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
-import { genres, trailsByGenre } from "../../lib/data";
+import { trailsByGenre } from "../../lib/data";
 import { useBillingState, useEconomyState, useProgressionState } from "../../lib/state";
 import { Trail } from "../../components/trail";
-import { Modal } from "../../components/Modal";
+import type { TrailNode as CourseTrailNode } from "../../components/trail/types";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { PaywallModal } from "../../components/PaywallModal";
-import { LeagueResultModal } from "../../components/LeagueResultModal";
-import { Button } from "../../components/ui";
+import {
+  CourseLeagueResultGate,
+  CourseLessonModal,
+  CourseNextStepCard,
+  CourseOfferBanner,
+} from "../../components/course/CourseSections";
 import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { getLastWeekResult, LeagueResult } from "../../lib/leagueReward";
 import { useAuth } from "../../lib/AuthContext";
@@ -43,7 +46,7 @@ export default function CourseScreen() {
   const { setGemsDirectly } = useEconomyState();
   const { user } = useAuth();
   const { showToast } = useToast();
-  const [modalNode, setModalNode] = useState<any>(null);
+  const [modalNode, setModalNode] = useState<string | null>(null);
   const [paywallVisible, setPaywallVisible] = useState(false);
   const [paywallContextGenre, setPaywallContextGenre] = useState<string | null>(null);
   const [leagueResult, setLeagueResult] = useState<LeagueResult | null>(null);
@@ -64,15 +67,9 @@ export default function CourseScreen() {
 
   const themeColor = GENRE_COLORS[selectedGenre] || GENRE_COLORS.mental;
   const baseTrail = trailsByGenre[selectedGenre] || trailsByGenre.mental;
-  if (__DEV__) {
-    console.log(`[CourseScreen] selectedGenre: ${selectedGenre}`);
-    console.log(`[CourseScreen] baseTrail length: ${baseTrail?.length}`);
-    console.log(`[CourseScreen] baseTrail first node: ${JSON.stringify(baseTrail?.[0])}`);
-    console.log(`[CourseScreen] baseTrail last node: ${JSON.stringify(baseTrail?.[baseTrail.length - 1])}`);
-  }
 
   // Compute status based on completed lessons and paywall
-  const currentTrail = baseTrail.map((node, index) => {
+  const currentTrail: CourseTrailNode[] = baseTrail.map((node, index) => {
     const lessonFile = node.lessonFile;
     if (!lessonFile) return node;
 
@@ -125,7 +122,6 @@ export default function CourseScreen() {
     }
 
     // Navigate to lesson screen
-    if (__DEV__) console.log(`[course.tsx] Navigating to: /lesson?file=${node.lessonFile}&genre=${selectedGenre}`);
     router.replace(`/lesson?file=${node.lessonFile}&genre=${selectedGenre}`);
     setModalNode(null);
   };
@@ -173,106 +169,52 @@ export default function CourseScreen() {
       <GlobalHeader />
 
       {activeStreakRepairOffer && (
-        <View style={styles.streakRepairCard}>
-          <View style={styles.streakRepairTexts}>
-            <Text style={styles.streakRepairTitle}>{i18n.t("course.streakRepair.title")}</Text>
-            <Text style={styles.streakRepairBody}>
-              {i18n.t("course.streakRepair.body", {
-                streak: activeStreakRepairOffer.previousStreak,
-                cost: activeStreakRepairOffer.costGems,
-                hours: streakRepairRemainingHours,
-              })}
-            </Text>
-          </View>
-          <Pressable
-            style={styles.streakRepairButton}
-            accessibilityRole="button"
-            accessibilityLabel={String(i18n.t("course.streakRepair.cta"))}
-            accessibilityHint={String(i18n.t("course.streakRepair.accessibilityHint"))}
-            onPress={() => {
-              const result = purchaseStreakRepair();
-              if (!result.success) {
-                if (result.reason === "insufficient_gems") {
-                  showToast(String(i18n.t("course.streakRepair.insufficientGems")), "error");
-                  return;
-                }
-                if (result.reason === "expired") {
-                  showToast(String(i18n.t("course.streakRepair.expired")), "error");
-                }
+        <CourseOfferBanner
+          variant="streakRepair"
+          title={String(i18n.t("course.streakRepair.title"))}
+          body={String(
+            i18n.t("course.streakRepair.body", {
+              streak: activeStreakRepairOffer.previousStreak,
+              cost: activeStreakRepairOffer.costGems,
+              hours: streakRepairRemainingHours,
+            })
+          )}
+          ctaLabel={String(i18n.t("course.streakRepair.cta"))}
+          accessibilityHint={String(i18n.t("course.streakRepair.accessibilityHint"))}
+          onPress={() => {
+            const result = purchaseStreakRepair();
+            if (!result.success) {
+              if (result.reason === "insufficient_gems") {
+                showToast(String(i18n.t("course.streakRepair.insufficientGems")), "error");
+                return;
               }
-            }}
-          >
-            <Text style={styles.streakRepairButtonText}>{i18n.t("course.streakRepair.cta")}</Text>
-          </Pressable>
-        </View>
+              if (result.reason === "expired") {
+                showToast(String(i18n.t("course.streakRepair.expired")), "error");
+              }
+            }
+          }}
+        />
       )}
 
       {activeComebackRewardOffer && (
-        <View style={styles.comebackCard}>
-          <View style={styles.comebackTexts}>
-            <Text style={styles.comebackTitle}>{i18n.t("course.comebackReward.title")}</Text>
-            <Text style={styles.comebackBody}>
-              {i18n.t("course.comebackReward.body", {
-                days: activeComebackRewardOffer.daysSinceStudy,
-                energy: activeComebackRewardOffer.rewardEnergy,
-                gems: activeComebackRewardOffer.rewardGems,
-              })}
-            </Text>
-          </View>
-          <Pressable
-            style={styles.comebackButton}
-            accessibilityRole="button"
-            accessibilityLabel={String(i18n.t("course.comebackReward.cta"))}
-            accessibilityHint={String(i18n.t("course.comebackReward.accessibilityHint"))}
-            onPress={handleStartComebackLesson}
-          >
-            <Text style={styles.comebackButtonText}>{i18n.t("course.comebackReward.cta")}</Text>
-          </Pressable>
-        </View>
+        <CourseOfferBanner
+          variant="comeback"
+          title={String(i18n.t("course.comebackReward.title"))}
+          body={String(
+            i18n.t("course.comebackReward.body", {
+              days: activeComebackRewardOffer.daysSinceStudy,
+              energy: activeComebackRewardOffer.rewardEnergy,
+              gems: activeComebackRewardOffer.rewardGems,
+            })
+          )}
+          ctaLabel={String(i18n.t("course.comebackReward.cta"))}
+          accessibilityHint={String(i18n.t("course.comebackReward.accessibilityHint"))}
+          onPress={handleStartComebackLesson}
+        />
       )}
 
       {nextActionNode && (
-        <View style={styles.nextStepCard} testID="course-next-step-card">
-          <View style={styles.nextStepHeader}>
-            <View style={styles.nextStepIconWrap}>
-              <Ionicons
-                name={nextActionNode.isLocked ? "lock-closed" : "play"}
-                size={16}
-                color={nextActionNode.isLocked ? theme.colors.warn : theme.colors.accent}
-              />
-            </View>
-            <Text style={styles.nextStepLabel}>{i18n.t("course.nextStep.label")}</Text>
-          </View>
-          <Text style={styles.nextStepTitle}>
-            {nextActionNode.isLocked
-              ? i18n.t("course.nextStep.lockedTitle")
-              : i18n.t("course.nextStep.readyTitle")}
-          </Text>
-          <Text style={styles.nextStepBody}>
-            {nextActionNode.isLocked
-              ? i18n.t("course.nextStep.lockedBody")
-              : i18n.t("course.nextStep.readyBody")}
-          </Text>
-          <Button
-            label={String(
-              nextActionNode.isLocked
-                ? i18n.t("course.nextStep.ctaLocked")
-                : i18n.t("course.nextStep.ctaReady")
-            )}
-            size="sm"
-            onPress={handleNextStepPress}
-            testID="course-next-step-cta"
-            style={[
-              styles.nextStepButton,
-              nextActionNode.isLocked && styles.nextStepButtonLocked,
-            ]}
-            accessibilityLabel={
-              nextActionNode.isLocked
-                ? `${String(i18n.t("course.nextStep.lockedTitle"))}. ${String(i18n.t("course.nextStep.ctaLocked"))}`
-                : `${String(i18n.t("course.nextStep.readyTitle"))}. ${String(i18n.t("course.nextStep.ctaReady"))}`
-            }
-          />
-        </View>
+        <CourseNextStepCard isLocked={Boolean(nextActionNode.isLocked)} onPress={handleNextStepPress} />
       )}
 
       <Trail
@@ -285,14 +227,7 @@ export default function CourseScreen() {
         themeColor={themeColor}
       />
 
-      <Modal
-        visible={!!modalNode}
-        title={i18n.t("course.startLessonTitle")}
-        description={i18n.t("course.startLessonDescription", { xp: 10 })}
-        primaryLabel={i18n.t("course.startButton")}
-        onPrimary={handleStart}
-        onCancel={() => setModalNode(null)}
-      />
+      <CourseLessonModal visible={!!modalNode} onStart={handleStart} onCancel={() => setModalNode(null)} />
 
       <PaywallModal
         visible={paywallVisible}
@@ -310,170 +245,29 @@ export default function CourseScreen() {
       />
 
       {/* リーグ結果モーダル（週明け表示） */}
-      {leagueResult && (
-        <LeagueResultModal
-          visible={showLeagueResult}
-          result={leagueResult}
-          onClaim={(claimedGems, claimedBadges, newBalance) => {
-            // サーバー側で既に加算済み。ローカルStateを新しい残高で上書き同期する
-            if (newBalance !== undefined) {
-              setGemsDirectly(newBalance);
-            }
-            showToast(
-              String(
-                i18n.t("course.rewardClaimedMessage", {
-                  gems: claimedGems,
-                  badges: claimedBadges.length,
-                })
-              ),
-              "success"
-            );
-          }}
-          onDismiss={() => setShowLeagueResult(false)}
-        />
-      )}
+      <CourseLeagueResultGate
+        result={leagueResult}
+        visible={showLeagueResult}
+        onClaim={(claimedGems, claimedBadges, newBalance) => {
+          if (newBalance !== undefined) {
+            setGemsDirectly(newBalance);
+          }
+          showToast(
+            String(
+              i18n.t("course.rewardClaimedMessage", {
+                gems: claimedGems,
+                badges: claimedBadges.length,
+              })
+            ),
+            "success"
+          );
+        }}
+        onDismiss={() => setShowLeagueResult(false)}
+      />
     </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: "transparent" },
-  streakRepairCard: {
-    marginHorizontal: 16,
-    marginTop: 12,
-    marginBottom: 6,
-    padding: 12,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "rgba(249, 115, 22, 0.4)",
-    backgroundColor: "rgba(249, 115, 22, 0.12)",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  streakRepairTexts: {
-    flex: 1,
-    gap: 4,
-  },
-  streakRepairTitle: {
-    fontSize: 14,
-    fontWeight: "800",
-    color: "#f97316",
-  },
-  streakRepairBody: {
-    fontSize: 12,
-    color: theme.colors.text,
-    lineHeight: 18,
-  },
-  streakRepairButton: {
-    backgroundColor: "#f97316",
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    minHeight: 44,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  streakRepairButtonText: {
-    color: "#fff",
-    fontWeight: "800",
-    fontSize: 12,
-  },
-  comebackCard: {
-    marginHorizontal: 16,
-    marginTop: 12,
-    marginBottom: 6,
-    padding: 12,
-    borderRadius: 12,
-    borderWidth: 1,
-    borderColor: "rgba(34, 197, 94, 0.4)",
-    backgroundColor: "rgba(34, 197, 94, 0.12)",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 12,
-  },
-  comebackTexts: {
-    flex: 1,
-    gap: 4,
-  },
-  comebackTitle: {
-    fontSize: 14,
-    fontWeight: "800",
-    color: "#22c55e",
-  },
-  comebackBody: {
-    fontSize: 12,
-    color: theme.colors.text,
-    lineHeight: 18,
-  },
-  comebackButton: {
-    backgroundColor: "#22c55e",
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-    minHeight: 44,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  comebackButtonText: {
-    color: "#fff",
-    fontWeight: "800",
-    fontSize: 12,
-  },
-  nextStepCard: {
-    marginHorizontal: 16,
-    marginTop: 10,
-    marginBottom: 10,
-    padding: 14,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: theme.colors.line,
-    backgroundColor: theme.colors.card,
-    gap: 6,
-  },
-  nextStepHeader: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 8,
-  },
-  nextStepIconWrap: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "rgba(59, 130, 246, 0.16)",
-  },
-  nextStepLabel: {
-    fontSize: 12,
-    fontWeight: "700",
-    letterSpacing: 0.4,
-    color: theme.colors.sub,
-    textTransform: "uppercase",
-  },
-  nextStepTitle: {
-    fontSize: 17,
-    fontWeight: "800",
-    color: theme.colors.text,
-  },
-  nextStepBody: {
-    fontSize: 13,
-    lineHeight: 19,
-    color: theme.colors.sub,
-  },
-  nextStepButton: {
-    marginTop: 4,
-    alignSelf: "flex-start",
-    borderRadius: 999,
-  },
-  nextStepButtonLocked: {
-    backgroundColor: theme.colors.warn,
-  },
-  header: {
-    // Empty header reserved for spacing if needed, or remove completely.
-    // Actually GlobalHeader is outside, so maybe just 0 height or specific bg.
-    backgroundColor: "transparent",
-  },
-
-
 });
