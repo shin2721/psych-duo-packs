@@ -132,7 +132,7 @@ export interface Question {
   key_points?: string[];
 
   // Interactive Practice
-  practice_config?: any;
+  practice_config?: Record<string, unknown>;
   feedback_prompt?: string;
   snack_map?: Record<string, string>;
   bonus_xp_if_effective?: number;
@@ -164,7 +164,7 @@ export interface QuestionGenerationParams {
   unit: string;               // ユニット名（mental, money, work, etc.）
   difficulty: Difficulty;     // 難易度
   type: QuestionType;         // 問題タイプ
-  source?: any;               // ソース情報（論文など）
+  source?: unknown;           // ソース情報（論文など）
   context?: string;           // 追加コンテキスト
 }
 
