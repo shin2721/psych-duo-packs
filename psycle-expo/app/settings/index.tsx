@@ -452,17 +452,24 @@ export default function SettingsScreen() {
                             />
                             <SettingRow
                                 icon="git-compare"
-                                label="Course Concepts Compare"
-                                onPress={() => router.push('/debug/course-concepts-compare')}
-                                accessibilityLabel="Course Concepts Compare"
-                                testID="open-course-concepts-compare"
+                                label="Course Preview Debug"
+                                onPress={() => router.push('/debug/course-concept-final')}
+                                accessibilityLabel="Course Preview Debug"
+                                testID="open-course-concept-final"
                             />
                             <SettingRow
                                 icon="planet"
-                                label="Course Orbit Concept"
-                                onPress={() => router.push('/debug/course-path-concept')}
-                                accessibilityLabel="Course Orbit Concept"
-                                testID="open-course-path-concept"
+                                label="Course World Hero (Experimental)"
+                                onPress={() => router.push('/debug/course-world-hero')}
+                                accessibilityLabel="Course World Hero (Experimental)"
+                                testID="open-course-world-hero"
+                            />
+                            <SettingRow
+                                icon="logo-electron"
+                                label="Course Preview Claude"
+                                onPress={() => router.push('/debug/course-concept-claude')}
+                                accessibilityLabel="Course Preview Claude"
+                                testID="open-course-concept-claude"
                             />
                             <SettingRow
                                 icon="analytics"

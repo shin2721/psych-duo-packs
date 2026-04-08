@@ -43,7 +43,7 @@ interface Props {
   onComboMilestone?: (milestone: 3 | 5 | 10, questionId: string) => void;
 }
 
-export const getQuestionText = (question: Question) => question.question ?? "";
+export const getQuestionText = (question: Question) => question.text ?? question.question ?? "";
 
 export const getQuestionChoices = (question: Question) => question.choices ?? [];
 

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# wait-for — Wait until an element becomes visible.
+# Usage: scripts/native-agent/wait-for <testID> [timeout_ms]
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -z "${1:-}" ] && { echo "Usage: wait-for <testID> [timeout_ms]" >&2; exit 1; }
+TIMEOUT="${2:-10000}"
+python3 -c "
+import json, sys
+print(json.dumps({'action':'wait-for','id':sys.argv[1],'timeout':int(sys.argv[2])}))
+" "$1" "$TIMEOUT" | "$DIR/_send"

@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# screenshot — Take a screenshot of the current screen.
+# Usage: scripts/native-agent/screenshot [name]
+# Output: JSON with path to the saved .png file
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+NAME="${1:-ux-$(date +%s)}"
+python3 -c "
+import json, sys
+print(json.dumps({'action':'screenshot','name':sys.argv[1]}))
+" "$NAME" | "$DIR/_send"

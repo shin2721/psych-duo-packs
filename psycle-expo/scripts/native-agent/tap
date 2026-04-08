@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# tap — Tap an element by testID.
+# Usage: scripts/native-agent/tap <testID>
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -z "${1:-}" ] && { echo "Usage: tap <testID>" >&2; exit 1; }
+python3 -c "import json,sys; print(json.dumps({'action':'tap','id':sys.argv[1]}))" "$1" \
+  | "$DIR/_send"

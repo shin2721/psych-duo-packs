@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# quit — Gracefully stop the UX Agent.
+# Usage: scripts/native-agent/quit
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+PID_FILE="/tmp/ux-agent/agent.pid"
+
+python3 -c "import json; print(json.dumps({'action':'quit'}))" | "$DIR/_send"
+
+# Wait for Detox process to exit
+if [ -f "$PID_FILE" ]; then
+  PID=$(cat "$PID_FILE")
+  echo "Waiting for agent (PID $PID) to exit..."
+  for i in $(seq 1 15); do
+    if ! kill -0 "$PID" 2>/dev/null; then
+      echo "Agent stopped."
+      rm -f "$PID_FILE"
+      exit 0
+    fi
+    sleep 1
+  done
+  echo "Force killing agent..."
+  kill "$PID" 2>/dev/null || true
+  rm -f "$PID_FILE"
+fi
+
+echo "Agent stopped."

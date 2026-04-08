@@ -1,6 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
 import { useAuth } from "../AuthContext";
-import { supabase } from "../supabase";
 import { BADGES, type BadgeStats } from "../badges";
 import {
   getComebackRewardConfig,
@@ -21,10 +20,12 @@ import { consumeNextBadgeToastItem, enqueueBadgeToastIds } from "../badgeToastQu
 import {
   consumeNextStreakMilestoneToastItem,
   enqueueStreakMilestoneToast,
+  type StreakMilestoneToastItem,
 } from "../streakMilestoneToastQueue";
 import {
   consumeNextComebackRewardToastItem,
   enqueueComebackRewardToast,
+  type ComebackRewardToastItem,
 } from "../comebackRewardToastQueue";
 import {
   canClaimComebackReward,
@@ -64,11 +65,8 @@ import {
   type QuestRotationSelection,
 } from "../questRotation";
 import {
-  deriveUserSegment,
   getAdjustedComebackReward,
-  getAdjustedQuestNeed,
   normalizePersonalizationSegment,
-  shouldReassignSegment,
 } from "../personalization";
 import { Analytics } from "../analytics";
 import { useBillingState } from "./billing";
@@ -81,6 +79,28 @@ import {
   persistNumber,
   persistString,
 } from "./persistence";
+import {
+  insertUserBadge,
+  loadLessonsCompleted7d,
+  loadRemoteBadgeIds,
+  loadRemoteProgressionSnapshot,
+  syncProfileStreak,
+  syncProfileXp,
+  syncStreakAndLeaderboard,
+} from "./progressionRemote";
+import {
+  derivePersonalizationAssignment,
+  getActiveEventCampaignConfig,
+  getDateDaysAgo,
+  getDaysSinceDate,
+  isTrackedStreakMilestoneDay,
+} from "./progressionLiveOps";
+import {
+  adjustQuestNeedsBySegment,
+  createInitialQuestState,
+  migrateMonthlyQuests,
+  normalizeStoredQuestInstances,
+} from "./progressionQuests";
 import type { EventCampaignSummary, ProgressionState } from "./types";
 
 type ProgressionContextValue = ProgressionState;
@@ -123,142 +143,6 @@ const QUEST_CLAIM_BONUS_GEMS_BY_TYPE = {
 const QUEST_REROLL_COST_GEMS = normalizeNonNegativeInt(questRerollConfig.cost_gems, 5);
 const QUEST_REROLL_DAILY_LIMIT = normalizePositiveInt(questRerollConfig.daily_limit, 1);
 
-function getActiveEventCampaignConfig(now: Date = new Date()): EventCampaignConfig | null {
-  const config = getEventCampaignConfig();
-  if (!config) return null;
-  return isEventWindowActive(now, config) ? config : null;
-}
-
-function isTrackedStreakMilestoneDay(day: number): day is 3 | 7 | 14 | 30 | 60 | 100 | 365 {
-  return day === 3 || day === 7 || day === 14 || day === 30 || day === 60 || day === 100 || day === 365;
-}
-
-function adjustQuestNeedsBySegment(quests: QuestInstance[], segment: PersonalizationSegment): QuestInstance[] {
-  if (!personalizationConfig.enabled) return quests;
-
-  let changed = false;
-  const next = quests.map((quest) => {
-    if (quest.type === "monthly" || quest.claimed) return quest;
-
-    const baseNeed = getQuestTemplateNeed(quest.templateId) ?? quest.need;
-    const adjustedNeed = getAdjustedQuestNeed(baseNeed, segment, personalizationConfig);
-    if (adjustedNeed === quest.need) return quest;
-
-    changed = true;
-    return {
-      ...quest,
-      need: adjustedNeed,
-      progress: Math.min(quest.progress, adjustedNeed),
-    };
-  });
-
-  return changed ? next : quests;
-}
-
-function createInitialQuestState(cycleKeys: QuestCycleKeys): {
-  quests: QuestInstance[];
-  rotationSelection: QuestRotationSelection;
-} {
-  const { quests, selection } = buildQuestBoardForCycles({
-    cycleKeys,
-    previousSelection: { daily: [], weekly: [] },
-    monthlyQuests: createMonthlyFixedQuestInstances(cycleKeys.monthly),
-  });
-
-  return { quests, rotationSelection: selection };
-}
-
-function isQuestType(value: unknown): value is "daily" | "weekly" | "monthly" {
-  return value === "daily" || value === "weekly" || value === "monthly";
-}
-
-function isQuestMetric(value: unknown): value is QuestMetric {
-  return value === "lesson_complete" || value === "streak5_milestone";
-}
-
-function normalizeQuestChestState(value: unknown): "closed" | "opening" | "opened" {
-  return value === "opening" || value === "opened" ? value : "closed";
-}
-
-function normalizeStoredQuestInstances(raw: unknown, cycleKeys: QuestCycleKeys): QuestInstance[] | null {
-  if (!Array.isArray(raw)) return null;
-
-  const normalized: QuestInstance[] = [];
-  for (const item of raw) {
-    if (!item || typeof item !== "object") continue;
-    const quest = item as Record<string, unknown>;
-    const type = isQuestType(quest.type) ? quest.type : null;
-    if (!type) continue;
-
-    const needRaw = Number(quest.need);
-    const need = Number.isFinite(needRaw) ? Math.max(1, Math.floor(needRaw)) : 1;
-    const progressRaw = Number(quest.progress);
-    const progress = Number.isFinite(progressRaw) ? Math.max(0, Math.floor(progressRaw)) : 0;
-    const rewardXpRaw = Number(quest.rewardXp);
-    const rewardXp = Number.isFinite(rewardXpRaw) ? Math.max(0, Math.floor(rewardXpRaw)) : 0;
-    const templateId =
-      typeof quest.templateId === "string" && quest.templateId.length > 0
-        ? quest.templateId
-        : typeof quest.id === "string" && quest.id.length > 0
-          ? quest.id
-          : null;
-    if (!templateId) continue;
-
-    const id =
-      typeof quest.id === "string" && quest.id.length > 0 ? quest.id : `${templateId}__${type}`;
-    const metric = isQuestMetric(quest.metric) ? quest.metric : null;
-    const cycleKey =
-      typeof quest.cycleKey === "string" && quest.cycleKey.length > 0
-        ? quest.cycleKey
-        : type === "daily"
-          ? cycleKeys.daily
-          : type === "weekly"
-            ? cycleKeys.weekly
-            : cycleKeys.monthly;
-
-    normalized.push({
-      id,
-      templateId,
-      type,
-      metric,
-      need,
-      progress: Math.min(need, progress),
-      rewardXp,
-      claimed: Boolean(quest.claimed),
-      chestState: normalizeQuestChestState(quest.chestState),
-      title: typeof quest.title === "string" ? quest.title : templateId,
-      titleKey: typeof quest.titleKey === "string" ? quest.titleKey : undefined,
-      cycleKey,
-    });
-  }
-
-  return normalized.length > 0 ? normalized : null;
-}
-
-function migrateMonthlyQuests(storedQuests: QuestInstance[] | null, monthlyCycleKey: string): QuestInstance[] {
-  const baseMonthly = createMonthlyFixedQuestInstances(monthlyCycleKey);
-  if (!storedQuests) return baseMonthly;
-
-  const previousMonthly = new Map<string, QuestInstance>();
-  storedQuests
-    .filter((quest) => quest.type === "monthly")
-    .forEach((quest) => {
-      previousMonthly.set(quest.templateId, quest);
-      previousMonthly.set(quest.id, quest);
-    });
-
-  return baseMonthly.map((quest) => {
-    const previous = previousMonthly.get(quest.templateId) ?? previousMonthly.get(quest.id);
-    if (!previous) return quest;
-    return {
-      ...quest,
-      progress: Math.min(quest.need, Math.max(0, previous.progress)),
-      claimed: previous.claimed,
-      chestState: normalizeQuestChestState(previous.chestState),
-    };
-  });
-}
-
 function getTodayDate(): string {
   const d = new Date();
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
@@ -268,36 +152,6 @@ function getYesterdayDate(): string {
   const d = new Date();
   d.setDate(d.getDate() - 1);
   return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`;
-}
-
-function parseDateKey(dateKey: string): Date | null {
-  const matched = /^(\d{4})-(\d{2})-(\d{2})$/.exec(dateKey);
-  if (!matched) return null;
-  const year = Number(matched[1]);
-  const month = Number(matched[2]);
-  const day = Number(matched[3]);
-  if (!Number.isInteger(year) || !Number.isInteger(month) || !Number.isInteger(day)) return null;
-  if (month < 1 || month > 12 || day < 1 || day > 31) return null;
-  const parsed = new Date(year, month - 1, day);
-  return Number.isNaN(parsed.getTime()) ? null : parsed;
-}
-
-function getDaysSinceDate(dateKey: string | null): number {
-  if (!dateKey) return 0;
-  const parsed = parseDateKey(dateKey);
-  if (!parsed) return 0;
-  const today = new Date();
-  const todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-  const parsedStart = new Date(parsed.getFullYear(), parsed.getMonth(), parsed.getDate());
-  const diffMs = todayStart.getTime() - parsedStart.getTime();
-  if (diffMs <= 0) return 0;
-  return Math.floor(diffMs / (24 * 60 * 60 * 1000));
-}
-
-function getDateDaysAgo(daysAgo: number): string {
-  const date = new Date();
-  date.setDate(date.getDate() - Math.max(0, Math.floor(daysAgo)));
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
 export function ProgressionStateProvider({ children }: { children: React.ReactNode }) {
@@ -337,8 +191,8 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
   const [personalizationSegment, setPersonalizationSegment] = useState<PersonalizationSegment>("new");
   const [personalizationAssignedAtMs, setPersonalizationAssignedAtMs] = useState<number | null>(null);
   const [badgeToastQueue, setBadgeToastQueue] = useState<string[]>([]);
-  const [streakMilestoneToastQueue, setStreakMilestoneToastQueue] = useState<any[]>([]);
-  const [comebackRewardToastQueue, setComebackRewardToastQueue] = useState<any[]>([]);
+  const [streakMilestoneToastQueue, setStreakMilestoneToastQueue] = useState<StreakMilestoneToastItem[]>([]);
+  const [comebackRewardToastQueue, setComebackRewardToastQueue] = useState<ComebackRewardToastItem[]>([]);
   const [claimedStreakMilestones, setClaimedStreakMilestones] = useState<number[]>([]);
   const [streak, setStreak] = useState(0);
   const [lastStudyDate, setLastStudyDate] = useState<string | null>(null);
@@ -405,13 +259,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
     for (const badge of BADGES) {
       if (!unlockedBadges.has(badge.id) && badge.unlockCondition(stats)) {
         try {
-          const { error } = await supabase.from("user_badges").insert({ user_id: user.id, badge_id: badge.id });
-          if (error) {
-            if (error.code !== "23505") {
-              console.error("Failed to unlock badge:", error);
-            }
-            continue;
-          }
+          await insertUserBadge(user.id, badge.id);
           setUnlockedBadges((prev) => new Set(prev).add(badge.id));
           newlyUnlocked.push(badge.id);
         } catch (error) {
@@ -426,21 +274,15 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
     let cancelled = false;
     if (!user) {
       setUnlockedBadges(new Set());
-      setBadgesHydrated(false);
+      setBadgesHydrated(true);
       return;
     }
 
     setBadgesHydrated(false);
-    Promise.resolve(
-      supabase
-        .from("user_badges")
-        .select("badge_id")
-        .eq("user_id", user.id)
-    )
-      .then(({ data, error }) => {
+    loadRemoteBadgeIds(user.id)
+      .then((badgeIds) => {
         if (cancelled) return;
-        if (error) console.error("Failed to load user badges:", error);
-        if (data) setUnlockedBadges(new Set(data.map((row) => row.badge_id)));
+        setUnlockedBadges(new Set(badgeIds));
       })
       .catch((error: unknown) => {
         if (!cancelled) console.error("Failed to load user badges:", error);
@@ -889,40 +731,19 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
           eventCampaignStateRef.current = null;
         }
 
-        let rankingXp = savedXp ?? 0;
         try {
-          const { data, error } = await supabase
-            .from("profiles")
-            .select("xp, streak")
-            .eq("id", user.id)
-            .single();
-          if (error) throw error;
-          if (!cancelled && data) {
-            if (data.xp !== undefined) setXP(data.xp);
-            if (data.streak !== undefined) setStreak(data.streak);
-            rankingXp = data.xp ?? rankingXp;
+          const remoteSnapshot = await loadRemoteProgressionSnapshot(user.id, savedXp ?? 0);
+          if (!cancelled) {
+            if (remoteSnapshot.xp !== null) setXP(remoteSnapshot.xp);
+            if (remoteSnapshot.streak !== null) setStreak(remoteSnapshot.streak);
+            setFriendCount(remoteSnapshot.friendCount);
+            setLeaderboardRank(remoteSnapshot.leaderboardRank);
           }
         } catch (error) {
           if (__DEV__) {
             console.log("Progression Supabase sync failed (using local data):", error);
           }
         }
-
-        supabase
-          .from("friendships")
-          .select("*", { count: "exact", head: true })
-          .or(`user_id.eq.${user.id},friend_id.eq.${user.id}`)
-          .then(({ count }) => {
-            if (!cancelled && count !== null) setFriendCount(count);
-          });
-
-        supabase
-          .from("profiles")
-          .select("*", { count: "exact", head: true })
-          .gt("xp", rankingXp)
-          .then(({ count }) => {
-            if (!cancelled && count !== null) setLeaderboardRank(count + 1);
-          });
       } catch (error) {
         if (__DEV__) {
           console.log("Progression local storage read failed:", error);
@@ -942,8 +763,8 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
     if (!user || !isStateHydrated) return;
     persistNumber(getUserStorageKey("xp", user.id), xp).catch(() => {});
     const timer = setTimeout(() => {
-      supabase.from("profiles").update({ xp }).eq("id", user.id).then(({ error }) => {
-        if (error) console.error("Failed to sync XP to Supabase", error);
+      syncProfileXp(user.id, xp).catch((error) => {
+        console.error("Failed to sync XP to Supabase", error);
       });
     }, 1000);
     return () => clearTimeout(timer);
@@ -952,7 +773,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
   useEffect(() => {
     if (!user || !isStateHydrated) return;
     persistNumber(getUserStorageKey("streak", user.id), streak).catch(() => {});
-    supabase.from("profiles").update({ streak }).eq("id", user.id).then(({ error }) => {
+    syncProfileStreak(user.id, streak).catch((error) => {
       if (error) console.error("Failed to sync streak to Supabase", error);
     });
   }, [isStateHydrated, streak, user]);
@@ -1021,7 +842,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
   useEffect(() => {
     if (!user || !isStateHydrated) return;
     const interval = setInterval(() => {
-      setComebackRewardOffer((prev: any) => {
+      setComebackRewardOffer((prev) => {
         if (!prev) return prev;
         if (!isComebackOfferExpired(prev)) return prev;
 
@@ -1040,29 +861,11 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
 
   const assignPersonalizationSegment = useCallback(async () => {
     if (!user || !isStateHydrated || !personalizationConfig.enabled) return;
-    if (
-      !shouldReassignSegment({
-        lastAssignedAtMs: personalizationAssignedAtMsRef.current,
-        cooldownHours: personalizationConfig.segment_reassign_cooldown_hours,
-      })
-    ) {
-      return;
-    }
 
     let lessonsCompleted7d = 0;
     try {
       const fromDate = getDateDaysAgo(6);
-      const { data, error } = await supabase
-        .from("streak_history")
-        .select("lessons_completed")
-        .eq("user_id", user.id)
-        .gte("date", fromDate);
-      if (error) throw error;
-
-      lessonsCompleted7d = (data ?? []).reduce((sum, row) => {
-        const value = Number((row as { lessons_completed?: number | null }).lessons_completed ?? 0);
-        return sum + (Number.isFinite(value) ? Math.max(0, Math.floor(value)) : 0);
-      }, 0);
+      lessonsCompleted7d = await loadLessonsCompleted7d(user.id, fromDate);
     } catch (error) {
       if (__DEV__) {
         console.warn("[Personalization] Failed to fetch 7d lesson counts:", error);
@@ -1070,34 +873,37 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
       lessonsCompleted7d = 0;
     }
 
-    const daysSinceStudy = getDaysSinceDate(lastActivityDate);
-    const nextSegment = deriveUserSegment({
+    const assignment = derivePersonalizationAssignment({
+      cooldownHours: personalizationConfig.segment_reassign_cooldown_hours,
+      currentSegment: personalizationSegmentRef.current,
+      lastActivityDate,
+      lastAssignedAtMs: personalizationAssignedAtMsRef.current,
       lessonsCompleted7d,
-      daysSinceStudy,
-      currentStreak: streak,
+      streak,
     });
+    if (!assignment.shouldAssign) return;
+
     const nowMs = Date.now();
-    const segmentChanged = nextSegment !== personalizationSegmentRef.current;
 
     personalizationAssignedAtMsRef.current = nowMs;
     setPersonalizationAssignedAtMs(nowMs);
 
-    if (!segmentChanged && personalizationSegmentRef.current === nextSegment) {
+    if (!assignment.segmentChanged && personalizationSegmentRef.current === assignment.nextSegment) {
       return;
     }
 
-    personalizationSegmentRef.current = nextSegment;
-    setPersonalizationSegment(nextSegment);
+    personalizationSegmentRef.current = assignment.nextSegment;
+    setPersonalizationSegment(assignment.nextSegment);
     setQuests((prev) => {
-      const adjusted = adjustQuestNeedsBySegment(prev, nextSegment);
+      const adjusted = adjustQuestNeedsBySegment(prev, assignment.nextSegment);
       questsRef.current = adjusted;
       return adjusted;
     });
 
     Analytics.track("personalization_segment_assigned", {
-      segment: nextSegment,
+      segment: assignment.nextSegment,
       lessonsCompleted7d,
-      daysSinceStudy,
+      daysSinceStudy: assignment.daysSinceStudy,
       source: "daily_reassign",
     });
   }, [isStateHydrated, lastActivityDate, streak, user]);
@@ -1234,22 +1040,14 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
 
     if (user) {
       try {
-        await supabase.from("streak_history").upsert({
-          user_id: user.id,
+        await syncStreakAndLeaderboard(user.id, {
           date: today,
-          lessons_completed: 1,
-          xp_earned: 0,
+          lessonsCompleted: 1,
+          xpEarned: 0,
+          username: user.email?.split("@")[0] || "User",
+          totalXp: currentXP ?? xp,
+          currentStreak: newStreak,
         });
-
-        await supabase.from("leaderboard").upsert(
-          {
-            user_id: user.id,
-            username: user.email?.split("@")[0] || "User",
-            total_xp: currentXP ?? xp,
-            current_streak: newStreak,
-          },
-          { onConflict: "user_id" }
-        );
       } catch (error) {
         console.error("Error updating streak in Supabase:", error);
       }
@@ -1386,15 +1184,9 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
 
       if (user) {
         Promise.resolve(
-          supabase
-            .from("user_badges")
-            .insert({ user_id: user.id, badge_id: rewardBadgeId })
+          insertUserBadge(user.id, rewardBadgeId)
         )
-          .then(({ error }) => {
-            if (error && error.code !== "23505") {
-              console.error("Failed to unlock event badge:", error);
-              return;
-            }
+          .then(() => {
             setUnlockedBadges((prev) => {
               if (prev.has(rewardBadgeId)) return prev;
               const next = new Set(prev);

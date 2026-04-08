@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# scroll-to — Scroll a container until a target testID is visible.
+# Usage: scripts/native-agent/scroll-to <containerID> <targetID> [maxSwipes] [direction]
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -z "${1:-}" ] || [ -z "${2:-}" ] && { echo "Usage: scroll-to <containerID> <targetID> [maxSwipes] [direction]" >&2; exit 1; }
+MAX="${3:-8}"
+SDIR="${4:-up}"
+python3 -c "
+import json, sys
+print(json.dumps({
+    'action':'scroll-to',
+    'id':sys.argv[1],
+    'target':sys.argv[2],
+    'maxSwipes':int(sys.argv[3]),
+    'direction':sys.argv[4],
+}))
+" "$1" "$2" "$MAX" "$SDIR" | "$DIR/_send"

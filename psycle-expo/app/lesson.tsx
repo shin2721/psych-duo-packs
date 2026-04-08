@@ -3,7 +3,6 @@ import { View, Text, StyleSheet, Alert, Pressable } from "react-native";
 import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useLocalSearchParams, router } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../lib/theme";
 import {
   useBillingState,
@@ -12,7 +11,7 @@ import {
   useProgressionState,
 } from "../lib/state";
 import { QuestionRenderer } from "../components/QuestionRenderer";
-import { loadLessons, Lesson } from "../lib/lessons";
+import { type Lesson } from "../lib/lessons";
 import { ScrollView, TouchableOpacity } from "react-native";
 import { StarBackground } from "../components/StarBackground";
 import { VictoryConfetti } from "../components/VictoryConfetti";
@@ -36,19 +35,20 @@ import { hapticFeedback } from "../lib/haptics";
 import { getComboXpConfig, getDoubleXpNudgeConfig } from "../lib/gamificationConfig";
 import { computeComboBonusXp } from "../lib/comboXp";
 import {
-  consumeDailyNudgeQuota,
-  getDailyNudgeRemaining,
   getLocalDateKey,
-  normalizeDoubleXpNudgeState,
-  shouldShowDoubleXpNudge,
-  type DoubleXpNudgeState,
 } from "../lib/doubleXpNudge";
-import { assignExperiment } from "../lib/experimentEngine";
 import {
   getLessonCompletionQuestIncrements,
   getStreakQuestIncrement,
   shouldAwardFeltBetterXp,
 } from "../lib/questProgressRules";
+import type { Question } from "../types/question";
+import { loadLessonBundle } from "../lib/lesson/loadLessonBundle";
+import { decideLessonAdvance, appendReviewQuestion } from "../lib/lesson/lessonSession";
+import {
+  evaluateLessonCompleteDoubleXpNudge,
+  markLessonNudgeExposure,
+} from "../lib/lesson/lessonCompletion";
 
 interface LessonDefaultsConfig {
   defaults?: {
@@ -102,14 +102,14 @@ export default function LessonScreen() {
   const { isSubscriptionActive } = useBillingState();
   const { user } = useAuth();
   const { showToast } = useToast();
-  const [originalQuestions, setOriginalQuestions] = useState<any[]>([]);
-  const [questions, setQuestions] = useState<any[]>([]);
+  const [originalQuestions, setOriginalQuestions] = useState<Question[]>([]);
+  const [questions, setQuestions] = useState<Question[]>([]);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
   const [isComplete, setIsComplete] = useState(false);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [correctCount, setCorrectCount] = useState(0);
   const [correctStreak, setCorrectStreak] = useState(0);
-  const [reviewQueue, setReviewQueue] = useState<any[]>([]);
+  const [reviewQueue, setReviewQueue] = useState<Question[]>([]);
   const [isReviewRound, setIsReviewRound] = useState(false);
   const [loading, setLoading] = useState(true);
   const [combo, setCombo] = useState(0); // Added for fever effect
@@ -131,7 +131,6 @@ export default function LessonScreen() {
   useEffect(() => {
     // Only load if file changed and we haven't loaded this file yet
     if (fileParam && fileParam !== hasLoadedRef.current) {
-      if (__DEV__) console.log("[lesson.tsx] MOUNTED with params:", params);
       hasLoadedRef.current = fileParam;
       loadLesson();
     }
@@ -152,38 +151,19 @@ export default function LessonScreen() {
       // 周回ごとにshownカウントをリセット（同一アプリ起動でも周回でshown++される）
       resetSessionTracking();
 
-      if (__DEV__) console.log("Loading lesson:", params.file);
-
-      // Extract unit (e.g. mental_l01 -> mental, mental_review_bh1 -> mental)
-      const unitMatch = params.file.match(/^([a-z]+)_/);
-      if (!unitMatch) throw new Error(`Invalid file format: ${params.file}`);
-      const unit = unitMatch[1];
-
-      // Load lessons for this unit
-      const lessons = loadLessons(unit);
-
-      // Find lesson logic:
-      // 1. Exact ID match (for review nodes like mental_review_bh1)
-      let lesson = lessons.find(l => l.id === params.file);
-
-      // 2. If not found, try legacy level mapping (mental_l01 -> level 1)
-      if (!lesson) {
-        const levelMatch = params.file.match(/_l(\d+)$/);
-        if (levelMatch) {
-          const level = parseInt(levelMatch[1], 10);
-          lesson = lessons.find(l => l.level === level && (l.nodeType === 'lesson' || !l.nodeType));
-        }
-      }
-
-      if (!lesson) {
-        throw new Error(`Lesson not found: ${params.file}`);
-      }
+      const firstLessonCompleted = await hasCompletedFirstLesson();
+      const lessonBundle = loadLessonBundle({
+        fileParam: params.file,
+        firstLessonCompleted,
+        firstSessionLessonSize: FIRST_SESSION_LESSON_SIZE,
+      });
+      const lesson = lessonBundle.lesson;
 
       // Hard gate: consume configured energy cost once per lesson start.
       const hasEnoughEnergy = consumeEnergy(lessonEnergyCost);
       if (!hasEnoughEnergy) {
         setLoading(false);
-        const genreId = params.file.match(/^([a-z]+)_/)?.[1] || 'unknown';
+        const genreId = lessonBundle.genreId;
         Analytics.track("energy_blocked", {
           lessonId: params.file,
           genreId,
@@ -204,29 +184,13 @@ export default function LessonScreen() {
         return;
       }
 
-      const firstLessonCompleted = await hasCompletedFirstLesson();
-      const isIntroLesson = /_l01$/.test(params.file);
-      const shouldShortenFirstSession =
-        !firstLessonCompleted &&
-        isIntroLesson &&
-        (lesson.nodeType === "lesson" || !lesson.nodeType);
-      const effectiveQuestions = shouldShortenFirstSession
-        ? lesson.questions.slice(0, Math.min(FIRST_SESSION_LESSON_SIZE, lesson.questions.length))
-        : lesson.questions;
-      if (__DEV__) {
-        console.log(
-          "Setting questions, count:",
-          effectiveQuestions.length,
-          shouldShortenFirstSession ? "(first-session shortened)" : ""
-        );
-      }
       usedComboBonusXpRef.current = 0;
       nudgeEvaluatedRef.current = false;
       setShowDoubleXpNudge(false);
       nudgeExperimentRef.current = null;
       setCurrentLesson(lesson);
-      setOriginalQuestions(effectiveQuestions);
-      setQuestions(effectiveQuestions);
+      setOriginalQuestions(lessonBundle.effectiveQuestions);
+      setQuestions(lessonBundle.effectiveQuestions);
       setLoading(false);
 
       // Analytics: lesson_start (同一lessonIdで2回送らない)
@@ -252,80 +216,46 @@ export default function LessonScreen() {
 
     const evaluateNudge = async () => {
       const today = getLocalDateKey();
-      const storageKey = `double_xp_nudge_state_${nudgeStorageUserId}`;
-      let parsedState: DoubleXpNudgeState = { lastShownDate: null, shownCountToday: 0 };
-
-      try {
-        const saved = await AsyncStorage.getItem(storageKey);
-        parsedState = normalizeDoubleXpNudgeState(saved ? JSON.parse(saved) : null);
-      } catch (error) {
-        console.error("[DoubleXpNudge] Failed to read state:", error);
-      }
-
-      const shouldShow = shouldShowDoubleXpNudge({
+      const result = await evaluateLessonCompleteDoubleXpNudge({
+        dailyShowLimit: doubleXpNudgeConfig.daily_show_limit,
         enabled: doubleXpNudgeConfig.enabled,
         isComplete,
         isDoubleXpActive,
         gems,
         minGems: doubleXpNudgeConfig.min_gems,
         requireInactiveBoost: doubleXpNudgeConfig.require_inactive_boost,
-        dailyShowLimit: doubleXpNudgeConfig.daily_show_limit,
-        state: parsedState,
+        nudgeStorageUserId,
         today,
       });
 
-      if (!shouldShow) {
+      if (!result.shouldShow) {
         setShowDoubleXpNudge(false);
         nudgeExperimentRef.current = null;
         nudgeEvaluatedRef.current = true;
         return;
       }
 
-      const nextState = consumeDailyNudgeQuota(parsedState, today);
-      const dailyRemainingAfterShow = getDailyNudgeRemaining(
-        nextState,
-        doubleXpNudgeConfig.daily_show_limit,
-        today
-      );
-
-      const assignment = assignExperiment(
-        user?.id ?? nudgeStorageUserId,
-        "double_xp_nudge_lesson_complete"
-      );
-      nudgeExperimentRef.current = assignment
-        ? { experimentId: assignment.experimentId, variantId: assignment.variantId }
-        : null;
-
-      try {
-        await AsyncStorage.setItem(storageKey, JSON.stringify(nextState));
-      } catch (error) {
-        console.error("[DoubleXpNudge] Failed to persist state:", error);
-      }
-
+      nudgeExperimentRef.current = result.assignment;
       setShowDoubleXpNudge(true);
       nudgeEvaluatedRef.current = true;
       Analytics.track("double_xp_nudge_shown", {
         source: "lesson_complete",
         gems,
-        dailyRemainingAfterShow,
+        dailyRemainingAfterShow: result.dailyRemainingAfterShow,
       });
 
-      if (assignment) {
-        const exposureKey = `experiment_exposed_${assignment.experimentId}_${nudgeStorageUserId}_${today}`;
-        try {
-          const alreadyExposed = await AsyncStorage.getItem(exposureKey);
-          if (!alreadyExposed) {
-            Analytics.track("experiment_exposed", {
+      await markLessonNudgeExposure({
+        assignment: result.assignment,
+        nudgeStorageUserId,
+        today,
+        onExpose: (assignment) => {
+          Analytics.track("experiment_exposed", {
               experimentId: assignment.experimentId,
               variantId: assignment.variantId,
               source: "lesson_complete_nudge",
-            });
-            await AsyncStorage.setItem(exposureKey, "1");
-          }
-        } catch (error) {
-          console.error("[Experiment] Failed to persist exposure state:", error);
-        }
-      }
+          });
+        },
+      });
     };
 
     evaluateNudge().catch((error) => {
@@ -340,15 +270,18 @@ export default function LessonScreen() {
     if (!currentQuestion) return;
 
     const details = currentQuestion.expanded_details;
-    if (details?.claim_type === 'intervention') {
-      const questionId = currentQuestion.id; // source_idは研究出典、idが介入識別子
+    const questionId = currentQuestion.id;
+    if (details?.claim_type === 'intervention' && questionId) {
 
       // セッション内で既にshownログ済みならスキップ
       if (!hasLoggedShownThisSession(questionId)) {
         markShownLogged(questionId);
 
         // バリアント情報（デフォルトでoriginal）
-        const variant = details.variant || { id: "original", label: i18n.t("lesson.originalVariantLabel") };
+        const variant = {
+          id: details.variant?.id ?? "original",
+          label: details.variant?.label ?? String(i18n.t("lesson.originalVariantLabel")),
+        };
 
         logInterventionInteraction(
           params.file,
@@ -360,7 +293,6 @@ export default function LessonScreen() {
         // felt_better帰属用に最後のintervention IDを記録
         setLastShownInterventionId(questionId);
 
-        if (__DEV__) console.log('[Dogfood] Logged shown:', questionId);
       }
     }
   }, [currentQuestion?.source_id, currentQuestion?.id]);
@@ -392,8 +324,7 @@ export default function LessonScreen() {
       if (!isReviewRound) {
         const alreadyQueued = reviewQueue.find(q => q.id === questionInHandler.id);
         if (!alreadyQueued) {
-          setReviewQueue(prev => [...prev, questionInHandler]);
-          if (__DEV__) console.log("Added to review queue:", questionInHandler.id);
+          setReviewQueue((prev) => appendReviewQuestion(prev, questionInHandler));
         }
       }
     }
@@ -455,15 +386,17 @@ export default function LessonScreen() {
       setCorrectStreak(0);
     }
 
-    // Determine the total questions in current round
-    const totalInRound = isReviewRound ? questions.length : originalQuestions.length;
+    const advanceDecision = decideLessonAdvance({
+      currentIndex,
+      isReviewRound,
+      originalQuestionCount: originalQuestions.length,
+      questionCount: questions.length,
+      reviewQueueLength: reviewQueue.length,
+    });
 
-    if (currentIndex < totalInRound - 1) {
-      // Move to next question
-      setCurrentIndex(prev => prev + 1);
-    } else if (reviewQueue.length > 0 && !isReviewRound) {
-      // Start review round
-      if (__DEV__) console.log("Starting review round with", reviewQueue.length, "questions");
+    if (advanceDecision.mode === "next") {
+      setCurrentIndex(advanceDecision.nextIndex ?? currentIndex + 1);
+    } else if (advanceDecision.mode === "start_review") {
       setIsReviewRound(true);
       setQuestions(reviewQueue);
       setReviewQueue([]);
@@ -714,12 +647,16 @@ export default function LessonScreen() {
                       <View style={styles.chipRow}>
                         <View style={styles.chip}>
                           <Text style={styles.chipText}>
-                            {claimTypeLabels[expandedDetails.claim_type] || expandedDetails.claim_type}
+                            {expandedDetails.claim_type
+                              ? claimTypeLabels[expandedDetails.claim_type] || expandedDetails.claim_type
+                              : i18n.t("common.unknown")}
                           </Text>
                         </View>
                         <View style={styles.chip}>
                           <Text style={styles.chipText}>
-                            {evidenceTypeLabels[expandedDetails.evidence_type] || expandedDetails.evidence_type}
+                            {expandedDetails.evidence_type
+                              ? evidenceTypeLabels[expandedDetails.evidence_type] || expandedDetails.evidence_type
+                              : i18n.t("common.unknown")}
                           </Text>
                         </View>
                       </View>

@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# scroll — Scroll an element by testID.
+# Usage: scripts/native-agent/scroll <testID> <up|down|left|right> [amount]
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -z "${1:-}" ] || [ -z "${2:-}" ] && { echo "Usage: scroll <testID> <direction> [amount]" >&2; exit 1; }
+AMT="${3:-300}"
+python3 -c "
+import json, sys
+print(json.dumps({
+    'action':'scroll',
+    'id':sys.argv[1],
+    'direction':sys.argv[2],
+    'amount':int(sys.argv[3]),
+}))
+" "$1" "$2" "$AMT" | "$DIR/_send"

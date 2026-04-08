@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# relaunch — Relaunch the app in a new instance without full device reset.
+# Usage: scripts/native-agent/relaunch
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+python3 -c "import json; print(json.dumps({'action':'relaunch'}))" | "$DIR/_send"

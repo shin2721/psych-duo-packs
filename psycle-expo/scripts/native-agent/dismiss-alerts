@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+# dismiss-alerts — Dismiss visible native/system alerts.
+# Usage: scripts/native-agent/dismiss-alerts
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+python3 -c "import json; print(json.dumps({'action':'dismiss-alerts'}))" | "$DIR/_send"

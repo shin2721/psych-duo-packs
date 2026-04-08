@@ -1,0 +1,226 @@
+#!/usr/bin/env bash
+# launch — Start the UX Agent (persistent Detox session) in the background.
+# Waits until the agent command loop is available, then bootstraps the dev client,
+# onboarding, and guest auth via IPC commands until tab-course is visible.
+#
+# Default: deterministic clean start (resetContentAndSettings + installApp).
+# Options:
+#   --skip-reset   Skip device reset (reuse existing simulator state, debug only)
+#
+# Usage:
+#   scripts/native-agent/launch
+#   scripts/native-agent/launch --skip-reset
+
+set -euo pipefail
+
+REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+CMD_DIR="/tmp/ux-agent"
+READY_FILE="$CMD_DIR/ready"
+LOG_FILE="$CMD_DIR/agent.log"
+PID_FILE="$CMD_DIR/agent.pid"
+TIMEOUT_SEC=360
+BOOTSTRAP_TIMEOUT_SEC=180
+
+SKIP_RESET=0
+for arg in "$@"; do
+  case "$arg" in
+    --skip-reset) SKIP_RESET=1 ;;
+    *) echo "Unknown option: $arg" >&2; exit 1 ;;
+  esac
+done
+
+cd "$REPO_ROOT"
+
+# Reap stray ux-agent Detox/Jest workers that may survive wrapper interruption.
+pkill -f 'npm exec detox test --configuration ios.sim.debug -- e2e/ux-agent.e2e.ts' >/dev/null 2>&1 || true
+pkill -f '/node_modules/.bin/detox test --configuration ios.sim.debug -- e2e/ux-agent.e2e.ts' >/dev/null 2>&1 || true
+pkill -f '/node_modules/.bin/jest --config e2e/jest.config.js --maxWorkers 1 --no-watchman e2e/ux-agent.e2e.ts' >/dev/null 2>&1 || true
+
+# Kill any previous agent
+if [ -f "$PID_FILE" ]; then
+  OLD_PID=$(cat "$PID_FILE")
+  if kill -0 "$OLD_PID" 2>/dev/null; then
+    echo "Stopping previous agent (PID $OLD_PID)..."
+    kill "$OLD_PID" 2>/dev/null || true
+    sleep 2
+  fi
+fi
+
+# Clean previous session IPC state
+rm -rf "$CMD_DIR"
+mkdir -p "$CMD_DIR/screenshots"
+
+echo "Starting UX Agent..."
+echo "  Reset: $([ "$SKIP_RESET" -eq 1 ] && echo 'SKIPPED (--skip-reset)' || echo 'yes (deterministic)')"
+
+# Pre-disable Expo dev-menu onboarding/auto-launch so the agent can bootstrap
+# the dev client without host GUI interaction.
+xcrun simctl spawn booted defaults write com.shin27.psycle EXDevMenuIsOnboardingFinished -bool YES >/dev/null 2>&1 || true
+xcrun simctl spawn booted defaults write com.shin27.psycle EXDevMenuDisableAutoLaunch -bool YES >/dev/null 2>&1 || true
+
+# Pass skip-reset flag as env var to the Detox test
+DETOX_ENV=""
+if [ "$SKIP_RESET" -eq 1 ]; then
+  DETOX_ENV="UX_AGENT_SKIP_RESET=1"
+fi
+
+# Launch Detox in background.
+# Bootstrap happens after the command loop is ready so `launch` can recover from
+# dev-client launcher state using the same IPC surface as normal UX commands.
+# Spec path goes after `--` so Detox passes it to Jest as testPathPattern.
+# watchman: false is already set in package.json detox.testRunner.args.
+env $DETOX_ENV \
+  npx detox test \
+  --configuration ios.sim.debug \
+  -- e2e/ux-agent.e2e.ts \
+  > "$LOG_FILE" 2>&1 &
+
+AGENT_PID=$!
+echo "$AGENT_PID" > "$PID_FILE"
+echo "  PID: $AGENT_PID"
+echo "  Log: $LOG_FILE"
+
+# Wait for command loop readiness
+elapsed=0
+while [ ! -f "$READY_FILE" ]; do
+  # Check if process died
+  if ! kill -0 "$AGENT_PID" 2>/dev/null; then
+    echo "ERROR: Agent process died. Last 20 lines of log:" >&2
+    tail -20 "$LOG_FILE" >&2
+    exit 1
+  fi
+
+  sleep 1
+  elapsed=$((elapsed + 1))
+  if [ "$elapsed" -ge "$TIMEOUT_SEC" ]; then
+    echo "ERROR: Timed out waiting for agent ready (${TIMEOUT_SEC}s)" >&2
+    echo "  Last 20 lines of log:" >&2
+    tail -20 "$LOG_FILE" >&2
+    kill "$AGENT_PID" 2>/dev/null || true
+    exit 1
+  fi
+
+  # Progress every 10s
+  if (( elapsed % 10 == 0 )); then
+    echo "  Waiting... (${elapsed}s)"
+  fi
+done
+
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DEV_SERVER_URL="${E2E_DEV_SERVER_URL:-http://127.0.0.1:8082?disableOnboarding=1}"
+DEV_CLIENT_URL="psycle://expo-development-client/?url=$(python3 - "$DEV_SERVER_URL" <<'PY'
+import sys
+from urllib.parse import quote
+print(quote(sys.argv[1], safe=''))
+PY
+)"
+
+ux_send_json() {
+  printf '%s\n' "$1" | "$SCRIPT_DIR/_send"
+}
+
+ux_dump_ids() {
+  "$SCRIPT_DIR/dump-ids" "$@"
+}
+
+json_lookup() {
+  python3 - "$1" "$2" <<'PY'
+import json
+import sys
+
+payload = json.loads(sys.argv[1])
+key = sys.argv[2]
+print("true" if payload.get("results", {}).get(key) else "false")
+PY
+}
+
+wait_for_any_visible() {
+  local timeout_sec="$1"
+  shift
+  local started_at
+  started_at=$(date +%s)
+  while true; do
+    local dump
+    dump="$(ux_dump_ids "$@")"
+    for id in "$@"; do
+      if [ "$(json_lookup "$dump" "$id")" = "true" ]; then
+        printf '%s\n' "$id"
+        return 0
+      fi
+    done
+    local now
+    now=$(date +%s)
+    if [ $((now - started_at)) -ge "$timeout_sec" ]; then
+      return 1
+    fi
+    sleep 1
+  done
+}
+
+echo "UX Agent command loop ready. Bootstrapping app entry..."
+
+ENTRY_IDS=(onboarding-start onboarding-interests-title auth-guest-login tab-course)
+if ! wait_for_any_visible 10 "${ENTRY_IDS[@]}" >/dev/null 2>&1; then
+  ux_send_json "{\"action\":\"open-url\",\"url\":\"$DEV_CLIENT_URL\"}" >/dev/null
+  ux_send_json '{"action":"sleep","ms":4000}' >/dev/null
+fi
+
+bootstrap_started_at=$(date +%s)
+while true; do
+  if entry="$(wait_for_any_visible 3 "${ENTRY_IDS[@]}" 2>/dev/null)"; then
+    case "$entry" in
+      onboarding-start)
+        "$SCRIPT_DIR/tap" onboarding-start >/dev/null
+        ux_send_json '{"action":"sleep","ms":1200}' >/dev/null
+        ;;
+      onboarding-interests-title)
+        "$SCRIPT_DIR/tap" onboarding-genre-mental >/dev/null
+        ux_send_json '{"action":"sleep","ms":500}' >/dev/null
+        "$SCRIPT_DIR/tap" onboarding-finish >/dev/null
+        ux_send_json '{"action":"sleep","ms":2000}' >/dev/null
+        ;;
+      auth-guest-login)
+        "$SCRIPT_DIR/tap" auth-guest-login >/dev/null
+        ux_send_json '{"action":"sleep","ms":5000}' >/dev/null
+        ;;
+      tab-course)
+        break
+        ;;
+    esac
+  else
+    ux_send_json '{"action":"sleep","ms":1000}' >/dev/null
+  fi
+
+  now=$(date +%s)
+  if [ $((now - bootstrap_started_at)) -ge "$BOOTSTRAP_TIMEOUT_SEC" ]; then
+    echo "ERROR: Timed out bootstrapping app entry (${BOOTSTRAP_TIMEOUT_SEC}s)" >&2
+    echo "  Last 40 lines of log:" >&2
+    tail -40 "$LOG_FILE" >&2
+    exit 1
+  fi
+done
+
+echo "UX Agent ready. App launched and logged in."
+echo ""
+echo "Commands:"
+echo "  scripts/native-agent/tap <testID>"
+echo "  scripts/native-agent/tap-text <text>"
+echo "  scripts/native-agent/tap-label <label> [index]"
+echo "  scripts/native-agent/swipe <testID> <up|down|left|right>"
+echo "  scripts/native-agent/scroll <testID> <up|down> [amount]"
+echo "  scripts/native-agent/type <testID> <text>"
+echo "  scripts/native-agent/replace-text <testID> <text>"
+echo "  scripts/native-agent/clear <testID>"
+echo "  scripts/native-agent/screenshot [name]"
+echo "  scripts/native-agent/visible <testID>"
+echo "  scripts/native-agent/visible-text <text> [timeout_ms]"
+echo "  scripts/native-agent/open-url <url>"
+echo "  scripts/native-agent/dump-ids <id1> [id2] ..."
+echo "  scripts/native-agent/wait-for <testID> [timeout_ms]"
+echo "  scripts/native-agent/dismiss-alerts"
+echo "  scripts/native-agent/relaunch"
+echo "  scripts/native-agent/quit"
+echo ""
+echo "UX Agent process attached. Keep this session open while sending commands."
+
+wait "$AGENT_PID"

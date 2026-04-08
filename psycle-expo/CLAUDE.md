@@ -87,6 +87,8 @@ npm run questions  # Generate MCQ questions from papers
 ```
 
 **Important:** This project uses Expo Dev Client (`--dev-client` flag), not Expo Go.
+For iOS native repair and detached build recovery, use `docs/IOS_NATIVE_REPAIR_PLAYBOOK.md`.
+For docs routing across native/runtime/analytics/content flows, start at `docs/START_HERE.md`.
 
 ## Architecture Overview
 

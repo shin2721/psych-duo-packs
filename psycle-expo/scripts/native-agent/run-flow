@@ -1,0 +1,62 @@
+#!/usr/bin/env python3
+import json
+import os
+import pathlib
+import subprocess
+import sys
+import tempfile
+
+REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]
+DEV_SERVER_URL = os.environ.get("E2E_DEV_SERVER_URL", "http://127.0.0.1:8082?disableOnboarding=1")
+
+try:
+    flow = json.load(sys.stdin)
+except json.JSONDecodeError as e:
+    print(f"ERROR: Invalid JSON on stdin: {e}", file=sys.stderr)
+    sys.exit(1)
+
+if not isinstance(flow, list):
+    print("ERROR: Flow JSON must be an array of commands", file=sys.stderr)
+    sys.exit(1)
+
+result_path = pathlib.Path(tempfile.mkstemp(prefix="ux-agent-flow-", suffix=".json")[1])
+progress_path = pathlib.Path(tempfile.mkstemp(prefix="ux-agent-flow-progress-", suffix=".json")[1])
+env = os.environ.copy()
+env["UX_AGENT_SKIP_RESET"] = env.get("UX_AGENT_SKIP_RESET", "1")
+env["E2E_BOOTSTRAP_DEV_CLIENT"] = "1"
+env["E2E_DEV_SERVER_URL"] = DEV_SERVER_URL
+env["UX_AGENT_FLOW_JSON"] = json.dumps(flow)
+env["UX_AGENT_FLOW_RESULT_PATH"] = str(result_path)
+env["UX_AGENT_FLOW_PROGRESS_PATH"] = str(progress_path)
+
+completed = subprocess.run(
+    [
+        "npx",
+        "detox",
+        "test",
+        "--configuration",
+        "ios.sim.debug",
+        "--",
+        "e2e/ux-agent.e2e.ts",
+    ],
+    cwd=REPO_ROOT,
+    env=env,
+    stdout=subprocess.PIPE,
+    stderr=subprocess.PIPE,
+    text=True,
+)
+
+if not result_path.exists():
+    if progress_path.exists():
+        sys.stderr.write("FLOW_PROGRESS\n")
+        sys.stderr.write(progress_path.read_text())
+        sys.stderr.write("\n")
+    sys.stderr.write(completed.stdout[-3000:])
+    sys.stderr.write(completed.stderr[-3000:])
+    print("ERROR: Flow run did not produce a result file", file=sys.stderr)
+    sys.exit(1)
+
+print(result_path.read_text())
+result_path.unlink(missing_ok=True)
+progress_path.unlink(missing_ok=True)
+sys.exit(0 if completed.returncode == 0 else completed.returncode)

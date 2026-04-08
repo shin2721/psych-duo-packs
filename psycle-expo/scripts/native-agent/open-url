@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# open-url — Open a deep link URL.
+# Usage: scripts/native-agent/open-url <url>
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -z "${1:-}" ] && { echo "Usage: open-url <url>" >&2; exit 1; }
+python3 -c "
+import json, sys
+print(json.dumps({'action':'open-url','url':sys.argv[1]}))
+" "$1" | "$DIR/_send"

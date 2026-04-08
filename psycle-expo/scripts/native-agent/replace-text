@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# replace-text — Replace text in an input by testID.
+# Usage: scripts/native-agent/replace-text <testID> <text>
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -z "${1:-}" ] || [ -z "${2:-}" ] && { echo "Usage: replace-text <testID> <text>" >&2; exit 1; }
+python3 -c "
+import json, sys
+print(json.dumps({'action':'replace-text','id':sys.argv[1],'text':sys.argv[2]}))
+" "$1" "$2" | "$DIR/_send"

@@ -7,15 +7,14 @@ import { getEffectiveFreeEnergyCap } from "../energyPolicy";
 import { getDoubleXpBoostConfig, getInitialGems, getQuestRerollConfig, getShopSinksConfig } from "../gamificationConfig";
 import { evaluateEnergyFullRefillPurchase } from "../energyFullRefill";
 import { evaluateDoubleXpPurchase } from "../doubleXpPurchase";
-import { supabase } from "../supabase";
 import { useBillingState } from "./billing";
 import {
-  getUserStorageKey,
-  loadUserEntries,
-  parseStoredInt,
-  persistNumber,
-  persistString,
-} from "./persistence";
+  initializeEconomyFirstLaunchState,
+  loadEconomyPersistenceSnapshot,
+  persistEconomyNumberState,
+  persistEconomyStringState,
+} from "./economyPersistence";
+import { syncProfileGems } from "./economyRemote";
 import type { EconomyState } from "./types";
 
 interface EntitlementsConfig {
@@ -152,69 +151,41 @@ export function EconomyStateProvider({ children }: { children: React.ReactNode }
 
     const loadEconomy = async () => {
       try {
-        const saved = await loadUserEntries(user.id, [
-          "gems",
-          "energy",
-          "energyUpdateTime",
-          "energyBonusDate",
-          "energyBonusCount",
-          "energyRefillDate",
-          "energyRefillCount",
-          "questRerollDate",
-          "questRerollCount",
-          "firstLaunchAt",
-          "firstDayEnergyBonusTracked",
-        ]);
-
+        const saved = await loadEconomyPersistenceSnapshot(user.id);
         const streakData = await getStreakData();
         if (cancelled) return;
 
-        const savedGems = parseStoredInt(saved.gems);
-        const savedEnergy = parseStoredInt(saved.energy);
-        const savedEnergyUpdateTime = parseStoredInt(saved.energyUpdateTime);
-        const savedEnergyBonusCount = parseStoredInt(saved.energyBonusCount);
-        const savedEnergyRefillCount = parseStoredInt(saved.energyRefillCount);
-        const savedQuestRerollCount = parseStoredInt(saved.questRerollCount);
-        const savedFirstLaunchAt = parseStoredInt(saved.firstLaunchAt);
-
-        if (savedGems !== null) setGems(savedGems);
-        if (savedEnergy !== null) setEnergy(savedEnergy);
-        if (savedEnergyUpdateTime !== null) setLastEnergyUpdateTime(savedEnergyUpdateTime);
+        if (saved.gems !== null) setGems(saved.gems);
+        if (saved.energy !== null) setEnergy(saved.energy);
+        if (saved.energyUpdateTime !== null) setLastEnergyUpdateTime(saved.energyUpdateTime);
         if (saved.energyBonusDate) setDailyEnergyBonusDate(saved.energyBonusDate);
-        if (savedEnergyBonusCount !== null) setDailyEnergyBonusCount(savedEnergyBonusCount);
+        if (saved.energyBonusCount !== null) setDailyEnergyBonusCount(saved.energyBonusCount);
         if (saved.energyRefillDate) setDailyEnergyRefillDate(saved.energyRefillDate);
-        if (savedEnergyRefillCount !== null) setDailyEnergyRefillCount(savedEnergyRefillCount);
+        if (saved.energyRefillCount !== null) setDailyEnergyRefillCount(saved.energyRefillCount);
         if (saved.questRerollDate) setDailyQuestRerollDate(saved.questRerollDate);
-        if (savedQuestRerollCount !== null) setDailyQuestRerollCount(savedQuestRerollCount);
+        if (saved.questRerollCount !== null) setDailyQuestRerollCount(saved.questRerollCount);
         setFreezeCount(streakData.freezesRemaining);
 
-        const initializeFirstLaunch = async () => {
-          const firstLaunchAt = Date.now();
-          setFirstLaunchAtMs(firstLaunchAt);
-          await persistNumber(getUserStorageKey("firstLaunchAt", user.id), firstLaunchAt);
-
-          if (!saved.firstDayEnergyBonusTracked) {
-            const effectiveCap = getEffectiveFreeEnergyCap(
-              FREE_BASE_MAX_ENERGY,
-              FIRST_DAY_BONUS_ENERGY,
-              firstLaunchAt,
-              firstLaunchAt
-            );
+        if (saved.firstLaunchAt !== null && saved.firstLaunchAt > 0) {
+          setFirstLaunchAtMs(saved.firstLaunchAt);
+        } else {
+          const initialized = await initializeEconomyFirstLaunchState({
+            baseMaxEnergy: FREE_BASE_MAX_ENERGY,
+            bonusEnergy: FIRST_DAY_BONUS_ENERGY,
+            userId: user.id,
+            hasTrackedBonus: saved.firstDayEnergyBonusTracked,
+            savedFirstLaunchAt: saved.firstLaunchAt,
+          });
+          setFirstLaunchAtMs(initialized.firstLaunchAt);
+          if (initialized.initializedNow && !saved.firstDayEnergyBonusTracked) {
             Analytics.track("first_day_energy_bonus_granted", {
               bonusEnergy: FIRST_DAY_BONUS_ENERGY,
               baseCap: FREE_BASE_MAX_ENERGY,
-              effectiveCap,
-              expiresAt: new Date(firstLaunchAt + 24 * 60 * 60 * 1000).toISOString(),
+              effectiveCap: initialized.effectiveCap,
+              expiresAt: initialized.expiresAtIso,
               source: "first_launch",
             });
-            await persistString(getUserStorageKey("firstDayEnergyBonusTracked", user.id), "1");
           }
-        };
-
-        if (savedFirstLaunchAt !== null && savedFirstLaunchAt > 0) {
-          setFirstLaunchAtMs(savedFirstLaunchAt);
-        } else {
-          await initializeFirstLaunch();
         }
       } catch (error) {
         if (__DEV__) {
@@ -235,55 +206,55 @@ export function EconomyStateProvider({ children }: { children: React.ReactNode }
 
   useEffect(() => {
     if (!user || !isHydrated) return;
-    persistNumber(getUserStorageKey("gems", user.id), gems).catch(() => {});
-    supabase.from("profiles").update({ gems }).eq("id", user.id).then(({ error }) => {
+    persistEconomyNumberState(user.id, "gems", gems).catch(() => {});
+    syncProfileGems(user.id, gems).catch((error) => {
       if (error) console.error("Failed to sync gems to Supabase", error);
     });
   }, [gems, isHydrated, user]);
 
   useEffect(() => {
     if (!user || !isHydrated) return;
-    persistNumber(getUserStorageKey("energy", user.id), energy).catch(() => {});
+    persistEconomyNumberState(user.id, "energy", energy).catch(() => {});
   }, [energy, isHydrated, user]);
 
   useEffect(() => {
     if (!user || !isHydrated) return;
-    persistNumber(getUserStorageKey("energyUpdateTime", user.id), lastEnergyUpdateTime).catch(() => {});
+    persistEconomyNumberState(user.id, "energyUpdateTime", lastEnergyUpdateTime).catch(() => {});
   }, [isHydrated, lastEnergyUpdateTime, user]);
 
   useEffect(() => {
     if (!user || !isHydrated) return;
-    persistString(getUserStorageKey("energyBonusDate", user.id), dailyEnergyBonusDate).catch(() => {});
+    persistEconomyStringState(user.id, "energyBonusDate", dailyEnergyBonusDate).catch(() => {});
   }, [dailyEnergyBonusDate, isHydrated, user]);
 
   useEffect(() => {
     if (!user || !isHydrated) return;
-    persistNumber(getUserStorageKey("energyBonusCount", user.id), dailyEnergyBonusCount).catch(() => {});
+    persistEconomyNumberState(user.id, "energyBonusCount", dailyEnergyBonusCount).catch(() => {});
   }, [dailyEnergyBonusCount, isHydrated, user]);
 
   useEffect(() => {
     if (!user || !isHydrated) return;
-    persistString(getUserStorageKey("energyRefillDate", user.id), dailyEnergyRefillDate).catch(() => {});
+    persistEconomyStringState(user.id, "energyRefillDate", dailyEnergyRefillDate).catch(() => {});
   }, [dailyEnergyRefillDate, isHydrated, user]);
 
   useEffect(() => {
     if (!user || !isHydrated) return;
-    persistNumber(getUserStorageKey("energyRefillCount", user.id), dailyEnergyRefillCount).catch(() => {});
+    persistEconomyNumberState(user.id, "energyRefillCount", dailyEnergyRefillCount).catch(() => {});
   }, [dailyEnergyRefillCount, isHydrated, user]);
 
   useEffect(() => {
     if (!user || !isHydrated) return;
-    persistString(getUserStorageKey("questRerollDate", user.id), dailyQuestRerollDate).catch(() => {});
+    persistEconomyStringState(user.id, "questRerollDate", dailyQuestRerollDate).catch(() => {});
   }, [dailyQuestRerollDate, isHydrated, user]);
 
   useEffect(() => {
     if (!user || !isHydrated) return;
-    persistNumber(getUserStorageKey("questRerollCount", user.id), dailyQuestRerollCount).catch(() => {});
+    persistEconomyNumberState(user.id, "questRerollCount", dailyQuestRerollCount).catch(() => {});
   }, [dailyQuestRerollCount, isHydrated, user]);
 
   useEffect(() => {
     if (!user || !isHydrated || firstLaunchAtMs === null) return;
-    persistNumber(getUserStorageKey("firstLaunchAt", user.id), firstLaunchAtMs).catch(() => {});
+    persistEconomyNumberState(user.id, "firstLaunchAt", firstLaunchAtMs).catch(() => {});
   }, [firstLaunchAtMs, isHydrated, user]);
 
   useEffect(() => {

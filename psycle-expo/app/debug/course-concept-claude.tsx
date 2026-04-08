@@ -7,7 +7,7 @@ import type { CourseWorldViewModel, CourseWorldNode } from "../../lib/courseWorl
 import { COURSE_THEME_COLORS } from "../../lib/courseWorld";
 
 const UNITS = [
-  { id: "mental", label: "メンタル", icon: "brain", color: "#ec4899" },
+  { id: "mental", label: "メンタル", icon: "sparkles", color: "#ec4899" },
   { id: "money", label: "マネー", icon: "cash", color: "#eab308" },
   { id: "work", label: "仕事", icon: "briefcase", color: "#3b82f6" },
   { id: "health", label: "健康", icon: "heart", color: "#ef4444" },

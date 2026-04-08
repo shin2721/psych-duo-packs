@@ -1,0 +1,104 @@
+#!/usr/bin/env python3
+"""
+_send — IPC helper for UX Agent.
+
+Reads a command JSON from stdin, injects a unique reqId,
+writes it atomically to /tmp/ux-agent/cmd-{reqId}.json,
+then waits for the agent to produce result-{reqId}.json.
+
+Safe against JSON injection (all values go through json.dumps).
+Safe against command clobbering (per-request file names).
+"""
+
+import json
+import os
+import pathlib
+import subprocess
+import sys
+import tempfile
+import time
+
+CMD_DIR = pathlib.Path("/tmp/ux-agent")
+READY_FILE = CMD_DIR / "ready"
+TIMEOUT = float(os.environ.get("UX_TIMEOUT", "30"))
+REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]
+DEV_SERVER_URL = os.environ.get("E2E_DEV_SERVER_URL", "http://127.0.0.1:8082?disableOnboarding=1")
+
+# ---- Read command JSON from stdin ----
+try:
+    cmd = json.load(sys.stdin)
+except json.JSONDecodeError as e:
+    print(f"ERROR: Invalid JSON on stdin: {e}", file=sys.stderr)
+    sys.exit(1)
+
+
+def run_single_command(command: dict) -> int:
+    result_path = pathlib.Path(tempfile.mkstemp(prefix="ux-agent-single-", suffix=".json")[1])
+    env = os.environ.copy()
+    env["UX_AGENT_SKIP_RESET"] = "1"
+    env["E2E_BOOTSTRAP_DEV_CLIENT"] = "1"
+    env["E2E_DEV_SERVER_URL"] = DEV_SERVER_URL
+    env["UX_AGENT_SINGLE_COMMAND_JSON"] = json.dumps(command)
+    env["UX_AGENT_SINGLE_COMMAND_RESULT_PATH"] = str(result_path)
+
+    try:
+        completed = subprocess.run(
+            [
+                "npx",
+                "detox",
+                "test",
+                "--configuration",
+                "ios.sim.debug",
+                "--",
+                "e2e/ux-agent.e2e.ts",
+            ],
+            cwd=REPO_ROOT,
+            env=env,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            timeout=max(TIMEOUT + 90, 180),
+        )
+    except subprocess.TimeoutExpired:
+        print("ERROR: Timed out running one-shot UX command fallback", file=sys.stderr)
+        result_path.unlink(missing_ok=True)
+        return 1
+
+    if not result_path.exists():
+        sys.stderr.write(completed.stdout[-2000:])
+        sys.stderr.write(completed.stderr[-2000:])
+        print("ERROR: One-shot UX command did not produce a result file", file=sys.stderr)
+        return 1
+
+    print(result_path.read_text())
+    result_path.unlink(missing_ok=True)
+    return 0
+
+# ---- Generate unique request ID (nanosecond timestamp + pid) ----
+req_id = f"{time.time_ns()}-{os.getpid()}"
+cmd["reqId"] = req_id
+
+cmd_file = CMD_DIR / f"cmd-{req_id}.json"
+result_file = CMD_DIR / f"result-{req_id}.json"
+
+# ---- Write command atomically (tmp → rename) ----
+tmp_file = CMD_DIR / f".tmp-cmd-{req_id}.json"
+if not READY_FILE.exists():
+    sys.exit(run_single_command(cmd))
+
+tmp_file.write_text(json.dumps(cmd))
+tmp_file.rename(cmd_file)
+
+# ---- Wait for result ----
+start = time.monotonic()
+while not result_file.exists():
+    time.sleep(0.15)
+    if time.monotonic() - start > TIMEOUT:
+        # Clean up orphaned command file if agent never picked it up
+        cmd_file.unlink(missing_ok=True)
+        sys.exit(run_single_command(cmd))
+
+# ---- Read, output, clean up ----
+result = result_file.read_text()
+result_file.unlink()
+print(result)

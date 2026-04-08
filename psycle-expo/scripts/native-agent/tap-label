@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# tap-label — Tap an element by accessibility label.
+# Usage: scripts/native-agent/tap-label <label> [index]
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -z "${1:-}" ] && { echo "Usage: tap-label <label> [index]" >&2; exit 1; }
+IDX="${2:-0}"
+python3 -c "
+import json, sys
+print(json.dumps({'action':'tap-label','label':sys.argv[1],'index':int(sys.argv[2])}))
+" "$1" "$IDX" | "$DIR/_send"

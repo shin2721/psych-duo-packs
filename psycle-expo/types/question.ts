@@ -36,6 +36,47 @@ export type QuestionType =
   | "term_card" // 単語カード
   | "interactive_practice"; // インタラクティブ演習
 
+export interface ExpandedDetailsComparator {
+  baseline?: string;
+  cost?: string;
+}
+
+export interface ExpandedDetailsFallback {
+  when?: string;
+  next?: string;
+  label?: string;
+  text?: string;
+}
+
+export interface ExpandedDetailsTinyMetric {
+  after_prompt?: string;
+  before_prompt?: string;
+  stop_rule?: string;
+  success_rule?: string;
+}
+
+export interface ExpandedDetailsVariant {
+  id?: string;
+  label?: string;
+}
+
+export interface ExpandedDetails {
+  basis_label?: string;
+  best_for?: string[];
+  citation_role?: string;
+  claim_tags?: string[];
+  claim_type?: string;
+  comparator?: ExpandedDetailsComparator;
+  evidence_type?: string;
+  fallback?: ExpandedDetailsFallback;
+  limitations?: string[];
+  note?: string;
+  tiny_metric?: ExpandedDetailsTinyMetric;
+  try_this?: string;
+  variant?: ExpandedDetailsVariant;
+  [key: string]: unknown;
+}
+
 // ========================================
 // メイン問題形式
 // ========================================
@@ -48,6 +89,7 @@ export interface Question {
   id?: string;                 // 問題ID
   type: QuestionType;
   question: string;           // 質問文
+  text?: string;              // 旧フォーマット互換の問題文
   choices?: string[];          // 選択肢 (一部のタイプで必須)
   correct_index?: number;     // 正解のインデックス（0始まり）
   correct_answers?: number[]; // 複数正解の場合（select_all用）
@@ -100,6 +142,7 @@ export interface Question {
   evidence_grade?: 'gold' | 'silver' | 'bronze';
   evidence_text?: string;
   evidence_source?: string;
+  expanded_details?: ExpandedDetails;
 
   // Multimedia
   image?: string;        // URL to image

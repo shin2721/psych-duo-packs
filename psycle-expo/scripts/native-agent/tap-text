@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# tap-text — Tap an element by visible text.
+# Usage: scripts/native-agent/tap-text <text> [index]
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -z "${1:-}" ] && { echo "Usage: tap-text <text> [index]" >&2; exit 1; }
+IDX="${2:-0}"
+python3 -c "
+import json, sys
+print(json.dumps({'action':'tap-text','text':sys.argv[1],'index':int(sys.argv[2])}))
+" "$1" "$IDX" | "$DIR/_send"

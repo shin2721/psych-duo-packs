@@ -20,15 +20,23 @@ Control the app via file-based IPC only:
 |----------------|-------------------|
 | `ux:tap`       | Tap by testID     |
 | `ux:tap-text`  | Tap by text       |
+| `ux:tap-label` | Tap by accessibility label |
 | `ux:scroll`    | Scroll container  |
 | `ux:scroll-to` | Scroll until target visible |
 | `ux:swipe`     | Swipe gesture     |
 | `ux:type`      | Type into input   |
+| `ux:replace-text` | Replace existing input text |
+| `ux:clear`     | Clear input text  |
 | `ux:visible`   | Check visibility  |
+| `ux:visible-text` | Check visibility by text |
 | `ux:dump-ids`  | Batch check IDs   |
 | `ux:open-url`  | Deep link          |
 | `ux:screenshot`| Save to disk only |
 | `ux:wait-for`  | Wait for element  |
+| `ux:dismiss-alerts` | Dismiss native/system alerts |
+| `ux:relaunch`  | Relaunch app instance |
+
+Use `ux:type` only for empty inputs. Use `ux:replace-text` when the field may already contain a value.
 
 Screenshots are saved to `/tmp/ux-agent/screenshots/` for your local analysis.
 They must **never** be inserted into the conversation.

@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# dump-ids — Check visibility of multiple testIDs at once.
+# Usage: scripts/native-agent/dump-ids <id1> [id2] [id3] ...
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -z "${1:-}" ] && { echo "Usage: dump-ids <id1> [id2] ..." >&2; exit 1; }
+python3 -c "
+import json, sys
+print(json.dumps({'action':'dump-ids','ids':sys.argv[1:]}))
+" "$@" | "$DIR/_send"

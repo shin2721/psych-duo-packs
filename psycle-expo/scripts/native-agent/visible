@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# visible — Check if an element is visible by testID.
+# Usage: scripts/native-agent/visible <testID> [timeout_ms]
+set -euo pipefail
+DIR="$(cd "$(dirname "$0")" && pwd)"
+[ -z "${1:-}" ] && { echo "Usage: visible <testID> [timeout_ms]" >&2; exit 1; }
+TIMEOUT="${2:-2000}"
+python3 -c "
+import json, sys
+print(json.dumps({'action':'visible','id':sys.argv[1],'timeout':int(sys.argv[2])}))
+" "$1" "$TIMEOUT" | "$DIR/_send"
