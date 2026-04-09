@@ -304,6 +304,7 @@ export const zh = {
             nodeLocked: '已锁定课程节点 %{number}',
             nodeCompleted: '已完成课程节点 %{number}',
             nodeAvailable: '可用课程节点 %{number}',
+            nodeReview: 'Review node %{label}',
         },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
@@ -312,6 +313,19 @@ export const zh = {
         },
         comebackReward: {
             accessibilityHint: '开始一节课程以领取回归奖励。',
+        },
+        world: {
+            currentKicker: 'Current lesson',
+            reviewKicker: 'Current review',
+            progressReview: 'Review',
+            metaQuestionsXp: '%{count} questions • +%{xp} XP',
+            summary: '%{done} done • %{remaining} left',
+            lessonBodyFallback: 'Continue from the route you already unlocked.',
+            lockedBody: 'This route is still locked. A little more progress will open it.',
+            reviewBody: 'Gather the questions that still catch you and close the loop again.',
+            ctaOpenLesson: 'Open lesson %{number}',
+            ctaOpenReview: 'Open review',
+            ctaSeeUnlock: 'See unlock options',
         },
     },
     planSelector: {

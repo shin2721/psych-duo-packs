@@ -304,6 +304,7 @@ export const ko = {
             nodeLocked: '잠긴 레슨 노드 %{number}',
             nodeCompleted: '완료한 레슨 노드 %{number}',
             nodeAvailable: '이용 가능한 레슨 노드 %{number}',
+            nodeReview: 'Review node %{label}',
         },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
@@ -312,6 +313,19 @@ export const ko = {
         },
         comebackReward: {
             accessibilityHint: '레슨을 시작해 복귀 보상을 받습니다.',
+        },
+        world: {
+            currentKicker: 'Current lesson',
+            reviewKicker: 'Current review',
+            progressReview: 'Review',
+            metaQuestionsXp: '%{count} questions • +%{xp} XP',
+            summary: '%{done} done • %{remaining} left',
+            lessonBodyFallback: 'Continue from the route you already unlocked.',
+            lockedBody: 'This route is still locked. A little more progress will open it.',
+            reviewBody: 'Gather the questions that still catch you and close the loop again.',
+            ctaOpenLesson: 'Open lesson %{number}',
+            ctaOpenReview: 'Open review',
+            ctaSeeUnlock: 'See unlock options',
         },
     },
     planSelector: {

@@ -304,6 +304,7 @@ export const fr = {
             nodeLocked: 'Nœud de leçon verrouillé %{number}',
             nodeCompleted: 'Nœud de leçon terminé %{number}',
             nodeAvailable: 'Nœud de leçon disponible %{number}',
+            nodeReview: 'Review node %{label}',
         },
         rewardClaimedTitle: 'Reward claimed!',
         rewardClaimedMessage: 'You received %{gems} Gems and %{badges} badges.',
@@ -312,6 +313,19 @@ export const fr = {
         },
         comebackReward: {
             accessibilityHint: 'Commencez une leçon pour recevoir votre récompense de retour.',
+        },
+        world: {
+            currentKicker: 'Current lesson',
+            reviewKicker: 'Current review',
+            progressReview: 'Review',
+            metaQuestionsXp: '%{count} questions • +%{xp} XP',
+            summary: '%{done} done • %{remaining} left',
+            lessonBodyFallback: 'Continue from the route you already unlocked.',
+            lockedBody: 'This route is still locked. A little more progress will open it.',
+            reviewBody: 'Gather the questions that still catch you and close the loop again.',
+            ctaOpenLesson: 'Open lesson %{number}',
+            ctaOpenReview: 'Open review',
+            ctaSeeUnlock: 'See unlock options',
         },
     },
     planSelector: {
