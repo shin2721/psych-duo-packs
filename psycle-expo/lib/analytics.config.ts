@@ -1,5 +1,6 @@
 // Analytics v1.3 - Configuration
 import type { AnalyticsConfig } from './analytics.types';
+import { warnDev } from "./devLog";
 
 /**
  * EXPO_PUBLIC_APP_ENV を安全にパース
@@ -18,7 +19,7 @@ function parseAppEnv(): 'dev' | 'prod' | undefined {
   
   // 不正値の場合は警告を出してundefinedにフォールバック
   if (__DEV__) {
-    console.warn(
+    warnDev(
       `[Analytics] Invalid EXPO_PUBLIC_APP_ENV: "${raw}". Expected "dev" or "prod". Falling back to __DEV__ detection.`
     );
   }

@@ -1,0 +1,176 @@
+import type { EventCampaignConfig, GamificationConfig } from "./gamificationConfig.types";
+
+export const DEFAULT_EVENT_CAMPAIGN: EventCampaignConfig = {
+  enabled: true,
+  id: "spring_challenge_2026",
+  start_at: "2026-04-29T00:00:00+09:00",
+  end_at: "2026-05-06T23:59:59+09:00",
+  title_key: "events.spring2026.title",
+  community_target_lessons: 10000,
+  reward_badge_id: "event_spring_2026",
+  quests: [
+    {
+      template_id: "ev_lessons_20",
+      metric: "lesson_complete",
+      need: 20,
+      reward_gems: 20,
+      title_key: "events.spring2026.quest_lessons_20",
+    },
+    {
+      template_id: "ev_streak5_5",
+      metric: "streak5_milestone",
+      need: 5,
+      reward_gems: 30,
+      title_key: "events.spring2026.quest_streak5_5",
+    },
+  ],
+};
+
+export const DEFAULT_CONFIG: GamificationConfig = {
+  version: 1,
+  initial_gems: 50,
+  xp_rewards: {
+    correct_answer: 5,
+    lesson_complete: 20,
+    felt_better_positive: 10,
+  },
+  freeze: {
+    weekly_refill: 2,
+    purchase_cost_gems: 10,
+    max_cap: 10,
+  },
+  streak: {
+    study_per_day_limit: 1,
+  },
+  streak_milestones: {
+    lifetime_once: true,
+    rewards: [
+      { day: 3, gems: 5 },
+      { day: 7, gems: 10 },
+      { day: 14, gems: 15 },
+      { day: 30, gems: 20 },
+      { day: 60, gems: 30 },
+      { day: 100, gems: 50 },
+      { day: 365, gems: 100 },
+    ],
+  },
+  combo_xp: {
+    enabled: true,
+    milestones: [
+      { streak: 3, multiplier: 1.2 },
+      { streak: 5, multiplier: 1.5 },
+      { streak: 10, multiplier: 2.0 },
+    ],
+    bonus_cap_per_lesson: 20,
+  },
+  shop_sinks: {
+    energy_full_refill: {
+      enabled: true,
+      cost_gems: 30,
+      daily_limit: 1,
+    },
+  },
+  double_xp_boost: {
+    cost_gems: 20,
+    duration_minutes: 15,
+  },
+  streak_repair: {
+    cost_gems: 50,
+    window_hours: 48,
+  },
+  double_xp_nudge: {
+    enabled: true,
+    daily_show_limit: 1,
+    min_gems: 20,
+    require_inactive_boost: true,
+  },
+  comeback_reward: {
+    threshold_days: 7,
+    reward_energy: 2,
+    reward_gems: 10,
+  },
+  daily_goal: {
+    default_xp: 10,
+    reward_gems: 5,
+  },
+  friend_challenge: {
+    reward_gems: 15,
+  },
+  checkout: {
+    max_plan_enabled: false,
+  },
+  quest_rewards: {
+    claim_bonus_gems_by_type: {
+      daily: 5,
+      weekly: 10,
+      monthly: 15,
+    },
+  },
+  quest_reroll: {
+    enabled: true,
+    cost_gems: 5,
+    daily_limit: 1,
+  },
+  event_campaign: DEFAULT_EVENT_CAMPAIGN,
+  experiments: {
+    enabled: false,
+    experiments: {
+      double_xp_nudge_lesson_complete: {
+        enabled: false,
+        rollout_percentage: 100,
+        variants: [
+          { id: "control", weight: 50, payload: { copyStyle: "default" } },
+          { id: "variant_a", weight: 50, payload: { copyStyle: "urgency" } },
+        ],
+      },
+      pro_trial_checkout: {
+        enabled: false,
+        rollout_percentage: 5,
+        variants: [
+          { id: "control", weight: 50, payload: { trialDays: 0 } },
+          { id: "variant_a", weight: 50, payload: { trialDays: 7 } },
+        ],
+      },
+      pro_monthly_price_jp: {
+        enabled: false,
+        rollout_percentage: 5,
+        variants: [
+          { id: "control", weight: 50, payload: { priceVersion: "control" } },
+          { id: "variant_a", weight: 50, payload: { priceVersion: "variant_a" } },
+        ],
+      },
+    },
+  },
+  personalization: {
+    enabled: false,
+    segment_reassign_cooldown_hours: 24,
+    quest_need_adjustment: {
+      new: -1,
+      active: 0,
+      at_risk: -1,
+      power: 1,
+    },
+    comeback_reward_adjustment: {
+      new: 0,
+      active: 0,
+      at_risk: 1,
+      power: 0,
+    },
+  },
+  liveops: {
+    enabled: false,
+    max_active_campaigns: 1,
+    campaigns: [DEFAULT_EVENT_CAMPAIGN],
+  },
+  league_matchmaking: {
+    relative_gap_weight: 1.0,
+    variance_penalty_weight: 0.35,
+    min_members_for_variance: 3,
+  },
+  notifications: {
+    streak_risk_hour: 22,
+    daily_quest_deadline_hour: 21,
+    league_demotion_risk_hour_sunday: 18,
+    default_enabled: true,
+  },
+};
