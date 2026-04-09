@@ -35,7 +35,7 @@ export function BadgeIcon({ badge, isUnlocked, onPress }: BadgeIconProps) {
         <>
             <View style={[styles.iconContainer, !isUnlocked && styles.lockedIcon]}>
                 <Ionicons
-                    name={badge.icon as any}
+                    name={badge.icon}
                     size={32}
                     color={isUnlocked ? theme.colors.primary : theme.colors.sub}
                 />

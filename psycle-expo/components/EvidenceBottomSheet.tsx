@@ -4,28 +4,10 @@ import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
 import { getEvidenceSummary, getTryValueColor } from '../lib/evidenceSummary';
 import i18n from '../lib/i18n';
-
-// Import curated sources for bibliographic info
-import curatedSourcesData from '../data/curated_sources.json';
+import { EvidenceBottomSheetDetails } from './EvidenceBottomSheetDetails';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const SHEET_HEIGHT = SCREEN_HEIGHT * 0.5; // Slightly taller to show source info
-
-// Type for source entry
-interface SourceEntry {
-    author: string;
-    year: number;
-    title: string;
-    type: string;
-    notes?: string;
-}
-
-// Helper to get source info
-const getSourceInfo = (sourceId: string | undefined): SourceEntry | null => {
-    if (!sourceId) return null;
-    const sources = (curatedSourcesData as any).sources || {};
-    return sources[sourceId] || null;
-};
 
 interface EvidenceBottomSheetProps {
     visible: boolean;
@@ -174,47 +156,12 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                 {/* Expandable Details */}
                 {showDetails && (
                     <>
-                        {expandedDetails?.best_for && expandedDetails.best_for.length > 0 && (
-                            <View style={styles.section}>
-                                <Text style={styles.sectionLabel}>{i18n.t('lesson.bestForHeader')}</Text>
-                                <Text style={styles.sectionText}>{expandedDetails.best_for.join(listSeparator)}</Text>
-                            </View>
-                        )}
-
-                        {expandedDetails?.limitations && expandedDetails.limitations.length > 0 && (
-                            <View style={styles.section}>
-                                <Text style={styles.sectionLabel}>{i18n.t('lesson.limitationsHeader')}</Text>
-                                <Text style={styles.sectionText}>{expandedDetails.limitations.join(listSeparator)}</Text>
-                            </View>
-                        )}
-
-                        {/* Source Info */}
-                        {(() => {
-                            const sourceInfo = getSourceInfo(source_id);
-                            if (!sourceInfo) return null;
-
-                            const typeLabel = {
-                                intervention: i18n.t('evidenceBottomSheet.sourceType.intervention'),
-                                observational: i18n.t('evidenceBottomSheet.sourceType.observational'),
-                                theory: i18n.t('evidenceBottomSheet.sourceType.theory'),
-                                review: i18n.t('evidenceBottomSheet.sourceType.review'),
-                            }[sourceInfo.type] || sourceInfo.type;
-
-                            return (
-                                <View style={styles.sourceBox}>
-                                    <Text style={styles.sourceLabel}>{i18n.t('evidenceBottomSheet.sourceLabel')}</Text>
-                                    <Text style={styles.sourceAuthor}>{sourceInfo.author} ({sourceInfo.year})</Text>
-                                    <View style={styles.sourceTypeChip}>
-                                        <Text style={styles.sourceTypeText}>{typeLabel}</Text>
-                                    </View>
-                                </View>
-                            );
-                        })()}
-
-                        {/* Disclaimer */}
-                        <Text style={styles.disclaimer}>
-                            {i18n.t('lesson.disclaimerEffectSize')}
-                        </Text>
+                        <EvidenceBottomSheetDetails
+                            expandedDetails={expandedDetails}
+                            listSeparator={listSeparator}
+                            sourceId={source_id}
+                            styles={styles}
+                        />
                     </>
                 )}
             </Animated.View>

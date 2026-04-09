@@ -1,7 +1,8 @@
 // components/MistakesHubButton.tsx
 import React from "react";
-import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet } from "react-native";
 import { router } from "expo-router";
+import { Ionicons } from "@expo/vector-icons";
 import { usePracticeState } from "../lib/state";
 import { theme } from "../lib/theme";
 import i18n from "../lib/i18n";
@@ -29,67 +30,91 @@ export function MistakesHubButton() {
       ? "ready"
       : "insufficient_data";
 
+  const statusText = canAccessMistakesHub
+    ? !hasEnoughData
+      ? String(i18n.t("mistakesHubButton.statusNeedData"))
+      : mistakesHubRemaining === null
+        ? String(i18n.t("mistakesHubButton.statusUnlimited"))
+        : String(
+            i18n.t("mistakesHubButton.statusRemaining", {
+              remaining: mistakesHubRemaining,
+            })
+          )
+    : String(i18n.t("mistakesHubButton.statusLocked"));
+
+  const hintText = availabilityState === "locked"
+    ? String(i18n.t("mistakesHubButton.routeHintLocked"))
+    : availabilityState === "insufficient_data"
+      ? String(i18n.t("mistakesHubButton.routeHintInsufficientData"))
+      : String(i18n.t("mistakesHubButton.routeHintReady"));
+
   const handlePress = () => {
-    if (availabilityState !== "ready") {
-      return;
+    if (availabilityState === "ready") {
+      const result = startMistakesHubSession();
+      if (result.started) {
+        router.push("/mistakes-hub");
+        return;
+      }
     }
 
-    const result = startMistakesHubSession();
-    if (result.started) {
-      router.push("/mistakes-hub");
-      return;
-    }
-
-    // Non-blocking for known states; keep route discoverable.
+    router.push("/mistakes-hub");
   };
+
+  const badgeLabel = availabilityState === "locked"
+    ? "PRO"
+    : availabilityState === "insufficient_data"
+      ? `${mistakesItems.length}/5`
+      : "READY";
+
+  const badgeStyle = availabilityState === "locked"
+    ? styles.badgeLocked
+    : availabilityState === "insufficient_data"
+      ? styles.badgePending
+      : styles.badgeReady;
+
+  const chevronColor = availabilityState === "locked"
+    ? theme.colors.sub
+    : theme.colors.primary;
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity
+      <Pressable
         testID="mistakes-hub-button"
         style={[
           styles.button,
-          !canAccessMistakesHub && styles.buttonLocked,
-          canAccessMistakesHub && !hasEnoughData && styles.buttonDisabled,
+          availabilityState === "locked" && styles.buttonLocked,
+          availabilityState === "insufficient_data" && styles.buttonPending,
+          availabilityState === "ready" && styles.buttonReady,
         ]}
         onPress={handlePress}
-        disabled={canAccessMistakesHub && !hasEnoughData}
         accessibilityRole="button"
         accessibilityLabel={
           availabilityState === "locked"
             ? String(i18n.t("mistakesHubButton.titleLocked"))
             : String(i18n.t("mistakesHubButton.titleAvailable"))
         }
-        accessibilityState={{ disabled: canAccessMistakesHub && !hasEnoughData }}
+        accessibilityHint={hintText}
       >
-        <Text style={styles.buttonTitle}>
-          {canAccessMistakesHub
-            ? i18n.t("mistakesHubButton.titleAvailable")
-            : i18n.t("mistakesHubButton.titleLocked")}
-        </Text>
-        <Text style={styles.buttonSubtitle}>{i18n.t("mistakesHubButton.subtitle")}</Text>
-      </TouchableOpacity>
+        <View style={styles.textColumn}>
+          <View style={styles.titleRow}>
+            <Text style={styles.buttonTitle}>
+              {canAccessMistakesHub
+                ? i18n.t("mistakesHubButton.titleAvailable")
+                : i18n.t("mistakesHubButton.titleLocked")}
+            </Text>
+            <View style={[styles.badge, badgeStyle]}>
+              <Text style={styles.badgeText}>{badgeLabel}</Text>
+            </View>
+          </View>
+          <Text style={styles.buttonSubtitle}>{i18n.t("mistakesHubButton.subtitle")}</Text>
+        </View>
+        <Ionicons name="chevron-forward" size={20} color={chevronColor} />
+      </Pressable>
 
-      {canAccessMistakesHub ? (
-        <Text style={styles.statusText}>
-          {!hasEnoughData
-            ? i18n.t("mistakesHubButton.statusNeedData")
-            : mistakesHubRemaining === null
-            ? i18n.t("mistakesHubButton.statusUnlimited")
-            : i18n.t("mistakesHubButton.statusRemaining", {
-                remaining: mistakesHubRemaining,
-              })}
-        </Text>
-      ) : (
-        <Text style={styles.statusText}>{i18n.t("mistakesHubButton.statusLocked")}</Text>
-      )}
+      <Text style={styles.statusText}>{statusText}</Text>
 
       <Text style={styles.hintText} testID="mistakes-hub-status">
-        {availabilityState === "locked"
-          ? i18n.t("mistakesHubButton.routeHintLocked")
-          : availabilityState === "insufficient_data"
-            ? i18n.t("mistakesHubButton.routeHintInsufficientData")
-            : i18n.t("mistakesHubButton.routeHintReady")}
+        {hintText}
       </Text>
 
       {hasEnoughData && (
@@ -105,50 +130,84 @@ export function MistakesHubButton() {
 
 const styles = StyleSheet.create({
   container: {
-    padding: theme.spacing.md,
-    backgroundColor: theme.colors.bg,
+    gap: theme.spacing.xs,
   },
   button: {
-    backgroundColor: theme.colors.primary,
-    padding: theme.spacing.lg,
-    borderRadius: 12,
+    minHeight: 88,
+    borderRadius: theme.radius.lg,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+    backgroundColor: theme.colors.card,
+    paddingHorizontal: theme.spacing.md,
+    paddingVertical: theme.spacing.md,
+    flexDirection: "row",
     alignItems: "center",
-    marginBottom: theme.spacing.sm,
+    gap: theme.spacing.md,
   },
   buttonLocked: {
-    backgroundColor: theme.colors.line,
-    borderWidth: 1,
-    borderColor: theme.colors.sub,
+    borderColor: theme.colors.line,
   },
-  buttonDisabled: {
-    opacity: 0.5,
+  buttonPending: {
+    borderColor: theme.colors.line,
+  },
+  buttonReady: {
+    borderColor: theme.colors.primary,
+    backgroundColor: theme.colors.surface,
+  },
+  textColumn: {
+    flex: 1,
+    gap: 4,
+  },
+  titleRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: theme.spacing.sm,
   },
   buttonTitle: {
+    flex: 1,
     fontSize: 18,
-    fontWeight: "bold",
-    color: "#fff",
-    marginBottom: theme.spacing.xs,
+    fontWeight: "700",
+    color: theme.colors.text,
   },
   buttonSubtitle: {
     fontSize: 14,
-    color: "#fff",
-    opacity: 0.9,
+    color: theme.colors.sub,
+    lineHeight: 20,
+  },
+  badge: {
+    minWidth: 52,
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    alignItems: "center",
+  },
+  badgeLocked: {
+    backgroundColor: theme.colors.line,
+  },
+  badgePending: {
+    backgroundColor: theme.colors.surface,
+  },
+  badgeReady: {
+    backgroundColor: theme.colors.primary,
+  },
+  badgeText: {
+    fontSize: 11,
+    fontWeight: "800",
+    color: theme.colors.text,
   },
   statusText: {
     fontSize: 12,
     color: theme.colors.text,
-    opacity: 0.7,
+    opacity: 0.8,
     textAlign: "center",
-    marginBottom: theme.spacing.xs,
   },
   hintText: {
     fontSize: 12,
     color: theme.colors.sub,
     textAlign: "center",
-    marginBottom: theme.spacing.xs,
   },
   itemCount: {
-    fontSize: 14,
+    fontSize: 13,
     color: theme.colors.primary,
     textAlign: "center",
     fontWeight: "600",

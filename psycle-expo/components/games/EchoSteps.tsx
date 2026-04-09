@@ -3,18 +3,19 @@ import { View, Text, Pressable, StyleSheet, Animated } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { GameResult } from "../../lib/games.extra";
+import type { IoniconName } from "../../lib/ioniconName";
 import i18n from "../../lib/i18n";
 
 interface Props {
   onDone: (result: GameResult) => void;
 }
 
-const ICON_POOL = ["leaf", "flower", "sparkles", "heart", "star", "flash", "water", "flame"];
+const ICON_POOL: IoniconName[] = ["leaf", "flower", "sparkles", "heart", "star", "flash", "water", "flame"];
 
 export function EchoSteps({ onDone }: Props) {
   const [round, setRound] = useState(1);
-  const [sequence, setSequence] = useState<string[]>([]);
-  const [userInput, setUserInput] = useState<string[]>([]);
+  const [sequence, setSequence] = useState<IoniconName[]>([]);
+  const [userInput, setUserInput] = useState<IoniconName[]>([]);
   const [showing, setShowing] = useState(true);
   const [mistakes, setMistakes] = useState(0);
   const [startTime] = useState(Date.now());
@@ -39,7 +40,7 @@ export function EchoSteps({ onDone }: Props) {
     setShowing(true);
   };
 
-  const handleIconTap = (icon: string) => {
+  const handleIconTap = (icon: IoniconName) => {
     const nextIndex = userInput.length;
     const correct = sequence[nextIndex] === icon;
 
@@ -87,7 +88,7 @@ export function EchoSteps({ onDone }: Props) {
           <View style={styles.iconRow}>
             {sequence.map((icon, i) => (
               <View key={i} style={styles.iconCard}>
-                <Ionicons name={icon as any} size={32} color={theme.colors.accent} />
+                <Ionicons name={icon} size={32} color={theme.colors.accent} />
               </View>
             ))}
           </View>
@@ -95,7 +96,7 @@ export function EchoSteps({ onDone }: Props) {
           <View style={styles.iconRow}>
             {sequence.map((_, i) => (
               <View key={i} style={[styles.iconCard, userInput[i] && styles.iconCardFilled]}>
-                {userInput[i] && <Ionicons name={userInput[i] as any} size={32} color={theme.colors.success} />}
+                {userInput[i] && <Ionicons name={userInput[i]} size={32} color={theme.colors.success} />}
               </View>
             ))}
           </View>
@@ -106,7 +107,7 @@ export function EchoSteps({ onDone }: Props) {
         <View style={styles.pool}>
           {ICON_POOL.map((icon) => (
             <Pressable key={icon} style={styles.poolIcon} onPress={() => handleIconTap(icon)}>
-              <Ionicons name={icon as any} size={28} color={theme.colors.text} />
+              <Ionicons name={icon} size={28} color={theme.colors.text} />
             </Pressable>
           ))}
         </View>
