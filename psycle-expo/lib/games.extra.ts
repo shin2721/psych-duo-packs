@@ -2,7 +2,7 @@ export interface GameResult {
   xp: number;
   mistakes: number;
   timeMs: number;
-  meta?: Record<string, any>;
+  meta?: Record<string, unknown>;
 }
 
 export interface GameConfig {

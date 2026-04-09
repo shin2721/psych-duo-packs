@@ -1,5 +1,6 @@
 import { Audio } from 'expo-av';
 import { Platform } from 'react-native';
+import { warnDev } from './devLog';
 
 const SOUND_URLS = {
     correct: 'https://actions.google.com/sounds/v1/science_fiction/scifi_hightech_beep.ogg',
@@ -37,7 +38,7 @@ export const sounds = {
             });
 
         } catch (error) {
-            console.log('Error playing sound:', error);
+            warnDev('Error playing sound:', error);
         }
     },
 

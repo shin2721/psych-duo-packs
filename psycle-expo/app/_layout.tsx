@@ -27,7 +27,7 @@ LogBox.ignoreLogs([
   "Network request failed",
 ]);
 
-function RootLayoutNav() {
+export function RootLayoutNav() {
   const { session, isLoading: authLoading } = useAuth();
   const { hasSeenOnboarding, isLoading: onboardingLoading } = useOnboarding();
   const { locale, isReady: localeReady } = useLocale();
@@ -37,18 +37,22 @@ function RootLayoutNav() {
   const isLoading = authLoading || onboardingLoading || !localeReady;
 
   useEffect(() => {
-    if (__DEV__) console.log("[RootLayoutNav] Effect triggered", { isLoading, hasSeenOnboarding, session: !!session, segment: segments[0] });
     if (isLoading || hasSeenOnboarding === null) return;
 
     const inAuthGroup = segments[0] === "auth";
     const inOnboardingGroup = segments[0] === "onboarding";
+    const inDebugGroup = segments[0] === "debug" ||
+      (typeof window !== "undefined" && window.location?.pathname?.startsWith("/debug"));
+
+    // Skip auth/onboarding for debug routes in dev mode
+    if (__DEV__ && inDebugGroup) return;
 
     // Priority 1: If user hasn't seen onboarding, show it
     if (!hasSeenOnboarding && !inOnboardingGroup) {
       router.replace("/onboarding");
     }
     // Priority 2: If no session and not in auth, redirect to auth
-    else if (!session && !inAuthGroup && hasSeenOnboarding) {
+    else if (!session && !inAuthGroup && !inDebugGroup && hasSeenOnboarding) {
       router.replace("/auth");
     }
     // Priority 3: If session exists and in auth group, go to main app
@@ -230,15 +234,12 @@ export default function RootLayout() {
     Analytics.trackSessionStart();
     Analytics.trackAppOpen(); // Promiseだけど待たなくてOK（内部でガードあり）
 
-    (async () => {
-      try {
-        await Analytics.initialize();
+    void Analytics.initialize()
+      .then(() => {
         // app_readyは「初期化成功の証拠」なので成功時のみ
         Analytics.trackAppReady();
-      } catch (error) {
-        console.error('[Analytics] Initialization failed:', error);
-      }
-    })();
+      })
+      .catch(() => undefined);
   }, []);
 
   return (

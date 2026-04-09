@@ -1,5 +1,6 @@
 import * as Haptics from 'expo-haptics';
 import { Platform } from 'react-native';
+import { warnDev } from './devLog';
 
 function canUseHaptics(): boolean {
     return Platform.OS !== 'web';
@@ -10,7 +11,7 @@ async function safelyRun(effect: () => Promise<void>): Promise<void> {
     try {
         await effect();
     } catch (error) {
-        console.warn('Haptics not supported', error);
+        warnDev('Haptics not supported', error);
     }
 }
 

@@ -1,6 +1,17 @@
 // Dogfooding Log - Minimal self-tracking for intervention effectiveness (Active Phase)
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { logDev, warnDev } from "./devLog";
 import { dateKey } from "./streaks";
+import {
+    createEmptyDogfoodLog,
+    finalizeInterventionStats,
+    getOrCreateDogfoodEntry,
+    normalizeInteractionCount,
+} from "./dogfoodHelpers";
+import {
+    buildDogfoodSummary,
+    buildExportableDogfoodJson,
+} from "./dogfoodExport";
 
 const DOGFOOD_LOG_KEY = "dogfooding_log";
 
@@ -70,14 +81,9 @@ export async function getDogfoodLog(): Promise<DogfoodLog> {
             };
         }
     } catch (e) {
-        console.warn("[Dogfood] Failed to read log:", e);
+        warnDev("[Dogfood] Failed to read log:", e);
     }
-    return {
-        schemaVersion: DOGFOOD_SCHEMA_VERSION,
-        buildId: BUILD_ID,
-        entries: [],
-        last_updated: new Date().toISOString()
-    };
+    return createEmptyDogfoodLog(DOGFOOD_SCHEMA_VERSION, BUILD_ID);
 }
 
 // Log lesson completion with usability response
@@ -86,32 +92,24 @@ export async function logLessonCompletion(
     usability_response: "yes" | "no" | "unsure"
 ): Promise<void> {
     const log = await getDogfoodLog();
-
-    const today = dateKey();
-    let entry = log.entries.find(
-        e => e.lesson_id === lesson_id && e.date_key === today
+    const entry = getOrCreateDogfoodEntry(
+        log,
+        lesson_id,
+        BUILD_ID,
+        DOGFOOD_SCHEMA_VERSION
     );
-
-    if (!entry) {
-        entry = {
-            lesson_id,
-            date_key: today,
-            timestamp: new Date().toISOString(),
-            meta: { buildId: BUILD_ID, schemaVersion: DOGFOOD_SCHEMA_VERSION },
-            usability_response: null,
-            interventions_tried: []
-        };
-        log.entries.push(entry);
-    }
 
     entry.usability_response = usability_response;
     log.last_updated = new Date().toISOString();
 
     try {
         await AsyncStorage.setItem(DOGFOOD_LOG_KEY, JSON.stringify(log));
-        if (__DEV__) console.log("[Dogfood] Logged lesson completion:", lesson_id, usability_response);
+        logDev("[Dogfood] Logged lesson completion", {
+            lessonId: lesson_id,
+            usabilityResponse: usability_response,
+        });
     } catch (e) {
-        console.warn("[Dogfood] Failed to save log:", e);
+        warnDev("[Dogfood] Failed to save log:", e);
     }
 }
 
@@ -123,23 +121,12 @@ export async function logInterventionInteraction(
     type: "shown" | "attempted" | "executed"
 ): Promise<void> {
     const log = await getDogfoodLog();
-
-    const today = dateKey();
-    let entry = log.entries.find(
-        e => e.lesson_id === lesson_id && e.date_key === today
+    const entry = getOrCreateDogfoodEntry(
+        log,
+        lesson_id,
+        BUILD_ID,
+        DOGFOOD_SCHEMA_VERSION
     );
-
-    if (!entry) {
-        entry = {
-            lesson_id,
-            date_key: today,
-            timestamp: new Date().toISOString(),
-            meta: { buildId: BUILD_ID, schemaVersion: DOGFOOD_SCHEMA_VERSION },
-            usability_response: null,
-            interventions_tried: []
-        };
-        log.entries.push(entry);
-    }
 
     // Add or update intervention
     let existing = entry.interventions_tried.find(i => i.intervention_id === intervention_id);
@@ -163,9 +150,12 @@ export async function logInterventionInteraction(
 
     try {
         await AsyncStorage.setItem(DOGFOOD_LOG_KEY, JSON.stringify(log));
-        if (__DEV__) console.log("[Dogfood] Logged intervention:", intervention_id, type);
+        logDev("[Dogfood] Logged intervention", {
+            interventionId: intervention_id,
+            type,
+        });
     } catch (e) {
-        console.warn("[Dogfood] Failed to save log:", e);
+        warnDev("[Dogfood] Failed to save log:", e);
     }
 }
 
@@ -183,13 +173,13 @@ export async function logFeltBetter(
     );
 
     if (!entry) {
-        if (__DEV__) console.warn("[Dogfood] No entry found for felt_better");
+        warnDev("[Dogfood] No entry found for felt_better");
         return;
     }
 
     const existing = entry.interventions_tried.find(i => i.intervention_id === intervention_id);
     if (!existing) {
-        if (__DEV__) console.warn("[Dogfood] No intervention found for felt_better");
+        warnDev("[Dogfood] No intervention found for felt_better");
         return;
     }
 
@@ -198,9 +188,12 @@ export async function logFeltBetter(
 
     try {
         await AsyncStorage.setItem(DOGFOOD_LOG_KEY, JSON.stringify(log));
-        if (__DEV__) console.log("[Dogfood] Logged felt_better:", intervention_id, felt_better);
+        logDev("[Dogfood] Logged felt_better", {
+            interventionId: intervention_id,
+            feltBetter: felt_better,
+        });
     } catch (e) {
-        console.warn("[Dogfood] Failed to save felt_better:", e);
+        warnDev("[Dogfood] Failed to save felt_better:", e);
     }
 }
 
@@ -211,44 +204,7 @@ export async function getDogfoodSummary(): Promise<{
     interventions: { total_shown: number; total_attempted: number; total_executed: number; attempt_rate: string; execute_rate: string };
 }> {
     const log = await getDogfoodLog();
-
-    const usability = { yes: 0, no: 0, unsure: 0 };
-    let totalShown = 0;
-    let totalAttempted = 0;
-    let totalExecuted = 0;
-
-    for (const entry of log.entries) {
-        if (entry.usability_response === "yes") usability.yes++;
-        else if (entry.usability_response === "no") usability.no++;
-        else if (entry.usability_response === "unsure") usability.unsure++;
-
-        for (const i of entry.interventions_tried) {
-            // 後方互換: boolean(true)は1として扱う
-            const shownVal = typeof i.shown === 'boolean' ? (i.shown ? 1 : 0) : (i.shown || 0);
-            const attemptedVal = typeof i.attempted === 'boolean' ? (i.attempted ? 1 : 0) : (i.attempted || 0);
-            const executedVal = typeof i.executed === 'boolean' ? (i.executed ? 1 : 0) : (i.executed || 0);
-
-            totalShown += shownVal;
-            totalAttempted += attemptedVal;
-            totalExecuted += executedVal;
-        }
-    }
-
-    return {
-        total_lessons: log.entries.length,
-        usability,
-        interventions: {
-            total_shown: totalShown,
-            total_attempted: totalAttempted,
-            total_executed: totalExecuted,
-            attempt_rate: totalShown > 0
-                ? `${Math.round((totalAttempted / totalShown) * 100)}%`
-                : "N/A",
-            execute_rate: totalAttempted > 0
-                ? `${Math.round((totalExecuted / totalAttempted) * 100)}%`
-                : "N/A"
-        }
-    };
+    return buildDogfoodSummary(log);
 }
 
 // Export intervention-level stats for Phase 9 analysis
@@ -264,6 +220,22 @@ export interface InterventionStats {
     execute_rate: number;
     variant_breakdown: Record<string, { shown: number; attempted: number; executed: number }>;
 }
+
+interface LessonAggregateStats {
+    shown: number;
+    attempted: number;
+    executed: number;
+}
+
+type ExportableDogfoodJson = {
+    _meta: {
+        schema_version: string;
+        exported_at: string;
+        entry_count: number;
+    };
+    byIntervention: Record<string, InterventionStats>;
+    byLesson: Record<string, LessonAggregateStats>;
+} & Record<string, unknown>;
 
 export async function exportInterventionStats(): Promise<Record<string, InterventionStats>> {
     const log = await getDogfoodLog();
@@ -288,9 +260,9 @@ export async function exportInterventionStats(): Promise<Record<string, Interven
             }
 
             // 後方互換: boolean(true)は1として扱う
-            const shownVal = typeof i.shown === 'boolean' ? (i.shown ? 1 : 0) : (i.shown || 0);
-            const attemptedVal = typeof i.attempted === 'boolean' ? (i.attempted ? 1 : 0) : (i.attempted || 0);
-            const executedVal = typeof i.executed === 'boolean' ? (i.executed ? 1 : 0) : (i.executed || 0);
+            const shownVal = normalizeInteractionCount(i.shown);
+            const attemptedVal = normalizeInteractionCount(i.attempted);
+            const executedVal = normalizeInteractionCount(i.executed);
 
             stats[id].shown += shownVal;
             stats[id].attempted += attemptedVal;
@@ -313,17 +285,7 @@ export async function exportInterventionStats(): Promise<Record<string, Interven
         }
     }
 
-    // Calculate rates and averages
-    for (const id of Object.keys(stats)) {
-        const s = stats[id];
-        s.attempt_rate = s.shown > 0 ? Math.round((s.attempted / s.shown) * 100) : 0;
-        s.execute_rate = s.attempted > 0 ? Math.round((s.executed / s.attempted) * 100) : 0;
-        s.felt_better_avg = s.felt_better_count > 0
-            ? Math.round((s.felt_better_sum / s.felt_better_count) * 100) / 100
-            : 0;
-    }
-
-    return stats;
+    return finalizeInterventionStats(stats);
 }
 
 // Get JSON string for clipboard export (feedback.json format)
@@ -342,71 +304,9 @@ export async function exportInterventionStats(): Promise<Record<string, Interven
 export async function getExportableJSON(): Promise<string> {
     const log = await getDogfoodLog();
     const interventionStats = await exportInterventionStats();
-
-    // Build structured output
-    const byIntervention: Record<string, any> = {};
-    const byLesson: Record<string, { shown: number; attempted: number; executed: number }> = {};
-
-    // 1. Intervention-level stats (for winners extraction)
-    for (const [id, stats] of Object.entries(interventionStats)) {
-        byIntervention[id] = stats;
-    }
-
-    // 2. Lesson-level aggregates (for score adjustment)
-    // 定義：「介入に触れたセッション数」（1レッスンに複数介入があっても shown=1）
-    for (const entry of log.entries) {
-        // Extract domain from lesson_id (e.g., mental_l01 -> mental)
-        const match = entry.lesson_id.match(/^([a-z]+)_/);
-        if (!match) continue;
-        const domain = match[1];
-
-        // Build the key that batch_critic expects
-        const key = `${domain}_units/${entry.lesson_id}.ja.json`;
-
-        if (!byLesson[key]) {
-            byLesson[key] = { shown: 0, attempted: 0, executed: 0 };
-        }
-
-        // セッション単位：このセッションで介入に触れたか？（1 or 0）
-        let sessionHadShown = false;
-        let sessionHadAttempted = false;
-        let sessionHadExecuted = false;
-
-        for (const i of entry.interventions_tried) {
-            const shownVal = typeof i.shown === 'boolean' ? (i.shown ? 1 : 0) : (i.shown || 0);
-            const attemptedVal = typeof i.attempted === 'boolean' ? (i.attempted ? 1 : 0) : (i.attempted || 0);
-            const executedVal = typeof i.executed === 'boolean' ? (i.executed ? 1 : 0) : (i.executed || 0);
-
-            if (shownVal > 0) sessionHadShown = true;
-            if (attemptedVal > 0) sessionHadAttempted = true;
-            if (executedVal > 0) sessionHadExecuted = true;
-        }
-
-        // セッション数としてカウント（1レッスン複数介入でも1回）
-        if (sessionHadShown) byLesson[key].shown++;
-        if (sessionHadAttempted) byLesson[key].attempted++;
-        if (sessionHadExecuted) byLesson[key].executed++;
-    }
-
-    // Build final output with namespaces + backward compat + metadata
-    const output: Record<string, any> = {
-        // メタデータ（スキーマ変更時の安全な分岐用）
-        _meta: {
-            schema_version: "2.0",  // 1.0: flat, 2.0: namespaced
-            exported_at: new Date().toISOString(),
-            entry_count: log.entries.length,
-        },
-        byIntervention,
-        byLesson,
-    };
-
-    // 後方互換: トップレベルにも配置
-    for (const [id, stats] of Object.entries(byIntervention)) {
-        output[id] = stats;
-    }
-    for (const [key, stats] of Object.entries(byLesson)) {
-        output[key] = stats;
-    }
-
-    return JSON.stringify(output, null, 2);
+    return buildExportableDogfoodJson({
+        entryCount: log.entries.length,
+        interventionStats,
+        log,
+    });
 }

@@ -1,5 +1,24 @@
-export const genres = [
-  { id: "mental", label: "メンタル", icon: "brain", emoji: "🧠" },
+import type { IoniconName } from "./ioniconName";
+
+export interface GenreOption {
+  id: string;
+  label: string;
+  icon: IoniconName;
+  emoji: string;
+}
+
+export interface TrailNode {
+  id: string;
+  status: "current" | "locked" | "done";
+  icon: IoniconName;
+  type: "lesson" | "review_blackhole";
+  lessonFile: string;
+  lessonId: string;
+  isLocked?: boolean;
+}
+
+export const genres: GenreOption[] = [
+  { id: "mental", label: "メンタル", icon: "sparkles", emoji: "🧠" },
   { id: "money", label: "お金", icon: "cash", emoji: "💰" },
   { id: "work", label: "仕事術", icon: "briefcase", emoji: "💼" },
   { id: "health", label: "健康", icon: "fitness", emoji: "❤️" },
@@ -8,9 +27,9 @@ export const genres = [
 ];
 
 // Helper to generate trail nodes
-const generateTrail = (genreId: string, count: number) => {
-  const icons = ["leaf", "flower", "sparkles", "star", "heart-circle", "pulse", "school", "flask", "shield-checkmark", "trophy"];
-  const nodes = [];
+const generateTrail = (genreId: string, count: number): TrailNode[] => {
+  const icons: IoniconName[] = ["leaf", "flower", "sparkles", "star", "heart-circle", "pulse", "school", "flask", "shield-checkmark", "trophy"];
+  const nodes: TrailNode[] = [];
 
   for (let i = 1; i <= count; i++) {
     // Inject Black Hole Node after lesson 5 (before lesson 6)
@@ -37,7 +56,7 @@ const generateTrail = (genreId: string, count: number) => {
   return nodes;
 };
 
-export const trailsByGenre: Record<string, any[]> = {
+export const trailsByGenre: Record<string, TrailNode[]> = {
   mental: generateTrail("mental", 100),
   money: generateTrail("money", 100),
   work: generateTrail("work", 100),
