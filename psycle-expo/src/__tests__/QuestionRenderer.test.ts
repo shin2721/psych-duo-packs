@@ -1,30 +1,31 @@
 jest.mock("expo-av", () => ({ Audio: {} }));
 jest.mock("@expo/vector-icons", () => ({ Ionicons: () => null }));
+jest.mock("react-native-safe-area-context", () => ({
+  useSafeAreaInsets: () => ({ bottom: 0 }),
+}));
 jest.mock("../../lib/HapticFeedback", () => ({
   HapticFeedback: {
     success: jest.fn(),
     error: jest.fn(),
     selection: jest.fn(),
+    impact: jest.fn(),
   },
 }));
-jest.mock("../../lib/state", () => ({ useAppState: () => ({}) }));
+jest.mock("../../lib/state", () => ({
+  useProgressionState: () => ({ updateSkill: jest.fn() }),
+}));
 jest.mock("../../lib/sounds", () => ({ sounds: { play: jest.fn() } }));
-jest.mock("../../components/AnimatedButton", () => ({
-  AnimatedButton: () => null,
+jest.mock("../../components/question-runtime/QuestionInteraction", () => ({
+  QuestionInteraction: () => null,
 }));
-jest.mock("../../components/QuestionTypes", () => ({
-  QuickReflex: () => null,
-  SelectAll: () => null,
-  FillBlankTap: () => null,
-  SwipeJudgment: () => null,
-  Conversation: () => null,
-  Matching: () => null,
-  MicroInput: () => null,
-  ConsequenceScenario: () => null,
-  SortOrder: () => null,
+jest.mock("../../components/question-runtime/QuestionResultView", () => ({
+  QuestionResultView: () => null,
 }));
-jest.mock("../../components/XPGainAnimation", () => ({
-  XPGainAnimation: () => null,
+jest.mock("../../components/EvidenceBottomSheet", () => ({
+  EvidenceBottomSheet: () => null,
+}));
+jest.mock("../../components/ComboFeedback", () => ({
+  ComboFeedback: () => null,
 }));
 
 import {

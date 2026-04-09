@@ -5,6 +5,7 @@ import { act, fireEvent, render, waitFor } from "@testing-library/react-native";
 import ReviewScreen from "../../app/review";
 import { BillingStateProvider } from "../../lib/app-state/billing";
 import { getUserStorageKey } from "../../lib/app-state/persistence";
+import { getPlanChangeSnapshotKey } from "../../lib/planChangeTracking";
 import {
   AppStateProvider,
   useAppState,
@@ -90,6 +91,21 @@ jest.mock("../../components/QuestionRenderer", () => ({
 jest.mock("../../components/XPGainAnimation", () => ({
   XPGainAnimation: () => null,
 }));
+
+const { Analytics } = require("../../lib/analytics");
+
+function flushMicrotasks(): Promise<void> {
+  return Promise.resolve();
+}
+
+async function renderWithHydratedEffects(element: React.ReactElement) {
+  const screen = render(element);
+  await act(async () => {
+    await flushMicrotasks();
+    await flushMicrotasks();
+  });
+  return screen;
+}
 
 type QueryState = {
   table: string;
@@ -244,7 +260,7 @@ describe("app state architecture", () => {
       email: "user@example.com",
     };
 
-    const screen = render(
+    const screen = await renderWithHydratedEffects(
       React.createElement(AppStateProvider, null, React.createElement(AppStateProbe))
     );
 
@@ -273,7 +289,7 @@ describe("app state architecture", () => {
       email: "user@example.com",
     };
 
-    const screen = render(
+    const screen = await renderWithHydratedEffects(
       React.createElement(AppStateProvider, null, React.createElement(DomainHookProbe))
     );
 
@@ -299,7 +315,7 @@ describe("app state architecture", () => {
     mockProfilePlanId = "pro";
     mockProfileActiveUntil = "2099-01-01T00:00:00.000Z";
 
-    const screen = render(
+    const screen = await renderWithHydratedEffects(
       React.createElement(BillingStateProvider, null, React.createElement(BillingProbe))
     );
 
@@ -310,6 +326,43 @@ describe("app state architecture", () => {
         isSubscriptionActive: true,
       });
     });
+
+    await expect(
+      AsyncStorage.getItem(getPlanChangeSnapshotKey("user_1"))
+    ).resolves.toBe(
+      JSON.stringify({
+        planId: "pro",
+        activeUntil: "2099-01-01T00:00:00.000Z",
+      })
+    );
+  });
+
+  test("billing provider tolerates malformed stored snapshots and only tracks plan changes when needed", async () => {
+    mockUser = {
+      id: "user_1",
+      email: "user@example.com",
+    };
+    mockProfilePlanId = "free";
+    mockProfileActiveUntil = null;
+
+    await AsyncStorage.setItem(getPlanChangeSnapshotKey("user_1"), "{bad-json");
+
+    const screen = await renderWithHydratedEffects(
+      React.createElement(BillingStateProvider, null, React.createElement(BillingProbe))
+    );
+
+    await waitFor(() => {
+      expect(JSON.parse(screen.getByTestId("billing-probe").props.children)).toEqual({
+        planId: "free",
+        activeUntil: null,
+        isSubscriptionActive: false,
+      });
+    });
+
+    expect(Analytics.track).not.toHaveBeenCalledWith(
+      "plan_changed",
+      expect.objectContaining({ source: "profile_sync" })
+    );
   });
 
   test("review screen still renders and completes a simple session under AppStateProvider", async () => {
@@ -335,7 +388,7 @@ describe("app state architecture", () => {
     );
     await AsyncStorage.setItem(getUserStorageKey("reviewEvents", "user_1"), JSON.stringify([]));
 
-    const screen = render(
+    const screen = await renderWithHydratedEffects(
       React.createElement(AppStateProvider, null, React.createElement(ReviewScreen))
     );
 

@@ -27,7 +27,13 @@ export function SupportStatePanel({
       </View>
       <Text style={styles.title}>{title}</Text>
       <Text style={styles.body}>{body}</Text>
-      <Pressable style={styles.ctaButton} onPress={onPress}>
+      <Pressable
+        style={styles.ctaButton}
+        onPress={onPress}
+        testID={`${testID}-cta`}
+        accessibilityRole="button"
+        accessibilityLabel={ctaLabel}
+      >
         <Text style={styles.ctaText}>{ctaLabel}</Text>
       </Pressable>
     </View>
