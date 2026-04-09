@@ -14,6 +14,18 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.shin27.psycle",
+      "infoPlist": {
+        "NSAppTransportSecurity": {
+          "NSAllowsLocalNetworking": true,
+          "NSAllowsArbitraryLoads": false,
+          "NSExceptionDomains": {
+            "exp.direct": {
+              "NSIncludesSubdomains": true,
+              "NSTemporaryExceptionAllowsInsecureHTTPLoads": true
+            }
+          }
+        }
+      },
       "config": {
         "usesNonExemptEncryption": false
       }

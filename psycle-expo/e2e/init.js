@@ -1,16 +1,7 @@
-const { DetoxCircusEnvironment, SpecReporter, WorkerAssignReporter } = require('detox/runners/jest');
-
-const config = {
-  setupTimeout: 120000,
-  teardownTimeout: 120000,
-  heartbeatInterval: 5000,
-  safetyInterval: 3000,
-  launchTimeout: 60000,
-  responseTimeout: 30000,
-};
-
-const detoxCircus = DetoxCircusEnvironment(config);
-const specReporter = SpecReporter({ detox: { cleanup: false } });
-const workerAssignReporter = WorkerAssignReporter();
-
-module.exports = detoxCircus;
+// Timeout configuration is handled via testEnvironment in jest.config.js.
+// Previously, DetoxCircusEnvironment(config) was called here but it conflicts
+// with testEnvironment: 'detox/runners/jest/testEnvironment', causing the
+// Detox worker to fall back to DetoxSecondaryContext (no tap/swipe/screenshot).
+//
+// Timeouts can be configured via DETOX_* env vars or detox.config overrides
+// if the defaults (120s setup, 30s response) are insufficient.
