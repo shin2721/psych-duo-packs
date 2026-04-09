@@ -2,6 +2,8 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { Session, User } from '@supabase/supabase-js';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from './supabase';
+import { GUEST_USER_ID_PREFIX } from './authUtils';
+import { logDev, warnDev } from './devLog';
 
 type AuthContextType = {
     session: Session | null;
@@ -42,7 +44,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                         setIsLoading(false);
                     }
                 } catch (error) {
-                    if (__DEV__) console.warn('Failed to load guest session for E2E mode', error);
+                    warnDev('Failed to load guest session for E2E mode', error);
                 }
             }
 
@@ -53,7 +55,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                     await AsyncStorage.removeItem('guestSession').catch(() => { });
                 }
             } catch (error) {
-                if (__DEV__) console.log('Supabase auth check failed');
+                logDev('Supabase auth check failed', error);
             } finally {
                 setIsLoading(false);
             }
@@ -83,7 +85,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (!canUseGuestSession) return;
 
         const guestUser: User = {
-            id: `guest_user_${Date.now()}`,
+            id: `${GUEST_USER_ID_PREFIX}${Date.now()}`,
             app_metadata: {},
             user_metadata: {},
             aud: 'authenticated',

@@ -6,6 +6,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../../lib/theme";
 import { Analytics } from "../../lib/analytics";
+import type { IoniconName } from "../../lib/ioniconName";
 import i18n from "../../lib/i18n";
 
 export default function WelcomeScreen() {
@@ -67,7 +68,7 @@ export default function WelcomeScreen() {
     );
 }
 
-function FeatureItem({ icon, text }: { icon: any; text: string }) {
+function FeatureItem({ icon, text }: { icon: IoniconName; text: string }) {
     return (
         <View style={styles.featureItem}>
             <Ionicons name={icon} size={24} color={theme.colors.primary} />

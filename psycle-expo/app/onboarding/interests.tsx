@@ -6,6 +6,7 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
 import { genres } from "../../lib/data";
+import type { IoniconName } from "../../lib/ioniconName";
 import { useOnboarding } from "../../lib/OnboardingContext";
 import { hapticFeedback } from "../../lib/haptics";
 import i18n from "../../lib/i18n";
@@ -42,8 +43,9 @@ export default function InterestsScreen() {
         // RootLayout priority 2 will catch the state change and redirect to /auth if no session.
     };
 
-    const iconMap: Record<string, any> = {
-        brain: "brain",
+    const iconMap: Record<string, IoniconName> = {
+        brain: "sparkles",
+        sparkles: "sparkles",
         cash: "cash",
         briefcase: "briefcase",
         fitness: "fitness",

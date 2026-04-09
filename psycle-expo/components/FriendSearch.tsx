@@ -2,18 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import { View, Text, TextInput, FlatList, StyleSheet, Pressable, ActivityIndicator, Keyboard } from 'react-native';
 import { useBottomTabBarHeight } from '@react-navigation/bottom-tabs';
 import { Ionicons } from '@expo/vector-icons';
-import { supabase } from '../lib/supabase';
 import { useAuth } from '../lib/AuthContext';
+import { isGuestUserId } from '../lib/authUtils';
+import { searchUsersByName, sendFriendRequest as sendSocialFriendRequest, type LeaderboardProfile } from '../lib/social';
 import { useToast } from './ToastProvider';
 import { theme } from '../lib/theme';
 import i18n from '../lib/i18n';
-
-interface SearchResult {
-    user_id: string;
-    username: string;
-    total_xp: number;
-    current_streak: number;
-}
+import { warnDev } from '../lib/devLog';
 
 interface FriendSearchProps {
     onRequestSent?: () => void;
@@ -21,11 +16,12 @@ interface FriendSearchProps {
 
 export function FriendSearch({ onRequestSent }: FriendSearchProps) {
     const [searchQuery, setSearchQuery] = useState('');
-    const [searchResults, setSearchResults] = useState<SearchResult[]>([]);
+    const [searchResults, setSearchResults] = useState<LeaderboardProfile[]>([]);
     const [loading, setLoading] = useState(false);
     const [searchError, setSearchError] = useState<string | null>(null);
     const [sentRequests, setSentRequests] = useState<Set<string>>(new Set());
     const { user } = useAuth();
+    const isGuestUser = isGuestUserId(user?.id);
     const { showToast } = useToast();
     const bottomTabBarHeight = useBottomTabBarHeight();
     const resultsBottomInset = bottomTabBarHeight + theme.spacing.lg;
@@ -49,19 +45,12 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
         setLoading(true);
         setSearchError(null);
         try {
-            const { data, error } = await supabase
-                .from('leaderboard')
-                .select('user_id, username, total_xp, current_streak')
-                .ilike('username', `%${trimmedQuery}%`)
-                .neq('user_id', user?.id || '')
-                .limit(10);
-
-            if (error) throw error;
+            const data = await searchUsersByName(trimmedQuery, user?.id);
             if (requestId !== searchRequestIdRef.current) return;
             setSearchResults(data || []);
         } catch (error) {
             if (requestId !== searchRequestIdRef.current) return;
-            console.error('Search error:', error);
+            warnDev("Friend search failed:", error);
             setSearchError(String(i18n.t('common.unexpectedError')));
         } finally {
             if (requestId === searchRequestIdRef.current) {
@@ -71,23 +60,12 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
     };
 
     const sendFriendRequest = async (toUserId: string) => {
-        if (!user) return;
+        if (!user || isGuestUser) return;
 
         try {
-            const { error } = await supabase
-                .from('friend_requests')
-                .insert({
-                    from_user_id: user.id,
-                    to_user_id: toUserId,
-                    status: 'pending',
-                });
-
-            if (error) {
-                if (error.code === '23505') {
-                    showToast(String(i18n.t('friendSearch.alerts.alreadySent')));
-                } else {
-                    throw error;
-                }
+            const result = await sendSocialFriendRequest(user.id, toUserId);
+            if (result === 'already_sent') {
+                showToast(String(i18n.t('friendSearch.alerts.alreadySent')));
             } else {
                 setSentRequests(prev => new Set(prev).add(toUserId));
                 Keyboard.dismiss();
@@ -95,38 +73,40 @@ export function FriendSearch({ onRequestSent }: FriendSearchProps) {
                 onRequestSent?.();
             }
         } catch (error) {
-            console.error('Error sending friend request:', error);
+            warnDev("Friend request failed:", error);
             showToast(String(i18n.t('friendSearch.alerts.failed')), 'error');
         }
     };
 
-    const renderSearchResult = ({ item }: { item: SearchResult }) => {
+    const renderSearchResult = ({ item }: { item: LeaderboardProfile }) => {
         const requestSent = sentRequests.has(item.user_id);
+        const isDisabled = requestSent || isGuestUser;
+        const username = item.username || String(i18n.t('friends.fallbackUnknownUser'));
 
         return (
             <View style={styles.resultCard}>
                 <View style={styles.userInfo}>
                     <Text style={styles.username} numberOfLines={1} ellipsizeMode="tail">
-                        {item.username}
+                        {username}
                     </Text>
                 <View style={styles.stats}>
                     <Text style={styles.statText}>
-                        {String(i18n.t('friends.stats.xpValue', { xp: item.total_xp }))}
+                        {String(i18n.t('friends.stats.xpValue', { xp: item.total_xp ?? 0 }))}
                     </Text>
                     <Text style={styles.statText}>
-                        {String(i18n.t('friends.stats.streakValue', { count: item.current_streak }))}
+                        {String(i18n.t('friends.stats.streakValue', { count: item.current_streak ?? 0 }))}
                     </Text>
                 </View>
             </View>
                 <Pressable
-                    style={[styles.addButton, requestSent && styles.addButtonDisabled]}
+                    style={[styles.addButton, isDisabled && styles.addButtonDisabled]}
                     onPress={() => sendFriendRequest(item.user_id)}
-                    disabled={requestSent}
+                    disabled={isDisabled}
                     accessibilityRole="button"
                     accessibilityLabel={`${requestSent
                         ? String(i18n.t('friendSearch.cta.sent'))
-                        : String(i18n.t('friendSearch.cta.add'))}: ${item.username}`}
-                    accessibilityState={{ disabled: requestSent }}
+                        : String(i18n.t('friendSearch.cta.add'))}: ${username}`}
+                    accessibilityState={{ disabled: isDisabled }}
                 >
                     <Ionicons
                         name={requestSent ? "checkmark-circle" : "person-add"}

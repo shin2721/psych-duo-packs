@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Analytics } from "./analytics";
+import { warnDev } from "./devLog";
 
 interface OnboardingContextType {
     hasSeenOnboarding: boolean | null;
@@ -23,7 +24,7 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
             const value = await AsyncStorage.getItem("hasSeenOnboarding");
             setHasSeenOnboarding(value === "true");
         } catch (error) {
-            console.error("Failed to check onboarding status:", error);
+            warnDev("Failed to check onboarding status:", error);
             setHasSeenOnboarding(false);
         } finally {
             setIsLoading(false);
@@ -38,7 +39,7 @@ export function OnboardingProvider({ children }: { children: ReactNode }) {
             // onboarding_completeイベント（ドメインの確定地点で1回のみ発火）
             Analytics.track('onboarding_complete');
         } catch (error) {
-            console.error("Failed to complete onboarding:", error);
+            warnDev("Failed to complete onboarding:", error);
         }
     };
 
