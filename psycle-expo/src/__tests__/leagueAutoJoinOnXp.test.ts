@@ -1,6 +1,6 @@
 jest.mock('../../lib/analytics', () => ({
   __esModule: true,
-  default: {
+  Analytics: {
     track: jest.fn(),
   },
 }));
@@ -13,7 +13,7 @@ jest.mock('../../lib/supabase', () => ({
 }));
 
 import { addWeeklyXp, ensureJoinedLeagueForCurrentWeek } from '../../lib/league';
-import Analytics from '../../lib/analytics';
+import { Analytics } from '../../lib/analytics';
 import { supabase } from '../../lib/supabase';
 
 const mockTrack = (Analytics as unknown as { track: jest.Mock }).track;
