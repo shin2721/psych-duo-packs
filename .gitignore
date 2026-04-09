@@ -1,3 +1,9 @@
 .DS_Store
 .codex/
 docs/_reports/
+
+# Local workspace-only surfaces outside psycle-expo.
+/.claude/
+/app/
+/design-previews/
+/sdk54-smoke/
