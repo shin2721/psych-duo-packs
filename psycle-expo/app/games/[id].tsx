@@ -10,6 +10,15 @@ import { EchoSteps } from "../../components/games/EchoSteps";
 import { EvidenceBalance } from "../../components/games/EvidenceBalance";
 import { BudgetBonds } from "../../components/games/BudgetBonds";
 
+function getMetaNumber(meta: Record<string, unknown> | undefined, key: string): number | null {
+  const value = meta?.[key];
+  return typeof value === "number" && Number.isFinite(value) ? value : null;
+}
+
+function getMetaBoolean(meta: Record<string, unknown> | undefined, key: string): boolean {
+  return meta?.[key] === true;
+}
+
 export default function GameScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const { addXp, incrementQuest, incrementQuestMetric } = useProgressionState();
@@ -17,8 +26,10 @@ export default function GameScreen() {
   const handleDone = (result: GameResult) => {
     addXp(result.xp);
     incrementQuestMetric("lesson_complete", 1);
+    const accuracy = getMetaNumber(result.meta, "accuracy");
+    const perfect = getMetaBoolean(result.meta, "perfect");
 
-    if (id === "breathTempo" && result.meta?.accuracy > 0.7) {
+    if (id === "breathTempo" && accuracy !== null && accuracy > 0.7) {
       incrementQuest("q_monthly_breathTempo", Math.floor(result.timeMs / 1000));
     }
     if (id === "echoSteps" && result.mistakes === 0) {
@@ -27,7 +38,7 @@ export default function GameScreen() {
     if (id === "evidenceBalance" && result.mistakes <= 1) {
       incrementQuest("q_monthly_balance");
     }
-    if (id === "budgetBonds" && result.meta?.perfect) {
+    if (id === "budgetBonds" && perfect) {
       incrementQuest("q_monthly_budget");
     }
 

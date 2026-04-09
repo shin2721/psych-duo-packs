@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, type ImageStyle, type StyleProp, type ViewStyle } from 'react-native';
 import Animated, {
     cancelAnimation,
     useSharedValue,
@@ -23,7 +23,7 @@ export type FireflyState = 'idle' | 'happy' | 'thinking';
 interface FireflyProps {
     state?: FireflyState;
     scale?: number;
-    style?: any;
+    style?: StyleProp<ViewStyle>;
 }
 
 export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
@@ -178,7 +178,7 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
                 { translateY: bodyTranslateY.value },
                 { scale: bodyScale.value },
             ],
-        } as any;
+        } satisfies ViewStyle;
     });
 
     const rLeftWingStyle = useAnimatedStyle(() => {
@@ -190,7 +190,7 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
                 { translateX: -40 },
                 { translateY: -40 },
             ],
-        } as any;
+        } satisfies ImageStyle;
     });
 
     const rRightWingStyle = useAnimatedStyle(() => {
@@ -202,7 +202,7 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
                 { translateX: 40 },
                 { translateY: -40 },
             ],
-        } as any;
+        } satisfies ImageStyle;
     });
 
     const rHeadStyle = useAnimatedStyle(() => {
@@ -212,7 +212,7 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
                 { rotate: `${headRotation.value}deg` },
                 { translateY: -80 },
             ],
-        } as any;
+        } satisfies ImageStyle;
     });
 
     const rLeftArmStyle = useAnimatedStyle(() => {
@@ -222,7 +222,7 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
                 { rotate: `${armRotation.value}deg` },
                 { translateY: 10 },
             ],
-        } as any;
+        } satisfies ImageStyle;
     });
 
     const rRightArmStyle = useAnimatedStyle(() => {
@@ -232,26 +232,26 @@ export const Firefly = ({ state = 'idle', scale = 1, style }: FireflyProps) => {
                 { rotate: `${-armRotation.value}deg` },
                 { translateY: 10 },
             ],
-        } as any;
+        } satisfies ImageStyle;
     });
 
 
     return (
         <View style={[styles.container, style, { transform: [{ scale }] }]}>
-            <Animated.View style={[styles.mainWrapper, rBodyStyle] as any}>
+            <Animated.View style={[styles.mainWrapper, rBodyStyle]}>
                 {/* Wings (Behind Body) */}
-                <Animated.Image source={IMG_WING_LEFT} style={[styles.wingLeft, rLeftWingStyle] as any} resizeMode="contain" />
-                <Animated.Image source={IMG_WING_RIGHT} style={[styles.wingRight, rRightWingStyle] as any} resizeMode="contain" />
+                <Animated.Image source={IMG_WING_LEFT} style={[styles.wingLeft, rLeftWingStyle]} resizeMode="contain" />
+                <Animated.Image source={IMG_WING_RIGHT} style={[styles.wingRight, rRightWingStyle]} resizeMode="contain" />
 
                 {/* Body */}
                 <Animated.Image source={IMG_BODY} style={styles.body} resizeMode="contain" />
 
                 {/* Arms */}
-                <Animated.Image source={IMG_ARM_LEFT} style={[styles.armLeft, rLeftArmStyle] as any} resizeMode="contain" />
-                <Animated.Image source={IMG_ARM_RIGHT} style={[styles.armRight, rRightArmStyle] as any} resizeMode="contain" />
+                <Animated.Image source={IMG_ARM_LEFT} style={[styles.armLeft, rLeftArmStyle]} resizeMode="contain" />
+                <Animated.Image source={IMG_ARM_RIGHT} style={[styles.armRight, rRightArmStyle]} resizeMode="contain" />
 
                 {/* Head (In Front) */}
-                <Animated.Image source={IMG_HEAD} style={[styles.head, rHeadStyle] as any} resizeMode="contain" />
+                <Animated.Image source={IMG_HEAD} style={[styles.head, rHeadStyle]} resizeMode="contain" />
             </Animated.View>
         </View>
     );
