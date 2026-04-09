@@ -4,9 +4,14 @@ import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
 import { useBillingState, usePracticeState } from "../lib/state";
 import { theme } from "../lib/theme";
 import { buyPlan } from "../lib/billing";
-import { getPlanPrice, detectUserRegion } from "../lib/pricing";
+import { detectUserRegion } from "../lib/pricing";
 import i18n from "../lib/i18n";
 import { useToast } from "./ToastProvider";
+import { PlanSelectorCard } from "./PlanSelectorCard";
+import {
+  buildPlanSelectorPlans,
+  DEMO_PLAN_SELECTOR_USER,
+} from "./planSelectorData";
 
 /**
  * プラン選択UI（Free/Pro）
@@ -18,12 +23,6 @@ export function PlanSelector() {
   const userRegion = detectUserRegion();
   const { showToast } = useToast();
 
-  // デモ用：仮のユーザー情報（実際はSupabase authから取得）
-  const demoUser = {
-    uid: "demo-user-123",
-    email: "demo@psycle.app",
-  };
-
   const handlePlanSelect = async (selectedPlan: "free" | "pro") => {
     if (selectedPlan === "free") {
       // Freeプランはそのまま切り替え
@@ -33,7 +32,11 @@ export function PlanSelector() {
 
     // Proは決済画面へ
     try {
-      const result = await buyPlan(selectedPlan, demoUser.uid, demoUser.email);
+      const result = await buyPlan(
+        selectedPlan,
+        DEMO_PLAN_SELECTOR_USER.uid,
+        DEMO_PLAN_SELECTOR_USER.email
+      );
       if (!result.ok) {
         const messageKey =
           result.reason === "billing_period_unsupported"
@@ -51,28 +54,7 @@ export function PlanSelector() {
     }
   };
 
-  const plans = [
-    {
-      id: "free" as const,
-      name: i18n.t("planSelector.freeName"),
-      price: i18n.t("planSelector.freePrice", { suffix: i18n.t("planSelector.monthlySuffix") }),
-      features: [
-        i18n.t("planSelector.featureDailyEnergy"),
-        i18n.t("planSelector.featureLiteAccess"),
-        i18n.t("planSelector.featureNoMistakesReview"),
-      ],
-    },
-    {
-      id: "pro" as const,
-      name: i18n.t("planSelector.proName"),
-      price: `${getPlanPrice("pro", "monthly", userRegion)} ${i18n.t("planSelector.monthlySuffix")}`,
-      features: [
-        i18n.t("planSelector.featureUnlimitedEnergy"),
-        i18n.t("planSelector.featureLiteFullAccess"),
-        i18n.t("planSelector.featureMistakesUnlimited"),
-      ],
-    },
-  ];
+  const plans = buildPlanSelectorPlans(userRegion);
 
   return (
     <View style={styles.container}>
@@ -98,34 +80,12 @@ export function PlanSelector() {
 
       <View style={styles.plansContainer}>
         {plans.map((plan) => (
-          <TouchableOpacity
+          <PlanSelectorCard
             key={plan.id}
-            style={[
-              styles.planCard,
-              planId === plan.id && styles.planCardActive,
-            ]}
+            activePlanId={planId}
             onPress={() => handlePlanSelect(plan.id)}
-          >
-            <Text style={styles.planName}>{plan.name}</Text>
-            <Text style={styles.planPrice}>{plan.price}</Text>
-            <View style={styles.featuresContainer}>
-              {plan.features.map((feature, idx) => (
-                <Text key={idx} style={styles.featureText}>
-                  {feature}
-                </Text>
-              ))}
-            </View>
-            {planId === plan.id && (
-              <View style={styles.activeBadge}>
-                <Text style={styles.activeBadgeText}>{i18n.t("planSelector.currentPlanBadge")}</Text>
-              </View>
-            )}
-            {plan.id !== "free" && planId !== plan.id && (
-              <View style={styles.purchaseButton}>
-                <Text style={styles.purchaseButtonText}>{i18n.t("planSelector.buy")}</Text>
-              </View>
-            )}
-          </TouchableOpacity>
+            plan={plan}
+          />
         ))}
       </View>
 
@@ -178,61 +138,6 @@ const styles = StyleSheet.create({
   plansContainer: {
     marginTop: theme.spacing.lg,
     gap: theme.spacing.md,
-  },
-  planCard: {
-    backgroundColor: "#f5f5f5",
-    padding: theme.spacing.lg,
-    borderRadius: 12,
-    borderWidth: 2,
-    borderColor: "transparent",
-  },
-  planCardActive: {
-    borderColor: theme.colors.primary,
-    backgroundColor: "#e6f2ff",
-  },
-  planName: {
-    fontSize: 20,
-    fontWeight: "bold",
-    color: theme.colors.text,
-    marginBottom: theme.spacing.xs,
-  },
-  planPrice: {
-    fontSize: 16,
-    color: theme.colors.primary,
-    fontWeight: "600",
-    marginBottom: theme.spacing.md,
-  },
-  featuresContainer: {
-    gap: theme.spacing.xs,
-  },
-  featureText: {
-    fontSize: 14,
-    color: theme.colors.text,
-    lineHeight: 20,
-  },
-  activeBadge: {
-    marginTop: theme.spacing.md,
-    backgroundColor: theme.colors.primary,
-    padding: theme.spacing.xs,
-    borderRadius: 4,
-    alignSelf: "flex-start",
-  },
-  activeBadgeText: {
-    fontSize: 12,
-    color: "#fff",
-    fontWeight: "600",
-  },
-  purchaseButton: {
-    marginTop: theme.spacing.md,
-    backgroundColor: theme.colors.primary,
-    padding: theme.spacing.sm,
-    borderRadius: 8,
-    alignItems: "center",
-  },
-  purchaseButtonText: {
-    fontSize: 14,
-    color: "#fff",
-    fontWeight: "700",
   },
   disclaimer: {
     marginTop: theme.spacing.lg,

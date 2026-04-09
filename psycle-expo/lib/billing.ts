@@ -19,6 +19,8 @@ type BuyPlanOptions = {
   trialDays?: number;
   priceVersion?: PriceVersion;
   priceCohort?: string;
+  source?: string;
+  accessToken?: string;
 };
 
 export type BuyPlanFailureReason =
@@ -28,6 +30,8 @@ export type BuyPlanFailureReason =
   | "missing_user_context"
   | "missing_auth_token"
   | "invalid_plan"
+  | "http_error"
+  | "missing_checkout_url"
   | "checkout_session_failed"
   | "open_url_failed"
   | "unknown";
@@ -62,10 +66,11 @@ export async function buyPlan(
   const trialDays = Math.max(0, Math.floor(options?.trialDays ?? 0));
   const priceVersion = options?.priceVersion ?? "control";
   const priceCohort = options?.priceCohort ?? "default";
+  const source = options?.source ?? "billing_lib";
 
   if (!isPlanPurchasable(plan)) {
     Analytics.track("checkout_failed", {
-      source: "billing_lib",
+      source,
       planId: plan,
       reason: "plan_disabled",
     });
@@ -74,7 +79,7 @@ export async function buyPlan(
 
   if (!supportsPlanBillingPeriod(plan, billingPeriod)) {
     Analytics.track("checkout_failed", {
-      source: "billing_lib",
+      source,
       planId: plan,
       reason: "billing_period_unsupported",
     });
@@ -84,7 +89,7 @@ export async function buyPlan(
   const functionsUrl = getSupabaseFunctionsUrl();
   if (!functionsUrl) {
     Analytics.track("checkout_failed", {
-      source: "billing_lib",
+      source,
       planId: plan,
       reason: "functions_url_missing",
     });
@@ -93,20 +98,21 @@ export async function buyPlan(
 
   if (!uid || !email) {
     Analytics.track("checkout_failed", {
-      source: "billing_lib",
+      source,
       planId: plan,
       reason: "missing_user_context",
     });
     return { ok: false, reason: "missing_user_context" };
   }
 
-  const {
-    data: { session },
-  } = await supabase.auth.getSession();
-  const accessToken = session?.access_token;
+  const accessToken =
+    options?.accessToken ??
+    (
+      await supabase.auth.getSession()
+    ).data.session?.access_token;
   if (!accessToken) {
     Analytics.track("checkout_failed", {
-      source: "billing_lib",
+      source,
       planId: plan,
       reason: "missing_auth_token",
     });
@@ -117,7 +123,7 @@ export async function buyPlan(
   const resolvedPriceId = resolvePlanPriceId(plan, billingPeriod, priceVersion);
   if (!selectedPlan) {
     Analytics.track("checkout_failed", {
-      source: "billing_lib",
+      source,
       planId: plan,
       reason: "invalid_plan",
     });
@@ -143,22 +149,22 @@ export async function buyPlan(
 
     if (!res.ok) {
       Analytics.track("checkout_failed", {
-        source: "billing_lib",
+        source,
         planId: plan,
         reason: "http_error",
         status: res.status,
       });
-      throw new Error("Failed to create checkout session");
+      return { ok: false, reason: "http_error" };
     }
 
     const { url } = await res.json();
     if (typeof url !== "string" || !url) {
       Analytics.track("checkout_failed", {
-        source: "billing_lib",
+        source,
         planId: plan,
         reason: "missing_checkout_url",
       });
-      return { ok: false, reason: "checkout_session_failed" };
+      return { ok: false, reason: "missing_checkout_url" };
     }
 
     // ブラウザでCheckoutを開く

@@ -203,7 +203,7 @@ describe("billing auth hardening", () => {
     expect(fetchMock).not.toHaveBeenCalled();
   });
 
-  test("buyPlan returns checkout_session_failed when checkout request errors", async () => {
+  test("buyPlan returns http_error when checkout request errors", async () => {
     (getSupabaseFunctionsUrl as jest.Mock).mockReturnValue("https://example.functions.supabase.co");
     (supabase.auth.getSession as jest.Mock).mockResolvedValue({
       data: { session: { access_token: "checkout-token" } },
@@ -216,7 +216,7 @@ describe("billing auth hardening", () => {
 
     const result = await buyPlan("pro", "user_1", "user@example.com");
 
-    expect(result).toEqual({ ok: false, reason: "checkout_session_failed" });
-    expect(consoleErrorSpy).toHaveBeenCalledWith("buyPlan error:", expect.any(Error));
+    expect(result).toEqual({ ok: false, reason: "http_error" });
+    expect(consoleErrorSpy).not.toHaveBeenCalled();
   });
 });
