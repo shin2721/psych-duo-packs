@@ -1,6 +1,8 @@
 import { getCurrentWeekId } from "./league";
 import { supabase } from "./supabase";
 import { getFriendChallengeConfig } from "./gamificationConfig";
+import { isGuestUserId } from "./authUtils";
+import { warnDev } from "./devLog";
 
 export interface WeeklyFriendChallenge {
   weekId: string;
@@ -20,6 +22,15 @@ export interface FriendChallengeProgress {
 }
 
 export type FriendChallengeClaimResult = "claimed" | "already_claimed" | "error";
+
+interface LeagueMemberXpRow {
+  user_id: string | null;
+  weekly_xp: unknown;
+}
+
+interface LeaderboardUsernameRow {
+  username?: string | null;
+}
 
 function normalizeXp(value: unknown): number {
   const parsed = Number(value);
@@ -64,7 +75,7 @@ export function resolveFriendChallengeClaimResult(input: {
 }
 
 export async function hasFriendChallengeClaimed(userId: string, weekId: string): Promise<boolean> {
-  if (!userId || !weekId) return false;
+  if (!userId || !weekId || isGuestUserId(userId)) return false;
 
   const { data, error } = await supabase
     .from("friend_challenge_claims")
@@ -74,7 +85,7 @@ export async function hasFriendChallengeClaimed(userId: string, weekId: string):
     .maybeSingle();
 
   if (error) {
-    console.warn("[FriendChallenge] Failed to fetch claim state:", error);
+    warnDev("[FriendChallenge] Failed to fetch claim state:", error);
     return false;
   }
 
@@ -88,7 +99,7 @@ export async function claimFriendChallengeReward(input: {
   rewardGems: number;
 }): Promise<FriendChallengeClaimResult> {
   const rewardGems = normalizeNonNegativeInt(input.rewardGems, 0);
-  if (!input.userId || !input.weekId || !input.opponentId || rewardGems <= 0) {
+  if (!input.userId || !input.weekId || !input.opponentId || rewardGems <= 0 || isGuestUserId(input.userId)) {
     return "error";
   }
 
@@ -122,7 +133,7 @@ export function evaluateFriendChallengeProgress(input: {
 }
 
 export async function buildWeeklyFriendChallenge(userId: string): Promise<WeeklyFriendChallenge | null> {
-  if (!userId) return null;
+  if (!userId || isGuestUserId(userId)) return null;
 
   try {
     const weekId = await getCurrentWeekId();
@@ -133,7 +144,7 @@ export async function buildWeeklyFriendChallenge(userId: string): Promise<Weekly
       .eq("user_id", userId);
 
     if (friendshipError) {
-      console.warn("[FriendChallenge] Failed to fetch friendships:", friendshipError);
+      warnDev("[FriendChallenge] Failed to fetch friendships:", friendshipError);
       return null;
     }
 
@@ -156,14 +167,14 @@ export async function buildWeeklyFriendChallenge(userId: string): Promise<Weekly
       .in("user_id", allUserIds);
 
     if (memberError) {
-      console.warn("[FriendChallenge] Failed to fetch league member data:", memberError);
+      warnDev("[FriendChallenge] Failed to fetch league member data:", memberError);
       return null;
     }
 
     const weeklyXpByUser = new Map<string, number>();
-    for (const row of memberRows ?? []) {
+    for (const row of (memberRows ?? []) as LeagueMemberXpRow[]) {
       if (typeof row.user_id === "string") {
-        weeklyXpByUser.set(row.user_id, normalizeXp((row as any).weekly_xp));
+        weeklyXpByUser.set(row.user_id, normalizeXp(row.weekly_xp));
       }
     }
 
@@ -181,10 +192,10 @@ export async function buildWeeklyFriendChallenge(userId: string): Promise<Weekly
       .from("leaderboard")
       .select("username")
       .eq("user_id", opponent.userId)
-      .maybeSingle();
+      .maybeSingle<LeaderboardUsernameRow>();
 
-    if (typeof (profile as any)?.username === "string" && (profile as any).username.length > 0) {
-      opponentName = (profile as any).username;
+    if (typeof profile?.username === "string" && profile.username.length > 0) {
+      opponentName = profile.username;
     }
 
     const progress = evaluateFriendChallengeProgress({
@@ -202,7 +213,7 @@ export async function buildWeeklyFriendChallenge(userId: string): Promise<Weekly
       completed: progress.completed,
     };
   } catch (error) {
-    console.warn("[FriendChallenge] Failed to build weekly challenge:", error);
+    warnDev("[FriendChallenge] Failed to build weekly challenge:", error);
     return null;
   }
 }

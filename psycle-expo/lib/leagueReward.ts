@@ -5,6 +5,7 @@
  */
 
 import { supabase } from './supabase';
+import { warnDev } from './devLog';
 
 export interface PendingReward {
     id: string;
@@ -21,6 +22,16 @@ export interface LeagueResult {
     promoted: boolean;
     demoted: boolean;
     newTier: number | null;
+}
+
+interface LeagueResultRow {
+    final_rank: number | null;
+    promoted: boolean;
+    demoted: boolean;
+    leagues?: {
+        week_id?: string | null;
+        tier?: number | null;
+    } | null;
 }
 
 /**
@@ -47,7 +58,7 @@ export async function getPendingReward(userId: string): Promise<PendingReward | 
             claimed: data.claimed,
         };
     } catch (e) {
-        console.error('[Reward] Error fetching pending reward:', e);
+        warnDev('[Reward] Error fetching pending reward:', e);
         return null;
     }
 }
@@ -62,7 +73,7 @@ export async function claimReward(rewardId: string): Promise<{ gemsAdded: number
         });
 
         if (error) {
-            console.error('[Reward] Claim error:', error);
+            warnDev('[Reward] Claim error:', error);
             return null;
         }
 
@@ -76,7 +87,7 @@ export async function claimReward(rewardId: string): Promise<{ gemsAdded: number
 
         return null;
     } catch (e) {
-        console.error('[Reward] Error claiming reward:', e);
+        warnDev('[Reward] Error claiming reward:', e);
         return null;
     }
 }
@@ -108,18 +119,19 @@ export async function getLastWeekResult(userId: string): Promise<LeagueResult> {
         }
 
         const reward = await getPendingReward(userId);
-        const tier = (data as any).leagues?.tier ?? 0;
+        const row = data as LeagueResultRow;
+        const tier = row.leagues?.tier ?? 0;
 
         return {
             hasReward: reward !== null,
             reward,
-            finalRank: data.final_rank,
-            promoted: data.promoted,
-            demoted: data.demoted,
-            newTier: data.promoted ? tier + 1 : data.demoted ? tier - 1 : tier,
+            finalRank: row.final_rank,
+            promoted: row.promoted,
+            demoted: row.demoted,
+            newTier: row.promoted ? tier + 1 : row.demoted ? tier - 1 : tier,
         };
     } catch (e) {
-        console.error('[Reward] Error getting last week result:', e);
+        warnDev('[Reward] Error getting last week result:', e);
         return { hasReward: false, reward: null, finalRank: null, promoted: false, demoted: false, newTier: null };
     }
 }
