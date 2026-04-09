@@ -7,6 +7,7 @@ import {
   shouldShowDoubleXpNudge,
   type DoubleXpNudgeState,
 } from "../doubleXpNudge";
+import { warnDev } from "../devLog";
 
 export interface LessonDoubleXpNudgeResult {
   assignment: { experimentId: string; variantId: string } | null;
@@ -32,7 +33,7 @@ export async function evaluateLessonCompleteDoubleXpNudge(params: {
     const saved = await AsyncStorage.getItem(storageKey);
     parsedState = normalizeDoubleXpNudgeState(saved ? JSON.parse(saved) : null);
   } catch (error) {
-    console.error("[DoubleXpNudge] Failed to read state:", error);
+    warnDev("[DoubleXpNudge] Failed to read state:", error);
   }
 
   const shouldShow = shouldShowDoubleXpNudge({
@@ -73,7 +74,7 @@ export async function evaluateLessonCompleteDoubleXpNudge(params: {
   try {
     await AsyncStorage.setItem(storageKey, JSON.stringify(nextState));
   } catch (error) {
-    console.error("[DoubleXpNudge] Failed to persist state:", error);
+    warnDev("[DoubleXpNudge] Failed to persist state:", error);
   }
 
   return {
@@ -99,6 +100,6 @@ export async function markLessonNudgeExposure(params: {
       await AsyncStorage.setItem(exposureKey, "1");
     }
   } catch (error) {
-    console.error("[Experiment] Failed to persist exposure state:", error);
+    warnDev("[Experiment] Failed to persist exposure state:", error);
   }
 }

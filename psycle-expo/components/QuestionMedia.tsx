@@ -29,8 +29,6 @@ export function QuestionImage({ uri, caption }: QuestionImageProps) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
 
-    if (__DEV__) console.log('[QuestionImage] Rendering with URI:', uri);
-
     return (
         <View style={styles.imageContainer}>
             {loading && (
