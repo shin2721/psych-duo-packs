@@ -2,6 +2,23 @@
 
 Use this page as the first hop into Psycle's operational docs.
 
+## Local Dev
+
+- Shared simulator default:
+  - `Psycle Clean iPhone 17 Pro-Detox`
+- Metro port:
+  - `Psycle = 8082`
+- Simulator dev client:
+  - `http://127.0.0.1:8082`
+- iPhone dev client on the same Wi-Fi:
+  - `http://<your-mac-lan-ip>:8082`
+- Preferred scripts:
+  - `npm run start`
+  - `npm run start:lan`
+  - `npm run ios:repair:native`
+- Local dev bundle id:
+  - `com.s6n2j9.psycle`
+
 ## Build / Native
 
 - iOS native repair and detached build recovery:
