@@ -108,13 +108,16 @@ export function useCourseWorldScroll({
     () =>
       PanResponder.create({
         onStartShouldSetPanResponder: () => true,
+        onStartShouldSetPanResponderCapture: () => true,
         onMoveShouldSetPanResponder: () => true,
+        onMoveShouldSetPanResponderCapture: () => true,
         onPanResponderGrant: () => {
-          // 押し込みアニメーション即発火
-          Animated.timing(tapScale, {
-            toValue: 0.86,
-            duration: 60,
-            easing: Easing.out(Easing.quad),
+          // 押し込みアニメーション即発火（springで瞬間的に）
+          Animated.spring(tapScale, {
+            toValue: 0.88,
+            stiffness: 800,
+            damping: 30,
+            mass: 0.2,
             useNativeDriver: true,
           }).start();
           // 長押しタイマー開始
@@ -156,9 +159,9 @@ export function useCourseWorldScroll({
           // ポヨン戻し
           Animated.spring(tapScale, {
             toValue: 1,
-            stiffness: 220,
-            damping: 7,
-            mass: 0.4,
+            stiffness: 350,
+            damping: 12,
+            mass: 0.3,
             useNativeDriver: true,
           }).start();
           if (!isClockModeRef.current) {
@@ -209,7 +212,7 @@ export function useCourseWorldScroll({
             longPressTimer.current = null;
           }
           Animated.spring(tapScale, {
-            toValue: 1, stiffness: 220, damping: 7, mass: 0.4, useNativeDriver: true,
+            toValue: 1, stiffness: 350, damping: 12, mass: 0.3, useNativeDriver: true,
           }).start();
           Animated.timing(rotationAngle, {
             toValue: 0,
