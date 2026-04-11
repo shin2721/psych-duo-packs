@@ -1,5 +1,5 @@
-import React from "react";
-import { Text, View, Animated } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { Text, View, Animated, Easing } from "react-native";
 import type { ViewStyle } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import Svg, { Circle } from "react-native-svg";
@@ -11,12 +11,26 @@ export function ClockRing({
   themeColor,
   synColor,
   isTop,
+  isNextLesson = false,
 }: {
   node: CourseWorldNode;
   themeColor: string;
   synColor: string;
   isTop: boolean;
+  isNextLesson?: boolean;
 }) {
+  const pulseAnim = useRef(new Animated.Value(0.3)).current;
+  useEffect(() => {
+    if (!isNextLesson || isTop) return;
+    const anim = Animated.loop(
+      Animated.sequence([
+        Animated.timing(pulseAnim, { toValue: 0.9, duration: 1100, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+        Animated.timing(pulseAnim, { toValue: 0.3, duration: 1100, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      ])
+    );
+    anim.start();
+    return () => { anim.stop(); pulseAnim.setValue(0.3); };
+  }, [isNextLesson, isTop]);
   const size = isTop ? COURSE_WORLD_CLOCK_RING_SIZE * 1.2 : COURSE_WORLD_CLOCK_RING_SIZE;
   const isDone = node.status === "done";
   const isLocked = node.status === "locked" || node.isLocked;
@@ -43,6 +57,20 @@ export function ClockRing({
 
   return (
     <View style={{ width: size + 40, height: size + 40, alignItems: "center", justifyContent: "center" }}>
+      {/* 次のレッスン — 脈動アウトライン */}
+      {isNextLesson && !isTop ? (
+        <Animated.View
+          style={{
+            position: "absolute",
+            width: size + 32,
+            height: size + 32,
+            borderRadius: (size + 32) / 2,
+            borderWidth: 1.5,
+            borderColor: themeColor,
+            opacity: pulseAnim,
+          }}
+        />
+      ) : null}
       {isTop ? (
         <>
           <View
@@ -152,7 +180,7 @@ export function CourseWorldClockDial({
               ...itemStyle,
             }}
         >
-            <ClockRing node={node} themeColor={themeColor} synColor={synColor} isTop={isTop} />
+            <ClockRing node={node} themeColor={themeColor} synColor={synColor} isTop={isTop} isNextLesson={isNextLesson} />
             {isNextLesson && renderNextLessonEffects ? (
               <View style={{ position: "absolute", alignItems: "center", justifyContent: "center" }} pointerEvents="none">
                 {renderNextLessonEffects()}

@@ -85,6 +85,9 @@ export default function CourseWorldHeroDebugScreen() {
         onNodePress={handleNodePress}
         onPrimaryPress={() => {}}
         onUnitPress={() => setShowUnitPicker(true)}
+        showMeta={false}
+        showPrimaryAction={false}
+        heroOffsetY={42}
         testID="course-world-hero-debug"
       />
 

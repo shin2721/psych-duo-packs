@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { Animated, Easing, StyleSheet, View } from "react-native";
+import { Animated, Dimensions, Easing, StyleSheet, View } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import Svg, {
   Circle,
@@ -21,6 +21,61 @@ import {
 } from "./courseWorldModel";
 
 const EASE_SIN = Easing.bezier(0.37, 0, 0.63, 1);
+
+const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get("window");
+
+function BackgroundStar({ x, y, size, delay }: { x: number; y: number; size: number; delay: number }) {
+  const opacity = useRef(new Animated.Value(0.1 + Math.random() * 0.25)).current;
+  useEffect(() => {
+    const twinkle = () => {
+      Animated.sequence([
+        Animated.timing(opacity, { toValue: 0.05, duration: 2500 + Math.random() * 2000, useNativeDriver: true }),
+        Animated.timing(opacity, { toValue: 0.2 + Math.random() * 0.2, duration: 2500 + Math.random() * 2000, useNativeDriver: true }),
+      ]).start(() => twinkle());
+    };
+    const t = setTimeout(twinkle, delay);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <Animated.View style={{
+      position: "absolute", left: x, top: y,
+      width: size, height: size, borderRadius: size / 2,
+      backgroundColor: "#fff", opacity,
+    }} />
+  );
+}
+
+function ShootingStar() {
+  const translateX = useRef(new Animated.Value(-80)).current;
+  const translateY = useRef(new Animated.Value(0)).current;
+  const opacity = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    const shoot = () => {
+      const startY = Math.random() * SCREEN_H * 0.5;
+      translateY.setValue(startY);
+      translateX.setValue(-80);
+      Animated.sequence([
+        Animated.timing(opacity, { toValue: 0.7, duration: 80, useNativeDriver: true }),
+        Animated.parallel([
+          Animated.timing(translateX, { toValue: SCREEN_W + 80, duration: 900, useNativeDriver: true }),
+          Animated.timing(translateY, { toValue: startY + 180, duration: 900, useNativeDriver: true }),
+        ]),
+        Animated.timing(opacity, { toValue: 0, duration: 80, useNativeDriver: true }),
+      ]).start(() => setTimeout(shoot, 10000 + Math.random() * 18000));
+    };
+    const t = setTimeout(shoot, 4000 + Math.random() * 6000);
+    return () => clearTimeout(t);
+  }, []);
+  return (
+    <Animated.View style={{
+      position: "absolute", width: 55, height: 1.5,
+      backgroundColor: "#fff", borderRadius: 1,
+      shadowColor: "#fff", shadowOffset: { width: 0, height: 0 },
+      shadowOpacity: 0.9, shadowRadius: 6,
+      opacity, transform: [{ translateX }, { translateY }, { rotate: "22deg" }],
+    }} />
+  );
+}
 
 export interface FireflyConfig {
   cx: number;
@@ -76,6 +131,14 @@ function buildAnimatedTranslateStyle(
 
 export function CourseWorldBackdrop({ themeColor, synColor }: { themeColor: string; synColor: string }) {
   const wash = useBreath(0, 8000);
+  const stars = useMemo(() =>
+    Array.from({ length: 30 }, (_, i) => ({
+      id: i,
+      x: Math.random() * SCREEN_W,
+      y: Math.random() * SCREEN_H,
+      size: i < 10 ? 1.8 + Math.random() * 1.2 : 0.8 + Math.random() * 1.0,
+      delay: Math.random() * 4000,
+    })), []);
 
   return (
     <View style={[StyleSheet.absoluteFill, { pointerEvents: "none" }]}>
@@ -86,6 +149,10 @@ export function CourseWorldBackdrop({ themeColor, synColor }: { themeColor: stri
         end={{ x: 0.8, y: 1 }}
         style={StyleSheet.absoluteFill}
       />
+      {stars.map((s) => (
+        <BackgroundStar key={s.id} x={s.x} y={s.y} size={s.size} delay={s.delay} />
+      ))}
+      <ShootingStar />
       <Animated.View style={[StyleSheet.absoluteFill, { opacity: wash }]}>
         <LinearGradient
           colors={["transparent", `${themeColor}18`, `${synColor}0C`, "transparent"]}
@@ -201,7 +268,7 @@ export function HeroRing({
   const glowBreath = useBreath(0.5, 4000);
   const iconBreath = useBreath(0.85, 3200);
 
-  const displayProgress = Math.max(progress, 0.03);
+  const displayProgress = progress;
   const arcOffset = COURSE_WORLD_RING_CIRCUMFERENCE * (1 - displayProgress);
   const dotDegrees = (progress > 0 ? progress * 360 : 0) - 90;
   const dotRadians = (dotDegrees * Math.PI) / 180;

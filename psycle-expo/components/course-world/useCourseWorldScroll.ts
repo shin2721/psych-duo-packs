@@ -1,5 +1,5 @@
 import { useCallback, useMemo, useRef, useState } from "react";
-import { Animated, PanResponder, Platform } from "react-native";
+import { Animated, Easing, PanResponder, Platform } from "react-native";
 import type { ViewStyle } from "react-native";
 import * as Haptics from "expo-haptics";
 import type { CourseWorldNode } from "../../lib/courseWorld";
@@ -33,6 +33,7 @@ export function useCourseWorldScroll({
   const rotationAngle = useRef(new Animated.Value(0)).current;
   const rawAngle = useRef(0);
   const clockMode = useRef(new Animated.Value(0)).current;
+  const tapScale = useRef(new Animated.Value(1)).current;
   const isClockModeRef = useRef(false);
   const [, forceUpdate] = useState(0);
   const [topNodeIdx, setTopNodeIdx] = useState(currentIdx);
@@ -53,8 +54,25 @@ export function useCourseWorldScroll({
   const nodeCountRef = useRef(allNodes.length);
   nodeCountRef.current = allNodes.length;
 
+  const DRAG_THRESHOLD = 6;
+  const LONG_PRESS_MS = 380;
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const LONG_PRESS_MS = 350;
+
+  const enterClockMode = useCallback(() => {
+    if (isClockModeRef.current) return;
+    isClockModeRef.current = true;
+    forceUpdate((c) => c + 1);
+    if (Platform.OS !== "web") {
+      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy).catch(() => {});
+    }
+    Animated.spring(clockMode, {
+      toValue: 1,
+      stiffness: 200,
+      damping: 18,
+      mass: 0.7,
+      useNativeDriver: true,
+    }).start();
+  }, [clockMode]);
 
   const buildClockItemStyle = useCallback(
     (baseAngle: number) => {
@@ -92,31 +110,29 @@ export function useCourseWorldScroll({
         onStartShouldSetPanResponder: () => true,
         onMoveShouldSetPanResponder: () => true,
         onPanResponderGrant: () => {
+          // 押し込みアニメーション即発火
+          Animated.timing(tapScale, {
+            toValue: 0.86,
+            duration: 60,
+            easing: Easing.out(Easing.quad),
+            useNativeDriver: true,
+          }).start();
+          // 長押しタイマー開始
           longPressTimer.current = setTimeout(() => {
-            if (!isClockModeRef.current) {
-              isClockModeRef.current = true;
-              forceUpdate((count) => count + 1);
-              if (Platform.OS !== "web") {
-                Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy).catch(() => {});
-              }
-              Animated.spring(clockMode, {
-                toValue: 1,
-                stiffness: 300,
-                damping: 22,
-                mass: 0.6,
-                useNativeDriver: true,
-              }).start();
-            }
+            enterClockMode();
           }, LONG_PRESS_MS);
         },
         onPanResponderMove: (_, gestureState) => {
-          if (!isClockModeRef.current) {
-            if (Math.abs(gestureState.dx) > 8 || Math.abs(gestureState.dy) > 8) {
-              if (longPressTimer.current) {
-                clearTimeout(longPressTimer.current);
-                longPressTimer.current = null;
-              }
+          const moved = Math.abs(gestureState.dx) > DRAG_THRESHOLD || Math.abs(gestureState.dy) > DRAG_THRESHOLD;
+          // 動いたらすぐクロックモードへ（長押し待たずに）
+          if (moved && !isClockModeRef.current) {
+            if (longPressTimer.current) {
+              clearTimeout(longPressTimer.current);
+              longPressTimer.current = null;
             }
+            enterClockMode();
+          }
+          if (!isClockModeRef.current) {
             return;
           }
 
@@ -137,8 +153,16 @@ export function useCourseWorldScroll({
             clearTimeout(longPressTimer.current);
             longPressTimer.current = null;
           }
-
+          // ポヨン戻し
+          Animated.spring(tapScale, {
+            toValue: 1,
+            stiffness: 220,
+            damping: 7,
+            mass: 0.4,
+            useNativeDriver: true,
+          }).start();
           if (!isClockModeRef.current) {
+            // タップだった場合はprimaryPress
             onPrimaryPressRef.current?.();
             return;
           }
@@ -150,11 +174,13 @@ export function useCourseWorldScroll({
           const nextIndex = ((currentIdxRef.current - slotOffset) % nodeCountRef.current + nodeCountRef.current) % nodeCountRef.current;
 
           snap();
-          Animated.spring(rotationAngle, {
+          // 速度に比例してdurationを短く（速く離したら速くスナップ）
+          const speed = Math.abs(gestureState.vx);
+          const snapDuration = Math.max(200, Math.min(500, 380 - speed * 60));
+          Animated.timing(rotationAngle, {
             toValue: snapAngle,
-            stiffness: 180,
-            damping: 18,
-            mass: 0.6,
+            duration: snapDuration,
+            easing: Easing.bezier(0.22, 1, 0.36, 1),
             useNativeDriver: true,
           }).start(() => {
             rotationAngle.setValue(0);
@@ -166,8 +192,8 @@ export function useCourseWorldScroll({
 
             Animated.spring(clockMode, {
               toValue: 0,
-              stiffness: 300,
-              damping: 22,
+              stiffness: 260,
+              damping: 24,
               mass: 0.6,
               useNativeDriver: true,
             }).start();
@@ -182,12 +208,13 @@ export function useCourseWorldScroll({
             clearTimeout(longPressTimer.current);
             longPressTimer.current = null;
           }
-
-          Animated.spring(rotationAngle, {
+          Animated.spring(tapScale, {
+            toValue: 1, stiffness: 220, damping: 7, mass: 0.4, useNativeDriver: true,
+          }).start();
+          Animated.timing(rotationAngle, {
             toValue: 0,
-            stiffness: 200,
-            damping: 25,
-            mass: 1,
+            duration: 380,
+            easing: Easing.bezier(0.22, 1, 0.36, 1),
             useNativeDriver: true,
           }).start(() => {
             rawAngle.current = 0;
@@ -195,15 +222,15 @@ export function useCourseWorldScroll({
             forceUpdate((count) => count + 1);
             Animated.spring(clockMode, {
               toValue: 0,
-              stiffness: 300,
-              damping: 22,
+              stiffness: 260,
+              damping: 24,
               mass: 0.6,
               useNativeDriver: true,
             }).start();
           });
         },
       }),
-    [clockMode, rotationAngle, width]
+    [clockMode, enterClockMode, rotationAngle, width]
   );
 
   const heroScale = clockMode.interpolate({
@@ -211,7 +238,7 @@ export function useCourseWorldScroll({
     outputRange: [1, 0],
   });
   const heroOpacity = clockMode.interpolate({
-    inputRange: [0, 0.3],
+    inputRange: [0, 0.4],
     outputRange: [1, 0],
     extrapolate: "clamp",
   });
@@ -221,13 +248,13 @@ export function useCourseWorldScroll({
     extrapolate: "clamp",
   });
   const clockOpacity = clockMode.interpolate({
-    inputRange: [0.2, 0.6],
+    inputRange: [0.1, 0.5],
     outputRange: [0, 1],
     extrapolate: "clamp",
   });
   const clockScale = clockMode.interpolate({
-    inputRange: [0, 1],
-    outputRange: [0.5, 1],
+    inputRange: [0, 0.5, 1],
+    outputRange: [0.6, 0.95, 1],
   });
 
   return {
@@ -238,6 +265,7 @@ export function useCourseWorldScroll({
     heroOpacity,
     heroScale,
     panHandlers: panResponder.panHandlers,
+    tapScale,
     topNodeIdx,
   };
 }

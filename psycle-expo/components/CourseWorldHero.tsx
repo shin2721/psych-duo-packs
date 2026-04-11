@@ -27,6 +27,9 @@ interface Props {
   primaryTestID?: string;
   supportTestID?: string;
   testID?: string;
+  showMeta?: boolean;
+  showPrimaryAction?: boolean;
+  heroOffsetY?: number;
 }
 
 const CLOCK_ZONE = COURSE_WORLD_CLOCK_RADIUS * 3 + 130 + 60;
@@ -41,12 +44,16 @@ export function CourseWorldHero({
   primaryTestID = "course-world-primary",
   supportTestID = "course-world-support",
   testID = "course-world-hero",
+  showMeta = true,
+  showPrimaryAction = true,
+  heroOffsetY = 0,
 }: Props) {
-  const { width } = useWindowDimensions();
+  const { width, height } = useWindowDimensions();
   const snapshot = useMemo(
     () => buildCourseWorldModelSnapshot(model, nextLessonId),
     [model, nextLessonId]
   );
+  const interactionZoneHeight = Math.max(280, Math.min(CLOCK_ZONE, height * 0.34));
 
   const {
     buildClockItemStyle,
@@ -56,6 +63,7 @@ export function CourseWorldHero({
     heroOpacity,
     heroScale,
     panHandlers,
+    tapScale,
     topNodeIdx,
   } = useCourseWorldScroll({
     width,
@@ -84,7 +92,7 @@ export function CourseWorldHero({
         </Pressable>
       </Animated.View>
 
-      <View style={[styles.interactionZone, { width, height: CLOCK_ZONE }]} {...panHandlers}>
+      <View style={[styles.interactionZone, { width, height: interactionZoneHeight, marginTop: heroOffsetY }]} {...panHandlers}>
         <Animated.View style={[styles.heroContainer, { zIndex: 15, opacity: heroOpacity }]} pointerEvents="none">
           <Fireflies themeColor={model.themeColor} synColor={snapshot.synColor} configs={HERO_FIREFLY_CONFIGS} />
         </Animated.View>
@@ -93,7 +101,7 @@ export function CourseWorldHero({
           style={[
             styles.heroContainer,
             {
-              transform: [{ scale: heroScale }],
+              transform: [{ scale: Animated.multiply(heroScale, tapScale) }],
               opacity: heroOpacity,
             },
           ]}
@@ -148,6 +156,8 @@ export function CourseWorldHero({
         onPrimaryPress={onPrimaryPress}
         onSupportPress={onSupportPress}
         onNodePress={onNodePress}
+        showMeta={showMeta}
+        showPrimaryAction={showPrimaryAction}
       />
 
       <View style={styles.spacerBottom} />
@@ -157,15 +167,15 @@ export function CourseWorldHero({
 
 const styles = StyleSheet.create({
   root: { flex: 1, overflow: "visible" as const },
-  spacerTop: { flex: 1.2 },
-  spacerBottom: { flex: 0.5 },
+  spacerTop: { flex: 0.38 },
+  spacerBottom: { flex: 0.2 },
   header: {
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center",
     paddingHorizontal: 24,
-    paddingTop: 56,
-    height: 80,
+    paddingTop: 24,
+    height: 52,
   },
   unitBadge: {
     flexDirection: "row",
