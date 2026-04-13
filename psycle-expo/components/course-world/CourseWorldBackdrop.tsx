@@ -247,14 +247,10 @@ export function Fireflies({
         const translateX = Animated.add(config.cx, Animated.multiply(anims[index].driftX, config.driftX));
         const translateY = Animated.add(config.cy, Animated.multiply(anims[index].driftY, config.driftY));
 
-        // ガウス減衰: 外側ほど小さく・薄く
-        const g0 = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.008, 0.030] });
-        const g1 = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.020, 0.060] });
-        const g2 = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.045, 0.120] });
-        const g3 = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.090, 0.220] });
-        const g4 = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.200, 0.420] });
-        const core = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.65, 1.00] });
+        const glowAnim = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.28, 1.0] });
         const s = config.size;
+        const glowSize = s * 22;
+        const gradId = `ffg${index}`;
 
         return (
           <Animated.View
@@ -264,26 +260,32 @@ export function Fireflies({
               buildAnimatedTranslateStyle(translateX, translateY),
             ]}
           >
-            {/* L0: 最外輪 */}
-            <Animated.View style={{ position: "absolute", width: s * 20, height: s * 20, borderRadius: s * 10, backgroundColor: color, opacity: g0 }} />
-            {/* L1 */}
-            <Animated.View style={{ position: "absolute", width: s * 13, height: s * 13, borderRadius: s * 6.5, backgroundColor: color, opacity: g1 }} />
-            {/* L2 */}
-            <Animated.View style={{ position: "absolute", width: s * 8,  height: s * 8,  borderRadius: s * 4,   backgroundColor: color, opacity: g2 }} />
-            {/* L3 */}
-            <Animated.View style={{ position: "absolute", width: s * 4.5, height: s * 4.5, borderRadius: s * 2.25, backgroundColor: color, opacity: g3 }} />
-            {/* L4: 内輪 */}
-            <Animated.View style={{ position: "absolute", width: s * 2.4, height: s * 2.4, borderRadius: s * 1.2, backgroundColor: color, opacity: g4 }} />
-            {/* コア白点 */}
-            <Animated.View style={{
-              width: s, height: s, borderRadius: s / 2,
-              backgroundColor: "#ffffff",
-              opacity: core,
-              shadowColor: color,
-              shadowOffset: { width: 0, height: 0 },
-              shadowOpacity: 1,
-              shadowRadius: s * 3,
-            }} />
+            <Animated.View style={{ opacity: glowAnim, alignItems: "center", justifyContent: "center" }}>
+              {/* SVG RadialGradient: 真のグラデーショングロー */}
+              <Svg width={glowSize} height={glowSize} style={{ position: "absolute" }}>
+                <Defs>
+                  <RadialGradient id={gradId} cx="50%" cy="50%" r="50%">
+                    <Stop offset="0%"   stopColor={color} stopOpacity="0.95" />
+                    <Stop offset="10%"  stopColor={color} stopOpacity="0.80" />
+                    <Stop offset="25%"  stopColor={color} stopOpacity="0.55" />
+                    <Stop offset="45%"  stopColor={color} stopOpacity="0.28" />
+                    <Stop offset="65%"  stopColor={color} stopOpacity="0.10" />
+                    <Stop offset="82%"  stopColor={color} stopOpacity="0.03" />
+                    <Stop offset="100%" stopColor={color} stopOpacity="0"    />
+                  </RadialGradient>
+                </Defs>
+                <Circle cx={glowSize / 2} cy={glowSize / 2} r={glowSize / 2} fill={`url(#${gradId})`} />
+              </Svg>
+              {/* コア白点 */}
+              <View style={{
+                width: s * 1.1, height: s * 1.1, borderRadius: s * 0.55,
+                backgroundColor: "#ffffff",
+                shadowColor: color,
+                shadowOffset: { width: 0, height: 0 },
+                shadowOpacity: 1,
+                shadowRadius: s * 2.5,
+              }} />
+            </Animated.View>
           </Animated.View>
         );
       })}
