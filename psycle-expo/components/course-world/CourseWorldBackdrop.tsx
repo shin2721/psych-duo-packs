@@ -247,9 +247,14 @@ export function Fireflies({
         const translateX = Animated.add(config.cx, Animated.multiply(anims[index].driftX, config.driftX));
         const translateY = Animated.add(config.cy, Animated.multiply(anims[index].driftY, config.driftY));
 
-        const coreOpacity = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.55, 1.0] });
-        const midOpacity  = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.10, 0.28] });
-        const outerOpacity = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.03, 0.10] });
+        // ガウス減衰: 外側ほど小さく・薄く
+        const g0 = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.008, 0.030] });
+        const g1 = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.020, 0.060] });
+        const g2 = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.045, 0.120] });
+        const g3 = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.090, 0.220] });
+        const g4 = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.200, 0.420] });
+        const core = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.65, 1.00] });
+        const s = config.size;
 
         return (
           <Animated.View
@@ -259,30 +264,25 @@ export function Fireflies({
               buildAnimatedTranslateStyle(translateX, translateY),
             ]}
           >
-            {/* 外側グロー */}
+            {/* L0: 最外輪 */}
+            <Animated.View style={{ position: "absolute", width: s * 20, height: s * 20, borderRadius: s * 10, backgroundColor: color, opacity: g0 }} />
+            {/* L1 */}
+            <Animated.View style={{ position: "absolute", width: s * 13, height: s * 13, borderRadius: s * 6.5, backgroundColor: color, opacity: g1 }} />
+            {/* L2 */}
+            <Animated.View style={{ position: "absolute", width: s * 8,  height: s * 8,  borderRadius: s * 4,   backgroundColor: color, opacity: g2 }} />
+            {/* L3 */}
+            <Animated.View style={{ position: "absolute", width: s * 4.5, height: s * 4.5, borderRadius: s * 2.25, backgroundColor: color, opacity: g3 }} />
+            {/* L4: 内輪 */}
+            <Animated.View style={{ position: "absolute", width: s * 2.4, height: s * 2.4, borderRadius: s * 1.2, backgroundColor: color, opacity: g4 }} />
+            {/* コア白点 */}
             <Animated.View style={{
-              position: "absolute",
-              width: config.size * 9, height: config.size * 9,
-              borderRadius: config.size * 4.5,
-              backgroundColor: color, opacity: outerOpacity,
-            }} />
-            {/* 中グロー */}
-            <Animated.View style={{
-              position: "absolute",
-              width: config.size * 4.5, height: config.size * 4.5,
-              borderRadius: config.size * 2.25,
-              backgroundColor: color, opacity: midOpacity,
-            }} />
-            {/* コア */}
-            <Animated.View style={{
-              width: config.size, height: config.size,
-              borderRadius: config.size / 2,
+              width: s, height: s, borderRadius: s / 2,
               backgroundColor: "#ffffff",
-              opacity: coreOpacity,
+              opacity: core,
               shadowColor: color,
               shadowOffset: { width: 0, height: 0 },
               shadowOpacity: 1,
-              shadowRadius: config.size * 2.5,
+              shadowRadius: s * 3,
             }} />
           </Animated.View>
         );
