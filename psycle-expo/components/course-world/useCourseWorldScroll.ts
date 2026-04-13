@@ -76,7 +76,7 @@ export function useCourseWorldScroll({
 
   const buildClockItemStyle = useCallback(
     (baseAngle: number) => {
-      const STEP = 0.015;
+      const STEP = 0.05;
       const MIN = -Math.PI * 2.5;
       const MAX = Math.PI * 2.5;
       const steps: number[] = [];
