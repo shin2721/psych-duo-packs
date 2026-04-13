@@ -191,7 +191,7 @@ export function CourseWorldClockDial({
   return (
     <>
       {clockItems.map(({ node, baseAngle, index }) => {
-        const itemStyle = buildClockItemStyle(baseAngle);
+        const itemStyle = buildClockItemStyle(index);
         const isTop = index === topNodeIdx;
         const isNextLesson = index === nextLessonIdx;
 
