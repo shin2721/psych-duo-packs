@@ -1,5 +1,5 @@
-import React, { useMemo } from "react";
-import { Animated, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import React, { useEffect, useMemo, useRef } from "react";
+import { Animated, Easing, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import {
   CLOCK_FIREFLY_CONFIGS,
@@ -55,6 +55,18 @@ export function CourseWorldHero({
   );
   const interactionZoneHeight = Math.max(280, Math.min(CLOCK_ZONE, height * 0.34));
 
+  // 初回マウント時のフェードイン
+  const mountOpacity = useRef(new Animated.Value(0)).current;
+  useEffect(() => {
+    Animated.timing(mountOpacity, {
+      toValue: 1,
+      duration: 1000,
+      delay: 120,
+      easing: Easing.out(Easing.quad),
+      useNativeDriver: true,
+    }).start();
+  }, []);
+
   const {
     buildClockItemStyle,
     clockOpacity,
@@ -77,6 +89,7 @@ export function CourseWorldHero({
     <View style={[styles.root, { width }]} testID={testID}>
       <CourseWorldBackdrop themeColor={model.themeColor} synColor={snapshot.synColor} />
 
+      <Animated.View style={{ flex: 1, opacity: mountOpacity }}>
       <View style={styles.spacerTop} />
 
       <Animated.View style={[styles.header, { opacity: headerOpacity }]}>
@@ -161,6 +174,7 @@ export function CourseWorldHero({
       />
 
       <View style={styles.spacerBottom} />
+      </Animated.View>
     </View>
   );
 }

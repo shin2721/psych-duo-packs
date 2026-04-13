@@ -20,6 +20,32 @@ export function ClockRing({
   isNextLesson?: boolean;
 }) {
   const pulseAnim = useRef(new Animated.Value(0.3)).current;
+  const topScale = useRef(new Animated.Value(1)).current;
+  const prevIsTop = useRef(false);
+
+  useEffect(() => {
+    if (isTop && !prevIsTop.current) {
+      // topになった瞬間にポップ
+      Animated.sequence([
+        Animated.spring(topScale, {
+          toValue: 1.14,
+          stiffness: 500,
+          damping: 10,
+          mass: 0.25,
+          useNativeDriver: true,
+        }),
+        Animated.spring(topScale, {
+          toValue: 1,
+          stiffness: 320,
+          damping: 20,
+          mass: 0.3,
+          useNativeDriver: true,
+        }),
+      ]).start();
+    }
+    prevIsTop.current = isTop;
+  }, [isTop]);
+
   useEffect(() => {
     if (!isNextLesson || isTop) return;
     const anim = Animated.loop(
@@ -56,7 +82,7 @@ export function ClockRing({
         : `${themeColor}AA`;
 
   return (
-    <View style={{ width: size + 40, height: size + 40, alignItems: "center", justifyContent: "center" }}>
+    <Animated.View style={{ width: size + 40, height: size + 40, alignItems: "center", justifyContent: "center", transform: [{ scale: topScale }] }}>
       {/* 次のレッスン — 脈動アウトライン */}
       {isNextLesson && !isTop ? (
         <Animated.View
@@ -141,7 +167,7 @@ export function ClockRing({
           {node.label}
         </Text>
       </View>
-    </View>
+    </Animated.View>
   );
 }
 

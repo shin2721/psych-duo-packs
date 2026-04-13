@@ -26,6 +26,8 @@ const { width: SCREEN_W, height: SCREEN_H } = Dimensions.get("window");
 
 function BackgroundStar({ x, y, size, delay }: { x: number; y: number; size: number; delay: number }) {
   const opacity = useRef(new Animated.Value(0.1 + Math.random() * 0.25)).current;
+  const driftX = useRef(new Animated.Value((Math.random() - 0.5) * 8)).current;
+  const driftY = useRef(new Animated.Value((Math.random() - 0.5) * 6)).current;
   useEffect(() => {
     const twinkle = () => {
       Animated.sequence([
@@ -34,13 +36,32 @@ function BackgroundStar({ x, y, size, delay }: { x: number; y: number; size: num
       ]).start(() => twinkle());
     };
     const t = setTimeout(twinkle, delay);
-    return () => clearTimeout(t);
+
+    const dxAmt = 5 + Math.random() * 5;
+    const dyAmt = 3 + Math.random() * 4;
+    const dur = 18000 + Math.random() * 14000;
+    const animX = Animated.loop(
+      Animated.sequence([
+        Animated.timing(driftX, { toValue: dxAmt, duration: dur, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+        Animated.timing(driftX, { toValue: -dxAmt, duration: dur, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      ])
+    );
+    const animY = Animated.loop(
+      Animated.sequence([
+        Animated.timing(driftY, { toValue: dyAmt, duration: dur * 1.4, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+        Animated.timing(driftY, { toValue: -dyAmt, duration: dur * 1.4, easing: Easing.inOut(Easing.sin), useNativeDriver: true }),
+      ])
+    );
+    animX.start();
+    animY.start();
+    return () => { clearTimeout(t); animX.stop(); animY.stop(); };
   }, []);
   return (
     <Animated.View style={{
       position: "absolute", left: x, top: y,
       width: size, height: size, borderRadius: size / 2,
       backgroundColor: "#fff", opacity,
+      transform: [{ translateX: driftX }, { translateY: driftY }],
     }} />
   );
 }
@@ -225,29 +246,45 @@ export function Fireflies({
         const color = index % 2 === 0 ? themeColor : synColor;
         const translateX = Animated.add(config.cx, Animated.multiply(anims[index].driftX, config.driftX));
         const translateY = Animated.add(config.cy, Animated.multiply(anims[index].driftY, config.driftY));
-        const opacity = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.25, 1.0] });
+
+        const coreOpacity = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.55, 1.0] });
+        const midOpacity  = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.10, 0.28] });
+        const outerOpacity = anims[index].glow.interpolate({ inputRange: [0, 1], outputRange: [0.03, 0.10] });
 
         return (
           <Animated.View
             key={`firefly-${index}`}
             style={[
-              {
-                position: "absolute",
-                alignSelf: "center",
-                width: config.size,
-                height: config.size,
-                borderRadius: config.size,
-                backgroundColor: color,
-                opacity,
-                shadowColor: color,
-                shadowOffset: { width: 0, height: 0 },
-                shadowOpacity: 1,
-                shadowRadius: config.size * 4,
-                zIndex: 3,
-              },
+              { position: "absolute", alignSelf: "center", alignItems: "center", justifyContent: "center", zIndex: 3 },
               buildAnimatedTranslateStyle(translateX, translateY),
             ]}
-          />
+          >
+            {/* 外側グロー */}
+            <Animated.View style={{
+              position: "absolute",
+              width: config.size * 9, height: config.size * 9,
+              borderRadius: config.size * 4.5,
+              backgroundColor: color, opacity: outerOpacity,
+            }} />
+            {/* 中グロー */}
+            <Animated.View style={{
+              position: "absolute",
+              width: config.size * 4.5, height: config.size * 4.5,
+              borderRadius: config.size * 2.25,
+              backgroundColor: color, opacity: midOpacity,
+            }} />
+            {/* コア */}
+            <Animated.View style={{
+              width: config.size, height: config.size,
+              borderRadius: config.size / 2,
+              backgroundColor: "#ffffff",
+              opacity: coreOpacity,
+              shadowColor: color,
+              shadowOffset: { width: 0, height: 0 },
+              shadowOpacity: 1,
+              shadowRadius: config.size * 2.5,
+            }} />
+          </Animated.View>
         );
       })}
     </>
