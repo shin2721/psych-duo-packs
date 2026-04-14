@@ -68,7 +68,9 @@ export function CourseWorldHero({
   }, []);
 
   const {
-    buildClockItemStyle,
+    svRotOffset,
+    svCurrentIdx,
+    svNodeCount,
     clockOpacity,
     clockScale,
     headerOpacity,
@@ -148,7 +150,9 @@ export function CourseWorldHero({
         >
           <CourseWorldClockDial
             clockItems={snapshot.clockItems}
-            buildClockItemStyle={buildClockItemStyle}
+            rotOffset={svRotOffset}
+            svCurrentIdx={svCurrentIdx}
+            svNodeCount={svNodeCount}
             topNodeIdx={topNodeIdx}
             nextLessonIdx={snapshot.nextLessonIdx}
             themeColor={model.themeColor}
