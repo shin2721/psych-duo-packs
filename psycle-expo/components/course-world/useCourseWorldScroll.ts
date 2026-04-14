@@ -1,32 +1,36 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { Animated, Easing, PanResponder, Platform } from "react-native";
-import type { ViewStyle } from "react-native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { Animated, Platform } from "react-native";
+import { useSharedValue, withTiming, runOnJS } from "react-native-reanimated";
+import { Gesture } from "react-native-gesture-handler";
 import * as Haptics from "expo-haptics";
 import type { CourseWorldNode } from "../../lib/courseWorld";
 import { COURSE_WORLD_CLOCK_RADIUS } from "./courseWorldModel";
 
-const CLOCK_R = COURSE_WORLD_CLOCK_RADIUS;
-const MAX_NODES = 12; // 最大ノード数（pre-allocate）
+export const CLOCK_R = COURSE_WORLD_CLOCK_RADIUS;
 
-function tick() {
-  if (Platform.OS !== "web") {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
-  }
-}
-function snapHaptic() {
-  if (Platform.OS !== "web") {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
-  }
-}
-
-/** ノード i の基準角度 (currentIdx が 12時位置) */
-function baseAngleOf(i: number, currentIdx: number, n: number): number {
+/** ノード i の基準角度（currentIdx が 12 時位置） — worklet 対応 */
+export function baseAngleOf(i: number, currentIdx: number, n: number): number {
+  "worklet";
   return -Math.PI / 2 + ((i - currentIdx) * 2 * Math.PI) / n;
 }
 
-/** 角度 → scale (上が大きく、下が小さい) */
-function scaleOf(a: number): number {
+/** 角度 → scale（上が大、下が小） — worklet 対応 */
+export function scaleOf(a: number): number {
+  "worklet";
   return 0.85 + 0.15 * Math.max(0, -Math.sin(a));
+}
+
+/** ease-out-expo — worklet 対応 */
+function easeOutExpo(t: number): number {
+  "worklet";
+  return t === 1 ? 1 : 1 - Math.pow(2, -10 * t);
+}
+
+function doTick() {
+  if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+}
+function doSnapHaptic() {
+  if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium).catch(() => {});
 }
 
 export function useCourseWorldScroll({
@@ -42,211 +46,175 @@ export function useCourseWorldScroll({
   onNodePress?: (nodeId: string) => void;
   onPrimaryPress?: () => void;
 }) {
-  type AnimatedViewStyle = Animated.WithAnimatedObject<ViewStyle>;
-
-  const clockMode   = useRef(new Animated.Value(0)).current;
-  const tapScale    = useRef(new Animated.Value(1)).current;
-  const isClockRef  = useRef(false);
-  const rawAngle    = useRef(0);
+  // ── JS スレッド（Animated）: clockMode / tapScale / opacity 系 ──────────
+  const clockMode = useRef(new Animated.Value(0)).current;
+  const tapScale  = useRef(new Animated.Value(1)).current;
   const [, forceUpdate] = useState(0);
   const [topNodeIdx, setTopNodeIdx] = useState(currentIdx);
 
-  // 安定した ref 群
-  const currentIdxRef  = useRef(currentIdx);   currentIdxRef.current  = currentIdx;
-  const allNodesRef    = useRef(allNodes);      allNodesRef.current    = allNodes;
-  const onNodePressRef = useRef(onNodePress);   onNodePressRef.current = onNodePress;
+  // JS refs
+  const isClockModeRef = useRef(false);
+  const currentIdxRef  = useRef(currentIdx); currentIdxRef.current = currentIdx;
+  const allNodesRef    = useRef(allNodes);   allNodesRef.current   = allNodes;
+  const onNodePressRef = useRef(onNodePress); onNodePressRef.current = onNodePress;
   const onPrimaryRef   = useRef(onPrimaryPress); onPrimaryRef.current  = onPrimaryPress;
-  const nodeCountRef   = useRef(allNodes.length); nodeCountRef.current = allNodes.length;
-  const lastHapticSlot = useRef(currentIdx);
-
-  // ─── 各ノード個別の Animated.Value（補間テーブル不要） ───────────────
-  const nX  = useRef(Array.from({ length: MAX_NODES }, (_, i) => {
-    const a = baseAngleOf(i, currentIdx, Math.max(allNodes.length, 1));
-    return new Animated.Value(i < allNodes.length ? Math.cos(a) * CLOCK_R : 0);
-  })).current;
-  const nY  = useRef(Array.from({ length: MAX_NODES }, (_, i) => {
-    const a = baseAngleOf(i, currentIdx, Math.max(allNodes.length, 1));
-    return new Animated.Value(i < allNodes.length ? Math.sin(a) * CLOCK_R : 0);
-  })).current;
-  const nS  = useRef(Array.from({ length: MAX_NODES }, (_, i) => {
-    const a = baseAngleOf(i, currentIdx, Math.max(allNodes.length, 1));
-    return new Animated.Value(i < allNodes.length ? scaleOf(a) : 1);
-  })).current;
-
-  // currentIdx が変わったとき（スナップ後）に基準位置をリセット
-  useEffect(() => {
-    if (isClockRef.current) return;
-    const n = allNodesRef.current.length;
-    for (let i = 0; i < n; i++) {
-      const a = baseAngleOf(i, currentIdx, n);
-      nX[i].setValue(Math.cos(a) * CLOCK_R);
-      nY[i].setValue(Math.sin(a) * CLOCK_R);
-      nS[i].setValue(scaleOf(a));
-    }
-    lastHapticSlot.current = currentIdx;
-  }, [currentIdx]);
-
-  /** ドラッグ中: 全ノードに直接 setValue（補間なし・完全スムーズ） */
-  const applyRotation = useCallback((offset: number) => {
-    const n = nodeCountRef.current;
-    const idx = currentIdxRef.current;
-    for (let i = 0; i < n; i++) {
-      const a = baseAngleOf(i, idx, n) + offset;
-      nX[i].setValue(Math.cos(a) * CLOCK_R);
-      nY[i].setValue(Math.sin(a) * CLOCK_R);
-      nS[i].setValue(scaleOf(a));
-    }
-  }, []);
-
-  /** スナップアニメーション */
-  const animateToRotation = useCallback((
-    offset: number,
-    duration: number,
-    onDone?: () => void
-  ) => {
-    const n   = nodeCountRef.current;
-    const idx = currentIdxRef.current;
-    const ez  = Easing.bezier(0.22, 1, 0.36, 1);
-    const anims: Animated.CompositeAnimation[] = [];
-    for (let i = 0; i < n; i++) {
-      const a = baseAngleOf(i, idx, n) + offset;
-      anims.push(
-        Animated.timing(nX[i], { toValue: Math.cos(a) * CLOCK_R, duration, easing: ez, useNativeDriver: true }),
-        Animated.timing(nY[i], { toValue: Math.sin(a) * CLOCK_R, duration, easing: ez, useNativeDriver: true }),
-        Animated.timing(nS[i], { toValue: scaleOf(a),            duration, easing: ez, useNativeDriver: true }),
-      );
-    }
-    Animated.parallel(anims).start(() => onDone?.());
-  }, []);
-
-  /** スタイルを返す（各ノードの個別 Animated.Value を直接参照） */
-  const buildClockItemStyle = useCallback((nodeIndex: number): AnimatedViewStyle => ({
-    transform: [
-      { translateX: nX[nodeIndex] },
-      { translateY: nY[nodeIndex] },
-      { scale:      nS[nodeIndex] },
-    ] as AnimatedViewStyle["transform"],
-    opacity: 1,
-  }), [nX, nY, nS]);
-
-  const enterClockMode = useCallback(() => {
-    if (isClockRef.current) return;
-    isClockRef.current = true;
-    forceUpdate((c) => c + 1);
-    if (Platform.OS !== "web") {
-      Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy).catch(() => {});
-    }
-    Animated.spring(clockMode, {
-      toValue: 1, stiffness: 200, damping: 18, mass: 0.7, useNativeDriver: true,
-    }).start();
-  }, [clockMode]);
-
-  const LONG_PRESS_MS  = 380;
-  const DRAG_THRESHOLD = 6;
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const anglePerLessonRef = useRef((2 * Math.PI) / allNodes.length);
-  anglePerLessonRef.current = (2 * Math.PI) / Math.max(allNodes.length, 1);
+  // ── UI スレッド（Reanimated SharedValue）: 回転オフセット ────────────────
+  const rotOffset    = useSharedValue(0);
+  const svCurrentIdx = useSharedValue(currentIdx);
+  const svNodeCount  = useSharedValue(allNodes.length);
+  const svAnglePer   = useSharedValue((2 * Math.PI) / Math.max(allNodes.length, 1));
+  const svIsClockMode = useSharedValue(0);
+  const svLastHaptic  = useSharedValue(currentIdx);
+  const svWidth       = useSharedValue(width);
 
-  const panResponder = useMemo(() =>
-    PanResponder.create({
-      onStartShouldSetPanResponder:        () => true,
-      onStartShouldSetPanResponderCapture: () => true,
-      onMoveShouldSetPanResponder:         () => true,
-      onMoveShouldSetPanResponderCapture:  () => true,
+  // props が変わったら SharedValue を同期（毎レンダー、軽量）
+  svCurrentIdx.value = currentIdx;
+  svNodeCount.value  = allNodes.length;
+  svAnglePer.value   = (2 * Math.PI) / Math.max(allNodes.length, 1);
+  svWidth.value      = width;
 
-      onPanResponderGrant: () => {
-        Animated.spring(tapScale, {
-          toValue: 0.88, stiffness: 800, damping: 30, mass: 0.2, useNativeDriver: true,
-        }).start();
-        longPressTimer.current = setTimeout(() => enterClockMode(), LONG_PRESS_MS);
-      },
+  // ── JS 側コールバック（worklet から runOnJS で呼ばれる） ─────────────────
 
-      onPanResponderMove: (_, g) => {
-        const moved = Math.abs(g.dx) > DRAG_THRESHOLD || Math.abs(g.dy) > DRAG_THRESHOLD;
-        if (moved && !isClockRef.current) {
-          if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
-          enterClockMode();
+  const enterClockMode = useCallback(() => {
+    if (isClockModeRef.current) return;
+    isClockModeRef.current = true;
+    forceUpdate(c => c + 1);
+    if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Heavy).catch(() => {});
+    Animated.spring(clockMode, { toValue: 1, stiffness: 200, damping: 18, mass: 0.7, useNativeDriver: true }).start();
+  }, [clockMode]);
+
+  const onPressDown = useCallback(() => {
+    Animated.spring(tapScale, { toValue: 0.88, stiffness: 800, damping: 30, mass: 0.2, useNativeDriver: true }).start();
+    longPressTimer.current = setTimeout(() => {
+      if (!svIsClockMode.value) { svIsClockMode.value = 1; enterClockMode(); }
+    }, 380);
+  }, [tapScale, enterClockMode, svIsClockMode]);
+
+  const onPressUp = useCallback(() => {
+    Animated.spring(tapScale, { toValue: 1, stiffness: 350, damping: 12, mass: 0.3, useNativeDriver: true }).start();
+  }, [tapScale]);
+
+  const clearTimer = useCallback(() => {
+    if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
+  }, []);
+
+  const onTap = useCallback(() => { onPrimaryRef.current?.(); }, []);
+
+  const onHapticTick = useCallback((idx: number) => {
+    setTopNodeIdx(idx);
+    doTick();
+  }, []);
+
+  const onSnapDone = useCallback((nextIndex: number) => {
+    isClockModeRef.current = false;
+    svIsClockMode.value = 0;
+    forceUpdate(c => c + 1);
+    setTopNodeIdx(nextIndex);
+    svLastHaptic.value = nextIndex;
+
+    Animated.spring(clockMode, { toValue: 0, stiffness: 260, damping: 24, mass: 0.6, useNativeDriver: true }).start(() => {
+      rotOffset.value = 0;
+    });
+
+    if (nextIndex !== currentIdxRef.current && onNodePressRef.current && allNodesRef.current[nextIndex]) {
+      onNodePressRef.current(allNodesRef.current[nextIndex].id);
+    }
+  }, [clockMode, rotOffset, svIsClockMode, svLastHaptic]);
+
+  const onTerminate = useCallback(() => {
+    if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
+    isClockModeRef.current = false;
+    svIsClockMode.value = 0;
+    forceUpdate(c => c + 1);
+    Animated.spring(clockMode, { toValue: 0, stiffness: 260, damping: 24, mass: 0.6, useNativeDriver: true }).start(() => {
+      rotOffset.value = 0;
+    });
+  }, [clockMode, rotOffset, svIsClockMode]);
+
+  // ── Gesture（UI スレッド worklet）────────────────────────────────────────
+  const gesture = Gesture.Pan()
+    .onBegin(() => {
+      "worklet";
+      runOnJS(onPressDown)();
+    })
+    .onUpdate((e) => {
+      "worklet";
+      const moved = Math.abs(e.translationX) > 6 || Math.abs(e.translationY) > 6;
+      if (moved) {
+        if (!svIsClockMode.value) {
+          svIsClockMode.value = 1;
+          runOnJS(clearTimer)();
+          runOnJS(enterClockMode)();
         }
-        if (!isClockRef.current) return;
+        const offset = (e.translationX / (svWidth.value * 0.35)) * Math.PI;
+        rotOffset.value = offset;
 
-        const offset = (g.dx / (width * 0.35)) * Math.PI;
-        rawAngle.current = offset;
-        applyRotation(offset);
-
-        const slotOffset  = Math.round(offset / anglePerLessonRef.current);
-        const crossedIdx  = ((currentIdxRef.current - slotOffset) % nodeCountRef.current + nodeCountRef.current) % nodeCountRef.current;
-        if (crossedIdx !== lastHapticSlot.current) {
-          lastHapticSlot.current = crossedIdx;
-          setTopNodeIdx(crossedIdx);
-          tick();
+        const n          = svNodeCount.value;
+        const slotOffset = Math.round(offset / svAnglePer.value);
+        const crossed    = ((svCurrentIdx.value - slotOffset) % n + n) % n;
+        if (crossed !== svLastHaptic.value) {
+          svLastHaptic.value = crossed;
+          runOnJS(onHapticTick)(crossed);
         }
-      },
+      }
+    })
+    .onEnd((e) => {
+      "worklet";
+      runOnJS(onPressUp)();
+      runOnJS(clearTimer)();
 
-      onPanResponderRelease: (_, g) => {
-        if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
-        Animated.spring(tapScale, {
-          toValue: 1, stiffness: 350, damping: 12, mass: 0.3, useNativeDriver: true,
-        }).start();
-        if (!isClockRef.current) { onPrimaryRef.current?.(); return; }
+      if (!svIsClockMode.value) {
+        runOnJS(onTap)();
+        return;
+      }
 
-        const momentum    = g.vx * 0.5;
-        const totalAngle  = rawAngle.current + momentum;
-        const slotOffset  = Math.round(totalAngle / anglePerLessonRef.current);
-        const snapOffset  = slotOffset * anglePerLessonRef.current;
-        const nextIndex   = ((currentIdxRef.current - slotOffset) % nodeCountRef.current + nodeCountRef.current) % nodeCountRef.current;
-        const speed       = Math.abs(g.vx);
-        const snapDur     = Math.max(200, Math.min(500, 380 - speed * 60));
+      const n          = svNodeCount.value;
+      const momentum   = e.velocityX * 0.5;
+      const total      = rotOffset.value + momentum;
+      const slotOffset = Math.round(total / svAnglePer.value);
+      const snapOff    = slotOffset * svAnglePer.value;
+      const nextIndex  = ((svCurrentIdx.value - slotOffset) % n + n) % n;
+      const speed      = Math.abs(e.velocityX);
+      const dur        = Math.max(200, Math.min(500, 380 - speed * 60));
 
-        snapHaptic();
-        animateToRotation(snapOffset, snapDur, () => {
-          rawAngle.current = 0;
-          lastHapticSlot.current = nextIndex;
-          isClockRef.current = false;
-          forceUpdate((c) => c + 1);
-          setTopNodeIdx(nextIndex);
+      runOnJS(doSnapHaptic)();
+      rotOffset.value = withTiming(snapOff, { duration: dur, easing: easeOutExpo }, (finished) => {
+        "worklet";
+        if (finished) runOnJS(onSnapDone)(nextIndex);
+      });
+    })
+    .onFinalize((_e, success) => {
+      "worklet";
+      if (!success) runOnJS(onTerminate)();
+    });
 
-          Animated.spring(clockMode, {
-            toValue: 0, stiffness: 260, damping: 24, mass: 0.6, useNativeDriver: true,
-          }).start();
-          if (nextIndex !== currentIdxRef.current && onNodePressRef.current && allNodesRef.current[nextIndex]) {
-            onNodePressRef.current(allNodesRef.current[nextIndex].id);
-          }
-        });
-      },
+  // currentIdx 変化時（スナップ後の親 state 更新）に SharedValue を同期
+  useEffect(() => {
+    if (!isClockModeRef.current) {
+      svCurrentIdx.value = currentIdx;
+      svLastHaptic.value = currentIdx;
+    }
+  }, [currentIdx]);
 
-      onPanResponderTerminate: () => {
-        if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
-        Animated.spring(tapScale, {
-          toValue: 1, stiffness: 350, damping: 12, mass: 0.3, useNativeDriver: true,
-        }).start();
-        animateToRotation(0, 380, () => {
-          rawAngle.current = 0;
-          isClockRef.current = false;
-          forceUpdate((c) => c + 1);
-          Animated.spring(clockMode, {
-            toValue: 0, stiffness: 260, damping: 24, mass: 0.6, useNativeDriver: true,
-          }).start();
-        });
-      },
-    }),
-    [animateToRotation, applyRotation, clockMode, enterClockMode, width]
-  );
-
-  const heroScale    = clockMode.interpolate({ inputRange: [0, 1],   outputRange: [1, 0] });
-  const heroOpacity  = clockMode.interpolate({ inputRange: [0, 0.4], outputRange: [1, 0], extrapolate: "clamp" });
+  // ── Animated 補間（clockMode 基準）────────────────────────────────────────
+  const heroScale     = clockMode.interpolate({ inputRange: [0, 1],   outputRange: [1, 0] });
+  const heroOpacity   = clockMode.interpolate({ inputRange: [0, 0.4], outputRange: [1, 0], extrapolate: "clamp" });
   const headerOpacity = clockMode.interpolate({ inputRange: [0, 0.2], outputRange: [1, 0], extrapolate: "clamp" });
-  const clockOpacity = clockMode.interpolate({ inputRange: [0.1, 0.5], outputRange: [0, 1], extrapolate: "clamp" });
-  const clockScale   = clockMode.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.6, 0.95, 1] });
+  const clockOpacity  = clockMode.interpolate({ inputRange: [0.1, 0.5], outputRange: [0, 1], extrapolate: "clamp" });
+  const clockScale    = clockMode.interpolate({ inputRange: [0, 0.5, 1], outputRange: [0.6, 0.95, 1] });
 
   return {
-    buildClockItemStyle,
+    gesture,
+    rotOffset,
+    svCurrentIdx,
+    svNodeCount,
     clockOpacity,
     clockScale,
     headerOpacity,
     heroOpacity,
     heroScale,
-    panHandlers: panResponder.panHandlers,
     tapScale,
     topNodeIdx,
   };
