@@ -1,7 +1,6 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { GestureDetector } from "react-native-gesture-handler";
 import {
   CLOCK_FIREFLY_CONFIGS,
   CourseWorldBackdrop,
@@ -69,15 +68,13 @@ export function CourseWorldHero({
   }, []);
 
   const {
-    gesture,
-    rotOffset,
-    svCurrentIdx,
-    svNodeCount,
+    buildClockItemStyle,
     clockOpacity,
     clockScale,
     headerOpacity,
     heroOpacity,
     heroScale,
+    panHandlers,
     tapScale,
     topNodeIdx,
   } = useCourseWorldScroll({
@@ -108,8 +105,7 @@ export function CourseWorldHero({
         </Pressable>
       </Animated.View>
 
-      <GestureDetector gesture={gesture}>
-      <View style={[styles.interactionZone, { width, height: interactionZoneHeight, marginTop: heroOffsetY }]}>
+      <View style={[styles.interactionZone, { width, height: interactionZoneHeight, marginTop: heroOffsetY }]} {...panHandlers}>
         <Animated.View style={[styles.heroContainer, { zIndex: 15, opacity: heroOpacity }]} pointerEvents="none">
           <Fireflies themeColor={model.themeColor} synColor={snapshot.synColor} configs={HERO_FIREFLY_CONFIGS} />
         </Animated.View>
@@ -152,9 +148,7 @@ export function CourseWorldHero({
         >
           <CourseWorldClockDial
             clockItems={snapshot.clockItems}
-            rotOffset={rotOffset}
-            svCurrentIdx={svCurrentIdx}
-            svNodeCount={svNodeCount}
+            buildClockItemStyle={buildClockItemStyle}
             topNodeIdx={topNodeIdx}
             nextLessonIdx={snapshot.nextLessonIdx}
             themeColor={model.themeColor}
@@ -165,7 +159,6 @@ export function CourseWorldHero({
           />
         </Animated.View>
       </View>
-      </GestureDetector>
 
       <CourseWorldNodeColumn
         model={model}
