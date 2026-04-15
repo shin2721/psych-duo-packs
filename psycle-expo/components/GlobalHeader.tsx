@@ -100,7 +100,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between", // Distribute 4 items evenly
     paddingHorizontal: 24, // Increased padding
     paddingVertical: 12,
-    backgroundColor: "rgba(11, 18, 32, 0.85)", // Semi-transparent for global background
+    backgroundColor: "transparent",
     zIndex: 100,
   },
   item: {

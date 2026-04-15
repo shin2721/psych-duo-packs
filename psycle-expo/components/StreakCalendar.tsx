@@ -12,13 +12,17 @@ interface StreakDay {
 
 interface StreakCalendarProps {
     history: StreakDay[];
+    themeColor?: string;
 }
 
-export function StreakCalendar({ history }: StreakCalendarProps) {
+export function StreakCalendar({ history, themeColor }: StreakCalendarProps) {
+    const activeColor = themeColor ?? '#a8ff60';
+
     // Generate last 30 days
     const getLast30Days = () => {
-        const days: { date: string; data?: StreakDay }[] = [];
+        const days: { date: string; data?: StreakDay; isToday?: boolean }[] = [];
         const today = new Date();
+        const todayStr = dateKey(today);
 
         for (let i = 29; i >= 0; i--) {
             const date = new Date(today);
@@ -26,7 +30,7 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
             const dateString = dateKey(date);  // ローカル時間基準
 
             const dayData = history.find(h => h.date === dateString);
-            days.push({ date: dateString, data: dayData });
+            days.push({ date: dateString, data: dayData, isToday: dateString === todayStr });
         }
 
         return days;
@@ -34,19 +38,32 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
 
     const days = getLast30Days();
 
+    const hexToRgb = (hex: string) => {
+        const r = parseInt(hex.slice(1, 3), 16);
+        const g = parseInt(hex.slice(3, 5), 16);
+        const b = parseInt(hex.slice(5, 7), 16);
+        return `${r}, ${g}, ${b}`;
+    };
+    const rgb = activeColor.startsWith('#') ? hexToRgb(activeColor) : null;
+
     const getIntensityColor = (xp: number) => {
         if (xp === 0) return theme.colors.line;
+        if (rgb) {
+            if (xp < 20) return `rgba(${rgb}, 0.25)`;
+            if (xp < 50) return `rgba(${rgb}, 0.60)`;
+            return activeColor;
+        }
         if (xp < 20) return 'rgba(168, 255, 96, 0.25)';
-        if (xp < 50) return 'rgba(168, 255, 96, 0.55)';
+        if (xp < 50) return 'rgba(168, 255, 96, 0.60)';
         return '#a8ff60';
     };
 
     const getGlow = (xp: number) => {
         if (xp >= 50) return {
-            shadowColor: '#a8ff60',
+            shadowColor: activeColor,
             shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.6,
-            shadowRadius: 4,
+            shadowOpacity: 0.7,
+            shadowRadius: 5,
         };
         return {};
     };
@@ -101,6 +118,10 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
                                 {
                                     backgroundColor: getIntensityColor(day.data?.xp || 0),
                                 },
+                                day.isToday && {
+                                    borderWidth: 1.5,
+                                    borderColor: activeColor,
+                                },
                                 getGlow(day.data?.xp || 0),
                             ]}
                         />
@@ -113,9 +134,9 @@ export function StreakCalendar({ history }: StreakCalendarProps) {
             <View style={styles.legend}>
                 <Text style={styles.legendText}>{i18n.t('streakCalendar.less')}</Text>
                 <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: theme.colors.line }]} />
-                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: 'rgba(168, 255, 96, 0.25)' }]} />
-                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: 'rgba(168, 255, 96, 0.55)' }]} />
-                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: '#a8ff60' }]} />
+                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: getIntensityColor(10) }]} />
+                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: getIntensityColor(30) }]} />
+                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: getIntensityColor(50) }]} />
                 <Text style={styles.legendText}>{i18n.t('streakCalendar.more')}</Text>
             </View>
         </View>
@@ -144,9 +165,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     day: {
-        width: 12,
-        height: 12,
-        borderRadius: 2,
+        width: 14,
+        height: 14,
+        borderRadius: 3,
     },
     dayLabel: {
         fontSize: 8,
@@ -165,8 +186,8 @@ const styles = StyleSheet.create({
         color: theme.colors.sub,
     },
     legendBox: {
-        width: 12,
-        height: 12,
-        borderRadius: 2,
+        width: 14,
+        height: 14,
+        borderRadius: 3,
     },
 });

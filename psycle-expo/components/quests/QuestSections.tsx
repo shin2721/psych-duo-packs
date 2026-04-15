@@ -44,10 +44,15 @@ export function QuestCard({
   const title = quest.titleKey ? String(i18n.t(quest.titleKey)) : quest.title;
   const canReroll = quest.type === "daily" || quest.type === "weekly";
   const canRerollAction = canReroll && !completed && dailyQuestRerollRemaining > 0;
+  const activeColor = themeColor ?? theme.colors.accent;
 
   return (
     <View key={quest.id} testID={`quest-card-${quest.type}-${quest.id}`}>
-      <Card style={styles.questCard}>
+      <Card style={[
+        styles.questCard,
+        { borderLeftWidth: 3, borderLeftColor: completed ? theme.colors.success : activeColor },
+        completed && { backgroundColor: `${theme.colors.success}10` },
+      ]}>
         <View style={styles.questRow}>
           <View style={styles.questInfo}>
             <Text style={styles.questTitle} numberOfLines={1} ellipsizeMode="tail">
@@ -137,31 +142,49 @@ export function MonthlyQuestSection({
   themeColor?: string;
 }) {
   if (quests.length === 0) return null;
+  const activeColor = themeColor ?? theme.colors.accent;
 
   return (
     <View testID="quests-monthly-card">
       <Card style={styles.monthlyCard}>
-        <Text style={styles.monthlyLabel}>{i18n.t("quests.monthly")}</Text>
-        {quests.map((quest) => (
-          <View key={quest.id} style={styles.monthlyRow} testID={`quests-monthly-${quest.id}`}>
-            <View style={styles.monthlyInfo}>
-              <Text style={styles.monthlyTitle}>
-                {quest.titleKey ? String(i18n.t(quest.titleKey)) : quest.title}
-              </Text>
-              <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} color={themeColor} />
-              <Text style={styles.monthlyProgress}>
-                {quest.progress} / {quest.need}
-              </Text>
+        <Text style={[styles.monthlyLabel, { color: activeColor }]}>{i18n.t("quests.monthly")}</Text>
+        {quests.map((quest, idx) => {
+          const completed = quest.progress >= quest.need;
+          return (
+            <View key={quest.id}>
+              {idx > 0 && <View style={styles.monthlyDivider} />}
+              <View
+                style={[
+                  styles.monthlyRow,
+                  completed && { backgroundColor: `${theme.colors.success}08` },
+                ]}
+                testID={`quests-monthly-${quest.id}`}
+              >
+                <View style={styles.monthlyInfo}>
+                  <Text style={styles.monthlyTitle}>
+                    {quest.titleKey ? String(i18n.t(quest.titleKey)) : quest.title}
+                  </Text>
+                  <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} color={themeColor} />
+                  <Text style={styles.monthlyProgress}>
+                    {quest.progress} / {quest.need}
+                  </Text>
+                </View>
+                <View style={styles.chestWithBadge}>
+                  <Chest
+                    state={quest.chestState}
+                    onOpen={completed && !quest.claimed ? () => onClaim(quest.id) : undefined}
+                    size="md"
+                    label={`${quest.rewardXp}`}
+                    testID={`quest-chest-${quest.id}`}
+                  />
+                  <View style={[styles.xpBadge, { backgroundColor: `${activeColor}22`, borderColor: `${activeColor}55` }]}>
+                    <Text style={[styles.xpBadgeText, { color: activeColor }]}>+{quest.rewardXp} XP</Text>
+                  </View>
+                </View>
+              </View>
             </View>
-            <Chest
-              state={quest.chestState}
-              onOpen={quest.progress >= quest.need && !quest.claimed ? () => onClaim(quest.id) : undefined}
-              size="md"
-              label={`${quest.rewardXp}`}
-              testID={`quest-chest-${quest.id}`}
-            />
-          </View>
-        ))}
+          );
+        })}
       </Card>
     </View>
   );
@@ -296,18 +319,25 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "700",
     color: theme.colors.accent,
-    marginBottom: theme.spacing.sm,
+    marginBottom: theme.spacing.md,
+  },
+  monthlyDivider: {
+    height: StyleSheet.hairlineWidth,
+    backgroundColor: theme.colors.line,
+    marginVertical: theme.spacing.sm,
   },
   monthlyRow: {
     flexDirection: "row",
     alignItems: "center",
     gap: theme.spacing.md,
+    borderRadius: theme.radius.sm,
+    paddingVertical: theme.spacing.xs,
   },
   monthlyInfo: {
     flex: 1,
   },
   monthlyTitle: {
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "700",
     color: theme.colors.text,
     marginBottom: theme.spacing.xs,
@@ -316,6 +346,20 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: theme.colors.sub,
     marginTop: theme.spacing.xs,
+  },
+  chestWithBadge: {
+    alignItems: "center",
+    gap: 4,
+  },
+  xpBadge: {
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  xpBadgeText: {
+    fontSize: 10,
+    fontWeight: "800",
   },
   questCard: {
     marginBottom: theme.spacing.sm,

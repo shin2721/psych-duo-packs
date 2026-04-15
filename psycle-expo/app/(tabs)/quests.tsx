@@ -101,11 +101,14 @@ export default function QuestsScreen() {
       >
         <View style={styles.headerRow}>
           <Text style={styles.title}>{i18n.t("quests.monthTitle", { month: currentMonth })}</Text>
-          <Text style={styles.xpText}>{xp} XP</Text>
+          <View style={[styles.xpBadge, { backgroundColor: `${themeColor}22`, borderColor: `${themeColor}66`,
+            shadowColor: themeColor, shadowOpacity: 0.4, shadowRadius: 8, shadowOffset: { width: 0, height: 0 } }]}>
+            <Text style={[styles.xpText, { color: themeColor }]}>⭐ {xp} XP</Text>
+          </View>
         </View>
 
         <View testID="quests-streak-calendar">
-          <StreakCalendar history={streakHistory} />
+          <StreakCalendar history={streakHistory} themeColor={themeColor} />
         </View>
 
         {eventCampaign && eventQuests.length > 0 ? (
@@ -154,5 +157,11 @@ const styles = StyleSheet.create({
   scroll: { padding: theme.spacing.md },
   headerRow: { flexDirection: "row", justifyContent: "space-between", alignItems: "center", marginBottom: theme.spacing.md },
   title: { fontSize: 24, fontWeight: "800", color: theme.colors.text },
-  xpText: { fontSize: 18, fontWeight: "700", color: theme.colors.accent },
+  xpBadge: {
+    borderRadius: 999,
+    borderWidth: 1,
+    paddingHorizontal: 12,
+    paddingVertical: 5,
+  },
+  xpText: { fontSize: 14, fontWeight: "800" },
 });

@@ -200,15 +200,15 @@ const styles = StyleSheet.create({
     padding: theme.spacing.md,
   },
   progressTrack: {
-    height: 8,
+    height: 10,
     backgroundColor: theme.colors.line,
-    borderRadius: 4,
+    borderRadius: 5,
     overflow: "hidden",
   },
   progressFill: {
     height: "100%",
     backgroundColor: theme.colors.accent,
-    borderRadius: 4,
+    borderRadius: 5,
   },
   pill: {
     paddingHorizontal: theme.spacing.md,
