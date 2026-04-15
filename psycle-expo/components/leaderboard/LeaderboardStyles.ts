@@ -4,9 +4,9 @@ import { theme } from "../../lib/theme";
 export const styles = StyleSheet.create({
   header: {
     padding: 20,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: "transparent",
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.line,
+    borderBottomColor: "rgba(255,255,255,0.06)",
   },
   titleRow: {
     flexDirection: "row",
@@ -153,7 +153,7 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     padding: 16,
     gap: 8,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: "transparent",
   },
   tierIcon: {
     fontSize: 32,
@@ -172,9 +172,9 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     gap: 24,
     padding: 12,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: "transparent",
     borderBottomWidth: 1,
-    borderBottomColor: theme.colors.line,
+    borderBottomColor: "rgba(255,255,255,0.06)",
   },
   legendItem: {
     flexDirection: "row",

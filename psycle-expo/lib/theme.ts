@@ -1,9 +1,9 @@
 export const theme = {
   colors: {
-    bg: "#0b1220",
-    surface: "#0f172a",
-    card: "#111c31",
-    line: "#2d3e5f",
+    bg: "#040812",
+    surface: "rgba(15, 23, 42, 0.70)",
+    card: "rgba(17, 28, 49, 0.72)",
+    line: "rgba(45, 62, 95, 0.55)",
     text: "#e5e7eb",
     sub: "#b0b8c4",
     accent: "#22d3ee",
