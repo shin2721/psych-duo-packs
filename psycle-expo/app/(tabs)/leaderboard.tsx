@@ -6,11 +6,15 @@ import { theme } from '../../lib/theme';
 import i18n from '../../lib/i18n';
 import { useLeaderboardScreen, type LeaderboardView } from '../../lib/leaderboard/useLeaderboardScreen';
 import { LeaderboardContent, LeaderboardHeader } from '../../components/leaderboard/LeaderboardSections';
+import { COURSE_THEME_COLORS } from '../../lib/courseWorldModel';
+import { useProgressionState } from '../../lib/state';
 
 export default function LeaderboardScreen() {
     const [view, setView] = useState<LeaderboardView>('league');
     const bottomTabBarHeight = useBottomTabBarHeight();
     const listBottomInset = bottomTabBarHeight + theme.spacing.lg;
+    const { selectedGenre } = useProgressionState();
+    const themeColor = COURSE_THEME_COLORS[selectedGenre] ?? COURSE_THEME_COLORS.mental;
     const {
         leaderboard,
         leagueInfo,
@@ -34,7 +38,7 @@ export default function LeaderboardScreen() {
 
     return (
         <SafeAreaView style={styles.container} edges={['top']}>
-            <LeaderboardHeader view={view} onChange={setView} />
+            <LeaderboardHeader view={view} onChange={setView} themeColor={themeColor} />
             <LeaderboardContent
                 view={view}
                 leaderboard={leaderboard}
@@ -51,6 +55,7 @@ export default function LeaderboardScreen() {
                 }}
                 loading={currentLoading}
                 error={currentError}
+                themeColor={themeColor}
             />
         </SafeAreaView>
     );

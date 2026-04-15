@@ -12,16 +12,19 @@ import { styles } from "./LeaderboardStyles";
 export function LeaderboardSegmentControl({
   value,
   onChange,
+  themeColor,
 }: {
   value: LeaderboardView;
   onChange: (view: LeaderboardView) => void;
+  themeColor?: string;
 }) {
+  const activeColor = themeColor ?? theme.colors.primary;
   return (
     <View style={styles.segmentedControl}>
       {(["league", "global", "friends"] as const).map((item) => (
         <Pressable
           key={item}
-          style={[styles.segment, value === item && styles.activeSegment]}
+          style={[styles.segment, value === item && { backgroundColor: activeColor }]}
           onPress={() => onChange(item)}
         >
           <Text style={[styles.segmentText, value === item && styles.activeSegmentText]}>
@@ -36,9 +39,11 @@ export function LeaderboardSegmentControl({
 export function LeaderboardHeader({
   view,
   onChange,
+  themeColor,
 }: {
   view: LeaderboardView;
   onChange: (view: LeaderboardView) => void;
+  themeColor?: string;
 }) {
   return (
     <View style={styles.header}>
@@ -46,7 +51,7 @@ export function LeaderboardHeader({
         <TrophyIcon size={32} />
         <Text style={styles.title}>{i18n.t("tabs.ranking")}</Text>
       </View>
-      <LeaderboardSegmentControl value={view} onChange={onChange} />
+      <LeaderboardSegmentControl value={view} onChange={onChange} themeColor={themeColor} />
     </View>
   );
 }
@@ -59,6 +64,7 @@ export function LeaderboardStateView({
   errorTestID,
   retryTestID,
   onRetry,
+  themeColor,
 }: {
   loading: boolean;
   error: string | null;
@@ -67,11 +73,13 @@ export function LeaderboardStateView({
   errorTestID: string;
   retryTestID: string;
   onRetry: () => void;
+  themeColor?: string;
 }) {
+  const activeColor = themeColor ?? theme.colors.primary;
   if (loading) {
     return (
       <View style={styles.loadingContainer} testID={loadingTestID}>
-        <ActivityIndicator size="large" color={theme.colors.primary} />
+        <ActivityIndicator size="large" color={activeColor} />
         <Text style={styles.loadingText}>{emptyMessage ?? String(i18n.t("common.loading"))}</Text>
       </View>
     );
@@ -83,7 +91,7 @@ export function LeaderboardStateView({
     <View style={styles.emptyContainer} testID={errorTestID}>
       <Text style={styles.errorTitle}>{i18n.t("common.error")}</Text>
       <Text style={styles.emptyText}>{error}</Text>
-      <Pressable style={styles.retryButton} onPress={onRetry} testID={retryTestID}>
+      <Pressable style={[styles.retryButton, { backgroundColor: activeColor }]} onPress={onRetry} testID={retryTestID}>
         <Text style={styles.retryButtonText}>{i18n.t("common.retry")}</Text>
       </Pressable>
     </View>

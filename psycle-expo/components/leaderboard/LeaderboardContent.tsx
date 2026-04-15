@@ -25,6 +25,7 @@ export function LeaderboardContent({
   onSendFriendRequest,
   loading,
   error,
+  themeColor,
 }: {
   view: LeaderboardView;
   leaderboard: LeaderboardEntry[];
@@ -39,6 +40,7 @@ export function LeaderboardContent({
   onSendFriendRequest: (userId: string) => void;
   loading: boolean;
   error: string | null;
+  themeColor?: string;
 }) {
   const stateView = (
     <LeaderboardStateView
@@ -53,6 +55,7 @@ export function LeaderboardContent({
       errorTestID={`leaderboard-${view}-error`}
       retryTestID={`leaderboard-${view}-retry`}
       onRetry={onRetry}
+      themeColor={themeColor}
     />
   );
 
@@ -64,7 +67,7 @@ export function LeaderboardContent({
         <View style={styles.emptyContainer} testID="leaderboard-league-empty">
           <Text style={styles.emptyText}>{String(i18n.t("leaderboard.emptyData"))}</Text>
           <Pressable
-            style={styles.retryButton}
+            style={[styles.retryButton, themeColor ? { backgroundColor: themeColor } : undefined]}
             onPress={onRetry}
             testID="leaderboard-league-empty-retry"
           >

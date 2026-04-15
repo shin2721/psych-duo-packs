@@ -31,17 +31,20 @@ export function ProfileCardSection({
   username,
   userEmail,
   onEditProfile,
+  themeColor,
 }: {
   avatarIcon: IoniconName;
   username: string;
   userEmail: string | null;
   onEditProfile: () => void;
+  themeColor?: string;
 }) {
+  const activeColor = themeColor ?? theme.colors.primary;
   return (
     <View style={styles.profileCard}>
       <View style={styles.avatarContainer}>
-        <View style={styles.avatar}>
-          <Ionicons name={avatarIcon} size={48} color={theme.colors.primary} />
+        <View style={[styles.avatar, { borderColor: activeColor }]}>
+          <Ionicons name={avatarIcon} size={48} color={activeColor} />
         </View>
       </View>
 
@@ -53,13 +56,13 @@ export function ProfileCardSection({
       </Text>
 
       <Pressable
-        style={styles.editButton}
+        style={[styles.editButton, { borderColor: activeColor }]}
         onPress={onEditProfile}
         testID="profile-edit-profile"
         accessibilityRole="button"
         accessibilityLabel={String(i18n.t("profile.editButton"))}
       >
-        <Text style={styles.editButtonText}>{i18n.t("profile.editButton")}</Text>
+        <Text style={[styles.editButtonText, { color: activeColor }]}>{i18n.t("profile.editButton")}</Text>
       </Pressable>
     </View>
   );

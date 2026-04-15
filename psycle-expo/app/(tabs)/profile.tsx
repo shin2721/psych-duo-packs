@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { theme } from "../../lib/theme";
 import { useProgressionState } from "../../lib/state";
+import { COURSE_THEME_COLORS } from "../../lib/courseWorldModel";
 import { useProfileScreen } from "../../lib/profile/useProfileScreen";
 import {
     ProfileBadgesSection,
@@ -17,7 +18,8 @@ import i18n from "../../lib/i18n";
 
 export default function ProfileScreen() {
     const router = useRouter();
-    const { xp, streak, completedLessons, unlockedBadges } = useProgressionState();
+    const { xp, streak, completedLessons, unlockedBadges, selectedGenre } = useProgressionState();
+    const themeColor = COURSE_THEME_COLORS[selectedGenre] ?? COURSE_THEME_COLORS.mental;
     const { leagueLabel, leagueLoading, profileUsername, avatarIcon, userEmail } = useProfileScreen();
     const bottomTabBarHeight = useBottomTabBarHeight();
     const scrollBottomInset = bottomTabBarHeight + theme.spacing.lg;
@@ -33,6 +35,7 @@ export default function ProfileScreen() {
                     username={username}
                     userEmail={userEmail}
                     onEditProfile={() => router.push("/settings/edit-profile")}
+                    themeColor={themeColor}
                 />
                 <ProfileStatsGrid
                     xp={xp}
