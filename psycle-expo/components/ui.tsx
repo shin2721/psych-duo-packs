@@ -16,12 +16,14 @@ export function Card({ children, style }: { children: ReactNode; style?: ViewSty
   return <View style={[styles.card, style]}>{children}</View>;
 }
 
-export function ProgressBar({ value, max, style }: { value: number; max: number; style?: ViewStyle }) {
+export function ProgressBar({ value, max, style, color }: { value: number; max: number; style?: ViewStyle; color?: string }) {
   const percent = Math.min((value / max) * 100, 100);
+  const baseColor = color ?? theme.colors.accent;
+  const gradientEnd = `${baseColor}BB`;
   return (
     <View style={[styles.progressTrack, style]}>
       <LinearGradient
-        colors={["#00d4ff", "#00ffb3", "#a8ff60"]}
+        colors={[baseColor, gradientEnd]}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 0 }}
         style={[styles.progressFill, { width: `${percent}%` }]}
@@ -36,8 +38,8 @@ export function ProgressBar({ value, max, style }: { value: number; max: number;
             width: 12,
             height: 12,
             borderRadius: 6,
-            backgroundColor: "#a8ff60",
-            shadowColor: "#a8ff60",
+            backgroundColor: baseColor,
+            shadowColor: baseColor,
             shadowOffset: { width: 0, height: 0 },
             shadowOpacity: 0.8,
             shadowRadius: 6,

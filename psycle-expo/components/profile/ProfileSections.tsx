@@ -158,7 +158,7 @@ export function StatCard({
   customIcon?: React.ReactNode;
 }) {
   return (
-    <View style={styles.statCard} accessible accessibilityLabel={`${label}, ${value}`}>
+    <View style={[styles.statCard, { borderColor: `${color}30`, borderWidth: 1, backgroundColor: `${color}12` }]} accessible accessibilityLabel={`${label}, ${value}`}>
       {customIcon ? customIcon : <Ionicons name={icon} size={32} color={color} />}
       <Text style={styles.statValue} numberOfLines={1} ellipsizeMode="tail">
         {value}

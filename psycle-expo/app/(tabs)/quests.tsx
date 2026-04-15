@@ -4,6 +4,7 @@ import { useBottomTabBarHeight } from "@react-navigation/bottom-tabs";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { theme } from "../../lib/theme";
 import { useEconomyState, useProgressionState } from "../../lib/state";
+import { COURSE_THEME_COLORS } from "../../lib/courseWorldModel";
 import { useAuth } from "../../lib/AuthContext";
 import { GlobalHeader } from "../../components/GlobalHeader";
 import { StreakCalendar } from "../../components/StreakCalendar";
@@ -44,7 +45,9 @@ export default function QuestsScreen() {
     streakHistory,
     eventCampaign,
     eventQuests,
+    selectedGenre,
   } = useProgressionState();
+  const themeColor = COURSE_THEME_COLORS[selectedGenre] ?? COURSE_THEME_COLORS.mental;
   const { dailyQuestRerollRemaining } = useEconomyState();
   const { user } = useAuth();
   const { showToast } = useToast();
@@ -110,15 +113,17 @@ export default function QuestsScreen() {
             eventCampaign={eventCampaign}
             eventQuests={eventQuests}
             eventRemainingLabel={formatRemaining(eventRemainingMs)}
+            themeColor={themeColor}
           />
         ) : null}
 
-        <MonthlyQuestSection quests={monthly as QuestItem[]} onClaim={claimQuest} />
+        <MonthlyQuestSection quests={monthly as QuestItem[]} onClaim={claimQuest} themeColor={themeColor} />
         <QuestSection
           title={String(i18n.t("quests.daily"))}
           quests={daily as QuestItem[]}
           dailyQuestRerollRemaining={dailyQuestRerollRemaining}
           onClaim={claimQuest}
+          themeColor={themeColor}
           onReroll={(questId) => {
             const result = rerollQuest(questId);
             if (!result.success) {
@@ -131,6 +136,7 @@ export default function QuestsScreen() {
           quests={weekly as QuestItem[]}
           dailyQuestRerollRemaining={dailyQuestRerollRemaining}
           onClaim={claimQuest}
+          themeColor={themeColor}
           onReroll={(questId) => {
             const result = rerollQuest(questId);
             if (!result.success) {

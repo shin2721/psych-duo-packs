@@ -31,11 +31,13 @@ export function QuestCard({
   dailyQuestRerollRemaining,
   onClaim,
   onReroll,
+  themeColor,
 }: {
   quest: QuestCardItem;
   dailyQuestRerollRemaining: number;
   onClaim: (questId: string) => void;
   onReroll: (questId: string) => void;
+  themeColor?: string;
 }) {
   const completed = quest.progress >= quest.need;
   const canClaim = completed && !quest.claimed;
@@ -54,7 +56,7 @@ export function QuestCard({
             <Text style={styles.questDesc}>
               {quest.progress} / {quest.need}
             </Text>
-            <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} />
+            <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} color={themeColor} />
             {canReroll ? (
               <View style={styles.rerollRow}>
                 <Pressable
@@ -97,12 +99,14 @@ export function QuestSection({
   dailyQuestRerollRemaining,
   onClaim,
   onReroll,
+  themeColor,
 }: {
   title: string;
   quests: QuestCardItem[];
   dailyQuestRerollRemaining: number;
   onClaim: (questId: string) => void;
   onReroll: (questId: string) => void;
+  themeColor?: string;
 }) {
   if (quests.length === 0) return null;
 
@@ -116,6 +120,7 @@ export function QuestSection({
           dailyQuestRerollRemaining={dailyQuestRerollRemaining}
           onClaim={onClaim}
           onReroll={onReroll}
+          themeColor={themeColor}
         />
       ))}
     </>
@@ -125,9 +130,11 @@ export function QuestSection({
 export function MonthlyQuestSection({
   quests,
   onClaim,
+  themeColor,
 }: {
   quests: QuestCardItem[];
   onClaim: (questId: string) => void;
+  themeColor?: string;
 }) {
   if (quests.length === 0) return null;
 
@@ -141,7 +148,7 @@ export function MonthlyQuestSection({
               <Text style={styles.monthlyTitle}>
                 {quest.titleKey ? String(i18n.t(quest.titleKey)) : quest.title}
               </Text>
-              <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} />
+              <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} color={themeColor} />
               <Text style={styles.monthlyProgress}>
                 {quest.progress} / {quest.need}
               </Text>
@@ -164,6 +171,7 @@ export function EventCampaignSection({
   eventCampaign,
   eventQuests,
   eventRemainingLabel,
+  themeColor,
 }: {
   eventCampaign: {
     titleKey: string;
@@ -171,6 +179,7 @@ export function EventCampaignSection({
   };
   eventQuests: EventQuestCardItem[];
   eventRemainingLabel: string;
+  themeColor?: string;
 }) {
   if (eventQuests.length === 0) return null;
 
@@ -198,7 +207,7 @@ export function EventCampaignSection({
                   <Text style={styles.eventQuestProgress}>
                     {quest.progress} / {quest.need}
                   </Text>
-                  <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} />
+                  <ProgressBar value={quest.progress} max={quest.need} style={styles.progressBar} color={themeColor} />
                 </View>
                 <View style={styles.eventQuestReward}>
                   <Text style={styles.eventQuestGems}>+{quest.rewardGems} Gems</Text>
