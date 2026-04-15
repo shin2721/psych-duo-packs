@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from "react";
-import { View, Animated, Easing } from "react-native";
+import { View, Animated, Easing, StyleSheet } from "react-native";
 import { Tabs } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -7,9 +7,8 @@ import { theme } from "../../lib/theme";
 import i18n from "../../lib/i18n";
 import { StarBackground } from "../../components/StarBackground";
 import { DefaultTheme, ThemeProvider } from "@react-navigation/native";
-
-// 蛍の色（温かみのある黄色〜緑）
-const FIREFLY_COLOR = "#eaff00";
+import { COURSE_THEME_COLORS } from "../../lib/courseWorldModel";
+import { useProgressionState } from "../../lib/state";
 
 function FireflyTabBarIcon({ name, color, size, focused }: { name: keyof typeof Ionicons.glyphMap; color: string; size: number; focused: boolean }) {
   // Firefly animations
@@ -57,10 +56,10 @@ function FireflyTabBarIcon({ name, color, size, focused }: { name: keyof typeof 
           width: 6,
           height: 6,
           borderRadius: 3,
-          backgroundColor: FIREFLY_COLOR,
+          backgroundColor: color,
           opacity,
           transform: [{ translateY }, { translateX }],
-          shadowColor: FIREFLY_COLOR,
+          shadowColor: color,
           shadowOffset: { width: 0, height: 0 },
           shadowOpacity: 0.8,
           shadowRadius: 6,
@@ -84,6 +83,9 @@ export default function TabLayout() {
   const tabBarHeight = baseHeight + insets.bottom;
   const tabBarBottomPadding = Math.max(insets.bottom, 8);
 
+  const { selectedGenre } = useProgressionState();
+  const themeColor = COURSE_THEME_COLORS[selectedGenre] ?? COURSE_THEME_COLORS.mental;
+
   return (
     <ThemeProvider value={TransparentTheme}>
       <View style={{ flex: 1 }}>
@@ -96,7 +98,7 @@ export default function TabLayout() {
           screenOptions={{
             headerShown: false,
             tabBarStyle: {
-              backgroundColor: "rgba(15, 23, 42, 0.8)", // Semi-transparent surface color
+              backgroundColor: "transparent",
               borderTopColor: "rgba(255,255,255,0.1)",
               borderTopWidth: 0,
               height: tabBarHeight,
@@ -108,13 +110,9 @@ export default function TabLayout() {
               right: 0,
               elevation: 0,
             },
-            tabBarBackground: () => (
-              // Blur effect could be added here if using Expo Blur, 
-              // but for now just semi-transparent View is fine.
-              <View style={{ flex: 1, backgroundColor: "rgba(11, 18, 32, 0.85)" }} />
-            ),
-            tabBarActiveTintColor: theme.colors.text,
-            tabBarInactiveTintColor: theme.colors.sub,
+            tabBarBackground: () => <View style={StyleSheet.absoluteFill} />,
+            tabBarActiveTintColor: themeColor,
+            tabBarInactiveTintColor: `${themeColor}66`,
             tabBarLabelStyle: {
               fontSize: 10,
               fontWeight: "600",

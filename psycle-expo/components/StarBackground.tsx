@@ -299,7 +299,7 @@ export function StarBackground({ combo = 0, warpIn = false }: { combo?: number; 
     return (
         <View style={StyleSheet.absoluteFill} pointerEvents="none">
             {/* Base Dark Background */}
-            <View style={[StyleSheet.absoluteFill, { backgroundColor: theme.colors.bg }]} />
+            <View style={[StyleSheet.absoluteFill, { backgroundColor: "#040812" }]} />
 
             {/* Aurora / Glow effect */}
             <Animated.View
