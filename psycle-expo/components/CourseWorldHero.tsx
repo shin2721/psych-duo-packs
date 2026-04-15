@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
 import {
   CLOCK_FIREFLY_CONFIGS,
@@ -49,6 +50,7 @@ export function CourseWorldHero({
   heroOffsetY = 0,
 }: Props) {
   const { width, height } = useWindowDimensions();
+  const insets = useSafeAreaInsets();
   const snapshot = useMemo(
     () => buildCourseWorldModelSnapshot(model, nextLessonId),
     [model, nextLessonId]
@@ -91,93 +93,115 @@ export function CourseWorldHero({
     <View style={[styles.root, { width }]} testID={testID}>
       <CourseWorldBackdrop themeColor={model.themeColor} synColor={snapshot.synColor} />
 
-      <Animated.View style={{ flex: 1, opacity: mountOpacity }}>
-      <View style={styles.spacerTop} />
+      <Animated.View style={styles.mountLayer}>
+        <View style={styles.spacerTop} />
 
-      <Animated.View style={[styles.header, { opacity: headerOpacity }]}>
-        <Pressable
-          style={styles.unitBadge}
-          onPress={onUnitPress}
-          accessibilityRole="button"
-          accessibilityLabel="ユニット選択"
-        >
-          <View style={[styles.unitDot, { backgroundColor: model.themeColor, shadowColor: model.themeColor }]} />
-          <Text style={styles.unitText}>{model.unitLabel}</Text>
-          <Ionicons color="rgba(255,255,255,0.35)" name="chevron-down" size={14} />
-        </Pressable>
-      </Animated.View>
-
-      <View style={[styles.interactionZone, { width, height: interactionZoneHeight, marginTop: heroOffsetY }]} {...panHandlers}>
-        <Animated.View style={[styles.heroContainer, { zIndex: 15, opacity: heroOpacity }]} pointerEvents="none">
-          <Fireflies themeColor={model.themeColor} synColor={snapshot.synColor} configs={HERO_FIREFLY_CONFIGS} />
-        </Animated.View>
-
-        <Animated.View
-          style={[
-            styles.heroContainer,
-            {
-              transform: [{ scale: Animated.multiply(heroScale, tapScale) }],
-              opacity: heroOpacity,
-            },
-          ]}
-        >
+        <Animated.View style={[styles.header, { opacity: headerOpacity, paddingTop: insets.top }]}>
           <Pressable
-            testID="hero-root-orb"
+            style={styles.unitBadge}
+            onPress={onUnitPress}
             accessibilityRole="button"
-            accessibilityLabel={model.currentLesson.accessibilityLabel}
-            onPress={() => onNodePress?.(model.currentLesson.id)}
-            style={styles.heroOrbPressable}
+            accessibilityLabel="ユニット選択"
           >
-            <HeroRing
-              progress={snapshot.progress}
-              themeColor={model.themeColor}
-              synColor={snapshot.synColor}
-              icon={model.currentLesson.icon}
+            <View
+              style={[
+                styles.unitDot,
+                { backgroundColor: model.themeColor, shadowColor: model.themeColor },
+              ]}
             />
+            <Text style={styles.unitText}>{model.unitLabel}</Text>
+            <Ionicons color="rgba(255,255,255,0.35)" name="chevron-down" size={14} />
           </Pressable>
         </Animated.View>
 
-        <Animated.View
+        <View
           style={[
-            styles.clockContainer,
-            {
-              width: CLOCK_ZONE,
-              height: CLOCK_ZONE,
-              opacity: clockOpacity,
-              transform: [{ scale: clockScale }],
-            },
+            styles.interactionZone,
+            { width, height: interactionZoneHeight, marginTop: heroOffsetY },
           ]}
+          {...panHandlers}
         >
-          <CourseWorldClockDial
-            clockItems={snapshot.clockItems}
-            rotOffset={svRotOffset}
-            svCurrentIdx={svCurrentIdx}
-            svNodeCount={svNodeCount}
-            topNodeIdx={topNodeIdx}
-            nextLessonIdx={snapshot.nextLessonIdx}
-            themeColor={model.themeColor}
-            synColor={snapshot.synColor}
-            renderNextLessonEffects={() => (
-              <Fireflies themeColor={model.themeColor} synColor={snapshot.synColor} configs={CLOCK_FIREFLY_CONFIGS} />
-            )}
-          />
-        </Animated.View>
-      </View>
+          <Animated.View
+            style={[styles.heroContainer, { zIndex: 15, opacity: heroOpacity }]}
+            pointerEvents="none"
+          >
+            <Fireflies
+              themeColor={model.themeColor}
+              synColor={snapshot.synColor}
+              configs={HERO_FIREFLY_CONFIGS}
+            />
+          </Animated.View>
 
-      <CourseWorldNodeColumn
-        model={model}
-        allNodes={snapshot.allNodes}
-        themeColor={model.themeColor}
-        primaryTestID={primaryTestID}
-        supportTestID={supportTestID}
-        onPrimaryPress={onPrimaryPress}
-        onSupportPress={onSupportPress}
-        onNodePress={onNodePress}
-        showMeta={showMeta}
-        showPrimaryAction={showPrimaryAction}
-      />
+          <Animated.View
+            style={[
+              styles.heroContainer,
+              {
+                transform: [{ scale: Animated.multiply(heroScale, tapScale) }],
+                opacity: heroOpacity,
+              },
+            ]}
+          >
+            <Pressable
+              testID="hero-root-orb"
+              accessibilityRole="button"
+              accessibilityLabel={model.currentLesson.accessibilityLabel}
+              onPress={() => onNodePress?.(model.currentLesson.id)}
+              style={styles.heroOrbPressable}
+            >
+              <HeroRing
+                progress={snapshot.progress}
+                themeColor={model.themeColor}
+                synColor={snapshot.synColor}
+                icon={model.currentLesson.icon}
+              />
+            </Pressable>
+          </Animated.View>
 
-      <View style={styles.spacerBottom} />
+          <Animated.View
+            style={[
+              styles.clockContainer,
+              {
+                width: CLOCK_ZONE,
+                height: CLOCK_ZONE,
+                opacity: clockOpacity,
+                transform: [{ scale: clockScale }],
+              },
+            ]}
+          >
+            <CourseWorldClockDial
+              clockItems={snapshot.clockItems}
+              rotOffset={svRotOffset}
+              svCurrentIdx={svCurrentIdx}
+              svNodeCount={svNodeCount}
+              topNodeIdx={topNodeIdx}
+              nextLessonIdx={snapshot.nextLessonIdx}
+              themeColor={model.themeColor}
+              synColor={snapshot.synColor}
+              renderNextLessonEffects={() => (
+                <Fireflies
+                  themeColor={model.themeColor}
+                  synColor={snapshot.synColor}
+                  configs={CLOCK_FIREFLY_CONFIGS}
+                />
+              )}
+            />
+          </Animated.View>
+        </View>
+
+        <CourseWorldNodeColumn
+          model={model}
+          allNodes={snapshot.allNodes}
+          themeColor={model.themeColor}
+          primaryTestID={primaryTestID}
+          supportTestID={supportTestID}
+          onPrimaryPress={onPrimaryPress}
+          onSupportPress={onSupportPress}
+          onNodePress={onNodePress}
+          showMeta={showMeta}
+          showPrimaryAction={showPrimaryAction}
+        />
+
+        <View style={styles.spacerBottom} />
       </Animated.View>
     </View>
   );
@@ -185,6 +209,7 @@ export function CourseWorldHero({
 
 const styles = StyleSheet.create({
   root: { flex: 1, overflow: "visible" as const },
+  mountLayer: { flex: 1 },
   spacerTop: { flex: 0.38 },
   spacerBottom: { flex: 0.2 },
   header: {
