@@ -35,24 +35,24 @@ export function GlobalHeader() {
 
         {/* 2. Study Streak */}
         <Pressable
-          style={styles.item}
+          style={[styles.item, streak === 0 && styles.itemDim]}
           onPress={() => router.push("/(tabs)/course")}
           accessibilityRole="button"
           accessibilityLabel={String(i18n.t("globalHeader.a11y.streak", { count: streak }))}
         >
           <StreakIcon size={24} />
-          <Text style={[styles.value, { color: "#f97316" }]}>{streak}</Text>
+          <Text style={[styles.value, { color: streak > 0 ? "#f97316" : theme.colors.sub }]}>{streak}</Text>
         </Pressable>
 
         {/* 3. Gems */}
         <Pressable
-          style={styles.item}
+          style={[styles.item, gems === 0 && styles.itemDim]}
           onPress={() => router.push("/(tabs)/shop")}
           accessibilityRole="button"
           accessibilityLabel={String(i18n.t("globalHeader.a11y.gems", { count: gems }))}
         >
           <GemIcon size={22} />
-          <Text style={[styles.value, { color: "#3debf6" }]}>{gems}</Text>
+          <Text style={[styles.value, { color: gems > 0 ? "#3debf6" : theme.colors.sub }]}>{gems}</Text>
         </Pressable>
 
         {/* 4. Energy */}
@@ -110,6 +110,9 @@ const styles = StyleSheet.create({
     minWidth: 44, // Minimum touch area
     minHeight: 44,
     justifyContent: 'center',
+  },
+  itemDim: {
+    opacity: 0.45,
   },
   value: {
     fontSize: 16,

@@ -74,12 +74,14 @@ export function ProfileStatsGrid({
   completedLessonCount,
   leagueLabel,
   leagueLoading,
+  onLeaguePress,
 }: {
   xp: number;
   streak: number;
   completedLessonCount: number;
   leagueLabel: string;
   leagueLoading: boolean;
+  onLeaguePress?: () => void;
 }) {
   return (
     <View style={styles.statsGrid}>
@@ -106,6 +108,7 @@ export function ProfileStatsGrid({
         label={String(i18n.t("profile.stats.league"))}
         value={leagueLoading ? "..." : leagueLabel}
         color="#FFD93D"
+        onPress={onLeaguePress}
       />
     </View>
   );
@@ -153,20 +156,41 @@ export function StatCard({
   value,
   color,
   customIcon,
+  onPress,
 }: {
   icon?: IoniconName;
   label: string;
   value: string;
   color: string;
   customIcon?: React.ReactNode;
+  onPress?: () => void;
 }) {
-  return (
-    <View style={[styles.statCard, { borderColor: `${color}30`, borderWidth: 1, backgroundColor: `${color}12` }]} accessible accessibilityLabel={`${label}, ${value}`}>
+  const content = (
+    <>
       {customIcon ? customIcon : <Ionicons name={icon} size={32} color={color} />}
       <Text style={styles.statValue} numberOfLines={1} ellipsizeMode="tail">
         {value}
       </Text>
       <Text style={styles.statLabel}>{label}</Text>
+    </>
+  );
+  const cardStyle = [styles.statCard, { borderColor: `${color}30`, borderWidth: 1, backgroundColor: `${color}12` }];
+  if (onPress) {
+    return (
+      <Pressable
+        style={cardStyle}
+        onPress={onPress}
+        accessible
+        accessibilityRole="button"
+        accessibilityLabel={`${label}, ${value}`}
+      >
+        {content}
+      </Pressable>
+    );
+  }
+  return (
+    <View style={cardStyle} accessible accessibilityLabel={`${label}, ${value}`}>
+      {content}
     </View>
   );
 }

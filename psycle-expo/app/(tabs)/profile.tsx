@@ -43,6 +43,7 @@ export default function ProfileScreen() {
                     completedLessonCount={completedLessons.size}
                     leagueLabel={leagueLabel}
                     leagueLoading={leagueLoading}
+                    onLeaguePress={() => router.push("/(tabs)/leaderboard")}
                 />
                 <ProfileBadgesSection unlockedBadgeIds={unlockedBadges} />
                 <ProfileQuickActionsSection />
