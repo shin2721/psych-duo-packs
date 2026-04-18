@@ -10,12 +10,14 @@ import { Analytics } from "../lib/analytics";
 import i18n from "../lib/i18n";
 import { GlobalHeaderMenu } from "./GlobalHeaderMenu";
 import { getGenreIcon, getGenreLabel } from "./globalHeaderHelpers";
+import { COURSE_THEME_COLORS } from "../lib/courseWorldModel";
 
 export function GlobalHeader() {
   const { gems, energy } = useEconomyState();
   const { selectedGenre, setSelectedGenre, streak } = useProgressionState();
   const { isSubscriptionActive } = useBillingState();
   const [menuVisible, setMenuVisible] = useState(false);
+  const themeColor = COURSE_THEME_COLORS[selectedGenre] ?? COURSE_THEME_COLORS.mental;
   const selectedGenreLabel = getGenreLabel(
     selectedGenre,
     genres.find((genre) => genre.id === selectedGenre)?.label || selectedGenre
@@ -42,7 +44,7 @@ export function GlobalHeader() {
           accessibilityRole="button"
           accessibilityLabel={String(i18n.t("globalHeader.a11y.streak", { count: streak }))}
         >
-          <StreakIcon size={22} />
+          <StreakIcon size={22} color={themeColor} />
           <Text style={styles.value}>{streak}</Text>
         </Pressable>
 
@@ -53,7 +55,7 @@ export function GlobalHeader() {
           accessibilityRole="button"
           accessibilityLabel={String(i18n.t("globalHeader.a11y.gems", { count: gems }))}
         >
-          <GemIcon size={20} />
+          <GemIcon size={20} color={themeColor} />
           <Text style={styles.value}>{gems}</Text>
         </Pressable>
 
@@ -72,7 +74,7 @@ export function GlobalHeader() {
             )
           )}
         >
-          <EnergyIcon size={20} />
+          <EnergyIcon size={20} color={themeColor} />
           <Text style={styles.value}>
             {isSubscriptionActive ? "∞" : energy}
           </Text>

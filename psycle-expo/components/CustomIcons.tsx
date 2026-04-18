@@ -1,5 +1,5 @@
 import React from "react";
-import Svg, { Path, Circle, Defs, LinearGradient, Stop, G, Rect, ClipPath, Ellipse, Text } from "react-native-svg";
+import Svg, { Path, Circle, Defs, LinearGradient, RadialGradient, Stop, G, Rect, ClipPath, Ellipse, Text } from "react-native-svg";
 import { ViewStyle, StyleProp } from "react-native";
 
 interface IconProps {
@@ -9,97 +9,96 @@ interface IconProps {
 }
 
 // ==================== GEM ICON 💎 ====================
-// A vibrant, faceted blue diamond/gem
-export function GemIcon({ size = 24, style }: IconProps) {
+// Minimal faceted crystal, tinted to themeColor for cosmos coherence.
+export function GemIcon({ size = 24, style, color }: IconProps) {
+    const tint = color || "#ec4899";
+    const gid = `gemGrad_${tint.replace("#", "")}`;
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
             <Defs>
-                <LinearGradient id="gemGrad" x1="20" y1="0" x2="80" y2="100">
-                    <Stop offset="0" stopColor="#3debf6" />
-                    <Stop offset="1" stopColor="#1ca2f4" />
+                <LinearGradient id={gid} x1="50" y1="5" x2="50" y2="95">
+                    <Stop offset="0" stopColor={tint} stopOpacity={0.9} />
+                    <Stop offset="1" stopColor={tint} stopOpacity={0.35} />
                 </LinearGradient>
             </Defs>
-            {/* Shadow */}
-            <Path d="M20 50 L50 95 L80 50 L50 20 Z" fill="#0c4a6e" opacity={0.3} transform="translate(0, 4)" />
-
-            {/* Main body (bottom part) */}
-            <Path d="M10 35 L50 90 L90 35 L70 10 L30 10 Z" fill="url(#gemGrad)" stroke="#1680c4" strokeWidth="2" strokeLinejoin="round" />
-
-            {/* Top Facets */}
-            <Path d="M10 35 L30 10 L70 10 L90 35 Z" fill="#67e8f9" opacity={0.4} />
-            <Path d="M30 10 L50 35 L70 10 Z" fill="#cffafe" opacity={0.6} />
-
-            {/* Bottom Facets */}
-            <Path d="M10 35 L50 90 L50 35 Z" fill="#0891b2" opacity={0.2} />
-            <Path d="M90 35 L50 90 L50 35 Z" fill="#06b6d4" opacity={0.1} />
-
-            {/* Highlight/Sparkle */}
-            <Circle cx="30" cy="25" r="3" fill="white" opacity={0.8} />
-            <Path d="M75 20 L80 25 L75 30 L70 25 Z" fill="white" opacity={0.6} />
+            {/* Soft outer glow */}
+            <Path d="M10 35 L50 90 L90 35 L70 12 L30 12 Z" fill={tint} opacity={0.18} transform="scale(1.08) translate(-4 -4)" />
+            {/* Body */}
+            <Path
+                d="M10 35 L50 90 L90 35 L70 12 L30 12 Z"
+                fill={`url(#${gid})`}
+                stroke={tint}
+                strokeWidth="1.5"
+                strokeOpacity={0.75}
+                strokeLinejoin="round"
+            />
+            {/* Facet lines only, no fills */}
+            <Path d="M10 35 L90 35" stroke={tint} strokeWidth="1" strokeOpacity={0.4} />
+            <Path d="M30 12 L50 35 L70 12" stroke={tint} strokeWidth="1" strokeOpacity={0.4} fill="none" />
+            <Path d="M50 35 L50 90" stroke="#ffffff" strokeWidth="1" strokeOpacity={0.35} />
         </Svg>
     );
 }
 
-// ==================== STREAK FIRE ICON 🔥 ====================
-// A hot orange/red flame for streaks
-export function StreakIcon({ size = 24, style }: IconProps) {
+// ==================== STREAK ICON 🔥 ====================
+// A soft ember/flame in themeColor. No cartoon yellow core, no red shadow.
+export function StreakIcon({ size = 24, style, color }: IconProps) {
+    const tint = color || "#f97316";
+    const gid = `emberGrad_${tint.replace("#", "")}`;
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
             <Defs>
-                <LinearGradient id="fireGrad" x1="50" y1="10" x2="50" y2="90">
-                    <Stop offset="0" stopColor="#fbbf24" />
-                    <Stop offset="0.5" stopColor="#f97316" />
-                    <Stop offset="1" stopColor="#ef4444" />
+                <LinearGradient id={gid} x1="50" y1="5" x2="50" y2="95">
+                    <Stop offset="0" stopColor="#fef3c7" stopOpacity={0.95} />
+                    <Stop offset="0.55" stopColor={tint} stopOpacity={0.9} />
+                    <Stop offset="1" stopColor={tint} stopOpacity={0.3} />
                 </LinearGradient>
             </Defs>
-            {/* Shadow */}
-            <Path d="M50 95 Q20 95 20 65 Q20 35 50 5 Q80 35 80 65 Q80 95 50 95 Z" fill="#7f1d1d" opacity={0.3} transform="translate(0, 3)" />
-
-            {/* Main flame */}
+            {/* Glow */}
             <Path
-                d="M50 90 C30 90 15 75 15 55 C15 30 50 5 50 5 C50 5 85 30 85 55 C85 75 70 90 50 90 Z"
-                fill="url(#fireGrad)"
+                d="M50 92 C28 92 14 76 14 56 C14 30 50 6 50 6 C50 6 86 30 86 56 C86 76 72 92 50 92 Z"
+                fill={tint}
+                opacity={0.18}
+                transform="scale(1.12) translate(-6 -6)"
             />
-
-            {/* Inner lighter flame */}
+            {/* Flame */}
             <Path
-                d="M50 82 C40 82 30 72 30 60 C30 45 50 25 50 25 C50 25 70 45 70 60 C70 72 60 82 50 82 Z"
-                fill="#fcd34d"
-                opacity={0.8}
+                d="M50 92 C28 92 14 76 14 56 C14 30 50 6 50 6 C50 6 86 30 86 56 C86 76 72 92 50 92 Z"
+                fill={`url(#${gid})`}
             />
-
-            {/* Highlight core */}
-            <Ellipse cx="50" cy="65" rx="8" ry="12" fill="#fff" opacity={0.6} />
+            {/* Inner light core */}
+            <Ellipse cx="50" cy="62" rx="10" ry="16" fill="#fef3c7" opacity={0.45} />
         </Svg>
     );
 }
 
 // ==================== ENERGY BOLT ICON ⚡ ====================
-// An electric blue lightning bolt
+// Clean bolt in themeColor. No thick white stroke, no blue gradient.
 export function EnergyIcon({ size = 24, style, color }: IconProps) {
+    const tint = color || "#ec4899";
+    const gid = `boltGrad_${tint.replace("#", "")}`;
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
             <Defs>
-                <LinearGradient id="boltGrad" x1="40" y1="10" x2="60" y2="90">
-                    <Stop offset="0" stopColor="#60a5fa" />
-                    <Stop offset="1" stopColor="#2563eb" />
+                <LinearGradient id={gid} x1="50" y1="5" x2="50" y2="95">
+                    <Stop offset="0" stopColor={tint} stopOpacity={0.95} />
+                    <Stop offset="1" stopColor={tint} stopOpacity={0.55} />
                 </LinearGradient>
             </Defs>
-
-            {/* Shadow */}
+            {/* Glow */}
             <Path
                 d="M55 5 L25 55 L50 55 L40 95 L80 40 L55 40 L55 5 Z"
-                fill="#1e3a8a"
-                opacity={0.3}
-                transform="translate(2, 3)"
+                fill={tint}
+                opacity={0.25}
+                transform="scale(1.1) translate(-5 -5)"
             />
-
-            {/* Main bolt */}
+            {/* Bolt */}
             <Path
                 d="M55 5 L25 55 L50 55 L40 95 L80 40 L55 40 L55 5 Z"
-                fill={color || "url(#boltGrad)"}
-                stroke="white"
-                strokeWidth="3"
+                fill={`url(#${gid})`}
+                stroke={tint}
+                strokeWidth="1.5"
+                strokeOpacity={0.8}
                 strokeLinejoin="round"
             />
         </Svg>
@@ -186,19 +185,19 @@ export function ChestIcon({ size = 24, style, open = false, color }: IconProps &
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
             <Defs>
-                <LinearGradient id={gradId} x1="50" y1="20" x2="50" y2="80">
-                    <Stop offset="0" stopColor={tint} stopOpacity={0.55} />
-                    <Stop offset="1" stopColor={tint} stopOpacity={0.15} />
-                </LinearGradient>
+                <RadialGradient id={gradId} cx="50%" cy="50%" r="50%">
+                    <Stop offset="0" stopColor="#fef3c7" stopOpacity={0.95} />
+                    <Stop offset="0.35" stopColor={tint} stopOpacity={0.85} />
+                    <Stop offset="0.8" stopColor={tint} stopOpacity={0.25} />
+                    <Stop offset="1" stopColor={tint} stopOpacity={0} />
+                </RadialGradient>
             </Defs>
-            {/* Soft outer glow */}
-            <Circle cx="50" cy="50" r="38" fill={tint} opacity={0.08} />
-            <Circle cx="50" cy="50" r="26" fill={tint} opacity={0.15} />
-            {/* Bud body */}
-            <Circle cx="50" cy="50" r="18" fill={`url(#${gradId})`} stroke={tint} strokeWidth="1.5" strokeOpacity={0.6} />
-            {/* Inner ember */}
-            <Circle cx="50" cy="50" r="5" fill={tint} opacity={0.9} />
-            <Circle cx="48" cy="48" r="2" fill="#fef3c7" opacity={0.7} />
+            {/* Faint outer halo */}
+            <Circle cx="50" cy="50" r="44" fill={tint} opacity={0.08} />
+            {/* Seed of light — soft radial fade, no hard outline */}
+            <Circle cx="50" cy="50" r="40" fill={`url(#${gradId})`} />
+            {/* Offset micro sparkle for organic character */}
+            <Circle cx="42" cy="44" r="2" fill="#fffbeb" opacity={0.9} />
         </Svg>
     );
 }
