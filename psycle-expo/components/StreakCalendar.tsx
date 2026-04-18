@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { ScrollView, StyleSheet, Text, View } from 'react-native';
 import { theme } from '../lib/theme';
 import { dateKey } from '../lib/streaks';
 import i18n from '../lib/i18n';
@@ -104,7 +104,11 @@ export function StreakCalendar({ history, themeColor }: StreakCalendarProps) {
     return (
         <View style={styles.container}>
             <Text style={styles.title}>{i18n.t('streakCalendar.title')}</Text>
-            <View style={styles.calendar}>
+            <ScrollView
+                horizontal
+                showsHorizontalScrollIndicator={false}
+                contentContainerStyle={styles.calendar}
+            >
                 {days.map((day, index) => (
                     <View
                         key={index}
@@ -130,7 +134,7 @@ export function StreakCalendar({ history, themeColor }: StreakCalendarProps) {
                         )}
                     </View>
                 ))}
-            </View>
+            </ScrollView>
             <View style={styles.legend}>
                 <Text style={styles.legendText}>{i18n.t('streakCalendar.less')}</Text>
                 <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: theme.colors.line }]} />
@@ -158,21 +162,21 @@ const styles = StyleSheet.create({
     },
     calendar: {
         flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 4,
+        gap: 6,
+        paddingVertical: 2,
     },
     dayContainer: {
         alignItems: 'center',
     },
     day: {
-        width: 14,
-        height: 14,
-        borderRadius: 3,
+        width: 18,
+        height: 18,
+        borderRadius: 4,
     },
     dayLabel: {
-        fontSize: 8,
+        fontSize: 9,
         color: theme.colors.sub,
-        marginTop: 2,
+        marginTop: 3,
     },
     legend: {
         flexDirection: 'row',
@@ -188,6 +192,6 @@ const styles = StyleSheet.create({
     legendBox: {
         width: 14,
         height: 14,
-        borderRadius: 3,
+        borderRadius: 4,
     },
 });

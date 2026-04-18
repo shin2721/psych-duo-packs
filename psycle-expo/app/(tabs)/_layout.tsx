@@ -141,16 +141,7 @@ export default function TabLayout() {
               ),
             }}
           />
-          <Tabs.Screen
-            name="leaderboard"
-            options={{
-              title: i18n.t("tabs.ranking"),
-              tabBarButtonTestID: "tab-leaderboard",
-              tabBarIcon: ({ color, size, focused }) => (
-                <FireflyTabBarIcon name="trophy" size={size} color={color} focused={focused} />
-              ),
-            }}
-          />
+          <Tabs.Screen name="leaderboard" options={{ href: null }} />
           <Tabs.Screen
             name="friends"
             options={{

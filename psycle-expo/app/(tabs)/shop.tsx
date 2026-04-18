@@ -10,7 +10,6 @@ import { GlobalHeader } from "../../components/GlobalHeader";
 import { getDateLocaleForLanguage, getEnergyRecoveryMinutesRemaining, buildShopItems } from "../../lib/shop/shopCatalog";
 import { type BillingPeriod } from "../../lib/pricing";
 import i18n from "../../lib/i18n";
-import { GemIcon } from "../../components/CustomIcons";
 import { useToast } from "../../components/ToastProvider";
 import type { EnergyFullRefillFailureReason } from "../../lib/energyFullRefill";
 import { startShopCheckout } from "../../lib/shop/shopCheckout";
@@ -19,7 +18,6 @@ import { ShopItemsSection } from "../../components/shop/ShopItemsSection";
 
 export default function ShopScreen() {
   const {
-    gems,
     buyFreeze,
     buyEnergyFullRefill,
     freezeCount,
@@ -139,10 +137,6 @@ export default function ShopScreen() {
       <View style={styles.header}>
         <Ionicons name="storefront" size={32} color={theme.colors.accent} />
         <Text style={styles.title}>{i18n.t("shop.title")}</Text>
-        <View style={styles.gemsContainer}>
-          <GemIcon size={20} />
-          <Text style={styles.gemsText}>{gems}</Text>
-        </View>
       </View>
 
       <View style={styles.fireflySlot} />
@@ -199,20 +193,6 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 28,
     fontWeight: "800",
-    color: theme.colors.text,
-  },
-  gemsContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: theme.colors.card,
-    paddingHorizontal: theme.spacing.sm,
-    paddingVertical: 4,
-    borderRadius: 999,
-    gap: 4,
-  },
-  gemsText: {
-    fontSize: 14,
-    fontWeight: "bold",
     color: theme.colors.text,
   },
   fireflySlot: {
