@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { theme } from '../lib/theme';
 import { dateKey } from '../lib/streaks';
 import i18n from '../lib/i18n';
@@ -15,28 +15,18 @@ interface StreakCalendarProps {
     themeColor?: string;
 }
 
+const WEEKS = 5;
+const DAYS_PER_WEEK = 7;
+
+type Cell = {
+    date: string;
+    data?: StreakDay;
+    isToday: boolean;
+    isFuture: boolean;
+};
+
 export function StreakCalendar({ history, themeColor }: StreakCalendarProps) {
     const activeColor = themeColor ?? '#a8ff60';
-
-    // Generate last 30 days
-    const getLast30Days = () => {
-        const days: { date: string; data?: StreakDay; isToday?: boolean }[] = [];
-        const today = new Date();
-        const todayStr = dateKey(today);
-
-        for (let i = 29; i >= 0; i--) {
-            const date = new Date(today);
-            date.setDate(date.getDate() - i);
-            const dateString = dateKey(date);  // ローカル時間基準
-
-            const dayData = history.find(h => h.date === dateString);
-            days.push({ date: dateString, data: dayData, isToday: dateString === todayStr });
-        }
-
-        return days;
-    };
-
-    const days = getLast30Days();
 
     const hexToRgb = (hex: string) => {
         const r = parseInt(hex.slice(1, 3), 16);
@@ -46,15 +36,16 @@ export function StreakCalendar({ history, themeColor }: StreakCalendarProps) {
     };
     const rgb = activeColor.startsWith('#') ? hexToRgb(activeColor) : null;
 
-    const getIntensityColor = (xp: number) => {
-        if (xp === 0) return theme.colors.line;
+    const getIntensityColor = (xp: number, isFuture: boolean) => {
+        if (isFuture) return 'transparent';
+        if (xp === 0) return rgb ? `rgba(${rgb}, 0.08)` : theme.colors.line;
         if (rgb) {
-            if (xp < 20) return `rgba(${rgb}, 0.25)`;
-            if (xp < 50) return `rgba(${rgb}, 0.60)`;
+            if (xp < 20) return `rgba(${rgb}, 0.3)`;
+            if (xp < 50) return `rgba(${rgb}, 0.6)`;
             return activeColor;
         }
-        if (xp < 20) return 'rgba(168, 255, 96, 0.25)';
-        if (xp < 50) return 'rgba(168, 255, 96, 0.60)';
+        if (xp < 20) return 'rgba(168, 255, 96, 0.3)';
+        if (xp < 50) return 'rgba(168, 255, 96, 0.6)';
         return '#a8ff60';
     };
 
@@ -62,85 +53,126 @@ export function StreakCalendar({ history, themeColor }: StreakCalendarProps) {
         if (xp >= 50) return {
             shadowColor: activeColor,
             shadowOffset: { width: 0, height: 0 },
-            shadowOpacity: 0.7,
-            shadowRadius: 5,
+            shadowOpacity: 0.8,
+            shadowRadius: 4,
         };
         return {};
     };
 
-    const getDayLabel = (dateString: string) => {
-        const date = new Date(dateString);
-        const day = date.getDate();
-        return day === 1 || day === 15 ? day.toString() : '';
+    const buildGrid = (): { weekdayLabels: string[]; grid: Cell[][]; activeDays: number } => {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const todayStr = dateKey(today);
+
+        const jsDayToday = today.getDay();
+        const daysFromMonday = (jsDayToday + 6) % 7;
+
+        const startOfThisWeek = new Date(today);
+        startOfThisWeek.setDate(today.getDate() - daysFromMonday);
+
+        const start = new Date(startOfThisWeek);
+        start.setDate(startOfThisWeek.getDate() - 7 * (WEEKS - 1));
+
+        const weekdayLabels = [
+            i18n.t('streakCalendar.weekdays.mon'),
+            i18n.t('streakCalendar.weekdays.tue'),
+            i18n.t('streakCalendar.weekdays.wed'),
+            i18n.t('streakCalendar.weekdays.thu'),
+            i18n.t('streakCalendar.weekdays.fri'),
+            i18n.t('streakCalendar.weekdays.sat'),
+            i18n.t('streakCalendar.weekdays.sun'),
+        ].map((label) => String(label));
+
+        const grid: Cell[][] = [];
+        let activeDays = 0;
+
+        for (let w = 0; w < WEEKS; w++) {
+            const week: Cell[] = [];
+            for (let d = 0; d < DAYS_PER_WEEK; d++) {
+                const date = new Date(start);
+                date.setDate(start.getDate() + w * DAYS_PER_WEEK + d);
+                const dateString = dateKey(date);
+                const dayData = history.find((h) => h.date === dateString);
+                const isToday = dateString === todayStr;
+                const isFuture = date.getTime() > today.getTime();
+                if (dayData && dayData.xp > 0) activeDays += 1;
+                week.push({ date: dateString, data: dayData, isToday, isFuture });
+            }
+            grid.push(week);
+        }
+
+        return { weekdayLabels, grid, activeDays };
     };
 
+    const { weekdayLabels, grid, activeDays } = buildGrid();
+    const totalDays = WEEKS * DAYS_PER_WEEK;
+
     const getAccessibleDate = (dateString: string) => {
-        const [year, month, day] = dateString.split("-").map(Number);
+        const [year, month, day] = dateString.split('-').map(Number);
         return new Intl.DateTimeFormat(i18n.locale, {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
         }).format(new Date(year, month - 1, day));
     };
 
-    const getDayAccessibilityLabel = (day: { date: string; data?: StreakDay }) => {
-        const formattedDate = getAccessibleDate(day.date);
-        const xp = day.data?.xp || 0;
-        const lessons = day.data?.lessonsCompleted || 0;
-
+    const getDayAccessibilityLabel = (cell: Cell) => {
+        const formattedDate = getAccessibleDate(cell.date);
+        const xp = cell.data?.xp || 0;
+        const lessons = cell.data?.lessonsCompleted || 0;
         if (xp === 0 && lessons === 0) {
-            return String(i18n.t("streakCalendar.dayInactive", { date: formattedDate }));
+            return String(i18n.t('streakCalendar.dayInactive', { date: formattedDate }));
         }
-
-        return String(
-            i18n.t("streakCalendar.dayActive", {
-                date: formattedDate,
-                xp,
-                lessons,
-            })
-        );
+        return String(i18n.t('streakCalendar.dayActive', { date: formattedDate, xp, lessons }));
     };
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>{i18n.t('streakCalendar.title')}</Text>
-            <ScrollView
-                horizontal
-                showsHorizontalScrollIndicator={false}
-                contentContainerStyle={styles.calendar}
-            >
-                {days.map((day, index) => (
-                    <View
-                        key={index}
-                        style={styles.dayContainer}
-                        accessible
-                        accessibilityLabel={getDayAccessibilityLabel(day)}
-                    >
-                        <View
-                            style={[
-                                styles.day,
-                                {
-                                    backgroundColor: getIntensityColor(day.data?.xp || 0),
-                                },
-                                day.isToday && {
-                                    borderWidth: 1.5,
-                                    borderColor: activeColor,
-                                },
-                                getGlow(day.data?.xp || 0),
-                            ]}
-                        />
-                        {getDayLabel(day.date) && (
-                            <Text style={styles.dayLabel}>{getDayLabel(day.date)}</Text>
-                        )}
+            <View style={styles.headerRow}>
+                <Text style={styles.title}>{i18n.t('streakCalendar.title')}</Text>
+                <Text style={[styles.summary, { color: activeColor }]}>
+                    {activeDays} / {totalDays}
+                </Text>
+            </View>
+
+            <View style={styles.weekdayRow}>
+                {weekdayLabels.map((label, idx) => (
+                    <Text key={idx} style={styles.weekdayLabel}>
+                        {label}
+                    </Text>
+                ))}
+            </View>
+
+            <View style={styles.grid}>
+                {grid.map((week, wIdx) => (
+                    <View key={wIdx} style={styles.weekRow}>
+                        {week.map((cell, dIdx) => (
+                            <View
+                                key={dIdx}
+                                style={styles.cellSlot}
+                                accessible={!cell.isFuture}
+                                accessibilityLabel={cell.isFuture ? undefined : getDayAccessibilityLabel(cell)}
+                            >
+                                <View
+                                    style={[
+                                        styles.cell,
+                                        { backgroundColor: getIntensityColor(cell.data?.xp || 0, cell.isFuture) },
+                                        cell.isToday && { borderWidth: 1.5, borderColor: activeColor },
+                                        getGlow(cell.data?.xp || 0),
+                                    ]}
+                                />
+                            </View>
+                        ))}
                     </View>
                 ))}
-            </ScrollView>
+            </View>
+
             <View style={styles.legend}>
                 <Text style={styles.legendText}>{i18n.t('streakCalendar.less')}</Text>
-                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: theme.colors.line }]} />
-                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: getIntensityColor(10) }]} />
-                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: getIntensityColor(30) }]} />
-                <View accessible={false} importantForAccessibility="no" style={[styles.legendBox, { backgroundColor: getIntensityColor(50) }]} />
+                <View style={[styles.legendBox, { backgroundColor: getIntensityColor(0, false) }]} />
+                <View style={[styles.legendBox, { backgroundColor: getIntensityColor(10, false) }]} />
+                <View style={[styles.legendBox, { backgroundColor: getIntensityColor(30, false) }]} />
+                <View style={[styles.legendBox, { backgroundColor: getIntensityColor(50, false) }]} />
                 <Text style={styles.legendText}>{i18n.t('streakCalendar.more')}</Text>
             </View>
         </View>
@@ -154,29 +186,52 @@ const styles = StyleSheet.create({
         borderRadius: 12,
         marginBottom: 16,
     },
-    title: {
-        fontSize: 18,
-        fontWeight: '600',
-        color: theme.colors.text,
+    headerRow: {
+        flexDirection: 'row',
+        alignItems: 'baseline',
+        justifyContent: 'space-between',
         marginBottom: 12,
     },
-    calendar: {
+    title: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: theme.colors.text,
+    },
+    summary: {
+        fontSize: 13,
+        fontWeight: '800',
+        fontVariant: ['tabular-nums'],
+    },
+    weekdayRow: {
         flexDirection: 'row',
-        gap: 6,
-        paddingVertical: 2,
+        justifyContent: 'space-between',
+        marginBottom: 6,
     },
-    dayContainer: {
-        alignItems: 'center',
-    },
-    day: {
-        width: 18,
-        height: 18,
-        borderRadius: 4,
-    },
-    dayLabel: {
-        fontSize: 9,
+    weekdayLabel: {
+        flex: 1,
+        textAlign: 'center',
+        fontSize: 10,
         color: theme.colors.sub,
-        marginTop: 3,
+        fontWeight: '600',
+    },
+    grid: {
+        gap: 4,
+    },
+    weekRow: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        gap: 4,
+    },
+    cellSlot: {
+        flex: 1,
+        aspectRatio: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cell: {
+        width: '100%',
+        height: '100%',
+        borderRadius: 5,
     },
     legend: {
         flexDirection: 'row',
@@ -190,8 +245,8 @@ const styles = StyleSheet.create({
         color: theme.colors.sub,
     },
     legendBox: {
-        width: 14,
-        height: 14,
-        borderRadius: 4,
+        width: 12,
+        height: 12,
+        borderRadius: 3,
     },
 });

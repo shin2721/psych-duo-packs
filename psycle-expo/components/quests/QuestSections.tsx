@@ -89,8 +89,9 @@ export function QuestCard({
             state={quest.chestState}
             onOpen={canClaim ? () => onClaim(quest.id) : undefined}
             size="sm"
-            label={`${quest.rewardXp}`}
+            label={`+${quest.rewardXp} XP`}
             testID={`quest-chest-${quest.id}`}
+            color={activeColor}
           />
         </View>
       </Card>
@@ -174,8 +175,8 @@ export function MonthlyQuestSection({
                     state={quest.chestState}
                     onOpen={completed && !quest.claimed ? () => onClaim(quest.id) : undefined}
                     size="md"
-                    label={`${quest.rewardXp}`}
                     testID={`quest-chest-${quest.id}`}
+                    color={activeColor}
                   />
                   <View style={[styles.xpBadge, { backgroundColor: `${activeColor}22`, borderColor: `${activeColor}55` }]}>
                     <Text style={[styles.xpBadgeText, { color: activeColor }]}>+{quest.rewardXp} XP</Text>

@@ -135,39 +135,70 @@ export function TrophyIcon({ size = 24, style }: IconProps) {
     );
 }
 
-// ==================== CHEST ICON 🎁 ====================
-// Closed and Open states
-export function ChestIcon({ size = 24, style, open = false }: IconProps & { open?: boolean }) {
+// ==================== REWARD ORB (Luminous bud / bloom) ====================
+// Replaces the cartoony treasure chest with a soft glowing orb that matches the
+// cosmos/firefly world. Accepts `color` to tint with the course themeColor.
+export function ChestIcon({ size = 24, style, open = false, color }: IconProps & { open?: boolean }) {
+    const tint = color || "#ec4899";
+    const gradId = open ? "rewardBloom" : "rewardBud";
     if (open) {
         return (
             <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
-                {/* Open Chest Back */}
-                <Path d="M20 40 L80 40 L70 30 L30 30 Z" fill="#78350f" />
-                {/* Box Body */}
-                <Path d="M20 40 L20 80 L80 80 L80 40 Z" fill="#b45309" />
-                <Rect x="20" y="45" width="60" height="5" fill="#78350f" opacity={0.3} />
-                {/* Lid (Open) */}
-                <Path d="M20 40 L10 15 L90 15 L80 40 Z" fill="#92400e" opacity={0.9} />
-                {/* Gold Trim */}
-                <Rect x="45" y="40" width="10" height="10" fill="#facc15" />
-                {/* Light Rays if open */}
-                <Path d="M30 30 L10 0 M50 30 L50 0 M70 30 L90 0" stroke="#fcd34d" strokeWidth="4" opacity={0.6} />
+                <Defs>
+                    <LinearGradient id={gradId} x1="50" y1="10" x2="50" y2="90">
+                        <Stop offset="0" stopColor="#fef3c7" />
+                        <Stop offset="0.5" stopColor={tint} stopOpacity={0.9} />
+                        <Stop offset="1" stopColor={tint} stopOpacity={0.2} />
+                    </LinearGradient>
+                </Defs>
+                {/* Outer halo */}
+                <Circle cx="50" cy="50" r="45" fill={tint} opacity={0.12} />
+                <Circle cx="50" cy="50" r="32" fill={tint} opacity={0.22} />
+                {/* Rays */}
+                {[0, 60, 120, 180, 240, 300].map((deg) => {
+                    const rad = (deg * Math.PI) / 180;
+                    const x1 = 50 + Math.cos(rad) * 22;
+                    const y1 = 50 + Math.sin(rad) * 22;
+                    const x2 = 50 + Math.cos(rad) * 42;
+                    const y2 = 50 + Math.sin(rad) * 42;
+                    return (
+                        <Path
+                            key={deg}
+                            d={`M${x1} ${y1} L${x2} ${y2}`}
+                            stroke="#fef3c7"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            opacity={0.75}
+                        />
+                    );
+                })}
+                {/* Core bloom */}
+                <Circle cx="50" cy="50" r="18" fill={`url(#${gradId})`} />
+                <Circle cx="50" cy="50" r="8" fill="#fffbeb" opacity={0.95} />
+                {/* Sparkles */}
+                <Circle cx="22" cy="22" r="2" fill="#fef3c7" opacity={0.9} />
+                <Circle cx="78" cy="30" r="1.5" fill="#fef3c7" opacity={0.8} />
+                <Circle cx="80" cy="75" r="2" fill="#fef3c7" opacity={0.85} />
+                <Circle cx="25" cy="78" r="1.5" fill="#fef3c7" opacity={0.75} />
             </Svg>
         );
     }
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
-            {/* Lid rounded top */}
-            <Path d="M20 45 C20 25 80 25 80 45 Z" fill="#d97706" />
-            {/* Body */}
-            <Path d="M20 45 L20 85 L80 85 L80 45 Z" fill="#b45309" />
-            {/* Separation line */}
-            <Rect x="18" y="43" width="64" height="6" rx="2" fill="#78350f" />
-            {/* Lock */}
-            <Rect x="42" y="40" width="16" height="12" rx="2" fill="#facc15" stroke="#a16207" strokeWidth="1" />
-            {/* Metal corners */}
-            <Path d="M20 45 L20 85 L30 85 L30 45 Z" fill="#92400e" opacity={0.5} />
-            <Path d="M80 45 L80 85 L70 85 L70 45 Z" fill="#92400e" opacity={0.5} />
+            <Defs>
+                <LinearGradient id={gradId} x1="50" y1="20" x2="50" y2="80">
+                    <Stop offset="0" stopColor={tint} stopOpacity={0.55} />
+                    <Stop offset="1" stopColor={tint} stopOpacity={0.15} />
+                </LinearGradient>
+            </Defs>
+            {/* Soft outer glow */}
+            <Circle cx="50" cy="50" r="38" fill={tint} opacity={0.08} />
+            <Circle cx="50" cy="50" r="26" fill={tint} opacity={0.15} />
+            {/* Bud body */}
+            <Circle cx="50" cy="50" r="18" fill={`url(#${gradId})`} stroke={tint} strokeWidth="1.5" strokeOpacity={0.6} />
+            {/* Inner ember */}
+            <Circle cx="50" cy="50" r="5" fill={tint} opacity={0.9} />
+            <Circle cx="48" cy="48" r="2" fill="#fef3c7" opacity={0.7} />
         </Svg>
     );
 }

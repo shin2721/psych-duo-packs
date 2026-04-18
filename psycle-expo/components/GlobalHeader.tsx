@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Pressable } from "react-native";
+import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
 import { useBillingState, useEconomyState, useProgressionState } from "../lib/state";
 import { router } from "expo-router";
@@ -25,12 +26,13 @@ export function GlobalHeader() {
       <View style={styles.container}>
         {/* 1. Course Selector */}
         <Pressable
-          style={styles.item}
+          style={[styles.item, styles.courseItem]}
           onPress={() => setMenuVisible(true)}
           accessibilityRole="button"
           accessibilityLabel={String(i18n.t("globalHeader.a11y.courseSelector", { course: selectedGenreLabel }))}
         >
-          {getGenreIcon(selectedGenre, 36)}
+          {getGenreIcon(selectedGenre, 32)}
+          <Ionicons name="chevron-down" size={12} color={theme.colors.sub} />
         </Pressable>
 
         {/* 2. Study Streak */}
@@ -40,8 +42,8 @@ export function GlobalHeader() {
           accessibilityRole="button"
           accessibilityLabel={String(i18n.t("globalHeader.a11y.streak", { count: streak }))}
         >
-          <StreakIcon size={24} />
-          <Text style={[styles.value, { color: streak > 0 ? "#f97316" : theme.colors.sub }]}>{streak}</Text>
+          <StreakIcon size={22} />
+          <Text style={styles.value}>{streak}</Text>
         </Pressable>
 
         {/* 3. Gems */}
@@ -51,13 +53,13 @@ export function GlobalHeader() {
           accessibilityRole="button"
           accessibilityLabel={String(i18n.t("globalHeader.a11y.gems", { count: gems }))}
         >
-          <GemIcon size={22} />
-          <Text style={[styles.value, { color: gems > 0 ? "#3debf6" : theme.colors.sub }]}>{gems}</Text>
+          <GemIcon size={20} />
+          <Text style={styles.value}>{gems}</Text>
         </Pressable>
 
         {/* 4. Energy */}
         <Pressable
-          style={styles.item}
+          style={[styles.item, !isSubscriptionActive && energy <= 0 && styles.itemDim]}
           onPress={() => {
             Analytics.track("shop_open_from_energy", { source: "header_energy_tap" });
             router.push("/(tabs)/shop");
@@ -70,11 +72,8 @@ export function GlobalHeader() {
             )
           )}
         >
-          <EnergyIcon
-            size={22}
-            color={!isSubscriptionActive && energy <= 0 ? "#ccc" : undefined}
-          />
-          <Text style={[styles.value, { color: !isSubscriptionActive && energy <= 0 ? theme.colors.sub : theme.colors.text }]}>
+          <EnergyIcon size={20} />
+          <Text style={styles.value}>
             {isSubscriptionActive ? "∞" : energy}
           </Text>
         </Pressable>
@@ -106,13 +105,16 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 6,
     minWidth: 44, // Minimum touch area
     minHeight: 44,
     justifyContent: 'center',
   },
+  courseItem: {
+    gap: 2,
+  },
   itemDim: {
-    opacity: 0.45,
+    opacity: 0.4,
   },
   value: {
     fontSize: 16,

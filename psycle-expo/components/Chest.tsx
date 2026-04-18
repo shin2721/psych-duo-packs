@@ -10,9 +10,10 @@ interface ChestProps {
   size?: "sm" | "md";
   label?: string;
   testID?: string;
+  color?: string;
 }
 
-export function Chest({ state, onOpen, size = "sm", label, testID }: ChestProps) {
+export function Chest({ state, onOpen, size = "sm", label, testID, color }: ChestProps) {
   const scaleAnim = useRef(new Animated.Value(1)).current;
   const rotateAnim = useRef(new Animated.Value(0)).current;
 
@@ -53,9 +54,9 @@ export function Chest({ state, onOpen, size = "sm", label, testID }: ChestProps)
           { transform: [{ scale: scaleAnim }, { rotate }] },
         ]}
       >
-        <ChestIcon size={iconSize} open={state === "opened"} />
+        <ChestIcon size={iconSize} open={state === "opened"} color={color} />
       </Animated.View>
-      {label && <Text style={styles.label}>{label}</Text>}
+      {label && <Text style={[styles.label, color ? { color } : null]}>{label}</Text>}
     </Pressable>
   );
 }
@@ -74,8 +75,9 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   label: {
-    fontSize: 12,
-    fontWeight: "700",
-    color: theme.colors.warn,
+    fontSize: 11,
+    fontWeight: "800",
+    color: theme.colors.text,
+    letterSpacing: 0.3,
   },
 });
