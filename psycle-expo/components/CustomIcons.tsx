@@ -9,98 +9,138 @@ interface IconProps {
 }
 
 // ==================== GEM ICON 💎 ====================
-// Minimal faceted crystal, tinted to themeColor for cosmos coherence.
-export function GemIcon({ size = 24, style, color }: IconProps) {
-    const tint = color || "#ec4899";
-    const gid = `gemGrad_${tint.replace("#", "")}`;
+// Emerald crystal with proper facet depth, specular highlight, ambient halo.
+// Color ignores `color` prop intentionally — gems are semantically green.
+export function GemIcon({ size = 24, style }: IconProps) {
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
             <Defs>
-                <LinearGradient id={gid} x1="50" y1="5" x2="50" y2="95">
-                    <Stop offset="0" stopColor={tint} stopOpacity={0.9} />
-                    <Stop offset="1" stopColor={tint} stopOpacity={0.35} />
+                <LinearGradient id="gemBody" x1="50" y1="10" x2="50" y2="90">
+                    <Stop offset="0" stopColor="#34d399" />
+                    <Stop offset="0.5" stopColor="#10b981" />
+                    <Stop offset="1" stopColor="#047857" />
+                </LinearGradient>
+                <LinearGradient id="gemTop" x1="50" y1="10" x2="50" y2="40">
+                    <Stop offset="0" stopColor="#a7f3d0" />
+                    <Stop offset="1" stopColor="#10b981" />
+                </LinearGradient>
+                <LinearGradient id="gemHighlight" x1="0" y1="0" x2="1" y2="1">
+                    <Stop offset="0" stopColor="#ffffff" stopOpacity={0.9} />
+                    <Stop offset="1" stopColor="#ffffff" stopOpacity={0} />
                 </LinearGradient>
             </Defs>
-            {/* Soft outer glow */}
-            <Path d="M10 35 L50 90 L90 35 L70 12 L30 12 Z" fill={tint} opacity={0.18} transform="scale(1.08) translate(-4 -4)" />
-            {/* Body */}
-            <Path
-                d="M10 35 L50 90 L90 35 L70 12 L30 12 Z"
-                fill={`url(#${gid})`}
-                stroke={tint}
-                strokeWidth="1.5"
-                strokeOpacity={0.75}
-                strokeLinejoin="round"
-            />
-            {/* Facet lines only, no fills */}
-            <Path d="M10 35 L90 35" stroke={tint} strokeWidth="1" strokeOpacity={0.4} />
-            <Path d="M30 12 L50 35 L70 12" stroke={tint} strokeWidth="1" strokeOpacity={0.4} fill="none" />
-            <Path d="M50 35 L50 90" stroke="#ffffff" strokeWidth="1" strokeOpacity={0.35} />
+            {/* Ambient halo */}
+            <Circle cx="50" cy="52" r="46" fill="#10b981" opacity={0.12} />
+            {/* Body (bottom facets) */}
+            <Path d="M10 38 L50 92 L90 38 L74 12 L26 12 Z" fill="url(#gemBody)" />
+            {/* Table (top plane) — lighter facets separated from body */}
+            <Path d="M10 38 L26 12 L74 12 L90 38 Z" fill="url(#gemTop)" />
+            {/* Central top facet triangle */}
+            <Path d="M26 12 L50 38 L74 12 Z" fill="#6ee7b7" opacity={0.85} />
+            {/* Girdle seam (body/top boundary) */}
+            <Path d="M10 38 L90 38" stroke="#065f46" strokeWidth="1.2" strokeOpacity={0.75} />
+            {/* Facet rib down to culet */}
+            <Path d="M50 38 L50 92" stroke="#065f46" strokeWidth="0.8" strokeOpacity={0.4} />
+            <Path d="M26 12 L50 92" stroke="#065f46" strokeWidth="0.6" strokeOpacity={0.3} />
+            <Path d="M74 12 L50 92" stroke="#065f46" strokeWidth="0.6" strokeOpacity={0.3} />
+            {/* Specular highlight — defines the material */}
+            <Path d="M28 16 L38 14 L42 32 L32 34 Z" fill="url(#gemHighlight)" opacity={0.9} />
+            {/* Sparkle speck */}
+            <Circle cx="33" cy="22" r="1.5" fill="#ffffff" opacity={0.95} />
         </Svg>
     );
 }
 
 // ==================== STREAK ICON 🔥 ====================
-// A soft ember/flame in themeColor. No cartoon yellow core, no red shadow.
-export function StreakIcon({ size = 24, style, color }: IconProps) {
-    const tint = color || "#f97316";
-    const gid = `emberGrad_${tint.replace("#", "")}`;
+// Three-tongue flame with rising embers. Warm crafted palette, not stock SVG.
+// Color is semantic (fire = orange/red), ignores `color` prop.
+export function StreakIcon({ size = 24, style }: IconProps) {
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
             <Defs>
-                <LinearGradient id={gid} x1="50" y1="5" x2="50" y2="95">
-                    <Stop offset="0" stopColor="#fef3c7" stopOpacity={0.95} />
-                    <Stop offset="0.55" stopColor={tint} stopOpacity={0.9} />
-                    <Stop offset="1" stopColor={tint} stopOpacity={0.3} />
+                <LinearGradient id="flameOuter" x1="50" y1="10" x2="50" y2="95">
+                    <Stop offset="0" stopColor="#fb923c" />
+                    <Stop offset="0.6" stopColor="#ef4444" />
+                    <Stop offset="1" stopColor="#991b1b" />
+                </LinearGradient>
+                <LinearGradient id="flameInner" x1="50" y1="30" x2="50" y2="88">
+                    <Stop offset="0" stopColor="#fef3c7" />
+                    <Stop offset="0.5" stopColor="#fbbf24" />
+                    <Stop offset="1" stopColor="#f97316" />
                 </LinearGradient>
             </Defs>
-            {/* Glow */}
+            {/* Warm halo */}
+            <Ellipse cx="50" cy="60" rx="46" ry="42" fill="#f97316" opacity={0.18} />
+            {/* Outer flame: 3 tongues (main + 2 side licks) */}
             <Path
-                d="M50 92 C28 92 14 76 14 56 C14 30 50 6 50 6 C50 6 86 30 86 56 C86 76 72 92 50 92 Z"
-                fill={tint}
-                opacity={0.18}
-                transform="scale(1.12) translate(-6 -6)"
+                d="M50 92 C28 92 14 77 14 58
+                   C14 40 22 28 32 22
+                   C32 32 36 38 40 40
+                   C42 28 50 14 50 6
+                   C50 14 58 28 60 40
+                   C64 38 68 32 68 22
+                   C78 28 86 40 86 58
+                   C86 77 72 92 50 92 Z"
+                fill="url(#flameOuter)"
             />
-            {/* Flame */}
+            {/* Inner hotter flame */}
             <Path
-                d="M50 92 C28 92 14 76 14 56 C14 30 50 6 50 6 C50 6 86 30 86 56 C86 76 72 92 50 92 Z"
-                fill={`url(#${gid})`}
+                d="M50 86 C36 86 26 74 26 60
+                   C26 46 38 32 44 22
+                   C46 36 50 42 50 42
+                   C50 42 54 36 56 22
+                   C62 32 74 46 74 60
+                   C74 74 64 86 50 86 Z"
+                fill="url(#flameInner)"
+                opacity={0.9}
             />
-            {/* Inner light core */}
-            <Ellipse cx="50" cy="62" rx="10" ry="16" fill="#fef3c7" opacity={0.45} />
+            {/* Bright core */}
+            <Ellipse cx="50" cy="68" rx="7" ry="11" fill="#fffbeb" opacity={0.7} />
+            {/* Rising embers */}
+            <Circle cx="38" cy="14" r="1.6" fill="#fbbf24" opacity={0.9} />
+            <Circle cx="64" cy="10" r="1.2" fill="#fbbf24" opacity={0.75} />
+            <Circle cx="72" cy="22" r="1" fill="#fde68a" opacity={0.6} />
         </Svg>
     );
 }
 
 // ==================== ENERGY BOLT ICON ⚡ ====================
-// Clean bolt in themeColor. No thick white stroke, no blue gradient.
-export function EnergyIcon({ size = 24, style, color }: IconProps) {
-    const tint = color || "#ec4899";
-    const gid = `boltGrad_${tint.replace("#", "")}`;
+// Tapered bolt with inner hotline, amber-gold palette (not generic blue).
+// Color is semantic (energy = amber/electric-gold), ignores `color` prop.
+export function EnergyIcon({ size = 24, style }: IconProps) {
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
             <Defs>
-                <LinearGradient id={gid} x1="50" y1="5" x2="50" y2="95">
-                    <Stop offset="0" stopColor={tint} stopOpacity={0.95} />
-                    <Stop offset="1" stopColor={tint} stopOpacity={0.55} />
+                <LinearGradient id="boltBody" x1="50" y1="5" x2="50" y2="95">
+                    <Stop offset="0" stopColor="#fde047" />
+                    <Stop offset="0.5" stopColor="#f59e0b" />
+                    <Stop offset="1" stopColor="#b45309" />
+                </LinearGradient>
+                <LinearGradient id="boltInner" x1="50" y1="10" x2="50" y2="90">
+                    <Stop offset="0" stopColor="#fffbeb" stopOpacity={0.95} />
+                    <Stop offset="1" stopColor="#fbbf24" stopOpacity={0.3} />
                 </LinearGradient>
             </Defs>
-            {/* Glow */}
+            {/* Halo */}
+            <Ellipse cx="50" cy="50" rx="46" ry="46" fill="#f59e0b" opacity={0.16} />
+            {/* Main bolt */}
             <Path
-                d="M55 5 L25 55 L50 55 L40 95 L80 40 L55 40 L55 5 Z"
-                fill={tint}
-                opacity={0.25}
-                transform="scale(1.1) translate(-5 -5)"
-            />
-            {/* Bolt */}
-            <Path
-                d="M55 5 L25 55 L50 55 L40 95 L80 40 L55 40 L55 5 Z"
-                fill={`url(#${gid})`}
-                stroke={tint}
-                strokeWidth="1.5"
-                strokeOpacity={0.8}
+                d="M56 5 L22 55 L46 55 L38 95 L82 42 L56 42 Z"
+                fill="url(#boltBody)"
+                stroke="#78350f"
+                strokeWidth="1.2"
+                strokeOpacity={0.6}
                 strokeLinejoin="round"
             />
+            {/* Inner hotline — a thinner bolt overlaid for a "lit filament" feel */}
+            <Path
+                d="M54 14 L32 52 L48 52 L43 80 L72 44 L54 44 Z"
+                fill="url(#boltInner)"
+            />
+            {/* Spark particles */}
+            <Circle cx="18" cy="38" r="1.6" fill="#fde047" opacity={0.9} />
+            <Circle cx="85" cy="30" r="1.2" fill="#fde047" opacity={0.8} />
+            <Circle cx="80" cy="72" r="1.4" fill="#fde047" opacity={0.75} />
         </Svg>
     );
 }
@@ -134,70 +174,99 @@ export function TrophyIcon({ size = 24, style }: IconProps) {
     );
 }
 
-// ==================== REWARD ORB (Luminous bud / bloom) ====================
-// Replaces the cartoony treasure chest with a soft glowing orb that matches the
-// cosmos/firefly world. Accepts `color` to tint with the course themeColor.
+// ==================== CHRYSALIS REWARD POD ====================
+// A teardrop/chrysalis pod (not a circle) hanging with a thin tether.
+// Closed: dim pod with a firefly glow inside.
+// Opened: pod splits, firefly escapes trailing light.
+// `color` accepts the course themeColor so it tints subtly but keeps warm
+// inner light consistent (reads as "reward" across all courses).
 export function ChestIcon({ size = 24, style, open = false, color }: IconProps & { open?: boolean }) {
     const tint = color || "#ec4899";
-    const gradId = open ? "rewardBloom" : "rewardBud";
     if (open) {
         return (
             <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
                 <Defs>
-                    <LinearGradient id={gradId} x1="50" y1="10" x2="50" y2="90">
-                        <Stop offset="0" stopColor="#fef3c7" />
-                        <Stop offset="0.5" stopColor={tint} stopOpacity={0.9} />
-                        <Stop offset="1" stopColor={tint} stopOpacity={0.2} />
-                    </LinearGradient>
+                    <RadialGradient id="podBurst" cx="50%" cy="45%" r="55%">
+                        <Stop offset="0" stopColor="#fffbeb" stopOpacity={1} />
+                        <Stop offset="0.35" stopColor="#fde68a" stopOpacity={0.9} />
+                        <Stop offset="0.75" stopColor={tint} stopOpacity={0.4} />
+                        <Stop offset="1" stopColor={tint} stopOpacity={0} />
+                    </RadialGradient>
                 </Defs>
-                {/* Outer halo */}
-                <Circle cx="50" cy="50" r="45" fill={tint} opacity={0.12} />
-                <Circle cx="50" cy="50" r="32" fill={tint} opacity={0.22} />
-                {/* Rays */}
+                {/* Ambient halo */}
+                <Circle cx="50" cy="45" r="48" fill={tint} opacity={0.12} />
+                <Circle cx="50" cy="45" r="32" fill="#fde68a" opacity={0.22} />
+                {/* Rays (6 tapered) */}
                 {[0, 60, 120, 180, 240, 300].map((deg) => {
                     const rad = (deg * Math.PI) / 180;
-                    const x1 = 50 + Math.cos(rad) * 22;
-                    const y1 = 50 + Math.sin(rad) * 22;
-                    const x2 = 50 + Math.cos(rad) * 42;
-                    const y2 = 50 + Math.sin(rad) * 42;
+                    const x1 = 50 + Math.cos(rad) * 18;
+                    const y1 = 45 + Math.sin(rad) * 18;
+                    const x2 = 50 + Math.cos(rad) * 40;
+                    const y2 = 45 + Math.sin(rad) * 40;
                     return (
                         <Path
                             key={deg}
                             d={`M${x1} ${y1} L${x2} ${y2}`}
                             stroke="#fef3c7"
-                            strokeWidth="2.5"
+                            strokeWidth="2"
                             strokeLinecap="round"
-                            opacity={0.75}
+                            opacity={0.8}
                         />
                     );
                 })}
-                {/* Core bloom */}
-                <Circle cx="50" cy="50" r="18" fill={`url(#${gradId})`} />
-                <Circle cx="50" cy="50" r="8" fill="#fffbeb" opacity={0.95} />
-                {/* Sparkles */}
-                <Circle cx="22" cy="22" r="2" fill="#fef3c7" opacity={0.9} />
-                <Circle cx="78" cy="30" r="1.5" fill="#fef3c7" opacity={0.8} />
-                <Circle cx="80" cy="75" r="2" fill="#fef3c7" opacity={0.85} />
-                <Circle cx="25" cy="78" r="1.5" fill="#fef3c7" opacity={0.75} />
+                {/* Split pod shells (left and right curled open) */}
+                <Path d="M30 58 Q22 50 26 38 Q32 32 38 38 L38 58 Z" fill={tint} opacity={0.85} />
+                <Path d="M70 58 Q78 50 74 38 Q68 32 62 38 L62 58 Z" fill={tint} opacity={0.85} />
+                {/* Escaping firefly / bright core */}
+                <Circle cx="50" cy="45" r="14" fill="url(#podBurst)" />
+                <Circle cx="50" cy="45" r="5" fill="#fffbeb" />
+                {/* Floating sparks */}
+                <Circle cx="24" cy="22" r="1.8" fill="#fef3c7" opacity={0.85} />
+                <Circle cx="78" cy="26" r="1.4" fill="#fef3c7" opacity={0.75} />
+                <Circle cx="82" cy="70" r="1.6" fill="#fef3c7" opacity={0.8} />
+                <Circle cx="22" cy="72" r="1.3" fill="#fef3c7" opacity={0.7} />
             </Svg>
         );
     }
+    // Closed: chrysalis pod with internal firefly glow
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
             <Defs>
-                <RadialGradient id={gradId} cx="50%" cy="50%" r="50%">
+                <LinearGradient id="podShell" x1="50" y1="20" x2="50" y2="90">
+                    <Stop offset="0" stopColor={tint} stopOpacity={0.85} />
+                    <Stop offset="0.6" stopColor={tint} stopOpacity={0.55} />
+                    <Stop offset="1" stopColor={tint} stopOpacity={0.3} />
+                </LinearGradient>
+                <RadialGradient id="podInnerLight" cx="50%" cy="55%" r="35%">
                     <Stop offset="0" stopColor="#fef3c7" stopOpacity={0.95} />
-                    <Stop offset="0.35" stopColor={tint} stopOpacity={0.85} />
-                    <Stop offset="0.8" stopColor={tint} stopOpacity={0.25} />
+                    <Stop offset="0.6" stopColor={tint} stopOpacity={0.5} />
                     <Stop offset="1" stopColor={tint} stopOpacity={0} />
                 </RadialGradient>
             </Defs>
-            {/* Faint outer halo */}
-            <Circle cx="50" cy="50" r="44" fill={tint} opacity={0.08} />
-            {/* Seed of light — soft radial fade, no hard outline */}
-            <Circle cx="50" cy="50" r="40" fill={`url(#${gradId})`} />
-            {/* Offset micro sparkle for organic character */}
-            <Circle cx="42" cy="44" r="2" fill="#fffbeb" opacity={0.9} />
+            {/* Soft halo */}
+            <Ellipse cx="50" cy="56" rx="36" ry="42" fill={tint} opacity={0.15} />
+            {/* Tether (hanging from top) */}
+            <Path d="M50 8 L50 22" stroke={tint} strokeWidth="1.5" strokeOpacity={0.55} strokeLinecap="round" />
+            <Circle cx="50" cy="8" r="2" fill={tint} opacity={0.6} />
+            {/* Pod body — teardrop/chrysalis (wide mid, narrow top) */}
+            <Path
+                d="M50 22
+                   C30 22 20 42 20 60
+                   C20 80 34 92 50 92
+                   C66 92 80 80 80 60
+                   C80 42 70 22 50 22 Z"
+                fill="url(#podShell)"
+                stroke={tint}
+                strokeWidth="1"
+                strokeOpacity={0.6}
+            />
+            {/* Seam (suggests it will open) */}
+            <Path d="M50 26 L50 86" stroke="#fef3c7" strokeWidth="0.8" strokeOpacity={0.5} strokeDasharray="2,3" />
+            {/* Inner firefly glow — offset low so it reads as contained light */}
+            <Circle cx="50" cy="62" r="20" fill="url(#podInnerLight)" />
+            <Circle cx="50" cy="62" r="4" fill="#fffbeb" opacity={0.95} />
+            {/* Surface highlight (specular on shell) */}
+            <Path d="M36 32 Q30 44 32 58" stroke="#fef3c7" strokeWidth="1.5" strokeOpacity={0.4} strokeLinecap="round" fill="none" />
         </Svg>
     );
 }

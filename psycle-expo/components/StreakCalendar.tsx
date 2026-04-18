@@ -146,23 +146,31 @@ export function StreakCalendar({ history, themeColor }: StreakCalendarProps) {
             <View style={styles.grid}>
                 {grid.map((week, wIdx) => (
                     <View key={wIdx} style={styles.weekRow}>
-                        {week.map((cell, dIdx) => (
-                            <View
-                                key={dIdx}
-                                style={styles.cellSlot}
-                                accessible={!cell.isFuture}
-                                accessibilityLabel={cell.isFuture ? undefined : getDayAccessibilityLabel(cell)}
-                            >
+                        {week.map((cell, dIdx) => {
+                            const xp = cell.data?.xp || 0;
+                            const isEmpty = !cell.isFuture && xp === 0;
+                            return (
                                 <View
-                                    style={[
-                                        styles.cell,
-                                        { backgroundColor: getIntensityColor(cell.data?.xp || 0, cell.isFuture) },
-                                        cell.isToday && { borderWidth: 1.5, borderColor: activeColor },
-                                        getGlow(cell.data?.xp || 0),
-                                    ]}
-                                />
-                            </View>
-                        ))}
+                                    key={dIdx}
+                                    style={styles.cellSlot}
+                                    accessible={!cell.isFuture}
+                                    accessibilityLabel={cell.isFuture ? undefined : getDayAccessibilityLabel(cell)}
+                                >
+                                    <View
+                                        style={[
+                                            styles.cell,
+                                            cell.isFuture
+                                                ? styles.cellFuture
+                                                : { backgroundColor: getIntensityColor(xp, false) },
+                                            cell.isToday && { borderWidth: 1.5, borderColor: activeColor },
+                                            getGlow(xp),
+                                        ]}
+                                    >
+                                        {isEmpty ? <View style={[styles.starDot, { backgroundColor: activeColor }]} /> : null}
+                                    </View>
+                                </View>
+                            );
+                        })}
                     </View>
                 ))}
             </View>
@@ -232,6 +240,19 @@ const styles = StyleSheet.create({
         width: '100%',
         height: '100%',
         borderRadius: 5,
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    cellFuture: {
+        backgroundColor: 'transparent',
+        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: 'rgba(255,255,255,0.04)',
+    },
+    starDot: {
+        width: 2,
+        height: 2,
+        borderRadius: 1,
+        opacity: 0.4,
     },
     legend: {
         flexDirection: 'row',
