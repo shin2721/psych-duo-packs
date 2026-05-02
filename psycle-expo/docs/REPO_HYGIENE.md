@@ -8,13 +8,11 @@ Use this file to keep the Psycle workspace workable while large refactors and UI
 - `app/debug/`
 - `components/provisional/`
 - `design-previews/`
-- `public/*.html`
 
-These are allowed to stay because they contain active product code, debug routes, or Claude-generated temporary UI that should not be deleted by cleanup work.
+These are allowed to stay only when they contain active product code, wired debug routes, or retained experiments with a current owner.
 
 ## Ignore As Local
 
-- `.claude/`
 - `.agent/`
 - `.kiro/`
 - `.vscode/`
@@ -33,7 +31,7 @@ Before calling the repo "organized", check all three:
 1. `git status --short` is understandable by feature area.
 2. local-only artifacts are ignored instead of appearing as noise.
 3. debug/provisional surfaces are either wired and intentional, or clearly documented as retained experiments.
-4. preview surfaces from Claude/Codex are preserved unless explicitly retired.
+4. preview surfaces are preserved only when explicitly retained; retired tool-specific experiments and unreferenced static mockups should be deleted or renamed to neutral product terms.
 
 ## Verification Rule
 

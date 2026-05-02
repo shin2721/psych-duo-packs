@@ -465,10 +465,10 @@ npx ts-node src/batch_critic.ts --local --report
   - `patrol` は収益化前の定期ジョブでは実行しない
   - `savedQuestions` は収益化前ヘルス指標に使わない
 
-#### 収益化前の生成分担（Claude/Codex）
+#### 収益化前の生成分担
 目的: API課金なしで生成品質を維持し、原則運用を継続する。
 
-- Claude担当:
+- Draft owner:
   - 5-Phase意図に沿った問題案の作成
   - 文体・ニュアンス・心理学トーンの調整
 - Codex担当:

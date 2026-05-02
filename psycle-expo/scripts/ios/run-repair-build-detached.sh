@@ -8,6 +8,8 @@ SEED_SOURCE_DERIVED_DATA_PATH="${3:-$DERIVED_DATA_PATH}"
 export PATH=/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH
 
 : >"$LOG_FILE"
+rm -rf "$DERIVED_DATA_PATH/ModuleCache.noindex" \
+  "$DERIVED_DATA_PATH/Build/Intermediates.noindex/PrecompiledHeaders"
 /opt/homebrew/bin/node /Users/mashitashinji/dev/psych-duo-packs/psycle-expo/scripts/ios/seed-swift-compat-headers.mjs "$DERIVED_DATA_PATH" "$SEED_SOURCE_DERIVED_DATA_PATH" >>"$LOG_FILE" 2>&1
 
 HERMES_XCFRAMEWORK_ROOT="$DERIVED_DATA_PATH/Build/Products/Debug-iphoneos/XCFrameworkIntermediates/hermes-engine"

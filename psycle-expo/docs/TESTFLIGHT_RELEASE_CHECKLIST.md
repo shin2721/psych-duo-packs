@@ -110,21 +110,46 @@ cat app.json | grep -A 10 -B 5 "ios"
 - [ ] `bundleIdentifier`: "com.shin27.psycle" ✅
 - [ ] `supportsTablet`: true ✅
 
+### ✅ Step 3-3: Production config から dev-client / dev-only ATS を除外
+TestFlight提出版のExpo configでは、production env が `prod` になり、開発用の `expo-dev-client` と `exp.direct` / local networking 例外が入らないことを確認:
+
+```bash
+npm run check:launch-env
+EAS_BUILD_PROFILE=production npm exec -- expo config --type public --json
+```
+
+**確認項目**:
+- [ ] `EXPO_PUBLIC_APP_ENV`: `prod`
+- [ ] `EXPO_PUBLIC_E2E_ANALYTICS_DEBUG` が production で有効化されていない
+- [ ] `EXPO_PUBLIC_IOS_EXTERNAL_CHECKOUT_ENABLED` が production で有効化されていない
+- [ ] Supabase URL / anon key / Functions URL が placeholder ではない
+- [ ] app.json / Xcode project / native-agent の Bundle ID が `com.shin27.psycle` に揃っている
+- [ ] `plugins` に `expo-dev-client` が含まれない
+- [ ] `ios.infoPlist.NSAppTransportSecurity.NSAllowsLocalNetworking` が含まれない
+- [ ] `ios.infoPlist.NSAppTransportSecurity.NSExceptionDomains.exp.direct` が含まれない
+- [ ] `ios.infoPlist.NSAppTransportSecurity.NSAllowsArbitraryLoads`: false
+- [ ] icon / splash / adaptive icon の参照先ファイルが存在する
+- [ ] PrivacyInfo.xcprivacy が `NSPrivacyTracking=false` と、email / user ID / product interaction / purchase history の収集実態を宣言している
+- [ ] `usesNonExemptEncryption=false`
+- [ ] 通知許可が opt-in (`notifications.default_enabled=false`)
+- [ ] iOS production では App Store billing 実装前の外部 Checkout を出さない
+
 ---
 
 ## 📋 Phase 4: プライバシー・コンプライアンス確認
 
 ### ✅ Step 4-1: プライバシー設定確認
 ```bash
-cat ios/psycleexpo/PrivacyInfo.xcprivacy | grep -A 5 "NSPrivacyTracking"
+cat ios/Psycle/PrivacyInfo.xcprivacy | grep -A 5 "NSPrivacyTracking"
 ```
 
 **確認項目**:
 - [ ] `NSPrivacyTracking`: false ✅
-- [ ] `NSPrivacyCollectedDataTypes`: 空配列 ✅
+- [ ] `NSPrivacyCollectedDataTypes`: email / user ID / product interaction / purchase history を宣言
+- [ ] analytics 用の収集目的は `NSPrivacyCollectedDataTypePurposeAnalytics` を含む
 
 ### ✅ Step 4-2: Export Compliance 設定
-app.jsonに以下を追加する必要があります:
+app.jsonのiOS設定に以下が入っていることを確認:
 
 ```json
 {
@@ -140,12 +165,24 @@ app.jsonに以下を追加する必要があります:
 
 **実行コマンド**:
 ```bash
-# app.jsonのiosセクションを更新
+node -e "const cfg=require('./app.json').expo.ios.config; if (cfg.usesNonExemptEncryption !== false) process.exit(1)"
 ```
 
 ---
 
 ## 📋 Phase 5: Analytics Debug 無効化確認
+
+### ✅ Step 5-0: ローカルRelease smoke gate
+```bash
+npm run e2e:ios:psycle:smoke:build
+```
+
+**確認項目**:
+- [ ] `analytics.v1_3.e2e.ts` PASS
+- [ ] `ui.full_touch.e2e.ts` PASS
+- [ ] `artifacts/analytics_e2e_report.txt` の Overall Result が PASS
+
+**注意**: この smoke は `EXPO_PUBLIC_E2E_ANALYTICS_DEBUG=1` 付きのローカルRelease確認です。TestFlight提出版のDebug無効化は Step 5-2 / Step 8-2 で別確認します。
 
 ### ✅ Step 5-1: DEV環境でDebug機能確認
 ```bash
@@ -157,6 +194,15 @@ npm run ios
 3. Analytics Debug画面が開くことを確認
 
 **結果を貼ってください**: Debug画面のスクリーンショット
+
+### ✅ Step 5-1b: 通知許可は opt-in のみ
+```bash
+node -e "const cfg=require('./config/gamification.json'); if (cfg.notifications.default_enabled !== false) process.exit(1)"
+```
+
+**確認項目**:
+- [ ] 初回起動直後に通知許可ダイアログが出ない
+- [ ] 設定の通知トグルをONにした時だけ通知許可ダイアログが出る
 
 ### ✅ Step 5-2: Release環境でDebug無効化確認
 ```bash
@@ -171,6 +217,7 @@ npx expo run:ios --configuration Release
 - [ ] バイブレーションなし
 - [ ] 画面遷移なし
 - [ ] Debug画面が開かない
+- [ ] `psycle://debug/analytics` などの `/debug/*` deep link が Home / Auth / Onboarding のいずれかへ逃げる
 
 ---
 
@@ -231,6 +278,7 @@ npm run ios
 TestFlightからインストールしたアプリで:
 - [ ] 設定5タップで反応なし
 - [ ] Debug画面が開かない
+- [ ] `/debug/*` deep link でDebug画面へ入れない
 
 **結果を貼ってください**: "全チェック完了" + 問題があれば詳細
 

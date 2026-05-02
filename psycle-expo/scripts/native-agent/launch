@@ -14,6 +14,7 @@
 set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
+source "$(cd "$(dirname "$0")" && pwd)/_psycle_env.sh"
 CMD_DIR="/tmp/ux-agent"
 READY_FILE="$CMD_DIR/ready"
 LOG_FILE="$CMD_DIR/agent.log"
@@ -55,8 +56,8 @@ echo "  Reset: $([ "$SKIP_RESET" -eq 1 ] && echo 'SKIPPED (--skip-reset)' || ech
 
 # Pre-disable Expo dev-menu onboarding/auto-launch so the agent can bootstrap
 # the dev client without host GUI interaction.
-xcrun simctl spawn booted defaults write com.shin27.psycle EXDevMenuIsOnboardingFinished -bool YES >/dev/null 2>&1 || true
-xcrun simctl spawn booted defaults write com.shin27.psycle EXDevMenuDisableAutoLaunch -bool YES >/dev/null 2>&1 || true
+xcrun simctl spawn "$PSYCLE_SIMULATOR_UDID" defaults write "$PSYCLE_BUNDLE_ID" EXDevMenuIsOnboardingFinished -bool YES >/dev/null 2>&1 || true
+xcrun simctl spawn "$PSYCLE_SIMULATOR_UDID" defaults write "$PSYCLE_BUNDLE_ID" EXDevMenuDisableAutoLaunch -bool YES >/dev/null 2>&1 || true
 
 # Pass skip-reset flag as env var to the Detox test
 DETOX_ENV=""
@@ -70,6 +71,8 @@ fi
 # Spec path goes after `--` so Detox passes it to Jest as testPathPattern.
 # watchman: false is already set in package.json detox.testRunner.args.
 env $DETOX_ENV \
+  UX_AGENT_SIMULATOR_UDID="$PSYCLE_SIMULATOR_UDID" \
+  UX_AGENT_BUNDLE_ID="$PSYCLE_BUNDLE_ID" \
   npx detox test \
   --configuration ios.sim.debug \
   -- e2e/ux-agent.e2e.ts \

@@ -15,6 +15,8 @@ Use this page as the first hop into Psycle's operational docs.
 - Preferred scripts:
   - `npm run start`
   - `npm run start:lan`
+  - `npm run metro:agent:install`
+  - `npm run metro:agent:status`
   - `npm run ios:repair:native`
 - Local dev bundle id:
   - `com.s6n2j9.psycle`
@@ -26,6 +28,9 @@ Use this page as the first hop into Psycle's operational docs.
 
 ## Runtime Verification
 
+- Release smoke gate:
+  - `npm run e2e:ios:psycle:smoke:build`
+  - Builds Release, then runs Analytics v1.3 and full-touch Release Detox checks against the Psycle simulator.
 - UX native agent runtime workflow:
   - `docs/UX_NATIVE_AGENT.md`
 - Repo hygiene and retained experimental surface rules:
@@ -45,6 +50,19 @@ Use this page as the first hop into Psycle's operational docs.
 - Dashboard / KPI operations:
   - `docs/ANALYTICS_GROWTH_DASHBOARD.md`
 
+## Engagement / Growth
+
+- Top-level engagement principles:
+  - `docs/ENGAGEMENT_PRINCIPLES.md`
+- XP and study progression:
+  - `docs/XP_UNIT_SPEC.md`
+- Energy experiment gates:
+  - `docs/ENERGY_EXPERIMENT_GATES.md`
+- League operations:
+  - `docs/LEAGUE_OPS.md`
+- Measurement cadence:
+  - `docs/DATA_COLLECTION_PLAYBOOK.md`
+
 ## Content / Operations
 
 - Runtime and billing / notification / content operations:
@@ -56,6 +74,6 @@ Use this page as the first hop into Psycle's operational docs.
 
 ## Navigation Rule
 
-- `CLAUDE.md` is the repo entrypoint.
 - `docs/START_HERE.md` is the docs entrypoint.
+- Review fact-check guard lives in `docs/REVIEW_FACTCHECK_GUARD.md`.
 - Individual playbooks remain the detailed source of truth for each domain.

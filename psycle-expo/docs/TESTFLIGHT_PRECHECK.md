@@ -18,9 +18,61 @@ npm install -g @expo/eas-cli
 eas login
 ```
 
+### Production config 確認
+TestFlight提出版では、開発用の dev-client と dev-only network 例外が落ちることを確認:
+
+```bash
+npm run check:launch-env
+EAS_BUILD_PROFILE=production npm exec -- expo config --type public --json
+```
+
+期待結果:
+- `EXPO_PUBLIC_APP_ENV` が `prod`
+- `EXPO_PUBLIC_E2E_ANALYTICS_DEBUG` が production で有効化されていない
+- `EXPO_PUBLIC_IOS_EXTERNAL_CHECKOUT_ENABLED` が production で有効化されていない
+- Supabase URL / anon key / Functions URL が placeholder ではない
+- app.json / Xcode project / native-agent の Bundle ID が `com.shin27.psycle` に揃っている
+- `plugins` に `expo-dev-client` が含まれない
+- `NSAllowsLocalNetworking` が含まれない
+- `NSExceptionDomains.exp.direct` が含まれない
+- `NSAllowsArbitraryLoads` は `false`
+- icon / splash / adaptive icon の参照先ファイルが存在する
+- PrivacyInfo.xcprivacy が `NSPrivacyTracking=false` と、email / user ID / product interaction / purchase history の収集実態を宣言している
+- `usesNonExemptEncryption=false`
+- 通知許可が opt-in (`notifications.default_enabled=false`)
+- iOS production では App Store billing 実装前の外部 Checkout を出さない
+
+### 通知許可プロンプト確認
+初回起動直後は通知許可を自動で求めない。通知はユーザーが設定でONにした時だけ許可プロンプトへ進む:
+
+```bash
+node -e "const cfg=require('./config/gamification.json'); if (cfg.notifications.default_enabled !== false) process.exit(1)"
+```
+
+期待結果:
+- コマンドが成功する
+- 初回起動直後にiOS通知許可ダイアログが出ない
+- 設定の通知トグルをONにした時だけ許可ダイアログが出る
+
 ---
 
 ## ✅ チェック1: DEV環境でAnalytics動作確認
+
+### Step 0: ローカルRelease smoke
+TestFlight提出前に、まずローカルReleaseで最低限の自動確認を通す:
+
+```bash
+npm run e2e:ios:psycle:smoke:build
+```
+
+期待結果:
+- `analytics.v1_3.e2e.ts` PASS
+- `ui.full_touch.e2e.ts` PASS
+- `artifacts/analytics_e2e_report.txt` の Overall Result が PASS
+
+注意:
+- この smoke は `EXPO_PUBLIC_E2E_ANALYTICS_DEBUG=1` 付きのローカルRelease確認です。
+- TestFlight提出版でDebug導線が無効かどうかは、チェック5で別途確認します。
 
 ### Step 1-1: DEVビルド起動
 ```bash
@@ -146,6 +198,7 @@ npx expo run:ios --configuration Release
 |------|--------|------------|-----------|
 | バイブレーション | なし | _______ | ☐ |
 | 画面遷移 | なし（Debug画面は開かない） | _______ | ☐ |
+| `/debug/*` deep link | Home/Auth/Onboarding に逃げる | _______ | ☐ |
 
 **⚠️ 重要**: Releaseでバイブや画面遷移があった場合、`__DEV__`ガード不具合
 
@@ -192,6 +245,7 @@ eas submit --profile production --platform ios
 1. TestFlightアプリでPsycleをインストール
 2. アプリ起動 → 設定画面で「設定」5回タップ
 3. Debug画面が開かないことを確認（Release版動作確認）
+4. `/debug/*` deep link でDebug画面へ入れないことを確認
 
 ---
 

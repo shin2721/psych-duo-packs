@@ -47,13 +47,20 @@ Self-test UI accessible via Settings screen (tap 5 times):
 ### Quick Start
 
 ```bash
-# Run complete E2E test suite
+# Build Release app and run the required local Release smoke gate.
+npm run e2e:ios:psycle:smoke:build
+
+# Run analytics-only E2E test suite
 npm run e2e:analytics
 
 # Or run individual steps
 npm run e2e:build:ios
 npm run e2e:ios
 ```
+
+The local Release smoke build intentionally enables `EXPO_PUBLIC_E2E_ANALYTICS_DEBUG=1`
+so Detox can inspect the Analytics Debug screen. It does not replace the separate
+TestFlight/production check that debug routes are disabled.
 
 ### Manual Testing
 
@@ -105,6 +112,7 @@ Automated tests generate reports in `artifacts/`:
 
 **Test Infrastructure:**
 - `scripts/run-analytics-e2e.sh`: Test runner script
+- `scripts/run-release-smoke-e2e.sh`: Release smoke runner for Analytics v1.3 + full-touch walkthrough
 - `artifacts/`: Test report output directory
 
 ## Architecture

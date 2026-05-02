@@ -8,6 +8,8 @@ import tempfile
 
 REPO_ROOT = pathlib.Path(__file__).resolve().parents[2]
 DEV_SERVER_URL = os.environ.get("E2E_DEV_SERVER_URL", "http://127.0.0.1:8082?disableOnboarding=1")
+SIMULATOR_UDID = os.environ.get("UX_AGENT_SIMULATOR_UDID", os.environ.get("PSYCLE_SIMULATOR_UDID", "136DAFE4-586A-4227-8AFB-D9F33F68D32A"))
+BUNDLE_ID = os.environ.get("UX_AGENT_BUNDLE_ID", os.environ.get("PSYCLE_BUNDLE_ID", "com.shin27.psycle"))
 
 try:
     flow = json.load(sys.stdin)
@@ -25,6 +27,8 @@ env = os.environ.copy()
 env["UX_AGENT_SKIP_RESET"] = env.get("UX_AGENT_SKIP_RESET", "1")
 env["E2E_BOOTSTRAP_DEV_CLIENT"] = "1"
 env["E2E_DEV_SERVER_URL"] = DEV_SERVER_URL
+env["UX_AGENT_SIMULATOR_UDID"] = SIMULATOR_UDID
+env["UX_AGENT_BUNDLE_ID"] = BUNDLE_ID
 env["UX_AGENT_FLOW_JSON"] = json.dumps(flow)
 env["UX_AGENT_FLOW_RESULT_PATH"] = str(result_path)
 env["UX_AGENT_FLOW_PROGRESS_PATH"] = str(progress_path)

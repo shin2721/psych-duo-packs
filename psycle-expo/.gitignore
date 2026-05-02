@@ -30,6 +30,8 @@ yarn-error.*
 # macOS
 .DS_Store
 *.pem
+__pycache__/
+*.pyc
 
 # local env files - NEVER commit secrets
 .env
@@ -64,6 +66,7 @@ artifacts/
 
 # Content generator runtime outputs
 scripts/content-generator/output/_metrics/
+scripts/content-generator/output/_reports/
 scripts/content-generator/processed_urls.json
 
 # IMPORTANT: When creating distribution archives (zip/tar), ensure .env files are excluded

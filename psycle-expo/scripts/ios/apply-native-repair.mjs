@@ -7,6 +7,106 @@ import { fileURLToPath } from 'node:url';
 const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 const touched = [];
 
+const psyclePrivacyManifest = `<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+\t<key>NSPrivacyAccessedAPITypes</key>
+\t<array>
+\t\t<dict>
+\t\t\t<key>NSPrivacyAccessedAPIType</key>
+\t\t\t<string>NSPrivacyAccessedAPICategoryFileTimestamp</string>
+\t\t\t<key>NSPrivacyAccessedAPITypeReasons</key>
+\t\t\t<array>
+\t\t\t\t<string>C617.1</string>
+\t\t\t\t<string>0A2A.1</string>
+\t\t\t\t<string>3B52.1</string>
+\t\t\t</array>
+\t\t</dict>
+\t\t<dict>
+\t\t\t<key>NSPrivacyAccessedAPIType</key>
+\t\t\t<string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+\t\t\t<key>NSPrivacyAccessedAPITypeReasons</key>
+\t\t\t<array>
+\t\t\t\t<string>CA92.1</string>
+\t\t\t</array>
+\t\t</dict>
+\t\t<dict>
+\t\t\t<key>NSPrivacyAccessedAPIType</key>
+\t\t\t<string>NSPrivacyAccessedAPICategoryDiskSpace</string>
+\t\t\t<key>NSPrivacyAccessedAPITypeReasons</key>
+\t\t\t<array>
+\t\t\t\t<string>E174.1</string>
+\t\t\t\t<string>85F4.1</string>
+\t\t\t</array>
+\t\t</dict>
+\t\t<dict>
+\t\t\t<key>NSPrivacyAccessedAPIType</key>
+\t\t\t<string>NSPrivacyAccessedAPICategorySystemBootTime</string>
+\t\t\t<key>NSPrivacyAccessedAPITypeReasons</key>
+\t\t\t<array>
+\t\t\t\t<string>35F9.1</string>
+\t\t\t</array>
+\t\t</dict>
+\t</array>
+\t<key>NSPrivacyCollectedDataTypes</key>
+\t<array>
+\t\t<dict>
+\t\t\t<key>NSPrivacyCollectedDataType</key>
+\t\t\t<string>NSPrivacyCollectedDataTypeEmailAddress</string>
+\t\t\t<key>NSPrivacyCollectedDataTypeLinked</key>
+\t\t\t<true/>
+\t\t\t<key>NSPrivacyCollectedDataTypeTracking</key>
+\t\t\t<false/>
+\t\t\t<key>NSPrivacyCollectedDataTypePurposes</key>
+\t\t\t<array>
+\t\t\t\t<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+\t\t\t</array>
+\t\t</dict>
+\t\t<dict>
+\t\t\t<key>NSPrivacyCollectedDataType</key>
+\t\t\t<string>NSPrivacyCollectedDataTypeUserID</string>
+\t\t\t<key>NSPrivacyCollectedDataTypeLinked</key>
+\t\t\t<true/>
+\t\t\t<key>NSPrivacyCollectedDataTypeTracking</key>
+\t\t\t<false/>
+\t\t\t<key>NSPrivacyCollectedDataTypePurposes</key>
+\t\t\t<array>
+\t\t\t\t<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+\t\t\t\t<string>NSPrivacyCollectedDataTypePurposeAnalytics</string>
+\t\t\t</array>
+\t\t</dict>
+\t\t<dict>
+\t\t\t<key>NSPrivacyCollectedDataType</key>
+\t\t\t<string>NSPrivacyCollectedDataTypeProductInteraction</string>
+\t\t\t<key>NSPrivacyCollectedDataTypeLinked</key>
+\t\t\t<true/>
+\t\t\t<key>NSPrivacyCollectedDataTypeTracking</key>
+\t\t\t<false/>
+\t\t\t<key>NSPrivacyCollectedDataTypePurposes</key>
+\t\t\t<array>
+\t\t\t\t<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+\t\t\t\t<string>NSPrivacyCollectedDataTypePurposeAnalytics</string>
+\t\t\t</array>
+\t\t</dict>
+\t\t<dict>
+\t\t\t<key>NSPrivacyCollectedDataType</key>
+\t\t\t<string>NSPrivacyCollectedDataTypePurchaseHistory</string>
+\t\t\t<key>NSPrivacyCollectedDataTypeLinked</key>
+\t\t\t<true/>
+\t\t\t<key>NSPrivacyCollectedDataTypeTracking</key>
+\t\t\t<false/>
+\t\t\t<key>NSPrivacyCollectedDataTypePurposes</key>
+\t\t\t<array>
+\t\t\t\t<string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+\t\t\t</array>
+\t\t</dict>
+\t</array>
+\t<key>NSPrivacyTracking</key>
+\t<false/>
+</dict>
+</plist>`;
+
 function read(relativePath) {
   return fs.readFileSync(path.join(repoRoot, relativePath), 'utf8');
 }
@@ -29,6 +129,53 @@ function overwrite(relativePath, contents) {
   if (read(relativePath) !== normalized) {
     write(relativePath, normalized);
   }
+}
+
+function updateIfExists(relativePath, transform) {
+  if (!fs.existsSync(path.join(repoRoot, relativePath))) {
+    return;
+  }
+  update(relativePath, transform);
+}
+
+function ensurePsyclePrivacyManifest() {
+  overwrite('ios/Psycle/PrivacyInfo.xcprivacy', psyclePrivacyManifest);
+}
+
+function ensureSpaceSeparatedTokens(relativePath, marker, tokens) {
+  update(relativePath, (current) => {
+    const start = current.indexOf(marker);
+    if (start === -1) {
+      return current;
+    }
+
+    const lineEnd = current.indexOf('\n', start);
+    const end = lineEnd === -1 ? current.length : lineEnd;
+    let line = current.slice(start, end);
+
+    let changed = false;
+    for (const token of tokens) {
+      if (!line.includes(token)) {
+        line += ` ${token}`;
+        changed = true;
+      }
+    }
+
+    if (!changed) {
+      return current;
+    }
+
+    return `${current.slice(0, start)}${line}${current.slice(end)}`;
+  });
+}
+
+function ensureLine(relativePath, line) {
+  update(relativePath, (current) => {
+    if (current.includes(`${line}\n`) || current.endsWith(line)) {
+      return current;
+    }
+    return `${current}${current.endsWith('\n') ? '' : '\n'}${line}\n`;
+  });
 }
 
 function ensureArrayEntries(relativePath, marker, entries) {
@@ -189,6 +336,67 @@ function rewriteKnownExpoDevModulemapAliases() {
   }
 }
 
+function alignPsycleBundleIdentifiers() {
+  const appBundleId = 'com.shin27.psycle';
+  const staleBundleId = 'com.s6n2j9.psycle';
+  const appGroupId = `group.${appBundleId}.expowidgets`;
+  const staleAppGroupId = `group.${staleBundleId}.expowidgets`;
+
+  updateIfExists('ios/Psycle.xcodeproj/project.pbxproj', (current) =>
+    current
+      .replaceAll(`PRODUCT_BUNDLE_IDENTIFIER = ${staleBundleId};`, `PRODUCT_BUNDLE_IDENTIFIER = ${appBundleId};`)
+      .replaceAll(
+        `PRODUCT_BUNDLE_IDENTIFIER = ${staleBundleId}.PsycleWidgetExtension;`,
+        `PRODUCT_BUNDLE_IDENTIFIER = ${appBundleId}.PsycleWidgetExtension;`
+      )
+  );
+
+  for (const relativePath of [
+    'ios/Psycle/Psycle.entitlements',
+    'ios/Psycle/Psycle.debug.entitlements',
+    'ios/PsycleWidgetExtension/PsycleWidgetExtension.entitlements',
+    'ios/PsycleWidgetExtension/PsycleWidgetExtension.debug.entitlements',
+    'ios/PsycleWidgetExtension/PsycleStreakWidget.swift',
+  ]) {
+    updateIfExists(relativePath, (current) => current.replaceAll(staleAppGroupId, appGroupId));
+  }
+}
+
+function ensureExpoConstantsAppConfigCopied() {
+  const relativePath = 'ios/Pods/Target Support Files/Pods-Psycle/Pods-Psycle-resources.sh';
+  if (!fs.existsSync(path.join(repoRoot, relativePath))) {
+    return;
+  }
+
+  update(relativePath, (current) => {
+    if (current.includes('Codex repair: keep generated Expo Constants app.config embedded')) {
+      return current;
+    }
+
+    const needle =
+      'rm -f "$RESOURCES_TO_COPY"\n';
+    const insertion =
+      'rm -f "$RESOURCES_TO_COPY"\n\n' +
+      '# Codex repair: keep generated Expo Constants app.config embedded.\n' +
+      'EX_CONSTANTS_GENERATED_CONFIG="${PODS_CONFIGURATION_BUILD_DIR}/EXConstants/EXConstants.bundle/app.config"\n' +
+      'EX_CONSTANTS_APP_BUNDLE="${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/EXConstants.bundle"\n' +
+      'if [[ -f "$EX_CONSTANTS_GENERATED_CONFIG" ]]; then\n' +
+      '  mkdir -p "$EX_CONSTANTS_APP_BUNDLE"\n' +
+      '  cp "$EX_CONSTANTS_GENERATED_CONFIG" "$EX_CONSTANTS_APP_BUNDLE/app.config"\n' +
+      'fi\n';
+
+    if (!current.includes(needle)) {
+      throw new Error(`Could not find resources copy cleanup marker in ${relativePath}`);
+    }
+
+    return current.replace(needle, insertion);
+  });
+}
+
+alignPsycleBundleIdentifiers();
+ensurePsyclePrivacyManifest();
+ensureExpoConstantsAppConfigCopied();
+
 overwrite(
   'node_modules/expo-dev-launcher/ios/EXDevLauncherController.h',
   `#import <React/RCTBridgeModule.h>
@@ -213,9 +421,7 @@ overwrite(
 
 @protocol EXRequestCdpInterceptorDelegate;
 @protocol EXAppDelegateSubscriberProtocol;
-#ifndef EXBaseAppDelegateSubscriber
-#define EXBaseAppDelegateSubscriber NSObject
-#endif
+@class EXBaseAppDelegateSubscriber;
 #ifndef BaseExpoAppDelegateSubscriber
 #define BaseExpoAppDelegateSubscriber EXBaseAppDelegateSubscriber
 #endif
@@ -245,7 +451,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @end
 
-@interface EXDevLauncherController : RCTDefaultReactNativeFactoryDelegate <RCTBridgeDelegate, EXUpdatesExternalInterfaceDelegate>
+@interface EXDevLauncherController : RCTDefaultReactNativeFactoryDelegate <RCTBridgeDelegate>
 
 @property (nonatomic, weak) RCTBridge * _Nullable appBridge;
 @property (nonatomic, weak) EXAppContext * _Nullable appContext;
@@ -466,6 +672,16 @@ static id EXDevLauncherCreateManifestFromJson(NSDictionary *jsonObject)
 update('node_modules/expo-dev-launcher/ios/EXDevLauncherController.m', (current) => {
   let next = current;
 
+  const reactDelegateUndefs =
+    '#ifdef EXReactDelegateHandler\n#undef EXReactDelegateHandler\n#endif\n#ifdef ExpoReactDelegateHandler\n#undef ExpoReactDelegateHandler\n#endif\n';
+
+  if (!next.includes(reactDelegateUndefs)) {
+    next = next.replace(
+      '#import <ReactAppDependencyProvider/RCTAppDependencyProvider.h>\n\n',
+      `#import <ReactAppDependencyProvider/RCTAppDependencyProvider.h>\n\n${reactDelegateUndefs}`
+    );
+  }
+
   if (!next.includes('ExpoModulesCore-Swift.h')) {
     next = next.replace(
       '#import <ReactAppDependencyProvider/RCTAppDependencyProvider.h>\n\n',
@@ -545,15 +761,38 @@ update('node_modules/expo-dev-launcher/ios/EXDevLauncherController.m', (current)
   );
 
   const duplicatedMacros =
-    '#ifndef BaseExpoAppDelegateSubscriber\\n#define BaseExpoAppDelegateSubscriber EXBaseAppDelegateSubscriber\\n#endif\\n#ifndef ExpoReactDelegateHandler\\n#define ExpoReactDelegateHandler EXReactDelegateHandler\\n#endif\\n#ifndef BaseExpoAppDelegateSubscriber\\n#define BaseExpoAppDelegateSubscriber EXBaseAppDelegateSubscriber\\n#endif\\n#ifndef ExpoReactDelegateHandler\\n#define ExpoReactDelegateHandler EXReactDelegateHandler\\n#endif\\n';
+    '#ifndef BaseExpoAppDelegateSubscriber\n#define BaseExpoAppDelegateSubscriber EXBaseAppDelegateSubscriber\n#endif\n#ifndef ExpoReactDelegateHandler\n#define ExpoReactDelegateHandler EXReactDelegateHandler\n#endif\n#ifndef BaseExpoAppDelegateSubscriber\n#define BaseExpoAppDelegateSubscriber EXBaseAppDelegateSubscriber\n#endif\n#ifndef ExpoReactDelegateHandler\n#define ExpoReactDelegateHandler EXReactDelegateHandler\n#endif\n';
   while (next.includes(duplicatedMacros)) {
     next = next.replace(
       duplicatedMacros,
-      '#ifndef BaseExpoAppDelegateSubscriber\\n#define BaseExpoAppDelegateSubscriber EXBaseAppDelegateSubscriber\\n#endif\\n#ifndef ExpoReactDelegateHandler\\n#define ExpoReactDelegateHandler EXReactDelegateHandler\\n#endif\\n'
+      '#ifndef BaseExpoAppDelegateSubscriber\n#define BaseExpoAppDelegateSubscriber EXBaseAppDelegateSubscriber\n#endif\n#ifndef ExpoReactDelegateHandler\n#define ExpoReactDelegateHandler EXReactDelegateHandler\n#endif\n'
+    );
+  }
+
+  if (!next.includes('(id<RCTBridgeModule>)[RCTDevMenu new]')) {
+    next = next.replace(
+      '[modules addObject:[RCTDevMenu new]];',
+      '[modules addObject:(id<RCTBridgeModule>)[RCTDevMenu new]];'
     );
   }
 
   return next;
+});
+
+update('node_modules/expo-dev-launcher/ios/EXDevLauncherReactNativeFactory.h', (current) => {
+  let next = current
+    .replace('#import <React/RCTComponentViewFactory.h>\n', '')
+    .replace('#import <ReactCommon/RCTHost.h>\n', '')
+    .replace('#import <ReactCommon/RCTTurboModuleManager.h>\n', '');
+
+  if (next.includes('@protocol RCTComponentViewFactoryComponentProvider;')) {
+    return next;
+  }
+
+  return next.replace(
+    '#endif\n\n@interface RCTReactNativeFactory () <\n',
+    '#endif\n\n@protocol RCTComponentViewFactoryComponentProvider;\n@protocol RCTHostDelegate;\n@protocol RCTTurboModuleManagerDelegate;\n\n@interface RCTReactNativeFactory () <\n'
+  );
 });
 
 update('node_modules/expo-dev-launcher/ios/Manifest/EXDevLauncherManifestParser.h', (current) => {
@@ -573,28 +812,25 @@ overwrite(
 
 #import <EXDevLauncher/EXDevLauncher.h>
 #import <EXDevLauncher/EXDevLauncherController.h>
+#ifdef EXReactDelegateHandler
+#undef EXReactDelegateHandler
+#endif
+#ifdef ExpoReactDelegateHandler
+#undef ExpoReactDelegateHandler
+#endif
 #import <ExpoModulesCore/ExpoModulesCore.h>
+#if __has_include(<ExpoModulesCore/ExpoModulesCore-Swift.h>)
+#import <ExpoModulesCore/ExpoModulesCore-Swift.h>
+#elif __has_include("ExpoModulesCore-Swift.h")
+#import "ExpoModulesCore-Swift.h"
+#endif
 
 @protocol EXRequestCdpInterceptorDelegate;
 @protocol EXAppDelegateSubscriberProtocol;
 
-#ifndef EXBaseAppDelegateSubscriber
-#define EXBaseAppDelegateSubscriber NSObject
-#endif
+@class EXBaseAppDelegateSubscriber;
 #ifndef BaseExpoAppDelegateSubscriber
 #define BaseExpoAppDelegateSubscriber EXBaseAppDelegateSubscriber
-#endif
-#ifndef EXReactDelegateHandler
-#define EXReactDelegateHandler EXReactDelegateWrapper
-#endif
-#ifndef ExpoReactDelegateHandler
-#define ExpoReactDelegateHandler EXReactDelegateHandler
-#endif
-
-#if __has_include(<EXDevLauncher/EXDevLauncher-Swift.h>)
-#import <EXDevLauncher/EXDevLauncher-Swift.h>
-#else
-#import <EXDevLauncher-Swift.h>
 #endif
 
 static NSDictionary *EXDevLauncherManifestJson(id manifest)
@@ -915,14 +1151,28 @@ update('node_modules/expo-dev-launcher/expo-dev-launcher.podspec', (current) => 
     );
   }
 
-  if (next.includes(`'"$(PODS_CONFIGURATION_BUILD_DIR)/expo-dev-menu/Swift Compatibility Header"',`)) {
-    return next;
+  if (!next.includes(`'"$(PODS_CONFIGURATION_BUILD_DIR)/expo-dev-menu/Swift Compatibility Header"',`)) {
+    next = next.replace(
+      `    '"$(PODS_CONFIGURATION_BUILD_DIR)/EXUpdatesInterface/Swift Compatibility Header"',\n`,
+      `    '"$(PODS_CONFIGURATION_BUILD_DIR)/EXUpdatesInterface/Swift Compatibility Header"',\n    '"$(PODS_CONFIGURATION_BUILD_DIR)/expo-dev-menu/Swift Compatibility Header"',\n`
+    );
   }
 
-  return next.replace(
-    `    '"$(PODS_CONFIGURATION_BUILD_DIR)/EXUpdatesInterface/Swift Compatibility Header"',\n`,
-    `    '"$(PODS_CONFIGURATION_BUILD_DIR)/EXUpdatesInterface/Swift Compatibility Header"',\n    '"$(PODS_CONFIGURATION_BUILD_DIR)/expo-dev-menu/Swift Compatibility Header"',\n`
-  );
+  for (const derivedSourcesPath of [
+    '"$(TARGET_TEMP_DIR)/../ExpoModulesCore.build/DerivedSources"',
+    '"$(TARGET_TEMP_DIR)/../EXManifests.build/DerivedSources"',
+    '"$(TARGET_TEMP_DIR)/../EXUpdatesInterface.build/DerivedSources"',
+    '"$(TARGET_TEMP_DIR)/../expo-dev-menu.build/DerivedSources"',
+  ]) {
+    if (!next.includes(derivedSourcesPath)) {
+      next = next.replace(
+        `    '"$(PODS_CONFIGURATION_BUILD_DIR)/expo-dev-menu/Swift Compatibility Header"',\n`,
+        `    '"$(PODS_CONFIGURATION_BUILD_DIR)/expo-dev-menu/Swift Compatibility Header"',\n    ${derivedSourcesPath},\n`
+      );
+    }
+  }
+
+  return next;
 });
 
 overwrite(
@@ -1194,6 +1444,17 @@ for (const relativePath of [
   );
 }
 
+update('node_modules/react-native/ReactCommon/react/runtime/hermes/HermesInstance.cpp', (current) => {
+  if (current.includes('Profiling is not required for production or Detox release validation.')) {
+    return current;
+  }
+
+  return current.replace(
+    '  void unstable_initializeOnJsThread() override {\n    runtime_->registerForProfiling();\n  }\n',
+    '  void unstable_initializeOnJsThread() override {\n    // RN 0.81.4 + Hermes 0.12 can crash in Release simulator startup while\n    // registering profiling hooks before the JS bundle is evaluated.\n    // Profiling is not required for production or Detox release validation.\n#if DEBUG\n    runtime_->registerForProfiling();\n#endif\n  }\n'
+  );
+});
+
 ensureArrayEntries(
   'node_modules/react-native/scripts/cocoapods/new_architecture.rb',
   'excluded_info_plist = [',
@@ -1204,7 +1465,6 @@ const podsProjectPath = 'ios/Pods/Pods.xcodeproj/project.pbxproj';
 if (fs.existsSync(path.join(repoRoot, podsProjectPath))) {
   removePodsShellScriptPhases(podsProjectPath, [
     'Copy generated compatibility header',
-    '[CP-User] Generate app.config for prebuilt Constants.manifest',
     '[CP] Copy XCFrameworks',
     '[CP-User] [Hermes] Replace Hermes for the right configuration, if needed',
     '[CP-User] [RN]Check FBReactNativeSpec',
@@ -1284,20 +1544,90 @@ for (const relativePath of [
     let next = current;
     const expoModulesSwiftCompat = '"$(PODS_CONFIGURATION_BUILD_DIR)/ExpoModulesCore/Swift Compatibility Header"';
     const devMenuSwiftCompat = '"$(PODS_CONFIGURATION_BUILD_DIR)/expo-dev-menu/Swift Compatibility Header"';
+    const derivedSourcesPaths = [
+      '"$(TARGET_TEMP_DIR)/../ExpoModulesCore.build/DerivedSources"',
+      '"$(TARGET_TEMP_DIR)/../EXManifests.build/DerivedSources"',
+      '"$(TARGET_TEMP_DIR)/../EXUpdatesInterface.build/DerivedSources"',
+      '"$(TARGET_TEMP_DIR)/../expo-dev-menu.build/DerivedSources"',
+    ];
     if (!next.includes(expoModulesSwiftCompat)) {
       next = next.replace(
         '"${PODS_ROOT}/Headers/Public/RNReanimated"',
         '"${PODS_ROOT}/Headers/Public/RNReanimated" ' + expoModulesSwiftCompat
       );
     }
-    if (next.includes(devMenuSwiftCompat)) {
-      return next;
+    if (!next.includes(devMenuSwiftCompat)) {
+      next = next.replace(
+        expoModulesSwiftCompat,
+        `${expoModulesSwiftCompat} ${devMenuSwiftCompat}`
+      );
     }
-    return next.replace(
-      expoModulesSwiftCompat,
-      `${expoModulesSwiftCompat} ${devMenuSwiftCompat}`
-    );
+    for (const derivedSourcesPath of derivedSourcesPaths) {
+      if (!next.includes(derivedSourcesPath)) {
+        next = next.replace(devMenuSwiftCompat, `${devMenuSwiftCompat} ${derivedSourcesPath}`);
+      }
+    }
+    return next;
   });
+}
+
+const skiaLibraryNames = [
+  'libskia',
+  'libsvg',
+  'libskshaper',
+  'libskparagraph',
+  'libskunicode_core',
+  'libskunicode_libgrapheme',
+  'libskottie',
+  'libsksg',
+  'libpathops',
+];
+
+const skiaConditionalLibrarySearchPaths = skiaLibraryNames.map(
+  (libraryName) =>
+    `"\${PODS_ROOT}/../../node_modules/@shopify/react-native-skia/libs/apple/${libraryName}.xcframework/\${SKIA_LIBRARY_SLICE}"`
+);
+
+const skiaSimulatorLibrarySearchPaths = skiaLibraryNames.map(
+  (libraryName) =>
+    `"\${PODS_ROOT}/../../node_modules/@shopify/react-native-skia/libs/apple/${libraryName}.xcframework/ios-arm64_arm64e_x86_64-simulator"`
+);
+
+const skiaDeviceLibrarySearchPaths = skiaLibraryNames.map(
+  (libraryName) =>
+    `"\${PODS_ROOT}/../../node_modules/@shopify/react-native-skia/libs/apple/${libraryName}.xcframework/ios-arm64_arm64e"`
+);
+
+for (const relativePath of [
+  'ios/Pods/Target Support Files/react-native-skia/react-native-skia.debug.xcconfig',
+  'ios/Pods/Target Support Files/react-native-skia/react-native-skia.release.xcconfig',
+  'ios/Pods/Target Support Files/Pods-Psycle/Pods-Psycle.debug.xcconfig',
+  'ios/Pods/Target Support Files/Pods-Psycle/Pods-Psycle.release.xcconfig',
+]) {
+  if (!fs.existsSync(path.join(repoRoot, relativePath))) {
+    continue;
+  }
+  update(relativePath, (current) => {
+    let next = current;
+    for (const simulatorPath of skiaSimulatorLibrarySearchPaths) {
+      const conditionalPath = simulatorPath.replace(
+        '/ios-arm64_arm64e_x86_64-simulator"',
+        '/${SKIA_LIBRARY_SLICE}"'
+      );
+      next = next.replaceAll(simulatorPath, conditionalPath);
+    }
+    for (const devicePath of skiaDeviceLibrarySearchPaths) {
+      const conditionalPath = devicePath.replace(
+        '/ios-arm64_arm64e"',
+        '/${SKIA_LIBRARY_SLICE}"'
+      );
+      next = next.replaceAll(devicePath, conditionalPath);
+    }
+    return next;
+  });
+  ensureSpaceSeparatedTokens(relativePath, 'LIBRARY_SEARCH_PATHS =', skiaConditionalLibrarySearchPaths);
+  ensureLine(relativePath, 'SKIA_LIBRARY_SLICE[sdk=iphoneos*] = ios-arm64_arm64e');
+  ensureLine(relativePath, 'SKIA_LIBRARY_SLICE[sdk=iphonesimulator*] = ios-arm64_arm64e_x86_64-simulator');
 }
 
 if (touched.length === 0) {

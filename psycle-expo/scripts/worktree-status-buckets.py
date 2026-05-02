@@ -11,16 +11,37 @@ BUCKETS = OrderedDict(
                 "docs/",
                 "scripts/ios/",
                 "scripts/native-agent/",
+                "scripts/review-factcheck.sh",
+                "scripts/worktree-status-buckets.py",
+            ],
+        ),
+        (
+            "release_config",
+            [
+                "app.config.js",
+                "eas.json",
+                "config/",
+                "package.json",
+                "package-lock.json",
+                "scripts/check-launch-",
+                "scripts/run-release-smoke-e2e.sh",
+                "scripts/metro/",
+                "e2e/",
+                "lib/supabase",
+                "lib/supabaseConfig",
+                "lib/navigation/",
             ],
         ),
         (
             "screen_shells",
             [
+                "app/_layout.tsx",
                 "app/(tabs)/",
                 "app/auth.tsx",
                 "app/lesson.tsx",
                 "app/mistakes-hub.tsx",
                 "app/review.tsx",
+                "app/onboarding/",
                 "app/settings/",
                 "components/course/",
                 "components/friends/",
@@ -31,6 +52,20 @@ BUCKETS = OrderedDict(
                 "components/review/",
                 "components/settings/",
                 "components/shop/",
+            ],
+        ),
+        (
+            "ui_foundation",
+            [
+                "components/AppErrorBoundary",
+                "components/CourseWorldHero",
+                "components/CustomIcons",
+                "components/GlobalHeader",
+                "components/LeagueResultModal",
+                "components/StreakCalendar",
+                "components/course-world/",
+                "components/ui",
+                "lib/theme",
             ],
         ),
         (
@@ -54,12 +89,54 @@ BUCKETS = OrderedDict(
         (
             "analytics_content_config",
             [
+                "components/AnalyticsDebug",
+                "components/analyticsDebugSections",
                 "lib/analytics",
                 "lib/remoteContent",
                 "lib/lessons.ts",
                 "lib/lesson-data/",
                 "lib/gamificationConfig",
                 "lib/courseWorld",
+                "data/themes/",
+                "lib/themeManifestRuntime",
+                "scripts/check-theme-readiness.js",
+            ],
+        ),
+        (
+            "lesson_runtime",
+            [
+                "lib/lesson/",
+                "lib/lessonContinuity",
+                "lib/lessonOperational",
+                "lib/mastery",
+                "lib/onboardingSelection",
+                "types/lesson",
+                "config/gamification.json",
+            ],
+        ),
+        (
+            "billing_shop",
+            [
+                "lib/billing",
+                "lib/checkoutPolicy",
+                "lib/shop/",
+            ],
+        ),
+        (
+            "content_generation_pipeline",
+            [
+                "scripts/README_AUTO_GENERATE.md",
+                "scripts/auto_generate_problems.mjs",
+                "scripts/audit-lesson-perspectives.mjs",
+                "scripts/check-content-package.js",
+                "scripts/content-generator/",
+                "scripts/content-preflight.js",
+                "scripts/expand_",
+                "scripts/generate-evidence-scaffold.js",
+                "scripts/lib/",
+                "scripts/promote-staged-lesson.sh",
+                "scripts/sync-",
+                "scripts/validate-lessons.ts",
             ],
         ),
         (
@@ -87,14 +164,23 @@ BUCKETS = OrderedDict(
                 "app/debug/",
                 "components/provisional/",
                 "lib/debug/",
+                "lib/settings/settingsDebugRoutes",
                 "public/",
+            ],
+        ),
+        (
+            "test_contracts",
+            [
+                "src/__tests__/",
             ],
         ),
     ]
 )
 
 
-def bucket_for(path: str) -> str:
+def bucket_for(path: str, status: str) -> str:
+    if status == "D" and "/" not in path and path.endswith(".md"):
+        return "hygiene_tooling"
     for name, prefixes in BUCKETS.items():
         if any(path.startswith(prefix) for prefix in prefixes):
             return name
@@ -114,9 +200,9 @@ def main() -> int:
     for raw_line in proc.stdout.splitlines():
         if not raw_line.strip():
             continue
-        status = raw_line[:3].rstrip()
+        status = raw_line[:3].strip()
         path = raw_line[3:].strip()
-        grouped[bucket_for(path)].append((status, path))
+        grouped[bucket_for(path, status)].append((status, path))
 
     for bucket, items in grouped.items():
         if not items:

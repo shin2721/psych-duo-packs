@@ -23,9 +23,8 @@ Do not delete these surfaces during cleanup:
 - `design-previews/`
 - `app/debug/`
 - `components/provisional/`
-- `public/*.html`
 
-These include Claude/Codex temporary UI and retained debug surfaces.
+These include retained debug surfaces and explicitly owned temporary UI.
 
 ## Cleanup Order
 
@@ -124,12 +123,10 @@ These include Claude/Codex temporary UI and retained debug surfaces.
 
 ### 8. Preview and Debug Surfaces
 
-- `design-previews/claude/`
 - `design-previews/*.swift`
 - `app/debug/`
 - `components/provisional/`
 - `lib/debug/`
-- `public/*.html`
 
 ## Done Definition
 
