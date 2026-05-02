@@ -31,6 +31,82 @@ export interface MistakeItem {
   interval: number;
 }
 
+export interface LessonSessionRecord {
+  lessonId: string;
+  questionIds: string[];
+  lastStartedAt: number | null;
+  lastCompletedAt: number | null;
+  lastAbandonedAt: number | null;
+  abandonmentCount: number;
+  completionCount: number;
+  lastCompletedContentVersion?: string | null;
+  lastCompletedCurriculumUpdatedAt?: string | null;
+}
+
+export interface ReturnSessionItem {
+  itemId: string;
+  lessonId: string;
+}
+
+export interface LessonSupportCandidate {
+  lessonId: string;
+  kind: "return" | "adaptive" | "refresh" | "replay";
+  questionIds: string[];
+  reason:
+    | "abandonment"
+    | "weakness"
+    | "forgetting"
+    | "evidence_update"
+    | "completion_drift";
+  signalConfidence?: "low" | "medium" | "high";
+}
+
+export interface SupportSurfaceRecord {
+  lessonId: string;
+  kind: LessonSupportCandidate["kind"];
+  reason: LessonSupportCandidate["reason"];
+  signalConfidence?: LessonSupportCandidate["signalConfidence"];
+  lifecycleState: "shown" | "started" | "completed" | "suppressed" | "killed";
+  ts: number;
+  startedAt?: number;
+}
+
+export interface SupportBudgetSummary {
+  weeklyBudget: number;
+  weeklyUsed: number;
+  weeklyRemaining: number;
+  weeklyKindBudget: Record<LessonSupportCandidate["kind"], number>;
+  weeklyKindUsed: Record<LessonSupportCandidate["kind"], number>;
+  weeklyKindRemaining: Record<LessonSupportCandidate["kind"], number>;
+}
+
+export interface MasteryThemeState {
+  themeId: string;
+  parentUnitId: string;
+  maxActiveSlots: number;
+  activeVariantIds: string[];
+  retiredVariantIds: string[];
+  sceneIdsCleared: string[];
+  scenesClearedCount: number;
+  attemptCount: number;
+  transferImprovement: boolean;
+  repeatWithoutDropoff: boolean;
+  newLearningValueDelta: number;
+  transferGainSlope: number;
+  repetitionRisk: number;
+  graduationState: "learning" | "graduated";
+  masteryCeilingState: "open" | "ceiling_reached";
+  lastEvaluatedAt: number | null;
+}
+
+export interface MasteryCandidate {
+  themeId: string;
+  lessonId?: string;
+  activeSlotsRemaining: number;
+  graduationState: MasteryThemeState["graduationState"];
+  masteryCeilingState: MasteryThemeState["masteryCeilingState"];
+}
+
 export interface EventCampaignSummary {
   id: string;
   titleKey: string;
@@ -147,6 +223,37 @@ export interface BillingState {
 export interface PracticeState {
   reviewEvents: ReviewEvent[];
   addReviewEvent: (event: Omit<ReviewEvent, "userId" | "ts">) => void;
+  lessonSessions: LessonSessionRecord[];
+  supportSurfaceHistory: SupportSurfaceRecord[];
+  masteryThemeStates: MasteryThemeState[];
+  getSupportBudgetSummary: () => SupportBudgetSummary;
+  getMasteryThemeState: (themeId: string) => MasteryThemeState | null;
+  primeMasteryTheme: (args: { themeId: string; availableVariantIds: string[]; maxActiveSlots?: number }) => void;
+  registerMasteryVariant: (args: { themeId: string; variantId: string; maxActiveSlots?: number }) => void;
+  retireMasteryVariant: (args: { themeId: string; variantId: string }) => void;
+  recordMasteryTransferOutcome: (args: {
+    themeId: string;
+    transferImprovement?: boolean;
+    repeatWithoutDropoff?: boolean;
+    newLearningValueDelta?: number;
+    transferGainSlope?: number;
+    repetitionRisk?: number;
+  }) => void;
+  recordLessonSessionStart: (lessonId: string, questionIds: string[]) => void;
+  recordLessonSessionComplete: (lessonId: string) => void;
+  recordLessonSessionAbandon: (lessonId: string) => void;
+  getLessonSupportCandidate: () => LessonSupportCandidate | null;
+  recordSupportMomentSeen: (candidate: LessonSupportCandidate) => void;
+  markSupportMomentStarted: (candidate: LessonSupportCandidate) => void;
+  activateReviewSupportSession: (candidate: LessonSupportCandidate) => void;
+  completeActiveReviewSupport: () => void;
+  suppressActiveReviewSupport: () => void;
+  startReturnSession: () => {
+    started: boolean;
+    reason?: "no_candidate" | "insufficient_data";
+  };
+  returnSessionItems: ReturnSessionItem[];
+  clearReturnSession: () => void;
   getMistakesHubItems: () => string[];
   canAccessMistakesHub: boolean;
   mistakesHubRemaining: number | null;

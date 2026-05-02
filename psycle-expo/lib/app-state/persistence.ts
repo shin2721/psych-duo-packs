@@ -18,6 +18,9 @@ const USER_KEY_PREFIXES = {
   questRerollCount: "quest_reroll_count",
   mistakes: "mistakes",
   reviewEvents: "review_events",
+  lessonSessions: "lesson_sessions",
+  supportSurfaceHistory: "support_surface_history",
+  masteryThemeStates: "mastery_theme_states",
   firstLaunchAt: "first_launch_at",
   firstDayEnergyBonusTracked: "first_day_energy_bonus_tracked",
   streakRepairOffer: "streak_repair_offer",
@@ -26,6 +29,7 @@ const USER_KEY_PREFIXES = {
   eventCampaignState: "event_campaign_state",
   personalizationSegment: "personalization_segment",
   personalizationSegmentAssignedAt: "personalization_segment_assigned_at",
+  selectedGenre: "selected_genre",
 } as const;
 
 type UserKeyName = keyof typeof USER_KEY_PREFIXES;

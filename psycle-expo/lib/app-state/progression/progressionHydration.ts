@@ -26,6 +26,7 @@ import {
   type QuestRotationSelection,
 } from "../../questRotation";
 import { getQuestCycleKeys } from "../../questCycles";
+import { loadPrimaryOnboardingGenre, normalizeGenreId } from "../../onboardingSelection";
 import { getUserStorageKey, loadUserEntries, parseStoredInt, persistNumber } from "../persistence";
 import {
   adjustQuestNeedsBySegment,
@@ -54,6 +55,7 @@ export interface SignedOutProgressionReset {
   leaderboardRank: number;
   streakRepairOffer: StreakRepairOffer | null;
   comebackRewardOffer: ComebackRewardOffer | null;
+  selectedGenre: string;
 }
 
 export interface ProgressionHydrationResult {
@@ -78,6 +80,7 @@ export interface ProgressionHydrationResult {
     friendCount: number;
     leaderboardRank: number;
   } | null;
+  selectedGenre: string;
 }
 
 export function buildSignedOutProgressionReset(): SignedOutProgressionReset {
@@ -100,6 +103,7 @@ export function buildSignedOutProgressionReset(): SignedOutProgressionReset {
     leaderboardRank: 0,
     streakRepairOffer: null,
     comebackRewardOffer: null,
+    selectedGenre: "mental",
   };
 }
 
@@ -125,10 +129,14 @@ export async function hydrateProgressionState(args: {
     "eventCampaignState",
     "personalizationSegment",
     "personalizationSegmentAssignedAt",
+    "selectedGenre",
   ]);
 
   const savedXp = parseStoredInt(saved.xp);
   const savedStreak = parseStoredInt(saved.streak);
+  const selectedGenre = saved.selectedGenre
+    ? normalizeGenreId(saved.selectedGenre)
+    : normalizeGenreId(await loadPrimaryOnboardingGenre());
 
   const initialSegment = normalizePersonalizationSegment(saved.personalizationSegment);
   const parsedAssignedAt = parseStoredInt(saved.personalizationSegmentAssignedAt);
@@ -348,5 +356,6 @@ export async function hydrateProgressionState(args: {
     pendingAutoClaimXp,
     pendingAutoClaimGems,
     remoteSnapshot,
+    selectedGenre,
   };
 }

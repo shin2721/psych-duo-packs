@@ -36,6 +36,7 @@ export function useProgressionHydrationEffect(args: {
   setQuestCycleKeys: Dispatch<SetStateAction<QuestCycleKeys>>;
   setQuestRotationPrev: Dispatch<SetStateAction<QuestRotationSelection>>;
   setQuests: Dispatch<SetStateAction<QuestInstance[]>>;
+  setSelectedGenre: Dispatch<SetStateAction<string>>;
   setStreak: Dispatch<SetStateAction<number>>;
   setStreakMilestoneToastQueue: Dispatch<SetStateAction<StreakMilestoneToastItem[]>>;
   setStreakRepairOffer: Dispatch<SetStateAction<StreakRepairOffer | null>>;
@@ -73,6 +74,7 @@ export function useProgressionHydrationEffect(args: {
       args.setLeaderboardRank(resetState.leaderboardRank);
       args.setStreakRepairOffer(resetState.streakRepairOffer);
       args.setComebackRewardOffer(resetState.comebackRewardOffer);
+      args.setSelectedGenre(resetState.selectedGenre);
       return;
     }
 
@@ -97,6 +99,7 @@ export function useProgressionHydrationEffect(args: {
         args.refs.personalizationSegmentRef.current = hydrated.personalizationSegment;
         args.setPersonalizationAssignedAtMs(hydrated.personalizationAssignedAtMs);
         args.refs.personalizationAssignedAtMsRef.current = hydrated.personalizationAssignedAtMs;
+        args.setSelectedGenre(hydrated.selectedGenre);
 
         args.setQuests(hydrated.quests);
         args.refs.questsRef.current = hydrated.quests;
@@ -140,6 +143,7 @@ export function useProgressionHydrationEffect(args: {
     args.setQuestCycleKeys,
     args.setQuestRotationPrev,
     args.setQuests,
+    args.setSelectedGenre,
     args.setStreak,
     args.setStreakMilestoneToastQueue,
     args.setStreakRepairOffer,

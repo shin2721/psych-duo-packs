@@ -23,6 +23,7 @@ export function useProgressionPersistenceEffects(args: {
   questRotationPrev: QuestRotationSelection;
   questSchemaVersion: number;
   quests: QuestInstance[];
+  selectedGenre: string;
   streak: number;
   streakRepairOffer: StreakRepairOffer | null;
   comebackRewardOffer: ComebackRewardOffer | null;
@@ -92,6 +93,15 @@ export function useProgressionPersistenceEffects(args: {
     args.quests,
     args.userId,
   ]);
+
+  useEffect(() => {
+    createPersistStringEffect({
+      userId: args.userId,
+      isHydrated: args.isStateHydrated,
+      key: "selectedGenre",
+      value: args.selectedGenre,
+    });
+  }, [args.isStateHydrated, args.selectedGenre, args.userId]);
 
   useEffect(() => {
     createPersistJsonEffect({

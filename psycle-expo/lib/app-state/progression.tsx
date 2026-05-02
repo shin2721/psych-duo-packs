@@ -42,6 +42,7 @@ import { useProgressionPersistenceEffects } from "./progression/useProgressionPe
 import { useProgressionPersonalizationEffects } from "./progression/useProgressionPersonalizationEffects";
 import { useProgressionRefs } from "./progression/useProgressionRefs";
 import { getTodayDate } from "./progression/progressionUtils";
+import { resolveRuntimeLessonId } from "../lessonContinuity";
 import {
   COMEBACK_REWARD_ENERGY,
   COMEBACK_REWARD_GEMS,
@@ -127,7 +128,8 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
   const [isStateHydrated, setIsStateHydrated] = useState(false);
 
   const completeLesson = useCallback((lessonId: string) => {
-    setCompletedLessons((prev) => new Set(prev).add(lessonId));
+    const resolvedLessonId = resolveRuntimeLessonId(lessonId).resolvedLessonId ?? lessonId;
+    setCompletedLessons((prev) => new Set(prev).add(resolvedLessonId));
   }, []);
 
   const recordQuestionResult = useCallback((questionType: string, isCorrect: boolean) => {
@@ -214,6 +216,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
     setQuestCycleKeys,
     setQuestRotationPrev,
     setQuests,
+    setSelectedGenre,
     setStreak,
     setStreakMilestoneToastQueue,
     setStreakRepairOffer,
@@ -257,6 +260,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
     questRotationPrev,
     questSchemaVersion: QUEST_SCHEMA_VERSION,
     quests,
+    selectedGenre,
     streak,
     streakRepairOffer,
     comebackRewardOffer,

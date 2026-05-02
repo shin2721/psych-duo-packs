@@ -18,6 +18,10 @@ import { getActiveEventCampaignConfig } from "../progressionLiveOps";
 import { awardEventCompletionBadge } from "./progressionBadges";
 import { progressEventCampaignMetric, reconcileEventCampaignState } from "./progressionEvents";
 import type { ProgressionRefs } from "./useProgressionRefs";
+
+function getEngagementAppEnv(): "dev" | "prod" {
+  return typeof __DEV__ !== "undefined" && __DEV__ ? "dev" : "prod";
+}
 import { getTodayDate } from "./progressionUtils";
 
 export function reconcileQuestCyclesAction(args: {
@@ -248,6 +252,7 @@ export function claimQuestAction(args: {
   args.setQuests(result.nextQuests);
   void args.addXp(result.claimedQuest.rewardXp);
   if (result.rewardGems > 0) args.addGems(result.rewardGems);
+  const sourceEventId = `quest_claimed:${result.claimedQuest.id}`;
   Analytics.track("quest_claimed", {
     templateId: result.claimedQuest.templateId,
     type: result.claimedQuest.type,
@@ -255,6 +260,28 @@ export function claimQuestAction(args: {
     rewardGems: result.rewardGems,
     source: "manual_claim",
   });
+  if (result.claimedQuest.rewardXp > 0) {
+    Analytics.track("engagement_reward_granted", {
+      rewardType: "xp",
+      rewardAmount: result.claimedQuest.rewardXp,
+      sourceEventName: "quest_claimed",
+      sourceEventId,
+      idempotencyKey: `${sourceEventId}:xp`,
+      surface: "quest_claim",
+      appEnv: getEngagementAppEnv(),
+    });
+  }
+  if (result.rewardGems > 0) {
+    Analytics.track("engagement_reward_granted", {
+      rewardType: "gems",
+      rewardAmount: result.rewardGems,
+      sourceEventName: "quest_claimed",
+      sourceEventId,
+      idempotencyKey: `${sourceEventId}:gems`,
+      surface: "quest_claim",
+      appEnv: getEngagementAppEnv(),
+    });
+  }
 
   setTimeout(() => {
     args.setQuests((prev) => {

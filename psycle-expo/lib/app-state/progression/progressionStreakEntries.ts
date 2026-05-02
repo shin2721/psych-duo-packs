@@ -17,6 +17,10 @@ import { getTodayDate, getYesterdayDate } from "./progressionUtils";
 import { isTrackedStreakMilestoneDay } from "../progressionLiveOps";
 import { syncStreakAndLeaderboard } from "../progressionRemote";
 
+function getEngagementAppEnv(): "dev" | "prod" {
+  return typeof __DEV__ !== "undefined" && __DEV__ ? "dev" : "prod";
+}
+
 export function purchaseStreakRepairEntry(args: {
   gems: number;
   offer: StreakRepairOffer | null;
@@ -106,6 +110,27 @@ export function claimComebackRewardEntry(args: {
     daysSinceStudy: args.comebackRewardOffer?.daysSinceStudy ?? 0,
     source: "lesson_complete",
   });
+  const sourceEventId = `comeback_reward_claimed:${args.comebackRewardOffer?.triggerDate ?? getTodayDate()}`;
+  Analytics.track("engagement_reward_granted", {
+    rewardType: "energy",
+    rewardAmount: claimResult.rewardEnergy,
+    sourceEventName: "comeback_reward_claimed",
+    sourceEventId,
+    idempotencyKey: `${sourceEventId}:energy`,
+    surface: "comeback_reward",
+    appEnv: getEngagementAppEnv(),
+  });
+  if (claimResult.rewardGems > 0) {
+    Analytics.track("engagement_reward_granted", {
+      rewardType: "gems",
+      rewardAmount: claimResult.rewardGems,
+      sourceEventName: "comeback_reward_claimed",
+      sourceEventId,
+      idempotencyKey: `${sourceEventId}:gems`,
+      surface: "comeback_reward",
+      appEnv: getEngagementAppEnv(),
+    });
+  }
   return { awarded: true as const };
 }
 
@@ -194,11 +219,21 @@ export async function updateStreakForTodayEntry(args: {
     args.setStreakMilestoneToastQueue((prev) => enqueueStreakMilestoneToast(prev, claimableMilestone));
 
     if (isTrackedStreakMilestoneDay(claimableMilestone.day)) {
+      const sourceEventId = `streak_milestone_rewarded:${claimableMilestone.day}`;
       Analytics.track("streak_milestone_rewarded", {
         day: claimableMilestone.day,
         rewardGems: claimableMilestone.gems,
         source: "streak_update",
         lifetimeOnce: true,
+      });
+      Analytics.track("engagement_reward_granted", {
+        rewardType: "gems",
+        rewardAmount: claimableMilestone.gems,
+        sourceEventName: "streak_milestone_rewarded",
+        sourceEventId,
+        idempotencyKey: `${sourceEventId}:gems`,
+        surface: "streak_milestone",
+        appEnv: getEngagementAppEnv(),
       });
     }
   }
