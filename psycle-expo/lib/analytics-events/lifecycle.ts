@@ -13,6 +13,14 @@ export type AppReadyEvent = {
   properties: {};
 };
 
+export type AppStartupPerformanceEvent = {
+  name: "app_startup_performance";
+  properties: {
+    durationMs: number;
+    source: "root_layout_ready";
+  };
+};
+
 export type OnboardingStartEvent = {
   name: "onboarding_start";
   properties: {};
@@ -23,9 +31,52 @@ export type OnboardingCompleteEvent = {
   properties: {};
 };
 
+export type OnboardingGenresSelectedEvent = {
+  name: "onboarding_genres_selected";
+  properties: {
+    selectedGenres: string[];
+    primaryGenreId: string;
+    selectionCount: number;
+    source: "onboarding_interests";
+  };
+};
+
+export type OnboardingFirstLessonTargetedEvent = {
+  name: "onboarding_first_lesson_targeted";
+  properties: {
+    genreId: string;
+    lessonFile: string;
+    source: "onboarding_interests";
+  };
+};
+
+export type OnboardingFirstLessonCompletedEvent = {
+  name: "onboarding_first_lesson_completed";
+  properties: {
+    lessonId: string;
+    genreId: string;
+    source: "lesson_complete";
+  };
+};
+
 export type LessonStartEvent = {
   name: "lesson_start";
   properties: { lessonId: string; genreId: string };
+};
+
+export type LessonLoadPerformanceEvent = {
+  name: "lesson_load_performance";
+  properties: {
+    durationMs: number;
+    genreId?: string;
+    lessonId?: string;
+    pacingMode?: "first_session" | "support" | "steady" | "stretch";
+    questionCount?: number;
+    requestedLessonId?: string;
+    source: "lesson_runtime";
+    status: "loaded" | "energy_blocked" | "failed";
+    targetDifficulty?: "easy" | "medium" | "hard";
+  };
 };
 
 export type LessonCompleteEvent = {
@@ -91,9 +142,14 @@ export type LifecycleTrackedEvent =
   | AppOpenEvent
   | SessionStartEvent
   | AppReadyEvent
+  | AppStartupPerformanceEvent
   | OnboardingStartEvent
   | OnboardingCompleteEvent
+  | OnboardingGenresSelectedEvent
+  | OnboardingFirstLessonTargetedEvent
+  | OnboardingFirstLessonCompletedEvent
   | LessonStartEvent
+  | LessonLoadPerformanceEvent
   | LessonCompleteEvent
   | QuestionIncorrectEvent
   | NotificationPermissionResultEvent

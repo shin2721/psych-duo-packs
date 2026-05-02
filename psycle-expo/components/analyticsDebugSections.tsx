@@ -2,7 +2,12 @@ import React from "react";
 import { View, Text, Pressable, StyleSheet, Switch } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { theme } from "../lib/theme";
-import type { DebugState } from "../lib/analytics-debug";
+import {
+  evaluateEngagementDebugHealth,
+  isEngagementDebugEventName,
+  type DebugEvent,
+  type DebugState,
+} from "../lib/analytics-debug";
 
 export function AnalyticsDebugHeader({
   onClose,
@@ -129,6 +134,87 @@ export function AnalyticsRecentEventsSection({ state }: { state: DebugState }) {
   );
 }
 
+export function AnalyticsEngagementHealthSection({ state }: { state: DebugState }) {
+  const health = evaluateEngagementDebugHealth(state.events);
+
+  return (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>ENGAGEMENT HEALTH</Text>
+
+      <View style={styles.statusCard} testID="analytics-engagement-health">
+        <View style={styles.statusRow}>
+          <Text style={styles.label}>Status:</Text>
+          <View style={[styles.badge, health.passed ? styles.passBadge : styles.warnBadge]}>
+            <Text style={styles.badgeText}>{health.passed ? "PASS" : "WARN"}</Text>
+          </View>
+        </View>
+        <View style={styles.statusRow}>
+          <Text style={styles.label}>Primary action start:</Text>
+          <Text style={styles.value}>
+            {health.primaryActionStarted}/{health.primaryActionShown}
+            {health.primaryActionStartRate === null ? "" : ` (${health.primaryActionStartRate}%)`}
+          </Text>
+        </View>
+        <View style={styles.statusRow}>
+          <Text style={styles.label}>Reward grants:</Text>
+          <Text style={styles.value}>{health.rewardGrants}</Text>
+        </View>
+        <View style={styles.statusRow}>
+          <Text style={styles.label}>Return reasons shown:</Text>
+          <Text style={styles.value}>{health.returnReasonsShown}</Text>
+        </View>
+        {health.warnings.length > 0 ? (
+          <View style={styles.warningsContainer}>
+            <Text style={styles.warningsTitle}>Warnings:</Text>
+            {health.warnings.map((warning, index) => (
+              <Text key={index} style={styles.warningText}>
+                • {warning}
+              </Text>
+            ))}
+          </View>
+        ) : null}
+      </View>
+    </View>
+  );
+}
+
+function formatEventMeta(event: DebugEvent): string {
+  if (!event.meta || Object.keys(event.meta).length === 0) {
+    return "no payload";
+  }
+
+  return Object.entries(event.meta)
+    .map(([key, value]) => `${key}: ${String(value)}`)
+    .join("  ·  ");
+}
+
+export function AnalyticsEngagementAuditSection({ state }: { state: DebugState }) {
+  const engagementEvents = state.events.filter((event) => isEngagementDebugEventName(event.name));
+
+  return (
+    <View style={styles.section}>
+      <Text style={styles.sectionTitle}>ENGAGEMENT AUDIT</Text>
+
+      <View style={styles.eventsContainer} testID="analytics-engagement-audit">
+        {engagementEvents.slice(0, 12).map((event, index) => (
+          <View key={`${event.timestamp}:${event.name}:${index}`} style={styles.auditEventRow}>
+            <View style={styles.auditEventHeader}>
+              <Text style={styles.eventName}>{event.name}</Text>
+              <Text style={styles.eventMeta}>
+                {event.status} • {event.timestamp.split("T")[1]?.slice(0, 8)}
+              </Text>
+            </View>
+            <Text style={styles.auditPayload}>{formatEventMeta(event)}</Text>
+          </View>
+        ))}
+        {engagementEvents.length === 0 ? (
+          <Text style={styles.emptyText}>No engagement events recorded yet</Text>
+        ) : null}
+      </View>
+    </View>
+  );
+}
+
 export function AnalyticsDebugActions({
   isResetting,
   onCopyReport,
@@ -228,6 +314,9 @@ const styles = StyleSheet.create({
   failBadge: {
     backgroundColor: "#ef4444",
   },
+  warnBadge: {
+    backgroundColor: "#f59e0b",
+  },
   badgeText: {
     color: "#fff",
     fontWeight: "600",
@@ -248,6 +337,23 @@ const styles = StyleSheet.create({
   failureText: {
     fontSize: 12,
     color: "#ef4444",
+    marginTop: 2,
+  },
+  warningsContainer: {
+    marginTop: theme.spacing.sm,
+    padding: theme.spacing.sm,
+    backgroundColor: "rgba(245, 158, 11, 0.12)",
+    borderRadius: 8,
+  },
+  warningsTitle: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#f59e0b",
+    marginBottom: 4,
+  },
+  warningText: {
+    fontSize: 12,
+    color: "#f59e0b",
     marginTop: 2,
   },
   countersGrid: {
@@ -316,6 +422,22 @@ const styles = StyleSheet.create({
     fontSize: 12,
     color: theme.colors.sub,
     marginTop: 2,
+  },
+  auditEventRow: {
+    paddingVertical: theme.spacing.sm,
+    borderBottomWidth: 1,
+    borderBottomColor: theme.colors.line,
+    gap: 6,
+  },
+  auditEventHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: theme.spacing.sm,
+  },
+  auditPayload: {
+    fontSize: 11,
+    color: theme.colors.sub,
+    lineHeight: 16,
   },
   emptyText: {
     fontSize: 14,

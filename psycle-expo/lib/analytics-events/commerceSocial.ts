@@ -66,6 +66,22 @@ export type LeagueAutoJoinedOnXpEvent = {
   properties: { tier: number; joinedNow: boolean; source: "xp_gain" };
 };
 
+export type LeagueEntryShownEvent = {
+  name: "league_entry_shown";
+  properties: {
+    source: "leaderboard_tab";
+    surface: "leaderboard";
+    weekId: string;
+    leagueId: string;
+    tier: number;
+    weeklyXp: number;
+    weeklyXpZeroState: "zero" | "non_zero";
+    memberCount: number;
+    rank: number;
+    appEnv: "dev" | "prod";
+  };
+};
+
 export type FriendChallengeShownEvent = {
   name: "friend_challenge_shown";
   properties: { weekId: string; source: "friends_tab" };
@@ -85,5 +101,6 @@ export type CommerceSocialTrackedEvent =
   | PaywallUpgradeClickedEvent
   | LeagueMatchmakingAppliedEvent
   | LeagueAutoJoinedOnXpEvent
+  | LeagueEntryShownEvent
   | FriendChallengeShownEvent
   | FriendChallengeCompletedEvent;

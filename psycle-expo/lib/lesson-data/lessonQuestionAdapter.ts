@@ -1,4 +1,4 @@
-import type { Question, QuestionType } from "../../types/question";
+import type { LessonLane, LessonPhase, Question, QuestionType } from "../../types/question";
 
 export interface LessonLoadDiagnostics {
   duplicateQuestionIds: number;
@@ -47,6 +47,30 @@ function asEvidenceGrade(value: unknown): Question["evidence_grade"] {
     ? value
     : undefined;
 }
+
+function asLessonPhase(value: unknown): LessonPhase | undefined {
+  const phase = Number(value);
+  return phase === 1 || phase === 2 || phase === 3 || phase === 4 || phase === 5
+    ? phase
+    : undefined;
+}
+
+function asLessonLane(value: unknown): LessonLane | undefined {
+  return value === "core" || value === "mastery" || value === "refresh"
+    ? value
+    : undefined;
+}
+
+const TYPE_MAP: Record<string, string> = {
+  truefalse: "true_false",
+  mcq3: "multiple_choice",
+  ab: "multiple_choice",
+  cloze1: "fill_blank",
+  cloze2: "fill_blank",
+  cloze3: "fill_blank",
+  clozeN: "fill_blank",
+  rank: "sort_order",
+};
 
 function normalizeQuestionType(value: string): QuestionType {
   const allowed: QuestionType[] = [
@@ -103,21 +127,18 @@ export function warnLessonLoadSummary(
 
 function adaptQuestion(raw: Record<string, unknown>): Question {
   const content = asRecord(raw.content);
-  const typeMap: Record<string, string> = {
-    truefalse: "true_false",
-    mcq3: "multiple_choice",
-    ab: "multiple_choice",
-    cloze1: "fill_blank",
-    cloze2: "fill_blank",
-    cloze3: "fill_blank",
-    clozeN: "fill_blank",
-    rank: "sort_order",
-  };
 
   const rawType = typeof raw.type === "string" ? raw.type : "multiple_choice";
-  const mappedType = normalizeQuestionType(typeMap[rawType] || rawType);
+  const mappedType = normalizeQuestionType(TYPE_MAP[rawType] || rawType);
 
   const adapted: Question = {
+    id: typeof raw.id === "string" ? raw.id : undefined,
+    phase: asLessonPhase(raw.phase),
+    claim_id: typeof raw.claim_id === "string" ? raw.claim_id : undefined,
+    lane: asLessonLane(raw.lane),
+    lesson_blueprint: isQuestionRecord(raw.lesson_blueprint)
+      ? (raw.lesson_blueprint as unknown as Question["lesson_blueprint"])
+      : undefined,
     type: mappedType,
     question:
       (typeof content.prompt === "string" && content.prompt) ||
@@ -153,8 +174,11 @@ function adaptQuestion(raw: Record<string, unknown>): Question {
       : undefined,
   };
 
-  if (raw.type === "select_all" && raw.correct_answers) {
-    adapted.correct_answers = asNumberArray(raw.correct_answers);
+  if (raw.type === "select_all") {
+    const correctAnswers = raw.correct_answers ?? raw.correct_indices;
+    if (correctAnswers) {
+      adapted.correct_answers = asNumberArray(correctAnswers);
+    }
   }
 
   if (raw.type === "swipe_judgment") {
@@ -171,6 +195,8 @@ function adaptQuestion(raw: Record<string, unknown>): Question {
       typeof raw.swipe_labels.left === "string" &&
       typeof raw.swipe_labels.right === "string"
         ? { left: raw.swipe_labels.left, right: raw.swipe_labels.right }
+        : typeof raw.left_label === "string" && typeof raw.right_label === "string"
+          ? { left: raw.left_label, right: raw.right_label }
         : undefined;
   }
 
@@ -203,6 +229,8 @@ function adaptQuestion(raw: Record<string, unknown>): Question {
       (typeof content.prompt === "string" && content.prompt) ||
       (typeof raw.prompt === "string" && raw.prompt) ||
       "";
+    adapted.recommended_index =
+      typeof raw.recommended_index === "number" ? raw.recommended_index : undefined;
   }
 
   if (raw.type === "quick_reflex") {
@@ -251,6 +279,8 @@ export function adaptRawQuestion(
   }
 
   const content = asRecord(raw.content);
+  const rawType = typeof raw.type === "string" ? raw.type : "multiple_choice";
+  const mappedType = normalizeQuestionType(TYPE_MAP[rawType] || rawType);
   const hasPrompt =
     content.prompt !== undefined ||
     raw.stem !== undefined ||
@@ -259,11 +289,22 @@ export function adaptRawQuestion(
   const hasChoices =
     content.options !== undefined ||
     raw.choices !== undefined ||
-    raw.bank !== undefined;
+    raw.bank !== undefined ||
+    mappedType === "swipe_judgment" ||
+    mappedType === "micro_input" ||
+    mappedType === "term_card";
   const hasCorrectAnswer =
     raw.correct_answer !== undefined ||
     raw.answer_index !== undefined ||
-    raw.correct_index !== undefined;
+    raw.correct_index !== undefined ||
+    raw.correct_answers !== undefined ||
+    raw.correct_indices !== undefined ||
+    raw.is_true !== undefined ||
+    raw.input_answer !== undefined ||
+    raw.recommended_index !== undefined ||
+    mappedType === "conversation" ||
+    mappedType === "term_card" ||
+    mappedType === "animated_explanation";
 
   if (!hasPrompt || !hasChoices || !hasCorrectAnswer) {
     diagnostics.requiredFieldFallbacks += 1;

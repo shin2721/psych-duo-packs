@@ -171,6 +171,6 @@ export const DEFAULT_CONFIG: GamificationConfig = {
     streak_risk_hour: 22,
     daily_quest_deadline_hour: 21,
     league_demotion_risk_hour_sunday: 18,
-    default_enabled: true,
+    default_enabled: false,
   },
 };

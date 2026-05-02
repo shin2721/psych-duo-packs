@@ -10,18 +10,47 @@ export const ANALYTICS_DEBUG_ENABLED =
 
 export type AnalyticsDebugMeta = Record<string, string | number | boolean>;
 
+const MAX_DEBUG_META_STRING_LENGTH = 240;
+
+function truncateDebugMetaString(value: string): string {
+  return value.length > MAX_DEBUG_META_STRING_LENGTH
+    ? `${value.slice(0, MAX_DEBUG_META_STRING_LENGTH - 1)}…`
+    : value;
+}
+
+function toDebugMetaValue(value: unknown): string | number | boolean | undefined {
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
+    return value;
+  }
+
+  if (value === null) {
+    return "null";
+  }
+
+  if (Array.isArray(value) || (typeof value === "object" && value !== null)) {
+    try {
+      return truncateDebugMetaString(JSON.stringify(value));
+    } catch {
+      return "[unserializable]";
+    }
+  }
+
+  return undefined;
+}
+
 export function toAnalyticsDebugMeta(
   properties: AnalyticsProperties
 ): AnalyticsDebugMeta {
   const meta: AnalyticsDebugMeta = {};
 
   Object.entries(properties).forEach(([key, value]) => {
-    if (
-      typeof value === "string" ||
-      typeof value === "number" ||
-      typeof value === "boolean"
-    ) {
-      meta[key] = value;
+    const debugValue = toDebugMetaValue(value);
+    if (debugValue !== undefined) {
+      meta[key] = debugValue;
     }
   });
 

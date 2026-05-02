@@ -1,5 +1,6 @@
 import { genres } from "./data";
 import { loadLessons, type Lesson } from "./lessons";
+import type { LessonSupportCandidate, MasteryCandidate, SupportBudgetSummary } from "./app-state/types";
 import type { ComebackRewardOffer } from "./comebackReward";
 import i18n from "./i18n";
 import type { StreakRepairOffer } from "./streakRepair";
@@ -34,7 +35,7 @@ export interface CourseWorldSupportMoment {
   accessibilityHint?: string;
   body: string;
   ctaLabel?: string;
-  kind: "streakRepair" | "comebackReward";
+  kind: "streakRepair" | "comebackReward" | "return" | "adaptive" | "refresh" | "replay" | "mastery";
   title: string;
 }
 
@@ -72,9 +73,12 @@ export interface CourseWorldTrailNode {
 export interface BuildCourseWorldViewModelInput {
   comebackRewardOffer: ComebackRewardOffer | null;
   currentTrail: CourseWorldTrailNode[];
+  lessonSupportCandidate?: LessonSupportCandidate | null;
+  masteryCandidate?: MasteryCandidate | null;
   nextActionNode: CourseWorldTrailNode | null | undefined;
   nowMs?: number;
   selectedGenre: string;
+  supportBudgetSummary?: SupportBudgetSummary | null;
   streakRepairOffer: StreakRepairOffer | null;
 }
 
@@ -260,8 +264,21 @@ function buildPrimaryAction(
 function buildSupportMoment(
   streakRepairOffer: StreakRepairOffer | null,
   comebackRewardOffer: ComebackRewardOffer | null,
+  lessonSupportCandidate: LessonSupportCandidate | null | undefined,
+  masteryCandidate: MasteryCandidate | null | undefined,
+  supportBudgetSummary: SupportBudgetSummary | null | undefined,
   nowMs: number
 ): CourseWorldSupportMoment | undefined {
+  const budgetHint =
+    lessonSupportCandidate && supportBudgetSummary
+      ? String(
+          i18n.t("course.world.supportBudgetRemaining", {
+            total: supportBudgetSummary.weeklyRemaining,
+            kind: supportBudgetSummary.weeklyKindRemaining[lessonSupportCandidate.kind],
+          })
+        )
+      : null;
+
   if (streakRepairOffer?.active && streakRepairOffer.expiresAtMs > nowMs) {
     const remainingHours = Math.max(
       1,
@@ -295,6 +312,67 @@ function buildSupportMoment(
       ),
       kind: "comebackReward",
       title: String(i18n.t("course.comebackReward.title")),
+    };
+  }
+
+  if (lessonSupportCandidate?.kind === "return") {
+    return {
+      accessibilityHint: "中断したレッスンへ短い復習として戻ります",
+      body: ["止まったところを、短い復習で静かに再開します。", budgetHint].filter(Boolean).join(" "),
+      ctaLabel: "再開する",
+      kind: "return",
+      title: "戻るレッスンがあります",
+    };
+  }
+
+  if (lessonSupportCandidate?.kind === "adaptive") {
+    return {
+      accessibilityHint: "弱かった問いを短い復習で見直します",
+      body: [
+        lessonSupportCandidate.reason === "forgetting"
+          ? "少し間が空いた問いを、短い復習で思い出します。"
+          : "つまずいた問いを、短い復習でもう一度整えます。",
+        budgetHint,
+      ]
+        .filter(Boolean)
+        .join(" "),
+      ctaLabel: "見直す",
+      kind: "adaptive",
+      title: "短い見直しがあります",
+    };
+  }
+
+  if (lessonSupportCandidate?.kind === "refresh") {
+    return {
+      accessibilityHint: "更新されたレッスンを静かにたどり直します",
+      body: ["更新された内容で、今のレッスンを短く見直します。", budgetHint].filter(Boolean).join(" "),
+      ctaLabel: "更新を見る",
+      kind: "refresh",
+      title: "新しい見方が入りました",
+    };
+  }
+
+  if (lessonSupportCandidate?.kind === "replay") {
+    return {
+      accessibilityHint: "終えたレッスンをもう一度静かにたどります",
+      body: ["前に終えたレッスンを、もう一度短くなぞります。", budgetHint].filter(Boolean).join(" "),
+      ctaLabel: "やり直す",
+      kind: "replay",
+      title: "もう一度たどれます",
+    };
+  }
+
+  if (masteryCandidate?.lessonId) {
+    return {
+      accessibilityHint: String(i18n.t("course.mastery.accessibilityHint")),
+      body: String(
+        i18n.t("course.mastery.body", {
+          count: masteryCandidate.activeSlotsRemaining,
+        })
+      ),
+      ctaLabel: String(i18n.t("course.mastery.cta")),
+      kind: "mastery",
+      title: String(i18n.t("course.mastery.title")),
     };
   }
 
@@ -399,7 +477,14 @@ export function buildCourseWorldViewModel(
     reviewNode,
     routeNodes,
     summaryLabel: formatCourseWorldSummary(doneCount, remainingCount),
-    supportMoment: buildSupportMoment(input.streakRepairOffer, input.comebackRewardOffer, nowMs),
+    supportMoment: buildSupportMoment(
+      input.streakRepairOffer,
+      input.comebackRewardOffer,
+      input.lessonSupportCandidate,
+      input.masteryCandidate,
+      input.supportBudgetSummary,
+      nowMs
+    ),
     themeColor: COURSE_THEME_COLORS[input.selectedGenre] ?? COURSE_THEME_COLORS.mental,
     unitLabel,
   };

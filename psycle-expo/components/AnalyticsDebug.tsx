@@ -29,6 +29,8 @@ import {
     AnalyticsCountersSection,
     AnalyticsDebugActions,
     AnalyticsDebugHeader,
+    AnalyticsEngagementHealthSection,
+    AnalyticsEngagementAuditSection,
     AnalyticsRecentEventsSection,
     AnalyticsStatusSection,
 } from './analyticsDebugSections';
@@ -103,6 +105,8 @@ export default function AnalyticsDebug() {
                     state={state}
                 />
                 <AnalyticsCountersSection state={state} />
+                <AnalyticsEngagementHealthSection state={state} />
+                <AnalyticsEngagementAuditSection state={state} />
                 <AnalyticsRecentEventsSection state={state} />
             </ScrollView>
 

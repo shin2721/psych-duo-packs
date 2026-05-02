@@ -1,20 +1,32 @@
-import { Question } from "../types/question";
+import type { LessonMetadata, Question } from "../types/question";
 
 // トップレベルでJSONファイルをインポート（Metro bundlerが確実に認識するため）
 // Force reload: 2025-11-13 21:20
 import { getMentalDataForLocale } from "../data/lessons/mental_units";
+import { getMentalDataEvidenceMap } from "../data/lessons/mental_units";
 import { getMoneyDataForLocale } from "../data/lessons/money_units";
+import { getMoneyDataEvidenceMap } from "../data/lessons/money_units";
 import { getWorkDataForLocale } from "../data/lessons/work_units";
+import { getWorkDataEvidenceMap } from "../data/lessons/work_units";
 import { getHealthDataForLocale } from "../data/lessons/health_units";
+import { getHealthDataEvidenceMap } from "../data/lessons/health_units";
 import { getSocialDataForLocale } from "../data/lessons/social_units";
+import { getSocialDataEvidenceMap } from "../data/lessons/social_units";
 import { getStudyDataForLocale } from "../data/lessons/study_units";
+import { getStudyDataEvidenceMap } from "../data/lessons/study_units";
 import i18n from "./i18n";
 import {
   adaptRawQuestion,
   createLessonLoadDiagnostics,
   warnLessonLoadSummary,
 } from "./lesson-data/lessonQuestionAdapter";
+import {
+  getLessonRuntimeMetadata,
+  getQuestionCountRangeForLoadScore,
+} from "./lesson-data/lessonMetadata";
 import { getLessonTitle } from "./lesson-data/lessonTitles";
+import { resolveRuntimeLessonId } from "./lessonContinuity";
+import type { LessonOperationalMetadata } from "../types/lessonOperational";
 
 // Legacy curriculum imports removed - now using lesson data directly
 
@@ -47,10 +59,152 @@ export interface Lesson {
   title: string;
   questions: Question[];
   totalXP: number;
+  metadata?: LessonMetadata;
   references?: Reference[];
   context_note?: string;
   research_meta?: ResearchMeta;
   nodeType?: 'lesson' | 'review_blackhole';
+}
+
+function getEvidenceMapForUnit(unit: string): Record<string, LessonOperationalMetadata> {
+  switch (unit) {
+    case "mental":
+      return getMentalDataEvidenceMap();
+    case "money":
+      return getMoneyDataEvidenceMap();
+    case "work":
+      return getWorkDataEvidenceMap();
+    case "health":
+      return getHealthDataEvidenceMap();
+    case "social":
+      return getSocialDataEvidenceMap();
+    case "study":
+      return getStudyDataEvidenceMap();
+    default:
+      return {};
+  }
+}
+
+function toCanonicalLessonAssetId(lessonId: string): string | null {
+  const resolvedLessonId = resolveRuntimeLessonId(lessonId).resolvedLessonId ?? lessonId;
+  const lessonMatch = resolvedLessonId.match(/^([a-z]+)_(?:lesson_(\d+)|l(\d+)|m(\d+))$/);
+  if (!lessonMatch) return null;
+
+  const unit = lessonMatch[1];
+  const legacyLevel = lessonMatch[2];
+  const coreLevel = lessonMatch[3];
+  const masteryLevel = lessonMatch[4];
+
+  if (coreLevel) {
+    return `${unit}_l${coreLevel.padStart(2, "0")}`;
+  }
+
+  if (masteryLevel) {
+    return `${unit}_m${masteryLevel.padStart(2, "0")}`;
+  }
+
+  if (legacyLevel) {
+    return `${unit}_l${legacyLevel.padStart(2, "0")}`;
+  }
+
+  return null;
+}
+
+export function getLessonOperationalMetadata(lessonId: string): LessonOperationalMetadata | null {
+  const canonicalLessonId = toCanonicalLessonAssetId(lessonId);
+  if (!canonicalLessonId) return null;
+
+  const unitMatch = canonicalLessonId.match(/^([a-z]+)_/);
+  if (!unitMatch?.[1]) return null;
+
+  const evidenceMap = getEvidenceMapForUnit(unitMatch[1]);
+  return evidenceMap[canonicalLessonId] ?? null;
+}
+
+function deriveQuestionGroups(unit: string, questions: Question[]): {
+  coreLevels: number[];
+  masteryLevels: number[];
+} {
+  const coreLevels = new Set<number>();
+  const masteryLevels = new Set<number>();
+
+  questions.forEach((question) => {
+    if (!question.source_id) return;
+
+    const coreMatch = question.source_id.match(new RegExp(`^${unit}_l(\\d+)_`));
+    if (coreMatch) {
+      coreLevels.add(parseInt(coreMatch[1], 10));
+      return;
+    }
+
+    const masteryMatch = question.source_id.match(new RegExp(`^${unit}_m(\\d+)_`));
+    if (masteryMatch) {
+      masteryLevels.add(parseInt(masteryMatch[1], 10));
+    }
+  });
+
+  return {
+    coreLevels: [...coreLevels].sort((left, right) => left - right),
+    masteryLevels: [...masteryLevels].sort((left, right) => left - right),
+  };
+}
+
+function buildLessonRecord(args: {
+  id: string;
+  unit: string;
+  level: number;
+  title: string;
+  questions: Question[];
+  metadata?: LessonMetadata;
+  nodeType?: 'lesson' | 'review_blackhole';
+}): Lesson {
+  const totalXP = args.questions.reduce((sum, question) => sum + question.xp, 0);
+  const firstQuestion = args.questions[0];
+  let references: Reference[] = [];
+
+  if (firstQuestion?.source_id) {
+    const sourceMatch = firstQuestion.source_id.match(/^[a-z]+_[lm]\d+_(.+)$/);
+    if (sourceMatch) {
+      references = [{
+        citation: sourceMatch[1].replace(/_/g, ' '),
+        note: "主要参照",
+        level: firstQuestion.evidence_grade || "silver"
+      }];
+    }
+  }
+
+  return {
+    id: args.id,
+    unit: args.unit,
+    level: args.level,
+    title: args.title,
+    questions: args.questions,
+    totalXP,
+    metadata: args.metadata,
+    references,
+    context_note: undefined,
+    research_meta: undefined,
+    nodeType: args.nodeType ?? 'lesson',
+  };
+}
+
+function getCanonicalLessonId(unit: string, lane: "core" | "mastery", level: number): string {
+  const levelText = String(level).padStart(2, "0");
+  return lane === "mastery" ? `${unit}_m${levelText}` : `${unit}_l${levelText}`;
+}
+
+function getLessonQuestionTarget(
+  metadata: LessonMetadata | null,
+  fallbackTarget: number
+): number {
+  if (metadata) {
+    return Math.max(
+      metadata.question_count_range.min,
+      Math.min(metadata.question_count_range.target, metadata.question_count_range.max)
+    );
+  }
+
+  return fallbackTarget;
 }
 
 // JSONファイルからレッスンデータを生成
@@ -98,23 +252,16 @@ export function loadLessons(unit: string): Lesson[] {
       return acc;
     }, []);
 
-    // レベル数を決定 (実際のレッスンデータから取得)
-    // Count unique prefixes like mental_l01_, mental_l02_, etc.
-    const levelPrefixes = new Set<number>();
-    questions.forEach(q => {
-      if (q.source_id) {
-        const match = q.source_id.match(new RegExp(`^${unit}_l(\\d+)_`));
-        if (match) {
-          levelPrefixes.add(parseInt(match[1], 10));
-        }
-      }
-    });
-    const maxLevels = levelPrefixes.size > 0 ? Math.max(...levelPrefixes) : 1;
+    const { coreLevels, masteryLevels } = deriveQuestionGroups(unit, questions);
+    const maxLevels = coreLevels.length > 0 ? Math.max(...coreLevels) : 1;
 
     const lessons: Lesson[] = [];
-    const questionsPerLesson = 10; // 1レッスンあたりの問題数（原則10問）
+    const fallbackQuestionsPerLesson = 10;
 
     for (let level = 1; level <= maxLevels; level++) {
+      const canonicalLessonId = getCanonicalLessonId(unit, "core", level);
+      const lessonMetadata = getLessonRuntimeMetadata(canonicalLessonId);
+      const targetQuestionCount = getLessonQuestionTarget(lessonMetadata, fallbackQuestionsPerLesson);
       // レベル専用の問題をIDでフィルタリング（例: mental_l01_xxx）
       const levelPrefix = `${unit}_l${String(level).padStart(2, '0')}_`;
       let levelQuestions = questions.filter(q =>
@@ -131,9 +278,8 @@ export function loadLessons(unit: string): Lesson[] {
 
       let lessonQuestions: Question[] = [];
 
-      // レベル専用の問題が10問以上ある場合はそれを使用
-      if (levelQuestions.length >= questionsPerLesson) {
-        lessonQuestions = levelQuestions.slice(0, questionsPerLesson);
+      if (levelQuestions.length >= targetQuestionCount) {
+        lessonQuestions = levelQuestions.slice(0, targetQuestionCount);
       } else {
         // Case 2 (Partial) or Case 3 (Empty)
         lessonQuestions = levelQuestions;
@@ -147,8 +293,8 @@ export function loadLessons(unit: string): Lesson[] {
       }
 
       // 足りない分を他の問題で補う
-      if (lessonQuestions.length < questionsPerLesson) {
-        const needed = questionsPerLesson - lessonQuestions.length;
+      if (lessonQuestions.length < targetQuestionCount) {
+        const needed = targetQuestionCount - lessonQuestions.length;
 
         const otherQuestions = questions.filter(q =>
           !q.source_id || !q.source_id.startsWith(levelPrefix)
@@ -165,39 +311,16 @@ export function loadLessons(unit: string): Lesson[] {
         diagnostics.fallbackQuestionsFilled += fallbackQuestions.length;
       }
 
-      const totalXP = lessonQuestions.reduce((sum, q) => sum + q.xp, 0);
-      const lessonTitle = getLessonTitle(unit, level);
-
-      // Get references from lesson questions' expanded_details
-      let references: Reference[] = [];
-      let context_note: string | undefined;
-      let research_meta: ResearchMeta | undefined;
-
-      // Extract source_id from first question as reference
-      const firstQuestion = lessonQuestions[0];
-      if (firstQuestion?.source_id) {
-        const sourceMatch = firstQuestion.source_id.match(/^[a-z]+_l\d+_(.+)$/);
-        if (sourceMatch) {
-          references = [{
-            citation: sourceMatch[1].replace(/_/g, ' '),
-            note: "主要参照",
-            level: firstQuestion.evidence_grade || "silver"
-          }];
-        }
-      }
-
-      lessons.push({
-        id: `${unit}_lesson_${level}`,
-        unit,
-        level,
-        title: lessonTitle,
-        questions: lessonQuestions,
-        totalXP,
-        references,
-        context_note,
-        research_meta,
-        nodeType: 'lesson'
-      });
+      lessons.push(
+        buildLessonRecord({
+          id: `${unit}_lesson_${level}`,
+          unit,
+          level,
+          title: getLessonTitle(unit, level),
+          questions: lessonQuestions,
+          metadata: lessonMetadata ?? undefined,
+        })
+      );
 
       // Inject Black Hole Review after Level 5
       if (level === 5 && maxLevels > 5) {
@@ -206,17 +329,48 @@ export function loadLessons(unit: string): Lesson[] {
         const reviewPool = questions.filter(q => q.source_id && !q.source_id.startsWith(`${unit}_l05`)); // Exclude just finished
         const reviewQuestions = [...reviewPool].sort(() => 0.5 - Math.random()).slice(0, 5);
 
-        lessons.push({
-          id: `${unit}_review_bh1`,
-          unit,
-          level: 5.5,
-          title: "ブラックホール復習",
-          questions: reviewQuestions,
-          totalXP: 100,
-          nodeType: 'review_blackhole',
-          // Use hard mode visuals?
-        });
+        lessons.push(
+          buildLessonRecord({
+            id: `${unit}_review_bh1`,
+            unit,
+            level: 5.5,
+            title: "ブラックホール復習",
+            questions: reviewQuestions,
+            nodeType: 'review_blackhole',
+          })
+        );
       }
+    }
+
+    for (const masteryLevel of masteryLevels) {
+      const canonicalLessonId = getCanonicalLessonId(unit, "mastery", masteryLevel);
+      const lessonMetadata = getLessonRuntimeMetadata(canonicalLessonId);
+      const targetQuestionCount = getLessonQuestionTarget(
+        lessonMetadata,
+        getQuestionCountRangeForLoadScore({
+          cognitive: 2,
+          emotional: 2,
+          behavior_change: 1,
+          total: 5,
+        }).target
+      );
+      const masteryPrefix = `${unit}_m${String(masteryLevel).padStart(2, '0')}_`;
+      const masteryQuestions = questions
+        .filter((question) => question.source_id && question.source_id.startsWith(masteryPrefix))
+        .sort((left, right) => (left.source_id || '').localeCompare(right.source_id || ''));
+
+      if (masteryQuestions.length === 0) continue;
+
+      lessons.push(
+        buildLessonRecord({
+          id: `${unit}_m${String(masteryLevel).padStart(2, '0')}`,
+          unit,
+          level: maxLevels + masteryLevel,
+          title: `Mastery ${masteryLevel}`,
+          questions: masteryQuestions.slice(0, targetQuestionCount),
+          metadata: lessonMetadata ?? undefined,
+        })
+      );
     }
 
     warnLessonLoadSummary(unit, diagnostics);
@@ -228,11 +382,23 @@ export function loadLessons(unit: string): Lesson[] {
 }
 
 export function getQuestionFromId(lessonId: string, questionId: string): Question | undefined {
-  // lessonId format: "{unit}_lesson_{level}" e.g. "mental_lesson_1"
-  const [unit, lessonNum] = lessonId.split("_lesson_");
+  const resolvedLessonId = resolveRuntimeLessonId(lessonId).resolvedLessonId ?? lessonId;
+  const lessonMatch = resolvedLessonId.match(/^([a-z]+)_(?:lesson_(\d+)|l(\d+)|m(\d+))$/);
+  const unit = lessonMatch?.[1];
   if (!unit) return undefined;
 
   const lessons = loadLessons(unit);
+  const lessonNum = lessonMatch?.[2];
+  const coreLevel = lessonMatch?.[3];
+  const masteryLevel = lessonMatch?.[4];
+
+  if (coreLevel || masteryLevel) {
+    const directLesson = lessons.find((lesson) => lesson.id === resolvedLessonId);
+    if (directLesson) {
+      const directQuestion = directLesson.questions.find((question) => question.source_id === questionId);
+      if (directQuestion) return directQuestion;
+    }
+  }
 
   // If lessonNum is provided, optimize search
   if (lessonNum) {

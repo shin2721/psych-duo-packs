@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "theme_id": "work",
+  "owner": "content-ops",
+  "last_reviewed_at": "2026-04-22",
+  "review_cycle_days": 90,
+  "rollout_stage": "production_default",
+  "saturation_state": "growing",
+  "theme_status": "active",
+  "migration_rule": "manual_v1_migration",
+  "backward_compat_window_days": 30,
+  "prerequisite_themes": [],
+  "prerequisite_skills": [],
+  "unlock_conditions": [
+    "core_path_available"
+  ],
+  "dependency_bypass_rules": ["none"],
+  "replacement_aftercare_defaults": {
+    "aftercare_window_days": 30,
+    "legacy_candidate_suppression_rule": "suppress_replaced_candidates_during_aftercare"
+  },
+  "support_policy": {
+    "weekly_support_budget": 3,
+    "same_kind_cooldown_days": 2,
+    "same_theme_cooldown_days": 4,
+    "same_lesson_cooldown_days": 7,
+    "thresholds": {
+      "path_start_guardrail": 0.92,
+      "path_completion_guardrail": 0.9,
+      "support_repeat_cap": 0.35,
+      "support_only_progress_cap": 0.25,
+      "support_start_rate_floor": 0.18
+    },
+    "threshold_actions": {
+      "path_start_guardrail": [
+        "reduce_support_surfacing",
+        "lower_current_theme_support_priority"
+      ],
+      "path_completion_guardrail": [
+        "tighten_weekly_support_budget",
+        "suppress_non_return_resurfacing"
+      ],
+      "support_repeat_cap": [
+        "extend_cooldown",
+        "suppress_low_confidence_support"
+      ],
+      "support_only_progress_cap": [
+        "review_reward_progression_coupling",
+        "force_path_first_cta"
+      ],
+      "support_start_rate_floor": [
+        "demote_noisy_support_kind",
+        "review_trigger_or_copy"
+      ]
+    }
+  },
+  "metric_ownership": {
+    "metric_owner": "analytics",
+    "review_cadence_days": 14,
+    "change_authority": "product_analytics_review",
+    "threshold_change_log": [
+      "bootstrap_v1_thresholds_2026-04-22"
+    ]
+  }
+}

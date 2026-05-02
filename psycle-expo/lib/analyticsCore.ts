@@ -25,6 +25,9 @@ import type {
 const ANALYTICS_SCHEMA_VERSION = "analytics_v1";
 const STORAGE_KEY_ANON_ID = "@psycle/analytics_anon_id";
 const STORAGE_KEY_APP_OPEN = "@psycle/analytics_did_track_app_open";
+const E2E_ANALYTICS_DEBUG_BUILD =
+  typeof process !== "undefined" &&
+  process.env?.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
 
 type QueuedEvent = {
   name: string;
@@ -298,6 +301,13 @@ class AnalyticsCore {
   }
 
   private static sendToPostHogIfConfigured(event: AnalyticsEvent): void {
+    if (E2E_ANALYTICS_DEBUG_BUILD) {
+      this.debugLog("PostHog send skipped for E2E analytics debug build", {
+        eventName: event.name,
+      });
+      return;
+    }
+
     if (!this.config.posthogHost || !this.config.posthogApiKey) {
       return;
     }
