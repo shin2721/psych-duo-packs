@@ -75,6 +75,9 @@ describe("progressionStreak", () => {
   });
 
   test("claimComebackRewardAction awards once and deactivates offer", () => {
+    jest.useFakeTimers();
+    jest.setSystemTime(new Date("2026-04-07T10:00:00+09:00"));
+
     const offer = createComebackRewardOffer({
       daysSinceStudy: 8,
       thresholdDays: 7,
@@ -96,5 +99,6 @@ describe("progressionStreak", () => {
     });
     if (!result.awarded) return;
     expect(result.nextOffer.active).toBe(false);
+    jest.useRealTimers();
   });
 });

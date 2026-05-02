@@ -102,6 +102,7 @@ jest.mock("../../lib/analytics", () => ({
     trackAppOpen: jest.fn(),
     trackAppReady: jest.fn(),
     trackSessionStart: jest.fn(),
+    track: jest.fn(),
     initialize: jest.fn().mockResolvedValue(undefined),
   },
 }));

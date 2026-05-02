@@ -27,6 +27,7 @@ jest.mock("expo-router", () => ({
     replace: jest.fn(),
     push: jest.fn(),
   },
+  useLocalSearchParams: () => ({}),
 }));
 
 jest.mock("react-native-safe-area-context", () => ({

@@ -14,3 +14,20 @@ jest.mock('expo-constants', () => ({
     },
   },
 }));
+
+jest.mock('expo/env', () => ({ env: process.env }), { virtual: true });
+jest.mock('expo/virtual/env', () => ({ env: process.env }), { virtual: true });
+
+jest.mock('expo-crypto', () => {
+  const crypto = require('node:crypto');
+  return {
+    CryptoDigestAlgorithm: {
+      SHA256: 'SHA-256',
+    },
+    digestStringAsync: jest.fn(async (_algorithm, content) =>
+      crypto.createHash('sha256').update(String(content)).digest('hex')
+    ),
+  };
+});
+
+jest.mock('react-native-url-polyfill/auto', () => ({}));

@@ -32,6 +32,18 @@ jest.mock('../../lib/leaderboard/useLeaderboardScreen', () => ({
   useLeaderboardScreen: (...args: unknown[]) => mockUseLeaderboardScreen(...args),
 }));
 
+jest.mock('../../lib/state', () => ({
+  useProgressionState: () => ({
+    selectedGenre: 'mental',
+  }),
+}));
+
+jest.mock('../../lib/analytics', () => ({
+  Analytics: {
+    track: jest.fn(),
+  },
+}));
+
 const LeaderboardScreen = require('../../app/(tabs)/leaderboard').default;
 
 function makeHookState(view: 'league' | 'global' | 'friends', overrides: Record<string, unknown> = {}) {

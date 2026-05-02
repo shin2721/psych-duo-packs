@@ -45,14 +45,19 @@ describe("friends / leaderboard / course shell architecture", () => {
   test("course screen delegates offer, modal, and league gate rendering", () => {
     const source = read("app/(tabs)/course.tsx");
     const sections = read("components/course/CourseSections.tsx");
+    const legacy = read("components/course/LegacyCourseMain.tsx");
 
-    expect(source).toContain("CourseOfferBanner");
-    expect(source).toContain("CourseNextStepCard");
-    expect(source).toContain("CourseLessonModal");
+    expect(source).toContain("CourseWorldHero");
     expect(source).toContain("CourseLeagueResultGate");
+    expect(source).not.toContain("CourseOfferBanner");
+    expect(source).not.toContain("CourseNextStepCard");
+    expect(source).not.toContain("CourseLessonModal");
     expect(source).not.toContain("streakRepairCard:");
     expect(source).not.toContain("nextStepCard:");
 
+    expect(legacy).toContain("CourseOfferBanner");
+    expect(legacy).toContain("CourseNextStepCard");
+    expect(legacy).toContain("CourseLessonModal");
     expect(sections).toContain("export function CourseOfferBanner");
     expect(sections).toContain("export function CourseNextStepCard");
     expect(sections).toContain("export function CourseLessonModal");
