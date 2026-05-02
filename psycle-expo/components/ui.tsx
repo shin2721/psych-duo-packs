@@ -12,11 +12,22 @@ import {
 import { LinearGradient } from "expo-linear-gradient";
 import { theme } from "../lib/theme";
 
-export function Card({ children, style }: { children: ReactNode; style?: ViewStyle }) {
-  return <View style={[styles.card, style]}>{children}</View>;
+export function Card({ children, style }: { children: ReactNode; style?: StyleProp<ViewStyle> }) {
+  return (
+    <View style={[styles.card, style]}>
+      <LinearGradient
+        colors={[theme.colors.cardEdgeHighlight, "rgba(255,255,255,0)"]}
+        start={{ x: 0, y: 0 }}
+        end={{ x: 0, y: 1 }}
+        style={styles.cardEdgeHighlight}
+        pointerEvents="none"
+      />
+      {children}
+    </View>
+  );
 }
 
-export function ProgressBar({ value, max, style, color }: { value: number; max: number; style?: ViewStyle; color?: string }) {
+export function ProgressBar({ value, max, style, color }: { value: number; max: number; style?: StyleProp<ViewStyle>; color?: string }) {
   const percent = Math.min((value / max) * 100, 100);
   const baseColor = color ?? theme.colors.accent;
   const gradientEnd = `${baseColor}BB`;
@@ -198,6 +209,16 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.card,
     borderRadius: theme.radius.lg,
     padding: theme.spacing.md,
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: theme.colors.cardBorder,
+    overflow: "hidden",
+  },
+  cardEdgeHighlight: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    height: 18,
   },
   progressTrack: {
     height: 10,

@@ -2,6 +2,7 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import type { CourseWorldNode, CourseWorldViewModel } from "../../lib/courseWorld";
+import i18n from "../../lib/i18n";
 
 export function CourseWorldNodeColumn({
   model,
@@ -12,6 +13,10 @@ export function CourseWorldNodeColumn({
   onPrimaryPress,
   onSupportPress,
   onNodePress,
+  showMeta = true,
+  showPrimaryAction = true,
+  hideVisibleCopy = false,
+  habitSummary,
 }: {
   model: CourseWorldViewModel;
   allNodes: CourseWorldNode[];
@@ -21,73 +26,128 @@ export function CourseWorldNodeColumn({
   onPrimaryPress: () => void;
   onSupportPress?: () => void;
   onNodePress?: (nodeId: string) => void;
+  showMeta?: boolean;
+  showPrimaryAction?: boolean;
+  hideVisibleCopy?: boolean;
+  habitSummary?: {
+    dailyGoal: number;
+    dailyXP: number;
+    streak: number;
+  };
 }) {
+  const dailyGoal = habitSummary?.dailyGoal ?? 0;
+  const dailyXP = habitSummary?.dailyXP ?? 0;
+  const streak = habitSummary?.streak ?? 0;
+  const remainingXp = Math.max(0, dailyGoal - dailyXP);
+  const hasHabitSummary = Boolean(habitSummary && dailyGoal > 0);
+  const supportCard = hideVisibleCopy
+    ? null
+    : model.supportMoment
+      ? {
+        title: model.supportMoment.title,
+        body: model.supportMoment.body,
+        ctaLabel: model.supportMoment.ctaLabel,
+        accessibilityHint: model.supportMoment.accessibilityHint,
+        onPress: onSupportPress,
+        testID: supportTestID,
+      }
+      : hasHabitSummary
+        ? {
+          title:
+            remainingXp === 0
+              ? String(i18n.t("course.world.goalCompleteTitle"))
+              : String(i18n.t("course.world.goalRemainingTitle", { xp: remainingXp })),
+          body:
+            remainingXp === 0
+              ? String(i18n.t("course.world.goalCompleteBody"))
+              : String(i18n.t("course.world.goalRemainingBody")),
+          ctaLabel:
+            remainingXp === 0
+              ? String(i18n.t("course.world.goalCompleteCta"))
+              : String(i18n.t("course.world.goalRemainingCta")),
+          accessibilityHint: String(i18n.t("course.world.goalCardAccessibilityHint")),
+          onPress: onPrimaryPress,
+          testID: supportTestID,
+        }
+      : null;
+  const supportAccessibilityLabel = supportCard
+    ? [supportCard.title, supportCard.ctaLabel].filter(Boolean).join(", ")
+    : undefined;
+  const momentumAccessibilityLabel = hasHabitSummary
+    ? `${String(i18n.t("profile.stats.streakValue", { count: streak }))}, ${dailyXP}/${dailyGoal} XP, ${model.progressLabel}`
+    : undefined;
+
   return (
     <View style={styles.container}>
-      <View style={styles.infoCard}>
-        <Text style={styles.title}>{model.currentLesson.title}</Text>
-        <Text style={styles.body}>{model.currentLesson.body}</Text>
-        <View style={[styles.metaPill, { borderColor: `${themeColor}33`, backgroundColor: `${themeColor}12` }]}>
-          <Ionicons name="sparkles" size={14} color={themeColor} />
-          <Text style={[styles.metaText, { color: themeColor }]}>{model.currentLesson.meta}</Text>
+      {hasHabitSummary && !hideVisibleCopy ? (
+        <View
+          style={styles.momentumWrap}
+          accessible
+          accessibilityLabel={momentumAccessibilityLabel}
+        >
+          <View style={styles.momentumRow}>
+            <View style={styles.momentumChip}>
+              <Text style={styles.momentumChipKicker}>STREAK</Text>
+              <Text style={styles.momentumChipValue}>
+                {String(i18n.t("profile.stats.streakValue", { count: streak }))}
+              </Text>
+            </View>
+            <View style={styles.momentumChip}>
+              <Text style={styles.momentumChipKicker}>GOAL</Text>
+              <Text style={styles.momentumChipValue}>{`${dailyXP}/${dailyGoal} XP`}</Text>
+            </View>
+            <View style={styles.momentumChip}>
+              <Text style={styles.momentumChipKicker}>UNIT</Text>
+              <Text style={styles.momentumChipValue}>{model.progressLabel}</Text>
+            </View>
+          </View>
+          <Text style={styles.momentumSummary}>{model.summaryLabel}</Text>
         </View>
+      ) : null}
+
+      <View style={styles.infoCard}>
+        {hideVisibleCopy ? null : <Text style={styles.title}>{model.currentLesson.title}</Text>}
+        {hideVisibleCopy ? null : <Text style={styles.body}>{model.currentLesson.body}</Text>}
+        {showMeta && !hideVisibleCopy ? (
+          <View style={[styles.metaPill, { borderColor: `${themeColor}33`, backgroundColor: `${themeColor}12` }]}>
+            <Ionicons name="sparkles" size={14} color={themeColor} />
+            <Text style={[styles.metaText, { color: themeColor }]}>{model.currentLesson.meta}</Text>
+          </View>
+        ) : null}
       </View>
 
-      <View style={styles.nodeRow}>
-        {allNodes
-          .filter((node) => node.id !== model.currentLesson.id)
-          .map((node) => (
-          <Pressable
-            key={node.id}
-            style={[
-              styles.nodeChip,
-              node.status === "current"
-                ? { borderColor: themeColor, backgroundColor: `${themeColor}18` }
-                : styles.nodeChipIdle,
-            ]}
-            onPress={node.isInteractive ? () => onNodePress?.(node.id) : undefined}
-            accessibilityRole="button"
-            accessibilityLabel={node.accessibilityLabel}
-            accessibilityState={{
-              disabled: !node.isInteractive,
-              selected: node.status === "current",
-            }}
-          >
-            <Ionicons name={node.icon as keyof typeof Ionicons.glyphMap} size={16} color={node.status === "current" ? themeColor : "rgba(255,255,255,0.6)"} />
-            <Text style={[styles.nodeChipLabel, node.status === "current" ? { color: "#fff" } : undefined]}>{node.label}</Text>
-          </Pressable>
-        ))}
-      </View>
-
-      {model.supportMoment ? (
+      {supportCard ? (
         <Pressable
           style={styles.supportCard}
-          onPress={onSupportPress}
+          onPress={supportCard.onPress ? () => supportCard.onPress?.() : undefined}
           accessibilityRole="button"
-          accessibilityHint={model.supportMoment.accessibilityHint}
-          testID={supportTestID}
+          accessibilityLabel={supportAccessibilityLabel}
+          accessibilityHint={supportCard.accessibilityHint}
+          testID={supportCard.testID}
         >
           <View style={styles.supportCopy}>
-            <Text style={styles.supportTitle}>{model.supportMoment.title}</Text>
-            <Text style={styles.supportBody}>{model.supportMoment.body}</Text>
+            <Text style={styles.supportTitle}>{supportCard.title}</Text>
+            <Text style={styles.supportBody}>{supportCard.body}</Text>
           </View>
-          {model.supportMoment.ctaLabel ? (
+          {supportCard.ctaLabel ? (
             <View style={styles.supportCta}>
-              <Text style={styles.supportCtaText}>{model.supportMoment.ctaLabel}</Text>
+              <Text style={styles.supportCtaText}>{supportCard.ctaLabel}</Text>
             </View>
           ) : null}
         </Pressable>
       ) : null}
 
-      <Pressable
-        style={[styles.primaryButton, { backgroundColor: themeColor }]}
-        onPress={onPrimaryPress}
-        accessibilityRole="button"
-        accessibilityLabel={model.primaryAction.label}
-        testID={primaryTestID}
-      >
-        <Text style={styles.primaryButtonText}>{model.primaryAction.label}</Text>
-      </Pressable>
+      {showPrimaryAction ? (
+        <Pressable
+          style={[styles.primaryButton, { backgroundColor: themeColor }]}
+          onPress={() => onPrimaryPress()}
+          accessibilityRole="button"
+          accessibilityLabel={model.primaryAction.label}
+          testID={primaryTestID}
+        >
+          <Text style={styles.primaryButtonText}>{model.primaryAction.label}</Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -96,14 +156,51 @@ const styles = StyleSheet.create({
   container: {
     width: "100%",
     paddingHorizontal: 20,
-    paddingBottom: 24,
-    gap: 14,
+    paddingBottom: 18,
+    gap: 12,
+  },
+  momentumWrap: {
+    marginHorizontal: 8,
+    gap: 8,
+  },
+  momentumRow: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  momentumChip: {
+    flex: 1,
+    borderRadius: 18,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    backgroundColor: "rgba(255,255,255,0.06)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.08)",
+    gap: 3,
+  },
+  momentumChipKicker: {
+    color: "rgba(255,255,255,0.34)",
+    fontSize: 10,
+    fontWeight: "800",
+    letterSpacing: 0.8,
+  },
+  momentumChipValue: {
+    color: "rgba(255,255,255,0.92)",
+    fontSize: 13,
+    fontWeight: "800",
+    letterSpacing: 0.1,
+  },
+  momentumSummary: {
+    color: "rgba(255,255,255,0.46)",
+    fontSize: 12,
+    fontWeight: "500",
+    textAlign: "center",
   },
   infoCard: {
     marginHorizontal: 20,
+    marginTop: 2,
     paddingHorizontal: 24,
-    paddingTop: 20,
-    paddingBottom: 12,
+    paddingTop: 16,
+    paddingBottom: 18,
     alignItems: "center",
     gap: 10,
   },
@@ -138,30 +235,6 @@ const styles = StyleSheet.create({
     fontSize: 13,
     fontWeight: "700",
     letterSpacing: 0.3,
-  },
-  nodeRow: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    gap: 10,
-  },
-  nodeChip: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    borderWidth: 1,
-    borderRadius: 999,
-    paddingHorizontal: 10,
-    paddingVertical: 8,
-  },
-  nodeChipIdle: {
-    borderColor: "rgba(255,255,255,0.1)",
-    backgroundColor: "rgba(255,255,255,0.04)",
-  },
-  nodeChipLabel: {
-    color: "rgba(255,255,255,0.72)",
-    fontSize: 13,
-    fontWeight: "700",
   },
   supportCard: {
     flexDirection: "row",

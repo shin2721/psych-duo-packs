@@ -19,6 +19,10 @@ import { LeagueResult, claimReward } from '../lib/leagueReward';
 import i18n from '../lib/i18n';
 import { Button } from './ui';
 
+function getEngagementAppEnv(): "dev" | "prod" {
+    return typeof __DEV__ !== "undefined" && __DEV__ ? "dev" : "prod";
+}
+
 interface LeagueResultModalProps {
     visible: boolean;
     result: LeagueResult;
@@ -44,6 +48,7 @@ export function LeagueResultModal({
 
         const claimed = await claimReward(result.reward.id);
         if (claimed) {
+            const sourceEventId = `league_reward_claimed:${result.reward.id}`;
             Analytics.track("league_reward_claimed", {
                 rewardId: result.reward.id,
                 gems: claimed.gemsAdded,
@@ -51,6 +56,28 @@ export function LeagueResultModal({
                 weekId: result.reward.week_id,
                 source: "league_result_modal",
             });
+            if (claimed.gemsAdded > 0) {
+                Analytics.track("engagement_reward_granted", {
+                    rewardType: "gems",
+                    rewardAmount: claimed.gemsAdded,
+                    sourceEventName: "league_reward_claimed",
+                    sourceEventId,
+                    idempotencyKey: `${sourceEventId}:gems`,
+                    surface: "league_result",
+                    appEnv: getEngagementAppEnv(),
+                });
+            }
+            if (claimed.badgesAwarded.length > 0) {
+                Analytics.track("engagement_reward_granted", {
+                    rewardType: "badge",
+                    rewardAmount: claimed.badgesAwarded.length,
+                    sourceEventName: "league_reward_claimed",
+                    sourceEventId,
+                    idempotencyKey: `${sourceEventId}:badges`,
+                    surface: "league_result",
+                    appEnv: getEngagementAppEnv(),
+                });
+            }
             onClaim(claimed.gemsAdded, claimed.badgesAwarded, claimed.newBalance);
         }
 

@@ -45,7 +45,14 @@ export class AppErrorBoundary extends React.Component<Props, State> {
             </View>
             <Text style={styles.title}>{String(i18n.t("common.error"))}</Text>
             <Text style={styles.body}>{String(i18n.t("common.unexpectedError"))}</Text>
-            <Pressable style={styles.button} onPress={this.handleRetry}>
+            <Pressable
+              style={styles.button}
+              onPress={this.handleRetry}
+              accessibilityRole="button"
+              accessibilityLabel={String(i18n.t("common.retry"))}
+              accessibilityHint={String(i18n.t("common.unexpectedError"))}
+              testID="app-error-boundary-retry"
+            >
               <Text style={styles.buttonText}>{String(i18n.t("common.retry"))}</Text>
             </Pressable>
           </View>

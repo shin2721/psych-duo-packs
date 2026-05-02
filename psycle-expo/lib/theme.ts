@@ -1,9 +1,11 @@
 export const theme = {
   colors: {
     bg: "#040812",
-    surface: "rgba(15, 23, 42, 0.70)",
-    card: "rgba(17, 28, 49, 0.72)",
-    line: "rgba(45, 62, 95, 0.55)",
+    surface: "rgba(22, 34, 58, 0.48)",
+    card: "rgba(26, 40, 68, 0.56)",
+    line: "rgba(120, 140, 180, 0.14)",
+    cardBorder: "rgba(255, 255, 255, 0.07)",
+    cardEdgeHighlight: "rgba(255, 255, 255, 0.10)",
     text: "#e5e7eb",
     sub: "#b0b8c4",
     accent: "#22d3ee",
@@ -14,6 +16,7 @@ export const theme = {
     primaryLight: "#60a5fa",
   },
   radius: {
+    sm: 8,
     md: 12,
     lg: 16,
     xl: 20,
@@ -26,6 +29,18 @@ export const theme = {
     xl: 32,
   },
   typography: {
+    // Canonical 4-step scale. Use these for new work; h1/h2/h3/label kept for
+    // backwards compatibility.
+    display: {
+      fontSize: 32,
+      fontWeight: "800" as const,
+      lineHeight: 40,
+    },
+    title: {
+      fontSize: 20,
+      fontWeight: "700" as const,
+      lineHeight: 28,
+    },
     h1: {
       fontSize: 28,
       fontWeight: "800" as const,
@@ -42,9 +57,9 @@ export const theme = {
       lineHeight: 28,
     },
     body: {
-      fontSize: 16,
+      fontSize: 17,
       fontWeight: "500" as const,
-      lineHeight: 24,
+      lineHeight: 26,
     },
     label: {
       fontSize: 14,

@@ -1,5 +1,6 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { LinearGradient } from 'expo-linear-gradient';
 import { theme } from '../lib/theme';
 import { dateKey } from '../lib/streaks';
 import i18n from '../lib/i18n';
@@ -128,6 +129,13 @@ export function StreakCalendar({ history, themeColor }: StreakCalendarProps) {
 
     return (
         <View style={styles.container}>
+            <LinearGradient
+                colors={[theme.colors.cardEdgeHighlight, 'rgba(255,255,255,0)']}
+                start={{ x: 0, y: 0 }}
+                end={{ x: 0, y: 1 }}
+                style={styles.edgeHighlight}
+                pointerEvents="none"
+            />
             <View style={styles.headerRow}>
                 <Text style={styles.title}>{i18n.t('streakCalendar.title')}</Text>
                 <Text style={[styles.summary, { color: activeColor }]}>
@@ -190,9 +198,19 @@ export function StreakCalendar({ history, themeColor }: StreakCalendarProps) {
 const styles = StyleSheet.create({
     container: {
         padding: 16,
-        backgroundColor: theme.colors.surface,
+        backgroundColor: theme.colors.card,
         borderRadius: 12,
         marginBottom: 16,
+        borderWidth: StyleSheet.hairlineWidth,
+        borderColor: theme.colors.cardBorder,
+        overflow: 'hidden',
+    },
+    edgeHighlight: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 18,
     },
     headerRow: {
         flexDirection: 'row',

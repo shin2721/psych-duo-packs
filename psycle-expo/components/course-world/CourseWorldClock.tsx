@@ -72,7 +72,15 @@ export function ClockRing({
     : `${themeColor}AA`;
 
   return (
-    <Animated.View style={{ width: size + 40, height: size + 40, alignItems: "center", justifyContent: "center", transform: [{ scale: topScale }] }}>
+    <Animated.View
+      style={{
+        width: size + 40,
+        height: size + 40,
+        alignItems: "center",
+        justifyContent: "center",
+        transform: [{ scale: topScale }],
+      }}
+    >
       {/* 次のレッスン — 脈動アウトライン */}
       {isNextLesson && !isTop ? (
         <Animated.View style={{
@@ -87,21 +95,66 @@ export function ClockRing({
       {/* top ノードの外輪グロー */}
       {isTop ? (
         <>
-          <View style={{ position: "absolute", width: size + 50, height: size + 50, borderRadius: (size + 50) / 2, backgroundColor: themeColor, opacity: 0.15 }} />
-          <View style={{ position: "absolute", width: size + 24, height: size + 24, borderRadius: (size + 24) / 2, backgroundColor: themeColor, opacity: 0.25 }} />
+          <View
+            style={{
+              position: "absolute",
+              width: size + 50,
+              height: size + 50,
+              borderRadius: (size + 50) / 2,
+              backgroundColor: themeColor,
+              opacity: 0.15,
+            }}
+          />
+          <View
+            style={{
+              position: "absolute",
+              width: size + 24,
+              height: size + 24,
+              borderRadius: (size + 24) / 2,
+              backgroundColor: themeColor,
+              opacity: 0.25,
+            }}
+          />
         </>
       ) : null}
 
       <Svg width={size} height={size}>
-        <Circle cx={cx} cy={cy} r={radius} fill="none" stroke={isTop ? `${themeColor}30` : "rgba(60,75,120,0.12)"} strokeWidth={stroke} />
+        <Circle
+          cx={cx}
+          cy={cy}
+          r={radius}
+          fill="none"
+          stroke={isTop ? `${themeColor}30` : "rgba(60,75,120,0.12)"}
+          strokeWidth={stroke}
+        />
         {isTop ? (
-          <Circle cx={cx} cy={cy} r={radius} fill="none" stroke={themeColor} strokeWidth={stroke} strokeLinecap="round"
-            strokeDasharray={`${circumference}`} strokeDashoffset={0} opacity={0.9} />
+          <Circle
+            cx={cx}
+            cy={cy}
+            r={radius}
+            fill="none"
+            stroke={themeColor}
+            strokeWidth={stroke}
+            strokeLinecap="round"
+            strokeDasharray={`${circumference}`}
+            strokeDashoffset={0}
+            opacity={0.9}
+          />
         ) : null}
         {!isTop && (isDone || !isLocked) ? (
-          <Circle cx={cx} cy={cy} r={radius} fill="none" stroke={ringColor} strokeWidth={stroke} strokeLinecap="round"
-            strokeDasharray={`${circumference}`} strokeDashoffset={isDone ? 0 : circumference * 0.5}
-            transform={`rotate(-90, ${cx}, ${cy})`} opacity={0.5} />
+          <Circle
+            cx={cx}
+            cy={cy}
+            r={radius}
+            fill="none"
+            stroke={ringColor}
+            strokeWidth={stroke}
+            strokeLinecap="round"
+            strokeDasharray={`${circumference}`}
+            strokeDashoffset={isDone ? 0 : circumference * 0.5}
+            transform={`rotate(-90, ${cx}, ${cy})`}
+            opacity={0.5}
+          />
         ) : null}
       </Svg>
 
@@ -155,10 +208,17 @@ function ClockItem({
   });
 
   return (
-    <Reanimated.View style={[
-      { position: "absolute", alignItems: "center", justifyContent: "center", zIndex: isTop ? 10 : 1 },
-      animStyle,
-    ]}>
+    <Reanimated.View
+      style={[
+        {
+          position: "absolute",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: isTop ? 10 : 1,
+        },
+        animStyle,
+      ]}
+    >
       <ClockRing node={node} themeColor={themeColor} synColor={synColor} isTop={isTop} isNextLesson={isNextLesson} />
       {isNextLesson && renderNextLessonEffects ? (
         <View style={{ position: "absolute", alignItems: "center", justifyContent: "center" }} pointerEvents="none">

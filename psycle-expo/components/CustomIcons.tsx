@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import Svg, { Path, Circle, Defs, LinearGradient, RadialGradient, Stop, G, Rect, ClipPath, Ellipse, Text } from "react-native-svg";
-import { ViewStyle, StyleProp } from "react-native";
+import { Animated, Easing, ViewStyle, StyleProp } from "react-native";
 
 interface IconProps {
     size?: number;
@@ -9,138 +9,153 @@ interface IconProps {
 }
 
 // ==================== GEM ICON 💎 ====================
-// Emerald crystal with proper facet depth, specular highlight, ambient halo.
-// Color ignores `color` prop intentionally — gems are semantically green.
+// Desaturated teal-emerald crystal. Subordinate to hero streak — lower chroma
+// avoids fighting for attention on dark cosmos surface.
 export function GemIcon({ size = 24, style }: IconProps) {
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
             <Defs>
                 <LinearGradient id="gemBody" x1="50" y1="10" x2="50" y2="90">
-                    <Stop offset="0" stopColor="#34d399" />
-                    <Stop offset="0.5" stopColor="#10b981" />
-                    <Stop offset="1" stopColor="#047857" />
+                    <Stop offset="0" stopColor="#5ec7a8" />
+                    <Stop offset="0.5" stopColor="#2c9b82" />
+                    <Stop offset="1" stopColor="#145e4d" />
                 </LinearGradient>
                 <LinearGradient id="gemTop" x1="50" y1="10" x2="50" y2="40">
-                    <Stop offset="0" stopColor="#a7f3d0" />
-                    <Stop offset="1" stopColor="#10b981" />
+                    <Stop offset="0" stopColor="#9fe0c9" />
+                    <Stop offset="1" stopColor="#2c9b82" />
                 </LinearGradient>
                 <LinearGradient id="gemHighlight" x1="0" y1="0" x2="1" y2="1">
-                    <Stop offset="0" stopColor="#ffffff" stopOpacity={0.9} />
+                    <Stop offset="0" stopColor="#ffffff" stopOpacity={0.85} />
                     <Stop offset="1" stopColor="#ffffff" stopOpacity={0} />
                 </LinearGradient>
             </Defs>
-            {/* Ambient halo */}
-            <Circle cx="50" cy="52" r="46" fill="#10b981" opacity={0.12} />
-            {/* Body (bottom facets) */}
+            {/* Ambient halo — muted */}
+            <Circle cx="50" cy="52" r="46" fill="#2c9b82" opacity={0.09} />
             <Path d="M10 38 L50 92 L90 38 L74 12 L26 12 Z" fill="url(#gemBody)" />
-            {/* Table (top plane) — lighter facets separated from body */}
             <Path d="M10 38 L26 12 L74 12 L90 38 Z" fill="url(#gemTop)" />
-            {/* Central top facet triangle */}
-            <Path d="M26 12 L50 38 L74 12 Z" fill="#6ee7b7" opacity={0.85} />
-            {/* Girdle seam (body/top boundary) */}
-            <Path d="M10 38 L90 38" stroke="#065f46" strokeWidth="1.2" strokeOpacity={0.75} />
-            {/* Facet rib down to culet */}
-            <Path d="M50 38 L50 92" stroke="#065f46" strokeWidth="0.8" strokeOpacity={0.4} />
-            <Path d="M26 12 L50 92" stroke="#065f46" strokeWidth="0.6" strokeOpacity={0.3} />
-            <Path d="M74 12 L50 92" stroke="#065f46" strokeWidth="0.6" strokeOpacity={0.3} />
-            {/* Specular highlight — defines the material */}
-            <Path d="M28 16 L38 14 L42 32 L32 34 Z" fill="url(#gemHighlight)" opacity={0.9} />
-            {/* Sparkle speck */}
-            <Circle cx="33" cy="22" r="1.5" fill="#ffffff" opacity={0.95} />
+            <Path d="M26 12 L50 38 L74 12 Z" fill="#7ccfb5" opacity={0.8} />
+            <Path d="M10 38 L90 38" stroke="#0a4f3e" strokeWidth="1.2" strokeOpacity={0.7} />
+            <Path d="M50 38 L50 92" stroke="#0a4f3e" strokeWidth="0.8" strokeOpacity={0.4} />
+            <Path d="M26 12 L50 92" stroke="#0a4f3e" strokeWidth="0.6" strokeOpacity={0.3} />
+            <Path d="M74 12 L50 92" stroke="#0a4f3e" strokeWidth="0.6" strokeOpacity={0.3} />
+            <Path d="M28 16 L38 14 L42 32 L32 34 Z" fill="url(#gemHighlight)" opacity={0.85} />
+            <Circle cx="33" cy="22" r="1.5" fill="#ffffff" opacity={0.9} />
         </Svg>
     );
 }
 
 // ==================== STREAK ICON 🔥 ====================
-// Three-tongue flame with rising embers. Warm crafted palette, not stock SVG.
-// Color is semantic (fire = orange/red), ignores `color` prop.
-export function StreakIcon({ size = 24, style }: IconProps) {
+// Hero element. Full saturation warm palette retained (hero can dominate).
+// When `active`, a 2.4s breathing loop (scale+opacity) signals "alive".
+export function StreakIcon({ size = 24, style, active = false }: IconProps & { active?: boolean }) {
+    const pulse = useRef(new Animated.Value(0)).current;
+    useEffect(() => {
+        if (!active) {
+            pulse.setValue(0);
+            return;
+        }
+        const loop = Animated.loop(
+            Animated.sequence([
+                Animated.timing(pulse, {
+                    toValue: 1,
+                    duration: 1200,
+                    easing: Easing.inOut(Easing.sin),
+                    useNativeDriver: true,
+                }),
+                Animated.timing(pulse, {
+                    toValue: 0,
+                    duration: 1200,
+                    easing: Easing.inOut(Easing.sin),
+                    useNativeDriver: true,
+                }),
+            ])
+        );
+        loop.start();
+        return () => loop.stop();
+    }, [active, pulse]);
+
+    const scale = pulse.interpolate({ inputRange: [0, 1], outputRange: [1, 1.06] });
+    const glowOpacity = pulse.interpolate({ inputRange: [0, 1], outputRange: [0.85, 1] });
+
     return (
-        <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
-            <Defs>
-                <LinearGradient id="flameOuter" x1="50" y1="10" x2="50" y2="95">
-                    <Stop offset="0" stopColor="#fb923c" />
-                    <Stop offset="0.6" stopColor="#ef4444" />
-                    <Stop offset="1" stopColor="#991b1b" />
-                </LinearGradient>
-                <LinearGradient id="flameInner" x1="50" y1="30" x2="50" y2="88">
-                    <Stop offset="0" stopColor="#fef3c7" />
-                    <Stop offset="0.5" stopColor="#fbbf24" />
-                    <Stop offset="1" stopColor="#f97316" />
-                </LinearGradient>
-            </Defs>
-            {/* Warm halo */}
-            <Ellipse cx="50" cy="60" rx="46" ry="42" fill="#f97316" opacity={0.18} />
-            {/* Outer flame: 3 tongues (main + 2 side licks) */}
-            <Path
-                d="M50 92 C28 92 14 77 14 58
-                   C14 40 22 28 32 22
-                   C32 32 36 38 40 40
-                   C42 28 50 14 50 6
-                   C50 14 58 28 60 40
-                   C64 38 68 32 68 22
-                   C78 28 86 40 86 58
-                   C86 77 72 92 50 92 Z"
-                fill="url(#flameOuter)"
-            />
-            {/* Inner hotter flame */}
-            <Path
-                d="M50 86 C36 86 26 74 26 60
-                   C26 46 38 32 44 22
-                   C46 36 50 42 50 42
-                   C50 42 54 36 56 22
-                   C62 32 74 46 74 60
-                   C74 74 64 86 50 86 Z"
-                fill="url(#flameInner)"
-                opacity={0.9}
-            />
-            {/* Bright core */}
-            <Ellipse cx="50" cy="68" rx="7" ry="11" fill="#fffbeb" opacity={0.7} />
-            {/* Rising embers */}
-            <Circle cx="38" cy="14" r="1.6" fill="#fbbf24" opacity={0.9} />
-            <Circle cx="64" cy="10" r="1.2" fill="#fbbf24" opacity={0.75} />
-            <Circle cx="72" cy="22" r="1" fill="#fde68a" opacity={0.6} />
-        </Svg>
+        <Animated.View style={[{ transform: [{ scale }], opacity: glowOpacity }, style]}>
+            <Svg width={size} height={size} viewBox="0 0 100 100">
+                <Defs>
+                    <LinearGradient id="flameOuter" x1="50" y1="10" x2="50" y2="95">
+                        <Stop offset="0" stopColor="#fb923c" />
+                        <Stop offset="0.6" stopColor="#ef4444" />
+                        <Stop offset="1" stopColor="#991b1b" />
+                    </LinearGradient>
+                    <LinearGradient id="flameInner" x1="50" y1="30" x2="50" y2="88">
+                        <Stop offset="0" stopColor="#fef3c7" />
+                        <Stop offset="0.5" stopColor="#fbbf24" />
+                        <Stop offset="1" stopColor="#f97316" />
+                    </LinearGradient>
+                </Defs>
+                <Ellipse cx="50" cy="60" rx="46" ry="42" fill="#f97316" opacity={0.18} />
+                <Path
+                    d="M50 92 C28 92 14 77 14 58
+                       C14 40 22 28 32 22
+                       C32 32 36 38 40 40
+                       C42 28 50 14 50 6
+                       C50 14 58 28 60 40
+                       C64 38 68 32 68 22
+                       C78 28 86 40 86 58
+                       C86 77 72 92 50 92 Z"
+                    fill="url(#flameOuter)"
+                />
+                <Path
+                    d="M50 86 C36 86 26 74 26 60
+                       C26 46 38 32 44 22
+                       C46 36 50 42 50 42
+                       C50 42 54 36 56 22
+                       C62 32 74 46 74 60
+                       C74 74 64 86 50 86 Z"
+                    fill="url(#flameInner)"
+                    opacity={0.9}
+                />
+                <Ellipse cx="50" cy="68" rx="7" ry="11" fill="#fffbeb" opacity={0.7} />
+                <Circle cx="38" cy="14" r="1.6" fill="#fbbf24" opacity={0.9} />
+                <Circle cx="64" cy="10" r="1.2" fill="#fbbf24" opacity={0.75} />
+                <Circle cx="72" cy="22" r="1" fill="#fde68a" opacity={0.6} />
+            </Svg>
+        </Animated.View>
     );
 }
 
 // ==================== ENERGY BOLT ICON ⚡ ====================
-// Tapered bolt with inner hotline, amber-gold palette (not generic blue).
-// Color is semantic (energy = amber/electric-gold), ignores `color` prop.
+// Desaturated brass-gold bolt. Subordinate to streak hero; readable but not
+// competing with the warm saturated flame.
 export function EnergyIcon({ size = 24, style }: IconProps) {
     return (
         <Svg width={size} height={size} viewBox="0 0 100 100" style={style}>
             <Defs>
                 <LinearGradient id="boltBody" x1="50" y1="5" x2="50" y2="95">
-                    <Stop offset="0" stopColor="#fde047" />
-                    <Stop offset="0.5" stopColor="#f59e0b" />
-                    <Stop offset="1" stopColor="#b45309" />
+                    <Stop offset="0" stopColor="#f1d473" />
+                    <Stop offset="0.5" stopColor="#c89530" />
+                    <Stop offset="1" stopColor="#6e4512" />
                 </LinearGradient>
                 <LinearGradient id="boltInner" x1="50" y1="10" x2="50" y2="90">
-                    <Stop offset="0" stopColor="#fffbeb" stopOpacity={0.95} />
-                    <Stop offset="1" stopColor="#fbbf24" stopOpacity={0.3} />
+                    <Stop offset="0" stopColor="#fbf3d7" stopOpacity={0.9} />
+                    <Stop offset="1" stopColor="#e6c475" stopOpacity={0.28} />
                 </LinearGradient>
             </Defs>
-            {/* Halo */}
-            <Ellipse cx="50" cy="50" rx="46" ry="46" fill="#f59e0b" opacity={0.16} />
-            {/* Main bolt */}
+            <Ellipse cx="50" cy="50" rx="46" ry="46" fill="#c89530" opacity={0.11} />
             <Path
                 d="M56 5 L22 55 L46 55 L38 95 L82 42 L56 42 Z"
                 fill="url(#boltBody)"
-                stroke="#78350f"
+                stroke="#5a3810"
                 strokeWidth="1.2"
-                strokeOpacity={0.6}
+                strokeOpacity={0.55}
                 strokeLinejoin="round"
             />
-            {/* Inner hotline — a thinner bolt overlaid for a "lit filament" feel */}
             <Path
                 d="M54 14 L32 52 L48 52 L43 80 L72 44 L54 44 Z"
                 fill="url(#boltInner)"
             />
-            {/* Spark particles */}
-            <Circle cx="18" cy="38" r="1.6" fill="#fde047" opacity={0.9} />
-            <Circle cx="85" cy="30" r="1.2" fill="#fde047" opacity={0.8} />
-            <Circle cx="80" cy="72" r="1.4" fill="#fde047" opacity={0.75} />
+            <Circle cx="18" cy="38" r="1.6" fill="#f1d473" opacity={0.8} />
+            <Circle cx="85" cy="30" r="1.2" fill="#f1d473" opacity={0.7} />
+            <Circle cx="80" cy="72" r="1.4" fill="#f1d473" opacity={0.65} />
         </Svg>
     );
 }

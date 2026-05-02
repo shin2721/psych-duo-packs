@@ -35,29 +35,29 @@ export function GlobalHeader() {
           <Ionicons name="chevron-down" size={12} color={theme.colors.sub} />
         </Pressable>
 
-        {/* 2. Study Streak */}
+        {/* 2. Study Streak — HERO */}
         <Pressable
-          style={[styles.item, streak === 0 && styles.itemDim]}
+          style={[styles.heroItem, streak === 0 && styles.itemDim]}
           onPress={() => router.push("/(tabs)/course")}
           accessibilityRole="button"
           accessibilityLabel={String(i18n.t("globalHeader.a11y.streak", { count: streak }))}
         >
-          <StreakIcon size={22} />
-          <Text style={styles.value}>{streak}</Text>
+          <StreakIcon size={28} active={streak > 0} />
+          <Text style={styles.heroValue}>{streak}</Text>
         </Pressable>
 
-        {/* 3. Gems */}
+        {/* 3. Gems — subordinate */}
         <Pressable
           style={[styles.item, gems === 0 && styles.itemDim]}
           onPress={() => router.push("/(tabs)/shop")}
           accessibilityRole="button"
           accessibilityLabel={String(i18n.t("globalHeader.a11y.gems", { count: gems }))}
         >
-          <GemIcon size={20} />
-          <Text style={styles.value}>{gems}</Text>
+          <GemIcon size={18} />
+          <Text style={styles.subValue}>{gems}</Text>
         </Pressable>
 
-        {/* 4. Energy */}
+        {/* 4. Energy — subordinate */}
         <Pressable
           style={[styles.item, !isSubscriptionActive && energy <= 0 && styles.itemDim]}
           onPress={() => {
@@ -72,8 +72,8 @@ export function GlobalHeader() {
             )
           )}
         >
-          <EnergyIcon size={20} />
-          <Text style={styles.value}>
+          <EnergyIcon size={18} />
+          <Text style={styles.subValue}>
             {isSubscriptionActive ? "∞" : energy}
           </Text>
         </Pressable>
@@ -105,8 +105,16 @@ const styles = StyleSheet.create({
   item: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 6,
-    minWidth: 44, // Minimum touch area
+    gap: 5,
+    minWidth: 44,
+    minHeight: 44,
+    justifyContent: 'center',
+  },
+  heroItem: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 7,
+    minWidth: 52,
     minHeight: 44,
     justifyContent: 'center',
   },
@@ -114,7 +122,20 @@ const styles = StyleSheet.create({
     gap: 2,
   },
   itemDim: {
-    opacity: 0.4,
+    opacity: 0.45,
+  },
+  heroValue: {
+    fontSize: 19,
+    fontWeight: "800",
+    fontVariant: ["tabular-nums"],
+    color: theme.colors.text,
+    letterSpacing: -0.3,
+  },
+  subValue: {
+    fontSize: 14,
+    fontWeight: "700",
+    fontVariant: ["tabular-nums"],
+    color: theme.colors.sub,
   },
   value: {
     fontSize: 16,

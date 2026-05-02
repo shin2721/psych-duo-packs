@@ -30,7 +30,13 @@ interface Props {
   testID?: string;
   showMeta?: boolean;
   showPrimaryAction?: boolean;
+  hideVisibleCopy?: boolean;
   heroOffsetY?: number;
+  habitSummary?: {
+    dailyGoal: number;
+    dailyXP: number;
+    streak: number;
+  };
 }
 
 const CLOCK_ZONE = COURSE_WORLD_CLOCK_RADIUS * 3 + 130 + 60;
@@ -47,7 +53,9 @@ export function CourseWorldHero({
   testID = "course-world-hero",
   showMeta = true,
   showPrimaryAction = true,
+  hideVisibleCopy = false,
   heroOffsetY = 0,
+  habitSummary,
 }: Props) {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -56,9 +64,8 @@ export function CourseWorldHero({
     [model, nextLessonId]
   );
   const interactionZoneHeight = Math.max(280, Math.min(CLOCK_ZONE, height * 0.34));
-
-  // 初回マウント時のフェードイン
   const mountOpacity = useRef(new Animated.Value(0)).current;
+
   useEffect(() => {
     Animated.timing(mountOpacity, {
       toValue: 1,
@@ -67,7 +74,7 @@ export function CourseWorldHero({
       easing: Easing.out(Easing.quad),
       useNativeDriver: true,
     }).start();
-  }, []);
+  }, [mountOpacity]);
 
   const {
     svRotOffset,
@@ -96,9 +103,21 @@ export function CourseWorldHero({
       <Animated.View style={styles.mountLayer}>
         <View style={styles.spacerTop} />
 
-        <Animated.View style={[styles.header, { opacity: headerOpacity, paddingTop: insets.top }]}>
+        <Animated.View
+          style={[
+            styles.header,
+            hideVisibleCopy ? styles.headerIconOnly : null,
+            { opacity: headerOpacity, paddingTop: insets.top },
+          ]}
+        >
           <Pressable
-            style={styles.unitBadge}
+            style={[
+              styles.unitBadge,
+              hideVisibleCopy ? [
+                styles.unitBadgeIconOnly,
+                { borderColor: `${model.themeColor}33`, backgroundColor: `${model.themeColor}12` },
+              ] : null,
+            ]}
             onPress={onUnitPress}
             accessibilityRole="button"
             accessibilityLabel="ユニット選択"
@@ -109,7 +128,7 @@ export function CourseWorldHero({
                 { backgroundColor: model.themeColor, shadowColor: model.themeColor },
               ]}
             />
-            <Text style={styles.unitText}>{model.unitLabel}</Text>
+            {hideVisibleCopy ? null : <Text style={styles.unitText}>{model.unitLabel}</Text>}
             <Ionicons color="rgba(255,255,255,0.35)" name="chevron-down" size={14} />
           </Pressable>
         </Animated.View>
@@ -199,6 +218,8 @@ export function CourseWorldHero({
           onNodePress={onNodePress}
           showMeta={showMeta}
           showPrimaryAction={showPrimaryAction}
+          hideVisibleCopy={hideVisibleCopy}
+          habitSummary={habitSummary}
         />
 
         <View style={styles.spacerBottom} />
@@ -220,10 +241,26 @@ const styles = StyleSheet.create({
     paddingTop: 24,
     height: 52,
   },
+  headerIconOnly: {
+    height: 64,
+    position: "absolute",
+    top: 0,
+    left: 0,
+    right: 0,
+    zIndex: 30,
+  },
   unitBadge: {
     flexDirection: "row",
     alignItems: "center",
     gap: 7,
+  },
+  unitBadgeIconOnly: {
+    justifyContent: "center",
+    minWidth: 44,
+    minHeight: 44,
+    borderRadius: 22,
+    borderWidth: 1,
+    paddingHorizontal: 12,
   },
   unitDot: {
     width: 9,
