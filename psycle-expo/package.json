@@ -3,21 +3,26 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "start": "npm run claude:sync-preview && expo start --dev-client --scheme psycle",
-    "start:claude-preview": "npm run claude:sync-preview && expo start --dev-client",
-    "android": "expo start --android --dev-client",
-    "ios": "npm run claude:sync-preview && expo start --ios --dev-client --scheme psycle",
-    "ios:claude-preview": "npm run claude:sync-preview && expo start --ios --dev-client",
+    "start": "expo start --dev-client --scheme psycle --host localhost --port 8082",
+    "start:lan": "expo start --dev-client --scheme psycle --host lan --port 8082",
+    "metro:agent:install": "bash scripts/metro/install-launch-agent.sh",
+    "metro:agent:status": "bash scripts/metro/status.sh",
+    "android": "expo start --android --dev-client --host localhost --port 8082",
+    "ios": "expo start --ios --dev-client --scheme psycle --host localhost --port 8082",
+    "ios:lan": "expo start --ios --dev-client --scheme psycle --host lan --port 8082",
     "ios:repair:native": "node scripts/ios/apply-native-repair.mjs && cd ios && COCOAPODS_DISABLE_STATS=1 /opt/homebrew/bin/pod install --ansi && cd .. && node scripts/ios/apply-native-repair.mjs",
     "ios:repair:seed-swift-headers": "node scripts/ios/seed-swift-compat-headers.mjs",
     "ios:repair:build:generic": "bash scripts/ios/run-repair-build-detached.sh",
     "ios:repair:build:device": "bash scripts/ios/run-device-repair-build-detached.sh",
-    "web": "expo start --web",
-    "tunnel": "expo start --tunnel --dev-client --scheme psycle",
+    "ios:free:refresh": "bash scripts/ios/refresh-free-device.sh",
+    "ios:free:expiry": "bash scripts/ios/print-provision-expiry.sh",
+    "web": "expo start --web --port 8082",
+    "tunnel": "expo start --tunnel --dev-client --scheme psycle --port 8082",
     "postinstall": "node scripts/ios/apply-native-repair.mjs",
     "typecheck": "tsc -p tsconfig.app.json --noEmit",
     "typecheck:app": "npm run typecheck",
-    "claude:sync-preview": "node scripts/sync-claude-preview.mjs",
+    "check:launch-readiness": "node scripts/check-launch-readiness.mjs",
+    "check:launch-env": "node scripts/check-launch-env.mjs",
     "test:billing:smoke": "jest --watchman=false --runInBand src/__tests__/billing.test.ts",
     "test:settings-notifications:smoke": "jest --watchman=false --runInBand src/__tests__/settingsNotificationsToggle.test.ts",
     "questions": "node scripts/generate_questions.mjs",
@@ -41,6 +46,8 @@
     "lint:book-sources": "node scripts/lint-book-sources.js",
     "lint:safety-display": "node scripts/lint-safety-display.js",
     "lint:evidence-quality": "node scripts/lint-evidence-quality.js",
+    "audit:lesson-perspectives": "node scripts/audit-lesson-perspectives.mjs --check",
+    "audit:lesson-perspectives:all": "node scripts/audit-lesson-perspectives.mjs --check --all-locales",
     "check:staging-empty": "node scripts/check-staging-empty.js",
     "check:staging-empty:ci": "FAIL_ON_STAGING=1 node scripts/check-staging-empty.js",
     "create:release-zip": "node scripts/create-release-zip.js",
@@ -76,7 +83,11 @@
     "e2e:build:ios": "detox build --configuration ios.sim.release",
     "e2e:ios:release": "detox test --configuration ios.sim.release",
     "e2e:build:ios:release": "detox build --configuration ios.sim.release",
+    "e2e:ios:psycle": "detox test --configuration ios.sim.release.psycle",
+    "e2e:ios:psycle:smoke": "bash scripts/run-release-smoke-e2e.sh",
+    "e2e:ios:psycle:smoke:build": "npm run e2e:build:ios && npm run e2e:ios:psycle:smoke",
     "e2e:ios:debug": "detox test --configuration ios.sim.debug",
+    "e2e:ios:debug:psycle": "detox test --configuration ios.sim.debug.psycle",
     "e2e:build:ios:debug": "detox build --configuration ios.sim.debug",
     "ops:data-access:check": "bash scripts/ops/check-assistant-data-access.sh",
     "ops:stripe:snapshot": "bash scripts/ops/stripe-monetization-snapshot.sh",
@@ -110,6 +121,7 @@
     "@iamtraction/google-translate": "^2.0.1",
     "@react-native-async-storage/async-storage": "^2.2.0",
     "@react-native-picker/picker": "^2.11.1",
+    "@shopify/react-native-skia": "2.2.12",
     "@supabase/supabase-js": "^2.83.0",
     "dotenv": "^17.2.3",
     "expo": "54.0.12",
@@ -127,6 +139,7 @@
     "expo-status-bar": "~3.0.8",
     "html-entities": "^2.6.0",
     "i18n-js": "^4.5.1",
+    "moti": "^0.30.0",
     "react": "19.1.0",
     "react-dom": "19.1.0",
     "react-native": "0.81.4",
@@ -157,12 +170,12 @@
       "ios.debug": {
         "type": "ios.app",
         "binaryPath": "ios/build/Build/Products/Debug-iphonesimulator/Psycle.app",
-        "build": "xcodebuild -workspace ios/Psycle.xcworkspace -scheme Psycle -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build"
+        "build": "EXPO_PUBLIC_E2E_ANALYTICS_DEBUG=1 xcodebuild -workspace ios/Psycle.xcworkspace -scheme Psycle -configuration Debug -sdk iphonesimulator -derivedDataPath ios/build ARCHS=arm64 EXCLUDED_ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES"
       },
       "ios.release": {
         "type": "ios.app",
         "binaryPath": "ios/build-release/Build/Products/Release-iphonesimulator/Psycle.app",
-        "build": "EXPO_PUBLIC_E2E_ANALYTICS_DEBUG=1 xcodebuild -workspace ios/Psycle.xcworkspace -scheme Psycle -configuration Release -sdk iphonesimulator -derivedDataPath ios/build-release"
+        "build": "EXPO_PUBLIC_E2E_ANALYTICS_DEBUG=1 xcodebuild -workspace ios/Psycle.xcworkspace -scheme Psycle -configuration Release -sdk iphonesimulator -derivedDataPath ios/build-release ARCHS=arm64 EXCLUDED_ARCHS=x86_64 ONLY_ACTIVE_ARCH=YES"
       }
     },
     "devices": {
@@ -171,6 +184,12 @@
         "device": {
           "type": "iPhone 17 Pro"
         }
+      },
+      "psycleLocalSimulator": {
+        "type": "ios.simulator",
+        "device": {
+          "id": "136DAFE4-586A-4227-8AFB-D9F33F68D32A"
+        }
       }
     },
     "configurations": {
@@ -178,8 +197,16 @@
         "device": "simulator",
         "app": "ios.debug"
       },
+      "ios.sim.debug.psycle": {
+        "device": "psycleLocalSimulator",
+        "app": "ios.debug"
+      },
       "ios.sim.release": {
         "device": "simulator",
+        "app": "ios.release"
+      },
+      "ios.sim.release.psycle": {
+        "device": "psycleLocalSimulator",
         "app": "ios.release"
       }
     }

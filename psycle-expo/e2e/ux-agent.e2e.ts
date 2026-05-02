@@ -41,6 +41,10 @@ const SCREENSHOT_DIR = path.join(CMD_DIR, 'screenshots');
 const POLL_INTERVAL_MS = 150;
 const KEEPALIVE_INTERVAL_MS = 4000;
 const USE_DEV_CLIENT_BOOTSTRAP = process.env.E2E_BOOTSTRAP_DEV_CLIENT === '1';
+const PSYCLE_SIMULATOR_UDID =
+  process.env.UX_AGENT_SIMULATOR_UDID ||
+  process.env.PSYCLE_SIMULATOR_UDID ||
+  '136DAFE4-586A-4227-8AFB-D9F33F68D32A';
 const DEV_SERVER_URL = withDisableOnboarding(resolveDevServerUrl());
 const DEV_CLIENT_URL = `psycle://expo-development-client/?url=${encodeURIComponent(DEV_SERVER_URL)}`;
 const SINGLE_COMMAND_JSON = process.env.UX_AGENT_SINGLE_COMMAND_JSON || '';
@@ -213,7 +217,9 @@ async function bootstrapDevClientToApp(): Promise<void> {
 
   console.log('[ux-agent] sending simctl openurl');
   try {
-    execFileSync('xcrun', ['simctl', 'openurl', 'booted', DEV_CLIENT_URL], { stdio: 'ignore' });
+    execFileSync('xcrun', ['simctl', 'openurl', PSYCLE_SIMULATOR_UDID, DEV_CLIENT_URL], {
+      stdio: 'ignore',
+    });
   } catch (error) {
     console.log('[ux-agent] simctl openurl failed; falling back to device.openURL');
     await getDevice().openURL({ url: DEV_CLIENT_URL });
@@ -262,12 +268,12 @@ function resolveDevServerUrl(): string {
     if (!entries) continue;
     for (const entry of entries) {
       if (entry.family === 'IPv4' && !entry.internal) {
-        return `http://${entry.address}:8081`;
+        return `http://${entry.address}:8082`;
       }
     }
   }
 
-  return 'http://127.0.0.1:8081';
+  return 'http://127.0.0.1:8082';
 }
 
 function withDisableOnboarding(urlString: string): string {

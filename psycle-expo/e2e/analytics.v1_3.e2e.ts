@@ -11,14 +11,14 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as os from 'os';
 
-jest.setTimeout(300000);
+jest.setTimeout(900000);
 
 const ARTIFACTS_DIR = path.join(__dirname, '..', 'artifacts');
 const REPORT_FILE = path.join(ARTIFACTS_DIR, 'analytics_e2e_report.json');
 const REPORT_TEXT_FILE = path.join(ARTIFACTS_DIR, 'analytics_e2e_report.txt');
 const USE_DEV_CLIENT_BOOTSTRAP = process.env.E2E_BOOTSTRAP_DEV_CLIENT === '1';
-const DEV_SERVER_URL = resolveDevServerUrl();
-const DEV_CLIENT_URL = `exp+psycle-expo://expo-development-client/?url=${encodeURIComponent(DEV_SERVER_URL)}`;
+const DEV_SERVER_URL = withDevMenuOnboardingDisabled(resolveDevServerUrl());
+const DEV_CLIENT_URL = `psycle://expo-development-client/?url=${encodeURIComponent(DEV_SERVER_URL)}`;
 
 // Ensure artifacts directory exists
 if (!fs.existsSync(ARTIFACTS_DIR)) {
@@ -26,6 +26,9 @@ if (!fs.existsSync(ARTIFACTS_DIR)) {
 }
 
 describe('Analytics v1.3 E2E', () => {
+  let initialScenarioReport: any = null;
+  let secondScenarioReport: any = null;
+
   beforeAll(async () => {
     // Reset device to clean state
     await device.resetContentAndSettings();
@@ -99,13 +102,17 @@ describe('Analytics v1.3 E2E', () => {
       // Wait for course screen to load
       await sleep(1000);
       
-      // Find and tap the first current lesson node
-      await waitFor(element(by.id('lesson-node-m1'))).toBeVisible().withTimeout(10000);
-      await element(by.id('lesson-node-m1')).tap();
-      
-      // Wait for modal to appear and tap start button
-      await waitFor(element(by.id('modal-primary-button'))).toBeVisible().withTimeout(10000);
-      await tapModalPrimaryUntilLessonOpens();
+      // Start the current lesson. Course world no longer exposes the legacy node ID in every mode.
+      const lessonStartControl = await waitForAnyVisibleById(
+        ['course-world-support', 'course-world-primary', 'course-next-step-cta', 'lesson-node-m1'],
+        45000
+      );
+      await element(by.id(lessonStartControl)).tap();
+
+      // Legacy course opens a modal first; course-world starts directly.
+      if (await isVisibleById('modal-primary-button', 5000)) {
+        await tapModalPrimaryUntilLessonOpens();
+      }
       
       // Wait for lesson_start event
       await sleep(1000);
@@ -145,6 +152,7 @@ describe('Analytics v1.3 E2E', () => {
 
       // Step 7: Read and validate analytics state
       initialReport = await readAnalyticsDebugState();
+      initialScenarioReport = initialReport;
       
       console.log('📊 Initial Launch Report:', JSON.stringify(initialReport, null, 2));
 
@@ -205,6 +213,7 @@ describe('Analytics v1.3 E2E', () => {
 
       // Step 4: Read and validate analytics state
       secondReport = await readAnalyticsDebugState();
+      secondScenarioReport = secondReport;
       
       console.log('📊 Second Launch Report:', JSON.stringify(secondReport, null, 2));
 
@@ -239,6 +248,8 @@ describe('Analytics v1.3 E2E', () => {
       
       // Get final state
       const finalReport = await readAnalyticsDebugState();
+      const initialReportForOutput = initialScenarioReport ?? finalReport;
+      const secondReportForOutput = secondScenarioReport ?? finalReport;
       
       // Generate comprehensive report
       const testReport = {
@@ -247,24 +258,36 @@ describe('Analytics v1.3 E2E', () => {
         scenarios: {
           initialLaunch: {
             status: 'completed',
-            events: finalReport.counters,
-            anonId: finalReport.anonId,
-            passed: finalReport.passed,
-            failures: finalReport.failures
+            events: initialReportForOutput.counters,
+            anonId: initialReportForOutput.anonId,
+            passed: initialReportForOutput.passed,
+            failures: initialReportForOutput.failures
           },
           secondLaunch: {
             status: 'completed',
-            secondLaunchMode: finalReport.secondLaunchMode,
-            passed: finalReport.passed,
-            failures: finalReport.failures
+            events: secondReportForOutput.counters,
+            secondLaunchMode: secondReportForOutput.secondLaunchMode,
+            passed: secondReportForOutput.passed,
+            failures: secondReportForOutput.failures
           }
         },
-        overallResult: finalReport.passed ? 'PASS' : 'FAIL',
+        overallResult: initialReportForOutput.passed && secondReportForOutput.passed && finalReport.passed ? 'PASS' : 'FAIL',
         summary: {
-          totalEvents: Object.values(finalReport.counters).reduce((sum: number, count: any) => sum + count, 0),
-          uniqueAnonId: finalReport.anonId !== 'unknown' && !finalReport.anonId.includes('unknown'),
-          noMultipleFires: finalReport.counters['session_start'] <= 1 && finalReport.counters['app_ready'] <= 1,
-          secondLaunchCorrect: finalReport.secondLaunchMode ? (finalReport.counters['app_open'] || 0) === 0 : true
+          totalEvents:
+            Object.values(initialReportForOutput.counters).reduce((sum: number, count: any) => sum + count, 0) +
+            Object.values(secondReportForOutput.counters).reduce((sum: number, count: any) => sum + count, 0),
+          uniqueAnonId:
+            initialReportForOutput.anonId !== 'unknown' &&
+            !initialReportForOutput.anonId.includes('unknown') &&
+            secondReportForOutput.anonId === initialReportForOutput.anonId,
+          noMultipleFires:
+            initialReportForOutput.counters['session_start'] <= 1 &&
+            initialReportForOutput.counters['app_ready'] <= 1 &&
+            secondReportForOutput.counters['session_start'] <= 1 &&
+            secondReportForOutput.counters['app_ready'] <= 1,
+          secondLaunchCorrect: secondReportForOutput.secondLaunchMode
+            ? (secondReportForOutput.counters['app_open'] || 0) === 0
+            : true
         }
       };
 
@@ -290,6 +313,12 @@ async function navigateToAnalyticsDebug(): Promise<void> {
   try {
     if (await isVisibleById('analytics-status', 2500)) {
       return;
+    }
+
+    if (await isVisibleById('auth-guest-login', 2500)) {
+      await element(by.id('auth-guest-login')).tap();
+      await sleep(2000);
+      await dismissBlockingSystemAlerts();
     }
     
     // Navigate to profile tab
@@ -547,8 +576,10 @@ async function scrollUntilVisibleById(anchorTestID: string, targetTestID: string
 }
 
 async function bootstrapDevClientToApp(): Promise<void> {
+  const entryTestIDs = ['onboarding-start', 'onboarding-interests-title', 'auth-guest-login', 'tab-course'];
+
   // If app UI already visible, no bootstrap needed.
-  if (await isAnyVisibleById(['onboarding-start', 'onboarding-interests-title', 'auth-guest-login', 'tab-course'], 1500)) {
+  if (await isAnyVisibleById(entryTestIDs, 1500)) {
     return;
   }
 
@@ -561,8 +592,16 @@ async function bootstrapDevClientToApp(): Promise<void> {
   // iOS may show a confirmation alert: `"psycle-expo"で開きますか?`
   await tapFirstVisibleText(['開く', 'Open'], 10000);
 
-  // Dev menu overlay can persist after app open. Dismiss it explicitly.
-  await tapFirstVisibleText(['Continue', '続行', '続ける'], 5000);
+  // Dev menu overlay can appear after the app surface loads and hide Detox-visible IDs.
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < 45000) {
+    await tapFirstVisibleText(['Continue', '続行', '続ける', 'Close', '閉じる'], 1200);
+    await tapFirstVisibleText(['開く', 'Open'], 1200);
+    if (await isAnyVisibleById(entryTestIDs, 900)) {
+      return;
+    }
+    await sleep(500);
+  }
 
   await sleep(1500);
 }
@@ -598,14 +637,36 @@ async function isVisibleByText(text: string, timeout = 1500): Promise<boolean> {
   }
 }
 
+async function isVisibleByLabel(label: string, timeout = 1500): Promise<boolean> {
+  try {
+    await waitFor(element(by.label(label))).toBeVisible().withTimeout(timeout);
+    return true;
+  } catch (e) {
+    return false;
+  }
+}
+
 async function tapFirstVisibleText(texts: string[], timeoutMs: number): Promise<boolean> {
   const startedAt = Date.now();
   while (Date.now() - startedAt < timeoutMs) {
     for (const text of texts) {
       if (await isVisibleByText(text, 700)) {
         console.log(`ℹ️ tapping visible text: ${text}`);
-        await element(by.text(text)).tap();
-        return true;
+        try {
+          await element(by.text(text)).tap();
+          return true;
+        } catch (error) {
+          console.log(`ℹ️ visible text was not hittable: ${text}`);
+        }
+      }
+      if (await isVisibleByLabel(text, 700)) {
+        console.log(`ℹ️ tapping visible label: ${text}`);
+        try {
+          await element(by.label(text)).tap();
+          return true;
+        } catch (error) {
+          console.log(`ℹ️ visible label was not hittable: ${text}`);
+        }
       }
     }
     await sleep(250);
@@ -642,17 +703,27 @@ function resolveDevServerUrl(): string {
     return process.env.E2E_DEV_SERVER_URL;
   }
 
+  if (process.env.E2E_PREFER_LAN_DEV_SERVER !== '1') {
+    return 'http://127.0.0.1:8082';
+  }
+
   const interfaces = os.networkInterfaces();
   for (const entries of Object.values(interfaces)) {
     if (!entries) continue;
     for (const entry of entries) {
       if (entry.family === 'IPv4' && !entry.internal) {
-        return `http://${entry.address}:8081`;
+        return `http://${entry.address}:8082`;
       }
     }
   }
 
-  return 'http://127.0.0.1:8081';
+  return 'http://127.0.0.1:8082';
+}
+
+function withDevMenuOnboardingDisabled(urlString: string): string {
+  const url = new URL(urlString);
+  url.searchParams.set('disableOnboarding', '1');
+  return url.toString();
 }
 
 function generateTextReport(report: any): string {
@@ -687,7 +758,13 @@ function generateTextReport(report: any): string {
     `Status: ${report.scenarios.secondLaunch.status}`,
     `Passed: ${report.scenarios.secondLaunch.passed}`,
     `Second Launch Mode: ${report.scenarios.secondLaunch.secondLaunchMode}`,
+    '',
+    'Event Counters:',
   );
+
+  Object.entries(report.scenarios.secondLaunch.events).forEach(([event, count]) => {
+    lines.push(`  ${event}: ${count}`);
+  });
 
   if (report.scenarios.secondLaunch.failures.length > 0) {
     lines.push('', 'Failures:');

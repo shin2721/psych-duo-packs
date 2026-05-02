@@ -1,6 +1,6 @@
 import { by, device, element, expect as detoxExpect, waitFor } from 'detox';
 
-jest.setTimeout(360000);
+jest.setTimeout(900000);
 
 describe('UI Full Touch Walkthrough', () => {
   beforeAll(async () => {
@@ -46,10 +46,8 @@ describe('UI Full Touch Walkthrough', () => {
     // Course + Lesson touch
     await waitFor(element(by.id('tab-course'))).toBeVisible().withTimeout(30000);
     await element(by.id('tab-course')).tap();
-    await waitFor(element(by.id('lesson-node-m1'))).toBeVisible().withTimeout(20000);
-    await element(by.id('lesson-node-m1')).tap();
-    await waitFor(element(by.id('modal-primary-button'))).toBeVisible().withTimeout(10000);
-    await tapModalPrimaryUntilLessonOpens();
+    await device.takeScreenshot(`ui-touch-course-${Date.now()}`);
+    await launchLessonFromCourseWorld();
     await waitFor(element(by.id('lesson-screen'))).toBeVisible().withTimeout(30000);
     await device.takeScreenshot(`ui-touch-lesson-${Date.now()}`);
 
@@ -100,15 +98,9 @@ describe('UI Full Touch Walkthrough', () => {
     await device.takeScreenshot(`ui-touch-settings-${Date.now()}`);
 
     // Analytics debug route touch
-    await scrollUntilVisibleById('settings-scroll', 'open-analytics-debug', 8);
-    await waitFor(element(by.id('open-analytics-debug'))).toBeVisible().withTimeout(10000);
-    await element(by.id('open-analytics-debug')).tap();
-    await sleep(800);
-    if (await isVisibleById('analytics-status', 5000)) {
-      await device.takeScreenshot(`ui-touch-analytics-debug-${Date.now()}`);
-    } else {
-      await device.takeScreenshot(`ui-touch-analytics-debug-missing-${Date.now()}`);
-    }
+    await openAnalyticsDebugFromSettings();
+    await waitFor(element(by.id('analytics-status'))).toBeVisible().withTimeout(10000);
+    await device.takeScreenshot(`ui-touch-analytics-debug-${Date.now()}`);
 
     // Deep-link touch for review / mistakes-hub routes
     await device.openURL({ url: 'psycle://review' });
@@ -168,12 +160,41 @@ async function tapModalPrimaryUntilLessonOpens(): Promise<void> {
   throw new Error('Lesson screen did not open');
 }
 
+async function launchLessonFromCourseWorld(): Promise<void> {
+  const entryPoint = await waitForAnyVisibleById(
+    ['course-world-support', 'course-world-primary', 'hero-root-orb', 'modal-primary-button', 'lesson-screen'],
+    30000
+  );
+
+  if (entryPoint === 'lesson-screen') return;
+
+  await element(by.id(entryPoint)).tap();
+  await tapModalPrimaryUntilLessonOpens();
+}
+
 async function scrollUntilVisibleById(anchorTestID: string, targetTestID: string, maxSwipes = 6): Promise<void> {
   for (let i = 0; i < maxSwipes; i++) {
     if (await isVisibleById(targetTestID, 800)) return;
     await element(by.id(anchorTestID)).swipe('up', 'fast', 0.7);
     await sleep(250);
   }
+}
+
+async function openAnalyticsDebugFromSettings(): Promise<void> {
+  await scrollUntilVisibleById('settings-scroll', 'open-analytics-debug', 8);
+  await waitFor(element(by.id('open-analytics-debug'))).toBeVisible().withTimeout(10000);
+
+  for (let attempt = 0; attempt < 5; attempt++) {
+    if (await isVisibleById('analytics-status', 1000)) return;
+    if (!(await isVisibleById('open-analytics-debug', 1000))) {
+      await sleep(700);
+      continue;
+    }
+    await element(by.id('open-analytics-debug')).tap();
+    await sleep(900);
+  }
+
+  await device.takeScreenshot(`ui-touch-analytics-debug-open-failed-${Date.now()}`);
 }
 
 async function waitForAnyVisibleById(testIDs: string[], timeoutMs: number): Promise<string> {
