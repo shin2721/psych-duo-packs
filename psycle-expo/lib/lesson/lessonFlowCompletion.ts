@@ -1,10 +1,11 @@
 import { XP_REWARDS, addXP, recordStudyCompletion } from "../streaks";
-import { markFirstLessonComplete } from "../onboarding";
+import { hasCompletedFirstLesson, markFirstLessonComplete } from "../onboarding";
 import type { QuestInstance, QuestMetric } from "../questDefinitions";
 import { getLessonCompletionQuestIncrements } from "../questProgressRules";
 import { syncDailyReminders } from "../notifications";
 import type { StreakRepairOffer } from "../streakRepair";
-import { trackLessonComplete } from "./lessonAnalytics";
+import { Analytics } from "../analytics";
+import { getLessonGenreId, trackLessonComplete } from "./lessonAnalytics";
 import { getLessonReminderSyncPayload } from "./lessonFlowHelpers";
 import { warnDev } from "../devLog";
 
@@ -29,7 +30,16 @@ export async function completeLessonSession(
   params: CompleteLessonSessionParams
 ): Promise<void> {
   params.completeLesson(params.fileParam);
+  const firstLessonAlreadyCompleted = await hasCompletedFirstLesson();
   await markFirstLessonComplete();
+
+  if (!firstLessonAlreadyCompleted) {
+    Analytics.track("onboarding_first_lesson_completed", {
+      lessonId: params.fileParam,
+      genreId: getLessonGenreId(params.fileParam),
+      source: "lesson_complete",
+    });
+  }
 
   for (const questIncrement of getLessonCompletionQuestIncrements()) {
     params.incrementQuestMetric(questIncrement.metric, questIncrement.step);

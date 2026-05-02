@@ -12,7 +12,7 @@ interface UseLessonLoaderParams {
 }
 
 export function useLessonLoader(params: UseLessonLoaderParams) {
-  const isE2EAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
+  const isE2EAnalyticsMode = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
 
   const handleEnergyBlocked = useCallback(
     (lessonId: string, genreId: string) => {

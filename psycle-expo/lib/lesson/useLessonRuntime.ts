@@ -19,7 +19,15 @@ interface UseLessonRuntimeParams {
   energy: number;
   energyRefillMinutes: number;
   fileParam?: string;
+  difficultyPacing?: {
+    optimalPMax: number;
+    optimalPMin: number;
+    questionsAnswered: number;
+    recentAccuracy: number;
+    skillConfidence: number;
+  };
   firstSessionLessonSize: number;
+  lessonSize: number;
   incrementQuestMetric: (metric: QuestMetric, step?: number) => void;
   isSubscriptionActive: boolean;
   lastEnergyUpdateTime: number | null;
@@ -27,6 +35,9 @@ interface UseLessonRuntimeParams {
   maxEnergy: number;
   onEnergyBlocked: (lessonId: string, genreId: string) => void;
   onLoadFailed: (message: string) => void;
+  recordLessonSessionAbandon: (lessonId: string) => void;
+  recordLessonSessionComplete: (lessonId: string) => void;
+  recordLessonSessionStart: (lessonId: string, questionIds: string[]) => void;
   quests: QuestInstance[];
   streakRepairOffer: StreakRepairOffer | null;
   tryTriggerStreakEnergyBonus: (streak: number) => boolean;

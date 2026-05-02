@@ -3,6 +3,7 @@ import type { Lesson } from "../lessons";
 import type { Question } from "../../types/question";
 import type { QuestInstance, QuestMetric } from "../questDefinitions";
 import type { StreakRepairOffer } from "../streakRepair";
+import { Analytics } from "../analytics";
 import { XP_REWARDS } from "../streaks";
 import { computeComboBonusXp } from "../comboXp";
 import { getStreakQuestIncrement } from "../questProgressRules";
@@ -35,7 +36,15 @@ interface UseLessonFlowParams {
   energy: number;
   energyRefillMinutes: number;
   fileParam?: string;
+  difficultyPacing?: {
+    optimalPMax: number;
+    optimalPMin: number;
+    questionsAnswered: number;
+    recentAccuracy: number;
+    skillConfidence: number;
+  };
   firstSessionLessonSize: number;
+  lessonSize: number;
   incrementQuestMetric: (metric: QuestMetric, step?: number) => void;
   isSubscriptionActive: boolean;
   lastEnergyUpdateTime: number | null;
@@ -43,6 +52,9 @@ interface UseLessonFlowParams {
   maxEnergy: number;
   onEnergyBlocked: (lessonId: string, genreId: string) => void;
   onLoadFailed: (message: string) => void;
+  recordLessonSessionAbandon: (lessonId: string) => void;
+  recordLessonSessionComplete: (lessonId: string) => void;
+  recordLessonSessionStart: (lessonId: string, questionIds: string[]) => void;
   quests: QuestInstance[];
   streakRepairOffer: StreakRepairOffer | null;
   tryTriggerStreakEnergyBonus: (streak: number) => boolean;
@@ -52,6 +64,7 @@ interface UseLessonFlowParams {
 export function useLessonFlow(params: UseLessonFlowParams) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [currentLesson, setCurrentLesson] = useState<Lesson | null>(null);
+  const [activeLessonId, setActiveLessonId] = useState<string | null>(null);
   const [correctCount, setCorrectCount] = useState(0);
   const [correctStreak, setCorrectStreak] = useState(0);
   const [isComplete, setIsComplete] = useState(false);
@@ -71,6 +84,12 @@ export function useLessonFlow(params: UseLessonFlowParams) {
   const lessonStartTrackedRef = useRef<string | null>(null);
   const usedComboBonusXpRef = useRef(0);
   const xpAnimationTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isLessonCompleteRef = useRef(false);
+  const recordLessonSessionAbandonRef = useRef(params.recordLessonSessionAbandon);
+
+  useEffect(() => {
+    recordLessonSessionAbandonRef.current = params.recordLessonSessionAbandon;
+  }, [params.recordLessonSessionAbandon]);
 
   const fileParam = params.fileParam;
   const currentQuestion = questions[currentIndex] ?? null;
@@ -80,48 +99,97 @@ export function useLessonFlow(params: UseLessonFlowParams) {
       return;
     }
 
+    const loadStartedAt = Date.now();
+
     try {
       setLoading(true);
+      setActiveLessonId(null);
       setCurrentIndex(0);
+      setCurrentLesson(null);
       setCorrectCount(0);
       setCorrectStreak(0);
       setIsComplete(false);
       setIsReviewRound(false);
+      setOriginalQuestions([]);
+      setQuestions([]);
       setReviewQueue([]);
 
       const firstLessonCompleted = await hasCompletedFirstLesson();
       const lessonBundle = loadLessonBundle({
+        difficultyPacing: params.difficultyPacing,
         fileParam,
         firstLessonCompleted,
         firstSessionLessonSize: params.firstSessionLessonSize,
+        lessonSize: params.lessonSize,
       });
+      const runtimeLessonId = lessonBundle.lessonId;
 
       const hasEnoughEnergy = params.consumeEnergy(params.lessonEnergyCost);
       if (!hasEnoughEnergy) {
         setLoading(false);
-        params.onEnergyBlocked(fileParam, lessonBundle.genreId);
+        Analytics.track("lesson_load_performance", {
+          durationMs: Math.max(0, Date.now() - loadStartedAt),
+          genreId: lessonBundle.genreId,
+          lessonId: runtimeLessonId,
+          pacingMode: lessonBundle.pacing.mode,
+          questionCount: lessonBundle.effectiveQuestions.length,
+          requestedLessonId: lessonBundle.requestedLessonId,
+          source: "lesson_runtime",
+          status: "energy_blocked",
+          targetDifficulty: lessonBundle.pacing.targetDifficulty,
+        });
+        params.onEnergyBlocked(runtimeLessonId, lessonBundle.genreId);
         return;
       }
 
       usedComboBonusXpRef.current = 0;
+      setActiveLessonId(runtimeLessonId);
       setCurrentLesson(lessonBundle.lesson);
       setOriginalQuestions(lessonBundle.effectiveQuestions);
       setQuestions(lessonBundle.effectiveQuestions);
       setLoading(false);
+      Analytics.track("lesson_load_performance", {
+        durationMs: Math.max(0, Date.now() - loadStartedAt),
+        genreId: lessonBundle.genreId,
+        lessonId: runtimeLessonId,
+        pacingMode: lessonBundle.pacing.mode,
+        questionCount: lessonBundle.effectiveQuestions.length,
+        requestedLessonId: lessonBundle.requestedLessonId,
+        source: "lesson_runtime",
+        status: "loaded",
+        targetDifficulty: lessonBundle.pacing.targetDifficulty,
+      });
+      isLessonCompleteRef.current = false;
+      params.recordLessonSessionStart(
+        runtimeLessonId,
+        lessonBundle.effectiveQuestions
+          .map((question) => question.source_id || question.id)
+          .filter((id): id is string => typeof id === "string" && id.length > 0)
+      );
 
-      if (lessonStartTrackedRef.current !== fileParam) {
-        lessonStartTrackedRef.current = fileParam;
-        trackLessonStart(fileParam);
+      if (lessonStartTrackedRef.current !== runtimeLessonId) {
+        lessonStartTrackedRef.current = runtimeLessonId;
+        trackLessonStart(runtimeLessonId);
       }
     } catch (error) {
+      setActiveLessonId(null);
+      setLoading(false);
+      Analytics.track("lesson_load_performance", {
+        durationMs: Math.max(0, Date.now() - loadStartedAt),
+        requestedLessonId: fileParam,
+        source: "lesson_runtime",
+        status: "failed",
+      });
       const message = error instanceof Error ? error.message : String(error);
       params.onLoadFailed(message);
     }
   }, [
     fileParam,
     params.consumeEnergy,
+    params.difficultyPacing,
     params.firstSessionLessonSize,
     params.lessonEnergyCost,
+    params.lessonSize,
     params.onEnergyBlocked,
     params.onLoadFailed,
   ]);
@@ -138,12 +206,15 @@ export function useLessonFlow(params: UseLessonFlowParams) {
       if (xpAnimationTimeoutRef.current) {
         clearTimeout(xpAnimationTimeoutRef.current);
       }
+      if (activeLessonId && !isLessonCompleteRef.current) {
+        recordLessonSessionAbandonRef.current(activeLessonId);
+      }
     };
-  }, []);
+  }, [activeLessonId]);
 
   const handleAnswer = useCallback(
     async (isCorrect: boolean, _xp: number) => {
-      if (!fileParam) return;
+      if (!activeLessonId) return;
 
       const questionInHandler = questions[currentIndex];
       if (!questionInHandler) return;
@@ -152,14 +223,14 @@ export function useLessonFlow(params: UseLessonFlowParams) {
       if (typeof itemId === "string" && itemId.length > 0) {
         params.addReviewEvent({
           itemId,
-          lessonId: fileParam,
+          lessonId: activeLessonId,
           result: isCorrect ? "correct" : "incorrect",
         });
       }
 
       if (!isCorrect) {
         trackQuestionIncorrect({
-          lessonId: fileParam,
+          lessonId: activeLessonId,
           questionId: questionInHandler.id || `unknown_${currentIndex}`,
           questionType: questionInHandler.type || "unknown",
           questionIndex: currentIndex,
@@ -198,7 +269,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
 
         if (comboBonus.bonusXp > 0) {
           trackComboXpBonusApplied({
-            lessonId: fileParam,
+            lessonId: activeLessonId,
             questionId: questionInHandler.id || `unknown_${currentIndex}`,
             streak: nextStreak,
             baseXp,
@@ -248,7 +319,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
         completeLesson: params.completeLesson,
         energy: params.energy,
         energyRefillMinutes: params.energyRefillMinutes,
-        fileParam,
+        fileParam: activeLessonId,
         incrementQuestMetric: params.incrementQuestMetric,
         isSubscriptionActive: params.isSubscriptionActive,
         lastEnergyUpdateTime: params.lastEnergyUpdateTime,
@@ -259,11 +330,13 @@ export function useLessonFlow(params: UseLessonFlowParams) {
         streakRepairOffer: params.streakRepairOffer,
         userId: params.userId,
       });
+      params.recordLessonSessionComplete(activeLessonId);
+      isLessonCompleteRef.current = true;
     },
     [
+      activeLessonId,
       correctStreak,
       currentIndex,
-      fileParam,
       isReviewRound,
       originalQuestions,
       params,
@@ -273,6 +346,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
   );
 
   return {
+    activeLessonId,
     correctCount,
     currentIndex,
     currentLesson,
