@@ -1,4 +1,8 @@
 import { Analytics } from "../analytics";
+import {
+  IOS_EXTERNAL_CHECKOUT_DISABLED_REASON,
+  isExternalCheckoutBlockedForCurrentPlatform,
+} from "../checkoutPolicy";
 import { buyPlan, type BuyPlanFailureReason } from "../billing";
 import { persistCheckoutContextSnapshot } from "../app-state/billingStorage";
 import { warnDev } from "../devLog";
@@ -80,6 +84,8 @@ function mapFailureToMessageKey(reason: ShopCheckoutFailureReason): string {
       return "shop.errors.openCheckoutFailed";
     case "missing_checkout_url":
       return "shop.errors.checkoutSessionFailed";
+    case IOS_EXTERNAL_CHECKOUT_DISABLED_REASON:
+      return "shop.errors.iosExternalCheckoutDisabled";
     default:
       return "shop.errors.checkoutProcessFailed";
   }
@@ -100,6 +106,19 @@ export async function startShopCheckout(params: {
     source,
     planId: plan.id,
   });
+
+  if (isExternalCheckoutBlockedForCurrentPlatform()) {
+    Analytics.track("checkout_failed", {
+      source,
+      planId: plan.id,
+      reason: IOS_EXTERNAL_CHECKOUT_DISABLED_REASON,
+    });
+    return {
+      ok: false,
+      reason: IOS_EXTERNAL_CHECKOUT_DISABLED_REASON,
+      messageKey: mapFailureToMessageKey(IOS_EXTERNAL_CHECKOUT_DISABLED_REASON),
+    };
+  }
 
   if (!supportsPlanBillingPeriod(plan.id, billingPeriod)) {
     return {
@@ -203,7 +222,7 @@ export async function startShopCheckout(params: {
     accessToken: sessionAccessToken,
   });
 
-  if (result.ok) {
+  if (result.ok === true) {
     return result;
   }
 

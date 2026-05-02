@@ -2,6 +2,10 @@
 
 import { Linking } from "react-native";
 import { Analytics } from "./analytics";
+import {
+  IOS_EXTERNAL_CHECKOUT_DISABLED_REASON,
+  isExternalCheckoutBlockedForCurrentPlatform,
+} from "./checkoutPolicy";
 import { supabase } from "./supabase";
 import type { BillingPeriod } from "./pricing";
 import {
@@ -24,6 +28,7 @@ type BuyPlanOptions = {
 };
 
 export type BuyPlanFailureReason =
+  | typeof IOS_EXTERNAL_CHECKOUT_DISABLED_REASON
   | "plan_disabled"
   | "billing_period_unsupported"
   | "functions_url_missing"
@@ -67,6 +72,15 @@ export async function buyPlan(
   const priceVersion = options?.priceVersion ?? "control";
   const priceCohort = options?.priceCohort ?? "default";
   const source = options?.source ?? "billing_lib";
+
+  if (isExternalCheckoutBlockedForCurrentPlatform()) {
+    Analytics.track("checkout_failed", {
+      source,
+      planId: plan,
+      reason: IOS_EXTERNAL_CHECKOUT_DISABLED_REASON,
+    });
+    return { ok: false, reason: IOS_EXTERNAL_CHECKOUT_DISABLED_REASON };
+  }
 
   if (!isPlanPurchasable(plan)) {
     Analytics.track("checkout_failed", {
