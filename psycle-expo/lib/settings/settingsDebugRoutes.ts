@@ -18,23 +18,9 @@ export const SETTINGS_DEBUG_ROUTES: SettingsDebugRoute[] = [
   },
   {
     icon: "git-compare",
-    label: "Course Preview Debug",
+    label: "GPT 試作UI",
     route: "/debug/course-concept-final",
-    accessibilityLabel: "Course Preview Debug",
+    accessibilityLabel: "GPT 試作UI",
     testID: "open-course-concept-final",
-  },
-  {
-    icon: "planet",
-    label: "Course World Hero (Experimental)",
-    route: "/debug/course-world-hero",
-    accessibilityLabel: "Course World Hero (Experimental)",
-    testID: "open-course-world-hero",
-  },
-  {
-    icon: "logo-electron",
-    label: "Course Preview Claude",
-    route: "/debug/course-concept-claude",
-    accessibilityLabel: "Course Preview Claude",
-    testID: "open-course-concept-claude",
   },
 ];
