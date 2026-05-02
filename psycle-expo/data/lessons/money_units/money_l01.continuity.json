@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "lesson_id": "money_l01",
+  "theme_id": "money",
+  "continuity_mode": "net_new",
+  "decision_basis": "no_predecessor_or_migration_duty",
+  "continuity_route": "start_here",
+  "predecessor_lesson_ids": [],
+  "history_migration_rule": "no_migration_required_for_net_new",
+  "support_redirect_rule": "no_legacy_support_redirect_required",
+  "analytics_continuity_rule": "track_as_new_lesson_package",
+  "aftercare": {
+    "required": false,
+    "aftercare_window_days": 30,
+    "legacy_candidate_suppression_rule": "suppress_replaced_candidates_during_aftercare",
+    "in_flight_user_route": "start_here",
+    "stale_mastery_cleanup_rule": "not_applicable",
+    "legacy_vs_replacement_analytics_window": 0
+  }
+}

@@ -1,0 +1,194 @@
+[
+  {
+    "id": "mental_m01_001",
+    "type": "conversation",
+    "question": "When the same moment comes back at night, which feels closest first?",
+    "your_response_prompt": "Choose what feels most true right now",
+    "choices": [
+      "I can notice, \"it's starting again\"",
+      "I get pulled in quite a bit before noticing",
+      "I usually stay with it until the loop runs on"
+    ],
+    "recommended_index": null,
+    "explanation": "Mastery here is not \"make it disappear forever.\" It is noticing a few seconds earlier so you have one more choice available.",
+    "actionable_advice": "If you can say \"it's starting again,\" that is already enough for the first step.",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m01_001",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who want to notice rumination earlier"
+      ],
+      "limitations": [
+        "When severe insomnia or low mood is ongoing"
+      ],
+      "citation_role": "Supports early noticing as a way to widen intervention room",
+      "claim_tags": [
+        "rumination",
+        "early_notice"
+      ]
+    }
+  },
+  {
+    "id": "mental_m01_002",
+    "type": "multiple_choice",
+    "question": "You tell yourself, \"I need to sort this out,\" then think for five minutes and keep circling the same conclusion. What is the closest view?",
+    "choices": [
+      "This may be closer to a rumination loop than organizing",
+      "The longer I think, the more progress I make",
+      "If it hurts, I have to think it through to the end"
+    ],
+    "correct_index": 0,
+    "explanation": "In mastery, the question is not how much thinking happened. It is whether a new next step or new information appeared. If it keeps circling, it is closer to rumination.",
+    "actionable_advice": "If no new next step appears, change mode before adding more thought.",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m01_002",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "distinction",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who want to tell organizing apart from rumination in real situations"
+      ],
+      "limitations": [
+        "Tasks that actually need outside information"
+      ],
+      "citation_role": "Supports the distinction between rumination and problem-solving thought",
+      "claim_tags": [
+        "rumination",
+        "problem_solving"
+      ]
+    }
+  },
+  {
+    "id": "mental_m01_003",
+    "type": "swipe_judgment",
+    "question": "After getting home, you remember a mistake and your heart rate jumps. As a first move, it helps to label it as \"my body is reacting\" before digging into the content.",
+    "correct_answer": "right",
+    "left_label": "too soon",
+    "right_label": "recommended",
+    "explanation": "Right after noticing, settling the reaction can help more than pushing deeper into meaning. Treating it as a body response can create a bit more distance from the thought.",
+    "actionable_advice": "Try one short label: \"my body reacted first.\"",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m01_003",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "People whose stress response rises quickly"
+      ],
+      "limitations": [
+        "Situations where immediate safety comes first"
+      ],
+      "citation_role": "Supports labeling and distancing as an initial move",
+      "claim_tags": [
+        "labeling",
+        "stress_response"
+      ],
+      "try_this": "Label it for 10 seconds: My body reacted first.",
+      "tiny_metric": {
+        "before_prompt": "How pulled in do you feel right now? (0-10)",
+        "after_prompt": "After 10 seconds?",
+        "success_rule": "Any small distance from the thought is enough.",
+        "stop_rule": "If it gets stronger, stop digging into the content."
+      },
+      "comparator": {
+        "baseline": "Going straight into finding the right answer in your head",
+        "cost": "10 seconds / mental only"
+      },
+      "fallback": {
+        "when": "The label does not fit",
+        "next": "Notice the feeling of your feet for 10 seconds"
+      }
+    }
+  },
+  {
+    "id": "mental_m01_004",
+    "type": "select_all",
+    "question": "Choose all actions that fit right after rumination starts and you want to soften the loop a little.",
+    "choices": [
+      "Count three things you can see before continuing the argument in your head",
+      "Keep replaying the scene until you find the perfect answer",
+      "Say briefly, \"distance first, conclusion later\"",
+      "Decide right away that it means something is wrong with your personality"
+    ],
+    "correct_indices": [
+      0,
+      2
+    ],
+    "explanation": "The mastery target is not perfect analysis. It is slowing the speed of getting pulled in. A small attention shift or short self-talk can be the entrance to that.",
+    "actionable_advice": "Pick one return move and reuse it every time rumination starts.",
+    "difficulty": "medium",
+    "xp": 8,
+    "source_id": "mental_m01_004",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "People who want to reduce the pull of rumination"
+      ],
+      "limitations": [
+        "Situations needing stronger crisis support"
+      ],
+      "citation_role": "Supports attention shifting and short interventions as practical tools",
+      "claim_tags": [
+        "attention_shift",
+        "self_talk"
+      ],
+      "try_this": "Count three things you can see, then say: distance before conclusions.",
+      "tiny_metric": {
+        "before_prompt": "How strong is the replay? (0-10)",
+        "after_prompt": "After 10 seconds?",
+        "success_rule": "Any reduction or one next action is enough.",
+        "stop_rule": "If stress rises, switch to another return move."
+      },
+      "comparator": {
+        "baseline": "Continuing the argument in your head",
+        "cost": "10 seconds / just look outward"
+      },
+      "fallback": {
+        "when": "Counting objects feels too hard",
+        "next": "Take one long exhale"
+      }
+    }
+  },
+  {
+    "id": "mental_m01_005",
+    "type": "multiple_choice",
+    "question": "Which one is closest to the mastery done condition?",
+    "choices": [
+      "Rumination never happens again",
+      "You notice rumination a little earlier and can choose one return move",
+      "You can always interpret every situation positively"
+    ],
+    "correct_index": 1,
+    "explanation": "Mastery aims for \"notice earlier and return,\" not \"make it zero forever.\" If you can come back even when it happens again, that is real learning value.",
+    "actionable_advice": "Track recovery speed, not perfection.",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m01_005",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "criterion",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who want a more realistic view of improvement"
+      ],
+      "limitations": [
+        "When expecting instant total relief"
+      ],
+      "citation_role": "Supports returning more easily rather than demanding zero recurrence",
+      "claim_tags": [
+        "mastery",
+        "reentry"
+      ]
+    }
+  }
+]

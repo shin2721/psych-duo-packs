@@ -252,6 +252,13 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
+      "best_for": [
+        "眠れない夜のパターンを見分けたい人",
+        "対策を選ぶ前に原因を整理したい人"
+      ],
+      "limitations": [
+        "長期の不眠や強い日中支障がある場合は専門的な相談が必要"
+      ],
       "citation_role": "入眠困難のパターン認識を支持",
       "claim_tags": [
         "sleep",
@@ -361,6 +368,13 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
+      "best_for": [
+        "睡眠テクの自分への合い方を確認したい人",
+        "一度試してから続けるか決めたい人"
+      ],
+      "limitations": [
+        "睡眠障害が疑われる場合はセルフテクだけで抱え込まない"
+      ],
       "citation_role": "個人差への配慮を支持",
       "claim_tags": [
         "individual_differences",

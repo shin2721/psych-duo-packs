@@ -1,0 +1,195 @@
+[
+  {
+    "id": "mental_m03_001",
+    "type": "conversation",
+    "question": "After a small work mistake, the same scene keeps replaying on the way home. Which view is closest?",
+    "your_response_prompt": "Choose what fits the situation right now",
+    "choices": [
+      "If I can extract one improvement, it is reflection",
+      "The more it hurts, the more I should keep thinking",
+      "One mistake means the whole thing is ruined"
+    ],
+    "recommended_index": 0,
+    "explanation": "After a work mistake, the key question is whether a usable improvement is appearing. If no new action appears and self-blame keeps growing, it is closer to rumination.",
+    "actionable_advice": "Write one improvement. Treat extra self-blame as the stop point.",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m03_001",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "distinction",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who carry work mistakes home"
+      ],
+      "limitations": [
+        "Mistakes that require serious safety checks or reporting"
+      ],
+      "citation_role": "Supports transferring the reflection-vs-rumination distinction into work situations",
+      "claim_tags": [
+        "work_rumination",
+        "mistake_review"
+      ]
+    }
+  },
+  {
+    "id": "mental_m03_002",
+    "type": "multiple_choice",
+    "question": "Someone pointed out a typo in your document. At night, the thought \"Maybe they think I am careless\" keeps going. What should you look at next?",
+    "choices": [
+      "Choose one check step for next time",
+      "Keep imagining their evaluation",
+      "Conclude that I am not suited for this work"
+    ],
+    "correct_index": 0,
+    "explanation": "Guessing at someone else's evaluation can expand quickly. A more usable exit is to choose one step you can change next time.",
+    "actionable_advice": "Choose one final check before sending, such as reading numbers one last time.",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m03_002",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "People who carry mistakes because of evaluation anxiety"
+      ],
+      "limitations": [
+        "Situations where a formal prevention process is needed"
+      ],
+      "citation_role": "Supports shifting from rumination to a specific prevention action",
+      "claim_tags": [
+        "next_action",
+        "work_stress"
+      ],
+      "try_this": "Pick one thing to check before the next submission.",
+      "tiny_metric": {
+        "before_prompt": "How strong is the imagined evaluation? (0-10)",
+        "after_prompt": "After choosing one check item?",
+        "success_rule": "One next procedure is enough.",
+        "stop_rule": "If self-blame grows, stop analyzing outside work time."
+      },
+      "comparator": {
+        "baseline": "Continuing to imagine their evaluation",
+        "cost": "10 seconds / one check item"
+      },
+      "fallback": {
+        "when": "No item comes up",
+        "next": "Use: read numbers last, as a temporary rule"
+      }
+    }
+  },
+  {
+    "id": "mental_m03_003",
+    "type": "swipe_judgment",
+    "question": "If you can write what happened in three lines after a mistake, it is okay to pause the reflection there.",
+    "correct_answer": "right",
+    "left_label": "Not enough",
+    "right_label": "Recommended",
+    "explanation": "Reflection is not measured by length. If you have one line each for fact, possible cause, and next step, extra self-blame may add little learning value.",
+    "actionable_advice": "Write one line each: fact / possible cause / next step.",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m03_003",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "judgment_change",
+      "evidence_type": "applied",
+      "best_for": [
+        "People who struggle to stop reviewing mistakes"
+      ],
+      "limitations": [
+        "Work errors that require audit or formal reporting"
+      ],
+      "citation_role": "Supports creating a boundary between usable reflection and rumination",
+      "claim_tags": [
+        "reflection_boundary",
+        "rumination_exit"
+      ]
+    }
+  },
+  {
+    "id": "mental_m03_004",
+    "type": "select_all",
+    "question": "Select all moves that can soften rumination after a work mistake.",
+    "choices": [
+      "Choose one check step for next time",
+      "Imagine their evaluation repeatedly to prepare",
+      "Separate fact, guess, and next step",
+      "Replay the scene and keep blaming myself"
+    ],
+    "correct_indices": [
+      0,
+      2
+    ],
+    "explanation": "In work situations, it is more realistic to turn rumination into prevention than to erase it. Once the fact and next step are clear, it is easier to return.",
+    "actionable_advice": "Add one check step and leave the rest for tomorrow's work time.",
+    "difficulty": "medium",
+    "xp": 8,
+    "source_id": "mental_m03_004",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "People who struggle to switch off after work"
+      ],
+      "limitations": [
+        "Serious mistakes involving safety or legal risk"
+      ],
+      "citation_role": "Supports shifting from rumination to prevention and re-entry",
+      "claim_tags": [
+        "transfer_context",
+        "work_rumination"
+      ],
+      "try_this": "Write one fact, one guess, and one next step.",
+      "tiny_metric": {
+        "before_prompt": "How strong is the mistake replay? (0-10)",
+        "after_prompt": "After splitting it into three parts?",
+        "success_rule": "One next step is enough.",
+        "stop_rule": "If self-blame increases, keep only the fact and stop."
+      },
+      "comparator": {
+        "baseline": "Replaying the same mistake and blaming yourself",
+        "cost": "30 seconds / three lines only"
+      },
+      "fallback": {
+        "when": "You cannot split all three",
+        "next": "Write only one fact first"
+      }
+    }
+  },
+  {
+    "id": "mental_m03_005",
+    "type": "multiple_choice",
+    "question": "If you transfer this mastery lesson outside work, which use is closest?",
+    "choices": [
+      "When a mistake replays, split it into fact, guess, and next step",
+      "Always analyze every cause perfectly",
+      "Keep thinking about the scene until the bad feeling disappears"
+    ],
+    "correct_index": 0,
+    "explanation": "The transfer goal is to avoid making this a work-only tool. If you can split fact, guess, and next step in another scene, the skill is moving.",
+    "actionable_advice": "Use the same three-part split next time something lingers at home or with a friend.",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m03_005",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "transfer",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who want to transfer a re-entry move across scenes"
+      ],
+      "limitations": [
+        "Situations that need specialist problem solving or consultation"
+      ],
+      "citation_role": "Supports mastery design based on transferring the same distinction to another scene",
+      "claim_tags": [
+        "mastery",
+        "transfer_context",
+        "reentry"
+      ]
+    }
+  }
+]

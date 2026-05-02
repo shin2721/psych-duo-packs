@@ -81,6 +81,13 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
+            "best_for": [
+                "高い基準が自分を疲れさせていないか確認したい人",
+                "完璧主義の良い面と悪い面を分けたい人"
+            ],
+            "limitations": [
+                "高い基準が安全や品質に必要な場面では単純に下げない"
+            ],
             "citation_role": "高い基準の両面性を説明",
             "claim_tags": [
                 "完璧主義",
@@ -155,6 +162,13 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
+            "best_for": [
+                "完璧主義をゼロにする必要があると思い込んでいる人",
+                "基準を柔軟に変える発想を持ちたい人"
+            ],
+            "limitations": [
+                "基準を下げすぎると実害が出る場面では慎重に使う"
+            ],
             "citation_role": "適応的完璧主義と不適応的完璧主義の区別",
             "claim_tags": [
                 "完璧主義",
@@ -183,6 +197,13 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
+            "best_for": [
+                "完璧でないなら始めないパターンに気づきたい人",
+                "all-or-nothing 思考を見分けたい人"
+            ],
+            "limitations": [
+                "思い出すだけで強い自己否定が出る場合は無理に掘らない"
+            ],
             "citation_role": "二分法的思考の例として",
             "claim_tags": [
                 "完璧主義",
@@ -209,6 +230,13 @@
         "expanded_details": {
             "claim_type": "theory",
             "evidence_type": "theoretical",
+            "best_for": [
+                "完璧主義と先延ばしのつながりを理解したい人",
+                "失敗回避で行動が止まりやすい人"
+            ],
+            "limitations": [
+                "先延ばしの原因が完璧主義以外にある場合もある"
+            ],
             "citation_role": "完璧主義と先延ばしの関連を説明",
             "claim_tags": [
                 "完璧主義",
@@ -319,6 +347,13 @@
         "expanded_details": {
             "claim_type": "observation",
             "evidence_type": "indirect",
+            "best_for": [
+                "70点ルールが自分に役立つか確認したい人",
+                "完璧主義との付き合い方を小さく試したい人"
+            ],
+            "limitations": [
+                "役立たない感覚がある場合は別の基準調整を試す"
+            ],
             "citation_role": "振り返りの促進",
             "claim_tags": [
                 "振り返り",

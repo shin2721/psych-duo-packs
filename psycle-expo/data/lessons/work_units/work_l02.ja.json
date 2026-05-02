@@ -166,6 +166,13 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
+      "best_for": [
+        "仕事タスクを始められない理由を見分けたい人",
+        "着手の詰まり方に合わせて対策を選びたい人"
+      ],
+      "limitations": [
+        "業務量や優先順位そのものが破綻している場合はタスク設計の見直しが必要"
+      ],
       "citation_role": "先延ばしパターンの自己認識を支持",
       "claim_tags": [
         "self_awareness",
@@ -371,6 +378,13 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
+      "best_for": [
+        "着手テクを自分の仕事に移すか判断したい人",
+        "小さい開始行動から試したい人"
+      ],
+      "limitations": [
+        "タスクの目的や権限が不明な場合は開始テクだけでは解決しにくい"
+      ],
       "citation_role": "個人差への配慮を支持",
       "claim_tags": [
         "individual_differences",

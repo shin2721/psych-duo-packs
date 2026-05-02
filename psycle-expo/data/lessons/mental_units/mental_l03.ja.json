@@ -200,6 +200,13 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
+      "best_for": [
+        "複数の焦り対処から自分に合う入口を選びたい人",
+        "合わないテクを無理に続けたくない人"
+      ],
+      "limitations": [
+        "強い不安やパニックがある場合はセルフテクだけに頼らない"
+      ],
       "citation_role": "個人差の考慮を支持",
       "claim_tags": [
         "emotion_regulation",
@@ -273,6 +280,13 @@
     "expanded_details": {
       "claim_type": "theory",
       "evidence_type": "theoretical",
+      "best_for": [
+        "感情調整スキルの限界も理解したい人",
+        "練習しても合わない可能性を先に知りたい人"
+      ],
+      "limitations": [
+        "慢性的な問題や生活支障が強い場合は専門的な支援が有効"
+      ],
       "citation_role": "個人差を理論的に説明",
       "claim_tags": [
         "emotion_regulation",
@@ -300,6 +314,13 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
+      "best_for": [
+        "明日使うテクを1つに絞りたい人",
+        "低負荷の焦り対処から試したい人"
+      ],
+      "limitations": [
+        "呼吸法が苦手な人にはラベリングや別の方法の方が合う場合がある"
+      ],
       "citation_role": "介入の選択指針を提供",
       "claim_tags": [
         "breathing",
@@ -375,6 +396,13 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
+      "best_for": [
+        "焦り対処テクのフィット感を確認したい人",
+        "次も使うか別の方法にするか決めたい人"
+      ],
+      "limitations": [
+        "合わない感覚がある場合は無理に継続しない"
+      ],
       "citation_role": "個人差への配慮を支持",
       "claim_tags": [
         "individual_differences",

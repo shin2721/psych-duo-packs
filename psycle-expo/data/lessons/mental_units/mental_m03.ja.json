@@ -1,0 +1,192 @@
+[
+  {
+    "id": "mental_m03_001",
+    "type": "conversation",
+    "question": "仕事で小さなミスをしたあと、帰り道も同じ場面を思い出している。まず近い見方は？",
+    "your_response_prompt": "今の状況に近いものを選んでください",
+    "choices": [
+      "改善点を1つ取り出せるなら振り返り",
+      "つらいほど考え続けるべき",
+      "ミスをした時点で全部ダメ"
+    ],
+    "recommended_index": 0,
+    "explanation": "仕事後の反芻では、改善点が増えているかが分かれ目になることがある。新しい行動が出ないまま自分を責めるなら、反芻に近い。",
+    "actionable_advice": "改善点を1つだけ書き、2つ目以降の自責は止めどころにする。",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m03_001",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "distinction",
+      "evidence_type": "direct",
+      "best_for": [
+        "仕事のミスを引きずりやすい人"
+      ],
+      "limitations": [
+        "重大な安全確認や報告が必要なミス"
+      ],
+      "citation_role": "反省と反芻の区別を仕事場面に移す設計意図を支持",
+      "claim_tags": [
+        "work_rumination",
+        "mistake_review"
+      ]
+    }
+  },
+  {
+    "id": "mental_m03_002",
+    "type": "multiple_choice",
+    "question": "資料の誤字を指摘された。夜になっても「雑な人だと思われたかも」が続く。次に見るなら？",
+    "choices": [
+      "次回の確認手順を1つ決める",
+      "相手の評価を想像し続ける",
+      "仕事に向いていないと結論づける"
+    ],
+    "correct_index": 0,
+    "explanation": "評価の推測は広がりやすい。戻るには、次回変えられる手順を1つだけ決める方が実用的な場合がある。",
+    "actionable_advice": "次の提出前に見る項目を1つだけ決める。例: 数字だけ最後に読む。",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m03_002",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "評価不安でミスを引きずる人"
+      ],
+      "limitations": [
+        "職場で明確な再発防止手順が必要な場合"
+      ],
+      "citation_role": "反芻から具体的な再発防止行動への転換を支持",
+      "claim_tags": [
+        "next_action",
+        "work_stress"
+      ],
+      "try_this": "次の提出前に見る項目を1つだけ決める",
+      "tiny_metric": {
+        "before_prompt": "評価を想像してしまう強さは0〜10で？",
+        "after_prompt": "チェック項目を1つ決めた後は？",
+        "success_rule": "次回の手順が1つ決まればOK",
+        "stop_rule": "自責が強まるなら作業時間外の分析を止める"
+      },
+      "comparator": {
+        "baseline": "相手の評価を想像し続ける",
+        "cost": "10秒 / チェック項目1つ"
+      },
+      "fallback": {
+        "when": "項目が決まらない",
+        "next": "『数字だけ最後に読む』を仮ルールにする"
+      }
+    }
+  },
+  {
+    "id": "mental_m03_003",
+    "type": "swipe_judgment",
+    "question": "ミス後に「何が起きたか」を3行で書けるなら、その時点で振り返りは一度止めてよい。",
+    "correct_answer": "right",
+    "left_label": "まだ足りない",
+    "right_label": "おすすめ",
+    "explanation": "振り返りは長さではなく、次に使える形になったかで見る。3行で事実・原因・次の一手が出たら、追加の自責は学習価値が薄い。",
+    "actionable_advice": "事実 / 原因候補 / 次の一手を1行ずつ書く。",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m03_003",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "judgment_change",
+      "evidence_type": "applied",
+      "best_for": [
+        "振り返りの止めどころが分からない人"
+      ],
+      "limitations": [
+        "監査や報告が必要な業務ミス"
+      ],
+      "citation_role": "反芻を行動可能な振り返りへ区切る設計意図を支持",
+      "claim_tags": [
+        "reflection_boundary",
+        "rumination_exit"
+      ]
+    }
+  },
+  {
+    "id": "mental_m03_004",
+    "type": "select_all",
+    "question": "仕事ミス後の反芻を弱める戻り方として合うものをすべて選んでください。",
+    "choices": [
+      "次回のチェック項目を1つだけ決める",
+      "相手の評価を何度も想像して備える",
+      "事実・推測・次の一手を分ける",
+      "同じ場面を思い出して自分を責め続ける"
+    ],
+    "correct_indices": [0, 2],
+    "explanation": "仕事場面では、反芻をゼロにするより再発防止の形に変える方が現実的。事実と次の一手が出たら、ループから戻りやすい。",
+    "actionable_advice": "チェック項目を1つだけ追加し、残りは明日の作業時間に回す。",
+    "difficulty": "medium",
+    "xp": 8,
+    "source_id": "mental_m03_004",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "仕事後に頭が切り替わりにくい人"
+      ],
+      "limitations": [
+        "安全や法務に関わる重大ミス"
+      ],
+      "citation_role": "反芻から具体的な再発防止と再入場へ移すことを支持",
+      "claim_tags": [
+        "transfer_context",
+        "work_rumination"
+      ],
+      "try_this": "事実・推測・次の一手をそれぞれ1つずつ書く",
+      "tiny_metric": {
+        "before_prompt": "ミス場面の replay の強さは0〜10で？",
+        "after_prompt": "3分割した後は？",
+        "success_rule": "次の一手が1つ見えればOK",
+        "stop_rule": "自責が増えるなら事実だけ残して止める"
+      },
+      "comparator": {
+        "baseline": "同じ場面を思い出して自分を責め続ける",
+        "cost": "30秒 / 3行だけ"
+      },
+      "fallback": {
+        "when": "3つに分けられない",
+        "next": "まず事実だけ1行で書く"
+      }
+    }
+  },
+  {
+    "id": "mental_m03_005",
+    "type": "multiple_choice",
+    "question": "この mastery を仕事以外にも移すなら、一番近い使い方は？",
+    "choices": [
+      "ミスを思い出したら、事実・推測・次の一手に分ける",
+      "どの場面でも必ず完璧に原因分析する",
+      "嫌な気分が消えるまで同じ場面を考える"
+    ],
+    "correct_index": 0,
+    "explanation": "transfer の目標は、仕事ミス専用のテクニックにしないこと。別場面でも、事実・推測・次の一手に分けられれば応用できる。",
+    "actionable_advice": "次に家庭や友人関係で引きずった時も、同じ3分割を使う。",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m03_005",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "transfer",
+      "evidence_type": "direct",
+      "best_for": [
+        "戻り方を別場面へ移したい人"
+      ],
+      "limitations": [
+        "専門的な問題解決や相談が必要な場面"
+      ],
+      "citation_role": "同じ見分け方を別 scene に移す mastery 設計を支持",
+      "claim_tags": [
+        "mastery",
+        "transfer_context",
+        "reentry"
+      ]
+    }
+  }
+]

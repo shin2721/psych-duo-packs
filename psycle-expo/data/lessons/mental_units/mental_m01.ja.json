@@ -1,0 +1,191 @@
+[
+  {
+    "id": "mental_m01_001",
+    "type": "conversation",
+    "question": "夜に同じ出来事を思い出したとき、まず最初に一番近いのはどれ？",
+    "your_response_prompt": "いまの自分に近いものを選んでください",
+    "choices": [
+      "また始まった、と気づける",
+      "気づく前にかなり巻き込まれる",
+      "ほぼ毎回そのまま最後まで考え込む"
+    ],
+    "recommended_index": null,
+    "explanation": "Mastery は「完全に消す」より先に、巻き込まれる前の数秒に気づけるかを育てる。早く気づくほど、次の選択肢が増えやすい。",
+    "actionable_advice": "まずは「また始まった」を心の中で短く言えれば十分。",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m01_001",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "direct",
+      "best_for": [
+        "反芻の入口に早く気づきたい人"
+      ],
+      "limitations": [
+        "強い不眠や抑うつが続くとき"
+      ],
+      "citation_role": "反芻の早期気づきが介入余地を広げる考え方を支持",
+      "claim_tags": [
+        "rumination",
+        "early_notice"
+      ]
+    }
+  },
+  {
+    "id": "mental_m01_002",
+    "type": "multiple_choice",
+    "question": "「ちゃんと整理しなきゃ」と思って5分考え続けたあと、同じ結論をぐるぐる回っている。今いちばん近い見方は？",
+    "choices": [
+      "整理より、反芻ループに入っているかもしれない",
+      "長く考えた分だけ前進している",
+      "つらいなら最後まで考え切るしかない"
+    ],
+    "correct_index": 0,
+    "explanation": "Mastery では「考えている量」ではなく「新しい情報や次の一歩が増えているか」で見る。同じところを回るなら、整理より反芻に近い。",
+    "actionable_advice": "新しい一歩が増えていないなら、考える内容より先にモードを切り替える。",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m01_002",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "distinction",
+      "evidence_type": "direct",
+      "best_for": [
+        "整理と反芻の違いを実戦で見分けたい人"
+      ],
+      "limitations": [
+        "外部情報を集める必要がある課題"
+      ],
+      "citation_role": "反芻と問題解決的思考の区別を支持",
+      "claim_tags": [
+        "rumination",
+        "problem_solving"
+      ]
+    }
+  },
+  {
+    "id": "mental_m01_003",
+    "type": "swipe_judgment",
+    "question": "帰宅後にミスを思い出して心拍数が上がった。ここで最初の一手としておすすめなのは、内容を掘るより先に「身体が反応している」とラベルを貼ること。",
+    "correct_answer": "right",
+    "left_label": "まだ早い",
+    "right_label": "おすすめ",
+    "explanation": "気づきの直後は、意味づけより先に反応を落ち着ける方が戻りやすいことがある。まず身体反応として扱うと、思考との距離が少し開く。",
+    "actionable_advice": "『身体が先に反応してる』と一言だけ置く。",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m01_003",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "焦りの立ち上がりが速い人"
+      ],
+      "limitations": [
+        "安全確保が最優先の状況"
+      ],
+      "citation_role": "ラベリングと距離化の初手としての有効性を支持",
+      "claim_tags": [
+        "labeling",
+        "stress_response"
+      ],
+      "try_this": "『身体が先に反応してる』と10秒だけラベルを貼る",
+      "tiny_metric": {
+        "before_prompt": "今の巻き込まれ度は0〜10で？",
+        "after_prompt": "10秒後の巻き込まれ度は？",
+        "success_rule": "1だけ下がるか、思考との距離が少し出ればOK",
+        "stop_rule": "強くなるなら内容を掘らず撤退"
+      },
+      "comparator": {
+        "baseline": "すぐ内容の正解探しに入る",
+        "cost": "10秒 / 頭の中だけでできる"
+      },
+      "fallback": {
+        "when": "ラベルがしっくり来ない",
+        "next": "足裏の感覚を10秒だけ見る"
+      }
+    }
+  },
+  {
+    "id": "mental_m01_004",
+    "type": "select_all",
+    "question": "反芻が始まった直後に、ループを少し弱める行動として合うものをすべて選んでください。",
+    "choices": [
+      "頭の中の論争を続ける前に、今見えている物を3つ数える",
+      "同じ場面の replay を止めずに正解探しを続ける",
+      "『今は結論より距離』と短く言う",
+      "すぐに自分の性格の問題だと決める"
+    ],
+    "correct_indices": [0, 2],
+    "explanation": "Mastery の焦点は『正しく分析する』ことではなく、巻き込まれる速度を少し下げること。外界への注意移動や短いセルフトークは、その入口になりやすい。",
+    "actionable_advice": "1つでいいので、反芻が始まったら毎回同じ戻り方を使う。",
+    "difficulty": "medium",
+    "xp": 8,
+    "source_id": "mental_m01_004",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "反芻の勢いを弱めたい人"
+      ],
+      "limitations": [
+        "強い危機対応が必要な状況"
+      ],
+      "citation_role": "注意の切り替えと短い介入の実用性を支持",
+      "claim_tags": [
+        "attention_shift",
+        "self_talk"
+      ],
+      "try_this": "今見えている物を3つ数えてから『今は結論より距離』と言う",
+      "tiny_metric": {
+        "before_prompt": "同じ場面の replay の強さは0〜10で？",
+        "after_prompt": "10秒後の replay の強さは？",
+        "success_rule": "少しでも弱まるか、次の行動を選べればOK",
+        "stop_rule": "焦りが増えるなら別の戻り方へ切り替える"
+      },
+      "comparator": {
+        "baseline": "頭の中の論争を続ける",
+        "cost": "10秒 / 外界を見るだけ"
+      },
+      "fallback": {
+        "when": "物を数える余裕がない",
+        "next": "息を1回だけ長く吐く"
+      }
+    }
+  },
+  {
+    "id": "mental_m01_005",
+    "type": "multiple_choice",
+    "question": "Mastery の done condition に一番近いのはどれ？",
+    "choices": [
+      "反芻が二度と起きない",
+      "反芻に少し早く気づき、戻る一手を選べる",
+      "どんな出来事でも必ず前向きに解釈できる"
+    ],
+    "correct_index": 1,
+    "explanation": "Mastery は『ゼロにする』より『早く気づいて戻る』を目標にする。再発しても戻れるなら、学習価値はある。",
+    "actionable_advice": "完璧な無反応より、戻る速度の改善を記録する。",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m01_005",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "criterion",
+      "evidence_type": "direct",
+      "best_for": [
+        "改善の見方を現実的にしたい人"
+      ],
+      "limitations": [
+        "即効の完全解消を期待しているとき"
+      ],
+      "citation_role": "再発ゼロより再入場のしやすさを重視する設計意図を支持",
+      "claim_tags": [
+        "mastery",
+        "reentry"
+      ]
+    }
+  }
+]

@@ -1,0 +1,192 @@
+[
+  {
+    "id": "mental_m02_001",
+    "type": "conversation",
+    "question": "会話が終わったあと、「あの言い方、変だったかも」と何度も戻ってくる。最初に見るポイントは？",
+    "your_response_prompt": "いま使いやすい見方を選んでください",
+    "choices": [
+      "新しい手がかりが増えているかを見る",
+      "相手がどう思ったかを確定するまで考える",
+      "自分の会話力の問題だと決める"
+    ],
+    "recommended_index": 0,
+    "explanation": "会話後の振り返りは役に立つこともある。ただし、同じ推測に戻るだけなら整理より反芻に近い。",
+    "actionable_advice": "新しい手がかりが増えていなければ、いったん「推測ループ」と名前をつける。",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m02_001",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "distinction",
+      "evidence_type": "direct",
+      "best_for": [
+        "会話後の自己反省が長引きやすい人"
+      ],
+      "limitations": [
+        "実際に謝罪や確認が必要な出来事"
+      ],
+      "citation_role": "反芻と問題解決的振り返りの区別を支持",
+      "claim_tags": [
+        "rumination",
+        "social_review"
+      ]
+    }
+  },
+  {
+    "id": "mental_m02_002",
+    "type": "multiple_choice",
+    "question": "友人の返信が少し短かった。頭の中で「怒らせたかも」が何度も再生される。ここで一番近い Better Choice は？",
+    "choices": [
+      "証拠と推測を分けて、今ある事実だけを見る",
+      "相手の気持ちを完全に読めるまで考える",
+      "不安があるなら、もう関係は悪くなったと決める"
+    ],
+    "correct_index": 0,
+    "explanation": "短い返信は事実だが、「怒っている」は推測。推測を事実として扱うほど、ループは続きやすい。",
+    "actionable_advice": "紙かメモに「事実: 返信が短い / 推測: 怒っているかも」と分ける。",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m02_002",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "対人場面の読みすぎを弱めたい人"
+      ],
+      "limitations": [
+        "明確なトラブル対応が必要な場合"
+      ],
+      "citation_role": "認知的距離化と事実/推測の分離を支持",
+      "claim_tags": [
+        "cognitive_distancing",
+        "social_anxiety"
+      ],
+      "try_this": "メモに『事実: 返信が短い / 推測: 怒っているかも』と分ける",
+      "tiny_metric": {
+        "before_prompt": "相手の気持ちを読もうとする強さは0〜10で？",
+        "after_prompt": "事実と推測を分けた後は？",
+        "success_rule": "推測を事実扱いしない余地が出ればOK",
+        "stop_rule": "確認衝動が強まるなら送信せず一度閉じる"
+      },
+      "comparator": {
+        "baseline": "相手の気持ちを確定するまで考える",
+        "cost": "20秒 / メモ1行"
+      },
+      "fallback": {
+        "when": "メモを書く余裕がない",
+        "next": "頭の中で『事実と推測は別』と1回だけ言う"
+      }
+    }
+  },
+  {
+    "id": "mental_m02_003",
+    "type": "swipe_judgment",
+    "question": "会話後の反芻に気づいたら、すぐ相手に長文で確認するより、まず「確認が必要な事実があるか」を見る。",
+    "correct_answer": "right",
+    "left_label": "まだ早い",
+    "right_label": "おすすめ",
+    "explanation": "確認が役立つ場面もあるが、不安を下げるためだけの確認は反芻を長引かせることがある。まず確認する理由を分ける。",
+    "actionable_advice": "確認前に「用件がある / 安心したいだけ」を1回だけ見分ける。",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m02_003",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "judgment_change",
+      "evidence_type": "applied",
+      "best_for": [
+        "不安確認が増えやすい人"
+      ],
+      "limitations": [
+        "相手に実害や誤解が出ている場合"
+      ],
+      "citation_role": "安心確認と反芻維持の関係を扱う設計意図を支持",
+      "claim_tags": [
+        "reassurance_checking",
+        "rumination"
+      ]
+    }
+  },
+  {
+    "id": "mental_m02_004",
+    "type": "select_all",
+    "question": "会話後のループから戻る一手として合うものをすべて選んでください。",
+    "choices": [
+      "次に会った時に使える一文だけ決める",
+      "相手の表情を何度も思い出して意味を確定する",
+      "今ある事実と推測を分ける",
+      "自分の性格全体の問題に広げる"
+    ],
+    "correct_indices": [0, 2],
+    "explanation": "戻る一手は、推測を増やすより次の行動を小さくすること。会話全体を裁くより、一文だけ決める方が戻りやすい。",
+    "actionable_advice": "次回の一文を「さっきの話、補足すると...」のように短く作る。",
+    "difficulty": "medium",
+    "xp": 8,
+    "source_id": "mental_m02_004",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "会話後の反省を次の行動に変えたい人"
+      ],
+      "limitations": [
+        "関係の安全性に問題がある場面"
+      ],
+      "citation_role": "反芻から具体行動への転換を支持",
+      "claim_tags": [
+        "next_action",
+        "rumination_exit"
+      ],
+      "try_this": "次に会った時の一文を10秒で1つだけ作る",
+      "tiny_metric": {
+        "before_prompt": "会話の replay の強さは0〜10で？",
+        "after_prompt": "一文を作った後は？",
+        "success_rule": "次の一手が1つ出ればOK",
+        "stop_rule": "相手の評価を読み始めたら中断"
+      },
+      "comparator": {
+        "baseline": "相手の表情や反応を何度も思い出す",
+        "cost": "10秒 / 一文だけ"
+      },
+      "fallback": {
+        "when": "一文が作れない",
+        "next": "『次に会ったら普通に挨拶する』に縮小"
+      }
+    }
+  },
+  {
+    "id": "mental_m02_005",
+    "type": "multiple_choice",
+    "question": "この mastery の done condition に一番近いのはどれ？",
+    "choices": [
+      "会話後に二度と不安にならない",
+      "会話後の推測ループに気づき、事実と推測を分けられる",
+      "相手の気持ちを正確に読める"
+    ],
+    "correct_index": 1,
+    "explanation": "目標は不安をゼロにすることではなく、推測ループを事実扱いしないこと。そこまでできれば戻る余地ができる。",
+    "actionable_advice": "次に会話を思い出したら、まず「事実1つ、推測1つ」に分ける。",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m02_005",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "criterion",
+      "evidence_type": "direct",
+      "best_for": [
+        "会話後の反芻を現実的に扱いたい人"
+      ],
+      "limitations": [
+        "即時の対人トラブル解決が必要な場合"
+      ],
+      "citation_role": "再発ゼロより見分けと再入場を重視する設計意図を支持",
+      "claim_tags": [
+        "mastery",
+        "social_rumination",
+        "reentry"
+      ]
+    }
+  }
+]

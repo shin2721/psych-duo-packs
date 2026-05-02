@@ -204,6 +204,13 @@
       "claim_tags": [
         "emotion_regulation",
         "individual_differences"
+      ],
+      "best_for": [
+        "People checking whether this lesson fits their situation",
+        "People who want to choose the next small step without overgeneralizing"
+      ],
+      "limitations": [
+        "This may not fit severe, unsafe, medical, or specialist situations"
       ]
     }
   },
@@ -277,6 +284,13 @@
       "claim_tags": [
         "emotion_regulation",
         "limitations"
+      ],
+      "best_for": [
+        "People checking whether this lesson fits their situation",
+        "People who want to choose the next small step without overgeneralizing"
+      ],
+      "limitations": [
+        "This may not fit severe, unsafe, medical, or specialist situations"
       ]
     }
   },
@@ -304,6 +318,13 @@
       "claim_tags": [
         "breathing",
         "implementation"
+      ],
+      "best_for": [
+        "People checking whether this lesson fits their situation",
+        "People who want to choose the next small step without overgeneralizing"
+      ],
+      "limitations": [
+        "This may not fit severe, unsafe, medical, or specialist situations"
       ]
     }
   },
@@ -379,6 +400,13 @@
       "claim_tags": [
         "individual_differences",
         "fit"
+      ],
+      "best_for": [
+        "People checking whether this lesson fits their situation",
+        "People who want to choose the next small step without overgeneralizing"
+      ],
+      "limitations": [
+        "This may not fit severe, unsafe, medical, or specialist situations"
       ]
     }
   }

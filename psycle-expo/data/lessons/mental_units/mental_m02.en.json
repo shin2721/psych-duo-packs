@@ -1,0 +1,195 @@
+[
+  {
+    "id": "mental_m02_001",
+    "type": "conversation",
+    "question": "After a conversation, the thought \"Maybe that sounded weird\" keeps coming back. What is the first thing to check?",
+    "your_response_prompt": "Choose the view that feels most usable right now",
+    "choices": [
+      "Whether any new information is being added",
+      "Keep thinking until I know exactly what they thought",
+      "Decide this proves I am bad at conversations"
+    ],
+    "recommended_index": 0,
+    "explanation": "Post-conversation reflection can be useful. But if it keeps returning to the same guess, it is closer to rumination than problem solving.",
+    "actionable_advice": "If no new information is appearing, label it once as a guessing loop.",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m02_001",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "distinction",
+      "evidence_type": "direct",
+      "best_for": [
+        "People whose post-conversation reflection runs long"
+      ],
+      "limitations": [
+        "Situations where an actual apology or clarification is needed"
+      ],
+      "citation_role": "Supports the distinction between rumination and problem-solving reflection",
+      "claim_tags": [
+        "rumination",
+        "social_review"
+      ]
+    }
+  },
+  {
+    "id": "mental_m02_002",
+    "type": "multiple_choice",
+    "question": "A friend's reply is shorter than usual. Your mind keeps replaying \"Maybe I upset them.\" What is the closest Better Choice?",
+    "choices": [
+      "Separate evidence from guesses and look only at what is known",
+      "Think until I can fully read their mind",
+      "If I feel anxious, assume the relationship is damaged"
+    ],
+    "correct_index": 0,
+    "explanation": "A short reply is a fact. \"They are angry\" is a guess. Treating guesses as facts tends to keep the loop going.",
+    "actionable_advice": "Write: fact: the reply was short / guess: maybe they are angry.",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m02_002",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "People who want to soften over-reading in social moments"
+      ],
+      "limitations": [
+        "Situations where a clear conflict needs to be addressed"
+      ],
+      "citation_role": "Supports cognitive distancing and separating facts from interpretations",
+      "claim_tags": [
+        "cognitive_distancing",
+        "social_anxiety"
+      ],
+      "try_this": "Write: Fact: short reply / Guess: maybe they are angry.",
+      "tiny_metric": {
+        "before_prompt": "How strongly are you trying to read their mind? (0-10)",
+        "after_prompt": "After separating fact and guess?",
+        "success_rule": "It is enough if the guess no longer feels like a fact.",
+        "stop_rule": "If the urge to check grows, do not send yet and close the screen."
+      },
+      "comparator": {
+        "baseline": "Thinking until you feel certain about their feelings",
+        "cost": "20 seconds / one memo line"
+      },
+      "fallback": {
+        "when": "You cannot write it down",
+        "next": "Say once in your head: fact and guess are different"
+      }
+    }
+  },
+  {
+    "id": "mental_m02_003",
+    "type": "swipe_judgment",
+    "question": "When you notice post-conversation rumination, first check whether there is a concrete reason to follow up before sending a long reassurance message.",
+    "correct_answer": "right",
+    "left_label": "Too soon",
+    "right_label": "Recommended",
+    "explanation": "Checking in can be useful. But checking only to reduce anxiety can sometimes keep the loop alive. First separate the reason for checking.",
+    "actionable_advice": "Before checking, ask once: is there a practical point, or am I only trying to feel safer?",
+    "difficulty": "medium",
+    "xp": 7,
+    "source_id": "mental_m02_003",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "judgment_change",
+      "evidence_type": "applied",
+      "best_for": [
+        "People who often seek reassurance after conversations"
+      ],
+      "limitations": [
+        "Situations where the other person may have been harmed or misled"
+      ],
+      "citation_role": "Supports the design distinction between useful clarification and reassurance checking",
+      "claim_tags": [
+        "reassurance_checking",
+        "rumination"
+      ]
+    }
+  },
+  {
+    "id": "mental_m02_004",
+    "type": "select_all",
+    "question": "Select all moves that can help you return from a post-conversation loop.",
+    "choices": [
+      "Choose one sentence I can use next time",
+      "Replay their face until the meaning is certain",
+      "Separate what I know from what I am guessing",
+      "Turn it into a judgment about my whole personality"
+    ],
+    "correct_indices": [
+      0,
+      2
+    ],
+    "explanation": "A useful exit move is small and concrete. Deciding one next sentence is usually more helpful than judging the whole conversation.",
+    "actionable_advice": "Try a short next sentence such as: \"One thing I meant to add is...\"",
+    "difficulty": "medium",
+    "xp": 8,
+    "source_id": "mental_m02_004",
+    "evidence_grade": "silver",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "applied",
+      "best_for": [
+        "People who want to turn reflection into a next action"
+      ],
+      "limitations": [
+        "Situations where the relationship is not safe"
+      ],
+      "citation_role": "Supports shifting from rumination to concrete next action",
+      "claim_tags": [
+        "next_action",
+        "rumination_exit"
+      ],
+      "try_this": "Make one short sentence you can use next time you meet.",
+      "tiny_metric": {
+        "before_prompt": "How strong is the conversation replay? (0-10)",
+        "after_prompt": "After making one sentence?",
+        "success_rule": "One usable next sentence is enough.",
+        "stop_rule": "Stop if you start reading their evaluation again."
+      },
+      "comparator": {
+        "baseline": "Replaying their face or tone again and again",
+        "cost": "10 seconds / one sentence only"
+      },
+      "fallback": {
+        "when": "No sentence comes up",
+        "next": "Shrink it to: say a normal hello next time"
+      }
+    }
+  },
+  {
+    "id": "mental_m02_005",
+    "type": "multiple_choice",
+    "question": "Which done condition best fits this mastery lesson?",
+    "choices": [
+      "Never feel anxious after a conversation again",
+      "Notice the guessing loop and separate facts from guesses",
+      "Read the other person's mind accurately"
+    ],
+    "correct_index": 1,
+    "explanation": "The goal is not zero anxiety. The goal is to stop treating guesses as facts, which creates room to return.",
+    "actionable_advice": "Next time a conversation replays, split it into one fact and one guess.",
+    "difficulty": "easy",
+    "xp": 6,
+    "source_id": "mental_m02_005",
+    "evidence_grade": "gold",
+    "expanded_details": {
+      "claim_type": "criterion",
+      "evidence_type": "direct",
+      "best_for": [
+        "People who want a realistic way to handle social rumination"
+      ],
+      "limitations": [
+        "Situations that need immediate conflict repair"
+      ],
+      "citation_role": "Supports a mastery goal based on noticing and re-entry rather than zero recurrence",
+      "claim_tags": [
+        "mastery",
+        "social_rumination",
+        "reentry"
+      ]
+    }
+  }
+]

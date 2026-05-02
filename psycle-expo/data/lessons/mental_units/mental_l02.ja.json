@@ -149,6 +149,13 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
+      "best_for": [
+        "自分が何を脅威と見なすかを知りたい人",
+        "対処可能感の有無を見分けたい人"
+      ],
+      "limitations": [
+        "強い不安を呼び戻す場面は無理に思い出さない"
+      ],
       "citation_role": "二次評価の自己認識を支持",
       "claim_tags": [
         "secondary_appraisal",
@@ -207,6 +214,13 @@
     "expanded_details": {
       "claim_type": "theory",
       "evidence_type": "theoretical",
+      "best_for": [
+        "脅威判定を少し柔らかくできる余地を知りたい人",
+        "反応を変えられないと決めつけがちな人"
+      ],
+      "limitations": [
+        "疲労や危機が強いときは再評価より休息や安全確保が優先"
+      ],
       "citation_role": "評価の可変性を理論的に説明",
       "claim_tags": [
         "cognitive_appraisal",
@@ -316,6 +330,13 @@
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
+      "best_for": [
+        "脅威判定という見方が自分に合うか確認したい人",
+        "違和感も含めて次の対策を選びたい人"
+      ],
+      "limitations": [
+        "理論がしっくり来ない場合は別の入口から試す"
+      ],
       "citation_role": "個人差の考慮を支持",
       "claim_tags": [
         "individual_differences",
