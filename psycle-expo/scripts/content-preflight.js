@@ -15,6 +15,10 @@ const { lintClaimAlignment } = require('./lint-claim-alignment.js');
 const { lintVerificationStaleness } = require('./lint-verification-staleness.js');
 const { lintCitationFormat } = require('./lint-citation-format.js');
 const { lintNeedsReview } = require('./lint-needs-review.js');
+const { validateAllThemeManifests } = require('./lib/theme-manifest.js');
+const { evaluateContentPackageReadiness } = require('./lib/content-package.js');
+const path = require('path');
+const fs = require('fs');
 
 /**
  * Evidence Quality Automation実行（try-catchでエラーハンドリング）
@@ -37,6 +41,8 @@ async function runEvidenceQualityWithErrorHandling() {
 async function runPreflight() {
     console.log('🚀 Content Preflight Check 開始...');
     console.log('=====================================\n');
+    const inventoryRoot = path.join(process.cwd(), 'data', 'lessons');
+    const domains = ['mental', 'money', 'work', 'health', 'social', 'study'];
     
     // 1. インベントリ生成
     console.log('📋 Step 1: レッスン棚卸し...');
@@ -105,7 +111,52 @@ async function runPreflight() {
     console.log('\n' + '='.repeat(50) + '\n');
     
     // 12. 未承認Evidence警告
-    console.log('⚠️  Step 12: 未承認Evidence警告...');
+    console.log('🗺️  Step 12: Theme manifest readiness...');
+    const themeManifestResult = validateAllThemeManifests(process.cwd(), 'production');
+
+    if (themeManifestResult.errors.length > 0) {
+        console.log(`❌ Theme manifest error: ${themeManifestResult.errors.length}件`);
+        for (const error of themeManifestResult.errors) {
+            console.log(`  - ${error}`);
+        }
+    } else {
+        console.log(`✅ Theme manifest readiness: ${themeManifestResult.themeIds.length} themes OK`);
+    }
+
+    if (themeManifestResult.warnings.length > 0) {
+        console.log(`⚠️  Theme manifest warning: ${themeManifestResult.warnings.length}件`);
+        for (const warning of themeManifestResult.warnings) {
+            console.log(`  - ${warning}`);
+        }
+    }
+
+    console.log('\n' + '='.repeat(50) + '\n');
+
+    console.log('📦 Step 13: Content package audit...');
+    const contentPackageWarnings = [];
+    for (const domain of domains) {
+        const domainDir = path.join(inventoryRoot, `${domain}_units`);
+        if (!fs.existsSync(domainDir)) {
+            continue;
+        }
+        const lessons = fs.readdirSync(domainDir).filter((file) => file.endsWith('.ja.json'));
+        for (const lessonFile of lessons) {
+            const lessonPath = path.join(domainDir, lessonFile);
+            const audit = evaluateContentPackageReadiness(lessonPath, {
+                rootDir: process.cwd(),
+                mode: 'audit',
+            });
+            if (audit.warnings.length > 0) {
+                contentPackageWarnings.push(...audit.warnings.map((warning) => `${lessonFile}: ${warning}`));
+            }
+        }
+    }
+    console.log(`⚠️  Content package warning: ${contentPackageWarnings.length}件`);
+
+    console.log('\n' + '='.repeat(50) + '\n');
+
+    // 14. 未承認Evidence警告
+    console.log('⚠️  Step 14: 未承認Evidence警告...');
     const unapproved = inventory.filter(item => item.humanApproved === 'false');
     
     if (unapproved.length > 0) {
@@ -121,7 +172,7 @@ async function runPreflight() {
     
     console.log('\n' + '='.repeat(50) + '\n');
     
-    // 13. 最終サマリー
+    // 15. 最終サマリー
     console.log('📊 Preflight Check 完了サマリー:');
     console.log(`  📄 総レッスン数: ${inventory.length}`);
     console.log(`  📋 Evidence網羅率: ${((inventory.filter(i => i.hasEvidence).length / inventory.length) * 100).toFixed(1)}%`);
@@ -134,6 +185,8 @@ async function runPreflight() {
     console.log(`  🕐 鮮度警告: ${stalenessResult.warnings.length + stalenessResult.failures.length}個`);
     console.log(`  📝 形式エラー: ${formatResult.formatErrors.length + formatResult.allEmpty.length}個`);
     console.log(`  🔍 要再監査: ${reviewResult.needsReview.length}個`);
+    console.log(`  🗺️  Theme manifest error: ${themeManifestResult.errors.length}個`);
+    console.log(`  📦 Content package warning: ${contentPackageWarnings.length}個`);
     console.log(`  🚨 未承認Evidence: ${unapproved.length}個`);
     console.log(`  📊 引用品質警告: ${(evidenceQualityResult.multipleCitations?.warnings || 0) + (evidenceQualityResult.bookSources?.warnings || 0) + (evidenceQualityResult.safetyDisplay?.warnings || 0)}個`);
     console.log(`    - 単一ソース: ${evidenceQualityResult.multipleCitations?.singleSourceCount || 0}個`);
@@ -163,6 +216,8 @@ async function runPreflight() {
         stalenessResult,
         formatResult,
         reviewResult,
+        themeManifestResult,
+        contentPackageWarnings,
         unapproved,
         evidenceQualityResult
     };

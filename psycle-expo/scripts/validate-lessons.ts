@@ -9,6 +9,39 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
+import * as themeManifestLib from './lib/theme-manifest.js';
+import * as contentPackageLib from './lib/content-package.js';
+
+const {
+  inferThemeIdFromLessonPath,
+  evaluateThemeManifestReadiness,
+} = themeManifestLib as {
+  inferThemeIdFromLessonPath: (lessonPath: string) => string | null;
+  evaluateThemeManifestReadiness: (
+    themeId: string,
+    rootDir?: string,
+    target?: 'production' | 'staging'
+  ) => {
+    ready: boolean;
+    errors: string[];
+    warnings: string[];
+    manifestPath: string;
+    manifest: Record<string, unknown> | null;
+  };
+};
+
+const {
+  evaluateContentPackageReadiness,
+} = contentPackageLib as {
+  evaluateContentPackageReadiness: (
+    lessonPath: string,
+    options?: { rootDir?: string; mode?: 'audit' | 'promote' }
+  ) => {
+    ready: boolean;
+    errors: string[];
+    warnings: string[];
+  };
+};
 
 // 設定
 const LESSON_DIRS = [
@@ -30,6 +63,8 @@ const STAGING_DIRS = [
 ];
 
 const ALLOWED_EVIDENCE_GRADES = ['gold', 'silver', 'bronze'];
+const ALLOWED_EXPIRY_ACTIONS = ['auto_hide', 'auto_demote', 'refresh_queue'];
+const ALLOWED_SEVERITY_TIERS = ['A', 'B', 'C'];
 const ALLOWED_QUESTION_TYPES = [
   'ab', 'mcq3', 'truefalse', 'cloze1', 'swipe_judgment', 'select_all',
   'sort_order', 'matching', 'consequence_scenario', 'conversation', 'term_card',
@@ -68,27 +103,109 @@ interface EvidenceCard {
   limitations: string;
   evidence_grade: string;
   generated_by: string;
+  severity_tier?: 'A' | 'B' | 'C';
+  review_sla_days?: number;
+  expiry_action?: 'auto_hide' | 'auto_demote' | 'refresh_queue';
+  last_verified?: string;
+  last_verified_at?: string;
+  next_review_due_at?: string;
+  stale_route_owner?: string;
+  refresh_value_reason_candidate?: string;
   review: {
-    critic_score: number;
-    human_approved: boolean;
-    reviewer: string;
+    critic_score?: number;
+    human_approved?: boolean;
+    auto_approved?: boolean;
+    approval_mode?: string;
+    reviewer?: string;
+    approval_reasons?: string[];
+    evaluated_at?: string;
+  };
+  promotion?: {
+    eligible?: boolean;
+    reasons?: string[];
+    warnings?: string[];
+  };
+  content_package?: {
+    lesson_path?: string;
+    evidence_path?: string;
+    theme_manifest_path?: string;
+    continuity_metadata_path?: string;
+    analytics_contract_id?: string;
+    analytics_contract_version?: number;
+    analytics_schema_lineage?: string;
+    analytics_backward_compat_until?: string;
+    package_dependencies?: {
+      requires_package_ids?: string[];
+      dependency_rule?: string;
+      invalidation_rule?: string;
+    };
+    owner_id?: string;
+    state?: string;
+    rollback_route?: string;
+    rollback_class?: string;
+    localized_locales?: string[];
+    localization_owner?: string;
+    approval_locale_set?: string[];
+    semantic_parity_rule?: string;
+    tone_guard?: string;
+    readiness?: {
+      quality_gate_pass?: boolean;
+      dependency_valid?: boolean;
+      continuity_complete?: boolean;
+      analytics_wired?: boolean;
+      rollback_defined?: boolean;
+    };
+    readiness_authority?: Record<
+      string,
+      {
+        owner?: string;
+        auto_source?: string;
+        final_authority?: string;
+      }
+    >;
+    completeness?: Record<string, boolean>;
+    review_decision?: {
+      change_type?: string;
+      human_review_required?: boolean;
+      approved_source?: string;
+      reviewer_id?: string;
+      review_reason?: string;
+      reviewed_at?: string;
+      rollback_trigger_if_reverted?: string;
+    };
   };
 }
 
-class LessonValidator {
+interface LessonValidatorOptions {
+  rootDir?: string;
+  lessonDirs?: string[];
+  stagingDirs?: string[];
+}
+
+export class LessonValidator {
   private errors: ValidationError[] = [];
   private allIds: Set<string> = new Set();
+  private validatedThemes: Set<string> = new Set();
+  private readonly rootDir: string;
+  private readonly lessonDirs: string[];
+  private readonly stagingDirs: string[];
+
+  constructor(options: LessonValidatorOptions = {}) {
+    this.rootDir = options.rootDir ?? process.cwd();
+    this.lessonDirs = options.lessonDirs ?? LESSON_DIRS;
+    this.stagingDirs = options.stagingDirs ?? STAGING_DIRS;
+  }
 
   validate(): boolean {
     console.log('🔍 レッスンバリデーション開始...\n');
 
     // 本番ディレクトリ（エラー扱い）
-    for (const dir of LESSON_DIRS) {
+    for (const dir of this.lessonDirs) {
       this.validateDirectory(dir, 'error');
     }
 
     // stagingディレクトリ（警告扱い）
-    for (const dir of STAGING_DIRS) {
+    for (const dir of this.stagingDirs) {
       this.validateDirectory(dir, 'warning');
     }
 
@@ -100,14 +217,16 @@ class LessonValidator {
   }
 
   private validateDirectory(dirPath: string, severity: 'error' | 'warning'): void {
-    if (!fs.existsSync(dirPath)) {
+    const absoluteDirPath = path.isAbsolute(dirPath) ? dirPath : path.join(this.rootDir, dirPath);
+
+    if (!fs.existsSync(absoluteDirPath)) {
       return;
     }
 
-    const files = fs.readdirSync(dirPath).filter(f => f.endsWith('.ja.json'));
+    const files = fs.readdirSync(absoluteDirPath).filter(f => f.endsWith('.ja.json'));
     
     for (const file of files) {
-      const filePath = path.join(dirPath, file);
+      const filePath = path.join(absoluteDirPath, file);
       this.validateFile(filePath, severity);
     }
   }
@@ -121,6 +240,9 @@ class LessonValidator {
         this.addError(filePath, severity, 'ファイルは配列である必要があります');
         return;
       }
+
+      this.validateThemeManifest(filePath, severity);
+      this.validateContentPackage(filePath, severity);
 
       // Evidence Card チェック
       this.validateEvidenceCard(filePath, severity);
@@ -161,14 +283,56 @@ class LessonValidator {
         this.validateEvidenceGrade(filePath, severity, question);
       }
 
-      // レッスン構成チェック（10問推奨）
-      if (lessons.length !== 10) {
-        this.addError(filePath, severity === 'error' ? 'warning' : 'warning', 
-          `問題数が10問ではありません: ${lessons.length}問`);
+      // レッスン構成チェック（5〜10問）
+      if (lessons.length < 5 || lessons.length > 10) {
+        this.addError(
+          filePath,
+          severity === 'error' ? 'warning' : 'warning',
+          `問題数が想定レンジ外です: ${lessons.length}問 (期待: 5〜10問)`
+        );
       }
 
     } catch (error) {
       this.addError(filePath, severity, `JSONパースエラー: ${error.message}`);
+    }
+  }
+
+  private validateThemeManifest(lessonPath: string, severity: 'error' | 'warning'): void {
+    const themeId = inferThemeIdFromLessonPath(lessonPath);
+    if (!themeId) {
+      this.addError(lessonPath, severity, 'theme_id を lesson filename から推定できません');
+      return;
+    }
+
+    if (this.validatedThemes.has(themeId)) {
+      return;
+    }
+    this.validatedThemes.add(themeId);
+
+    const target = lessonPath.includes('_staging') ? 'staging' : 'production';
+    const readiness = evaluateThemeManifestReadiness(themeId, this.rootDir, target);
+
+    for (const message of readiness.errors) {
+      this.addError(readiness.manifestPath || lessonPath, severity, `[theme:${themeId}] ${message}`);
+    }
+
+    for (const message of readiness.warnings) {
+      this.addError(readiness.manifestPath || lessonPath, 'warning', `[theme:${themeId}] ${message}`);
+    }
+  }
+
+  private validateContentPackage(lessonPath: string, severity: 'error' | 'warning'): void {
+    const readiness = evaluateContentPackageReadiness(lessonPath, {
+      rootDir: this.rootDir,
+      mode: 'audit',
+    });
+
+    for (const message of readiness.errors) {
+      this.addError(lessonPath, severity, `[content-package] ${message}`);
+    }
+
+    for (const message of readiness.warnings) {
+      this.addError(lessonPath, 'warning', `[content-package] ${message}`);
     }
   }
 
@@ -197,10 +361,78 @@ class LessonValidator {
         this.addError(evidencePath, severity, `無効なevidence_grade: ${evidence.evidence_grade}`);
       }
 
-      // 本番配置時のhuman_approved チェック
+      if (!evidence.severity_tier || !ALLOWED_SEVERITY_TIERS.includes(evidence.severity_tier)) {
+        this.addError(
+          evidencePath,
+          severity,
+          `severity_tier は許可値のみ使用できます: ${ALLOWED_SEVERITY_TIERS.join(', ')}`
+        );
+      }
+
+      if (
+        typeof evidence.review_sla_days !== 'number' ||
+        !Number.isFinite(evidence.review_sla_days) ||
+        evidence.review_sla_days <= 0
+      ) {
+        this.addError(evidencePath, severity, 'review_sla_days は 1 以上の number である必要があります');
+      }
+
+      if (!evidence.expiry_action || !ALLOWED_EXPIRY_ACTIONS.includes(evidence.expiry_action)) {
+        this.addError(
+          evidencePath,
+          severity,
+          `expiry_action は許可値のみ使用できます: ${ALLOWED_EXPIRY_ACTIONS.join(', ')}`
+        );
+      }
+
+      if (
+        typeof evidence.stale_route_owner !== 'string' ||
+        evidence.stale_route_owner.trim() === ''
+      ) {
+        this.addError(evidencePath, severity, 'stale_route_owner は非空文字列である必要があります');
+      }
+
+      const lastVerifiedAt = evidence.last_verified_at ?? evidence.last_verified;
+      if (typeof lastVerifiedAt !== 'string' || Number.isNaN(Date.parse(lastVerifiedAt))) {
+        this.addError(evidencePath, severity, 'last_verified_at は有効な日付文字列である必要があります');
+      }
+
+      if (
+        typeof evidence.next_review_due_at !== 'string' ||
+        Number.isNaN(Date.parse(evidence.next_review_due_at))
+      ) {
+        this.addError(evidencePath, severity, 'next_review_due_at は有効な日付文字列である必要があります');
+      } else if (
+        typeof lastVerifiedAt === 'string' &&
+        !Number.isNaN(Date.parse(lastVerifiedAt)) &&
+        Date.parse(evidence.next_review_due_at) < Date.parse(lastVerifiedAt)
+      ) {
+        this.addError(evidencePath, severity, 'next_review_due_at は last_verified_at 以降である必要があります');
+      }
+
+      if (
+        evidence.expiry_action === 'refresh_queue' &&
+        (typeof evidence.refresh_value_reason_candidate !== 'string' ||
+          evidence.refresh_value_reason_candidate.trim() === '')
+      ) {
+        this.addError(
+          evidencePath,
+          severity,
+          'expiry_action=refresh_queue の場合は refresh_value_reason_candidate が必要です'
+        );
+      }
+
+      // 本番配置時の promotion gate チェック
       const isProduction = !lessonPath.includes('_staging');
-      if (isProduction && evidence.review && !evidence.review.human_approved) {
-        this.addError(evidencePath, 'error', '本番配置にはhuman_approved=trueが必要です');
+      const humanApproved = evidence.review?.human_approved === true;
+      const autoApproved = evidence.review?.auto_approved === true;
+      const promotionEligible = evidence.promotion?.eligible === true;
+      if (isProduction && !humanApproved && !autoApproved && !promotionEligible) {
+        this.addError(
+          evidencePath,
+          'error',
+          '本番配置には approved gate が必要です: human_approved=true, auto_approved=true, または promotion.eligible=true'
+        );
       }
 
     } catch (error) {
@@ -209,10 +441,10 @@ class LessonValidator {
   }
 
   private validateIdFormat(filePath: string, severity: 'error' | 'warning', id: string): void {
-    // ID形式: {domain}_lNN_NNN
-    const idPattern = /^(mental|money|work|health|social|study)_l\d+_\d+$/;
+    // ID形式: {domain}_(l|m)NN_NNN
+    const idPattern = /^(mental|money|work|health|social|study)_[lm]\d+_\d+$/;
     if (!idPattern.test(id)) {
-      this.addError(filePath, severity, `ID形式が不正: ${id} (期待形式: {domain}_lNN_NNN)`, id);
+      this.addError(filePath, severity, `ID形式が不正: ${id} (期待形式: {domain}_(l|m)NN_NNN)`, id);
     }
   }
 
@@ -302,9 +534,13 @@ class LessonValidator {
   }
 }
 
+export function runLessonValidation(options: LessonValidatorOptions = {}): boolean {
+  const validator = new LessonValidator(options);
+  return validator.validate();
+}
+
 // 実行
-if (import.meta.url === `file://${process.argv[1]}`) {
-  const validator = new LessonValidator();
-  const success = validator.validate();
+if (process.argv[1] && /validate-lessons\.ts$/.test(process.argv[1])) {
+  const success = runLessonValidation();
   process.exit(success ? 0 : 1);
 }

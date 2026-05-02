@@ -2,7 +2,7 @@
 
 /**
  * Psycle問題自動生成システム - Duolingo風の楽しい心理学問題を大量生成
- * 完全無料（Claude APIなし）- 論文のtitle/abstractのみ使用
+ * 完全無料（外部LLM APIなし）- 論文のtitle/abstractのみ使用
  */
 
 import fs from 'fs';
@@ -27,7 +27,7 @@ const PSYCH_TERMS = {
     { ja: 'ソリューション・フォーカスト', en: 'SFBT', desc: '解決に焦点を当てる' },
     { ja: '家族療法', en: 'Family Therapy', desc: '家族システム全体を治療' },
     { ja: '認知処理療法', en: 'CPT', desc: 'PTSD（心的外傷後ストレス障害）の認知パターンを変える' },
-    // 追加5項目（Claude生成 - psych_terms_candidates.json）
+    // 追加5項目（legacy candidate import - psych_terms_candidates.json）
     { ja: 'ゲシュタルト療法', en: 'Gestalt Therapy', desc: '今の気づきに焦点' },
     { ja: 'ナラティブセラピー', en: 'Narrative Therapy', desc: '人生の物語を書き換え' },
     { ja: 'アートセラピー', en: 'Art Therapy', desc: '創作で心を癒す' },
@@ -49,7 +49,7 @@ const PSYCH_TERMS = {
     { ja: 'ADHD', en: 'ADHD', symptom: '注意散漫・多動性' },
     { ja: '睡眠障害', en: 'Sleep Disorder', symptom: '睡眠の質・量の問題' },
     { ja: '物質使用障害', en: 'Substance Use', symptom: '依存・乱用' },
-    // 追加16項目（Claude生成 - psych_terms_candidates.json）
+    // 追加16項目（legacy candidate import - psych_terms_candidates.json）
     { ja: '全般性不安症', en: 'GAD', symptom: 'あらゆることへの不安' },
     { ja: '分離不安症', en: 'Separation Anxiety', symptom: '離れることへの恐怖' },
     { ja: '限局性恐怖症', en: 'Specific Phobia', symptom: '特定対象への恐怖' },
@@ -86,7 +86,7 @@ const PSYCH_TERMS = {
     { ja: 'バイアス', en: 'Bias', effect: '無意識の偏見' },
     { ja: 'プラシーボ効果', en: 'Placebo', effect: '思い込みによる変化' },
     { ja: '神経可塑性', en: 'Neuroplasticity', effect: '脳の変化する力' },
-    // 追加22項目（Claude生成 - psych_terms_candidates.json）
+    // 追加22項目（legacy candidate import - psych_terms_candidates.json）
     { ja: 'マインドセット', en: 'Mindset', effect: '物事への基本的構え' },
     { ja: 'グリット', en: 'Grit', effect: 'やり抜く力と情熱' },
     { ja: '自己効力感', en: 'Self-Efficacy', effect: 'できる感覚' },

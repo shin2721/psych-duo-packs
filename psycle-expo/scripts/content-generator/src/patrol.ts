@@ -25,7 +25,9 @@ import { sleep, importContent } from "./importer";
 import { checkAndBundle } from "./bundler";
 import { getPhaseForIndex, getQuestionTypeForPhase, normalizeDomain } from "./phasePolicy";
 import { evaluateDeterministicGate } from "./deterministicGate";
+import { buildLessonBlueprint, LESSON_WORTHINESS_THRESHOLD } from "./lessonDesign";
 import { getLastSourceRegistryLoadInfo, loadSourceRegistry } from "./sourceRegistry";
+import { upsertClaimFromQuestion } from "./claimRegistry";
 import {
     appendGateFailure,
     appendPatrolMetrics,
@@ -36,6 +38,7 @@ import {
 } from "./metrics";
 import { CONTENT_MODELS } from "./modelConfig";
 import { estimateRunCostJpy } from "./costConfig";
+import { loadExistingLessonSignatures } from "./evidencePolicy";
 
 config({ path: join(__dirname, "..", ".env") });
 
@@ -104,6 +107,7 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
         generator: CONTENT_MODELS.generator,
         critic: CONTENT_MODELS.critic,
     });
+    const existingLessonSignatures = loadExistingLessonSignatures();
 
     console.log("🚀 Psycle Patrol: Full Automation Mode");
     console.log("━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
@@ -255,6 +259,12 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                 },
             });
             if (seed) {
+                if (seed.lessonWorthiness.total < LESSON_WORTHINESS_THRESHOLD) {
+                    console.log(
+                        `   ⏭️  Below lesson-worthiness threshold (${seed.lessonWorthiness.total}/${LESSON_WORTHINESS_THRESHOLD})`
+                    );
+                    continue;
+                }
                 seeds.push(seed);
                 seedSourceByLink.set(seed.originalLink, item.source);
                 const sourceId = sourceIdByName[item.source];
@@ -310,16 +320,37 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                 continue;
             }
             const fullSeed: Seed = fullSeedParse.data;
+            const lessonBlueprint = buildLessonBlueprint({
+                phase: targetPhase,
+                seed: fullSeed,
+                lane: seed.lane,
+                lessonJob: seed.lessonJob,
+                targetShift: seed.targetShift,
+                doneCondition: seed.doneCondition,
+                takeawayAction: seed.takeawayAction,
+                counterfactual: seed.counterfactual,
+                interventionPath: seed.interventionPath,
+                noveltyReason: seed.noveltyReason,
+                refreshValueReason: seed.refreshValueReason,
+                forbiddenMoves: seed.forbiddenMoves,
+                load: seed.lessonLoad,
+            });
 
             const question = await generateQuestion(genAI, fullSeed, qType, "medium", targetPhase, {
                 enforceExpandedDetails: true,
+                lessonBlueprint,
                 onUsage: (usage) => {
                     recordModelUsage(modelUsage, "generator", CONTENT_MODELS.generator, usage);
                 },
             });
             result.questionsGenerated++;
 
-            const gate = evaluateDeterministicGate(question, { expectedDomain: normalizedDomain });
+            const gate = evaluateDeterministicGate(question, {
+                expectedDomain: normalizedDomain,
+                requireClaimTrace: true,
+                existingLessonSignatures,
+                requireNoveltyCheck: true,
+            });
             if (!gate.passed) {
                 for (const reason of gate.hardViolations) {
                     gateFailureReasons[reason] = (gateFailureReasons[reason] || 0) + 1;
@@ -352,6 +383,13 @@ async function patrol(options: { dryRun?: boolean; limit?: number } = {}): Promi
                 result.criticPassed++;
                 result.questionsPassed++;
                 result.savedQuestions.push(question);
+
+                upsertClaimFromQuestion({
+                    question,
+                    seed: fullSeed,
+                    originalLink: seed.originalLink,
+                    lessonBlueprint,
+                });
 
                 // Attach domain from seed for Domain Router (no fallback)
                 const questionWithDomain = {

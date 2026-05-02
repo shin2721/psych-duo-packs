@@ -12,14 +12,14 @@ const LESSONS_ROOT = join(__dirname, "..", "..", "..", "data", "lessons");
 
 // Domain to directory mapping (staging only for Mode B)
 const DOMAIN_PATHS: Record<string, string> = {
-    social: "_staging/social_units",
-    mental: "_staging/mental_units",
-    money: "_staging/money_units",
-    health: "_staging/health_units",
-    productivity: "_staging/study_units",
-    study: "_staging/study_units",
-    work: "_staging/work_units",
-    relationships: "_staging/social_units", // alias
+    social: "_staging/social_units/auto",
+    mental: "_staging/mental_units/auto",
+    money: "_staging/money_units/auto",
+    health: "_staging/health_units/auto",
+    productivity: "_staging/study_units/auto",
+    study: "_staging/study_units/auto",
+    work: "_staging/work_units/auto",
+    relationships: "_staging/social_units/auto", // alias
 };
 
 interface ImportResult {

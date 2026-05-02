@@ -1,9 +1,27 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import { z } from "zod";
-import { Seed, SeedSchema } from "./types";
+import {
+    Lane,
+    LaneSchema,
+    LessonLoadScore,
+    LessonLoadScoreSchema,
+    LessonWorthinessScore,
+    LessonWorthinessScoreSchema,
+    MasteryNoveltyReason,
+    MasteryNoveltyReasonSchema,
+    RefreshValueReason,
+    Seed,
+    SeedSchema,
+} from "./types";
 import { normalizeDomain } from "./phasePolicy";
 import { CONTENT_MODELS } from "./modelConfig";
 import { extractUsageMetadata, UsageTokens } from "./metrics";
+import {
+    deriveLane,
+    finalizeLessonLoad,
+    finalizeLessonWorthiness,
+    normalizeReviewDate,
+} from "./lessonDesign";
 
 export interface RawNewsItem {
     title: string;
@@ -22,6 +40,19 @@ export interface RelevanceResult {
 export interface ExtractedSeed extends Seed {
     originalLink: string;
     extractionConfidence: number; // 0-1
+    lane: Lane;
+    lessonWorthiness: LessonWorthinessScore;
+    lessonLoad: LessonLoadScore;
+    lessonJob?: string;
+    targetShift?: string;
+    doneCondition?: string;
+    takeawayAction?: string;
+    counterfactual?: string;
+    interventionPath?: string;
+    noveltyReason?: MasteryNoveltyReason;
+    refreshValueReason?: RefreshValueReason;
+    forbiddenMoves?: string[];
+    reviewDate: string;
 }
 
 export type LLMUsageCallbackOptions = {
@@ -40,7 +71,28 @@ const ExtractedSeedPayloadSchema = SeedSchema.omit({
     domain: true,
 }).extend({
     domain: z.string().min(1),
+    source_type: SeedSchema.shape.source_type.optional(),
     extractionConfidence: z.number().min(0).max(1).optional(),
+    lane: LaneSchema.optional(),
+    lessonWorthiness: LessonWorthinessScoreSchema.partial().optional(),
+    lessonLoad: LessonLoadScoreSchema.partial().optional(),
+    lessonJob: z.string().min(1).optional(),
+    targetShift: z.string().min(1).optional(),
+    doneCondition: z.string().min(1).optional(),
+    takeawayAction: z.string().min(1).optional(),
+    counterfactual: z.string().min(1).optional(),
+    interventionPath: z.string().min(1).optional(),
+    noveltyReason: MasteryNoveltyReasonSchema.optional(),
+    refreshValueReason: z.enum([
+        "explanation_update",
+        "intervention_update",
+        "boundary_update",
+        "safety_update",
+        "scene_update",
+        "evidence_strength_update",
+    ]).optional(),
+    forbiddenMoves: z.array(z.string()).optional(),
+    reviewDate: z.string().optional(),
 });
 
 export type ExtractedSeedPayload = z.infer<typeof ExtractedSeedPayloadSchema>;
@@ -68,6 +120,10 @@ export function parseExtractedSeedPayload(raw: unknown, originalLink: string): E
 
     const payload = payloadResult.data;
     const generatedId = `extracted_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
+    const lessonWorthiness = finalizeLessonWorthiness(payload.lessonWorthiness, payload.evidence_grade);
+    const lessonLoad = finalizeLessonLoad(payload.lessonLoad);
+    const lane = deriveLane(payload.lane, lessonWorthiness);
+    const reviewDate = normalizeReviewDate(payload.reviewDate);
 
     return {
         id: generatedId,
@@ -78,11 +134,31 @@ export function parseExtractedSeedPayload(raw: unknown, originalLink: string): E
         common_misconception: payload.common_misconception,
         actionable_tactic: payload.actionable_tactic,
         academic_reference: payload.academic_reference,
+        source_type:
+            payload.source_type ??
+            (payload.evidence_grade === "gold"
+                ? "systematic_review"
+                : payload.evidence_grade === "silver"
+                  ? "rct"
+                  : "observational_study"),
         evidence_grade: payload.evidence_grade,
         suggested_question_types: [],
         cultural_notes: payload.cultural_notes,
         originalLink,
         extractionConfidence: payload.extractionConfidence ?? 0.7,
+        lane,
+        lessonWorthiness,
+        lessonLoad,
+        lessonJob: payload.lessonJob,
+        targetShift: payload.targetShift,
+        doneCondition: payload.doneCondition,
+        takeawayAction: payload.takeawayAction,
+        counterfactual: payload.counterfactual,
+        interventionPath: payload.interventionPath,
+        noveltyReason: payload.noveltyReason,
+        refreshValueReason: payload.refreshValueReason,
+        forbiddenMoves: payload.forbiddenMoves,
+        reviewDate,
     };
 }
 
@@ -121,10 +197,34 @@ const EXTRACTOR_PROMPT = `あなたはPsycleアプリの「抽出エージェン
   "common_misconception": "よくある誤解（多くの人が信じている間違い、30文字以内）",
   "actionable_tactic": "具体的アクション（今日からできること、30文字以内）",
   "academic_reference": "出典（著者名 + 年 + 大学/ジャーナル）",
+  "source_type": "umbrella_review | systematic_review | meta_analysis | guideline | rct | replication_study | longitudinal_study | observational_study | qualitative_study | narrative_review | expert_summary | preprint",
   "domain": "social | mental | money | health | work | study (alias: productivity, relationships)",
   "evidence_grade": "gold | silver | bronze",
   "cultural_notes": "日本文化での注意点（あれば）",
-  "extractionConfidence": 0.8
+  "extractionConfidence": 0.8,
+  "lane": "core | mastery | refresh",
+  "lessonWorthiness": {
+    "pain": 1-3,
+    "recurrence": 1-3,
+    "actionability": 1-3,
+    "evidence_strength": 1-3,
+    "novelty": 1-3
+  },
+  "lessonLoad": {
+    "cognitive": 1-3,
+    "emotional": 1-3,
+    "behavior_change": 1-3
+  },
+  "lessonJob": "このlessonが担う仕事を1文で",
+  "targetShift": "ユーザーを何から何へ移すかを1文で",
+  "doneCondition": "lesson終了時にユーザーができるようになることを1文で",
+  "takeawayAction": "lesson後に持ち帰る1アクションを短く",
+  "counterfactual": "何もしない/誤解に従うと何が起きやすいかを短く",
+  "interventionPath": "どうやってbetter choiceに移すかを短く",
+  "noveltyReason": "scene_change | judgment_change | intervention_change | transfer_context | relapse_context",
+  "refreshValueReason": "explanation_update | intervention_update | boundary_update | safety_update | scene_update | evidence_strength_update",
+  "forbiddenMoves": ["避けるべき失敗パターン"],
+  "reviewDate": "YYYY-MM-DD"
 }
 
 ## Evidence Grade 判定
@@ -132,10 +232,23 @@ const EXTRACTOR_PROMPT = `あなたはPsycleアプリの「抽出エージェン
 - silver: 単一のRCT、大規模調査
 - bronze: パイロット研究、観察研究、動物実験
 
+## Source Type 判定
+- umbrella_review / systematic_review / meta_analysis / guideline を最優先
+- 単一研究なら rct / replication_study / longitudinal_study / observational_study で区別
+- narrative_review / expert_summary / preprint は弱い source として明示
+
 ## 品質基準
 - 「意外性」がなければ価値がない。当たり前のことは書かない。
 - 「今日できるアクション」がなければ使えない。抽象論はNG。
 - 無理に抽出せず、本当に使えるものだけを返す。
+- lessonWorthiness は「lesson にする価値」を5軸で採点する。
+- lessonLoad は「認知負荷 / 感情負荷 / 行動転換負荷」を採点する。
+- lane は recurring な困りごとなら core、同テーマを別 scene / 別判断 / 別応用で深めるなら mastery、新しい知見で既存lessonを更新する用途なら refresh。
+- lane が mastery の場合は noveltyReason を必ず入れる。
+- lane が refresh の場合は refreshValueReason を必ず入れる。
+- counterfactual と interventionPath は、scene だけ差し替えた薄い lesson を避けるために具体的に書く。
+- doneCondition は「終わった時に何ができれば十分か」を書く。
+- takeawayAction は lesson 後に持ち帰る1アクションを書く。
 
 使えない（抽出できない）場合は、"extractable": false を返してください。`;
 

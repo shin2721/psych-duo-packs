@@ -10,12 +10,103 @@ export const SeedSchema = z.object({
     common_misconception: z.string(),
     actionable_tactic: z.string(),
     academic_reference: z.string(),
+    source_type: z.enum([
+        "umbrella_review",
+        "systematic_review",
+        "meta_analysis",
+        "guideline",
+        "rct",
+        "replication_study",
+        "longitudinal_study",
+        "observational_study",
+        "qualitative_study",
+        "narrative_review",
+        "expert_summary",
+        "preprint",
+    ]),
     evidence_grade: z.enum(["gold", "silver", "bronze"]),
     suggested_question_types: z.array(z.string()),
     cultural_notes: z.string(),
 });
 
 export type Seed = z.infer<typeof SeedSchema>;
+
+export const LaneSchema = z.enum(["core", "mastery", "refresh"]);
+export type Lane = z.infer<typeof LaneSchema>;
+
+export const MasteryNoveltyReasonSchema = z.enum([
+    "scene_change",
+    "judgment_change",
+    "intervention_change",
+    "transfer_context",
+    "relapse_context",
+]);
+export type MasteryNoveltyReason = z.infer<typeof MasteryNoveltyReasonSchema>;
+
+export const RefreshValueReasonSchema = z.enum([
+    "explanation_update",
+    "intervention_update",
+    "boundary_update",
+    "safety_update",
+    "scene_update",
+    "evidence_strength_update",
+]);
+export type RefreshValueReason = z.infer<typeof RefreshValueReasonSchema>;
+
+export const LessonWorthinessScoreSchema = z.object({
+    pain: z.number().int().min(1).max(3),
+    recurrence: z.number().int().min(1).max(3),
+    actionability: z.number().int().min(1).max(3),
+    evidence_strength: z.number().int().min(1).max(3),
+    novelty: z.number().int().min(1).max(3),
+    total: z.number().int().min(5).max(15),
+});
+
+export type LessonWorthinessScore = z.infer<typeof LessonWorthinessScoreSchema>;
+
+export const LessonLoadScoreSchema = z.object({
+    cognitive: z.number().int().min(1).max(3),
+    emotional: z.number().int().min(1).max(3),
+    behavior_change: z.number().int().min(1).max(3),
+    total: z.number().int().min(3).max(9),
+});
+
+export type LessonLoadScore = z.infer<typeof LessonLoadScoreSchema>;
+
+export const LessonBlueprintSchema = z.object({
+    job: z.string().min(1),
+    target_shift: z.string().min(1),
+    done_condition: z.string().min(1),
+    takeaway_action: z.string().min(1),
+    counterfactual: z.string().min(1).optional(),
+    intervention_path: z.string().min(1).optional(),
+    novelty_reason: MasteryNoveltyReasonSchema.optional(),
+    refresh_value_reason: RefreshValueReasonSchema.optional(),
+    lane: LaneSchema,
+    phase: z.number().int().min(1).max(5),
+    load_score: LessonLoadScoreSchema,
+    question_count_range: z.object({
+        min: z.number().int().min(5).max(10),
+        max: z.number().int().min(5).max(10),
+        target: z.number().int().min(5).max(10),
+    }),
+    forbidden_moves: z.array(z.string()).default([]),
+});
+
+export type LessonBlueprint = z.infer<typeof LessonBlueprintSchema>;
+
+export const ClaimSchema = z.object({
+    claim_id: z.string().min(1),
+    claim_text: z.string().min(1),
+    source_id: z.string().min(1),
+    source_type: SeedSchema.shape.source_type,
+    source_grade: z.enum(["gold", "silver", "bronze"]),
+    source_span: z.string().min(1).optional(),
+    review_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/),
+    lane: LaneSchema,
+});
+
+export type Claim = z.infer<typeof ClaimSchema>;
 
 // Question Types
 export const QuestionTypeSchema = z.enum([
@@ -36,6 +127,7 @@ export type QuestionType = z.infer<typeof QuestionTypeSchema>;
 export const GeneratedQuestionSchema = z.object({
     id: z.string(),
     phase: z.number().int().min(1).max(5),
+    claim_id: z.string().min(1).optional(),
     type: QuestionTypeSchema,
     question: z.string(),
     choices: z.array(z.string()).optional(),
@@ -69,6 +161,11 @@ export const GeneratedQuestionSchema = z.object({
     difficulty: z.enum(["easy", "medium", "hard"]),
     xp: z.number(),
     source_id: z.string(),
+    source_type: SeedSchema.shape.source_type.optional(),
+    source_span: z.string().min(1).optional(),
+    review_date: z.string().regex(/^\d{4}-\d{2}-\d{2}$/).optional(),
+    lane: LaneSchema.optional(),
+    lesson_blueprint: LessonBlueprintSchema.optional(),
     evidence_grade: z.enum(["gold", "silver", "bronze"]),
     // Expandable Depth (5-block structure for "詳しく見る")
     expanded_details: z.object({

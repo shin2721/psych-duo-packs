@@ -105,3 +105,56 @@ export function selectBalancedPhaseItems<T extends { phase: number }>(
     }
     return selected;
 }
+
+export function getPhaseRequirements(targetCount: number): Record<PhaseId, number> {
+    const normalizedTarget = Math.max(5, Math.min(10, Math.round(targetCount)));
+    const requirements: Record<PhaseId, number> = {
+        1: 1,
+        2: 1,
+        3: 1,
+        4: 1,
+        5: 1,
+    };
+
+    const expansionOrder: PhaseId[] = [4, 5, 2, 3, 1];
+    let extras = normalizedTarget - PHASE_SEQUENCE.length;
+
+    for (const phase of expansionOrder) {
+        if (extras <= 0) break;
+        requirements[phase] += 1;
+        extras -= 1;
+    }
+
+    return requirements;
+}
+
+export function selectItemsForPhaseRequirements<T extends { phase: number }>(
+    items: T[],
+    requirements: Record<PhaseId, number>
+): T[] | null {
+    const buckets: Record<PhaseId, T[]> = {
+        1: [],
+        2: [],
+        3: [],
+        4: [],
+        5: [],
+    };
+
+    for (const item of items) {
+        if (!isValidPhase(item.phase)) continue;
+        buckets[item.phase].push(item);
+    }
+
+    for (const phase of PHASE_SEQUENCE) {
+        if (buckets[phase].length < requirements[phase]) {
+            return null;
+        }
+    }
+
+    const selected: T[] = [];
+    for (const phase of PHASE_SEQUENCE) {
+        selected.push(...buckets[phase].slice(0, requirements[phase]));
+    }
+
+    return selected;
+}

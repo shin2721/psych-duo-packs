@@ -26,13 +26,16 @@ if [ $# -eq 0 ]; then
                     evidence_path="${lesson_path%.ja.json}.evidence.json"
                     
                     if [ -f "$evidence_path" ]; then
-                        # human_approved チェック
                         if command -v jq &> /dev/null; then
-                            approved=$(jq -r '.review.human_approved' "$evidence_path" 2>/dev/null || echo "unknown")
-                            if [ "$approved" = "true" ]; then
-                                echo "  ✅ $basename_full (承認済み)"
+                            human_approved=$(jq -r '.review.human_approved // false' "$evidence_path" 2>/dev/null || echo "false")
+                            auto_approved=$(jq -r '.review.auto_approved // false' "$evidence_path" 2>/dev/null || echo "false")
+                            promotion_eligible=$(jq -r '.promotion.eligible // false' "$evidence_path" 2>/dev/null || echo "false")
+                            if [ "$human_approved" = "true" ]; then
+                                echo "  ✅ $basename_full (legacy manual approval)"
+                            elif [ "$auto_approved" = "true" ] || [ "$promotion_eligible" = "true" ]; then
+                                echo "  🤖 $basename_full (auto gate通過)"
                             else
-                                echo "  ⏳ $basename_full (未承認: $approved)"
+                                echo "  ⏳ $basename_full (未承認)"
                             fi
                         else
                             echo "  📄 $basename_full (jq未インストール - 承認状態不明)"
@@ -94,8 +97,8 @@ fi
 
 echo "✅ 必要ファイル確認完了"
 
-# 2. Evidence Card の human_approved チェック
-echo "🔍 承認状態確認中..."
+# 2. Evidence Card の promotion gate チェック
+echo "🔍 approval gate 確認中..."
 
 if ! command -v jq &> /dev/null; then
     echo "❌ エラー: jq コマンドが見つかりません"
@@ -103,15 +106,34 @@ if ! command -v jq &> /dev/null; then
     exit 1
 fi
 
-HUMAN_APPROVED=$(jq -r '.review.human_approved' "${STAGING_DIR}/${EVIDENCE_FILE}")
+HUMAN_APPROVED=$(jq -r '.review.human_approved // false' "${STAGING_DIR}/${EVIDENCE_FILE}")
+AUTO_APPROVED=$(jq -r '.review.auto_approved // false' "${STAGING_DIR}/${EVIDENCE_FILE}")
+PROMOTION_ELIGIBLE=$(jq -r '.promotion.eligible // false' "${STAGING_DIR}/${EVIDENCE_FILE}")
 
-if [ "$HUMAN_APPROVED" != "true" ]; then
-    echo "❌ エラー: human_approved が true ではありません (現在: ${HUMAN_APPROVED})"
-    echo "Evidence Card を承認してから再実行してください"
+if [ "$HUMAN_APPROVED" != "true" ] && [ "$AUTO_APPROVED" != "true" ] && [ "$PROMOTION_ELIGIBLE" != "true" ]; then
+    echo "❌ エラー: 昇格条件を満たしていません"
+    echo "  human_approved=${HUMAN_APPROVED}"
+    echo "  auto_approved=${AUTO_APPROVED}"
+    echo "  promotion.eligible=${PROMOTION_ELIGIBLE}"
+    echo "approved source を付与するか、auto gate を通した上で再実行してください"
     exit 1
 fi
 
-echo "✅ 人間承認確認完了"
+if [ "$HUMAN_APPROVED" = "true" ]; then
+    echo "✅ legacy manual approval 確認完了"
+else
+    echo "✅ auto gate 承認確認完了"
+fi
+
+# 2.5 theme manifest readiness チェック
+echo "🗺️  theme readiness 確認中..."
+node scripts/check-theme-readiness.js "${DOMAIN}" production
+echo "✅ theme readiness 確認完了"
+
+# 2.6 content package readiness チェック
+echo "📦 content package readiness 確認中..."
+node scripts/check-content-package.js "${STAGING_DIR}/${LESSON_FILE}" promote
+echo "✅ content package readiness 確認完了"
 
 # 3. 本番ディレクトリ作成（存在しない場合）
 mkdir -p "${PROD_DIR}"

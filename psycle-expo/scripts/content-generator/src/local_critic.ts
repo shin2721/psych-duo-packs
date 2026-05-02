@@ -1,17 +1,6 @@
 
 import { GeneratedQuestion, CriticResult } from "./types";
-import * as fs from "fs";
-import * as path from "path";
-
-// Load curated sources registry
-let curatedSourceIds: Set<string> = new Set();
-try {
-    const sourcesPath = path.join(__dirname, "../../../data/curated_sources.json");
-    const sourcesData = JSON.parse(fs.readFileSync(sourcesPath, "utf-8"));
-    curatedSourceIds = new Set(Object.keys(sourcesData.sources || {}));
-} catch (e) {
-    console.warn("[LocalCritic] Could not load curated_sources.json");
-}
+import { evaluateQuestionEvidencePolicy } from "./evidencePolicy";
 
 // Vocabulary lists
 // Note: "必ず" is context-dependent - handled separately
@@ -140,13 +129,18 @@ export function evaluateQuestionLocal(question: GeneratedQuestion): CriticResult
         feedbackLines.push("[WARN] Missing claim_tags");
     }
 
-    // --- Rule 21: Source ID Registry Check ---
-    // source_id must exist in curated_sources.json
-    if (question.source_id && curatedSourceIds.size > 0) {
-        if (!curatedSourceIds.has(question.source_id)) {
-            violations.citation_reality = true;
-            feedbackLines.push(`[FAIL] source_id "${question.source_id}" not found in curated_sources.json`);
-        }
+    const evidencePolicy = evaluateQuestionEvidencePolicy(question);
+    if (!evidencePolicy.passed) {
+        violations.citation_reality = true;
+        feedbackLines.push(
+            `[FAIL] Evidence policy failed: ${evidencePolicy.hardViolations.join(", ")}`
+        );
+    }
+    if (evidencePolicy.warnings.length > 0) {
+        warnings.evidence_consistency = true;
+        feedbackLines.push(
+            `[WARN] Evidence policy warnings: ${evidencePolicy.warnings.join(", ")}`
+        );
     }
 
     const passed = !Object.values(violations).some(v => v);

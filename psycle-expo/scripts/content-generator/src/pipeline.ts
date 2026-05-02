@@ -8,6 +8,8 @@ import { evaluateQuestion, formatCriticReport } from "./critic";
 import { evaluateDeterministicGate } from "./deterministicGate";
 import { appendGateFailure } from "./metrics";
 import { normalizeDomain } from "./phasePolicy";
+import { buildLessonBlueprint } from "./lessonDesign";
+import { loadExistingLessonSignatures } from "./evidencePolicy";
 
 // Load environment variables
 config({ path: join(__dirname, "..", ".env") });
@@ -48,6 +50,7 @@ async function runPipeline(config: PipelineConfig): Promise<GenerationResult> {
     }
 
     const genAI = new GoogleGenerativeAI(apiKey);
+    const existingLessonSignatures = loadExistingLessonSignatures();
     let attempts = 0;
 
     while (attempts < config.maxRetries) {
@@ -59,7 +62,7 @@ async function runPipeline(config: PipelineConfig): Promise<GenerationResult> {
             console.log("📝 Generating question...");
             const question = await generateQuestion(
                 genAI,
-                { ...config.seed, domain: normalizedDomain },
+                { ...config.seed, domain: normalizedDomain as Seed["domain"] },
                 config.questionType,
                 config.difficulty,
                 undefined,
@@ -67,7 +70,23 @@ async function runPipeline(config: PipelineConfig): Promise<GenerationResult> {
             );
             console.log("✅ Question generated");
 
-            const gate = evaluateDeterministicGate(question, { expectedDomain: normalizedDomain });
+            if (!question.lesson_blueprint) {
+                question.lesson_blueprint = buildLessonBlueprint({
+                    phase: question.phase,
+                    seed: { ...config.seed, domain: normalizedDomain as Seed["domain"] },
+                    lane: "core",
+                    load: { cognitive: 2, emotional: 2, behavior_change: 2, total: 6 },
+                });
+            }
+            if (!question.lane) {
+                question.lane = question.lesson_blueprint.lane;
+            }
+
+            const gate = evaluateDeterministicGate(question, {
+                expectedDomain: normalizedDomain,
+                existingLessonSignatures,
+                requireNoveltyCheck: true,
+            });
             if (!gate.passed) {
                 appendGateFailure({
                     timestamp: new Date().toISOString(),

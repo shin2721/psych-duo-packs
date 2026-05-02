@@ -1,5 +1,10 @@
 import { getQuestionTypeForPhase, isSupportedDomain, isValidPhase } from "./phasePolicy";
 import type { GeneratedQuestion } from "./types";
+import {
+  evaluateDuplicateLessonSignatures,
+  evaluateRefreshConflictPriority,
+  type ExistingLessonSignature,
+} from "./evidencePolicy";
 
 export type DeterministicGateResult = {
   passed: boolean;
@@ -10,6 +15,9 @@ export type DeterministicGateResult = {
 export type DeterministicGateContext = {
   expectedDomain?: unknown;
   questionDomain?: unknown;
+  requireClaimTrace?: boolean;
+  existingLessonSignatures?: ExistingLessonSignature[];
+  requireNoveltyCheck?: boolean;
 };
 
 const FAIL_WORDS_REGEX =
@@ -97,6 +105,81 @@ export function evaluateDeterministicGate(
 
   if (!hasActionTimeboxAndDose(actionableAdvice)) {
     hardViolations.push("action_timebox_or_dose_missing");
+  }
+
+  if (context?.requireClaimTrace) {
+    if (typeof question.claim_id !== "string" || question.claim_id.trim().length === 0) {
+      hardViolations.push("claim_id_missing");
+    }
+    if (typeof question.source_span !== "string" || question.source_span.trim().length === 0) {
+      hardViolations.push("source_span_missing");
+    }
+    if (
+      typeof question.review_date !== "string" ||
+      !/^\d{4}-\d{2}-\d{2}$/.test(question.review_date)
+    ) {
+      hardViolations.push("review_date_missing_or_invalid");
+    }
+    if (!question.expanded_details?.citation_role?.trim()) {
+      hardViolations.push("citation_role_missing");
+    }
+  }
+
+  if (!question.lesson_blueprint?.done_condition?.trim()) {
+    hardViolations.push("lesson_blueprint_done_condition_missing");
+  }
+
+  if (!question.lesson_blueprint?.takeaway_action?.trim()) {
+    hardViolations.push("lesson_blueprint_takeaway_action_missing");
+  }
+
+  if (
+    question.lesson_blueprint?.job?.trim() &&
+    question.lesson_blueprint?.done_condition?.trim() &&
+    question.lesson_blueprint.job.trim() === question.lesson_blueprint.done_condition.trim()
+  ) {
+    hardViolations.push("lesson_blueprint_done_condition_duplicates_job");
+  }
+
+  if (
+    question.lesson_blueprint?.lane === "mastery" &&
+    !question.lesson_blueprint?.novelty_reason
+  ) {
+    hardViolations.push("mastery_without_novelty_reason");
+  }
+
+  if (
+    question.lesson_blueprint?.lane === "refresh" &&
+    !question.lesson_blueprint?.refresh_value_reason
+  ) {
+    hardViolations.push("refresh_value_reason_missing");
+  }
+
+  if (context?.requireNoveltyCheck) {
+    if (!question.lesson_blueprint?.job?.trim()) {
+      hardViolations.push("lesson_blueprint_job_missing");
+    }
+    if (!question.lesson_blueprint?.target_shift?.trim()) {
+      hardViolations.push("lesson_blueprint_target_shift_missing");
+    }
+    if (!question.lesson_blueprint?.counterfactual?.trim()) {
+      warnings.push("lesson_blueprint_counterfactual_missing");
+    }
+    if (!question.lesson_blueprint?.intervention_path?.trim()) {
+      warnings.push("lesson_blueprint_intervention_path_missing");
+    }
+
+    const duplicateReasons = evaluateDuplicateLessonSignatures(
+      question.lesson_blueprint ?? null,
+      context.existingLessonSignatures ?? []
+    );
+    hardViolations.push(...duplicateReasons);
+    hardViolations.push(
+      ...evaluateRefreshConflictPriority(
+        question.lesson_blueprint ?? null,
+        context.existingLessonSignatures ?? []
+      )
+    );
   }
 
   return {

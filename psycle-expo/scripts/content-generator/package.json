@@ -13,6 +13,7 @@
         "patrol:dry": "ts-node src/patrol.ts --dry-run",
         "validate:types": "ts-node src/validate_types.ts",
         "bundle": "ts-node src/bundler.ts",
+        "claims:report": "ts-node src/claims_report.ts",
         "metrics:summary": "ts-node src/metrics_report.ts",
         "cost:summary": "ts-node src/cost_report.ts",
         "sources:validate": "ts-node src/sourceRegistry.ts --validate"
