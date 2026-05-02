@@ -12,6 +12,7 @@ import { type BillingPeriod } from "../../lib/pricing";
 import i18n from "../../lib/i18n";
 import { useToast } from "../../components/ToastProvider";
 import type { EnergyFullRefillFailureReason } from "../../lib/energyFullRefill";
+import { isExternalCheckoutBlockedForCurrentPlatform } from "../../lib/checkoutPolicy";
 import { startShopCheckout } from "../../lib/shop/shopCheckout";
 import { ShopSubscriptionsSection } from "../../components/shop/ShopSubscriptionsSection";
 import { ShopItemsSection } from "../../components/shop/ShopItemsSection";
@@ -43,6 +44,10 @@ export default function ShopScreen() {
   const footerBottomInset = bottomTabBarHeight + theme.spacing.md;
   const languageCode = String(i18n.locale || "ja").split("-")[0];
   const dateLocale = getDateLocaleForLanguage(languageCode);
+  const isSubscriptionCheckoutBlocked = isExternalCheckoutBlockedForCurrentPlatform();
+  const subscriptionCheckoutBlockedMessage = isSubscriptionCheckoutBlocked
+    ? String(i18n.t("shop.errors.iosExternalCheckoutDisabled"))
+    : null;
 
   const accountAgeDays = useMemo(() => {
     if (!user?.created_at) return null;
@@ -112,6 +117,11 @@ export default function ShopScreen() {
   };
 
   const handleSubscribe = async (plan: Parameters<typeof startShopCheckout>[0]["plan"]) => {
+    if (isSubscriptionCheckoutBlocked) {
+      showToast(String(i18n.t("shop.errors.iosExternalCheckoutDisabled")), "error");
+      return;
+    }
+
     const billingPeriod: BillingPeriod = plan.id === "pro" ? proBillingPeriod : "monthly";
     setIsSubscribing(true);
     try {
@@ -159,6 +169,7 @@ export default function ShopScreen() {
           onSubscribe={handleSubscribe}
           planId={planId}
           proBillingPeriod={proBillingPeriod}
+          subscriptionCheckoutBlockedMessage={subscriptionCheckoutBlockedMessage}
         />
 
         <ShopItemsSection

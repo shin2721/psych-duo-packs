@@ -26,6 +26,8 @@ interface LessonDefaultsConfig {
   defaults?: {
     lesson_size?: number;
     first_session_lesson_size?: number;
+    optimal_p_min?: number;
+    optimal_p_max?: number;
   };
 }
 
@@ -41,6 +43,10 @@ const FIRST_SESSION_LESSON_SIZE = normalizePositiveInt(
   lessonDefaults.defaults?.first_session_lesson_size,
   Math.min(5, DEFAULT_LESSON_SIZE)
 );
+const OPTIMAL_P_MIN =
+  typeof lessonDefaults.defaults?.optimal_p_min === "number" ? lessonDefaults.defaults.optimal_p_min : 0.55;
+const OPTIMAL_P_MAX =
+  typeof lessonDefaults.defaults?.optimal_p_max === "number" ? lessonDefaults.defaults.optimal_p_max : 0.7;
 const comboXpConfig = getComboXpConfig();
 const doubleXpNudgeConfig = getDoubleXpNudgeConfig();
 
@@ -55,9 +61,17 @@ export default function LessonScreen() {
     incrementQuestMetric,
     quests,
     claimComebackRewardOnLessonComplete,
+    questionsAnswered,
+    recentAccuracy,
+    skillConfidence,
     streakRepairOffer,
   } = useProgressionState();
-  const { addReviewEvent } = usePracticeState();
+  const {
+    addReviewEvent,
+    recordLessonSessionAbandon,
+    recordLessonSessionComplete,
+    recordLessonSessionStart,
+  } = usePracticeState();
   const {
     consumeEnergy,
     lessonEnergyCost,
@@ -85,6 +99,7 @@ export default function LessonScreen() {
   });
 
   const {
+    activeLessonId,
     currentIndex,
     currentLesson,
     currentQuestion,
@@ -108,7 +123,15 @@ export default function LessonScreen() {
     energy,
     energyRefillMinutes,
     fileParam,
+    difficultyPacing: {
+      optimalPMax: OPTIMAL_P_MAX,
+      optimalPMin: OPTIMAL_P_MIN,
+      questionsAnswered,
+      recentAccuracy,
+      skillConfidence,
+    },
     firstSessionLessonSize: FIRST_SESSION_LESSON_SIZE,
+    lessonSize: DEFAULT_LESSON_SIZE,
     incrementQuestMetric,
     isSubscriptionActive,
     lastEnergyUpdateTime,
@@ -116,6 +139,9 @@ export default function LessonScreen() {
     maxEnergy,
     onEnergyBlocked: handleEnergyBlocked,
     onLoadFailed: handleLoadFailed,
+    recordLessonSessionAbandon,
+    recordLessonSessionComplete,
+    recordLessonSessionStart,
     quests,
     streakRepairOffer,
     tryTriggerStreakEnergyBonus,
@@ -136,7 +162,7 @@ export default function LessonScreen() {
     currentQuestion,
     dailyShowLimit: doubleXpNudgeConfig.daily_show_limit,
     enabled: doubleXpNudgeConfig.enabled,
-    fileParam,
+    fileParam: activeLessonId ?? fileParam,
     gems,
     isComplete,
     isDoubleXpActive,
@@ -195,7 +221,7 @@ export default function LessonScreen() {
       currentQuestion={currentQuestion}
       isE2EAnalyticsMode={isE2EAnalyticsMode}
       isReviewRound={isReviewRound}
-      lessonId={typeof params.file === "string" ? params.file : undefined}
+      lessonId={activeLessonId ?? (typeof params.file === "string" ? params.file : undefined)}
       onAnswer={handleAnswer}
       onComboChange={setCombo}
       questionsLength={questions.length}

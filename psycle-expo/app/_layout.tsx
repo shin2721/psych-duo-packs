@@ -7,7 +7,7 @@ import {
 } from "../lib/state";
 import { AuthProvider, useAuth } from "../lib/AuthContext";
 import { OnboardingProvider, useOnboarding } from "../lib/OnboardingContext";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { View, ActivityIndicator, LogBox } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Analytics } from "../lib/analytics";
@@ -19,6 +19,9 @@ import { AppErrorBoundary } from "../components/AppErrorBoundary";
 import { ToastProvider, useToast } from "../components/ToastProvider";
 import { sounds } from "../lib/sounds";
 import { hapticFeedback } from "../lib/haptics";
+import { getBlockedDebugRouteRedirect, isDebugRoute } from "../lib/navigation/debugRouteGuard";
+
+const APP_STARTUP_STARTED_AT_MS = Date.now();
 
 // Suppress network errors during development
 LogBox.ignoreLogs([
@@ -33,6 +36,7 @@ export function RootLayoutNav() {
   const { locale, isReady: localeReady } = useLocale();
   const segments = useSegments();
   const router = useRouter();
+  const startupPerformanceTrackedRef = useRef(false);
 
   const isLoading = authLoading || onboardingLoading || !localeReady;
 
@@ -41,11 +45,23 @@ export function RootLayoutNav() {
 
     const inAuthGroup = segments[0] === "auth";
     const inOnboardingGroup = segments[0] === "onboarding";
-    const inDebugGroup = segments[0] === "debug" ||
-      (typeof window !== "undefined" && window.location?.pathname?.startsWith("/debug"));
+    const pathname = typeof window !== "undefined" ? window.location?.pathname : undefined;
+    const inDebugGroup = isDebugRoute(segments, pathname);
+    const canAccessDebugRoutes = __DEV__ || process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
+    const blockedDebugRedirect = getBlockedDebugRouteRedirect({
+      canAccessDebugRoutes,
+      hasSeenOnboarding,
+      hasSession: Boolean(session),
+      inDebugGroup,
+    });
 
-    // Skip auth/onboarding for debug routes in dev mode
-    if (__DEV__ && inDebugGroup) return;
+    if (blockedDebugRedirect) {
+      router.replace(blockedDebugRedirect);
+      return;
+    }
+
+    // Skip auth/onboarding for debug routes only in dev or explicit E2E builds.
+    if (canAccessDebugRoutes && inDebugGroup) return;
 
     // Priority 1: If user hasn't seen onboarding, show it
     if (!hasSeenOnboarding && !inOnboardingGroup) {
@@ -59,16 +75,33 @@ export function RootLayoutNav() {
     else if (session && inAuthGroup) {
       router.replace("/");
     }
-  }, [session, isLoading, segments, hasSeenOnboarding]);
+  }, [session, isLoading, segments, hasSeenOnboarding, router]);
 
   useEffect(() => {
     Analytics.setUserId(session?.user?.id ?? null);
   }, [session?.user?.id]);
 
+  useEffect(() => {
+    if (isLoading || hasSeenOnboarding === null || startupPerformanceTrackedRef.current) {
+      return;
+    }
+
+    startupPerformanceTrackedRef.current = true;
+    Analytics.track("app_startup_performance", {
+      durationMs: Math.max(0, Date.now() - APP_STARTUP_STARTED_AT_MS),
+      source: "root_layout_ready",
+    });
+  }, [isLoading, hasSeenOnboarding]);
+
   if (isLoading || hasSeenOnboarding === null) {
     return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" />
+      <View
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+        accessible
+        accessibilityRole="progressbar"
+        accessibilityLabel={String(i18n.t("common.loading"))}
+      >
+        <ActivityIndicator size="large" accessibilityLabel={String(i18n.t("common.loading"))} />
       </View>
     );
   }

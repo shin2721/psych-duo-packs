@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { theme } from "../lib/theme";
 import { usePracticeState, useProgressionState } from "../lib/state";
 import { hapticFeedback } from "../lib/haptics";
@@ -13,7 +13,18 @@ import { ReviewFeedbackBanner, ReviewIntroSection, ReviewScreenHeader } from "..
 import i18n from "../lib/i18n";
 
 export default function ReviewScreen() {
-    const { mistakes, getDueMistakes, processReviewResult, addReviewEvent } = usePracticeState();
+    const params = useLocalSearchParams<{ mode?: string }>();
+    const isReturnMode = params.mode === "return";
+    const {
+        mistakes,
+        getDueMistakes,
+        processReviewResult,
+        addReviewEvent,
+        completeActiveReviewSupport,
+        suppressActiveReviewSupport,
+        returnSessionItems,
+        clearReturnSession,
+    } = usePracticeState();
     const { addXp } = useProgressionState();
     const [sessionQuestions, setSessionQuestions] = useState<Question[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
@@ -26,20 +37,20 @@ export default function ReviewScreen() {
     // Prepare review session
     useEffect(() => {
         if (!isSessionActive) {
-            const dueItems = getDueMistakes();
             const loadedQuestions: Question[] = [];
-            // Limit to 10 questions for a session
-            const sessionMistakes = dueItems.slice(0, 10);
+            const sessionItems = isReturnMode
+                ? returnSessionItems.slice(0, 5)
+                : getDueMistakes().slice(0, 10).map((mistake) => ({ lessonId: mistake.lessonId, itemId: mistake.id }));
 
-            sessionMistakes.forEach(m => {
-                const q = getQuestionFromId(m.lessonId, m.id);
+            sessionItems.forEach((item) => {
+                const q = getQuestionFromId(item.lessonId, item.itemId);
                 if (q) {
                     loadedQuestions.push(q);
                 }
             });
             setSessionQuestions(loadedQuestions);
         }
-    }, [isSessionActive, getDueMistakes]);
+    }, [getDueMistakes, isReturnMode, isSessionActive, returnSessionItems]);
 
     const handleStart = () => {
         setIsSessionActive(true);
@@ -113,22 +124,35 @@ export default function ReviewScreen() {
     };
 
     const dueCount = getDueMistakes().length;
+    const introCount = isReturnMode ? returnSessionItems.length : dueCount;
 
-    if (dueCount === 0) {
+    if (introCount === 0) {
         return (
             <SafeAreaView style={styles.container} testID="review-screen">
                 <ReviewScreenHeader
-                    title={String(i18n.t("review.title"))}
+                    title={isReturnMode ? "戻るレッスン" : String(i18n.t("review.title"))}
                     icon="arrow-back"
-                    onPress={() => router.back()}
-                    accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("review.title")}`}
+                    onPress={() => {
+                        suppressActiveReviewSupport();
+                        if (isReturnMode) {
+                            clearReturnSession();
+                        }
+                        router.back();
+                    }}
+                    accessibilityLabel={`${i18n.t("common.back")}: ${isReturnMode ? "戻るレッスン" : i18n.t("review.title")}`}
                 />
                 <SupportStatePanel
                     icon="checkmark-circle-outline"
-                    title={String(i18n.t("review.emptyTitle"))}
-                    body={String(i18n.t("review.emptyText"))}
+                    title={isReturnMode ? "戻るレッスンはありません" : String(i18n.t("review.emptyTitle"))}
+                    body={isReturnMode ? "再開できる短い復習は今はありません。" : String(i18n.t("review.emptyText"))}
                     ctaLabel={String(i18n.t("review.backToCourse"))}
-                    onPress={() => router.back()}
+                    onPress={() => {
+                        suppressActiveReviewSupport();
+                        if (isReturnMode) {
+                            clearReturnSession();
+                        }
+                        router.back();
+                    }}
                 />
             </SafeAreaView>
         );
@@ -139,15 +163,23 @@ export default function ReviewScreen() {
             <SafeAreaView style={styles.container} testID="review-screen">
                 <SupportStatePanel
                     icon="sparkles-outline"
-                    title={String(i18n.t("review.doneTitle"))}
+                    title={isReturnMode ? "戻るレッスンを終えました" : String(i18n.t("review.doneTitle"))}
                     body={String(
-                        i18n.t("review.resultSummary", {
-                            total: sessionQuestions.length,
-                            cleared: clearedCount,
-                        })
+                        isReturnMode
+                            ? `短い復習を ${sessionQuestions.length} 問終えました。`
+                            : i18n.t("review.resultSummary", {
+                                total: sessionQuestions.length,
+                                cleared: clearedCount,
+                            })
                     )}
                     ctaLabel={String(i18n.t("review.backToCourse"))}
-                    onPress={() => router.back()}
+                    onPress={() => {
+                        completeActiveReviewSupport();
+                        if (isReturnMode) {
+                            clearReturnSession();
+                        }
+                        router.back();
+                    }}
                 />
             </SafeAreaView>
         );
@@ -156,13 +188,19 @@ export default function ReviewScreen() {
     if (!isSessionActive) {
         return (
             <SafeAreaView style={styles.container} testID="review-screen">
-                <ReviewScreenHeader
-                    title={String(i18n.t("review.title"))}
-                    icon="arrow-back"
-                    onPress={() => router.back()}
-                    accessibilityLabel={`${i18n.t("common.back")}: ${i18n.t("review.title")}`}
-                />
-                <ReviewIntroSection dueCount={dueCount} onStart={handleStart} />
+            <ReviewScreenHeader
+                title={isReturnMode ? "戻るレッスン" : String(i18n.t("review.title"))}
+                icon="arrow-back"
+                onPress={() => {
+                    suppressActiveReviewSupport();
+                    if (isReturnMode) {
+                        clearReturnSession();
+                    }
+                    router.back();
+                }}
+                accessibilityLabel={`${i18n.t("common.back")}: ${isReturnMode ? "戻るレッスン" : i18n.t("review.title")}`}
+            />
+                <ReviewIntroSection dueCount={introCount} onStart={handleStart} />
             </SafeAreaView>
         );
     }
@@ -172,11 +210,17 @@ export default function ReviewScreen() {
     return (
         <SafeAreaView style={styles.container} testID="review-screen">
             <ReviewScreenHeader
-                title={String(i18n.t("review.title"))}
+                title={isReturnMode ? "戻るレッスン" : String(i18n.t("review.title"))}
                 icon="close"
-                onPress={() => router.back()}
+                onPress={() => {
+                    suppressActiveReviewSupport();
+                    if (isReturnMode) {
+                        clearReturnSession();
+                    }
+                    router.back();
+                }}
                 progress={(currentIndex + 1) / sessionQuestions.length}
-                accessibilityLabel={`${i18n.t("common.close")}: ${i18n.t("review.title")}`}
+                accessibilityLabel={`${i18n.t("common.close")}: ${isReturnMode ? "戻るレッスン" : i18n.t("review.title")}`}
             />
 
             {currentQuestion && (

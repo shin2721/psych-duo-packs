@@ -8,8 +8,10 @@ import { StarBackground } from "../StarBackground";
 import { VictoryConfetti } from "../VictoryConfetti";
 import { getEvidenceSummary, getTryValueColor } from "../../lib/evidenceSummary";
 import { XP_REWARDS } from "../../lib/streaks";
+import { hapticFeedback } from "../../lib/haptics";
 import i18n from "../../lib/i18n";
 import type { Lesson } from "../../lib/lessons";
+import { sounds } from "../../lib/sounds";
 import type { Question } from "../../types/question";
 
 export function LessonCompletionView(props: {
@@ -26,11 +28,16 @@ export function LessonCompletionView(props: {
   showDoubleXpNudge: boolean;
   showResearchDetails: boolean;
 }) {
+  const completionDelightPlayedRef = React.useRef(false);
   const meta = props.currentLesson?.research_meta;
   const ref = props.currentLesson?.references?.[0];
   const expandedDetails = props.originalQuestions.find((q) => q.expanded_details)?.expanded_details;
   const evidenceSummary = getEvidenceSummary(expandedDetails);
   const tryValueColor = getTryValueColor(evidenceSummary.tryValue);
+  const completedQuestionCount = props.originalQuestions.length;
+  const recapAction =
+    props.originalQuestions.find((question) => question.actionable_advice)?.actionable_advice ??
+    evidenceSummary.actionHint;
   const claimTypeLabels: Record<string, string> = {
     observation: i18n.t("lesson.claimType.observation"),
     theory: i18n.t("lesson.claimType.theory"),
@@ -42,6 +49,13 @@ export function LessonCompletionView(props: {
     theoretical: i18n.t("lesson.evidenceType.theoretical"),
   };
 
+  React.useEffect(() => {
+    if (completionDelightPlayedRef.current) return;
+    completionDelightPlayedRef.current = true;
+    void sounds.play("levelUp");
+    void hapticFeedback.success();
+  }, []);
+
   return (
     <View style={{ flex: 1, backgroundColor: theme.colors.bg }} testID="lesson-complete-screen">
       <StarBackground />
@@ -52,18 +66,68 @@ export function LessonCompletionView(props: {
           <Text style={styles.completionTitle}>{i18n.t("lesson.completeTitle")}</Text>
           <Text style={styles.completionSub}>+{XP_REWARDS.LESSON_COMPLETE} XP</Text>
 
+          <View
+            style={styles.recapCard}
+            testID="lesson-complete-recap"
+            accessible
+            accessibilityLabel={String(i18n.t("lesson.completionRecap.title"))}
+          >
+            <View style={styles.recapHeaderRow}>
+              <View style={styles.recapIcon}>
+                <Ionicons name="sparkles" size={20} color={theme.colors.accent} />
+              </View>
+              <View style={styles.recapHeaderCopy}>
+                <Text style={styles.recapTitle}>{i18n.t("lesson.completionRecap.title")}</Text>
+                <Text style={styles.recapBody}>{i18n.t("lesson.completionRecap.body")}</Text>
+              </View>
+            </View>
+            <View style={styles.recapMetricRow}>
+              <View style={styles.recapMetricPill}>
+                <Text style={styles.recapMetricValue}>{completedQuestionCount}</Text>
+                <Text style={styles.recapMetricLabel}>
+                  {i18n.t("lesson.completionRecap.questions", { count: completedQuestionCount })}
+                </Text>
+              </View>
+              <View style={styles.recapMetricPill}>
+                <Text style={styles.recapMetricValue}>{evidenceSummary.tryValue}</Text>
+                <Text style={styles.recapMetricLabel}>{i18n.t("lesson.completionRecap.evidence")}</Text>
+              </View>
+            </View>
+            <View style={styles.recapActionBox}>
+              <Text style={styles.recapActionLabel}>{i18n.t("lesson.completionRecap.nextPromise")}</Text>
+              <Text style={styles.recapActionText}>{recapAction}</Text>
+            </View>
+          </View>
+
+          <View style={styles.habitLoopCard} testID="lesson-complete-habit-loop">
+            <View style={styles.habitLoopIcon}>
+              <Ionicons name="checkmark-circle" size={22} color={theme.colors.success} />
+            </View>
+            <View style={styles.habitLoopCopy}>
+              <Text style={styles.habitLoopTitle}>{i18n.t("lesson.habitLoop.title")}</Text>
+              <Text style={styles.habitLoopBody}>{i18n.t("lesson.habitLoop.body")}</Text>
+              <Text style={styles.habitLoopNext}>{i18n.t("lesson.habitLoop.next")}</Text>
+            </View>
+          </View>
+
           {!props.feltBetterSubmitted && props.lastShownInterventionId && (
             <View style={styles.feltBetterContainer}>
               <Text style={styles.feltBetterTitle}>{i18n.t("lesson.howDoYouFeelNow")}</Text>
               <View style={styles.feltBetterRow}>
                 {[
-                  { value: -2 as const, emoji: "😢" },
-                  { value: -1 as const, emoji: "😕" },
-                  { value: 0 as const, emoji: "😐" },
-                  { value: 1 as const, emoji: "😊" },
-                  { value: 2 as const, emoji: "😄" },
+                  { value: -2 as const, emoji: "😢", label: i18n.t("lesson.mood.veryBad") },
+                  { value: -1 as const, emoji: "😕", label: i18n.t("lesson.mood.aLittleBad") },
+                  { value: 0 as const, emoji: "😐", label: i18n.t("lesson.mood.noChange") },
+                  { value: 1 as const, emoji: "😊", label: i18n.t("lesson.mood.aLittleBetter") },
+                  { value: 2 as const, emoji: "😄", label: i18n.t("lesson.mood.good") },
                 ].map((item) => (
-                  <TouchableOpacity key={item.value} style={styles.feltBetterButton} onPress={() => props.onPressFeltBetter(item.value)}>
+                  <TouchableOpacity
+                    key={item.value}
+                    style={styles.feltBetterButton}
+                    onPress={() => props.onPressFeltBetter(item.value)}
+                    accessibilityRole="button"
+                    accessibilityLabel={String(item.label)}
+                  >
                     <Text style={styles.feltBetterEmoji}>{item.emoji}</Text>
                   </TouchableOpacity>
                 ))}
@@ -201,6 +265,67 @@ const styles = StyleSheet.create({
   completionContainer: { padding: theme.spacing.lg },
   completionTitle: { fontSize: 32, fontWeight: "800", color: theme.colors.text, textAlign: "center", marginTop: 16 },
   completionSub: { fontSize: 18, fontWeight: "700", color: theme.colors.accent, textAlign: "center", marginTop: 8, marginBottom: 24 },
+  recapCard: {
+    backgroundColor: "rgba(34, 211, 238, 0.08)",
+    borderRadius: 22,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "rgba(34, 211, 238, 0.22)",
+  },
+  recapHeaderRow: { flexDirection: "row", gap: 12, marginBottom: 14 },
+  recapIcon: {
+    width: 38,
+    height: 38,
+    borderRadius: 19,
+    backgroundColor: "rgba(34, 211, 238, 0.14)",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  recapHeaderCopy: { flex: 1 },
+  recapTitle: { fontSize: 17, fontWeight: "800", color: theme.colors.text, marginBottom: 4 },
+  recapBody: { fontSize: 13, color: theme.colors.sub, lineHeight: 18 },
+  recapMetricRow: { flexDirection: "row", gap: 10, marginBottom: 12 },
+  recapMetricPill: {
+    flex: 1,
+    borderRadius: 16,
+    backgroundColor: "rgba(4, 8, 18, 0.34)",
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.cardBorder,
+  },
+  recapMetricValue: { fontSize: 18, fontWeight: "900", color: theme.colors.text, marginBottom: 2 },
+  recapMetricLabel: { fontSize: 12, fontWeight: "700", color: theme.colors.sub },
+  recapActionBox: {
+    borderRadius: 16,
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    padding: 12,
+  },
+  recapActionLabel: { fontSize: 12, fontWeight: "800", color: theme.colors.accent, marginBottom: 4 },
+  recapActionText: { fontSize: 14, fontWeight: "700", color: theme.colors.text, lineHeight: 20 },
+  habitLoopCard: {
+    flexDirection: "row",
+    backgroundColor: theme.colors.card,
+    borderRadius: 18,
+    padding: 16,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+    gap: 12,
+  },
+  habitLoopIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    backgroundColor: theme.colors.surface,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  habitLoopCopy: { flex: 1 },
+  habitLoopTitle: { fontSize: 16, fontWeight: "800", color: theme.colors.text, marginBottom: 4 },
+  habitLoopBody: { fontSize: 13, color: theme.colors.sub, lineHeight: 18, marginBottom: 8 },
+  habitLoopNext: { fontSize: 13, fontWeight: "800", color: theme.colors.accent },
   feltBetterContainer: { backgroundColor: theme.colors.card, borderRadius: 16, padding: 16, marginBottom: 16 },
   feltBetterTitle: { fontSize: 16, fontWeight: "700", color: theme.colors.text, marginBottom: 12, textAlign: "center" },
   feltBetterRow: { flexDirection: "row", justifyContent: "space-between", gap: 8 },

@@ -25,6 +25,7 @@ interface ShopSubscriptionsSectionProps {
   maxEnergy: number;
   planId: string;
   proBillingPeriod: BillingPeriod;
+  subscriptionCheckoutBlockedMessage?: string | null;
   dailyEnergyBonusRemaining: number;
   onChangeBillingPeriod: (value: BillingPeriod) => void;
   onSubscribe: (plan: PlanConfig) => void;
@@ -73,6 +74,7 @@ export function ShopSubscriptionsSection(props: ShopSubscriptionsSectionProps) {
         onSubscribe={props.onSubscribe}
         planId={props.planId}
         proBillingPeriod={props.proBillingPeriod}
+        subscriptionCheckoutBlockedMessage={props.subscriptionCheckoutBlockedMessage}
       />
     </>
   );

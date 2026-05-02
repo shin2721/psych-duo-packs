@@ -176,111 +176,131 @@ export function SubscriptionPlansGrid(props: {
   onSubscribe: (plan: PlanConfig) => void;
   planId: string;
   proBillingPeriod: BillingPeriod;
+  subscriptionCheckoutBlockedMessage?: string | null;
 }) {
   const purchasablePlans = getStorefrontPlans();
   const proYearlyAvailable = supportsPlanBillingPeriod("pro", "yearly");
+  const subscriptionCheckoutBlocked = Boolean(props.subscriptionCheckoutBlockedMessage);
 
   return (
     <View style={styles.plansContainer}>
-      {purchasablePlans.map((plan) => {
-        const selectedPeriod: BillingPeriod =
-          plan.id === "pro" ? (proYearlyAvailable ? props.proBillingPeriod : "monthly") : "monthly";
-        const showYearlyMeta = plan.id === "pro" && selectedPeriod === "yearly";
-        const subscribeStatusLabel = props.isSubscribing
-          ? String(i18n.t("shop.subscription.processing"))
-          : props.planId === plan.id && props.isSubscriptionActive
-            ? String(i18n.t("shop.subscription.active"))
-            : null;
+      {props.subscriptionCheckoutBlockedMessage ? (
+        <View style={styles.checkoutBlockedNotice} testID="shop-subscription-checkout-blocked">
+          <Ionicons name="information-circle-outline" size={18} color={theme.colors.sub} />
+          <Text style={styles.checkoutBlockedText}>{props.subscriptionCheckoutBlockedMessage}</Text>
+        </View>
+      ) : null}
+      <View style={styles.plansGrid}>
+        {purchasablePlans.map((plan) => {
+          const selectedPeriod: BillingPeriod =
+            plan.id === "pro" ? (proYearlyAvailable ? props.proBillingPeriod : "monthly") : "monthly";
+          const showYearlyMeta = plan.id === "pro" && selectedPeriod === "yearly";
+          const subscribeStatusLabel = subscriptionCheckoutBlocked
+            ? String(i18n.t("shop.subscription.unavailable"))
+            : props.isSubscribing
+              ? String(i18n.t("shop.subscription.processing"))
+              : props.planId === plan.id && props.isSubscriptionActive
+                ? String(i18n.t("shop.subscription.active"))
+                : null;
 
-        const subscribeAccessibilityLabel = [
-          plan.name,
-          formatPlanPrice(plan, selectedPeriod),
-          String(
-            selectedPeriod === "yearly"
-              ? i18n.t("shop.subscription.yearly")
-              : i18n.t("shop.subscription.monthly")
-          ),
-          subscribeStatusLabel,
-        ]
-          .filter(Boolean)
-          .join(", ");
+          const subscribeAccessibilityLabel = [
+            plan.name,
+            formatPlanPrice(plan, selectedPeriod),
+            String(
+              selectedPeriod === "yearly"
+                ? i18n.t("shop.subscription.yearly")
+                : i18n.t("shop.subscription.monthly")
+            ),
+            subscribeStatusLabel,
+          ]
+            .filter(Boolean)
+            .join(", ");
 
-        return (
-          <View key={plan.id} style={styles.planCard} testID={`shop-plan-${plan.id}`}>
-            {plan.popular ? (
-              <View style={styles.popularBadge}>
-                <Text style={styles.popularText}>{i18n.t("shop.subscription.popular")}</Text>
-              </View>
-            ) : null}
-            <View style={styles.planHeader}>
-              <Text style={styles.planName} numberOfLines={1} ellipsizeMode="tail">
-                {plan.name}
-              </Text>
-              <Text style={styles.planPrice}>{formatPlanPrice(plan, selectedPeriod)}</Text>
-              <Text style={styles.planPeriod}>
-                {selectedPeriod === "yearly"
-                  ? i18n.t("shop.subscription.yearlySuffix")
-                  : i18n.t("shop.subscription.monthlySuffix")}
-              </Text>
-              {showYearlyMeta ? (
-                <View style={styles.yearlyMeta}>
-                  <Text style={styles.yearlyEquivalent}>
-                    {i18n.t("shop.subscription.yearlyEquivalent", {
-                      price: getYearlyMonthlyEquivalent("pro"),
-                    })}
-                  </Text>
-                  <View style={styles.yearlyDiscountBadge}>
-                    <Text style={styles.yearlyDiscountText}>
-                      {i18n.t("shop.subscription.yearlyDiscount", {
-                        percent: getYearlyDiscount("pro"),
-                      })}
-                    </Text>
-                  </View>
+          return (
+            <View key={plan.id} style={styles.planCard} testID={`shop-plan-${plan.id}`}>
+              {plan.popular ? (
+                <View style={styles.popularBadge}>
+                  <Text style={styles.popularText}>{i18n.t("shop.subscription.popular")}</Text>
                 </View>
               ) : null}
-            </View>
-            <View style={styles.planFeatures}>
-              {plan.features.map((feature, index) => (
-                <View key={index} style={styles.featureRow}>
-                  <Ionicons name="checkmark-circle" size={18} color={theme.colors.accent} />
-                  <Text style={styles.featureText}>{feature}</Text>
-                </View>
-              ))}
-            </View>
-            <Pressable
-              testID={`shop-subscribe-${plan.id}`}
-              style={[
-                styles.subscribeButton,
-                props.planId === plan.id &&
-                  props.isSubscriptionActive &&
-                  styles.subscribeButtonActive,
-                props.isSubscribing && styles.subscribeButtonDisabled,
-              ]}
-              onPress={() => props.onSubscribe(plan)}
-              disabled={props.isSubscribing || (props.planId === plan.id && props.isSubscriptionActive)}
-              accessibilityRole="button"
-              accessibilityLabel={subscribeAccessibilityLabel}
-              accessibilityState={{
-                busy: props.isSubscribing,
-                disabled:
-                  props.isSubscribing || (props.planId === plan.id && props.isSubscriptionActive),
-                selected: props.planId === plan.id && props.isSubscriptionActive,
-              }}
-            >
-              <Text style={styles.subscribeButtonText}>
-                {props.isSubscribing
-                  ? i18n.t("shop.subscription.processing")
-                  : props.planId === plan.id && props.isSubscriptionActive
-                    ? i18n.t("shop.subscription.active")
-                    : i18n.t("shop.subscription.subscribe")}
+              <View style={styles.planHeader}>
+                <Text style={styles.planName} numberOfLines={1} ellipsizeMode="tail">
+                  {plan.name}
+                </Text>
+                <Text style={styles.planPrice}>{formatPlanPrice(plan, selectedPeriod)}</Text>
+                <Text style={styles.planPeriod}>
+                  {selectedPeriod === "yearly"
+                    ? i18n.t("shop.subscription.yearlySuffix")
+                    : i18n.t("shop.subscription.monthlySuffix")}
+                </Text>
+                {showYearlyMeta ? (
+                  <View style={styles.yearlyMeta}>
+                    <Text style={styles.yearlyEquivalent}>
+                      {i18n.t("shop.subscription.yearlyEquivalent", {
+                        price: getYearlyMonthlyEquivalent("pro"),
+                      })}
+                    </Text>
+                    <View style={styles.yearlyDiscountBadge}>
+                      <Text style={styles.yearlyDiscountText}>
+                        {i18n.t("shop.subscription.yearlyDiscount", {
+                          percent: getYearlyDiscount("pro"),
+                        })}
+                      </Text>
+                    </View>
+                  </View>
+                ) : null}
+              </View>
+              <View style={styles.planFeatures}>
+                {plan.features.map((feature, index) => (
+                  <View key={index} style={styles.featureRow}>
+                    <Ionicons name="checkmark-circle" size={18} color={theme.colors.accent} />
+                    <Text style={styles.featureText}>{feature}</Text>
+                  </View>
+                ))}
+              </View>
+              <Pressable
+                testID={`shop-subscribe-${plan.id}`}
+                style={[
+                  styles.subscribeButton,
+                  props.planId === plan.id &&
+                    props.isSubscriptionActive &&
+                    styles.subscribeButtonActive,
+                  (props.isSubscribing || subscriptionCheckoutBlocked) && styles.subscribeButtonDisabled,
+                ]}
+                onPress={() => props.onSubscribe(plan)}
+                disabled={
+                  subscriptionCheckoutBlocked ||
+                  props.isSubscribing ||
+                  (props.planId === plan.id && props.isSubscriptionActive)
+                }
+                accessibilityRole="button"
+                accessibilityLabel={subscribeAccessibilityLabel}
+                accessibilityState={{
+                  busy: props.isSubscribing,
+                  disabled:
+                    subscriptionCheckoutBlocked ||
+                    props.isSubscribing ||
+                    (props.planId === plan.id && props.isSubscriptionActive),
+                  selected: props.planId === plan.id && props.isSubscriptionActive,
+                }}
+              >
+                <Text style={styles.subscribeButtonText}>
+                  {subscriptionCheckoutBlocked
+                    ? i18n.t("shop.subscription.unavailable")
+                    : props.isSubscribing
+                      ? i18n.t("shop.subscription.processing")
+                      : props.planId === plan.id && props.isSubscriptionActive
+                        ? i18n.t("shop.subscription.active")
+                        : i18n.t("shop.subscription.subscribe")}
+                </Text>
+              </Pressable>
+              <Text style={styles.cancelAnytimeText}>
+                {i18n.t("shop.subscription.cancelAnytime")}
               </Text>
-            </Pressable>
-            <Text style={styles.cancelAnytimeText}>
-              {i18n.t("shop.subscription.cancelAnytime")}
-            </Text>
-          </View>
-        );
-      })}
+            </View>
+          );
+        })}
+      </View>
     </View>
   );
 }
@@ -371,9 +391,28 @@ const styles = StyleSheet.create({
     color: theme.colors.sub,
   },
   plansContainer: {
-    flexDirection: "row",
     gap: 12,
     marginBottom: 24,
+  },
+  plansGrid: {
+    flexDirection: "row",
+    gap: 12,
+  },
+  checkoutBlockedNotice: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 8,
+    backgroundColor: theme.colors.surface,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: theme.colors.line,
+    padding: 12,
+  },
+  checkoutBlockedText: {
+    flex: 1,
+    color: theme.colors.sub,
+    fontSize: 13,
+    lineHeight: 18,
   },
   billingPeriodToggle: {
     flexDirection: "row",

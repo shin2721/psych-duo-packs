@@ -3,17 +3,20 @@ import { View, Text, StyleSheet, Pressable, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import { theme } from "../../lib/theme";
 import { genres } from "../../lib/data";
 import type { IoniconName } from "../../lib/ioniconName";
 import { useOnboarding } from "../../lib/OnboardingContext";
 import { hapticFeedback } from "../../lib/haptics";
+import { Analytics } from "../../lib/analytics";
+import { getFirstLessonTargetForGenre, saveOnboardingSelectedGenres } from "../../lib/onboardingSelection";
 import i18n from "../../lib/i18n";
+import { useProgressionState } from "../../lib/state";
 
 export default function InterestsScreen() {
     const router = useRouter();
     const { completeOnboarding } = useOnboarding();
+    const { setSelectedGenre } = useProgressionState();
     const e2eAnalyticsMode = process.env.EXPO_PUBLIC_E2E_ANALYTICS_DEBUG === "1";
     const [selectedGenres, setSelectedGenres] = useState<string[]>(e2eAnalyticsMode ? ["mental"] : []);
 
@@ -29,10 +32,22 @@ export default function InterestsScreen() {
     const handleContinue = async () => {
         const genresToSave = selectedGenres.length > 0 ? selectedGenres : (e2eAnalyticsMode ? ["mental"] : []);
 
-        // Save selected genres (optional, for future personalization)
-        if (genresToSave.length > 0) {
-            await AsyncStorage.setItem("selectedGenres", JSON.stringify(genresToSave));
-        }
+        // Save selected genres before completing onboarding so the first course state can use it.
+        const savedGenres = await saveOnboardingSelectedGenres(genresToSave);
+        const primaryGenreId = savedGenres[0] ?? "mental";
+        const firstLessonTarget = getFirstLessonTargetForGenre(primaryGenreId);
+        setSelectedGenre(primaryGenreId);
+        Analytics.track("onboarding_genres_selected", {
+            selectedGenres: savedGenres,
+            primaryGenreId,
+            selectionCount: savedGenres.length,
+            source: "onboarding_interests",
+        });
+        Analytics.track("onboarding_first_lesson_targeted", {
+            genreId: firstLessonTarget.genreId,
+            lessonFile: firstLessonTarget.lessonFile,
+            source: "onboarding_interests",
+        });
 
         // Complete onboarding (updates context and AsyncStorage)
         void hapticFeedback.success();
@@ -126,6 +141,10 @@ export default function InterestsScreen() {
                     ]}
                     onPress={handleContinue}
                     disabled={!e2eAnalyticsMode && selectedGenres.length === 0}
+                    accessibilityRole="button"
+                    accessibilityLabel={String(i18n.t("onboarding.interests.continue"))}
+                    accessibilityHint={String(i18n.t("onboarding.interests.subtitle"))}
+                    accessibilityState={{ disabled: !e2eAnalyticsMode && selectedGenres.length === 0 }}
                     testID="onboarding-finish"
                 >
                     <Text style={styles.buttonText}>{i18n.t("onboarding.interests.continue")}</Text>
