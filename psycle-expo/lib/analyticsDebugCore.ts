@@ -77,6 +77,8 @@ const TRACKED_EVENTS = [
     'energy_blocked',
     'energy_bonus_hit',
     'shop_open_from_energy',
+    'checkout_start',
+    'checkout_failed',
     'daily_goal_reached',
     'quest_claimed',
     'comeback_reward_offered',

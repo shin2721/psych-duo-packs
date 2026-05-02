@@ -27,7 +27,9 @@ if (!fs.existsSync(ARTIFACTS_DIR)) {
 
 describe('Analytics v1.3 E2E', () => {
   let initialScenarioReport: any = null;
+  let initialScenarioValidated = false;
   let secondScenarioReport: any = null;
+  let secondScenarioValidated = false;
 
   beforeAll(async () => {
     // Reset device to clean state
@@ -104,7 +106,7 @@ describe('Analytics v1.3 E2E', () => {
       
       // Start the current lesson. Course world no longer exposes the legacy node ID in every mode.
       const lessonStartControl = await waitForAnyVisibleById(
-        ['course-world-support', 'course-world-primary', 'course-next-step-cta', 'lesson-node-m1'],
+        ['course-world-primary', 'hero-root-orb', 'course-world-support', 'course-next-step-cta', 'lesson-node-m1'],
         45000
       );
       await element(by.id(lessonStartControl)).tap();
@@ -158,17 +160,34 @@ describe('Analytics v1.3 E2E', () => {
 
       // Validate initial launch expectations
       validateInitialLaunch(initialReport);
+      initialScenarioValidated = true;
     });
 
     function validateInitialLaunch(report: any) {
       // Expected events for initial launch (lesson_complete is optional for E2E)
-      const requiredEvents = ['app_open', 'session_start', 'app_ready', 'onboarding_start', 'onboarding_complete', 'lesson_start'];
+      const exactlyOnceEvents = [
+        'app_open',
+        'session_start',
+        'app_ready',
+        'onboarding_start',
+        'onboarding_complete',
+        'lesson_start',
+      ];
+      const requiredPresentEvents = [
+        'engagement_primary_action_shown',
+        'engagement_primary_action_started',
+      ];
       const optionalEvents = ['lesson_complete'];
       
       // Check required events fired exactly once
-      requiredEvents.forEach(eventName => {
+      exactlyOnceEvents.forEach(eventName => {
         const count = report.counters[eventName] || 0;
         jestExpect(count).toBe(1);
+      });
+
+      requiredPresentEvents.forEach(eventName => {
+        const count = report.counters[eventName] || 0;
+        jestExpect(count).toBeGreaterThanOrEqual(1);
       });
 
       // Check optional events (lesson_complete might not fire if lesson wasn't fully completed)
@@ -219,6 +238,7 @@ describe('Analytics v1.3 E2E', () => {
 
       // Validate second launch expectations
       validateSecondLaunch(secondReport);
+      secondScenarioValidated = true;
     });
 
     function validateSecondLaunch(report: any) {
@@ -248,8 +268,12 @@ describe('Analytics v1.3 E2E', () => {
       
       // Get final state
       const finalReport = await readAnalyticsDebugState();
-      const initialReportForOutput = initialScenarioReport ?? finalReport;
-      const secondReportForOutput = secondScenarioReport ?? finalReport;
+      const initialReportForOutput = initialScenarioReport ?? buildMissingScenarioReport(
+        'initialLaunch did not reach Analytics Debug state capture'
+      );
+      const secondReportForOutput = secondScenarioReport ?? buildMissingScenarioReport(
+        'secondLaunch did not reach Analytics Debug state capture'
+      );
       
       // Generate comprehensive report
       const testReport = {
@@ -257,21 +281,40 @@ describe('Analytics v1.3 E2E', () => {
         testSuite: 'Analytics v1.3 E2E',
         scenarios: {
           initialLaunch: {
-            status: 'completed',
+            status: initialScenarioReport
+              ? initialScenarioValidated
+                ? 'completed'
+                : 'failed_validation'
+              : 'failed_before_debug_read',
             events: initialReportForOutput.counters,
             anonId: initialReportForOutput.anonId,
-            passed: initialReportForOutput.passed,
-            failures: initialReportForOutput.failures
+            passed: initialReportForOutput.passed && initialScenarioValidated,
+            failures: initialScenarioValidated
+              ? initialReportForOutput.failures
+              : [...initialReportForOutput.failures, 'initialLaunch failed Jest validation']
           },
           secondLaunch: {
-            status: 'completed',
+            status: secondScenarioReport
+              ? secondScenarioValidated
+                ? 'completed'
+                : 'failed_validation'
+              : 'failed_before_debug_read',
             events: secondReportForOutput.counters,
             secondLaunchMode: secondReportForOutput.secondLaunchMode,
-            passed: secondReportForOutput.passed,
-            failures: secondReportForOutput.failures
+            passed: secondReportForOutput.passed && secondScenarioValidated,
+            failures: secondScenarioValidated
+              ? secondReportForOutput.failures
+              : [...secondReportForOutput.failures, 'secondLaunch failed Jest validation']
           }
         },
-        overallResult: initialReportForOutput.passed && secondReportForOutput.passed && finalReport.passed ? 'PASS' : 'FAIL',
+        overallResult:
+          initialScenarioValidated &&
+          secondScenarioValidated &&
+          initialReportForOutput.passed &&
+          secondReportForOutput.passed &&
+          finalReport.passed
+            ? 'PASS'
+            : 'FAIL',
         summary: {
           totalEvents:
             Object.values(initialReportForOutput.counters).reduce((sum: number, count: any) => sum + count, 0) +
@@ -378,7 +421,25 @@ async function readAnalyticsDebugState(): Promise<any> {
 
     // Read event counters
     const counters: Record<string, number> = {};
-    const eventNames = ['app_open', 'session_start', 'app_ready', 'onboarding_start', 'onboarding_complete', 'lesson_start', 'lesson_complete'];
+    const eventNames = [
+      'app_open',
+      'session_start',
+      'app_ready',
+      'app_startup_performance',
+      'onboarding_start',
+      'onboarding_complete',
+      'onboarding_genres_selected',
+      'onboarding_first_lesson_targeted',
+      'onboarding_first_lesson_completed',
+      'lesson_start',
+      'lesson_load_performance',
+      'lesson_complete',
+      'engagement_primary_action_shown',
+      'engagement_primary_action_started',
+      'engagement_return_reason_shown',
+      'checkout_start',
+      'checkout_failed',
+    ];
     
     for (const eventName of eventNames) {
       try {
@@ -423,6 +484,16 @@ async function readAnalyticsDebugState(): Promise<any> {
     console.error('Failed to read analytics debug state:', error);
     throw error;
   }
+}
+
+function buildMissingScenarioReport(reason: string): any {
+  return {
+    passed: false,
+    anonId: 'unknown',
+    counters: {},
+    failures: [reason],
+    secondLaunchMode: false,
+  };
 }
 
 function readTextFromAttributes(attributes: any): string {

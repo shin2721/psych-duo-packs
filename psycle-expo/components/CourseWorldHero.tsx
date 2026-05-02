@@ -63,7 +63,10 @@ export function CourseWorldHero({
     () => buildCourseWorldModelSnapshot(model, nextLessonId),
     [model, nextLessonId]
   );
-  const interactionZoneHeight = Math.max(280, Math.min(CLOCK_ZONE, height * 0.34));
+  const reservesActionSpace = !hideVisibleCopy || showPrimaryAction;
+  const interactionZoneHeight = reservesActionSpace
+    ? Math.max(260, Math.min(CLOCK_ZONE, height * 0.28))
+    : Math.max(280, Math.min(CLOCK_ZONE, height * 0.34));
   const mountOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -101,7 +104,7 @@ export function CourseWorldHero({
       <CourseWorldBackdrop themeColor={model.themeColor} synColor={snapshot.synColor} />
 
       <Animated.View style={styles.mountLayer}>
-        <View style={styles.spacerTop} />
+        <View style={reservesActionSpace ? styles.spacerTopCompact : styles.spacerTop} />
 
         <Animated.View
           style={[
@@ -222,7 +225,7 @@ export function CourseWorldHero({
           habitSummary={habitSummary}
         />
 
-        <View style={styles.spacerBottom} />
+        <View style={reservesActionSpace ? styles.spacerBottomCompact : styles.spacerBottom} />
       </Animated.View>
     </View>
   );
@@ -232,7 +235,9 @@ const styles = StyleSheet.create({
   root: { flex: 1, overflow: "visible" as const },
   mountLayer: { flex: 1 },
   spacerTop: { flex: 0.38 },
+  spacerTopCompact: { height: 28 },
   spacerBottom: { flex: 0.2 },
+  spacerBottomCompact: { height: 12 },
   header: {
     flexDirection: "row",
     justifyContent: "flex-start",

@@ -640,6 +640,8 @@ export default function CourseScreen() {
     return <View style={styles.container} />;
   }
 
+  const shouldShowFirstStepCopy = completedLessons.size === 0 || model.currentLesson.levelNumber <= 1;
+
   return (
     <View style={styles.container}>
       <CourseWorldHero
@@ -649,10 +651,10 @@ export default function CourseScreen() {
         onPrimaryPress={handleLaunchCurrent}
         onSupportPress={handleSupportPress}
         onUnitPress={() => setMenuVisible(true)}
-        showMeta={false}
-        showPrimaryAction={false}
-        hideVisibleCopy
-        heroOffsetY={42}
+        showMeta={shouldShowFirstStepCopy}
+        showPrimaryAction
+        hideVisibleCopy={!shouldShowFirstStepCopy}
+        heroOffsetY={shouldShowFirstStepCopy ? 8 : 42}
         habitSummary={{
           dailyGoal,
           dailyXP,
