@@ -13,6 +13,47 @@
  * 難易度
  */
 export type Difficulty = "easy" | "medium" | "hard";
+export type LessonLane = "core" | "mastery" | "refresh";
+export type LessonPhase = 1 | 2 | 3 | 4 | 5;
+
+export interface LessonLoadScore {
+  cognitive: 1 | 2 | 3;
+  emotional: 1 | 2 | 3;
+  behavior_change: 1 | 2 | 3;
+  total: number;
+}
+
+export interface LessonQuestionCountRange {
+  min: number;
+  max: number;
+  target: number;
+}
+
+export interface LessonBlueprint {
+  job: string;
+  target_shift: string;
+  done_condition: string;
+  takeaway_action: string;
+  lane: LessonLane;
+  phase?: LessonPhase;
+  load_score: LessonLoadScore;
+  question_count_range: LessonQuestionCountRange;
+  counterfactual?: string;
+  intervention_path?: string;
+  forbidden_moves?: string[];
+}
+
+export interface LessonMetadata {
+  lesson_id: string;
+  lane: LessonLane;
+  lesson_job: string;
+  target_shift: string;
+  done_condition: string;
+  takeaway_action: string;
+  load_score: LessonLoadScore;
+  question_count_range: LessonQuestionCountRange;
+  non_goals?: string[];
+}
 
 /**
  * 問題タイプ
@@ -87,6 +128,10 @@ export interface ExpandedDetails {
  */
 export interface Question {
   id?: string;                 // 問題ID
+  phase?: LessonPhase;         // 5-Phase Structure position
+  claim_id?: string;           // Claim trace id
+  lane?: LessonLane;           // Core / mastery / refresh lane
+  lesson_blueprint?: LessonBlueprint;
   type: QuestionType;
   question: string;           // 質問文
   text?: string;              // 旧フォーマット互換の問題文

@@ -43,7 +43,7 @@ export function QuestionRenderer({
   const questionChoices = getQuestionChoices(question);
   const insets = useSafeAreaInsets();
   const scrollBottomInset = insets.bottom + theme.spacing.xl;
-  const { updateSkill } = useProgressionState();
+  const { recordQuestionResult, updateSkill } = useProgressionState();
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [selectedIndexes, setSelectedIndexes] = useState<number[]>([]);
@@ -217,6 +217,7 @@ export function QuestionRenderer({
     };
     const itemDifficulty = difficultyMap[question.difficulty] || 1500;
     updateSkill(runtime.isCorrect, itemDifficulty);
+    recordQuestionResult(question.type || "unknown", runtime.isCorrect);
 
     onContinue(runtime.isCorrect, runtime.isCorrect ? question.xp : 0);
   };
