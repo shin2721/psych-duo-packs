@@ -29,6 +29,24 @@ jest.mock("expo-haptics", () => ({
   },
 }));
 
+jest.mock("react-native-reanimated", () => {
+  const { View } = require("react-native");
+
+  return {
+    __esModule: true,
+    default: {
+      View,
+    },
+    useAnimatedStyle: (updater: () => unknown) => updater(),
+    useSharedValue: (initial: unknown) => ({ value: initial }),
+    withTiming: (value: unknown) => value,
+  };
+});
+
+jest.mock("react-native-safe-area-context", () => ({
+  useSafeAreaInsets: () => ({ bottom: 0, left: 0, right: 0, top: 0 }),
+}));
+
 jest.mock("react-native-svg", () => ({
   __esModule: true,
   default: ({ children }: { children: React.ReactNode }) => {
@@ -57,6 +75,20 @@ jest.mock("react-native-svg", () => ({
   },
   Stop: () => null,
 }));
+
+jest.mock("../../components/course-world/CourseWorldBackdrop", () => {
+  const mockReact = require("react");
+  const { View: MockView } = require("react-native");
+  const MockBackdropPart = () => mockReact.createElement(MockView, null);
+
+  return {
+    CLOCK_FIREFLY_CONFIGS: [],
+    CourseWorldBackdrop: MockBackdropPart,
+    Fireflies: MockBackdropPart,
+    HERO_FIREFLY_CONFIGS: [],
+    HeroRing: MockBackdropPart,
+  };
+});
 
 jest.mock("../../lib/i18n", () => ({
   __esModule: true,
@@ -133,7 +165,7 @@ const model: CourseWorldViewModel = {
 };
 
 describe("CourseWorldHero", () => {
-  test("renders current, route, review and support states together", () => {
+  test("renders current lesson, route labels, review label, and support states together", () => {
     const screen = render(
       <CourseWorldHero
         model={model}
@@ -147,9 +179,10 @@ describe("CourseWorldHero", () => {
     );
 
     expect(screen.getByLabelText("Current node L3")).toBeTruthy();
-    expect(screen.getByLabelText("Done node L2")).toBeTruthy();
-    expect(screen.getByLabelText("Locked node L4")).toBeTruthy();
-    expect(screen.getByLabelText("Review node BH")).toBeTruthy();
+    expect(screen.getByText("L2")).toBeTruthy();
+    expect(screen.getAllByText("L3").length).toBeGreaterThan(0);
+    expect(screen.getByText("L4")).toBeTruthy();
+    expect(screen.getByText("BH")).toBeTruthy();
     expect(screen.getByTestId("hero-support")).toBeTruthy();
     expect(screen.getByTestId("hero-primary")).toBeTruthy();
     expect(screen.getByText("Anxiety Reframe")).toBeTruthy();

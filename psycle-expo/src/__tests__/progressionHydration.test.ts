@@ -27,6 +27,7 @@ function loadHydrationModule(options?: {
       options?.remoteSnapshot ?? { xp: null, streak: null, friendCount: 0, leaderboardRank: 0 }
     );
   const getActiveEventCampaignConfig = jest.fn().mockReturnValue(options?.activeEventConfig ?? null);
+  const loadPrimaryOnboardingGenre = jest.fn().mockResolvedValue("study");
   const track = jest.fn();
 
   let module: typeof import("../../lib/app-state/progression/progressionHydration");
@@ -47,6 +48,13 @@ function loadHydrationModule(options?: {
       track,
     },
   }));
+  jest.doMock("../../lib/onboardingSelection", () => ({
+    loadPrimaryOnboardingGenre,
+    normalizeGenreId: (value: unknown, fallback = "mental") =>
+      ["mental", "money", "work", "health", "social", "study"].includes(String(value))
+        ? String(value)
+        : fallback,
+  }));
 
   jest.isolateModules(() => {
     module = require("../../lib/app-state/progression/progressionHydration");
@@ -58,6 +66,7 @@ function loadHydrationModule(options?: {
     persistNumber,
     loadRemoteProgressionSnapshot,
     getActiveEventCampaignConfig,
+    loadPrimaryOnboardingGenre,
     track,
   };
 }
@@ -68,6 +77,7 @@ afterEach(() => {
   jest.dontMock("../../lib/app-state/progressionRemote");
   jest.dontMock("../../lib/app-state/progressionLiveOps");
   jest.dontMock("../../lib/analytics");
+  jest.dontMock("../../lib/onboardingSelection");
 });
 
 describe("progressionHydration", () => {
@@ -78,6 +88,7 @@ describe("progressionHydration", () => {
     expect(result.xp).toBe(0);
     expect(result.streak).toBe(0);
     expect(result.personalizationSegment).toBe("new");
+    expect(result.selectedGenre).toBe("mental");
     expect(result.quests).toHaveLength(createInitialQuestState(getQuestCycleKeys()).quests.length);
   });
 
@@ -141,6 +152,7 @@ describe("progressionHydration", () => {
         }),
         personalizationSegment: "power",
         personalizationSegmentAssignedAt: "123456",
+        selectedGenre: "work",
       },
       remoteSnapshot: {
         xp: 50,
@@ -160,6 +172,7 @@ describe("progressionHydration", () => {
     expect(result.savedXp).toBe(12);
     expect(result.savedStreak).toBe(5);
     expect(result.personalizationSegment).toBe("power");
+    expect(result.selectedGenre).toBe("work");
     expect(result.personalizationAssignedAtMs).toBe(123456);
     expect(result.claimedStreakMilestones).toEqual([3, 7]);
     expect(result.streakRepairOffer).not.toBeNull();
@@ -172,5 +185,23 @@ describe("progressionHydration", () => {
       leaderboardRank: 9,
     });
     expect(persistNumber).toHaveBeenCalled();
+  });
+
+  test("hydrates the saved onboarding genre when no course genre has been persisted yet", async () => {
+    const { module, loadPrimaryOnboardingGenre } = loadHydrationModule({
+      saved: {
+        xp: "0",
+        streak: "0",
+      },
+    });
+
+    const result = await module.hydrateProgressionState({
+      userId: "user-1",
+      questSchemaVersion: 2,
+      claimBonusGemsByType: { daily: 5, weekly: 10, monthly: 15 },
+    });
+
+    expect(loadPrimaryOnboardingGenre).toHaveBeenCalled();
+    expect(result.selectedGenre).toBe("study");
   });
 });

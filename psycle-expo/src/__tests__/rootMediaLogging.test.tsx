@@ -1,3 +1,6 @@
+jest.mock("expo/env", () => ({}), { virtual: true });
+jest.mock("expo/virtual/env", () => ({}), { virtual: true });
+
 import React from "react";
 import { render } from "@testing-library/react-native";
 import { RootLayoutNav } from "../../app/_layout";

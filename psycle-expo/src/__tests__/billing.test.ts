@@ -2,12 +2,24 @@ jest.mock("react-native", () => ({
   Linking: {
     openURL: jest.fn(),
   },
+  Platform: {
+    OS: "ios",
+  },
+}));
+
+jest.mock("expo/virtual/env", () => ({
+  env: {},
 }));
 
 jest.mock("../../lib/analytics", () => ({
   Analytics: {
     track: jest.fn(),
   },
+}));
+
+jest.mock("../../lib/checkoutPolicy", () => ({
+  IOS_EXTERNAL_CHECKOUT_DISABLED_REASON: "ios_external_checkout_disabled",
+  isExternalCheckoutBlockedForCurrentPlatform: jest.fn(),
 }));
 
 jest.mock("../../lib/supabase", () => ({
@@ -28,6 +40,7 @@ jest.mock("../../lib/plans", () => ({
 
 const { Linking } = require("react-native");
 const { Analytics } = require("../../lib/analytics");
+const { isExternalCheckoutBlockedForCurrentPlatform } = require("../../lib/checkoutPolicy");
 const { supabase } = require("../../lib/supabase");
 const { getSupabaseFunctionsUrl, getPlanById, resolvePlanPriceId, supportsPlanBillingPeriod } = require("../../lib/plans");
 const { buyPlan, openBillingPortal, restorePurchases } = require("../../lib/billing");
@@ -50,6 +63,7 @@ describe("billing auth hardening", () => {
     (getPlanById as jest.Mock).mockReturnValue({ id: "pro" });
     (resolvePlanPriceId as jest.Mock).mockReturnValue("price_123");
     (supportsPlanBillingPeriod as jest.Mock).mockReturnValue(true);
+    (isExternalCheckoutBlockedForCurrentPlatform as jest.Mock).mockReturnValue(false);
   });
 
   afterEach(() => {
@@ -201,6 +215,22 @@ describe("billing auth hardening", () => {
 
     expect(result).toEqual({ ok: false, reason: "billing_period_unsupported" });
     expect(fetchMock).not.toHaveBeenCalled();
+  });
+
+  test("buyPlan blocks production iOS external checkout by default", async () => {
+    (isExternalCheckoutBlockedForCurrentPlatform as jest.Mock).mockReturnValue(true);
+
+    const result = await buyPlan("pro", "user_1", "user@example.com", {
+      billingPeriod: "monthly",
+    });
+
+    expect(result).toEqual({ ok: false, reason: "ios_external_checkout_disabled" });
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(Analytics.track).toHaveBeenCalledWith("checkout_failed", {
+      source: "billing_lib",
+      planId: "pro",
+      reason: "ios_external_checkout_disabled",
+    });
   });
 
   test("buyPlan returns http_error when checkout request errors", async () => {

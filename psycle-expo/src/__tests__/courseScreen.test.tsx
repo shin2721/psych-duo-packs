@@ -9,14 +9,36 @@ const mockPurchaseStreakRepair = jest.fn();
 const mockGetLastWeekResult = jest.fn();
 const mockIsLessonLocked = jest.fn();
 const mockShouldShowPaywall = jest.fn();
+const mockLoadPrimaryOnboardingGenre = jest.fn();
+const mockSetSelectedGenre = jest.fn();
 
 let mockCompletedLessons = new Set<string>();
+let mockSelectedGenre = "mental";
 let mockStreakRepairOffer: {
   active: boolean;
   costGems: number;
   expiresAtMs: number;
   previousStreak: number;
 } | null = null;
+let mockMasteryThemeState: {
+  themeId: string;
+  parentUnitId: string;
+  maxActiveSlots: number;
+  activeVariantIds: string[];
+  retiredVariantIds: string[];
+  sceneIdsCleared: string[];
+  scenesClearedCount: number;
+  attemptCount: number;
+  transferImprovement: boolean;
+  repeatWithoutDropoff: boolean;
+  newLearningValueDelta: number;
+  transferGainSlope: number;
+  repetitionRisk: number;
+  graduationState: "learning" | "graduated";
+  masteryCeilingState: "open" | "ceiling_reached";
+  lastEvaluatedAt: number | null;
+} | null = null;
+let mockAvailableMasteryVariantIds: string[] = [];
 let mockComebackRewardOffer: {
   active: boolean;
   daysSinceStudy: number;
@@ -46,6 +68,37 @@ jest.mock("react-native-safe-area-context", () => ({
 
 jest.mock("../../components/GlobalHeader", () => ({
   GlobalHeader: () => null,
+}));
+
+jest.mock("../../components/CourseWorldHero", () => ({
+  CourseWorldHero: ({
+    model,
+    onPrimaryPress,
+    onSupportPress,
+  }: {
+    model?: { supportMoment?: { ctaLabel?: string; title?: string } };
+    onPrimaryPress?: () => void;
+    onSupportPress?: () => void;
+  }) => {
+    const mockReact = require("react");
+    const { Pressable, Text, View } = require("react-native");
+    return (
+      <View>
+        <Pressable onPress={onPrimaryPress} testID="course-next-step-cta">
+          <Text>course-next-step</Text>
+        </Pressable>
+        {model?.supportMoment ? (
+          <Pressable
+            onPress={onSupportPress}
+            testID="course-world-support"
+            accessibilityLabel={model.supportMoment.ctaLabel ?? model.supportMoment.title}
+          >
+            <Text>{model.supportMoment.ctaLabel ?? model.supportMoment.title}</Text>
+          </Pressable>
+        ) : null}
+      </View>
+    );
+  },
 }));
 
 jest.mock("../../components/trail", () => ({
@@ -158,12 +211,34 @@ jest.mock("../../lib/paywall", () => ({
   shouldShowPaywall: (...args: unknown[]) => mockShouldShowPaywall(...args),
 }));
 
+jest.mock("../../lib/onboardingSelection", () => {
+  const getOnboardingPrimaryGenreToApply = ({
+    completedLessonCount,
+    primaryGenreId,
+    selectedGenre,
+  }: {
+    completedLessonCount: number;
+    primaryGenreId: string;
+    selectedGenre: string;
+  }) => {
+    if (completedLessonCount > 0) return null;
+    if (!["mental", "work"].includes(primaryGenreId)) return null;
+    return primaryGenreId === selectedGenre ? null : primaryGenreId;
+  };
+
+  return {
+    getOnboardingPrimaryGenreToApply,
+    loadPrimaryOnboardingGenre: (...args: unknown[]) => mockLoadPrimaryOnboardingGenre(...args),
+  };
+});
+
 jest.mock("../../lib/state", () => ({
   useProgressionState: () => ({
     comebackRewardOffer: mockComebackRewardOffer,
     completedLessons: mockCompletedLessons,
     purchaseStreakRepair: (...args: unknown[]) => mockPurchaseStreakRepair(...args),
-    selectedGenre: "mental",
+    selectedGenre: mockSelectedGenre,
+    setSelectedGenre: (...args: unknown[]) => mockSetSelectedGenre(...args),
     streakRepairOffer: mockStreakRepairOffer,
   }),
   useBillingState: () => ({
@@ -171,6 +246,25 @@ jest.mock("../../lib/state", () => ({
   }),
   useEconomyState: () => ({
     setGemsDirectly: jest.fn(),
+  }),
+  usePracticeState: () => ({
+    getLessonSupportCandidate: () => null,
+    getMasteryThemeState: () => mockMasteryThemeState,
+    getSupportBudgetSummary: () => ({
+      weeklyBudget: 6,
+      weeklyUsed: 0,
+      weeklyRemaining: 6,
+      weeklyKindBudget: { return: 2, adaptive: 2, refresh: 2, replay: 1 },
+      weeklyKindUsed: { return: 0, adaptive: 0, refresh: 0, replay: 0 },
+      weeklyKindRemaining: { return: 2, adaptive: 2, refresh: 2, replay: 1 },
+    }),
+    primeMasteryTheme: jest.fn(),
+    recordSupportMomentSeen: jest.fn(),
+    markSupportMomentStarted: jest.fn(),
+    activateReviewSupportSession: jest.fn(),
+    completeActiveReviewSupport: jest.fn(),
+    suppressActiveReviewSupport: jest.fn(),
+    startReturnSession: jest.fn(() => ({ started: false })),
   }),
 }));
 
@@ -192,26 +286,70 @@ jest.mock("../../lib/i18n", () => ({
   },
 }));
 
+jest.mock("../../lib/masteryInventory", () => ({
+  listAvailableMasteryLessonIds: () => mockAvailableMasteryVariantIds,
+}));
+
+jest.mock("../../lib/lesson-data/lessonQuestionAdapter", () => {
+  const actual = jest.requireActual("../../lib/lesson-data/lessonQuestionAdapter");
+  return {
+    ...actual,
+    warnLessonLoadSummary: jest.fn(),
+  };
+});
+
 const CourseScreen = require("../../app/(tabs)/course").default;
 
 describe("CourseScreen", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockCompletedLessons = new Set();
+    mockSelectedGenre = "mental";
     mockStreakRepairOffer = null;
+    mockMasteryThemeState = null;
+    mockAvailableMasteryVariantIds = [];
     mockComebackRewardOffer = null;
     mockGetLastWeekResult.mockResolvedValue({ hasReward: false });
     mockIsLessonLocked.mockReturnValue(false);
     mockShouldShowPaywall.mockReturnValue(true);
+    mockLoadPrimaryOnboardingGenre.mockResolvedValue("mental");
+  }, 20000);
+
+  test("applies the saved onboarding primary genre before the first lesson", async () => {
+    mockLoadPrimaryOnboardingGenre.mockResolvedValue("work");
+
+    render(React.createElement(CourseScreen));
+
+    await waitFor(() => {
+      expect(mockSetSelectedGenre).toHaveBeenCalledWith("work");
+    });
+    expect(mockTrack).toHaveBeenCalledWith(
+      "onboarding_primary_genre_applied",
+      expect.objectContaining({
+        previousGenreId: "mental",
+        genreId: "work",
+        surface: "course_world",
+      })
+    );
   });
 
-  test("next-step CTA opens the start modal and starts the lesson", async () => {
+  test("does not override the course genre after lesson completion", async () => {
+    mockCompletedLessons = new Set(["mental_l01"]);
+    mockLoadPrimaryOnboardingGenre.mockResolvedValue("work");
+
+    render(React.createElement(CourseScreen));
+
+    await waitFor(() => {
+      expect(mockGetLastWeekResult).toHaveBeenCalledWith("user_1");
+    });
+    expect(mockSetSelectedGenre).not.toHaveBeenCalled();
+    expect(mockLoadPrimaryOnboardingGenre).not.toHaveBeenCalled();
+  });
+
+  test("next-step CTA launches the current lesson directly", async () => {
     const screen = render(React.createElement(CourseScreen));
 
     fireEvent.press(screen.getByTestId("course-next-step-cta"));
-    expect(screen.getByTestId("start-lesson-modal")).toBeTruthy();
-
-    fireEvent.press(screen.getByTestId("start-lesson-primary"));
 
     expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l01&genre=mental");
 
@@ -220,17 +358,18 @@ describe("CourseScreen", () => {
     });
   });
 
-  test("rendering and lesson navigation do not emit development console logs", () => {
+  test("rendering and lesson navigation do not emit console.log noise", () => {
     const logSpy = jest.spyOn(console, "log").mockImplementation(() => {});
+    const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
     try {
       const screen = render(React.createElement(CourseScreen));
 
       fireEvent.press(screen.getByTestId("course-next-step-cta"));
-      fireEvent.press(screen.getByTestId("start-lesson-primary"));
 
       expect(logSpy).not.toHaveBeenCalled();
     } finally {
       logSpy.mockRestore();
+      warnSpy.mockRestore();
     }
   });
 
@@ -256,7 +395,7 @@ describe("CourseScreen", () => {
 
     const screen = render(React.createElement(CourseScreen));
 
-    fireEvent.press(screen.getByLabelText("course.streakRepair.cta"));
+    fireEvent.press(screen.getByTestId("course-world-support"));
 
     expect(mockPurchaseStreakRepair).toHaveBeenCalled();
   });
@@ -272,8 +411,58 @@ describe("CourseScreen", () => {
 
     const screen = render(React.createElement(CourseScreen));
 
-    fireEvent.press(screen.getByLabelText("course.comebackReward.cta"));
+    fireEvent.press(screen.getByTestId("course-world-support"));
 
     expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l01&genre=mental");
+  });
+
+  test("mastery support CTA starts the mastery lesson after core completion", async () => {
+    mockCompletedLessons = new Set(["mental_l01", "mental_l02", "mental_l03"]);
+    mockAvailableMasteryVariantIds = ["mental_m01"];
+    mockMasteryThemeState = {
+      themeId: "mental",
+      parentUnitId: "mental",
+      maxActiveSlots: 3,
+      activeVariantIds: ["mental_m01"],
+      retiredVariantIds: [],
+      sceneIdsCleared: ["mental_l01", "mental_l02", "mental_l03"],
+      scenesClearedCount: 3,
+      attemptCount: 3,
+      transferImprovement: false,
+      repeatWithoutDropoff: true,
+      newLearningValueDelta: 0.8,
+      transferGainSlope: 0.2,
+      repetitionRisk: 0.2,
+      graduationState: "learning",
+      masteryCeilingState: "open",
+      lastEvaluatedAt: 1,
+    };
+
+    const screen = render(React.createElement(CourseScreen));
+
+    await waitFor(() => {
+      expect(mockTrack).toHaveBeenCalledWith(
+        "course_support_shown",
+        expect.objectContaining({
+          kind: "mastery",
+          lessonId: "mental_m01",
+          reason: "mastery_slot_open",
+          activeSlotsRemaining: 2,
+        })
+      );
+    });
+
+    fireEvent.press(screen.getByTestId("course-world-support"));
+
+    expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_m01&genre=mental");
+    expect(mockTrack).toHaveBeenCalledWith(
+      "course_support_started",
+      expect.objectContaining({
+        kind: "mastery",
+        lessonId: "mental_m01",
+        reason: "mastery_slot_open",
+        activeSlotsRemaining: 2,
+      })
+    );
   });
 });

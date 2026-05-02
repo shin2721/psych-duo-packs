@@ -13,8 +13,6 @@ describe("debug shelf architecture", () => {
     expect(SETTINGS_DEBUG_ROUTES.map((route) => route.route)).toEqual([
       "/debug/analytics",
       "/debug/course-concept-final",
-      "/debug/course-world-hero",
-      "/debug/course-concept-claude",
     ]);
   });
 
@@ -31,6 +29,5 @@ describe("debug shelf architecture", () => {
     expect(exists("components/provisional/CourseHeroFinal.tsx")).toBe(true);
     expect(exists("app/debug/course-concept-final.tsx")).toBe(true);
     expect(exists("app/debug/course-world-hero.tsx")).toBe(true);
-    expect(exists("app/debug/course-concept-claude.tsx")).toBe(true);
   });
 });

@@ -4,10 +4,14 @@ jest.mock("../../lib/streaks", () => ({
   recordStudyCompletion: jest.fn(),
 }));
 jest.mock("../../lib/onboarding", () => ({
+  hasCompletedFirstLesson: jest.fn(),
   markFirstLessonComplete: jest.fn(),
 }));
 jest.mock("../../lib/notifications", () => ({
-  syncDailyReminders: jest.fn(),
+  syncDailyReminders: jest.fn(() => Promise.resolve()),
+}));
+jest.mock("../../lib/analytics", () => ({
+  Analytics: { track: jest.fn() },
 }));
 jest.mock("../../lib/lesson/lessonAnalytics", () => ({
   getLessonGenreId: jest.fn(() => "mental"),
@@ -21,6 +25,9 @@ import {
   resolveLessonAnswerTransition,
   getLessonReminderSyncPayload,
 } from "../../lib/lesson/useLessonFlow";
+import { Analytics } from "../../lib/analytics";
+import { completeLessonSession } from "../../lib/lesson/lessonFlowCompletion";
+import { hasCompletedFirstLesson } from "../../lib/onboarding";
 import type { Question } from "../../types/question";
 
 const question: Question = {
@@ -34,6 +41,11 @@ const question: Question = {
 };
 
 describe("lesson flow helpers", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+    (hasCompletedFirstLesson as jest.Mock).mockResolvedValue(false);
+  });
+
   test("incorrect answer を review queue に積む", () => {
     const transition = resolveLessonAnswerTransition({
       currentIndex: 0,
@@ -115,5 +127,55 @@ describe("lesson flow helpers", () => {
       maxEnergy: 5,
       streakRepairOffer: null,
     });
+  });
+
+  test("初回 lesson 完了は onboarding_first_lesson_completed を一度だけ計測する", async () => {
+    await completeLessonSession({
+      claimComebackRewardOnLessonComplete: jest.fn(),
+      completeLesson: jest.fn(),
+      energy: 3,
+      energyRefillMinutes: 15,
+      fileParam: "mental_l01",
+      incrementQuestMetric: jest.fn(),
+      isSubscriptionActive: false,
+      lastEnergyUpdateTime: null,
+      lessonCompleteTrackedRef: { current: null },
+      maxEnergy: 5,
+      quests: [],
+      setIsComplete: jest.fn(),
+      streakRepairOffer: null,
+      userId: "user-1",
+    });
+
+    expect(Analytics.track).toHaveBeenCalledWith("onboarding_first_lesson_completed", {
+      genreId: "mental",
+      lessonId: "mental_l01",
+      source: "lesson_complete",
+    });
+
+    jest.clearAllMocks();
+    (hasCompletedFirstLesson as jest.Mock).mockResolvedValue(true);
+
+    await completeLessonSession({
+      claimComebackRewardOnLessonComplete: jest.fn(),
+      completeLesson: jest.fn(),
+      energy: 3,
+      energyRefillMinutes: 15,
+      fileParam: "mental_l02",
+      incrementQuestMetric: jest.fn(),
+      isSubscriptionActive: false,
+      lastEnergyUpdateTime: null,
+      lessonCompleteTrackedRef: { current: null },
+      maxEnergy: 5,
+      quests: [],
+      setIsComplete: jest.fn(),
+      streakRepairOffer: null,
+      userId: "user-1",
+    });
+
+    expect(Analytics.track).not.toHaveBeenCalledWith(
+      "onboarding_first_lesson_completed",
+      expect.any(Object)
+    );
   });
 });

@@ -33,11 +33,18 @@ afterEach(() => {
 });
 
 describe("gamificationConfig normalization", () => {
+  test("notifications default to opt-in before permission prompts", () => {
+    const { gamificationModule } = loadGamificationModule(ACTUAL_CONFIG);
+
+    expect(gamificationModule.getNotificationsConfig().default_enabled).toBe(false);
+  });
+
   test("top-level non object falls back to defaults and warns once", () => {
     const { gamificationModule, warnDev } = loadGamificationModule("bad-config");
 
     expect(gamificationModule.getInitialGems()).toBe(50);
     expect(gamificationModule.getExperimentsConfig().enabled).toBe(false);
+    expect(gamificationModule.getNotificationsConfig().default_enabled).toBe(false);
     expect(warnDev).toHaveBeenCalledTimes(1);
   });
 

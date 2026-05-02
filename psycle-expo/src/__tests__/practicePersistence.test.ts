@@ -71,8 +71,16 @@ describe("practicePersistence helpers", () => {
           lessonId: "lesson-1",
           ts: nowMs - 1000,
           result: "correct",
+          beta: undefined,
+          dueAt: undefined,
+          latencyMs: undefined,
+          p: undefined,
+          tags: undefined,
         },
       ],
+      lessonSessions: [],
+      supportSurfaceHistory: [],
+      masteryThemeStates: [],
     });
   });
 
@@ -86,9 +94,71 @@ describe("practicePersistence helpers", () => {
     await expect(loadPracticePersistenceSnapshot("user-1")).resolves.toEqual({
       mistakes: [],
       reviewEvents: [],
+      lessonSessions: [],
+      supportSurfaceHistory: [],
+      masteryThemeStates: [],
     });
 
     expect(warnSpy).toHaveBeenCalledTimes(2);
+  });
+
+  test("normalizes mastery theme states and reevaluates graduation fields", async () => {
+    mockLoadUserEntries.mockResolvedValueOnce({
+      masteryThemeStates: JSON.stringify([
+        {
+          themeId: "mental",
+          parentUnitId: "mental",
+          maxActiveSlots: 2,
+          activeVariantIds: ["m1", "m2"],
+          retiredVariantIds: ["m0"],
+          sceneIdsCleared: ["mental_l01", "mental_l02", "mental_l03"],
+          attemptCount: 4,
+          transferImprovement: false,
+          repeatWithoutDropoff: true,
+          newLearningValueDelta: 0.8,
+          transferGainSlope: 0.2,
+          repetitionRisk: 0.2,
+        },
+      ]),
+    });
+
+    const snapshot = await loadPracticePersistenceSnapshot("user-1");
+    expect(snapshot.masteryThemeStates).toEqual([
+      expect.objectContaining({
+        themeId: "mental",
+        maxActiveSlots: 2,
+        scenesClearedCount: 3,
+        graduationState: "graduated",
+        masteryCeilingState: "open",
+      }),
+    ]);
+  });
+
+  test("normalizes support lifecycle state metadata", async () => {
+    const nowMs = Date.UTC(2026, 3, 22, 0, 0, 0);
+    jest.spyOn(Date, "now").mockReturnValue(nowMs);
+    mockLoadUserEntries.mockResolvedValueOnce({
+      supportSurfaceHistory: JSON.stringify([
+        {
+          lessonId: "mental_l02",
+          kind: "return",
+          reason: "abandonment",
+          signalConfidence: "medium",
+          lifecycleState: "started",
+          ts: nowMs - 1000,
+          startedAt: nowMs - 500,
+        },
+      ]),
+    });
+
+    const snapshot = await loadPracticePersistenceSnapshot("user-1");
+    expect(snapshot.supportSurfaceHistory).toEqual([
+      expect.objectContaining({
+        lessonId: "mental_l02",
+        lifecycleState: "started",
+        startedAt: nowMs - 500,
+      }),
+    ]);
   });
 
   test("persistPracticeJsonState keeps the existing storage call shape", async () => {

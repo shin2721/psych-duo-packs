@@ -17,6 +17,14 @@ jest.mock("@expo/vector-icons", () => ({
   },
 }));
 
+jest.mock("expo-linear-gradient", () => ({
+  LinearGradient: ({ children }: { children: React.ReactNode }) => {
+    const mockReact = require("react");
+    const { View } = require("react-native");
+    return mockReact.createElement(View, null, children);
+  },
+}));
+
 jest.mock("react-native-safe-area-context", () => ({
   SafeAreaView: ({ children }: { children: React.ReactNode }) => children,
 }));
@@ -45,7 +53,6 @@ describe("course concept debug screens", () => {
     expect(screen.queryByText("Poster")).toBeNull();
     expect(screen.queryByText("Map")).toBeNull();
     expect(screen.queryByText("Minimal")).toBeNull();
-    expect(screen.queryByText("Claude")).toBeNull();
     expect(screen.queryByTestId("course-concept-final-mode-inherited")).toBeNull();
     expect(screen.queryByTestId("course-concept-final-mode-auteur")).toBeNull();
   });

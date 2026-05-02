@@ -12,7 +12,7 @@ jest.mock("../../lib/HapticFeedback", () => ({
   },
 }));
 jest.mock("../../lib/state", () => ({
-  useProgressionState: () => ({ updateSkill: jest.fn() }),
+  useProgressionState: () => ({ recordQuestionResult: jest.fn(), updateSkill: jest.fn() }),
 }));
 jest.mock("../../lib/sounds", () => ({ sounds: { play: jest.fn() } }));
 jest.mock("../../components/question-runtime/QuestionInteraction", () => ({

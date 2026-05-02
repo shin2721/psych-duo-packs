@@ -8,6 +8,11 @@ jest.mock("../../lib/billing", () => ({
   buyPlan: jest.fn(),
 }));
 
+jest.mock("../../lib/checkoutPolicy", () => ({
+  IOS_EXTERNAL_CHECKOUT_DISABLED_REASON: "ios_external_checkout_disabled",
+  isExternalCheckoutBlockedForCurrentPlatform: jest.fn(),
+}));
+
 jest.mock("../../lib/app-state/billingStorage", () => ({
   persistCheckoutContextSnapshot: jest.fn(),
 }));
@@ -28,6 +33,7 @@ jest.mock("../../lib/pricing", () => ({
 
 const { Analytics } = require("../../lib/analytics");
 const { buyPlan } = require("../../lib/billing");
+const { isExternalCheckoutBlockedForCurrentPlatform } = require("../../lib/checkoutPolicy");
 const { persistCheckoutContextSnapshot } = require("../../lib/app-state/billingStorage");
 const { assignExperiment } = require("../../lib/experimentEngine");
 const { getSupabaseFunctionsUrl, resolvePlanPriceId, supportsPlanBillingPeriod } = require("../../lib/plans");
@@ -48,6 +54,7 @@ describe("shopCheckout", () => {
     (getSupabaseFunctionsUrl as jest.Mock).mockReturnValue("https://example.functions.supabase.co");
     (detectUserRegion as jest.Mock).mockReturnValue("JP");
     (buyPlan as jest.Mock).mockResolvedValue({ ok: true });
+    (isExternalCheckoutBlockedForCurrentPlatform as jest.Mock).mockReturnValue(false);
     (persistCheckoutContextSnapshot as jest.Mock).mockResolvedValue(undefined);
     (assignExperiment as jest.Mock).mockReturnValue(null);
   });
@@ -113,6 +120,32 @@ describe("shopCheckout", () => {
       planId: "pro",
       reason: "missing_auth_token",
     });
+  });
+
+  test("blocks production iOS external checkout before creating a Stripe session", async () => {
+    (isExternalCheckoutBlockedForCurrentPlatform as jest.Mock).mockReturnValue(true);
+
+    const result = await startShopCheckout({
+      plan,
+      billingPeriod: "monthly",
+      user: { id: "user_1", email: "user@example.com" },
+      currentPlanId: "free",
+      accountAgeDays: 1,
+      sessionAccessToken: "token",
+    });
+
+    expect(result).toEqual({
+      ok: false,
+      reason: "ios_external_checkout_disabled",
+      messageKey: "shop.errors.iosExternalCheckoutDisabled",
+    });
+    expect(Analytics.track).toHaveBeenCalledWith("checkout_failed", {
+      source: "shop_tab",
+      planId: "pro",
+      reason: "ios_external_checkout_disabled",
+    });
+    expect(persistCheckoutContextSnapshot).not.toHaveBeenCalled();
+    expect(buyPlan).not.toHaveBeenCalled();
   });
 
   test("persists checkout context and forwards shop_tab source on success", async () => {

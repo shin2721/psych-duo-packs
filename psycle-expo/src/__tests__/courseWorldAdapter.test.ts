@@ -27,6 +27,8 @@ jest.mock("../../lib/i18n", () => ({
           return `${params.count} questions • +${params.xp} XP`;
         case "course.world.summary":
           return `${params.done} done • ${params.remaining} left`;
+        case "course.world.supportBudgetRemaining":
+          return `${params.total} short support slots left, ${params.kind} of this kind`;
         case "course.streakRepair.title":
           return "Streak Repair";
         case "course.streakRepair.body":
@@ -41,6 +43,14 @@ jest.mock("../../lib/i18n", () => ({
           return `Back after ${params.days} days`;
         case "course.comebackReward.accessibilityHint":
           return "Comeback hint";
+        case "course.mastery.title":
+          return "Mastery ready";
+        case "course.mastery.body":
+          return `${params.count} mastery slots remain`;
+        case "course.mastery.cta":
+          return "Go deeper";
+        case "course.mastery.accessibilityHint":
+          return "Mastery hint";
         case "course.accessibility.nodeCurrent":
           return `Current node ${params.number}`;
         case "course.accessibility.nodeLocked":
@@ -201,6 +211,58 @@ describe("buildCourseWorldViewModel", () => {
 
     expect(model?.supportMoment?.kind).toBe("streakRepair");
     expect(model?.supportMoment?.ctaLabel).toBe("Restore");
+  });
+
+  test("lesson support moment includes weekly budget hint", () => {
+    const trail = createTrail();
+    const model = buildCourseWorldViewModel({
+      comebackRewardOffer: null,
+      currentTrail: trail,
+      lessonSupportCandidate: {
+        lessonId: "mental_l03",
+        kind: "refresh",
+        questionIds: ["q1", "q2", "q3"],
+        reason: "evidence_update",
+      },
+      nextActionNode: trail[2],
+      selectedGenre: "mental",
+      supportBudgetSummary: {
+        weeklyBudget: 6,
+        weeklyUsed: 4,
+        weeklyRemaining: 2,
+        weeklyKindBudget: { return: 2, adaptive: 2, refresh: 2, replay: 1 },
+        weeklyKindUsed: { return: 1, adaptive: 2, refresh: 0, replay: 0 },
+        weeklyKindRemaining: { return: 1, adaptive: 0, refresh: 2, replay: 1 },
+      },
+      streakRepairOffer: null,
+    });
+
+    expect(model?.supportMoment?.kind).toBe("refresh");
+    expect(model?.supportMoment?.body).toContain("2");
+  });
+
+  test("mastery support moment appears only when actionable mastery candidate exists", () => {
+    const trail = createTrail().map((node, index) =>
+      index < 5 && node.type === "lesson" ? { ...node, status: "done" } : node
+    );
+    const model = buildCourseWorldViewModel({
+      comebackRewardOffer: null,
+      currentTrail: trail,
+      masteryCandidate: {
+        themeId: "mental",
+        lessonId: "mental_m01",
+        activeSlotsRemaining: 2,
+        graduationState: "learning",
+        masteryCeilingState: "open",
+      },
+      nextActionNode: trail[5],
+      selectedGenre: "mental",
+      streakRepairOffer: null,
+    });
+
+    expect(model?.supportMoment?.kind).toBe("mastery");
+    expect(model?.supportMoment?.title).toBe("Mastery ready");
+    expect(model?.supportMoment?.body).toContain("2");
   });
 
   test("review current node switches the primary mode to review", () => {

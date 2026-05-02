@@ -34,16 +34,6 @@ describe("module compression architecture", () => {
     expect(scene).toContain("export function CourseHeroFinalScene");
   });
 
-  test("claudePreview delegates large HTML payload to companion module", () => {
-    const source = read("lib/debug/claudePreview.ts");
-    const htmlSource = read("lib/debug/claudePreviewHtml.ts");
-
-    expect(source).toContain('from "./claudePreviewHtml"');
-    expect(source).not.toContain("<!DOCTYPE html>");
-    expect(htmlSource).toContain("<!DOCTYPE html>");
-    expect(htmlSource).toContain("export const claudePreviewHtml");
-  });
-
   test("courseWorld delegates view-model building to a companion module", () => {
     const source = read("lib/courseWorld.ts");
     const model = read("lib/courseWorldModel.ts");
