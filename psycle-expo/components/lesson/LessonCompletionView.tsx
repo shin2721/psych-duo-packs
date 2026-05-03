@@ -62,7 +62,10 @@ export function LessonCompletionView(props: {
       <VictoryConfetti />
 
       <SafeAreaView style={{ flex: 1, backgroundColor: "transparent" }}>
-        <ScrollView contentContainerStyle={[styles.completionContainer, { paddingBottom: props.completionBottomInset }]}>
+        <ScrollView
+          testID="lesson-complete-scroll"
+          contentContainerStyle={[styles.completionContainer, { paddingBottom: props.completionBottomInset }]}
+        >
           <Text style={styles.completionTitle}>{i18n.t("lesson.completeTitle")}</Text>
           <Text style={styles.completionSub}>+{XP_REWARDS.LESSON_COMPLETE} XP</Text>
 
@@ -99,7 +102,13 @@ export function LessonCompletionView(props: {
             </View>
           </View>
 
-          <View style={styles.habitLoopCard} testID="lesson-complete-habit-loop">
+          <TouchableOpacity
+            style={styles.habitLoopCard}
+            onPress={() => router.replace("/(tabs)/course")}
+            testID="lesson-complete-habit-loop"
+            accessibilityRole="button"
+            accessibilityLabel={String(i18n.t("lesson.habitLoop.next"))}
+          >
             <View style={styles.habitLoopIcon}>
               <Ionicons name="checkmark-circle" size={22} color={theme.colors.success} />
             </View>
@@ -108,7 +117,7 @@ export function LessonCompletionView(props: {
               <Text style={styles.habitLoopBody}>{i18n.t("lesson.habitLoop.body")}</Text>
               <Text style={styles.habitLoopNext}>{i18n.t("lesson.habitLoop.next")}</Text>
             </View>
-          </View>
+          </TouchableOpacity>
 
           {!props.feltBetterSubmitted && props.lastShownInterventionId && (
             <View style={styles.feltBetterContainer}>

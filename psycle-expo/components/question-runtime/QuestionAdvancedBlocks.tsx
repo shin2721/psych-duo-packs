@@ -132,7 +132,13 @@ export function QuestionAdvancedBlocks(props: QuestionInteractionProps) {
         responsePrompt={question.your_response_prompt || ""}
         choices={questionChoices}
         selectedIndex={selectedResponse}
-        correctIndex={question.recommended_index ?? question.correct_index ?? 0}
+        correctIndex={
+          typeof question.recommended_index === "number"
+            ? question.recommended_index
+            : typeof question.correct_index === "number"
+              ? question.correct_index
+              : null
+        }
         showResult={showResult}
         onSelect={onSelectResponse}
       />

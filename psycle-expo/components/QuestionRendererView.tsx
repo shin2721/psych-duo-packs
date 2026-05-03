@@ -62,6 +62,7 @@ export function QuestionRendererView(props: Props) {
       >
         <ComboFeedback combo={props.combo} visible={props.showCombo} />
         <ScrollView
+          testID="question-scroll"
           style={styles.scrollView}
           contentContainerStyle={[
             styles.scrollContent,

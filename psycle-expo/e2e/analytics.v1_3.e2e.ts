@@ -5,7 +5,7 @@
  * Tests both initial launch and second launch scenarios.
  */
 
-import { device, element, by, waitFor, expect as detoxExpect } from 'detox';
+import { device, element, by, waitFor } from 'detox';
 import { expect as jestExpect } from '@jest/globals';
 import * as fs from 'fs';
 import * as path from 'path';
@@ -119,35 +119,17 @@ describe('Analytics v1.3 E2E', () => {
       // Wait for lesson_start event
       await sleep(1000);
 
-      // Step 5: Complete lesson (triggers lesson_complete)
-      // This is simplified - in reality we'd need to answer all questions
-      // For E2E testing, we'll assume the lesson can be completed quickly
-      // by tapping through questions and then the completion button
-      
       // Wait for lesson screen to load
       await waitFor(element(by.id('lesson-screen'))).toBeVisible().withTimeout(60000);
       await sleep(1000);
 
-      // Return to tabs in E2E build to continue the debug-screen verification flow.
-      if (await isVisibleById('lesson-e2e-exit', 3000)) {
-        await element(by.id('lesson-e2e-exit')).tap();
-        await sleep(1200);
-      }
-      
-      // Try to find and complete the lesson
-      // This might require multiple question interactions
-      try {
-        // Look for lesson completion button (appears after answering questions)
-        await detoxExpect(element(by.id('lesson-complete'))).toBeVisible();
-        await element(by.id('lesson-complete')).tap();
-      } catch (error) {
-        console.warn('Could not find lesson completion button immediately, lesson might need question interactions');
-        // For now, we'll skip the actual lesson completion in E2E
-        // and just verify the lesson_start event was tracked
-      }
-      
-      // Wait for lesson_complete event (if lesson was completed)
-      await sleep(2000);
+      // Step 5: Complete lesson through the real question UI so lesson_complete is measured.
+      await completeCurrentLesson();
+      await waitForAnyVisibleById(['lesson-complete-recap', 'lesson-complete-habit-loop'], 30000);
+      await device.takeScreenshot(`analytics-lesson-complete-${Date.now()}`);
+      await element(by.id('lesson-complete-habit-loop')).tap();
+      await waitFor(element(by.id('tab-course'))).toBeVisible().withTimeout(30000);
+      await sleep(1000);
 
       // Step 6: Access Analytics Debug screen
       await navigateToAnalyticsDebug();
@@ -164,21 +146,21 @@ describe('Analytics v1.3 E2E', () => {
     });
 
     function validateInitialLaunch(report: any) {
-      // Expected events for initial launch (lesson_complete is optional for E2E)
+      // Expected events for initial launch. The E2E flow now completes the first lesson.
       const exactlyOnceEvents = [
         'app_open',
         'session_start',
         'app_ready',
         'onboarding_start',
         'onboarding_complete',
+        'onboarding_first_lesson_completed',
         'lesson_start',
+        'lesson_complete',
       ];
       const requiredPresentEvents = [
         'engagement_primary_action_shown',
         'engagement_primary_action_started',
       ];
-      const optionalEvents = ['lesson_complete'];
-      
       // Check required events fired exactly once
       exactlyOnceEvents.forEach(eventName => {
         const count = report.counters[eventName] || 0;
@@ -188,14 +170,6 @@ describe('Analytics v1.3 E2E', () => {
       requiredPresentEvents.forEach(eventName => {
         const count = report.counters[eventName] || 0;
         jestExpect(count).toBeGreaterThanOrEqual(1);
-      });
-
-      // Check optional events (lesson_complete might not fire if lesson wasn't fully completed)
-      optionalEvents.forEach(eventName => {
-        const count = report.counters[eventName] || 0;
-        if (count > 1) {
-          throw new Error(`${eventName} should fire at most once, got ${count}`);
-        }
       });
 
       // Check anonId is not unknown
@@ -593,6 +567,76 @@ async function tapModalPrimaryUntilLessonOpens(): Promise<void> {
 
     await sleep(1200);
   }
+}
+
+async function completeCurrentLesson(maxSteps = 14): Promise<void> {
+  for (let step = 0; step < maxSteps; step++) {
+    if (await isVisibleById('lesson-complete-screen', 900)) {
+      return;
+    }
+
+    const visibleControl = await waitForLessonControl();
+
+    if (visibleControl.startsWith('lesson-complete-')) {
+      return;
+    }
+
+    if (visibleControl === 'question-continue') {
+      await element(by.id('question-continue')).tap();
+      await sleep(900);
+      continue;
+    }
+
+    if (visibleControl === 'answer-swipe-card') {
+      await element(by.id('answer-swipe-card')).swipe('right', 'fast', 0.75);
+      await tapQuestionContinue();
+      continue;
+    }
+
+    await element(by.id('answer-choice-0')).tap();
+    await tapQuestionContinue();
+  }
+
+  await device.takeScreenshot(`analytics-lesson-complete-timeout-${Date.now()}`);
+  throw new Error(`Lesson did not complete within ${maxSteps} E2E answer steps`);
+}
+
+async function tapQuestionContinue(): Promise<void> {
+  await waitForLessonControl(['question-continue'], 15000);
+  await element(by.id('question-continue')).tap();
+  await sleep(900);
+}
+
+async function waitForLessonControl(
+  testIDs = [
+    'lesson-complete-recap',
+    'lesson-complete-habit-loop',
+    'question-continue',
+    'answer-swipe-card',
+    'answer-choice-0',
+  ],
+  timeoutMs = 20000
+): Promise<string> {
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < timeoutMs) {
+    for (const id of testIDs) {
+      if (await isVisibleById(id, 600)) {
+        return id;
+      }
+    }
+
+    if (await isVisibleById('question-scroll', 600)) {
+      try {
+        await element(by.id('question-scroll')).swipe('up', 'fast', 0.55);
+      } catch {
+        // The screen can transition while we are polling; retry until the timeout.
+      }
+    }
+    await sleep(350);
+  }
+
+  await device.takeScreenshot(`analytics-lesson-control-missing-${Date.now()}`);
+  throw new Error(`Timed out waiting for lesson control: ${testIDs.join(', ')}`);
 }
 
 async function openAnalyticsDebugFromSettings(): Promise<boolean> {

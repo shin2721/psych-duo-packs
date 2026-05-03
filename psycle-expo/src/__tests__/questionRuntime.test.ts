@@ -126,6 +126,49 @@ describe("question runtime helpers", () => {
         swipeDirection: null,
       }).isCorrect
     ).toBe(true);
+
+    const recommendedConversationQuestion: Question = {
+      ...baseQuestion,
+      type: "conversation",
+      correct_index: undefined,
+      recommended_index: 2,
+    };
+    expect(
+      createQuestionRuntime(recommendedConversationQuestion, {
+        consequenceSelection: null,
+        currentOrder: [],
+        inputText: "",
+        selectedIndex: null,
+        selectedIndexes: [],
+        selectedPairs: [],
+        selectedResponse: 2,
+        swipeDirection: null,
+      }).isCorrect
+    ).toBe(true);
+  });
+
+  test("conversation survey は選択すれば neutral 完了扱いになる", () => {
+    const conversationSurveyQuestion: Question = {
+      ...baseQuestion,
+      type: "conversation",
+      correct_index: undefined,
+      recommended_index: undefined,
+    };
+
+    const runtime = createQuestionRuntime(conversationSurveyQuestion, {
+      consequenceSelection: null,
+      currentOrder: [],
+      inputText: "",
+      selectedIndex: null,
+      selectedIndexes: [],
+      selectedPairs: [],
+      selectedResponse: 0,
+      swipeDirection: null,
+    });
+
+    expect(runtime.isSurveyMode).toBe(true);
+    expect(runtime.isCorrect).toBe(true);
+    expect(runtime.correctAnswerText).toBe("");
   });
 
   test("correct answer text を question type ごとに生成する", () => {

@@ -41,6 +41,13 @@ export function createQuestionRuntime(
   state: QuestionRuntimeState
 ): QuestionRuntime {
   const isSurveyMode = question.type === "select_all" && !question.correct_answers;
+  const conversationCorrectIndex =
+    typeof question.recommended_index === "number"
+      ? question.recommended_index
+      : question.correct_index;
+  const isConversationSurvey =
+    question.type === "conversation" && typeof conversationCorrectIndex !== "number";
+  const isNeutralSurveyMode = isSurveyMode || isConversationSurvey;
   const expandedDetails = getQuestionExpandedDetails(question);
   const hasEvidence = Boolean(
     expandedDetails?.claim_type || expandedDetails?.evidence_type
@@ -82,7 +89,10 @@ export function createQuestionRuntime(
     }
 
     if (question.type === "conversation") {
-      return state.selectedResponse === question.correct_index;
+      if (typeof conversationCorrectIndex !== "number") {
+        return state.selectedResponse !== null;
+      }
+      return state.selectedResponse === conversationCorrectIndex;
     }
 
     if (question.type === "matching" && question.correct_pairs) {
@@ -135,11 +145,11 @@ export function createQuestionRuntime(
 
   return {
     correctAnswerLabel: getCorrectAnswerLabel(question),
-    correctAnswerText: isSurveyMode ? "" : getCorrectAnswerText(question),
+    correctAnswerText: isNeutralSurveyMode ? "" : getCorrectAnswerText(question),
     expandedDetails,
     explanationText,
     hasEvidence,
     isCorrect,
-    isSurveyMode,
+    isSurveyMode: isNeutralSurveyMode,
   };
 }

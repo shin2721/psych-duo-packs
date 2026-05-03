@@ -20,7 +20,7 @@ export function Conversation({
   responsePrompt: string;
   choices: string[];
   selectedIndex: number | null;
-  correctIndex: number;
+  correctIndex: number | null;
   showResult: boolean;
   onSelect: (index: number) => void;
 }) {
@@ -30,9 +30,10 @@ export function Conversation({
       <View style={sharedQuestionTypeStyles.choicesContainer}>
         {choices.map((choice, index) => {
           const isSelected = selectedIndex === index;
-          const isCorrect = index === correctIndex;
+          const hasRecommendation = typeof correctIndex === "number";
+          const isCorrect = hasRecommendation && index === correctIndex;
           const shouldShowCorrect = showResult && isCorrect;
-          const shouldShowIncorrect = showResult && isSelected && !isCorrect;
+          const shouldShowIncorrect = showResult && hasRecommendation && isSelected && !isCorrect;
 
           return (
             <AnimatedButton

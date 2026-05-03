@@ -123,6 +123,7 @@ export function SwipeJudgment({
       </View>
 
       <Animated.View
+        testID="answer-swipe-card"
         style={[
           styles.swipeCard,
           showResult && isCorrect && styles.swipeCorrect,
