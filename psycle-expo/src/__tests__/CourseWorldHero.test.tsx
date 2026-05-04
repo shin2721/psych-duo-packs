@@ -220,12 +220,15 @@ describe("CourseWorldHero", () => {
   });
 
   test("hides visible lesson copy and support cards in visual-first mode", () => {
+    const onGenreSelect = jest.fn();
+    const onNodePress = jest.fn();
     const screen = render(
       <CourseWorldHero
         model={model}
-        onNodePress={jest.fn()}
+        onNodePress={onNodePress}
         onPrimaryPress={jest.fn()}
         onSupportPress={jest.fn()}
+        onGenreSelect={onGenreSelect}
         primaryTestID="hero-primary"
         supportTestID="hero-support"
         testID="hero-root"
@@ -238,6 +241,15 @@ describe("CourseWorldHero", () => {
     expect(screen.queryByText("Turn one stuck thought into motion.")).toBeNull();
     expect(screen.queryByText("7 questions • +38 XP")).toBeNull();
     expect(screen.queryByTestId("hero-support")).toBeNull();
+    expect(screen.getByTestId("course-world-genre-rail")).toBeTruthy();
+    expect(screen.getByTestId("course-world-visual-path")).toBeTruthy();
+    expect(screen.getByTestId("course-world-visual-node-l3")).toBeTruthy();
     expect(screen.getByTestId("hero-primary")).toBeTruthy();
+
+    fireEvent.press(screen.getByTestId("course-world-genre-work"));
+    fireEvent.press(screen.getByTestId("course-world-visual-node-l3"));
+
+    expect(onGenreSelect).toHaveBeenCalledWith("work");
+    expect(onNodePress).toHaveBeenCalledWith("l3");
   });
 });

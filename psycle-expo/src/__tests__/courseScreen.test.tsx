@@ -84,6 +84,7 @@ jest.mock("../../components/CourseWorldHero", () => ({
     hideVisibleCopy?: boolean;
     showMeta?: boolean;
     heroOffsetY?: number;
+    onGenreSelect?: (genreId: string) => void;
   }) => {
     mockCourseWorldHeroProps({ model, ...props });
     const mockReact = require("react");
@@ -345,10 +346,16 @@ describe("CourseScreen", () => {
     expect(mockCourseWorldHeroProps).toHaveBeenLastCalledWith(
       expect.objectContaining({
         hideVisibleCopy: true,
-        heroOffsetY: 42,
+        heroOffsetY: 8,
         showMeta: false,
       })
     );
+
+    const lastProps =
+      mockCourseWorldHeroProps.mock.calls[mockCourseWorldHeroProps.mock.calls.length - 1]?.[0];
+    lastProps.onGenreSelect("work");
+
+    expect(mockSetSelectedGenre).toHaveBeenCalledWith("work");
   });
 
   test("does not override the course genre after lesson completion", async () => {
