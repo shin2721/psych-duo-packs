@@ -21,6 +21,7 @@ import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { useBillingState, useEconomyState, usePracticeState, useProgressionState } from "../../lib/state";
 import { useToast } from "../../components/ToastProvider";
 import type { TrailNode as CourseTrailNode } from "../../components/trail/types";
+import { buildFirstWeekRetentionCue } from "../../lib/firstWeekRetention";
 import type {
   EngagementPrimaryActionType,
   EngagementUserState,
@@ -326,6 +327,19 @@ export default function CourseScreen() {
     () => (model ? getPrimaryActionTelemetry(model, masteryCandidate) : null),
     [masteryCandidate, model]
   );
+  const firstWeekRetentionCue = useMemo(
+    () =>
+      model
+        ? buildFirstWeekRetentionCue({
+            completedLessonCount: completedLessons.size,
+            dailyGoal,
+            dailyXP,
+            nextLessonBody: model.currentLesson.body,
+            nextLessonTitle: model.currentLesson.title,
+          })
+        : null,
+    [completedLessons.size, dailyGoal, dailyXP, model]
+  );
   const returnReasonTelemetry = useMemo(() => {
     if (dailyGoal <= 0 || !primaryActionTelemetry) return null;
     const remainingXp = Math.max(0, dailyGoal - dailyXP);
@@ -334,7 +348,9 @@ export default function CourseScreen() {
       | "daily_goal_complete"
       | "streak_repair_available"
       | "comeback_reward_available"
-      | "return_support_available" =
+      | "return_support_available"
+      | "first_week_next_skill"
+      | "first_week_goal_complete" =
       remainingXp === 0 ? "daily_goal_complete" : "daily_goal_remaining";
 
     if (primaryActionTelemetry.supportKind === "streakRepair") {
@@ -343,6 +359,8 @@ export default function CourseScreen() {
       reason = "comeback_reward_available";
     } else if (primaryActionTelemetry.supportKind === "return") {
       reason = "return_support_available";
+    } else if (firstWeekRetentionCue) {
+      reason = firstWeekRetentionCue.reason;
     }
 
     return {
@@ -351,7 +369,7 @@ export default function CourseScreen() {
       primaryActionType: primaryActionTelemetry.primaryActionType,
       supportKind: primaryActionTelemetry.supportKind,
     } as const;
-  }, [dailyGoal, dailyXP, primaryActionTelemetry]);
+  }, [dailyGoal, dailyXP, firstWeekRetentionCue, primaryActionTelemetry]);
 
   useEffect(() => {
     if (!model || !primaryActionTelemetry) return;
@@ -660,6 +678,7 @@ export default function CourseScreen() {
           dailyXP,
           streak,
         }}
+        retentionCue={firstWeekRetentionCue}
       />
 
       <GlobalHeaderMenu

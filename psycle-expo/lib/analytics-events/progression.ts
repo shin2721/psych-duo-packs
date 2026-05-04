@@ -316,7 +316,9 @@ export type EngagementReturnReasonShownEvent = {
       | "daily_goal_complete"
       | "streak_repair_available"
       | "comeback_reward_available"
-      | "return_support_available";
+      | "return_support_available"
+      | "first_week_next_skill"
+      | "first_week_goal_complete";
     dailyGoal: number;
     dailyXp: number;
     remainingXp: number;
