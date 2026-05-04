@@ -2,8 +2,6 @@ import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { genres } from "../lib/data";
-import { COURSE_THEME_COLORS } from "../lib/courseWorldModel";
 import {
   CLOCK_FIREFLY_CONFIGS,
   CourseWorldBackdrop,
@@ -28,7 +26,6 @@ interface Props {
   onPrimaryPress: () => void;
   onSupportPress?: () => void;
   onUnitPress?: () => void;
-  onGenreSelect?: (genreId: string) => void;
   primaryTestID?: string;
   supportTestID?: string;
   testID?: string;
@@ -53,7 +50,6 @@ export function CourseWorldHero({
   onPrimaryPress,
   onSupportPress,
   onUnitPress,
-  onGenreSelect,
   primaryTestID = "course-world-primary",
   supportTestID = "course-world-support",
   testID = "course-world-hero",
@@ -71,11 +67,9 @@ export function CourseWorldHero({
     [model, nextLessonId]
   );
   const reservesActionSpace = !hideVisibleCopy || showPrimaryAction;
-  const interactionZoneHeight = hideVisibleCopy
-    ? Math.max(320, Math.min(CLOCK_ZONE, height * 0.42))
-    : reservesActionSpace
-      ? Math.max(260, Math.min(CLOCK_ZONE, height * 0.28))
-      : Math.max(280, Math.min(CLOCK_ZONE, height * 0.34));
+  const interactionZoneHeight = reservesActionSpace
+    ? Math.max(260, Math.min(CLOCK_ZONE, height * 0.28))
+    : Math.max(280, Math.min(CLOCK_ZONE, height * 0.34));
   const mountOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -122,67 +116,27 @@ export function CourseWorldHero({
             { opacity: headerOpacity, paddingTop: insets.top },
           ]}
         >
-          {hideVisibleCopy ? (
+          <Pressable
+            style={[
+              styles.unitBadge,
+              hideVisibleCopy ? [
+                styles.unitBadgeIconOnly,
+                { borderColor: `${model.themeColor}33`, backgroundColor: `${model.themeColor}12` },
+              ] : null,
+            ]}
+            onPress={onUnitPress}
+            accessibilityRole="button"
+            accessibilityLabel="ユニット選択"
+          >
             <View
-              style={styles.genreRail}
-              testID="course-world-genre-rail"
-            >
-              {genres.map((genre) => {
-                const isSelected = genre.id === model.genreId;
-                const genreColor = COURSE_THEME_COLORS[genre.id] ?? model.themeColor;
-                return (
-                  <Pressable
-                    key={genre.id}
-                    style={[
-                      styles.genreButton,
-                      isSelected ? [
-                        styles.genreButtonActive,
-                        {
-                          borderColor: `${genreColor}AA`,
-                          backgroundColor: `${genreColor}22`,
-                          shadowColor: genreColor,
-                        },
-                      ] : null,
-                    ]}
-                    onPress={() => {
-                      if (isSelected) {
-                        onUnitPress?.();
-                        return;
-                      }
-                      onGenreSelect?.(genre.id);
-                    }}
-                    accessibilityRole="button"
-                    accessibilityLabel={`${genre.label}に切り替え`}
-                    accessibilityState={isSelected ? { selected: true } : undefined}
-                    hitSlop={6}
-                    testID={`course-world-genre-${genre.id}`}
-                  >
-                    <Ionicons
-                      color={isSelected ? genreColor : "rgba(255,255,255,0.42)"}
-                      name={genre.icon}
-                      size={20}
-                    />
-                  </Pressable>
-                );
-              })}
-            </View>
-          ) : (
-            <Pressable
-              style={styles.unitBadge}
-              onPress={onUnitPress}
-              accessibilityRole="button"
-              accessibilityLabel="ユニット選択"
-            >
-              <View
-                style={[
-                  styles.unitDot,
-                  { backgroundColor: model.themeColor, shadowColor: model.themeColor },
-                ]}
-              />
-              <Text style={styles.unitText}>{model.unitLabel}</Text>
-              <Ionicons color="rgba(255,255,255,0.35)" name="chevron-down" size={14} />
-            </Pressable>
-          )}
+              style={[
+                styles.unitDot,
+                { backgroundColor: model.themeColor, shadowColor: model.themeColor },
+              ]}
+            />
+            {hideVisibleCopy ? null : <Text style={styles.unitText}>{model.unitLabel}</Text>}
+            <Ionicons color="rgba(255,255,255,0.35)" name="chevron-down" size={14} />
+          </Pressable>
         </Animated.View>
 
         <View
@@ -297,40 +251,12 @@ const styles = StyleSheet.create({
     height: 52,
   },
   headerIconOnly: {
-    height: 78,
+    height: 64,
     position: "absolute",
     top: 0,
     left: 0,
     right: 0,
     zIndex: 30,
-    justifyContent: "flex-start",
-  },
-  genreRail: {
-    alignSelf: "center",
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-    borderRadius: 999,
-    paddingHorizontal: 7,
-    paddingVertical: 6,
-    backgroundColor: "rgba(7,10,26,0.56)",
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.08)",
-  },
-  genreButton: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.05)",
-    backgroundColor: "rgba(255,255,255,0.035)",
-  },
-  genreButtonActive: {
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.45,
-    shadowRadius: 12,
   },
   unitBadge: {
     flexDirection: "row",

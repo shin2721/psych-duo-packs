@@ -89,27 +89,9 @@ export function CourseWorldNodeColumn({
   const momentumAccessibilityLabel = hasHabitSummary
     ? `${String(i18n.t("profile.stats.streakValue", { count: streak }))}, ${dailyXP}/${dailyGoal} XP, ${model.progressLabel}`
     : undefined;
-  const currentIndex = allNodes.findIndex((node) => node.id === model.currentLesson.id);
-  const visualStart = Math.max(0, Math.min(currentIndex - 2, Math.max(0, allNodes.length - 5)));
-  const visualNodes = hideVisibleCopy ? allNodes.slice(visualStart, visualStart + 5) : [];
-  const primaryButton = showPrimaryAction ? (
-    <Pressable
-      style={[
-        styles.primaryButton,
-        hideVisibleCopy ? styles.visualPrimaryButton : null,
-        { backgroundColor: themeColor },
-      ]}
-      onPress={() => onPrimaryPress()}
-      accessibilityRole="button"
-      accessibilityLabel={model.primaryAction.label}
-      testID={primaryTestID}
-    >
-      <Text style={styles.primaryButtonText}>{model.primaryAction.label}</Text>
-    </Pressable>
-  ) : null;
 
   return (
-    <View style={[styles.container, hideVisibleCopy ? styles.visualContainer : null]}>
+    <View style={styles.container}>
       {hasHabitSummary && !hideVisibleCopy ? (
         <View
           style={styles.momentumWrap}
@@ -133,59 +115,6 @@ export function CourseWorldNodeColumn({
             </View>
           </View>
           <Text style={styles.momentumSummary}>{model.summaryLabel}</Text>
-        </View>
-      ) : null}
-
-      {hideVisibleCopy ? (
-        <View
-          style={styles.visualPath}
-          accessible
-          accessibilityLabel={model.progressLabel}
-          testID="course-world-visual-path"
-        >
-          {visualNodes.map((node, index) => {
-            const isCurrent = node.id === model.currentLesson.id;
-            const isLocked = node.status === "locked" || node.isLocked;
-            return (
-              <React.Fragment key={node.id}>
-                {index > 0 ? <View style={styles.visualConnector} /> : null}
-                <Pressable
-                  style={[
-                    styles.visualNode,
-                    isCurrent ? [
-                      styles.visualNodeCurrent,
-                      { borderColor: `${themeColor}CC`, shadowColor: themeColor },
-                    ] : null,
-                    node.status === "done" ? styles.visualNodeDone : null,
-                    isLocked ? styles.visualNodeLocked : null,
-                  ]}
-                  onPress={() => {
-                    if (!isLocked) onNodePress?.(node.id);
-                  }}
-                  accessibilityRole="button"
-                  accessibilityLabel={node.accessibilityLabel}
-                  accessibilityState={{
-                    disabled: isLocked,
-                    selected: isCurrent,
-                  }}
-                  disabled={isLocked}
-                  testID={`course-world-visual-node-${node.id}`}
-                >
-                  <Ionicons
-                    name={node.icon as keyof typeof Ionicons.glyphMap}
-                    size={isCurrent ? 22 : 18}
-                    color={
-                      isLocked
-                        ? "rgba(255,255,255,0.25)"
-                        : isCurrent
-                          ? themeColor
-                          : "rgba(255,255,255,0.58)"
-                    }
-                  />
-                </Pressable>
-              </React.Fragment>
-            );
-          })}
         </View>
       ) : null}
 
@@ -223,7 +152,17 @@ export function CourseWorldNodeColumn({
         </Pressable>
       ) : null}
 
-      {primaryButton}
+      {showPrimaryAction ? (
+        <Pressable
+          style={[styles.primaryButton, { backgroundColor: themeColor }]}
+          onPress={() => onPrimaryPress()}
+          accessibilityRole="button"
+          accessibilityLabel={model.primaryAction.label}
+          testID={primaryTestID}
+        >
+          <Text style={styles.primaryButtonText}>{model.primaryAction.label}</Text>
+        </Pressable>
+      ) : null}
     </View>
   );
 }
@@ -234,53 +173,6 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 18,
     gap: 12,
-  },
-  visualContainer: {
-    flex: 1,
-    justifyContent: "space-between",
-    paddingBottom: 96,
-  },
-  visualPath: {
-    alignSelf: "center",
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    minHeight: 54,
-    paddingHorizontal: 12,
-    borderRadius: 999,
-    backgroundColor: "rgba(7,10,26,0.24)",
-  },
-  visualConnector: {
-    width: 18,
-    height: 2,
-    borderRadius: 1,
-    backgroundColor: "rgba(255,255,255,0.12)",
-  },
-  visualNode: {
-    alignItems: "center",
-    justifyContent: "center",
-    width: 38,
-    height: 38,
-    borderRadius: 19,
-    borderWidth: 1,
-    borderColor: "rgba(255,255,255,0.09)",
-    backgroundColor: "rgba(255,255,255,0.045)",
-  },
-  visualNodeCurrent: {
-    width: 46,
-    height: 46,
-    borderRadius: 23,
-    borderWidth: 2,
-    backgroundColor: "rgba(255,255,255,0.08)",
-    shadowOffset: { width: 0, height: 0 },
-    shadowOpacity: 0.5,
-    shadowRadius: 16,
-  },
-  visualNodeDone: {
-    backgroundColor: "rgba(255,255,255,0.075)",
-  },
-  visualNodeLocked: {
-    opacity: 0.48,
   },
   momentumWrap: {
     marginHorizontal: 8,
@@ -402,13 +294,6 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     paddingVertical: 14,
     paddingHorizontal: 20,
-  },
-  visualPrimaryButton: {
-    minHeight: 56,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 12 },
-    shadowOpacity: 0.28,
-    shadowRadius: 18,
   },
   primaryButtonText: {
     color: "#08111F",

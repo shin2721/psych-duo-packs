@@ -667,14 +667,10 @@ export default function CourseScreen() {
         onPrimaryPress={handleLaunchCurrent}
         onSupportPress={handleSupportPress}
         onUnitPress={() => setMenuVisible(true)}
-        onGenreSelect={(genreId) => {
-          setSelectedGenre(genreId);
-          setMenuVisible(false);
-        }}
         showMeta={false}
         showPrimaryAction
         hideVisibleCopy
-        heroOffsetY={8}
+        heroOffsetY={42}
         habitSummary={{
           dailyGoal,
           dailyXP,
