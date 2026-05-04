@@ -12,6 +12,7 @@ import { hapticFeedback } from "../../lib/haptics";
 import i18n from "../../lib/i18n";
 import type { Lesson } from "../../lib/lessons";
 import { sounds } from "../../lib/sounds";
+import { resolveCompletionRecapAction } from "../../lib/lessonCompletionRecap";
 import type { Question } from "../../types/question";
 
 export function LessonCompletionView(props: {
@@ -35,9 +36,7 @@ export function LessonCompletionView(props: {
   const evidenceSummary = getEvidenceSummary(expandedDetails);
   const tryValueColor = getTryValueColor(evidenceSummary.tryValue);
   const completedQuestionCount = props.originalQuestions.length;
-  const recapAction =
-    props.originalQuestions.find((question) => question.actionable_advice)?.actionable_advice ??
-    evidenceSummary.actionHint;
+  const recapAction = resolveCompletionRecapAction(props.originalQuestions, evidenceSummary.actionHint);
   const claimTypeLabels: Record<string, string> = {
     observation: i18n.t("lesson.claimType.observation"),
     theory: i18n.t("lesson.claimType.theory"),

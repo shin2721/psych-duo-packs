@@ -819,9 +819,9 @@ export const ja = {
         subtitle: '1日3分で、心を強くする。',
         start: 'はじめる',
         interests: {
-            title: '何を学びたいですか？',
-            subtitle: '興味のあるテーマを選んでください（複数選択可）',
-            continue: '続ける',
+            title: '今日、少し軽くしたいことは？',
+            subtitle: '最初の3分で試せる心理スキルに絞ります',
+            continue: '最初のレッスンへ',
         },
         features: {
             evidenceBased: '科学的根拠に基づいた心理学',

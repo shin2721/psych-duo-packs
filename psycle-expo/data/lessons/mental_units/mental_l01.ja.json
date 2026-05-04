@@ -70,7 +70,7 @@
         "id": "mental_l01_003",
         "type": "swipe_judgment",
         "question": "認知的評価理論では、ストレスの原因は「出来事」と「解釈」のどっちにあると考える？",
-        "is_true": true,
+        "is_true": false,
         "swipe_labels": {
             "left": "解釈にある",
             "right": "出来事にある"
@@ -109,7 +109,7 @@
         ],
         "correct_index": 0,
         "explanation": "逆に、心臓のドキドキは「体の準備運動」とも解釈できる。ただし、体調不良のときは無理せず休む。できなくても普通。まず1回だけ。（「ダメだ」「悪い兆候」はつい考えがちだけど、それ自体が焦りを強める）",
-        "actionable_advice": null,
+        "actionable_advice": "👉 次に心臓がドキドキしたら → 「体が準備運動してる」と10秒だけ唱える",
         "difficulty": "medium",
         "xp": 5,
         "source_id": "Jamieson_2012",
@@ -118,7 +118,7 @@
             "claim_type": "intervention",
             "evidence_type": "direct",
             "best_for": [
-                "プレゼンや面接前の編張",
+                "プレゼンや面接前の緊張",
                 "短期的なパフォーマンス場面"
             ],
             "limitations": [

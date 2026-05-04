@@ -588,7 +588,7 @@ async function completeCurrentLesson(maxSteps = 14): Promise<void> {
     }
 
     if (visibleControl === 'answer-swipe-card') {
-      await element(by.id('answer-swipe-card')).swipe('right', 'fast', 0.75);
+      await element(by.id('answer-swipe-card')).swipe('left', 'fast', 0.75);
       await tapQuestionContinue();
       continue;
     }
