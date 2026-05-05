@@ -45,7 +45,16 @@ export function CourseWorldNodeColumn({
   const hasHabitSummary = Boolean(habitSummary && dailyGoal > 0);
   const visibleRetentionCue = model.supportMoment ? null : retentionCue;
   const supportCard = hideVisibleCopy
-    ? null
+    ? visibleRetentionCue
+      ? {
+        title: visibleRetentionCue.title,
+        body: visibleRetentionCue.body,
+        ctaLabel: visibleRetentionCue.ctaLabel,
+        accessibilityHint: visibleRetentionCue.accessibilityHint,
+        onPress: onPrimaryPress,
+        testID: supportTestID,
+      }
+      : null
     : model.supportMoment
       ? {
         title: model.supportMoment.title,
@@ -118,18 +127,16 @@ export function CourseWorldNodeColumn({
         </View>
       ) : null}
 
-      {hideVisibleCopy ? null : (
-        <View style={styles.infoCard}>
-          <Text style={styles.title}>{model.currentLesson.title}</Text>
-          <Text style={styles.body}>{model.currentLesson.body}</Text>
-          {showMeta ? (
+      <View style={styles.infoCard}>
+        {hideVisibleCopy ? null : <Text style={styles.title}>{model.currentLesson.title}</Text>}
+        {hideVisibleCopy ? null : <Text style={styles.body}>{model.currentLesson.body}</Text>}
+        {showMeta && !hideVisibleCopy ? (
           <View style={[styles.metaPill, { borderColor: `${themeColor}33`, backgroundColor: `${themeColor}12` }]}>
             <Ionicons name="sparkles" size={14} color={themeColor} />
             <Text style={[styles.metaText, { color: themeColor }]}>{model.currentLesson.meta}</Text>
           </View>
-          ) : null}
-        </View>
-      )}
+        ) : null}
+      </View>
 
       {supportCard ? (
         <Pressable

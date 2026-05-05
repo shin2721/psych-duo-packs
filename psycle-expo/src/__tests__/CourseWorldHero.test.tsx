@@ -218,26 +218,4 @@ describe("CourseWorldHero", () => {
     expect(onSupportPress).toHaveBeenCalled();
     expect(onPrimaryPress).toHaveBeenCalled();
   });
-
-  test("hides visible lesson copy and support cards in visual-first mode", () => {
-    const screen = render(
-      <CourseWorldHero
-        model={model}
-        onNodePress={jest.fn()}
-        onPrimaryPress={jest.fn()}
-        onSupportPress={jest.fn()}
-        primaryTestID="hero-primary"
-        supportTestID="hero-support"
-        testID="hero-root"
-        showMeta={false}
-        hideVisibleCopy
-      />
-    );
-
-    expect(screen.queryByText("Anxiety Reframe")).toBeNull();
-    expect(screen.queryByText("Turn one stuck thought into motion.")).toBeNull();
-    expect(screen.queryByText("7 questions • +38 XP")).toBeNull();
-    expect(screen.queryByTestId("hero-support")).toBeNull();
-    expect(screen.getByTestId("hero-primary")).toBeTruthy();
-  });
 });

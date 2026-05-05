@@ -11,7 +11,6 @@ const mockIsLessonLocked = jest.fn();
 const mockShouldShowPaywall = jest.fn();
 const mockLoadPrimaryOnboardingGenre = jest.fn();
 const mockSetSelectedGenre = jest.fn();
-const mockCourseWorldHeroProps = jest.fn();
 
 let mockCompletedLessons = new Set<string>();
 let mockSelectedGenre = "mental";
@@ -76,16 +75,11 @@ jest.mock("../../components/CourseWorldHero", () => ({
     model,
     onPrimaryPress,
     onSupportPress,
-    ...props
   }: {
     model?: { supportMoment?: { ctaLabel?: string; title?: string } };
     onPrimaryPress?: () => void;
     onSupportPress?: () => void;
-    hideVisibleCopy?: boolean;
-    showMeta?: boolean;
-    heroOffsetY?: number;
   }) => {
-    mockCourseWorldHeroProps({ model, ...props });
     const mockReact = require("react");
     const { Pressable, Text, View } = require("react-native");
     return (
@@ -335,18 +329,6 @@ describe("CourseScreen", () => {
         previousGenreId: "mental",
         genreId: "work",
         surface: "course_world",
-      })
-    );
-  });
-
-  test("keeps the course main screen visual-first without first-step copy", () => {
-    render(React.createElement(CourseScreen));
-
-    expect(mockCourseWorldHeroProps).toHaveBeenLastCalledWith(
-      expect.objectContaining({
-        hideVisibleCopy: true,
-        heroOffsetY: 42,
-        showMeta: false,
       })
     );
   });
