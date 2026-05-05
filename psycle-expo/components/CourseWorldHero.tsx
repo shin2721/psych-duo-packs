@@ -17,7 +17,6 @@ import {
 } from "./course-world/courseWorldModel";
 import { useCourseWorldScroll } from "./course-world/useCourseWorldScroll";
 import type { CourseWorldViewModel } from "../lib/courseWorld";
-import type { FirstWeekRetentionCue } from "../lib/firstWeekRetention";
 
 interface Props {
   model: CourseWorldViewModel;
@@ -38,7 +37,6 @@ interface Props {
     dailyXP: number;
     streak: number;
   };
-  retentionCue?: FirstWeekRetentionCue | null;
 }
 
 const CLOCK_ZONE = COURSE_WORLD_CLOCK_RADIUS * 3 + 130 + 60;
@@ -58,7 +56,6 @@ export function CourseWorldHero({
   hideVisibleCopy = false,
   heroOffsetY = 0,
   habitSummary,
-  retentionCue,
 }: Props) {
   const { width, height } = useWindowDimensions();
   const insets = useSafeAreaInsets();
@@ -226,7 +223,6 @@ export function CourseWorldHero({
           showPrimaryAction={showPrimaryAction}
           hideVisibleCopy={hideVisibleCopy}
           habitSummary={habitSummary}
-          retentionCue={retentionCue}
         />
 
         <View style={reservesActionSpace ? styles.spacerBottomCompact : styles.spacerBottom} />

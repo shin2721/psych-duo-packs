@@ -2,7 +2,6 @@ import React from "react";
 import { Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import type { CourseWorldNode, CourseWorldViewModel } from "../../lib/courseWorld";
-import type { FirstWeekRetentionCue } from "../../lib/firstWeekRetention";
 import i18n from "../../lib/i18n";
 
 export function CourseWorldNodeColumn({
@@ -18,7 +17,6 @@ export function CourseWorldNodeColumn({
   showPrimaryAction = true,
   hideVisibleCopy = false,
   habitSummary,
-  retentionCue,
 }: {
   model: CourseWorldViewModel;
   allNodes: CourseWorldNode[];
@@ -36,25 +34,14 @@ export function CourseWorldNodeColumn({
     dailyXP: number;
     streak: number;
   };
-  retentionCue?: FirstWeekRetentionCue | null;
 }) {
   const dailyGoal = habitSummary?.dailyGoal ?? 0;
   const dailyXP = habitSummary?.dailyXP ?? 0;
   const streak = habitSummary?.streak ?? 0;
   const remainingXp = Math.max(0, dailyGoal - dailyXP);
   const hasHabitSummary = Boolean(habitSummary && dailyGoal > 0);
-  const visibleRetentionCue = model.supportMoment ? null : retentionCue;
   const supportCard = hideVisibleCopy
-    ? visibleRetentionCue
-      ? {
-        title: visibleRetentionCue.title,
-        body: visibleRetentionCue.body,
-        ctaLabel: visibleRetentionCue.ctaLabel,
-        accessibilityHint: visibleRetentionCue.accessibilityHint,
-        onPress: onPrimaryPress,
-        testID: supportTestID,
-      }
-      : null
+    ? null
     : model.supportMoment
       ? {
         title: model.supportMoment.title,
@@ -64,15 +51,6 @@ export function CourseWorldNodeColumn({
         onPress: onSupportPress,
         testID: supportTestID,
       }
-      : visibleRetentionCue
-        ? {
-          title: visibleRetentionCue.title,
-          body: visibleRetentionCue.body,
-          ctaLabel: visibleRetentionCue.ctaLabel,
-          accessibilityHint: visibleRetentionCue.accessibilityHint,
-          onPress: onPrimaryPress,
-          testID: supportTestID,
-        }
       : hasHabitSummary
         ? {
           title:
