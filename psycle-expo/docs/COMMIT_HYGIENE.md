@@ -2,6 +2,23 @@
 
 Current `psycle-expo` worktree is large enough that it should be split into deliberate commit buckets instead of a single sweep commit.
 
+## Non-Negotiable Rule
+
+Do not let a weak lesson create a broad mixed commit.
+
+The correct order is:
+
+1. raw pilot / lesson experience
+2. Simulator playthrough
+3. small runtime or data change
+4. audit regression net
+5. docs handoff
+
+If a change contains generated lesson JSON before the corresponding runtime
+experience has been verified, keep the generated data out of the commit. If a
+change introduces a new audit, the same commit must include the minimum content
+or metadata required for that audit to pass.
+
 ## Preserve First
 
 Do not delete or collapse these surfaces during cleanup:

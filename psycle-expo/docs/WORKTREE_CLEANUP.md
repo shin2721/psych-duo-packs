@@ -10,6 +10,29 @@ python3 scripts/worktree-status-buckets.py
 
 This prints the current `git status --short` grouped by the buckets below.
 
+## Do Not Repeat
+
+The cleanup exists because lesson-quality work previously mixed weak content,
+new principles, audit changes, UI/runtime edits, generated lesson JSON, and
+tests in one worktree. That made it impossible to tell whether Psycle improved
+or merely accumulated rules.
+
+Do not repeat that workflow.
+
+- A weak lesson is fixed first as a raw pilot or lesson experience, not by
+  adding docs or audit gates.
+- A raw pilot becomes runtime work only after it is worth preserving.
+- Generated lesson JSON is never staged just because a script changed it.
+  Keep it out of the active change until the matching lesson/runtime behavior
+  has been verified in Simulator.
+- Do not use `stash` as a hidden junk drawer. If a stash is kept, it needs a
+  name that says whether it is quarantine, future work, or a candidate patch.
+- If `python3 scripts/worktree-status-buckets.py` prints `[other]`, or if one
+  bucket mixes docs, runtime, generated data, and tests, stop feature work and
+  organize the tree first.
+- Do not commit a "quality system" change unless the audits it introduces can
+  pass on the files included in the same commit.
+
 ## Current Cleanup Snapshot
 
 As of 2026-05-16, the worktree is organized enough to reason about, but it is

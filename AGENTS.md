@@ -33,3 +33,32 @@ Respond to the user in Japanese by default. English is acceptable for commit mes
 - When the user asks for a specific layout or visual fix, change only the requested area.
 - Do not change unrelated motion, background effects, colors, copy, CTA behavior, or navigation.
 - Before making taste-based UI edits, verify the current screen state in Simulator and keep the change narrowly scoped.
+
+## Psycle No-Repeat Rule
+
+The recent Psycle failure mode was: weak lesson quality triggered more rules,
+more audits, UI/runtime edits, and generated lesson churn in the same worktree.
+Do not repeat that.
+
+- If a lesson feels weak, do not add another rule first.
+  - First write or revise a raw pilot.
+  - Then judge the lesson experience in Simulator.
+  - Only after the experience is worth preserving should docs, audits, runtime,
+    or generated data be changed.
+- Do not mix these in one uncommitted worktree:
+  - North Star / quality-system docs
+  - audit scripts
+  - lesson UI/runtime
+  - generated lesson JSON / locale output
+  - broad test rewrites
+- Before staging Psycle work, run:
+  - `python3 psycle-expo/scripts/worktree-status-buckets.py`
+  - stage one bucket at a time
+  - keep generated lesson data unstaged until the matching runtime and
+    Simulator experience are verified
+- Machine audit success is not product success.
+  - Audit pass only proves regression coverage.
+  - Simulator playthrough and human taste review decide whether the lesson is
+    meaningful.
+- If the worktree starts to become hard to explain, stop feature work and
+  organize it before adding more changes.
