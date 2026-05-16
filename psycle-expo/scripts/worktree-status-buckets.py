@@ -5,6 +5,48 @@ from collections import OrderedDict
 BUCKETS = OrderedDict(
     [
         (
+            "workspace_agent_guidance",
+            [
+                "../AGENTS.md",
+                "../CLAUDE.md",
+            ],
+        ),
+        (
+            "north_star_quality_system",
+            [
+                ".github/workflows/content-quality.yml",
+                "docs/PRINCIPLES.md",
+                "docs/CONTENT_SYSTEM_SPEC.md",
+                "docs/CONTENT_GUIDELINES.md",
+                "docs/LESSON_AUTHORING.md",
+                "docs/OPERATIONS.md",
+                "docs/BIGAPP_ROADMAP.md",
+                "docs/LESSON_PILOT_RAW.md",
+                "docs/NORTH_STAR_PROGRESS.md",
+                "docs/REFERENCE_LEARNING_EXPERIENCE_SAMPLES.md",
+                "data/content-intake/",
+                "scripts/append-north-star-progress.js",
+                "scripts/audit-lesson-quality-algorithm.js",
+                "scripts/audit-paleo-insight-layer.js",
+                "scripts/audit-reference-calibration.js",
+                "scripts/audit-retention-content-loop.js",
+                "scripts/check-lesson-authoring-single-source.sh",
+                "scripts/check-north-star-progress.js",
+                "scripts/content-intake.js",
+                "scripts/rebuild-ja-lessons-to-spine.js",
+                "types/contentIntake.ts",
+            ],
+        ),
+        (
+            "local_artifacts",
+            [
+                "_artifacts/",
+                "artifacts/",
+                "logs/",
+                "docs/_reports/",
+            ],
+        ),
+        (
             "hygiene_tooling",
             [
                 ".gitignore",
@@ -82,6 +124,7 @@ BUCKETS = OrderedDict(
             "app_state",
             [
                 "lib/app-state/",
+                "lib/AuthContext.tsx",
                 "lib/badges.ts",
                 "lib/streaks.ts",
             ],
@@ -106,6 +149,7 @@ BUCKETS = OrderedDict(
             "lesson_runtime",
             [
                 "lib/lesson/",
+                "lib/lessonCompletionRecap.ts",
                 "lib/lessonContinuity",
                 "lib/lessonOperational",
                 "lib/mastery",
@@ -171,6 +215,7 @@ BUCKETS = OrderedDict(
         (
             "test_contracts",
             [
+                "jest.setup.js",
                 "src/__tests__/",
             ],
         ),

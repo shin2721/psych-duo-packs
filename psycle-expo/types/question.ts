@@ -34,6 +34,7 @@ export interface LessonBlueprint {
   target_shift: string;
   done_condition: string;
   takeaway_action: string;
+  insight_layer: LessonInsightLayer;
   lane: LessonLane;
   phase?: LessonPhase;
   load_score: LessonLoadScore;
@@ -43,6 +44,14 @@ export interface LessonBlueprint {
   forbidden_moves?: string[];
 }
 
+export interface LessonInsightLayer {
+  surprising_question: string;
+  research_finding: string;
+  critical_caveat: string;
+  usable_scope: string;
+  practice_prompt: string;
+}
+
 export interface LessonMetadata {
   lesson_id: string;
   lane: LessonLane;
@@ -50,6 +59,7 @@ export interface LessonMetadata {
   target_shift: string;
   done_condition: string;
   takeaway_action: string;
+  insight_layer: LessonInsightLayer;
   load_score: LessonLoadScore;
   question_count_range: LessonQuestionCountRange;
   non_goals?: string[];

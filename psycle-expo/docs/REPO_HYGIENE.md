@@ -33,6 +33,16 @@ Before calling the repo "organized", check all three:
 3. debug/provisional surfaces are either wired and intentional, or clearly documented as retained experiments.
 4. preview surfaces are preserved only when explicitly retained; retired tool-specific experiments and unreferenced static mockups should be deleted or renamed to neutral product terms.
 
+Current feature-area grouping lives in `docs/WORKTREE_CLEANUP.md` and is printed by:
+
+```bash
+python3 scripts/worktree-status-buckets.py
+```
+
+The output should have no `[other]` bucket before the tree is called organized.
+Untracked core files are not automatically noise; if they are part of the North
+Star quality system, classify and verify them instead of ignoring them.
+
 ## Verification Rule
 
 Structural cleanup is not enough. After major shell/compression work, run:

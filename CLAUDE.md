@@ -71,3 +71,18 @@ Modes:
 - `claude_impl_by_codex`
 - `codex_plan_by_claude`
 - `claude_plan_by_codex`
+
+## Psycle Simulator / UI Verification Rules
+
+- PsycleのUI作業では、可能な限りまずComputer UseでSimulatorを直接見る。
+- 保存スクショだけでUI判断をしない。スクショは直接確認後の証跡として使う。
+- Simulatorにフォーカスがある場合のリロードは `Cmd+R`。Metroターミナルにフォーカスがある場合のリロードは `r`。
+- UI変更が反映されない場合、まず起動中のアプリを確認する。
+  - dev-client: `com.s6n2j9.psycle`
+  - release: `com.shin27.psycle`
+- 通常のUI修正確認ではdev-clientを使う。
+- ユーザーが明示しない限り、通常のデザイン・配置確認にreleaseアプリを使わない。
+- 同じSimulatorにdev-clientとreleaseが両方入っている場合、URL scheme競合を疑う。
+- ユーザーが特定の配置・見た目修正を求めた時は、指摘された範囲だけ触る。
+- 依頼されていないモーション、背景演出、色、文言、CTA挙動、ナビゲーションを変更しない。
+- 好みでUIを変える前に、現在のSimulator画面を確認し、変更範囲を最小化する。

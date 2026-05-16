@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "purpose": "Paleo Lens for research findings before Psycle lesson decisions. Interesting research can be ignored if it is not actionable or safe.",
+  "finding_classes": [
+    "new_mechanism",
+    "better_intervention",
+    "boundary_update",
+    "replication",
+    "contradiction",
+    "interesting_but_not_actionable"
+  ],
+  "decisions": [
+    "ignore",
+    "backlog",
+    "refresh_existing",
+    "mastery_variant",
+    "new_core_lesson",
+    "human_review"
+  ],
+  "items": [
+    {
+      "research_id": "research_implementation_intentions_2006",
+      "domain": "work",
+      "title": "Implementation intentions and goal achievement meta-analysis",
+      "source_url": "https://www.sciencedirect.com/science/article/pii/S0065260106380021",
+      "source_id": "doi:10.1016/S0065-2601(06)38002-1",
+      "critique": {
+        "finding_class": "better_intervention",
+        "study_design": "Meta-analysis of implementation intention studies",
+        "sample_size": null,
+        "control_quality": "moderate",
+        "effect_size": "Reported medium-to-large effect on goal attainment, d = .65, across 94 independent tests",
+        "preregistration": "not_applicable",
+        "confounders": [
+          "goal domain heterogeneity",
+          "publication bias risk",
+          "self-report outcomes in some studies"
+        ],
+        "generalizability": "medium",
+        "replication_status": "supported",
+        "hype_risk": "medium",
+        "safe_usage_scope": "intervention"
+      },
+      "psycle_decision": "mastery_variant",
+      "decision_reason": "Strong fit for work/study start-friction variants; use as if-then planning practice, not as a promise of guaranteed habit change.",
+      "reviewed_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "research_id": "research_aasm_insomnia_behavioral_2021",
+      "domain": "health",
+      "title": "AASM guideline on behavioral and psychological treatments for chronic insomnia disorder",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/33164742/",
+      "source_id": "pmid:33164742; doi:10.5664/jcsm.8986",
+      "critique": {
+        "finding_class": "boundary_update",
+        "study_design": "Clinical practice guideline based on systematic review and GRADE assessment",
+        "sample_size": null,
+        "control_quality": "strong",
+        "effect_size": "Strong recommendation for multicomponent CBT-I; conditional recommendations for stimulus control, sleep restriction, relaxation, and not using sleep hygiene alone",
+        "preregistration": "not_applicable",
+        "confounders": [
+          "clinical guideline context",
+          "chronic insomnia differs from occasional poor sleep",
+          "sleep restriction can be unsafe without clinical guidance"
+        ],
+        "generalizability": "medium",
+        "replication_status": "supported",
+        "hype_risk": "low",
+        "safe_usage_scope": "explanation"
+      },
+      "psycle_decision": "refresh_existing",
+      "decision_reason": "Use to sharpen health_l01 boundaries: short lesson can explain stimulus control and relaxation options, but should not prescribe clinical sleep restriction.",
+      "reviewed_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "research_id": "research_poverty_cognitive_function_2013",
+      "domain": "money",
+      "title": "Poverty-related concerns can consume cognitive capacity",
+      "source_url": "https://collaborate.princeton.edu/en/publications/poverty-impedes-cognitive-function/",
+      "source_id": "doi:10.1126/science.1238041",
+      "critique": {
+        "finding_class": "new_mechanism",
+        "study_design": "Experimental and field studies on financial concern and cognitive performance",
+        "sample_size": null,
+        "control_quality": "moderate",
+        "effect_size": "Source reports reduced cognitive capacity under poverty-related concerns; exact app-use effect is not established",
+        "preregistration": "unclear",
+        "confounders": [
+          "poverty context differs from ordinary consumer impulse",
+          "field setting and socioeconomic context",
+          "risk of overgeneralizing to all money decisions"
+        ],
+        "generalizability": "medium",
+        "replication_status": "mixed",
+        "hype_risk": "high",
+        "safe_usage_scope": "explanation"
+      },
+      "psycle_decision": "refresh_existing",
+      "decision_reason": "Useful as an explanation for scarcity bandwidth in money_l01, but not enough to claim a simple shopping intervention changes financial outcomes.",
+      "reviewed_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "research_id": "research_affect_labeling_2007",
+      "domain": "mental",
+      "title": "Putting feelings into words: affect labeling and limbic response",
+      "source_url": "https://journals.sagepub.com/doi/10.1111/j.1467-9280.2007.01916.x",
+      "source_id": "doi:10.1111/j.1467-9280.2007.01916.x",
+      "critique": {
+        "finding_class": "better_intervention",
+        "study_design": "Functional MRI experiment comparing affect labeling with other encoding tasks",
+        "sample_size": null,
+        "control_quality": "moderate",
+        "effect_size": "Source reports diminished amygdala and limbic response to negative emotional images during affect labeling",
+        "preregistration": "unclear",
+        "confounders": [
+          "small neuroimaging samples are common",
+          "image labeling differs from real-life emotion regulation",
+          "neural response is not the same as durable behavior change"
+        ],
+        "generalizability": "medium",
+        "replication_status": "supported",
+        "hype_risk": "medium",
+        "safe_usage_scope": "intervention"
+      },
+      "psycle_decision": "refresh_existing",
+      "decision_reason": "Good refresh for mental_l01/l03: teach short affect labeling as a first move, with conservative claims.",
+      "reviewed_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "research_id": "research_self_compassion_interventions_2023",
+      "domain": "mental",
+      "title": "Self-compassion interventions for depressive symptoms, anxiety, and stress: meta-analysis",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/37362192/",
+      "source_id": "pmid:37362192; doi:10.1007/s12671-023-02148-x",
+      "critique": {
+        "finding_class": "boundary_update",
+        "study_design": "Meta-analysis of 56 randomized controlled trials",
+        "sample_size": null,
+        "control_quality": "moderate",
+        "effect_size": "Small-to-medium immediate effects, smaller follow-up effects; source notes overall risk of bias across included RCTs was high",
+        "preregistration": "not_applicable",
+        "confounders": [
+          "risk of bias across trials",
+          "fewer active-control comparisons",
+          "in-person and online delivery differ",
+          "self-compassion can be misread as excusing behavior"
+        ],
+        "generalizability": "medium",
+        "replication_status": "mixed",
+        "hype_risk": "medium",
+        "safe_usage_scope": "reflection_only"
+      },
+      "psycle_decision": "refresh_existing",
+      "decision_reason": "Use to soften self-blame lessons and add return-after-lapse framing, but avoid therapy-like promises.",
+      "reviewed_at": "2026-05-07T00:00:00.000Z"
+    }
+  ]
+}

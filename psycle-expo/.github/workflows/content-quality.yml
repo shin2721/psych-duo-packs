@@ -16,6 +16,8 @@ jobs:
     
     steps:
     - uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
     
     - name: Setup Node.js
       uses: actions/setup-node@v4
@@ -33,6 +35,15 @@ jobs:
     
     - name: Lesson Authoring Specification Check
       run: npm run lint:lesson-authoring
+
+    - name: North Star Progress Handoff Check
+      run: npm run check:north-star-progress
+
+    - name: Paleo-to-Practice Insight Layer Check
+      run: npm run content:paleo:audit
+
+    - name: Lesson Quality Algorithm Check
+      run: npm run content:lesson-quality:audit
     
     # Content quality checks (WARNING on issues, but don't fail CI yet)
     - name: Content Preflight Check
@@ -79,6 +90,8 @@ jobs:
         echo "### Core Validation" >> $GITHUB_STEP_SUMMARY
         echo "- ✅ Lesson Structure: PASS" >> $GITHUB_STEP_SUMMARY
         echo "- ✅ Authoring Specification: PASS" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Paleo-to-Practice Insight Layer: PASS" >> $GITHUB_STEP_SUMMARY
+        echo "- ✅ Lesson Quality Algorithm: PASS" >> $GITHUB_STEP_SUMMARY
         echo "" >> $GITHUB_STEP_SUMMARY
         echo "### Quality Checks (Warnings)" >> $GITHUB_STEP_SUMMARY
         echo "See uploaded reports for detailed warnings." >> $GITHUB_STEP_SUMMARY

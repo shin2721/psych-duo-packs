@@ -14,7 +14,40 @@ Unreferenced static mockups under `public/` are cleanup targets, not preserve-fi
 
 ## Recommended Commit Order
 
-1. `hygiene_tooling`
+1. `workspace_agent_guidance`
+   - `../AGENTS.md`
+   - `../CLAUDE.md`
+
+2. `north_star_quality_system`
+   - `.github/workflows/content-quality.yml`
+   - `docs/PRINCIPLES.md`
+   - `docs/CONTENT_SYSTEM_SPEC.md`
+   - `docs/CONTENT_GUIDELINES.md`
+   - `docs/LESSON_AUTHORING.md`
+   - `docs/OPERATIONS.md`
+   - `docs/BIGAPP_ROADMAP.md`
+   - `docs/LESSON_PILOT_RAW.md`
+   - `docs/NORTH_STAR_PROGRESS.md`
+   - `docs/REFERENCE_LEARNING_EXPERIENCE_SAMPLES.md`
+   - `data/content-intake/`
+   - `scripts/append-north-star-progress.js`
+   - `scripts/audit-lesson-quality-algorithm.js`
+   - `scripts/audit-paleo-insight-layer.js`
+   - `scripts/audit-reference-calibration.js`
+   - `scripts/audit-retention-content-loop.js`
+   - `scripts/check-lesson-authoring-single-source.sh`
+   - `scripts/check-north-star-progress.js`
+   - `scripts/content-intake.js`
+   - `scripts/rebuild-ja-lessons-to-spine.js`
+   - `types/contentIntake.ts`
+
+3. `local_artifacts`
+   - `_artifacts/`
+
+   Treat tracked archive deletion as a deliberate repo hygiene cleanup. Do not
+   regenerate archives to make the worktree look clean.
+
+4. `hygiene_tooling`
    - `.gitignore`
    - `docs/REPO_HYGIENE.md`
    - `docs/START_HERE.md`
@@ -24,15 +57,16 @@ Unreferenced static mockups under `public/` are cleanup targets, not preserve-fi
    - `scripts/native-agent/*`
    - `scripts/ios/*`
 
-2. `release_config`
+5. `release_config`
    - `app.config.js`
    - `eas.json`
    - `config/`
+   - `package.json` / `package-lock.json`
    - launch/readiness scripts
    - E2E smoke files
    - Supabase config surfaces
 
-3. `screen_shells`
+6. `screen_shells`
    - `app/(tabs)/*`
    - `app/lesson.tsx`
    - `app/review.tsx`
@@ -48,12 +82,12 @@ Unreferenced static mockups under `public/` are cleanup targets, not preserve-fi
    - `components/settings/`
    - `components/shop/`
 
-4. `ui_foundation`
+7. `ui_foundation`
    - global UI primitives
    - course-world visual shell
    - shared theme changes
 
-5. `question_runtime`
+8. `question_runtime`
    - `components/QuestionRenderer.tsx`
    - `components/QuestionTypes.tsx`
    - `components/QuestionRendererView.tsx`
@@ -61,7 +95,8 @@ Unreferenced static mockups under `public/` are cleanup targets, not preserve-fi
    - `components/question-types/`
    - `types/question.ts`
 
-6. `app_state`
+9. `app_state`
+   - `lib/AuthContext.tsx`
    - `lib/app-state/economy*`
    - `lib/app-state/progression*`
    - `lib/app-state/billing*`
@@ -69,7 +104,7 @@ Unreferenced static mockups under `public/` are cleanup targets, not preserve-fi
    - `lib/badges.ts`
    - `lib/streaks.ts`
 
-7. `analytics_content_config`
+10. `analytics_content_config`
    - `lib/analytics*`
    - `lib/gamificationConfig*`
    - `lib/lessons.ts`
@@ -78,36 +113,38 @@ Unreferenced static mockups under `public/` are cleanup targets, not preserve-fi
    - `lib/courseWorld*`
    - theme manifest runtime/data
 
-8. `lesson_runtime`
+11. `lesson_runtime`
    - `lib/lesson/`
+   - `lib/lessonCompletionRecap.ts`
    - `lib/lessonContinuity*`
    - `lib/lessonOperational*`
    - mastery candidate/inventory logic
    - onboarding selection logic
 
-9. `billing_shop`
+12. `billing_shop`
    - `lib/billing.ts`
    - `lib/shop/`
    - checkout policy
 
-10. `content_generation_pipeline`
+13. `content_generation_pipeline`
    - content generator package and pipeline files
    - evidence/claim/continuity helper scripts
    - retired external-LLM generation scripts
 
-11. `generated_data`
+14. `generated_data`
    - `data/lessons/*/index.ts`
    - lesson JSON, evidence JSON, continuity JSON
    - `lib/locales/*.ts`
    - `scripts/gen-lesson-locale-index.js`
 
-12. `preview_debug`
+15. `preview_debug`
    - `app/debug/*`
    - `components/provisional/`
    - `design-previews/`
    - `lib/debug/`
 
-13. `test_contracts`
+16. `test_contracts`
+   - `jest.setup.js`
    - `src/__tests__/`
 
 ## Working Rule

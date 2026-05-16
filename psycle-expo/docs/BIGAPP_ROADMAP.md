@@ -32,10 +32,15 @@
 Minimum events:
 
 - `lesson_start` / `lesson_complete`
+- `lesson_outcome_feedback`
+- `lesson_transfer_check`
+- `lesson_repeat_check`
 - `question_incorrect` / `streak_lost`
 - `energy_blocked`
 - `checkout_start` / `plan_changed`
 - `reminder_scheduled` / `reminder_opened`
+
+Do not judge content quality from completion alone. Completion is a funnel health metric, not proof that a lesson changed user behavior.
 
 ## A-priority growth loops
 
@@ -47,6 +52,9 @@ Minimum events:
 | KPI | Purpose |
 |-----|---------|
 | `lesson_complete_user_rate_7d` | Core engagement health |
+| `felt_helpful_positive_rate_7d` | Subjective usefulness guardrail |
+| `transfer_response_rate_7d` | Whether users can reuse the skill outside the original scene |
+| `repeat_without_dropoff_7d` | Whether Replay / Mastery keeps value instead of farming completions |
 | `d7_retention_rate_7d` | Retention health |
 | `streak_repair_purchased / streak_repair_offered` | Churn rescue effectiveness |
 | `plan_changed / checkout_start` | Monetization guardrail |

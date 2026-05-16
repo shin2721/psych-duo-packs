@@ -1,401 +1,375 @@
 [
   {
     "id": "study_l01_001",
-    "type": "swipe_judgment",
-    "question": "「やらなきゃ」と思いながら、なかなか勉強を始められないことがある。",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "よくある",
-      "right": "あまりない"
-    },
-    "explanation": "始められないのは「怠け」ではなく、不快感を避けようとする自然な反応という見方がある。まずは「始められない自分」を責めなくてOK。",
+    "claim_id": "study_l01_001_claim",
+    "type": "conversation",
+    "question": "23:40。昼なら流せた一言が、急に「自分は軽く見られている証拠」に見える。\n\nカートの服も、LINEの下書きも、AIの計画も、今夜だけ「これで戻れる」に見える。\n\nこの時、いちばん自然な説明は？",
+    "your_response_prompt": "まず普通に浮かぶ説明を選んでください",
+    "choices": [
+      "夜に出た気持ちほど、本当の自分に近い",
+      "たまたま今日だけ、欲しい物や送りたい文章が多い",
+      "疲れているなら、気持ちもメモも全部捨てた方がいい"
+    ],
+    "recommended_index": null,
+    "explanation": "この説明は自然。夜に出た気持ちを本音として扱いたくなるし、完全なノイズとも言い切れない。Psycleでは、ここに一つだけ疑いを入れる。なぜ夜だけ、買う・送る・採用するまで急に進みたくなるのか。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
-    "source_id": "Sirois_2013",
-    "evidence_grade": "silver",
+    "source_id": "raw_pilot_night_price_contract_20260514",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "direct",
+      "claim_type": "practice_model",
+      "evidence_type": "pilot",
       "best_for": [
-        "勉強を始められない人",
-        "先延ばしで自分を責めがちな人"
+        "夜に感情が強くなり、買う・送る・決めるが急に正しく見える時"
       ],
       "limitations": [
-        "慢性的な無気力には別の対応が必要"
+        "夜の感情を偽物扱いしない",
+        "緊急対応や安全判断を遅らせるために使わない"
       ],
-      "citation_role": "先延ばしの感情調整モデルを観察研究で支持",
+      "citation_role": "raw insight pilot を最初の診断レンズへ変換",
       "claim_tags": [
-        "procrastination",
-        "emotion_regulation",
-        "self_compassion"
+        "study_l01",
+        "night_price",
+        "information_contract",
+        "raw_pilot"
       ]
     }
   },
   {
     "id": "study_l01_002",
+    "claim_id": "study_l01_002_claim",
     "type": "multiple_choice",
-    "question": "「やる気が出たら始めよう」と待っていると、何が起きやすい？",
+    "question": "もし夜の気持ちがただの本音なら、なぜ「感じる」だけで止まらず、買う・送る・採用するまで急ぎたくなるのか？\n\nここで一番怪しいズレはどれ？",
     "choices": [
-      "やる気は出ないまま時間だけが過ぎる傾向がある",
-      "自然とやる気が湧いてくる",
-      "リラックスできて効率が上がる"
+      "気持ちが強いほど、その場の行動コストも正確に見えている",
+      "届いた気持ちと、次にやる行動がくっついて見えている",
+      "朝に変わる気持ちは、情報としても残す価値がない"
     ],
-    "correct_index": 0,
-    "explanation": "やる気は「待つもの」より「やり始めると出てくる」という特性が報告されている。これを行動活性化という。（「自然と湧く」「リラックスで効率UP」は稀。待っても出ないことが多い）",
+    "correct_index": 1,
+    "explanation": "発見はここ。夜の気持ちは情報としてはかなり大事かもしれない。でも、その情報が届いた瞬間に『じゃあ今すぐ買う・送る・採用する』まで一体化すると、行動の値段を安く見積もりやすい。だから分ける。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
-    "source_id": "Steel_2007",
-    "evidence_grade": "silver",
+    "source_id": "raw_pilot_night_price_contract_20260514",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
+      "claim_type": "mechanism",
+      "evidence_type": "pilot",
       "best_for": [
-        "やる気待ちが長い人",
-        "始めるのが苦手な人"
+        "夜の結論を本音としてそのまま採用したくなる時"
       ],
       "limitations": [
-        "本当に疲れているときは休息が必要"
+        "本音を否定しない",
+        "危険や緊急性がある場面は保留ルールの対象にしない"
       ],
-      "citation_role": "先延ばし研究における行動活性化理論を説明",
+      "citation_role": "default explanation を夜の値札レンズでずらす",
       "claim_tags": [
-        "procrastination",
-        "motivation",
-        "theory"
+        "study_l01",
+        "night_price",
+        "decision_delay",
+        "information_contract"
       ]
     }
   },
   {
     "id": "study_l01_003",
-    "type": "multiple_choice",
-    "question": "勉強を始めるハードルを下げるのに、効果が報告されている方法は？",
-    "choices": [
-      "「10秒だけ」と決めて教材を開く",
-      "長時間集中できる環境を整える",
-      "やる気が出るまで待つ"
-    ],
-    "correct_index": 0,
-    "explanation": "10秒でも「始める」と、タスクに切り替わりやすくなる傾向がある。10秒で終わってもOK。合わなければ別の方法を試す。まず1回。（「環境を整える」「やる気を待つ」は時間がかかる）",
-    "actionable_advice": "💡 次に勉強を始められないとき、「10秒だけ教材を開く」を試してみる。",
+    "claim_id": "study_l01_003_claim",
+    "type": "swipe_judgment",
+    "question": "夜に出た強い気持ちは、敵ではない。\n\nでも、その気持ちに「サイン権限」まで渡すと危ない。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "気持ちごと消す",
+      "right": "サイン権限を分ける"
+    },
+    "explanation": "ここが今日のレンズ。夜の自分は情報提供者としては優秀かもしれない。でも、契約書にサインさせる代表者にはしない。気持ちは残す。買う・送る・採用するサインだけ、明日の自分に戻す。",
+    "actionable_advice": "夜に強い気持ちが来たら、10秒だけ「情報は何？ 契約は何？」を分ける",
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Steel_2007",
-    "evidence_grade": "silver",
+    "source_id": "raw_pilot_night_price_contract_20260514",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
+      "claim_type": "judgment_practice",
+      "evidence_type": "pilot",
       "best_for": [
-        "始めるのが苦手な人",
-        "完璧主義傾向がある人"
+        "夜の勢いで決める方が本当だと感じる時"
       ],
       "limitations": [
-        "本当に疲れているときは休息が必要",
-        "10秒でも動けないときは無理しない"
+        "感情を消す練習ではない",
+        "判断を永久に先送りする練習ではない"
       ],
-      "citation_role": "先延ばし研究から10秒ルールの有効性を間接支持",
-      "try_this": "「10秒だけ教材を開く」を試す",
+      "citation_role": "tempting wrong answer をスワイプ判断へ変換",
       "claim_tags": [
-        "procrastination",
-        "task_initiation",
-        "implementation"
-      ],
-      "tiny_metric": {
-        "before_prompt": "今の「やりたくない度」は？（0-10）",
-        "after_prompt": "10秒後は？",
-        "success_rule": "少しでも下がればOK",
-        "stop_rule": "変わらない or 上がったら今日は撤退"
-      },
-      "comparator": {
-        "baseline": "やる気が出るのを待つ",
-        "cost": "10秒 / 負荷は低い"
-      },
-      "fallback": {
-        "when": "10秒でも動けない",
-        "next": "If-Thenプランニングを試す"
-      }
+        "study_l01",
+        "near_miss",
+        "night_price",
+        "information_contract"
+      ]
     }
   },
   {
     "id": "study_l01_004",
-    "type": "swipe_judgment",
-    "question": "「○○したら、△△する」と事前に決めておくと、実行率が上がる傾向がある。",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "そうかも",
-      "right": "そうでもない"
-    },
-    "explanation": "これを「実行意図」や「If-Thenプランニング」という。例：「夕食後、机に座る」。研究では計画なしより実行率が上がる傾向が報告されている。",
+    "claim_id": "study_l01_004_claim",
+    "type": "multiple_choice",
+    "question": "23:55。高い服をカートに入れた瞬間、頭の中ではどの鎖がつながっている？",
+    "choices": [
+      "軽く扱われた → 傷ついた → 服で少し戻れる気がする → 今夜買う",
+      "服が必要 → 価格を比べた → 予算内だった → 買う",
+      "疲れている → 気持ちをメモする → 明日の昼にもう一度見る"
+    ],
+    "correct_index": 0,
+    "explanation": "問題は服ではない。『軽く扱われた』という情報が、『今夜この服を買って戻す』という契約に直結していること。ここが見えると、無駄遣いを責める前に、何の処理費用が乗っているかを見られる。",
     "actionable_advice": null,
-    "difficulty": "easy",
+    "difficulty": "medium",
     "xp": 5,
-    "source_id": "Gollwitzer_1999",
-    "evidence_grade": "silver",
+    "source_id": "raw_pilot_night_price_contract_20260514",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "direct",
+      "claim_type": "mechanism",
+      "evidence_type": "pilot",
       "best_for": [
-        "計画は立てるが実行できない人",
-        "習慣化したい人"
+        "夜に結論が急に大きくなる時"
       ],
       "limitations": [
-        "トリガーが曖昧だと効果が薄い"
+        "疲れている時の考えがすべて間違いとは断定しない"
       ],
-      "citation_role": "実行意図（If-Then計画）の効果を直接検証した研究",
+      "citation_role": "hidden operating rule を短い選択肢へ変換",
+      "near_miss_choices": [
+        "商品価値だけで買うなら、夜の気分を責める必要はない",
+        "回復費用が乗っているなら、翌日の自分に見積もらせる方が安全"
+      ],
       "claim_tags": [
-        "implementation_intention",
-        "habit_formation",
-        "planning"
+        "study_l01",
+        "mechanism_chain",
+        "night_price",
+        "information_contract"
       ]
     }
   },
   {
     "id": "study_l01_005",
-    "type": "conversation",
-    "question": "勉強を始められないとき、自分に一番当てはまるのは？",
+    "claim_id": "study_l01_005_claim",
+    "type": "multiple_choice",
+    "question": "このレンズを雑に使うと、「夜の自分は全部ダメ」という安い結論になる。\n\n一番信用できるツッコミは？",
     "choices": [
-      "何から始めていいかわからない",
-      "面倒くさくて動けない",
-      "完璧にやろうとして固まる",
-      "特にパターンはない"
+      "夜の感情は、昼に見落とした傷や不足を知らせることがある",
+      "夜の感情は、科学的にすべて信用できない",
+      "夜に強い感情が出たなら、それは昼より深い結論なので今夜採用する"
     ],
-    "recommended_index": null,
-    "explanation": "どれも正解。自分のパターンに気づくと、対策が選びやすくなる傾向がある。",
+    "correct_index": 0,
+    "explanation": "ここで断定しないのが信頼のコア。夜の感情は嘘ではないし、昼に見落とした傷を持ってくることもある。ただし、感情の価値と行動の値段は別。安全や緊急の判断は、この10秒技法の対象外にする。",
     "actionable_advice": null,
-    "difficulty": "easy",
+    "difficulty": "medium",
     "xp": 5,
-    "source_id": "Steel_2007",
+    "source_id": "raw_pilot_night_price_contract_20260514",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "indirect",
+      "claim_type": "evidence_boundary",
+      "evidence_type": "pilot",
       "best_for": [
-        "勉強を始められない理由を見分けたい人",
-        "自分の先延ばしパターンに合わせて対策を選びたい人"
+        "感情を信じるか消すかの二択になっている時"
       ],
       "limitations": [
-        "強い疲労や抑うつがある場合は開始テクより休息や支援を優先する"
+        "緊急の安全判断は明日に回さない",
+        "強い不安や衝動が続く時は一人で抱えない"
       ],
-      "citation_role": "先延ばしパターンの自己認識を支持",
+      "citation_role": "trust-building caveat と過剰解釈の抑制",
       "claim_tags": [
-        "self_awareness",
-        "procrastination",
-        "pattern_recognition"
+        "study_l01",
+        "critical_caveat",
+        "night_price",
+        "information_contract"
       ]
     }
   },
   {
     "id": "study_l01_006",
-    "type": "multiple_choice",
-    "question": "「If-Thenプランニング」を使うなら、どの形が実行しやすい？",
+    "claim_id": "study_l01_006_claim",
+    "type": "conversation",
+    "question": "あなたが夜に渡しがちなサイン権限は、どれ寄り？",
+    "your_response_prompt": "今日の仮診断を1つ選んでください",
     "choices": [
-      "「○○したら（トリガー）、△△する（行動）」の形で決める",
-      "「頑張る」と決意する",
-      "「いつか勉強する」と思っておく"
+      "買うサイン：カートやサブスクで、気分の穴を埋めたくなる",
+      "送るサイン：LINEやDMで、今すぐ関係の答えを取りに行きたくなる",
+      "採用サイン：AIの計画や人生の結論を、そのまま明日から使いたくなる"
     ],
-    "correct_index": 0,
-    "explanation": "トリガー（いつ・どこで）と行動（何をする）をセットで決めると、自動的に実行されやすくなる傾向がある。まず1回だけ。（「頑張る」「いつか」は曖昧で実行されにくい）",
-    "actionable_advice": "💡 今日の If-Then を1つ決める：「○○したら、10秒だけ教材を開く」",
-    "difficulty": "medium",
+    "recommended_index": null,
+    "explanation": "これは性格診断ではなく、夜にサイン権限を渡しやすい場面の仮診断。買う、送る、採用する。どれも悪ではない。ただ、今夜サインする前に一度だけ、情報と契約を分ける。",
+    "actionable_advice": null,
+    "difficulty": "easy",
     "xp": 5,
-    "source_id": "Gollwitzer_1999",
-    "evidence_grade": "silver",
+    "source_id": "raw_pilot_night_price_contract_20260514",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
+      "claim_type": "self_diagnosis",
+      "evidence_type": "pilot",
       "best_for": [
-        "計画倒れしやすい人",
-        "習慣化したい人"
+        "自分が夜に何を急ぎやすいか見分けたい時"
       ],
       "limitations": [
-        "トリガーが日常にないと効果が薄い",
-        "複数のIf-Thenは負荷が高い"
+        "1回の選択で衝動性や依存を診断しない"
       ],
-      "citation_role": "実行意図の具体的なフォーマットを間接支持",
-      "try_this": "「○○したら、10秒だけ教材を開く」を1つ決める",
+      "citation_role": "D-Lab型の自己診断へ変換",
       "claim_tags": [
-        "implementation_intention",
-        "habit_formation",
-        "planning"
-      ],
-      "tiny_metric": {
-        "before_prompt": "今週If-Thenを実行できたか",
-        "after_prompt": "実行できた回数",
-        "success_rule": "週に1回でも実行できればOK",
-        "stop_rule": "2週間実行できなければ別の方法へ"
-      },
-      "comparator": {
-        "baseline": "「頑張る」と決意するだけ",
-        "cost": "計画に30秒 / 実行は10秒"
-      },
-      "fallback": {
-        "when": "トリガーが見つからない",
-        "next": "「スマホを見たくなったら」をトリガーにする"
-      }
+        "study_l01",
+        "self_diagnosis",
+        "night_contract_type",
+        "information_contract"
+      ]
     }
   },
   {
     "id": "study_l01_007",
-    "type": "swipe_judgment",
-    "question": "勉強の先延ばしは「意志が弱いから」だけではない、という見方がある。",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "そうかも",
-      "right": "違うと思う"
-    },
-    "explanation": "研究では、先延ばしは意志力より「不快感の回避」や「タスクの曖昧さ」が原因になることが多いと報告されている。自分を責めるより、仕組みで対処する方がうまくいく傾向がある。",
-    "actionable_advice": null,
+    "claim_id": "study_l01_007_claim",
+    "type": "multiple_choice",
+    "question": "仕事で軽く扱われた夜。気づいたら高い服をカートに入れている。\n\nここで見るべきなのは「欲しいか？」だけでは足りない。何を見る？",
+    "choices": [
+      "服そのものの価値と、今夜だけ乗っている回復費を分ける",
+      "欲しい気持ちを責めて、カートを全部消す",
+      "夜に欲しいなら本音なので、そのまま購入する"
+    ],
+    "correct_index": 0,
+    "explanation": "ここが練習。商品を悪者にしない。まず、服そのものの価値と、今夜だけ乗っている『軽く扱われた感じを戻す費用』を分ける。買うかどうかは明日の昼に見積もり直す。",
+    "actionable_advice": "カートに入れたら、10秒だけ「情報」と「契約」を分ける",
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Sirois_2013",
-    "evidence_grade": "silver",
+    "source_id": "raw_pilot_night_price_contract_20260514",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "direct",
+      "claim_type": "intervention",
+      "evidence_type": "pilot",
       "best_for": [
-        "自分を責めがちな人",
-        "意志力に頼りすぎている人"
+        "夜の買い物が気分の回復手段になっている時"
       ],
       "limitations": [
-        "すべての先延ばしが同じ原因ではない"
+        "必要な購入や計画済みの購入を止める lesson ではない"
       ],
-      "citation_role": "先延ばしの感情調整モデルを支持",
+      "citation_role": "agency-restoring move を10秒行動へ変換",
+      "try_this": "カートに入れたら、情報と契約を1行で分ける",
+      "near_miss_choices": [
+        "欲しい気持ちを責めると、情報まで消してしまう",
+        "そのまま購入すると、夜の契約を翌日に持ち越す"
+      ],
       "claim_tags": [
-        "procrastination",
-        "emotion_regulation",
-        "self_compassion"
+        "study_l01",
+        "practice",
+        "cart_scene",
+        "information_contract"
       ]
     }
   },
   {
     "id": "study_l01_008",
-    "type": "multiple_choice",
-    "question": "勉強を始める「環境摩擦」を減らすのに、やりやすいのは？",
-    "choices": [
-      "教材を机の上に開いた状態で置いておく",
-      "完璧な環境を整えてから始める",
-      "やる気が出るまで待つ"
-    ],
-    "correct_index": 0,
-    "explanation": "「始めるまでの手間」が少ないほど、行動が起きやすい傾向がある。教材を開いた状態で置くことで、開始ハードルが下がることがある。まず1回。（「完璧な環境」「やる気を待つ」は先延ばしになりやすい）",
-    "actionable_advice": "💡 今日寝る前に、明日の教材を机の上に開いて置いておく。",
+    "claim_id": "study_l01_008_claim",
+    "type": "swipe_judgment",
+    "question": "夜にLINEを今すぐ送りたい。AIの計画も、そのまま採用したくなる。\n\n下書きやメモに残すのは逃げではなく、サイン権限を明日に戻すことである。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "今夜サイン",
+      "right": "明日に戻す"
+    },
+    "explanation": "下書きは感情の否定ではない。情報は文章やメモに残す。契約、つまり送る・買う・採用する行為だけ、明日の自分に渡す。夜の自分を黙らせない。ただ、代表印は預けない。",
+    "actionable_advice": "夜に強い気持ちが来たら、10秒だけ「情報は何？ 契約は何？」を分ける",
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Steel_2007",
+    "source_id": "raw_pilot_night_price_contract_20260514",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
+      "claim_type": "transfer_practice",
+      "evidence_type": "pilot",
       "best_for": [
-        "始めるのが苦手な人",
-        "環境整備で時間を使いすぎる人"
+        "夜のLINE、DM、AI計画で関係や明日の行動を動かしたくなる時"
       ],
       "limitations": [
-        "散らかった環境だと逆効果の場合もある"
+        "緊急連絡や安全確認は先延ばししない"
       ],
-      "citation_role": "環境摩擦と行動開始の関連を間接支持",
-      "try_this": "👉 勉強を始める前に → 教材を開いて机に10秒だけ置く",
+      "citation_role": "same lens を対人場面とAI採用場面へ転移",
       "claim_tags": [
-        "environment_design",
-        "friction_reduction",
-        "habit_formation"
-      ],
-      "tiny_metric": {
-        "before_prompt": "朝、教材が開いていたか",
-        "after_prompt": "開いていた場合、勉強を始められたか",
-        "success_rule": "開いた状態で始められればOK",
-        "stop_rule": "1週間効果がなければやめる"
-      },
-      "comparator": {
-        "baseline": "教材をしまった状態から始める",
-        "cost": "寝る前10秒"
-      },
-      "fallback": {
-        "when": "教材を出しておくスペースがない",
-        "next": "スマホのホーム画面に教材アプリを置く"
-      }
+        "study_l01",
+        "line_scene",
+        "ai_scene",
+        "transfer",
+        "information_contract"
+      ]
     }
   },
   {
     "id": "study_l01_009",
-    "type": "conversation",
-    "question": "今日学んだテクで、明日から使えそうなのは？",
+    "claim_id": "study_l01_009_claim",
+    "type": "multiple_choice",
+    "question": "夜、AIに明日の勉強計画を聞いた。きれいな計画が返ってきて、「これで全部変わる」と感じる。\n\nこの時の一番うまい分け方は？",
     "choices": [
-      "「10秒だけ教材を開く」",
-      "「If-Thenプランニング」で事前に決める",
-      "「教材を開いた状態で置く」環境設計",
-      "全部試してみる"
+      "情報：明日を立て直したい。契約：AIの計画をそのまま採用する",
+      "情報：AIは便利。契約：もう自分では考えない",
+      "情報：計画が少し整理された。契約：明日の自分が1か所直して採用する"
     ],
-    "recommended_index": null,
-    "explanation": "どれも試してみる価値がある。合わなければ別のを試す。それも学び。まず1回だけ。（「全部」は無理しなくてOK、どれか1つから始める）",
-    "actionable_advice": "💡 明日1回だけ試す：勉強を始められないとき「10秒だけ教材を開く」。",
-    "difficulty": "easy",
-    "xp": 10,
-    "source_id": "Gollwitzer_1999",
+    "correct_index": 2,
+    "explanation": "AIの計画も、夜には『これで全部変わる』に見えやすい。使っていい。ただし、採用前に『明日の自分が1か所直すならどこ？』を見る。苦しくて考えられない時は、情報だけ保存して寝る。",
+    "actionable_advice": "AIの計画を見たら、10秒だけ「採用する契約」かどうかを見る",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "raw_pilot_night_price_contract_20260514",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
+      "claim_type": "near_miss_transfer",
+      "evidence_type": "pilot",
       "best_for": [
-        "新しい習慣を始めたい人"
+        "夜にAIの答えを人生や勉強の結論として採用したくなる時"
       ],
       "limitations": [
-        "練習なしでは忘れやすいことがある"
+        "AIを使うこと自体を悪者にしない",
+        "専門判断や安全判断をAIだけに任せない"
       ],
-      "citation_role": "先延ばし介入の選択肢を提案",
-      "try_this": "明日1回「10秒だけ教材を開く」を使う",
-      "claim_tags": [
-        "implementation",
-        "habit_formation",
-        "procrastination"
-      ],
-      "tiny_metric": {
-        "metric": "今週1回でも使えたか",
-        "stop_rule": "1週間使えなかったらやめる",
-        "before_prompt": "今のしんどさは0〜10で？",
-        "after_prompt": "10秒後のしんどさは0〜10で？",
-        "success_rule": "1だけ下がればOK"
-      },
-      "comparator": {
-        "baseline": "何も試さず先延ばしし続ける",
-        "cost": "10秒 × 数回/週"
-      },
+      "citation_role": "study scene へ情報/契約レンズを戻す",
       "fallback": {
-        "when": "どれも合わない",
-        "next": "最小タスク（1問だけ解く）に縮小"
-      }
+        "when": "苦しくて分けられない",
+        "next": "情報だけ1行保存して、契約は明日に回す"
+      },
+      "near_miss_choices": [
+        "便利さを理由に判断まで渡すと、採用する契約になりやすい",
+        "全部なかったことにすると、立て直したい情報まで捨ててしまう"
+      ],
+      "claim_tags": [
+        "study_l01",
+        "ai_scene",
+        "near_miss",
+        "information_contract"
+      ]
     }
   },
   {
     "id": "study_l01_010",
-    "type": "conversation",
-    "question": "このレッスンの「勉強の始め方テク」、使えそうでしたか？",
+    "claim_id": "study_l01_010_claim",
+    "type": "multiple_choice",
+    "question": "明日、夜にまた強い気持ちが来たら、最初の10秒で何をする？",
     "choices": [
-      "使えそう",
-      "ちょっと合わなそう",
-      "まだわからない"
+      "情報は受け取る。契約は明日に回す",
+      "夜の結論を全部信じる",
+      "気分だけ消えるまで、情報も決定も見ない"
     ],
-    "recommended_index": null,
-    "explanation": "どれも正解。「合わなそう」なら別のアプローチを探すのも大事。先延ばしは人によって原因が違うので、自分に合う方法を見つけるプロセス自体が価値。",
-    "actionable_advice": null,
+    "correct_index": 0,
+    "explanation": "最後の合言葉はこれ。情報は受け取る。契約は明日に回す。買う、送る、採用する、辞める。そのサインだけ、夜の自分から明日の自分へ戻す。",
+    "actionable_advice": "夜に強い気持ちが来たら、10秒だけ「情報は何？ 契約は何？」を分ける",
     "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Steel_2007",
+    "xp": 10,
+    "source_id": "raw_pilot_night_price_contract_20260514",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "indirect",
+      "claim_type": "transfer_anchor",
+      "evidence_type": "pilot",
       "best_for": [
-        "勉強の始め方テクが自分に合うか確認したい人",
-        "続ける前に小さく試したい人"
+        "夜の買い物、LINE、AI計画、大きな決定の直前"
       ],
       "limitations": [
-        "原因が環境や学習内容の難しさにある場合は別の調整が必要"
+        "緊急対応や安全判断を遅らせるために使わない",
+        "強い症状が続く時は一人で抱えない"
       ],
-      "citation_role": "個人差への配慮を支持",
+      "citation_role": "lesson takeaway を明日の実行単位へ固定",
       "claim_tags": [
-        "individual_differences",
-        "fit"
+        "study_l01",
+        "transfer_anchor",
+        "tomorrow_quest",
+        "information_contract"
       ]
     }
   }

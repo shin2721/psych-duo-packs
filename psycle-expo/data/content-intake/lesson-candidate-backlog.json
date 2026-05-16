@@ -1,0 +1,280 @@
+{
+  "schema_version": 1,
+  "purpose": "Lesson candidate decisions with worthiness scores. Do not promote candidates without a decision and score.",
+  "scoring": {
+    "fields": [
+      "pain",
+      "recurrence",
+      "actionability",
+      "evidence_strength",
+      "novelty"
+    ],
+    "range": [
+      1,
+      3
+    ],
+    "lesson_candidate_threshold": 12,
+    "backlog_range": [
+      9,
+      11
+    ],
+    "reject_max": 8
+  },
+  "items": [
+    {
+      "candidate_id": "candidate_work_if_then_start_mastery_20260507",
+      "domain": "work",
+      "linked_pain_ids": [
+        "pain_work_start_friction_20260507",
+        "pain_work_perfectionism_freeze_20260507"
+      ],
+      "source_research_ids": [
+        "research_implementation_intentions_2006"
+      ],
+      "lesson_job": "重い仕事を見た瞬間に if-then の最小着手を選ぶ",
+      "target_shift": "やる気を待つ状態から、条件と最初の動作を先に結ぶ状態へ移る",
+      "takeaway_action": "もし作業ファイルを見て止まったら、まずタイトルだけ開く",
+      "insight_layer": {
+        "surprising_question": "やる気が出ない仕事は、気合いを入れれば始められる？",
+        "research_finding": "事前に状況と行動を結ぶ実行意図は、行動開始を助ける可能性がある",
+        "critical_caveat": "すべての先延ばしを説明するわけではなく、過負荷や環境要因は別に扱う",
+        "usable_scope": "作業ファイルを見て止まった瞬間の最初の10秒に使う",
+        "practice_prompt": "タイトルだけ開く / 2分だけ触る / 後で予定に入れる、を選ぶ"
+      },
+      "worthiness_score": {
+        "pain": 3,
+        "recurrence": 3,
+        "actionability": 3,
+        "evidence_strength": 3,
+        "novelty": 2,
+        "total": 14
+      },
+      "decision": "mastery_variant",
+      "decision_reason": "Existing work_l01/l02 cover start friction, so this should deepen transfer across task scenes before adding new core.",
+      "existing_lesson_fit": {
+        "lesson_id": "work_l01",
+        "fit_type": "mastery"
+      },
+      "owner": "content_ops",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "candidate_id": "candidate_study_if_then_opening_mastery_20260507",
+      "domain": "study",
+      "linked_pain_ids": [
+        "pain_study_opening_resistance_20260507"
+      ],
+      "source_research_ids": [
+        "research_implementation_intentions_2006"
+      ],
+      "lesson_job": "勉強前の不快感を if-then の10秒着手へ変える",
+      "target_shift": "気分が整うまで待つ状態から、教材を開く条件反射を作る状態へ移る",
+      "takeaway_action": "もし教材を見るのが嫌なら、10秒だけ表紙か最初の一問を開く",
+      "insight_layer": {
+        "surprising_question": "勉強は気分が乗ってから始める方が続く？",
+        "research_finding": "開始条件と小さな行動を結ぶと、気分待ちより実行に入りやすい可能性がある",
+        "critical_caveat": "学習量や理解度を直接保証するものではなく、入口の抵抗を下げる用途に限る",
+        "usable_scope": "教材を見るのが嫌な最初の10秒で使う",
+        "practice_prompt": "表紙だけ開く / 最初の一問を見る / 今日は予定だけ置く、を選ぶ"
+      },
+      "worthiness_score": {
+        "pain": 3,
+        "recurrence": 3,
+        "actionability": 3,
+        "evidence_strength": 3,
+        "novelty": 2,
+        "total": 14
+      },
+      "decision": "mastery_variant",
+      "decision_reason": "Study has only one core lesson; a mastery variant improves long-term variety without creating a disconnected new theme.",
+      "existing_lesson_fit": {
+        "lesson_id": "study_l01",
+        "fit_type": "mastery"
+      },
+      "owner": "content_ops",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "candidate_id": "candidate_health_sleep_stimulus_control_refresh_20260507",
+      "domain": "health",
+      "linked_pain_ids": [
+        "pain_health_bedtime_worry_loop_20260507"
+      ],
+      "source_research_ids": [
+        "research_aasm_insomnia_behavioral_2021"
+      ],
+      "lesson_job": "眠れない夜に、努力して眠るより覚醒を下げる選択を見分ける",
+      "target_shift": "眠ろうと頑張る状態から、刺激制御・リラックス・医療相談の境界を分ける状態へ移る",
+      "takeaway_action": "眠れない焦りが出たら、スマホ距離か短い呼吸を1つ選ぶ",
+      "insight_layer": {
+        "surprising_question": "眠れない時は、もっと頑張って寝ようとするべき？",
+        "research_finding": "不眠への行動的アプローチでは、覚醒を強める習慣や寝床との結びつきが重要視される",
+        "critical_caveat": "臨床的な不眠や強い不調への治療指示ではなく、必要なら医療相談を優先する",
+        "usable_scope": "眠れない焦りが出た夜のスマホ距離や短い呼吸選択に限る",
+        "practice_prompt": "スマホを遠ざける / 呼吸を短く試す / 相談ラインを確認する、を選ぶ"
+      },
+      "worthiness_score": {
+        "pain": 3,
+        "recurrence": 3,
+        "actionability": 2,
+        "evidence_strength": 3,
+        "novelty": 2,
+        "total": 13
+      },
+      "decision": "refresh_existing",
+      "decision_reason": "Refresh health_l01 with stronger boundaries: do not imply sleep hygiene alone is enough or prescribe clinical sleep restriction.",
+      "existing_lesson_fit": {
+        "lesson_id": "health_l01",
+        "fit_type": "refresh"
+      },
+      "owner": "research_review",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "candidate_id": "candidate_money_scarcity_bandwidth_refresh_20260507",
+      "domain": "money",
+      "linked_pain_ids": [
+        "pain_money_limited_offer_impulse_20260507"
+      ],
+      "source_research_ids": [
+        "research_poverty_cognitive_function_2013"
+      ],
+      "lesson_job": "限定表示で認知帯域が狭くなる瞬間を見分ける",
+      "target_shift": "買いたい理由を商品価値だけで見ず、希少性と注意の狭まりも見る状態へ移る",
+      "takeaway_action": "限定表示を見たら、必要性と期限を別々に10秒確認する",
+      "insight_layer": {
+        "surprising_question": "ストレスで無駄遣いするのは意志が弱いから？",
+        "research_finding": "資源不足や負荷がある時、注意や認知帯域が狭まり判断に影響する可能性がある",
+        "critical_caveat": "これだけで全員の買い物行動を説明できるわけではなく、収入や必要性も分けて見る",
+        "usable_scope": "限定セールや残りわずかを見た瞬間の10秒停止に使う",
+        "practice_prompt": "今すぐ買う / 後で見る / 必要性を確認、を選ぶ"
+      },
+      "worthiness_score": {
+        "pain": 3,
+        "recurrence": 3,
+        "actionability": 2,
+        "evidence_strength": 2,
+        "novelty": 3,
+        "total": 13
+      },
+      "decision": "refresh_existing",
+      "decision_reason": "High novelty but overgeneralization risk; use as explanatory refresh for money_l01, not as a financial-outcome claim.",
+      "existing_lesson_fit": {
+        "lesson_id": "money_l01",
+        "fit_type": "refresh"
+      },
+      "owner": "research_review",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "candidate_id": "candidate_social_reply_pressure_if_then_mastery_20260507",
+      "domain": "social",
+      "linked_pain_ids": [
+        "pain_social_reply_pressure_20260507",
+        "pain_social_people_pleasing_request_20260507"
+      ],
+      "source_research_ids": [
+        "research_implementation_intentions_2006"
+      ],
+      "lesson_job": "即答圧を感じた時に、保留フレーズを先に選ぶ",
+      "target_shift": "相手を否定したくないから即答する状態から、関係を保ったまま時間を取る状態へ移る",
+      "takeaway_action": "即答したくなったら「確認してから返すね」を先に出す",
+      "insight_layer": {
+        "surprising_question": "すぐ返事しないと、相手を傷つける？",
+        "research_finding": "事前に返答フレーズを決めると、圧を感じた場面でも行動を選びやすい可能性がある",
+        "critical_caveat": "相手の反応を完全に制御する方法ではなく、関係を保ちながら時間を取る練習として扱う",
+        "usable_scope": "LINEやSlackで即答したくなった瞬間に使う",
+        "practice_prompt": "即答する / 確認して返すと言う / 期限を聞く、を選ぶ"
+      },
+      "worthiness_score": {
+        "pain": 3,
+        "recurrence": 3,
+        "actionability": 3,
+        "evidence_strength": 2,
+        "novelty": 2,
+        "total": 13
+      },
+      "decision": "mastery_variant",
+      "decision_reason": "Existing social_l01/l02 are good core lessons; long-term value comes from varied transfer scenes and phrase practice.",
+      "existing_lesson_fit": {
+        "lesson_id": "social_l02",
+        "fit_type": "mastery"
+      },
+      "owner": "content_ops",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "candidate_id": "candidate_mental_affect_labeling_refresh_20260507",
+      "domain": "mental",
+      "linked_pain_ids": [
+        "pain_mental_emotion_labeling_gap_20260507"
+      ],
+      "source_research_ids": [
+        "research_affect_labeling_2007"
+      ],
+      "lesson_job": "反応する前に、感情を短く名付ける",
+      "target_shift": "感情に巻き込まれる状態から、名前をつけて距離を取る状態へ移る",
+      "takeaway_action": "焦り・怒り・恥のどれかを一語でラベルする",
+      "insight_layer": {
+        "surprising_question": "感情は考えないようにした方が早く落ち着く？",
+        "research_finding": "感情に短く名前をつけることが、反応との距離を作る可能性がある",
+        "critical_caveat": "脳反応の変化をそのまま長期行動改善と見なさず、強い症状には別支援が必要",
+        "usable_scope": "返信・購入・発言の前に一語で感情を置く場面に限る",
+        "practice_prompt": "焦り / 怒り / 恥、のどれに近いか選ぶ"
+      },
+      "worthiness_score": {
+        "pain": 3,
+        "recurrence": 3,
+        "actionability": 3,
+        "evidence_strength": 2,
+        "novelty": 2,
+        "total": 13
+      },
+      "decision": "refresh_existing",
+      "decision_reason": "Good refresh for mental_l01/l03; claims must stay conservative because neural response is not durable behavior change.",
+      "existing_lesson_fit": {
+        "lesson_id": "mental_l03",
+        "fit_type": "refresh"
+      },
+      "owner": "research_review",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "candidate_id": "candidate_mental_self_compassion_lapse_return_20260507",
+      "domain": "mental",
+      "linked_pain_ids": [
+        "pain_mental_self_blame_after_mistake_20260507",
+        "pain_mental_lapse_return_shame_20260507"
+      ],
+      "source_research_ids": [
+        "research_self_compassion_interventions_2023"
+      ],
+      "lesson_job": "失敗後に自責で止まらず、戻る一手を選ぶ",
+      "target_shift": "サボった自分を責める状態から、再開条件を小さくする状態へ移る",
+      "takeaway_action": "失敗後は「戻るなら何を10秒だけやるか」を1つ選ぶ",
+      "insight_layer": {
+        "surprising_question": "失敗した後は、強く反省した方が戻りやすい？",
+        "research_finding": "自分を責めすぎない姿勢は、再開行動を選ぶ助けになる可能性がある",
+        "critical_caveat": "責任を消す話ではなく、失敗後に止まり続ける悪循環を切る用途に限る",
+        "usable_scope": "一度途切れた習慣や学習に戻る最初の10秒で使う",
+        "practice_prompt": "自責を続ける / 10秒だけ戻る / 明日の条件を置く、を選ぶ"
+      },
+      "worthiness_score": {
+        "pain": 3,
+        "recurrence": 3,
+        "actionability": 2,
+        "evidence_strength": 2,
+        "novelty": 2,
+        "total": 12
+      },
+      "decision": "mastery_variant",
+      "decision_reason": "Useful for return/comeback retention, but evidence has risk-of-bias limits; keep it as reflection and re-entry practice.",
+      "existing_lesson_fit": {
+        "lesson_id": "mental_l06",
+        "fit_type": "mastery"
+      },
+      "owner": "research_review",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    }
+  ]
+}

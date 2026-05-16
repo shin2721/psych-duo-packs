@@ -174,7 +174,7 @@
 ```bash
 # Three-point verification (must all PASS)
 npm run content:preflight
-npm run lint:lesson-authoring  
+npm run lint:lesson-authoring
 npm run validate:lessons
 ```
 
@@ -188,7 +188,7 @@ npm run validate:lessons
 
 **Generated Reports** (machine-generated, not git-tracked):
 - `lesson_inventory.md` - レッスン棚卸し
-- `bronze_assertion_warnings.md` - Bronze断定表現警告  
+- `bronze_assertion_warnings.md` - Bronze断定表現警告
 - `evidence_grade_inflation.md` - Evidence Grade インフレ警告
 - `citation_trackability.md` - 引用追跡可能性
 - `evidence_specificity.md` - Evidence薄さ警告
@@ -335,8 +335,8 @@ When transitioning to API automation:
 
 ## 6. Mode B運用手順（事故防止）
 
-> **📋 仕様の正本は [docs/PRINCIPLES.md](./PRINCIPLES.md) です**  
-> 運用手順のみここに記載し、品質基準・仕様は正本を参照してください。
+> **📋 品質判断は [docs/PRINCIPLES.md](./PRINCIPLES.md)、運用契約は [docs/CONTENT_SYSTEM_SPEC.md](./CONTENT_SYSTEM_SPEC.md) が正本です**
+> このファイルは runbook と実行手順のみを記載します。
 
 ### 基本フロー
 ```
@@ -390,8 +390,8 @@ npm run promote:lesson {domain} {basename}
 
 ## 7. レッスン生成仕様（正本参照）
 
-> **📋 仕様の正本は [docs/PRINCIPLES.md](./PRINCIPLES.md) です**  
-> 運用手順のみここに記載し、品質基準・仕様は正本を参照してください。
+> **📋 品質判断は [docs/PRINCIPLES.md](./PRINCIPLES.md)、運用契約は [docs/CONTENT_SYSTEM_SPEC.md](./CONTENT_SYSTEM_SPEC.md) が正本です**
+> このファイルは runbook と実行手順のみを記載します。
 
 ### Mode A運用（人間介在）
 ```
@@ -414,7 +414,7 @@ npm run promote:lesson {domain} {basename}
 3. **承認**: Evidence Card の `review.human_approved` を `true` に変更
 4. **昇格**: `npm run promote:lesson {domain} {basename}`
 
-**注意**: 全ての仕様・ルールは [docs/PRINCIPLES.md](./PRINCIPLES.md) を参照してください。
+**注意**: 品質判断は [docs/PRINCIPLES.md](./PRINCIPLES.md)、運用契約は [docs/CONTENT_SYSTEM_SPEC.md](./CONTENT_SYSTEM_SPEC.md) を参照してください。
 │   └── study_units/
 └── {domain}_units/        # 本番（承認済み）
     ├── mental_l01.ja.json
@@ -820,7 +820,7 @@ npm run content:cost:summary -- --days=30
    - 全実験停止: `experiments.enabled=false`
 
 ### T0実行コマンド（固定）
-> 目的: 当日オペレーションで迷わないように、実行順とコマンドを固定する。  
+> 目的: 当日オペレーションで迷わないように、実行順とコマンドを固定する。
 > ルール: 実験同時併走は禁止（常に1実験のみ進行）。
 
 #### 共通初期化

@@ -39,16 +39,23 @@ describe("lesson metadata contract", () => {
     }
   });
 
-  test("loadLessons uses metadata targets instead of a fixed 10-question lesson", () => {
+  test("loadLessons uses metadata targets instead of a fixed lesson size", () => {
     const lessons = loadLessons("mental");
     const firstCoreLesson = lessons.find((lesson) => lesson.id === "mental_lesson_1");
+    const secondCoreLesson = lessons.find((lesson) => lesson.id === "mental_lesson_2");
     const firstMasteryLesson = lessons.find((lesson) => lesson.id === "mental_m01");
 
     expect(firstCoreLesson?.metadata?.lesson_id).toBe("mental_l01");
     expect(firstCoreLesson?.questions).toHaveLength(
       firstCoreLesson!.metadata!.question_count_range.target
     );
-    expect(firstCoreLesson?.questions.length).toBeLessThan(10);
+    expect(firstCoreLesson?.questions).toHaveLength(10);
+
+    expect(secondCoreLesson?.metadata?.lesson_id).toBe("mental_l02");
+    expect(secondCoreLesson?.questions).toHaveLength(
+      secondCoreLesson!.metadata!.question_count_range.target
+    );
+    expect(secondCoreLesson?.questions.length).toBeLessThan(10);
 
     expect(firstMasteryLesson?.metadata?.lesson_id).toBe("mental_m01");
     expect(firstMasteryLesson?.questions).toHaveLength(
@@ -56,4 +63,3 @@ describe("lesson metadata contract", () => {
     );
   });
 });
-

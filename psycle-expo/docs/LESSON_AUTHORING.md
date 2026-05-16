@@ -1,13 +1,14 @@
 # Psycle Lesson Authoring（入口・手順書）
 
-> **📋 レッスン作成仕様の正本は [docs/PRINCIPLES.md](./PRINCIPLES.md) です**  
+> **📋 Product principles / lesson-quality contracts は [docs/PRINCIPLES.md](./PRINCIPLES.md) が正本です**
+> **Seed / claim / package / ops contracts は [docs/CONTENT_SYSTEM_SPEC.md](./CONTENT_SYSTEM_SPEC.md) が正本です**
 > **このファイルは入口として、リンクと最小限の手順のみを記載します**
 
 ---
 
 ## 📖 仕様参照
 
-**全ての仕様・ルール・品質基準は [docs/PRINCIPLES.md](./PRINCIPLES.md) を参照してください。**
+**品質判断は [docs/PRINCIPLES.md](./PRINCIPLES.md)、運用契約は [docs/CONTENT_SYSTEM_SPEC.md](./CONTENT_SYSTEM_SPEC.md) を参照してください。**
 
 ---
 
@@ -51,5 +52,5 @@ npm run promote:lesson {domain} {basename}
 ## ⚠️ 重要な制約
 
 - **仕様変更禁止**: このファイルで独自ルールを追加しない
-- **正本参照**: 疑問があれば [docs/PRINCIPLES.md](./PRINCIPLES.md) を確認
+- **正本参照**: 品質判断は [docs/PRINCIPLES.md](./PRINCIPLES.md)、運用契約は [docs/CONTENT_SYSTEM_SPEC.md](./CONTENT_SYSTEM_SPEC.md) を確認
 - **staging必須**: Mode B生成物の本番直入れは禁止

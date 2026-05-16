@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "purpose": "Recurring pain intake before lesson generation. A pain item is not a lesson candidate until triaged.",
+  "items": [
+    {
+      "pain_id": "pain_work_start_friction_20260507",
+      "domain": "work",
+      "recurring_pain": "重い仕事を前にすると、やる気が出るまで待ってしまい着手が遅れる",
+      "life_scene": "朝の最初のタスク、締切前の資料作成、開きたくない作業ファイル",
+      "source": "manual_research",
+      "observed_signal": "既存 work_l01 / work_l02 と直結するが mastery variant が少ない",
+      "affected_user_segment": "仕事・制作・副業で先延ばしが反復するユーザー",
+      "recurrence_notes": "毎週起きやすく、初回 lesson 後も別場面で再発しやすい",
+      "candidate_status": "linked_to_candidate",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "pain_id": "pain_work_perfectionism_freeze_20260507",
+      "domain": "work",
+      "recurring_pain": "完璧に準備しようとして、最初の物理動作に入れない",
+      "life_scene": "資料の一行目、メール返信、企画メモ、コード修正の開始",
+      "source": "manual_research",
+      "observed_signal": "既存 work_l02 はあるが、別 scene の mastery が不足",
+      "affected_user_segment": "完璧主義・評価不安で作業開始が重くなるユーザー",
+      "recurrence_notes": "新しいタスクほど繰り返し発生する",
+      "candidate_status": "linked_to_candidate",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "pain_id": "pain_study_opening_resistance_20260507",
+      "domain": "study",
+      "recurring_pain": "勉強を始める前の不快感で教材を開けない",
+      "life_scene": "語学、資格、読書、復習アプリの初手",
+      "source": "manual_research",
+      "observed_signal": "study_l01 は初回 core だけで mastery / replay 候補がない",
+      "affected_user_segment": "学習習慣を作りたいが開始抵抗が強いユーザー",
+      "recurrence_notes": "毎日発生しやすく、継続率に直接影響する",
+      "candidate_status": "linked_to_candidate",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "pain_id": "pain_health_bedtime_worry_loop_20260507",
+      "domain": "health",
+      "recurring_pain": "眠ろうとするほど眠れない焦りが強くなる",
+      "life_scene": "布団に入った後、翌朝の予定が気になる夜、スマホを見続ける夜",
+      "source": "manual_research",
+      "observed_signal": "health_l01 はあるが、刺激制御や睡眠衛生の扱い分けが未展開",
+      "affected_user_segment": "寝る前の不安や覚醒ループが反復するユーザー",
+      "recurrence_notes": "夜ごとに再発しやすく、短い refresh が有効そう",
+      "candidate_status": "linked_to_candidate",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "pain_id": "pain_money_limited_offer_impulse_20260507",
+      "domain": "money",
+      "recurring_pain": "限定表示やセールで、必要性を確認する前に買いたくなる",
+      "life_scene": "ECセール、アプリ内課金、期間限定オファー、SNS広告",
+      "source": "manual_research",
+      "observed_signal": "money_l01 は単発で、希少性・認知帯域の別 angle が不足",
+      "affected_user_segment": "衝動買い・後悔買いが起きやすいユーザー",
+      "recurrence_notes": "季節セールや給料日前後に反復する",
+      "candidate_status": "linked_to_candidate",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "pain_id": "pain_social_reply_pressure_20260507",
+      "domain": "social",
+      "recurring_pain": "DMや依頼にすぐ返さないと悪い気がして、後で後悔する返事をする",
+      "life_scene": "LINE、Slack、友人の誘い、仕事の依頼、家族からの頼みごと",
+      "source": "manual_research",
+      "observed_signal": "social_l02 はあるが、保留フレーズの transfer 練習が不足",
+      "affected_user_segment": "人間関係で即答圧を感じやすいユーザー",
+      "recurrence_notes": "通知のたびに発生し、生活場面が多い",
+      "candidate_status": "linked_to_candidate",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "pain_id": "pain_social_people_pleasing_request_20260507",
+      "domain": "social",
+      "recurring_pain": "断ることが相手の否定に感じて、引き受けすぎる",
+      "life_scene": "予定調整、追加作業、家族の頼みごと、友人の誘い",
+      "source": "manual_research",
+      "observed_signal": "social_l01 の mastery と別 scene 練習が必要",
+      "affected_user_segment": "境界線設定が苦手で疲弊しやすいユーザー",
+      "recurrence_notes": "関係性ごとに別パターンで再発する",
+      "candidate_status": "linked_to_candidate",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "pain_id": "pain_mental_self_blame_after_mistake_20260507",
+      "domain": "mental",
+      "recurring_pain": "小さな失敗の後、自責が始まり次の行動に戻れない",
+      "life_scene": "返信ミス、仕事の指摘、約束の抜け、学習の中断",
+      "source": "manual_research",
+      "observed_signal": "mental_l04 はあるが self-compassion / protective anger の refresh 余地がある",
+      "affected_user_segment": "自責・羞恥・反省過多が反復するユーザー",
+      "recurrence_notes": "失敗イベントのたびに繰り返す",
+      "candidate_status": "linked_to_candidate",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "pain_id": "pain_mental_emotion_labeling_gap_20260507",
+      "domain": "mental",
+      "recurring_pain": "不安や怒りを感じても、名前をつける前に反応してしまう",
+      "life_scene": "焦り、怒り、恥ずかしさ、通知への反応、家族との会話",
+      "source": "manual_research",
+      "observed_signal": "mental_l01 / l03 の affect labeling refresh に使える",
+      "affected_user_segment": "感情の立ち上がりが速く、反応後に後悔しやすいユーザー",
+      "recurrence_notes": "日常の小さな刺激で何度も起こる",
+      "candidate_status": "linked_to_candidate",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    },
+    {
+      "pain_id": "pain_mental_lapse_return_shame_20260507",
+      "domain": "mental",
+      "recurring_pain": "一度サボると、戻るより先に失敗感が出てアプリや学習から離れる",
+      "life_scene": "streak が切れた翌日、数日ぶりの再開、未完の lesson を見る時",
+      "source": "manual_research",
+      "observed_signal": "return / comeback flow と lesson 内容の接続が必要",
+      "affected_user_segment": "習慣化初期、完璧主義、再開に羞恥が出るユーザー",
+      "recurrence_notes": "長期継続の離脱点として重要",
+      "candidate_status": "linked_to_candidate",
+      "created_at": "2026-05-07T00:00:00.000Z"
+    }
+  ]
+}

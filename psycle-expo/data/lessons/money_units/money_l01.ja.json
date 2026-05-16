@@ -1,433 +1,361 @@
 [
   {
     "id": "money_l01_001",
-    "type": "swipe_judgment",
-    "question": "ネットでカートに入れた瞬間、「今すぐ買わないとなくなる」と焦ったことがある。",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "ある",
-      "right": "ない"
-    },
-    "explanation": "これは「希少性バイアス」と呼ばれる。「残り3点」「限定」と表示されると、実際より価値があるように感じやすい。このバイアスを理解することが、冷静になるきっかけになることも。",
+    "claim_id": "money_l01_001_claim",
+    "type": "conversation",
+    "question": "23:40。仕事で軽く扱われた夜、カートにスニーカーが入っている。\n\nいま払おうとしているのは、靴の値段？ それとも「軽く扱われた自分」を戻す分まで乗った値段？",
+    "your_response_prompt": "正解はありません。今夜の自分に近い入口を選んでください",
+    "choices": [
+      "商品価値：明日の昼でも履く場面が浮かぶ",
+      "自己回復プレミアム：今日の扱われなさを埋めたい",
+      "見られたい価値：これを持つ自分なら軽く見られなさそう"
+    ],
+    "recommended_index": null,
+    "explanation": "今日のレンズは「自己回復プレミアム」。買い物を責める回ではない。傷ついた日は、商品そのものの価値に、自分を戻すための余分な価値が乗って見えることがある。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
-    "source_id": "Cialdini_2006",
-    "evidence_grade": "silver",
+    "source_id": "doi_10_1080_01639625_2025_2608885",
+    "evidence_grade": "bronze",
     "expanded_details": {
       "claim_type": "observation",
-      "evidence_type": "indirect",
+      "evidence_type": "direct",
       "best_for": [
-        "ネットショッピング中の焦り",
-        "「限定」に弱い人"
+        "ストレス後にオンラインショッピングを開いた最初の数秒"
       ],
       "limitations": [
-        "本当に希少な場合は合理的判断かもしれない"
+        "すべての買い物行動を説明する診断ではない",
+        "家計問題や買い物依存の治療を代替しない"
       ],
-      "citation_role": "希少性バイアスの存在を観察研究で支持",
+      "citation_role": "personal vulnerability hook を診断入口へ接続",
       "claim_tags": [
-        "scarcity_bias",
-        "impulse_buying",
-        "cognitive_bias"
+        "money_l01",
+        "stress_shopping",
+        "self_diagnosis",
+        "paleo_to_practice"
       ]
     }
   },
   {
     "id": "money_l01_002",
+    "claim_id": "money_l01_002_claim",
     "type": "multiple_choice",
-    "question": "「今すぐ買いたい！」と思った時、衝動を抑えるのに効果が報告されているのは？",
+    "question": "普通は「また無駄遣いしそう。意志が弱い」と考えがち。\n\nでも、ここで一回だけ見方を変えるなら？",
     "choices": [
-      "10秒待ってから決める",
-      "もっと安いものを探す",
-      "レビューを全部読む"
+      "浪費家かどうかを早く判定する",
+      "孤独・ストレスで、商品に自己回復プレミアムが乗って見えることがある",
+      "安ければ衝動買いではない"
     ],
-    "correct_index": 0,
-    "explanation": "10秒ルールは短い介入として効果がある可能性が示唆されている。待つ間に衝動のピークが過ぎる傾向がある。合わない人もいるので、無理に使わなくてOK。（「もっと安いのを探す」「レビュー全部読む」は時間がかかるのが難点）",
-    "actionable_advice": "💡 次に「買いたい！」と思ったら、10秒だけ手を止めてみる。嫌なら即やめてOK。",
+    "correct_index": 1,
+    "explanation": "発見はここ。欲しい物を見ているようで、実は「自分の価値が下がった感じ」を戻す道具を探していることがある。意志の弱さで終わらせるより、商品価値と自己回復プレミアムを分ける。",
+    "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
-    "source_id": "Vohs_2008",
-    "evidence_grade": "silver",
+    "source_id": "doi_10_1080_01639625_2025_2608885",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
+      "claim_type": "observation",
+      "evidence_type": "direct",
       "best_for": [
-        "ネットショッピング中の衝動",
-        "小額の衝動買いが多い人"
+        "買い物衝動を性格のせいだけにしない時"
       ],
       "limitations": [
-        "高額商品には効果が薄い場合がある",
-        "待つのが苦痛な人には逆効果"
+        "観察研究の関連であり、個人の買い物原因を断定しない"
       ],
-      "citation_role": "自己制御資源の研究から衝動と時間の関係を理論的に説明",
+      "citation_role": "default explanation を研究発見でずらす",
       "claim_tags": [
-        "self_control",
-        "impulse_buying",
-        "theory"
+        "money_l01",
+        "compensatory_consumption",
+        "paleo_to_practice"
       ]
     }
   },
   {
     "id": "money_l01_003",
+    "claim_id": "money_l01_003_claim",
     "type": "swipe_judgment",
-    "question": "カートに入れて24時間放置すると、多くが「やっぱりいらない」になる傾向がある。",
-    "is_true": true,
+    "question": "「本当に欲しい物なら、気分は関係ない」。\n\nこれは安全な見方？",
+    "is_true": false,
     "swipe_labels": {
-      "left": "ありそう",
-      "right": "なさそう"
+      "left": "上乗せも見る",
+      "right": "物だけ見る"
     },
-    "explanation": "時間を置くと衝動買いの欲求が自然に下がる傾向が報告されている。必要なものは買い忘れないように注意。できなくても普通。まず1回だけ。",
-    "actionable_advice": null,
-    "difficulty": "easy",
+    "explanation": "欲しい気持ちは本物でもいい。ただ、ストレス直後は「物がほしい」と「自分を戻したい」が混ざりやすい。見るのは、商品の魅力だけでなく、今夜だけ乗っている上乗せ分。",
+    "actionable_advice": "カートを見たら「明日の昼、商品だけでも欲しい？」を10秒だけ見る",
+    "difficulty": "medium",
     "xp": 5,
-    "source_id": "Baumeister_2002",
+    "source_id": "doi_10_1080_01639625_2025_2608885",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
+      "claim_type": "mechanism",
+      "evidence_type": "direct",
       "best_for": [
-        "ネットショッピングでの衝動買い",
-        "「あとで考えよう」ができる人"
+        "本当に欲しいから止まらなくていい、と感じる時"
       ],
       "limitations": [
-        "セールの期限があると使いにくい",
-        "必要なものまで忘れるリスク"
+        "必要な購入や予算内の楽しみまで悪者にしない"
       ],
-      "citation_role": "自己制御の回復効果を間接支持",
-      "try_this": "👉 カートに入れたら → 一度画面を閉じてロック（そのまま24時間放置）",
+      "citation_role": "tempting wrong answer をスワイプ判断へ変換",
       "claim_tags": [
-        "delay_gratification",
-        "impulse_buying",
-        "self_control"
-      ],
-      "tiny_metric": {
-        "metric": "24時間後に「やっぱりいらない」と思ったか",
-        "stop_rule": "3回連続で全部買ってしまったらやめる",
-        "before_prompt": "今のしんどさは0〜10で？",
-        "after_prompt": "10秒後のしんどさは0〜10で？",
-        "success_rule": "1だけ下がればOK"
-      },
-      "comparator": {
-        "baseline": "その場で即購入",
-        "cost": "24時間待つだけ"
-      },
-      "fallback": {
-        "when": "24時間待てない",
-        "next": "【1時間版】ブラウザを閉じて1時間後に再確認"
-      }
+        "money_l01",
+        "mechanism_check",
+        "paleo_to_practice"
+      ]
     }
   },
   {
     "id": "money_l01_004",
+    "claim_id": "money_l01_004_claim",
     "type": "multiple_choice",
-    "question": "「1年後の自分もこれを使ってると思う？」と問いかけるのは、なぜ効果がある？",
+    "question": "今日の罠を1本の鎖にすると？",
     "choices": [
-      "未来の自分を想像すると衝動が冷める傾向がある",
-      "罪悪感で買わなくなる",
-      "計算が面倒で諦める"
+      "安い → 得した → もう考えなくていい",
+      "軽く扱われた感じ → 自己回復プレミアムが乗る → 一瞬戻る → 届く頃には魔法が切れる",
+      "欲しい → 買う → 生活が必ず整う"
     ],
-    "correct_index": 0,
-    "explanation": "未来の自分を想像する（未来自己連続性）と、衝動的な決定が減る傾向が報告されている。未来を想像するのが苦手な人には効果が薄いことも。まず1回だけ。（「罪悪感」や「計算が面倒」ではなく、未来の自分と繋がる感覚がカギ）",
-    "actionable_advice": "💡 次に買いたくなったら「1年後も使ってる？」と自分に問いかけてみて。",
+    "correct_index": 1,
+    "explanation": "ツボはここ。孤独・ストレスがそのまま浪費を作る、と断定はしない。ただ、自己回復プレミアム込みで買うと、解決したのは商品の問題ではなく、下がった気分の問題になる。だから商品が届く頃には魔法が切れやすい。",
+    "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Hershfield_2011",
-    "evidence_grade": "silver",
+    "source_id": "doi_10_1080_01639625_2025_2608885",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "intervention",
+      "claim_type": "mechanism",
       "evidence_type": "direct",
       "best_for": [
-        "長期的な視点で考えられる人",
-        "買った後に後悔しやすい人"
+        "買う直前にループのどこを切るか選ぶ時"
       ],
       "limitations": [
-        "未来を想像するのが苦手な人には効果が薄い",
-        "消耗品には使いにくい"
+        "この鎖だけで全員の買い物行動を説明しない"
       ],
-      "citation_role": "未来自己連続性と意思決定の関連を直接支持",
-      "try_this": "👉 「買いたい」と思ったら → 指を離して10秒だけ「1年後も使ってる？」と唱える",
+      "citation_role": "mechanism chain を短い選択肢へ変換",
+      "near_miss_choices": [
+        "安さだけを見ると、今夜だけ乗っている上乗せ分を見逃す",
+        "買った直後の回復感だけを見ると、商品が届く頃に魔法が切れるリスクを見逃す"
+      ],
       "claim_tags": [
-        "future_self_continuity",
-        "impulse_buying",
-        "decision_making"
-      ],
-      "tiny_metric": {
-        "before_prompt": "今の「買いたい」は？（0-10）",
-        "after_prompt": "未来質問の後は？",
-        "success_rule": "少しでも下がればOK",
-        "stop_rule": "変わらない or 上がったら今日は撤退"
-      },
-      "comparator": {
-        "baseline": "何も考えずに購入",
-        "cost": "5秒 / 負荷は低い"
-      },
-      "fallback": {
-        "when": "未来を想像しても欲求が消えない",
-        "next": "カート放置24時間に切り替え"
-      }
+        "money_l01",
+        "mechanism_chain",
+        "paleo_to_practice"
+      ]
     }
   },
   {
     "id": "money_l01_005",
-    "type": "swipe_judgment",
-    "question": "「安いから買っておこう」は、結果的に高くつくことが多い。",
-    "is_true": true,
-    "swipe_labels": {
-      "left": "そうかも",
-      "right": "そうでもない"
-    },
-    "explanation": "「お得」感で買ったものは使わないことが多く、結果的に損になりやすい。ただし、消耗品のストックなど合理的なケースもある。",
+    "claim_id": "money_l01_005_claim",
+    "type": "multiple_choice",
+    "question": "ここで言いすぎると、ただの決めつけになる。\n\nいちばん大事なツッコミは？",
+    "choices": [
+      "観察研究の関連なので、自分の買い物原因まで断定しない",
+      "買い物はすべて孤独が原因である",
+      "10秒止まれば、浪費は必ず消える"
+    ],
+    "correct_index": 0,
+    "explanation": "ここは断定しない。観察研究は「そういう関連があるかも」を教える材料。使える範囲は、カート直後に10秒だけ止まり、商品そのものの価値と自己回復プレミアムを分けること。",
     "actionable_advice": null,
-    "difficulty": "easy",
+    "difficulty": "medium",
     "xp": 5,
-    "source_id": "Thaler_1999",
+    "source_id": "doi_10_1080_01639625_2025_2608885",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "observation",
+      "claim_type": "evidence_boundary",
       "evidence_type": "direct",
       "best_for": [
-        "セールに弱い人",
-        "「とりあえず買っておく」が多い人"
+        "研究の面白さを日常で使う範囲に絞る時"
       ],
       "limitations": [
-        "消耗品のストックは合理的な場合がある"
+        "相関を因果として扱わない",
+        "依存症状や深刻な家計問題は専門的な支援も検討する"
       ],
-      "citation_role": "メンタルアカウンティングの非合理性を観察研究で支持",
+      "citation_role": "研究の限界と過剰解釈の抑制",
       "claim_tags": [
-        "mental_accounting",
-        "sunk_cost",
-        "impulse_buying"
+        "money_l01",
+        "critical_caveat",
+        "paleo_to_practice"
       ]
     }
   },
   {
     "id": "money_l01_006",
-    "type": "multiple_choice",
-    "question": "「今月はあと○円まで」と決めておくと、衝動買いが減りやすいのはなぜ？",
+    "claim_id": "money_l01_006_claim",
+    "type": "conversation",
+    "question": "今のカートには、どの価値がいちばん乗っていそう？",
+    "your_response_prompt": "今日の仮診断を1つ選んでください",
     "choices": [
-      "予算という「ルール」があると判断が楽になる",
-      "お金が足りなくなるから",
-      "計算して疲れるから"
+      "商品価値：明日の昼でも使う場面が浮かぶ",
+      "自己回復プレミアム：今夜の悔しさやむなしさを薄めたい",
+      "見られたい価値：持った自分を誰かに見せたい"
     ],
-    "correct_index": 0,
-    "explanation": "予算制約があると「買うか/買わないか」の判断コストが下がる。予算が厳しすぎると反動で使いすぎることも。（「お金が足りない」「計算で疲れる」より、判断が楽になるのがポイント）",
-    "actionable_advice": "💡 今週の「自由に使える額」を決めてみる（例：週5000円）。無理なら金額を上げてOK。",
-    "difficulty": "medium",
+    "recommended_index": null,
+    "explanation": "これは性格診断ではなく、価格の仮診断。商品価値なら残す。自己回復プレミアムなら時間差を見る。見られたい価値なら、誰にも見せなくても欲しいかを試す。",
+    "actionable_advice": null,
+    "difficulty": "easy",
     "xp": 5,
-    "source_id": "Thaler_1999",
+    "source_id": "doi_10_1080_01639625_2025_2608885",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
+      "claim_type": "observation",
+      "evidence_type": "indirect",
       "best_for": [
-        "ルールがあると守りやすい人",
-        "家計管理を始めたい人"
+        "衝動の入口を自分の生活場面で見分ける時"
       ],
       "limitations": [
-        "予算が厳しすぎると反動が来ることも",
-        "緊急出費に対応しにくい"
+        "1回の選択で性格や病名を決めない"
       ],
-      "citation_role": "メンタルアカウンティング理論から予算効果を間接支持",
-      "try_this": "今週の「自由枠」を決める（例：週5000円）",
+      "citation_role": "D-Lab型の自己診断へ変換",
       "claim_tags": [
-        "mental_accounting",
-        "budgeting",
-        "self_control"
-      ],
-      "tiny_metric": {
-        "metric": "週末に予算内に収まったか",
-        "stop_rule": "2週連続で大幅オーバーならやめる"
-      },
-      "comparator": {
-        "baseline": "予算を決めずに使う",
-        "cost": "週1回5分の設定"
-      },
-      "fallback": {
-        "when": "予算が窮屈すぎる",
-        "next": "予算を1.5倍にして再挑戦"
-      }
+        "money_l01",
+        "diagnostic_practice",
+        "paleo_to_practice"
+      ]
     }
   },
   {
     "id": "money_l01_007",
-    "type": "conversation",
-    "question": "友人から「これ限定だよ！買わないの？」と言われた。どう返す？",
+    "claim_id": "money_l01_007_claim",
+    "type": "multiple_choice",
+    "question": "仕事で削られた夜、限定スニーカーを見つけた。\n\n最初の10秒でいちばん効く一手は？",
     "choices": [
-      "「限定って言われると欲しくなるよね。でも10秒待ってみる」",
-      "「限定！？買う買う！」",
-      "「お金ないから無理」"
+      "レビューを読み続けて、買う理由をもっと集める",
+      "カートに残し、「明日の昼、商品だけでも欲しい？」を見て保留する",
+      "今日の嫌な気分を変えるために、今だけ即決する"
     ],
-    "recommended_index": 0,
-    "explanation": "「限定」は希少性バイアスを刺激する。10秒待つことでバイアスから少し離れられることがある。本当に欲しいなら買ってもOK。まず1回だけ。",
-    "actionable_advice": null,
-    "difficulty": "hard",
-    "xp": 10,
-    "source_id": "Cialdini_2006",
-    "evidence_grade": "silver",
+    "correct_index": 1,
+    "explanation": "買う/禁止の勝負にしない。まず上乗せ分を見抜く。レビュー読み続けは情報収集に見えるが、自己回復プレミアム中は買う理由だけを集める燃料になることがある。",
+    "actionable_advice": "カートに入れたら、「明日の昼、商品だけでも欲しい？」を10秒だけ見て保留する",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "doi_10_1080_01639625_2025_2608885",
+    "evidence_grade": "bronze",
     "expanded_details": {
       "claim_type": "intervention",
       "evidence_type": "indirect",
       "best_for": [
-        "友人に流されやすい人",
-        "「限定」に弱い人"
+        "限定表示やセールで即決しそうな場面"
       ],
       "limitations": [
-        "社交的な場面で断りにくいことも"
+        "必要な購入や期限が本当にある購入まで遅らせない"
       ],
-      "citation_role": "希少性バイアスへの対処として10秒ルールを間接支持",
+      "citation_role": "usable_scope を10秒行動へ変換",
+      "try_this": "カートに入れたら、「明日の昼、商品だけでも欲しい？」を10秒だけ見て保留する",
+      "near_miss_choices": [
+        "レビューを読むのは情報収集に見えるが、買う理由だけを集める時がある",
+        "即決は気分を上げることがあるが、今日の練習では上乗せ分を見てから決める"
+      ],
       "claim_tags": [
-        "scarcity_bias",
-        "social_influence",
-        "impulse_buying"
-      ],
-      "try_this": "「限定」と言われたら10秒待つ",
-      "tiny_metric": {
-        "metric": "10秒待った後に「やっぱりいらない」と思えたか",
-        "stop_rule": "3回連続で結局買ったらやめる",
-        "before_prompt": "今のしんどさは0〜10で？",
-        "after_prompt": "10秒後のしんどさは0〜10で？",
-        "success_rule": "1だけ下がればOK"
-      },
-      "comparator": {
-        "baseline": "「限定！」と聞いて即購入",
-        "cost": "10秒 / 負荷は低い"
-      },
-      "fallback": {
-        "when": "その場で断りにくい",
-        "next": "「あとで連絡する」と言って保留"
-      }
+        "money_l01",
+        "frictioned_choice",
+        "paleo_to_practice"
+      ]
     }
   },
   {
     "id": "money_l01_008",
+    "claim_id": "money_l01_008_claim",
     "type": "swipe_judgment",
-    "question": "「ストレス発散に買い物」は、一時的には効くが長期的には後悔しやすい。",
+    "question": "SNSに載せたい気持ちが強い時は、買う前に「誰にも見せなくても、自分の生活は良くなる？」と見る。",
     "is_true": true,
     "swipe_labels": {
-      "left": "そうかも",
-      "right": "そうでもない"
+      "left": "それは違う",
+      "right": "使える"
     },
-    "explanation": "ストレス買いは一時的なドーパミン放出で気分が良くなるが、後で後悔しやすい傾向がある。ただし、たまになら問題ない人も多い。",
-    "actionable_advice": null,
+    "explanation": "これは見られたい価値の切り分け。投稿したい気持ちは悪者ではない。ただ、誰にも見せなくても生活が良くなるかを見ると、商品の価値と見返したい気分が分かれやすい。",
+    "actionable_advice": "買う前に「誰にも見せなくても生活が良くなる？」と10秒だけ見る",
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Rick_2014",
+    "source_id": "doi_10_1080_01639625_2025_2608885",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "direct",
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
       "best_for": [
-        "ストレス時に買い物が増える人",
-        "買った後に後悔しやすい人"
+        "SNSに載せたい気持ちが買う理由を強める時"
       ],
       "limitations": [
-        "たまのご褒美なら問題ないケースも多い"
+        "見せたい気持ち自体を悪いものとして扱わない"
       ],
-      "citation_role": "感情的消費と後悔の関連を観察研究で支持",
+      "citation_role": "type-specific transfer scene",
       "claim_tags": [
-        "emotional_spending",
-        "regret",
-        "stress"
+        "money_l01",
+        "transfer_scene",
+        "paleo_to_practice"
       ]
     }
   },
   {
     "id": "money_l01_009",
+    "claim_id": "money_l01_009_claim",
     "type": "multiple_choice",
-    "question": "衝動買いを減らすのに、効果が報告されている方法は？",
+    "question": "10秒止まったら、逆に苦しくなって買い物アプリを閉じられない。\n\nこの時の戻り方は？",
     "choices": [
-      "買う前に10秒待つ",
-      "欲しいものリストを作る",
-      "財布に現金だけ入れる"
+      "できない自分を責めて、もう一度だけ気合いで止める",
+      "今日の決済は保留し、自己回復だけを買い物以外の行動へ移す",
+      "苦しいなら、買ってから反省すればいい"
     ],
-    "correct_index": 0,
-    "explanation": "10秒ルールは実験で効果がある可能性が示唆されている。欲しいものリストや現金払いも効果があるが、10秒ルールは手軽さで人気。合わない人もいる。まず1回だけ。（‌「リスト」「現金」も良いが、準備が必要）",
-    "actionable_advice": "💡 明日1回だけ試す：買いたい衝動が来たら10秒待つ。合わなければ別の方法へ。",
+    "correct_index": 1,
+    "explanation": "意志の勝負にしない。止まるほど苦しい時は、買う/買わないを完璧に決めるより、決済だけ保留して、自己回復の部分を別の行動へ移す方が戻りやすい。",
+    "actionable_advice": "苦しくなったら、決済を保留して買い物以外の回復行動へ移る",
     "difficulty": "medium",
-    "xp": 10,
-    "source_id": "Vohs_2008",
-    "evidence_grade": "silver",
+    "xp": 5,
+    "source_id": "doi_10_1080_01639625_2025_2608885",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "intervention",
+      "claim_type": "fallback",
       "evidence_type": "indirect",
       "best_for": [
-        "衝動買いが多い人",
-        "手軽に始めたい人"
+        "ストレスが強く、10秒停止が逆につらい時"
       ],
       "limitations": [
-        "高額商品には効果が薄い場合がある"
+        "強い依存症状や家計破綻の支援を代替しない"
       ],
-      "citation_role": "自己制御資源の研究から10秒ルールの効果を間接支持",
-      "try_this": "👉 「買いたい！」と思ったら → 指を離して10秒だけ数える（1...2...3...10）",
+      "citation_role": "safe failure route",
+      "near_miss_choices": [
+        "気合いで止めようとすると、失敗した自責が増える",
+        "買ってから反省すると、自己回復プレミアム込みの買い方を強めることがある"
+      ],
       "claim_tags": [
-        "self_control",
-        "impulse_buying",
-        "delay_gratification"
-      ],
-      "tiny_metric": {
-        "before_prompt": "今の「買いたい」は？（0-10）",
-        "after_prompt": "10秒後は？",
-        "success_rule": "少しでも下がればOK",
-        "stop_rule": "変わらない or 上がったら今日は撤退"
-      },
-      "comparator": {
-        "baseline": "衝動のままカートを押す",
-        "cost": "10秒 / 負荷は低い"
-      },
-      "fallback": {
-        "when": "10秒では足りない",
-        "next": "カート放置24時間に切り替え"
-      }
+        "money_l01",
+        "safe_failure",
+        "paleo_to_practice"
+      ]
     }
   },
   {
     "id": "money_l01_010",
-    "type": "multiple_choice",
-    "question": "今日学んだことで、明日から使えそうなのはどれ？",
+    "claim_id": "money_l01_010_claim",
+    "type": "conversation",
+    "question": "明日、カートに何か入れた瞬間に残す一言はどれ？",
+    "your_response_prompt": "覚えておく一文を選んでください",
     "choices": [
-      "買いたくなったら10秒待つ",
-      "カートに入れて24時間放置",
-      "「1年後も使ってる？」と問いかける",
-      "全部やってみる"
+      "明日の昼、商品だけでも欲しい？",
+      "今すぐ買うか、完全に諦めるかを決める",
+      "欲しい理由をもっと探してから決める"
     ],
-    "correct_index": 3,
-    "explanation": "どれも試してみる価値がある。一気に変わらなくても、少しずつ「買い方のクセ」は変えられるかもしれない。合わなければ別の方法へ。まず1回だけ。（個別の選択肢も有効、一番手軽なのは10秒ルール）",
-    "actionable_advice": "💡 今日のアクション：次の「買いたい！」で10秒だけ待ってみる。",
+    "recommended_index": 0,
+    "explanation": "今日の持ち帰りはこれ。完璧な節約はいらない。カートに入れた後、10秒だけ手を止めて「明日の昼、商品だけでも欲しい？」を見る。残るなら商品価値、消えるなら自己回復プレミアムが乗っていた可能性がある。",
+    "actionable_advice": "カートに入れた後、10秒だけ手を止めて「明日の昼、商品だけでも欲しい？」を見る",
     "difficulty": "easy",
-    "xp": 10,
-    "source_id": "Vohs_2008",
+    "xp": 5,
+    "source_id": "doi_10_1080_01639625_2025_2608885",
     "evidence_grade": "bronze",
     "expanded_details": {
       "claim_type": "intervention",
       "evidence_type": "indirect",
       "best_for": [
-        "新しい習慣を始めたい人"
+        "明日のオンライン買い物で最初の10秒に使う"
       ],
       "limitations": [
-        "全部は続かないかもしれない"
+        "節約の完全成功を約束しない",
+        "必要な購入を禁止しない"
       ],
-      "citation_role": "自己制御介入の有効性を間接支持",
-      "try_this": "👉 次の買いたい！で10秒… 無理なら1秒だけ指を離す",
+      "citation_role": "tomorrow quest として行動を保存",
+      "try_this": "カートに入れた後、10秒だけ手を止めて「明日の昼、商品だけでも欲しい？」を見る",
       "claim_tags": [
-        "self_control",
-        "habit_formation",
-        "impulse_buying"
-      ],
-      "tiny_metric": {
-        "metric": "今週1回でも10秒待てたか",
-        "stop_rule": "1週間1回も思い出せなかったらやめる",
-        "before_prompt": "今のしんどさは0〜10で？",
-        "after_prompt": "10秒後のしんどさは0〜10で？",
-        "success_rule": "1だけ下がればOK"
-      },
-      "comparator": {
-        "baseline": "何も試さない",
-        "cost": "10秒 × 数回/週"
-      },
-      "fallback": {
-        "when": "10秒ルールが合わない",
-        "next": "カート放置 or 未来質問に切り替え"
-      }
+        "money_l01",
+        "tomorrow_quest",
+        "paleo_to_practice"
+      ]
     }
   }
 ]

@@ -1,6 +1,9 @@
 # Psycle Content System Specification
 > Version 2.0 | 2026-04-15
 
+> `PRINCIPLES.md` は product principles / lesson-quality contracts の正本。
+> このファイルは seed / claim / blueprint / package / runtime / support / readiness / ops の詳細契約の正本。
+
 ## 設計思想
 
 **Psycle は「研究を教えるアプリ」ではなく、「研究を使って選び方を少し変えるアプリ」である。**
@@ -68,6 +71,24 @@ content system は以下の順に処理する。
 Question は source を直接参照せず、**claim_id** 経由で evidence を追跡する。
 Lesson は `新規作成 / Refresh / Return / Replay` を区別して扱う。
 
+Seed の前に、生活起点と研究起点の intake を分けて保存する。
+
+| intake | 保存先 | 目的 |
+|--------|--------|------|
+| recurring pain | `data/content-intake/pain-backlog.json` | 生活シーンの困りごとを lesson 候補より前に保存する |
+| lesson candidate | `data/content-intake/lesson-candidate-backlog.json` | worthiness score と採用判断を保存する |
+| research radar | `data/content-intake/research-radar.json` | 研究発見を批評して、Refresh / Mastery / 新規化 / 破棄を判断する |
+
+RSS や論文から見つけた話題は、直接 lesson にしない。
+`research-radar` で研究批評を通し、`lesson-candidate-backlog` で lesson-worthiness を通過したものだけ Seed / Claim / Blueprint に進める。
+
+Operational commands:
+
+- `npm run content:intake:validate`: 3 intake stores の schema / score / link を検証する
+- `npm run content:intake:add-pain -- <payload.json>`: recurring pain を保存する
+- `npm run content:intake:add-research -- <payload.json>`: Research Critique Lens を通した発見を保存する
+- `npm run content:intake:add-candidate -- <payload.json>`: worthiness score を計算し、linked pain を candidate 済みにする
+
 ### 2. Seedスキーマ
 ```json
 {
@@ -102,6 +123,14 @@ Lesson は `新規作成 / Refresh / Return / Replay` を区別して扱う。
   "lesson_job": "反芻を気づき、まず止まる入口を作る",
   "target_shift": "整理しているつもりの反芻を見分ける",
   "done_condition": "反芻と整理を見分け、次に取る小さい行動を1つ選べる",
+  "takeaway_action": "同じ考えが続いたら、整理か反芻かを1回だけ確認する",
+  "insight_layer": {
+    "surprising_question": "考え続けるほど問題解決に近づく？",
+    "research_finding": "反芻は問題解決より情動維持に寄りやすいことがある",
+    "critical_caveat": "考えること自体が悪いわけではなく、新しい情報や次の一手が増えるなら整理に近い",
+    "usable_scope": "夜や移動中に同じ考えが回っている時の見分けには使える",
+    "practice_prompt": "整理 / 反芻 / いったん外へ出す、から選ぶ"
+  },
   "load_score": {
     "cognitive": 2,
     "emotional": 2,

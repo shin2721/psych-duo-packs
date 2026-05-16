@@ -10,6 +10,49 @@ python3 scripts/worktree-status-buckets.py
 
 This prints the current `git status --short` grouped by the buckets below.
 
+## Current Cleanup Snapshot
+
+As of 2026-05-16, the worktree is organized enough to reason about, but it is
+not commit-ready as one change. `python3 scripts/worktree-status-buckets.py`
+must print no `[other]` bucket before calling the tree organized.
+
+Current buckets:
+
+- `workspace_agent_guidance`
+  - workspace-level agent rules in `../AGENTS.md` / `../CLAUDE.md`.
+  - Keep separate from app behavior changes.
+- `north_star_quality_system`
+  - North Star docs, content-intake stores, lesson-quality audits, and CI hooks.
+  - This is the first bucket to preserve because other work depends on these contracts.
+- `local_artifacts`
+  - tracked release archives under `_artifacts/`.
+  - These are local build outputs and should not be regenerated just to silence status noise.
+- `screen_shells`
+  - lesson/course UI wiring and the new lesson intro surface.
+  - Requires Simulator verification before being called product-ready.
+- `ui_foundation`
+  - shared course-world visuals.
+- `question_runtime`
+  - question result / swipe runtime / shared question types.
+- `app_state`
+  - auth and progression state behavior.
+- `analytics_content_config`
+  - lesson metadata, lesson loading, analytics event definitions.
+- `lesson_runtime`
+  - lesson flow, completion effects, recap, analytics, and pacing.
+- `content_generation_pipeline`
+  - generator, evidence, extractor, deterministic gates, and lesson validation.
+- `generated_data`
+  - lesson JSON and locale dictionaries generated from the current lesson spine.
+  - High risk for accidental churn. Stage only after validating the corresponding lesson/runtime change.
+- `preview_debug`
+  - retained debug route changes.
+- `test_contracts`
+  - Jest setup and tests that pin the above changes.
+
+Do not collapse these into one commit or one PR narrative. The current tree is
+understandable only when split by these buckets.
+
 Commit split order:
 
 ```bash
@@ -28,14 +71,18 @@ These include retained debug surfaces and explicitly owned temporary UI.
 
 ## Cleanup Order
 
-1. repo hygiene and docs
-2. iOS native repair and smoke tooling
-3. app shell compression
-4. app-state container split
-5. question runtime and renderer split
-6. analytics, remote content, lessons, config facades
-7. generated lesson locale indexes
-8. preview/debug assets
+1. workspace agent guidance
+2. North Star quality system
+3. repo hygiene and docs
+4. local artifact cleanup
+5. app shell / lesson UI
+6. app-state and auth behavior
+7. question runtime and renderer split
+8. analytics, lesson runtime, content config
+9. content generation pipeline
+10. generated lesson / locale data
+11. preview/debug assets
+12. test contracts, paired with their owning bucket when possible
 
 ## Suggested Feature Buckets
 
@@ -44,10 +91,48 @@ These include retained debug surfaces and explicitly owned temporary UI.
 - `.gitignore`
 - `docs/REPO_HYGIENE.md`
 - `docs/START_HERE.md`
+- `docs/WORKTREE_CLEANUP.md`
 - `docs/IOS_NATIVE_REPAIR_PLAYBOOK.md`
 - `docs/UX_NATIVE_AGENT.md`
 - `scripts/ios/`
 - `scripts/native-agent/`
+
+### 1a. Workspace Agent Guidance
+
+- `../AGENTS.md`
+- `../CLAUDE.md`
+
+### 1b. North Star Quality System
+
+- `.github/workflows/content-quality.yml`
+- `docs/PRINCIPLES.md`
+- `docs/CONTENT_SYSTEM_SPEC.md`
+- `docs/CONTENT_GUIDELINES.md`
+- `docs/LESSON_AUTHORING.md`
+- `docs/OPERATIONS.md`
+- `docs/BIGAPP_ROADMAP.md`
+- `docs/LESSON_PILOT_RAW.md`
+- `docs/NORTH_STAR_PROGRESS.md`
+- `docs/REFERENCE_LEARNING_EXPERIENCE_SAMPLES.md`
+- `data/content-intake/`
+- `scripts/append-north-star-progress.js`
+- `scripts/audit-lesson-quality-algorithm.js`
+- `scripts/audit-paleo-insight-layer.js`
+- `scripts/audit-reference-calibration.js`
+- `scripts/audit-retention-content-loop.js`
+- `scripts/check-lesson-authoring-single-source.sh`
+- `scripts/check-north-star-progress.js`
+- `scripts/content-intake.js`
+- `scripts/rebuild-ja-lessons-to-spine.js`
+- `types/contentIntake.ts`
+
+### 1c. Local Artifacts
+
+- `_artifacts/`
+
+These should remain ignored for future output. If tracked release archives are
+removed, keep that as an explicit cleanup decision rather than mixing it with
+lesson or UI changes.
 
 ### 2. Screen and Component Shell Compression
 

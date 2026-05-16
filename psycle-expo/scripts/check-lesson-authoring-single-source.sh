@@ -1,15 +1,16 @@
 #!/bin/bash
 
-# Lesson Authoring Single Source Checker
-# レッスン作成仕様の正本一本化を強制するチェックスクリプト
+# Lesson Authoring Canonical Source Checker
+# 品質判断と運用契約の正本分離を強制するチェックスクリプト
 
 set -e
 
-echo "🔍 レッスン作成仕様の正本一本化チェック開始..."
+echo "🔍 レッスン作成仕様の正本分離チェック開始..."
 echo "================================================"
 
 # 正本ファイル
-CANONICAL_SOURCE="docs/PRINCIPLES.md"
+CANONICAL_QUALITY_SOURCE="docs/PRINCIPLES.md"
+CANONICAL_OPS_SOURCE="docs/CONTENT_SYSTEM_SPEC.md"
 
 # チェック対象キーワード（ルール本文を示すキーワード）
 RULE_KEYWORDS=(
@@ -57,10 +58,10 @@ for keyword in "${RULE_KEYWORDS[@]}"; do
     # 正本以外でキーワードを検索
     if command -v rg >/dev/null 2>&1; then
         # ripgrepが利用可能な場合
-        MATCHES=$(rg -l "$keyword" --type-not=json --glob="!$CANONICAL_SOURCE" --glob="!data/lessons/**" --glob="!node_modules/**" --glob="!.git/**" data/lessons 2>/dev/null || true)
+        MATCHES=$(rg -l "$keyword" --type-not=json --glob="!$CANONICAL_QUALITY_SOURCE" --glob="!$CANONICAL_OPS_SOURCE" --glob="!data/lessons/**" --glob="!node_modules/**" --glob="!.git/**" data/lessons 2>/dev/null || true)
     else
         # grepを使用 (正本と自分自身は除外)
-        MATCHES=$(grep -r -l -E "$keyword" . $EXCLUDE_ARGS --exclude="$(basename "$CANONICAL_SOURCE")" --exclude="$(basename "$0")" 2>/dev/null | grep -v "^\./$CANONICAL_SOURCE$" || true)
+        MATCHES=$(grep -r -l -E "$keyword" . $EXCLUDE_ARGS --exclude="$(basename "$CANONICAL_QUALITY_SOURCE")" --exclude="$(basename "$CANONICAL_OPS_SOURCE")" --exclude="$(basename "$0")" 2>/dev/null | grep -v "^\./$CANONICAL_QUALITY_SOURCE$" | grep -v "^\./$CANONICAL_OPS_SOURCE$" || true)
     fi
     
     if [ -n "$MATCHES" ]; then
@@ -88,13 +89,13 @@ echo "📊 チェック結果"
 echo "=============="
 
 if [ $ERROR_COUNT -eq 0 ]; then
-    echo "✅ 正本一本化チェック: 成功"
-    echo "   レッスン作成仕様のルール本文は $CANONICAL_SOURCE のみに存在します"
+    echo "✅ 正本分離チェック: 成功"
+    echo "   品質判断は ${CANONICAL_QUALITY_SOURCE}, 運用契約は ${CANONICAL_OPS_SOURCE} に分離されています"
     echo ""
-    echo "🎉 仕様分裂なし - 正本一本化が維持されています！"
+    echo "🎉 仕様分裂なし - 正本分離が維持されています！"
     exit 0
 else
-    echo "❌ 正本一本化チェック: 失敗"
+    echo "❌ 正本分離チェック: 失敗"
     echo "   $ERROR_COUNT 個のルールキーワードが正本以外で発見されました"
     echo ""
     echo "🚨 違反一覧:"
@@ -104,7 +105,7 @@ else
     echo ""
     echo "💡 修正方法:"
     echo "   1. 違反ファイルからルール本文を削除"
-    echo "   2. 代わりに '$CANONICAL_SOURCE を参照' のリンクを追加"
+    echo "   2. 品質判断なら '$CANONICAL_QUALITY_SOURCE を参照'、運用契約なら '$CANONICAL_OPS_SOURCE を参照' のリンクを追加"
     echo "   3. 実行手順・コマンドのみ残す"
     echo ""
     exit 1
