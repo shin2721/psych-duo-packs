@@ -103,6 +103,8 @@
   - seed / claim / blueprint / package / runtime / support / route / readiness / ops の詳細契約。
 - `REFERENCE_LEARNING_EXPERIENCE_SAMPLES.md`
   - D-Lab / Paleo calibration corpus。参考元の要約ではなく、Psycle へ変換するためのサンプル台帳。
+- `AI_MODEL_OPERATING_MODEL.md`
+  - Claude / Gemini / GPT-Codex / future model の役割分担と、モデル更新時の再評価ルール。
 - `NORTH_STAR_PROGRESS.md`
   - 変更の handoff。何を変え、何を検証し、何が未証明かを残す。
 

@@ -174,6 +174,10 @@ Operational commands:
 
 ## 可変部分（差し替え可能）
 
+Model roles and update-review rules live in
+[`AI_MODEL_OPERATING_MODEL.md`](./AI_MODEL_OPERATING_MODEL.md). The table below
+is the current implementation default, not a permanent ranking of providers.
+
 | 機能 | 今 | 将来 |
 |------|-----|------|
 | Source pull | RSS / registry / API | API / DB |

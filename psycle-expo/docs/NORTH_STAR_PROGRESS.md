@@ -116,6 +116,24 @@ Useful next work:
 
 ## Update Log
 
+### 2026-05-26 - Broaden centaur thinking into normal Codex development
+
+- Changed: Added a concise Codex development loop to AI_MODEL_OPERATING_MODEL and made START_HERE point to the five required project sources in order.
+- Verified: `git diff --check` and `npm run check:north-star-progress` passed on 2026-07-11.
+- Remaining: This changes operating discipline only; product/runtime quality still requires task-specific verification.
+
+### 2026-05-26 - Clarify Codex-only centaur workflow
+
+- Changed: Updated AI_MODEL_OPERATING_MODEL with Current Codex-Only Mode: source-modeling, raw-pilot, critic, implementation, and runtime/owner-judgment passes must stay separate when Codex is the only active AI operator. Marked ANTIGRAVITY_PLAYBOOK as optional/future, not the current default.
+- Verified: `git diff --check` and `npm run check:north-star-progress` passed on 2026-07-11.
+- Remaining: This improves operating discipline but does not prove lesson quality until raw pilot and Simulator review.
+
+### 2026-05-16 - Document AI model operating model
+
+- Changed: Added docs/AI_MODEL_OPERATING_MODEL.md and linked it from PRINCIPLES, CONTENT_SYSTEM_SPEC, and START_HERE. The doc defines Claude/Gemini/GPT-Codex role boundaries, update triggers, benchmark-before-switch rules, and the invariant that models can change but Psycle contracts do not.
+- Verified: The document is linked from the canonical entry points; `git diff --check` and `npm run check:north-star-progress` passed on 2026-07-11.
+- Remaining: Actual lesson quality remains unproven until raw pilot and Simulator review.
+
 ### 2026-05-16 - Organized the large Psycle worktree into reviewable buckets.
 
 - Changed: Updated worktree-status-buckets.py so current changes no longer fall into an unowned other bucket. Added workspace_agent_guidance, north_star_quality_system, local_artifacts, and clearer ownership for auth, lesson runtime, and test setup. Updated WORKTREE_CLEANUP, COMMIT_HYGIENE, and REPO_HYGIENE with the current 2026-05-16 cleanup snapshot, commit split order, artifact handling, and the rule that an organized tree must have no other bucket.
