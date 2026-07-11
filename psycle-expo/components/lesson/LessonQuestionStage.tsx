@@ -57,7 +57,7 @@ export function LessonQuestionStage(props: {
       </View>
 
       <QuestionRenderer
-        key={props.currentIndex}
+        key={`question-${props.isReviewRound ? "review" : "core"}-${props.currentQuestion.id || props.currentIndex}`}
         question={props.currentQuestion}
         combo={props.combo}
         onContinue={props.onAnswer}
@@ -72,7 +72,9 @@ export function LessonQuestionStage(props: {
           });
         }}
       />
-      {props.xpAnimation.visible && <XPGainAnimation key={props.xpAnimation.key} amount={props.xpAnimation.amount} />}
+      {props.xpAnimation.visible && (
+        <XPGainAnimation key={`xp-${props.xpAnimation.key}`} amount={props.xpAnimation.amount} />
+      )}
     </SafeAreaView>
   );
 }

@@ -12,41 +12,21 @@ import {
 import { StarBackground } from "../components/StarBackground";
 import { FireflyLoader } from "../components/FireflyLoader";
 import i18n from "../lib/i18n";
-import entitlements from "../config/entitlements.json";
 import { useAuth } from "../lib/AuthContext";
 import { useToast } from "../components/ToastProvider";
 import { getComboXpConfig, getDoubleXpNudgeConfig } from "../lib/gamificationConfig";
+import {
+  DEFAULT_LESSON_SIZE,
+  FIRST_SESSION_LESSON_SIZE,
+  OPTIMAL_P_MAX,
+  OPTIMAL_P_MIN,
+} from "../lib/lesson/lessonDefaults";
 import { useLessonLoader } from "../lib/lesson/useLessonLoader";
 import { useLessonRuntime } from "../lib/lesson/useLessonRuntime";
 import { useLessonPostCompletion } from "../lib/lesson/useLessonPostCompletion";
 import { LessonCompletionView } from "../components/lesson/LessonCompletionView";
 import { LessonQuestionStage } from "../components/lesson/LessonQuestionStage";
 
-interface LessonDefaultsConfig {
-  defaults?: {
-    lesson_size?: number;
-    first_session_lesson_size?: number;
-    optimal_p_min?: number;
-    optimal_p_max?: number;
-  };
-}
-
-function normalizePositiveInt(value: number | undefined, fallback: number): number {
-  if (typeof value !== "number" || !Number.isFinite(value)) return fallback;
-  const normalized = Math.floor(value);
-  return normalized > 0 ? normalized : fallback;
-}
-
-const lessonDefaults = entitlements as LessonDefaultsConfig;
-const DEFAULT_LESSON_SIZE = normalizePositiveInt(lessonDefaults.defaults?.lesson_size, 10);
-const FIRST_SESSION_LESSON_SIZE = normalizePositiveInt(
-  lessonDefaults.defaults?.first_session_lesson_size,
-  Math.min(5, DEFAULT_LESSON_SIZE)
-);
-const OPTIMAL_P_MIN =
-  typeof lessonDefaults.defaults?.optimal_p_min === "number" ? lessonDefaults.defaults.optimal_p_min : 0.55;
-const OPTIMAL_P_MAX =
-  typeof lessonDefaults.defaults?.optimal_p_max === "number" ? lessonDefaults.defaults.optimal_p_max : 0.7;
 const comboXpConfig = getComboXpConfig();
 const doubleXpNudgeConfig = getDoubleXpNudgeConfig();
 

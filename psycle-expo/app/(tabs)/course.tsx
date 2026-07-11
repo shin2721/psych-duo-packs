@@ -17,6 +17,8 @@ import {
   getOnboardingPrimaryGenreToApply,
   loadPrimaryOnboardingGenre,
 } from "../../lib/onboardingSelection";
+import { hasCompletedFirstLesson } from "../../lib/onboarding";
+import { FIRST_SESSION_LESSON_SIZE } from "../../lib/lesson/lessonDefaults";
 import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { useBillingState, useEconomyState, usePracticeState, useProgressionState } from "../../lib/state";
 import { useToast } from "../../components/ToastProvider";
@@ -199,6 +201,17 @@ export default function CourseScreen() {
   const [paywallContextGenre, setPaywallContextGenre] = useState<string | null>(null);
   const [leagueResult, setLeagueResult] = useState<LeagueResult | null>(null);
   const [showLeagueResult, setShowLeagueResult] = useState(false);
+  const [firstLessonCompleted, setFirstLessonCompleted] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+    void hasCompletedFirstLesson().then((completed) => {
+      if (!cancelled) setFirstLessonCompleted(completed);
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [completedLessons.size]);
 
   useEffect(() => {
     async function checkLeagueResult() {
@@ -285,6 +298,10 @@ export default function CourseScreen() {
         lessonSupportCandidate,
         masteryCandidate,
         nextActionNode,
+        sessionQuestionLimit:
+          completedLessons.size === 0 && firstLessonCompleted === false
+            ? FIRST_SESSION_LESSON_SIZE
+            : undefined,
         supportBudgetSummary,
         streakRepairOffer,
         comebackRewardOffer,
@@ -295,6 +312,8 @@ export default function CourseScreen() {
       lessonSupportCandidate,
       masteryCandidate,
       nextActionNode,
+      completedLessons.size,
+      firstLessonCompleted,
       supportBudgetSummary,
       streakRepairOffer,
       comebackRewardOffer,
@@ -639,8 +658,6 @@ export default function CourseScreen() {
     return <View style={styles.container} />;
   }
 
-  const shouldShowFirstStepCopy = completedLessons.size === 0 || model.currentLesson.levelNumber <= 1;
-
   return (
     <View style={styles.container}>
       <CourseWorldHero
@@ -650,10 +667,10 @@ export default function CourseScreen() {
         onPrimaryPress={handleLaunchCurrent}
         onSupportPress={handleSupportPress}
         onUnitPress={() => setMenuVisible(true)}
-        showMeta={shouldShowFirstStepCopy}
+        showMeta={firstLessonCompleted !== null}
         showPrimaryAction
-        hideVisibleCopy={!shouldShowFirstStepCopy}
-        heroOffsetY={shouldShowFirstStepCopy ? 8 : 42}
+        hideVisibleCopy={false}
+        heroOffsetY={8}
         habitSummary={{
           dailyGoal,
           dailyXP,
