@@ -19,7 +19,8 @@ Use this page as the first hop into Psycle's operational docs.
   - `npm run metro:agent:status`
   - `npm run ios:repair:native`
 - Local dev bundle id:
-  - `com.s6n2j9.psycle`
+  - `com.shin27.psycle`
+  - Development and release builds share this identifier, so verify the installed build before runtime checks.
 
 ## Active Product Surface
 
