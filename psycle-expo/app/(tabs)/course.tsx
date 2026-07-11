@@ -175,6 +175,7 @@ export default function CourseScreen() {
     selectedGenre,
     setSelectedGenre,
     completedLessons,
+    isStateHydrated,
     dailyGoal,
     dailyXP,
     streakRepairOffer,
@@ -229,6 +230,7 @@ export default function CourseScreen() {
     let cancelled = false;
 
     async function applyOnboardingPrimaryGenre() {
+      if (!isStateHydrated) return;
       if (completedLessons.size > 0) return;
       const primaryGenreId = await loadPrimaryOnboardingGenre();
       if (cancelled) return;
@@ -253,7 +255,7 @@ export default function CourseScreen() {
     return () => {
       cancelled = true;
     };
-  }, [completedLessons.size, selectedGenre, setSelectedGenre]);
+  }, [completedLessons.size, isStateHydrated, selectedGenre, setSelectedGenre]);
 
   const currentTrail = useMemo(
     () => buildCurrentTrail(selectedGenre, hasProAccess, completedLessons),
@@ -266,11 +268,12 @@ export default function CourseScreen() {
   const lessonSupportCandidate = getLessonSupportCandidate();
 
   useEffect(() => {
+    if (!isStateHydrated) return;
     primeMasteryTheme({
       themeId: selectedGenre,
       availableVariantIds: availableMasteryVariantIds,
     });
-  }, [availableMasteryVariantIds, primeMasteryTheme, selectedGenre]);
+  }, [availableMasteryVariantIds, isStateHydrated, primeMasteryTheme, selectedGenre]);
 
   const masteryCandidate = useMemo(
     () =>
@@ -372,6 +375,7 @@ export default function CourseScreen() {
   }, [dailyGoal, dailyXP, primaryActionTelemetry]);
 
   useEffect(() => {
+    if (!isStateHydrated) return;
     if (!model || !primaryActionTelemetry) return;
     const analyticsKey = [
       selectedGenre,
@@ -396,9 +400,10 @@ export default function CourseScreen() {
       supportKind: primaryActionTelemetry.supportKind,
       appEnv: getEngagementAppEnv(),
     });
-  }, [engagementUserState, model, primaryActionTelemetry, selectedGenre]);
+  }, [engagementUserState, isStateHydrated, model, primaryActionTelemetry, selectedGenre]);
 
   useEffect(() => {
+    if (!isStateHydrated) return;
     if (!returnReasonTelemetry) return;
     const analyticsKey = [
       selectedGenre,
@@ -431,12 +436,14 @@ export default function CourseScreen() {
     dailyGoal,
     dailyXP,
     engagementUserState,
+    isStateHydrated,
     returnReasonTelemetry,
     selectedGenre,
     streak,
   ]);
 
   useEffect(() => {
+    if (!isStateHydrated) return;
     if (!lessonSupportCandidate) return;
     if (model?.supportMoment?.kind !== lessonSupportCandidate.kind) return;
     recordSupportMomentSeen(lessonSupportCandidate);
@@ -445,10 +452,12 @@ export default function CourseScreen() {
     lessonSupportCandidate?.kind,
     lessonSupportCandidate?.lessonId,
     lessonSupportCandidate?.reason,
+    isStateHydrated,
     recordSupportMomentSeen,
   ]);
 
   useEffect(() => {
+    if (!isStateHydrated) return;
     if (!lessonSupportCandidate) return;
     if (model?.supportMoment?.kind !== lessonSupportCandidate.kind) return;
     const analyticsKey = [
@@ -472,6 +481,7 @@ export default function CourseScreen() {
       weeklyKindRemaining: supportBudgetSummary.weeklyKindRemaining[lessonSupportCandidate.kind],
     });
   }, [
+    isStateHydrated,
     lessonSupportCandidate,
     model?.supportMoment?.kind,
     supportBudgetSummary.weeklyBudget,
@@ -481,6 +491,7 @@ export default function CourseScreen() {
   ]);
 
   useEffect(() => {
+    if (!isStateHydrated) return;
     if (!masteryCandidate?.lessonId) return;
     if (model?.supportMoment?.kind !== "mastery") return;
     const analyticsKey = [
@@ -504,6 +515,7 @@ export default function CourseScreen() {
       masteryCeilingState: masteryCandidate.masteryCeilingState,
     });
   }, [
+    isStateHydrated,
     masteryCandidate?.activeSlotsRemaining,
     masteryCandidate?.graduationState,
     masteryCandidate?.lessonId,
