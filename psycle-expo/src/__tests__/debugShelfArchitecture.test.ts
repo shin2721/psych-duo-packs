@@ -2,17 +2,15 @@ import fs from "node:fs";
 
 import { SETTINGS_DEBUG_ROUTES } from "../../lib/settings/settingsDebugRoutes";
 
-const ROOT = "/Users/mashitashinji/dev/psych-duo-packs/psycle-expo";
-
 function exists(path: string): boolean {
-  return fs.existsSync(`${ROOT}/${path}`);
+  return fs.existsSync(`${process.cwd()}/${path}`);
 }
 
 describe("debug shelf architecture", () => {
   test("settings retains only the approved debug routes", () => {
     expect(SETTINGS_DEBUG_ROUTES.map((route) => route.route)).toEqual([
       "/debug/analytics",
-      "/debug/course-concept-final",
+      "/debug/course-world-hero",
     ]);
   });
 
@@ -25,9 +23,9 @@ describe("debug shelf architecture", () => {
     expect(exists("components/provisional/CourseHeroSummit.tsx")).toBe(false);
   });
 
-  test("retained provisional comparison target stays wired", () => {
-    expect(exists("components/provisional/CourseHeroFinal.tsx")).toBe(true);
-    expect(exists("app/debug/course-concept-final.tsx")).toBe(true);
+  test("only the active course-world debug target stays wired", () => {
+    expect(exists("components/provisional/CourseHeroFinal.tsx")).toBe(false);
+    expect(exists("app/debug/course-concept-final.tsx")).toBe(false);
     expect(exists("app/debug/course-world-hero.tsx")).toBe(true);
   });
 });

@@ -8,8 +8,8 @@ describe("settingsDebugRoutes", () => {
         testID: "open-analytics-debug",
       }),
       expect.objectContaining({
-        route: "/debug/course-concept-final",
-        testID: "open-course-concept-final",
+        route: "/debug/course-world-hero",
+        testID: "open-course-world-clock",
       }),
     ]);
   });

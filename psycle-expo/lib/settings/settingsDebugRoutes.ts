@@ -17,10 +17,10 @@ export const SETTINGS_DEBUG_ROUTES: SettingsDebugRoute[] = [
     testID: "open-analytics-debug",
   },
   {
-    icon: "git-compare",
-    label: "GPT 試作UI",
-    route: "/debug/course-concept-final",
-    accessibilityLabel: "GPT 試作UI",
-    testID: "open-course-concept-final",
+    icon: "time",
+    label: "Course World Clock",
+    route: "/debug/course-world-hero",
+    accessibilityLabel: "Course World Clock",
+    testID: "open-course-world-clock",
   },
 ];

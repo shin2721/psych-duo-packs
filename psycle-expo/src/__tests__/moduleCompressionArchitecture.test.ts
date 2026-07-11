@@ -1,7 +1,7 @@
 import fs from "node:fs";
 
 function read(path: string): string {
-  return fs.readFileSync(`/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/${path}`, "utf8");
+  return fs.readFileSync(`${process.cwd()}/${path}`, "utf8");
 }
 
 describe("module compression architecture", () => {
@@ -22,16 +22,6 @@ describe("module compression architecture", () => {
     expect(source).toContain('from "./lesson-data/lessonTitles"');
     expect(source).not.toContain("function adaptQuestion(");
     expect(source).not.toContain("function getLessonTitle(");
-  });
-
-  test("CourseHeroFinal uses extracted scene component", () => {
-    const source = read("components/provisional/CourseHeroFinal.tsx");
-    const scene = read("components/provisional/courseHeroFinal/CourseHeroFinalScene.tsx");
-
-    expect(source).toContain("CourseHeroFinalScene");
-    expect(source).not.toContain("const CANOPY_ORBS");
-    expect(scene).toContain("CANOPY_ORBS");
-    expect(scene).toContain("export function CourseHeroFinalScene");
   });
 
   test("courseWorld delegates view-model building to a companion module", () => {
