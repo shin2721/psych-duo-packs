@@ -32,6 +32,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     useEffect(() => {
         const initSession = async () => {
+            let restoredGuestSession: Session | null = null;
+
             if (!canUseGuestSession) {
                 // Cleanup legacy guest session key once in normal mode.
                 await AsyncStorage.removeItem('guestSession').catch(() => { });
@@ -40,7 +42,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
                 try {
                     const guestSessionStr = await AsyncStorage.getItem('guestSession');
                     if (guestSessionStr) {
-                        setSession(JSON.parse(guestSessionStr));
+                        restoredGuestSession = JSON.parse(guestSessionStr) as Session;
+                        setSession(restoredGuestSession);
                         setIsLoading(false);
                     }
                 } catch (error) {
@@ -50,7 +53,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
             try {
                 const { data: { session: supabaseSession } } = await supabase.auth.getSession();
-                setSession(supabaseSession ?? null);
+                setSession(supabaseSession ?? restoredGuestSession);
                 if (supabaseSession) {
                     await AsyncStorage.removeItem('guestSession').catch(() => { });
                 }
@@ -63,8 +66,12 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
         initSession();
 
-        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-            setSession(session);
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, nextSession) => {
+            setSession((currentSession) => {
+                if (nextSession) return nextSession;
+                const isLocalGuest = currentSession?.user.id.startsWith(GUEST_USER_ID_PREFIX) ?? false;
+                return canUseGuestSession && isLocalGuest ? currentSession : null;
+            });
         });
 
         return () => subscription.unsubscribe();
