@@ -61,6 +61,24 @@ function asLessonLane(value: unknown): LessonLane | undefined {
     : undefined;
 }
 
+function asOptionalIndex(value: unknown): number | undefined {
+  if (value === null || value === undefined || value === "") return undefined;
+  const index = Number(value);
+  return Number.isFinite(index) ? Math.floor(index) : undefined;
+}
+
+function asDifficulty(value: unknown): Question["difficulty"] {
+  if (typeof value === "string" && value.trim()) return value;
+  if (value === 1) return "easy";
+  if (value === 3) return "hard";
+  return "medium";
+}
+
+function asXp(value: unknown): number {
+  const xp = Number(value);
+  return Number.isFinite(xp) && xp >= 0 ? xp : 5;
+}
+
 const TYPE_MAP: Record<string, string> = {
   truefalse: "true_false",
   mcq3: "multiple_choice",
@@ -127,6 +145,9 @@ export function warnLessonLoadSummary(
 
 function adaptQuestion(raw: Record<string, unknown>): Question {
   const content = asRecord(raw.content);
+  const correctIndex = asOptionalIndex(
+    raw.correct_answer ?? raw.answer_index ?? raw.correct_index
+  );
 
   const rawType = typeof raw.type === "string" ? raw.type : "multiple_choice";
   const mappedType = normalizeQuestionType(TYPE_MAP[rawType] || rawType);
@@ -147,17 +168,14 @@ function adaptQuestion(raw: Record<string, unknown>): Question {
       (typeof raw.text === "string" && raw.text) ||
       "質問",
     choices: asStringArray(content.options ?? raw.choices ?? raw.bank),
-    correct_index: Number(
-      raw.correct_answer ?? raw.answer_index ?? raw.correct_index ?? 0
-    ),
+    correct_index: correctIndex,
     explanation:
       (typeof raw.snack === "string" && raw.snack) ||
       (typeof raw.explanation === "string" ? raw.explanation : raw.explanation) ||
       "",
-    source_id: typeof raw.id === "string" ? raw.id : "",
-    difficulty:
-      raw.difficulty === 1 ? "easy" : raw.difficulty === 3 ? "hard" : "medium",
-    xp: 5,
+    source_id: typeof raw.source_id === "string" ? raw.source_id : undefined,
+    difficulty: asDifficulty(raw.difficulty),
+    xp: asXp(raw.xp),
     image: typeof raw.image === "string" ? raw.image : undefined,
     audio: typeof raw.audio === "string" ? raw.audio : undefined,
     imageCaption:

@@ -46,7 +46,7 @@ function calculateLearningValue(
  * Helper to get unique ID from question
  */
 function getQuestionId(q: { id?: string; source_id?: string }): string | undefined {
-    return q.source_id || q.id;
+    return q.id || q.source_id;
 }
 
 /**

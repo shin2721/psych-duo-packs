@@ -163,7 +163,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
       params.recordLessonSessionStart(
         runtimeLessonId,
         lessonBundle.effectiveQuestions
-          .map((question) => question.source_id || question.id)
+          .map((question) => question.id || question.source_id)
           .filter((id): id is string => typeof id === "string" && id.length > 0)
       );
 
@@ -219,7 +219,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
       const questionInHandler = questions[currentIndex];
       if (!questionInHandler) return;
 
-      const itemId = questionInHandler.source_id || questionInHandler.id;
+      const itemId = questionInHandler.id || questionInHandler.source_id;
       if (typeof itemId === "string" && itemId.length > 0) {
         params.addReviewEvent({
           itemId,

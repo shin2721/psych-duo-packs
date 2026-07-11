@@ -74,7 +74,7 @@ export default function MistakesHubScreen() {
 
   const handleContinue = (isCorrect: boolean, xp: number) => {
     const currentQuestion = questions[currentIndex];
-    const currentItemId = currentQuestion?.source_id ?? currentQuestion?.id;
+    const currentItemId = currentQuestion?.id ?? currentQuestion?.source_id;
     const resolvedSessionItem = typeof currentItemId === "string"
       ? mistakesHubSessionItems.find((item) => item.itemId === currentItemId)
       : undefined;

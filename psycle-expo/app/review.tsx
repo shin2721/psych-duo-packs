@@ -61,7 +61,7 @@ export default function ReviewScreen() {
 
     const handleContinue = (isCorrect: boolean, xp: number) => {
         const currentQ = sessionQuestions[currentIndex];
-        const questionId = currentQ?.source_id ?? currentQ?.id;
+        const questionId = currentQ?.id ?? currentQ?.source_id;
         if (!questionId) {
             return;
         }

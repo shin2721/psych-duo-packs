@@ -129,15 +129,15 @@ function deriveQuestionGroups(unit: string, questions: Question[]): {
   const masteryLevels = new Set<number>();
 
   questions.forEach((question) => {
-    if (!question.source_id) return;
+    if (!question.id) return;
 
-    const coreMatch = question.source_id.match(new RegExp(`^${unit}_l(\\d+)_`));
+    const coreMatch = question.id.match(new RegExp(`^${unit}_l(\\d+)_`));
     if (coreMatch) {
       coreLevels.add(parseInt(coreMatch[1], 10));
       return;
     }
 
-    const masteryMatch = question.source_id.match(new RegExp(`^${unit}_m(\\d+)_`));
+    const masteryMatch = question.id.match(new RegExp(`^${unit}_m(\\d+)_`));
     if (masteryMatch) {
       masteryLevels.add(parseInt(masteryMatch[1], 10));
     }
@@ -163,14 +163,11 @@ function buildLessonRecord(args: {
   let references: Reference[] = [];
 
   if (firstQuestion?.source_id) {
-    const sourceMatch = firstQuestion.source_id.match(/^[a-z]+_[lm]\d+_(.+)$/);
-    if (sourceMatch) {
-      references = [{
-        citation: sourceMatch[1].replace(/_/g, ' '),
-        note: "主要参照",
-        level: firstQuestion.evidence_grade || "silver"
-      }];
-    }
+    references = [{
+      citation: firstQuestion.source_id,
+      note: "主要参照",
+      level: firstQuestion.evidence_grade || "silver"
+    }];
   }
 
   return {
@@ -265,13 +262,13 @@ export function loadLessons(unit: string): Lesson[] {
       // レベル専用の問題をIDでフィルタリング（例: mental_l01_xxx）
       const levelPrefix = `${unit}_l${String(level).padStart(2, '0')}_`;
       let levelQuestions = questions.filter(q =>
-        q.source_id && q.source_id.startsWith(levelPrefix)
+        q.id && q.id.startsWith(levelPrefix)
       );
 
-      // source_id順でソートして、fallback補完時の順序を安定化させる
+      // question id順でソートして、fallback補完時の順序を安定化させる
       levelQuestions.sort((a, b) => {
-        if (a.source_id && b.source_id) {
-          return a.source_id.localeCompare(b.source_id);
+        if (a.id && b.id) {
+          return a.id.localeCompare(b.id);
         }
         return 0;
       });
@@ -286,7 +283,7 @@ export function loadLessons(unit: string): Lesson[] {
       }
 
       // Duplication check (Level questions only)
-      const ids = lessonQuestions.map(q => q.source_id);
+      const ids = lessonQuestions.map(q => q.id);
       const uniqueIds = new Set(ids);
       if (ids.length !== uniqueIds.size) {
         diagnostics.duplicateQuestionIds += ids.length - uniqueIds.size;
@@ -297,13 +294,13 @@ export function loadLessons(unit: string): Lesson[] {
         const needed = targetQuestionCount - lessonQuestions.length;
 
         const otherQuestions = questions.filter(q =>
-          !q.source_id || !q.source_id.startsWith(levelPrefix)
+          !q.id || !q.id.startsWith(levelPrefix)
         );
 
         // Development: Use fixed order instead of random shuffle
-        // Sort by source_id for consistent ordering
+        // Sort by question id for consistent ordering
         const sorted = [...otherQuestions].sort((a, b) =>
-          (a.source_id || '').localeCompare(b.source_id || '')
+          (a.id || '').localeCompare(b.id || '')
         );
 
         const fallbackQuestions = sorted.slice(0, needed);
@@ -326,7 +323,7 @@ export function loadLessons(unit: string): Lesson[] {
       if (level === 5 && maxLevels > 5) {
         // Pick random 5 questions from pool for review
         // In a real app, this would be "mistakes"
-        const reviewPool = questions.filter(q => q.source_id && !q.source_id.startsWith(`${unit}_l05`)); // Exclude just finished
+        const reviewPool = questions.filter(q => q.id && !q.id.startsWith(`${unit}_l05`)); // Exclude just finished
         const reviewQuestions = [...reviewPool].sort(() => 0.5 - Math.random()).slice(0, 5);
 
         lessons.push(
@@ -356,8 +353,8 @@ export function loadLessons(unit: string): Lesson[] {
       );
       const masteryPrefix = `${unit}_m${String(masteryLevel).padStart(2, '0')}_`;
       const masteryQuestions = questions
-        .filter((question) => question.source_id && question.source_id.startsWith(masteryPrefix))
-        .sort((left, right) => (left.source_id || '').localeCompare(right.source_id || ''));
+        .filter((question) => question.id && question.id.startsWith(masteryPrefix))
+        .sort((left, right) => (left.id || '').localeCompare(right.id || ''));
 
       if (masteryQuestions.length === 0) continue;
 
@@ -395,7 +392,7 @@ export function getQuestionFromId(lessonId: string, questionId: string): Questio
   if (coreLevel || masteryLevel) {
     const directLesson = lessons.find((lesson) => lesson.id === resolvedLessonId);
     if (directLesson) {
-      const directQuestion = directLesson.questions.find((question) => question.source_id === questionId);
+      const directQuestion = directLesson.questions.find((question) => question.id === questionId);
       if (directQuestion) return directQuestion;
     }
   }
@@ -405,14 +402,14 @@ export function getQuestionFromId(lessonId: string, questionId: string): Questio
     const lessonIndex = parseInt(lessonNum, 10) - 1;
     const lesson = lessons[lessonIndex];
     if (lesson) {
-      const q = lesson.questions.find(q => q.source_id === questionId);
+      const q = lesson.questions.find(q => q.id === questionId);
       if (q) return q;
     }
   }
 
   // Fallback: Search all lessons in unit (in case lessonId format changes or is just unit)
   for (const lesson of lessons) {
-    const q = lesson.questions.find(q => q.source_id === questionId);
+    const q = lesson.questions.find(q => q.id === questionId);
     if (q) return q;
   }
 
