@@ -34,4 +34,10 @@ describe("progression container architecture", () => {
     expect(persistenceSource).toContain('key: "completedLessons"');
     expect(persistenceSource).toContain("value: [...args.completedLessons].sort()");
   });
+
+  test("daily goal progress survives same-day restarts", () => {
+    expect(persistenceSource).toContain('key: "dailyGoal"');
+    expect(persistenceSource).toContain('key: "dailyXp"');
+    expect(persistenceSource).toContain('key: "dailyGoalLastReset"');
+  });
 });

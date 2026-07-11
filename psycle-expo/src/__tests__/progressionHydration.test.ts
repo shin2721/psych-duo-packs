@@ -2,6 +2,7 @@ import { createComebackRewardOffer } from "../../lib/comebackReward";
 import { createStreakRepairOffer } from "../../lib/streakRepair";
 import { getQuestCycleKeys } from "../../lib/questCycles";
 import { createInitialQuestState } from "../../lib/app-state/progressionQuests";
+import { getTodayDate } from "../../lib/app-state/progression/progressionUtils";
 
 function loadHydrationModule(options?: {
   saved?: Record<string, string | null | undefined>;
@@ -89,6 +90,9 @@ describe("progressionHydration", () => {
     expect(result.streak).toBe(0);
     expect(result.personalizationSegment).toBe("new");
     expect(result.selectedGenre).toBe("mental");
+    expect(result.dailyGoal).toBe(10);
+    expect(result.dailyXP).toBe(0);
+    expect(result.dailyGoalLastReset).toBe(getTodayDate());
     expect([...result.completedLessons]).toEqual([]);
     expect(result.quests).toHaveLength(createInitialQuestState(getQuestCycleKeys()).quests.length);
   });
@@ -162,6 +166,9 @@ describe("progressionHydration", () => {
           "invalid",
           42,
         ]),
+        dailyGoal: "20",
+        dailyXp: "15",
+        dailyGoalLastReset: getTodayDate(),
       },
       remoteSnapshot: {
         xp: 50,
@@ -188,6 +195,9 @@ describe("progressionHydration", () => {
       "money_l01",
     ]);
     expect(result.personalizationAssignedAtMs).toBe(123456);
+    expect(result.dailyGoal).toBe(20);
+    expect(result.dailyXP).toBe(15);
+    expect(result.dailyGoalLastReset).toBe(getTodayDate());
     expect(result.claimedStreakMilestones).toEqual([3, 7]);
     expect(result.streakRepairOffer).not.toBeNull();
     expect(result.comebackRewardOffer).not.toBeNull();
@@ -217,5 +227,25 @@ describe("progressionHydration", () => {
 
     expect(loadPrimaryOnboardingGenre).toHaveBeenCalled();
     expect(result.selectedGenre).toBe("study");
+  });
+
+  test("resets stale daily XP while keeping the configured goal", async () => {
+    const { module } = loadHydrationModule({
+      saved: {
+        dailyGoal: "20",
+        dailyXp: "15",
+        dailyGoalLastReset: "2020-01-01",
+      },
+    });
+
+    const result = await module.hydrateProgressionState({
+      userId: "user-1",
+      questSchemaVersion: 2,
+      claimBonusGemsByType: { daily: 5, weekly: 10, monthly: 15 },
+    });
+
+    expect(result.dailyGoal).toBe(20);
+    expect(result.dailyXP).toBe(0);
+    expect(result.dailyGoalLastReset).toBe(getTodayDate());
   });
 });
