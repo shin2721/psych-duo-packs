@@ -10,6 +10,7 @@ export const zh = {
         close: '关闭',
         ok: '确定',
         retry: '重试',
+        back: '返回',
     },
     shop: {
         title: '商店',

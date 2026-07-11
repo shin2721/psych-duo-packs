@@ -10,6 +10,7 @@ export const fr = {
         close: 'Fermer',
         ok: 'OK',
         retry: 'Réessayer',
+        back: 'Retour',
     },
     shop: {
         title: 'Boutique',

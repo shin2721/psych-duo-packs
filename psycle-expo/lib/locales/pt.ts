@@ -10,6 +10,7 @@ export const pt = {
         close: 'Fechar',
         ok: 'OK',
         retry: 'Tentar novamente',
+        back: 'Voltar',
     },
     shop: {
         title: 'Loja',

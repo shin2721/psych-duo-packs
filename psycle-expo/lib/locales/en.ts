@@ -10,6 +10,7 @@ export const en = {
         close: 'Close',
         ok: 'OK',
         retry: 'Try Again',
+        back: 'Back',
         badgeUnlocked: 'Badge unlocked: %{badgeName}',
         streakMilestoneRewarded: 'Streak day %{day} reached: +%{gems} Gems',
         comebackRewardClaimed: 'Welcome-back reward: +%{energy} Energy / +%{gems} Gems',

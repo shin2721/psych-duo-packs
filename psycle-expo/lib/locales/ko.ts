@@ -10,6 +10,7 @@ export const ko = {
         close: '닫기',
         ok: '확인',
         retry: '다시 시도',
+        back: '뒤로',
     },
     shop: {
         title: '상점',

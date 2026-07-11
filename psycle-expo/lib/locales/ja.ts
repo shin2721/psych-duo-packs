@@ -10,6 +10,7 @@ export const ja = {
         close: '閉じる',
         ok: 'OK',
         retry: 'もう一度',
+        back: '戻る',
         badgeUnlocked: 'バッジ獲得: %{badgeName}',
         streakMilestoneRewarded: '連続%{day}日達成: +%{gems} Gems',
         comebackRewardClaimed: 'おかえり報酬: +%{energy} Energy / +%{gems} Gems',
