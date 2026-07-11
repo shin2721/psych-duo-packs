@@ -92,9 +92,8 @@ Interpretation:
 - Lesson candidates need real worthiness scoring, not just empty storage.
 - Analytics output needs to be reviewed after real use.
 - Evidence grades need stricter distribution; avoid everything drifting toward `silver`.
-- Completion screen transfer UI needs final Simulator verification after reaching the completion screen.
-- Existing Simulator warning about duplicate React keys should be investigated separately:
-  - `Encountered two children with the same key`
+- Simulator lesson completion and same-device restart continuity are verified; physical-device hardware verification remains open.
+- Completed-lesson continuity is local per user; remote cross-device completion sync remains open.
 
 ## How To Continue In A New Thread
 
@@ -115,6 +114,12 @@ Useful next work:
 - Verify `lesson_outcome_feedback`, `lesson_transfer_check`, and `lesson_repeat_check` in Analytics Debug or runtime logs.
 
 ## Update Log
+
+### 2026-07-11 - Restore trustworthy clock-course continuity across restart
+
+- Changed: Aligned active clock lesson promises with runtime content, kept answer feedback and completion flow usable, fixed review remount and runtime warnings, restored development guest and completed-lesson continuity, persisted same-day goal progress, and gated course telemetry until hydration.
+- Verified: 158 Jest suites / 639 tests, typecheck, launch-readiness, lesson validation, and direct iPhone 17 Pro Simulator onboarding-to-lesson-completion-to-relaunch; same guest resumed at lesson 2 with streak 1 and 27/10 XP.
+- Remaining: Physical iPhone 15 is unavailable, so device hardware verification remains open. Remote cross-device completion sync and real-user transfer/repeat evidence remain separate work; network-only billing and league fallbacks were not validated offline.
 
 ### 2026-07-11 - Separate Psycle question and research identities
 
