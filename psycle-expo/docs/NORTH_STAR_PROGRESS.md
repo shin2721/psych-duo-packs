@@ -116,6 +116,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-11 - Separate Psycle question and research identities
+
+- Changed: Question IDs now drive lesson grouping, review, mistake sessions, and adaptive selection; source_id remains the research-source identity; answerless conversations stay neutral instead of receiving a synthetic correct answer.
+- Verified: Typecheck and all 156 Jest suites / 626 tests passed. Lesson validation, Paleo insight audit, and launch-readiness checks passed.
+- Remaining: Human Simulator playthrough remains blocked by unavailable iOS runtimes. Evidence-package semantic alignment, durable progression, transfer events, and billing authorization remain separate follow-up buckets.
+
 ### 2026-07-11 - Align Psycle project map with the active clock course
 
 - Changed: Removed retired vertical Trail and course prototypes, replaced the generated 100-node scaffold with real loaded lesson inventory, and documented the active course and lesson surfaces.
