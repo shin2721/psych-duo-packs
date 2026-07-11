@@ -64,16 +64,13 @@ export function useCourseWorldScroll({
   const svCurrentIdx = useSharedValue(currentIdx);
   const svNodeCount  = useSharedValue(allNodes.length);
 
-  // 毎レンダー同期（clock mode 中は svCurrentIdx を上書きしない）
-  svNodeCount.value = allNodes.length;
-  if (!isClockRef.current) svCurrentIdx.value = currentIdx;
-
   useEffect(() => {
+    svNodeCount.value = allNodes.length;
     if (!isClockRef.current) {
       svCurrentIdx.value = currentIdx;
       lastHapticSlot.current = currentIdx;
     }
-  }, [currentIdx]);
+  }, [allNodes.length, currentIdx, svCurrentIdx, svNodeCount]);
 
   const enterClockMode = useCallback(() => {
     if (isClockRef.current) return;
