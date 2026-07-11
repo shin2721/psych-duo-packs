@@ -7,7 +7,7 @@ import { PaywallModal } from "../../components/PaywallModal";
 import { CourseLeagueResultGate } from "../../components/course/CourseLeagueResultGate";
 import { getLastWeekResult, type LeagueResult } from "../../lib/leagueReward";
 import { buildCourseWorldViewModel } from "../../lib/courseWorld";
-import { trailsByGenre, type TrailNode as CourseTrailNode } from "../../lib/data";
+import { buildCourseTrailInventory, type CourseTrailInventoryNode } from "../../lib/courseTrail";
 import { lessonSetHasResolvedId, resolveRuntimeLessonId } from "../../lib/lessonContinuity";
 import { listAvailableMasteryLessonIds } from "../../lib/masteryInventory";
 import { selectMasteryCandidate } from "../../lib/masteryCandidate";
@@ -142,8 +142,8 @@ function buildCurrentTrail(
   selectedGenre: string,
   hasProAccess: boolean,
   completedLessons: Set<string>
-): CourseTrailNode[] {
-  const baseTrail = trailsByGenre[selectedGenre] || trailsByGenre.mental;
+): CourseTrailInventoryNode[] {
+  const baseTrail = buildCourseTrailInventory(selectedGenre);
 
   return baseTrail.map((node, index) => {
     const lessonFile = node.lessonFile;

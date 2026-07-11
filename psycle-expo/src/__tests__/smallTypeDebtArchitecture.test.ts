@@ -1,7 +1,7 @@
 import fs from "node:fs";
 
 function read(path: string): string {
-  return fs.readFileSync(`/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/${path}`, "utf8");
+  return fs.readFileSync(`${process.cwd()}/${path}`, "utf8");
 }
 
 describe("small type debt architecture", () => {
@@ -11,7 +11,7 @@ describe("small type debt architecture", () => {
     const evidenceBottomSheet = read("components/EvidenceBottomSheet.tsx");
     const evidenceSources = read("components/evidenceBottomSheetSources.ts");
     const leagueReward = read("lib/leagueReward.ts");
-    const data = read("lib/data.ts");
+    const courseTrail = read("lib/courseTrail.ts");
 
     expect(settingsRows).toContain("icon: IoniconName;");
     expect(settingsRows).not.toContain("icon: any");
@@ -29,8 +29,8 @@ describe("small type debt architecture", () => {
     expect(leagueReward).toContain("const row = data as LeagueResultRow;");
     expect(leagueReward).not.toContain("data as any");
 
-    expect(data).toContain("export interface TrailNode");
-    expect(data).toContain("export const trailsByGenre: Record<string, TrailNode[]> = {");
-    expect(data).not.toContain("Record<string, any[]>");
+    expect(courseTrail).toContain("export interface CourseTrailInventoryNode");
+    expect(courseTrail).toContain("export function buildCourseTrailInventory");
+    expect(courseTrail).not.toContain("Record<string, any[]>");
   });
 });

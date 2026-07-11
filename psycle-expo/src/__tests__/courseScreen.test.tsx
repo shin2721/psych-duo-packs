@@ -246,13 +246,14 @@ jest.mock("../../lib/state", () => ({
 
 jest.mock("../../lib/data", () => ({
   genres: [{ id: "mental", label: "Mental" }],
-  trailsByGenre: {
-    mental: [
-      { icon: "leaf", id: "m1", lessonFile: "mental_l01" },
-      { icon: "flower", id: "m2", lessonFile: "mental_l02" },
-      { icon: "sparkles", id: "m3", lessonFile: "mental_l03" },
-    ],
-  },
+}));
+
+jest.mock("../../lib/courseTrail", () => ({
+  buildCourseTrailInventory: () => [
+    { icon: "leaf", id: "m1", lessonFile: "mental_l01" },
+    { icon: "flower", id: "m2", lessonFile: "mental_l02" },
+    { icon: "sparkles", id: "m3", lessonFile: "mental_l03" },
+  ],
 }));
 
 jest.mock("../../lib/i18n", () => ({
