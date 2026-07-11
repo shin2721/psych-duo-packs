@@ -116,6 +116,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-11 - Align Psycle project map with the active clock course
+
+- Changed: Removed retired vertical Trail and course prototypes, replaced the generated 100-node scaffold with real loaded lesson inventory, and documented the active course and lesson surfaces.
+- Verified: Typecheck passed; focused course, clock, debug-route, architecture, and inventory tests passed.
+- Remaining: Simulator verification is blocked until an iOS runtime is available. Learning identity, persistence, evidence alignment, and transfer measurement remain separate V2 work.
+
 ### 2026-05-26 - Broaden centaur thinking into normal Codex development
 
 - Changed: Added a concise Codex development loop to AI_MODEL_OPERATING_MODEL and made START_HERE point to the five required project sources in order.
