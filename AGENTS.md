@@ -13,6 +13,7 @@ Respond to the user in Japanese by default. English is acceptable for commit mes
   - `psycle-expo/docs/CONTENT_SYSTEM_SPEC.md`
   - `psycle-expo/docs/NORTH_STAR_PROGRESS.md`
   - `psycle-expo/docs/REPO_HYGIENE.md`
+  - `psycle-expo/docs/AI_MODEL_OPERATING_MODEL.md`
 - For Psycle product-direction, lesson-design, research, evidence, analytics, or gamification work, preserve the `Psycle North Star` section in `psycle-expo/docs/PRINCIPLES.md`:
   - Paleo-like research discovery and evidence critique.
   - D-Lab-like daily life improvement through small usable lessons.

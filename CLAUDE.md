@@ -2,6 +2,8 @@
 
 This file provides workspace-level guidance for Claude Code in this repository.
 
+@AGENTS.md
+
 ## 応答言語
 
 すべての応答は日本語で行うこと。コミットメッセージやPRタイトルなど、英語が慣習的に使われる箇所は英語のままでよい。
