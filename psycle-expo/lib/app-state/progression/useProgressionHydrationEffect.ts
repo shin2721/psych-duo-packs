@@ -28,6 +28,9 @@ export function useProgressionHydrationEffect(args: {
   setComebackRewardOffer: Dispatch<SetStateAction<ComebackRewardOffer | null>>;
   setComebackRewardToastQueue: Dispatch<SetStateAction<ComebackRewardToastItem[]>>;
   setCompletedLessons: Dispatch<SetStateAction<Set<string>>>;
+  setDailyGoal: Dispatch<SetStateAction<number>>;
+  setDailyGoalLastReset: Dispatch<SetStateAction<string>>;
+  setDailyXP: Dispatch<SetStateAction<number>>;
   setEventCampaignState: Dispatch<SetStateAction<EventCampaignState | null>>;
   setFriendCount: Dispatch<SetStateAction<number>>;
   setIsStateHydrated: Dispatch<SetStateAction<boolean>>;
@@ -77,6 +80,9 @@ export function useProgressionHydrationEffect(args: {
       args.setStreakRepairOffer(resetState.streakRepairOffer);
       args.setComebackRewardOffer(resetState.comebackRewardOffer);
       args.setSelectedGenre(resetState.selectedGenre);
+      args.setDailyGoal(resetState.dailyGoal);
+      args.setDailyXP(resetState.dailyXP);
+      args.setDailyGoalLastReset(resetState.dailyGoalLastReset);
       return;
     }
 
@@ -103,6 +109,9 @@ export function useProgressionHydrationEffect(args: {
         args.refs.personalizationAssignedAtMsRef.current = hydrated.personalizationAssignedAtMs;
         args.setSelectedGenre(hydrated.selectedGenre);
         args.setCompletedLessons(hydrated.completedLessons);
+        args.setDailyGoal(hydrated.dailyGoal);
+        args.setDailyXP(hydrated.dailyXP);
+        args.setDailyGoalLastReset(hydrated.dailyGoalLastReset);
 
         args.setQuests(hydrated.quests);
         args.refs.questsRef.current = hydrated.quests;
@@ -138,6 +147,9 @@ export function useProgressionHydrationEffect(args: {
     args.setComebackRewardOffer,
     args.setComebackRewardToastQueue,
     args.setCompletedLessons,
+    args.setDailyGoal,
+    args.setDailyGoalLastReset,
+    args.setDailyXP,
     args.setEventCampaignState,
     args.setFriendCount,
     args.setIsStateHydrated,

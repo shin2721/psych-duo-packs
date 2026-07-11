@@ -208,6 +208,9 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
     setComebackRewardOffer,
     setComebackRewardToastQueue,
     setCompletedLessons,
+    setDailyGoal: setDailyGoalState,
+    setDailyGoalLastReset,
+    setDailyXP,
     setEventCampaignState,
     setFriendCount,
     setIsStateHydrated,
@@ -254,6 +257,9 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
 
   useProgressionPersistenceEffects({
     completedLessons,
+    dailyGoal,
+    dailyGoalLastReset,
+    dailyXP,
     eventCampaignState,
     personalizationAssignedAtMs,
     personalizationSegment,

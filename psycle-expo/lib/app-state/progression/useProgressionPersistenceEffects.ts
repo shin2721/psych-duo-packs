@@ -16,6 +16,9 @@ import {
 
 export function useProgressionPersistenceEffects(args: {
   completedLessons: Set<string>;
+  dailyGoal: number;
+  dailyGoalLastReset: string;
+  dailyXP: number;
   eventCampaignState: EventCampaignState | null;
   personalizationAssignedAtMs: number | null;
   personalizationSegment: PersonalizationSegment;
@@ -60,6 +63,33 @@ export function useProgressionPersistenceEffects(args: {
       if (error) warnDev("Failed to sync streak to Supabase", error);
     });
   }, [args.isStateHydrated, args.streak, args.userId]);
+
+  useEffect(() => {
+    createPersistNumberEffect({
+      userId: args.userId,
+      isHydrated: args.isStateHydrated,
+      key: "dailyGoal",
+      value: args.dailyGoal,
+    });
+    createPersistNumberEffect({
+      userId: args.userId,
+      isHydrated: args.isStateHydrated,
+      key: "dailyXp",
+      value: args.dailyXP,
+    });
+    createPersistStringEffect({
+      userId: args.userId,
+      isHydrated: args.isStateHydrated,
+      key: "dailyGoalLastReset",
+      value: args.dailyGoalLastReset,
+    });
+  }, [
+    args.dailyGoal,
+    args.dailyGoalLastReset,
+    args.dailyXP,
+    args.isStateHydrated,
+    args.userId,
+  ]);
 
   useEffect(() => {
     createPersistJsonEffect({

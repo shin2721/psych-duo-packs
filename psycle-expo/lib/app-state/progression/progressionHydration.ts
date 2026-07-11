@@ -38,6 +38,8 @@ import {
 } from "../progressionQuests";
 import { getActiveEventCampaignConfig } from "../progressionLiveOps";
 import { loadRemoteProgressionSnapshot } from "../progressionRemote";
+import { DAILY_GOAL_DEFAULT_XP } from "./progressionConfig";
+import { getTodayDate, normalizeNonNegativeInt, normalizePositiveInt } from "./progressionUtils";
 
 export interface SignedOutProgressionReset {
   completedLessons: Set<string>;
@@ -58,6 +60,9 @@ export interface SignedOutProgressionReset {
   streakRepairOffer: StreakRepairOffer | null;
   comebackRewardOffer: ComebackRewardOffer | null;
   selectedGenre: string;
+  dailyGoal: number;
+  dailyXP: number;
+  dailyGoalLastReset: string;
 }
 
 export interface ProgressionHydrationResult {
@@ -84,6 +89,9 @@ export interface ProgressionHydrationResult {
     leaderboardRank: number;
   } | null;
   selectedGenre: string;
+  dailyGoal: number;
+  dailyXP: number;
+  dailyGoalLastReset: string;
 }
 
 export function buildSignedOutProgressionReset(): SignedOutProgressionReset {
@@ -108,6 +116,9 @@ export function buildSignedOutProgressionReset(): SignedOutProgressionReset {
     streakRepairOffer: null,
     comebackRewardOffer: null,
     selectedGenre: "mental",
+    dailyGoal: DAILY_GOAL_DEFAULT_XP,
+    dailyXP: 0,
+    dailyGoalLastReset: getTodayDate(),
   };
 }
 
@@ -161,6 +172,9 @@ export async function hydrateProgressionState(args: {
     "personalizationSegmentAssignedAt",
     "selectedGenre",
     "completedLessons",
+    "dailyGoal",
+    "dailyXp",
+    "dailyGoalLastReset",
   ]);
 
   const savedXp = parseStoredInt(saved.xp);
@@ -169,6 +183,12 @@ export async function hydrateProgressionState(args: {
     ? normalizeGenreId(saved.selectedGenre)
     : normalizeGenreId(await loadPrimaryOnboardingGenre());
   const completedLessons = normalizeCompletedLessons(saved.completedLessons);
+  const today = getTodayDate();
+  const dailyGoal = normalizePositiveInt(parseStoredInt(saved.dailyGoal), DAILY_GOAL_DEFAULT_XP);
+  const dailyXP =
+    saved.dailyGoalLastReset === today
+      ? normalizeNonNegativeInt(parseStoredInt(saved.dailyXp), 0)
+      : 0;
 
   const initialSegment = normalizePersonalizationSegment(saved.personalizationSegment);
   const parsedAssignedAt = parseStoredInt(saved.personalizationSegmentAssignedAt);
@@ -390,5 +410,8 @@ export async function hydrateProgressionState(args: {
     pendingAutoClaimGems,
     remoteSnapshot,
     selectedGenre,
+    dailyGoal,
+    dailyXP,
+    dailyGoalLastReset: today,
   };
 }
