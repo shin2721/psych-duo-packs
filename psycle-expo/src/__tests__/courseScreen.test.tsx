@@ -101,30 +101,6 @@ jest.mock("../../components/CourseWorldHero", () => ({
   },
 }));
 
-jest.mock("../../components/trail", () => ({
-  Trail: ({
-    onLockedPress,
-    onStart,
-  }: {
-    onLockedPress?: () => void;
-    onStart?: (nodeId: string) => void;
-  }) => {
-    const mockReact = require("react");
-    const { Pressable, Text, View } = require("react-native");
-
-    return (
-      <View>
-        <Pressable onPress={() => onStart?.("m1")} testID="trail-start">
-          <Text>trail-start</Text>
-        </Pressable>
-        <Pressable onPress={onLockedPress} testID="trail-locked">
-          <Text>trail-locked</Text>
-        </Pressable>
-      </View>
-    );
-  },
-}));
-
 jest.mock("../../components/Modal", () => ({
   Modal: ({
     onCancel,
