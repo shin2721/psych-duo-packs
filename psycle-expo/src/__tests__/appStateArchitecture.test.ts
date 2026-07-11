@@ -308,6 +308,7 @@ describe("app state architecture", () => {
     expect(getUserStorageKey("xp", "user_1")).toBe("xp_user_1");
     expect(getUserStorageKey("questCycleKeys", "user_1")).toBe("quest_cycle_keys_user_1");
     expect(getUserStorageKey("reviewEvents", "user_1")).toBe("review_events_user_1");
+    expect(getUserStorageKey("completedLessons", "user_1")).toBe("completed_lessons_user_1");
 
     mockUser = {
       id: "user_1",

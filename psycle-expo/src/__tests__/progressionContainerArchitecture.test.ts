@@ -4,6 +4,10 @@ const source = fs.readFileSync(
   "/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/lib/app-state/progression.tsx",
   "utf8"
 );
+const persistenceSource = fs.readFileSync(
+  "/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/lib/app-state/progression/useProgressionPersistenceEffects.ts",
+  "utf8"
+);
 
 describe("progression container architecture", () => {
   test("provider imports the new internal hooks", () => {
@@ -24,5 +28,10 @@ describe("progression container architecture", () => {
   test("provider useEffect count is flattened away", () => {
     const useEffectCount = (source.match(/useEffect\(/g) ?? []).length;
     expect(useEffectCount).toBe(0);
+  });
+
+  test("completed lesson progression is persisted deterministically", () => {
+    expect(persistenceSource).toContain('key: "completedLessons"');
+    expect(persistenceSource).toContain("value: [...args.completedLessons].sort()");
   });
 });

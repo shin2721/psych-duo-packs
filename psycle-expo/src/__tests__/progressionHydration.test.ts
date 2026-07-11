@@ -89,6 +89,7 @@ describe("progressionHydration", () => {
     expect(result.streak).toBe(0);
     expect(result.personalizationSegment).toBe("new");
     expect(result.selectedGenre).toBe("mental");
+    expect([...result.completedLessons]).toEqual([]);
     expect(result.quests).toHaveLength(createInitialQuestState(getQuestCycleKeys()).quests.length);
   });
 
@@ -153,6 +154,14 @@ describe("progressionHydration", () => {
         personalizationSegment: "power",
         personalizationSegmentAssignedAt: "123456",
         selectedGenre: "work",
+        completedLessons: JSON.stringify([
+          "mental_l01",
+          "money_lesson_1",
+          "mental_l01",
+          "mental_review_bh1",
+          "invalid",
+          42,
+        ]),
       },
       remoteSnapshot: {
         xp: 50,
@@ -173,6 +182,11 @@ describe("progressionHydration", () => {
     expect(result.savedStreak).toBe(5);
     expect(result.personalizationSegment).toBe("power");
     expect(result.selectedGenre).toBe("work");
+    expect([...result.completedLessons].sort()).toEqual([
+      "mental_l01",
+      "mental_review_bh1",
+      "money_l01",
+    ]);
     expect(result.personalizationAssignedAtMs).toBe(123456);
     expect(result.claimedStreakMilestones).toEqual([3, 7]);
     expect(result.streakRepairOffer).not.toBeNull();
