@@ -1,5 +1,5 @@
-import React from "react";
-import { Animated, ScrollView, StyleSheet } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { Animated, ScrollView, StyleSheet, View } from "react-native";
 import { theme } from "../lib/theme";
 import { ComboFeedback } from "./ComboFeedback";
 import { EvidenceBottomSheet } from "./EvidenceBottomSheet";
@@ -49,6 +49,13 @@ interface Props {
 }
 
 export function QuestionRendererView(props: Props) {
+  const scrollRef = useRef<ScrollView>(null);
+  const didAutoScrollToResultRef = useRef(false);
+
+  useEffect(() => {
+    didAutoScrollToResultRef.current = false;
+  }, [props.question.id, props.questionText]);
+
   return (
     <>
       <Animated.View
@@ -62,6 +69,7 @@ export function QuestionRendererView(props: Props) {
       >
         <ComboFeedback combo={props.combo} visible={props.showCombo} />
         <ScrollView
+          ref={scrollRef}
           testID="question-scroll"
           style={styles.scrollView}
           contentContainerStyle={[
@@ -99,14 +107,28 @@ export function QuestionRendererView(props: Props) {
           />
 
           {props.showResult ? (
-            <QuestionResultView
-              onContinue={props.onContinue}
-              onOpenEvidence={props.onOpenEvidence}
-              onToggleExplanationDetails={props.onToggleExplanationDetails}
-              question={props.question}
-              runtime={props.runtime}
-              showExplanationDetails={props.showExplanationDetails}
-            />
+            <View
+              onLayout={(event) => {
+                if (didAutoScrollToResultRef.current) return;
+                didAutoScrollToResultRef.current = true;
+                const resultY = event.nativeEvent.layout.y;
+                requestAnimationFrame(() => {
+                  scrollRef.current?.scrollTo({
+                    animated: true,
+                    y: Math.max(0, resultY - theme.spacing.sm),
+                  });
+                });
+              }}
+            >
+              <QuestionResultView
+                onContinue={props.onContinue}
+                onOpenEvidence={props.onOpenEvidence}
+                onToggleExplanationDetails={props.onToggleExplanationDetails}
+                question={props.question}
+                runtime={props.runtime}
+                showExplanationDetails={props.showExplanationDetails}
+              />
+            </View>
           ) : null}
         </ScrollView>
       </Animated.View>
