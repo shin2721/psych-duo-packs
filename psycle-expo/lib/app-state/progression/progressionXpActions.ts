@@ -12,6 +12,7 @@ export async function addXpAction(args: {
   amount: number;
   dailyGoal: number;
   dailyGoalRewardGems: number;
+  dailyXP: number;
   isDoubleXpActive: boolean;
   setDailyXP: Dispatch<SetStateAction<number>>;
   setXP: Dispatch<SetStateAction<number>>;
@@ -22,32 +23,31 @@ export async function addXpAction(args: {
 }): Promise<void> {
   const effectiveAmount = args.isDoubleXpActive ? args.amount * 2 : args.amount;
   const newXP = args.xp + effectiveAmount;
+  const newDailyXP = args.dailyXP + effectiveAmount;
   args.setXP(newXP);
-  args.setDailyXP((prev) => {
-    const newDailyXP = prev + effectiveAmount;
-    if (prev < args.dailyGoal && newDailyXP >= args.dailyGoal) {
-      if (args.dailyGoalRewardGems > 0) args.addGems(args.dailyGoalRewardGems);
-      const sourceEventId = `daily_goal_reached:${new Date().toISOString().slice(0, 10)}`;
-      Analytics.track("daily_goal_reached", {
-        dailyGoal: args.dailyGoal,
-        dailyXp: newDailyXP,
-        gemsAwarded: args.dailyGoalRewardGems,
-        source: "xp_gain",
+  args.setDailyXP(newDailyXP);
+
+  if (args.dailyXP < args.dailyGoal && newDailyXP >= args.dailyGoal) {
+    if (args.dailyGoalRewardGems > 0) args.addGems(args.dailyGoalRewardGems);
+    const sourceEventId = `daily_goal_reached:${new Date().toISOString().slice(0, 10)}`;
+    Analytics.track("daily_goal_reached", {
+      dailyGoal: args.dailyGoal,
+      dailyXp: newDailyXP,
+      gemsAwarded: args.dailyGoalRewardGems,
+      source: "xp_gain",
+    });
+    if (args.dailyGoalRewardGems > 0) {
+      Analytics.track("engagement_reward_granted", {
+        rewardType: "gems",
+        rewardAmount: args.dailyGoalRewardGems,
+        sourceEventName: "daily_goal_reached",
+        sourceEventId,
+        idempotencyKey: `${sourceEventId}:gems`,
+        surface: "daily_goal",
+        appEnv: getEngagementAppEnv(),
       });
-      if (args.dailyGoalRewardGems > 0) {
-        Analytics.track("engagement_reward_granted", {
-          rewardType: "gems",
-          rewardAmount: args.dailyGoalRewardGems,
-          sourceEventName: "daily_goal_reached",
-          sourceEventId,
-          idempotencyKey: `${sourceEventId}:gems`,
-          surface: "daily_goal",
-          appEnv: getEngagementAppEnv(),
-        });
-      }
     }
-    return newDailyXP;
-  });
+  }
 
   args.updateStreak();
   void args.updateStreakForToday(newXP);

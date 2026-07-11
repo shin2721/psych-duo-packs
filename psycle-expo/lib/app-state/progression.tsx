@@ -351,6 +351,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
         amount,
         dailyGoal,
         dailyGoalRewardGems: DAILY_GOAL_REWARD_GEMS,
+        dailyXP,
         isDoubleXpActive,
         setDailyXP,
         setXP,
@@ -360,7 +361,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
         xp,
       });
     },
-    [addGems, dailyGoal, isDoubleXpActive, updateStreak, updateStreakForToday, user?.id, xp]
+    [addGems, dailyGoal, dailyXP, isDoubleXpActive, updateStreak, updateStreakForToday, user?.id, xp]
   );
 
   const updateSkill = useCallback((isCorrect: boolean, itemDifficulty = 1500) => {
