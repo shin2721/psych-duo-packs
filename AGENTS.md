@@ -26,11 +26,11 @@ Respond to the user in Japanese by default. English is acceptable for commit mes
 - Do not judge UI only from saved screenshots. Use screenshots mainly as evidence after direct inspection.
 - Simulator reload is `Cmd+R` while the Simulator is focused. Metro terminal reload is `r` while the Metro terminal is focused.
 - If UI changes do not appear, first verify which app is running.
-  - dev-client: `com.s6n2j9.psycle`
-  - release: `com.shin27.psycle`
+  - Current bundle identifier: `com.shin27.psycle` for both dev-client and release builds.
+  - Identify the build by its dev-client/Metro state, not by bundle identifier alone.
 - Use the dev-client for normal UI iteration.
 - Do not use the release app for ordinary design or layout checks unless the user explicitly asks for release-style verification.
-- If dev-client and release are both installed on the same Simulator, watch for URL scheme conflicts before assuming reload is broken.
+- Installing a dev-client or release build replaces the other build with the same bundle identifier; verify the installed build before assuming reload is broken.
 - When the user asks for a specific layout or visual fix, change only the requested area.
 - Do not change unrelated motion, background effects, colors, copy, CTA behavior, or navigation.
 - Before making taste-based UI edits, verify the current screen state in Simulator and keep the change narrowly scoped.
