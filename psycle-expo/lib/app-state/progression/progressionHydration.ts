@@ -121,7 +121,12 @@ export function normalizeCompletedLessons(raw: string | null | undefined): Set<s
     const completed = new Set<string>();
     for (const value of parsed) {
       if (typeof value !== "string" || !value.trim()) continue;
-      const resolved = resolveRuntimeLessonId(value.trim()).resolvedLessonId;
+      const storedLessonId = value.trim();
+      const legacyMatch = storedLessonId.match(/^([a-z]+)_lesson_(\d+)$/);
+      const requestedLessonId = legacyMatch
+        ? `${legacyMatch[1]}_l${legacyMatch[2].padStart(2, "0")}`
+        : storedLessonId;
+      const resolved = resolveRuntimeLessonId(requestedLessonId).resolvedLessonId;
       if (!resolved) continue;
       if (!/^[a-z]+_(?:(?:l|m)\d{2}|review_bh\d+)$/.test(resolved)) continue;
       completed.add(resolved);
