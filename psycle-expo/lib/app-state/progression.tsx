@@ -207,6 +207,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
     setClaimedStreakMilestones,
     setComebackRewardOffer,
     setComebackRewardToastQueue,
+    setCompletedLessons,
     setEventCampaignState,
     setFriendCount,
     setIsStateHydrated,
@@ -252,6 +253,7 @@ export function ProgressionStateProvider({ children }: { children: React.ReactNo
   }, [refs]);
 
   useProgressionPersistenceEffects({
+    completedLessons,
     eventCampaignState,
     personalizationAssignedAtMs,
     personalizationSegment,

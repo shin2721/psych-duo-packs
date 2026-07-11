@@ -30,6 +30,7 @@ const USER_KEY_PREFIXES = {
   personalizationSegment: "personalization_segment",
   personalizationSegmentAssignedAt: "personalization_segment_assigned_at",
   selectedGenre: "selected_genre",
+  completedLessons: "completed_lessons",
 } as const;
 
 type UserKeyName = keyof typeof USER_KEY_PREFIXES;

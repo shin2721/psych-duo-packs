@@ -15,6 +15,7 @@ import {
 } from "../persistEffects";
 
 export function useProgressionPersistenceEffects(args: {
+  completedLessons: Set<string>;
   eventCampaignState: EventCampaignState | null;
   personalizationAssignedAtMs: number | null;
   personalizationSegment: PersonalizationSegment;
@@ -93,6 +94,15 @@ export function useProgressionPersistenceEffects(args: {
     args.quests,
     args.userId,
   ]);
+
+  useEffect(() => {
+    createPersistJsonEffect({
+      userId: args.userId,
+      isHydrated: args.isStateHydrated,
+      key: "completedLessons",
+      value: [...args.completedLessons].sort(),
+    });
+  }, [args.completedLessons, args.isStateHydrated, args.userId]);
 
   useEffect(() => {
     createPersistStringEffect({

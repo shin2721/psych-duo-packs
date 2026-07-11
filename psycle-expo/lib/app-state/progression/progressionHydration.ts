@@ -27,6 +27,7 @@ import {
 } from "../../questRotation";
 import { getQuestCycleKeys } from "../../questCycles";
 import { loadPrimaryOnboardingGenre, normalizeGenreId } from "../../onboardingSelection";
+import { resolveRuntimeLessonId } from "../../lessonContinuity";
 import { getUserStorageKey, loadUserEntries, parseStoredInt, persistNumber } from "../persistence";
 import {
   adjustQuestNeedsBySegment,
@@ -39,6 +40,7 @@ import { getActiveEventCampaignConfig } from "../progressionLiveOps";
 import { loadRemoteProgressionSnapshot } from "../progressionRemote";
 
 export interface SignedOutProgressionReset {
+  completedLessons: Set<string>;
   quests: QuestInstance[];
   questCycleKeys: QuestCycleKeys;
   questRotationPrev: QuestRotationSelection;
@@ -59,6 +61,7 @@ export interface SignedOutProgressionReset {
 }
 
 export interface ProgressionHydrationResult {
+  completedLessons: Set<string>;
   savedXp: number | null;
   savedStreak: number | null;
   quests: QuestInstance[];
@@ -87,6 +90,7 @@ export function buildSignedOutProgressionReset(): SignedOutProgressionReset {
   const resetCycleKeys = getQuestCycleKeys();
   const resetQuestState = createInitialQuestState(resetCycleKeys);
   return {
+    completedLessons: new Set(),
     quests: resetQuestState.quests,
     questCycleKeys: resetCycleKeys,
     questRotationPrev: resetQuestState.rotationSelection,
@@ -105,6 +109,27 @@ export function buildSignedOutProgressionReset(): SignedOutProgressionReset {
     comebackRewardOffer: null,
     selectedGenre: "mental",
   };
+}
+
+export function normalizeCompletedLessons(raw: string | null | undefined): Set<string> {
+  if (!raw) return new Set();
+
+  try {
+    const parsed = JSON.parse(raw);
+    if (!Array.isArray(parsed)) return new Set();
+
+    const completed = new Set<string>();
+    for (const value of parsed) {
+      if (typeof value !== "string" || !value.trim()) continue;
+      const resolved = resolveRuntimeLessonId(value.trim()).resolvedLessonId;
+      if (!resolved) continue;
+      if (!/^[a-z]+_(?:(?:l|m)\d{2}|review_bh\d+)$/.test(resolved)) continue;
+      completed.add(resolved);
+    }
+    return completed;
+  } catch {
+    return new Set();
+  }
 }
 
 export async function hydrateProgressionState(args: {
@@ -130,6 +155,7 @@ export async function hydrateProgressionState(args: {
     "personalizationSegment",
     "personalizationSegmentAssignedAt",
     "selectedGenre",
+    "completedLessons",
   ]);
 
   const savedXp = parseStoredInt(saved.xp);
@@ -137,6 +163,7 @@ export async function hydrateProgressionState(args: {
   const selectedGenre = saved.selectedGenre
     ? normalizeGenreId(saved.selectedGenre)
     : normalizeGenreId(await loadPrimaryOnboardingGenre());
+  const completedLessons = normalizeCompletedLessons(saved.completedLessons);
 
   const initialSegment = normalizePersonalizationSegment(saved.personalizationSegment);
   const parsedAssignedAt = parseStoredInt(saved.personalizationSegmentAssignedAt);
@@ -340,6 +367,7 @@ export async function hydrateProgressionState(args: {
   }
 
   return {
+    completedLessons,
     savedXp,
     savedStreak,
     quests: adjustedLoadedQuests,

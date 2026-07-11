@@ -27,6 +27,7 @@ export function useProgressionHydrationEffect(args: {
   setClaimedStreakMilestones: Dispatch<SetStateAction<number[]>>;
   setComebackRewardOffer: Dispatch<SetStateAction<ComebackRewardOffer | null>>;
   setComebackRewardToastQueue: Dispatch<SetStateAction<ComebackRewardToastItem[]>>;
+  setCompletedLessons: Dispatch<SetStateAction<Set<string>>>;
   setEventCampaignState: Dispatch<SetStateAction<EventCampaignState | null>>;
   setFriendCount: Dispatch<SetStateAction<number>>;
   setIsStateHydrated: Dispatch<SetStateAction<boolean>>;
@@ -50,6 +51,7 @@ export function useProgressionHydrationEffect(args: {
       args.setBadgeToastQueue(resetState.badgeToastQueue);
       args.setStreakMilestoneToastQueue(resetState.streakMilestoneToastQueue);
       args.setComebackRewardToastQueue(resetState.comebackRewardToastQueue);
+      args.setCompletedLessons(resetState.completedLessons);
       args.setClaimedStreakMilestones(resetState.claimedStreakMilestones);
       args.setQuests(resetState.quests);
       args.refs.questsRef.current = resetState.quests;
@@ -100,6 +102,7 @@ export function useProgressionHydrationEffect(args: {
         args.setPersonalizationAssignedAtMs(hydrated.personalizationAssignedAtMs);
         args.refs.personalizationAssignedAtMsRef.current = hydrated.personalizationAssignedAtMs;
         args.setSelectedGenre(hydrated.selectedGenre);
+        args.setCompletedLessons(hydrated.completedLessons);
 
         args.setQuests(hydrated.quests);
         args.refs.questsRef.current = hydrated.quests;
@@ -134,6 +137,7 @@ export function useProgressionHydrationEffect(args: {
     args.setClaimedStreakMilestones,
     args.setComebackRewardOffer,
     args.setComebackRewardToastQueue,
+    args.setCompletedLessons,
     args.setEventCampaignState,
     args.setFriendCount,
     args.setIsStateHydrated,
