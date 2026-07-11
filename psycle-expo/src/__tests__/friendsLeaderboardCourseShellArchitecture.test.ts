@@ -1,7 +1,11 @@
 import fs from "node:fs";
 
 function read(path: string): string {
-  return fs.readFileSync(`/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/${path}`, "utf8");
+  return fs.readFileSync(`${process.cwd()}/${path}`, "utf8");
+}
+
+function exists(path: string): boolean {
+  return fs.existsSync(`${process.cwd()}/${path}`);
 }
 
 describe("friends / leaderboard / course shell architecture", () => {
@@ -44,8 +48,7 @@ describe("friends / leaderboard / course shell architecture", () => {
 
   test("course screen delegates offer, modal, and league gate rendering", () => {
     const source = read("app/(tabs)/course.tsx");
-    const sections = read("components/course/CourseSections.tsx");
-    const legacy = read("components/course/LegacyCourseMain.tsx");
+    const leagueGate = read("components/course/CourseLeagueResultGate.tsx");
 
     expect(source).toContain("CourseWorldHero");
     expect(source).toContain("CourseLeagueResultGate");
@@ -55,12 +58,8 @@ describe("friends / leaderboard / course shell architecture", () => {
     expect(source).not.toContain("streakRepairCard:");
     expect(source).not.toContain("nextStepCard:");
 
-    expect(legacy).toContain("CourseOfferBanner");
-    expect(legacy).toContain("CourseNextStepCard");
-    expect(legacy).toContain("CourseLessonModal");
-    expect(sections).toContain("export function CourseOfferBanner");
-    expect(sections).toContain("export function CourseNextStepCard");
-    expect(sections).toContain("export function CourseLessonModal");
-    expect(sections).toContain("export function CourseLeagueResultGate");
+    expect(leagueGate).toContain("export function CourseLeagueResultGate");
+    expect(exists("components/course/LegacyCourseMain.tsx")).toBe(false);
+    expect(exists("components/course/CourseSections.tsx")).toBe(false);
   });
 });

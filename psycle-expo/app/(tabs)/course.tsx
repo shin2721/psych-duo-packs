@@ -4,10 +4,10 @@ import { router } from "expo-router";
 import { CourseWorldHero } from "../../components/CourseWorldHero";
 import { GlobalHeaderMenu } from "../../components/GlobalHeaderMenu";
 import { PaywallModal } from "../../components/PaywallModal";
-import { CourseLeagueResultGate } from "../../components/course/CourseSections";
+import { CourseLeagueResultGate } from "../../components/course/CourseLeagueResultGate";
 import { getLastWeekResult, type LeagueResult } from "../../lib/leagueReward";
 import { buildCourseWorldViewModel } from "../../lib/courseWorld";
-import { trailsByGenre } from "../../lib/data";
+import { trailsByGenre, type TrailNode as CourseTrailNode } from "../../lib/data";
 import { lessonSetHasResolvedId, resolveRuntimeLessonId } from "../../lib/lessonContinuity";
 import { listAvailableMasteryLessonIds } from "../../lib/masteryInventory";
 import { selectMasteryCandidate } from "../../lib/masteryCandidate";
@@ -20,7 +20,6 @@ import {
 import { isLessonLocked, shouldShowPaywall } from "../../lib/paywall";
 import { useBillingState, useEconomyState, usePracticeState, useProgressionState } from "../../lib/state";
 import { useToast } from "../../components/ToastProvider";
-import type { TrailNode as CourseTrailNode } from "../../components/trail/types";
 import type {
   EngagementPrimaryActionType,
   EngagementUserState,
