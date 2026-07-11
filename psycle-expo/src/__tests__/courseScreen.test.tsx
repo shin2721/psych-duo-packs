@@ -13,6 +13,7 @@ const mockLoadPrimaryOnboardingGenre = jest.fn();
 const mockSetSelectedGenre = jest.fn();
 
 let mockCompletedLessons = new Set<string>();
+let mockIsStateHydrated = true;
 let mockSelectedGenre = "mental";
 let mockStreakRepairOffer: {
   active: boolean;
@@ -216,6 +217,9 @@ jest.mock("../../lib/state", () => ({
   useProgressionState: () => ({
     comebackRewardOffer: mockComebackRewardOffer,
     completedLessons: mockCompletedLessons,
+    dailyGoal: 10,
+    dailyXP: 0,
+    isStateHydrated: mockIsStateHydrated,
     purchaseStreakRepair: (...args: unknown[]) => mockPurchaseStreakRepair(...args),
     selectedGenre: mockSelectedGenre,
     setSelectedGenre: (...args: unknown[]) => mockSetSelectedGenre(...args),
@@ -285,6 +289,7 @@ describe("CourseScreen", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     mockCompletedLessons = new Set();
+    mockIsStateHydrated = true;
     mockSelectedGenre = "mental";
     mockStreakRepairOffer = null;
     mockMasteryThemeState = null;
@@ -312,6 +317,20 @@ describe("CourseScreen", () => {
         surface: "course_world",
       })
     );
+  });
+
+  test("waits for progression hydration before applying or tracking course state", async () => {
+    mockIsStateHydrated = false;
+    mockLoadPrimaryOnboardingGenre.mockResolvedValue("work");
+
+    render(React.createElement(CourseScreen));
+
+    await waitFor(() => {
+      expect(mockGetLastWeekResult).toHaveBeenCalledWith("user_1");
+    });
+    expect(mockLoadPrimaryOnboardingGenre).not.toHaveBeenCalled();
+    expect(mockSetSelectedGenre).not.toHaveBeenCalled();
+    expect(mockTrack).not.toHaveBeenCalled();
   });
 
   test("does not override the course genre after lesson completion", async () => {
