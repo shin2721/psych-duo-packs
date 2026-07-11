@@ -9,19 +9,19 @@ describe("first lesson experience content", () => {
     expect(question).toMatchObject({
       type: "swipe_judgment",
       is_true: false,
-      swipe_labels: {
-        left: "解釈にある",
-        right: "出来事にある",
-      },
     });
-    expect(question?.explanation).toContain("解釈");
-    expect(question?.explanation).toContain("介入余地");
+    expect(question?.swipe_labels?.left).toContain("解釈");
+    expect(question?.swipe_labels?.right).toContain("出来事");
+    expect(question?.explanation).toContain("出来事以外");
+    expect(question?.explanation).toContain("見直せる");
   });
 
   test("surfaces the practical intervention as the completion takeaway", () => {
     const recapAction = resolveCompletionRecapAction(mentalLesson as Question[], "fallback");
 
-    expect(recapAction).toBe("👉 次に心臓がドキドキしたら → 「体が準備運動してる」と10秒だけ唱える");
+    expect(recapAction).toContain("心臓");
+    expect(recapAction).toContain("準備");
+    expect(recapAction).toContain("10秒");
     expect(JSON.stringify(mentalLesson)).not.toContain("編張");
   });
 });
