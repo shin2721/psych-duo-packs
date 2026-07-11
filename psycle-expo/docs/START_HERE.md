@@ -28,6 +28,12 @@ Use this page as the first hop into Psycle's operational docs.
 
 ## Runtime Verification
 
+- Required project sources, in order:
+  1. `docs/PRINCIPLES.md` - product North Star and lesson-quality principles
+  2. `docs/CONTENT_SYSTEM_SPEC.md` - runtime and content contracts
+  3. `docs/NORTH_STAR_PROGRESS.md` - current handoff and unproven work
+  4. `docs/REPO_HYGIENE.md` - active, retained, and local-only surfaces
+  5. `docs/AI_MODEL_OPERATING_MODEL.md` - optional model roles and update review
 - Release smoke gate:
   - `npm run e2e:ios:psycle:smoke:build`
   - Builds Release, then runs Analytics v1.3 and full-touch Release Detox checks against the Psycle simulator.

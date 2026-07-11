@@ -2,6 +2,19 @@
 
 > これは「誰がどう作業するか」の手順。
 > 将来APIに置き換わる部分。原則ではない。
+> 現在のデフォルト運用ではない。Codexしか使っていない環境では
+> `docs/AI_MODEL_OPERATING_MODEL.md` の `Current Codex-Only Mode` を先に使う。
+
+## Status
+
+This playbook is retained as a future or optional external-agent workflow.
+It must not be treated as the current Psycle default while the development
+environment uses Codex only.
+
+Do not ask Antigravity to generate or edit production lesson JSON unless the
+owner explicitly enables Antigravity for that task. In Codex-only mode, keep
+source modeling, raw pilot writing, critique, implementation, and Simulator
+verification as separate Codex passes.
 
 ---
 
