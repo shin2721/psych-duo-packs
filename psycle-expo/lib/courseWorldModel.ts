@@ -78,6 +78,7 @@ export interface BuildCourseWorldViewModelInput {
   nextActionNode: CourseWorldTrailNode | null | undefined;
   nowMs?: number;
   selectedGenre: string;
+  sessionQuestionLimit?: number;
   supportBudgetSummary?: SupportBudgetSummary | null;
   streakRepairOffer: StreakRepairOffer | null;
 }
@@ -151,6 +152,10 @@ function deriveLessonBody(lesson: Lesson, status: CourseWorldNodeStatus): string
 
   if (tryThisQuestion?.expanded_details?.try_this) {
     return truncateCopy(normalizeSupportCopy(tryThisQuestion.expanded_details.try_this), 46);
+  }
+
+  if (lesson.metadata?.takeaway_action?.trim()) {
+    return truncateCopy(normalizeSupportCopy(lesson.metadata.takeaway_action), 46);
   }
 
   return String(i18n.t("course.world.lessonBodyFallback"));
@@ -447,6 +452,14 @@ export function buildCourseWorldViewModel(
   const remainingCount = Math.max(0, lessonCount - doneCount - (currentNode.nodeType === "lesson" ? 1 : 0));
   const unitLabel = genres.find((genre) => genre.id === input.selectedGenre)?.label ?? input.selectedGenre;
   const currentBody = deriveLessonBody(currentNode.lesson, currentNode.status);
+  const sessionQuestions =
+    typeof input.sessionQuestionLimit === "number" && input.sessionQuestionLimit > 0
+      ? currentNode.lesson.questions.slice(0, input.sessionQuestionLimit)
+      : currentNode.lesson.questions;
+  const sessionQuestionXp = sessionQuestions.reduce(
+    (sum, question) => sum + (Number.isFinite(question.xp) ? question.xp : 0),
+    0
+  );
   const routeNodes = buildRouteNodes(sequence, currentNode);
   const reviewNode = buildReviewNode(sequence, currentNode);
 
@@ -463,8 +476,8 @@ export function buildCourseWorldViewModel(
       lessonFile: currentNode.lessonFile,
       meta: String(
         i18n.t("course.world.metaQuestionsXp", {
-          count: currentNode.lesson.questions.length,
-          xp: currentNode.lesson.totalXP,
+          count: sessionQuestions.length,
+          xp: sessionQuestionXp,
         })
       ),
       nodeType: currentNode.nodeType,
