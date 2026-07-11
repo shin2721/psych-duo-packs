@@ -91,7 +91,7 @@ const mockLessons = [
     id: "mental_lesson_3",
     level: 3,
     nodeType: "lesson",
-    questions: [{ actionable_advice: " Reframe one stuck thought." }],
+    questions: [{ actionable_advice: " Reframe one stuck thought.", xp: 5 }],
     title: "Lesson 3",
     totalXP: 38,
     unit: "mental",
@@ -126,8 +126,9 @@ const mockLessons = [
   {
     id: "mental_lesson_6",
     level: 6,
+    metadata: { takeaway_action: " Use the metadata action." },
     nodeType: "lesson",
-    questions: [{ actionable_advice: " Loosen perfection." }],
+    questions: [{}],
     title: "Lesson 6",
     totalXP: 44,
     unit: "mental",
@@ -166,6 +167,20 @@ describe("buildCourseWorldViewModel", () => {
     expect(model?.primaryAction.label).toBe("Open lesson 3");
     expect(model?.progressLabel).toBe("3 / 6");
     expect(model?.currentLesson.body).toBe("Reframe one stuck thought.");
+  });
+
+  test("session question limit keeps the course promise aligned with runtime", () => {
+    const trail = createTrail();
+    const model = buildCourseWorldViewModel({
+      comebackRewardOffer: null,
+      currentTrail: trail,
+      nextActionNode: trail[2],
+      selectedGenre: "mental",
+      sessionQuestionLimit: 1,
+      streakRepairOffer: null,
+    });
+
+    expect(model?.currentLesson.meta).toBe("1 questions • +5 XP");
   });
 
   test("locked current lesson uses paywall primary action", () => {
@@ -284,5 +299,21 @@ describe("buildCourseWorldViewModel", () => {
     expect(model?.currentLesson.nodeType).toBe("review_blackhole");
     expect(model?.progressLabel).toBe("Review");
     expect(model?.reviewNode).toBeUndefined();
+  });
+
+  test("uses lesson metadata when question-level action copy is absent", () => {
+    const trail = createTrail().map((node, index) => ({
+      ...node,
+      status: index < 6 ? "done" : "current",
+    }));
+    const model = buildCourseWorldViewModel({
+      comebackRewardOffer: null,
+      currentTrail: trail,
+      nextActionNode: trail[6],
+      selectedGenre: "mental",
+      streakRepairOffer: null,
+    });
+
+    expect(model?.currentLesson.body).toBe("Use the metadata action.");
   });
 });

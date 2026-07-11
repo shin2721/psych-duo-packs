@@ -208,6 +208,10 @@ jest.mock("../../lib/onboardingSelection", () => {
   };
 });
 
+jest.mock("../../lib/onboarding", () => ({
+  hasCompletedFirstLesson: () => new Promise<boolean>(() => undefined),
+}));
+
 jest.mock("../../lib/state", () => ({
   useProgressionState: () => ({
     comebackRewardOffer: mockComebackRewardOffer,

@@ -25,4 +25,12 @@ describe("lesson screen flow architecture", () => {
     expect(source).not.toContain("resetSessionTracking()");
     expect(source).not.toContain("<QuestionRenderer");
   });
+
+  test("core and review rounds remount the same question independently", () => {
+    const stage = read("components/lesson/LessonQuestionStage.tsx");
+
+    expect(stage).toContain(
+      'key={`question-${props.isReviewRound ? "review" : "core"}-${props.currentQuestion.id || props.currentIndex}`}'
+    );
+  });
 });

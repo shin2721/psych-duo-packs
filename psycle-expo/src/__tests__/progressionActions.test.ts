@@ -102,6 +102,7 @@ describe("progressionActions", () => {
       amount: 10,
       dailyGoal: 20,
       dailyGoalRewardGems: 5,
+      dailyXP: 15,
       isDoubleXpActive: false,
       setDailyXP,
       setXP: jest.fn(),

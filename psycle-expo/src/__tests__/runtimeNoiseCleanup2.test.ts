@@ -27,4 +27,11 @@ describe("runtime noise cleanup 2", () => {
     expect(profile).toContain('warnDev("Failed to load profile league:", error);');
     expect(profile).not.toContain('console.error("Failed to load profile data:", error);');
   });
+
+  test("course clock synchronizes shared values after render", () => {
+    const courseScroll = read("components/course-world/useCourseWorldScroll.ts");
+
+    expect(courseScroll).toContain("useEffect(() => {\n    svNodeCount.value = allNodes.length;");
+    expect(courseScroll).not.toContain("// 毎レンダー同期");
+  });
 });
