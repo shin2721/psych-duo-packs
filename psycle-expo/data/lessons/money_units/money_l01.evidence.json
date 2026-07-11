@@ -3,38 +3,37 @@
   "citations": [
     {
       "role": "primary",
-      "source_type": "meta_analysis",
-      "doi": "10.1016/j.jretai.2022.06.003",
+      "source_type": "cross_sectional_survey",
+      "doi": "10.1080/01639625.2025.2608885",
       "pmid": "",
-      "url": "https://doi.org/10.1016/j.jretai.2022.06.003",
-      "label": "Barton et al. (2022) - Scarcity tactics in marketing: A meta-analysis of product scarcity effects"
+      "url": "https://doi.org/10.1080/01639625.2025.2608885",
+      "label": "Hung et al. (2026) - Lonely Hearts Craving Fulfillment and Recognition: The Dual Role of Compensatory and Conspicuous Consumption in Online Shopping Addiction"
     },
     {
       "role": "supporting",
-      "source_type": "meta_analysis",
-      "doi": "10.1002/mar.21816",
+      "source_type": "experimental",
+      "doi": "10.1016/j.jbusres.2024.115013",
       "pmid": "",
-      "url": "https://onlinelibrary.wiley.com/doi/full/10.1002/mar.21816",
-      "label": "Ladeira et al. (2023) - Product scarcity効果のメタ分析（条件差・異質性）"
+      "url": "https://doi.org/10.1016/j.jbusres.2024.115013",
+      "label": "Mo et al. (2025) - When compensatory consumption backfires: The asymmetric effect of self-threat on consumption preference and satisfaction"
     },
     {
-      "role": "primary",
-      "source_type": "classic",
-      "doi": "",
+      "role": "supporting",
+      "source_type": "review",
+      "doi": "10.1080/0267257X.2017.1373693",
       "pmid": "",
-      "url": "https://www.amazon.com/Influence-Psychology-Persuasion-Robert-Cialdini/dp/006124189X",
-      "isbn": "978-0061241895",
-      "label": "Cialdini (2006) - Influence: The Psychology of Persuasion"
+      "url": "https://doi.org/10.1080/0267257X.2017.1373693",
+      "label": "Koles et al. (2018) - Compensatory consumption and consumer compromises: A state-of-the-art review"
     }
   ],
-  "source_label": "Barton et al. (2022) - Scarcity MA + Ladeira et al. (2023) MA + Cialdini (2006) background",
-  "claim": "「残り3点」「限定」などの希少性表示を見たとき、一度画面を閉じて5分待つと、衝動的な購買を避けやすくなる可能性がある。希少性バイアスの効果は製品カテゴリによって異なる傾向がメタ分析で示されている",
-  "limitations": "本当に限定の価値がある場合は適切判断になることもある。文化・商品カテゴリで効き方が変わる。買い物依存傾向が強い場合は支援を優先。",
-  "effect_size_note": "Barton et al. (2022) MA: 購買意図への効果は小〜中程度で、手法や状況で差が出る。Ladeira et al. (2023)も希少性効果の異質性（条件差）を示す [DOI:10.1016/j.jretai.2022.06.003, DOI:10.1002/mar.21816]",
-  "evidence_grade": "silver",
-  "confidence": "high",
+  "source_label": "Hung et al. (2026) observational survey + Mo et al. (2025) experiments + Koles et al. (2018) review",
+  "claim": "孤独感や自己への脅威の後に、自分を補うための消費や、他者からの承認を求める消費が強まる場合がある。商品そのものの価値と、傷ついた自己を戻すために上乗せされた価値を分けて見るのは、即決前の低リスクな判断補助として使える。",
+  "limitations": "主要研究は観察的なアンケートを含み、個人の購買原因を断定できない。補償的消費は常に悪いわけでもない。「10秒見分ける」介入自体の効果はこれらの研究から直接には示されていない。家計問題や買い物依存が深刻な場合は専門的な支援を優先する。",
+  "effect_size_note": "Hung et al. (2026) is an observational survey and supports association, not individual causation. Mo et al. (2025) reports experimental boundary conditions in which within-domain compensatory consumption can reduce later satisfaction. The Psycle pause is an indirect, low-cost decision aid rather than a directly tested treatment.",
+  "evidence_grade": "bronze",
+  "confidence": "medium",
   "status": "active",
-  "last_verified": "2026-04-22",
+  "last_verified": "2026-07-11",
   "generated_by": "mode_a",
   "review": {
     "human_approved": true,
@@ -131,10 +130,10 @@
       "rollback_trigger_if_reverted": "guardrail_or_contract_regression"
     }
   },
-  "last_verified_at": "2026-04-22",
+  "last_verified_at": "2026-07-11",
   "review_sla_days": 90,
   "expiry_action": "refresh_queue",
-  "next_review_due_at": "2026-07-21",
+  "next_review_due_at": "2026-10-09",
   "stale_route_owner": "content_ops",
   "refresh_value_reason_candidate": "evidence_strength_update",
   "severity_tier": "B"

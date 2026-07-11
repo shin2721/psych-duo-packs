@@ -3,37 +3,37 @@
   "citations": [
     {
       "role": "primary",
-      "source_type": "theoretical",
-      "doi": "10.1016/j.cpr.2013.01.001",
-      "pmid": "23395729",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/23395729/",
-      "label": "Sirois & Pychyl (2013) - Procrastination and the Priority of Short-Term Mood Regulation"
+      "source_type": "scoping_review",
+      "doi": "10.3390/bs15060823",
+      "pmid": "40564605",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40564605/",
+      "label": "Agyapong-Opoku et al. (2025) - Examining the Effects of Sleep Deprivation on Decision-Making: A Scoping Review"
     },
     {
       "role": "supporting",
-      "source_type": "meta_analysis",
-      "doi": "10.3389/fpsyg.2018.01588",
-      "pmid": "30214421",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/30214421/",
-      "label": "Rozental et al. (2018) - Targeting procrastination using psychological treatments: A SR and MA"
+      "source_type": "review",
+      "doi": "10.3758/s13423-024-02549-6",
+      "pmid": "39080188",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39080188/",
+      "label": "Wei et al. (2025) - The effects of sleep deprivation on risky decision making"
     },
     {
       "role": "supporting",
-      "source_type": "meta_analysis",
-      "doi": "10.1017/S2045796024000611",
-      "pmid": "39501660",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/39501660/",
-      "label": "Cuijpers et al. (2024) - 心理療法の効果量は待機群比較で過大推定される傾向MA"
+      "source_type": "review",
+      "doi": "10.1016/j.smrv.2025.102114",
+      "pmid": "40505175",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/40505175/",
+      "label": "Lim et al. (2025) - The impact of sleep loss on decision making: Opening the cognitive black box"
     }
   ],
-  "source_label": "Sirois & Pychyl (2013) + Rozental et al. (2018) procrastination intervention MA",
-  "claim": "勉強を始められないとき、「10秒だけやる」と決めて教科書を開くだけで、その後も続けやすくなる可能性がある。先延ばしは意志力の問題ではなく感情調整の問題という見方がある",
-  "limitations": "慢性的な無気力や抑うつ傾向がある場合は別のアプローチが必要。本当に疲れているときは休息優先。ADHDなど注意制御に困難がある場合は専門的な支援が有効",
-  "effect_size_note": "Rozental et al. (2018) MA: 先延ばしへの心理的介入の効果は小〜中程度（g=0.34, 95%CI: 0.11-0.56）。ただし効果には個人差があり、重度の先延ばしには限定的 [DOI:10.3389/fpsyg.2018.01588, PMID:30214421]",
-  "evidence_grade": "silver",
-  "confidence": "high",
+  "source_label": "Agyapong-Opoku et al. (2025) scoping review + Wei et al. (2025) review + Lim et al. (2025) review",
+  "claim": "睡眠不足や強い疲労は、判断の柔軟性、リスク選択、選択戦略に影響する可能性がある。夜の強い気持ちを否定せず情報として残し、購入・送信・計画採用など取り消しにくい判断だけを翌日へ回すことは、低リスクな判断補助として使える。",
+  "limitations": "夜であること自体が判断低下を意味するわけではない。レビューが扱うのは主に睡眠制限・睡眠剥奪で、効果は判断領域や個人差で一貫しない。「明日へ回す」介入自体の効果はこれらのレビューから直接には示されていない。緊急の安全判断や期限のある判断は延期しない。",
+  "effect_size_note": "The reviews report heterogeneous effects across decision domains and experimental conditions, so no single effect size supports a general 'night decisions are bad' claim. Psycle therefore treats delayed commitment as an indirect safeguard, not a proven treatment or a rule that nighttime feelings are false.",
+  "evidence_grade": "bronze",
+  "confidence": "medium",
   "status": "active",
-  "last_verified": "2026-04-22",
+  "last_verified": "2026-07-11",
   "generated_by": "mode_a",
   "review": {
     "human_approved": true,
@@ -130,10 +130,10 @@
       "rollback_trigger_if_reverted": "guardrail_or_contract_regression"
     }
   },
-  "last_verified_at": "2026-04-22",
+  "last_verified_at": "2026-07-11",
   "review_sla_days": 90,
   "expiry_action": "refresh_queue",
-  "next_review_due_at": "2026-07-21",
+  "next_review_due_at": "2026-10-09",
   "stale_route_owner": "content_ops",
   "refresh_value_reason_candidate": "evidence_strength_update",
   "severity_tier": "B"
