@@ -35,46 +35,21 @@ Do not repeat that workflow.
 
 ## Current Cleanup Snapshot
 
-As of 2026-05-16, the worktree is organized enough to reason about, but it is
-not commit-ready as one change. `python3 scripts/worktree-status-buckets.py`
-must print no `[other]` bucket before calling the tree organized.
+As of 2026-07-11, the current product surface is the clock Course World plus the
+question/completion runtime. The earlier vertical Trail, legacy Course shell,
+provisional hero, GPT course prototype, and Expo starter entry have been
+removed. Course nodes now come from real loaded lesson inventory rather than a
+generated 100-node scaffold.
 
-Current buckets:
+The remaining high-risk areas stay separate:
 
-- `workspace_agent_guidance`
-  - workspace-level agent rules in `../AGENTS.md` / `../CLAUDE.md`.
-  - Keep separate from app behavior changes.
-- `north_star_quality_system`
-  - North Star docs, content-intake stores, lesson-quality audits, and CI hooks.
-  - This is the first bucket to preserve because other work depends on these contracts.
-- `local_artifacts`
-  - tracked release archives under `_artifacts/`.
-  - These are local build outputs and should not be regenerated just to silence status noise.
-- `screen_shells`
-  - lesson/course UI wiring and the new lesson intro surface.
-  - Requires Simulator verification before being called product-ready.
-- `ui_foundation`
-  - shared course-world visuals.
-- `question_runtime`
-  - question result / swipe runtime / shared question types.
-- `app_state`
-  - auth and progression state behavior.
-- `analytics_content_config`
-  - lesson metadata, lesson loading, analytics event definitions.
-- `lesson_runtime`
-  - lesson flow, completion effects, recap, analytics, and pacing.
-- `content_generation_pipeline`
-  - generator, evidence, extractor, deterministic gates, and lesson validation.
-- `generated_data`
-  - lesson JSON and locale dictionaries generated from the current lesson spine.
-  - High risk for accidental churn. Stage only after validating the corresponding lesson/runtime change.
-- `preview_debug`
-  - retained debug route changes.
-- `test_contracts`
-  - Jest setup and tests that pin the above changes.
+- `learning_core`: question identity, claim/source trace, authored sequence
+- `progression_state`: completion, review, mastery, and persistence
+- `content_evidence`: lesson/evidence semantic alignment and production state
+- `native_billing`: reproducible native build and server-owned entitlements
+- `test_contracts`: behavior and integration proof for the owning area
 
-Do not collapse these into one commit or one PR narrative. The current tree is
-understandable only when split by these buckets.
+Do not collapse these into one commit or one PR narrative.
 
 Commit split order:
 
@@ -88,9 +63,9 @@ Do not delete these surfaces during cleanup:
 
 - `design-previews/`
 - `app/debug/`
-- `components/provisional/`
 
-These include retained debug surfaces and explicitly owned temporary UI.
+These include retained references and wired debug surfaces. Unwired prototypes
+are deleted rather than kept as provisional product code.
 
 ## Cleanup Order
 
@@ -233,7 +208,6 @@ lesson or UI changes.
 
 - `design-previews/*.swift`
 - `app/debug/`
-- `components/provisional/`
 - `lib/debug/`
 
 ## Done Definition

@@ -91,9 +91,10 @@ Automated tests generate reports in `artifacts/`:
 |-----------|--------|---------|
 | `app/onboarding/index.tsx` | `onboarding-start` | Onboarding start button |
 | `app/onboarding/interests.tsx` | `onboarding-finish` | Onboarding completion |
-| `components/trail.tsx` | `lesson-node-{id}` | Lesson selection nodes |
-| `components/Modal.tsx` | `modal-primary-button` | Lesson start confirmation |
-| `app/lessons/[id].tsx` | `lesson-complete` | Lesson completion button |
+| `components/CourseWorldHero.tsx` | `hero-root-orb` | Current lesson selection |
+| `components/course-world/CourseWorldNodeColumn.tsx` | `course-world-primary` | Primary course action |
+| `components/lesson/LessonCompletionView.tsx` | `lesson-complete-screen` | Lesson completion state |
+| `components/lesson/LessonCompletionView.tsx` | `lesson-complete-continue` | Return to course |
 | `app/settings/index.tsx` | `open-analytics-debug` | Debug screen access |
 | `components/AnalyticsDebug.tsx` | Multiple | Debug UI elements |
 

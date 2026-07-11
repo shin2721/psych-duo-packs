@@ -21,6 +21,21 @@ Use this page as the first hop into Psycle's operational docs.
 - Local dev bundle id:
   - `com.s6n2j9.psycle`
 
+## Active Product Surface
+
+- Main route: `app/(tabs)/index.tsx` redirects to `app/(tabs)/course.tsx`.
+- Main course UI: `CourseWorldHero` and `components/course-world/` implement the
+  current clock/dial experience.
+- Course inventory: `lib/courseTrail.ts` builds the clock route from lessons
+  that actually load; there is no generated 100-node product surface.
+- Lesson UI: `app/lesson.tsx` composes the current question and completion
+  runtime under `components/lesson/` and `components/question-runtime/`.
+- Retained debug routes: analytics and the current Course World clock harness.
+
+Retired vertical Trail, legacy Course shell, provisional Course hero, and GPT
+course prototype files are not product references and must not be restored
+without a new product decision.
+
 ## Build / Native
 
 - iOS native repair and detached build recovery:

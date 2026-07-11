@@ -6,10 +6,23 @@ Use this file to keep the Psycle workspace workable while large refactors and UI
 
 - `app/`, `components/`, `lib/`, `types/`
 - `app/debug/`
-- `components/provisional/`
 - `design-previews/`
 
 These are allowed to stay only when they contain active product code, wired debug routes, or retained experiments with a current owner.
+
+The active course surface is `app/(tabs)/course.tsx -> CourseWorldHero ->
+components/course-world/`. The active lesson surface is `app/lesson.tsx ->
+components/lesson/ -> components/question-runtime/`. Do not infer product
+ownership from filenames outside these paths without checking imports and
+routes.
+
+Retired surfaces that must not return as cleanup artifacts:
+
+- `components/trail.tsx` and `components/trail/`
+- `components/course/LegacyCourseMain.tsx`
+- `components/provisional/CourseHeroFinal.tsx`
+- `app/debug/course-concept-final.tsx`
+- the unused Expo starter `App.js`
 
 ## Ignore As Local
 
