@@ -16,7 +16,12 @@ export const COURSE_THEME_COLORS: Record<string, string> = {
 
 export type CourseWorldNodeStatus = "done" | "current" | "locked";
 export type CourseWorldNodeType = "lesson" | "review_blackhole";
-export type CourseWorldPrimaryActionMode = "lesson" | "paywall" | "review";
+export type CourseWorldPrimaryActionMode =
+  | "lesson"
+  | "paywall"
+  | "review"
+  | "complete"
+  | "blocked";
 
 export interface CourseWorldNode {
   accessibilityLabel: string;
@@ -72,6 +77,7 @@ export interface CourseWorldTrailNode {
 
 export interface BuildCourseWorldViewModelInput {
   comebackRewardOffer: ComebackRewardOffer | null;
+  courseState?: "active" | "complete" | "blocked";
   currentTrail: CourseWorldTrailNode[];
   lessonSupportCandidate?: LessonSupportCandidate | null;
   masteryCandidate?: MasteryCandidate | null;
@@ -189,10 +195,6 @@ function buildSequence(
   nextActionNode: CourseWorldTrailNode | null | undefined
 ): SequenceNode[] {
   const lessonTrail = trail.filter((node) => !!node.lessonFile);
-  const nextActionIndex = Math.max(
-    0,
-    lessonTrail.findIndex((node) => node.id === nextActionNode?.id)
-  );
 
   const sequence = lessonTrail
     .map((node, orderIndex) => {
@@ -201,10 +203,14 @@ function buildSequence(
 
       const nodeType = normalizeNodeType(node, lesson);
       const label = nodeType === "review_blackhole" ? "BH" : `L${lesson.level}`;
-      const status: CourseWorldNodeStatus =
-        orderIndex < nextActionIndex
+      const isNextAction = node.id === nextActionNode?.id;
+      const status: CourseWorldNodeStatus = isNextAction
+        ? node.isLocked
+          ? "locked"
+          : "current"
+        : node.status === "done"
           ? "done"
-          : orderIndex === nextActionIndex
+          : !nextActionNode && node.status === "current"
             ? node.isLocked
               ? "locked"
               : "current"
@@ -238,8 +244,17 @@ function buildProgressLabel(currentNode: SequenceNode, maxLessonLevel: number): 
 }
 
 function buildPrimaryAction(
-  currentNode: SequenceNode
+  currentNode: SequenceNode,
+  courseState: BuildCourseWorldViewModelInput["courseState"]
 ): CourseWorldViewModel["primaryAction"] {
+  if (courseState === "complete" || courseState === "blocked") {
+    return {
+      label: String(i18n.t("globalHeader.selectCourse")),
+      mode: courseState,
+      targetNodeId: currentNode.id,
+    };
+  }
+
   if (currentNode.nodeType === "review_blackhole") {
     return {
       label: String(i18n.t("course.world.ctaOpenReview")),
@@ -441,6 +456,7 @@ export function buildCourseWorldViewModel(
   const currentNode =
     sequence.find((node) => node.id === input.nextActionNode?.id) ??
     sequence.find((node) => node.status === "current") ??
+    [...sequence].reverse().find((node) => node.status === "done") ??
     sequence[0];
 
   if (!currentNode) return null;
@@ -449,7 +465,12 @@ export function buildCourseWorldViewModel(
   const doneCount = sequence.filter(
     (node) => node.nodeType === "lesson" && node.status === "done"
   ).length;
-  const remainingCount = Math.max(0, lessonCount - doneCount - (currentNode.nodeType === "lesson" ? 1 : 0));
+  const remainingCount = Math.max(
+    0,
+    lessonCount -
+      doneCount -
+      (currentNode.nodeType === "lesson" && currentNode.status !== "done" ? 1 : 0)
+  );
   const unitLabel = genres.find((genre) => genre.id === input.selectedGenre)?.label ?? input.selectedGenre;
   const currentBody = deriveLessonBody(currentNode.lesson, currentNode.status);
   const sessionQuestions =
@@ -485,7 +506,7 @@ export function buildCourseWorldViewModel(
       title: currentNode.lesson.title,
     },
     genreId: input.selectedGenre,
-    primaryAction: buildPrimaryAction(currentNode),
+    primaryAction: buildPrimaryAction(currentNode, input.courseState),
     progressLabel: buildProgressLabel(currentNode, lessonCount),
     reviewNode,
     routeNodes,

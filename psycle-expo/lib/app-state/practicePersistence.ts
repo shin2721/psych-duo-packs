@@ -1,5 +1,7 @@
 import { getUserStorageKey, loadUserEntries, persistJson } from "./persistence";
 import { createEmptyMasteryThemeState, reevaluateMasteryThemeState } from "./mastery";
+import { normalizeLearnerSkillStates } from "../learnerSkillState";
+import type { LearnerSkillState } from "../../types/courseManifest";
 import type {
   LessonSessionRecord,
   MasteryThemeState,
@@ -11,6 +13,7 @@ import type {
 export interface PracticePersistenceSnapshot {
   mistakes: MistakeItem[];
   reviewEvents: ReviewEvent[];
+  learnerSkillStates: LearnerSkillState[];
   lessonSessions: LessonSessionRecord[];
   supportSurfaceHistory: SupportSurfaceRecord[];
   masteryThemeStates: MasteryThemeState[];
@@ -233,12 +236,14 @@ export async function loadPracticePersistenceSnapshot(userId: string): Promise<P
   const saved = await loadUserEntries(userId, [
     "mistakes",
     "reviewEvents",
+    "learnerSkillStates",
     "lessonSessions",
     "supportSurfaceHistory",
     "masteryThemeStates",
   ]);
   let mistakes: MistakeItem[] = [];
   let reviewEvents: ReviewEvent[] = [];
+  let learnerSkillStates: LearnerSkillState[] = [];
   let lessonSessions: LessonSessionRecord[] = [];
   let supportSurfaceHistory: SupportSurfaceRecord[] = [];
   let masteryThemeStates: MasteryThemeState[] = [];
@@ -256,6 +261,14 @@ export async function loadPracticePersistenceSnapshot(userId: string): Promise<P
       reviewEvents = normalizeReviewEvents(JSON.parse(saved.reviewEvents));
     } catch (error) {
       console.warn("Failed to parse stored review events:", error);
+    }
+  }
+
+  if (saved.learnerSkillStates) {
+    try {
+      learnerSkillStates = normalizeLearnerSkillStates(JSON.parse(saved.learnerSkillStates));
+    } catch (error) {
+      console.warn("Failed to parse stored learner skill states:", error);
     }
   }
 
@@ -286,6 +299,7 @@ export async function loadPracticePersistenceSnapshot(userId: string): Promise<P
   return {
     mistakes,
     reviewEvents,
+    learnerSkillStates,
     lessonSessions,
     supportSurfaceHistory,
     masteryThemeStates,
@@ -294,10 +308,17 @@ export async function loadPracticePersistenceSnapshot(userId: string): Promise<P
 
 export async function persistPracticeJsonState(
   userId: string,
-  key: "mistakes" | "reviewEvents" | "lessonSessions" | "supportSurfaceHistory" | "masteryThemeStates",
+  key:
+    | "mistakes"
+    | "reviewEvents"
+    | "learnerSkillStates"
+    | "lessonSessions"
+    | "supportSurfaceHistory"
+    | "masteryThemeStates",
   value:
     | MistakeItem[]
     | ReviewEvent[]
+    | LearnerSkillState[]
     | LessonSessionRecord[]
     | SupportSurfaceRecord[]
     | MasteryThemeState[]

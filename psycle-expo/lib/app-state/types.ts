@@ -7,6 +7,7 @@ import type { ComebackRewardToastItem } from "../comebackRewardToastQueue";
 import type { StreakRepairOffer } from "../streakRepair";
 import type { ComebackRewardOffer } from "../comebackReward";
 import type { PlanId } from "../types/plan";
+import type { LearnerSkillState } from "../../types/courseManifest";
 
 export interface ReviewEvent {
   userId: string;
@@ -223,6 +224,7 @@ export interface BillingState {
 export interface PracticeState {
   reviewEvents: ReviewEvent[];
   addReviewEvent: (event: Omit<ReviewEvent, "userId" | "ts">) => void;
+  learnerSkillStates: LearnerSkillState[];
   lessonSessions: LessonSessionRecord[];
   supportSurfaceHistory: SupportSurfaceRecord[];
   masteryThemeStates: MasteryThemeState[];

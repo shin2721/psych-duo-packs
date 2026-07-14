@@ -232,6 +232,8 @@ export type EngagementPrimaryActionType =
   | "lesson"
   | "review"
   | "paywall"
+  | "course_complete"
+  | "course_blocked"
   | "return"
   | "adaptive"
   | "refresh"
@@ -252,6 +254,12 @@ export type EngagementPrimaryActionShownEvent = {
     genreId: string;
     lessonId?: string;
     supportKind?: "return" | "adaptive" | "refresh" | "replay" | "mastery" | "streakRepair" | "comebackReward";
+    curriculumVersion?: string;
+    unitId?: string;
+    skillIds?: string[];
+    skillStages?: string[];
+    learningActionKind?: "core" | "return" | "adaptive" | "refresh" | "replay" | "mastery" | "course_complete" | "blocked";
+    learningActionReason?: string;
     appEnv: "dev" | "prod";
   };
 };
@@ -268,6 +276,12 @@ export type EngagementPrimaryActionStartedEvent = {
     genreId: string;
     lessonId?: string;
     supportKind?: "return" | "adaptive" | "refresh" | "replay" | "mastery" | "streakRepair" | "comebackReward";
+    curriculumVersion?: string;
+    unitId?: string;
+    skillIds?: string[];
+    skillStages?: string[];
+    learningActionKind?: "core" | "return" | "adaptive" | "refresh" | "replay" | "mastery" | "course_complete" | "blocked";
+    learningActionReason?: string;
     appEnv: "dev" | "prod";
   };
 };

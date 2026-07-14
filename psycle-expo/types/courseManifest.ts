@@ -49,3 +49,59 @@ export interface CourseManifestValidationResult {
   valid: boolean;
   errors: string[];
 }
+
+export type LearnerSkillHighestStage =
+  | "unseen"
+  | "introduced"
+  | "usable"
+  | "transferable"
+  | "stable";
+
+export type LearnerSkillStage = LearnerSkillHighestStage | "refresh_due";
+
+export interface LearnerSkillState {
+  course_id: string;
+  curriculum_version: string;
+  skill_id: string;
+  stage: LearnerSkillStage;
+  highest_stage: LearnerSkillHighestStage;
+  attempts: number;
+  correct_attempts: number;
+  transfer_attempts: number;
+  transfer_successes: number;
+  recent_results: Array<"correct" | "incorrect">;
+  last_practiced_at: number | null;
+  next_review_at: number | null;
+}
+
+export type LearningCoreActionKind =
+  | "core"
+  | "return"
+  | "adaptive"
+  | "refresh"
+  | "replay"
+  | "mastery"
+  | "course_complete"
+  | "blocked";
+
+export interface LearningCoreAction {
+  kind: LearningCoreActionKind;
+  lesson_id: string | null;
+  unit_id: string | null;
+  skill_ids: string[];
+  reason:
+    | "required_safety_refresh"
+    | "explicit_return"
+    | "next_core_lesson"
+    | "due_support"
+    | "due_skill_mastery"
+    | "remaining_mastery"
+    | "course_complete"
+    | "prerequisite_gap";
+}
+
+export interface LearningActionHistoryEntry {
+  kind: Exclude<LearningCoreActionKind, "course_complete" | "blocked">;
+  lesson_id: string;
+  ts: number;
+}

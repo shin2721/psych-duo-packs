@@ -78,6 +78,7 @@ describe("practicePersistence helpers", () => {
           tags: undefined,
         },
       ],
+      learnerSkillStates: [],
       lessonSessions: [],
       supportSurfaceHistory: [],
       masteryThemeStates: [],
@@ -94,12 +95,46 @@ describe("practicePersistence helpers", () => {
     await expect(loadPracticePersistenceSnapshot("user-1")).resolves.toEqual({
       mistakes: [],
       reviewEvents: [],
+      learnerSkillStates: [],
       lessonSessions: [],
       supportSurfaceHistory: [],
       masteryThemeStates: [],
     });
 
     expect(warnSpy).toHaveBeenCalledTimes(2);
+  });
+
+  test("normalizes durable learner skill state and preserves the highest stage", async () => {
+    const nowMs = Date.UTC(2026, 6, 14, 0, 0, 0);
+    jest.spyOn(Date, "now").mockReturnValue(nowMs);
+    mockLoadUserEntries.mockResolvedValueOnce({
+      learnerSkillStates: JSON.stringify([
+        {
+          course_id: "mental",
+          curriculum_version: "mental-v1.0.0",
+          skill_id: "mental_separate_signal_story",
+          stage: "transferable",
+          highest_stage: "transferable",
+          attempts: 4,
+          correct_attempts: 3,
+          transfer_attempts: 1,
+          transfer_successes: 1,
+          recent_results: ["correct", "incorrect", "correct"],
+          last_practiced_at: nowMs - 8 * 24 * 60 * 60 * 1000,
+          next_review_at: nowMs - 1,
+        },
+      ]),
+    });
+
+    const snapshot = await loadPracticePersistenceSnapshot("user-1");
+
+    expect(snapshot.learnerSkillStates).toEqual([
+      expect.objectContaining({
+        skill_id: "mental_separate_signal_story",
+        stage: "refresh_due",
+        highest_stage: "transferable",
+      }),
+    ]);
   });
 
   test("normalizes mastery theme states and reevaluates graduation fields", async () => {

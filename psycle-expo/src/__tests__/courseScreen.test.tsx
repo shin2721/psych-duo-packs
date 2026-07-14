@@ -223,6 +223,7 @@ jest.mock("../../lib/state", () => ({
     purchaseStreakRepair: (...args: unknown[]) => mockPurchaseStreakRepair(...args),
     selectedGenre: mockSelectedGenre,
     setSelectedGenre: (...args: unknown[]) => mockSetSelectedGenre(...args),
+    streak: 0,
     streakRepairOffer: mockStreakRepairOffer,
   }),
   useBillingState: () => ({
@@ -242,6 +243,8 @@ jest.mock("../../lib/state", () => ({
       weeklyKindUsed: { return: 0, adaptive: 0, refresh: 0, replay: 0 },
       weeklyKindRemaining: { return: 2, adaptive: 2, refresh: 2, replay: 1 },
     }),
+    learnerSkillStates: [],
+    lessonSessions: [],
     primeMasteryTheme: jest.fn(),
     recordSupportMomentSeen: jest.fn(),
     markSupportMomentStarted: jest.fn(),
@@ -249,6 +252,7 @@ jest.mock("../../lib/state", () => ({
     completeActiveReviewSupport: jest.fn(),
     suppressActiveReviewSupport: jest.fn(),
     startReturnSession: jest.fn(() => ({ started: false })),
+    supportSurfaceHistory: [],
   }),
 }));
 
@@ -261,6 +265,9 @@ jest.mock("../../lib/courseTrail", () => ({
     { icon: "leaf", id: "m1", lessonFile: "mental_l01" },
     { icon: "flower", id: "m2", lessonFile: "mental_l02" },
     { icon: "sparkles", id: "m3", lessonFile: "mental_l03" },
+    { icon: "star", id: "m4", lessonFile: "mental_l04" },
+    { icon: "heart-circle", id: "m5", lessonFile: "mental_l05" },
+    { icon: "pulse", id: "m6", lessonFile: "mental_l06" },
   ],
 }));
 
@@ -417,7 +424,14 @@ describe("CourseScreen", () => {
   });
 
   test("mastery support CTA starts the mastery lesson after core completion", async () => {
-    mockCompletedLessons = new Set(["mental_l01", "mental_l02", "mental_l03"]);
+    mockCompletedLessons = new Set([
+      "mental_l01",
+      "mental_l02",
+      "mental_l03",
+      "mental_l04",
+      "mental_l05",
+      "mental_l06",
+    ]);
     mockAvailableMasteryVariantIds = ["mental_m01"];
     mockMasteryThemeState = {
       themeId: "mental",

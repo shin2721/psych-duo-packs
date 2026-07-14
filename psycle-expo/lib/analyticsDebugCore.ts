@@ -291,6 +291,8 @@ const ALLOWED_PRIMARY_ACTION_TYPES = new Set([
     'lesson',
     'review',
     'paywall',
+    'course_complete',
+    'course_blocked',
     'return',
     'adaptive',
     'refresh',

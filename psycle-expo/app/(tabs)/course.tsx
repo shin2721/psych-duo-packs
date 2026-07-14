@@ -8,6 +8,11 @@ import { CourseLeagueResultGate } from "../../components/course/CourseLeagueResu
 import { getLastWeekResult, type LeagueResult } from "../../lib/leagueReward";
 import { buildCourseWorldViewModel } from "../../lib/courseWorld";
 import { buildCourseTrailInventory, type CourseTrailInventoryNode } from "../../lib/courseTrail";
+import { getCourseManifest } from "../../lib/courseManifestRuntime";
+import {
+  buildRecentLearningActionHistory,
+  selectLearningCoreAction,
+} from "../../lib/learningCoreNextAction";
 import { lessonSetHasResolvedId, resolveRuntimeLessonId } from "../../lib/lessonContinuity";
 import { listAvailableMasteryLessonIds } from "../../lib/masteryInventory";
 import { selectMasteryCandidate } from "../../lib/masteryCandidate";
@@ -55,50 +60,21 @@ function deriveEngagementUserState(params: {
 
 function getPrimaryActionTelemetry(
   model: NonNullable<ReturnType<typeof buildCourseWorldViewModel>>,
-  masteryCandidate: ReturnType<typeof selectMasteryCandidate>
+  learningCoreAction: ReturnType<typeof selectLearningCoreAction> | null
 ): CoursePrimaryActionTelemetry {
-  const supportKind = model.supportMoment?.kind;
-
-  if (supportKind === "streakRepair") {
+  if (model.primaryAction.mode === "complete") {
     return {
-      primaryActionType: "streak_repair",
-      priorityRank: 3,
-      priorityReason: "lapse_recovery",
-      supportKind,
+      primaryActionType: "course_complete",
+      priorityRank: 6,
+      priorityReason: "course_complete",
     };
   }
 
-  if (supportKind === "comebackReward") {
+  if (model.primaryAction.mode === "blocked") {
     return {
-      primaryActionType: "comeback_reward",
-      priorityRank: 3,
-      priorityReason: "comeback_reward_available",
-      supportKind,
-    };
-  }
-
-  if (
-    supportKind === "return" ||
-    supportKind === "adaptive" ||
-    supportKind === "refresh" ||
-    supportKind === "replay"
-  ) {
-    return {
-      lessonId: model.currentLesson.lessonFile,
-      primaryActionType: supportKind,
-      priorityRank: supportKind === "return" ? 3 : 5,
-      priorityReason: supportKind === "return" ? "return_reentry" : "short_support_available",
-      supportKind,
-    };
-  }
-
-  if (supportKind === "mastery") {
-    return {
-      lessonId: masteryCandidate?.lessonId,
-      primaryActionType: "mastery",
-      priorityRank: 4,
-      priorityReason: "mastery_slot_open",
-      supportKind,
+      primaryActionType: "course_blocked",
+      priorityRank: 9,
+      priorityReason: "prerequisite_gap",
     };
   }
 
@@ -124,7 +100,7 @@ function getPrimaryActionTelemetry(
     lessonId: model.primaryAction.targetLessonFile,
     primaryActionType: "lesson",
     priorityRank: 1,
-    priorityReason: "next_core_lesson",
+    priorityReason: learningCoreAction?.reason ?? "next_core_lesson",
   };
 }
 
@@ -151,15 +127,15 @@ function buildCurrentTrail(
     const lessonFile = node.lessonFile;
     if (!lessonFile) return node;
 
+    const isCompleted = lessonSetHasResolvedId(completedLessons, lessonFile);
+    if (isCompleted) return { ...node, status: "done" };
+
     const levelMatch = lessonFile.match(/_l(\d+)$/);
     const level = levelMatch ? parseInt(levelMatch[1], 10) : 1;
     const locked = isLessonLocked(selectedGenre, level, hasProAccess);
     if (locked) {
       return { ...node, status: "current", isLocked: true };
     }
-
-    const isCompleted = lessonSetHasResolvedId(completedLessons, lessonFile);
-    if (isCompleted) return { ...node, status: "done" };
 
     const prevNode = baseTrail[index - 1];
     const prevCompleted = prevNode?.lessonFile
@@ -188,10 +164,13 @@ export default function CourseScreen() {
     getLessonSupportCandidate,
     getMasteryThemeState,
     getSupportBudgetSummary,
+    learnerSkillStates = [],
+    lessonSessions = [],
     markSupportMomentStarted,
     primeMasteryTheme,
     recordSupportMomentSeen,
     startReturnSession,
+    supportSurfaceHistory = [],
   } = usePracticeState();
   const { hasProAccess } = useBillingState();
   const { setGemsDirectly } = useEconomyState();
@@ -261,6 +240,35 @@ export default function CourseScreen() {
     () => buildCurrentTrail(selectedGenre, hasProAccess, completedLessons),
     [selectedGenre, hasProAccess, completedLessons]
   );
+  const courseManifest = useMemo(() => getCourseManifest(selectedGenre), [selectedGenre]);
+  const recentLearningActions = useMemo(
+    () =>
+      courseManifest
+        ? buildRecentLearningActionHistory({
+            manifest: courseManifest,
+            lessonSessions,
+            supportSurfaceHistory,
+          })
+        : [],
+    [courseManifest, lessonSessions, supportSurfaceHistory]
+  );
+  const learningCoreAction = useMemo(
+    () =>
+      courseManifest
+        ? selectLearningCoreAction({
+            manifest: courseManifest,
+            completedLessons,
+            learnerSkillStates,
+            recentActions: recentLearningActions,
+          })
+        : null,
+    [
+      completedLessons,
+      courseManifest,
+      learnerSkillStates,
+      recentLearningActions,
+    ]
+  );
   const availableMasteryVariantIds = useMemo(
     () => listAvailableMasteryLessonIds(selectedGenre),
     [selectedGenre]
@@ -290,13 +298,28 @@ export default function CourseScreen() {
   const lastPrimaryActionShownKeyRef = useRef<string | null>(null);
   const lastReturnReasonShownKeyRef = useRef<string | null>(null);
   const nextActionNode = useMemo(
-    () => currentTrail.find((node) => node.status === "current" && !!node.lessonFile),
-    [currentTrail]
+    () => {
+      if (courseManifest) {
+        if (!learningCoreAction?.lesson_id) return undefined;
+        return currentTrail.find(
+          (node) => node.lessonFile === learningCoreAction.lesson_id
+        );
+      }
+      return currentTrail.find((node) => node.status === "current" && !!node.lessonFile);
+    },
+    [courseManifest, currentTrail, learningCoreAction]
   );
+  const courseState =
+    learningCoreAction?.kind === "course_complete"
+      ? "complete"
+      : learningCoreAction?.kind === "blocked"
+        ? "blocked"
+        : "active";
   const model = useMemo(
     () =>
       buildCourseWorldViewModel({
         selectedGenre,
+        courseState,
         currentTrail,
         lessonSupportCandidate,
         masteryCandidate,
@@ -311,6 +334,7 @@ export default function CourseScreen() {
       }),
     [
       selectedGenre,
+      courseState,
       currentTrail,
       lessonSupportCandidate,
       masteryCandidate,
@@ -344,8 +368,19 @@ export default function CourseScreen() {
     ]
   );
   const primaryActionTelemetry = useMemo(
-    () => (model ? getPrimaryActionTelemetry(model, masteryCandidate) : null),
-    [masteryCandidate, model]
+    () => (model ? getPrimaryActionTelemetry(model, learningCoreAction) : null),
+    [learningCoreAction, model]
+  );
+  const learningActionSkillStages = useMemo(
+    () =>
+      (learningCoreAction?.skill_ids ?? []).map((skillId) => {
+        const state = learnerSkillStates.find(
+          (candidate) =>
+            candidate.course_id === selectedGenre && candidate.skill_id === skillId
+        );
+        return `${skillId}:${state?.stage ?? "unseen"}`;
+      }),
+    [learnerSkillStates, learningCoreAction?.skill_ids, selectedGenre]
   );
   const returnReasonTelemetry = useMemo(() => {
     if (dailyGoal <= 0 || !primaryActionTelemetry) return null;
@@ -358,11 +393,12 @@ export default function CourseScreen() {
       | "return_support_available" =
       remainingXp === 0 ? "daily_goal_complete" : "daily_goal_remaining";
 
-    if (primaryActionTelemetry.supportKind === "streakRepair") {
+    const supportKind = model?.supportMoment?.kind;
+    if (supportKind === "streakRepair") {
       reason = "streak_repair_available";
-    } else if (primaryActionTelemetry.supportKind === "comebackReward") {
+    } else if (supportKind === "comebackReward") {
       reason = "comeback_reward_available";
-    } else if (primaryActionTelemetry.supportKind === "return") {
+    } else if (supportKind === "return") {
       reason = "return_support_available";
     }
 
@@ -370,9 +406,9 @@ export default function CourseScreen() {
       reason,
       remainingXp,
       primaryActionType: primaryActionTelemetry.primaryActionType,
-      supportKind: primaryActionTelemetry.supportKind,
+      supportKind,
     } as const;
-  }, [dailyGoal, dailyXP, primaryActionTelemetry]);
+  }, [dailyGoal, dailyXP, model?.supportMoment?.kind, primaryActionTelemetry]);
 
   useEffect(() => {
     if (!isStateHydrated) return;
@@ -384,6 +420,9 @@ export default function CourseScreen() {
       primaryActionTelemetry.priorityRank,
       primaryActionTelemetry.lessonId ?? "none",
       primaryActionTelemetry.supportKind ?? "none",
+      learningCoreAction?.kind ?? "legacy",
+      learningCoreAction?.reason ?? "legacy",
+      learningActionSkillStages.join(","),
     ].join(":");
     if (lastPrimaryActionShownKeyRef.current === analyticsKey) return;
     lastPrimaryActionShownKeyRef.current = analyticsKey;
@@ -398,9 +437,24 @@ export default function CourseScreen() {
       genreId: selectedGenre,
       lessonId: primaryActionTelemetry.lessonId,
       supportKind: primaryActionTelemetry.supportKind,
+      curriculumVersion: courseManifest?.curriculum_version,
+      unitId: learningCoreAction?.unit_id ?? undefined,
+      skillIds: learningCoreAction?.skill_ids,
+      skillStages: learningActionSkillStages,
+      learningActionKind: learningCoreAction?.kind,
+      learningActionReason: learningCoreAction?.reason,
       appEnv: getEngagementAppEnv(),
     });
-  }, [engagementUserState, isStateHydrated, model, primaryActionTelemetry, selectedGenre]);
+  }, [
+    courseManifest?.curriculum_version,
+    engagementUserState,
+    isStateHydrated,
+    learningActionSkillStages,
+    learningCoreAction,
+    model,
+    primaryActionTelemetry,
+    selectedGenre,
+  ]);
 
   useEffect(() => {
     if (!isStateHydrated) return;
@@ -546,7 +600,7 @@ export default function CourseScreen() {
     showToast("このレッスンはまだ準備中です。");
   };
 
-  const trackPrimaryActionStarted = (entrypoint: "primary_cta" | "node" | "support_card") => {
+  const trackPrimaryActionStarted = (entrypoint: "primary_cta" | "node") => {
     if (!primaryActionTelemetry) return;
     Analytics.track("engagement_primary_action_started", {
       userState: engagementUserState,
@@ -558,6 +612,12 @@ export default function CourseScreen() {
       genreId: selectedGenre,
       lessonId: primaryActionTelemetry.lessonId,
       supportKind: primaryActionTelemetry.supportKind,
+      curriculumVersion: courseManifest?.curriculum_version,
+      unitId: learningCoreAction?.unit_id ?? undefined,
+      skillIds: learningCoreAction?.skill_ids,
+      skillStages: learningActionSkillStages,
+      learningActionKind: learningCoreAction?.kind,
+      learningActionReason: learningCoreAction?.reason,
       appEnv: getEngagementAppEnv(),
     });
   };
@@ -576,6 +636,11 @@ export default function CourseScreen() {
       return;
     }
 
+    if (model.primaryAction.mode === "complete" || model.primaryAction.mode === "blocked") {
+      setMenuVisible(true);
+      return;
+    }
+
     if (model.primaryAction.targetLessonFile) {
       router.replace(`/lesson?file=${model.primaryAction.targetLessonFile}&genre=${selectedGenre}`);
     }
@@ -588,7 +653,6 @@ export default function CourseScreen() {
   };
 
   const handleSupportPress = () => {
-    trackPrimaryActionStarted("support_card");
     const activeStreakRepairOffer =
       streakRepairOffer?.active && streakRepairOffer.expiresAtMs > Date.now() ? streakRepairOffer : null;
     if (activeStreakRepairOffer) {

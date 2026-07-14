@@ -2,6 +2,7 @@ import mentalManifestJson from "../data/courses/mental.manifest.json";
 import {
   COURSE_MANIFEST_SCHEMA_VERSION,
   type CourseManifest,
+  type CourseManifestLesson,
   type CourseManifestValidationResult,
 } from "../types/courseManifest";
 
@@ -155,4 +156,11 @@ export function getCourseCoreLessonIds(manifest: CourseManifest): string[] {
 
 export function getCourseMasteryLessonIds(manifest: CourseManifest): string[] {
   return manifest.units.flatMap((unit) => unit.mastery_lesson_ids);
+}
+
+export function getCourseManifestLesson(
+  courseId: string,
+  lessonId: string
+): CourseManifestLesson | null {
+  return getCourseManifest(courseId)?.lessons.find((lesson) => lesson.lesson_id === lessonId) ?? null;
 }

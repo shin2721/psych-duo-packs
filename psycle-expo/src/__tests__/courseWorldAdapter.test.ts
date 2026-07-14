@@ -23,6 +23,8 @@ jest.mock("../../lib/i18n", () => ({
           return "See unlock options";
         case "course.world.ctaOpenLesson":
           return `Open lesson ${params.number}`;
+        case "globalHeader.selectCourse":
+          return "Select course";
         case "course.world.metaQuestionsXp":
           return `${params.count} questions • +${params.xp} XP`;
         case "course.world.summary":
@@ -315,5 +317,43 @@ describe("buildCourseWorldViewModel", () => {
     });
 
     expect(model?.currentLesson.body).toBe("Use the metadata action.");
+  });
+
+  test("course completion keeps the final lesson complete instead of restarting lesson one", () => {
+    const trail = createTrail().map((node) =>
+      node.type === "lesson" ? { ...node, status: "done" } : node
+    );
+    const model = buildCourseWorldViewModel({
+      comebackRewardOffer: null,
+      courseState: "complete",
+      currentTrail: trail,
+      nextActionNode: undefined,
+      selectedGenre: "mental",
+      streakRepairOffer: null,
+    });
+
+    expect(model?.currentLesson.lessonFile).toBe("mental_l06");
+    expect(model?.currentLesson.status).toBe("done");
+    expect(model?.primaryAction).toMatchObject({
+      label: "Select course",
+      mode: "complete",
+    });
+    expect(model?.progressLabel).toBe("6 / 6");
+    expect(model?.summaryLabel).toBe("6 done • 0 left");
+  });
+
+  test("selecting a later action does not invent completion for skipped nodes", () => {
+    const trail = createTrail();
+    trail[2] = { ...trail[2], status: "locked" };
+    trail[3] = { ...trail[3], status: "current" };
+    const model = buildCourseWorldViewModel({
+      comebackRewardOffer: null,
+      currentTrail: trail,
+      nextActionNode: trail[3],
+      selectedGenre: "mental",
+      streakRepairOffer: null,
+    });
+
+    expect(model?.routeNodes.find((node) => node.id === "m3")?.status).toBe("locked");
   });
 });

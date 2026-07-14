@@ -4,6 +4,12 @@ import { useAuth } from "../AuthContext";
 import { buildMistakesHubSessionItems, selectMistakesHubItems } from "../../src/features/mistakesHub";
 import { canUseMistakesHub, consumeMistakesHub, getMistakesHubRemaining } from "../../src/featureGate";
 import { logDev } from "../devLog";
+import {
+  reconcileLearnerSkillStatesWithManifest,
+  recordLearnerSkillLessonCompletion,
+  recordLearnerSkillQuestionResult,
+} from "../learnerSkillState";
+import { getCourseManifest } from "../courseManifestRuntime";
 import { getCachedManifest } from "../remoteContent";
 import {
   completeMasteryVariant,
@@ -18,6 +24,7 @@ import { useBillingState } from "./billing";
 import { runHydrationTask } from "./hydration";
 import { createPersistJsonEffect } from "./persistEffects";
 import { loadPracticePersistenceSnapshot, normalizeReviewEvents } from "./practicePersistence";
+import { useProgressionState } from "./progression";
 import {
   getKilledSupportMoments,
   getUnitIdFromLessonId,
@@ -43,7 +50,15 @@ const PracticeStateContext = createContext<PracticeContextValue | undefined>(und
 export function PracticeStateProvider({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
   const { planId } = useBillingState();
+  const {
+    completedLessons,
+    isStateHydrated: isProgressionHydrated,
+    selectedGenre,
+  } = useProgressionState();
   const [reviewEvents, setReviewEvents] = useState<ReviewEvent[]>([]);
+  const [learnerSkillStates, setLearnerSkillStates] = useState<
+    import("../../types/courseManifest").LearnerSkillState[]
+  >([]);
   const [lessonSessions, setLessonSessions] = useState<LessonSessionRecord[]>([]);
   const [supportSurfaceHistory, setSupportSurfaceHistory] = useState<SupportSurfaceRecord[]>([]);
   const [activeReviewSupportCandidate, setActiveReviewSupportCandidate] = useState<LessonSupportCandidate | null>(null);
@@ -65,6 +80,7 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
   useEffect(() => {
     if (!user) {
       setReviewEvents([]);
+      setLearnerSkillStates([]);
       setLessonSessions([]);
       setSupportSurfaceHistory([]);
       setActiveReviewSupportCandidate(null);
@@ -86,6 +102,7 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
         if (isCancelled()) return;
         setMistakes(saved.mistakes);
         setReviewEvents(saved.reviewEvents);
+        setLearnerSkillStates(saved.learnerSkillStates);
         setLessonSessions(saved.lessonSessions);
         setSupportSurfaceHistory(saved.supportSurfaceHistory);
         setMasteryThemeStates(saved.masteryThemeStates);
@@ -124,6 +141,21 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
   }, []);
 
   useEffect(() => {
+    if (!isHydrated || !isProgressionHydrated) return;
+    const courseManifest = getCourseManifest(selectedGenre);
+    if (!courseManifest) return;
+
+    setLearnerSkillStates((current) =>
+      reconcileLearnerSkillStatesWithManifest({
+        states: current,
+        manifest: courseManifest,
+        completedLessons,
+        lessonSessions,
+      })
+    );
+  }, [completedLessons, isHydrated, isProgressionHydrated, lessonSessions, selectedGenre]);
+
+  useEffect(() => {
     createPersistJsonEffect({
       userId: user?.id,
       isHydrated,
@@ -140,6 +172,15 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
       value: reviewEvents,
     });
   }, [isHydrated, reviewEvents, user?.id]);
+
+  useEffect(() => {
+    createPersistJsonEffect({
+      userId: user?.id,
+      isHydrated,
+      key: "learnerSkillStates",
+      value: learnerSkillStates,
+    });
+  }, [isHydrated, learnerSkillStates, user?.id]);
 
   useEffect(() => {
     createPersistJsonEffect({
@@ -169,12 +210,21 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
   }, [isHydrated, masteryThemeStates, user?.id]);
 
   const addReviewEvent = (event: Omit<ReviewEvent, "userId" | "ts">) => {
+    const ts = Date.now();
     const fullEvent: ReviewEvent = {
       ...event,
       userId,
-      ts: Date.now(),
+      ts,
     };
     setReviewEvents((prev) => normalizeReviewEvents([...prev, fullEvent]));
+    setLearnerSkillStates((prev) =>
+      recordLearnerSkillQuestionResult({
+        states: prev,
+        lessonId: event.lessonId,
+        result: event.result,
+        nowMs: ts,
+      })
+    );
   };
 
   const addMistake = (questionId: string, lessonId: string, questionType?: string) => {
@@ -333,6 +383,13 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
 
       return nextSessions;
     });
+    setLearnerSkillStates((prev) =>
+      recordLearnerSkillLessonCompletion({
+        states: prev,
+        lessonId,
+        nowMs: completedAt,
+      })
+    );
 
     setSupportSurfaceHistory((prev) =>
       prev.map((record) => {
@@ -758,6 +815,7 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
     () => ({
       reviewEvents,
       addReviewEvent,
+      learnerSkillStates,
       lessonSessions,
       supportSurfaceHistory,
       masteryThemeStates,
@@ -800,6 +858,7 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
       getSupportBudgetSummary,
       isHydrated,
       lessonSessions,
+      learnerSkillStates,
       masteryThemeStates,
       mistakes,
       mistakesCleared,

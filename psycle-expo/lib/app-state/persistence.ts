@@ -21,6 +21,7 @@ const USER_KEY_PREFIXES = {
   lessonSessions: "lesson_sessions",
   supportSurfaceHistory: "support_surface_history",
   masteryThemeStates: "mastery_theme_states",
+  learnerSkillStates: "learner_skill_states",
   firstLaunchAt: "first_launch_at",
   firstDayEnergyBonusTracked: "first_day_energy_bonus_tracked",
   streakRepairOffer: "streak_repair_offer",
