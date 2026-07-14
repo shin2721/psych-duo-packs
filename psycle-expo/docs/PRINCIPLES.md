@@ -129,10 +129,14 @@
 
 ### Term Glossary
 
-- `theme`
-  - recurring pain を束ねる上位まとまり。runtime / manifest / analytics の単位。
+- `course`
+  - user が選ぶ長期学習領域。例: mental / health。version 付き curriculum manifest の主語。
 - `unit`
-  - 実装上は theme とほぼ同義で扱う lesson 群のまとまり。
+  - `recurring pain + 身につける transferable skill` で定義する、course 内の成果単位。
+- `skill`
+  - 複数 scene で再利用できる `見分ける / 選ぶ / 転用する / 戻る` 能力。
+- `theme`
+  - evidence / mastery / support を束ねる運用単位。unit と対応してよいが、同一概念として推測しない。
 - `lesson`
   - 1 job / 1 done condition を持つ最小学習単位。
 - `variant`

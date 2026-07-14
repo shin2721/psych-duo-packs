@@ -46,13 +46,13 @@ npm run check:north-star-progress
 As of this snapshot:
 
 - Product philosophy alignment: about 80%
-- Implementation foundation: about 65-70%
+- Implementation foundation: about 75-80%
 - Self-improving big-app operating loop: about 40-50%
 
 Interpretation:
 
 - The direction is now coherent.
-- The minimum data paths and contracts exist.
+- Mental Course v1 now has a versioned curriculum path and durable learner-skill state.
 - The system is not yet self-improving because real intake, real outcome data, and refresh operations still need to run repeatedly.
 
 ## What Is Already In Place
@@ -76,6 +76,16 @@ Interpretation:
 - Lessons are expected to have `lesson_job`, `done_condition`, and `takeaway_action` through metadata.
 - Lesson success should be framed as `recognize / choose / try / return`, not merely `understand`.
 
+### Curriculum / Progression
+
+- Learning Core V2 formally uses `Course -> Unit -> Skill -> Lesson`.
+- Mental Course v1 has a versioned pilot manifest with 3 units, 3 transferable skills, and 6 existing core lessons.
+- The clock course reads manifest order instead of inferring curriculum from filenames.
+- Learner skill state is persisted separately from lesson completion as `unseen / introduced / usable / transferable / stable / refresh_due`.
+- Existing completion history is reconciled into the current curriculum without erasing old completion records.
+- A tested next-action selector enforces prerequisite order, keeps Core primary, caps ordinary support at 2 of 7 actions, and lets required safety refresh override the cap.
+- Course completion remains complete instead of silently resetting the clock to lesson 1.
+
 ### Measurement
 
 - Lesson completion alone must not be treated as lesson quality.
@@ -92,6 +102,10 @@ Interpretation:
 - Lesson candidates need real worthiness scoring, not just empty storage.
 - Analytics output needs to be reviewed after real use.
 - Evidence grades need stricter distribution; avoid everything drifting toward `silver`.
+- Mental Course v1 is a progression foundation, not proof that its six lesson experiences are strong enough.
+- Health, money, social, study, and work still use legacy course order until each receives an approved manifest.
+- Required safety refresh has a selector contract but still needs a production severity signal from evidence operations.
+- Real transfer and repeat data is still needed to calibrate skill-stage thresholds and support dosage.
 - Simulator lesson completion and same-device restart continuity are verified; physical-device hardware verification remains open.
 - Completed-lesson continuity is local per user; remote cross-device completion sync remains open.
 
@@ -114,6 +128,12 @@ Useful next work:
 - Verify `lesson_outcome_feedback`, `lesson_transfer_check`, and `lesson_repeat_check` in Analytics Debug or runtime logs.
 
 ## Update Log
+
+### 2026-07-14 - Build Learning Core V2 foundation for the clock course
+
+- Changed: Defined and implemented a versioned Mental Course manifest, durable per-skill learner state, legacy completion reconciliation, prerequisite-aware next-action selection, honest course completion, and curriculum-aware analytics.
+- Verified: Typecheck passed; 160 Jest suites and 659 tests passed in the isolated worktree. The only full-suite failure was the ignored native PrivacyInfo.xcprivacy file absent from the secondary worktree, to be rechecked after integration in the main workspace.
+- Remaining: Mental lesson quality and real transfer outcomes remain unproven; other courses still use legacy order; evidence operations still need to provide a production safety-refresh severity signal; physical-device verification remains open.
 
 ### 2026-07-11 - Restore trustworthy clock-course continuity across restart
 
