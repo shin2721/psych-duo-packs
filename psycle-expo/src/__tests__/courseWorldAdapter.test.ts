@@ -171,6 +171,32 @@ describe("buildCourseWorldViewModel", () => {
     expect(model?.currentLesson.body).toBe("Reframe one stuck thought.");
   });
 
+  test("progress counts only lessons admitted to the active course trail", () => {
+    mockLoadLessons.mockReturnValue([
+      ...mockLessons,
+      {
+        id: "mental_lesson_7",
+        level: 7,
+        nodeType: "lesson",
+        questions: [{ actionable_advice: "Legacy inventory only." }],
+        title: "Lesson 7",
+        totalXP: 40,
+        unit: "mental",
+      },
+    ]);
+    const trail = createTrail();
+    const model = buildCourseWorldViewModel({
+      comebackRewardOffer: null,
+      currentTrail: trail,
+      nextActionNode: trail[2],
+      selectedGenre: "mental",
+      streakRepairOffer: null,
+    });
+
+    expect(model?.progressLabel).toBe("3 / 6");
+    expect(model?.summaryLabel).toBe("2 done • 3 left");
+  });
+
   test("session question limit keeps the course promise aligned with runtime", () => {
     const trail = createTrail();
     const model = buildCourseWorldViewModel({

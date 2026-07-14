@@ -461,7 +461,7 @@ export function buildCourseWorldViewModel(
 
   if (!currentNode) return null;
 
-  const lessonCount = lessons.filter((lesson) => lesson.nodeType !== "review_blackhole").length;
+  const lessonCount = sequence.filter((node) => node.nodeType === "lesson").length;
   const doneCount = sequence.filter(
     (node) => node.nodeType === "lesson" && node.status === "done"
   ).length;
