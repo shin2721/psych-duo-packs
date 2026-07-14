@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-14 - Learning Core V2 の時計コース往復を実機相当環境で検証
+
+- Changed: 時計の進捗分母をロード済み全レッスンではなく manifest 採用レッスンだけで数え、Mental v1 を 1/9 ではなく 1/6 として表示するよう修正。
+- Verified: iOS 26.5 Simulator と Detox native agent で Mental L1 を正答完了し、時計が 2/6・1完了・4残り・レッスン2 CTA へ進むこと、アプリ再起動後も状態が保持されること、Learning Core analytics metadata が送られることを確認。typecheck と Jest 161 suites / 661 tests も成功。
+- Remaining: Mental の各レッスン自体の学習価値と転移はユーザーテスト未証明。他コースの manifest 化、production の safety severity signal、物理端末確認も未完了。
+
 ### 2026-07-14 - Build Learning Core V2 foundation for the clock course
 
 - Changed: Defined and implemented a versioned Mental Course manifest, durable per-skill learner state, legacy completion reconciliation, prerequisite-aware next-action selection, honest course completion, and curriculum-aware analytics.
