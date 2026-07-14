@@ -1,5 +1,10 @@
 import type { IoniconName } from "./ioniconName";
 import { loadLessons, type Lesson } from "./lessons";
+import {
+  getCourseCoreLessonIds,
+  getCourseManifest,
+  validateCourseManifest,
+} from "./courseManifestRuntime";
 
 export interface CourseTrailInventoryNode {
   id: string;
@@ -32,12 +37,51 @@ function coreLessonFile(genreId: string, level: number): string {
   return `${genreId}_l${String(level).padStart(2, "0")}`;
 }
 
+function canonicalLessonId(lesson: Lesson, genreId: string): string {
+  if (lesson.nodeType === "review_blackhole") return lesson.id;
+  return coreLessonFile(genreId, lesson.level);
+}
+
+function buildManifestTrailInventory(
+  genreId: string,
+  lessons: Lesson[]
+): CourseTrailInventoryNode[] | null {
+  const manifest = getCourseManifest(genreId);
+  if (!manifest) return null;
+
+  const inventoryById = new Map(
+    lessons.map((lesson) => [canonicalLessonId(lesson, genreId), lesson])
+  );
+  const validation = validateCourseManifest(manifest, new Set(inventoryById.keys()));
+  if (!validation.valid) {
+    throw new Error(`Course manifest inventory mismatch for ${genreId}: ${validation.errors.join("; ")}`);
+  }
+
+  return getCourseCoreLessonIds(manifest).map((lessonId, index) => {
+    const lesson = inventoryById.get(lessonId);
+    if (!lesson) {
+      throw new Error(`Course manifest lesson missing from inventory: ${lessonId}`);
+    }
+    return {
+      id: `${genreId.charAt(0)}${index + 1}`,
+      status: index === 0 ? "current" : "locked",
+      icon: LESSON_ICONS[index % LESSON_ICONS.length] ?? "leaf",
+      type: "lesson",
+      lessonFile: lessonId,
+      lessonId: lesson.id,
+    };
+  });
+}
+
 export function buildCourseTrailInventory(genreId: string): CourseTrailInventoryNode[] {
   const lessons = loadLessons(genreId)
     .filter(
       (lesson) => lesson.nodeType === "review_blackhole" || isCoreLesson(lesson, genreId)
     )
     .sort((left, right) => left.level - right.level);
+
+  const manifestTrail = buildManifestTrailInventory(genreId, lessons);
+  if (manifestTrail) return manifestTrail;
 
   let coreIndex = 0;
   let reviewIndex = 0;
