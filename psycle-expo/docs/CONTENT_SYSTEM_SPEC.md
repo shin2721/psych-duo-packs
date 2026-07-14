@@ -41,10 +41,14 @@
 
 ### Term Glossary
 
-- `theme`
-  - recurring pain を束ねる運用単位。manifest の主語。
+- `course`
+  - user が選ぶ長期学習領域。例: mental / health。version 付き curriculum manifest の主語。
 - `unit`
-  - lesson file 群のまとまり。実装上は theme と近いが、主に data grouping に使う。
+  - `recurring pain + 身につける transferable skill` で定義する、course 内の成果単位。
+- `skill`
+  - 複数 scene で再利用できる `見分ける / 選ぶ / 転用する / 戻る` 能力。
+- `theme`
+  - evidence / mastery / support を束ねる運用単位。unit と対応してよいが、同一概念として推測しない。
 - `lesson`
   - 1 job / 1 done condition を持つ最小学習単位。
 - `variant`
@@ -59,6 +63,114 @@
   - invalid package / invalid support から user を戻す route。
 - `readiness`
   - promote 可否を決める operational gate の集合。
+
+### Learning Core V2 Curriculum Contract
+
+Learning Core の正式階層は `Course -> Unit -> Skill -> Lesson` とする。
+論文、記事、研究テーマ、既存 file prefix は curriculum 階層を決めない。
+
+#### Unit Admission Gate
+
+新しい unit は、次をすべて満たす場合だけ course manifest に追加する。
+
+1. `recurring_pain`: 繰り返し起きる具体的な生活上の困りごとがある。
+2. `target_capability`: lesson を終えた user が何を見分け、選び、戻せるかを1文で書ける。
+3. `evidence_supply`: 中核 claim を Tier A/B evidence で支えられる。
+4. `practice_supply`: 言い換えではない複数の core practice を作れる。
+5. `transfer_test`: 未提示の別 scene で skill を使えたか確認できる。
+6. `curriculum_fit`: prerequisite と後続 unit への再利用先が説明できる。
+7. `non_duplication`: 既存 unit の job / target shift / transfer test と重複しない。
+
+1つでも欠ける候補は `pain-backlog / research-radar / mastery / refresh / merge`
+へ戻す。unit の枠を埋めるために薄い lesson を追加しない。
+
+#### Versioned Course Manifest
+
+各 course は version 付き manifest を1つ正本として持つ。
+
+```typescript
+interface CourseManifest {
+  schema_version: 1;
+  curriculum_version: string;
+  course_id: string;
+  status: "draft" | "pilot" | "active" | "retired";
+  units: Array<{
+    unit_id: string;
+    outcome: string;
+    prerequisite_unit_ids: string[];
+    skill_ids: string[];
+    core_lesson_ids: string[];
+    mastery_lesson_ids: string[];
+  }>;
+  skills: Array<{
+    skill_id: string;
+    outcome: string;
+    prerequisite_skill_ids: string[];
+  }>;
+  lessons: Array<{
+    lesson_id: string;
+    unit_id: string;
+    skill_ids: string[];
+    role: "introduce" | "practice" | "transfer" | "recover";
+  }>;
+}
+```
+
+- manifest の lesson order が Core progression の正本。
+- runtime は manifest lesson id を実在 inventory と照合する。
+- manifest 未導入 course だけ legacy order へ fallback してよい。
+- manifest が存在するのに unknown schema / duplicate id / broken reference /
+  dependency cycle がある場合は silent fallback せず fail closed にする。
+- canonical lesson id は既存の `{course}_lNN / {course}_mNN` を維持し、保存済み履歴を壊さない。
+
+#### Progression And Learner Model
+
+Core curriculum の順序は事前に人間が承認し、algorithm は勝手に unit を生成・並べ替えしない。
+algorithm が個人最適化してよいのは、承認済み graph 内の次アクションと support dosage である。
+
+skill state は lesson completion と分離し、最低限次を持つ。
+
+`unseen -> introduced -> usable -> transferable -> stable -> refresh_due`
+
+- `introduced`: skill を扱う lesson を開始・完了した。
+- `usable`: hint に依存せず同種 scene で選べた。
+- `transferable`: 未提示の別 scene で使えた。
+- `stable`: 時間を空けた再想起でも使えた。
+- `refresh_due`: 経過時間、誤答、低 confidence、evidence 更新のいずれかで再練習が必要。
+
+next action は次の順で決める。
+
+1. safety / intervention correction を伴う必須 Refresh
+2. 離脱から戻す短い Return
+3. prerequisite を満たした次の Core lesson
+4. due skill の Mastery / Adaptive practice
+5. Core 完了後の次 unit / next course
+
+通常時は Core を主経路にする。rolling 7 actions のうち support は最大2件とし、
+safety correction だけを例外にする。support は同 theme で連続表示せず、Core progression
+を永久に塞がない。翌日確認は全 lesson の必須条件にしない。
+
+Unit completion と mastery は分ける。
+
+- unit completion: 必須 Core lesson と最初の transfer probe を完了した。
+- mastery: 時間を空けた別 scene でも skill を再利用できた。
+- mastery 未達を理由に次 unit を無期限 lock しない。
+
+時計型 UI は graph や候補比較を見せず、解決済み next action を常に1つだけ受け取る。
+
+#### Research Update Routing
+
+unit は生活課題と skill に固定し、研究更新だけで unit を増やさない。
+
+| research change | route |
+|---|---|
+| replication / certainty only | evidence revision |
+| explanation / boundary change | Refresh |
+| recommended action change | lesson replacement |
+| safety or intervention reversal | immediate correction + old lesson stop |
+
+replace / merge / retire 後も user の completion history は消さず、continuity metadata で
+replacement lesson と skill state へ接続する。
 
 ### 1. Seed / Claim / Lesson Blueprint の3段構造
 
