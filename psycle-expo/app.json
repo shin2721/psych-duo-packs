@@ -15,6 +15,7 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.shin27.psycle",
       "infoPlist": {
+        "NSLocalNetworkUsageDescription": "Psycleは最新の学習体験を読み込むため、ローカルネットワーク上の開発サーバーに接続します。",
         "NSAppTransportSecurity": {
           "NSAllowsLocalNetworking": true,
           "NSAllowsArbitraryLoads": false,
