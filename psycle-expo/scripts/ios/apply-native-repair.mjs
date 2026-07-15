@@ -142,6 +142,22 @@ function ensurePsyclePrivacyManifest() {
   overwrite('ios/Psycle/PrivacyInfo.xcprivacy', psyclePrivacyManifest);
 }
 
+function disableFmtConstevalForXcode26() {
+  const relativePath = 'ios/Pods/fmt/include/fmt/base.h';
+  const absolutePath = path.join(repoRoot, relativePath);
+  if (!fs.existsSync(absolutePath)) {
+    return;
+  }
+
+  fs.chmodSync(absolutePath, 0o644);
+  update(relativePath, (current) =>
+    current.replace(
+      /^#\s*define FMT_USE_CONSTEVAL 1$/gm,
+      '#  define FMT_USE_CONSTEVAL 0'
+    )
+  );
+}
+
 function ensureSpaceSeparatedTokens(relativePath, marker, tokens) {
   update(relativePath, (current) => {
     const start = current.indexOf(marker);
@@ -395,6 +411,7 @@ function ensureExpoConstantsAppConfigCopied() {
 
 alignPsycleBundleIdentifiers();
 ensurePsyclePrivacyManifest();
+disableFmtConstevalForXcode26();
 ensureExpoConstantsAppConfigCopied();
 
 overwrite(
