@@ -2,7 +2,7 @@
     "_meta": {
         "version": "1.1.0",
         "description": "Curated Source Registry - コンテンツで使用するsource_id台帳。レッスンの根拠として参照される出典。",
-        "last_updated": "2026-01-06",
+        "last_updated": "2026-07-16",
         "required_fields": {
             "core": [
                 "author",
@@ -90,6 +90,71 @@
                 "コーピングには問題焦点型と感情焦点型がある"
             ],
             "notes": "ストレス理論の古典。認知的評価とコーピングの枠組み。"
+        },
+        "Yeo_Ong_2024": {
+            "author": "Yeo, G. C., & Ong, D. C.",
+            "year": 2024,
+            "title": "Associations between cognitive appraisals and emotions: A meta-analytic review",
+            "full_citation": "Yeo, G. C., & Ong, D. C. (2024). Associations between cognitive appraisals and emotions: A meta-analytic review. Psychological Bulletin, 150(12), 1440-1471. https://doi.org/10.1037/bul0000452",
+            "type": "meta_analysis",
+            "domain": [
+                "mental"
+            ],
+            "construct_tags": [
+                "cognitive_appraisal",
+                "emotion",
+                "interpretation"
+            ],
+            "evidence_strength": "gold",
+            "one_line_why": "認知的評価と感情の関連を、多数の研究から定量的に統合",
+            "allowed_claims": [
+                "出来事への評価や意味づけは感情反応と関連する",
+                "個別の評価と感情の関係にはばらつきがあり、特定の介入効果までは示さない"
+            ],
+            "notes": "2,634 effect sizes / 309 studiesのmeta-analysis。本lessonの3行法そのものは検証していない。"
+        },
+        "Harp_2024": {
+            "author": "Harp, N. R., Gross, J. J., Uusberg, A., & Neta, M.",
+            "year": 2024,
+            "title": "The role of trait reappraisal in response to emotional ambiguity: A systematic review and meta-analysis",
+            "full_citation": "Harp, N. R., Gross, J. J., Uusberg, A., & Neta, M. (2024). The role of trait reappraisal in response to emotional ambiguity: A systematic review and meta-analysis. Emotion, 24(4), 935-946. https://doi.org/10.1037/emo0001316",
+            "type": "meta_analysis",
+            "domain": [
+                "mental"
+            ],
+            "construct_tags": [
+                "emotional_ambiguity",
+                "valence_bias",
+                "reappraisal"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "曖昧な刺激への否定的解釈とtrait reappraisalの小さい関連を統合",
+            "allowed_claims": [
+                "曖昧な刺激への初期反応には否定的なbiasが見られることがある",
+                "trait reappraisalはnegative valence biasの個人差の一部と関連する"
+            ],
+            "notes": "関連は小さく、task間のばらつきもある。因果や本lessonの練習効果を示さない。"
+        },
+        "Psycle_Pilot_003": {
+            "author": "Psycle content team",
+            "year": 2026,
+            "title": "不安の予言は、採点されない限り無敗",
+            "type": "practice_model",
+            "domain": [
+                "mental"
+            ],
+            "construct_tags": [
+                "fact_prediction_distinction",
+                "falsifiable_prediction",
+                "judgment_training"
+            ],
+            "evidence_strength": "bronze",
+            "one_line_why": "事実・予言・答え合わせを分けるPsycle独自のraw pilot",
+            "allowed_claims": [
+                "曖昧な予言を、後から採点基準を変えにくい一文へ直す練習ができる",
+                "事実・予言・答え合わせ時点を別々に扱う判断練習として使う"
+            ],
+            "notes": "治療効果、不安軽減、判断改善は未証明。低リスク場面のproduct hypothesisとしてのみ扱う。"
         },
         "Nolen-Hoeksema_1991": {
             "author": "Nolen-Hoeksema, S.",

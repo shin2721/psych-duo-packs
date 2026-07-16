@@ -14,6 +14,7 @@ describe("authored lesson sequence", () => {
 
   function loadMentalLesson02(recentAccuracy: number, skillConfidence: number) {
     return loadLessonBundle({
+      allowStaging: true,
       difficultyPacing: {
         optimalPMax: 0.7,
         optimalPMin: 0.55,
@@ -32,7 +33,7 @@ describe("authored lesson sequence", () => {
     const bundle = loadMentalLesson02(0.4, 0.1);
 
     expect(bundle.pacing.mode).toBe("authored");
-    expect(bundle.pacing.questionCount).toBe(8);
+    expect(bundle.pacing.questionCount).toBe(6);
     expect(bundle.effectiveQuestions.map((question) => question.id)).toEqual([
       "mental_l02_001",
       "mental_l02_002",
@@ -40,9 +41,10 @@ describe("authored lesson sequence", () => {
       "mental_l02_004",
       "mental_l02_005",
       "mental_l02_006",
-      "mental_l02_007",
-      "mental_l02_008",
     ]);
+    expect(bundle.effectiveQuestions[1]?.feedback_prompt).toBe(
+      "録画に残るのはメッセージだけ。ミスや評価は、まだ画面にない意味。"
+    );
   });
 
   test("keeps the same authored sequence for stretch pacing", () => {
@@ -53,5 +55,18 @@ describe("authored lesson sequence", () => {
     expect(stretchBundle.effectiveQuestions.map((question) => question.id)).toEqual(
       supportBundle.effectiveQuestions.map((question) => question.id)
     );
+  });
+
+  test("does not apply the Japanese pilot metadata to the legacy English lesson", () => {
+    i18n.locale = "en";
+    try {
+      const bundle = loadMentalLesson02(0.7, 0.1);
+
+      expect(bundle.pacing.mode).toBe("steady");
+      expect(bundle.effectiveQuestions).toHaveLength(10);
+      expect(bundle.lesson.metadata).toBeUndefined();
+    } finally {
+      i18n.locale = "ja";
+    }
   });
 });

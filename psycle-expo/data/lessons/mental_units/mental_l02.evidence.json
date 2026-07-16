@@ -4,45 +4,48 @@
     {
       "role": "primary",
       "source_type": "meta_analysis",
-      "doi": "10.1016/j.cpr.2009.11.004",
-      "pmid": "20015584",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/20015584/",
-      "label": "Aldao et al. (2010) - Emotion-regulation strategies across psychopathology: A meta-analytic review"
+      "doi": "10.1037/bul0000452",
+      "pmid": "39404856",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39404856/",
+      "label": "Yeo & Ong (2024) - Associations between cognitive appraisals and emotions: A meta-analytic review"
     },
     {
       "role": "primary",
+      "source_type": "meta_analysis",
+      "doi": "10.1037/emo0001316",
+      "pmid": "37971850",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37971850/",
+      "label": "Harp et al. (2024) - The role of trait reappraisal in response to emotional ambiguity"
+    },
+    {
+      "role": "supporting",
       "source_type": "classic",
       "doi": "",
       "pmid": "",
       "url": "https://psycnet.apa.org/record/1984-11044-000",
       "isbn": "978-0826141910",
       "label": "Lazarus & Folkman (1984) - Stress, Appraisal, and Coping"
-    },
-    {
-      "role": "supporting",
-      "source_type": "meta_analysis",
-      "doi": "10.1016/j.cpr.2024.102428",
-      "pmid": "38657292",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/38657292/",
-      "label": "Webb et al. (2024) - 認知的再評価の効果は中程度だが個人差が大きいMA"
     }
   ],
-  "source_label": "Aldao et al. (2010) - Emotion regulation MA + Lazarus & Folkman (1984) background + Webb et al. (2024) MA",
-  "claim": "ストレスを感じたとき、その出来事の「解釈を変える（認知的再評価）」と、心理的反応が変わりやすくなる可能性がある。反芻や抑制より再評価が適応的な傾向がメタ分析で示されている",
-  "limitations": "理論理解だけでは行動変容に直結しにくい。身体的な病気や生理的要因が強いケースでは認知アプローチだけでは不十分。重度のうつ病や不安障害では専門的な治療が必要",
-  "effect_size_note": "Aldao et al. (2010) MA: 再評価と精神病理症状の関連は中程度の負の相関（r≈−0.3）。Webb et al. (2024)では認知的再評価の効果は中程度だが個人差が大きい [DOI:10.1016/j.cpr.2009.11.004, DOI:10.1016/j.cpr.2024.102428]",
-  "evidence_grade": "silver",
-  "confidence": "high",
+  "source_label": "Yeo & Ong (2024) appraisal-emotion MA + Harp et al. (2024) emotional ambiguity MA + Lazarus & Folkman (1984) background",
+  "claim": "出来事への評価や意味づけは感情反応と関連し、曖昧な刺激に対して否定的な解釈が生じる傾向にも個人差がある。ただし『事実・予言・答え合わせ』の3行法そのものが不安を軽減するという直接根拠はなく、Psycleでは予言を確認可能な形へ戻す判断練習としてのみ扱う",
+  "limitations": "3行法の治療効果は未検証。1回の当たり外れを不安全体へ一般化しない。確認行動が増える場合は中止し、健康・安全・虐待・自傷・法務など高リスク判断や、明確な締切・危険信号には使わない。強い、持続する、生活を妨げる不安には専門的支援が必要",
+  "effect_size_note": "Yeo & Ong (2024)はappraisal-emotion関連を広く統合し、既存仮説の平均関連はr=.33。Harp et al. (2024)はtrait reappraisalと曖昧刺激への否定的biasに小さい関連（r=-.18）を報告したが、どちらも本lessonの3行法を検証していない [DOI:10.1037/bul0000452, DOI:10.1037/emo0001316]",
+  "evidence_grade": "bronze",
+  "confidence": "medium",
   "status": "active",
-  "last_verified": "2026-04-22",
-  "generated_by": "mode_a",
+  "last_verified": "2026-07-16",
+  "generated_by": "codex_reviewed_pilot",
   "review": {
-    "human_approved": true,
-    "reviewer": "owner",
-    "auto_approved": false,
-    "approval_mode": "manual",
-    "approval_reasons": [],
-    "evaluated_at": ""
+    "human_approved": false,
+    "reviewer": "codex_content_review",
+    "auto_approved": true,
+    "approval_mode": "automated_pilot_gate",
+    "approval_reasons": [
+      "schema_and_claim_trace_validation_passed",
+      "adversarial_safety_and_copy_findings_addressed"
+    ],
+    "evaluated_at": "2026-07-16T19:23:25+09:00"
   },
   "citation": {
     "doi": "",
@@ -69,7 +72,7 @@
       "invalidation_rule": "dependency_change_requires_revalidation"
     },
     "owner_id": "content_ops",
-    "state": "production",
+    "state": "staging",
     "rollback_route": "course:mental:entry",
     "rollback_class": "soft",
     "localized_locales": [
@@ -82,7 +85,7 @@
     "semantic_parity_rule": "claim_strength_and_safety_must_match_across_locales",
     "tone_guard": "no_shame_no_threat_better_choice_tone",
     "readiness": {
-      "quality_gate_pass": true,
+      "quality_gate_pass": false,
       "dependency_valid": true,
       "continuity_complete": true,
       "analytics_wired": true,
@@ -124,17 +127,17 @@
     },
     "review_decision": {
       "change_type": "content_patch",
-      "human_review_required": false,
-      "approved_source": "deterministic_validator",
-      "review_reason": "autonomous_default_content_package_gate",
-      "reviewed_at": "2026-04-24T06:24:32.412Z",
+      "human_review_required": true,
+      "approved_source": "automated_pilot_gate",
+      "review_reason": "simulator author play is allowed; owner taste approval remains pending",
+      "reviewed_at": "2026-07-16T19:23:25+09:00",
       "rollback_trigger_if_reverted": "guardrail_or_contract_regression"
     }
   },
-  "last_verified_at": "2026-04-22",
+  "last_verified_at": "2026-07-16",
   "review_sla_days": 90,
   "expiry_action": "refresh_queue",
-  "next_review_due_at": "2026-07-21",
+  "next_review_due_at": "2026-10-14",
   "stale_route_owner": "content_ops",
   "refresh_value_reason_candidate": "evidence_strength_update",
   "severity_tier": "B"

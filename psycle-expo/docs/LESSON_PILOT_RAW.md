@@ -240,7 +240,7 @@ AIの計画が良いなら、1行だけ「明日の自分が直す場所」を�
 これは「不安はいつも外れる」という話ではない。
 
 不安が、本当に確認すべき危険を拾うこともある。
-締切、請求、体調、セキュリティ通知のように、今すぐ確かめるべきものもある。
+既知の締切、請求期限、専門家から指示された対応、具体的な危険信号のように、今すぐ動くべきものもある。
 
 問題は、当たるかもしれないことではない。
 
@@ -266,11 +266,11 @@ AIの計画が良いなら、1行だけ「明日の自分が直す場所」を�
 ただ、メッセージと予言が別の行に戻る。
 そして明日の結果で、予言の精度を更新できるようになる。
 
-友人から6時間返信がない時も同じだ。
+友人に明日の食事の候補を送り、6時間返信がない時も同じだ。
 
 - 事実: 6時間、返信がない
-- 予言: 怒っていて、次の返信も冷たくなる
-- 答え合わせ: 返信が来た時。必要なら明日、一度だけ確認した時
+- 予言: 次の返信に「明日の食事は行けない」と書かれている
+- 答え合わせ: 返信通知が来て、内容を読んだ時
 
 「忙しいに決まっている」と安心させる必要はない。
 「嫌われたに決まっている」と確定する必要もない。
@@ -316,6 +316,7 @@ Preserve:
 - The user must make a prediction falsifiable instead of replacing it with optimism.
 - The three-line tool is `fact / prediction / check point`.
 - An explicit-danger scene must show that the check point can be `now`.
+- A check point should use a naturally occurring outcome, not repeated monitoring during the event.
 - The lesson must create value without saving a next-day answer in the app.
 
 Reject the conversion if:
