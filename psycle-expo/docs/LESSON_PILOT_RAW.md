@@ -327,3 +327,100 @@ Reject the conversion if:
 - the choices can be solved by always selecting the calmest sentence
 - the safety boundary arrives only after the takeaway
 - the final action takes longer than 10 seconds to begin
+
+## Pilot 004: 警報は鳴っている。判決はまだ
+
+カラオケで、次が自分の番になった。
+
+心臓が速い。
+手のひらに汗が出る。
+胃のあたりが固い。
+
+この反応は、気のせいではない。
+
+体では、本当に何かが起きている。
+
+でも体が報告できるのは、ここまでだ。
+
+「心臓が速い」までは、いま観測できる。
+「歌ったら全員に笑われる」は、まだ観測できない。
+
+なのに頭の中では、2つが同じ文になりやすい。
+
+**こんなに心臓が速い。だから笑われる。**
+
+身体の警報が、そのまま外の世界への判決に変わる。
+
+これは「落ち着けばうまくいく」という話ではない。
+音を外す可能性もある。
+誰かが笑う可能性もある。
+
+ただ、今の心拍だけでは、その結果はまだ決まらない。
+
+身体の警報は、本物だ。
+判決だけが、まだ出ていない。
+
+同じことは、試合でも起きる。
+
+PKを蹴る前に、脚が固くなる。
+
+- 体が報告したこと: 脚に力が入っている
+- まだ体だけでは分からないこと: シュートを外す
+
+ボウリングで、最後の1投を待つ。
+
+- 体が報告したこと: 呼吸が速い
+- まだ体だけでは分からないこと: ガターになる
+
+駅のホームで煙のにおいがする。
+
+これは別だ。
+
+具体的な危険の手掛かりがあるなら、判決を待つ練習ではなく、まず安全のために動く。
+医療上の対応を指示されている症状も、このレンズだけで済ませない。
+
+このレンズを使うのは、低リスクなのに、身体反応が外の結末まで決めたように感じる瞬間だけだ。
+
+ここでは、呼吸を整えない。
+気分を変えない。
+前向きな意味にも置き換えない。
+
+L1でやるのは、2つの文を識別するところまでだ。
+
+- 身体の報告: 心臓が速い
+- 外への判決: 全員に笑われる
+
+気分が下がらなくてもいい。
+自信が出なくてもいい。
+
+身体の報告と、外の結果を同じ文にしなければいい。
+
+明日使う一言はこれ。
+
+**警報は鳴っている。判決はまだ。**
+
+## Pilot 004 Conversion Notes
+
+Pedagogical goal:
+
+- Separate an observable body signal from a verdict about an external outcome.
+- Keep one lens and one takeaway: `警報は鳴っている。判決はまだ。`
+- Stop at recognition. L3 owns intervention, regulation, and recovery actions.
+
+Preserve:
+
+- The body signal is real, not imaginary or wrong.
+- The lesson does not promise calm, confidence, safety, or success.
+- The first application stays in low-risk ambiguity.
+- Concrete danger and medically directed responses are acted on, not relabeled away.
+- Scenarios avoid L2's work messages, reply waiting, and presentation predictions.
+
+Reject the conversion if:
+
+- it classifies the user into `出来事 / 解釈 / 身体反応` types
+- it teaches L2's `事実 / 予言 / 答え合わせ`
+- it teaches L3's breathing, reframing, or intervention menu
+- it teaches L5's rumination loop
+- it claims arousal is always useful energy or proof of safety
+- it grades a self-report answer
+- it has more than six steps or more than one actionable takeaway
