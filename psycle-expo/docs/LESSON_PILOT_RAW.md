@@ -202,3 +202,127 @@ AIの計画が良いなら、1行だけ「明日の自分が直す場所」を�
 明日使う一言はこれ。
 
 **夜の値札は、明日の自分に見積もらせる。**
+
+## Pilot 003: 不安の予言は、採点されない限り無敗
+
+22:48、上司から一通だけ届く。
+
+「明日、10分話せる？」
+
+画面にあるのは、この一文だけ。
+
+でも頭の中では、もう会議が始まっている。
+
+ミスを指摘される。
+がっかりされる。
+担当から外される。
+
+まだ明日にもなっていないのに、予言だけが「起きた事実」の文体で再生される。
+
+不安がつらいのは、悪い未来を思い浮かべるからだけではない。
+
+もっと厄介なのは、その予言がほとんど採点されないことだ。
+
+「きっと空気が悪くなる」
+「評価が下がる気がする」
+「もう嫌われているかもしれない」
+
+どれも輪郭がぼんやりしている。
+
+明日の会議で5秒言葉に詰まっても、「ほら、うまくいかなかった」。
+8分話し切っても、「でも途中で詰まった。やっぱり当たった」。
+友人から翌日に普通の返信が来ても、「6時間も空いたのは、怒っていた証拠かも」。
+
+どんな結果が来ても、予言の方が後から採点基準を変えられる。
+
+だから不安の予言は、なかなか負けない。
+
+これは「不安はいつも外れる」という話ではない。
+
+不安が、本当に確認すべき危険を拾うこともある。
+締切、請求、体調、セキュリティ通知のように、今すぐ確かめるべきものもある。
+
+問題は、当たるかもしれないことではない。
+
+**外れても更新されない形のまま、事実として使ってしまうこと。**
+
+ここで、予言を消そうとしない。
+ポジティブな言葉にも置き換えない。
+
+代わりに、3行だけ書く。
+
+1. いま確認できる事実
+2. 頭が出した予言
+3. いつ、何で答え合わせするか
+
+上司のメッセージなら、こうなる。
+
+- 事実: 上司が「明日、10分話せる？」と送った
+- 予言: 明日の会話で、ミスを理由に担当から外されると言われる
+- 答え合わせ: 明日の10分が終わった時
+
+これで、悪い可能性が消えるわけではない。
+
+ただ、メッセージと予言が別の行に戻る。
+そして明日の結果で、予言の精度を更新できるようになる。
+
+友人から6時間返信がない時も同じだ。
+
+- 事実: 6時間、返信がない
+- 予言: 怒っていて、次の返信も冷たくなる
+- 答え合わせ: 返信が来た時。必要なら明日、一度だけ確認した時
+
+「忙しいに決まっている」と安心させる必要はない。
+「嫌われたに決まっている」と確定する必要もない。
+
+不明なものを、不明なまま採点可能にしておく。
+
+もし見知らぬログイン通知が来たなら、答え合わせは明日ではない。
+
+- 事実: 自分のものではない可能性があるログイン通知が来た
+- 予言: アカウントへ第三者が入った
+- 答え合わせ: 今すぐ履歴を確認し、必要なら保護する
+
+このレンズは、危険を先延ばしにする道具ではない。
+確認のない予言を事実にしないための道具だ。
+
+不安をゼロにすることが勝ちではない。
+
+明日になった時、昨日の自分の予言をちゃんと採点できる。
+
+採点するのは、その一文だけ。
+
+一度当たっても「自分の不安は正しい」と広げない。
+一度外れても「もう危険はない」と広げない。
+
+研究には、同じ出来事でも意味づけによって反応が変わりうる、という見方がある。
+ただし、この3行で不安が下がると確かめられたわけではない。
+
+ここで鍛えるのは、気分を消す力ではない。
+いまある情報と、未来の予測を混ぜない力だ。
+
+その方が、不安に勝つより強い。
+
+**事実は何？ 予言は何？ いつ答え合わせする？**
+
+## Pilot 003 Conversion Notes
+
+Do not convert this pilot unless the standalone idea feels less obvious than a generic
+`facts vs thoughts` exercise.
+
+Preserve:
+
+- The hidden rule is `an unscored prediction stays undefeated`, not `anxiety lies`.
+- The user must make a prediction falsifiable instead of replacing it with optimism.
+- The three-line tool is `fact / prediction / check point`.
+- An explicit-danger scene must show that the check point can be `now`.
+- The lesson must create value without saving a next-day answer in the app.
+
+Reject the conversion if:
+
+- it grades the user's anxious feeling as wrong
+- it implies the bad outcome cannot happen
+- it becomes a terminology quiz about cognitive appraisal
+- the choices can be solved by always selecting the calmest sentence
+- the safety boundary arrives only after the takeaway
+- the final action takes longer than 10 seconds to begin
