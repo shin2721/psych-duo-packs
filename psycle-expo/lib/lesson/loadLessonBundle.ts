@@ -18,6 +18,7 @@ export interface LoadedLessonBundle {
 }
 
 export function loadLessonBundle(params: {
+  allowStaging?: boolean;
   difficultyPacing?: {
     optimalPMax: number;
     optimalPMin: number;
@@ -31,6 +32,7 @@ export function loadLessonBundle(params: {
   lessonSize: number;
 }): LoadedLessonBundle {
   const runtimeAccess = resolveLessonRuntimeAccess({
+    allowStaging: params.allowStaging,
     lessonId: params.fileParam,
   });
   const activeLessonId = runtimeAccess.resolvedLessonId;

@@ -145,6 +145,31 @@ describe("resolveLessonRuntimeAccess", () => {
     expect(result.reason).toBe("dependency_unmet");
   });
 
+  test("allows a staging package only when an explicit development pilot opts in", () => {
+    const stagingOperational = buildOperational({
+      content_package: {
+        state: "staging",
+      },
+    });
+
+    const blocked = resolveLessonRuntimeAccess({
+      lessonId: "mental_l03",
+      nowMs,
+      lessonOperational: stagingOperational,
+      themeManifest: buildThemeManifest(),
+    });
+    const allowed = resolveLessonRuntimeAccess({
+      allowStaging: true,
+      lessonId: "mental_l03",
+      nowMs,
+      lessonOperational: stagingOperational,
+      themeManifest: buildThemeManifest(),
+    });
+
+    expect(blocked).toMatchObject({ allowed: false, reason: "package_not_production" });
+    expect(allowed).toMatchObject({ allowed: true, reason: null });
+  });
+
   test("blocks runtime access when a required package is not production-ready", () => {
     const getLessonOperationalMetadataSpy = jest
       .spyOn(lessonsModule, "getLessonOperationalMetadata")

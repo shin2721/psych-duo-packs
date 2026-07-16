@@ -116,6 +116,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
 
       const firstLessonCompleted = await hasCompletedFirstLesson();
       const lessonBundle = loadLessonBundle({
+        allowStaging: __DEV__,
         difficultyPacing: params.difficultyPacing,
         fileParam,
         firstLessonCompleted,

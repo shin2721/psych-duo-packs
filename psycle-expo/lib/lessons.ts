@@ -204,6 +204,14 @@ function getLessonQuestionTarget(
   return fallbackTarget;
 }
 
+function metadataAppliesToLocale(metadata: LessonMetadata | null, locale: string): boolean {
+  const localeScope = metadata?.locale_scope;
+  if (!localeScope || localeScope.length === 0) return true;
+
+  const language = locale.toLowerCase().split(/[-_]/)[0];
+  return localeScope.some((entry) => entry.toLowerCase().split(/[-_]/)[0] === language);
+}
+
 // JSONファイルからレッスンデータを生成
 export function loadLessons(unit: string): Lesson[] {
   try {
@@ -257,7 +265,10 @@ export function loadLessons(unit: string): Lesson[] {
 
     for (let level = 1; level <= maxLevels; level++) {
       const canonicalLessonId = getCanonicalLessonId(unit, "core", level);
-      const lessonMetadata = getLessonRuntimeMetadata(canonicalLessonId);
+      const candidateMetadata = getLessonRuntimeMetadata(canonicalLessonId);
+      const lessonMetadata = metadataAppliesToLocale(candidateMetadata, locale)
+        ? candidateMetadata
+        : null;
       const targetQuestionCount = getLessonQuestionTarget(lessonMetadata, fallbackQuestionsPerLesson);
       // レベル専用の問題をIDでフィルタリング（例: mental_l01_xxx）
       const levelPrefix = `${unit}_l${String(level).padStart(2, '0')}_`;
@@ -341,7 +352,10 @@ export function loadLessons(unit: string): Lesson[] {
 
     for (const masteryLevel of masteryLevels) {
       const canonicalLessonId = getCanonicalLessonId(unit, "mastery", masteryLevel);
-      const lessonMetadata = getLessonRuntimeMetadata(canonicalLessonId);
+      const candidateMetadata = getLessonRuntimeMetadata(canonicalLessonId);
+      const lessonMetadata = metadataAppliesToLocale(candidateMetadata, locale)
+        ? candidateMetadata
+        : null;
       const targetQuestionCount = getLessonQuestionTarget(
         lessonMetadata,
         getQuestionCountRangeForLoadScore({

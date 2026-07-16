@@ -5,6 +5,7 @@ import { AnimatedButton } from "../AnimatedButton";
 import { InsightText } from "../InsightText";
 import { getEvidenceSummary } from "../../lib/evidenceSummary";
 import i18n from "../../lib/i18n";
+import { resolveIncorrectFeedbackHint } from "../../lib/lesson/incorrectFeedbackHint";
 import { theme } from "../../lib/theme";
 import type { Question } from "../../types/question";
 import type { QuestionRuntime } from "./createQuestionRuntime";
@@ -44,6 +45,10 @@ export function QuestionResultView({
   const summary = runtime.hasEvidence
     ? getEvidenceSummary(runtime.expandedDetails)
     : null;
+  const incorrectFeedbackHint = resolveIncorrectFeedbackHint(
+    question,
+    summary?.actionHint ?? null
+  );
 
   return (
     <View
@@ -108,9 +113,9 @@ export function QuestionResultView({
         />
       ) : (
         <View style={styles.incorrectFeedbackContainer}>
-          {summary ? (
+          {incorrectFeedbackHint ? (
             <View style={styles.actionHintContainer}>
-              <Text style={styles.actionHintText}>💡 {summary.actionHint}</Text>
+              <Text style={styles.actionHintText}>💡 {incorrectFeedbackHint}</Text>
             </View>
           ) : null}
 

@@ -65,6 +65,7 @@ export function getLessonSupportSurfacingEligibility(args: {
 }
 
 export function resolveLessonRuntimeAccess(args: {
+  allowStaging?: boolean;
   lessonId: string;
   nowMs?: number;
   lessonOperational?: LessonOperationalMetadata | null;
@@ -81,6 +82,7 @@ export function resolveLessonRuntimeAccess(args: {
 
 function resolveLessonRuntimeAccessInternal(
   args: {
+    allowStaging?: boolean;
     lessonId: string;
     nowMs?: number;
     lessonOperational?: LessonOperationalMetadata | null;
@@ -175,6 +177,7 @@ function resolveLessonRuntimeAccessInternal(
 
       const dependencyResult = resolveLessonRuntimeAccessInternal(
         {
+          allowStaging: args.allowStaging,
           lessonId: dependencyLessonId,
           nowMs,
           lessonOperationalById: args.lessonOperationalById,
@@ -220,7 +223,8 @@ function resolveLessonRuntimeAccessInternal(
   }
 
   const packageState = lessonOperational?.content_package?.state;
-  if (packageState && packageState !== "production") {
+  const stagingAllowed = args.allowStaging === true && packageState === "staging";
+  if (packageState && packageState !== "production" && !stagingAllowed) {
     return {
       allowed: false,
       reason: "package_not_production",

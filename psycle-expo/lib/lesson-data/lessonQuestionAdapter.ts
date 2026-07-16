@@ -184,6 +184,10 @@ function adaptQuestion(raw: Record<string, unknown>): Question {
       typeof raw.actionable_advice === "string"
         ? raw.actionable_advice
         : undefined,
+    feedback_prompt:
+      typeof raw.feedback_prompt === "string"
+        ? raw.feedback_prompt
+        : undefined,
     evidence_grade: asEvidenceGrade(raw.evidence_grade),
     evidence_text:
       typeof raw.evidence_text === "string" ? raw.evidence_text : undefined,

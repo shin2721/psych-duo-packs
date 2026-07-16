@@ -55,6 +55,7 @@ export interface LessonInsightLayer {
 export interface LessonMetadata {
   lesson_id: string;
   lane: LessonLane;
+  locale_scope?: string[];
   sequence_policy?: "adaptive" | "authored";
   lesson_job: string;
   target_shift: string;
