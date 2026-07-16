@@ -1,9 +1,13 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Animated, PanResponder, StyleSheet, Text, View } from "react-native";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { Animated, PanResponder, Pressable, StyleSheet, Text, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { hapticFeedback } from "../../lib/haptics";
 import i18n from "../../lib/i18n";
 import { theme } from "../../lib/theme";
+import {
+  hasHorizontalSwipeIntent,
+  resolveSwipeJudgmentDirection,
+} from "./swipeJudgmentGesture";
 
 export function SwipeJudgment({
   statement,
@@ -11,6 +15,8 @@ export function SwipeJudgment({
   correctAnswer,
   showResult,
   onSwipe,
+  onDragStart,
+  onDragEnd,
   labels,
 }: {
   statement: string;
@@ -18,14 +24,19 @@ export function SwipeJudgment({
   correctAnswer: string;
   showResult: boolean;
   onSwipe: (direction: "left" | "right") => void;
+  onDragStart?: () => void;
+  onDragEnd?: () => void;
   labels?: { left: string; right: string };
 }) {
   const pan = useState(new Animated.ValueXY())[0];
   const scale = useRef(new Animated.Value(1)).current;
   const floatAnim = useRef(new Animated.Value(0)).current;
+  const isDraggingRef = useRef(false);
+  const handlersRef = useRef({ onDragEnd, onDragStart, onSwipe, showResult });
+  handlersRef.current = { onDragEnd, onDragStart, onSwipe, showResult };
 
   useEffect(() => {
-    Animated.loop(
+    const loop = Animated.loop(
       Animated.parallel([
         Animated.sequence([
           Animated.timing(floatAnim, {
@@ -52,7 +63,9 @@ export function SwipeJudgment({
           }),
         ]),
       ])
-    ).start();
+    );
+    loop.start();
+    return () => loop.stop();
   }, [floatAnim, scale]);
 
   const translateY = floatAnim.interpolate({
@@ -66,9 +79,54 @@ export function SwipeJudgment({
     extrapolate: "clamp",
   });
 
-  const panResponder = PanResponder.create({
-    onStartShouldSetPanResponder: () => !showResult,
+  const beginDrag = useCallback(() => {
+    if (isDraggingRef.current) return;
+    isDraggingRef.current = true;
+    handlersRef.current.onDragStart?.();
+  }, []);
+
+  const endDrag = useCallback(() => {
+    if (!isDraggingRef.current) return;
+    isDraggingRef.current = false;
+    handlersRef.current.onDragEnd?.();
+  }, []);
+
+  const resetMotion = useCallback(() => {
+    pan.stopAnimation();
+    pan.setValue({ x: 0, y: 0 });
+    Animated.spring(scale, {
+      toValue: 1,
+      speed: 30,
+      bounciness: 12,
+      useNativeDriver: true,
+    }).start();
+  }, [pan, scale]);
+
+  const commitSwipe = useCallback(
+    (direction: "left" | "right") => {
+      if (handlersRef.current.showResult) return;
+      resetMotion();
+      endDrag();
+      void hapticFeedback.medium();
+      handlersRef.current.onSwipe(direction);
+    },
+    [endDrag, resetMotion]
+  );
+
+  useEffect(() => {
+    if (!showResult) return;
+    resetMotion();
+    endDrag();
+  }, [endDrag, resetMotion, showResult]);
+
+  const panResponder = useMemo(() => PanResponder.create({
+    onStartShouldSetPanResponder: () => false,
+    onMoveShouldSetPanResponder: (_, gestureState) =>
+      !handlersRef.current.showResult && hasHorizontalSwipeIntent(gestureState),
+    onMoveShouldSetPanResponderCapture: (_, gestureState) =>
+      !handlersRef.current.showResult && hasHorizontalSwipeIntent(gestureState),
     onPanResponderGrant: () => {
+      beginDrag();
       Animated.spring(scale, {
         toValue: 0.9,
         speed: 50,
@@ -80,46 +138,48 @@ export function SwipeJudgment({
       pan.x.setValue(gestureState.dx);
     },
     onPanResponderRelease: (_, gestureState) => {
-      Animated.spring(scale, {
-        toValue: 1,
-        speed: 30,
-        bounciness: 20,
-        useNativeDriver: true,
-      }).start();
-
-      if (showResult) return;
-
-      const threshold = 10;
-      if (Math.abs(gestureState.dx) > threshold) {
-        const direction = gestureState.dx > 0 ? "right" : "left";
-        void hapticFeedback.medium();
-        onSwipe(direction);
-        Animated.spring(pan, {
-          toValue: { x: gestureState.dx > 0 ? 300 : -300, y: 0 },
-          useNativeDriver: true,
-          speed: 20,
-        }).start();
+      const direction = resolveSwipeJudgmentDirection(gestureState);
+      if (direction) {
+        commitSwipe(direction);
         return;
       }
-
-      Animated.spring(pan, {
-        toValue: { x: 0, y: 0 },
-        useNativeDriver: true,
-      }).start();
+      resetMotion();
+      endDrag();
     },
-  });
+    onPanResponderTerminate: () => {
+      resetMotion();
+      endDrag();
+    },
+    onPanResponderTerminationRequest: () => false,
+  }), [beginDrag, commitSwipe, endDrag, pan.x, resetMotion, scale]);
 
   const isCorrect = selectedAnswer === correctAnswer;
+  const leftLabel = labels?.left || i18n.t("questionTypes.swipeLeftFallback");
+  const rightLabel = labels?.right || i18n.t("questionTypes.swipeRightFallback");
 
   return (
     <View style={styles.swipeContainer}>
       <View style={styles.swipeLabels}>
-        <Text style={styles.swipeLabel}>
-          ← {labels?.left || i18n.t("questionTypes.swipeLeftFallback")}
-        </Text>
-        <Text style={styles.swipeLabel}>
-          {labels?.right || i18n.t("questionTypes.swipeRightFallback")} →
-        </Text>
+        <Pressable
+          accessibilityLabel={`${leftLabel}を選ぶ`}
+          accessibilityRole="button"
+          disabled={showResult}
+          onPress={() => commitSwipe("left")}
+          style={({ pressed }) => [styles.swipeTarget, pressed && styles.swipeTargetPressed]}
+          testID="answer-swipe-left"
+        >
+          <Text style={styles.swipeLabel}>← {leftLabel}</Text>
+        </Pressable>
+        <Pressable
+          accessibilityLabel={`${rightLabel}を選ぶ`}
+          accessibilityRole="button"
+          disabled={showResult}
+          onPress={() => commitSwipe("right")}
+          style={({ pressed }) => [styles.swipeTarget, pressed && styles.swipeTargetPressed]}
+          testID="answer-swipe-right"
+        >
+          <Text style={styles.swipeLabel}>{rightLabel} →</Text>
+        </Pressable>
       </View>
 
       <Animated.View
@@ -203,6 +263,18 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: "100%",
     marginBottom: 16,
+  },
+  swipeTarget: {
+    alignItems: "center",
+    borderColor: "rgba(255, 255, 255, 0.22)",
+    borderRadius: 12,
+    borderWidth: 1,
+    justifyContent: "center",
+    minHeight: 44,
+    paddingHorizontal: 12,
+  },
+  swipeTargetPressed: {
+    backgroundColor: "rgba(255, 255, 255, 0.12)",
   },
   swipeStatement: {
     color: "#fff",

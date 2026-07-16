@@ -120,6 +120,8 @@ export function QuestionAdvancedBlocks(props: QuestionInteractionProps) {
         correctAnswer={question.is_true ? "right" : "left"}
         showResult={showResult}
         onSwipe={onSwipe}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
         labels={question.swipe_labels}
       />
     );
