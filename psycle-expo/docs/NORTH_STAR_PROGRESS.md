@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-16 - mental_l02を、採点可能な予言を作る単一のstagingレッスンとして再構成
+
+- Changed: 日本語限定の6ステップauthored sequence、dev-client限定staging読込、誤答時の固有訂正ヒントを追加
+- Verified: 専用iOS SimulatorでQ2誤答、Q3-Q6、Q2復習正答、完了まで実プレイしlesson_completeを確認
+- Remaining: 人間オーナーの味覚承認、翌日想起と再訪理由の測定、production昇格判断、必要なら英語版同等化
+
 ### 2026-07-14 - Learning Core V2 の時計コース往復を実機相当環境で検証
 
 - Changed: 時計の進捗分母をロード済み全レッスンではなく manifest 採用レッスンだけで数え、Mental v1 を 1/9 ではなく 1/6 として表示するよう修正。
