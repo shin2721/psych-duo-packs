@@ -1,7 +1,7 @@
 import type { Question } from "../../types/question";
 import { getDifficultyRating } from "../difficultyMapping";
 
-export type DifficultyPacingMode = "first_session" | "support" | "steady" | "stretch";
+export type DifficultyPacingMode = "authored" | "first_session" | "support" | "steady" | "stretch";
 
 export type DifficultyPacingDecision = {
   mode: DifficultyPacingMode;

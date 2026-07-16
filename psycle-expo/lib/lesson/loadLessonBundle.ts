@@ -78,16 +78,26 @@ export function loadLessonBundle(params: {
     skillConfidence: params.difficultyPacing?.skillConfidence ?? 0,
   });
 
-  const effectiveQuestions = shouldShortenFirstSession
-    ? lesson.questions.slice(0, Math.min(params.firstSessionLessonSize, lesson.questions.length))
-    : applyDifficultyPacing(lesson.questions, pacing);
+  const usesAuthoredSequence = lesson.metadata?.sequence_policy === "authored";
+  const effectivePacing: DifficultyPacingDecision = usesAuthoredSequence
+    ? {
+        ...pacing,
+        mode: "authored",
+        questionCount: lesson.questions.length,
+      }
+    : pacing;
+  const effectiveQuestions = usesAuthoredSequence
+    ? lesson.questions
+    : shouldShortenFirstSession
+      ? lesson.questions.slice(0, Math.min(params.firstSessionLessonSize, lesson.questions.length))
+      : applyDifficultyPacing(lesson.questions, pacing);
 
   return {
     effectiveQuestions,
     genreId: unit,
     lesson,
     lessonId: activeLessonId,
-    pacing,
+    pacing: effectivePacing,
     requestedLessonId: params.fileParam,
     unit,
   };

@@ -70,7 +70,7 @@ export type LessonLoadPerformanceEvent = {
     durationMs: number;
     genreId?: string;
     lessonId?: string;
-    pacingMode?: "first_session" | "support" | "steady" | "stretch";
+    pacingMode?: "authored" | "first_session" | "support" | "steady" | "stretch";
     questionCount?: number;
     requestedLessonId?: string;
     source: "lesson_runtime";

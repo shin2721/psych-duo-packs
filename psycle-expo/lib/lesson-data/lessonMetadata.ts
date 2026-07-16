@@ -64,6 +64,7 @@ const MENTAL_LESSON_METADATA: Record<string, LessonMetadata> = {
   mental_l02: lessonMetadata({
     lesson_id: "mental_l02",
     lane: "core",
+    sequence_policy: "authored",
     lesson_job: "不安な思考と事実を切り分ける",
     target_shift: "頭に浮かんだ最悪ケースを、そのまま事実として扱わない",
     done_condition: "不安な場面で、事実・推測・次の確認を1つずつ分けられる",
