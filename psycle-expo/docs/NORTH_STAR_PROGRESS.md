@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-17 - Kept lesson feedback and course continuation unambiguous
+
+- Changed: Result feedback now retains the prompt; swipe results keep the statement neutral and mark the learner's selected judgment; course continuation is visually primary over Double XP with accessible contrast and complete locale coverage
+- Verified: 40 targeted tests, typecheck, exact-UDID Simulator playthrough through all six questions, and final completion-surface inspection passed
+- Remaining: The rebuilt mental_l01 remains staging-only until human owner approval and the evidence quality gate are complete
+
 ### 2026-07-17 - Rebuilt mental lesson one around body alarm versus external verdict and fixed swipe reliability
 
 - Changed: Added a six-step authored staging lesson, separated L1 recognition from L2 prediction scoring and L3 action selection, and added horizontal-intent thresholds plus tap alternatives for swipe judgment
