@@ -2,36 +2,37 @@
   {
     "id": "mental_l01_001",
     "claim_id": "mental_l01_001_claim",
+    "phase": 1,
     "type": "conversation",
-    "question": "電車が遅れて、待ち合わせ相手から「あと何分？」とLINE。\n\n胸がザワッとした時、いちばん近い警報はどれ？",
-    "your_response_prompt": "正解はありません。最近の自分に近いものを選んでください",
+    "question": "カラオケで、次が自分の番。\n\n鼓動が速い。手に汗。胃のあたりがこわばる。この瞬間、いちばん近い感覚は？",
+    "your_response_prompt": "正解はありません。いちばん近い感覚を選んでください",
     "choices": [
-      "出来事タイプ：遅れそのものに持っていかれる",
-      "解釈タイプ：怒られる・嫌われる想像が走る",
-      "身体反応タイプ：胸・汗・胃の反応が先に来る"
+      "鼓動が速く、手に汗がある",
+      "歌ったら全員に笑われる",
+      "身体の反応と、笑われる未来が同じ確かさに感じる"
     ],
     "recommended_index": null,
-    "explanation": "今日のテーマは「焦りの3タイプ診断」。焦りは性格の弱さではなく、出来事・解釈・身体反応のどこかで増幅することがある。まず自分の入口を見つける。",
+    "explanation": "身体の反応は、いま体で起きている。『全員に笑われる』は、まだ外では起きていない。焦る瞬間は、この2つが同じ強さで迫ってくる。今日は強さではなく、どこで確認できるかを分ける。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
-    "source_id": "Lazarus_1984",
-    "evidence_grade": "gold",
+    "source_id": "Harrison_2021",
+    "evidence_grade": "bronze",
     "expanded_details": {
       "claim_type": "observation",
-      "evidence_type": "direct",
+      "evidence_type": "indirect",
       "best_for": [
-        "電車遅延や返信待ちなど、日常の軽い焦りに最初のラベルを貼る時に使える"
+        "低リスクの本番前に、身体感覚と外の結末が一体に感じられる時"
       ],
       "limitations": [
-        "出来事の責任や現実の危険を否定する話ではない",
-        "慢性的な強い不安はこのlessonだけで扱わない"
+        "1回の選択で不安傾向や病名を診断しない",
+        "強い症状を無理に思い出す練習ではない"
       ],
-      "citation_role": "意外な問いを生活場面へ接続",
+      "citation_role": "身体感覚の知覚と不安の関連を、この見分け方の導入へ間接的に接続",
       "claim_tags": [
         "mental_l01",
-        "cognitive_appraisal",
-        "diagnostic_practice",
+        "body_signal",
+        "external_verdict",
         "paleo_to_practice"
       ]
     }
@@ -39,345 +40,203 @@
   {
     "id": "mental_l01_002",
     "claim_id": "mental_l01_002_claim",
+    "phase": 2,
     "type": "multiple_choice",
-    "question": "この3タイプ診断で、いちばん大事なのはどれ？",
+    "question": "さっきの場面で、体の中だけを観察して確認できる文はどれ？",
     "choices": [
-      "自分が焦りやすい性格かどうかを早く決める",
-      "次の10秒で触れる場所を見つける",
-      "嫌な出来事をよくある前向き言葉に置き換える"
+      "鼓動が速く、手のひらに汗がある",
+      "歌えば全員に笑われる",
+      "今日は失敗する可能性が高い"
     ],
-    "correct_index": 1,
-    "explanation": "発見はこれ。ストレス反応は、出来事そのものだけでなく「自分にとって脅威かどうかの評価」と身体反応で強まりやすい。だからタイプ診断は性格判定ではなく、最初に触れる場所探しになる。",
+    "correct_index": 0,
+    "explanation": "鼓動と汗は、いま観察できる身体の報告。残り2つは、外で起きる結果について頭が先に出した判決。怖さが強くても、まだ観察した事実には変わらない。",
+    "feedback_prompt": "体の中でいま確認できる報告と、外で起きる前の判決を分ける。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
-    "source_id": "Lazarus_1984",
-    "evidence_grade": "gold",
+    "source_id": "Harrison_2021",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
+      "claim_type": "observation",
+      "evidence_type": "indirect",
       "best_for": [
-        "焦りを性格や出来事のせいだけにせず、反応として扱いたい時"
+        "心拍、汗、胃のこわばりから外の結果まで確定した感じになる時"
       ],
       "limitations": [
-        "現実の危険や相手の責任を軽く扱うための考え方ではない"
+        "身体感覚が安全だと決めるための分類ではない",
+        "医療上の指示がある症状は自己判断で言い換えない"
       ],
-      "citation_role": "認知的評価理論の核心メカニズムを説明",
+      "citation_role": "身体感覚の報告と結果予測を区別するPsycleの判断練習を補助",
       "claim_tags": [
         "mental_l01",
-        "stress_response",
-        "diagnostic_practice",
-        "paleo_to_practice"
+        "interoception",
+        "body_report",
+        "external_verdict"
+      ],
+      "near_miss_choices": [
+        "笑われる可能性は否定しないが、身体の観察だけでは確認できない",
+        "失敗確率の見積もりも、いま体の中で観察できる報告とは別"
       ]
     }
   },
   {
     "id": "mental_l01_003",
     "claim_id": "mental_l01_003_claim",
+    "phase": 3,
     "type": "swipe_judgment",
-    "question": "ストレスの強さは、出来事そのものだけで決まる。\n\nだから、電車遅延なら誰でも同じだけ焦るはず。",
+    "question": "身体の警報が強いほど、外で悪い結果が起きることまで確定する。",
     "is_true": false,
     "swipe_labels": {
-      "left": "解釈もある",
-      "right": "出来事だけ"
+      "left": "判決はまだ",
+      "right": "結果も確定"
     },
-    "explanation": "ここが今日のツボ。出来事は変えられなくても、「自分はいま何を脅威だと思った？」は見直せる。つまり焦りには、出来事以外にも触れる場所がある。",
-    "actionable_advice": "焦ったらまず「出来事・解釈・身体反応のどれ？」と10秒だけ見る",
+    "explanation": "身体の警報は本物でも、外の結果を読み上げる判決文ではない。警報は鳴っている。判決はまだ。",
+    "feedback_prompt": "身体の強さは認める。それだけで外の結末までは確定しない。",
+    "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Lazarus_1984",
-    "evidence_grade": "silver",
+    "source_id": "Psycle_Pilot_004",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
+      "claim_type": "practice_model",
+      "evidence_type": "indirect",
       "best_for": [
-        "ストレスを出来事だけでなく受け取り方から見たい人"
+        "低リスク場面で、身体の警報から悪い結末を即決しそうな時"
       ],
       "limitations": [
-        "危険や損害が実際にある場面では解釈変更だけにしない"
+        "身体症状や外の危険を無視するためには使わない",
+        "この見分け方の治療効果や不安軽減効果は未検証"
       ],
-      "citation_role": "研究の発見をスワイプ判断へ変換",
+      "citation_role": "身体信号と外部結果を分けるPsycle独自の判断モデル",
       "claim_tags": [
         "mental_l01",
-        "cognitive_appraisal",
-        "paleo_to_practice"
+        "body_alarm",
+        "external_verdict",
+        "hidden_operating_rule"
       ]
     }
   },
   {
     "id": "mental_l01_004",
     "claim_id": "mental_l01_004_claim",
+    "phase": 3,
     "type": "multiple_choice",
-    "question": "面接開始まで残り3分。心臓がバクバクして、手のひらに汗。\n\nこの反応は、どのタイプとして扱うと使いやすい？",
+    "question": "ボウリング、最後の1投。呼吸が速く、腕に力が入っている。\n\nいま言える文はどれ？",
     "choices": [
-      "心拍処理タイプ：まずドキドキを急いで下げにいく",
-      "身体反応タイプ：体が本番用にエネルギーを回しているかもしれない",
-      "予測強化タイプ：失敗した時の質問を先に全部考える"
+      "呼吸が速いから、ガターになる",
+      "呼吸が速く、腕に力が入っている。投球の結果はまだ分からない",
+      "緊張は役立つから、ストライクになる"
     ],
     "correct_index": 1,
-    "explanation": "面白いのはここ。ドキドキは「失敗の証拠」とは限らない。短いパフォーマンス場面では、身体の反応を準備エネルギーとして見直せる場合がある。",
-    "actionable_advice": "次に心臓がドキドキしたら「体が準備しているかも」と10秒だけ言う",
+    "explanation": "悪い判決だけでなく、良い判決もまだ先。体で起きていることはそのまま認めて、投球の結果は投げた後に残す。",
+    "feedback_prompt": "悲観にも楽観にも飛ばず、体の報告とまだ出ていない結果を並べる。",
+    "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Jamieson_2012",
-    "evidence_grade": "silver",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "direct",
+      "claim_type": "observation",
+      "evidence_type": "indirect",
       "best_for": [
-        "プレゼンや面接前の緊張",
-        "短いパフォーマンス場面"
+        "短い、低リスクの本番前に身体の覚醒が強い時"
       ],
       "limitations": [
-        "体調不良のサインまで無視しない",
-        "合わない時はすぐ別の方法へ切り替える"
+        "緊張すれば成功するという意味でも、失敗しないという意味でもない",
+        "研究はこの二分法そのものの効果を検証していない"
       ],
-      "citation_role": "リアプレイザルを10秒行動へ変換",
-      "try_this": "次に心臓がドキドキしたら「体が準備しているかも」と10秒だけ言う",
+      "citation_role": "覚醒の意味づけで反応が変わりうる実験を、決定論を避ける練習へ間接利用",
       "claim_tags": [
         "mental_l01",
-        "reappraisal",
-        "body_signal",
-        "paleo_to_practice"
+        "arousal",
+        "performance_uncertainty",
+        "transfer"
       ],
-      "tiny_metric": {
-        "before_prompt": "今の緊張は？（0-10）",
-        "after_prompt": "10秒後の緊張は？（0-10）",
-        "success_rule": "1だけ下がる、または次の一手が1つ見えればOK",
-        "stop_rule": "強くなるなら今日は撤退でOK"
-      },
-      "fallback": {
-        "when": "唱えるほど焦る",
-        "next": "内容を考えず「身体が反応している」とだけラベルを貼る"
-      },
       "near_miss_choices": [
-        "心拍を下げること自体は役立つ時もあるが、ここでは反応の読み方を変える練習を優先する",
-        "失敗予測を増やすと準備に見えて、焦りの燃料になることがある"
+        "身体の警報はガターを確定しない",
+        "準備として読める場合があっても、ストライクを確定しない"
       ]
     }
   },
   {
     "id": "mental_l01_005",
     "claim_id": "mental_l01_005_claim",
+    "phase": 4,
     "type": "multiple_choice",
-    "question": "17時の会議で強めに指摘された。21時、まだ頭の中でその一言が再生されている。\n\nこの焦りは、どのタイプとして見ると戻りやすい？",
+    "question": "駅のホームで煙が見え、避難アナウンスが流れた。胸も速く打っている。\n\nまずすることは？",
     "choices": [
-      "出来事タイプ：指摘内容を1つ確認して、次の修正を決める",
-      "解釈タイプ：「自分は終わった」を何度も再生している",
-      "身体反応タイプ：体調だけが原因だと決める"
+      "『判決はまだ』と考えて、その場に残る",
+      "安全な方へ離れ、駅員や避難指示に従う",
+      "心拍が下がるまで、危険かどうかを保留する"
     ],
     "correct_index": 1,
-    "explanation": "ここで入る知見は反芻。出来事が終わった後も、同じ解釈を何度も再生すると反応が続きやすい。責めるより先に「いま解釈タイプに寄っている」と気づけると戻り口ができる。",
+    "explanation": "この見分け方は、具体的な危険を保留する道具ではない。煙、警報、避難指示がある時は安全行動が先。強い・いつもと違う症状や、医療上の指示がある時も『ただの警報』で済ませない。",
+    "feedback_prompt": "具体的な危険信号や医療上の指示がある時は、見分け練習より安全対応を優先する。",
     "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Nolen-Hoeksema_1991",
-    "evidence_grade": "gold",
+    "source_id": "Psycle_Pilot_004",
+    "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "direct",
+      "claim_type": "safety_boundary",
+      "evidence_type": "practice_guardrail",
       "best_for": [
-        "同じ出来事を何度も考え続けてしまう時"
+        "この見分け方を使わない場面を確認する時"
       ],
       "limitations": [
-        "実際に対応が必要な問題では、考えること自体が役立つ場合もある"
+        "健康、安全、虐待、自傷、法務など高リスク判断へ一般化しない",
+        "医療上の指示がある症状は自己判断で『ただの警報』へ置き換えない"
       ],
-      "citation_role": "反芻とストレス持続の見分けを補助",
+      "citation_role": "Psycle独自モデルの適用範囲を制限する安全ゲート",
       "claim_tags": [
         "mental_l01",
-        "rumination",
-        "interpretation_loop",
-        "paleo_to_practice"
+        "safety_boundary",
+        "concrete_danger",
+        "do_not_delay"
       ]
     }
   },
   {
     "id": "mental_l01_006",
     "claim_id": "mental_l01_006_claim",
-    "type": "conversation",
-    "question": "ここまでで、自分の焦りはどれ寄りに見える？",
-    "your_response_prompt": "今日の仮診断を1つ選んでください",
-    "choices": [
-      "出来事タイプ：予定・通知・相手の反応に強く引っ張られる",
-      "解釈タイプ：最悪の意味づけが頭の中で回りやすい",
-      "身体反応タイプ：心拍・汗・胃の重さで焦りに気づく"
-    ],
-    "recommended_index": null,
-    "explanation": "どれでもOK。これは点数ではなく仮診断。自分の入口が見えると、次の10秒で何を見るかを選びやすくなる。",
-    "actionable_advice": null,
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Lazarus_1984",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "indirect",
-      "best_for": [
-        "焦りの内訳を見分けたい人"
-      ],
-      "limitations": [
-        "つらい記憶を無理に思い出す必要はない",
-        "1回の選択で性格や病名を決めない"
-      ],
-      "citation_role": "practice_prompt を自己観察へ接続",
-      "claim_tags": [
-        "mental_l01",
-        "self_awareness",
-        "diagnostic_practice",
-        "paleo_to_practice"
-      ]
-    }
-  },
-  {
-    "id": "mental_l01_007",
-    "claim_id": "mental_l01_007_claim",
-    "type": "swipe_judgment",
-    "question": "タイプ診断ができたら、現実の危険や相手への確認は後回しでいい。",
-    "is_true": false,
-    "swipe_labels": {
-      "left": "後回しにしない",
-      "right": "後回しでOK"
-    },
-    "explanation": "ここが研究のツッコミどころ。評価や見直しは役立つ場面がある一方で、現実の危険・身体要因・強い不調まで消せるわけではない。診断は現実対応の代わりではなく、最初の反応を扱う道具。",
-    "actionable_advice": null,
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Lazarus_1984",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
-      "best_for": [
-        "研究の使える範囲を確認したい時"
-      ],
-      "limitations": [
-        "現実の危険、身体要因、強い不安には別の対応も必要"
-      ],
-      "citation_role": "研究のツッコミと過剰解釈の抑制",
-      "claim_tags": [
-        "mental_l01",
-        "critical_caveat",
-        "paleo_to_practice"
-      ]
-    }
-  },
-  {
-    "id": "mental_l01_008",
-    "claim_id": "mental_l01_008_claim",
+    "phase": 5,
     "type": "multiple_choice",
-    "question": "この考え方を使う範囲として、いちばん安全で使いやすいのは？",
+    "question": "初対面の人が多い集まり。部屋へ入る直前、頬が熱く、肩に力が入る。\n\n今日の見分け方を使った文はどれ？",
     "choices": [
-      "軽い焦りの最初の10秒で、出来事・解釈・身体反応のどれかを見る",
-      "落ち着くまで原因分析を続けてから、次の行動を決める",
-      "相手や予定の問題も、まず全部3タイプ診断として扱う"
-    ],
-    "correct_index": 0,
-    "explanation": "日常で使うなら、範囲は狭い方が強い。人生全体を変える話にせず、軽い焦りの最初の10秒だけに絞ると、明日すぐ試せる。",
-    "actionable_advice": "次の軽い焦りで、まず10秒だけ3タイプのどれかを見る",
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Lazarus_1984",
-    "evidence_grade": "silver",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
-      "best_for": [
-        "電車遅延や返信待ちなど、日常の軽い焦りに最初のラベルを貼る時に使える"
-      ],
-      "limitations": [
-        "深刻な問題をこれだけで解決しようとしない"
-      ],
-      "citation_role": "usable_scope を安全な日常範囲へ限定",
-      "try_this": "次の軽い焦りで、まず10秒だけ3タイプのどれかを見る",
-      "claim_tags": [
-        "mental_l01",
-        "usable_scope",
-        "paleo_to_practice"
-      ],
-      "near_miss_choices": [
-        "原因分析は必要な場面もあるが、最初の10秒に長い分析を始めると反芻へ入りやすい",
-        "相手や予定への現実対応は残したまま、最初の反応だけを3タイプで扱う"
-      ]
-    }
-  },
-  {
-    "id": "mental_l01_009",
-    "claim_id": "mental_l01_009_claim",
-    "type": "multiple_choice",
-    "question": "明日、返信が遅くて「嫌われたかも」と焦った。\n\n最初の10秒でやるなら？",
-    "choices": [
-      "送る前に確認文を1つ作り、すぐ送れる状態まで仕上げる",
-      "「身体が反応している」とラベルを貼り、出来事・解釈・身体反応のどれかを選ぶ",
-      "嫌われた理由を1つ見つけて、納得してから待つ"
+      "この熱さなら、誰とも話せない",
+      "頬が熱く、肩に力が入っている。会話がどうなるかはまだ決まっていない",
+      "この高ぶりなら、すぐ打ち解けられる"
     ],
     "correct_index": 1,
-    "explanation": "ここでの勝ち筋は、焦りを消すことではない。反応に名前をつけると、追いLINE・自責・反芻に自動で入る前に、小さい確認へ戻れる。",
-    "actionable_advice": "明日モヤっとしたら「身体が反応している」と10秒だけラベルを貼る",
+    "explanation": "身体の警報を消さず、外の結末も先に決めない。今日持ち帰るのは1つだけ。警報は鳴っている。判決はまだ。",
+    "feedback_prompt": "体の報告は現在形。外の結果は、まだ出ていない。",
+    "actionable_advice": "身体の警報から外の結末を決めそうになったら「警報は鳴っている。判決はまだ。」と1回だけ分ける",
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Lazarus_1984",
+    "source_id": "Psycle_Pilot_004",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "intervention",
+      "claim_type": "practice_model",
       "evidence_type": "indirect",
       "best_for": [
-        "返信待ちや遅延など、軽い焦りが出た瞬間"
+        "低リスク場面で、身体の反応を外の失敗や成功の証拠にしそうな時"
       ],
       "limitations": [
-        "危険や緊急性がある場面では、先に現実対応を優先する"
+        "この一文で不安が下がる、会話がうまくいくとは主張しない",
+        "具体的な危険や医療上の指示がある場面では使わない"
       ],
-      "citation_role": "takeaway_action を日常の10秒練習へ変換",
-      "try_this": "明日モヤっとしたら「身体が反応している」と10秒だけラベルを貼る",
+      "citation_role": "raw pilotの判断レンズを、新しい低リスク場面へ転移",
+      "try_this": "身体の警報から外の結末を決めそうになったら「警報は鳴っている。判決はまだ。」と1回だけ分ける",
       "claim_tags": [
         "mental_l01",
-        "takeaway_action",
+        "body_alarm",
+        "external_verdict",
+        "transfer",
         "paleo_to_practice"
       ],
-      "tiny_metric": {
-        "before_prompt": "今の焦りは？（0-10）",
-        "after_prompt": "10秒後の焦りは？（0-10）",
-        "success_rule": "1だけ下がる、または次の一手が1つ見えればOK",
-        "stop_rule": "強くなるなら今日は撤退"
-      },
       "near_miss_choices": [
-        "確認文づくりは現実対応に見えるが、最初の10秒で送信準備まで進むと焦りの自動運転になりやすい",
-        "理由探しは理解に見えるが、未確定の解釈を強めることがある"
-      ]
-    }
-  },
-  {
-    "id": "mental_l01_010",
-    "claim_id": "mental_l01_010_claim",
-    "type": "conversation",
-    "question": "最後に、明日の自分に渡す作戦を1つ選ぶなら？",
-    "your_response_prompt": "明日使うならどれ？",
-    "choices": [
-      "焦りを感じたら「身体が反応している」と10秒だけラベルを貼る",
-      "焦った理由を最後まで分析してから動く",
-      "3タイプのどれかを選べない日は、通知を閉じて終わりにする"
-    ],
-    "recommended_index": 0,
-    "explanation": "今日のゴールは、焦りをゼロにすることではなく、最初の10秒で扱える形にすること。仮診断して、ラベルを貼って、次の小さい一手へ戻る。できなかった日も、気づけたら次につながる。",
-    "actionable_advice": "焦りを感じたら「身体が反応している」と10秒だけラベルを貼る",
-    "difficulty": "easy",
-    "xp": 5,
-    "source_id": "Lazarus_1984",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
-      "best_for": [
-        "このlessonの翌日に同じ練習をもう一度試す時"
-      ],
-      "limitations": [
-        "合わない感覚が強い場合は無理に続けない"
-      ],
-      "citation_role": "anchor として次の小さい行動を保存",
-      "try_this": "焦りを感じたら「身体が反応している」と10秒だけラベルを貼る",
-      "claim_tags": [
-        "mental_l01",
-        "anchor",
-        "paleo_to_practice"
+        "会話が続かない可能性は残るが、頬の熱さだけでは確定しない",
+        "打ち解ける可能性も残るが、高ぶりだけでは確定しない"
       ]
     }
   }

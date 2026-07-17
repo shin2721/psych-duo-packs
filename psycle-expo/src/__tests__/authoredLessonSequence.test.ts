@@ -29,6 +29,42 @@ describe("authored lesson sequence", () => {
     });
   }
 
+  function loadMentalLesson01(recentAccuracy: number, skillConfidence: number) {
+    return loadLessonBundle({
+      allowStaging: true,
+      difficultyPacing: {
+        optimalPMax: 0.7,
+        optimalPMin: 0.55,
+        questionsAnswered: 0,
+        recentAccuracy,
+        skillConfidence,
+      },
+      fileParam: "mental_l01",
+      firstLessonCompleted: false,
+      firstSessionLessonSize: 5,
+      lessonSize: 10,
+    });
+  }
+
+  test("keeps the rebuilt first lesson at six authored steps", () => {
+    const supportBundle = loadMentalLesson01(0.4, 0.1);
+    const stretchBundle = loadMentalLesson01(0.9, 0.5);
+
+    expect(supportBundle.pacing.mode).toBe("authored");
+    expect(supportBundle.pacing.questionCount).toBe(6);
+    expect(supportBundle.effectiveQuestions.map((question) => question.id)).toEqual([
+      "mental_l01_001",
+      "mental_l01_002",
+      "mental_l01_003",
+      "mental_l01_004",
+      "mental_l01_005",
+      "mental_l01_006",
+    ]);
+    expect(stretchBundle.effectiveQuestions.map((question) => question.id)).toEqual(
+      supportBundle.effectiveQuestions.map((question) => question.id)
+    );
+  });
+
   test("keeps every authored step in order for support pacing", () => {
     const bundle = loadMentalLesson02(0.4, 0.1);
 
@@ -64,6 +100,19 @@ describe("authored lesson sequence", () => {
 
       expect(bundle.pacing.mode).toBe("steady");
       expect(bundle.effectiveQuestions).toHaveLength(10);
+      expect(bundle.lesson.metadata).toBeUndefined();
+    } finally {
+      i18n.locale = "ja";
+    }
+  });
+
+  test("does not apply the Japanese first-lesson pilot metadata to legacy English", () => {
+    i18n.locale = "en";
+    try {
+      const bundle = loadMentalLesson01(0.7, 0.1);
+
+      expect(bundle.pacing.mode).toBe("first_session");
+      expect(bundle.effectiveQuestions).toHaveLength(5);
       expect(bundle.lesson.metadata).toBeUndefined();
     } finally {
       i18n.locale = "ja";

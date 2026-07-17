@@ -48,9 +48,10 @@
             "notes": "感情調整分野の基礎レビュー。介入効果の直接検証ではない点に注意。"
         },
         "Jamieson_2012": {
-            "author": "Jamieson, J. P., Mendes, W. B., & Nock, M. K.",
+            "author": "Jamieson, J. P., Nock, M. K., & Mendes, W. B.",
             "year": 2012,
-            "title": "Improving acute stress responses: The power of reappraisal",
+            "title": "Mind over matter: Reappraising arousal improves cardiovascular and cognitive responses to stress",
+            "full_citation": "Jamieson, J. P., Nock, M. K., & Mendes, W. B. (2012). Mind over matter: Reappraising arousal improves cardiovascular and cognitive responses to stress. Journal of Experimental Psychology: General, 141(3), 417-422. https://doi.org/10.1037/a0025719",
             "type": "intervention",
             "domain": [
                 "mental"
@@ -67,7 +68,30 @@
                 "ストレス反応を『準備』と解釈し直すとパフォーマンスが上がる傾向がある",
                 "身体反応そのものより、その解釈が重要な場合がある"
             ],
-            "notes": "覚醒リアプレイザル（「体が準備してくれてる」）の効果を実験で検証。"
+            "notes": "PMID 21942377。覚醒リアプレイザルの実験であり、Psycleの『警報と判決』二分法そのものは検証していない。"
+        },
+        "Harrison_2021": {
+            "author": "Harrison, O. K., Köchli, L., Marino, S., et al.",
+            "year": 2021,
+            "title": "Interoception of breathing and its relationship with anxiety",
+            "full_citation": "Harrison, O. K., Köchli, L., Marino, S., et al. (2021). Interoception of breathing and its relationship with anxiety. Neuron, 109(24), 4080-4093.e8. https://doi.org/10.1016/j.neuron.2021.09.045",
+            "type": "experimental",
+            "domain": [
+                "mental"
+            ],
+            "construct_tags": [
+                "interoception",
+                "breathing",
+                "anxiety",
+                "metacognition"
+            ],
+            "evidence_strength": "silver",
+            "one_line_why": "呼吸に関する身体感覚の知覚からメタ認知までと、不安の関係を実験的に調べた",
+            "allowed_claims": [
+                "呼吸に関する身体感覚の処理には、知覚から確信・メタ認知まで複数の段階がある",
+                "不安と呼吸のinteroceptionの関連は、高次のメタ認知過程を含む複数段階に見られた"
+            ],
+            "notes": "PMID 34672986。本レッスンの二分法、不安軽減、パフォーマンス改善を直接検証していない。"
         },
         "Lazarus_1984": {
             "author": "Lazarus, R. S., & Folkman, S.",
@@ -155,6 +179,27 @@
                 "事実・予言・答え合わせ時点を別々に扱う判断練習として使う"
             ],
             "notes": "治療効果、不安軽減、判断改善は未証明。低リスク場面のproduct hypothesisとしてのみ扱う。"
+        },
+        "Psycle_Pilot_004": {
+            "author": "Psycle content team",
+            "year": 2026,
+            "title": "警報は鳴っている。判決はまだ。",
+            "type": "practice_model",
+            "domain": [
+                "mental"
+            ],
+            "construct_tags": [
+                "body_signal",
+                "external_verdict",
+                "judgment_training"
+            ],
+            "evidence_strength": "bronze",
+            "one_line_why": "身体でいま確認できる報告と、外でまだ起きていない判決を分けるPsycle独自のraw pilot",
+            "allowed_claims": [
+                "低リスク場面で、身体の報告と外の結果を別々に扱う判断練習ができる",
+                "身体反応を否定せず、外の成功や失敗を先に確定しない文を選ぶ練習として使う"
+            ],
+            "notes": "治療効果、不安軽減、パフォーマンス改善は未証明。具体的な危険や医療上の指示がある場面には使わない。"
         },
         "Nolen-Hoeksema_1991": {
             "author": "Nolen-Hoeksema, S.",
