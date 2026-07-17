@@ -284,6 +284,7 @@ export const de = {
         fillBlankTapPrompt: 'Tippe, um auszuwählen:',
         swipeLeftFallback: 'Riskant',
         swipeRightFallback: 'Sicher',
+        swipeYourAnswer: 'Deine Antwort: %{answer}',
         sortItemsEmptyError: 'Fehler: Items-Array ist leer',
         sortOrderEmptyError: 'Fehler: currentOrder ist leer',
         sortHint: 'Ziehe ≡ zum Neuordnen',

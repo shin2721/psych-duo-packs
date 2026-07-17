@@ -109,13 +109,16 @@ export function LessonCompletionView(props: {
             accessibilityLabel={String(i18n.t("lesson.habitLoop.next"))}
           >
             <View style={styles.habitLoopIcon}>
-              <Ionicons name="checkmark-circle" size={22} color={theme.colors.success} />
+              <Ionicons name="checkmark-circle" size={22} color={theme.colors.bg} />
             </View>
             <View style={styles.habitLoopCopy}>
-              <Text style={styles.habitLoopTitle}>{i18n.t("lesson.habitLoop.title")}</Text>
+              <Text style={styles.habitLoopTitle} testID="lesson-complete-habit-loop-title">
+                {i18n.t("lesson.habitLoop.title")}
+              </Text>
               <Text style={styles.habitLoopBody}>{i18n.t("lesson.habitLoop.body")}</Text>
               <Text style={styles.habitLoopNext}>{i18n.t("lesson.habitLoop.next")}</Text>
             </View>
+            <Ionicons name="arrow-forward" size={22} color={theme.colors.bg} />
           </TouchableOpacity>
 
           {!props.feltBetterSubmitted && props.lastShownInterventionId && (
@@ -157,7 +160,11 @@ export function LessonCompletionView(props: {
                 <TouchableOpacity style={styles.doubleXpNudgeDismissButton} onPress={props.onDismissDoubleXpNudge}>
                   <Text style={styles.doubleXpNudgeDismissText}>{i18n.t("lesson.doubleXpNudge.dismiss")}</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.doubleXpNudgeCtaButton} onPress={props.onPressPurchaseDoubleXp}>
+                <TouchableOpacity
+                  style={styles.doubleXpNudgeCtaButton}
+                  onPress={props.onPressPurchaseDoubleXp}
+                  testID="lesson-double-xp-cta"
+                >
                   <Text style={styles.doubleXpNudgeCtaText}>{i18n.t("lesson.doubleXpNudge.cta")}</Text>
                 </TouchableOpacity>
               </View>
@@ -313,27 +320,28 @@ const styles = StyleSheet.create({
   recapActionLabel: { fontSize: 12, fontWeight: "800", color: theme.colors.accent, marginBottom: 4 },
   recapActionText: { fontSize: 14, fontWeight: "700", color: theme.colors.text, lineHeight: 20 },
   habitLoopCard: {
+    alignItems: "center",
     flexDirection: "row",
-    backgroundColor: theme.colors.card,
+    backgroundColor: theme.colors.accent,
     borderRadius: 18,
     padding: 16,
     marginBottom: 16,
     borderWidth: 1,
-    borderColor: theme.colors.line,
+    borderColor: theme.colors.accent,
     gap: 12,
   },
   habitLoopIcon: {
     width: 36,
     height: 36,
     borderRadius: 18,
-    backgroundColor: theme.colors.surface,
+    backgroundColor: "rgba(4, 8, 18, 0.12)",
     alignItems: "center",
     justifyContent: "center",
   },
   habitLoopCopy: { flex: 1 },
-  habitLoopTitle: { fontSize: 16, fontWeight: "800", color: theme.colors.text, marginBottom: 4 },
-  habitLoopBody: { fontSize: 13, color: theme.colors.sub, lineHeight: 18, marginBottom: 8 },
-  habitLoopNext: { fontSize: 13, fontWeight: "800", color: theme.colors.accent },
+  habitLoopTitle: { fontSize: 16, fontWeight: "800", color: theme.colors.bg, marginBottom: 4 },
+  habitLoopBody: { fontSize: 13, color: theme.colors.bg, lineHeight: 18, marginBottom: 8 },
+  habitLoopNext: { fontSize: 13, fontWeight: "800", color: theme.colors.bg },
   feltBetterContainer: { backgroundColor: theme.colors.card, borderRadius: 16, padding: 16, marginBottom: 16 },
   feltBetterTitle: { fontSize: 16, fontWeight: "700", color: theme.colors.text, marginBottom: 12, textAlign: "center" },
   feltBetterRow: { flexDirection: "row", justifyContent: "space-between", gap: 8 },
@@ -347,8 +355,16 @@ const styles = StyleSheet.create({
   doubleXpNudgeActions: { flexDirection: "row", gap: 10 },
   doubleXpNudgeDismissButton: { flex: 1, paddingVertical: 12, borderRadius: 12, backgroundColor: theme.colors.surface, alignItems: "center" },
   doubleXpNudgeDismissText: { fontSize: 14, fontWeight: "700", color: theme.colors.text },
-  doubleXpNudgeCtaButton: { flex: 1, paddingVertical: 12, borderRadius: 12, backgroundColor: theme.colors.accent, alignItems: "center" },
-  doubleXpNudgeCtaText: { fontSize: 14, fontWeight: "800", color: "#fff" },
+  doubleXpNudgeCtaButton: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 12,
+    backgroundColor: theme.colors.surface,
+    borderWidth: 1,
+    borderColor: theme.colors.accent,
+    alignItems: "center",
+  },
+  doubleXpNudgeCtaText: { fontSize: 14, fontWeight: "800", color: theme.colors.accent },
   breakdownContainer: { backgroundColor: theme.colors.card, borderRadius: 16, padding: 16, marginBottom: 20 },
   tryValueSummary: { marginBottom: 12 },
   actionHint: { fontSize: 15, fontWeight: "700", color: theme.colors.text, marginBottom: 8 },

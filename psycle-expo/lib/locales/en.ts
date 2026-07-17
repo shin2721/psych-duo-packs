@@ -343,6 +343,7 @@ export const en = {
         fillBlankTapPrompt: 'Tap to choose:',
         swipeLeftFallback: 'Risky',
         swipeRightFallback: 'Safe',
+        swipeYourAnswer: 'Your answer: %{answer}',
         sortItemsEmptyError: 'Error: items array is empty',
         sortOrderEmptyError: 'Error: currentOrder is empty',
         sortHint: 'Drag ≡ to reorder',

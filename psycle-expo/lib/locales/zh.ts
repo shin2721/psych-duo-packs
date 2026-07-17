@@ -284,6 +284,7 @@ export const zh = {
         fillBlankTapPrompt: '点击选择：',
         swipeLeftFallback: '危险',
         swipeRightFallback: '安全',
+        swipeYourAnswer: '你的回答：%{answer}',
         sortItemsEmptyError: '错误：items 数组为空',
         sortOrderEmptyError: '错误：currentOrder 为空',
         sortHint: '拖动 ≡ 进行排序',

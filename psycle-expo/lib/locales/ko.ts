@@ -284,6 +284,7 @@ export const ko = {
         fillBlankTapPrompt: '탭해서 선택하세요:',
         swipeLeftFallback: '위험',
         swipeRightFallback: '안전',
+        swipeYourAnswer: '내 답변: %{answer}',
         sortItemsEmptyError: '오류: items 배열이 비어 있습니다',
         sortOrderEmptyError: '오류: currentOrder가 비어 있습니다',
         sortHint: '≡ 를 드래그해서 순서를 바꾸세요',

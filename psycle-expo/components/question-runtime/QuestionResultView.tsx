@@ -7,6 +7,7 @@ import { getEvidenceSummary } from "../../lib/evidenceSummary";
 import i18n from "../../lib/i18n";
 import { resolveIncorrectFeedbackHint } from "../../lib/lesson/incorrectFeedbackHint";
 import { theme } from "../../lib/theme";
+import { getQuestionText } from "./questionRendererHelpers";
 import type { Question } from "../../types/question";
 import type { QuestionRuntime } from "./createQuestionRuntime";
 
@@ -61,6 +62,10 @@ export function QuestionResultView({
             : styles.incorrectBox,
       ]}
     >
+      <View style={styles.questionRecap} testID="question-result-prompt">
+        <Text style={styles.questionRecapText}>{getQuestionText(question)}</Text>
+      </View>
+
       {!runtime.isSurveyMode && (
         <View style={styles.resultHeader}>
           <Ionicons
@@ -174,6 +179,21 @@ export function QuestionResultView({
 }
 
 const styles = StyleSheet.create({
+  questionRecap: {
+    backgroundColor: "rgba(255, 255, 255, 0.05)",
+    borderColor: theme.colors.cardBorder,
+    borderRadius: 14,
+    borderWidth: 1,
+    marginBottom: 14,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  questionRecapText: {
+    color: theme.colors.text,
+    fontSize: 14,
+    fontWeight: "700",
+    lineHeight: 20,
+  },
   actionAdviceContainer: {
     backgroundColor: "rgba(255,255,255,0.08)",
     borderRadius: 16,

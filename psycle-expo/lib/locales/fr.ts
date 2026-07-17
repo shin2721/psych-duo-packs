@@ -284,6 +284,7 @@ export const fr = {
         fillBlankTapPrompt: 'Appuie pour choisir :',
         swipeLeftFallback: 'Risqué',
         swipeRightFallback: 'Sûr',
+        swipeYourAnswer: 'Votre réponse : %{answer}',
         sortItemsEmptyError: 'Erreur : le tableau items est vide',
         sortOrderEmptyError: 'Erreur : currentOrder est vide',
         sortHint: 'Glisse ≡ pour réordonner',

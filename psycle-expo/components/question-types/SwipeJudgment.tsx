@@ -156,38 +156,58 @@ export function SwipeJudgment({
   const isCorrect = selectedAnswer === correctAnswer;
   const leftLabel = labels?.left || i18n.t("questionTypes.swipeLeftFallback");
   const rightLabel = labels?.right || i18n.t("questionTypes.swipeRightFallback");
+  const selectedLabel = selectedAnswer === "left" ? leftLabel : rightLabel;
 
   return (
     <View style={styles.swipeContainer}>
-      <View style={styles.swipeLabels}>
-        <Pressable
-          accessibilityLabel={`${leftLabel}を選ぶ`}
-          accessibilityRole="button"
-          disabled={showResult}
-          onPress={() => commitSwipe("left")}
-          style={({ pressed }) => [styles.swipeTarget, pressed && styles.swipeTargetPressed]}
-          testID="answer-swipe-left"
+      {showResult && selectedAnswer ? (
+        <View
+          style={[
+            styles.selectedAnswerSummary,
+            isCorrect
+              ? styles.selectedAnswerCorrect
+              : styles.selectedAnswerIncorrect,
+          ]}
+          testID="swipe-selected-answer"
         >
-          <Text style={styles.swipeLabel}>← {leftLabel}</Text>
-        </Pressable>
-        <Pressable
-          accessibilityLabel={`${rightLabel}を選ぶ`}
-          accessibilityRole="button"
-          disabled={showResult}
-          onPress={() => commitSwipe("right")}
-          style={({ pressed }) => [styles.swipeTarget, pressed && styles.swipeTargetPressed]}
-          testID="answer-swipe-right"
-        >
-          <Text style={styles.swipeLabel}>{rightLabel} →</Text>
-        </Pressable>
-      </View>
+          <Ionicons
+            name={isCorrect ? "checkmark-circle" : "close-circle"}
+            size={24}
+            color={isCorrect ? theme.colors.success : theme.colors.error}
+          />
+          <Text style={styles.selectedAnswerText}>
+            {i18n.t("questionTypes.swipeYourAnswer", { answer: selectedLabel })}
+          </Text>
+        </View>
+      ) : (
+        <View style={styles.swipeLabels}>
+          <Pressable
+            accessibilityLabel={`${leftLabel}を選ぶ`}
+            accessibilityRole="button"
+            disabled={showResult}
+            onPress={() => commitSwipe("left")}
+            style={({ pressed }) => [styles.swipeTarget, pressed && styles.swipeTargetPressed]}
+            testID="answer-swipe-left"
+          >
+            <Text style={styles.swipeLabel}>← {leftLabel}</Text>
+          </Pressable>
+          <Pressable
+            accessibilityLabel={`${rightLabel}を選ぶ`}
+            accessibilityRole="button"
+            disabled={showResult}
+            onPress={() => commitSwipe("right")}
+            style={({ pressed }) => [styles.swipeTarget, pressed && styles.swipeTargetPressed]}
+            testID="answer-swipe-right"
+          >
+            <Text style={styles.swipeLabel}>{rightLabel} →</Text>
+          </Pressable>
+        </View>
+      )}
 
       <Animated.View
         testID="answer-swipe-card"
         style={[
           styles.swipeCard,
-          showResult && isCorrect && styles.swipeCorrect,
-          showResult && !isCorrect && styles.swipeIncorrect,
           {
             transform: [{ translateX: pan.x }, { translateY }, { rotate }, { scale }],
           },
@@ -200,25 +220,12 @@ export function SwipeJudgment({
           <Ionicons name="arrow-forward" size={24} color="#cbd5e1" />
         </View>
         <Text style={styles.swipeStatement}>{statement}</Text>
-        {selectedAnswer && (
-          <View style={styles.answerIcon}>
-            {isCorrect ? (
-              <Ionicons name="checkmark-circle" size={40} color="#22c55e" />
-            ) : (
-              <Ionicons name="close-circle" size={40} color="#ef4444" />
-            )}
-          </View>
-        )}
       </Animated.View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  answerIcon: {
-    position: "absolute",
-    top: -40,
-  },
   iconRow: {
     flexDirection: "row",
     gap: 12,
@@ -245,13 +252,30 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingVertical: 32,
   },
-  swipeCorrect: {
-    backgroundColor: theme.colors.success,
+  selectedAnswerCorrect: {
+    backgroundColor: "rgba(34, 197, 94, 0.14)",
     borderColor: theme.colors.success,
   },
-  swipeIncorrect: {
-    backgroundColor: "#ef4444",
-    borderColor: "#ef4444",
+  selectedAnswerIncorrect: {
+    backgroundColor: "rgba(239, 68, 68, 0.14)",
+    borderColor: theme.colors.error,
+  },
+  selectedAnswerSummary: {
+    alignItems: "center",
+    borderRadius: 12,
+    borderWidth: 1.5,
+    flexDirection: "row",
+    gap: 8,
+    marginBottom: 16,
+    minHeight: 52,
+    paddingHorizontal: 14,
+    width: "100%",
+  },
+  selectedAnswerText: {
+    color: theme.colors.text,
+    flex: 1,
+    fontSize: 16,
+    fontWeight: "800",
   },
   swipeLabel: {
     fontSize: 16,

@@ -11,6 +11,7 @@ describe("lesson completion delight contract", () => {
     const source = fs.readFileSync(completionViewPath, "utf8");
 
     expect(source).toContain('testID="lesson-complete-habit-loop"');
+    expect(source).toContain('testID="lesson-double-xp-cta"');
     expect(source).toContain('testID="lesson-complete-recap"');
     expect(source).toContain('i18n.t("lesson.completionRecap.title")');
     expect(source).toContain('i18n.t("lesson.completionRecap.nextPromise")');

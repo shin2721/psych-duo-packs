@@ -284,6 +284,7 @@ export const pt = {
         fillBlankTapPrompt: 'Toque para escolher:',
         swipeLeftFallback: 'Arriscado',
         swipeRightFallback: 'Seguro',
+        swipeYourAnswer: 'Sua resposta: %{answer}',
         sortItemsEmptyError: 'Erro: o array items está vazio',
         sortOrderEmptyError: 'Erro: currentOrder está vazio',
         sortHint: 'Arraste ≡ para reordenar',

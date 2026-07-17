@@ -343,6 +343,7 @@ export const ja = {
         fillBlankTapPrompt: 'タップして選ぼう:',
         swipeLeftFallback: '危険',
         swipeRightFallback: '大丈夫',
+        swipeYourAnswer: 'あなたの回答：%{answer}',
         sortItemsEmptyError: 'エラー: items配列が空です',
         sortOrderEmptyError: 'エラー: currentOrderが空です',
         sortHint: '≡ をドラッグして並び替えよう',
