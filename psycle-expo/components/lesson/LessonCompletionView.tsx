@@ -261,15 +261,6 @@ export function LessonCompletionView(props: {
             )}
           </View>
 
-          <TouchableOpacity
-            onPress={() => router.replace("/(tabs)/course")}
-            style={styles.continueButton}
-            testID="lesson-complete-continue"
-            accessibilityRole="button"
-            accessibilityLabel={String(i18n.t("lesson.continue"))}
-          >
-            <Text style={styles.continueText}>{i18n.t("lesson.continue")}</Text>
-          </TouchableOpacity>
         </ScrollView>
       </SafeAreaView>
     </View>
@@ -391,6 +382,4 @@ const styles = StyleSheet.create({
   theoryAuthors: { fontSize: 13, color: theme.colors.sub },
   theorySection: { marginBottom: 12 },
   theoryText: { fontSize: 13, color: theme.colors.sub, lineHeight: 18 },
-  continueButton: { backgroundColor: theme.colors.accent, borderRadius: 16, paddingVertical: 16, alignItems: "center" },
-  continueText: { fontSize: 16, fontWeight: "800", color: "#fff" },
 });

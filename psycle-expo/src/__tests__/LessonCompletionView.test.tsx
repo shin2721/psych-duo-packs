@@ -72,6 +72,7 @@ describe("LessonCompletionView", () => {
       borderWidth: 1,
     });
     expect(courseContinuationTitleStyle.color).toBe(theme.colors.bg);
+    expect(screen.queryByTestId("lesson-complete-continue")).toBeNull();
     expect(doubleXpStyle.backgroundColor).not.toBe(
       courseContinuationStyle.backgroundColor
     );
