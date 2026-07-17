@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-17 - Removed the duplicate completion action
+
+- Changed: Lesson completion now exposes one clear high-contrast course continuation action instead of a second ambiguous Continue button
+- Verified: 40 targeted tests, typecheck, exact-UDID six-question Simulator playthrough, single-action runtime assertion, and final screenshot inspection passed
+- Remaining: The rebuilt mental_l01 remains staging-only until human owner approval and the evidence quality gate are complete
+
 ### 2026-07-17 - Kept lesson feedback and course continuation unambiguous
 
 - Changed: Result feedback now retains the prompt; swipe results keep the statement neutral and mark the learner's selected judgment; course continuation is visually primary over Double XP with accessible contrast and complete locale coverage
