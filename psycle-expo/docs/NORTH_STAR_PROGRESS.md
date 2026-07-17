@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-17 - Rebuilt mental lesson one around body alarm versus external verdict and fixed swipe reliability
+
+- Changed: Added a six-step authored staging lesson, separated L1 recognition from L2 prediction scoring and L3 action selection, and added horizontal-intent thresholds plus tap alternatives for swipe judgment
+- Verified: iOS dev-client completed all six steps; short swipe did not answer, deliberate swipe did; 35 targeted tests, typecheck, and mental lesson validation passed with zero errors
+- Remaining: Owner taste approval and production promotion remain; broader course playthrough is still pending
+
 ### 2026-07-16 - mental_l02を、採点可能な予言を作る単一のstagingレッスンとして再構成
 
 - Changed: 日本語限定の6ステップauthored sequence、dev-client限定staging読込、誤答時の固有訂正ヒントを追加
