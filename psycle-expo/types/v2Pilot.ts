@@ -10,6 +10,7 @@ export type V2PilotQualityComparison =
 
 export type V2PilotDay1Step =
   | "prediction"
+  | "diversity_prediction"
   | "research"
   | "quality_update"
   | "boundary"

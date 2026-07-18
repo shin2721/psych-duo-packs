@@ -108,7 +108,7 @@ describe("V2 owner pilot storage", () => {
   test("saves normalized state and reset removes only the pilot key", async () => {
     await AsyncStorage.setItem("completed_lessons_owner-1", "legacy-progress");
     const snapshot = createInitialV2PilotSnapshot("2026-07-18T07:00:00.000Z");
-    snapshot.currentStep = "research";
+    snapshot.currentStep = "diversity_prediction";
     snapshot.qualityPrediction = {
       direction: "increase",
       reason: "my prediction",

@@ -18,6 +18,7 @@ export const V2_PILOT_STORAGE_KEY_PREFIX =
 
 const DAY_1_STEPS = new Set<V2PilotDay1Step>([
   "prediction",
+  "diversity_prediction",
   "research",
   "quality_update",
   "boundary",

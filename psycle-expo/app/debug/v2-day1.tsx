@@ -128,14 +128,15 @@ function hasBoundaryInput(snapshot: V2PilotSnapshot): boolean {
 }
 
 function hasRecallInput(snapshot: V2PilotSnapshot): boolean {
-  return snapshot.recall.answer.trim().length >= 4;
+  return RECALL_OPTIONS.some((option) => option === snapshot.recall.answer);
 }
 
 function getQuickScreen(snapshot: V2PilotSnapshot): QuickScreen {
-  if (snapshot.currentStep !== "prediction") return snapshot.currentStep;
-  return snapshot.qualityPrediction.direction
-    ? "diversity_prediction"
-    : "quality_prediction";
+  if (snapshot.currentStep === "prediction") return "quality_prediction";
+  if (snapshot.currentStep === "diversity_prediction") {
+    return "diversity_prediction";
+  }
+  return snapshot.currentStep;
 }
 
 function ChoiceChips<T extends string>({
@@ -432,7 +433,11 @@ function RecallStep({
   setSnapshot: React.Dispatch<React.SetStateAction<V2PilotSnapshot>>;
   snapshot: V2PilotSnapshot;
 }) {
-  const selectedAnswer = snapshot.recall.answer;
+  const selectedAnswer = RECALL_OPTIONS.some(
+    (option) => option === snapshot.recall.answer
+  )
+    ? snapshot.recall.answer
+    : "";
   const isCorrect = selectedAnswer === CORRECT_RECALL;
   return (
     <View testID="v2-step-recall">
@@ -517,13 +522,19 @@ function CompleteStep({ snapshot }: { snapshot: V2PilotSnapshot }) {
           <Text style={styles.fieldTestText}>良くしたかった点は、本当に良くなった？</Text>
         </View>
         <View style={styles.fieldTestRow}>
-          <View style={[styles.fieldTestPill, styles.fieldTestPillPurple]}>
-            <Text style={styles.fieldTestPillText}>幅</Text>
+          <View
+            style={[
+              styles.fieldTestPill,
+              styles.fieldTestPillPurple,
+              styles.fieldTestPillWide,
+            ]}
+          >
+            <Text style={styles.fieldTestPillText}>自分の候補幅</Text>
           </View>
           <Text style={styles.fieldTestText}>複数案が、同じ方向へ寄っていない？</Text>
         </View>
         <Text style={styles.summaryBody}>
-          効果が実証済みの手順ではない。次の自分の判断材料にする観察。
+          効果が実証済みの手順ではない。自分の候補幅と、チーム全体の多様性は別。
         </Text>
       </SurfaceCard>
 
@@ -558,6 +569,10 @@ export default function V2DayOneScreen() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const quickScreen = getQuickScreen(snapshot);
+  const boundaryCorrect =
+    snapshot.boundaryAnswers.headline_1?.boundaryTag ===
+    BOUNDARY_DEFINITIONS[0].options[0];
+  const recallCorrect = snapshot.recall.answer === CORRECT_RECALL;
 
   useEffect(() => {
     let cancelled = false;
@@ -627,7 +642,7 @@ export default function V2DayOneScreen() {
   const handlePrimary = () => {
     switch (quickScreen) {
       case "quality_prediction":
-        void commitStep("prediction");
+        void commitStep("diversity_prediction");
         return;
       case "diversity_prediction":
         void commitStep("research");
@@ -639,9 +654,26 @@ export default function V2DayOneScreen() {
         void commitStep("boundary");
         return;
       case "boundary":
+        if (!boundaryCorrect) {
+          setSnapshot((current) => ({
+            ...current,
+            boundaryAnswers: {
+              ...current.boundaryAnswers,
+              headline_1: null,
+            },
+          }));
+          return;
+        }
         void commitStep("recall");
         return;
       case "recall":
+        if (!recallCorrect) {
+          setSnapshot((current) => ({
+            ...current,
+            recall: { answer: "", confidence: null },
+          }));
+          return;
+        }
         void commitStep("complete");
         return;
       case "complete":
@@ -654,8 +686,8 @@ export default function V2DayOneScreen() {
     diversity_prediction: "予想を保存",
     research: "自分の予想と比べる",
     quality_update: "次へ",
-    boundary: "次へ",
-    recall: "結果を見る",
+    boundary: hasBoundaryInput(snapshot) && !boundaryCorrect ? "もう一度" : "次へ",
+    recall: hasRecallInput(snapshot) && !recallCorrect ? "もう一度" : "結果を見る",
     complete: "時計へ戻る",
   };
 
@@ -1372,6 +1404,9 @@ const styles = StyleSheet.create({
   },
   fieldTestPillPurple: {
     backgroundColor: PURPLE,
+  },
+  fieldTestPillWide: {
+    width: 90,
   },
   fieldTestPillText: {
     color: "#fff",
