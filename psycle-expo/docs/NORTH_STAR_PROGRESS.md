@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-18 - Compress V2 Day 1 into a tap-first quick lesson
+
+- Changed: Replaced the dense two-card prediction form, mandatory reasons/confidence, four-card boundary lab, and free-text recall with seven one-decision screens: two one-tap predictions, compact evidence reveal, one-tap update, one representative boundary check, tap retrieval, and a compact 30-second field test. Kept the owner pilot isolated from XP, streak, production lessons, and legacy progression.
+- Verified: Targeted strict TypeScript passed; v2PilotStorage Jest passed 5/5; Maestro completed the exact seven-screen flow on Psycle Clean iPhone 17 Pro-Detox without keyboard input or required content scrolling; captured Q1, Q2, research, boundary, recall, and completion screenshots with CTA controls visible.
+- Remaining: Owner taste review is still the product gate. Day 2-4 and delayed free recall are not implemented or verified; the quick Day 1 must not be promoted if it feels like a passive article plus quiz or still feels slow.
+
 ### 2026-07-16 - mental_l02を、採点可能な予言を作る単一のstagingレッスンとして再構成
 
 - Changed: 日本語限定の6ステップauthored sequence、dev-client限定staging読込、誤答時の固有訂正ヒントを追加
