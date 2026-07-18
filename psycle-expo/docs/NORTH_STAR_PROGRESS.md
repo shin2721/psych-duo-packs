@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-18 - Harden the V2 quick lesson without adding friction
+
+- Changed: Persisted Q1 as an explicit diversity_prediction step so users can correct and resume it; made boundary and retrieval mistakes require a short feedback-and-retry loop before completion; ignored incompatible legacy free-text recall state; restored the distinction between one person's candidate width and team-wide diversity on the completion field test.
+- Verified: Targeted strict TypeScript passed; v2PilotStorage Jest passed 5/5 including the new persisted step; Maestro completed both the correct path and a wrong-answer retry path; a forced Metro reload after Q1 restored Q2; final completion remained in one viewport and the pilot was reset to Q1 for owner play.
+- Remaining: Owner taste review remains the product gate. Day 2-4 and delayed free recall are still unimplemented, and the seven-screen rhythm must be rejected if it still feels too slow or too quiz-like in human play.
+
 ### 2026-07-18 - Compress V2 Day 1 into a tap-first quick lesson
 
 - Changed: Replaced the dense two-card prediction form, mandatory reasons/confidence, four-card boundary lab, and free-text recall with seven one-decision screens: two one-tap predictions, compact evidence reveal, one-tap update, one representative boundary check, tap retrieval, and a compact 30-second field test. Kept the owner pilot isolated from XP, streak, production lessons, and legacy progression.

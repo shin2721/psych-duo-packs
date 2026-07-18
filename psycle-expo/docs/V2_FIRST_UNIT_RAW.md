@@ -73,6 +73,8 @@ Day 1 runtimeは、原液のすべてを同時表示しない。Duolingo型の�
 6. 結果と限界が対になった文を選んでretrieval
 7. 30秒のfield testとDay 2の未解決予想を確認
 
+各predictionは選択後のCTAで端末へ保存し、再起動時は次の画面から復元する。boundary / retrievalの誤答は短い訂正を見せた後に再回答し、正しい区別を選ぶまで完了へ進めない。
+
 Runtime reject:
 
 - 1画面で2つ以上の判断を必須にする
@@ -80,6 +82,7 @@ Runtime reject:
 - CTAへ進むためにキーボードまたは縦スクロールを必須にする
 - 圧縮によって `予想 -> evidence -> boundary -> retrieval -> life action` のどれかを失う
 - 速くした結果、短い記事と確認クイズだけになる
+- 誤答フィードバックを読まず、そのまま完了状態を保存できる
 
 ### Prediction before explanation
 
