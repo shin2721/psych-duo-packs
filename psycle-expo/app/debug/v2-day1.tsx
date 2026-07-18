@@ -7,7 +7,6 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-  TextInput,
   View,
 } from "react-native";
 import { Redirect, useRouter } from "expo-router";
@@ -34,14 +33,32 @@ import type {
 const ACCENT = "#ec4899";
 const ACCENT_SOFT = "rgba(236,72,153,0.14)";
 const PURPLE = "#a78bfa";
-const STEPS: V2PilotDay1Step[] = [
-  "prediction",
+type QuickScreen =
+  | "quality_prediction"
+  | "diversity_prediction"
+  | "research"
+  | "quality_update"
+  | "boundary"
+  | "recall"
+  | "complete";
+
+const QUICK_SCREENS: QuickScreen[] = [
+  "quality_prediction",
+  "diversity_prediction",
   "research",
   "quality_update",
   "boundary",
   "recall",
   "complete",
 ];
+
+const RECALL_OPTIONS = [
+  "特定の創造課題で、AI利用者の案の平均評価は上がった。人の性質や集団の多様性は、まだ分からない。",
+  "AIを使うと、人そのものが創造的になり、あらゆる仕事の質が上がる。",
+  "AI利用者の案は平均評価が下がり、AIを使わない集団ほど常に多様になる。",
+] as const;
+
+const CORRECT_RECALL = RECALL_OPTIONS[0];
 
 const DIRECTION_LABELS: Record<V2PilotPredictionDirection, string> = {
   decrease: "下がる",
@@ -98,33 +115,27 @@ const BOUNDARY_DEFINITIONS: BoundaryDefinition[] = [
 
 function hasPredictionInput(snapshot: V2PilotSnapshot): boolean {
   return Boolean(
-    snapshot.qualityPrediction.direction &&
-      snapshot.qualityPrediction.reason.trim().length >= 2 &&
-      snapshot.qualityPrediction.confidence !== null &&
-      snapshot.diversityPrediction.direction &&
-      snapshot.diversityPrediction.reason.trim().length >= 2 &&
-      snapshot.diversityPrediction.confidence !== null
+    snapshot.qualityPrediction.direction && snapshot.diversityPrediction.direction
   );
 }
 
 function hasQualityUpdateInput(snapshot: V2PilotSnapshot): boolean {
-  return Boolean(
-    snapshot.qualityUpdate.comparison &&
-      snapshot.qualityUpdate.reason.trim().length >= 2 &&
-      snapshot.qualityUpdate.confidence !== null
-  );
+  return Boolean(snapshot.qualityUpdate.comparison);
 }
 
 function hasBoundaryInput(snapshot: V2PilotSnapshot): boolean {
-  return BOUNDARY_DEFINITIONS.every(
-    ({ id }) => snapshot.boundaryAnswers[id]?.boundaryTag
-  );
+  return Boolean(snapshot.boundaryAnswers.headline_1?.boundaryTag);
 }
 
 function hasRecallInput(snapshot: V2PilotSnapshot): boolean {
-  return Boolean(
-    snapshot.recall.answer.trim().length >= 4 && snapshot.recall.confidence !== null
-  );
+  return snapshot.recall.answer.trim().length >= 4;
+}
+
+function getQuickScreen(snapshot: V2PilotSnapshot): QuickScreen {
+  if (snapshot.currentStep !== "prediction") return snapshot.currentStep;
+  return snapshot.qualityPrediction.direction
+    ? "diversity_prediction"
+    : "quality_prediction";
 }
 
 function ChoiceChips<T extends string>({
@@ -161,50 +172,6 @@ function ChoiceChips<T extends string>({
   );
 }
 
-function ConfidenceScale({
-  onChange,
-  testIDPrefix,
-  value,
-}: {
-  onChange: (next: number) => void;
-  testIDPrefix: string;
-  value: number | null;
-}) {
-  return (
-    <View>
-      <View style={styles.fieldLabelRow}>
-        <Text style={styles.fieldLabel}>今の確信度</Text>
-        <Text style={styles.confidenceValue}>{value === null ? "未選択" : `${value}%`}</Text>
-      </View>
-      <View style={styles.confidenceRow}>
-        {[20, 40, 60, 80, 100].map((item) => {
-          const selected = value === item;
-          return (
-            <Pressable
-              key={item}
-              accessibilityLabel={`確信度 ${item}%`}
-              accessibilityRole="button"
-              accessibilityState={{ selected }}
-              onPress={() => onChange(item)}
-              style={[styles.confidenceButton, selected && styles.confidenceButtonSelected]}
-              testID={`${testIDPrefix}-${item}`}
-            >
-              <Text
-                style={[
-                  styles.confidenceButtonText,
-                  selected && styles.confidenceButtonTextSelected,
-                ]}
-              >
-                {item}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </View>
-    </View>
-  );
-}
-
 function SurfaceCard({ children, tone = "default" }: {
   children: React.ReactNode;
   tone?: "default" | "accent" | "purple";
@@ -233,107 +200,64 @@ function ScreenIntro({ eyebrow, title, body }: { eyebrow: string; title: string;
 }
 
 function PredictionStep({
+  quickScreen,
   setSnapshot,
   snapshot,
 }: {
+  quickScreen: "quality_prediction" | "diversity_prediction";
   setSnapshot: React.Dispatch<React.SetStateAction<V2PilotSnapshot>>;
   snapshot: V2PilotSnapshot;
 }) {
+  const isQuality = quickScreen === "quality_prediction";
   return (
     <View testID="v2-step-prediction">
       <ScreenIntro
-        eyebrow="PREDICTION · 説明の前"
-        title="AIを使うと、何が変わる？"
-        body="明日、新サービスの企画会議がある。最初の案出しだけをAIに手伝わせるとする。研究結果を見る前に、2本の予想を別々に残す。"
+        eyebrow={isQuality ? "まず直感で" : "もう1タップ"}
+        title={isQuality ? "AIを使った案は、平均すると？" : "みんなの案の幅は、どうなる？"}
+        body={
+          isQuality
+            ? "企画会議の最初の案出しだけをAIに手伝わせる。研究を見る前に、直感で選ぶ。"
+            : "会議のみんながAIを使った時を想像する。品質とは別に、案の種類を予想する。"
+        }
       />
 
-      <SurfaceCard tone="accent">
-        <Text style={styles.cardNumber}>01</Text>
-        <Text style={styles.cardTitle}>一人ひとりの案の平均品質</Text>
-        <Text style={styles.cardBody}>AIを使った人の案は、平均するとどう評価されると思う？</Text>
+      <SurfaceCard tone={isQuality ? "accent" : "purple"}>
+        <Text style={[styles.quickQuestionNumber, !isQuality && { color: PURPLE }]}>
+          {isQuality ? "QUESTION 1" : "QUESTION 2"}
+        </Text>
+        <Text style={styles.quickPrompt}>
+          {isQuality ? "案の平均評価" : "参加者全体から出る案の幅"}
+        </Text>
         <ChoiceChips
-          labels={DIRECTION_LABELS}
+          labels={isQuality ? DIRECTION_LABELS : DIVERSITY_LABELS}
           onChange={(direction) =>
             setSnapshot((current) => ({
               ...current,
-              qualityPrediction: { ...current.qualityPrediction, direction },
+              ...(isQuality
+                ? {
+                    qualityPrediction: {
+                      ...current.qualityPrediction,
+                      direction,
+                    },
+                  }
+                : {
+                    diversityPrediction: {
+                      ...current.diversityPrediction,
+                      direction,
+                    },
+                  }),
             }))
           }
-          testIDPrefix="v2-quality-direction"
-          value={snapshot.qualityPrediction.direction}
-        />
-        <TextInput
-          accessibilityLabel="平均品質をそう予想した理由"
-          multiline
-          onChangeText={(reason) =>
-            setSnapshot((current) => ({
-              ...current,
-              qualityPrediction: { ...current.qualityPrediction, reason },
-            }))
+          testIDPrefix={isQuality ? "v2-quality-direction" : "v2-diversity-direction"}
+          value={
+            isQuality
+              ? snapshot.qualityPrediction.direction
+              : snapshot.diversityPrediction.direction
           }
-          placeholder="なぜそう思う？ 1〜2文で十分"
-          placeholderTextColor="rgba(255,255,255,0.28)"
-          style={styles.textInput}
-          testID="v2-quality-reason"
-          value={snapshot.qualityPrediction.reason}
-        />
-        <ConfidenceScale
-          onChange={(confidence) =>
-            setSnapshot((current) => ({
-              ...current,
-              qualityPrediction: { ...current.qualityPrediction, confidence },
-            }))
-          }
-          testIDPrefix="v2-quality-confidence"
-          value={snapshot.qualityPrediction.confidence}
         />
       </SurfaceCard>
 
-      <SurfaceCard tone="purple">
-        <Text style={[styles.cardNumber, { color: PURPLE }]}>02</Text>
-        <Text style={styles.cardTitle}>参加者全体から出る案の幅</Text>
-        <Text style={styles.cardBody}>会議のみんながAIを使った時、案の種類はどうなると思う？</Text>
-        <ChoiceChips
-          labels={DIVERSITY_LABELS}
-          onChange={(direction) =>
-            setSnapshot((current) => ({
-              ...current,
-              diversityPrediction: { ...current.diversityPrediction, direction },
-            }))
-          }
-          testIDPrefix="v2-diversity-direction"
-          value={snapshot.diversityPrediction.direction}
-        />
-        <TextInput
-          accessibilityLabel="案の幅をそう予想した理由"
-          multiline
-          onChangeText={(reason) =>
-            setSnapshot((current) => ({
-              ...current,
-              diversityPrediction: { ...current.diversityPrediction, reason },
-            }))
-          }
-          placeholder="品質とは別に考えてみる"
-          placeholderTextColor="rgba(255,255,255,0.28)"
-          style={styles.textInput}
-          testID="v2-diversity-reason"
-          value={snapshot.diversityPrediction.reason}
-        />
-        <ConfidenceScale
-          onChange={(confidence) =>
-            setSnapshot((current) => ({
-              ...current,
-              diversityPrediction: { ...current.diversityPrediction, confidence },
-            }))
-          }
-          testIDPrefix="v2-diversity-confidence"
-          value={snapshot.diversityPrediction.confidence}
-        />
-      </SurfaceCard>
-
-      <Text style={styles.quietNote}>
-        ここでは正解を出さない。2本が同じ方向である必要もない。
-      </Text>
+      <Text style={styles.quickHint}>理由入力なし。正解探しではなく、今の直感を残す。</Text>
     </View>
   );
 }
@@ -342,52 +266,36 @@ function ResearchStep() {
   return (
     <View testID="v2-step-research">
       <ScreenIntro
-        eyebrow="RESEARCH STORY · 5 EXPERIMENTS"
-        title="AIは案を悪くしたのか？"
-        body="2024年、研究者はGPT-3.5を使う条件、通常のWeb検索を使う条件、どちらも使わない条件を比べた。"
+        eyebrow="研究結果"
+        title="この5実験では、平均評価が上がった"
+        body="GPT-3.5利用・Web検索・非利用を比べた。"
       />
 
-      <SurfaceCard>
-        <Text style={styles.cardKicker}>参加者が取り組んだ課題</Text>
-        {[
-          "10代向けの贈り物を考える",
-          "身近な物から玩具を作る",
-          "使っていない物を別用途へ変える",
-          "新しいダイニングテーブルを設計する",
-        ].map((item) => (
-          <View key={item} style={styles.bulletRow}>
-            <View style={styles.bulletDot} />
-            <Text style={styles.bulletText}>{item}</Text>
-          </View>
-        ))}
-      </SurfaceCard>
-
-      <View style={styles.resultBridge}>
-        <View style={styles.resultLine} />
-        <View style={styles.resultOrb}>
-          <Ionicons name="sparkles" color="#fff" size={22} />
-        </View>
-        <View style={styles.resultLine} />
-      </View>
-
       <SurfaceCard tone="accent">
-        <Text style={styles.resultLabel}>RESULT</Text>
-        <Text style={styles.resultTitle}>ChatGPT支援の案は、平均的に高く評価された</Text>
+        <View style={styles.quickResultRow}>
+          <View style={styles.quickResultIcon}>
+            <Ionicons name="arrow-up" color="#fff" size={24} />
+          </View>
+          <View style={styles.quickResultCopy}>
+            <Text style={styles.resultLabel}>RESULT</Text>
+            <Text style={styles.quickResultTitle}>特定課題の案の平均評価</Text>
+          </View>
+        </View>
         <Text style={styles.resultBody}>
-          外部評価では、非使用・Web検索条件より創造性の平均評価が高かった。特に、完全に突飛な発明より、既存の考えを一段よくする incremental な案で強みが見られた。
+          AIを使った参加者の案は、非利用・Web検索より平均的に高く評価された。
         </Text>
       </SurfaceCard>
 
       <SurfaceCard>
         <View style={styles.boundaryHeader}>
           <Ionicons name="contract-outline" color={PURPLE} size={18} />
-          <Text style={[styles.cardKicker, { color: PURPLE }]}>まだ言えないこと</Text>
+          <Text style={[styles.cardKicker, { color: PURPLE }]}>ここから先は、まだ言えない</Text>
         </View>
         <Text style={styles.cardBodyLarge}>
-          これは「AI自身が人間より創造的」「今の全モデルが全仕事を改善する」「人の性質が長期的に変わった」という結果ではない。
+          人そのものが創造的になった、すべてのAI・仕事で有効、案の幅も広がった——とは限らない。
         </Text>
         <Text style={styles.sourceCaption}>
-          Lee & Chung, Nature Human Behaviour (2024) · GPT-3.5 · 特定の創造課題
+          Lee & Chung (2024) · GPT-3.5 · 特定の創造課題
         </Text>
       </SurfaceCard>
     </View>
@@ -405,24 +313,27 @@ function QualityUpdateStep({
   return (
     <View testID="v2-step-quality-update">
       <ScreenIntro
-        eyebrow="UPDATE · 予想と証拠を並べる"
-        title="最初の予想は、どう動いた？"
-        body="正解したかではなく、証拠を見て自分の説明がどう変わったかを残す。"
+        eyebrow="予想を更新"
+        title="結果は、予想と比べて？"
+        body="正解・不正解ではなく、研究を見た後のズレを1タップで残す。"
       />
 
-      <SurfaceCard>
-        <Text style={styles.timelineLabel}>研究を見る前</Text>
-        <Text style={styles.timelineValue}>
-          平均品質は「{predictionDirection ? DIRECTION_LABELS[predictionDirection] : "未回答"}」
-        </Text>
-        <Text style={styles.timelineReason}>「{snapshot.qualityPrediction.reason}」</Text>
-        <Text style={styles.timelineConfidence}>
-          確信度 {snapshot.qualityPrediction.confidence ?? 0}%
-        </Text>
-      </SurfaceCard>
+      <View style={styles.predictionCompareRow}>
+        <View style={styles.predictionCompareCell}>
+          <Text style={styles.predictionCompareLabel}>あなたの予想</Text>
+          <Text style={styles.predictionCompareValue}>
+            {predictionDirection ? DIRECTION_LABELS[predictionDirection] : "—"}
+          </Text>
+        </View>
+        <Ionicons name="arrow-forward" color="rgba(255,255,255,0.38)" size={22} />
+        <View style={[styles.predictionCompareCell, styles.predictionCompareResult]}>
+          <Text style={styles.predictionCompareLabel}>研究結果</Text>
+          <Text style={styles.predictionCompareValue}>上がった</Text>
+        </View>
+      </View>
 
       <SurfaceCard tone="accent">
-        <Text style={styles.cardTitle}>研究結果は、予想と比べて？</Text>
+        <Text style={styles.quickPrompt}>自分の予想から見ると？</Text>
         <ChoiceChips
           labels={COMPARISON_LABELS}
           onChange={(comparison) =>
@@ -433,31 +344,6 @@ function QualityUpdateStep({
           }
           testIDPrefix="v2-quality-comparison"
           value={snapshot.qualityUpdate.comparison}
-        />
-        <TextInput
-          accessibilityLabel="研究を見て変わった考え"
-          multiline
-          onChangeText={(reason) =>
-            setSnapshot((current) => ({
-              ...current,
-              qualityUpdate: { ...current.qualityUpdate, reason },
-            }))
-          }
-          placeholder="どの部分が予想と違った？"
-          placeholderTextColor="rgba(255,255,255,0.28)"
-          style={styles.textInput}
-          testID="v2-quality-update-reason"
-          value={snapshot.qualityUpdate.reason}
-        />
-        <ConfidenceScale
-          onChange={(confidence) =>
-            setSnapshot((current) => ({
-              ...current,
-              qualityUpdate: { ...current.qualityUpdate, confidence },
-            }))
-          }
-          testIDPrefix="v2-quality-update-confidence"
-          value={snapshot.qualityUpdate.confidence}
         />
       </SurfaceCard>
     </View>
@@ -471,60 +357,70 @@ function BoundaryStep({
   setSnapshot: React.Dispatch<React.SetStateAction<V2PilotSnapshot>>;
   snapshot: V2PilotSnapshot;
 }) {
+  const definition = BOUNDARY_DEFINITIONS[0];
+  const selectedTag = snapshot.boundaryAnswers.headline_1?.boundaryTag ?? null;
+  const isCorrect = selectedTag === definition.options[0];
   return (
     <View testID="v2-step-boundary">
       <ScreenIntro
-        eyebrow="CLAIM BOUNDARY LAB"
-        title="どの言葉から、研究を越えた？"
-        body="一番慎重な文を当てるのではない。4本すべてを調べ、主張が飛躍した場所へタグを置く。"
+        eyebrow="言いすぎを見抜く"
+        title="どこで、研究を越えた？"
+        body="結果を大きく言い換えると、別の話になる。飛躍した場所を1つ選ぶ。"
       />
 
-      {BOUNDARY_DEFINITIONS.map((definition, index) => {
-        const selectedTag = snapshot.boundaryAnswers[definition.id]?.boundaryTag ?? null;
-        return (
-          <SurfaceCard key={definition.id} tone={index === 3 ? "accent" : "default"}>
-            <Text style={styles.cardNumber}>{String(index + 1).padStart(2, "0")}</Text>
-            <Text style={styles.headlineText}>「{definition.headline}」</Text>
-            <Text style={styles.boundaryHint}>{definition.hint}</Text>
-            <View style={styles.boundaryOptions}>
-              {definition.options.map((option) => {
-                const selected = selectedTag === option;
-                return (
-                  <Pressable
-                    key={option}
-                    accessibilityRole="button"
-                    accessibilityState={{ selected }}
-                    onPress={() =>
-                      setSnapshot((current) => ({
-                        ...current,
-                        boundaryAnswers: {
-                          ...current.boundaryAnswers,
-                          [definition.id]: { boundaryTag: option, note: "" },
-                        },
-                      }))
-                    }
-                    style={[styles.boundaryOption, selected && styles.boundaryOptionSelected]}
-                    testID={`v2-boundary-${definition.id}-${definition.options.indexOf(option)}`}
-                  >
-                    <Text
-                      style={[
-                        styles.boundaryOptionText,
-                        selected && styles.boundaryOptionTextSelected,
-                      ]}
-                    >
-                      {option}
-                    </Text>
-                  </Pressable>
-                );
-              })}
-            </View>
-          </SurfaceCard>
-        );
-      })}
+      <SurfaceCard tone="purple">
+        <Text style={styles.headlineText}>「{definition.headline}」</Text>
+        <View style={styles.boundaryOptions}>
+          {definition.options.map((option, index) => {
+            const selected = selectedTag === option;
+            return (
+              <Pressable
+                key={option}
+                accessibilityRole="button"
+                accessibilityState={{ selected }}
+                onPress={() =>
+                  setSnapshot((current) => ({
+                    ...current,
+                    boundaryAnswers: {
+                      ...current.boundaryAnswers,
+                      headline_1: { boundaryTag: option, note: "" },
+                    },
+                  }))
+                }
+                style={[styles.boundaryOption, selected && styles.boundaryOptionSelected]}
+                testID={`v2-boundary-headline_1-${index}`}
+              >
+                <Text
+                  style={[
+                    styles.boundaryOptionText,
+                    selected && styles.boundaryOptionTextSelected,
+                  ]}
+                >
+                  {option}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </View>
+      </SurfaceCard>
 
-      <Text style={styles.quietNote}>
-        ここでは点数をつけない。どの境界を見たかを、次の想起へ残す。
-      </Text>
+      {selectedTag ? (
+        <View
+          style={[styles.quickFeedback, isCorrect ? styles.quickFeedbackGood : null]}
+          testID="v2-boundary-feedback"
+        >
+          <Ionicons
+            name={isCorrect ? "checkmark-circle" : "eye"}
+            color={isCorrect ? "#86efac" : PURPLE}
+            size={21}
+          />
+          <Text style={styles.quickFeedbackText}>
+            {isCorrect
+              ? "そう。研究が測ったのは一時的な課題の案。人そのものの性質までは言えない。"
+              : "ここでの主な飛躍は、課題の案の評価を、人そのものの性質へ広げたこと。"}
+          </Text>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -536,43 +432,61 @@ function RecallStep({
   setSnapshot: React.Dispatch<React.SetStateAction<V2PilotSnapshot>>;
   snapshot: V2PilotSnapshot;
 }) {
+  const selectedAnswer = snapshot.recall.answer;
+  const isCorrect = selectedAnswer === CORRECT_RECALL;
   return (
     <View testID="v2-step-recall">
       <ScreenIntro
-        eyebrow="RECALL · 説明を隠したまま"
-        title="AIは何を上げた？ まだ何は分からない？"
-        body="研究名や用語は要らない。今日の結果と、その境界を自分の一文で思い出す。"
+        eyebrow="最後に1問"
+        title="今日の結果に一番近いのは？"
+        body="上がったものと、まだ分からないものをセットで選ぶ。"
       />
 
       <SurfaceCard tone="purple">
-        <TextInput
-          accessibilityLabel="今日の研究結果と分からないこと"
-          multiline
-          onChangeText={(answer) =>
-            setSnapshot((current) => ({
-              ...current,
-              recall: { ...current.recall, answer },
-            }))
-          }
-          placeholder="上がったもの / まだ分からないもの"
-          placeholderTextColor="rgba(255,255,255,0.28)"
-          style={[styles.textInput, styles.recallInput]}
-          testID="v2-recall-answer"
-          value={snapshot.recall.answer}
-        />
-        <ConfidenceScale
-          onChange={(confidence) =>
-            setSnapshot((current) => ({
-              ...current,
-              recall: { ...current.recall, confidence },
-            }))
-          }
-          testIDPrefix="v2-recall-confidence"
-          value={snapshot.recall.confidence}
-        />
+        {RECALL_OPTIONS.map((option, index) => {
+          const selected = selectedAnswer === option;
+          return (
+            <Pressable
+              key={option}
+              accessibilityRole="button"
+              accessibilityState={{ selected }}
+              onPress={() =>
+                setSnapshot((current) => ({
+                  ...current,
+                  recall: { answer: option, confidence: null },
+                }))
+              }
+              style={[styles.recallOption, selected && styles.recallOptionSelected]}
+              testID={`v2-recall-option-${index}`}
+            >
+              <View style={[styles.recallOptionBadge, selected && styles.recallOptionBadgeSelected]}>
+                <Text style={styles.recallOptionBadgeText}>{String.fromCharCode(65 + index)}</Text>
+              </View>
+              <Text style={[styles.recallOptionText, selected && styles.recallOptionTextSelected]}>
+                {option}
+              </Text>
+            </Pressable>
+          );
+        })}
       </SurfaceCard>
 
-      <Text style={styles.quietNote}>回答するまで、要約は表示しない。</Text>
+      {selectedAnswer ? (
+        <View
+          style={[styles.quickFeedback, isCorrect ? styles.quickFeedbackGood : null]}
+          testID="v2-recall-feedback"
+        >
+          <Ionicons
+            name={isCorrect ? "checkmark-circle" : "refresh-circle"}
+            color={isCorrect ? "#86efac" : PURPLE}
+            size={21}
+          />
+          <Text style={styles.quickFeedbackText}>
+            {isCorrect
+              ? "その区別。平均品質と、人や集団全体の話を混ぜない。"
+              : "研究が示したのは、特定課題での案の平均評価。人の性質や集団の多様性までは未確認。"}
+          </Text>
+        </View>
+      ) : null}
     </View>
   );
 }
@@ -580,105 +494,53 @@ function RecallStep({
 function CompleteStep({ snapshot }: { snapshot: V2PilotSnapshot }) {
   const qualityDirection = snapshot.qualityPrediction.direction;
   const diversityDirection = snapshot.diversityPrediction.direction;
-  const comparison = snapshot.qualityUpdate.comparison;
   return (
     <View testID="v2-step-complete">
-      <ScreenIntro
-        eyebrow="DAY 1 SAVED · XPなし"
-        title="予想が、証拠で一段だけ動いた"
-        body="正解数ではなく、説明前の自分と研究後の自分を一本の履歴にした。"
-      />
-
-      <SurfaceCard>
-        <Text style={styles.timelineLabel}>01 · 研究を見る前</Text>
-        <View style={styles.summaryGrid}>
-          <View style={styles.summaryCell}>
-            <Text style={styles.summaryCellLabel}>平均品質</Text>
-            <Text style={styles.summaryCellValue}>
-              {qualityDirection ? DIRECTION_LABELS[qualityDirection] : "—"}
-            </Text>
-            <Text style={styles.summaryCellSub}>
-              {snapshot.qualityPrediction.confidence ?? 0}%
-            </Text>
-          </View>
-          <View style={styles.summaryCell}>
-            <Text style={styles.summaryCellLabel}>案の幅</Text>
-            <Text style={styles.summaryCellValue}>
-              {diversityDirection ? DIVERSITY_LABELS[diversityDirection] : "—"}
-            </Text>
-            <Text style={styles.summaryCellSub}>
-              {snapshot.diversityPrediction.confidence ?? 0}%
-            </Text>
-          </View>
+      <View style={styles.completeHero}>
+        <View style={styles.completeIcon}>
+          <Ionicons name="checkmark" color="#14050f" size={30} />
         </View>
-      </SurfaceCard>
-
-      <SurfaceCard tone="accent">
-        <Text style={styles.timelineLabel}>02 · 研究で確認できたこと</Text>
-        <Text style={styles.summaryHeadline}>
-          GPT-3.5支援を受けた参加者の案は、特定の創造課題で平均評価が高かった。
-        </Text>
-        <Text style={styles.summaryBody}>
-          人の長期的な性質、今の全モデル、あらゆる仕事、集団全体の案の幅までは、この結果だけでは分からない。
-        </Text>
-      </SurfaceCard>
-
-      <SurfaceCard>
-        <Text style={styles.timelineLabel}>03 · あなたの更新</Text>
-        <Text style={styles.timelineValue}>
-          {comparison ? COMPARISON_LABELS[comparison] : "—"}
-        </Text>
-        <Text style={styles.timelineReason}>「{snapshot.qualityUpdate.reason}」</Text>
-        <Text style={styles.timelineConfidence}>
-          現在の確信度 {snapshot.qualityUpdate.confidence ?? 0}%
-        </Text>
-      </SurfaceCard>
-
-      <SurfaceCard tone="purple">
-        <Text style={styles.timelineLabel}>04 · 説明なしで思い出したこと</Text>
-        <Text style={styles.recallQuote}>「{snapshot.recall.answer}」</Text>
-      </SurfaceCard>
-
-      <SurfaceCard tone="accent">
-        <Text style={styles.timelineLabel}>FIELD TEST · 次にAIで案を出す時</Text>
-        <Text style={styles.summaryHeadline}>
-          生成前後を、2軸で30秒だけ比べる
-        </Text>
-        <View style={styles.bulletRow}>
-          <View style={styles.bulletDot} />
-          <Text style={styles.bulletText}>
-            質：良くしたかった点は、本当に良くなったか
-          </Text>
-        </View>
-        <View style={styles.bulletRow}>
-          <View style={styles.bulletDot} />
-          <Text style={styles.bulletText}>
-            自分の候補幅：複数案が、同じ方向へ寄っていないか
-          </Text>
-        </View>
-        <Text style={styles.summaryBody}>
-          メモに2行だけ残す。これは効果が実証済みの手順ではない。明日は、この「自分の候補幅」と「チーム全体の多様性」を分けて見る。
-        </Text>
-      </SurfaceCard>
-
-      <View style={styles.nextQuestionCard}>
-        <Text style={styles.nextQuestionKicker}>NEXT · 保存したもう一本の予想</Text>
-        <Text style={styles.nextQuestionTitle}>
-          みんながAIを使った時、案の幅は広がるのか？
-        </Text>
-        <Text style={styles.nextQuestionBody}>
-          次は、今日の「個人の平均品質」と、集合全体の「多様性」を別々に見る。
+        <Text style={styles.completeEyebrow}>DAY 1 COMPLETE</Text>
+        <Text style={styles.completeTitle}>質と幅は、別メーター</Text>
+        <Text style={styles.completeBody}>
+          特定課題で案の平均評価が上がっても、人の性質や集団全体の多様性まで上がったとは限らない。
         </Text>
       </View>
 
-      <View style={styles.purposeCard}>
-        <Ionicons name="leaf" color={ACCENT} size={24} />
-        <View style={styles.purposeCopy}>
-          <Text style={styles.purposeTitle}>Psycleがすること</Text>
-          <Text style={styles.purposeBody}>
-            あなたの予想を先に残し、研究で更新し、後日それを実際の判断へ変える。
-          </Text>
+      <SurfaceCard tone="accent">
+        <Text style={styles.timelineLabel}>次にAIで案を出す時 · 30秒</Text>
+        <Text style={styles.summaryHeadline}>生成前後を、2行だけ比べる</Text>
+        <View style={styles.fieldTestRow}>
+          <View style={styles.fieldTestPill}>
+            <Text style={styles.fieldTestPillText}>質</Text>
+          </View>
+          <Text style={styles.fieldTestText}>良くしたかった点は、本当に良くなった？</Text>
         </View>
+        <View style={styles.fieldTestRow}>
+          <View style={[styles.fieldTestPill, styles.fieldTestPillPurple]}>
+            <Text style={styles.fieldTestPillText}>幅</Text>
+          </View>
+          <Text style={styles.fieldTestText}>複数案が、同じ方向へ寄っていない？</Text>
+        </View>
+        <Text style={styles.summaryBody}>
+          効果が実証済みの手順ではない。次の自分の判断材料にする観察。
+        </Text>
+      </SurfaceCard>
+
+      <View style={styles.quickNextCard}>
+        <Ionicons name="bookmark" color={PURPLE} size={23} />
+        <View style={styles.quickNextCopy}>
+          <Text style={styles.nextQuestionKicker}>明日の問い · 予想は保存済み</Text>
+          <Text style={styles.quickNextTitle}>みんなの案は、似ていく？</Text>
+        </View>
+      </View>
+
+      <View style={styles.savedPredictionRow}>
+        <Text style={styles.savedPredictionLabel}>最初の予想</Text>
+        <Text style={styles.savedPredictionValue}>
+          質 {qualityDirection ? DIRECTION_LABELS[qualityDirection] : "—"} · 幅{" "}
+          {diversityDirection ? DIVERSITY_LABELS[diversityDirection] : "—"}
+        </Text>
       </View>
     </View>
   );
@@ -695,6 +557,7 @@ export default function V2DayOneScreen() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const quickScreen = getQuickScreen(snapshot);
 
   useEffect(() => {
     let cancelled = false;
@@ -716,14 +579,16 @@ export default function V2DayOneScreen() {
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ y: 0, animated: false });
-  }, [snapshot.currentStep]);
+  }, [quickScreen]);
 
-  const stepIndex = Math.max(0, STEPS.indexOf(snapshot.currentStep));
-  const progress = (stepIndex + 1) / STEPS.length;
+  const stepIndex = Math.max(0, QUICK_SCREENS.indexOf(quickScreen));
+  const progress = (stepIndex + 1) / QUICK_SCREENS.length;
 
   const canContinue = useMemo(() => {
-    switch (snapshot.currentStep) {
-      case "prediction":
+    switch (quickScreen) {
+      case "quality_prediction":
+        return Boolean(snapshot.qualityPrediction.direction);
+      case "diversity_prediction":
         return hasPredictionInput(snapshot);
       case "research":
         return true;
@@ -736,7 +601,7 @@ export default function V2DayOneScreen() {
       case "complete":
         return true;
     }
-  }, [snapshot]);
+  }, [quickScreen, snapshot]);
 
   if (!V2_OWNER_PILOT_ENABLED) {
     return <Redirect href="/(tabs)/course" />;
@@ -760,8 +625,11 @@ export default function V2DayOneScreen() {
   };
 
   const handlePrimary = () => {
-    switch (snapshot.currentStep) {
-      case "prediction":
+    switch (quickScreen) {
+      case "quality_prediction":
+        void commitStep("prediction");
+        return;
+      case "diversity_prediction":
         void commitStep("research");
         return;
       case "research":
@@ -781,12 +649,13 @@ export default function V2DayOneScreen() {
     }
   };
 
-  const primaryLabel: Record<V2PilotDay1Step, string> = {
-    prediction: "2本の予想を保存する",
-    research: "自分の予想と照合する",
-    quality_update: "更新を保存する",
-    boundary: "4つの境界を保存する",
-    recall: "回答を保存して結果を見る",
+  const primaryLabel: Record<QuickScreen, string> = {
+    quality_prediction: "次へ",
+    diversity_prediction: "予想を保存",
+    research: "自分の予想と比べる",
+    quality_update: "次へ",
+    boundary: "次へ",
+    recall: "結果を見る",
     complete: "時計へ戻る",
   };
 
@@ -837,7 +706,7 @@ export default function V2DayOneScreen() {
           <View style={styles.headerCenter}>
             <View style={styles.headerLabelRow}>
               <Text style={styles.headerLabel}>DAY 1 / 4</Text>
-              <Text style={styles.headerStep}>{stepIndex + 1} / {STEPS.length}</Text>
+              <Text style={styles.headerStep}>{stepIndex + 1} / {QUICK_SCREENS.length}</Text>
             </View>
             <View style={styles.progressTrack}>
               <View style={[styles.progressFill, { width: `${progress * 100}%` }]} />
@@ -854,20 +723,24 @@ export default function V2DayOneScreen() {
           showsVerticalScrollIndicator={false}
           testID="v2-day1-scroll"
         >
-          {snapshot.currentStep === "prediction" ? (
-            <PredictionStep setSnapshot={setSnapshot} snapshot={snapshot} />
+          {quickScreen === "quality_prediction" || quickScreen === "diversity_prediction" ? (
+            <PredictionStep
+              quickScreen={quickScreen}
+              setSnapshot={setSnapshot}
+              snapshot={snapshot}
+            />
           ) : null}
-          {snapshot.currentStep === "research" ? <ResearchStep /> : null}
-          {snapshot.currentStep === "quality_update" ? (
+          {quickScreen === "research" ? <ResearchStep /> : null}
+          {quickScreen === "quality_update" ? (
             <QualityUpdateStep setSnapshot={setSnapshot} snapshot={snapshot} />
           ) : null}
-          {snapshot.currentStep === "boundary" ? (
+          {quickScreen === "boundary" ? (
             <BoundaryStep setSnapshot={setSnapshot} snapshot={snapshot} />
           ) : null}
-          {snapshot.currentStep === "recall" ? (
+          {quickScreen === "recall" ? (
             <RecallStep setSnapshot={setSnapshot} snapshot={snapshot} />
           ) : null}
-          {snapshot.currentStep === "complete" ? (
+          {quickScreen === "complete" ? (
             <CompleteStep snapshot={snapshot} />
           ) : null}
         </ScrollView>
@@ -883,15 +756,15 @@ export default function V2DayOneScreen() {
               styles.primaryButton,
               (!canContinue || saving) && styles.primaryButtonDisabled,
             ]}
-            testID={`v2-primary-${snapshot.currentStep}`}
+            testID={`v2-primary-${quickScreen}`}
           >
             {saving ? (
               <ActivityIndicator color="#130611" />
             ) : (
-              <Text style={styles.primaryButtonText}>{primaryLabel[snapshot.currentStep]}</Text>
+              <Text style={styles.primaryButtonText}>{primaryLabel[quickScreen]}</Text>
             )}
           </Pressable>
-          {snapshot.currentStep === "complete" ? (
+          {quickScreen === "complete" ? (
             <Pressable
               accessibilityRole="button"
               onPress={() => void resetPilot()}
@@ -979,8 +852,8 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     paddingHorizontal: 20,
-    paddingTop: 24,
-    paddingBottom: 40,
+    paddingTop: 20,
+    paddingBottom: 24,
   },
   screenIntro: {
     gap: 9,
@@ -1004,6 +877,25 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 24,
     fontWeight: "500",
+  },
+  quickQuestionNumber: {
+    color: ACCENT,
+    fontSize: 11,
+    fontWeight: "900",
+    letterSpacing: 1.2,
+  },
+  quickPrompt: {
+    color: "#fff",
+    fontSize: 22,
+    lineHeight: 29,
+    fontWeight: "900",
+  },
+  quickHint: {
+    color: "rgba(255,255,255,0.42)",
+    fontSize: 13,
+    lineHeight: 20,
+    textAlign: "center",
+    marginTop: 6,
   },
   surfaceCard: {
     borderRadius: 22,
@@ -1057,7 +949,7 @@ const styles = StyleSheet.create({
   },
   choiceChip: {
     flex: 1,
-    minHeight: 46,
+    minHeight: 58,
     borderRadius: 15,
     borderWidth: 1,
     borderColor: "rgba(255,255,255,0.11)",
@@ -1072,8 +964,8 @@ const styles = StyleSheet.create({
   },
   choiceChipText: {
     color: "rgba(255,255,255,0.55)",
-    fontSize: 12,
-    fontWeight: "700",
+    fontSize: 14,
+    fontWeight: "800",
     textAlign: "center",
   },
   choiceChipTextSelected: {
@@ -1204,6 +1096,29 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 24,
   },
+  quickResultRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 13,
+  },
+  quickResultIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: ACCENT,
+  },
+  quickResultCopy: {
+    flex: 1,
+    gap: 2,
+  },
+  quickResultTitle: {
+    color: "#fff",
+    fontSize: 23,
+    lineHeight: 29,
+    fontWeight: "900",
+  },
   boundaryHeader: {
     flexDirection: "row",
     alignItems: "center",
@@ -1273,6 +1188,100 @@ const styles = StyleSheet.create({
   boundaryOptionTextSelected: {
     color: "#fff",
   },
+  predictionCompareRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    marginBottom: 14,
+  },
+  predictionCompareCell: {
+    flex: 1,
+    minHeight: 82,
+    borderRadius: 18,
+    padding: 14,
+    justifyContent: "center",
+    gap: 5,
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.08)",
+  },
+  predictionCompareResult: {
+    backgroundColor: ACCENT_SOFT,
+    borderColor: "rgba(236,72,153,0.28)",
+  },
+  predictionCompareLabel: {
+    color: "rgba(255,255,255,0.44)",
+    fontSize: 11,
+    fontWeight: "800",
+  },
+  predictionCompareValue: {
+    color: "#fff",
+    fontSize: 19,
+    fontWeight: "900",
+  },
+  quickFeedback: {
+    flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 10,
+    borderRadius: 16,
+    padding: 14,
+    backgroundColor: "rgba(167,139,250,0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(167,139,250,0.24)",
+  },
+  quickFeedbackGood: {
+    backgroundColor: "rgba(74,222,128,0.10)",
+    borderColor: "rgba(74,222,128,0.22)",
+  },
+  quickFeedbackText: {
+    flex: 1,
+    color: "rgba(255,255,255,0.76)",
+    fontSize: 13,
+    lineHeight: 20,
+    fontWeight: "600",
+  },
+  recallOption: {
+    minHeight: 58,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 11,
+    borderRadius: 15,
+    paddingHorizontal: 12,
+    paddingVertical: 11,
+    backgroundColor: "rgba(255,255,255,0.04)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.09)",
+  },
+  recallOptionSelected: {
+    backgroundColor: "rgba(236,72,153,0.18)",
+    borderColor: ACCENT,
+  },
+  recallOptionBadge: {
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "rgba(255,255,255,0.08)",
+  },
+  recallOptionBadgeSelected: {
+    backgroundColor: ACCENT,
+  },
+  recallOptionBadgeText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "900",
+  },
+  recallOptionText: {
+    flex: 1,
+    color: "rgba(255,255,255,0.62)",
+    fontSize: 13,
+    lineHeight: 19,
+    fontWeight: "600",
+  },
+  recallOptionTextSelected: {
+    color: "#fff",
+  },
   summaryGrid: {
     flexDirection: "row",
     gap: 10,
@@ -1309,6 +1318,111 @@ const styles = StyleSheet.create({
     color: "rgba(255,255,255,0.64)",
     fontSize: 14,
     lineHeight: 22,
+  },
+  completeHero: {
+    alignItems: "center",
+    gap: 8,
+    marginBottom: 18,
+    paddingHorizontal: 8,
+  },
+  completeIcon: {
+    width: 58,
+    height: 58,
+    borderRadius: 29,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: ACCENT,
+    shadowColor: ACCENT,
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.45,
+    shadowRadius: 18,
+    marginBottom: 3,
+  },
+  completeEyebrow: {
+    color: ACCENT,
+    fontSize: 10,
+    fontWeight: "900",
+    letterSpacing: 1.3,
+  },
+  completeTitle: {
+    color: "#fff",
+    fontSize: 27,
+    lineHeight: 34,
+    fontWeight: "900",
+    textAlign: "center",
+  },
+  completeBody: {
+    color: "rgba(255,255,255,0.60)",
+    fontSize: 14,
+    lineHeight: 21,
+    textAlign: "center",
+  },
+  fieldTestRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+  },
+  fieldTestPill: {
+    width: 38,
+    minHeight: 28,
+    borderRadius: 14,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: ACCENT,
+  },
+  fieldTestPillPurple: {
+    backgroundColor: PURPLE,
+  },
+  fieldTestPillText: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "900",
+  },
+  fieldTestText: {
+    flex: 1,
+    color: "rgba(255,255,255,0.78)",
+    fontSize: 13,
+    lineHeight: 19,
+    fontWeight: "600",
+  },
+  quickNextCard: {
+    minHeight: 76,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 12,
+    borderRadius: 20,
+    paddingHorizontal: 17,
+    paddingVertical: 14,
+    backgroundColor: "rgba(111,76,255,0.09)",
+    borderWidth: 1,
+    borderColor: "rgba(167,139,250,0.18)",
+  },
+  quickNextCopy: {
+    flex: 1,
+    gap: 4,
+  },
+  quickNextTitle: {
+    color: "#fff",
+    fontSize: 17,
+    lineHeight: 23,
+    fontWeight: "900",
+  },
+  savedPredictionRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 8,
+    paddingTop: 12,
+  },
+  savedPredictionLabel: {
+    color: "rgba(255,255,255,0.34)",
+    fontSize: 11,
+    fontWeight: "700",
+  },
+  savedPredictionValue: {
+    color: "rgba(255,255,255,0.58)",
+    fontSize: 12,
+    fontWeight: "800",
   },
   recallQuote: {
     color: "rgba(255,255,255,0.90)",
