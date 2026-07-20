@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-20 - Owner-only Learning Core V2 generalization pilot with three research-first topics
+
+- Changed: Added an isolated seven-step claim-boundary shell for walking and divergent thinking, interleaved math practice, and temptation bundling; added per-user and per-topic persistence, locked scored answers, retry recording, source links, and read-failure write gates; production course, XP, streak, analytics, and generated lesson data remain untouched
+- Verified: Three raw pilots passed independent content critique; TypeScript and 14 focused core tests pass; all three lessons completed on the dedicated Psycle Simulator, including one wrong-answer retry, next-lesson navigation, 3-of-3 persistence across Metro reload, and final reset to 0-of-3 for owner play; independent UI re-review found no remaining P1 or P2
+- Remaining: Owner taste judgment, 24-to-72-hour delayed unseen-scene transfer, static-article and legacy daily-first baselines, real-life action reuse, and any production promotion remain unmeasured
+
 ### 2026-07-18 - Harden the V2 quick lesson without adding friction
 
 - Changed: Persisted Q1 as an explicit diversity_prediction step so users can correct and resume it; made boundary and retrieval mistakes require a short feedback-and-retry loop before completion; ignored incompatible legacy free-text recall state; restored the distinction between one person's candidate width and team-wide diversity on the completion field test.
