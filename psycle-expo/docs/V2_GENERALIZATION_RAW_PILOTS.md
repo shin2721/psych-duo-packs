@@ -1,9 +1,11 @@
 # Psycle V2 Generalization Raw Pilots
 
-> Status: `accepted_raw_owner_pilot`
+> Status: `owner_pilot_in_revision`
 > この文書は owner-only debug 実験の原液である。production lesson、generated JSON、XP、streak、quest、course manifest、外部 analytics へは接続しない。
 
 Fresh critic gate (2026-07-20): `Select 3 / Revise 0 / Reject 0`。これは実装開始のcontent gateであり、学習効果や記事版への優位を証明しない。
+
+Owner taste gate (2026-07-21): Walking L1 v1 は `Reject`。研究境界の一つの区別を7画面で反復し、日常価値・学習利得・継続理由を作れなかった。L2 / L3 は未評価のまま変更しない。Walking L1 は下記の5画面候補を一度だけ試し、owner reviewで記事版を超えなければtopicごと棄却する。
 
 ## Summary
 
@@ -72,6 +74,150 @@ Fresh critic gate (2026-07-20): `Select 3 / Revise 0 / Reject 0`。これは実�
 7. `complete`: 10秒 field test と次 lesson の問いを確認
 
 各 lesson は同じ arc を使うが、学ぶ誤読は変える。topic 専用 UI が必要なら、共通 shell へ無理に入れず candidate を止める。
+
+---
+
+## Walking L1 v2 — Quick Life-Use Candidate
+
+### Summary
+
+- Status: `selected_pending_runtime`
+- Design role: Walking L1 v1 の一回限りの救済pilot
+- Lesson job: `歩行を候補生成の小実験として使う場面と、選定には使わない場面を選べる`
+- Done condition: `今の詰まりが案不足か選定かを分け、次の一手を1つ選べる`
+- Positive-value hypothesis: 短い研究記事に対し、事前予想、自分の詰まりの分類、未見場面の使い分け、回答別の次行動まで行えば、Psycleで操作する理由が生まれる。
+
+### Problem
+
+Walking L1 v1 は、`prediction -> evidence -> update -> boundary -> retrieval -> transfer -> action` で同じ `発散課題の改善 ≠ 実務の選定精度` を反復した。ownerは最初の設問を理解できず、レッスン全体にも楽しさ・学びを感じなかった。正確な研究監査を主役にした結果、Dラボ的な自分ごとと行動変化、Duolingo的な小さい成功が消えた。
+
+### Users / Context
+
+- Dラボ、パレオ、Duolingoを日常利用し、薄い要約や作業的なクイズに敏感なownerを最初のacceptance userとする。
+- 締切前に `案が出ない` と `案はあるが決められない` を混同しやすい場面で使う。
+- ownerの自己価値をgateとし、初心者一般の代理評価には使わない。
+
+### Non-Negotiables
+
+- 5画面: `prediction -> compact reveal -> self-classification -> one scored application -> completion`
+- 最初の選択まで10秒以内。必須自由入力、キーボード、長い研究表、研究監査の内部用語を置かない。
+- main flowには `発散課題は改善 / 選定効果は未確認 / 実務成果は未測定` を残す。
+- 対象・比較・時間・場面・詳細なcaveat・出典はcompletion後の任意展開にする。
+- 事前予想をrevealで再表示する。
+- self-classificationの回答でcompletion actionを変える。
+- scored applicationは1問だけにし、固有feedback後に再回答できる。
+- 歩行中の画面操作を促さない。安全な場所での短い自己実験として扱い、効果を保証しない。
+- 現行の見た目、L2 / L3、AI Day 1、production course、XP、streak、analytics、generated lesson dataを変えない。
+
+### Scope
+
+- Walking L1だけの5画面owner pilot
+- lesson固有のstep order、compact evidence、回答別completion、任意研究詳細
+- 既存の端末内保存、誤答retry、hub復帰
+
+### Out of Scope
+
+- L2 / L3の内容・画面数変更
+- production昇格、course manifest、XP、streak、quest、外部analytics
+- 歩行で創造性全般、良案の品質、最終選定精度が上がるという主張
+- lesson generator、監査ルール、generated JSONの変更
+
+### Pedagogical Goal / Evidence Boundary
+
+- Source fact: 4実験では、歩行中または直後に、物の使い道や比喩を複数生む発散課題の成績が上がった。
+- Source fact: 収束課題を測ったのは実験1だけで、歩行条件では改善せず座位条件より低かった。
+- Source fact: 長期成果と実務の最終選定精度は測っていない。
+- Project interpretation: 歩行を万能な創造性介入にせず、`候補を増やす工程` でだけ小さく試す。
+- Safety boundary: `歩くと選定が悪化する`、`座れば正しく決められる`、`3案なら質が上がる` と読ませない。
+
+### Exact Five-Screen Surface
+
+1. **Prediction — 最初の10秒**
+   - Title: `締切まで30分。企画案は1つだけ。5分歩くなら、いつ？`
+   - Body: `研究を見る前に、いまの直感で選ぶ。正解として採点しません。`
+   - Options:
+     - `候補を増やす前`
+     - `1案へ絞る前`
+     - `どちらにも`
+   - CTA: `結果を見る`
+
+2. **Compact reveal — 反転**
+   - Title: `助けたのは「増やす」側`
+   - Contrast:
+     - `候補を増やす` / `4実験で改善`
+     - `1つに絞る` / `効果は確認できていない`
+   - Body: `歩行中・直後は、物の使い道や比喩を複数出す課題が改善しました。実際の仕事で良い案を選べるかは測っていません。`
+   - Prediction readback: `あなたの予想: {selected_prediction}`
+   - CTA: `自分ならどう使う？`
+
+3. **Self-classification — 自分ごと**
+   - Title: `いま、どっちで止まってる？`
+   - Body: `頭にある仕事を1つ思い浮かべる。入力はしません。`
+   - Options:
+     - `案が出ない`
+     - `案はある。決められない`
+     - `今は特にない`
+   - CTA: `使い分ける`
+
+4. **One scored application — 小さい成功**
+   - Context: `明日の企画会議。案は1つしかない。最初の5分を使う。`
+   - Prompt: `どう進める？`
+   - Options / feedback:
+     - `歩いて候補を3つ増やし、その後に条件で絞る`
+       - Correct: `使い分けできた。歩行を試すのは、候補を増やすところまで。`
+     - `歩きながら候補出しと最終決定を済ませる`
+       - `最終決定まで良くなるとは、この研究からは言えません。`
+     - `歩いて最有力案を1つ選び、戻って理由を整える`
+       - `最有力案を選ぶ精度は測っていません。`
+   - CTA after correct: `明日の1回へ`
+
+5. **Completion — 回答別の次行動**
+   - Title: `歩いて広げる。決める工程は分ける。`
+   - If `案が出ない`: `次に詰まったら、安全な場所で5分だけ歩いて候補を3つ。その後に条件で選ぶ。`
+   - If `案はある。決められない`: `今ほしいのは選定。歩行を切り札にせず、判断条件を3つ書く。`
+   - If `今は特にない`: `次に案が1つしか出ない時だけ、安全な場所で5分歩いて候補を3つ。その後に選ぶ。`
+   - Disclaimer: `歩行の効果を保証する処方ではなく、自分では候補数だけを見る小さな実験です。歩きながら画面は操作しません。`
+   - Primary CTA: `この1回を持ち帰る`
+   - Optional CTA: `研究の詳細を見る`
+
+### Decision Rules
+
+Select for runtime only if:
+
+- exact-surface readbackが `歩行の万能化` ではなく `案不足と選定の使い分け` を回収する
+- static articleにないdecision-relevant valueとして、self-classificationと回答別actionが読める
+- main flowだけで重要なevidence boundaryが残る
+
+Reject the topic after this attempt if:
+
+- ownerが `記事を読んだ方が早い`、`もう1本やりたくない`、`明日使う理由がない` のいずれかを再度感じる
+- dominant readingが `歩けば創造性や案の質が上がる` または `歩くと決定が悪化する` になる
+- applicationが文字照合で解け、使い分けた感覚がない
+- self-classificationがcompletionを変えても価値を感じない
+- L1を救うために6画面以上、自由入力、topic専用の複雑UIが必要になる
+
+### Success Metrics
+
+- First interaction: 10秒以内
+- Owner playthrough target: 60〜90秒（設計仮説。acceptanceはownerの体感を優先）
+- Owner ratings: `記事よりPsycleでやる意味がある` と `もう1本やりたい` が各4 / 5以上
+- Immediate done condition: sourceを見ずに `歩行は候補生成で試す / 選定効果は未確認` を区別し、自分の次行動を言える
+- Delayed hypothesis: 24〜72時間後、未提示場面で `案不足 / 選定` を分けられる。今回のruntime実装だけでは未測定のまま残す
+
+### Test / Verification Plan
+
+1. exact-surface fresh readbackでaudience / promise / action / dominant misreadを確認する。
+2. definition / flow / storageのfocused testsで5-step L1と7-step L2 / L3を同時に検証する。
+3. TypeScriptを通す。
+4. 専用Psycle Simulatorでprediction、compact reveal、self-classification、誤答retry、回答別completion、研究詳細の開閉、hub復帰、Metro reload persistenceを通す。
+5. ownerが実プレイし、上記ratingsとreject conditionsで採否を決める。machine passはowner tasteを代替しない。
+
+### Assumptions / Rollback
+
+- ownerの自己価値を第一gateとする。
+- Walking topicに与える救済はこの1回だけ。再度不合格ならUIやルールを追加せずtopicごと削除する。
+- content versionを更新し、旧Walking L1途中状態は新しい初期画面へ安全に戻す。
+- runtime failure時はこのcandidate実装だけをrevertし、L2 / L3の現行7画面を保持する。
 
 ---
 
