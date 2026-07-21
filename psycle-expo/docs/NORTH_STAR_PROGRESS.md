@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-21 - Walking L1を生活での使い分けを主役にした5画面owner pilotへ再構成
+
+- Changed: 予想、compact reveal、自己分類、1問の適用、回答別actionへ短縮。研究詳細は完了後の任意展開に移し、Walkingだけcontent versionを更新。L2/L3は7画面と既存保存版を維持。
+- Verified: TypeScript、focused Jest 16件、独立コードレビュー、Psycle専用Simulatorで誤答retry、正答、回答別完了、研究詳細、reload persistence、L2 1/7、L1 resetを確認。
+- Remaining: ownerがL1を実プレイし、記事よりPsycleでやる意味、学び、もう1本やりたいかを判定する。24〜72時間後の未見場面transferは未測定。
+
 ### 2026-07-20 - Owner-only Learning Core V2 generalization pilot with three research-first topics
 
 - Changed: Added an isolated seven-step claim-boundary shell for walking and divergent thinking, interleaved math practice, and temptation bundling; added per-user and per-topic persistence, locked scored answers, retry recording, source links, and read-failure write gates; production course, XP, streak, analytics, and generated lesson data remain untouched
