@@ -7,6 +7,8 @@ Fresh critic gate (2026-07-20): `Select 3 / Revise 0 / Reject 0`。これは実�
 
 Owner taste gate (2026-07-21): Walking L1 v1 は `Reject`。研究境界の一つの区別を7画面で反復し、日常価値・学習利得・継続理由を作れなかった。L2 / L3 は未評価のまま変更しない。Walking L1 は下記の5画面候補を一度だけ試し、owner reviewで記事版を超えなければtopicごと棄却する。
 
+Owner comprehension gate (2026-07-21 19:09): Walking L1 v2 の1画面目は `Reject`。`5分歩くなら、いつ？` と `〜の前` が、歩行の効き方ではなく時間割を解読する問題に見え、意図が伝わらなかった。5画面の仮説は維持し、最初の問いだけを `案を増やす / 1案を選ぶ` の直接比較へ修正して再試遊する。
+
 ## Summary
 
 - Experiment: **同じ研究判断 skill を、AI 以外の3領域でも再利用できるか**
@@ -77,11 +79,11 @@ Owner taste gate (2026-07-21): Walking L1 v1 は `Reject`。研究境界の一�
 
 ---
 
-## Walking L1 v2 — Quick Life-Use Candidate
+## Walking L1 v2.1 — Clear Prediction Revision
 
 ### Summary
 
-- Status: `selected_pending_runtime`
+- Status: `selected_pending_owner_replay`
 - Design role: Walking L1 v1 の一回限りの救済pilot
 - Lesson job: `歩行を候補生成の小実験として使う場面と、選定には使わない場面を選べる`
 - Done condition: `今の詰まりが案不足か選定かを分け、次の一手を1つ選べる`
@@ -133,12 +135,13 @@ Walking L1 v1 は、`prediction -> evidence -> update -> boundary -> retrieval -
 ### Exact Five-Screen Surface
 
 1. **Prediction — 最初の10秒**
-   - Title: `締切まで30分。企画案は1つだけ。5分歩くなら、いつ？`
-   - Body: `研究を見る前に、いまの直感で選ぶ。正解として採点しません。`
+   - Title: `歩くと助かるのは、どっち？`
+   - Body: `5分歩いた直後を想像する。研究を見る前の予想なので、採点しません。`
+   - Scene: `会議まで30分。今ある企画案は1つ。これから案を増やし、最後に1案を選ぶ。`
    - Options:
-     - `候補を増やす前`
-     - `1案へ絞る前`
-     - `どちらにも`
+     - `案を増やすとき`
+     - `1案を選ぶとき`
+     - `両方とも`
    - CTA: `結果を見る`
 
 2. **Compact reveal — 反転**
