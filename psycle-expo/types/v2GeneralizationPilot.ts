@@ -4,7 +4,7 @@ export const V2_GENERALIZATION_CONTENT_VERSION =
   "accepted-raw-2026-07-20-v1" as const;
 
 export const V2_WALKING_CONTENT_VERSION =
-  "walking-life-use-2026-07-21-v2" as const;
+  "walking-life-use-2026-07-21-v3" as const;
 
 export const V2_GENERALIZATION_CONTENT_VERSIONS = [
   V2_GENERALIZATION_CONTENT_VERSION,

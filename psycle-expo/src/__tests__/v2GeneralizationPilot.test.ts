@@ -105,6 +105,23 @@ describe("V2 generalization lesson registry", () => {
     expect(requireLesson("walking-divergence-v1").contentVersion).toBe(
       V2_WALKING_CONTENT_VERSION
     );
+    const walkingPrediction = getV2GeneralizationStep(
+      requireLesson("walking-divergence-v1"),
+      "prediction"
+    );
+    if (walkingPrediction.kind !== "capture") {
+      throw new Error("Walking prediction must be a capture step");
+    }
+    expect(walkingPrediction).toMatchObject({
+      prompt: "歩くと助かるのは、どっち？",
+      scene:
+        "会議まで30分。今ある企画案は1つ。これから案を増やし、最後に1案を選ぶ。",
+      options: [
+        { id: "walking-prediction-expand", label: "案を増やすとき" },
+        { id: "walking-prediction-narrow", label: "1案を選ぶとき" },
+        { id: "walking-prediction-both", label: "両方とも" },
+      ],
+    });
     [
       requireLesson("interleaving-boundary-v1"),
       requireLesson("temptation-bundling-v1"),

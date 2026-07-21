@@ -9,7 +9,7 @@ const walkingDivergenceLesson = {
   id: "walking-divergence-v1",
   contentVersion: V2_WALKING_CONTENT_VERSION,
   sharedSkillId: "claim_boundary_transfer_v1",
-  title: "歩くなら、いつ使う？",
+  title: "歩くと助かるのは、どっち？",
   subtitle: "歩いて広げる · 決める工程は分ける",
   rawInsight: "歩いて広げる。決める工程は分ける。",
   stepOrder: ["prediction", "evidence", "update", "transfer", "complete"],
@@ -25,13 +25,13 @@ const walkingDivergenceLesson = {
       kind: "capture",
       eyebrow: "PREDICTION · 先に直感",
       helperText:
-        "研究を見る前に、いまの直感で選ぶ。正解として採点しません。",
-      scene: "締切まで30分。企画案は1つだけ。候補を増やす時間と、1案へ絞る時間がある。",
-      prompt: "5分歩くなら、いつ？",
+        "5分歩いた直後を想像する。研究を見る前の予想なので、採点しません。",
+      scene: "会議まで30分。今ある企画案は1つ。これから案を増やし、最後に1案を選ぶ。",
+      prompt: "歩くと助かるのは、どっち？",
       options: [
-        { id: "walking-prediction-expand", label: "候補を増やす前" },
-        { id: "walking-prediction-narrow", label: "1案へ絞る前" },
-        { id: "walking-prediction-both", label: "どちらにも" },
+        { id: "walking-prediction-expand", label: "案を増やすとき" },
+        { id: "walking-prediction-narrow", label: "1案を選ぶとき" },
+        { id: "walking-prediction-both", label: "両方とも" },
       ],
     },
     {
