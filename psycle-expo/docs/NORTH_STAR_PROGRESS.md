@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-21 - Walking L1の最初の設問を時間割問題から直接比較へ修正
+
+- Changed: ownerが意味を理解できなかった「5分歩くなら、いつ？」と「〜の前」を廃止し、「歩くと助かるのは、どっち？」と「案を増やすとき / 1案を選ぶとき / 両方とも」へ変更。Walkingだけcontent version v3へ更新。
+- Verified: TypeScript、focused Jest 16件、Psycle専用Simulatorで1/5への安全なリセット、全文・3選択肢の表示、portraitでの非クリップを確認。L2/L3のcontent versionは変更なし。
+- Remaining: ownerが修正版を再試遊し、問いが説明なしで理解できるか、記事より価値があるか、もう1本やりたいかを判定する。
+
 ### 2026-07-21 - Walking L1を生活での使い分けを主役にした5画面owner pilotへ再構成
 
 - Changed: 予想、compact reveal、自己分類、1問の適用、回答別actionへ短縮。研究詳細は完了後の任意展開に移し、Walkingだけcontent versionを更新。L2/L3は7画面と既存保存版を維持。
