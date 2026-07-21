@@ -32,7 +32,6 @@ import {
   saveV2GeneralizationSnapshot,
 } from "../../lib/v2-pilot/generalization/storage";
 import {
-  V2_GENERALIZATION_STEP_IDS,
   type V2GeneralizationEvidenceFrame,
   type V2GeneralizationLessonDefinition,
   type V2GeneralizationLessonId,
@@ -236,11 +235,72 @@ function ScoredOptions({
 
 function EvidenceStep({
   lesson,
+  snapshot,
   step,
 }: {
   lesson: V2GeneralizationLessonDefinition;
+  snapshot: V2GeneralizationSnapshot;
   step: Extract<V2GeneralizationStepDefinition, { kind: "evidence" }>;
 }) {
+  const predictionStep = lesson.steps.find(
+    (candidate) => candidate.id === "prediction" && candidate.kind === "capture"
+  );
+  const predictionLabel =
+    predictionStep?.kind === "capture"
+      ? predictionStep.options.find(
+          (option) => option.id === snapshot.answers.prediction
+        )?.label ?? null
+      : null;
+
+  if (step.presentation === "compact") {
+    return (
+      <View testID="v2g-step-evidence">
+        <Intro
+          body={step.result}
+          eyebrow="REVEAL · 研究で分かったこと"
+          title={step.headline}
+        />
+        <Surface tone="purple" style={styles.compactEvidenceCard}>
+          {step.contrast?.map((item, index) => (
+            <View key={item.label} style={styles.contrastRow}>
+              <View
+                style={[
+                  styles.contrastIcon,
+                  index === 0
+                    ? styles.contrastIconSupported
+                    : styles.contrastIconUnknown,
+                ]}
+              >
+                <Ionicons
+                  color={index === 0 ? SUCCESS : PURPLE}
+                  name={index === 0 ? "sparkles" : "help"}
+                  size={17}
+                />
+              </View>
+              <Text style={styles.contrastLabel}>{item.label}</Text>
+              <Text
+                style={[
+                  styles.contrastValue,
+                  index === 0 && styles.contrastValueSupported,
+                ]}
+              >
+                {item.value}
+              </Text>
+            </View>
+          ))}
+        </Surface>
+        {predictionLabel ? (
+          <View style={styles.predictionReadback}>
+            <Ionicons color={ACCENT} name="bookmark-outline" size={17} />
+            <Text style={styles.predictionReadbackText}>
+              あなたの予想: <Text style={styles.predictionReadbackValue}>{predictionLabel}</Text>
+            </Text>
+          </View>
+        ) : null}
+      </View>
+    );
+  }
+
   return (
     <View testID="v2g-step-evidence">
       <Intro
@@ -302,8 +362,10 @@ function ScoredStep({
   return (
     <View testID={`v2g-step-${step.id}`}>
       <Intro
-        eyebrow={`${STEP_LABELS[step.id]} · ${STEP_EYEBROWS[step.id]}`}
-        title={titles[step.id]}
+        eyebrow={
+          step.eyebrow ?? `${STEP_LABELS[step.id]} · ${STEP_EYEBROWS[step.id]}`
+        }
+        title={step.title ?? titles[step.id]}
       />
 
       {step.sourceClaim ? (
@@ -315,7 +377,9 @@ function ScoredStep({
 
       {step.context ? (
         <Surface style={styles.claimCard}>
-          <Text style={styles.claimLabel}>初見の研究カード</Text>
+          <Text style={styles.claimLabel}>
+            {step.contextLabel ?? "初見の研究カード"}
+          </Text>
           <Text style={styles.claimSource}>{step.context}</Text>
         </Surface>
       ) : null}
@@ -340,11 +404,26 @@ function ScoredStep({
 
 function CompletionStep({
   lesson,
+  snapshot,
   step,
 }: {
   lesson: V2GeneralizationLessonDefinition;
+  snapshot: V2GeneralizationSnapshot;
   step: Extract<V2GeneralizationStepDefinition, { kind: "complete" }>;
 }) {
+  const [showEvidenceDetails, setShowEvidenceDetails] = useState(false);
+  const evidenceStep = lesson.steps.find(
+    (
+      candidate
+    ): candidate is Extract<V2GeneralizationStepDefinition, { kind: "evidence" }> =>
+      candidate.kind === "evidence"
+  );
+  const selectedContextOptionId = snapshot.answers.update;
+  const action =
+    (selectedContextOptionId
+      ? step.actionByOptionId?.[selectedContextOptionId]
+      : null) ?? step.action;
+
   return (
     <View testID="v2g-step-complete">
       <Intro
@@ -363,12 +442,79 @@ function CompletionStep({
       </Surface>
       <Surface tone="accent">
         <Text style={styles.actionLabel}>10秒でやる</Text>
-        <Text style={styles.actionText}>{step.action}</Text>
+        <Text style={styles.actionText}>{action}</Text>
       </Surface>
       {step.optionalSelfObservation ? (
         <View style={styles.optionalRow}>
           <Ionicons color={PURPLE} name="eye-outline" size={18} />
           <Text style={styles.optionalText}>{step.optionalSelfObservation}</Text>
+        </View>
+      ) : null}
+      {evidenceStep?.presentation === "compact" ? (
+        <View style={styles.evidenceDisclosure}>
+          <Pressable
+            accessibilityLabel={
+              showEvidenceDetails ? "研究の詳細を閉じる" : "研究の詳細を見る"
+            }
+            accessibilityRole="button"
+            accessibilityState={{ expanded: showEvidenceDetails }}
+            onPress={() => setShowEvidenceDetails((current) => !current)}
+            style={({ pressed }) => [
+              styles.evidenceDisclosureButton,
+              pressed && styles.pressed,
+            ]}
+            testID="v2g-evidence-details-toggle"
+          >
+            <Ionicons color={PURPLE} name="document-text-outline" size={18} />
+            <Text style={styles.evidenceDisclosureLabel}>
+              {showEvidenceDetails ? "研究の詳細を閉じる" : "研究の詳細を見る"}
+            </Text>
+            <Ionicons
+              color="rgba(255,255,255,0.42)"
+              name={showEvidenceDetails ? "chevron-up" : "chevron-down"}
+              size={17}
+            />
+          </Pressable>
+          {showEvidenceDetails ? (
+            <Surface tone="purple" style={styles.evidenceDetailCard}>
+              {FRAME_ROWS.map((row) => (
+                <View key={row.key} style={styles.frameRow}>
+                  <Text style={styles.frameLabel}>{row.label}</Text>
+                  <Text style={styles.frameValue}>{evidenceStep.frame[row.key]}</Text>
+                </View>
+              ))}
+              <View style={styles.caveatDivider} />
+              <View style={styles.caveatRow}>
+                <Ionicons
+                  color={PURPLE}
+                  name="information-circle-outline"
+                  size={18}
+                />
+                <Text style={styles.caveatText}>{evidenceStep.caveat}</Text>
+              </View>
+              <View style={styles.sourceList}>
+                {lesson.sources.map((source) => (
+                  <Pressable
+                    accessibilityHint="出典をブラウザで開きます"
+                    accessibilityLabel={`出典 ${source.label}`}
+                    accessibilityRole="link"
+                    key={source.url}
+                    onPress={() => {
+                      void Linking.openURL(source.url).catch(() => undefined);
+                    }}
+                    style={styles.sourceLink}
+                  >
+                    <Ionicons
+                      color="rgba(255,255,255,0.38)"
+                      name="open-outline"
+                      size={14}
+                    />
+                    <Text style={styles.sourceLabel}>{source.label}</Text>
+                  </Pressable>
+                ))}
+              </View>
+            </Surface>
+          ) : null}
         </View>
       ) : null}
       <Text style={styles.disclaimer}>{step.disclaimer}</Text>
@@ -399,11 +545,14 @@ function StepContent({
       <View testID={`v2g-step-${step.id}`}>
         <Intro
           body={
-            isPrediction
+            step.helperText ??
+            (isPrediction
               ? "説明を見る前に1タップ。正解ではなく、最初の自分を残す。"
-              : "最初の予想と研究の射程を比べて、今の見立てを残す。"
+              : "最初の予想と研究の射程を比べて、今の見立てを残す。")
           }
-          eyebrow={`${STEP_LABELS[step.id]} · ${STEP_EYEBROWS[step.id]}`}
+          eyebrow={
+            step.eyebrow ?? `${STEP_LABELS[step.id]} · ${STEP_EYEBROWS[step.id]}`
+          }
           title={step.prompt}
         />
         {step.scene ? (
@@ -423,7 +572,7 @@ function StepContent({
   }
 
   if (step.kind === "evidence") {
-    return <EvidenceStep lesson={lesson} step={step} />;
+    return <EvidenceStep lesson={lesson} snapshot={snapshot} step={step} />;
   }
 
   if (step.kind === "scored") {
@@ -437,17 +586,20 @@ function StepContent({
     );
   }
 
-  return <CompletionStep lesson={lesson} step={step} />;
+  return <CompletionStep lesson={lesson} snapshot={snapshot} step={step} />;
 }
 
-function getHubStatus(snapshot: V2GeneralizationSnapshot): string {
+function getHubStatus(
+  snapshot: V2GeneralizationSnapshot,
+  lesson: V2GeneralizationLessonDefinition
+): string {
   if (snapshot.currentStep === "complete" || snapshot.completedAt) return "完了";
   const pristine =
-    snapshot.currentStep === "prediction" &&
+    snapshot.currentStep === lesson.stepOrder[0] &&
     Object.values(snapshot.answers).every((answer) => answer === null);
   if (pristine) return "未開始";
-  const index = V2_GENERALIZATION_STEP_IDS.indexOf(snapshot.currentStep);
-  return `${Math.max(1, index + 1)} / ${V2_GENERALIZATION_STEP_IDS.length}`;
+  const index = lesson.stepOrder.indexOf(snapshot.currentStep);
+  return `${Math.max(1, index + 1)} / ${lesson.stepOrder.length}`;
 }
 
 function GeneralizationHub({
@@ -491,10 +643,10 @@ function GeneralizationHub({
         style={styles.scroll}
       >
         <View style={styles.hubIntro}>
-          <Text style={styles.eyebrow}>3 TOPICS · 1 SHARED SKILL</Text>
-          <Text style={styles.hubTitle}>研究の「中」と「外」を、別の話でも切れるか</Text>
+          <Text style={styles.eyebrow}>3 TOPICS · 1 QUESTION</Text>
+          <Text style={styles.hubTitle}>研究を、明日の判断に変えられるか</Text>
           <Text style={styles.hubBody}>
-            対象・比較・結果・時間・場面を残し、言いすぎを初見で見抜く。3つとも同じ7ステップで試す。
+            研究の射程を守りながら、生活で使える判断まで短いレッスンで試す。
           </Text>
         </View>
 
@@ -505,7 +657,7 @@ function GeneralizationHub({
           </View>
           <View style={styles.skillPill}>
             <Ionicons color={ACCENT} name="scan-outline" size={16} />
-            <Text style={styles.skillPillText}>境界 → 転用</Text>
+            <Text style={styles.skillPillText}>理解 → 使う</Text>
           </View>
         </View>
 
@@ -522,13 +674,15 @@ function GeneralizationHub({
             if (!snapshot) return null;
             const readFailed = readFailedLessonIds.has(lesson.id);
             const complete = Boolean(snapshot.completedAt);
-            const status = readFailed ? "再読込" : getHubStatus(snapshot);
+            const status = readFailed
+              ? "再読込"
+              : getHubStatus(snapshot, lesson);
             return (
               <Pressable
                 accessibilityHint={
                   readFailed
                     ? "保存済み進捗を再読み込みしてから開きます"
-                    : "7ステップのレッスンを開きます"
+                    : `${lesson.stepOrder.length}ステップのレッスンを開きます`
                 }
                 accessibilityLabel={`${lesson.title}、${status}`}
                 accessibilityRole="button"
@@ -860,21 +1014,42 @@ export default function V2GeneralizationScreen() {
     step.kind === "evidence" ||
     step.kind === "complete" ||
     Boolean(selectedOptionId);
-  const stepIndex = V2_GENERALIZATION_STEP_IDS.indexOf(snapshot.currentStep);
+  const stepOrder = lesson.stepOrder as readonly V2GeneralizationStepId[];
+  const stepIndex = stepOrder.indexOf(snapshot.currentStep);
   const stepNumber = stepIndex + 1;
-  const progress = stepNumber / V2_GENERALIZATION_STEP_IDS.length;
+  const progress = stepNumber / stepOrder.length;
   const lessonIndex = V2_GENERALIZATION_LESSONS.findIndex(
     (candidate) => candidate.id === lesson.id
   );
   const hasNextLesson = lessonIndex < V2_GENERALIZATION_LESSONS.length - 1;
-  const primaryLabel =
-    step.kind === "complete"
-      ? hasNextLesson
-        ? "次のレッスン"
-        : "3つの結果を見る"
-      : selectedIsCorrect === false
-        ? "もう一度"
+  const isQuickWalkingLesson = lesson.id === "walking-divergence-v1";
+  const quickWalkingLabel =
+    step.id === "prediction"
+      ? "結果を見る"
+      : step.id === "evidence"
+        ? "自分ならどう使う？"
+        : step.id === "update"
+          ? "使い分ける"
+          : step.id === "transfer"
+            ? "明日の1回へ"
+            : hasNextLesson
+              ? "持ち帰って次へ"
+              : "結果を見る";
+  const primaryLabel = selectedIsCorrect === false
+    ? "もう一度"
+    : isQuickWalkingLesson
+      ? quickWalkingLabel
+      : step.kind === "complete"
+        ? hasNextLesson
+          ? "次のレッスン"
+          : "3つの結果を見る"
         : "次へ";
+  const feedbackTitle =
+    step.kind === "scored"
+      ? selectedIsCorrect
+        ? step.correctFeedbackTitle ?? "境界内"
+        : step.incorrectFeedbackTitle ?? "まだ越境している"
+      : "";
 
   return (
     <SafeAreaView
@@ -905,14 +1080,14 @@ export default function V2GeneralizationScreen() {
               {lesson.title}
             </Text>
             <Text style={styles.headerStep}>
-              {stepNumber} / {V2_GENERALIZATION_STEP_IDS.length}
+              {stepNumber} / {stepOrder.length}
             </Text>
           </View>
           <View
-            accessibilityLabel={`レッスン進捗 ${stepNumber} / ${V2_GENERALIZATION_STEP_IDS.length}`}
+            accessibilityLabel={`レッスン進捗 ${stepNumber} / ${stepOrder.length}`}
             accessibilityRole="progressbar"
             accessibilityValue={{
-              max: V2_GENERALIZATION_STEP_IDS.length,
+              max: stepOrder.length,
               min: 0,
               now: stepNumber,
             }}
@@ -969,7 +1144,7 @@ export default function V2GeneralizationScreen() {
                   { color: selectedIsCorrect ? SUCCESS : ERROR },
                 ]}
               >
-                {selectedIsCorrect ? "境界内" : "まだ越境している"}
+                {feedbackTitle}
               </Text>
               <Text style={styles.feedbackText}>{selectedScoredOption.feedback}</Text>
             </View>
@@ -1431,6 +1606,71 @@ const styles = StyleSheet.create({
     paddingVertical: 11,
     gap: 0,
   },
+  compactEvidenceCard: {
+    paddingVertical: 8,
+    gap: 0,
+  },
+  contrastRow: {
+    minHeight: 58,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 10,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "rgba(255,255,255,0.08)",
+  },
+  contrastIcon: {
+    width: 32,
+    height: 32,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 16,
+  },
+  contrastIconSupported: {
+    backgroundColor: "rgba(52,211,153,0.13)",
+  },
+  contrastIconUnknown: {
+    backgroundColor: "rgba(167,139,250,0.13)",
+  },
+  contrastLabel: {
+    flex: 1,
+    color: "rgba(255,255,255,0.78)",
+    fontSize: 14,
+    lineHeight: 20,
+    fontWeight: "800",
+  },
+  contrastValue: {
+    maxWidth: "48%",
+    color: PURPLE,
+    fontSize: 12,
+    lineHeight: 17,
+    fontWeight: "900",
+    textAlign: "right",
+  },
+  contrastValueSupported: {
+    color: SUCCESS,
+  },
+  predictionReadback: {
+    minHeight: 46,
+    paddingHorizontal: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    borderRadius: 13,
+    borderWidth: 1,
+    borderColor: "rgba(236,72,153,0.22)",
+    backgroundColor: "rgba(236,72,153,0.09)",
+  },
+  predictionReadbackText: {
+    flex: 1,
+    color: "rgba(255,255,255,0.56)",
+    fontSize: 12,
+    lineHeight: 17,
+    fontWeight: "700",
+  },
+  predictionReadbackValue: {
+    color: "rgba(255,255,255,0.90)",
+    fontWeight: "900",
+  },
   frameRow: {
     paddingVertical: 7,
     flexDirection: "row",
@@ -1543,6 +1783,33 @@ const styles = StyleSheet.create({
     fontSize: 11,
     lineHeight: 16,
     fontWeight: "500",
+  },
+  evidenceDisclosure: {
+    marginTop: 2,
+  },
+  evidenceDisclosureButton: {
+    minHeight: 48,
+    paddingHorizontal: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    borderRadius: 13,
+    borderWidth: 1,
+    borderColor: "rgba(167,139,250,0.20)",
+    backgroundColor: "rgba(80,61,145,0.11)",
+  },
+  evidenceDisclosureLabel: {
+    flex: 1,
+    color: "rgba(255,255,255,0.66)",
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: "800",
+  },
+  evidenceDetailCard: {
+    marginTop: 8,
+    marginBottom: 0,
+    paddingVertical: 10,
+    gap: 0,
   },
   nextQuestionRow: {
     marginTop: 12,

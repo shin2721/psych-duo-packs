@@ -3,6 +3,17 @@ export const V2_GENERALIZATION_SCHEMA_VERSION = 1 as const;
 export const V2_GENERALIZATION_CONTENT_VERSION =
   "accepted-raw-2026-07-20-v1" as const;
 
+export const V2_WALKING_CONTENT_VERSION =
+  "walking-life-use-2026-07-21-v2" as const;
+
+export const V2_GENERALIZATION_CONTENT_VERSIONS = [
+  V2_GENERALIZATION_CONTENT_VERSION,
+  V2_WALKING_CONTENT_VERSION,
+] as const;
+
+export type V2GeneralizationContentVersion =
+  (typeof V2_GENERALIZATION_CONTENT_VERSIONS)[number];
+
 export const V2_GENERALIZATION_LESSON_IDS = [
   "walking-divergence-v1",
   "interleaving-boundary-v1",
@@ -59,6 +70,8 @@ export interface V2GeneralizationScoredOption
 export interface V2GeneralizationCaptureStepDefinition {
   id: V2GeneralizationCaptureStepId;
   kind: "capture";
+  eyebrow?: string;
+  helperText?: string;
   scene?: string;
   prompt: string;
   options: readonly V2GeneralizationChoiceOption[];
@@ -75,6 +88,8 @@ export interface V2GeneralizationEvidenceFrame {
 export interface V2GeneralizationEvidenceStepDefinition {
   id: "evidence";
   kind: "evidence";
+  presentation?: "full" | "compact";
+  contrast?: readonly { label: string; value: string }[];
   headline: string;
   result: string;
   caveat: string;
@@ -84,6 +99,11 @@ export interface V2GeneralizationEvidenceStepDefinition {
 export interface V2GeneralizationScoredStepDefinition {
   id: V2GeneralizationScoredStepId;
   kind: "scored";
+  title?: string;
+  eyebrow?: string;
+  contextLabel?: string;
+  correctFeedbackTitle?: string;
+  incorrectFeedbackTitle?: string;
   context?: string;
   sourceClaim?: string;
   headline?: string;
@@ -96,6 +116,7 @@ export interface V2GeneralizationCompleteStepDefinition {
   id: "complete";
   kind: "complete";
   action: string;
+  actionByOptionId?: Readonly<Record<string, string>>;
   optionalSelfObservation?: string;
   disclaimer: string;
   nextQuestion: string;
@@ -114,11 +135,12 @@ export interface V2GeneralizationSourceLink {
 
 export interface V2GeneralizationLessonDefinition {
   id: V2GeneralizationLessonId;
-  contentVersion: typeof V2_GENERALIZATION_CONTENT_VERSION;
+  contentVersion: V2GeneralizationContentVersion;
   sharedSkillId: "claim_boundary_transfer_v1";
   title: string;
   subtitle: string;
   rawInsight: string;
+  stepOrder: readonly V2GeneralizationStepId[];
   sources: readonly V2GeneralizationSourceLink[];
   steps: readonly V2GeneralizationStepDefinition[];
 }
@@ -147,7 +169,7 @@ export type V2GeneralizationScoredProgressByStep = Record<
 
 export interface V2GeneralizationSnapshot {
   schemaVersion: typeof V2_GENERALIZATION_SCHEMA_VERSION;
-  contentVersion: typeof V2_GENERALIZATION_CONTENT_VERSION;
+  contentVersion: V2GeneralizationContentVersion;
   lessonId: V2GeneralizationLessonId;
   currentStep: V2GeneralizationStepId;
   answers: V2GeneralizationAnswers;

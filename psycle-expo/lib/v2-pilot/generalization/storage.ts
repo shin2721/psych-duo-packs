@@ -1,7 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   V2_GENERALIZATION_CAPTURE_STEP_IDS,
-  V2_GENERALIZATION_CONTENT_VERSION,
   V2_GENERALIZATION_SCHEMA_VERSION,
   V2_GENERALIZATION_SCORED_STEP_IDS,
   V2_GENERALIZATION_STEP_IDS,
@@ -30,6 +29,13 @@ const INTERACTIVE_STEP_IDS: readonly V2GeneralizationInteractiveStepId[] = [
   ...V2_GENERALIZATION_CAPTURE_STEP_IDS,
   ...V2_GENERALIZATION_SCORED_STEP_IDS,
 ];
+const SCORED_STEP_IDS = new Set<string>(V2_GENERALIZATION_SCORED_STEP_IDS);
+
+function isScoredStepId(
+  stepId: V2GeneralizationInteractiveStepId
+): stepId is V2GeneralizationScoredStepId {
+  return SCORED_STEP_IDS.has(stepId);
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === "object" && value !== null && !Array.isArray(value);
@@ -51,8 +57,10 @@ function optionExists(
   stepId: V2GeneralizationInteractiveStepId,
   optionId: string
 ): boolean {
-  const step = getV2GeneralizationStep(lesson, stepId);
-  if (step.kind !== "capture" && step.kind !== "scored") return false;
+  const step = lesson.steps.find((candidate) => candidate.id === stepId);
+  if (!step || (step.kind !== "capture" && step.kind !== "scored")) {
+    return false;
+  }
   return step.options.some((option) => option.id === optionId);
 }
 
@@ -61,8 +69,10 @@ function optionIsCorrect(
   stepId: V2GeneralizationScoredStepId,
   optionId: string
 ): boolean {
-  const step = getV2GeneralizationStep(lesson, stepId);
-  return step.kind === "scored" && step.correctOptionId === optionId;
+  const step = lesson.steps.find((candidate) => candidate.id === stepId);
+  return Boolean(
+    step && step.kind === "scored" && step.correctOptionId === optionId
+  );
 }
 
 function normalizeAnswers(
@@ -213,76 +223,63 @@ function hasValidStepProgression(
   scored: V2GeneralizationScoredProgressByStep,
   lesson: V2GeneralizationLessonDefinition
 ): boolean {
-  const predictionDone = answers.prediction !== null;
-  const updateDone = answers.update !== null;
-  const boundaryEmpty = isScoredStepEmpty(answers, scored, "boundary");
-  const retrievalEmpty = isScoredStepEmpty(answers, scored, "retrieval");
-  const transferEmpty = isScoredStepEmpty(answers, scored, "transfer");
-  const boundaryDone = isScoredStepComplete(
-    answers,
-    scored,
-    lesson,
-    "boundary"
-  );
-  const retrievalDone = isScoredStepComplete(
-    answers,
-    scored,
-    lesson,
-    "retrieval"
-  );
-  const transferDone = isScoredStepComplete(
-    answers,
-    scored,
-    lesson,
-    "transfer"
-  );
+  const currentIndex = lesson.stepOrder.indexOf(currentStep);
+  if (currentIndex < 0) return false;
 
-  switch (currentStep) {
-    case "prediction":
-      return answers.update === null && boundaryEmpty && retrievalEmpty && transferEmpty;
-    case "evidence":
-      return predictionDone && answers.update === null && boundaryEmpty && retrievalEmpty && transferEmpty;
-    case "update":
-      return predictionDone && boundaryEmpty && retrievalEmpty && transferEmpty;
-    case "boundary":
-      return (
-        predictionDone &&
-        updateDone &&
-        isCurrentScoredStepValid(answers, scored, "boundary") &&
-        retrievalEmpty &&
-        transferEmpty
-      );
-    case "retrieval":
-      return (
-        predictionDone &&
-        updateDone &&
-        boundaryDone &&
-        isCurrentScoredStepValid(answers, scored, "retrieval") &&
-        transferEmpty
-      );
-    case "transfer":
-      return (
-        predictionDone &&
-        updateDone &&
-        boundaryDone &&
-        retrievalDone &&
-        isCurrentScoredStepValid(answers, scored, "transfer")
-      );
-    case "complete":
-      return (
-        predictionDone &&
-        updateDone &&
-        boundaryDone &&
-        retrievalDone &&
-        transferDone
-      );
+  const lessonStepIds = new Set<V2GeneralizationStepId>(lesson.stepOrder);
+  for (const stepId of INTERACTIVE_STEP_IDS) {
+    if (lessonStepIds.has(stepId)) continue;
+    if (isScoredStepId(stepId)) {
+      if (!isScoredStepEmpty(answers, scored, stepId)) {
+        return false;
+      }
+    } else if (answers[stepId] !== null) {
+      return false;
+    }
   }
+
+  for (let index = 0; index < lesson.stepOrder.length; index += 1) {
+    const stepId = lesson.stepOrder[index];
+    const step = getV2GeneralizationStep(lesson, stepId);
+
+    if (index < currentIndex) {
+      if (step.kind === "capture" && answers[step.id] === null) return false;
+      if (
+        step.kind === "scored" &&
+        !isScoredStepComplete(answers, scored, lesson, step.id)
+      ) {
+        return false;
+      }
+      if (step.kind === "complete") return false;
+      continue;
+    }
+
+    if (index === currentIndex) {
+      if (
+        step.kind === "scored" &&
+        !isCurrentScoredStepValid(answers, scored, step.id)
+      ) {
+        return false;
+      }
+      continue;
+    }
+
+    if (step.kind === "capture" && answers[step.id] !== null) return false;
+    if (
+      step.kind === "scored" &&
+      !isScoredStepEmpty(answers, scored, step.id)
+    ) {
+      return false;
+    }
+  }
+
+  return true;
 }
 
 export function getV2GeneralizationStorageKey(
   lessonId: V2GeneralizationLessonId,
-  userId?: string | null,
-  contentVersion: string = V2_GENERALIZATION_CONTENT_VERSION
+  userId: string | null | undefined,
+  contentVersion: string
 ): string {
   const keyParts = [
     V2_GENERALIZATION_STORAGE_KEY_PREFIX,
@@ -313,7 +310,13 @@ export function normalizeV2GeneralizationSnapshot(
   if (value.lessonId !== lesson.id) return initial;
 
   const rawStep = value.currentStep;
-  if (typeof rawStep !== "string" || !STEP_IDS.has(rawStep)) return initial;
+  if (
+    typeof rawStep !== "string" ||
+    !STEP_IDS.has(rawStep) ||
+    !lesson.stepOrder.includes(rawStep as V2GeneralizationStepId)
+  ) {
+    return initial;
+  }
   const currentStep = rawStep as V2GeneralizationStepId;
   const answers = normalizeAnswers(value.answers, lesson);
   const scored = normalizeScored(value.scored, lesson);
@@ -328,15 +331,6 @@ export function normalizeV2GeneralizationSnapshot(
   const storedCompletedAt = normalizeIsoTimestamp(value.completedAt);
   if (currentStep === "complete") {
     if (!storedCompletedAt) return initial;
-    const transferAnswer = answers.transfer;
-    if (
-      !transferAnswer ||
-      !optionIsCorrect(lesson, "transfer", transferAnswer) ||
-      scored.transfer.attempts.length === 0 ||
-      scored.transfer.attempts[scored.transfer.attempts.length - 1]?.correct !== true
-    ) {
-      return initial;
-    }
   } else if (value.completedAt !== null) {
     return initial;
   }

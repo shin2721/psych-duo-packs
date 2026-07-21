@@ -1,17 +1,18 @@
 import {
   V2_GENERALIZATION_CONTENT_VERSION,
+  V2_WALKING_CONTENT_VERSION,
   type V2GeneralizationLessonDefinition,
   type V2GeneralizationLessonId,
 } from "../../../types/v2GeneralizationPilot";
 
 const walkingDivergenceLesson = {
   id: "walking-divergence-v1",
-  contentVersion: V2_GENERALIZATION_CONTENT_VERSION,
+  contentVersion: V2_WALKING_CONTENT_VERSION,
   sharedSkillId: "claim_boundary_transfer_v1",
-  title: "歩くと、どの「考える」が変わる？",
-  subtitle: "発散 ≠ 収束",
-  rawInsight:
-    "歩行で改善した短い発散課題を、創造性全般や実務の最終判断へ広げない。候補を増やす時間と、条件で一つへ絞る時間を分ける。",
+  title: "歩くなら、いつ使う？",
+  subtitle: "歩いて広げる · 決める工程は分ける",
+  rawInsight: "歩いて広げる。決める工程は分ける。",
+  stepOrder: ["prediction", "evidence", "update", "transfer", "complete"],
   sources: [
     {
       label: "Oppezzo & Schwartz (2014)",
@@ -22,22 +23,30 @@ const walkingDivergenceLesson = {
     {
       id: "prediction",
       kind: "capture",
-      scene: "新サービスの候補を増やした後、法務条件で1案に絞る。",
-      prompt: "歩行の効果が出そうなのは？",
+      eyebrow: "PREDICTION · 先に直感",
+      helperText:
+        "研究を見る前に、いまの直感で選ぶ。正解として採点しません。",
+      scene: "締切まで30分。企画案は1つだけ。候補を増やす時間と、1案へ絞る時間がある。",
+      prompt: "5分歩くなら、いつ？",
       options: [
-        { id: "walking-prediction-expand", label: "候補を増やす" },
-        { id: "walking-prediction-narrow", label: "1案へ絞る" },
-        { id: "walking-prediction-same", label: "どちらも同じ" },
+        { id: "walking-prediction-expand", label: "候補を増やす前" },
+        { id: "walking-prediction-narrow", label: "1案へ絞る前" },
+        { id: "walking-prediction-both", label: "どちらにも" },
       ],
     },
     {
       id: "evidence",
       kind: "evidence",
-      headline: "歩行で上がったのは、主に発散課題",
+      presentation: "compact",
+      headline: "助けたのは「増やす」側",
       result:
-        "4実験では、歩行中または直後に、物の使い道や比喩を複数生む発散課題の成績が上がった。",
+        "歩行中・直後は、物の使い道や比喩を複数出す課題が改善しました。実際の仕事で良い案を選べるかは測っていません。",
       caveat:
         "収束課題を測ったのは実験1だけで、その課題は改善せず座位より低かった。長期成果や実務の選定精度は測っていない。",
+      contrast: [
+        { label: "候補を増やす", value: "4実験で改善" },
+        { label: "1つに絞る", value: "効果は確認できていない" },
+      ],
       frame: {
         target: "主に大学生・成人、小規模な4実験",
         comparison: "座位、屋内歩行、屋外歩行、屋外で車椅子移動",
@@ -50,105 +59,62 @@ const walkingDivergenceLesson = {
     {
       id: "update",
       kind: "capture",
-      prompt: "研究結果を見て、予想は？",
+      eyebrow: "SELF CHECK · 自分に当てはめる",
+      helperText: "頭にある仕事を1つ思い浮かべる。入力はしません。",
+      prompt: "いま、どっちで止まってる？",
       options: [
-        { id: "walking-update-narrower", label: "予想より限定的" },
-        { id: "walking-update-same", label: "ほぼ予想通り" },
-        { id: "walking-update-broader", label: "予想より広かった" },
+        { id: "walking-update-ideas", label: "案が出ない" },
+        { id: "walking-update-decide", label: "案はある。決められない" },
+        { id: "walking-update-none", label: "今は特にない" },
       ],
-    },
-    {
-      id: "boundary",
-      kind: "scored",
-      headline: "短い発散課題で改善したので、重要な案を選ぶ精度も上がる",
-      prompt: "最初に入れ替わったものは？",
-      options: [
-        {
-          id: "walking-boundary-target",
-          label: "参加者の年齢",
-          feedback:
-            "年齢を入れ替えた見出しではありません。発散課題から案を選ぶ精度へ、測った結果が先に変わっています。",
-        },
-        {
-          id: "walking-boundary-result",
-          label: "測った結果",
-          feedback:
-            "その通り。候補を生む発散課題の成績から、重要な案を選ぶ精度へ結果が広げられています。",
-        },
-        {
-          id: "walking-boundary-setting",
-          label: "歩行の場所",
-          feedback:
-            "歩行場所の変更より先に、発散課題から案を選ぶ精度へ測定結果が入れ替わっています。",
-        },
-      ],
-      correctOptionId: "walking-boundary-result",
-    },
-    {
-      id: "retrieval",
-      kind: "scored",
-      prompt: "研究に最も近い組合せは？",
-      options: [
-        {
-          id: "walking-retrieval-both-improved",
-          label: "短い発散課題は改善 / 実務の選定精度も改善",
-          feedback:
-            "短い発散課題の改善は観察されましたが、実務の選定精度は測っていません。",
-        },
-        {
-          id: "walking-retrieval-neither",
-          label: "短い発散課題は不変 / 実務の選定精度は未測定",
-          feedback:
-            "実務の選定精度が未測定なのは合っていますが、短い発散課題は歩行で改善しました。",
-        },
-        {
-          id: "walking-retrieval-bounded",
-          label: "短い発散課題は改善 / 実務の選定精度は未測定",
-          feedback:
-            "その通り。観察された短い発散課題の改善と、未測定の実務の選定精度を分けています。",
-        },
-      ],
-      correctOptionId: "walking-retrieval-bounded",
     },
     {
       id: "transfer",
       kind: "scored",
-      context:
-        "賃貸検索で並べ替え表示を使った群は、使わない群より20分間に確認した物件数が多かった。最終選択の適合度は測っていない。",
-      headline:
-        "並べ替え表示は、20分間で自分に合う物件を選ぶ正確さも上げた",
-      prompt: "最初に越えた境界は？",
+      eyebrow: "TRY · 1回だけ使い分ける",
+      title: "歩く前の指示はどれ？",
+      contextLabel: "明日の企画会議",
+      context: "案は1つしかない。最初の5分を使う。",
+      prompt: "どう進める？",
+      correctFeedbackTitle: "使い分けできた",
+      incorrectFeedbackTitle: "ここを分ける",
       options: [
         {
-          id: "walking-transfer-target",
-          label: "対象: 検索利用者 → 不動産業者",
+          id: "walking-transfer-expand-then-decide",
+          label: "歩いて候補を3つ増やし、その後に条件で絞る",
           feedback:
-            "見出しは不動産業者へ対象を変えていません。確認数から選択の適合度へ結果を変えています。",
+            "歩行を試すのは、候補を増やすところまで。その後の選定とは工程を分けています。",
         },
         {
-          id: "walking-transfer-result",
-          label: "結果: 確認数 → 選択の適合度",
+          id: "walking-transfer-do-both",
+          label: "歩きながら候補出しと最終決定を済ませる",
           feedback:
-            "その通り。確認した数の増加から、測っていない選択の適合度へ主張が広がっています。",
+            "最終決定まで良くなるとは、この研究からは言えません。",
         },
         {
-          id: "walking-transfer-time",
-          label: "時間: 20分 → 3か月",
+          id: "walking-transfer-pick-then-justify",
+          label: "歩いて最有力案を1つ選び、戻って理由を整える",
           feedback:
-            "見出しの時間は20分のままです。最初の越境は確認数から選択の適合度への結果変更です。",
+            "最有力案を選ぶ精度は測っていません。",
         },
       ],
-      correctOptionId: "walking-transfer-result",
+      correctOptionId: "walking-transfer-expand-then-decide",
     },
     {
       id: "complete",
       kind: "complete",
       action:
-        "いまの作業を「候補を増やす」か「条件で絞る」のどちらかに10秒で分類する。",
-      optionalSelfObservation:
-        "候補を増やす段階なら、別の機会に歩行中と座位で候補数だけ比べてもよい。",
+        "次に案が1つしか出ない時だけ、安全な場所で5分歩いて候補を3つ。その後に選ぶ。",
+      actionByOptionId: {
+        "walking-update-ideas":
+          "次に詰まったら、安全な場所で5分だけ歩いて候補を3つ。その後に条件で選ぶ。",
+        "walking-update-decide":
+          "今ほしいのは選定。歩行を切り札にせず、判断条件を3つ書く。",
+        "walking-update-none":
+          "次に案が1つしか出ない時だけ、安全な場所で5分歩いて候補を3つ。その後に選ぶ。",
+      },
       disclaimer:
-        "この自己観察は個人への効果を証明せず、選定精度の改善とも扱わない。",
+        "歩行の効果を保証する処方ではなく、自分では候補数だけを見る小さな実験です。歩きながら画面は操作しません。",
       nextQuestion:
         "次は、混ぜる練習で直接必要になる操作と、まだ断定できない原因を分ける。",
     },
@@ -163,6 +129,15 @@ const interleavingBoundaryLesson = {
   subtitle: "練習で選ぶ ≠ 初めて理解する",
   rawInsight:
     "既に授業で扱った複数種類を混ぜる練習は候補にできる。ただし、初学への効果や成績差の単一原因としては扱わない。",
+  stepOrder: [
+    "prediction",
+    "evidence",
+    "update",
+    "boundary",
+    "retrieval",
+    "transfer",
+    "complete",
+  ],
   sources: [
     {
       label: "Rohrer, Dedrick, Hartwig & Cheung (2020)",
@@ -326,6 +301,15 @@ const temptationBundlingLesson = {
   subtitle: "行動頻度 ≠ 作業品質",
   rawInsight:
     "すぐ楽しいものが主作業を邪魔しにくい時だけ、小さく束ねて頻度を見る。行動頻度の増加を品質・安全・習慣化へ広げない。",
+  stepOrder: [
+    "prediction",
+    "evidence",
+    "update",
+    "boundary",
+    "retrieval",
+    "transfer",
+    "complete",
+  ],
   sources: [
     {
       label: "Milkman, Minson & Volpp (2014)",

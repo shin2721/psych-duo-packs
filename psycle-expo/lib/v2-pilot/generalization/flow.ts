@@ -1,6 +1,6 @@
 import {
   V2_GENERALIZATION_CAPTURE_STEP_IDS,
-  V2_GENERALIZATION_CONTENT_VERSION,
+  V2_GENERALIZATION_CONTENT_VERSIONS,
   V2_GENERALIZATION_LESSON_IDS,
   V2_GENERALIZATION_SCHEMA_VERSION,
   V2_GENERALIZATION_SCORED_STEP_IDS,
@@ -19,6 +19,7 @@ import {
 const CAPTURE_STEP_IDS = new Set<string>(V2_GENERALIZATION_CAPTURE_STEP_IDS);
 const SCORED_STEP_IDS = new Set<string>(V2_GENERALIZATION_SCORED_STEP_IDS);
 const LESSON_IDS = new Set<string>(V2_GENERALIZATION_LESSON_IDS);
+const STEP_IDS = new Set<string>(V2_GENERALIZATION_STEP_IDS);
 
 export type V2GeneralizationFlowStatus =
   | "selected"
@@ -91,7 +92,7 @@ export function createInitialV2GeneralizationSnapshot(
     schemaVersion: V2_GENERALIZATION_SCHEMA_VERSION,
     contentVersion: lesson.contentVersion,
     lessonId: lesson.id,
-    currentStep: "prediction",
+    currentStep: lesson.stepOrder[0],
     answers: {
       prediction: null,
       update: null,
@@ -121,10 +122,18 @@ export function getV2GeneralizationStep(
   return step;
 }
 
-function getNextStepId(currentStep: V2GeneralizationStepId): V2GeneralizationStepId {
-  const index = V2_GENERALIZATION_STEP_IDS.indexOf(currentStep);
-  return V2_GENERALIZATION_STEP_IDS[
-    Math.min(index + 1, V2_GENERALIZATION_STEP_IDS.length - 1)
+function getNextStepId(
+  lesson: V2GeneralizationLessonDefinition,
+  currentStep: V2GeneralizationStepId
+): V2GeneralizationStepId {
+  const index = lesson.stepOrder.indexOf(currentStep);
+  if (index < 0) {
+    throw new Error(
+      `Missing V2 generalization step order entry: ${lesson.id}/${currentStep}`
+    );
+  }
+  return lesson.stepOrder[
+    Math.min(index + 1, lesson.stepOrder.length - 1)
   ];
 }
 
@@ -224,12 +233,15 @@ export function advanceV2GeneralizationFlow(
   }
 
   if (step.kind === "evidence") {
+    const nextStep = getNextStepId(lesson, snapshot.currentStep);
+    const completed = nextStep === "complete";
     return {
-      status: "advanced",
+      status: completed ? "completed" : "advanced",
       snapshot: {
         ...snapshot,
-        currentStep: getNextStepId(snapshot.currentStep),
+        currentStep: nextStep,
         updatedAt: now,
+        completedAt: completed ? now : snapshot.completedAt,
       },
     };
   }
@@ -244,12 +256,15 @@ export function advanceV2GeneralizationFlow(
   }
 
   if (step.kind === "capture") {
+    const nextStep = getNextStepId(lesson, snapshot.currentStep);
+    const completed = nextStep === "complete";
     return {
-      status: "advanced",
+      status: completed ? "completed" : "advanced",
       snapshot: {
         ...snapshot,
-        currentStep: getNextStepId(snapshot.currentStep),
+        currentStep: nextStep,
         updatedAt: now,
+        completedAt: completed ? now : snapshot.completedAt,
       },
     };
   }
@@ -302,14 +317,15 @@ export function advanceV2GeneralizationFlow(
     };
   }
 
-  const completed = step.id === "transfer";
+  const nextStep = getNextStepId(lesson, snapshot.currentStep);
+  const completed = nextStep === "complete";
   return {
     status: completed ? "completed" : "advanced",
     feedback: selectedOption.feedback,
     snapshot: {
       ...snapshot,
       scored,
-      currentStep: getNextStepId(snapshot.currentStep),
+      currentStep: nextStep,
       updatedAt: now,
       completedAt: completed ? now : snapshot.completedAt,
     },
@@ -375,7 +391,7 @@ export function validateV2GeneralizationLessonDefinition(
 ): string[] {
   const errors: string[] = [];
   if (!LESSON_IDS.has(lesson.id)) errors.push(`unknown lesson id: ${lesson.id}`);
-  if (lesson.contentVersion !== V2_GENERALIZATION_CONTENT_VERSION) {
+  if (!V2_GENERALIZATION_CONTENT_VERSIONS.includes(lesson.contentVersion)) {
     errors.push(`unsupported content version: ${lesson.contentVersion}`);
   }
   if (lesson.sharedSkillId !== "claim_boundary_transfer_v1") {
@@ -398,16 +414,42 @@ export function validateV2GeneralizationLessonDefinition(
     sourceUrls.add(source.url);
   });
 
-  if (lesson.steps.length !== V2_GENERALIZATION_STEP_IDS.length) {
+  if (lesson.stepOrder.length === 0) {
+    errors.push("stepOrder must not be empty");
+  }
+
+  const orderedStepIds = new Set<string>();
+  lesson.stepOrder.forEach((stepId, index) => {
+    if (!STEP_IDS.has(stepId)) {
+      errors.push(`stepOrder[${index}] has unknown step id: ${stepId}`);
+    }
+    if (orderedStepIds.has(stepId)) {
+      errors.push(`duplicate stepOrder id: ${stepId}`);
+    }
+    orderedStepIds.add(stepId);
+  });
+
+  if (lesson.stepOrder.length !== lesson.steps.length) {
     errors.push(
-      `expected ${V2_GENERALIZATION_STEP_IDS.length} steps, received ${lesson.steps.length}`
+      `stepOrder has ${lesson.stepOrder.length} entries but definitions have ${lesson.steps.length}`
     );
+  }
+  if (lesson.stepOrder[lesson.stepOrder.length - 1] !== "complete") {
+    errors.push("stepOrder must end with complete");
   }
 
   const stepIds = new Set<string>();
   const optionIds = new Set<string>();
+  const updateStep = lesson.steps.find(
+    (candidate) => candidate.id === "update" && candidate.kind === "capture"
+  );
+  const updateOptionIds = new Set(
+    updateStep?.kind === "capture"
+      ? updateStep.options.map((option) => option.id)
+      : []
+  );
   lesson.steps.forEach((step, index) => {
-    const expectedStepId = V2_GENERALIZATION_STEP_IDS[index];
+    const expectedStepId = lesson.stepOrder[index];
     if (step.id !== expectedStepId) {
       errors.push(
         `step ${index} must be ${expectedStepId ?? "absent"}, received ${step.id}`
@@ -421,6 +463,12 @@ export function validateV2GeneralizationLessonDefinition(
         errors.push(`${step.id} is not a capture step`);
       }
       addMissingTextError(errors, step.prompt, `${step.id}.prompt`);
+      if (step.eyebrow !== undefined) {
+        addMissingTextError(errors, step.eyebrow, `${step.id}.eyebrow`);
+      }
+      if (step.helperText !== undefined) {
+        addMissingTextError(errors, step.helperText, `${step.id}.helperText`);
+      }
       if (step.options.length < 2) errors.push(`${step.id} needs 2+ options`);
       step.options.forEach((option) => {
         addMissingTextError(errors, option.id, `${step.id}.option.id`);
@@ -438,6 +486,21 @@ export function validateV2GeneralizationLessonDefinition(
       Object.entries(step.frame).forEach(([key, value]) =>
         addMissingTextError(errors, value, `evidence.frame.${key}`)
       );
+      step.contrast?.forEach((item, contrastIndex) => {
+        addMissingTextError(
+          errors,
+          item.label,
+          `evidence.contrast[${contrastIndex}].label`
+        );
+        addMissingTextError(
+          errors,
+          item.value,
+          `evidence.contrast[${contrastIndex}].value`
+        );
+      });
+      if (step.presentation === "compact" && (step.contrast?.length ?? 0) < 2) {
+        errors.push("compact evidence needs 2+ contrast rows");
+      }
       return;
     }
 
@@ -446,6 +509,19 @@ export function validateV2GeneralizationLessonDefinition(
         errors.push(`${step.id} is not a scored step`);
       }
       addMissingTextError(errors, step.prompt, `${step.id}.prompt`);
+      (
+        [
+          ["title", step.title],
+          ["eyebrow", step.eyebrow],
+          ["contextLabel", step.contextLabel],
+          ["correctFeedbackTitle", step.correctFeedbackTitle],
+          ["incorrectFeedbackTitle", step.incorrectFeedbackTitle],
+        ] as const
+      ).forEach(([field, value]) => {
+        if (value !== undefined) {
+          addMissingTextError(errors, value, `${step.id}.${field}`);
+        }
+      });
       if (step.options.length < 2) errors.push(`${step.id} needs 2+ options`);
       step.options.forEach((option) => {
         addMissingTextError(errors, option.id, `${step.id}.option.id`);
@@ -465,9 +541,42 @@ export function validateV2GeneralizationLessonDefinition(
     }
 
     addMissingTextError(errors, step.action, "complete.action");
+    if (step.actionByOptionId) {
+      Object.entries(step.actionByOptionId).forEach(([optionId, action]) => {
+        addMissingTextError(errors, optionId, "complete.actionByOptionId.key");
+        if (!updateOptionIds.has(optionId)) {
+          errors.push(
+            `complete.actionByOptionId has unknown update option: ${optionId}`
+          );
+        }
+        addMissingTextError(
+          errors,
+          action,
+          `complete.actionByOptionId.${optionId}`
+        );
+      });
+    }
     addMissingTextError(errors, step.disclaimer, "complete.disclaimer");
     addMissingTextError(errors, step.nextQuestion, "complete.nextQuestion");
   });
+
+  const firstStep = lesson.steps.find(
+    (step) => step.id === lesson.stepOrder[0]
+  );
+  if (
+    firstStep &&
+    firstStep.kind !== "capture" &&
+    firstStep.kind !== "scored"
+  ) {
+    errors.push("stepOrder must start with an interactive step");
+  }
+
+  if (
+    lesson.steps.length > 0 &&
+    lesson.steps[lesson.steps.length - 1]?.kind !== "complete"
+  ) {
+    errors.push("step definitions must end with complete");
+  }
 
   return errors;
 }
