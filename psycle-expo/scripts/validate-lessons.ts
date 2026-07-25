@@ -65,10 +65,17 @@ const STAGING_DIRS = [
 const ALLOWED_EVIDENCE_GRADES = ['gold', 'silver', 'bronze'];
 const ALLOWED_EXPIRY_ACTIONS = ['auto_hide', 'auto_demote', 'refresh_queue'];
 const ALLOWED_SEVERITY_TIERS = ['A', 'B', 'C'];
+// Must stay in sync with QuestionType in types/question.ts. This list previously
+// omitted question types the runtime already ships (quick_reflex, micro_input,
+// fill_blank_tap, ...), so the validator forbade using the app's own components.
 const ALLOWED_QUESTION_TYPES = [
-  'ab', 'mcq3', 'truefalse', 'cloze1', 'swipe_judgment', 'select_all',
-  'sort_order', 'matching', 'consequence_scenario', 'conversation', 'term_card',
-  'multiple_choice', 'true_false', 'fill_blank' // legacy support
+  // QuestionType union (types/question.ts)
+  'true_false', 'multiple_choice', 'fill_blank', 'sort_order', 'select_all',
+  'fill_blank_tap', 'swipe_judgment', 'conversation', 'matching', 'scenario',
+  'quick_reflex', 'micro_input', 'consequence_scenario', 'animated_explanation',
+  'term_card', 'interactive_practice',
+  // legacy authoring shorthands
+  'ab', 'mcq3', 'truefalse', 'cloze1'
 ];
 
 const MAX_QUESTION_LENGTH = 200;
