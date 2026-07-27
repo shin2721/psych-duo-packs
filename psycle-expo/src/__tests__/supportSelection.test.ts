@@ -71,6 +71,9 @@ describe("selectLessonSupportCandidate", () => {
       nowMs,
       mistakes: [],
       curriculumUpdatedAtByUnit: {},
+      lessonOperationalById: {
+        mental_l02: buildOperationalMetadata(),
+      },
       lessonSessions: [
         buildLessonSession({
           lessonId: "mental_l02",
@@ -96,6 +99,9 @@ describe("selectLessonSupportCandidate", () => {
       nowMs,
       mistakes: [],
       curriculumUpdatedAtByUnit: {},
+      lessonOperationalById: {
+        mental_l02: buildOperationalMetadata(),
+      },
       lessonSessions: [
         buildLessonSession({
           lessonId: "mental_l02",
@@ -114,6 +120,9 @@ describe("selectLessonSupportCandidate", () => {
       nowMs,
       mistakes: [],
       curriculumUpdatedAtByUnit: {},
+      lessonOperationalById: {
+        mental_l02: buildOperationalMetadata(),
+      },
       lessonSessions: [
         buildLessonSession({
           lessonId: "mental_l02",
