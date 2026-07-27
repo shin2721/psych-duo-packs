@@ -1,6 +1,10 @@
 #!/usr/bin/env python3
 import subprocess
 from collections import OrderedDict
+from pathlib import Path
+
+
+PSYCLE_ROOT = Path(__file__).resolve().parent.parent
 
 BUCKETS = OrderedDict(
     [
@@ -235,7 +239,7 @@ def bucket_for(path: str, status: str) -> str:
 def main() -> int:
     proc = subprocess.run(
         ["git", "status", "--short"],
-        cwd="/Users/mashitashinji/dev/psych-duo-packs/psycle-expo",
+        cwd=PSYCLE_ROOT,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
