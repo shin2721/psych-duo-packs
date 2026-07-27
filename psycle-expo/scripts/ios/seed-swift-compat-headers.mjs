@@ -2,9 +2,11 @@
 
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 const derivedDataPath = process.argv[2] ?? '/tmp/psycle-repair-build3';
 const seedSourceDerivedDataPath = process.argv[3] ?? derivedDataPath;
+const repoRoot = fileURLToPath(new URL('../../', import.meta.url));
 
 const productsRoot = path.join(derivedDataPath, 'Build/Products/Debug-iphoneos');
 const sourceProductsRoot = path.join(
@@ -15,9 +17,7 @@ const sourceIntermediatesRoot = path.join(
   seedSourceDerivedDataPath,
   'Build/Intermediates.noindex/Pods.build/Debug-iphoneos'
 );
-const supportRoot = path.join(
-  '/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/ios/Pods/Target Support Files'
-);
+const supportRoot = path.join(repoRoot, 'ios/Pods/Target Support Files');
 
 if (
   (!fs.existsSync(sourceIntermediatesRoot) && !fs.existsSync(sourceProductsRoot)) ||
