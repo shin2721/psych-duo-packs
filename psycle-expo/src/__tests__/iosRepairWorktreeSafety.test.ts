@@ -28,4 +28,14 @@ describe("iOS repair worktree safety", () => {
       "ReactNativeDependencies.xcframework/ios-arm64/ReactNativeDependencies.framework",
     );
   });
+
+  test("keeps RCTBridge visible to the generated Swift app delegate", () => {
+    const source = fs.readFileSync(
+      path.join(appRoot, "scripts/ios/apply-native-repair.mjs"),
+      "utf8",
+    );
+
+    expect(source).toContain("#import <React/RCTBridge.h>");
+    expect(source).toContain("ios/Psycle/Psycle-Bridging-Header.h");
+  });
 });
