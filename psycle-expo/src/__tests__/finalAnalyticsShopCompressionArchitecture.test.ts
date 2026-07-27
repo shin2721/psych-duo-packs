@@ -1,7 +1,7 @@
 import fs from "node:fs";
 
 function read(path: string): string {
-  return fs.readFileSync(`/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/${path}`, "utf8");
+  return fs.readFileSync(`${__dirname}/../../${path}`, "utf8");
 }
 
 describe("final analytics and shop compression architecture", () => {

@@ -38,15 +38,15 @@ describe("social/onboarding error policy", () => {
 
   test("source routes recoverable social and onboarding failures through warnDev", () => {
     const friendChallenges = require("node:fs").readFileSync(
-      "/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/lib/friendChallenges.ts",
+      `${__dirname}/../../lib/friendChallenges.ts`,
       "utf8"
     );
     const social = require("node:fs").readFileSync(
-      "/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/lib/social.ts",
+      `${__dirname}/../../lib/social.ts`,
       "utf8"
     );
     const onboarding = require("node:fs").readFileSync(
-      "/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/lib/OnboardingContext.tsx",
+      `${__dirname}/../../lib/OnboardingContext.tsx`,
       "utf8"
     );
 

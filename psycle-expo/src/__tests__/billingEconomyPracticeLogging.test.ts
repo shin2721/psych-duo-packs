@@ -2,7 +2,7 @@ import fs from "node:fs";
 
 function read(relativePath: string): string {
   return fs.readFileSync(
-    `/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/${relativePath}`,
+    `${__dirname}/../../${relativePath}`,
     "utf8"
   );
 }

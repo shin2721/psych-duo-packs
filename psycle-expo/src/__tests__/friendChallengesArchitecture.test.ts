@@ -1,7 +1,7 @@
 import fs from "node:fs";
 
 const source = fs.readFileSync(
-  "/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/lib/friendChallenges.ts",
+  `${__dirname}/../../lib/friendChallenges.ts`,
   "utf8"
 );
 

@@ -1,7 +1,7 @@
 import fs from "node:fs";
 
 const source = fs.readFileSync(
-  "/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/app/(tabs)/profile.tsx",
+  `${__dirname}/../../app/(tabs)/profile.tsx`,
   "utf8"
 );
 

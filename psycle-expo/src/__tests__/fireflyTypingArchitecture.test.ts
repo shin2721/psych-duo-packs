@@ -1,7 +1,7 @@
 import fs from "node:fs";
 
 const source = fs.readFileSync(
-  "/Users/mashitashinji/dev/psych-duo-packs/psycle-expo/components/Firefly.tsx",
+  `${__dirname}/../../components/Firefly.tsx`,
   "utf8"
 );
 
