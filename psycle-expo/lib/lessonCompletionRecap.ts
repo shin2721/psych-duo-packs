@@ -5,7 +5,16 @@ function clean(value: string | null | undefined): string | null {
   return trimmed.length > 0 ? trimmed : null;
 }
 
-export function resolveCompletionRecapAction(originalQuestions: Question[], fallbackAction: string): string {
+export function resolveCompletionRecapAction(
+  originalQuestions: Question[],
+  fallbackAction: string,
+  preferredAction?: string | null
+): string {
+  const authoredTakeaway = clean(preferredAction);
+  if (authoredTakeaway) {
+    return authoredTakeaway;
+  }
+
   const interventionAdvice = originalQuestions
     .map((question) =>
       question.expanded_details?.claim_type === "intervention" ? clean(question.actionable_advice) : null
