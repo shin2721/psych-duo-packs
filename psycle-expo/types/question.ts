@@ -68,26 +68,43 @@ export interface LessonMetadata {
 }
 
 /**
- * 問題タイプ
- * QuestionRendererが理解できる型
+ * JSONでauthoring可能な問題タイプ。
+ *
+ * 型定義に存在するだけではなく、QuestionRendererで回答から結果表示・次へ
+ * 進むところまで接続されている形式だけを含める。validatorはこの一覧を
+ * 正本として使い、未接続形式をlesson JSONへ入れない。
+ */
+export const RUNTIME_REACHABLE_QUESTION_TYPES = [
+  "true_false",
+  "multiple_choice",
+  "fill_blank",
+  "sort_order",
+  "select_all",
+  "fill_blank_tap",
+  "swipe_judgment",
+  "conversation",
+  "matching",
+  "quick_reflex",
+  "micro_input",
+  "consequence_scenario",
+  "term_card",
+] as const;
+
+export type RuntimeReachableQuestionType =
+  (typeof RUNTIME_REACHABLE_QUESTION_TYPES)[number];
+
+/**
+ * アプリ内で表現を検討中の形式も含む型。
+ *
+ * `scenario` / `animated_explanation` / `interactive_practice` は将来用で、
+ * 現在はauthoring不可。renderer接続とend-to-end検証が揃うまでは
+ * RUNTIME_REACHABLE_QUESTION_TYPESへ追加しない。
  */
 export type QuestionType =
-  | "true_false"        // 正しい/間違い の2択
-  | "multiple_choice"   // 複数選択肢（3-4択）
-  | "fill_blank"        // 穴埋め問題
-  | "sort_order"        // 並び替え
-  | "select_all"        // 複数選択（正解が複数）
-  | "fill_blank_tap"    // 穴埋めタップ
-  | "swipe_judgment"    // スワイプ判定
-  | "conversation"      // 会話問題
-  | "matching"          // マッチング
-  | "scenario"          // シナリオ問題
-  | "quick_reflex"      // 反射型（2秒以内の即断）
-  | "micro_input"      // 入力型（1文字完成入力）
-  | "consequence_scenario" // 結果予測
-  | "animated_explanation" // アニメーション解説
-  | "term_card" // 単語カード
-  | "interactive_practice"; // インタラクティブ演習
+  | RuntimeReachableQuestionType
+  | "scenario"
+  | "animated_explanation"
+  | "interactive_practice";
 
 export interface ExpandedDetailsComparator {
   baseline?: string;
