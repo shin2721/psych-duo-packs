@@ -142,6 +142,17 @@ function ensurePsyclePrivacyManifest() {
   overwrite('ios/Psycle/PrivacyInfo.xcprivacy', psyclePrivacyManifest);
 }
 
+function ensurePsycleBridgeHeader() {
+  updateIfExists('ios/Psycle/Psycle-Bridging-Header.h', (current) => {
+    const reactBridgeImport = '#import <React/RCTBridge.h>';
+    if (current.includes(reactBridgeImport)) {
+      return current;
+    }
+
+    return `${current.trimEnd()}\n${reactBridgeImport}\n`;
+  });
+}
+
 function disableFmtConstevalForXcode26() {
   const relativePath = 'ios/Pods/fmt/include/fmt/base.h';
   const absolutePath = path.join(repoRoot, relativePath);
@@ -411,6 +422,7 @@ function ensureExpoConstantsAppConfigCopied() {
 
 alignPsycleBundleIdentifiers();
 ensurePsyclePrivacyManifest();
+ensurePsycleBridgeHeader();
 disableFmtConstevalForXcode26();
 ensureExpoConstantsAppConfigCopied();
 
