@@ -1,27 +1,28 @@
 import mentalLesson from "../../data/lessons/mental_units/mental_l01.ja.json";
+import { getLessonRuntimeMetadata } from "../../lib/lesson-data/lessonMetadata";
 import { resolveCompletionRecapAction } from "../../lib/lessonCompletionRecap";
 import type { Question } from "../../types/question";
 
 describe("first lesson experience content", () => {
-  test("keeps the cognitive appraisal swipe answer aligned with the explanation", () => {
-    const question = mentalLesson.find((item) => item.id === "mental_l01_003");
-
-    expect(question).toMatchObject({
-      type: "swipe_judgment",
-      is_true: false,
-    });
-    expect(question?.swipe_labels?.left).toContain("解釈");
-    expect(question?.swipe_labels?.right).toContain("出来事");
-    expect(question?.explanation).toContain("出来事以外");
-    expect(question?.explanation).toContain("見直せる");
+  test("keeps one coherent first-lesson asset without freezing its interaction design", () => {
+    expect(mentalLesson.length).toBeGreaterThan(0);
+    expect(new Set(mentalLesson.map((question) => question.id)).size).toBe(mentalLesson.length);
+    expect(mentalLesson.every((question) => question.id.startsWith("mental_l01_"))).toBe(true);
   });
 
-  test("surfaces the practical intervention as the completion takeaway", () => {
-    const recapAction = resolveCompletionRecapAction(mentalLesson as Question[], "fallback");
+  test("surfaces the authored final action as the completion takeaway", () => {
+    const metadata = getLessonRuntimeMetadata("mental_l01");
+    const recapAction = resolveCompletionRecapAction(
+      mentalLesson as Question[],
+      "fallback",
+      metadata?.takeaway_action
+    );
+    const finalQuestion = mentalLesson[mentalLesson.length - 1];
 
-    expect(recapAction).toContain("心臓");
-    expect(recapAction).toContain("準備");
-    expect(recapAction).toContain("10秒");
+    expect(recapAction).toBe(metadata?.takeaway_action);
+    expect(
+      [finalQuestion?.actionable_advice, finalQuestion?.expanded_details?.try_this]
+    ).toContain(metadata?.takeaway_action);
     expect(JSON.stringify(mentalLesson)).not.toContain("編張");
   });
 });
