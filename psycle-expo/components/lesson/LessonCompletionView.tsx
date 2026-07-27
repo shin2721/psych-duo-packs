@@ -36,7 +36,11 @@ export function LessonCompletionView(props: {
   const evidenceSummary = getEvidenceSummary(expandedDetails);
   const tryValueColor = getTryValueColor(evidenceSummary.tryValue);
   const completedQuestionCount = props.originalQuestions.length;
-  const recapAction = resolveCompletionRecapAction(props.originalQuestions, evidenceSummary.actionHint);
+  const recapAction = resolveCompletionRecapAction(
+    props.originalQuestions,
+    evidenceSummary.actionHint,
+    props.currentLesson?.metadata?.takeaway_action
+  );
   const claimTypeLabels: Record<string, string> = {
     observation: i18n.t("lesson.claimType.observation"),
     theory: i18n.t("lesson.claimType.theory"),
