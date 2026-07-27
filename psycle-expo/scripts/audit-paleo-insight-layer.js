@@ -7,14 +7,15 @@ const PRINCIPLES_PATH = path.join(ROOT, "docs", "PRINCIPLES.md");
 const SPEC_PATH = path.join(ROOT, "docs", "CONTENT_SYSTEM_SPEC.md");
 const CANDIDATE_PATH = path.join(ROOT, "data", "content-intake", "lesson-candidate-backlog.json");
 const LESSON_ROOT = path.join(ROOT, "data", "lessons");
+const CURATED_SOURCES_PATH = path.join(ROOT, "data", "curated_sources.json");
 
-const PROTECTED_BENCHMARK_LESSONS = [
+// This is traceability coverage, not a frozen lesson template. Copy, question
+// count, scene choice and interaction format may change without editing this
+// audit. New benchmark lessons can join after their source registry is clean.
+const TRACEABILITY_LESSONS = [
   {
     lesson_id: "mental_l01",
     file: path.join(LESSON_ROOT, "mental_units", "mental_l01.ja.json"),
-    expected_question_count: 10,
-    scene_markers: ["電車が遅れて", "面接開始まで残り3分", "17時の会議", "明日、返信が遅くて"],
-    takeaway_action: "焦りを感じたら「身体が反応している」と10秒だけラベルを貼る",
   },
 ];
 
@@ -32,6 +33,9 @@ const metadataSource = fs.readFileSync(METADATA_PATH, "utf8");
 const principles = fs.readFileSync(PRINCIPLES_PATH, "utf8");
 const spec = fs.readFileSync(SPEC_PATH, "utf8");
 const candidates = JSON.parse(fs.readFileSync(CANDIDATE_PATH, "utf8")).items || [];
+const curatedSourceIds = new Set(
+  Object.keys(JSON.parse(fs.readFileSync(CURATED_SOURCES_PATH, "utf8")).sources || {})
+);
 
 const lessonCount = countMatches(metadataSource, /:\s*lessonMetadata\(\{/g);
 const insightLayerCount = countMatches(metadataSource, /insight_layer:\s*\{/g);
@@ -68,33 +72,18 @@ for (const [index, candidate] of candidates.entries()) {
   }
 }
 
-for (const benchmark of PROTECTED_BENCHMARK_LESSONS) {
-  if (!fs.existsSync(benchmark.file)) {
-    errors.push(`${benchmark.lesson_id} protected benchmark file is missing.`);
+for (const lesson of TRACEABILITY_LESSONS) {
+  if (!fs.existsSync(lesson.file)) {
+    errors.push(`${lesson.lesson_id} traceability lesson file is missing.`);
     continue;
   }
 
-  const questions = JSON.parse(fs.readFileSync(benchmark.file, "utf8"));
-  const label = path.relative(ROOT, benchmark.file);
-  const serialized = JSON.stringify(questions);
+  const questions = JSON.parse(fs.readFileSync(lesson.file, "utf8"));
+  const label = path.relative(ROOT, lesson.file);
 
-  if (!Array.isArray(questions)) {
-    errors.push(`${label} must be a question array.`);
+  if (!Array.isArray(questions) || questions.length === 0) {
+    errors.push(`${label} must be a non-empty question array.`);
     continue;
-  }
-
-  if (questions.length !== benchmark.expected_question_count) {
-    errors.push(`${label} must keep ${benchmark.expected_question_count} benchmark questions; got ${questions.length}.`);
-  }
-
-  for (const marker of benchmark.scene_markers) {
-    if (!serialized.includes(marker)) {
-      errors.push(`${label} is missing protected concrete scene marker: ${marker}`);
-    }
-  }
-
-  if (!serialized.includes(benchmark.takeaway_action)) {
-    errors.push(`${label} is missing protected takeaway action: ${benchmark.takeaway_action}`);
   }
 
   for (const [index, question] of questions.entries()) {
@@ -108,9 +97,20 @@ for (const benchmark of PROTECTED_BENCHMARK_LESSONS) {
     }
     if (typeof question.source_id !== "string" || question.source_id.trim().length === 0) {
       errors.push(`${questionLabel}.source_id is required.`);
+    } else if (!curatedSourceIds.has(question.source_id)) {
+      errors.push(`${questionLabel}.source_id is not registered in data/curated_sources.json: ${question.source_id}`);
     }
     if (question.source_id === question.id) {
       errors.push(`${questionLabel}.source_id must not be the question id.`);
+    }
+    if (typeof question.evidence_grade !== "string" || question.evidence_grade.trim().length === 0) {
+      errors.push(`${questionLabel}.evidence_grade is required.`);
+    }
+    for (const field of ["claim_type", "evidence_type", "citation_role"]) {
+      const value = question.expanded_details?.[field];
+      if (typeof value !== "string" || value.trim().length === 0) {
+        errors.push(`${questionLabel}.expanded_details.${field} is required.`);
+      }
     }
   }
 }
@@ -120,7 +120,7 @@ console.log("====================================");
 console.log(`lesson metadata entries: ${lessonCount}`);
 console.log(`lesson metadata insight_layer entries: ${insightLayerCount}`);
 console.log(`lesson candidate entries: ${candidates.length}`);
-console.log(`protected benchmark lessons: ${PROTECTED_BENCHMARK_LESSONS.length}`);
+console.log(`traceability lessons: ${TRACEABILITY_LESSONS.length}`);
 
 if (errors.length > 0) {
   for (const error of errors) {
