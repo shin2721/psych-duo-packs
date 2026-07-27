@@ -17,7 +17,44 @@ const sourceIntermediatesRoot = path.join(
   seedSourceDerivedDataPath,
   'Build/Intermediates.noindex/Pods.build/Debug-iphoneos'
 );
-const supportRoot = path.join(repoRoot, 'ios/Pods/Target Support Files');
+const podsRoot = path.join(repoRoot, 'ios/Pods');
+const supportRoot = path.join(podsRoot, 'Target Support Files');
+
+const prebuiltFrameworks = [
+  {
+    source: path.join(
+      podsRoot,
+      'React-Core-prebuilt/React.xcframework/ios-arm64/React.framework'
+    ),
+    destination: path.join(
+      productsRoot,
+      'XCFrameworkIntermediates/React-Core-prebuilt/React.framework'
+    ),
+  },
+  {
+    source: path.join(
+      podsRoot,
+      'ReactNativeDependencies/framework/packages/react-native',
+      'ReactNativeDependencies.xcframework/ios-arm64/ReactNativeDependencies.framework'
+    ),
+    destination: path.join(
+      productsRoot,
+      'XCFrameworkIntermediates/ReactNativeDependencies/ReactNativeDependencies.framework'
+    ),
+  },
+];
+
+for (const framework of prebuiltFrameworks) {
+  if (!fs.existsSync(framework.source)) {
+    continue;
+  }
+
+  fs.mkdirSync(path.dirname(framework.destination), { recursive: true });
+  fs.cpSync(framework.source, framework.destination, {
+    recursive: true,
+    force: true,
+  });
+}
 
 if (
   (!fs.existsSync(sourceIntermediatesRoot) && !fs.existsSync(sourceProductsRoot)) ||
