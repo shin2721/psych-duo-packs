@@ -4,7 +4,7 @@
   "owner": "content-ops",
   "last_reviewed_at": "2026-04-22",
   "review_cycle_days": 90,
-  "rollout_stage": "production_default",
+  "rollout_stage": "production_limited",
   "saturation_state": "growing",
   "theme_status": "active",
   "migration_rule": "manual_v1_migration",
