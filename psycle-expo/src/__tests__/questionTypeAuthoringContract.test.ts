@@ -113,6 +113,24 @@ describe("question type authoring contract", () => {
     );
   });
 
+  test("accepts adapter-supported survey and legacy swipe payloads still in production data", () => {
+    expect(
+      validateAuthoredQuestionPayload({
+        ...base("conversation"),
+        choices: ["A", "B"],
+        recommended_index: null,
+      } as never)
+    ).toEqual([]);
+    expect(
+      validateAuthoredQuestionPayload({
+        ...base("swipe_judgment"),
+        correct_answer: "right",
+        left_label: "違う",
+        right_label: "合っている",
+      } as never)
+    ).toEqual([]);
+  });
+
   test("keeps every authorable type connected to an active interaction block", () => {
     const rendererSource = [
       "components/question-runtime/QuestionChoiceBlocks.tsx",
