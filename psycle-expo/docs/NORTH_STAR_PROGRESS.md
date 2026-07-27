@@ -129,6 +129,13 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-27 - Remove production blockers without hiding review debt
+
+- Changed: Unfroze fixed lesson audits, restricted authoring to runtime-reachable question types, demoted overdue themes to production_limited without changing review dates, made worktree and native repair tooling checkout-relative, repaired detached React framework seeding, and aligned completion recap with the authored takeaway.
+- Verified: validate:lessons passed with 0 errors and 36 warnings; 167 Jest suites and 691 tests passed; typecheck and three content audits passed; mental_l01 runtime access allowed; generic repaired iOS build succeeded.
+- Remaining: Owner taste review still rejects the current L1; actual evidence review is required before restoring production_default; Tier B refresh queue has no consumer; Simulator playthrough of a new raw pilot remains separate work.
+- Next: Write and play one raw lesson pilot before generated JSON or further audit changes.
+
 ### 2026-07-16 - mental_l02を、採点可能な予言を作る単一のstagingレッスンとして再構成
 
 - Changed: 日本語限定の6ステップauthored sequence、dev-client限定staging読込、誤答時の固有訂正ヒントを追加
