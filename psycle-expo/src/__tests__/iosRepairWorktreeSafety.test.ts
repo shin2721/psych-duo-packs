@@ -14,4 +14,18 @@ describe("iOS repair worktree safety", () => {
 
     expect(source).not.toContain(legacyCheckout);
   });
+
+  test("seeds the prebuilt React frameworks used by detached device builds", () => {
+    const source = fs.readFileSync(
+      path.join(appRoot, "scripts/ios/seed-swift-compat-headers.mjs"),
+      "utf8",
+    );
+
+    expect(source).toContain(
+      "React-Core-prebuilt/React.xcframework/ios-arm64/React.framework",
+    );
+    expect(source).toContain(
+      "ReactNativeDependencies.xcframework/ios-arm64/ReactNativeDependencies.framework",
+    );
+  });
 });
