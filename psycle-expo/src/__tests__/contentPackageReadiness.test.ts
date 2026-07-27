@@ -384,6 +384,73 @@ describe("content package readiness", () => {
     }
   });
 
+  test("keeps an overdue production package available after its theme is demoted to limited", () => {
+    const rootDir = createTempRoot();
+    try {
+      const lessonDir = join(rootDir, "data", "lessons", "mental_units");
+      const themeDir = join(rootDir, "data", "themes");
+      mkdirSync(lessonDir, { recursive: true });
+      mkdirSync(themeDir, { recursive: true });
+      const lessonPath = join(lessonDir, "mental_l01.ja.json");
+      writeFileSync(lessonPath, JSON.stringify(makeLesson(), null, 2));
+      writeFileSync(
+        join(themeDir, "mental.meta.json"),
+        JSON.stringify(
+          {
+            ...makeManifest("mental"),
+            last_reviewed_at: "2025-12-01",
+            rollout_stage: "production_limited",
+          },
+          null,
+          2
+        )
+      );
+      writeFileSync(
+        join(lessonDir, "mental_l01.evidence.json"),
+        JSON.stringify(
+          makeEvidence({
+            lesson_path: "data/lessons/mental_units/mental_l01.ja.json",
+            evidence_path: "data/lessons/mental_units/mental_l01.evidence.json",
+            theme_manifest_path: "data/themes/mental.meta.json",
+            analytics_contract_id: "content.lesson.mental.v1",
+            owner_id: "content_ops",
+            state: "production",
+            rollback_route: "course:mental:entry",
+            rollback_class: "soft",
+            localized_locales: ["ja"],
+            ...makeLocalizationFields(),
+            readiness: {
+              quality_gate_pass: true,
+              dependency_valid: true,
+              continuity_complete: true,
+              analytics_wired: true,
+              rollback_defined: true,
+            },
+            readiness_authority: makeReadinessAuthority(),
+            completeness: makeCompleteness(),
+            review_decision: makeReviewDecision(),
+          }),
+          null,
+          2
+        )
+      );
+
+      const result = evaluateContentPackageReadiness(lessonPath, {
+        rootDir,
+        mode: "audit",
+        now: "2026-07-27T00:00:00.000Z",
+      });
+
+      expect(result.ready).toBe(true);
+      expect(result.errors).toHaveLength(0);
+      expect(result.warnings).toContain(
+        "review_cycle_days 超過 theme の production package は production_limited 候補です"
+      );
+    } finally {
+      rmSync(rootDir, { recursive: true, force: true });
+    }
+  });
+
   test("fails when readiness authority metadata is missing", () => {
     const rootDir = createTempRoot();
     try {

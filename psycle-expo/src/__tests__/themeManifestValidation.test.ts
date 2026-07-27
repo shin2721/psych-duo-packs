@@ -21,7 +21,7 @@ function makeValidManifest(themeId: string) {
     owner: "content-ops",
     last_reviewed_at: "2026-04-22",
     review_cycle_days: 90,
-    rollout_stage: "production_default",
+    rollout_stage: "production_limited",
     saturation_state: "growing",
     theme_status: "active",
     migration_rule: "manual_v1_migration",
@@ -232,6 +232,35 @@ describe("theme manifest validation", () => {
 
       expect(result.ready).toBe(false);
       expect(result.errors).toContain("review_cycle_days 超過 theme は production_default にできません");
+      expect(result.warnings).toContain("review_cycle_days を超過しています");
+    } finally {
+      rmSync(rootDir, { recursive: true, force: true });
+    }
+  });
+
+  test("production readiness keeps an overdue production_limited theme available with a warning", () => {
+    const rootDir = createTempRoot();
+    try {
+      const manifestPath = join(rootDir, "data", "themes", "mental.meta.json");
+      mkdirSync(join(rootDir, "data", "themes"), { recursive: true });
+      writeFileSync(
+        manifestPath,
+        JSON.stringify(
+          {
+            ...makeValidManifest("mental"),
+            last_reviewed_at: "2025-12-01",
+            rollout_stage: "production_limited",
+          },
+          null,
+          2
+        ),
+        "utf-8"
+      );
+
+      const result = evaluateThemeManifestReadiness("mental", rootDir, "production");
+
+      expect(result.ready).toBe(true);
+      expect(result.errors).toHaveLength(0);
       expect(result.warnings).toContain("review_cycle_days を超過しています");
     } finally {
       rmSync(rootDir, { recursive: true, force: true });

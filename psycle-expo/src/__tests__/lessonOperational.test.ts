@@ -170,6 +170,29 @@ describe("resolveLessonRuntimeAccess", () => {
     expect(allowed).toMatchObject({ allowed: true, reason: null });
   });
 
+  test("blocks an overdue default theme but keeps the same limited theme available", () => {
+    const overdueNowMs = Date.UTC(2026, 6, 27, 0, 0, 0);
+    const blocked = resolveLessonRuntimeAccess({
+      lessonId: "mental_l03",
+      nowMs: overdueNowMs,
+      lessonOperational: buildOperational(),
+      themeManifest: buildThemeManifest({
+        rollout_stage: "production_default",
+      }),
+    });
+    const allowed = resolveLessonRuntimeAccess({
+      lessonId: "mental_l03",
+      nowMs: overdueNowMs,
+      lessonOperational: buildOperational(),
+      themeManifest: buildThemeManifest({
+        rollout_stage: "production_limited",
+      }),
+    });
+
+    expect(blocked).toMatchObject({ allowed: false, reason: "theme_review_overdue" });
+    expect(allowed).toMatchObject({ allowed: true, reason: null });
+  });
+
   test("blocks runtime access when a required package is not production-ready", () => {
     const getLessonOperationalMetadataSpy = jest
       .spyOn(lessonsModule, "getLessonOperationalMetadata")
