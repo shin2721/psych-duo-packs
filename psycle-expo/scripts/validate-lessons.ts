@@ -161,13 +161,17 @@ export function validateAuthoredQuestionPayload(question: Question): string[] {
   }
 
   if (question.type === 'swipe_judgment') {
-    if (typeof question.is_true !== 'boolean') {
-      errors.push('swipe_judgment は is_true が必要です');
+    const hasCanonicalAnswer = typeof question.is_true === 'boolean';
+    const hasAdaptableLegacyAnswer = ['right', 'left', 'True', 'False'].includes(
+      question.correct_answer
+    );
+    if (!hasCanonicalAnswer && !hasAdaptableLegacyAnswer) {
+      errors.push('swipe_judgment は is_true または有効な correct_answer が必要です');
     }
-    const left = question.swipe_labels?.left;
-    const right = question.swipe_labels?.right;
+    const left = question.swipe_labels?.left ?? question.left_label;
+    const right = question.swipe_labels?.right ?? question.right_label;
     if (!isNonEmptyString(left) || !isNonEmptyString(right)) {
-      errors.push('swipe_judgment は左右の swipe_labels が必要です');
+      errors.push('swipe_judgment は左右のラベルが必要です');
     } else if (left.trim() === right.trim()) {
       errors.push('swipe_judgment の左右ラベルは異なる必要があります');
     }
@@ -179,6 +183,7 @@ export function validateAuthoredQuestionPayload(question: Question): string[] {
       const value = question[field];
       if (
         value !== undefined &&
+        value !== null &&
         (!Number.isInteger(value) || value < 0 || !Array.isArray(question.choices) || value >= question.choices.length)
       ) {
         errors.push(`${field} は choices の有効なindexである必要があります`);
