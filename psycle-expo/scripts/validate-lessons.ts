@@ -11,6 +11,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import * as themeManifestLib from './lib/theme-manifest.js';
 import * as contentPackageLib from './lib/content-package.js';
+import { RUNTIME_REACHABLE_QUESTION_TYPES } from '../types/question';
 
 const {
   inferThemeIdFromLessonPath,
@@ -65,11 +66,7 @@ const STAGING_DIRS = [
 const ALLOWED_EVIDENCE_GRADES = ['gold', 'silver', 'bronze'];
 const ALLOWED_EXPIRY_ACTIONS = ['auto_hide', 'auto_demote', 'refresh_queue'];
 const ALLOWED_SEVERITY_TIERS = ['A', 'B', 'C'];
-const ALLOWED_QUESTION_TYPES = [
-  'ab', 'mcq3', 'truefalse', 'cloze1', 'swipe_judgment', 'select_all',
-  'sort_order', 'matching', 'consequence_scenario', 'conversation', 'term_card',
-  'multiple_choice', 'true_false', 'fill_blank' // legacy support
-];
+const ALLOWED_QUESTION_TYPES = new Set<string>(RUNTIME_REACHABLE_QUESTION_TYPES);
 
 const MAX_QUESTION_LENGTH = 200;
 const MAX_EXPLANATION_LENGTH = 300;
@@ -90,6 +87,203 @@ interface Question {
   xp?: number;
   evidence_grade?: string;
   [key: string]: any;
+}
+
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === 'string' && value.trim().length > 0;
+}
+
+function hasValidChoiceIndex(question: Question): boolean {
+  return (
+    Array.isArray(question.choices) &&
+    question.choices.length > 0 &&
+    Number.isInteger(question.correct_index) &&
+    question.correct_index >= 0 &&
+    question.correct_index < question.choices.length
+  );
+}
+
+/**
+ * Authoring時点で、画面が回答不能・進行不能になるpayloadを拒否する。
+ * 面白さや教育価値は判定しない。
+ */
+export function validateAuthoredQuestionPayload(question: Question): string[] {
+  const errors: string[] = [];
+
+  if (!ALLOWED_QUESTION_TYPES.has(question.type)) {
+    return [
+      `runtime未接続の問題タイプ: ${question.type} (許可: ${RUNTIME_REACHABLE_QUESTION_TYPES.join(', ')})`,
+    ];
+  }
+
+  const requireChoices = (minimum: number) => {
+    if (
+      !Array.isArray(question.choices) ||
+      question.choices.length < minimum ||
+      question.choices.some((choice) => !isNonEmptyString(choice))
+    ) {
+      errors.push(`choices は非空文字列を${minimum}件以上必要です`);
+    }
+  };
+
+  const requireChoiceAnswer = () => {
+    if (!hasValidChoiceIndex(question)) {
+      errors.push('correct_index は choices の有効なindexである必要があります');
+    }
+  };
+
+  if (['multiple_choice', 'fill_blank', 'fill_blank_tap', 'quick_reflex'].includes(question.type)) {
+    requireChoices(2);
+    requireChoiceAnswer();
+  }
+
+  if (question.type === 'true_false') {
+    if (!Array.isArray(question.choices) || question.choices.length !== 2) {
+      errors.push('true_false の choices は2件必要です');
+    } else if (question.choices.some((choice) => !isNonEmptyString(choice))) {
+      errors.push('true_false の choices は非空文字列である必要があります');
+    }
+    requireChoiceAnswer();
+  }
+
+  if (question.type === 'fill_blank_tap' && !isNonEmptyString(question.statement)) {
+    errors.push('fill_blank_tap は statement が必要です');
+  }
+
+  if (question.type === 'quick_reflex' && question.time_limit !== undefined) {
+    if (typeof question.time_limit !== 'number' || !Number.isFinite(question.time_limit) || question.time_limit <= 0) {
+      errors.push('quick_reflex の time_limit は正のnumberである必要があります');
+    }
+  }
+
+  if (question.type === 'micro_input' && !isNonEmptyString(question.input_answer)) {
+    errors.push('micro_input は input_answer が必要です');
+  }
+
+  if (question.type === 'swipe_judgment') {
+    if (typeof question.is_true !== 'boolean') {
+      errors.push('swipe_judgment は is_true が必要です');
+    }
+    const left = question.swipe_labels?.left;
+    const right = question.swipe_labels?.right;
+    if (!isNonEmptyString(left) || !isNonEmptyString(right)) {
+      errors.push('swipe_judgment は左右の swipe_labels が必要です');
+    } else if (left.trim() === right.trim()) {
+      errors.push('swipe_judgment の左右ラベルは異なる必要があります');
+    }
+  }
+
+  if (question.type === 'conversation') {
+    requireChoices(1);
+    for (const field of ['correct_index', 'recommended_index'] as const) {
+      const value = question[field];
+      if (
+        value !== undefined &&
+        (!Number.isInteger(value) || value < 0 || !Array.isArray(question.choices) || value >= question.choices.length)
+      ) {
+        errors.push(`${field} は choices の有効なindexである必要があります`);
+      }
+    }
+  }
+
+  if (question.type === 'select_all') {
+    requireChoices(2);
+    if (question.correct_answers !== undefined) {
+      if (!Array.isArray(question.correct_answers) || question.correct_answers.length === 0) {
+        errors.push('select_all の correct_answers は1件以上必要です');
+      } else {
+        const uniqueAnswers = new Set(question.correct_answers);
+        if (uniqueAnswers.size !== question.correct_answers.length) {
+          errors.push('select_all の correct_answers に重複があります');
+        }
+        if (
+          !Array.isArray(question.choices) ||
+          question.correct_answers.some(
+            (index: unknown) =>
+              !Number.isInteger(index) ||
+              (index as number) < 0 ||
+              (index as number) >= question.choices.length
+          )
+        ) {
+          errors.push('select_all の correct_answers は choices の有効なindexである必要があります');
+        }
+      }
+    }
+  }
+
+  if (question.type === 'sort_order') {
+    if (!Array.isArray(question.items) || question.items.length < 2) {
+      errors.push('sort_order は items を2件以上必要です');
+    }
+    if (
+      !Array.isArray(question.correct_order) ||
+      !Array.isArray(question.items) ||
+      question.correct_order.length !== question.items.length
+    ) {
+      errors.push('sort_order の correct_order は items と同じ件数が必要です');
+    } else if (question.correct_order.every((item: unknown) => typeof item === 'number')) {
+      const sorted = [...question.correct_order].sort((left: number, right: number) => left - right);
+      if (sorted.some((value: number, index: number) => value !== index)) {
+        errors.push('sort_order の数値correct_orderは0始まりのpermutationである必要があります');
+      }
+    } else if (question.correct_order.every((item: unknown) => typeof item === 'string')) {
+      if (
+        new Set(question.correct_order).size !== question.correct_order.length ||
+        question.correct_order.some((item: string) => !question.items.includes(item))
+      ) {
+        errors.push('sort_order の文字列correct_orderはitemsのpermutationである必要があります');
+      }
+    } else {
+      errors.push('sort_order の correct_order はnumber[]またはstring[]である必要があります');
+    }
+  }
+
+  if (question.type === 'matching') {
+    if (!Array.isArray(question.left_items) || question.left_items.length === 0) {
+      errors.push('matching は left_items が必要です');
+    }
+    if (!Array.isArray(question.right_items) || question.right_items.length === 0) {
+      errors.push('matching は right_items が必要です');
+    }
+    if (!Array.isArray(question.correct_pairs) || question.correct_pairs.length === 0) {
+      errors.push('matching は correct_pairs が必要です');
+    } else if (
+      !Array.isArray(question.left_items) ||
+      !Array.isArray(question.right_items) ||
+      question.correct_pairs.some(
+        (pair: unknown) =>
+          !Array.isArray(pair) ||
+          pair.length !== 2 ||
+          !Number.isInteger(pair[0]) ||
+          !Number.isInteger(pair[1]) ||
+          pair[0] < 0 ||
+          pair[0] >= question.left_items.length ||
+          pair[1] < 0 ||
+          pair[1] >= question.right_items.length
+      )
+    ) {
+      errors.push('matching の correct_pairs は左右配列の有効なindexペアである必要があります');
+    }
+  }
+
+  if (
+    question.type === 'consequence_scenario' &&
+    question.consequence_type !== 'positive' &&
+    question.consequence_type !== 'negative'
+  ) {
+    errors.push('consequence_scenario は positive/negative の consequence_type が必要です');
+  }
+
+  if (question.type === 'term_card') {
+    if (!isNonEmptyString(question.term)) {
+      errors.push('term_card は term が必要です');
+    }
+    if (!isNonEmptyString(question.definition)) {
+      errors.push('term_card は definition が必要です');
+    }
+  }
+
+  return errors;
 }
 
 interface EvidenceCard {
@@ -461,9 +655,12 @@ export class LessonValidator {
 
   private validateTypes(filePath: string, severity: 'error' | 'warning', 
                        question: Question): void {
-    if (question.type && !ALLOWED_QUESTION_TYPES.includes(question.type)) {
-      this.addError(filePath, severity, 
-        `許可されていない問題タイプ: ${question.type}`, question.id);
+    if (!question.type) {
+      return;
+    }
+
+    for (const message of validateAuthoredQuestionPayload(question)) {
+      this.addError(filePath, severity, message, question.id);
     }
   }
 
