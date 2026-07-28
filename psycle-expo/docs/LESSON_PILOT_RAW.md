@@ -327,3 +327,89 @@ Reject the conversion if:
 - the choices can be solved by always selecting the calmest sentence
 - the safety boundary arrives only after the takeaway
 - the final action takes longer than 10 seconds to begin
+
+## Pilot 004: 書かれていない一文が、事実の顔をする
+
+上司から一行だけ届く。
+
+「さっきの資料、直しておいた。」
+
+書かれているのは、それだけだ。
+
+でも読んだ瞬間、頭には続きが生まれる。
+
+「少し呆れている」
+「助けようとした」
+「急いでいただけ」
+
+どれもありそうに見える。
+そして、どれも元の一行には書かれていない。
+
+ここで怖いのは、悪い方を考えることではない。
+
+自分で補った一文が、元から書かれていた文と同じ顔をし始めることだ。
+
+「資料を直しておいた」と言われた。
+「少し呆れている」と自分が補った。
+
+この二行が混ざると、次に思い出す時には
+「資料のことで怒られた」に近い一文として使いたくなることがある。
+
+ネガティブな読みが間違いとは限らない。
+相手が本当に呆れている可能性もある。
+
+ただし、可能性と確認済みの事実は同じではない。
+
+ここで一度だけ、結論を支えている空欄を外す。
+
+- 見えたもの: 「さっきの資料、直しておいた。」
+- 自分が入れたもの: 「少し呆れている」
+- まだ入っていないもの: 相手の意図を確かめる情報
+
+空欄を外した後も、最初の結論が変わらないことはある。
+成功は安心することではない。
+
+「自分が何を見て、何を補ったか」が分かれ、
+何が起きたら答え合わせできるかを持てることだ。
+
+返信が来ない。
+短い言い方をされた。
+予定を変えられた。
+
+こういう場面でも、使う問いは一つだけ。
+
+**この結論のうち、書かれていなかった一文はどれ？**
+
+明日になって答えが入るなら、その時に確かめればいい。
+まだ入っていないなら、未確認のままでいい。
+
+ただし、脅迫、明示的な危険、見覚えのないログイン通知のような場面は待たない。
+このレンズは危険を小さく読むためではなく、曖昧な情報に自分で足した文を見分けるために使う。
+
+## Pilot 004 Conversion Notes
+
+This pilot is approved only as an isolated, development-only interaction trial.
+Do not replace `mental_l01`, change progression, add XP, or persist personal
+scene data until the owner accepts the exact runtime experience.
+
+Preserve:
+
+- The first interpretation is chosen by the user; the app does not plant one.
+- The chosen interpretation briefly takes on the visual weight of a fact, then
+  is separated from the original message.
+- The user applies the same lens to one selected life scene, with an example
+  escape route and no required free text.
+- The user commits once, removes one unconfirmed premise, and answers again.
+- An unchanged conclusion is allowed. The useful delta may be confidence,
+  evidence, or a check point.
+- Day 1 must have standalone value. Any next-day record is optional and
+  non-punitive.
+
+Reject the runtime trial if:
+
+- it feels like a classification quiz or a math problem
+- the calmest option is treated as correct
+- the app claims a negative interpretation is a distortion
+- the reveal works without remembering the user's first choice
+- the safety boundary is only a warning card after the practice
+- the owner cannot explain the lens after one playthrough
