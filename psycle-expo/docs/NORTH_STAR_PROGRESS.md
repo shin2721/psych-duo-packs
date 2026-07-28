@@ -129,6 +129,13 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-28 - Prototype life-applied assumption-gap lesson one
+
+- Changed: Added an isolated dev-only five-screen pilot that turns one fact-versus-inference lens into a provisional reading, a user-selected life scene, premise removal, same-scene recheck, and an optional session-only follow-up. Production lesson JSON, XP, progression, persistence, analytics, and shared runtime remain untouched.
+- Verified: Typecheck passed; 168 Jest suites and 697 tests passed; direct dev-client playthrough completed on iPhone 17 Pro and narrow iPhone 17e; independent surface review accepted the provisional interaction, result reading order, and safe-area behavior.
+- Remaining: The owner still needs to judge whether the lesson is interesting, clear, educational, and worth repeating. Do not promote it into production or add persistence until that taste gate passes.
+- Next: Play the dev-only pilot; if it passes the human taste gate, specify the smallest production promotion and next-day record experiment.
+
 ### 2026-07-27 - Remove production blockers without hiding review debt
 
 - Changed: Unfroze fixed lesson audits, restricted authoring to runtime-reachable question types, demoted overdue themes to production_limited without changing review dates, made worktree and native repair tooling checkout-relative, repaired detached React framework seeding, and aligned completion recap with the authored takeaway.
