@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-28 - Restore reliable swipe-judgment progression
+
+- Changed: Swipe judgments now claim only horizontal intent, pause parent scrolling during a drag, handle release/termination safely, and provide equal-width 48pt left/right tap alternatives.
+- Verified: Typecheck, 12 dedicated swipe tests, and the full 709-test suite pass. Simulator confirmed both tap paths produce feedback, Continue advances to 2/10, and a vertical drag does not answer.
+- Remaining: Confirm horizontal drag and fast flick on the physical iPhone; owner taste review of lesson content remains separate.
+
 ### 2026-07-28 - Prototype life-applied assumption-gap lesson one
 
 - Changed: Added an isolated dev-only five-screen pilot that turns one fact-versus-inference lens into a provisional reading, a user-selected life scene, premise removal, same-scene recheck, and an optional session-only follow-up. Production lesson JSON, XP, progression, persistence, analytics, and shared runtime remain untouched.
