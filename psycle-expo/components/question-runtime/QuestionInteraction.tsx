@@ -6,11 +6,14 @@ import { QuestionSubmitFooter } from "./QuestionSubmitFooter";
 import type { QuestionInteractionProps } from "./QuestionInteraction.shared";
 
 export function QuestionInteraction({
+  betValue,
   currentOrder,
   inputText,
   onDragEnd,
   onDragStart,
+  onLockBet,
   onMatch,
+  onSetBetValue,
   onReorder,
   onSelect,
   onSelectConsequence,
@@ -42,11 +45,14 @@ export function QuestionInteraction({
         showResult={showResult}
       />
       <QuestionAdvancedBlocks
+        betValue={betValue}
         currentOrder={currentOrder}
         inputText={inputText}
         onDragEnd={onDragEnd}
         onDragStart={onDragStart}
+        onLockBet={onLockBet}
         onMatch={onMatch}
+        onSetBetValue={onSetBetValue}
         onReorder={onReorder}
         onSelect={onSelect}
         onSelectConsequence={onSelectConsequence}

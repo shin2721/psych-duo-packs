@@ -10,6 +10,13 @@ export function getQuestionExpandedDetails(
 export function getCorrectAnswerText(question: Question): string {
   const choices = question.choices ?? [];
 
+  if (question.type === "number_bet") {
+    if (question.bet_answer_label) return question.bet_answer_label;
+    if (typeof question.bet_answer !== "number") return "";
+    const decimals = typeof question.bet_decimals === "number" ? question.bet_decimals : 0;
+    return `${question.bet_answer.toFixed(decimals)}${question.bet_unit ? ` ${question.bet_unit}` : ""}`;
+  }
+
   if (
     (question.type === "multiple_choice" ||
       question.type === "fill_blank_tap" ||

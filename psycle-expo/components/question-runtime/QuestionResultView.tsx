@@ -50,6 +50,12 @@ export function QuestionResultView({
     summary?.actionHint ?? null
   );
 
+  // 予想カード（先に賭けてから答え合わせする形式）は、外した時こそ本文が要る。
+  // 賭けた結果を「詳しく見る」の裏に隠すと、答え合わせが成立しない。
+  const isBetCard = question.type === "number_bet" || question.bet_card === true;
+  const showExplanationInline = runtime.isCorrect || isBetCard;
+  const betHeadline = runtime.isCorrect ? "当たり" : "はずれ";
+
   return (
     <View
       style={[
@@ -74,11 +80,13 @@ export function QuestionResultView({
               runtime.isCorrect ? styles.correctText : styles.incorrectText,
             ]}
           >
-            {runtime.isCorrect
-              ? positiveFeedbacks[Math.floor(Math.random() * positiveFeedbacks.length)]
-              : navigationFeedbacks[
-                  Math.floor(Math.random() * navigationFeedbacks.length)
-                ]}
+            {isBetCard
+              ? betHeadline
+              : runtime.isCorrect
+                ? positiveFeedbacks[Math.floor(Math.random() * positiveFeedbacks.length)]
+                : navigationFeedbacks[
+                    Math.floor(Math.random() * navigationFeedbacks.length)
+                  ]}
           </Text>
         </View>
       )}
@@ -92,18 +100,20 @@ export function QuestionResultView({
         </View>
       ) : null}
 
-      <AnimatedButton
-        style={styles.continueButton}
-        onPress={onContinue}
-        testID="question-continue"
-        accessibilityRole="button"
-        accessibilityLabel={String(i18n.t("lesson.continue"))}
-      >
-        <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
-        <Ionicons name="arrow-forward" size={20} color="#fff" />
-      </AnimatedButton>
+      {!isBetCard ? (
+        <AnimatedButton
+          style={styles.continueButton}
+          onPress={onContinue}
+          testID="question-continue"
+          accessibilityRole="button"
+          accessibilityLabel={String(i18n.t("lesson.continue"))}
+        >
+          <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
+          <Ionicons name="arrow-forward" size={20} color="#fff" />
+        </AnimatedButton>
+      ) : null}
 
-      {runtime.isCorrect ? (
+      {showExplanationInline ? (
         <InsightText
           text={runtime.explanationText}
           style={[
@@ -168,6 +178,19 @@ export function QuestionResultView({
         <View style={styles.actionAdviceContainer}>
           <Text style={styles.actionAdviceText}>{question.actionable_advice}</Text>
         </View>
+      ) : null}
+
+      {isBetCard ? (
+        <AnimatedButton
+          style={styles.continueButton}
+          onPress={onContinue}
+          testID="question-continue"
+          accessibilityRole="button"
+          accessibilityLabel={String(i18n.t("lesson.continue"))}
+        >
+          <Text style={styles.continueButtonText}>{i18n.t("lesson.continue")}</Text>
+          <Ionicons name="arrow-forward" size={20} color="#fff" />
+        </AnimatedButton>
       ) : null}
     </View>
   );

@@ -88,6 +88,7 @@ export const RUNTIME_REACHABLE_QUESTION_TYPES = [
   "micro_input",
   "consequence_scenario",
   "term_card",
+  "number_bet",
 ] as const;
 
 export type RuntimeReachableQuestionType =
@@ -198,6 +199,21 @@ export interface Question {
 
   // Consequence Scenario
   consequence_type?: "positive" | "negative";
+
+  // 予想カード共通。true にすると、外した時も解説を折り畳まず
+  // 「続ける」を解説の下に置く。賭けさせた以上、結果は隠さない。
+  bet_card?: boolean;
+
+  // number_bet用（研究結果を先に予想させてから実数を出す）
+  bet_min?: number;           // スライダー下限
+  bet_max?: number;           // スライダー上限
+  bet_step?: number;          // 刻み（既定1）
+  bet_start?: number;         // 初期位置（既定は中央）
+  bet_decimals?: number;      // 表示小数桁（既定0）
+  bet_unit?: string;          // 数値の下に出る単位ラベル
+  bet_answer?: number;        // 実際の値
+  bet_tolerance?: number;     // 正解とみなす許容差（既定0）
+  bet_answer_label?: string;  // 結果表示の文言（例「およそ10人」）
 
   // Term Card
   term?: string;

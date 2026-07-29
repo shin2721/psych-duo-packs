@@ -9,6 +9,7 @@ import type { Question } from "../types/question";
 import type { QuestionRuntime } from "./question-runtime/createQuestionRuntime";
 
 interface Props {
+  betValue: number | null;
   combo: number;
   currentOrder: number[];
   fadeAnim: Animated.Value;
@@ -17,7 +18,9 @@ interface Props {
   onCloseEvidence: () => void;
   onDragEnd: () => void;
   onDragStart: () => void;
+  onLockBet: () => void;
   onMatch: (pairs: number[][]) => void;
+  onSetBetValue: (value: number) => void;
   onOpenEvidence: () => void;
   onReorder: (order: number[]) => void;
   onSelect: (index: number) => void;
@@ -80,11 +83,14 @@ export function QuestionRendererView(props: Props) {
           scrollEnabled={props.scrollEnabled}
         >
           <QuestionInteraction
+            betValue={props.betValue}
             currentOrder={props.currentOrder}
             inputText={props.inputText}
             onDragEnd={props.onDragEnd}
             onDragStart={props.onDragStart}
+            onLockBet={props.onLockBet}
             onMatch={props.onMatch}
+            onSetBetValue={props.onSetBetValue}
             onReorder={props.onReorder}
             onSelect={props.onSelect}
             onSelectConsequence={props.onSelectConsequence}

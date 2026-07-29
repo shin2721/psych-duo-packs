@@ -6,6 +6,7 @@ import {
 } from "./getCorrectAnswerText";
 
 export interface QuestionRuntimeState {
+  betValue: number | null;
   consequenceSelection: boolean | null;
   currentOrder: number[];
   inputText: string;
@@ -64,6 +65,12 @@ export function createQuestionRuntime(
 
     if (question.type === "term_card") {
       return true;
+    }
+
+    if (question.type === "number_bet") {
+      if (state.betValue === null || typeof question.bet_answer !== "number") return false;
+      const tolerance = typeof question.bet_tolerance === "number" ? question.bet_tolerance : 0;
+      return Math.abs(state.betValue - question.bet_answer) <= tolerance;
     }
 
     if (question.type === "select_all") {

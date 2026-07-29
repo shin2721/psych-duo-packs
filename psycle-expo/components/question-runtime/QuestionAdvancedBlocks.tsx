@@ -5,6 +5,7 @@ import { ConsequenceScenario } from "../question-types/ConsequenceScenario";
 import { FillBlankTap } from "../question-types/FillBlankTap";
 import { Matching } from "../question-types/Matching";
 import { MicroInput } from "../question-types/MicroInput";
+import { NumberBet } from "../question-types/NumberBet";
 import { QuickReflex } from "../question-types/QuickReflex";
 import { SelectAll } from "../question-types/SelectAll";
 import { SortOrder } from "../question-types/SortOrder";
@@ -22,11 +23,14 @@ function resolveCorrectOrder(question: QuestionInteractionProps["question"]): nu
 
 export function QuestionAdvancedBlocks(props: QuestionInteractionProps) {
   const {
+    betValue,
     currentOrder,
     inputText,
     onDragEnd,
     onDragStart,
+    onLockBet,
     onMatch,
+    onSetBetValue,
     onReorder,
     onSelect,
     onSelectConsequence,
@@ -56,6 +60,27 @@ export function QuestionAdvancedBlocks(props: QuestionInteractionProps) {
         showResult={showResult}
         onSelect={onSelect}
         timeLimit={question.time_limit || 2000}
+      />
+    );
+  }
+
+  if (question.type === "number_bet") {
+    const min = typeof question.bet_min === "number" ? question.bet_min : 0;
+    const max = typeof question.bet_max === "number" ? question.bet_max : 100;
+    return (
+      <NumberBet
+        min={min}
+        max={max}
+        step={typeof question.bet_step === "number" && question.bet_step > 0 ? question.bet_step : 1}
+        decimals={typeof question.bet_decimals === "number" ? question.bet_decimals : 0}
+        unit={question.bet_unit || ""}
+        value={betValue}
+        answer={typeof question.bet_answer === "number" ? question.bet_answer : min}
+        showResult={showResult}
+        onChange={onSetBetValue}
+        onLock={onLockBet}
+        onDragStart={onDragStart}
+        onDragEnd={onDragEnd}
       />
     );
   }

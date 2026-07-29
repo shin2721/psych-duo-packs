@@ -63,6 +63,7 @@ export function QuestionRenderer({
   const [selectedPairs, setSelectedPairs] = useState<number[][]>([]);
   const [inputText, setInputText] = useState("");
   const [consequenceSelection, setConsequenceSelection] = useState<boolean | null>(null);
+  const [betValue, setBetValue] = useState<number | null>(null);
   const [showCombo, setShowCombo] = useState(false);
   const [showEvidenceSheet, setShowEvidenceSheet] = useState(false);
   const [showExplanationDetails, setShowExplanationDetails] = useState(false);
@@ -96,6 +97,13 @@ export function QuestionRenderer({
     setSelectedPairs([]);
     setInputText("");
     setConsequenceSelection(null);
+    setBetValue(
+      question.type === "number_bet"
+        ? typeof question.bet_start === "number"
+          ? question.bet_start
+          : ((question.bet_min ?? 0) + (question.bet_max ?? 100)) / 2
+        : null
+    );
     setShowExplanationDetails(false);
     setShowEvidenceSheet(false);
   }, [question]);
@@ -143,6 +151,7 @@ export function QuestionRenderer({
   }, [fadeAnim, slideAnim]);
 
   const runtime = createQuestionRuntime(question, {
+    betValue,
     consequenceSelection,
     currentOrder,
     inputText,
@@ -224,6 +233,7 @@ export function QuestionRenderer({
 
   return (
     <QuestionRendererView
+      betValue={betValue}
       combo={combo}
       currentOrder={currentOrder}
       fadeAnim={fadeAnim}
@@ -232,6 +242,23 @@ export function QuestionRenderer({
       onCloseEvidence={() => setShowEvidenceSheet(false)}
       onDragEnd={() => setScrollEnabled(true)}
       onDragStart={() => setScrollEnabled(false)}
+      onLockBet={() => {
+        if (showResult || betValue === null) return;
+        setShowResult(true);
+        const tolerance =
+          typeof question.bet_tolerance === "number" ? question.bet_tolerance : 0;
+        const hit =
+          typeof question.bet_answer === "number" &&
+          Math.abs(betValue - question.bet_answer) <= tolerance;
+        if (hit) {
+          void HapticFeedback.success();
+          void sounds.play("correct");
+          return;
+        }
+        void HapticFeedback.error();
+        void sounds.play("incorrect");
+      }}
+      onSetBetValue={setBetValue}
       onMatch={(pairs) => {
         setSelectedPairs(pairs);
         void HapticFeedback.selection();

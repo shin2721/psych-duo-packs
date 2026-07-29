@@ -1,11 +1,14 @@
 import type { Question } from "../../types/question";
 
 export interface QuestionInteractionProps {
+  betValue: number | null;
   currentOrder: number[];
   inputText: string;
   onDragEnd: () => void;
   onDragStart: () => void;
+  onLockBet: () => void;
   onMatch: (pairs: number[][]) => void;
+  onSetBetValue: (value: number) => void;
   onReorder: (newOrder: number[]) => void;
   onSelect: (index: number) => void;
   onSelectConsequence: (isPositive: boolean) => void;
