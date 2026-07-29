@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-29 - レッスン1を予想カード5枚に置換し、5版目で初めてオーナー実プレイを通過
+
+- Changed: number_bet型を新設(スライダーで賭け→実数と自分の予想を同軸表示)。bet_cardフラグで誤答時も解説を常時展開し続けるボタンを解説の下へ。mental_l01を5枚の予想カード(頼み事承諾率/パワーポーズ再現/リアプレイザル/ポジティブ空想/実行意図)に差し替え。未検証3出典をPsycle_Unverified_*として台帳へ仮登録し本番昇格を禁止
+- Verified: Simulator実プレイ(オーナー、2026-07-29)で好感触。tsc/validate:lessonsエラー0/170スイート709テスト緑/両監査OK
+- Remaining: 未検証3出典の原典確認と昇格判断。en版mental_l01が旧10問のまま。外した問題が翌日別場面で戻る仕組みと直感スコア表示は未実装。5枚目と完了画面の実機確認
+
 ### 2026-07-28 - Restore reliable swipe-judgment progression
 
 - Changed: Swipe judgments now claim only horizontal intent, pause parent scrolling during a drag, handle release/termination safely, and provide equal-width 48pt left/right tap alternatives.
