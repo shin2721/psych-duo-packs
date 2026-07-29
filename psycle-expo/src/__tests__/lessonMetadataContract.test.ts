@@ -49,7 +49,9 @@ describe("lesson metadata contract", () => {
     expect(firstCoreLesson?.questions).toHaveLength(
       firstCoreLesson!.metadata!.question_count_range.target
     );
-    expect(firstCoreLesson?.questions).toHaveLength(10);
+    // 予想カード版l01は5問（load_score合計3 → target 5）。問数を増減させる時は
+    // レッスン本体とlessonMetadataのload_scoreを同時に更新する。
+    expect(firstCoreLesson?.questions).toHaveLength(5);
 
     expect(secondCoreLesson?.metadata?.lesson_id).toBe("mental_l02");
     expect(secondCoreLesson?.questions).toHaveLength(

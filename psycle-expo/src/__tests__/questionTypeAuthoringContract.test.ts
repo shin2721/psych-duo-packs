@@ -84,6 +84,15 @@ const validQuestions: Record<string, Record<string, unknown>> = {
     term: "認知的評価",
     definition: "出来事をどう捉えたかという評価",
   },
+  number_bet: {
+    ...base("number_bet"),
+    bet_min: 5,
+    bet_max: 30,
+    bet_start: 20,
+    bet_answer: 10,
+    bet_tolerance: 3,
+    bet_unit: "人",
+  },
 };
 
 describe("question type authoring contract", () => {
