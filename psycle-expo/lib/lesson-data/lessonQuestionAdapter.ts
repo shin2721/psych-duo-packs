@@ -108,6 +108,7 @@ function normalizeQuestionType(value: string): QuestionType {
     "animated_explanation",
     "term_card",
     "interactive_practice",
+    "number_bet",
   ];
   return allowed.includes(value as QuestionType)
     ? (value as QuestionType)
@@ -255,6 +256,24 @@ function adaptQuestion(raw: Record<string, unknown>): Question {
       typeof raw.recommended_index === "number" ? raw.recommended_index : undefined;
   }
 
+  if (raw.bet_card === true) {
+    adapted.bet_card = true;
+  }
+
+  if (raw.type === "number_bet") {
+    const num = (value: unknown) => (Number.isFinite(value) ? Number(value) : undefined);
+    adapted.bet_min = num(raw.bet_min);
+    adapted.bet_max = num(raw.bet_max);
+    adapted.bet_step = num(raw.bet_step);
+    adapted.bet_start = num(raw.bet_start);
+    adapted.bet_decimals = num(raw.bet_decimals);
+    adapted.bet_answer = num(raw.bet_answer);
+    adapted.bet_tolerance = num(raw.bet_tolerance);
+    adapted.bet_unit = typeof raw.bet_unit === "string" ? raw.bet_unit : undefined;
+    adapted.bet_answer_label =
+      typeof raw.bet_answer_label === "string" ? raw.bet_answer_label : undefined;
+  }
+
   if (raw.type === "quick_reflex") {
     adapted.time_limit = Number.isFinite(raw.time_limit)
       ? Number(raw.time_limit)
@@ -314,6 +333,7 @@ export function adaptRawQuestion(
     raw.bank !== undefined ||
     mappedType === "swipe_judgment" ||
     mappedType === "micro_input" ||
+    mappedType === "number_bet" ||
     mappedType === "term_card";
   const hasCorrectAnswer =
     raw.correct_answer !== undefined ||
@@ -324,6 +344,7 @@ export function adaptRawQuestion(
     raw.is_true !== undefined ||
     raw.input_answer !== undefined ||
     raw.recommended_index !== undefined ||
+    raw.bet_answer !== undefined ||
     mappedType === "conversation" ||
     mappedType === "term_card" ||
     mappedType === "animated_explanation";
