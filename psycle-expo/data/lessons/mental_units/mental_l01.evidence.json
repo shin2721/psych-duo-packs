@@ -1,46 +1,64 @@
 {
-  "source_type": "peer_reviewed",
+  "source_type": "mixed",
   "citations": [
     {
       "role": "primary",
+      "source_type": "experiment",
+      "doi": "10.1037/a0025719",
+      "pmid": "21942377",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/21942377/",
+      "label": "Jamieson et al. (2012) - Mind over matter: Reappraising arousal improves cardiovascular responses to stress"
+    },
+    {
+      "role": "supporting",
       "source_type": "classic",
-      "doi": "10.1037/0003-066X.39.2.124",
+      "doi": "10.1037/0003-066X.54.7.493",
       "pmid": "",
-      "url": "https://psycnet.apa.org/record/1984-18621-001",
-      "label": "Beck (1984) - Cognitive approaches to stress"
+      "url": "https://psycnet.apa.org/record/1999-05760-002",
+      "label": "Gollwitzer (1999) - Implementation intentions: Strong effects of simple plans"
     },
     {
-      "role": "supporting",
-      "source_type": "systematic_review",
-      "doi": "10.1007/s10608-012-9476-1",
-      "pmid": "23459093",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/23459093/",
-      "label": "Hofmann et al. (2012) - The Efficacy of Cognitive Behavioral Therapy: A Review of Meta-analyses"
+      "role": "pending_verification",
+      "source_type": "experiment",
+      "doi": "10.1037/0022-3514.95.1.128",
+      "pmid": "",
+      "url": "https://doi.org/10.1037/0022-3514.95.1.128",
+      "label": "【要出典確認】Flynn & Lake (2008) - 頼み事の承諾率の過小評価。カード1の場面をこの原典パラダイム（アンケート依頼）に合わせて書き直すまで昇格不可"
     },
     {
-      "role": "supporting",
-      "source_type": "meta_analysis",
-      "doi": "10.1016/j.cpr.2024.102428",
-      "pmid": "38657292",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/38657292/",
-      "label": "Webb et al. (2024) - 認知的再評価の効果は中程度だが個人差が大きいMA"
+      "role": "pending_verification",
+      "source_type": "replication",
+      "doi": "10.1177/0956797614553946",
+      "pmid": "",
+      "url": "https://doi.org/10.1177/0956797614553946",
+      "label": "【要出典確認】Ranehill et al. (2015) - パワーポーズ追試。カード2の根拠。原典確認まで昇格不可"
+    },
+    {
+      "role": "pending_verification",
+      "source_type": "experiment",
+      "doi": "10.1016/j.jesp.2011.02.003",
+      "pmid": "",
+      "url": "https://doi.org/10.1016/j.jesp.2011.02.003",
+      "label": "【要出典確認】Kappes & Oettingen (2011) - ポジティブ空想とエネルギー低下。カード4の根拠。機序表現の修正と原典確認まで昇格不可"
     }
   ],
-  "source_label": "Beck (1984) classic + Hofmann et al. (2012) CBT efficacy MA + Webb et al. (2024) MA",
-  "claim": "ストレスを感じたとき、「この出来事をどう解釈しているか」に気づくと、自動的な反応に距離を取りやすくなる可能性がある。認知行動療法はうつ病・不安障害に対して有効な治療法とメタ分析で示されている",
-  "limitations": "急性トラウマや生理的要因が強い場合には認知的アプローチだけでは不十分。重度のうつ病や希死念慮がある場合は専門機関へ相談を。現代のデジタル環境下での検証は限定的",
-  "effect_size_note": "Hofmann et al. (2012): CBTのうつ病・不安障害への効果は中〜大程度と複数MAで報告。Webb et al. (2024): 認知的再評価の効果は中程度だが個人差が大きい [DOI:10.1007/s10608-012-9476-1, DOI:10.1016/j.cpr.2024.102428]",
-  "evidence_grade": "silver",
-  "confidence": "high",
+  "source_label": "Jamieson (2012) + Gollwitzer (1999) 検証済み2件 / Flynn & Lake (2008), Ranehill (2015), Kappes & Oettingen (2011) 未検証3件",
+  "claim": "心理学の実験結果を先に予想してから実測と突き合わせると、直感と実測の間に方向のあるズレがあることを体験できる。個別の知見: ストレス反応の読み替えは短い本番場面で成績を上げる傾向（Jamieson 2012）、実行意図は目標意図より実行につながりやすい（Gollwitzer 1999）",
+  "limitations": "5枚中3枚（頼み事の承諾率・パワーポーズ再現・ポジティブ空想）は出典未検証の仮登録で、画面上にも【要出典確認】を表示している。カード1は現在の場面（写真依頼）が原典パラダイム（アンケート依頼）と不一致であり書き直しが必要。5問の合算は能力測定として無効（偶然率と難度が問題間で異なる）。集団平均を個人の確定結果として提示しない",
+  "effect_size_note": "Jamieson et al. (2012): 覚醒の再評価群で心血管反応と課題成績が改善する傾向。Gollwitzer (1999): 実行意図の効果はメタ分析で中〜大（Gollwitzer & Sheeran 2006, d≈.65）。未検証3件の数値は原典確認まで効果量を記載しない",
+  "evidence_grade": "bronze",
+  "confidence": "low",
   "status": "active",
-  "last_verified": "2026-04-22",
-  "generated_by": "mode_a",
+  "last_verified": "2026-07-29",
+  "generated_by": "bet_card_pilot",
   "review": {
-    "human_approved": true,
-    "reviewer": "owner",
+    "human_approved": false,
+    "reviewer": "",
     "auto_approved": false,
     "approval_mode": "manual",
-    "approval_reasons": [],
+    "approval_reasons": [
+      "オーナー実プレイで体験は承認済み（2026-07-29）。ただし証拠レビューは未実施のためhuman_approvedはfalse。科学修正（ロードマップ#3）完了後に再申請"
+    ],
     "evaluated_at": ""
   },
   "citation": {
@@ -50,7 +68,10 @@
   },
   "promotion": {
     "eligible": false,
-    "reasons": [],
+    "reasons": [
+      "unverified_placeholder_sources_present",
+      "card1_scene_mismatches_source_paradigm"
+    ],
     "warnings": []
   },
   "content_package": {
@@ -68,7 +89,7 @@
       "invalidation_rule": "dependency_change_requires_revalidation"
     },
     "owner_id": "content_ops",
-    "state": "production",
+    "state": "staging",
     "rollback_route": "course:mental:entry",
     "rollback_class": "soft",
     "localized_locales": [
@@ -122,19 +143,19 @@
       "readiness_authority_complete": true
     },
     "review_decision": {
-      "change_type": "content_patch",
-      "human_review_required": false,
-      "approved_source": "deterministic_validator",
-      "review_reason": "autonomous_default_content_package_gate",
-      "reviewed_at": "2026-04-24T06:24:32.403Z",
+      "change_type": "lesson_replacement",
+      "human_review_required": true,
+      "approved_source": "owner_playtest",
+      "review_reason": "bet_card_pilot_quarantined_to_staging_until_source_verification",
+      "reviewed_at": "2026-07-29T00:00:00.000Z",
       "rollback_trigger_if_reverted": "guardrail_or_contract_regression"
     }
   },
-  "last_verified_at": "2026-04-22",
+  "last_verified_at": "2026-07-29",
   "review_sla_days": 90,
   "expiry_action": "refresh_queue",
-  "next_review_due_at": "2026-07-21",
+  "next_review_due_at": "2026-10-27",
   "stale_route_owner": "content_ops",
-  "refresh_value_reason_candidate": "evidence_strength_update",
+  "refresh_value_reason_candidate": "source_verification_pending",
   "severity_tier": "B"
 }
