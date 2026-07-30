@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-30 - Codexレビュー反映の第一弾: 偽production状態の隔離と仮出典の昇格ゲート
+
+- Changed: mental_l01.evidence.jsonを旧CBT内容から予想カード版へ書き直し(state=staging, human_approved=false, 未検証3出典をpending_verification明記)。validate-lessonsにunverified_placeholder×productionの機械ゲート追加。見出しを「あなたの直感 vs 心理学」へ
+- Verified: ゲート実証(production化で遮断・stagingで通過)。validate:lessonsエラー0/170スイート709テスト緑/両監査OK/Simulator devでl02(staging)が正常に開くことを確認
+- Remaining: 設計v1.1の続き: メカニクス修正(カード5許容値・スライダー触るまで賭け不可・罰音除去)→科学修正+台帳正式登録→最小永続化→ユニット1(1困りごと×1技能)実装→遅延probe
+
 ### 2026-07-29 - レッスン1を予想カード5枚に置換し、5版目で初めてオーナー実プレイを通過
 
 - Changed: number_bet型を新設(スライダーで賭け→実数と自分の予想を同軸表示)。bet_cardフラグで誤答時も解説を常時展開し続けるボタンを解説の下へ。mental_l01を5枚の予想カード(頼み事承諾率/パワーポーズ再現/リアプレイザル/ポジティブ空想/実行意図)に差し替え。未検証3出典をPsycle_Unverified_*として台帳へ仮登録し本番昇格を禁止
