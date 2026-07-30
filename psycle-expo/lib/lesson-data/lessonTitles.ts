@@ -1,7 +1,7 @@
 export function getLessonTitle(unit: string, level: number): string {
   const titles: Record<string, string[]> = {
     mental: [
-      "焦りの3タイプ",
+      "あなたの直感 vs 心理学",
       "不安と事実を分ける",
       "焦りに10秒を挟む",
       "自責から次の一手へ",
