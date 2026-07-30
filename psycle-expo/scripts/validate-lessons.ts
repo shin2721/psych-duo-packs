@@ -388,11 +388,73 @@ export class LessonValidator {
   private readonly rootDir: string;
   private readonly lessonDirs: string[];
   private readonly stagingDirs: string[];
+  private placeholderSourceIds: Set<string> | null = null;
 
   constructor(options: LessonValidatorOptions = {}) {
     this.rootDir = options.rootDir ?? process.cwd();
     this.lessonDirs = options.lessonDirs ?? LESSON_DIRS;
     this.stagingDirs = options.stagingDirs ?? STAGING_DIRS;
+  }
+
+  /**
+   * curated_sources.json で type: "unverified_placeholder" のsource_id集合。
+   * 仮登録出典はパイロット（staging）でのみ使用でき、productionパッケージには
+   * 入れない。notesの「昇格禁止」を機械で強制するゲート。
+   */
+  private getPlaceholderSourceIds(): Set<string> {
+    if (this.placeholderSourceIds) return this.placeholderSourceIds;
+    this.placeholderSourceIds = new Set();
+    try {
+      const registryPath = path.join(this.rootDir, 'data', 'curated_sources.json');
+      const registry = JSON.parse(fs.readFileSync(registryPath, 'utf-8')) as {
+        sources?: Record<string, { type?: string }>;
+      };
+      for (const [sourceId, entry] of Object.entries(registry.sources ?? {})) {
+        if (entry?.type === 'unverified_placeholder') {
+          this.placeholderSourceIds.add(sourceId);
+        }
+      }
+    } catch {
+      // 台帳が読めない環境（テストの一時ディレクトリ等）ではゲートを黙ってスキップ
+    }
+    return this.placeholderSourceIds;
+  }
+
+  private validatePlaceholderPromotion(
+    filePath: string,
+    severity: 'error' | 'warning',
+    lessons: Question[]
+  ): void {
+    const placeholders = this.getPlaceholderSourceIds();
+    if (placeholders.size === 0) return;
+
+    const usedPlaceholders = [
+      ...new Set(
+        lessons
+          .map((question) => question.source_id)
+          .filter((sourceId): sourceId is string => !!sourceId && placeholders.has(sourceId))
+      ),
+    ];
+    if (usedPlaceholders.length === 0) return;
+
+    let packageState: string | undefined;
+    try {
+      const evidencePath = filePath.replace(/\.[a-z]{2}\.json$/, '.evidence.json');
+      const evidence = JSON.parse(fs.readFileSync(evidencePath, 'utf-8')) as {
+        content_package?: { state?: string };
+      };
+      packageState = evidence.content_package?.state;
+    } catch {
+      return;
+    }
+
+    if (packageState === 'production') {
+      this.addError(
+        filePath,
+        severity,
+        `未検証の仮登録出典を使うレッスンはproductionへ昇格できません: ${usedPlaceholders.join(', ')}（原典検証の上curated_sources.jsonへ正式登録するか、package stateをstagingへ）`
+      );
+    }
   }
 
   validate(): boolean {
@@ -445,6 +507,9 @@ export class LessonValidator {
 
       // Evidence Card チェック
       this.validateEvidenceCard(filePath, severity);
+
+      // 仮登録出典の昇格ブロック
+      this.validatePlaceholderPromotion(filePath, severity, lessons);
 
       // レッスン内ID重複チェック
       const lessonIds = new Set<string>();
@@ -621,8 +686,13 @@ export class LessonValidator {
         );
       }
 
-      // 本番配置時の promotion gate チェック
-      const isProduction = !lessonPath.includes('_staging');
+      // 本番配置時の promotion gate チェック。
+      // 「本番配置」はパスだけでなく content_package.state でも判定する。
+      // ランタイム（lessonOperational）は state==="staging" を dev限定として
+      // ブロックするので、staging宣言済みパッケージは本番配置ではない。
+      const isProduction =
+        !lessonPath.includes('_staging') &&
+        evidence.content_package?.state !== 'staging';
       const humanApproved = evidence.review?.human_approved === true;
       const autoApproved = evidence.review?.auto_approved === true;
       const promotionEligible = evidence.promotion?.eligible === true;
