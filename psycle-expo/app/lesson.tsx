@@ -80,6 +80,7 @@ export default function LessonScreen() {
 
   const {
     activeLessonId,
+    correctCount,
     currentIndex,
     currentLesson,
     currentQuestion,
@@ -156,6 +157,7 @@ export default function LessonScreen() {
     return (
       <LessonCompletionView
         completionBottomInset={completionBottomInset}
+        correctCount={correctCount}
         currentLesson={currentLesson}
         feltBetterSubmitted={feltBetterSubmitted}
         lastShownInterventionId={showFeltBetterPrompt ? lastShownInterventionId : null}

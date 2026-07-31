@@ -17,6 +17,8 @@ import type { Question } from "../../types/question";
 
 export function LessonCompletionView(props: {
   completionBottomInset: number;
+  // 当たった数。能力ラベルは付けない（偶然率の違う問題の合算はスコアにならない）。
+  correctCount?: number;
   currentLesson: Lesson | null;
   feltBetterSubmitted: boolean;
   lastShownInterventionId: string | null;
@@ -94,6 +96,16 @@ export function LessonCompletionView(props: {
                   {i18n.t("lesson.completionRecap.questions", { count: completedQuestionCount })}
                 </Text>
               </View>
+              {typeof props.correctCount === "number" ? (
+                <View style={styles.recapMetricPill} testID="lesson-complete-hits">
+                  <Text style={styles.recapMetricValue}>
+                    {props.correctCount}/{completedQuestionCount}
+                  </Text>
+                  <Text style={styles.recapMetricLabel}>
+                    {i18n.t("lesson.completionRecap.hits")}
+                  </Text>
+                </View>
+              ) : null}
               <View style={styles.recapMetricPill}>
                 <Text style={styles.recapMetricValue}>{evidenceSummary.tryValue}</Text>
                 <Text style={styles.recapMetricLabel}>{i18n.t("lesson.completionRecap.evidence")}</Text>
