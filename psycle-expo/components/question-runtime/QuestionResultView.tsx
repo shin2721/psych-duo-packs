@@ -55,6 +55,8 @@ export function QuestionResultView({
   const isBetCard = question.type === "number_bet" || question.bet_card === true;
   const showExplanationInline = runtime.isCorrect || isBetCard;
   const betHeadline = runtime.isCorrect ? "当たり" : "はずれ";
+  // 賭けの外れは誤答ではなく測定結果。赤×ではなく金色（実際の値の色）で返す。
+  const isBetMiss = isBetCard && !runtime.isCorrect;
 
   return (
     <View
@@ -64,20 +66,38 @@ export function QuestionResultView({
           ? styles.surveyBox
           : runtime.isCorrect
             ? styles.correctBox
-            : styles.incorrectBox,
+            : isBetMiss
+              ? styles.betMissBox
+              : styles.incorrectBox,
       ]}
     >
       {!runtime.isSurveyMode && (
         <View style={styles.resultHeader}>
           <Ionicons
-            name={runtime.isCorrect ? "checkmark-circle" : "close-circle"}
+            name={
+              runtime.isCorrect
+                ? "checkmark-circle"
+                : isBetMiss
+                  ? "swap-horizontal"
+                  : "close-circle"
+            }
             size={32}
-            color={runtime.isCorrect ? theme.colors.success : theme.colors.error}
+            color={
+              runtime.isCorrect
+                ? theme.colors.success
+                : isBetMiss
+                  ? BET_TRUTH
+                  : theme.colors.error
+            }
           />
           <Text
             style={[
               styles.resultTitle,
-              runtime.isCorrect ? styles.correctText : styles.incorrectText,
+              runtime.isCorrect
+                ? styles.correctText
+                : isBetMiss
+                  ? styles.betMissText
+                  : styles.incorrectText,
             ]}
           >
             {isBetCard
@@ -196,7 +216,15 @@ export function QuestionResultView({
   );
 }
 
+const BET_TRUTH = "#E5A93C";
+
 const styles = StyleSheet.create({
+  betMissBox: {
+    borderColor: "rgba(229, 169, 60, 0.5)",
+  },
+  betMissText: {
+    color: BET_TRUTH,
+  },
   actionAdviceContainer: {
     backgroundColor: "rgba(255,255,255,0.08)",
     borderRadius: 16,

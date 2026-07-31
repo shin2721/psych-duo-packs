@@ -97,13 +97,9 @@ export function QuestionRenderer({
     setSelectedPairs([]);
     setInputText("");
     setConsequenceSelection(null);
-    setBetValue(
-      question.type === "number_bet"
-        ? typeof question.bet_start === "number"
-          ? question.bet_start
-          : ((question.bet_min ?? 0) + (question.bet_max ?? 100)) / 2
-        : null
-    );
+    // number_bet は「触るまで null」。初期値を置くとそれがアンカーになって
+    // 予想を汚す（測っているのは直感であって初期値ではない）。
+    setBetValue(null);
     setShowExplanationDetails(false);
     setShowEvidenceSheet(false);
   }, [question]);
@@ -171,6 +167,12 @@ export function QuestionRenderer({
     if (isChoiceCorrect(question, index)) {
       void HapticFeedback.success();
       void sounds.play("correct");
+      return;
+    }
+
+    // 予想カードの外れは間違いではなく測定結果。罰音・エラー触覚は鳴らさない。
+    if (question.bet_card === true) {
+      void HapticFeedback.selection();
       return;
     }
 
@@ -255,8 +257,8 @@ export function QuestionRenderer({
           void sounds.play("correct");
           return;
         }
-        void HapticFeedback.error();
-        void sounds.play("incorrect");
+        // 外れは測定結果。罰音なしの中立フィードバックに留める。
+        void HapticFeedback.selection();
       }}
       onSetBetValue={setBetValue}
       onMatch={(pairs) => {

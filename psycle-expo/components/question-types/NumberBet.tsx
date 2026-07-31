@@ -48,6 +48,9 @@ export function NumberBet({
   const [trackWidth, setTrackWidth] = useState(0);
   const trackRef = useRef<View>(null);
   const trackPageXRef = useRef(0);
+  // value===null は「まだ触っていない」。つまみは中央に薄く置くが、数字は
+  // 出さず、賭けるボタンも無効。初期値がアンカーになって予想を汚すのを防ぐ。
+  const touched = value !== null;
   const draft = value === null ? (min + max) / 2 : value;
 
   const stateRef = useRef({ draft, min, max, step, showResult, trackWidth, onChange, onDragStart, onDragEnd });
@@ -126,10 +129,15 @@ export function NumberBet({
     <View style={styles.wrap} testID="number-bet">
       {!showResult ? (
         <>
-          <Text style={styles.draftValue} testID="number-bet-draft">
-            {draft.toFixed(decimals)}
+          <Text
+            style={[styles.draftValue, !touched && styles.draftValueUntouched]}
+            testID="number-bet-draft"
+          >
+            {touched ? draft.toFixed(decimals) : "?"}
           </Text>
-          {unit ? <Text style={styles.unit}>{unit}</Text> : null}
+          <Text style={styles.unit}>
+            {touched ? unit : "バーを動かして予想する"}
+          </Text>
         </>
       ) : null}
 
@@ -139,6 +147,32 @@ export function NumberBet({
         onLayout={onTrackLayout}
         {...(showResult ? {} : panResponder.panHandlers)}
         testID="number-bet-track"
+        accessible={!showResult}
+        accessibilityRole="adjustable"
+        accessibilityLabel="予想の数値"
+        // min/max/now はネイティブ側で整数変換されるため、小数ステップの
+        // カードでは渡せない（17.5 で HostFunction が落ちる）。text のみ使う。
+        accessibilityValue={{
+          text: touched ? `${draft.toFixed(decimals)}${unit ? ` ${unit}` : ""}` : "未設定",
+        }}
+        accessibilityActions={
+          showResult
+            ? undefined
+            : [
+                { name: "increment", label: "増やす" },
+                { name: "decrement", label: "減らす" },
+              ]
+        }
+        onAccessibilityAction={(event) => {
+          if (showResult) return;
+          const s = stateRef.current;
+          const base = touched ? draft : (min + max) / 2;
+          if (event.nativeEvent.actionName === "increment") {
+            s.onChange(quantize(base + step));
+          } else if (event.nativeEvent.actionName === "decrement") {
+            s.onChange(quantize(base - step));
+          }
+        }}
       >
         <View style={styles.rail} />
 
@@ -149,7 +183,7 @@ export function NumberBet({
           />
         ) : null}
 
-        <View style={[styles.pin, { left: guessX }]}>
+        <View style={[styles.pin, { left: guessX }, !touched && !showResult && styles.pinUntouched]}>
           {showResult ? <Text style={styles.pinNumGuess}>{draft.toFixed(decimals)}</Text> : null}
           <View style={[styles.pinBar, styles.pinBarGuess]} />
           {showResult ? <Text style={styles.pinCapGuess}>あなた</Text> : null}
@@ -175,11 +209,17 @@ export function NumberBet({
         <Pressable
           accessibilityRole="button"
           accessibilityLabel="この予想で賭ける"
+          accessibilityState={{ disabled: !touched }}
+          disabled={!touched}
           onPress={() => {
             void hapticFeedback.medium();
             onLock();
           }}
-          style={({ pressed }) => [styles.lockButton, pressed && styles.lockButtonPressed]}
+          style={({ pressed }) => [
+            styles.lockButton,
+            !touched && styles.lockButtonDisabled,
+            pressed && touched && styles.lockButtonPressed,
+          ]}
           testID="number-bet-lock"
         >
           <Text style={styles.lockLabel}>この予想で賭ける</Text>
@@ -199,6 +239,9 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     textAlign: "center",
     fontVariant: ["tabular-nums"],
+  },
+  draftValueUntouched: {
+    color: "#4b5871",
   },
   endLabel: {
     color: "#94a3b8",
@@ -229,6 +272,12 @@ const styles = StyleSheet.create({
   },
   lockButtonPressed: {
     opacity: 0.8,
+  },
+  lockButtonDisabled: {
+    opacity: 0.35,
+  },
+  pinUntouched: {
+    opacity: 0.35,
   },
   lockLabel: {
     color: "#0b1220",

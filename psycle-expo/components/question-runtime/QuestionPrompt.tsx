@@ -15,7 +15,7 @@ export function QuestionPrompt({
       {question.image ? <QuestionImage uri={question.image} caption={question.imageCaption} /> : null}
       {question.audio ? <QuestionAudio uri={question.audio} /> : null}
 
-      {question.type === "conversation" ? (
+      {question.type === "swipe_judgment" ? null : question.type === "conversation" ? (
         <View style={styles.conversationBubble}>
           <Text style={styles.conversationBubbleText} testID="question-text">
             {questionText}

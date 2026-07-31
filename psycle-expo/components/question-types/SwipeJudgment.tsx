@@ -18,6 +18,7 @@ export function SwipeJudgment({
   onDragStart,
   onDragEnd,
   labels,
+  neutralMiss,
 }: {
   statement: string;
   selectedAnswer: "left" | "right" | null;
@@ -27,6 +28,8 @@ export function SwipeJudgment({
   onDragStart?: () => void;
   onDragEnd?: () => void;
   labels?: { left: string; right: string };
+  // 予想カードでは外れを誤答扱いしない。赤ではなく金色の中立表示にする。
+  neutralMiss?: boolean;
 }) {
   const pan = useState(new Animated.ValueXY())[0];
   const scale = useRef(new Animated.Value(1)).current;
@@ -191,7 +194,7 @@ export function SwipeJudgment({
         style={[
           styles.swipeCard,
           showResult && isCorrect && styles.swipeCorrect,
-          showResult && !isCorrect && styles.swipeIncorrect,
+          showResult && !isCorrect && (neutralMiss ? styles.swipeMissNeutral : styles.swipeIncorrect),
           {
             transform: [{ translateX: pan.x }, { translateY }, { rotate }, { scale }],
           },
@@ -208,6 +211,8 @@ export function SwipeJudgment({
           <View style={styles.answerIcon}>
             {isCorrect ? (
               <Ionicons name="checkmark-circle" size={40} color="#22c55e" />
+            ) : neutralMiss ? (
+              <Ionicons name="swap-horizontal" size={40} color="#E5A93C" />
             ) : (
               <Ionicons name="close-circle" size={40} color="#ef4444" />
             )}
@@ -256,6 +261,10 @@ const styles = StyleSheet.create({
   swipeIncorrect: {
     backgroundColor: "#ef4444",
     borderColor: "#ef4444",
+  },
+  swipeMissNeutral: {
+    backgroundColor: "rgba(229, 169, 60, 0.22)",
+    borderColor: "#E5A93C",
   },
   swipeLabel: {
     flexShrink: 1,

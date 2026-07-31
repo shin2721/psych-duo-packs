@@ -148,6 +148,7 @@ export function QuestionAdvancedBlocks(props: QuestionInteractionProps) {
         onDragStart={onDragStart}
         onDragEnd={onDragEnd}
         labels={question.swipe_labels}
+        neutralMiss={question.bet_card === true}
       />
     );
   }
