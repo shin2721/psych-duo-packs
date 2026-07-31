@@ -241,7 +241,11 @@ export function useLessonFlow(params: UseLessonFlowParams) {
 
       if (isCorrect) {
         const baseXp = XP_REWARDS.CORRECT_ANSWER;
-        setCorrectCount((prev) => prev + 1);
+        // 的中数は初回の賭けだけ数える。復習ラウンドで直した分まで足すと、
+        // 最後は必ず満点になって賭けの意味が消える。
+        if (!isReviewRound) {
+          setCorrectCount((prev) => prev + 1);
+        }
         const nextStreak = correctStreak + 1;
         setCorrectStreak(nextStreak);
 
