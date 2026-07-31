@@ -202,6 +202,7 @@ export const zh = {
             title: '这次练习到的内容',
             body: '你不只是答对了题目，也练习了一个之后能复用的小模式。',
             questions: '%{count} 题',
+            hits: '命中',
             evidence: '证据强度',
             nextPromise: '下次可复用的一步',
         },

@@ -202,6 +202,7 @@ export const ko = {
             title: '이번에 연습한 것',
             body: '정답을 맞힌 것에서 끝나지 않고, 다시 쓸 수 있는 작은 패턴을 연습했습니다.',
             questions: '%{count}문항',
+            hits: '적중',
             evidence: '근거 강도',
             nextPromise: '다음에 다시 쓸 한 수',
         },

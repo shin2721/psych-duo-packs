@@ -256,6 +256,7 @@ export const en = {
             title: 'What you trained',
             body: 'You did more than get answers right. You practiced a small pattern you can reuse.',
             questions: '%{count} questions',
+            hits: 'Hits',
             evidence: 'Evidence strength',
             nextPromise: 'Next move to reuse',
         },

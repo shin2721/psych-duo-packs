@@ -202,6 +202,7 @@ export const es = {
             title: 'Lo que entrenaste',
             body: 'No solo acertaste respuestas. Practicaste un pequeño patrón que puedes reutilizar.',
             questions: '%{count} preguntas',
+            hits: 'Aciertos',
             evidence: 'Fuerza de la evidencia',
             nextPromise: 'Próximo paso reutilizable',
         },

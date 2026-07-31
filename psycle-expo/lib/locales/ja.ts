@@ -256,6 +256,7 @@ export const ja = {
             title: '今回身につけたこと',
             body: 'ただ正解しただけではなく、次に使うための小さな型を練習しました。',
             questions: '%{count}問',
+            hits: '的中',
             evidence: '根拠の強さ',
             nextPromise: '次に使う一手',
         },

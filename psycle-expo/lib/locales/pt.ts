@@ -202,6 +202,7 @@ export const pt = {
             title: 'O que você treinou',
             body: 'Você fez mais do que acertar respostas. Praticou um pequeno padrão reutilizável.',
             questions: '%{count} perguntas',
+            hits: 'Acertos',
             evidence: 'Força da evidência',
             nextPromise: 'Próximo passo para reutilizar',
         },

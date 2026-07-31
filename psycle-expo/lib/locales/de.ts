@@ -202,6 +202,7 @@ export const de = {
             title: 'Was du trainiert hast',
             body: 'Du hast nicht nur richtig geantwortet. Du hast ein kleines Muster geübt, das du wiederverwenden kannst.',
             questions: '%{count} Fragen',
+            hits: 'Treffer',
             evidence: 'Evidenzstärke',
             nextPromise: 'Nächster wiederverwendbarer Schritt',
         },

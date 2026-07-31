@@ -202,6 +202,7 @@ export const fr = {
             title: 'Ce que tu as entraîné',
             body: 'Tu n’as pas seulement répondu juste. Tu as pratiqué un petit modèle réutilisable.',
             questions: '%{count} questions',
+            hits: 'Réussites',
             evidence: 'Force des preuves',
             nextPromise: 'Prochaine action à réutiliser',
         },
