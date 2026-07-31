@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-07-31 - Bet-card UI polish verified in Simulator: drag-required slider, gold neutral misses, first-bet hit tally on completion
+
+- Changed: NumberBet drag-required (kills card5 auto-hit + card1 anchor); bet misses gold/neutral across slider, swipe, choice; swipe double-text removed; VoiceOver adjustable slider; completion recap shows first-round hits only (review corrections excluded)
+- Verified: tsc clean; 170 suites / 709 tests green; full lesson playthrough on Simulator incl. review round: untouched slider blocks lock, misses show gold, recap shows 4/5 after review fixes
+- Remaining: Science fixes for cards 1-5 (register real sources, rewrite card1 to questionnaire paradigm); bet-history persistence; Unit 1 (pre-performance nerves) staging build; guess==answer pin label overlap cosmetic
+
 ### 2026-07-30 - Codexレビュー反映の第一弾: 偽production状態の隔離と仮出典の昇格ゲート
 
 - Changed: mental_l01.evidence.jsonを旧CBT内容から予想カード版へ書き直し(state=staging, human_approved=false, 未検証3出典をpending_verification明記)。validate-lessonsにunverified_placeholder×productionの機械ゲート追加。見出しを「あなたの直感 vs 心理学」へ
