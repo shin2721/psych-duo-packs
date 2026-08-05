@@ -62,6 +62,23 @@ describe("lesson flow helpers", () => {
     expect(transition.nextCurrentIndex).toBe(1);
   });
 
+  test("Discovery の賭け外れを同じ lesson の即時復習へ積まない", () => {
+    const betQuestion: Question = { ...question, bet_card: true };
+    const transition = resolveLessonAnswerTransition({
+      currentIndex: 0,
+      isCorrect: false,
+      isReviewRound: false,
+      originalQuestions: [betQuestion],
+      question: betQuestion,
+      questions: [betQuestion],
+      reviewQueue: [],
+    });
+
+    expect(transition.nextReviewQueue).toEqual([]);
+    expect(transition.shouldComplete).toBe(true);
+    expect(transition.nextIsReviewRound).toBe(false);
+  });
+
   test("本編終了時は review round へ遷移する", () => {
     const transition = resolveLessonAnswerTransition({
       currentIndex: 1,
