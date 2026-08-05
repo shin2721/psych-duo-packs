@@ -19,10 +19,15 @@ export function resolveLessonAnswerTransition(params: {
   questions: Question[];
   reviewQueue: Question[];
 }): LessonAnswerTransition {
-  const nextReviewQueue =
-    !params.isCorrect && !params.isReviewRound
-      ? appendReviewQuestion(params.reviewQueue, params.question)
-      : params.reviewQueue;
+  // Discovery bets are calibration, not mistakes. Repeating the exact card at
+  // the end of the same lesson turns the reveal into memorization and treats a
+  // useful miss as a deficit. Spaced, variant-based practice is handled outside
+  // this immediate retry round.
+  const shouldQueueImmediateReview =
+    !params.isCorrect && !params.isReviewRound && !params.question.bet_card;
+  const nextReviewQueue = shouldQueueImmediateReview
+    ? appendReviewQuestion(params.reviewQueue, params.question)
+    : params.reviewQueue;
 
   const advanceDecision = decideLessonAdvance({
     currentIndex: params.currentIndex,
