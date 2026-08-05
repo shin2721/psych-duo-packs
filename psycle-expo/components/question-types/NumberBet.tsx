@@ -10,6 +10,7 @@ import { hapticFeedback } from "../../lib/haptics";
 import { theme } from "../../lib/theme";
 
 const TRACK_INSET = 18;
+const CROWDED_RESULT_GAP = 72;
 
 /**
  * 数値予想。
@@ -122,6 +123,7 @@ export function NumberBet({
   const answerX = xOf(answer);
   const gapLeft = Math.min(guessX, answerX);
   const gapWidth = Math.abs(guessX - answerX);
+  const resultPinsAreCrowded = showResult && trackWidth > 0 && gapWidth < CROWDED_RESULT_GAP;
 
   const onTrackLayout = () => measureTrack();
 
@@ -183,17 +185,32 @@ export function NumberBet({
           />
         ) : null}
 
+        {resultPinsAreCrowded ? (
+          <View style={styles.compactLegend} testID="number-bet-compact-legend">
+            <Text style={[styles.compactLegendText, styles.compactLegendTruth]}>
+              実際 {answer.toFixed(decimals)}
+            </Text>
+            <Text style={[styles.compactLegendText, styles.compactLegendGuess]}>
+              あなた {draft.toFixed(decimals)}
+            </Text>
+          </View>
+        ) : null}
+
         <View style={[styles.pin, { left: guessX }, !touched && !showResult && styles.pinUntouched]}>
-          {showResult ? <Text style={styles.pinNumGuess}>{draft.toFixed(decimals)}</Text> : null}
+          {showResult && !resultPinsAreCrowded ? (
+            <Text style={styles.pinNumGuess}>{draft.toFixed(decimals)}</Text>
+          ) : null}
           <View style={[styles.pinBar, styles.pinBarGuess]} />
-          {showResult ? <Text style={styles.pinCapGuess}>あなた</Text> : null}
+          {showResult && !resultPinsAreCrowded ? <Text style={styles.pinCapGuess}>あなた</Text> : null}
         </View>
 
         {showResult ? (
           <View style={[styles.pin, { left: answerX }]} testID="number-bet-answer-pin">
-            <Text style={styles.pinNumTruth}>{answer.toFixed(decimals)}</Text>
+            {!resultPinsAreCrowded ? (
+              <Text style={styles.pinNumTruth}>{answer.toFixed(decimals)}</Text>
+            ) : null}
             <View style={[styles.pinBar, styles.pinBarTruth]} />
-            <Text style={styles.pinCapTruth}>実際</Text>
+            {!resultPinsAreCrowded ? <Text style={styles.pinCapTruth}>実際</Text> : null}
           </View>
         ) : null}
       </View>
@@ -233,6 +250,26 @@ const GUESS = "#6E8FD9";
 const TRUTH = "#E5A93C";
 
 const styles = StyleSheet.create({
+  compactLegend: {
+    flexDirection: "row",
+    justifyContent: "center",
+    left: 0,
+    position: "absolute",
+    right: 0,
+    top: 2,
+  },
+  compactLegendGuess: {
+    color: GUESS,
+  },
+  compactLegendText: {
+    fontSize: 14,
+    fontVariant: ["tabular-nums"],
+    fontWeight: "700",
+    marginHorizontal: 8,
+  },
+  compactLegendTruth: {
+    color: TRUTH,
+  },
   draftValue: {
     color: GUESS,
     fontSize: 46,
