@@ -413,3 +413,131 @@ Reject the runtime trial if:
 - the reveal works without remembering the user's first choice
 - the safety boundary is only a warning card after the practice
 - the owner cannot explain the lens after one playthrough
+
+## Pilot 005: 動悸は速報。失敗は予報。
+
+名前を呼ばれる30秒前。
+
+心臓が速い。手のひらが湿る。息が浅い。
+
+その直後、頭の中ではもう失敗が始まる。
+
+「最初の一文が飛ぶ」
+「声が震えて、頼りなく見える」
+「この状態では、うまくできない」
+
+でも、この瞬間に本当に起きたのはどこまでだろう。
+
+心臓が速い。これは起きている。
+
+手のひらが湿る。これも起きている。
+
+最初の一文が飛ぶ。これはまだ起きていない。
+
+体から届いた速報と、頭が作った結果予報が、
+「心臓が速い。だから失敗する」という一文に合体している。
+
+Psycleで切りたいのは、動悸ではない。
+
+この「だから」だ。
+
+小規模なGRE研究では、試験前の覚醒が役立つこともあると伝えられた群で、
+追加情報のない群より数学得点が高かった。
+
+ただし、実際のGREまで追えたのは募集60人中28人で、言語得点には差がない。
+「落ち着こうとした群」と比べた研究でもなく、
+プレゼンで同じ効果が出ると確かめた研究でもない。
+
+この研究が教えるのは、動悸が成功の証拠だということではない。
+
+もっと小さい。
+
+**覚醒があることと、失敗が決まったことは同じではない。**
+
+だから、無理に「ワクワクしている」と思い込まなくていい。
+「絶対うまくいく」と励ます必要もない。
+
+いつもの低リスクな本番前で、具体的な危険や故障がないなら、
+次の一文だけ置ける。
+
+**体は上がっている。結果は未定。
+心拍が下がるのを待たず、最初の一文へ戻ってみる。**
+
+成功は、心拍が下がることではない。
+
+高いままでも、最初の一手を選べたらいい。
+
+一方で、初めての強い胸の圧迫感、失神しそうな感覚、
+いつもと違う強い症状は、読み替えの対象にしない。
+その場の活動を止め、安全を確かめ、必要なら周囲へ知らせて医療機関に相談する。
+壊れた発表ファイルのような具体的な問題も、まず直す。
+
+身体の警報や現実の問題を、前向きな言葉で上書きしない。
+
+**速報がいつもと違うなら、予報を直す前に安全を確かめる。**
+
+明日使う問いは3つだけ。
+
+**体は？　予報は？　最初の一手は？**
+
+## Pilot 005 Conversion Notes
+
+This is a replacement/merge candidate for the overlapping `mental_l03`, not a
+new parallel lesson. Keep it raw until the owner accepts the standalone lens.
+Status: raw candidate accepted by independent review; JSON conversion remains
+blocked on owner taste approval. Production also requires the evidence and
+safety holds below to be cleared.
+
+Capability contract:
+
+- Separate an observed body signal from a predicted outcome.
+- In an ordinary low-risk performance scene, choose one functional first move
+  without waiting to become calm.
+- Refuse reappraisal when a symptom is new, strong, or unusual, or when a
+  concrete safety or preparation problem needs action.
+- Success is not lower anxiety, lower heart rate, or guaranteed performance.
+
+Preserve:
+
+- The core lens is `body signal vs outcome forecast`, not positive thinking.
+- The user commits to a meaning, action, or boundary before the key reveal at
+  least once in a normal lesson.
+- Explanations, evidence limits, safety information, and completion screens do
+  not need ceremonial guesses.
+- The standard B prototype is `scene -> meaningful commit -> evidence reveal ->
+  boundary -> unseen transfer`.
+- One comparison prototype may reverse only the middle pair to
+  `scene -> evidence reveal -> same commit`; do not create a second curriculum
+  lesson or change any other copy, timing, feedback, or reward.
+- A delayed unseen transfer uses a new low-risk scene and no hint. A separate
+  safety item must still reject reappraisal.
+
+Evidence holds:
+
+- `Jamieson_2010_GRE` supports only the narrow mathematics result already
+  registered as Bronze: small sample, large follow-up loss, no verbal-score
+  difference, and no calm-down comparison.
+- Brooks (2014) may be evaluated for an honest-wording variant, but it is not in
+  the local source ledger yet. Do not cite or ship it until its exact conditions,
+  outcomes, and limitations are registered.
+- Any symptom wording requires a safety review before production promotion.
+
+Provisional unit jobs, not a fixed lesson count:
+
+1. Notice and separate the body signal from the outcome forecast.
+2. Put the safety and concrete-problem boundary before reappraisal.
+3. Choose a first move while arousal is still present.
+4. Build an honest phrase that does not promise calm or success.
+5. Transfer the distinction to an unseen scene after a delay.
+
+Reject conversion if:
+
+- it says arousal is proof of readiness, safety, or success
+- it says calming down is harmful or compares against a calm-down group that
+  the cited study did not include
+- it turns into a terminology or three-way classification quiz
+- it rewards selecting the most positive sentence
+- it measures success as anxiety or heart rate decreasing
+- the medical or concrete-danger boundary appears only after practice
+- it adds another `mental_l03`-shaped lesson instead of replacing or merging it
+- the owner reads the standalone pilot and does not want the next lens
