@@ -4,60 +4,68 @@
     {
       "role": "primary",
       "source_type": "experiment",
-      "doi": "10.1037/a0025719",
-      "pmid": "21942377",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/21942377/",
-      "label": "Jamieson et al. (2012) - Mind over matter: Reappraising arousal improves cardiovascular responses to stress"
-    },
-    {
-      "role": "supporting",
-      "source_type": "classic",
-      "doi": "10.1037/0003-066X.54.7.493",
-      "pmid": "",
-      "url": "https://psycnet.apa.org/record/1999-05760-002",
-      "label": "Gollwitzer (1999) - Implementation intentions: Strong effects of simple plans"
-    },
-    {
-      "role": "pending_verification",
-      "source_type": "experiment",
       "doi": "10.1037/0022-3514.95.1.128",
-      "pmid": "",
+      "pmid": "18605854",
       "url": "https://doi.org/10.1037/0022-3514.95.1.128",
-      "label": "【要出典確認】Flynn & Lake (2008) - 頼み事の承諾率の過小評価。カード1の場面をこの原典パラダイム（アンケート依頼）に合わせて書き直すまで昇格不可"
+      "label": "Flynn & Lake (2008) - 対面の質問紙依頼で、必要人数の予想20.5人・実測10.5人"
     },
     {
-      "role": "pending_verification",
+      "role": "primary",
       "source_type": "replication",
       "doi": "10.1177/0956797614553946",
-      "pmid": "",
-      "url": "https://doi.org/10.1177/0956797614553946",
-      "label": "【要出典確認】Ranehill et al. (2015) - パワーポーズ追試。カード2の根拠。原典確認まで昇格不可"
+      "pmid": "25810452",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/25810452/",
+      "label": "Ranehill et al. (2015) - 200人の概念的追試でホルモン・行動課題の差なし"
     },
     {
-      "role": "pending_verification",
+      "role": "primary",
+      "source_type": "experiment",
+      "doi": "10.1016/j.jesp.2009.08.015",
+      "pmid": "20161454",
+      "url": "https://doi.org/10.1016/j.jesp.2009.08.015",
+      "label": "Jamieson et al. (2010) - 小規模GRE研究で覚醒の再評価群の数学得点が高かった"
+    },
+    {
+      "role": "primary",
       "source_type": "experiment",
       "doi": "10.1016/j.jesp.2011.02.003",
       "pmid": "",
       "url": "https://doi.org/10.1016/j.jesp.2011.02.003",
-      "label": "【要出典確認】Kappes & Oettingen (2011) - ポジティブ空想とエネルギー低下。カード4の根拠。機序表現の修正と原典確認まで昇格不可"
+      "label": "Kappes & Oettingen (2011) - 理想化された未来の空想と活性低下"
+    },
+    {
+      "role": "primary",
+      "source_type": "experiment",
+      "doi": "10.1037/0022-3514.73.1.186",
+      "pmid": "",
+      "url": "https://doi.org/10.1037/0022-3514.73.1.186",
+      "label": "Gollwitzer & Brandstätter (1997) - 期限内執筆率71%対32%のフィールド実験"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1016/S0065-2601(06)38002-1",
+      "pmid": "",
+      "url": "https://doi.org/10.1016/S0065-2601(06)38002-1",
+      "label": "Gollwitzer & Sheeran (2006) - 実行意図の94テスト・8461人のメタ分析"
     }
   ],
-  "source_label": "Jamieson (2012) + Gollwitzer (1999) 検証済み2件 / Flynn & Lake (2008), Ranehill (2015), Kappes & Oettingen (2011) 未検証3件",
-  "claim": "心理学の実験結果を先に予想してから実測と突き合わせると、直感と実測の間に方向のあるズレがあることを体験できる。個別の知見: ストレス反応の読み替えは短い本番場面で成績を上げる傾向（Jamieson 2012）、実行意図は目標意図より実行につながりやすい（Gollwitzer 1999）",
-  "limitations": "5枚中3枚（頼み事の承諾率・パワーポーズ再現・ポジティブ空想）は出典未検証の仮登録で、画面上にも【要出典確認】を表示している。カード1は現在の場面（写真依頼）が原典パラダイム（アンケート依頼）と不一致であり書き直しが必要。5問の合算は能力測定として無効（偶然率と難度が問題間で異なる）。集団平均を個人の確定結果として提示しない",
-  "effect_size_note": "Jamieson et al. (2012): 覚醒の再評価群で心血管反応と課題成績が改善する傾向。Gollwitzer (1999): 実行意図の効果はメタ分析で中〜大（Gollwitzer & Sheeran 2006, d≈.65）。未検証3件の数値は原典確認まで効果量を記載しない",
+  "source_label": "Flynn & Lake (2008) / Ranehill et al. (2015) / Jamieson et al. (2010) / Kappes & Oettingen (2011) / Gollwitzer & Brandstätter (1997)、補助メタ分析 Gollwitzer & Sheeran (2006)",
+  "claim": "5つの異なる心理学研究について、原典と同じ場面・比較条件で結果を先に予想し、実測とのズレと証拠の限界を確認する。各カードの数字や結果は、その研究場面の集団平均であり、個人の確定結果や別場面の効果を示さない",
+  "limitations": "カード1・3・4・5の画面値は小規模または追跡脱落を含む単一研究に依存する。カード2は高姿勢対低姿勢の概念的追試で通常姿勢との比較ではない。5問の合算は偶然率と難度が異なるため能力測定に使わない。集団平均を個人や別場面へ移植しない",
+  "effect_size_note": "Flynn & Lake (2008) Study 1: 予想20.5人、実測10.5人。Ranehill et al. (2015): N=200、ホルモンと行動課題に有意差なし、自己申告の力強さ d=.344。Jamieson et al. (2010): 追跡分析N=28、GRE数学で練習 d=.82・実試験 d=1.03、言語差なし。Kappes & Oettingen (2011) Study 3: 追跡完了N=40、自己申告達成度 p=.05。Gollwitzer & Brandstätter (1997): 判別可能な返送者N=36で71%対32%。Gollwitzer & Sheeran (2006): 94テスト、8461人、平均d=.65。ただし達成率2倍には換算しない",
   "evidence_grade": "bronze",
-  "confidence": "low",
+  "confidence": "medium",
   "status": "active",
-  "last_verified": "2026-07-29",
-  "generated_by": "bet_card_pilot",
+  "last_verified": "2026-08-05",
+  "generated_by": "bet_card_pilot_source_refresh",
   "review": {
     "human_approved": false,
     "reviewer": "",
     "auto_approved": false,
     "approval_mode": "manual",
     "approval_reasons": [
-      "オーナー実プレイで体験は承認済み（2026-07-29）。ただし証拠レビューは未実施のためhuman_approvedはfalse。科学修正（ロードマップ#3）完了後に再申請"
+      "旧コピーの体験はオーナー実プレイ済み（2026-07-29）。一次資料に合わせて場面・比較・数字を直したため、修正版は再プレイと人間の科学レビューが必要"
     ],
     "evaluated_at": ""
   },
@@ -69,10 +77,13 @@
   "promotion": {
     "eligible": false,
     "reasons": [
-      "unverified_placeholder_sources_present",
-      "card1_scene_mismatches_source_paradigm"
+      "human_science_review_pending",
+      "owner_replay_pending",
+      "curriculum_job_alignment_pending"
     ],
-    "warnings": []
+    "warnings": [
+      "single_study_numbers_are_scene_specific"
+    ]
   },
   "content_package": {
     "lesson_path": "data/lessons/mental_units/mental_l01.ja.json",
@@ -146,16 +157,16 @@
       "change_type": "lesson_replacement",
       "human_review_required": true,
       "approved_source": "owner_playtest",
-      "review_reason": "bet_card_pilot_quarantined_to_staging_until_source_verification",
+      "review_reason": "source_corrected_copy_remains_staging_until_owner_replay_and_human_science_review",
       "reviewed_at": "2026-07-29T00:00:00.000Z",
       "rollback_trigger_if_reverted": "guardrail_or_contract_regression"
     }
   },
-  "last_verified_at": "2026-07-29",
+  "last_verified_at": "2026-08-05",
   "review_sla_days": 90,
   "expiry_action": "refresh_queue",
-  "next_review_due_at": "2026-10-27",
+  "next_review_due_at": "2026-11-03",
   "stale_route_owner": "content_ops",
-  "refresh_value_reason_candidate": "source_verification_pending",
+  "refresh_value_reason_candidate": "evidence_strength_update",
   "severity_tier": "B"
 }
