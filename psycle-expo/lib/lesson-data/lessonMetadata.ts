@@ -54,13 +54,16 @@ const MENTAL_LESSON_METADATA: Record<string, LessonMetadata> = {
     takeaway_action: "今週やると決めたことに、「いつ・どこで」を1つだけ足す。",
     insight_layer: {
       surprising_question: "あなたの直感は、心理学の実験結果を何問当てられる？",
-      research_finding: "頼み事の承諾率を約2倍低く見積もるなど、直感と実測には方向のあるズレがある",
-      critical_caveat: "5枚中3枚は出典台帳に未収載で、本番化前に出典検証が必要",
+      research_finding: "対面の頼み事で必要人数を約2倍に見積もるなど、場面ごとに直感と実測のズレが報告されている",
+      critical_caveat: "数値の多くは小規模な単一研究の場面固有値で、別場面や個人の能力へ移植しない",
       usable_scope: "研究の数字を予想してから確かめる、直感の校正練習として使える",
       practice_prompt: "先に賭ける → 実数字 → ただし書き → 今日の一手",
     },
     load_score: loadScore(1, 1, 1),
-    non_goals: ["的中率で性格や能力を判定すること", "未検証の数字を確定事実として扱うこと"],
+    non_goals: [
+      "的中率で性格や能力を判定すること",
+      "単一研究の数字を別の場面へ移植すること",
+    ],
   }),
   mental_l02: lessonMetadata({
     lesson_id: "mental_l02",
