@@ -669,68 +669,6 @@
         "平均効果量d=0.65を実行率2倍へ換算することはできない"
       ],
       "notes": "平均効果は課題や条件で変わる。個別課題の達成率を作るための換算には使わない。"
-    },
-    "Psycle_Unverified_HelpSeeking": {
-      "author": "要検証（Bohns & Flynn系のヘルプシーキング研究を確認予定）",
-      "year": 2026,
-      "title": "頼み事の承諾率は予想の約2倍（仮登録）",
-      "type": "unverified_placeholder",
-      "domain": [
-        "mental",
-        "social"
-      ],
-      "construct_tags": [
-        "help_seeking",
-        "compliance_underestimation"
-      ],
-      "evidence_strength": "bronze",
-      "one_line_why": "人は頼み事が断られる確率を大きく見積もりすぎる、という予想カード用の仮ソース",
-      "allowed_claims": [
-        "人は頼み事の承諾率を実測より低く見積もる傾向がある",
-        "この見積もりのズレを予想して答え合わせする練習に使う"
-      ],
-      "notes": "【要出典確認】原著（Flynn & Lake 2008等）の特定と数値検証が済むまで本番昇格禁止。数字は文脈で動く。"
-    },
-    "Psycle_Unverified_PowerPose": {
-      "author": "要検証（Carney/Cuddy/Yap 2010と追試群を確認予定）",
-      "year": 2026,
-      "title": "パワーポーズのホルモン効果は追試で不再現（仮登録）",
-      "type": "unverified_placeholder",
-      "domain": [
-        "mental"
-      ],
-      "construct_tags": [
-        "replication",
-        "power_pose"
-      ],
-      "evidence_strength": "bronze",
-      "one_line_why": "有名研究の再現失敗を判断材料として扱う再現ジャッジカード用の仮ソース",
-      "allowed_claims": [
-        "パワーポーズのホルモン変化は大規模追試で支持されなかった",
-        "主観的な気分の効果は一定の支持が残っている"
-      ],
-      "notes": "【要出典確認】Ranehill 2015等の追試とCarneyの表明の原文確認が済むまで本番昇格禁止。"
-    },
-    "Psycle_Unverified_Fantasy": {
-      "author": "要検証（Oettingen系のmental contrasting研究を確認予定）",
-      "year": 2026,
-      "title": "ポジティブ空想だけでは行動が減る（仮登録）",
-      "type": "unverified_placeholder",
-      "domain": [
-        "mental",
-        "work"
-      ],
-      "construct_tags": [
-        "positive_fantasy",
-        "mental_contrasting"
-      ],
-      "evidence_strength": "bronze",
-      "one_line_why": "理想の未来だけを鮮明に想像すると行動が減りうる、という反自己啓発カード用の仮ソース",
-      "allowed_claims": [
-        "良い未来だけを鮮明に想像すると行動量がむしろ下がる傾向が報告されている",
-        "良い未来と障害を対で想像した場合にのみ行動が増えた"
-      ],
-      "notes": "【要出典確認】Oettingen & Mayer 2002 / Kappes & Oettingen 2011等の確認が済むまで本番昇格禁止。"
     }
   }
 }
