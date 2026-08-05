@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-05 - Verify Unit 0 science and draft the Unit 1 raw pilot
+
+- Changed: Replaced five Unit 0 placeholder/overstated claims with primary-source-bounded cards; kept evidence staging; retired three placeholders; fixed crowded number-bet labels and stopped same-session retries for Discovery bets; drafted Pilot 005 as a mental_l03 replacement candidate.
+- Verified: Primary-source audits; five-card Simulator playthrough; compact number-bet legend; content package audit; validate-lessons 0 errors/35 warnings; focused Jest and typecheck.
+- Remaining: Owner taste approval for Pilot 005 before JSON; safety review and Brooks 2014 registration before production; transfer-success correctness and job-aware variant Review before Personal Review Ranker.
+
 ### 2026-07-31 - Bet-card UI polish verified in Simulator: drag-required slider, gold neutral misses, first-bet hit tally on completion
 
 - Changed: NumberBet drag-required (kills card5 auto-hit + card1 anchor); bet misses gold/neutral across slider, swipe, choice; swipe double-text removed; VoiceOver adjustable slider; completion recap shows first-round hits only (review corrections excluded)
