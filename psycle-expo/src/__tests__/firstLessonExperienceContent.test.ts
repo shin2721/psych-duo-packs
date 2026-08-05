@@ -25,4 +25,17 @@ describe("first lesson experience content", () => {
     ).toContain(metadata?.takeaway_action);
     expect(JSON.stringify(mentalLesson)).not.toContain("編張");
   });
+
+  test("keeps every Unit 0 card on its verified source instead of a placeholder", () => {
+    expect(mentalLesson.map((question) => question.source_id)).toEqual([
+      "Flynn_Lake_2008",
+      "Ranehill_2015",
+      "Jamieson_2010_GRE",
+      "Kappes_Oettingen_2011",
+      "Gollwitzer_Brandstaetter_1997",
+    ]);
+    expect(
+      mentalLesson.every((question) => !question.source_id.startsWith("Psycle_Unverified_"))
+    ).toBe(true);
+  });
 });
