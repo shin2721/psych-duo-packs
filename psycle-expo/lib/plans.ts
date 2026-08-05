@@ -56,10 +56,9 @@ export const PLANS: PlanConfig[] = [
     priceMonthly: 980,
     supportsYearly: Boolean(PRO_PRICE_ID_YEARLY),
     features: [
-      "全300+レッスン無制限アクセス",
       "スマート復習（苦手克服モード）",
       "広告なし",
-      "ライフ無制限",
+      "レッスン中のエネルギー消費なし",
       "毎週末ダブルXPブースト",
     ],
     popular: true,
