@@ -2,7 +2,7 @@
   "_meta": {
     "version": "1.1.0",
     "description": "Curated Source Registry - コンテンツで使用するsource_id台帳。レッスンの根拠として参照される出典。",
-    "last_updated": "2026-07-16",
+    "last_updated": "2026-08-05",
     "required_fields": {
       "core": [
         "author",
@@ -531,6 +531,144 @@
         "完璧主義は強みにも負担にもなり得る"
       ],
       "notes": "尺度構築研究を中心に、完璧主義の下位概念を整理した文脈で利用。"
+    },
+    "Flynn_Lake_2008": {
+      "author": "Flynn, F. J., & Lake, V. K. B.",
+      "year": 2008,
+      "title": "If You Need Help, Just Ask: Underestimating Compliance With Direct Requests for Help",
+      "full_citation": "Flynn, F. J., & Lake, V. K. B. (2008). If You Need Help, Just Ask: Underestimating Compliance With Direct Requests for Help. Journal of Personality and Social Psychology, 95(1), 128-143. https://doi.org/10.1037/0022-3514.95.1.128",
+      "type": "experiment",
+      "domain": [
+        "mental",
+        "social"
+      ],
+      "construct_tags": [
+        "help_seeking",
+        "compliance_underestimation"
+      ],
+      "evidence_strength": "bronze",
+      "one_line_why": "対面の直接依頼で、承諾を得るまでに必要な人数を実測より多く予想した",
+      "allowed_claims": [
+        "質問紙への回答を見知らぬ人へ直接頼む実験では、5人の承諾に必要な人数を平均20.5人と予想したが、実測は平均10.5人だった",
+        "対面の直接依頼では、相手が応じる可能性を過小評価する傾向が複数場面で報告された",
+        "断ることの社会的な気まずさを依頼者が十分に見積もれないことが、過小評価の一因として示唆された"
+      ],
+      "notes": "カード上の20.5対10.5はStudy 1固有の小標本値。写真依頼、オンライン依頼、重い依頼、異なる文化へ数値を移植しない。承諾しやすさを圧力に使わない。"
+    },
+    "Ranehill_2015": {
+      "author": "Ranehill, E., Dreber, A., Johannesson, M., Leiberg, S., Sul, S., & Weber, R. A.",
+      "year": 2015,
+      "title": "Assessing the Robustness of Power Posing: No Effect on Hormones and Risk Tolerance in a Large Sample of Men and Women",
+      "full_citation": "Ranehill, E., Dreber, A., Johannesson, M., Leiberg, S., Sul, S., & Weber, R. A. (2015). Assessing the Robustness of Power Posing: No Effect on Hormones and Risk Tolerance in a Large Sample of Men and Women. Psychological Science, 26(5), 653-656. https://doi.org/10.1177/0956797614553946",
+      "type": "replication",
+      "domain": [
+        "mental"
+      ],
+      "construct_tags": [
+        "replication",
+        "power_pose"
+      ],
+      "evidence_strength": "silver",
+      "one_line_why": "200人・実験者盲検の概念的追試で、ホルモンと行動課題の差を確認できなかった",
+      "allowed_claims": [
+        "200人の概念的追試では、高パワー姿勢と低パワー姿勢の間でテストステロン、コルチゾール、3つの行動課題に有意差がなかった",
+        "同じ追試では、自己申告の力強さだけは高パワー姿勢群で少し高かった",
+        "この追試は通常姿勢との比較ではない"
+      ],
+      "notes": "高姿勢対低姿勢の概念的追試であり、面接場面や通常姿勢に一般化しない。原著者の後年の表明はこの出典だけでは主張しない。"
+    },
+    "Jamieson_2010_GRE": {
+      "author": "Jamieson, J. P., Mendes, W. B., Blackstock, E., & Schmader, T.",
+      "year": 2010,
+      "title": "Turning the Knots in Your Stomach Into Bows: Reappraising Arousal Improves Performance on the GRE",
+      "full_citation": "Jamieson, J. P., Mendes, W. B., Blackstock, E., & Schmader, T. (2010). Turning the Knots in Your Stomach Into Bows: Reappraising Arousal Improves Performance on the GRE. Journal of Experimental Social Psychology, 46(1), 208-212. https://doi.org/10.1016/j.jesp.2009.08.015",
+      "type": "experiment",
+      "domain": [
+        "mental",
+        "study"
+      ],
+      "construct_tags": [
+        "reappraisal",
+        "arousal",
+        "test_performance"
+      ],
+      "evidence_strength": "bronze",
+      "one_line_why": "小規模なGRE研究で、覚醒が役立つ可能性を伝えた群の数学得点が高かった",
+      "allowed_claims": [
+        "GRE受験予定者を対象にした小規模研究では、覚醒が役立つ可能性を伝えた群の数学得点が追加情報なし群より高かった",
+        "同研究では言語得点に差がなかった",
+        "実GRE得点の追跡分析は、募集60人のうち期間内に受験して再訪した28人に限られた"
+      ],
+      "notes": "『落ち着く』条件との比較ではない。GRE数学から面接、プレゼン、病気や危険の身体信号へ一般化しない。"
+    },
+    "Kappes_Oettingen_2011": {
+      "author": "Kappes, H. B., & Oettingen, G.",
+      "year": 2011,
+      "title": "Positive Fantasies About Idealized Futures Sap Energy",
+      "full_citation": "Kappes, H. B., & Oettingen, G. (2011). Positive Fantasies About Idealized Futures Sap Energy. Journal of Experimental Social Psychology, 47(4), 719-729. https://doi.org/10.1016/j.jesp.2011.02.003",
+      "type": "experiment",
+      "domain": [
+        "mental",
+        "work"
+      ],
+      "construct_tags": [
+        "positive_fantasy",
+        "energization",
+        "goal_pursuit"
+      ],
+      "evidence_strength": "bronze",
+      "one_line_why": "大学生を対象とした4実験で、理想化された未来の空想後に活性指標が低かった",
+      "allowed_claims": [
+        "大学生を対象とした4実験では、理想化された良い未来を空想した群で、直後の生理的または主観的な活性指標が対照群より低かった",
+        "Study 3の追跡完了者40人では、理想的な一週間を空想した群の一週間後の達成度が自己評価で低かった"
+      ],
+      "notes": "鮮明さの用量差、客観的な行動量、脳活動、mental contrastingは測っていない。ポジティブ思考や可視化全般の否定に使わない。"
+    },
+    "Gollwitzer_Brandstaetter_1997": {
+      "author": "Gollwitzer, P. M., & Brandstätter, V.",
+      "year": 1997,
+      "title": "Implementation Intentions and Effective Goal Pursuit",
+      "full_citation": "Gollwitzer, P. M., & Brandstätter, V. (1997). Implementation Intentions and Effective Goal Pursuit. Journal of Personality and Social Psychology, 73(1), 186-199. https://doi.org/10.1037/0022-3514.73.1.186",
+      "type": "experiment",
+      "domain": [
+        "mental",
+        "work"
+      ],
+      "construct_tags": [
+        "implementation_intention",
+        "goal_setting",
+        "task_initiation"
+      ],
+      "evidence_strength": "bronze",
+      "one_line_why": "小規模な無作為化フィールド研究で、いつ・どこで始めるかを決めた群の期限内執筆率が高かった",
+      "allowed_claims": [
+        "クリスマス報告課題の判別可能な返送者36人では、いつ・どこで書き始めるかを決めた群の期限内執筆率が71%、対照群が32%だった",
+        "この研究の71%対32%は運動など別の行動へそのまま移植できない"
+      ],
+      "notes": "割付は86人だが、期限内率の分析は返送し条件判別できた36人。返送数自体には群差がなかった。あらゆる目標が約2倍になるとは言わない。"
+    },
+    "Gollwitzer_Sheeran_2006": {
+      "author": "Gollwitzer, P. M., & Sheeran, P.",
+      "year": 2006,
+      "title": "Implementation Intentions and Goal Achievement: A Meta-Analysis of Effects and Processes",
+      "full_citation": "Gollwitzer, P. M., & Sheeran, P. (2006). Implementation Intentions and Goal Achievement: A Meta-Analysis of Effects and Processes. Advances in Experimental Social Psychology, 38, 69-119. https://doi.org/10.1016/S0065-2601(06)38002-1",
+      "type": "meta_analysis",
+      "domain": [
+        "mental",
+        "work"
+      ],
+      "construct_tags": [
+        "implementation_intention",
+        "goal_achievement",
+        "meta_analysis"
+      ],
+      "evidence_strength": "gold",
+      "one_line_why": "94の独立テストを統合し、実行意図と目標達成の平均的な正の関連を評価した",
+      "allowed_claims": [
+        "94の独立テスト、8461人を統合したメタ分析で、実行意図は目標達成に平均d=0.65の正の効果を示した",
+        "平均効果量d=0.65を実行率2倍へ換算することはできない"
+      ],
+      "notes": "平均効果は課題や条件で変わる。個別課題の達成率を作るための換算には使わない。"
     },
     "Psycle_Unverified_HelpSeeking": {
       "author": "要検証（Bohns & Flynn系のヘルプシーキング研究を確認予定）",
