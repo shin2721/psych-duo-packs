@@ -9,6 +9,7 @@ const { getCheckoutConfig } = require("../../lib/gamificationConfig");
 const {
   getStorefrontPlans,
   getPurchasablePlans,
+  getPlanById,
   isPlanPurchasable,
   resolvePlanPriceId,
   supportsPlanBillingPeriod,
@@ -27,6 +28,14 @@ describe("plans", () => {
 
     mockedGetCheckoutConfig.mockReturnValue({ max_plan_enabled: true });
     expect(isPlanPurchasable("pro")).toBe(true);
+  });
+
+  test("Pro features describe the current energy behavior without stale catalog claims", () => {
+    const features = getPlanById("pro")?.features ?? [];
+
+    expect(features).toContain("レッスン中のエネルギー消費なし");
+    expect(features).not.toContain("全300+レッスン無制限アクセス");
+    expect(features).not.toContain("ライフ無制限");
   });
 
   test("Max follows checkout gate", () => {
