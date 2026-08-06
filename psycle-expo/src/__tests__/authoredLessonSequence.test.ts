@@ -43,7 +43,7 @@ describe("authored lesson sequence", () => {
       "mental_l02_006",
     ]);
     expect(bundle.effectiveQuestions[1]?.feedback_prompt).toBe(
-      "録画に残るのはメッセージだけ。ミスや評価は、まだ画面にない意味。"
+      "画面に残っている文字と、頭が足した意味を分ける。"
     );
   });
 
