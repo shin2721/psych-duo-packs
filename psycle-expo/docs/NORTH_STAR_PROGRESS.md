@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-06 - 旧mental_l02が新パイロットより先に選ばれる通常導線を修復
+
+- Changed: mental curriculumをv1.1 pilotとしてl01→l03の2本に限定し、l03を表示上Lesson 2にした。manifest外の旧Core・support・Mistakes Hub・Mastery候補を通常導線から除外した
+- Verified: typecheck成功、validate:lessonsは0 errors/35 warnings、Jest 173 suites/735 tests成功。Simulator cold launch後、時計にLesson 2・5問を表示し、通常CTAからmental_l03 1/5を起動。旧mental_l02文言は当該導線に不在
+- Remaining: mental_l03は日本語staging pilotのまま。owner taste、human science、clinical safety、既存l03完了者のreplay policy、英語semantic parity、practice/transfer在庫は未承認・未計測
+
 ### 2026-08-06 - 開発Simulatorの時計導線をエネルギー残量から分離
 
 - Changed: dev-clientでは通常のコース導線もレッスン開始時にエネルギーを消費しない。chargeEnergy=1指定時だけ遮断挙動を検証し、リリース版は従来どおり消費
