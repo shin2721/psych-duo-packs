@@ -3,7 +3,7 @@ export function getLessonTitle(unit: string, level: number): string {
     mental: [
       "あなたの直感 vs 心理学",
       "不安と事実を分ける",
-      "焦りに10秒を挟む",
+      "心臓が速い。もう失敗？",
       "自責から次の一手へ",
       "反芻を見分ける",
       "戻るルートを作る",

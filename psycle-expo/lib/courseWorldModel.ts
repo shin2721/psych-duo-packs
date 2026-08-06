@@ -139,6 +139,10 @@ function deriveLessonBody(lesson: Lesson, status: CourseWorldNodeStatus): string
     return String(i18n.t("course.world.lockedBody"));
   }
 
+  if (status === "current" && lesson.metadata?.preview_prompt?.trim()) {
+    return truncateCopy(normalizeSupportCopy(lesson.metadata.preview_prompt), 46);
+  }
+
   const actionableAdvice = lesson.questions.find(
     (question) =>
       typeof (question as { actionable_advice?: string }).actionable_advice === "string" &&
