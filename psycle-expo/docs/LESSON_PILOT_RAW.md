@@ -469,7 +469,9 @@ Psycleで切りたいのは、動悸ではない。
 
 一方で、初めての強い胸の圧迫感、失神しそうな感覚、
 いつもと違う強い症状は、読み替えの対象にしない。
-その場の活動を止め、安全を確かめ、必要なら周囲へ知らせて医療機関に相談する。
+初めての強い胸の圧迫感と失神しそうな感覚がある場合は、
+その場の活動を止め、周囲に知らせ、119番へ。
+別の急な症状で119番を迷う場合は、地域の♯7119等へ相談する。
 壊れた発表ファイルのような具体的な問題も、まず直す。
 
 身体の警報や現実の問題を、前向きな言葉で上書きしない。
@@ -482,11 +484,10 @@ Psycleで切りたいのは、動悸ではない。
 
 ## Pilot 005 Conversion Notes
 
-This is a replacement/merge candidate for the overlapping `mental_l03`, not a
-new parallel lesson. Keep it raw until the owner accepts the standalone lens.
-Status: raw candidate accepted by independent review; JSON conversion remains
-blocked on owner taste approval. Production also requires the evidence and
-safety holds below to be cleared.
+This pilot replaced the Japanese `mental_l03` content in place; it is not a new
+parallel lesson. The five-screen JSON conversion and Simulator staging review
+are complete. Owner real-device taste approval remains pending. Production also
+requires the evidence, safety, curriculum, and locale holds below to be cleared.
 
 Capability contract:
 
@@ -505,12 +506,13 @@ Preserve:
 - Explanations, evidence limits, safety information, and completion screens do
   not need ceremonial guesses.
 - The standard B prototype is `scene -> meaningful commit -> evidence reveal ->
-  boundary -> unseen transfer`.
+  boundary -> same-session separate-scene practice`.
 - One comparison prototype may reverse only the middle pair to
   `scene -> evidence reveal -> same commit`; do not create a second curriculum
   lesson or change any other copy, timing, feedback, or reward.
-- A delayed unseen transfer uses a new low-risk scene and no hint. A separate
-  safety item must still reject reappraisal.
+- A delayed unseen transfer is a later probe with a new low-risk scene and no
+  hint; the staging lesson does not claim that the same-session practice proves
+  transfer. A separate safety item must still reject reappraisal.
 
 Evidence holds:
 

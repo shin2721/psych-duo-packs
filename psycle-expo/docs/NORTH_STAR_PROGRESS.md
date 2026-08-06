@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-06 - Removed remaining Japanese mental_l03 legacy-spec references after the in-place staging replacement.
+
+- Changed: Synchronized the raw pilot safety text, Gold Lesson example, verification target, and same-ID continuity record with the five-screen body-signal and outcome-forecast revision.
+- Verified: 18 continuity and lesson-contract tests, typecheck, validate:lessons with 0 errors and 35 existing warnings, authoring lint, and diff check.
+- Remaining: Non-Japanese legacy translations remain quarantined from the JA-only staging scope until reviewed translation; production still needs source trace, clinical and science sign-off, curriculum alignment, and delayed unseen transfer measurement.
+
 ### 2026-08-06 - Replaced the old Japanese mental_l03 with the owner-approved five-screen body-signal and outcome-forecast staging pilot.
 
 - Changed: Added a pre-play hook separate from the final takeaway; bounded Jamieson 2010 claims; moved the emergency boundary before practice with FDMA-aligned 119 and #7119 copy; made bet misses visually neutral.
