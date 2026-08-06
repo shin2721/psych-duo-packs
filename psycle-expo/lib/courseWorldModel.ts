@@ -211,7 +211,7 @@ function buildSequence(
       const label = nodeType === "review_blackhole" ? "BH" : `L${levelNumber}`;
       const isNextAction = node.id === nextActionNode?.id;
       const status: CourseWorldNodeStatus = isNextAction
-        ? node.isLocked
+        ? node.isLocked || node.status === "locked"
           ? "locked"
           : "current"
         : node.status === "done"
@@ -227,7 +227,7 @@ function buildSequence(
         icon: node.icon,
         id: node.id,
         isInteractive: false,
-        isLocked: Boolean(node.isLocked),
+        isLocked: Boolean(node.isLocked || status === "locked"),
         label,
         lesson,
         lessonFile: node.lessonFile,
