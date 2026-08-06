@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-06 - レッスン起動時のエネルギー不足を質問欠落と分離
+
+- Changed: energy_blockedを独立状態にし、専用表示と戻る／ショップ導線を追加。開発プレビューはエネルギー非消費。初日ボーナスは設定値まで実残量を付与
+- Verified: mental_l03をEnergy 0で通常起動し、質問欠落表示が出ないことをSimulatorで確認。preview=1で1/5を起動。Jest 27件とTypeScript型検査に合格
+- Remaining: 実機配布版では通常のエネルギー制約を維持。ユーザー供給・継続価値は未測定
+
 ### 2026-08-06 - Removed remaining Japanese mental_l03 legacy-spec references after the in-place staging replacement.
 
 - Changed: Synchronized the raw pilot safety text, Gold Lesson example, verification target, and same-ID continuity record with the five-screen body-signal and outcome-forecast revision.
