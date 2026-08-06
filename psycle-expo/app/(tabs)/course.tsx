@@ -44,6 +44,8 @@ type CoursePrimaryActionTelemetry = {
   supportKind?: "return" | "adaptive" | "refresh" | "replay" | "mastery" | "streakRepair" | "comebackReward";
 };
 
+const SHOW_COURSE_ENGAGEMENT_PANELS = false;
+
 function getEngagementAppEnv(): "dev" | "prod" {
   return typeof __DEV__ !== "undefined" && __DEV__ ? "dev" : "prod";
 }
@@ -186,6 +188,7 @@ export default function CourseScreen() {
   const [leagueResult, setLeagueResult] = useState<LeagueResult | null>(null);
   const [showLeagueResult, setShowLeagueResult] = useState(false);
   const [firstLessonCompleted, setFirstLessonCompleted] = useState<boolean | null>(null);
+  const [selectedNodeId, setSelectedNodeId] = useState<string | null>(null);
 
   useEffect(() => {
     let cancelled = false;
@@ -332,6 +335,16 @@ export default function CourseScreen() {
     },
     [courseManifest, currentTrail, learningCoreAction]
   );
+  const selectedTrailNode = useMemo(
+    () => currentTrail.find((node) => node.id === selectedNodeId),
+    [currentTrail, selectedNodeId]
+  );
+  const focusedTrailNode = selectedTrailNode ?? nextActionNode;
+
+  useEffect(() => {
+    setSelectedNodeId(nextActionNode?.id ?? null);
+  }, [nextActionNode?.id, selectedGenre]);
+
   const courseState =
     learningCoreAction?.kind === "course_complete"
       ? "complete"
@@ -344,16 +357,20 @@ export default function CourseScreen() {
         selectedGenre,
         courseState,
         currentTrail,
-        lessonSupportCandidate,
-        masteryCandidate,
-        nextActionNode,
+        lessonSupportCandidate: SHOW_COURSE_ENGAGEMENT_PANELS
+          ? lessonSupportCandidate
+          : null,
+        masteryCandidate: SHOW_COURSE_ENGAGEMENT_PANELS ? masteryCandidate : null,
+        nextActionNode: focusedTrailNode,
         sessionQuestionLimit:
           completedLessons.size === 0 && firstLessonCompleted === false
             ? FIRST_SESSION_LESSON_SIZE
             : undefined,
-        supportBudgetSummary,
-        streakRepairOffer,
-        comebackRewardOffer,
+        supportBudgetSummary: SHOW_COURSE_ENGAGEMENT_PANELS
+          ? supportBudgetSummary
+          : null,
+        streakRepairOffer: SHOW_COURSE_ENGAGEMENT_PANELS ? streakRepairOffer : null,
+        comebackRewardOffer: SHOW_COURSE_ENGAGEMENT_PANELS ? comebackRewardOffer : null,
       }),
     [
       selectedGenre,
@@ -361,7 +378,7 @@ export default function CourseScreen() {
       currentTrail,
       lessonSupportCandidate,
       masteryCandidate,
-      nextActionNode,
+      focusedTrailNode,
       completedLessons.size,
       firstLessonCompleted,
       supportBudgetSummary,
@@ -435,6 +452,7 @@ export default function CourseScreen() {
 
   useEffect(() => {
     if (!isStateHydrated) return;
+    if (!SHOW_COURSE_ENGAGEMENT_PANELS) return;
     if (!model || !primaryActionTelemetry) return;
     const analyticsKey = [
       selectedGenre,
@@ -481,6 +499,7 @@ export default function CourseScreen() {
 
   useEffect(() => {
     if (!isStateHydrated) return;
+    if (!SHOW_COURSE_ENGAGEMENT_PANELS) return;
     if (!returnReasonTelemetry) return;
     const analyticsKey = [
       selectedGenre,
@@ -623,56 +642,83 @@ export default function CourseScreen() {
     showToast("このレッスンはまだ準備中です。");
   };
 
-  const trackPrimaryActionStarted = (entrypoint: "primary_cta" | "node") => {
+  const trackPrimaryActionStarted = (
+    entrypoint: "primary_cta" | "node",
+    selectedNode?: CourseTrailInventoryNode
+  ) => {
     if (!primaryActionTelemetry) return;
+    const selectedLesson = selectedNode?.lessonFile
+      ? courseManifest?.lessons.find((lesson) => lesson.lesson_id === selectedNode.lessonFile)
+      : null;
+    const selectedSkillStages = selectedLesson
+      ? selectedLesson.skill_ids.map((skillId) => {
+          const state = learnerSkillStates.find(
+            (candidate) =>
+              candidate.course_id === selectedGenre && candidate.skill_id === skillId
+          );
+          return `${skillId}:${state?.stage ?? "unseen"}`;
+        })
+      : learningActionSkillStages;
+    const isSelectedReplay = selectedNode?.status === "done";
     Analytics.track("engagement_primary_action_started", {
       userState: engagementUserState,
       surface: "course_world",
-      source: "course_world_model",
-      primaryActionType: primaryActionTelemetry.primaryActionType,
-      priorityRank: primaryActionTelemetry.priorityRank,
+      source: selectedNode ? "course_world_ring" : "course_world_model",
+      primaryActionType: selectedNode
+        ? selectedNode.type === "review_blackhole"
+          ? "review"
+          : selectedNode.isLocked || selectedNode.status === "locked"
+            ? "paywall"
+            : "lesson"
+        : primaryActionTelemetry.primaryActionType,
+      priorityRank: selectedNode ? (isSelectedReplay ? 2 : 1) : primaryActionTelemetry.priorityRank,
+      priorityReason: selectedNode
+        ? isSelectedReplay
+          ? "completed_node_replay"
+          : "ring_node_selected"
+        : primaryActionTelemetry.priorityReason,
       entrypoint,
       genreId: selectedGenre,
-      lessonId: primaryActionTelemetry.lessonId,
-      supportKind: primaryActionTelemetry.supportKind,
+      lessonId: selectedNode?.lessonFile ?? primaryActionTelemetry.lessonId,
+      supportKind: selectedNode ? undefined : primaryActionTelemetry.supportKind,
       curriculumVersion: courseManifest?.curriculum_version,
-      unitId: learningCoreAction?.unit_id ?? undefined,
-      skillIds: learningCoreAction?.skill_ids,
-      skillStages: learningActionSkillStages,
-      learningActionKind: learningCoreAction?.kind,
-      learningActionReason: learningCoreAction?.reason,
+      unitId: selectedLesson?.unit_id ?? learningCoreAction?.unit_id ?? undefined,
+      skillIds: selectedLesson?.skill_ids ?? learningCoreAction?.skill_ids,
+      skillStages: selectedSkillStages,
+      learningActionKind: selectedNode ? (isSelectedReplay ? "replay" : "selected") : learningCoreAction?.kind,
+      learningActionReason: selectedNode
+        ? isSelectedReplay
+          ? "completed_node_replay"
+          : "ring_node_selected"
+        : learningCoreAction?.reason,
       appEnv: getEngagementAppEnv(),
     });
   };
 
   const handleLaunchCurrent = (entrypoint: "primary_cta" | "node" = "primary_cta") => {
     if (!model) return;
-    trackPrimaryActionStarted(entrypoint);
+    const selectedNode = currentTrail.find((node) => node.id === model.currentLesson.id);
+    if (!selectedNode) return;
+    trackPrimaryActionStarted(entrypoint, selectedNode);
 
-    if (model.primaryAction.mode === "paywall") {
+    if (selectedNode.isLocked || selectedNode.status === "locked") {
       void handleLockedLessonAccess();
       return;
     }
 
-    if (model.primaryAction.mode === "review") {
+    if (selectedNode.type === "review_blackhole") {
       router.replace("/review");
       return;
     }
 
-    if (model.primaryAction.mode === "complete" || model.primaryAction.mode === "blocked") {
-      setMenuVisible(true);
-      return;
-    }
-
-    if (model.primaryAction.targetLessonFile) {
-      router.replace(`/lesson?file=${model.primaryAction.targetLessonFile}&genre=${selectedGenre}`);
+    if (selectedNode.lessonFile) {
+      router.replace(`/lesson?file=${selectedNode.lessonFile}&genre=${selectedGenre}`);
     }
   };
 
   const handleNodePress = (nodeId: string) => {
-    if (!model) return;
-    if (nodeId !== model.currentLesson.id) return;
-    handleLaunchCurrent("node");
+    if (!currentTrail.some((node) => node.id === nodeId)) return;
+    setSelectedNodeId(nodeId);
   };
 
   const handleSupportPress = () => {
@@ -761,20 +807,13 @@ export default function CourseScreen() {
     <View style={styles.container}>
       <CourseWorldHero
         model={model}
-        nextLessonId={model.primaryAction.mode === "lesson" ? model.primaryAction.targetNodeId : undefined}
+        nextLessonId={nextActionNode?.id}
         onNodePress={handleNodePress}
-        onPrimaryPress={handleLaunchCurrent}
-        onSupportPress={handleSupportPress}
-        onUnitPress={() => setMenuVisible(true)}
-        showMeta={firstLessonCompleted !== null}
-        showPrimaryAction
+        onPrimaryPress={() => handleLaunchCurrent("node")}
+        showMeta={false}
+        showPrimaryAction={false}
         hideVisibleCopy={false}
-        heroOffsetY={8}
-        habitSummary={{
-          dailyGoal,
-          dailyXP,
-          streak,
-        }}
+        presentation="ring_theme"
       />
 
       <GlobalHeaderMenu
