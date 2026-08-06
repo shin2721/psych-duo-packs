@@ -92,6 +92,7 @@ const mockLessons = [
   {
     id: "mental_lesson_3",
     level: 3,
+    metadata: { preview_prompt: "A question before reveal?" },
     nodeType: "lesson",
     questions: [{ actionable_advice: " Reframe one stuck thought.", xp: 5 }],
     title: "Lesson 3",
@@ -168,7 +169,7 @@ describe("buildCourseWorldViewModel", () => {
     expect(model?.primaryAction.mode).toBe("lesson");
     expect(model?.primaryAction.label).toBe("Open lesson 3");
     expect(model?.progressLabel).toBe("3 / 6");
-    expect(model?.currentLesson.body).toBe("Reframe one stuck thought.");
+    expect(model?.currentLesson.body).toBe("A question before reveal?");
   });
 
   test("progress counts only lessons admitted to the active course trail", () => {
