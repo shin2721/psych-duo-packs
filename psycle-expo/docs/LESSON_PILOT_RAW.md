@@ -543,3 +543,107 @@ Reject conversion if:
 - the medical or concrete-danger boundary appears only after practice
 - it adds another `mental_l03`-shaped lesson instead of replacing or merging it
 - the owner reads the standalone pilot and does not want the next lens
+
+## Pilot 006: 頭は、文字ではなく意味を保存する
+
+22:48。上司から一通だけ届く。
+
+『明日の朝、10分だけ話せますか？』
+
+読み終えた瞬間、部屋の中で会議が始まる。
+
+誰も座っていない席に上司が座り、まだ言われていない言葉が再生され、
+まだ出ていない結論まで出る。
+
+その会議は、スマホの画面には映っていない。
+
+三十分後、あの文面を一文字違わず再現できるだろうか。
+
+もし「明日、話がある」と思い出したなら、一文字も合っていない。
+「10分だけ」という限定も、「話せますか？」という質問の形も消えて、
+残っているのは頭が保存した意味の方だ。
+
+不安は文面を書き換えない。書き換えるのは、こちらの控えの方だ。
+
+だから今日切りたいのは、不安そのものではない。
+
+**画面に残っている文字と、頭が足した意味の境目**だ。
+
+境目を引くと、予言の形が変わる。
+
+「明日のプレゼン、たぶんうまくいかない」
+
+この予言は、何が起きても外れない。
+5秒詰まれば「ほら、やっぱり」。最後まで話しきれば「思ったよりマシだっただけ」。
+拍手が起きても「気を遣われた」。
+
+採点日のない予言は、負けることができない。
+負けないから、消えない。何年でも頭の中に残り続ける。
+
+一方、こう置き直すとどうなるか。
+
+「明日、最後のページまでたどり着けない」
+
+これは明日の夜に勝ち負けが決まる。
+たどり着けば外れ、たどり着かなければ当たり。それだけだ。
+
+ただし、これは全部の不安に使う道具ではない。
+
+支払期限が今日の17時なら、それは予言ではなく、もう書いてある事実だ。
+分ける前に払う。
+
+初めての強い体の異変も、専門家から指示された対応も、分けずに動く。
+
+この3行は、確かめようがない曖昧さにだけ使う。
+
+そしてもう一つ。
+
+答え合わせは、向こうから届くものだけを選ぶ。
+
+返信が来て内容を読んだ時、それは向こうから届く。
+「何度もトークを開いて様子を見る」は、答え合わせではなく確認だ。
+
+答え合わせを自分から取りに行き始めたら、この練習はそこで中止する。
+
+正直に言うと、この3行そのものが不安を下げると確かめた研究はない。
+
+分かっているのは、出来事への意味づけが感情反応と関連すること、
+そして曖昧な刺激への解釈に個人差があること、その程度だ。
+
+だから安心は約束しない。
+
+この練習が渡すのは、安心ではなく **採点日** だ。
+
+今夜、不安が事実の顔をして届いたら、一度だけ聞く。
+
+**画面に残っているのは、どこまで？**
+
+### Conversion notes for Pilot 006
+
+Capability contract: separate the words that remain on screen from the meaning
+the reader added, then restate the prediction so it can be settled.
+
+The lesson keeps its value only if:
+
+- Card 1 displays the exact message text prominently and asks an ungraded
+  question about meaning, never about remembering.
+- Card 2's answer key is the screen shown one card earlier, not a study. All
+  three reveal branches must land: rewrote-as-warning, kept-meaning-lost-words,
+  and recalled-exactly.
+- The settle-date card is decided by falsifiability, not by which sentence
+  sounds calmer or more positive.
+- The safety boundary card comes before the transfer card, and its correct
+  option contains no criterion word ("明記されている" and similar) that turns the
+  judgment into reading comprehension.
+- The transfer card treats self-initiated checking as a wrong answer-check, so
+  the compulsive-checking rail is practiced rather than lectured.
+
+Reject conversion if:
+
+- it claims research shows people misremember ambiguous messages
+- it promises the three lines reduce anxiety
+- it treats the calmest or most optimistic reading as correct
+- card 2 reads as a memory quiz rather than a demonstration
+- the correct option is detectable by length, hedging, or by reciting the
+  skill statement
+- the caveat arrives before the reveal instead of after it
