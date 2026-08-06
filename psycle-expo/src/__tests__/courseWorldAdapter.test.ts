@@ -266,6 +266,25 @@ describe("buildCourseWorldViewModel", () => {
     expect(model?.currentLesson.body).toBe("Locked body");
   });
 
+  test("keeps a prerequisite-locked selected node locked when isLocked is absent", () => {
+    const trail = createTrail();
+
+    const model = buildCourseWorldViewModel({
+      comebackRewardOffer: null,
+      currentTrail: trail,
+      nextActionNode: trail[3],
+      selectedGenre: "mental",
+      streakRepairOffer: null,
+    });
+
+    expect(model?.currentLesson).toMatchObject({
+      accessibilityLabel: "Locked node 4",
+      id: "m4",
+      status: "locked",
+    });
+    expect(model?.primaryAction.mode).toBe("paywall");
+  });
+
   test("streak repair support moment wins over comeback reward", () => {
     const trail = createTrail();
     const model = buildCourseWorldViewModel({

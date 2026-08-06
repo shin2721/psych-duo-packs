@@ -80,27 +80,39 @@ jest.mock("../../components/GlobalHeader", () => ({
 jest.mock("../../components/CourseWorldHero", () => ({
   CourseWorldHero: ({
     model,
+    onNodePress,
     onPrimaryPress,
-    onSupportPress,
+    presentation,
+    showPrimaryAction,
   }: {
-    model?: { supportMoment?: { ctaLabel?: string; title?: string } };
+    model?: {
+      currentLesson?: { id?: string; title?: string };
+      supportMoment?: { ctaLabel?: string; title?: string };
+    };
+    onNodePress?: (nodeId: string) => void;
     onPrimaryPress?: () => void;
-    onSupportPress?: () => void;
+    presentation?: string;
+    showPrimaryAction?: boolean;
   }) => {
     const mockReact = require("react");
     const { Pressable, Text, View } = require("react-native");
     return (
       <View>
-        <Pressable onPress={onPrimaryPress} testID="course-next-step-cta">
-          <Text>course-next-step</Text>
+        <Text testID="course-world-presentation">{presentation}</Text>
+        <Text testID="course-selected-node">{model?.currentLesson?.id}</Text>
+        <Text testID="course-world-theme">{model?.currentLesson?.title}</Text>
+        <Pressable onPress={() => onNodePress?.("m1")} testID="course-select-l1">
+          <Text>select-l1</Text>
         </Pressable>
-        {model?.supportMoment ? (
-          <Pressable
-            onPress={onSupportPress}
-            testID="course-world-support"
-            accessibilityLabel={model.supportMoment.ctaLabel ?? model.supportMoment.title}
-          >
-            <Text>{model.supportMoment.ctaLabel ?? model.supportMoment.title}</Text>
+        <Pressable onPress={() => onNodePress?.("m2")} testID="course-select-l2">
+          <Text>select-l2</Text>
+        </Pressable>
+        <Pressable onPress={onPrimaryPress} testID="course-ring-open">
+          <Text>open-selected</Text>
+        </Pressable>
+        {showPrimaryAction ? (
+          <Pressable onPress={onPrimaryPress} testID="course-next-step-cta">
+            <Text>course-next-step</Text>
           </Pressable>
         ) : null}
       </View>
@@ -359,7 +371,7 @@ describe("CourseScreen", () => {
   test("next-step CTA launches the current lesson directly", async () => {
     const screen = render(React.createElement(CourseScreen));
 
-    fireEvent.press(screen.getByTestId("course-next-step-cta"));
+    fireEvent.press(screen.getByTestId("course-ring-open"));
 
     expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l01&genre=mental");
 
@@ -372,10 +384,50 @@ describe("CourseScreen", () => {
     mockCompletedLessons = new Set(["mental_l01"]);
     const screen = render(React.createElement(CourseScreen));
 
-    fireEvent.press(screen.getByTestId("course-next-step-cta"));
+    fireEvent.press(screen.getByTestId("course-ring-open"));
 
     expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l03&genre=mental");
     expect(mockIsLessonLocked).toHaveBeenCalledWith("mental", 2, false);
+  });
+
+  test("selects the completed first ring node and replays lesson one", async () => {
+    mockCompletedLessons = new Set(["mental_l01"]);
+    const screen = render(React.createElement(CourseScreen));
+
+    expect(screen.getByTestId("course-world-presentation").props.children).toBe("ring_theme");
+    expect(screen.getByTestId("course-selected-node").props.children).toBe("m2");
+
+    fireEvent.press(screen.getByTestId("course-select-l1"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("course-selected-node").props.children).toBe("m1");
+    });
+    fireEvent.press(screen.getByTestId("course-ring-open"));
+
+    expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l01&genre=mental");
+    expect(mockTrack).toHaveBeenCalledWith(
+      "engagement_primary_action_started",
+      expect.objectContaining({
+        source: "course_world_ring",
+        lessonId: "mental_l01",
+        priorityReason: "completed_node_replay",
+      })
+    );
+  });
+
+  test("switches back to the second ring node and opens the new lesson two", async () => {
+    mockCompletedLessons = new Set(["mental_l01"]);
+    const screen = render(React.createElement(CourseScreen));
+
+    fireEvent.press(screen.getByTestId("course-select-l1"));
+    fireEvent.press(screen.getByTestId("course-select-l2"));
+
+    await waitFor(() => {
+      expect(screen.getByTestId("course-selected-node").props.children).toBe("m2");
+    });
+    fireEvent.press(screen.getByTestId("course-ring-open"));
+
+    expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l03&genre=mental");
   });
 
   test("does not surface support for a legacy lesson outside the active manifest", () => {
@@ -395,7 +447,7 @@ describe("CourseScreen", () => {
     );
   });
 
-  test("still surfaces and launches support for an admitted new lesson", async () => {
+  test("does not show admitted support while the course uses ring-and-theme presentation", async () => {
     mockLessonSupportCandidate = {
       lessonId: "mental_l03",
       kind: "replay",
@@ -405,11 +457,9 @@ describe("CourseScreen", () => {
 
     const screen = render(React.createElement(CourseScreen));
 
-    fireEvent.press(screen.getByTestId("course-world-support"));
-
-    expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l03&genre=mental");
+    expect(screen.queryByTestId("course-world-support")).toBeNull();
     await waitFor(() => {
-      expect(mockTrack).toHaveBeenCalledWith(
+      expect(mockTrack).not.toHaveBeenCalledWith(
         "course_support_shown",
         expect.objectContaining({ lessonId: "mental_l03", kind: "replay" })
       );
@@ -422,7 +472,7 @@ describe("CourseScreen", () => {
     try {
       const screen = render(React.createElement(CourseScreen));
 
-      fireEvent.press(screen.getByTestId("course-next-step-cta"));
+      fireEvent.press(screen.getByTestId("course-ring-open"));
 
       expect(logSpy).not.toHaveBeenCalled();
     } finally {
@@ -436,13 +486,13 @@ describe("CourseScreen", () => {
 
     const screen = render(React.createElement(CourseScreen));
 
-    fireEvent.press(screen.getByTestId("course-next-step-cta"));
+    fireEvent.press(screen.getByTestId("course-ring-open"));
 
     expect(screen.getByText("paywall-visible")).toBeTruthy();
     expect(mockReplace).not.toHaveBeenCalled();
   });
 
-  test("streak repair CTA preserves the existing purchase logic", () => {
+  test("does not surface streak repair in ring-and-theme presentation", () => {
     mockStreakRepairOffer = {
       active: true,
       costGems: 50,
@@ -453,12 +503,11 @@ describe("CourseScreen", () => {
 
     const screen = render(React.createElement(CourseScreen));
 
-    fireEvent.press(screen.getByTestId("course-world-support"));
-
-    expect(mockPurchaseStreakRepair).toHaveBeenCalled();
+    expect(screen.queryByTestId("course-world-support")).toBeNull();
+    expect(mockPurchaseStreakRepair).not.toHaveBeenCalled();
   });
 
-  test("comeback reward CTA starts the current lesson", () => {
+  test("does not surface comeback reward in ring-and-theme presentation", () => {
     mockComebackRewardOffer = {
       active: true,
       daysSinceStudy: 8,
@@ -469,9 +518,8 @@ describe("CourseScreen", () => {
 
     const screen = render(React.createElement(CourseScreen));
 
-    fireEvent.press(screen.getByTestId("course-world-support"));
-
-    expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l01&genre=mental");
+    expect(screen.queryByTestId("course-world-support")).toBeNull();
+    expect(mockReplace).not.toHaveBeenCalled();
   });
 
   test("does not surface legacy mastery outside the active manifest", async () => {

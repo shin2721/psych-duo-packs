@@ -178,7 +178,7 @@ describe("CourseWorldHero", () => {
       />
     );
 
-    expect(screen.getByLabelText("Current node L3")).toBeTruthy();
+    expect(screen.getByLabelText("L3、Anxiety Reframe")).toBeTruthy();
     expect(screen.getByText("L2")).toBeTruthy();
     expect(screen.getAllByText("L3").length).toBeGreaterThan(0);
     expect(screen.getByText("L4")).toBeTruthy();
@@ -210,12 +210,52 @@ describe("CourseWorldHero", () => {
       />
     );
 
-    fireEvent.press(screen.getByTestId("hero-root-orb"));
+    fireEvent(
+      screen.getByTestId("hero-root-orb"),
+      "accessibilityAction",
+      { nativeEvent: { actionName: "decrement" } }
+    );
     fireEvent.press(screen.getByTestId("hero-support"));
     fireEvent.press(screen.getByTestId("hero-primary"));
 
-    expect(onNodePress).toHaveBeenCalledWith("l3");
+    expect(onNodePress).toHaveBeenCalledWith("l2");
     expect(onSupportPress).toHaveBeenCalled();
     expect(onPrimaryPress).toHaveBeenCalled();
+  });
+
+  test("ring-and-theme presentation keeps only the ring and selected theme copy", () => {
+    const onNodePress = jest.fn();
+    const onPrimaryPress = jest.fn();
+    const screen = render(
+      <CourseWorldHero
+        model={model}
+        onNodePress={onNodePress}
+        onPrimaryPress={onPrimaryPress}
+        onSupportPress={jest.fn()}
+        onUnitPress={jest.fn()}
+        presentation="ring_theme"
+        showPrimaryAction={false}
+        habitSummary={{ dailyGoal: 10, dailyXP: 5, streak: 4 }}
+        primaryTestID="hero-primary"
+        supportTestID="hero-support"
+      />
+    );
+
+    expect(screen.getByTestId("hero-root-orb")).toBeTruthy();
+    expect(screen.getByText("Anxiety Reframe")).toBeTruthy();
+    expect(screen.queryByText("Turn one stuck thought into motion.")).toBeNull();
+    expect(screen.queryByText("7 questions • +38 XP")).toBeNull();
+    expect(screen.queryByText("メンタル")).toBeNull();
+    expect(screen.queryByText("STREAK")).toBeNull();
+    expect(screen.queryByText("GOAL")).toBeNull();
+    expect(screen.queryByTestId("hero-support")).toBeNull();
+    expect(screen.queryByTestId("hero-primary")).toBeNull();
+
+    fireEvent(
+      screen.getByTestId("hero-root-orb"),
+      "accessibilityAction",
+      { nativeEvent: { actionName: "activate" } }
+    );
+    expect(onPrimaryPress).toHaveBeenCalledTimes(1);
   });
 });

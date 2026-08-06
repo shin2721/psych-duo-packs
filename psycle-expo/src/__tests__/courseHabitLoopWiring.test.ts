@@ -8,15 +8,13 @@ const nodeColumnPath = path.join(
 );
 
 describe("course habit loop wiring", () => {
-  test("course world receives daily goal, daily XP, and streak state", () => {
+  test("minimal course surface hides engagement panels without tracking them as shown", () => {
     const courseSource = fs.readFileSync(courseScreenPath, "utf8");
 
-    expect(courseSource).toContain("dailyGoal,");
-    expect(courseSource).toContain("dailyXP,");
-    expect(courseSource).toContain("streak,");
-    expect(courseSource).toContain("habitSummary={{");
+    expect(courseSource).toContain("SHOW_COURSE_ENGAGEMENT_PANELS = false");
+    expect(courseSource).toContain('presentation="ring_theme"');
+    expect(courseSource).not.toContain("habitSummary={{");
     expect(courseSource).toContain("engagement_return_reason_shown");
-    expect(courseSource).toContain("course_world_habit_summary");
     expect(courseSource).toContain("streak_repair_available");
     expect(courseSource).toContain("comeback_reward_available");
     expect(courseSource).toContain("return_support_available");
