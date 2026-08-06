@@ -20,6 +20,7 @@ import { getStreakData } from "../../lib/streaks";
 import {
   buildSignedOutEconomyReset,
   hydrateEconomyState,
+  resolveHydratedEnergy,
 } from "../../lib/app-state/economy/useEconomyHydrationEffect";
 import {
   initializeEconomyFirstLaunchState,
@@ -130,6 +131,23 @@ describe("economyHydration", () => {
     expect(result.firstLaunchAtMs).toBe(123456);
     expect(result.firstLaunchEffectiveCap).toBe(6);
     expect(mockInitializeEconomyFirstLaunchState).toHaveBeenCalled();
+  });
+
+  test("first launch bonus fills the effective cap instead of only raising the ceiling", () => {
+    expect(
+      resolveHydratedEnergy({
+        firstLaunchEffectiveCap: 6,
+        firstLaunchInitializedNow: true,
+        savedEnergy: null,
+      })
+    ).toBe(6);
+    expect(
+      resolveHydratedEnergy({
+        firstLaunchEffectiveCap: 6,
+        firstLaunchInitializedNow: true,
+        savedEnergy: 2,
+      })
+    ).toBe(2);
   });
 
   test("streak freeze sync path uses freezes remaining from streak data", async () => {

@@ -11,7 +11,8 @@ describe("useLessonRuntime architecture", () => {
     expect(source).toContain("export function useLessonRuntime");
     expect(source).toContain("const lessonFlow = useLessonFlow(params);");
     expect(source).toContain("resetSessionTracking()");
-    expect(source).toContain("canStart: !lessonFlow.loading && Boolean(lessonFlow.currentQuestion)");
-    expect(source).toContain("loadError: !lessonFlow.loading && !lessonFlow.currentQuestion && !lessonFlow.isComplete");
+    expect(source).toContain("resolveLessonRuntimeAvailability");
+    expect(source).toContain("...availability");
+    expect(source).not.toContain("!lessonFlow.currentQuestion && !lessonFlow.isComplete");
   });
 });

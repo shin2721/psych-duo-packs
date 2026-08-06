@@ -12,6 +12,9 @@ describe("useLessonLoader architecture", () => {
     expect(source).toContain("const handleEnergyBlocked = useCallback");
     expect(source).toContain("const handleLoadFailed = useCallback");
     expect(source).toContain('Analytics.track("energy_blocked"');
+    expect(source).toContain('text: String(i18n.t("common.back"))');
+    expect(source).toContain('text: String(i18n.t("tabs.shop"))');
+    expect(source).toContain('onPress: () => router.back()');
     expect(source).toContain('router.replace("/(tabs)/shop")');
     expect(source).toContain('router.back()');
   });
