@@ -22,6 +22,11 @@ export function QuestionChoiceBlocks({
         choices={questionChoices}
         selectedIndex={selectedIndex}
         correctIndex={question.correct_index ?? null}
+        neutralMiss={
+          question.bet_card === true &&
+          showResult &&
+          selectedIndex !== question.correct_index
+        }
         showResult={showResult}
         onSelect={onSelect}
       />
@@ -59,12 +64,14 @@ function MultipleChoice({
   choices,
   selectedIndex,
   correctIndex,
+  neutralMiss,
   showResult,
   onSelect,
 }: {
   choices: string[];
   selectedIndex: number | null;
   correctIndex: number | null;
+  neutralMiss: boolean;
   showResult: boolean;
   onSelect: (index: number) => void;
 }) {
@@ -76,9 +83,18 @@ function MultipleChoice({
         let bg: string | undefined;
         let showCheck = false;
         let showCross = false;
+        let showGuess = false;
 
         if (showResult) {
-          if (index === correctIndex) {
+          if (neutralMiss && index === correctIndex) {
+            borderColor = BET_TRUTH;
+            bg = "rgba(229, 169, 60, 0.16)";
+            showCheck = true;
+          } else if (neutralMiss && isSelected) {
+            borderColor = theme.colors.primary;
+            bg = "rgba(6, 182, 212, 0.15)";
+            showGuess = true;
+          } else if (index === correctIndex) {
             borderColor = "rgba(34, 197, 94, 0.8)";
             bg = "rgba(34, 197, 94, 0.15)";
             showCheck = true;
@@ -111,15 +127,22 @@ function MultipleChoice({
             <Text
               style={[
                 styles.choiceText,
-                (isSelected || showCheck || showCross) && { fontWeight: "bold" },
+                (isSelected || showCheck || showCross || showGuess) && { fontWeight: "bold" },
               ]}
             >
               {choice}
             </Text>
             {showCheck ? (
-              <Ionicons name="checkmark-circle" size={24} color={theme.colors.success} />
+              <Ionicons
+                name="checkmark-circle"
+                size={24}
+                color={neutralMiss ? BET_TRUTH : theme.colors.success}
+              />
             ) : null}
             {showCross ? <Ionicons name="close-circle" size={24} color={theme.colors.error} /> : null}
+            {showGuess ? (
+              <Ionicons name="radio-button-on" size={24} color={theme.colors.primary} />
+            ) : null}
           </AnimatedButton>
         );
       })}
@@ -226,6 +249,8 @@ function FillBlank({
     </View>
   );
 }
+
+const BET_TRUTH = "#E5A93C";
 
 const styles = StyleSheet.create({
   choicesContainer: {

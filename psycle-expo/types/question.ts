@@ -57,6 +57,7 @@ export interface LessonMetadata {
   lane: LessonLane;
   locale_scope?: string[];
   sequence_policy?: "adaptive" | "authored";
+  preview_prompt?: string;
   lesson_job: string;
   target_shift: string;
   done_condition: string;
