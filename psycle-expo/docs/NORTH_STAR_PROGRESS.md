@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-06 - 開発Simulatorの時計導線をエネルギー残量から分離
+
+- Changed: dev-clientでは通常のコース導線もレッスン開始時にエネルギーを消費しない。chargeEnergy=1指定時だけ遮断挙動を検証し、リリース版は従来どおり消費
+- Verified: Energy 0のPsycle Clean Simulatorで時計のレッスン2を押し、警告なしで1/6が開くことを直接確認。Jest 8件とTypeScript型検査に合格
+- Remaining: 本番ビルドのエネルギー制約は変更なし。課金・回復のリリースE2Eは別途必要
+
 ### 2026-08-06 - レッスン起動時のエネルギー不足を質問欠落と分離
 
 - Changed: energy_blockedを独立状態にし、専用表示と戻る／ショップ導線を追加。開発プレビューはエネルギー非消費。初日ボーナスは設定値まで実残量を付与
