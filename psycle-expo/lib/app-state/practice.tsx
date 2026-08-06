@@ -9,7 +9,10 @@ import {
   recordLearnerSkillLessonCompletion,
   recordLearnerSkillQuestionResult,
 } from "../learnerSkillState";
-import { getCourseManifest } from "../courseManifestRuntime";
+import {
+  getCourseManifest,
+  isLessonIdAdmittedByCourseManifest,
+} from "../courseManifestRuntime";
 import { getCachedManifest } from "../remoteContent";
 import {
   completeMasteryVariant,
@@ -284,14 +287,21 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
 
   const getDueMistakes = () => {
     const now = Date.now();
-    return mistakes.filter((mistake) => mistake.nextReviewDate <= now);
+    return mistakes.filter(
+      (mistake) =>
+        mistake.nextReviewDate <= now &&
+        isLessonIdAdmittedByCourseManifest(mistake.lessonId)
+    );
   };
 
   const clearMistake = (questionId: string) => {
     setMistakes((prev) => prev.filter((mistake) => mistake.id !== questionId));
   };
 
-  const getMistakesHubItems = () => selectMistakesHubItems(reviewEvents);
+  const getMistakesHubItems = () =>
+    selectMistakesHubItems(
+      reviewEvents.filter((event) => isLessonIdAdmittedByCourseManifest(event.lessonId))
+    );
 
   const recordLessonSessionStart = (lessonId: string, questionIds: string[]) => {
     if (!lessonId || questionIds.length === 0) return;
@@ -443,13 +453,16 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
       )
     );
 
-    return selectLessonSupportCandidate({
+    const candidate = selectLessonSupportCandidate({
       lessonSessions,
       mistakes,
       curriculumUpdatedAtByUnit,
       supportSurfaceHistory,
       completedThemeIds,
     });
+    return candidate && isLessonIdAdmittedByCourseManifest(candidate.lessonId)
+      ? candidate
+      : null;
   }, [curriculumUpdatedAtByUnit, lessonSessions, mistakes, supportSurfaceHistory]);
 
   const getSupportBudgetSummary = useCallback((): SupportBudgetSummary => {
@@ -699,12 +712,15 @@ export function PracticeStateProvider({ children }: { children: React.ReactNode 
       return { started: false as const, reason: "not_available" as const };
     }
 
-    const selectedItemIds = selectMistakesHubItems(reviewEvents).slice(0, 10);
+    const admittedReviewEvents = reviewEvents.filter((event) =>
+      isLessonIdAdmittedByCourseManifest(event.lessonId)
+    );
+    const selectedItemIds = selectMistakesHubItems(admittedReviewEvents).slice(0, 10);
     if (selectedItemIds.length === 0) {
       return { started: false as const, reason: "no_items" as const };
     }
 
-    const sessionItems = buildMistakesHubSessionItems(reviewEvents, 10);
+    const sessionItems = buildMistakesHubSessionItems(admittedReviewEvents, 10);
     if (sessionItems.length < 5) {
       return { started: false as const, reason: "insufficient_data" as const };
     }
