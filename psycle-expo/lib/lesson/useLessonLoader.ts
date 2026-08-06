@@ -22,9 +22,14 @@ export function useLessonLoader(params: UseLessonLoaderParams) {
         energy: params.energy,
         maxEnergy: params.maxEnergy,
       });
-      Alert.alert(String(i18n.t("common.error")), String(i18n.t("lesson.energyBlockedMessage")), [
+      Alert.alert(String(i18n.t("shop.energyStatus.title")), String(i18n.t("lesson.energyBlockedMessage")), [
         {
-          text: String(i18n.t("common.ok")),
+          text: String(i18n.t("common.back")),
+          style: "cancel",
+          onPress: () => router.back(),
+        },
+        {
+          text: String(i18n.t("tabs.shop")),
           onPress: () => {
             Analytics.track("shop_open_from_energy", {
               source: "lesson_blocked",

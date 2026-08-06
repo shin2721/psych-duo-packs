@@ -18,6 +18,10 @@ import {
   getLessonReminderSyncPayload,
   resolveLessonAnswerTransition,
 } from "./lessonFlowHelpers";
+import {
+  resolveLessonLaunchGate,
+  type LessonLaunchState,
+} from "./lessonLaunchState";
 
 export { getLessonReminderSyncPayload, resolveLessonAnswerTransition } from "./lessonFlowHelpers";
 
@@ -50,6 +54,7 @@ interface UseLessonFlowParams {
   lastEnergyUpdateTime: number | null;
   lessonEnergyCost: number;
   maxEnergy: number;
+  skipEnergyCharge?: boolean;
   onEnergyBlocked: (lessonId: string, genreId: string) => void;
   onLoadFailed: (message: string) => void;
   recordLessonSessionAbandon: (lessonId: string) => void;
@@ -70,6 +75,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
   const [isComplete, setIsComplete] = useState(false);
   const [isReviewRound, setIsReviewRound] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [launchState, setLaunchState] = useState<LessonLaunchState>("loading");
   const [originalQuestions, setOriginalQuestions] = useState<Question[]>([]);
   const [questions, setQuestions] = useState<Question[]>([]);
   const [reviewQueue, setReviewQueue] = useState<Question[]>([]);
@@ -103,6 +109,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
 
     try {
       setLoading(true);
+      setLaunchState("loading");
       setActiveLessonId(null);
       setCurrentIndex(0);
       setCurrentLesson(null);
@@ -125,8 +132,18 @@ export function useLessonFlow(params: UseLessonFlowParams) {
       });
       const runtimeLessonId = lessonBundle.lessonId;
 
-      const hasEnoughEnergy = params.consumeEnergy(params.lessonEnergyCost);
-      if (!hasEnoughEnergy) {
+      const launchDecision = resolveLessonLaunchGate({
+        consumeEnergy: params.consumeEnergy,
+        lessonEnergyCost: params.lessonEnergyCost,
+        questionCount: lessonBundle.effectiveQuestions.length,
+        skipEnergyCharge: params.skipEnergyCharge,
+      });
+      if (launchDecision === "failed") {
+        throw new Error(`Lesson has no questions: ${runtimeLessonId}`);
+      }
+
+      if (launchDecision === "energy_blocked") {
+        setLaunchState("energy_blocked");
         setLoading(false);
         Analytics.track("lesson_load_performance", {
           durationMs: Math.max(0, Date.now() - loadStartedAt),
@@ -148,6 +165,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
       setCurrentLesson(lessonBundle.lesson);
       setOriginalQuestions(lessonBundle.effectiveQuestions);
       setQuestions(lessonBundle.effectiveQuestions);
+      setLaunchState("ready");
       setLoading(false);
       Analytics.track("lesson_load_performance", {
         durationMs: Math.max(0, Date.now() - loadStartedAt),
@@ -174,6 +192,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
       }
     } catch (error) {
       setActiveLessonId(null);
+      setLaunchState("failed");
       setLoading(false);
       Analytics.track("lesson_load_performance", {
         durationMs: Math.max(0, Date.now() - loadStartedAt),
@@ -193,14 +212,23 @@ export function useLessonFlow(params: UseLessonFlowParams) {
     params.lessonSize,
     params.onEnergyBlocked,
     params.onLoadFailed,
+    params.skipEnergyCharge,
   ]);
 
   useEffect(() => {
-    if (fileParam && fileParam !== hasLoadedRef.current) {
-      hasLoadedRef.current = fileParam;
+    const loadKey = fileParam
+      ? `${fileParam}:${params.skipEnergyCharge ? "preview" : "standard"}`
+      : null;
+    if (!loadKey) {
+      setLaunchState("failed");
+      setLoading(false);
+      return;
+    }
+    if (loadKey !== hasLoadedRef.current) {
+      hasLoadedRef.current = loadKey;
       void loadLesson();
     }
-  }, [fileParam, loadLesson]);
+  }, [fileParam, loadLesson, params.skipEnergyCharge]);
 
   useEffect(() => {
     return () => {
@@ -359,6 +387,7 @@ export function useLessonFlow(params: UseLessonFlowParams) {
     handleAnswer,
     isComplete,
     isReviewRound,
+    launchState,
     loading,
     originalQuestions,
     questions,

@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import type { QuestInstance, QuestMetric } from "../questDefinitions";
 import type { StreakRepairOffer } from "../streakRepair";
 import { resetSessionTracking } from "../dogfood";
+import { resolveLessonRuntimeAvailability } from "./lessonLaunchState";
 import { useLessonFlow } from "./useLessonFlow";
 
 interface UseLessonRuntimeParams {
@@ -33,6 +34,7 @@ interface UseLessonRuntimeParams {
   lastEnergyUpdateTime: number | null;
   lessonEnergyCost: number;
   maxEnergy: number;
+  skipEnergyCharge?: boolean;
   onEnergyBlocked: (lessonId: string, genreId: string) => void;
   onLoadFailed: (message: string) => void;
   recordLessonSessionAbandon: (lessonId: string) => void;
@@ -46,6 +48,10 @@ interface UseLessonRuntimeParams {
 
 export function useLessonRuntime(params: UseLessonRuntimeParams) {
   const lessonFlow = useLessonFlow(params);
+  const availability = resolveLessonRuntimeAvailability({
+    hasCurrentQuestion: Boolean(lessonFlow.currentQuestion),
+    launchState: lessonFlow.launchState,
+  });
 
   useEffect(() => {
     if (!params.fileParam) return;
@@ -54,7 +60,6 @@ export function useLessonRuntime(params: UseLessonRuntimeParams) {
 
   return {
     ...lessonFlow,
-    canStart: !lessonFlow.loading && Boolean(lessonFlow.currentQuestion),
-    loadError: !lessonFlow.loading && !lessonFlow.currentQuestion && !lessonFlow.isComplete,
+    ...availability,
   };
 }
