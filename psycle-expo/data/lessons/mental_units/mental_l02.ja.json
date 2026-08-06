@@ -3,16 +3,57 @@
     "id": "mental_l02_001",
     "claim_id": "mental_l02_001_claim",
     "phase": 1,
+    "lane": "core",
     "type": "conversation",
-    "question": "22:48、上司から『明日、10分話せる？』と一通だけ届いた。\n\nこの一文を見た瞬間、頭の中で始まりやすい会議は？",
-    "your_response_prompt": "正解はありません。最初に浮かびやすいものを選んでください",
+    "bet_card": true,
+    "question": "22:48。上司から一通だけ届いた。\n\n『明日の朝、10分だけ話せますか？』\n\n読んだ直後、頭の中で先に始まったのは？",
+    "your_response_prompt": "正解はありません。近いものを選んでください",
     "choices": [
-      "ミスを指摘され、担当から外される会議",
-      "新しい仕事や日程を相談される会議",
-      "まだ何の会議か映像にならない"
+      "何の話か、だいたい見当がついている",
+      "悪い方の話を、先に思い浮かべている",
+      "まだ何も浮かんでいない"
     ],
     "recommended_index": null,
-    "explanation": "同じ一文なのに、頭の中では別々の会議が始まる。この『画面にはない会議』が、今日の入口。ここでは不安の強さも内容も採点しない。",
+    "explanation": "同じ一文でも、頭の中で始まる会議は人によって違う。\n\n今夜が長くなるとしたら、原因は画面の文字ではなく、そこに足された意味の方。ここでは不安の強さも内容も採点しない。",
+    "actionable_advice": null,
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Harp_2024",
+    "evidence_grade": "bronze",
+    "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "短い連絡を読んだ直後に、頭の中で先の場面が始まる時"
+      ],
+      "limitations": [
+        "1回の選択で不安傾向や性格を判定しない",
+        "強い不安やつらい記憶を無理に呼び戻さない"
+      ],
+      "citation_role": "同じ曖昧な一文への解釈に個人差がありうるという背景",
+      "claim_tags": [
+        "mental_l02",
+        "ambiguity",
+        "added_meaning"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_002",
+    "claim_id": "mental_l02_002_claim",
+    "phase": 2,
+    "lane": "core",
+    "type": "multiple_choice",
+    "bet_card": true,
+    "question": "そのメッセージを、もう一度見ずに思い出す。\n\n画面にあった文字は、どれ？",
+    "choices": [
+      "明日の朝、少し話がある",
+      "明日の朝、10分だけ話せますか？",
+      "明日の朝、時間もらえますか？"
+    ],
+    "correct_index": 1,
+    "explanation": "画面にあったのは2番目。\n\n1番目を選んだなら、頭は質問を予告へ書き換えていた。3番目を選んだなら、意味は近いが文字は違う。どちらも、残っていたのは文字ではなく意味の方だった。\n\n正確に選べたなら、その一文が伝えていたのは「10分話したい」だけ。会議の中身も、その結論も、画面には一度も出ていない。",
+    "feedback_prompt": "画面に残っている文字と、頭が足した意味を分ける。",
     "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
@@ -22,59 +63,18 @@
       "claim_type": "observation",
       "evidence_type": "indirect",
       "best_for": [
-        "短い連絡を見た直後に、頭の中で先の場面が始まる時"
+        "曖昧な一文を、もう確定した知らせのように感じている時"
       ],
       "limitations": [
-        "1回の選択で性格や不安傾向を診断しない",
-        "強い不安やつらい記憶を無理に呼び戻さない"
+        "答え合わせの根拠は研究結果ではなく、直前に表示された画面そのもの",
+        "思い出せたかどうかは記憶力の測定ではない",
+        "1回の結果を不安傾向の診断に使わない"
       ],
-      "citation_role": "同じ出来事への意味づけが人によって異なりうるという理論的背景への導入",
+      "citation_role": "曖昧な刺激への解釈に偏りが生じうるという背景。判定の根拠はこのカード自身",
       "claim_tags": [
         "mental_l02",
-        "prediction",
-        "personal_vulnerability",
-        "paleo_to_practice"
-      ]
-    }
-  },
-  {
-    "id": "mental_l02_002",
-    "claim_id": "mental_l02_002_claim",
-    "phase": 2,
-    "type": "multiple_choice",
-    "question": "さっきのスマホ画面を、そのまま録画した。\n\n録画に残る『いま確認できる事実』はどれ？",
-    "choices": [
-      "上司が『明日、10分話せる？』と送った",
-      "上司が自分のミスを見つけた",
-      "明日の評価が下がる可能性が高い"
-    ],
-    "correct_index": 0,
-    "explanation": "録画に残るのはメッセージだけ。残り2つは起こるかもしれないが、まだ画面にはない意味。不安が嘘なのではなく、未確認の意味が『もう確認した事実』の文体へ変わっていた。",
-    "feedback_prompt": "録画に残るのはメッセージだけ。ミスや評価は、まだ画面にない意味。",
-    "actionable_advice": null,
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Lazarus_1984",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "indirect",
-      "best_for": [
-        "情報が少ない連絡で、確認済みの内容と頭が足した意味を分けたい時"
-      ],
-      "limitations": [
-        "悪い可能性を否定するための分類ではない"
-      ],
-      "citation_role": "出来事と、その出来事への評価を区別する練習モデル",
-      "claim_tags": [
-        "mental_l02",
-        "fact_prediction_distinction",
-        "cognitive_appraisal",
-        "paleo_to_practice"
-      ],
-      "near_miss_choices": [
-        "ミスが見つかった可能性は残るが、この文面だけでは確認されていない",
-        "確率の予想も、録画に残る事実とは別に扱う"
+        "text_vs_meaning",
+        "self_demonstration"
       ]
     }
   },
@@ -82,175 +82,156 @@
     "id": "mental_l02_003",
     "claim_id": "mental_l02_003_claim",
     "phase": 3,
+    "lane": "core",
     "type": "multiple_choice",
-    "question": "9:05。10時のプレゼンを前に『きっとうまくいかない』と思った。\n\n10:10に、終了後の1回だけで答え合わせできる予言はどれ？",
+    "bet_card": true,
+    "question": "9:05。10時からのレビューが不安だ。\n\nどの予言なら、今日の夜に勝ち負けが決まる？",
     "choices": [
-      "緊張するから、きっとダメになる",
-      "10:10までに最後のスライドへ到達できない",
-      "途中で一度でも言い直したら、失敗したことにする"
+      "今日のレビューは、たぶんうまくいかない",
+      "今日のレビューで、最後のページまでたどり着けない",
+      "今日のレビューで、説明が下手だと思われる"
     ],
     "correct_index": 1,
-    "explanation": "『うまくいかない』は、5秒詰まっても8分話せても当たったことにできる。2つ目だけは、終了後に1回見れば○×が決まる。採点されない予言は無敗のままだが、単一の結果なら途中で自分を監視せずに更新できる。",
-    "feedback_prompt": "終了後の1回だけで○×が決まり、途中の自己監視を増やさない未来文を選ぶ。",
-    "actionable_advice": null,
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Psycle_Pilot_003",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "indirect",
-      "best_for": [
-        "『失敗しそう』『嫌われそう』のような曖昧な予言が何度も当たった感じになる時"
-      ],
-      "limitations": [
-        "1回の当たり外れを、不安全体の正しさへ一般化しない",
-        "予言を細かくするほど確認が増える人には使わない"
-      ],
-      "citation_role": "予言を観測可能にするPsycle独自の判断練習。治療効果の直接根拠ではない",
-      "claim_tags": [
-        "mental_l02",
-        "falsifiable_prediction",
-        "hidden_operating_rule",
-        "paleo_to_practice"
-      ],
-      "near_miss_choices": [
-        "『きっとダメ』は日常的だが採点基準が動く",
-        "一度の言い直しを失敗扱いする基準は具体的でも、怖さが必ず勝つように作られている"
-      ]
-    }
-  },
-  {
-    "id": "mental_l02_004",
-    "claim_id": "mental_l02_004_claim",
-    "phase": 3,
-    "type": "multiple_choice",
-    "question": "明日10時のレビューが不安。\n\nこの3行の練習を待たず、いま動くべきなのはどれ？",
-    "choices": [
-      "明日の会議で厳しい意見が出そうだ",
-      "資料の締切が今日17時と明記されている",
-      "3行にすれば不安が下がりそうだ"
-    ],
-    "correct_index": 1,
-    "explanation": "明記された締切は、採点を待つ予言ではなく、いま確認できる事実。3行は低リスクの曖昧さにだけ使う。これで不安が下がると直接確かめられたわけではなく、具体的な危険、既知の締切、専門家から指示された対応は待たない。",
-    "feedback_prompt": "明記された締切は予言ではなく、いま確認できる事実。",
+    "explanation": "決まるのは2番目だけ。\n\n1番目は、5秒詰まっても「やっぱり」、最後まで話しても「思ったよりマシだっただけ」にできる。3番目は相手の頭の中なので、確かめようがない。\n\n採点日のない予言は、負けることができない。負けないから、消えない。",
+    "feedback_prompt": "あとで○×がつく形に置き直す。",
     "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
     "source_id": "Yeo_Ong_2024",
     "evidence_grade": "bronze",
     "expanded_details": {
+      "claim_type": "observation",
+      "evidence_type": "indirect",
+      "best_for": [
+        "悪い結末が頭に浮かんだまま、確かめようがない時"
+      ],
+      "limitations": [
+        "予言を採点可能にすると不安が下がる、と確かめた研究ではない",
+        "1回の当たり外れを不安全体へ広げない"
+      ],
+      "citation_role": "出来事への意味づけが感情反応と関連するという背景。判定基準は研究ではなく反証可能性",
+      "claim_tags": [
+        "mental_l02",
+        "falsifiable_prediction",
+        "settle_date"
+      ]
+    }
+  },
+  {
+    "id": "mental_l02_004",
+    "claim_id": "mental_l02_004_claim",
+    "phase": 4,
+    "lane": "core",
+    "type": "multiple_choice",
+    "bet_card": true,
+    "question": "同じ日に、3つが同時に頭にある。\n\n分ける練習を待たずに、いま動くのはどれ？",
+    "choices": [
+      "請求書の支払期限が、今日の17時",
+      "明日の会議で、厳しい意見が出るかもしれない",
+      "返信が来ないのは、避けられているからかもしれない"
+    ],
+    "correct_index": 0,
+    "explanation": "1番目。支払期限は予言ではなく、もう決まっている事実。分ける前に払う。\n\nこの3行は、確かめようがない曖昧さにだけ使う。締切、体の新しい強い異変、専門家から指示された対応は、分けずにそのまま動く。",
+    "feedback_prompt": "確かめようがない曖昧さにだけ使う。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Lazarus_1984",
+    "evidence_grade": "bronze",
+    "expanded_details": {
       "claim_type": "theory",
       "evidence_type": "theoretical",
       "best_for": [
-        "上司の短文や返信待ちなど、低リスクで情報が足りない日常場面"
+        "確かめられる用事と、確かめようがない不安が同時にある時"
       ],
       "limitations": [
-        "治療効果や不安軽減を保証しない",
-        "健康・安全・虐待・自傷・法務など高リスク判断へ使わない",
-        "既知の締切、具体的な危険信号、専門家から指示された対応を遅らせない"
+        "具体的な危険、既知の締切、専門家からの指示には使わない",
+        "強い、持続する、生活を妨げる不安には専門的支援が必要"
       ],
-      "citation_role": "認知的評価理論の使える範囲と、独自練習の未証明部分を分離",
+      "citation_role": "評価と対処の理論的背景。ここでは適用範囲を先に区切るために使う",
       "claim_tags": [
         "mental_l02",
-        "critical_caveat",
-        "safe_usage_scope",
-        "paleo_to_practice"
-      ],
-      "near_miss_choices": [
-        "会議への予想は未確認であり、いまの事実ではない",
-        "この練習による不安軽減は直接検証されていない"
+        "safety_boundary",
+        "scope"
       ]
     }
   },
   {
     "id": "mental_l02_005",
     "claim_id": "mental_l02_005_claim",
-    "phase": 4,
-    "type": "conversation",
-    "question": "この3問を明日10秒だけ使うなら、どの場面がいちばん近い？",
-    "your_response_prompt": "正解はありません。低リスクの日常場面を1つ選んでください",
+    "phase": 5,
+    "lane": "core",
+    "type": "multiple_choice",
+    "bet_card": true,
+    "question": "別の日。友人に食事の候補を送って、6時間返信がない。\n\n予言は「明日の食事は断られる」。\n\nこの予言の答え合わせは、どれ？",
     "choices": [
-      "上司や仕事相手から、短い連絡が来た時",
-      "友人や家族からの返信を待っている時",
-      "プレゼンや予定の前に、悪い結末が浮かんだ時",
-      "今回は使わない"
+      "返信が届いて、内容を読んだ時",
+      "今夜、既読がつかないまま日付が変わった時",
+      "トークを何度か開いて、様子を確かめた時"
     ],
-    "recommended_index": null,
-    "explanation": "どれでもOK。使う時は『事実は？ 予言は？ いつ答え合わせ？』を1回だけ。何度も確認したくなるなら、この練習はそこで中止する。",
-    "actionable_advice": null,
+    "correct_index": 0,
+    "explanation": "1番目だけが、こちらから何もしなくても向こうから届く。\n\n2番目は返信ではなく、時間が過ぎただけ。3番目は答え合わせではなく確認で、しかも増えやすい。\n\n答え合わせを自分から取りに行き始めたら、この練習はそこで中止する。",
+    "feedback_prompt": "向こうから届くものだけを答え合わせにする。",
+    "actionable_advice": "今日、不安が事実の顔で届いたら、一度だけ聞く。「画面に残っているのは、どこまで？」",
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Psycle_Pilot_003",
+    "source_id": "Yeo_Ong_2024",
     "evidence_grade": "bronze",
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
       "best_for": [
-        "自分の生活で、このレンズを使う低リスク場面を1つ選ぶ時"
+        "返事や結果を待っている、低リスクな場面"
       ],
       "limitations": [
-        "確認行動が増える人は使わない",
-        "今回は使わない選択を残す"
+        "確認行動が増える場合は中止する",
+        "この判断が不安を下げると確かめた研究はない"
       ],
-      "citation_role": "練習を個人の低リスク場面へ接続し、反復確認を抑制",
+      "citation_role": "意味づけと感情の関連という背景。ここでは初見場面での判断に使う",
       "claim_tags": [
         "mental_l02",
-        "application",
-        "self_observation",
-        "paleo_to_practice"
+        "transfer",
+        "checking_boundary"
       ]
     }
   },
   {
     "id": "mental_l02_006",
     "claim_id": "mental_l02_006_claim",
-    "phase": 5,
-    "type": "multiple_choice",
-    "question": "友人に明日の食事の候補を送り、6時間返信がない。『明日の食事は断られる』という予言を3行にするなら？",
+    "phase": 6,
+    "lane": "core",
+    "type": "conversation",
+    "bet_card": true,
+    "question": "「事実は？　予言は？　いつ答え合わせ？」\n\nこの3つを、次に使うとしたら？",
+    "your_response_prompt": "正解はありません。近いものを選んでください",
     "choices": [
-      "事実: 6時間返信なし / 予言: 次の返信に『明日の食事は行けない』と書かれている / 答え合わせ: 返信通知が来て内容を読んだ時",
-      "事実: 6時間返信なし / 結論: 嫌われた / 答え合わせ: 返信まで何度もトークを開く",
-      "事実: 6時間返信なし / 予言: 忙しいに決まっている / 答え合わせ: 安心できたので不要"
+      "短い連絡が来て、意味を考え始めた時",
+      "返信を待っている時",
+      "予定の前に、悪い結末が浮かんだ時",
+      "今回は使わない"
     ],
-    "correct_index": 0,
-    "explanation": "悪い予言を楽観論へ替えず、録画に残る事実と、後で○×をつけられる未来文に分ける。答え合わせは返信が自然に届いた時で、こちらから確認を増やさない。明日使う3問は『事実は？ 予言は？ いつ答え合わせ？』。",
-    "feedback_prompt": "楽観論へ替えず、自然に届く結果で○×が決まる未来文にする。",
-    "actionable_advice": "不安が事実に見えたら「事実は？ 予言は？ いつ答え合わせ？」と10秒だけ分ける",
-    "difficulty": "medium",
+    "recommended_index": null,
+    "explanation": "どれでもいい。使う時は一度だけ。\n\n何度も確かめたくなるなら、それは分ける練習ではなく確認になっている。そこで止める。「今回は使わない」も正当な選択。",
+    "actionable_advice": null,
+    "difficulty": "easy",
     "xp": 5,
-    "source_id": "Psycle_Pilot_003",
+    "source_id": "Lazarus_1984",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
       "best_for": [
-        "低リスクの曖昧な連絡で、頭の予言を事実扱いしそうな最初の10秒"
+        "明日以降、どの場面で試すか決める時"
       ],
       "limitations": [
-        "不安を下げる治療法として扱わない",
-        "答え合わせや確認を繰り返さない",
-        "一度の当たり外れを不安全体へ一般化しない"
+        "使う回数を増やすことを目標にしない",
+        "確認行動へ変わったら中止する"
       ],
-      "citation_role": "事実・予言・答え合わせを分けるPsycle独自の10秒判断練習",
+      "citation_role": "評価と対処の理論的背景。ここでは実生活の適用場面を1つだけ選ぶために使う",
       "claim_tags": [
         "mental_l02",
-        "takeaway_action",
-        "transfer",
-        "paleo_to_practice"
-      ],
-      "try_this": "不安が事実に見えたら「事実は？ 予言は？ いつ答え合わせ？」と10秒だけ分ける",
-      "comparator": {
-        "baseline": "曖昧な予言は、結果を見た後で採点基準を動かせる",
-        "cost": "10秒・答え合わせは1回だけ"
-      },
-      "fallback": {
-        "when": "書くほど確認したくなる、または危険・締切が具体的",
-        "next": "この練習を中止し、必要な現実対応を1つだけ行う"
-      },
-      "near_miss_choices": [
-        "『嫌われた』は予言ではなく結論として固定されている",
-        "『忙しい』への置き換えは、楽観的でも採点しない未確認の予言のまま"
+        "commitment",
+        "daily_use"
       ]
     }
   }

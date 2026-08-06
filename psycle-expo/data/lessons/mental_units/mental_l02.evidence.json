@@ -28,24 +28,25 @@
     }
   ],
   "source_label": "Yeo & Ong (2024) appraisal-emotion MA + Harp et al. (2024) emotional ambiguity MA + Lazarus & Folkman (1984) background",
-  "claim": "出来事への評価や意味づけは感情反応と関連し、曖昧な刺激に対して否定的な解釈が生じる傾向にも個人差がある。ただし『事実・予言・答え合わせ』の3行法そのものが不安を軽減するという直接根拠はなく、Psycleでは予言を確認可能な形へ戻す判断練習としてのみ扱う",
-  "limitations": "3行法の治療効果は未検証。1回の当たり外れを不安全体へ一般化しない。確認行動が増える場合は中止し、健康・安全・虐待・自傷・法務など高リスク判断や、明確な締切・危険信号には使わない。強い、持続する、生活を妨げる不安には専門的支援が必要",
+  "claim": "出来事への評価や意味づけは感情反応と関連し、曖昧な刺激に対する解釈には個人差がある。ただし『事実・予言・答え合わせ』へ分ける練習そのものが不安を軽減するという直接根拠はなく、Psycleでは予言を反証可能な形へ戻す判断練習としてのみ扱う。カード2の答え合わせは研究結果ではなく、直前に同一セッション内で表示した文面そのものを根拠とする自己実演である",
+  "limitations": "3行法の治療効果は未検証。カード2は記憶力の測定ではなく、文字と意味の保存差の実演であり、1回の結果を不安傾向や性格の診断に使わない。確認行動が増える場合は中止し、健康・安全・虐待・自傷・法務など高リスク判断や、明確な締切・危険信号には使わない。強い、持続する、生活を妨げる不安には専門的支援が必要",
   "effect_size_note": "Yeo & Ong (2024)はappraisal-emotion関連を広く統合し、既存仮説の平均関連はr=.33。Harp et al. (2024)はtrait reappraisalと曖昧刺激への否定的biasに小さい関連（r=-.18）を報告したが、どちらも本lessonの3行法を検証していない [DOI:10.1037/bul0000452, DOI:10.1037/emo0001316]",
   "evidence_grade": "bronze",
   "confidence": "medium",
   "status": "active",
   "last_verified": "2026-07-16",
-  "generated_by": "codex_reviewed_pilot",
+  "generated_by": "claude_authored_pilot",
   "review": {
     "human_approved": false,
-    "reviewer": "codex_content_review",
-    "auto_approved": true,
-    "approval_mode": "automated_pilot_gate",
+    "reviewer": "claude_content_authoring",
+    "auto_approved": false,
+    "approval_mode": "owner_tasting_pending",
     "approval_reasons": [
-      "schema_and_claim_trace_validation_passed",
-      "adversarial_safety_and_copy_findings_addressed"
+      "authored_from_raw_pilot_006",
+      "reuses_already_registered_sources_only",
+      "owner_playthrough_not_yet_performed"
     ],
-    "evaluated_at": "2026-07-16T19:23:25+09:00"
+    "evaluated_at": "2026-08-06T00:00:00+09:00"
   },
   "citation": {
     "doi": "",
@@ -55,7 +56,10 @@
   "promotion": {
     "eligible": false,
     "reasons": [],
-    "warnings": []
+    "warnings": [
+      "owner_tasting_pending",
+      "no_direct_evidence_for_three_line_practice"
+    ]
   },
   "content_package": {
     "lesson_path": "data/lessons/mental_units/mental_l02.ja.json",
