@@ -1,4 +1,5 @@
 import curatedSources from "../../data/curated_sources.json";
+import mentalContinuity from "../../data/lessons/mental_units/mental_l03.continuity.json";
 import mentalEvidence from "../../data/lessons/mental_units/mental_l03.evidence.json";
 import mentalLesson from "../../data/lessons/mental_units/mental_l03.ja.json";
 import { getLessonRuntimeMetadata } from "../../lib/lesson-data/lessonMetadata";
@@ -56,7 +57,7 @@ describe("mental_l03 body signal and forecast pilot", () => {
     expect(researchCopy).not.toContain("落ち着こうとした群より");
   });
 
-  test("puts the safety boundary before personal practice and unseen transfer", () => {
+  test("puts the safety boundary before personal and same-session practice", () => {
     const boundaryIndex = mentalLesson.findIndex((question) => question.id === "mental_l03_003");
     const personalPracticeIndex = mentalLesson.findIndex(
       (question) => question.id === "mental_l03_004"
@@ -109,6 +110,18 @@ describe("mental_l03 body signal and forecast pilot", () => {
     expect(finalQuestionCopy).toContain("same_session_transfer_practice");
     expect(finalQuestionCopy).not.toContain("unseen_transfer");
     expect(getLessonRuntimeMetadata("mental_l03")?.done_condition).toContain("同一セッション");
+  });
+
+  test("preserves progress across the in-place content revision", () => {
+    expect(mentalContinuity.lesson_id).toBe("mental_l03");
+    expect(mentalContinuity.decision_basis).toBe(
+      "same_lesson_id_revision_preserves_existing_progress"
+    );
+    expect(mentalContinuity.predecessor_lesson_ids).toEqual([]);
+    expect(mentalContinuity.history_migration_rule).toBe(
+      "preserve_existing_mental_l03_completion_history"
+    );
+    expect(mentalContinuity.analytics_continuity_rule).toContain("revision_boundary");
   });
 
   test("keeps the rebuilt package out of production until taste, science, and safety review", () => {
