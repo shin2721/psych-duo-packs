@@ -74,7 +74,7 @@ claim_type: intervention の設問には以下が必須:
 
 ### 10. 品質ゲート
 - **FAIL = 0** 必須
-- **WARN** は許容リストのみ（例: mental_l03_007 debunking）
+- **WARN** は理由・期限・対象を明記した許容リストのみ
 
 ### 10.1. 自動運用ゲート
 Codex 自動運用前提では、以下を quality gate に含める:
@@ -157,29 +157,24 @@ lesson の良さは構造 pass だけでなく、少なくとも以下で評価�
 
 ## Gold Lesson（基準レッスン）
 
-### 選定: `mental_l03`（焦り対処10秒）
+### 選定: `mental_l03`（身体信号と結果予測を分ける）
 
 **選定理由:**
-- Psycleのコア価値（感情調整 × 10秒介入）を体現
-- 3つの介入（ラベリング/リアプレイザル/呼吸法）が完備
-- 汎用性が高く、他ドメインへの応用が効く
-- Local Critic PASS（vocabulary_warn 1件は is_true:false debunking）
+- Psycleのコア価値（意味のあるコミット → 証拠 → 境界 → 練習）を体現
+- 身体の速報と結果の予報を分け、落ち着きや成功を約束しない
+- 研究の限界と、読み替えてはいけない安全境界を練習より先に置く
+- 同一セッションの別場面は練習であり、遅延転移の証明とは扱わない
 
 **Gold Lesson 構造（例）:**
 ```text
-Q1: 導入（共感獲得）      - swipe  
-Q2: 介入A紹介             - mcq + try_this  
-Q3: 理論補強              - swipe  
-Q4: 介入B紹介             - mcq + try_this  
-Q5: 個人差確認            - conversation  
-Q6: 介入C紹介             - mcq + try_this  
-Q7: 限界説明              - swipe (debunking)  
-Q8: 選択促し              - mcq  
-Q9: アクション決定        - conversation + try_this  
-Q10: フィット確認         - conversation  
+Q1: 身体信号と結果予測を分ける - meaningful commit
+Q2: 研究結果と限界を開示する   - evidence reveal
+Q3: 安全境界を先に判定する     - boundary
+Q4: 自分に嘘のない一文を選ぶ   - neutral choice
+Q5: 別の低リスク場面で試す     - same-session practice
 ```
 
-**注意:** これは 10 問 lesson の例であり、全 lesson の固定条件ではない。軽い lesson は 5〜6 問、中程度は 7〜8 問でもよい。
+**注意:** これは現行 `mental_l03` の5画面構成であり、全レッスンの固定テンプレートではない。画面数ではなく、意味のあるコミットと必要な開示・境界・練習で決める。
 
 ---
 
@@ -402,7 +397,7 @@ lesson の密度に応じて、以下のサイクルが成立しているか:
 
 | Question ID | WARN Type | 理由 |
 |-------------|-----------|------|
-| mental_l03_007 | vocabulary_warn | is_true:false debunking（「必ず」を否定） |
+| なし | - | 現行 `mental_l03` に旧仕様由来の許容 WARN はない |
 
 ---
 
