@@ -242,6 +242,7 @@ describe("CourseWorldHero", () => {
     );
 
     expect(screen.getByTestId("hero-root-orb")).toBeTruthy();
+    expect(screen.getByTestId("course-world-ring-interaction")).toBeTruthy();
     expect(screen.getByText("Anxiety Reframe")).toBeTruthy();
     expect(screen.queryByText("Turn one stuck thought into motion.")).toBeNull();
     expect(screen.queryByText("7 questions • +38 XP")).toBeNull();
