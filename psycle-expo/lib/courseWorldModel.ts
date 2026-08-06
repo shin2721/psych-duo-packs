@@ -67,6 +67,7 @@ export interface CourseWorldViewModel {
 }
 
 export interface CourseWorldTrailNode {
+  displayLevel?: number;
   icon: string;
   id: string;
   isLocked?: boolean;
@@ -206,7 +207,8 @@ function buildSequence(
       if (!lesson) return null;
 
       const nodeType = normalizeNodeType(node, lesson);
-      const label = nodeType === "review_blackhole" ? "BH" : `L${lesson.level}`;
+      const levelNumber = node.displayLevel ?? lesson.level;
+      const label = nodeType === "review_blackhole" ? "BH" : `L${levelNumber}`;
       const isNextAction = node.id === nextActionNode?.id;
       const status: CourseWorldNodeStatus = isNextAction
         ? node.isLocked
@@ -221,7 +223,7 @@ function buildSequence(
             : "locked";
 
       return {
-        accessibilityLabel: buildNodeAccessibilityLabel(label, lesson.level, nodeType, status),
+        accessibilityLabel: buildNodeAccessibilityLabel(label, levelNumber, nodeType, status),
         icon: node.icon,
         id: node.id,
         isInteractive: false,
@@ -229,7 +231,7 @@ function buildSequence(
         label,
         lesson,
         lessonFile: node.lessonFile,
-        levelNumber: lesson.level,
+        levelNumber,
         nodeType,
         orderIndex,
         status,
