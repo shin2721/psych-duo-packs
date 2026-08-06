@@ -162,6 +162,7 @@ export function CourseWorldHero({
         )}
 
         <View
+          testID="course-world-ring-interaction"
           style={[
             styles.interactionZone,
             { width, height: interactionZoneHeight, marginTop: heroOffsetY },
