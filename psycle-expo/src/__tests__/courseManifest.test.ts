@@ -1,7 +1,9 @@
 import mentalManifestJson from "../../data/courses/mental.manifest.json";
 import {
+  courseManifestHasLessonId,
   getCourseCoreLessonIds,
   getCourseManifest,
+  isLessonIdAdmittedByCourseManifest,
   validateCourseManifest,
 } from "../../lib/courseManifestRuntime";
 import type { CourseManifest } from "../../types/courseManifest";
@@ -14,15 +16,17 @@ describe("course manifest", () => {
   test("loads the mental pilot with a stable core order", () => {
     const manifest = getCourseManifest("mental");
 
-    expect(manifest?.curriculum_version).toBe("mental-v1.0.0");
+    expect(manifest?.curriculum_version).toBe("mental-v1.1.0");
     expect(manifest && getCourseCoreLessonIds(manifest)).toEqual([
       "mental_l01",
-      "mental_l02",
       "mental_l03",
-      "mental_l04",
-      "mental_l05",
-      "mental_l06",
     ]);
+    expect(manifest && courseManifestHasLessonId(manifest, "mental_l03")).toBe(true);
+    expect(manifest && courseManifestHasLessonId(manifest, "mental_l02")).toBe(false);
+    expect(isLessonIdAdmittedByCourseManifest("mental_l03")).toBe(true);
+    expect(isLessonIdAdmittedByCourseManifest("mental_lesson_3")).toBe(true);
+    expect(isLessonIdAdmittedByCourseManifest("mental_l02")).toBe(false);
+    expect(isLessonIdAdmittedByCourseManifest("mental_m01")).toBe(false);
   });
 
   test("rejects duplicate ids and broken references", () => {
@@ -35,7 +39,7 @@ describe("course manifest", () => {
     expect(result.valid).toBe(false);
     expect(result.errors).toEqual(
       expect.arrayContaining([
-        "duplicate skill_id: mental_separate_signal_story",
+        "duplicate skill_id: mental_calibrate_intuition",
         "lesson mental_l01 references unknown unit missing_unit",
       ])
     );
@@ -43,7 +47,7 @@ describe("course manifest", () => {
 
   test("rejects dependency cycles", () => {
     const manifest = cloneManifest();
-    manifest.units[0].prerequisite_unit_ids = [manifest.units[2].unit_id];
+    manifest.units[0].prerequisite_unit_ids = [manifest.units[1].unit_id];
 
     const result = validateCourseManifest(manifest);
 

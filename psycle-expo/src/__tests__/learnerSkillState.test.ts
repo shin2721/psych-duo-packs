@@ -5,6 +5,7 @@ import {
   refreshLearnerSkillStates,
 } from "../../lib/learnerSkillState";
 import { getCourseManifest } from "../../lib/courseManifestRuntime";
+import type { LearnerSkillState } from "../../types/courseManifest";
 
 const DAY = 24 * 60 * 60 * 1000;
 
@@ -18,7 +19,7 @@ describe("learner skill state", () => {
     });
 
     expect(states[0]).toMatchObject({
-      skill_id: "mental_separate_signal_story",
+      skill_id: "mental_calibrate_intuition",
       stage: "introduced",
       highest_stage: "introduced",
       attempts: 1,
@@ -26,51 +27,60 @@ describe("learner skill state", () => {
     });
   });
 
-  test("completion uses the manifest lesson role", () => {
-    const introduced = recordLearnerSkillLessonCompletion({
+  test("pilot completion records introduction without claiming transfer", () => {
+    const samplerIntroduced = recordLearnerSkillLessonCompletion({
       states: [],
       lessonId: "mental_l01",
       nowMs: 1_000,
     });
-    const transferred = recordLearnerSkillLessonCompletion({
-      states: introduced,
-      lessonId: "mental_l02",
+    const skillIntroduced = recordLearnerSkillLessonCompletion({
+      states: samplerIntroduced,
+      lessonId: "mental_l03",
       nowMs: 2_000,
     });
 
-    expect(transferred[0]).toMatchObject({
-      stage: "transferable",
-      highest_stage: "transferable",
-      transfer_attempts: 1,
-      transfer_successes: 1,
-    });
+    expect(skillIntroduced).toHaveLength(2);
+    expect(skillIntroduced).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({
+          skill_id: "mental_calibrate_intuition",
+          stage: "introduced",
+          transfer_attempts: 0,
+        }),
+        expect.objectContaining({
+          skill_id: "mental_separate_signal_and_forecast",
+          stage: "introduced",
+          transfer_attempts: 0,
+        }),
+      ])
+    );
   });
 
-  test("a spaced second transfer reaches stable", () => {
-    const first = recordLearnerSkillLessonCompletion({
+  test("retired legacy completion cannot advance current skill state", () => {
+    const states = recordLearnerSkillLessonCompletion({
       states: [],
       lessonId: "mental_l02",
       nowMs: 1_000,
     });
-    const second = recordLearnerSkillLessonCompletion({
-      states: first,
-      lessonId: "mental_l02",
-      nowMs: 1_000 + DAY,
-    });
 
-    expect(second[0]).toMatchObject({
-      stage: "stable",
-      highest_stage: "stable",
-      transfer_attempts: 2,
-    });
+    expect(states).toEqual([]);
   });
 
   test("elapsed time marks a learned skill for refresh without erasing its peak", () => {
-    const transferred = recordLearnerSkillLessonCompletion({
-      states: [],
-      lessonId: "mental_l02",
-      nowMs: 1_000,
-    });
+    const transferred = [{
+      course_id: "mental",
+      curriculum_version: "mental-v1.1.0",
+      skill_id: "fixture_transfer_skill",
+      stage: "transferable",
+      highest_stage: "transferable",
+      attempts: 1,
+      correct_attempts: 1,
+      transfer_attempts: 1,
+      transfer_successes: 1,
+      recent_results: ["correct"],
+      last_practiced_at: 1_000,
+      next_review_at: 1_000 + 7 * DAY,
+    } satisfies LearnerSkillState];
 
     const refreshed = refreshLearnerSkillStates(transferred, 1_000 + 8 * DAY);
 
@@ -83,13 +93,13 @@ describe("learner skill state", () => {
   test("repeated recent errors mark refresh due", () => {
     let states = recordLearnerSkillLessonCompletion({
       states: [],
-      lessonId: "mental_l02",
+      lessonId: "mental_l03",
       nowMs: 1_000,
     });
     for (let index = 0; index < 3; index += 1) {
       states = recordLearnerSkillQuestionResult({
         states,
-        lessonId: "mental_l02",
+        lessonId: "mental_l03",
         result: "incorrect",
         nowMs: 2_000 + index,
       });
@@ -97,7 +107,7 @@ describe("learner skill state", () => {
 
     expect(states[0]).toMatchObject({
       stage: "refresh_due",
-      highest_stage: "transferable",
+      highest_stage: "introduced",
       recent_results: ["incorrect", "incorrect", "incorrect"],
     });
   });
@@ -110,11 +120,11 @@ describe("learner skill state", () => {
     const states = reconcileLearnerSkillStatesWithManifest({
       states: [],
       manifest,
-      completedLessons: new Set(["mental_l01", "mental_l02"]),
+      completedLessons: new Set(["mental_l01", "mental_l03"]),
       lessonSessions: [
         {
-          lessonId: "mental_l02",
-          questionIds: ["mental_l02_001"],
+          lessonId: "mental_l03",
+          questionIds: ["mental_l03_q1"],
           lastStartedAt: 1_000,
           lastCompletedAt: 2_000,
           lastAbandonedAt: null,
@@ -125,17 +135,22 @@ describe("learner skill state", () => {
       nowMs: 3_000,
     });
 
-    expect(states).toHaveLength(3);
+    expect(states).toHaveLength(2);
     expect(
-      states.find((state) => state.skill_id === "mental_separate_signal_story")
+      states.find((state) => state.skill_id === "mental_calibrate_intuition")
     ).toMatchObject({
-      curriculum_version: "mental-v1.0.0",
-      stage: "transferable",
-      highest_stage: "transferable",
-      last_practiced_at: 2_000,
+      curriculum_version: "mental-v1.1.0",
+      stage: "introduced",
+      highest_stage: "introduced",
+      last_practiced_at: null,
     });
     expect(
-      states.find((state) => state.skill_id === "mental_choose_reversible_step")
-    ).toMatchObject({ stage: "unseen", highest_stage: "unseen" });
+      states.find((state) => state.skill_id === "mental_separate_signal_and_forecast")
+    ).toMatchObject({
+      curriculum_version: "mental-v1.1.0",
+      stage: "introduced",
+      highest_stage: "introduced",
+      last_practiced_at: 2_000,
+    });
   });
 });

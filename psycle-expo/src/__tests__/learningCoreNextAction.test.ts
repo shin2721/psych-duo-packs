@@ -13,15 +13,24 @@ describe("learning core next action", () => {
   test("selects the first incomplete core lesson from the approved manifest", () => {
     const action = selectLearningCoreAction({
       manifest: manifest(),
-      completedLessons: new Set(["mental_l01", "mental_l02"]),
+      completedLessons: new Set(["mental_l01"]),
     });
 
     expect(action).toMatchObject({
       kind: "core",
       lesson_id: "mental_l03",
-      unit_id: "mental_pause_and_repair",
+      unit_id: "mental_performance_arousal",
       reason: "next_core_lesson",
     });
+  });
+
+  test("does not put a retired legacy lesson back into the core path", () => {
+    const action = selectLearningCoreAction({
+      manifest: manifest(),
+      completedLessons: new Set(["mental_l01", "mental_l02"]),
+    });
+
+    expect(action).toMatchObject({ kind: "core", lesson_id: "mental_l03" });
   });
 
   test("required safety refresh overrides core and the support cap", () => {
@@ -33,12 +42,12 @@ describe("learning core next action", () => {
       manifest: manifest(),
       completedLessons: new Set(),
       recentActions,
-      requiredRefreshLessonId: "mental_l02",
+      requiredRefreshLessonId: "mental_l03",
     });
 
     expect(action).toMatchObject({
       kind: "refresh",
-      lesson_id: "mental_l02",
+      lesson_id: "mental_l03",
       reason: "required_safety_refresh",
     });
   });
@@ -65,7 +74,7 @@ describe("learning core next action", () => {
       preferReturn: true,
       recentActions: [
         { kind: "return", lesson_id: "mental_l01", ts: 3 },
-        { kind: "adaptive", lesson_id: "mental_l02", ts: 2 },
+        { kind: "adaptive", lesson_id: "mental_l03", ts: 2 },
         { kind: "core", lesson_id: "mental_l01", ts: 1 },
       ],
     });
@@ -101,7 +110,7 @@ describe("learning core next action", () => {
 
     expect(action).toMatchObject({
       kind: "blocked",
-      unit_id: "mental_signals_and_stories",
+      unit_id: "mental_discovery_sampler",
       reason: "prerequisite_gap",
     });
   });
@@ -111,11 +120,7 @@ describe("learning core next action", () => {
       manifest: manifest(),
       completedLessons: new Set([
         "mental_l01",
-        "mental_l02",
         "mental_l03",
-        "mental_l04",
-        "mental_l05",
-        "mental_l06",
       ]),
     });
 
@@ -142,7 +147,7 @@ describe("learning core next action", () => {
           completionCount: 1,
         },
         {
-          lessonId: "mental_l02",
+          lessonId: "mental_l03",
           questionIds: ["q1", "q2", "q3"],
           lastStartedAt: 1_900,
           lastCompletedAt: 2_000,
@@ -154,6 +159,14 @@ describe("learning core next action", () => {
       supportSurfaceHistory: [
         {
           lessonId: "mental_l02",
+          kind: "replay",
+          reason: "completion_drift",
+          lifecycleState: "started",
+          ts: 2_500,
+          startedAt: 2_500,
+        },
+        {
+          lessonId: "mental_l03",
           kind: "adaptive",
           reason: "weakness",
           lifecycleState: "completed",
@@ -164,7 +177,7 @@ describe("learning core next action", () => {
     });
 
     expect(history).toEqual([
-      { kind: "adaptive", lesson_id: "mental_l02", ts: 1_900 },
+      { kind: "adaptive", lesson_id: "mental_l03", ts: 1_900 },
       { kind: "core", lesson_id: "mental_l01", ts: 1_000 },
     ]);
   });

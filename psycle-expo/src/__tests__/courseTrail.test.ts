@@ -36,12 +36,9 @@ describe("course trail inventory", () => {
 
     expect(trail.map((node) => node.lessonFile)).toEqual([
       "mental_l01",
-      "mental_l02",
       "mental_l03",
-      "mental_l04",
-      "mental_l05",
-      "mental_l06",
     ]);
+    expect(trail.map((node) => node.displayLevel)).toEqual([1, 2]);
     expect(trail.every((node) => node.type === "lesson")).toBe(true);
   });
 });

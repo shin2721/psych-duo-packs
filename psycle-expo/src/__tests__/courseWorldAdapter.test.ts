@@ -172,6 +172,42 @@ describe("buildCourseWorldViewModel", () => {
     expect(model?.currentLesson.body).toBe("A question before reveal?");
   });
 
+  test("uses active path position for a non-contiguous canonical lesson id", () => {
+    const trail = [
+      {
+        displayLevel: 1,
+        icon: "leaf",
+        id: "m1",
+        lessonFile: "mental_l01",
+        status: "done",
+        type: "lesson",
+      },
+      {
+        displayLevel: 2,
+        icon: "sparkles",
+        id: "m2",
+        lessonFile: "mental_l03",
+        status: "current",
+        type: "lesson",
+      },
+    ];
+    const model = buildCourseWorldViewModel({
+      comebackRewardOffer: null,
+      currentTrail: trail,
+      nextActionNode: trail[1],
+      selectedGenre: "mental",
+      streakRepairOffer: null,
+    });
+
+    expect(model?.currentLesson).toMatchObject({
+      label: "L2",
+      lessonFile: "mental_l03",
+      levelNumber: 2,
+    });
+    expect(model?.primaryAction.label).toBe("Open lesson 2");
+    expect(model?.progressLabel).toBe("2 / 2");
+  });
+
   test("progress counts only lessons admitted to the active course trail", () => {
     mockLoadLessons.mockReturnValue([
       ...mockLessons,

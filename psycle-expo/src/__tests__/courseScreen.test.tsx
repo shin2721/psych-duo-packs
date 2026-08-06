@@ -40,6 +40,12 @@ let mockMasteryThemeState: {
   lastEvaluatedAt: number | null;
 } | null = null;
 let mockAvailableMasteryVariantIds: string[] = [];
+let mockLessonSupportCandidate: {
+  lessonId: string;
+  kind: "return" | "adaptive" | "refresh" | "replay";
+  questionIds: string[];
+  reason: "abandonment" | "weakness" | "forgetting" | "evidence_update" | "completion_drift";
+} | null = null;
 let mockComebackRewardOffer: {
   active: boolean;
   daysSinceStudy: number;
@@ -233,7 +239,7 @@ jest.mock("../../lib/state", () => ({
     setGemsDirectly: jest.fn(),
   }),
   usePracticeState: () => ({
-    getLessonSupportCandidate: () => null,
+    getLessonSupportCandidate: () => mockLessonSupportCandidate,
     getMasteryThemeState: () => mockMasteryThemeState,
     getSupportBudgetSummary: () => ({
       weeklyBudget: 6,
@@ -262,12 +268,8 @@ jest.mock("../../lib/data", () => ({
 
 jest.mock("../../lib/courseTrail", () => ({
   buildCourseTrailInventory: () => [
-    { icon: "leaf", id: "m1", lessonFile: "mental_l01" },
-    { icon: "flower", id: "m2", lessonFile: "mental_l02" },
-    { icon: "sparkles", id: "m3", lessonFile: "mental_l03" },
-    { icon: "star", id: "m4", lessonFile: "mental_l04" },
-    { icon: "heart-circle", id: "m5", lessonFile: "mental_l05" },
-    { icon: "pulse", id: "m6", lessonFile: "mental_l06" },
+    { displayLevel: 1, icon: "leaf", id: "m1", lessonFile: "mental_l01" },
+    { displayLevel: 2, icon: "sparkles", id: "m2", lessonFile: "mental_l03" },
   ],
 }));
 
@@ -301,6 +303,7 @@ describe("CourseScreen", () => {
     mockStreakRepairOffer = null;
     mockMasteryThemeState = null;
     mockAvailableMasteryVariantIds = [];
+    mockLessonSupportCandidate = null;
     mockComebackRewardOffer = null;
     mockGetLastWeekResult.mockResolvedValue({ hasReward: false });
     mockIsLessonLocked.mockReturnValue(false);
@@ -365,6 +368,54 @@ describe("CourseScreen", () => {
     });
   });
 
+  test("after lesson one the normal CTA opens the new five-card lesson", () => {
+    mockCompletedLessons = new Set(["mental_l01"]);
+    const screen = render(React.createElement(CourseScreen));
+
+    fireEvent.press(screen.getByTestId("course-next-step-cta"));
+
+    expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l03&genre=mental");
+    expect(mockIsLessonLocked).toHaveBeenCalledWith("mental", 2, false);
+  });
+
+  test("does not surface support for a legacy lesson outside the active manifest", () => {
+    mockLessonSupportCandidate = {
+      lessonId: "mental_l02",
+      kind: "refresh",
+      questionIds: ["legacy_q1"],
+      reason: "evidence_update",
+    };
+
+    const screen = render(React.createElement(CourseScreen));
+
+    expect(screen.queryByTestId("course-world-support")).toBeNull();
+    expect(mockTrack).not.toHaveBeenCalledWith(
+      "course_support_shown",
+      expect.objectContaining({ lessonId: "mental_l02" })
+    );
+  });
+
+  test("still surfaces and launches support for an admitted new lesson", async () => {
+    mockLessonSupportCandidate = {
+      lessonId: "mental_l03",
+      kind: "replay",
+      questionIds: ["new_q1"],
+      reason: "completion_drift",
+    };
+
+    const screen = render(React.createElement(CourseScreen));
+
+    fireEvent.press(screen.getByTestId("course-world-support"));
+
+    expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l03&genre=mental");
+    await waitFor(() => {
+      expect(mockTrack).toHaveBeenCalledWith(
+        "course_support_shown",
+        expect.objectContaining({ lessonId: "mental_l03", kind: "replay" })
+      );
+    });
+  });
+
   test("rendering and lesson navigation do not emit console.log noise", () => {
     const logSpy = jest.spyOn(console, "log").mockImplementation(() => {});
     const warnSpy = jest.spyOn(console, "warn").mockImplementation(() => {});
@@ -423,14 +474,10 @@ describe("CourseScreen", () => {
     expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_l01&genre=mental");
   });
 
-  test("mastery support CTA starts the mastery lesson after core completion", async () => {
+  test("does not surface legacy mastery outside the active manifest", async () => {
     mockCompletedLessons = new Set([
       "mental_l01",
-      "mental_l02",
       "mental_l03",
-      "mental_l04",
-      "mental_l05",
-      "mental_l06",
     ]);
     mockAvailableMasteryVariantIds = ["mental_m01"];
     mockMasteryThemeState = {
@@ -455,28 +502,9 @@ describe("CourseScreen", () => {
     const screen = render(React.createElement(CourseScreen));
 
     await waitFor(() => {
-      expect(mockTrack).toHaveBeenCalledWith(
-        "course_support_shown",
-        expect.objectContaining({
-          kind: "mastery",
-          lessonId: "mental_m01",
-          reason: "mastery_slot_open",
-          activeSlotsRemaining: 2,
-        })
-      );
+      expect(mockGetLastWeekResult).toHaveBeenCalledWith("user_1");
     });
-
-    fireEvent.press(screen.getByTestId("course-world-support"));
-
-    expect(mockReplace).toHaveBeenCalledWith("/lesson?file=mental_m01&genre=mental");
-    expect(mockTrack).toHaveBeenCalledWith(
-      "course_support_started",
-      expect.objectContaining({
-        kind: "mastery",
-        lessonId: "mental_m01",
-        reason: "mastery_slot_open",
-        activeSlotsRemaining: 2,
-      })
-    );
+    expect(screen.queryByTestId("course-world-support")).toBeNull();
+    expect(mockReplace).not.toHaveBeenCalledWith("/lesson?file=mental_m01&genre=mental");
   });
 });
