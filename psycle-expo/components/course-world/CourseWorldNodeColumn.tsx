@@ -16,6 +16,7 @@ export function CourseWorldNodeColumn({
   showMeta = true,
   showPrimaryAction = true,
   hideVisibleCopy = false,
+  presentation = "default",
   habitSummary,
 }: {
   model: CourseWorldViewModel;
@@ -29,12 +30,23 @@ export function CourseWorldNodeColumn({
   showMeta?: boolean;
   showPrimaryAction?: boolean;
   hideVisibleCopy?: boolean;
+  presentation?: "default" | "ring_theme";
   habitSummary?: {
     dailyGoal: number;
     dailyXP: number;
     streak: number;
   };
 }) {
+  if (presentation === "ring_theme") {
+    return (
+      <View style={[styles.container, styles.ringThemeContainer]}>
+        <View style={[styles.infoCard, styles.ringThemeInfoCard]}>
+          <Text style={styles.title}>{model.currentLesson.title}</Text>
+        </View>
+      </View>
+    );
+  }
+
   const dailyGoal = habitSummary?.dailyGoal ?? 0;
   const dailyXP = habitSummary?.dailyXP ?? 0;
   const streak = habitSummary?.streak ?? 0;
@@ -158,6 +170,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingBottom: 18,
     gap: 12,
+  },
+  ringThemeContainer: {
+    paddingBottom: 0,
+    gap: 0,
+  },
+  ringThemeInfoCard: {
+    marginTop: 16,
+    paddingTop: 0,
+    paddingBottom: 0,
   },
   momentumWrap: {
     marginHorizontal: 8,

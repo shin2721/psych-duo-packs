@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
@@ -31,6 +31,7 @@ interface Props {
   showMeta?: boolean;
   showPrimaryAction?: boolean;
   hideVisibleCopy?: boolean;
+  presentation?: "default" | "ring_theme";
   heroOffsetY?: number;
   habitSummary?: {
     dailyGoal: number;
@@ -54,6 +55,7 @@ export function CourseWorldHero({
   showMeta = true,
   showPrimaryAction = true,
   hideVisibleCopy = false,
+  presentation = "default",
   heroOffsetY = 0,
   habitSummary,
 }: Props) {
@@ -63,11 +65,23 @@ export function CourseWorldHero({
     () => buildCourseWorldModelSnapshot(model, nextLessonId),
     [model, nextLessonId]
   );
-  const reservesActionSpace = !hideVisibleCopy || showPrimaryAction;
+  const ringThemeOnly = presentation === "ring_theme";
+  const reservesActionSpace = !ringThemeOnly && (!hideVisibleCopy || showPrimaryAction);
   const interactionZoneHeight = reservesActionSpace
     ? Math.max(260, Math.min(CLOCK_ZONE, height * 0.28))
     : Math.max(280, Math.min(CLOCK_ZONE, height * 0.34));
   const mountOpacity = useRef(new Animated.Value(0)).current;
+
+  const selectAdjacentNode = useCallback(
+    (offset: number) => {
+      const nodeCount = snapshot.allNodes.length;
+      if (nodeCount < 2) return;
+      const nextIndex = (snapshot.currentIdx + offset + nodeCount) % nodeCount;
+      const nextNode = snapshot.allNodes[nextIndex];
+      if (nextNode) onNodePress?.(nextNode.id);
+    },
+    [onNodePress, snapshot.allNodes, snapshot.currentIdx]
+  );
 
   useEffect(() => {
     Animated.timing(mountOpacity, {
@@ -88,6 +102,7 @@ export function CourseWorldHero({
     headerOpacity,
     heroOpacity,
     heroScale,
+    onHeroPress,
     panHandlers,
     tapScale,
     topNodeIdx,
@@ -104,37 +119,47 @@ export function CourseWorldHero({
       <CourseWorldBackdrop themeColor={model.themeColor} synColor={snapshot.synColor} />
 
       <Animated.View style={styles.mountLayer}>
-        <View style={reservesActionSpace ? styles.spacerTopCompact : styles.spacerTop} />
+        <View
+          style={
+            ringThemeOnly
+              ? styles.spacerTopRingTheme
+              : reservesActionSpace
+                ? styles.spacerTopCompact
+                : styles.spacerTop
+          }
+        />
 
-        <Animated.View
-          style={[
-            styles.header,
-            hideVisibleCopy ? styles.headerIconOnly : null,
-            { opacity: headerOpacity, paddingTop: insets.top },
-          ]}
-        >
-          <Pressable
+        {ringThemeOnly ? null : (
+          <Animated.View
             style={[
-              styles.unitBadge,
-              hideVisibleCopy ? [
-                styles.unitBadgeIconOnly,
-                { borderColor: `${model.themeColor}33`, backgroundColor: `${model.themeColor}12` },
-              ] : null,
+              styles.header,
+              hideVisibleCopy ? styles.headerIconOnly : null,
+              { opacity: headerOpacity, paddingTop: insets.top },
             ]}
-            onPress={onUnitPress}
-            accessibilityRole="button"
-            accessibilityLabel="ユニット選択"
           >
-            <View
+            <Pressable
               style={[
-                styles.unitDot,
-                { backgroundColor: model.themeColor, shadowColor: model.themeColor },
+                styles.unitBadge,
+                hideVisibleCopy ? [
+                  styles.unitBadgeIconOnly,
+                  { borderColor: `${model.themeColor}33`, backgroundColor: `${model.themeColor}12` },
+                ] : null,
               ]}
-            />
-            {hideVisibleCopy ? null : <Text style={styles.unitText}>{model.unitLabel}</Text>}
-            <Ionicons color="rgba(255,255,255,0.35)" name="chevron-down" size={14} />
-          </Pressable>
-        </Animated.View>
+              onPress={onUnitPress}
+              accessibilityRole="button"
+              accessibilityLabel="ユニット選択"
+            >
+              <View
+                style={[
+                  styles.unitDot,
+                  { backgroundColor: model.themeColor, shadowColor: model.themeColor },
+                ]}
+              />
+              {hideVisibleCopy ? null : <Text style={styles.unitText}>{model.unitLabel}</Text>}
+              <Ionicons color="rgba(255,255,255,0.35)" name="chevron-down" size={14} />
+            </Pressable>
+          </Animated.View>
+        )}
 
         <View
           style={[
@@ -166,8 +191,24 @@ export function CourseWorldHero({
             <Pressable
               testID="hero-root-orb"
               accessibilityRole="button"
-              accessibilityLabel={model.currentLesson.accessibilityLabel}
-              onPress={() => onNodePress?.(model.currentLesson.id)}
+              accessibilityLabel={`${model.currentLesson.label}、${model.currentLesson.title}`}
+              accessibilityHint="左右にスワイプしてレッスンを選び、ダブルタップして開きます"
+              accessibilityActions={[
+                { name: "decrement", label: "前のレッスン" },
+                { name: "increment", label: "次のレッスン" },
+                { name: "activate", label: "選択中のレッスンを開く" },
+              ]}
+              onAccessibilityAction={(event) => {
+                if (event.nativeEvent.actionName === "decrement") {
+                  selectAdjacentNode(-1);
+                } else if (event.nativeEvent.actionName === "increment") {
+                  selectAdjacentNode(1);
+                } else if (event.nativeEvent.actionName === "activate") {
+                  onHeroPress();
+                }
+              }}
+              onAccessibilityTap={onHeroPress}
+              onPress={onHeroPress}
               style={styles.heroOrbPressable}
             >
               <HeroRing
@@ -222,6 +263,7 @@ export function CourseWorldHero({
           showMeta={showMeta}
           showPrimaryAction={showPrimaryAction}
           hideVisibleCopy={hideVisibleCopy}
+          presentation={presentation}
           habitSummary={habitSummary}
         />
 
@@ -236,6 +278,7 @@ const styles = StyleSheet.create({
   mountLayer: { flex: 1 },
   spacerTop: { flex: 0.38 },
   spacerTopCompact: { height: 28 },
+  spacerTopRingTheme: { height: 56 },
   spacerBottom: { flex: 0.2 },
   spacerBottomCompact: { height: 12 },
   header: {

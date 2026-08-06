@@ -4,6 +4,11 @@ import { useSharedValue, withTiming } from "react-native-reanimated";
 import * as Haptics from "expo-haptics";
 import type { CourseWorldNode } from "../../lib/courseWorld";
 import { COURSE_WORLD_CLOCK_RADIUS } from "./courseWorldModel";
+import {
+  courseWorldRotationForDrag,
+  isCourseWorldDrag,
+  resolveCourseWorldRelease,
+} from "./courseWorldGesture";
 
 export const CLOCK_R = COURSE_WORLD_CLOCK_RADIUS;
 
@@ -58,6 +63,7 @@ export function useCourseWorldScroll({
   const onPrimaryRef   = useRef(onPrimaryPress); onPrimaryRef.current   = onPrimaryPress;
   const nodeCountRef   = useRef(allNodes.length); nodeCountRef.current  = allNodes.length;
   const lastHapticSlot = useRef(currentIdx);
+  const blockFallbackPressUntil = useRef(0);
 
   // ── Reanimated SharedValue（ドラッグ/スナップの回転オフセットを UI スレッドへ） ──
   const svRotOffset  = useSharedValue(0);
@@ -81,7 +87,6 @@ export function useCourseWorldScroll({
   }, [clockMode]);
 
   const LONG_PRESS_MS  = 380;
-  const DRAG_THRESHOLD = 6;
   const longPressTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const anglePerLessonRef = useRef((2 * Math.PI) / allNodes.length);
@@ -100,14 +105,15 @@ export function useCourseWorldScroll({
       },
 
       onPanResponderMove: (_, g) => {
-        const moved = Math.abs(g.dx) > DRAG_THRESHOLD || Math.abs(g.dy) > DRAG_THRESHOLD;
+        const moved = isCourseWorldDrag(g.dx, g.dy);
         if (moved && !isClockRef.current) {
+          blockFallbackPressUntil.current = Date.now() + 300;
           if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
           enterClockMode();
         }
         if (!isClockRef.current) return;
 
-        const offset = (g.dx / (width * 0.35)) * Math.PI;
+        const offset = courseWorldRotationForDrag(g.dx, width, nodeCountRef.current);
         rawAngle.current = offset;
         // 旧: nX/nY/nS に n*3 回 setValue → 新: SharedValue に 1回更新するだけ
         svRotOffset.value = offset;
@@ -124,13 +130,28 @@ export function useCourseWorldScroll({
       onPanResponderRelease: (_, g) => {
         if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
         Animated.spring(tapScale, { toValue: 1, stiffness: 350, damping: 12, mass: 0.3, useNativeDriver: true }).start();
-        if (!isClockRef.current) { onPrimaryRef.current?.(); return; }
+        const moved = isCourseWorldDrag(g.dx, g.dy);
+        if (!isClockRef.current && !moved) {
+          blockFallbackPressUntil.current = Date.now() + 300;
+          onPrimaryRef.current?.();
+          return;
+        }
 
-        const momentum   = g.vx * 0.5;
-        const totalAngle = rawAngle.current + momentum;
-        const slotOffset = Math.round(totalAngle / anglePerLessonRef.current);
-        const snapOffset = slotOffset * anglePerLessonRef.current;
-        const nextIndex  = ((currentIdxRef.current - slotOffset) % nodeCountRef.current + nodeCountRef.current) % nodeCountRef.current;
+        blockFallbackPressUntil.current = Date.now() + 300;
+        if (!isClockRef.current) {
+          enterClockMode();
+          rawAngle.current = courseWorldRotationForDrag(g.dx, width, nodeCountRef.current);
+          svRotOffset.value = rawAngle.current;
+        }
+
+        const { nextIndex, snapOffset } = resolveCourseWorldRelease({
+          currentIdx: currentIdxRef.current,
+          dx: g.dx,
+          nodeCount: nodeCountRef.current,
+          rawRotation: rawAngle.current,
+          velocityX: g.vx,
+          width,
+        });
         const speed      = Math.abs(g.vx);
         const snapDur    = Math.max(200, Math.min(500, 380 - speed * 60));
 
@@ -157,6 +178,7 @@ export function useCourseWorldScroll({
       },
 
       onPanResponderTerminate: () => {
+        blockFallbackPressUntil.current = Date.now() + 300;
         if (longPressTimer.current) { clearTimeout(longPressTimer.current); longPressTimer.current = null; }
         Animated.spring(tapScale, { toValue: 1, stiffness: 350, damping: 12, mass: 0.3, useNativeDriver: true }).start();
         const resetDur = 380;
@@ -171,6 +193,12 @@ export function useCourseWorldScroll({
     }),
     [enterClockMode, clockMode, tapScale, width]
   );
+
+  const onHeroPress = useCallback(() => {
+    if (Date.now() < blockFallbackPressUntil.current) return;
+    blockFallbackPressUntil.current = Date.now() + 300;
+    onPrimaryRef.current?.();
+  }, []);
 
   const heroScale     = clockMode.interpolate({ inputRange: [0, 1],   outputRange: [1, 0] });
   const heroOpacity   = clockMode.interpolate({ inputRange: [0, 0.4], outputRange: [1, 0], extrapolate: "clamp" });
@@ -187,6 +215,7 @@ export function useCourseWorldScroll({
     headerOpacity,
     heroOpacity,
     heroScale,
+    onHeroPress,
     panHandlers: panResponder.panHandlers,
     tapScale,
     topNodeIdx,
