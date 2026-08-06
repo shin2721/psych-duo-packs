@@ -34,6 +34,15 @@ export interface SignedOutEconomyResetState {
   firstLaunchAtMs: number | null;
 }
 
+export function resolveHydratedEnergy(params: {
+  firstLaunchEffectiveCap: number;
+  firstLaunchInitializedNow: boolean;
+  savedEnergy: number | null;
+}): number | null {
+  if (params.savedEnergy !== null) return params.savedEnergy;
+  return params.firstLaunchInitializedNow ? params.firstLaunchEffectiveCap : null;
+}
+
 export function buildSignedOutEconomyReset(args: {
   baseMaxEnergy: number;
   initialGems: number;
@@ -151,7 +160,12 @@ export function useEconomyHydrationEffect(args: {
 
         const { snapshot } = hydrated;
         if (snapshot.gems !== null) args.setGems(snapshot.gems);
-        if (snapshot.energy !== null) args.setEnergy(snapshot.energy);
+        const hydratedEnergy = resolveHydratedEnergy({
+          firstLaunchEffectiveCap: hydrated.firstLaunchEffectiveCap,
+          firstLaunchInitializedNow: hydrated.firstLaunchInitializedNow,
+          savedEnergy: snapshot.energy,
+        });
+        if (hydratedEnergy !== null) args.setEnergy(hydratedEnergy);
         if (snapshot.energyUpdateTime !== null) args.setLastEnergyUpdateTime(snapshot.energyUpdateTime);
         if (snapshot.energyBonusDate) args.setDailyEnergyBonusDate(snapshot.energyBonusDate);
         if (snapshot.energyBonusCount !== null) args.setDailyEnergyBonusCount(snapshot.energyBonusCount);
