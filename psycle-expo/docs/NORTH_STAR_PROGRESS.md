@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-06 - Rewrote lesson two as a bet-first arc built on a self-demonstrated recall trap
+
+- Changed: mental_l02 rebuilt: card1 shows the exact message ungraded, card2 bets on what the screen actually said (answer key is the previous card, not a study), card3 selects by falsifiability, card4 keeps the criterion out of the choices, card5 makes self-initiated checking a wrong answer-check; raw pilot 006 and its reject conditions recorded first
+- Verified: tsc clean; 174 suites / 745 tests green; validate:lessons 0 errors; full 6-card Simulator playthrough incl. deliberate miss on card2 showing gold neutral treatment and the three-branch reveal
+- Remaining: Owner tasting of the rebuilt l02 and of staging l03; Jamieson_2012 ledger claim still allows a performance gain it never measured; Flynn & Lake PMID typo; bet misses still feed skill pacing as ordinary errors
+
 ### 2026-08-06 - CourseWorldのリング選択をL1/L2の再生対象へ接続し、学習画面をリングとテーマだけに整理
 
 - Changed: リング回転は選択、中央タップは選択中レッスンの起動に分離。完了済みL1の再プレイ、現行L2起動、locked拒否、表示済み分析の抑止、リング専用presentation、素早いdragの誤起動防止と2ノード時の感度改善を追加
