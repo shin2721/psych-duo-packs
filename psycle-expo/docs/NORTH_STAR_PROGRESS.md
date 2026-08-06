@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-06 - Replaced the old Japanese mental_l03 with the owner-approved five-screen body-signal and outcome-forecast staging pilot.
+
+- Changed: Added a pre-play hook separate from the final takeaway; bounded Jamieson 2010 claims; moved the emergency boundary before practice with FDMA-aligned 119 and #7119 copy; made bet misses visually neutral.
+- Verified: 39 targeted Jest tests, typecheck, validate:lessons with 0 errors and 35 pre-existing warnings, independent UX and science-safety staging review, and a dedicated Simulator five-screen playthrough.
+- Remaining: Owner real-device taste approval; production human science and clinical safety sign-off; safety claim trace, continuity and manifest alignment, locale work, and a delayed unseen probe.
+
 ### 2026-08-05 - Verify Unit 0 science and draft the Unit 1 raw pilot
 
 - Changed: Replaced five Unit 0 placeholder/overstated claims with primary-source-bounded cards; kept evidence staging; retired three placeholders; fixed crowded number-bet labels and stopped same-session retries for Discovery bets; drafted Pilot 005 as a mental_l03 replacement candidate.
