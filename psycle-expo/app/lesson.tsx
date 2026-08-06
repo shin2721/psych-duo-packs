@@ -22,6 +22,7 @@ import {
   OPTIMAL_P_MIN,
 } from "../lib/lesson/lessonDefaults";
 import { useLessonLoader } from "../lib/lesson/useLessonLoader";
+import { shouldSkipLessonEnergyCharge } from "../lib/lesson/lessonLaunchState";
 import { useLessonRuntime } from "../lib/lesson/useLessonRuntime";
 import { useLessonPostCompletion } from "../lib/lesson/useLessonPostCompletion";
 import { LessonCompletionView } from "../components/lesson/LessonCompletionView";
@@ -33,10 +34,16 @@ const doubleXpNudgeConfig = getDoubleXpNudgeConfig();
 export default function LessonScreen() {
   const insets = useSafeAreaInsets();
   const completionBottomInset = insets.bottom + theme.spacing.lg;
-  const params = useLocalSearchParams<{ file: string; genre: string; preview?: string }>();
+  const params = useLocalSearchParams<{
+    chargeEnergy?: string;
+    file: string;
+    genre: string;
+  }>();
   const fileParam = params.file;
-  const skipEnergyCharge =
-    __DEV__ && (params.preview === "1" || params.preview === "true");
+  const skipEnergyCharge = shouldSkipLessonEnergyCharge({
+    forceChargeParam: params.chargeEnergy,
+    isDevelopment: __DEV__,
+  });
   const {
     completeLesson,
     addXp,
