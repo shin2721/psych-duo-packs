@@ -1,5 +1,13 @@
 export type LessonLaunchState = "loading" | "ready" | "energy_blocked" | "failed";
 
+export function shouldSkipLessonEnergyCharge(params: {
+  forceChargeParam?: string;
+  isDevelopment: boolean;
+}): boolean {
+  if (!params.isDevelopment) return false;
+  return params.forceChargeParam !== "1" && params.forceChargeParam !== "true";
+}
+
 export function resolveLessonLaunchGate(params: {
   consumeEnergy: (cost: number) => boolean;
   lessonEnergyCost: number;
