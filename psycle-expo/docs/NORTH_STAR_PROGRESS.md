@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-06 - CourseWorldのリング選択をL1/L2の再生対象へ接続し、学習画面をリングとテーマだけに整理
+
+- Changed: リング回転は選択、中央タップは選択中レッスンの起動に分離。完了済みL1の再プレイ、現行L2起動、locked拒否、表示済み分析の抑止、リング専用presentation、素早いdragの誤起動防止と2ノード時の感度改善を追加
+- Verified: Jest 174 suites / 741 tests、TypeScript、diff-checkがPASS。Simulatorでminimal表示、L1/L2の選択と各1/5画面の起動を確認。VoiceOverの前/次/起動アクションも確認
+- Remaining: 物理iPhone上の指スワイプの気持ちよさは未計測。約47pxの横移動で2ノードを切替える設定を実機で味見する
+
 ### 2026-08-06 - 旧mental_l02が新パイロットより先に選ばれる通常導線を修復
 
 - Changed: mental curriculumをv1.1 pilotとしてl01→l03の2本に限定し、l03を表示上Lesson 2にした。manifest外の旧Core・support・Mistakes Hub・Mastery候補を通常導線から除外した
