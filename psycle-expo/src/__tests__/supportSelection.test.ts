@@ -186,6 +186,32 @@ describe("selectLessonSupportCandidate", () => {
   });
 
   test("surfaces refresh when curriculum changed and there is no higher-priority support", () => {
+    // mental_l03 は staging に隔離されたため、サポート候補の題材には
+    // production 状態のレッスンを使う（staging は surfacing 不適格が正）。
+    const candidate = selectLessonSupportCandidate({
+      nowMs,
+      mistakes: [],
+      curriculumUpdatedAtByUnit: { mental: "2026-04-20" },
+      lessonSessions: [
+        buildLessonSession({
+          lessonId: "mental_l04",
+          lastCompletedAt: nowMs - 4 * 24 * 60 * 60 * 1000,
+          completionCount: 1,
+          lastCompletedCurriculumUpdatedAt: "2026-04-01",
+        }),
+      ],
+    });
+
+    expect(candidate).toEqual(
+      expect.objectContaining({
+        lessonId: "mental_l04",
+        kind: "refresh",
+        reason: "evidence_update",
+      })
+    );
+  });
+
+  test("does not surface refresh for a staging lesson", () => {
     const candidate = selectLessonSupportCandidate({
       nowMs,
       mistakes: [],
@@ -200,13 +226,7 @@ describe("selectLessonSupportCandidate", () => {
       ],
     });
 
-    expect(candidate).toEqual(
-      expect.objectContaining({
-        lessonId: "mental_l03",
-        kind: "refresh",
-        reason: "evidence_update",
-      })
-    );
+    expect(candidate).toBeNull();
   });
 
   test("does not auto-surface replay from completion drift alone", () => {
