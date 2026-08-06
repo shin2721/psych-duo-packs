@@ -1,9 +1,29 @@
 import {
   resolveLessonLaunchGate,
   resolveLessonRuntimeAvailability,
+  shouldSkipLessonEnergyCharge,
 } from "../../lib/lesson/lessonLaunchState";
 
 describe("lesson launch state", () => {
+  test("keeps ordinary dev-client launches free while preserving an explicit energy test", () => {
+    expect(
+      shouldSkipLessonEnergyCharge({
+        isDevelopment: true,
+      })
+    ).toBe(true);
+    expect(
+      shouldSkipLessonEnergyCharge({
+        forceChargeParam: "1",
+        isDevelopment: true,
+      })
+    ).toBe(false);
+    expect(
+      shouldSkipLessonEnergyCharge({
+        isDevelopment: false,
+      })
+    ).toBe(false);
+  });
+
   test("classifies insufficient energy separately from a missing question", () => {
     const consumeEnergy = jest.fn(() => false);
 

@@ -20,6 +20,8 @@ describe("lesson screen flow architecture", () => {
     expect(source).toContain("<LessonCompletionView");
     expect(source).toContain("<LessonQuestionStage");
     expect(source).toContain('testID="lesson-energy-blocked-screen"');
+    expect(source).toContain("shouldSkipLessonEnergyCharge");
+    expect(source).toContain("forceChargeParam: params.chargeEnergy");
     expect(source).toContain("if (energyBlocked)");
     expect(source.indexOf("if (energyBlocked)")).toBeLessThan(
       source.indexOf("if (loadError || !canStart || !currentQuestion)")
