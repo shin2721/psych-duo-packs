@@ -8,7 +8,11 @@ import { CourseLeagueResultGate } from "../../components/course/CourseLeagueResu
 import { getLastWeekResult, type LeagueResult } from "../../lib/leagueReward";
 import { buildCourseWorldViewModel } from "../../lib/courseWorld";
 import { buildCourseTrailInventory, type CourseTrailInventoryNode } from "../../lib/courseTrail";
-import { getCourseManifest } from "../../lib/courseManifestRuntime";
+import {
+  courseManifestHasLessonId,
+  getCourseMasteryLessonIds,
+  getCourseManifest,
+} from "../../lib/courseManifestRuntime";
 import {
   buildRecentLearningActionHistory,
   selectLearningCoreAction,
@@ -131,7 +135,7 @@ function buildCurrentTrail(
     if (isCompleted) return { ...node, status: "done" };
 
     const levelMatch = lessonFile.match(/_l(\d+)$/);
-    const level = levelMatch ? parseInt(levelMatch[1], 10) : 1;
+    const level = node.displayLevel ?? (levelMatch ? parseInt(levelMatch[1], 10) : 1);
     const locked = isLessonLocked(selectedGenre, level, hasProAccess);
     if (locked) {
       return { ...node, status: "current", isLocked: true };
@@ -269,11 +273,25 @@ export default function CourseScreen() {
       recentLearningActions,
     ]
   );
-  const availableMasteryVariantIds = useMemo(
-    () => listAvailableMasteryLessonIds(selectedGenre),
-    [selectedGenre]
-  );
-  const lessonSupportCandidate = getLessonSupportCandidate();
+  const availableMasteryVariantIds = useMemo(() => {
+    const availableIds = listAvailableMasteryLessonIds(selectedGenre);
+    if (!courseManifest) return availableIds;
+
+    const admittedIds = new Set(getCourseMasteryLessonIds(courseManifest));
+    return availableIds.filter((lessonId) => admittedIds.has(lessonId));
+  }, [courseManifest, selectedGenre]);
+  const rawLessonSupportCandidate = getLessonSupportCandidate();
+  const resolvedSupportLessonId = rawLessonSupportCandidate
+    ? resolveRuntimeLessonId(rawLessonSupportCandidate.lessonId).resolvedLessonId ??
+      rawLessonSupportCandidate.lessonId
+    : null;
+  const lessonSupportCandidate =
+    !rawLessonSupportCandidate ||
+    !courseManifest ||
+    (resolvedSupportLessonId &&
+      courseManifestHasLessonId(courseManifest, resolvedSupportLessonId))
+      ? rawLessonSupportCandidate
+      : null;
 
   useEffect(() => {
     if (!isStateHydrated) return;
@@ -283,7 +301,7 @@ export default function CourseScreen() {
     });
   }, [availableMasteryVariantIds, isStateHydrated, primeMasteryTheme, selectedGenre]);
 
-  const masteryCandidate = useMemo(
+  const rawMasteryCandidate = useMemo(
     () =>
       selectMasteryCandidate({
         themeId: selectedGenre,
@@ -293,6 +311,11 @@ export default function CourseScreen() {
       }),
     [completedLessons, currentTrail, getMasteryThemeState, selectedGenre]
   );
+  const masteryCandidate =
+    rawMasteryCandidate?.lessonId &&
+    !availableMasteryVariantIds.includes(rawMasteryCandidate.lessonId)
+      ? null
+      : rawMasteryCandidate;
   const supportBudgetSummary = useMemo(() => getSupportBudgetSummary(), [getSupportBudgetSummary]);
   const lastSupportAnalyticsKeyRef = useRef<string | null>(null);
   const lastPrimaryActionShownKeyRef = useRef<string | null>(null);
