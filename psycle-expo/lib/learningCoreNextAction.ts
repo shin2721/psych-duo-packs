@@ -202,7 +202,8 @@ export function buildRecentLearningActionHistory(args: {
   const supportEntries = args.supportSurfaceHistory
     .filter(
       (record) =>
-        record.lifecycleState === "started" || record.lifecycleState === "completed"
+        lessonById.has(record.lessonId) &&
+        (record.lifecycleState === "started" || record.lifecycleState === "completed")
     )
     .map((record) => ({
       kind: record.kind,

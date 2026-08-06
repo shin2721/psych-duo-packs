@@ -1,9 +1,9 @@
 {
   "schema_version": 1,
-  "curriculum_version": "mental-v1.0.0",
+  "curriculum_version": "mental-v1.1.0",
   "course_id": "mental",
   "status": "pilot",
-  "updated_at": "2026-07-14",
+  "updated_at": "2026-08-06",
   "progression_policy": {
     "support_window_size": 7,
     "max_support_actions": 2,
@@ -11,89 +11,48 @@
   },
   "units": [
     {
-      "unit_id": "mental_signals_and_stories",
-      "outcome": "焦りの信号と頭の中の推測を分け、確認できる事実へ戻る",
+      "unit_id": "mental_discovery_sampler",
+      "outcome": "心理学の研究結果へ先に予想し、自分の直感と実測のずれを確かめる",
       "prerequisite_unit_ids": [],
-      "skill_ids": ["mental_separate_signal_story"],
-      "core_lesson_ids": ["mental_l01", "mental_l02"],
+      "skill_ids": ["mental_calibrate_intuition"],
+      "core_lesson_ids": ["mental_l01"],
       "mastery_lesson_ids": []
     },
     {
-      "unit_id": "mental_pause_and_repair",
-      "outcome": "反応や自責の勢いに短い間を作り、取り直せる次の一手を選ぶ",
-      "prerequisite_unit_ids": ["mental_signals_and_stories"],
-      "skill_ids": ["mental_choose_reversible_step"],
-      "core_lesson_ids": ["mental_l03", "mental_l04"],
-      "mastery_lesson_ids": []
-    },
-    {
-      "unit_id": "mental_loops_and_return",
-      "outcome": "進まない思考ループを見分け、失敗後も責めずに戻る",
-      "prerequisite_unit_ids": ["mental_pause_and_repair"],
-      "skill_ids": ["mental_exit_loop_and_return"],
-      "core_lesson_ids": ["mental_l05", "mental_l06"],
+      "unit_id": "mental_performance_arousal",
+      "outcome": "本番前の身体信号と結果予測を分け、安全境界の内側で最初の一手を選ぶ",
+      "prerequisite_unit_ids": ["mental_discovery_sampler"],
+      "skill_ids": ["mental_separate_signal_and_forecast"],
+      "core_lesson_ids": ["mental_l03"],
       "mastery_lesson_ids": []
     }
   ],
   "skills": [
     {
-      "skill_id": "mental_separate_signal_story",
-      "outcome": "身体反応、確認できる事実、頭の中の推測を分ける",
+      "skill_id": "mental_calibrate_intuition",
+      "outcome": "研究結果へ先に予想し、自分の直感と実測のずれを確かめる",
       "prerequisite_skill_ids": []
     },
     {
-      "skill_id": "mental_choose_reversible_step",
-      "outcome": "焦りや自責の中でも取り直せる次の一手を選ぶ",
-      "prerequisite_skill_ids": ["mental_separate_signal_story"]
-    },
-    {
-      "skill_id": "mental_exit_loop_and_return",
-      "outcome": "反芻と整理を見分け、中断後も短い入口から戻る",
-      "prerequisite_skill_ids": ["mental_choose_reversible_step"]
+      "skill_id": "mental_separate_signal_and_forecast",
+      "outcome": "身体信号と結果予測を分け、安全境界内で最初の一手を選ぶ",
+      "prerequisite_skill_ids": ["mental_calibrate_intuition"]
     }
   ],
   "lessons": [
     {
       "lesson_id": "mental_l01",
-      "unit_id": "mental_signals_and_stories",
-      "skill_ids": ["mental_separate_signal_story"],
+      "unit_id": "mental_discovery_sampler",
+      "skill_ids": ["mental_calibrate_intuition"],
       "lane": "core",
       "role": "introduce"
     },
     {
-      "lesson_id": "mental_l02",
-      "unit_id": "mental_signals_and_stories",
-      "skill_ids": ["mental_separate_signal_story"],
-      "lane": "core",
-      "role": "transfer"
-    },
-    {
       "lesson_id": "mental_l03",
-      "unit_id": "mental_pause_and_repair",
-      "skill_ids": ["mental_choose_reversible_step"],
+      "unit_id": "mental_performance_arousal",
+      "skill_ids": ["mental_separate_signal_and_forecast"],
       "lane": "core",
-      "role": "practice"
-    },
-    {
-      "lesson_id": "mental_l04",
-      "unit_id": "mental_pause_and_repair",
-      "skill_ids": ["mental_choose_reversible_step"],
-      "lane": "core",
-      "role": "transfer"
-    },
-    {
-      "lesson_id": "mental_l05",
-      "unit_id": "mental_loops_and_return",
-      "skill_ids": ["mental_exit_loop_and_return"],
-      "lane": "core",
-      "role": "practice"
-    },
-    {
-      "lesson_id": "mental_l06",
-      "unit_id": "mental_loops_and_return",
-      "skill_ids": ["mental_exit_loop_and_return"],
-      "lane": "core",
-      "role": "recover"
+      "role": "introduce"
     }
   ]
 }

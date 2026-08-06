@@ -5,6 +5,7 @@ import {
   type CourseManifestLesson,
   type CourseManifestValidationResult,
 } from "../types/courseManifest";
+import { getUnitFromAnyLessonId, resolveRuntimeLessonId } from "./lessonContinuity";
 
 const COURSE_MANIFESTS: Record<string, CourseManifest> = {
   mental: mentalManifestJson as CourseManifest,
@@ -163,4 +164,29 @@ export function getCourseManifestLesson(
   lessonId: string
 ): CourseManifestLesson | null {
   return getCourseManifest(courseId)?.lessons.find((lesson) => lesson.lesson_id === lessonId) ?? null;
+}
+
+export function courseManifestHasLessonId(
+  manifest: CourseManifest,
+  lessonId: string
+): boolean {
+  return manifest.lessons.some((lesson) => lesson.lesson_id === lessonId);
+}
+
+export function isLessonIdAdmittedByCourseManifest(lessonId: string): boolean {
+  const resolution = resolveRuntimeLessonId(lessonId);
+  const resolvedLessonId = resolution.resolvedLessonId;
+  const courseId = getUnitFromAnyLessonId(resolvedLessonId ?? lessonId);
+  if (!courseId) return true;
+
+  const manifest = getCourseManifest(courseId);
+  if (!manifest) return true;
+  if (!resolvedLessonId) return false;
+
+  const internalLevelMatch = resolvedLessonId.match(/_lesson_(\d+)$/);
+  const canonicalLessonId = internalLevelMatch
+    ? `${courseId}_l${String(Number.parseInt(internalLevelMatch[1] ?? "0", 10)).padStart(2, "0")}`
+    : resolvedLessonId;
+
+  return courseManifestHasLessonId(manifest, canonicalLessonId);
 }

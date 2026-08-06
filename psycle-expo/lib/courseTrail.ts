@@ -7,6 +7,7 @@ import {
 } from "./courseManifestRuntime";
 
 export interface CourseTrailInventoryNode {
+  displayLevel?: number;
   id: string;
   status: "current" | "locked" | "done";
   icon: IoniconName;
@@ -63,6 +64,7 @@ function buildManifestTrailInventory(
       throw new Error(`Course manifest lesson missing from inventory: ${lessonId}`);
     }
     return {
+      displayLevel: index + 1,
       id: `${genreId.charAt(0)}${index + 1}`,
       status: index === 0 ? "current" : "locked",
       icon: LESSON_ICONS[index % LESSON_ICONS.length] ?? "leaf",
