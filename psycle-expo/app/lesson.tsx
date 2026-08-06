@@ -33,8 +33,10 @@ const doubleXpNudgeConfig = getDoubleXpNudgeConfig();
 export default function LessonScreen() {
   const insets = useSafeAreaInsets();
   const completionBottomInset = insets.bottom + theme.spacing.lg;
-  const params = useLocalSearchParams<{ file: string; genre: string }>();
+  const params = useLocalSearchParams<{ file: string; genre: string; preview?: string }>();
   const fileParam = params.file;
+  const skipEnergyCharge =
+    __DEV__ && (params.preview === "1" || params.preview === "true");
   const {
     completeLesson,
     addXp,
@@ -92,6 +94,7 @@ export default function LessonScreen() {
     questions,
     xpAnimation,
     canStart,
+    energyBlocked,
     loadError,
   } = useLessonRuntime({
     addQuestionXp: addXp,
@@ -118,6 +121,7 @@ export default function LessonScreen() {
     lastEnergyUpdateTime,
     lessonEnergyCost,
     maxEnergy,
+    skipEnergyCharge,
     onEnergyBlocked: handleEnergyBlocked,
     onLoadFailed: handleLoadFailed,
     recordLessonSessionAbandon,
@@ -188,6 +192,16 @@ export default function LessonScreen() {
     );
   }
 
+  if (energyBlocked) {
+    return (
+      <SafeAreaView style={styles.blockedScreen} testID="lesson-energy-blocked-screen">
+        <StarBackground />
+        <Text style={styles.blockedTitle}>{i18n.t("shop.energyStatus.title")}</Text>
+        <Text style={styles.blockedMessage}>{i18n.t("lesson.energyBlockedMessage")}</Text>
+      </SafeAreaView>
+    );
+  }
+
   if (loadError || !canStart || !currentQuestion) {
     return (
       <SafeAreaView style={styles.container} testID="lesson-error-screen">
@@ -228,5 +242,25 @@ const styles = StyleSheet.create({
     color: theme.colors.sub,
     textAlign: "center",
     marginTop: 100,
+  },
+  blockedScreen: {
+    flex: 1,
+    backgroundColor: theme.colors.bg,
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: theme.spacing.xl,
+  },
+  blockedTitle: {
+    color: theme.colors.text,
+    fontSize: 24,
+    fontWeight: "700",
+    marginBottom: theme.spacing.md,
+    textAlign: "center",
+  },
+  blockedMessage: {
+    color: theme.colors.sub,
+    fontSize: 17,
+    lineHeight: 26,
+    textAlign: "center",
   },
 });
