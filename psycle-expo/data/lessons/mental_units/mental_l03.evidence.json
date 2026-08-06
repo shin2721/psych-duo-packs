@@ -48,7 +48,7 @@
       "owner_runtime_taste_pending",
       "human_science_review_pending",
       "clinical_safety_review_pending",
-      "curriculum_manifest_alignment_pending"
+      "existing_completion_replay_policy_pending"
     ],
     "warnings": [
       "japanese_staging_only",
