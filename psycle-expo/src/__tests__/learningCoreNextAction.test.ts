@@ -18,8 +18,8 @@ describe("learning core next action", () => {
 
     expect(action).toMatchObject({
       kind: "core",
-      lesson_id: "mental_l03",
-      unit_id: "mental_performance_arousal",
+      lesson_id: "mental_l02",
+      unit_id: "mental_message_meaning",
       reason: "next_core_lesson",
     });
   });
@@ -27,7 +27,7 @@ describe("learning core next action", () => {
   test("does not put a retired legacy lesson back into the core path", () => {
     const action = selectLearningCoreAction({
       manifest: manifest(),
-      completedLessons: new Set(["mental_l01", "mental_l02"]),
+      completedLessons: new Set(["mental_l01", "mental_l02", "mental_l04"]),
     });
 
     expect(action).toMatchObject({ kind: "core", lesson_id: "mental_l03" });
@@ -120,6 +120,7 @@ describe("learning core next action", () => {
       manifest: manifest(),
       completedLessons: new Set([
         "mental_l01",
+        "mental_l02",
         "mental_l03",
       ]),
     });
@@ -158,7 +159,7 @@ describe("learning core next action", () => {
       ],
       supportSurfaceHistory: [
         {
-          lessonId: "mental_l02",
+          lessonId: "mental_l04",
           kind: "replay",
           reason: "completion_drift",
           lifecycleState: "started",

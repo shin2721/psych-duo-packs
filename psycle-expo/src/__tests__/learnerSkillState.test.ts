@@ -57,9 +57,10 @@ describe("learner skill state", () => {
   });
 
   test("retired legacy completion cannot advance current skill state", () => {
+    // mental_l04 は manifest 外に退役したままのレッスン。
     const states = recordLearnerSkillLessonCompletion({
       states: [],
-      lessonId: "mental_l02",
+      lessonId: "mental_l04",
       nowMs: 1_000,
     });
 
@@ -135,13 +136,22 @@ describe("learner skill state", () => {
       nowMs: 3_000,
     });
 
-    expect(states).toHaveLength(2);
+    expect(states).toHaveLength(3);
     expect(
       states.find((state) => state.skill_id === "mental_calibrate_intuition")
     ).toMatchObject({
       curriculum_version: "mental-v1.1.0",
       stage: "introduced",
       highest_stage: "introduced",
+      last_practiced_at: null,
+    });
+    // l02 は未完了なので、そのスキルは unseen のまま登録される。
+    expect(
+      states.find((state) => state.skill_id === "mental_separate_text_and_meaning")
+    ).toMatchObject({
+      curriculum_version: "mental-v1.1.0",
+      stage: "unseen",
+      highest_stage: "unseen",
       last_practiced_at: null,
     });
     expect(
