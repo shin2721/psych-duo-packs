@@ -6,35 +6,36 @@
     "lane": "core",
     "type": "conversation",
     "bet_card": true,
-    "question": "22:48。上司から一通だけ届いた。\n\n『明日の朝、10分だけ話せますか？』\n\n読んだ直後、頭の中で先に始まったのは？",
-    "your_response_prompt": "正解はありません。近いものを選んでください",
+    "question": "22:48。上司から一通だけ届いた。\n\n『明日の朝、10分だけ話せますか？』\n\n頭の中に、悪い方の会議が浮かんだ。今夜の体感で、その悪い予想が当たっている確率は？",
+    "your_response_prompt": "正解はありません。体感で選んでください",
     "choices": [
-      "何の話か、だいたい見当がついている",
-      "悪い方の話を、先に思い浮かべている",
-      "まだ何も浮かんでいない"
+      "半分より高い",
+      "半分くらい",
+      "半分より低い",
+      "悪い予想は浮かんでいない"
     ],
     "recommended_index": null,
-    "explanation": "同じ一文でも、頭の中で始まる会議は人によって違う。\n\n今夜が長くなるとしたら、原因は画面の文字ではなく、そこに足された意味の方。ここでは不安の強さも内容も採点しない。",
+    "explanation": "その体感は、覚えておくだけでいい。ここでは採点しない。\n\nこの後、人の心配の体感と実測が、実際にどれくらいズレるものなのかを見る。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
-    "source_id": "Harp_2024",
+    "source_id": "LaFreniere_Newman_2020",
     "evidence_grade": "bronze",
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "indirect",
       "best_for": [
-        "短い連絡を読んだ直後に、頭の中で先の場面が始まる時"
+        "曖昧な連絡や予定の前に、悪い結末が事実のように感じられる時"
       ],
       "limitations": [
-        "1回の選択で不安傾向や性格を判定しない",
+        "体感確率の選択で不安傾向や性格を判定しない",
         "強い不安やつらい記憶を無理に呼び戻さない"
       ],
-      "citation_role": "同じ曖昧な一文への解釈に個人差がありうるという背景",
+      "citation_role": "心配の体感と実測のズレを測った研究へ入る前の、自分の体感の記録",
       "claim_tags": [
         "mental_l02",
-        "ambiguity",
-        "added_meaning"
+        "felt_probability",
+        "setup"
       ]
     }
   },
@@ -43,38 +44,41 @@
     "claim_id": "mental_l02_002_claim",
     "phase": 2,
     "lane": "core",
-    "type": "multiple_choice",
+    "type": "number_bet",
     "bet_card": true,
-    "question": "そのメッセージを、もう一度見ずに思い出す。\n\n画面にあった文字は、どれ？",
-    "choices": [
-      "明日の朝、少し話がある",
-      "明日の朝、10分だけ話せますか？",
-      "明日の朝、時間もらえますか？"
-    ],
-    "correct_index": 1,
-    "explanation": "画面にあったのは2番目。\n\n1番目を選んだなら、頭は質問を予告へ書き換えていた。3番目を選んだなら、意味は近いが文字は違う。どちらも、残っていたのは文字ではなく意味の方だった。\n\n正確に選べたなら、その一文が伝えていたのは「10分話したい」だけ。会議の中身も、その結論も、画面には一度も出ていない。",
-    "feedback_prompt": "画面に残っている文字と、頭が足した意味を分ける。",
+    "question": "心配の的中率を実測した研究がある。\n\n質問紙でGAD基準を満たした心配性の29人が、10日間、スマホに心配を全部記録した。研究チームは30日間、その心配が実際に起きたかを追跡した。\n\n追跡できた心配のうち、実際に起きたのは何%だったと思う？",
+    "bet_min": 0,
+    "bet_max": 100,
+    "bet_step": 1,
+    "bet_decimals": 0,
+    "bet_unit": "%が実際に起きた",
+    "bet_answer": 9,
+    "bet_tolerance": 5,
+    "bet_answer_label": "8.6%",
+    "explanation": "実際に起きたのは8.6%。91.4%は起きなかった。29人のうち7人は、追跡した心配が1つも当たらなかった。\n\nただし小さい研究で、対象は質問紙でGAD基準を満たした学部生29人。30日以内に確認できる心配だけを、本人の記録で判定していて、別の研究グループによる追試はまだない。だから「あなたの心配も9割外れる」とまでは言えない。言えるのは、**心配の予測は悲観の側へ体系的にズレやすい**、ということ。",
+    "feedback_prompt": "体感と実測のズレを、数字で見る。",
     "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Harp_2024",
+    "source_id": "LaFreniere_Newman_2020",
     "evidence_grade": "bronze",
     "expanded_details": {
       "claim_type": "observation",
-      "evidence_type": "indirect",
+      "evidence_type": "direct",
       "best_for": [
-        "曖昧な一文を、もう確定した知らせのように感じている時"
+        "心配が事実の予告のように感じられる時"
       ],
       "limitations": [
-        "答え合わせの根拠は研究結果ではなく、直前に表示された画面そのもの",
-        "思い出せたかどうかは記憶力の測定ではない",
-        "1回の結果を不安傾向の診断に使わない"
+        "N=29の単一研究で、独立した追試は未発見",
+        "GADは質問紙基準で、臨床面接による診断ではない",
+        "30日以内に確認できる心配だけが対象で、長期の心配の的中率は不明",
+        "実現の判定は本人の記録に基づく"
       ],
-      "citation_role": "曖昧な刺激への解釈に偏りが生じうるという背景。判定の根拠はこのカード自身",
+      "citation_role": "心配の予測と実測のズレを測った中核研究",
       "claim_tags": [
         "mental_l02",
-        "text_vs_meaning",
-        "self_demonstration"
+        "worry_accuracy",
+        "core_number"
       ]
     }
   },
@@ -85,35 +89,35 @@
     "lane": "core",
     "type": "multiple_choice",
     "bet_card": true,
-    "question": "9:05。10時からのレビューが不安だ。\n\nどの予言なら、今日の夜に勝ち負けが決まる？",
+    "question": "では、実際に起きた8.6%の方はどうだったか。\n\n起きた心配のうち、結果が「予想より悪かった」のは？",
     "choices": [
-      "今日のレビューは、たぶんうまくいかない",
-      "今日のレビューで、最後のページまでたどり着けない",
-      "今日のレビューで、説明が下手だと思われる"
+      "ほとんど全部",
+      "約半分",
+      "約4分の1"
     ],
-    "correct_index": 1,
-    "explanation": "決まるのは2番目だけ。\n\n1番目は、5秒詰まっても「やっぱり」、最後まで話しても「思ったよりマシだっただけ」にできる。3番目は相手の頭の中なので、確かめようがない。\n\n採点日のない予言は、負けることができない。負けないから、消えない。",
-    "feedback_prompt": "あとで○×がつく形に置き直す。",
+    "correct_index": 2,
+    "explanation": "約4分の1(25.8%)。44%は予想どおりで、30.1%はむしろ予想より良い結果だった。\n\n当たる心配はあるし、予想より悪くなることもある。だからこれは「心配しなくていい」という話ではない。**予測の平均が、現実より暗い側にズレている**という話。",
+    "feedback_prompt": "起きた心配の中でも、予想より悪い展開は少数だった。",
     "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Yeo_Ong_2024",
+    "source_id": "LaFreniere_Newman_2020",
     "evidence_grade": "bronze",
     "expanded_details": {
       "claim_type": "observation",
-      "evidence_type": "indirect",
+      "evidence_type": "direct",
       "best_for": [
-        "悪い結末が頭に浮かんだまま、確かめようがない時"
+        "「当たったら終わりだ」という感覚が強い時"
       ],
       "limitations": [
-        "予言を採点可能にすると不安が下がる、と確かめた研究ではない",
-        "1回の当たり外れを不安全体へ広げない"
+        "同じ単一研究の内訳であり、上の限界がすべて当てはまる",
+        "予想より悪い結果(25.8%)が存在することを消さない"
       ],
-      "citation_role": "出来事への意味づけが感情反応と関連するという背景。判定基準は研究ではなく反証可能性",
+      "citation_role": "実現した心配の結果の内訳",
       "claim_tags": [
         "mental_l02",
-        "falsifiable_prediction",
-        "settle_date"
+        "realized_worries",
+        "outcome_split"
       ]
     }
   },
@@ -124,35 +128,35 @@
     "lane": "core",
     "type": "multiple_choice",
     "bet_card": true,
-    "question": "同じ日に、3つが同時に頭にある。\n\n分ける練習を待たずに、いま動くのはどれ？",
+    "question": "9割外れる予言が、なぜ何年も頭の中で生き続けられるのか。\n\n同じ研究チームがRCTで試した。心配をその場で記録して、後日「実際はどうだったか」を突き合わせた群には、何が起きた？",
     "choices": [
-      "請求書の支払期限が、今日の17時",
-      "明日の会議で、厳しい意見が出るかもしれない",
-      "返信が来ないのは、避けられているからかもしれない"
+      "外れを直視して、心配はむしろ増えた",
+      "特に変わらなかった",
+      "心配の症状が減った"
     ],
-    "correct_index": 0,
-    "explanation": "1番目。支払期限は予言ではなく、もう決まっている事実。分ける前に払う。\n\nこの3行は、確かめようがない曖昧さにだけ使う。締切、体の新しい強い異変、専門家から指示された対応は、分けずにそのまま動く。",
-    "feedback_prompt": "確かめようがない曖昧さにだけ使う。",
-    "actionable_advice": null,
+    "correct_index": 2,
+    "explanation": "減った。記録して答え合わせをした群は、思考を記録するだけの群より心配が減り、2026年のアプリ版RCT(117人)でも同じ方向が報告されている。\n\n採点されない予言は、外れても負けにならない。**負けを見せられて、はじめて力を失う。** ただしGAD基準の人を対象にした治療研究なので、誰にでも効く保証まではない。",
+    "feedback_prompt": "予言は、採点されると弱る。",
+    "actionable_advice": "今夜の心配をひとつ、「明日の夜に○×がつく一文」に直して、採点日を決める。",
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Lazarus_1984",
+    "source_id": "LaFreniere_Newman_2016",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
+      "claim_type": "intervention",
+      "evidence_type": "direct",
       "best_for": [
-        "確かめられる用事と、確かめようがない不安が同時にある時"
+        "同じ心配が何度も戻ってくる時"
       ],
       "limitations": [
-        "具体的な危険、既知の締切、専門家からの指示には使わない",
-        "強い、持続する、生活を妨げる不安には専門的支援が必要"
+        "GAD基準サンプルでの治療研究で、単発の利用で同じ効果が出る保証はない",
+        "心配には準備を促す機能もあり、「心配は無駄」の証明ではない"
       ],
-      "citation_role": "評価と対処の理論的背景。ここでは適用範囲を先に区切るために使う",
+      "citation_role": "心配の記録と答え合わせという行為自体の効果を試したRCT",
       "claim_tags": [
         "mental_l02",
-        "safety_boundary",
-        "scope"
+        "worry_outcome_journal",
+        "scoring_effect"
       ]
     }
   },
@@ -163,35 +167,35 @@
     "lane": "core",
     "type": "multiple_choice",
     "bet_card": true,
-    "question": "別の日。友人に食事の候補を送って、6時間返信がない。\n\n予言は「明日の食事は断られる」。\n\nこの予言の答え合わせは、どれ？",
+    "question": "同じ日に、3つが同時に頭にある。\n\n採点日をつける練習を待たずに、いま動くのはどれ？",
     "choices": [
-      "返信が届いて、内容を読んだ時",
-      "今夜、既読がつかないまま日付が変わった時",
-      "トークを何度か開いて、様子を確かめた時"
+      "請求書の支払期限が、今日の17時",
+      "明日の会議で、厳しい意見が出るかもしれない",
+      "返信が来ないのは、避けられているからかもしれない"
     ],
     "correct_index": 0,
-    "explanation": "1番目だけが、こちらから何もしなくても向こうから届く。\n\n2番目は返信ではなく、時間が過ぎただけ。3番目は答え合わせではなく確認で、しかも増えやすい。\n\n答え合わせを自分から取りに行き始めたら、この練習はそこで中止する。",
-    "feedback_prompt": "向こうから届くものだけを答え合わせにする。",
-    "actionable_advice": "今日、不安が事実の顔で届いたら、一度だけ聞く。「画面に残っているのは、どこまで？」",
+    "explanation": "1番目。支払期限は予言ではなく、もう決まっている事実。採点を待たずに払う。\n\nこの練習は、確かめようがない曖昧な心配にだけ使う。締切、体の新しい強い異変、専門家から指示された対応は、賭けずにそのまま動く。",
+    "feedback_prompt": "確かめようがない曖昧さにだけ使う。",
+    "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "Yeo_Ong_2024",
+    "source_id": "Lazarus_1984",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "observation",
-      "evidence_type": "indirect",
+      "claim_type": "theory",
+      "evidence_type": "theoretical",
       "best_for": [
-        "返事や結果を待っている、低リスクな場面"
+        "確かめられる用事と、確かめようがない心配が同時にある時"
       ],
       "limitations": [
-        "確認行動が増える場合は中止する",
-        "この判断が不安を下げると確かめた研究はない"
+        "具体的な危険、既知の締切、専門家からの指示には使わない",
+        "強い、持続する、生活を妨げる不安には専門的支援が必要"
       ],
-      "citation_role": "意味づけと感情の関連という背景。ここでは初見場面での判断に使う",
+      "citation_role": "評価と対処の理論的背景。適用範囲を先に区切るために使う",
       "claim_tags": [
         "mental_l02",
-        "transfer",
-        "checking_boundary"
+        "safety_boundary",
+        "scope"
       ]
     }
   },
@@ -202,36 +206,36 @@
     "lane": "core",
     "type": "conversation",
     "bet_card": true,
-    "question": "「事実は？　予言は？　いつ答え合わせ？」\n\nこの3つを、次に使うとしたら？",
+    "question": "最初の1枚を賭けるなら、どの心配？",
     "your_response_prompt": "正解はありません。近いものを選んでください",
     "choices": [
-      "短い連絡が来て、意味を考え始めた時",
-      "返信を待っている時",
-      "予定の前に、悪い結末が浮かんだ時",
+      "仕事の連絡や評価のこと",
+      "返事を待っている人間関係のこと",
+      "予定の前に浮かぶ悪い結末",
       "今回は使わない"
     ],
     "recommended_index": null,
-    "explanation": "どれでもいい。使う時は一度だけ。\n\n何度も確かめたくなるなら、それは分ける練習ではなく確認になっている。そこで止める。「今回は使わない」も正当な選択。",
+    "explanation": "どれでもいい。「明日の夜に○×がつく一文」に直せたら、それが賭け札になる。\n\n途中で何度も確かめたくなったら、それは採点ではなく確認になっている。そこで止める。「今回は使わない」も正当な選択。",
     "actionable_advice": null,
     "difficulty": "easy",
     "xp": 5,
-    "source_id": "Lazarus_1984",
+    "source_id": "LaFreniere_Newman_2016",
     "evidence_grade": "bronze",
     "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
+      "claim_type": "intervention",
+      "evidence_type": "indirect",
       "best_for": [
-        "明日以降、どの場面で試すか決める時"
+        "今夜、どの心配から試すか決める時"
       ],
       "limitations": [
         "使う回数を増やすことを目標にしない",
         "確認行動へ変わったら中止する"
       ],
-      "citation_role": "評価と対処の理論的背景。ここでは実生活の適用場面を1つだけ選ぶために使う",
+      "citation_role": "記録と答え合わせの実生活での最初の一歩を選ぶ",
       "claim_tags": [
         "mental_l02",
         "commitment",
-        "daily_use"
+        "first_bet"
       ]
     }
   }

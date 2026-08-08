@@ -3,34 +3,33 @@
   "citations": [
     {
       "role": "primary",
-      "source_type": "meta_analysis",
-      "doi": "10.1037/bul0000452",
-      "pmid": "39404856",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/39404856/",
-      "label": "Yeo & Ong (2024) - Associations between cognitive appraisals and emotions: A meta-analytic review"
-    },
-    {
-      "role": "primary",
-      "source_type": "meta_analysis",
-      "doi": "10.1037/emo0001316",
-      "pmid": "37971850",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/37971850/",
-      "label": "Harp et al. (2024) - The role of trait reappraisal in response to emotional ambiguity"
+      "source_type": "experiment",
+      "doi": "10.1016/j.beth.2019.07.003",
+      "pmid": "32402257",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/32402257/",
+      "label": "LaFreniere & Newman (2020) - Exposing Worry's Deceit: Percentage of Untrue Worries in GAD Treatment"
     },
     {
       "role": "supporting",
-      "source_type": "classic",
+      "source_type": "experiment",
+      "doi": "10.1002/da.22507",
+      "pmid": "27062682",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/27062682/",
+      "label": "LaFreniere & Newman (2016) - Worry Outcome Journal RCT"
+    },
+    {
+      "role": "supporting",
+      "source_type": "unverified_secondary",
       "doi": "",
       "pmid": "",
-      "url": "https://psycnet.apa.org/record/1984-11044-000",
-      "isbn": "978-0826141910",
-      "label": "Lazarus & Folkman (1984) - Stress, Appraisal, and Coping"
+      "url": "",
+      "label": "Borkovec, Hazlett-Stevens, & Diaz (1999) - 先行する心配アウトカム観察(方法詳細なし・数字は主役にしない)"
     }
   ],
-  "source_label": "Yeo & Ong (2024) appraisal-emotion MA + Harp et al. (2024) emotional ambiguity MA + Lazarus & Folkman (1984) background",
-  "claim": "出来事への評価や意味づけは感情反応と関連し、曖昧な刺激に対する解釈には個人差がある。ただし『事実・予言・答え合わせ』へ分ける練習そのものが不安を軽減するという直接根拠はなく、Psycleでは予言を反証可能な形へ戻す判断練習としてのみ扱う。カード2の答え合わせは研究結果ではなく、直前に同一セッション内で表示した文面そのものを根拠とする自己実演である",
-  "limitations": "3行法の治療効果は未検証。カード2は記憶力の測定ではなく、文字と意味の保存差の実演であり、1回の結果を不安傾向や性格の診断に使わない。確認行動が増える場合は中止し、健康・安全・虐待・自傷・法務など高リスク判断や、明確な締切・危険信号には使わない。強い、持続する、生活を妨げる不安には専門的支援が必要",
-  "effect_size_note": "Yeo & Ong (2024)はappraisal-emotion関連を広く統合し、既存仮説の平均関連はr=.33。Harp et al. (2024)はtrait reappraisalと曖昧刺激への否定的biasに小さい関連（r=-.18）を報告したが、どちらも本lessonの3行法を検証していない [DOI:10.1037/bul0000452, DOI:10.1037/emo0001316]",
+  "source_label": "LaFreniere & Newman (2020) worry accuracy EMA + LaFreniere & Newman (2016) WOJ RCT + Borkovec et al. (1999) background",
+  "claim": "質問紙でGAD基準を満たした学部生29人が記録し30日以内に追跡できた心配のうち、91.4%は実現しなかった(実現8.6%、うち予想より悪かったのは25.8%)。同チームのRCTでは、心配を記録して結果と突き合わせる行為自体が心配を減らした。Psycleではこれを『心配の予測は悲観に偏りやすい』という方向性の証拠と、『予言に採点日をつける』練習の根拠として扱い、『あなたの心配も9割外れる』という個人への適用や『心配は無駄』という含意には使わない",
+  "limitations": "的中率はN=29の単一研究で独立追試は未発見。GADは質問紙基準で臨床診断ではない。30日以内に確認できる心配のみが分母で、実現判定は本人の記録に基づく。心配には準備を促す機能もある。確認行動が増える場合は中止し、具体的な危険・既知の締切・専門家の指示・体の新しい強い異変には使わない。強い、持続する、生活を妨げる不安には専門的支援が必要",
+  "effect_size_note": "LaFreniere & Newman (2020): 非実現率91.4%(個人平均89.6%、範囲53-100%、最頻値100%)、実現8.6%のうち予想より悪い25.8%・予想どおり44.2%・予想より良い30.1% [DOI:10.1016/j.beth.2019.07.003]。LaFreniere & Newman (2016): WOJ群は思考記録群より心配が減少(GAD基準サンプルのRCT) [DOI:10.1002/da.22507]。効果量を個人への保証に使わない",
   "evidence_grade": "bronze",
   "confidence": "medium",
   "status": "active",
@@ -42,11 +41,11 @@
     "auto_approved": false,
     "approval_mode": "owner_tasting_pending",
     "approval_reasons": [
-      "authored_from_raw_pilot_006",
-      "reuses_already_registered_sources_only",
+      "authored_from_raw_pilot_007",
+      "sources_web_verified_and_registered_2026_08_07",
       "owner_playthrough_not_yet_performed"
     ],
-    "evaluated_at": "2026-08-06T00:00:00+09:00"
+    "evaluated_at": "2026-08-07T00:00:00+09:00"
   },
   "citation": {
     "doi": "",
@@ -58,7 +57,7 @@
     "reasons": [],
     "warnings": [
       "owner_tasting_pending",
-      "no_direct_evidence_for_three_line_practice"
+      "single_small_study_no_independent_replication"
     ]
   },
   "content_package": {

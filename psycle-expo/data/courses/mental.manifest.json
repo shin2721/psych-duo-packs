@@ -24,7 +24,7 @@
     },
     {
       "unit_id": "mental_message_meaning",
-      "outcome": "画面に残る文字と頭が足した意味を分け、不安の予言を採点できる形へ戻す",
+      "outcome": "心配の予言に採点日をつけ、体感と実測のズレを確かめる",
       "prerequisite_unit_ids": [
         "mental_discovery_sampler"
       ],
@@ -59,7 +59,7 @@
     },
     {
       "skill_id": "mental_separate_text_and_meaning",
-      "outcome": "画面に残る文字と頭が足した意味を分け、予言を反証可能な形に置き直す",
+      "outcome": "心配を採点できる予言に直し、体感と実測のズレを確かめる",
       "prerequisite_skill_ids": [
         "mental_calibrate_intuition"
       ]
