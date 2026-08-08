@@ -716,3 +716,128 @@ Reject conversion if:
 - the 85%-Cornell myth is presented as a real finding
 - any graded card is solvable by picking the calmest or best-formed option
 - the caveat arrives before the reveal instead of after it
+
+## Pilot 008: 「寝る前のスマホ」は、寝る前が問題じゃなかった
+
+寝る前にスマホを見てしまった夜、ちょっと後ろめたい。
+
+「ブルーライトが」「就寝2時間前は画面を見るな」。この10年で、寝る前のスマホは
+すっかり悪者になりました。正直に言うと、私もそう思っていました。
+
+で、これ実際どれくらい悪いのか。数字が出ています。
+
+**賭けてみてください。1日のスクリーンタイムが1時間増えると、
+その夜の睡眠は何分減ると思いますか？**
+
+答えは **3〜5分** です。
+
+オックスフォードのPrzybylskiが5万212人ぶんのデータで出した推定が3〜8分。
+これだけなら「逆張り論文が1本出ただけでしょ」で終わる話なんですが、今年、
+前向きコホート21本・のべ54万8338人を統合したメタ分析が、独立に3〜5分に
+着地しました。横断1本と前向き21本が同じ桁を出した以上、この数字はもう動きません。
+
+実世界に換算するとこうなります。スクリーンを一切見ない10代の平均睡眠が8時間51分。
+1日8時間見ている10代が8時間21分。**差は30分**。
+
+しかも睡眠のばらつきのうち、スクリーンタイムが説明できるのは0.6〜2%です。
+残りの98%以上を握っているのは、始業時刻の早さ、家庭の経済状況、住んでいる地域
+といった、もっと退屈な変数。著者自身が「始業時刻の早さに比べれば取るに足らない」
+と書いています。
+
+---
+
+で、ここからが面白いところ。
+
+「それは総量の話でしょ。問題は寝る直前に見ることだ」。そう思いますよね。
+私も思いました。
+
+**もう一回賭けてください。就寝前30分のスマホに絞ると、睡眠の減り方は
+どうなると思いますか？**
+
+**1分**です。
+
+同じ研究チームが英国の10代1万1884人を、120通りの解析方法すべてで検定した結果。
+1日を通した使用が9分の効果を持つのに対して、就寝前30分に絞ると1分。
+**「寝る前」で切ると、効果はむしろ消える。**
+
+自己報告だから鈍いのかと思いきや、ニュージーランドの研究が完全な客観測定で
+確かめています。就寝2時間前からのスクリーン使用をウェアラブルと据置カメラで
+全部記録して、睡眠は手首の加速度計で測る。**結果は0分**（95%信頼区間 −3〜20分）。
+
+つまり「就寝2時間前からスクリーン禁止」という、いちばん広く信じられている
+ルールは、実際に測るとゼロです。
+
+ついでに言うと、ブルーライトカット眼鏡も分が悪い。CochraneのレビューはRCT17本を
+統合して、睡眠の質を改善する根拠を認めず、一般の人への処方を支持しないと
+結論しました。
+
+---
+
+じゃあ全部気にしなくていいのか。ここが今日いちばん大事なところです。
+
+**違います。**
+
+さっきのニュージーランドの研究には続きがあります。同じデータを「ベッドに
+入ってから」に絞り直すと、数字が生き返る。ベッドの中でのスクリーン使用
+10分ごとに睡眠が3分減り、返信やチャットのような双方向的な使用なら9分減、
+**ゲームなら17分減**。入眠までの時間も、双方向的な使用10分につき10分遅れます。
+
+そしてノルウェーの大学生4万5202人の調査。ベッドに入ってからのスクリーン時間が
+1時間増えるごとに、睡眠時間が24分減り、不眠症状のオッズが1.59倍。
+**測定方法も国も違う2つの研究が、同じ桁に着地しています。**
+
+面白いのは、SNSか動画かで差がつかなかったこと。効いているのは中身ではなく、
+**操作しているかどうか**でした。
+
+---
+
+というわけで、今日の結論。
+
+**寝る前のスマホの問題は、「寝る前」ではありませんでした。
+境界線は時間ではなく、ベッドにあります。**
+
+通念が嘘だったわけではなく、測る場所を間違えていた。時間で引いた線
+（就寝◯時間前から禁止）は測るとゼロ。場所で引いた線（ベッドに持ち込むか）は、
+はっきり効果が出る。
+
+ただし書きを3つ。主軸のPrzybylskiの研究はタイトルに"cohort study"とありますが、
+実体は単一時点の横断データで、因果までは示していません。ベッド内使用の証拠も
+横断なので、「眠れないからスマホを手に取る」という逆向きの因果を排除できていない。
+そして客観測定の研究はN=79・4夜ぶんで、信頼区間がかなり広い。ついでに、
+ここまでの研究の対象はほとんどが子どもと若者です。
+
+それでも実務としては、こう整理できます。
+
+**捨てていいもの**：就寝2時間前のスクリーン禁止。ブルーライトカット眼鏡。
+夜に画面を見てしまった罪悪感。
+
+**残すもの**：ベッドに持ち込まない。とくにベッドの中で返信・チャット・ゲームを
+しない。
+
+守るべきルールが、1つに減りました。
+
+### Conversion notes for Pilot 008
+
+This is the first episode written as a *reading with bets*, not a lesson with
+copy attached. Judge it as writing first.
+
+Structure borrowed from Paleo, verified against the real articles:
+- Enter through a dispute the reader already carries ("寝る前のスマホ、悪いのか")
+- Number first, study design immediately after, caveats after the conclusion
+- Title/assertion strength tracks evidence grade (21 prospective cohorts,
+  N=548,338 earns a flat statement; the N=79 objective study does not)
+- Exit makes one decision *lighter* — a rule is removed, not added
+
+Two bets, both on numbers the reader will get wrong in the same direction:
+1. minutes lost per screen-hour (guess high, actual 3-5)
+2. the same for the 30 minutes before bed (guess higher, actual 1)
+The third act is not a bet: it is the reversal of the reversal, where the
+in-bed evidence restores the reader's original intuition in a sharper place.
+
+Reject if:
+- it says screens are harmless (the in-bed effect is real and measured)
+- it presents Przybylski 2019 as prospective (it is a single cross-sectional wave)
+- it presents the 3-8 minute figure as covering pre-bed use (that study never
+  measured time of day)
+- the caveats move ahead of the reveal
+- the exit adds a practice instead of removing a rule
