@@ -669,6 +669,76 @@
         "平均効果量d=0.65を実行率2倍へ換算することはできない"
       ],
       "notes": "平均効果は課題や条件で変わる。個別課題の達成率を作るための換算には使わない。"
+    },
+    "LaFreniere_Newman_2020": {
+      "author": "LaFreniere, L. S., & Newman, M. G.",
+      "year": 2020,
+      "title": "Exposing Worry's Deceit: Percentage of Untrue Worries in Generalized Anxiety Disorder Treatment",
+      "full_citation": "LaFreniere, L. S., & Newman, M. G. (2020). Exposing Worry's Deceit: Percentage of Untrue Worries in Generalized Anxiety Disorder Treatment. Behavior Therapy, 51(3), 413-423. https://doi.org/10.1016/j.beth.2019.07.003 (PMID: 32402257)",
+      "type": "experiment",
+      "domain": [
+        "mental"
+      ],
+      "construct_tags": [
+        "worry",
+        "prediction_accuracy",
+        "ema",
+        "gad"
+      ],
+      "evidence_strength": "bronze",
+      "one_line_why": "GAD基準の29人が10日間記録・30日間追跡した心配のうち91.4%が実現しなかった",
+      "allowed_claims": [
+        "質問紙でGAD基準を満たした学部生29人が記録し30日以内に確認できた心配のうち、約91%(91.4%)は実現しなかった",
+        "一人あたりの非実現率の最頻値は100%で、29人中7人は追跡した心配が1つも実現しなかった",
+        "実現した心配(8.6%)のうち、予想より悪かったのは25.8%で、30.1%はむしろ予想より良い結果だった",
+        "実現の判定は本人の記録に基づき、独立コーダー2名の集計の評定者間信頼性は高かった"
+      ],
+      "notes": "N=29(女性26名・白人中心の学部生)。GADは質問紙(GAD-Q-IV)基準で臨床面接ではない。心配日誌介入の最中の記録で、30日以内に検証可能な心配のみが分母(検証不能な長期の心配16件は除外)。独立研究グループによる追試は未発見。『一般人の心配も9割起きない』への一般化や『心配は無駄』という含意には使わない。方向性(心配の予測は悲観に偏る)の証拠として使う。"
+    },
+    "LaFreniere_Newman_2016": {
+      "author": "LaFreniere, L. S., & Newman, M. G.",
+      "year": 2016,
+      "title": "A Brief Ecological Momentary Intervention for Generalized Anxiety Disorder: A Randomized Controlled Trial of the Worry Outcome Journal",
+      "full_citation": "LaFreniere, L. S., & Newman, M. G. (2016). A Brief Ecological Momentary Intervention for Generalized Anxiety Disorder: A Randomized Controlled Trial of the Worry Outcome Journal. Depression and Anxiety, 33(9), 829-839. https://doi.org/10.1002/da.22507 (PMID: 27062682)",
+      "type": "experiment",
+      "domain": [
+        "mental"
+      ],
+      "construct_tags": [
+        "worry",
+        "worry_outcome_journal",
+        "ema_intervention",
+        "gad"
+      ],
+      "evidence_strength": "bronze",
+      "one_line_why": "心配を記録して結果と突き合わせるWorry Outcome JournalのRCTで心配が減少した",
+      "allowed_claims": [
+        "GAD基準の参加者を対象にしたRCTで、心配を記録して実際の結果と突き合わせた群は思考記録の統制群より心配が減った",
+        "同系列のアプリ版RCT(2026年、N=117)でも心配とポジティブな心配信念の減少が報告されている"
+      ],
+      "notes": "効果はGAD基準サンプルでの治療研究のもの。全員に効く保証や単発利用の効果を主張しない。2026年のアプリ版はSchwob & Newman, Journal of Anxiety Disorders。"
+    },
+    "Borkovec_1999": {
+      "author": "Borkovec, T. D., Hazlett-Stevens, H., & Diaz, M. L.",
+      "year": 1999,
+      "title": "The role of positive beliefs about worry in generalized anxiety disorder and its treatment",
+      "full_citation": "Borkovec, T. D., Hazlett-Stevens, H., & Diaz, M. L. (1999). The role of positive beliefs about worry in generalized anxiety disorder and its treatment. Clinical Psychology & Psychotherapy, 6(2), 126-138.",
+      "type": "unverified_secondary",
+      "domain": [
+        "mental"
+      ],
+      "construct_tags": [
+        "worry",
+        "prediction_accuracy",
+        "misattribution_myth"
+      ],
+      "evidence_strength": "bronze",
+      "one_line_why": "心配アウトカム記録の先行観察。流布する『85%は起きない』の実際の出所",
+      "allowed_claims": [
+        "先行する小規模な観察でも、記録された心配の予測の多く(67.9%)は実現しなかったと報告されている",
+        "広く流布する『(コーネル大学の研究で)心配の85%は起きない』という言い回しは出典の誤伝で、85%の実体は治療中のGADクライアント17人で『結果が予想より良かった』割合である"
+      ],
+      "notes": "論文自体は査読誌だが、中の2データは方法詳細・評定者信頼性の報告がなく、後続査読論文(LaFreniere & Newman 2020)にもその旨明記されている。数字を主役にせず、2020年研究の先行観察および誤伝の説明としてのみ使う。原典全文は有料壁のため、数字の定義は査読済み二次引用で確認した。"
     }
   }
 }
