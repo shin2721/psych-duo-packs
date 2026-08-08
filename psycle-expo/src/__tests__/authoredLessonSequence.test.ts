@@ -43,7 +43,7 @@ describe("authored lesson sequence", () => {
       "mental_l02_006",
     ]);
     expect(bundle.effectiveQuestions[1]?.feedback_prompt).toBe(
-      "画面に残っている文字と、頭が足した意味を分ける。"
+      "体感と実測のズレを、数字で見る。"
     );
   });
 
