@@ -647,3 +647,72 @@ Reject conversion if:
 - the correct option is detectable by length, hedging, or by reciting the
   skill statement
 - the caveat arrives before the reveal instead of after it
+
+## Pilot 007: あなたの心配は、何%当たる？
+
+22:48。上司から一通。『明日の朝、10分だけ話せますか？』
+
+頭の中で悪い方の会議が始まる。体感では、半分より当たりそうな気がする。
+
+その体感を、実測と突き合わせた研究がある。
+
+質問紙でGAD基準を満たした心配性の29人が、10日間、
+スマホに心配を全部記録した。研究チームは30日間、
+その心配が実際に起きたかを追跡した。
+
+実際に起きたのは、8.6%だった。
+
+91.4%は起きなかった。29人のうち7人は、1つも当たらなかった。
+
+起きた8.6%の内訳も追跡されている。予想より悪かったのは25.8%。
+44%は予想どおり。30.1%は、むしろ予想より良かった。
+
+ただし、小さい研究だ。対象は質問紙基準の学部生29人。
+30日以内に確認できる心配だけを、本人の記録で判定していて、
+別グループの追試はまだない。
+
+だから「あなたの心配も9割外れる」とは言えない。
+言えるのは、心配の予測は悲観の側へ体系的にズレやすい、ということまで。
+
+ここで謎が残る。9割外れる予言が、なぜ何年も頭の中で生きているのか。
+
+同じチームがRCTで試している。心配をその場で記録して、
+後日「実際どうだったか」を突き合わせた群は、心配の症状が減った。
+2026年のアプリ版RCT(117人)でも同じ方向。
+
+採点されない予言は、外れても負けにならない。
+負けを見せられて、はじめて力を失う。
+
+だから今日の一手はこれだけ。
+
+**今夜の心配をひとつ、「明日の夜に○×がつく一文」に直して、採点日を決める。**
+
+支払期限や体の異変は賭けない。あれは予言ではなく、もう決まっている事実だ。
+
+### Conversion notes for Pilot 007
+
+Capability contract: turn one vague worry into a scorable prediction with a
+settle date, after seeing the measured gap between felt and actual accuracy.
+
+The lesson keeps its value only if:
+
+- The core number (8.6% realized / 91.4% not) is bet on with a slider BEFORE
+  reveal, and the felt-probability commit on card 1 sets up the personal gap.
+- Caveats follow the reveal (N=29, questionnaire GAD, 30-day verifiable only,
+  self-judged, no independent replication) and the claim stops at "worry
+  predictions skew pessimistic" — never "your worries won't happen".
+- The realized-worry split (25.8% worse / 44% as expected / 30.1% better)
+  keeps the honest edge: some worries do come true and some get worse.
+- The falsifiability idea appears as the mechanism AFTER the numbers (why
+  unscored predictions survive), backed by the WOJ RCT effect, not as an
+  abstract classification exercise.
+- The safety boundary (deadlines, new strong symptoms, professional
+  instructions) precedes the commitment card.
+
+Reject conversion if:
+
+- it claims "9割の心配は起きない" as a general fact or personal guarantee
+- it implies worry is useless or the number applies beyond the studied sample
+- the 85%-Cornell myth is presented as a real finding
+- any graded card is solvable by picking the calmest or best-formed option
+- the caveat arrives before the reveal instead of after it
