@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-08 - Rebuilt lesson two around verified worry-accuracy numbers after the beat-only rebuild died in tasting
+
+- Changed: Registered LaFreniere & Newman 2020/2016 and Borkovec 1999 (with Cornell-85% misattribution note) in the ledger; l02 now bets on the 8.6%/91.4% realized-worry rate with caveats after reveals; extracted rule: every card needs a verified surprising fact, bet mechanics alone cannot carry a lesson
+- Verified: 3-agent web verification against primary sources; tsc clean; 744 tests green; validate 0 errors; Simulator playthrough of cards 1-3 incl. slider bet 40 vs actual 9 with gold neutral miss
+- Remaining: Owner tasting of rebuilt l02; l03 boring verdict on its GRE card still unaddressed; transfer_successes measurement bug; Jamieson_2012 ledger claim fix; Flynn & Lake PMID typo
+
 ### 2026-08-06 - Rewrote lesson two as a bet-first arc built on a self-demonstrated recall trap
 
 - Changed: mental_l02 rebuilt: card1 shows the exact message ungraded, card2 bets on what the screen actually said (answer key is the previous card, not a study), card3 selects by falsifiability, card4 keeps the criterion out of the choices, card5 makes self-initiated checking a wrong answer-check; raw pilot 006 and its reject conditions recorded first
