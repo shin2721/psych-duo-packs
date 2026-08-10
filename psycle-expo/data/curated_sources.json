@@ -739,6 +739,153 @@
         "広く流布する『(コーネル大学の研究で)心配の85%は起きない』という言い回しは出典の誤伝で、85%の実体は治療中のGADクライアント17人で『結果が予想より良かった』割合である"
       ],
       "notes": "論文自体は査読誌だが、中の2データは方法詳細・評定者信頼性の報告がなく、後続査読論文(LaFreniere & Newman 2020)にもその旨明記されている。数字を主役にせず、2020年研究の先行観察および誤伝の説明としてのみ使う。原典全文は有料壁のため、数字の定義は査読済み二次引用で確認した。"
+    },
+    "Przybylski_2019_Screen_Sleep": {
+      "author": "Przybylski, A. K.",
+      "year": 2019,
+      "title": "Digital Screen Time and Pediatric Sleep: Evidence from a Preregistered Cohort Study",
+      "full_citation": "Przybylski, A. K. (2019). Digital Screen Time and Pediatric Sleep: Evidence from a Preregistered Cohort Study. The Journal of Pediatrics, 205, 218-223.e1. https://doi.org/10.1016/j.jpeds.2018.09.054 (PMID: 30396683)",
+      "type": "observational",
+      "domain": [
+        "mental",
+        "health"
+      ],
+      "construct_tags": [
+        "screen_time",
+        "sleep",
+        "effect_size_calibration"
+      ],
+      "evidence_strength": "silver",
+      "one_line_why": "5万212人で、スクリーン1時間あたりの睡眠短縮は3〜8分と推定した事前登録研究",
+      "allowed_claims": [
+        "米国の6か月〜17歳5万212人の調査で、1日のスクリーンタイム1時間あたりの睡眠短縮は幼児で約8分、6〜17歳で約3分だった",
+        "スクリーンタイムが睡眠時間のばらつきのうち固有に説明した割合は0.6〜2.0%だった",
+        "スクリーンを使わない10代の平均睡眠8時間51分に対し、1日8時間使う10代は8時間21分だった",
+        "著者は、この差を始業時刻の早さなどの文脈要因に比べれば取るに足らないと評価している"
+      ],
+      "notes": "題名に cohort とあるが実体は2016年NSCH単一波の横断データで、因果は示さない。曝露も睡眠も養育者の自己報告。使用時刻を測っていないため『寝る前のスクリーン』の証拠には使えない。事前登録されているのは解析計画。"
+    },
+    "He_2025_Screen_Sleep_MA": {
+      "author": "He, X., Pan, B., Ma, N., et al.",
+      "year": 2025,
+      "title": "The association of screen time and the risk of sleep outcomes: a systematic review and meta-analysis",
+      "full_citation": "He, X., Pan, B., Ma, N., et al. (2025). The association of screen time and the risk of sleep outcomes: a systematic review and meta-analysis. Frontiers in Psychiatry, 16, 1640263. https://doi.org/10.3389/fpsyt.2025.1640263 (PMID: 41480345)",
+      "type": "meta_analysis",
+      "domain": [
+        "mental",
+        "health"
+      ],
+      "construct_tags": [
+        "screen_time",
+        "sleep",
+        "meta_analysis"
+      ],
+      "evidence_strength": "gold",
+      "one_line_why": "前向きコホート21本・54万8338人で、スクリーン1時間あたりの睡眠短縮を3〜5分と推定",
+      "allowed_claims": [
+        "前向きコホート21本・のべ54万8338人のメタ分析で、1日のスクリーンタイム1時間あたりの総睡眠時間の短縮は3〜5分だった",
+        "この推定は、単一の横断研究による3〜8分という先行推定とほぼ同じ桁に着地した"
+      ],
+      "notes": "曝露・アウトカムの大半が主観測定。二値アウトカムの異質性が極めて高い(I²=97.2%)ため、オッズ比の点推定は強調しない。"
+    },
+    "Orben_Przybylski_2020_Bedtime": {
+      "author": "Orben, A., & Przybylski, A. K.",
+      "year": 2020,
+      "title": "Teenage sleep and technology engagement across the week",
+      "full_citation": "Orben, A., & Przybylski, A. K. (2020). Teenage sleep and technology engagement across the week. PeerJ, 8, e8427. https://doi.org/10.7717/peerj.8427 (PMID: 32025375)",
+      "type": "observational",
+      "domain": [
+        "mental",
+        "health"
+      ],
+      "construct_tags": [
+        "screen_time",
+        "bedtime",
+        "specification_curve"
+      ],
+      "evidence_strength": "silver",
+      "one_line_why": "英国の10代1万1884人。就寝前30分の使用の効果は1分で、終日使用の9分より小さかった",
+      "allowed_claims": [
+        "英国の10代1万1884人を120通りの解析仕様すべてで検定したところ、就寝前30分のテクノロジー使用1時間あたりの睡眠短縮は約1分だった",
+        "同じ分析で、1日を通した使用1時間あたりの睡眠短縮は平日で約9分だった",
+        "つまり『就寝直前に絞るほど効果が大きい』という想定は支持されなかった"
+      ],
+      "notes": "事前登録なし(著者がデータに先に触れていたため不可能と明記)。横断で因果は示さない。120仕様のうち26%は非有意。"
+    },
+    "Brosnan_2024_Bedtime_Objective": {
+      "author": "Brosnan, B., Haszard, J. J., Meredith-Jones, K. A., et al.",
+      "year": 2024,
+      "title": "Screen Use at Bedtime and Sleep Duration and Quality Among Youths",
+      "full_citation": "Brosnan, B., Haszard, J. J., Meredith-Jones, K. A., et al. (2024). Screen Use at Bedtime and Sleep Duration and Quality Among Youths. JAMA Pediatrics, 178(11), 1147-1154. https://doi.org/10.1001/jamapediatrics.2024.2914 (PMID: 39226046)",
+      "type": "observational",
+      "domain": [
+        "mental",
+        "health"
+      ],
+      "construct_tags": [
+        "screen_time",
+        "bedtime",
+        "objective_measurement",
+        "sleep"
+      ],
+      "evidence_strength": "silver",
+      "one_line_why": "カメラと加速度計で客観測定。就寝前2時間の使用は0分、ベッド内の使用だけ効果が出た",
+      "allowed_claims": [
+        "スクリーン使用をウェアラブルと据置カメラで、睡眠を手首の加速度計で客観測定した研究で、就寝前2時間の使用10分あたりの総睡眠時間の差は0分だった(95%CI −3〜20分)",
+        "同じ研究で、ベッドに入ってからの使用10分あたりの総睡眠時間は3分短かった",
+        "双方向的な使用(返信・チャットなど)10分あたりでは9分、ゲームでは17分短かった",
+        "双方向的な使用10分あたり、入眠までの時間が10分遅れた"
+      ],
+      "notes": "N=79、ニュージーランドの平均12.9歳、非連続4夜のみ。横断で因果は示さず、逆因果(眠れないから触る)を排除できない。個別推定の信頼区間は広い。"
+    },
+    "Hjetland_2025_InBed_Screen": {
+      "author": "Hjetland, G. J., Skogen, J. C., Hysing, M., Gradisar, M., & Sivertsen, B.",
+      "year": 2025,
+      "title": "How and when screens are used: comparing different screen activities and sleep in Norwegian university students",
+      "full_citation": "Hjetland, G. J., Skogen, J. C., Hysing, M., Gradisar, M., & Sivertsen, B. (2025). How and when screens are used: comparing different screen activities and sleep in Norwegian university students. Frontiers in Psychiatry, 16, 1548273. https://doi.org/10.3389/fpsyt.2025.1548273",
+      "type": "observational",
+      "domain": [
+        "mental",
+        "health"
+      ],
+      "construct_tags": [
+        "screen_time",
+        "bedtime",
+        "insomnia",
+        "sleep"
+      ],
+      "evidence_strength": "silver",
+      "one_line_why": "ノルウェーの大学生4万5202人。ベッド内使用1時間で睡眠24分減、不眠オッズ1.59倍",
+      "allowed_claims": [
+        "ノルウェーの大学生4万5202人の調査で、ベッドに入ってからのスクリーン時間が1時間増えるごとに睡眠時間が24分短く、不眠症状のオッズが1.59倍だった",
+        "SNSか他の活動かによる差は見られなかった",
+        "ベッド内での使用を完全に避ける層では不眠症状のオッズが24%低かった"
+      ],
+      "notes": "横断・自己報告・18〜28歳の大学生。逆因果を排除できない。子どもや一般成人へは外挿しない。"
+    },
+    "Singh_2023_BlueLight_Cochrane": {
+      "author": "Singh, S., Keller, P. R., Busija, L., McMillan, P., Makrai, E., Lawrenson, J. G., Hull, C. C., & Downie, L. E.",
+      "year": 2023,
+      "title": "Blue-light filtering spectacle lenses for visual performance, sleep, and macular health in adults",
+      "full_citation": "Singh, S., Keller, P. R., Busija, L., McMillan, P., Makrai, E., Lawrenson, J. G., Hull, C. C., & Downie, L. E. (2023). Blue-light filtering spectacle lenses for visual performance, sleep, and macular health in adults. Cochrane Database of Systematic Reviews, 8(8), CD013244. https://doi.org/10.1002/14651858.CD013244.pub2 (PMID: 37593770)",
+      "type": "review",
+      "domain": [
+        "mental",
+        "health"
+      ],
+      "construct_tags": [
+        "blue_light",
+        "sleep",
+        "evidence_gap"
+      ],
+      "evidence_strength": "gold",
+      "one_line_why": "ブルーライトカット眼鏡と睡眠の質は『効果なし』ではなく『わからない』が結論",
+      "allowed_claims": [
+        "Cochraneのレビュー(RCT17本)のうち睡眠の質を調べたのは6本・のべ148人だけだった",
+        "その6本のうち3本が睡眠スコアの改善を報告し、3本は差を認めず、結果は一貫しなかった",
+        "レビューの結論は『睡眠の質について、ブルーライトカット眼鏡が優れているか同等かは分からない(確実性は非常に低い)』である"
+      ],
+      "notes": "『効果がないと証明された』とは書かない。証拠が不足しているという結論である。眼精疲労については短期的な改善が認められなかった点は別の結論。"
     }
   }
 }
