@@ -4,38 +4,40 @@
     "claim_id": "mental_l02_001_claim",
     "phase": 1,
     "lane": "core",
-    "type": "conversation",
+    "type": "number_bet",
     "bet_card": true,
-    "question": "22:48。上司から一通だけ届いた。\n\n『明日の朝、10分だけ話せますか？』\n\n頭の中に、悪い方の会議が浮かんだ。今夜の体感で、その悪い予想が当たっている確率は？",
-    "your_response_prompt": "正解はありません。体感で選んでください",
-    "choices": [
-      "半分より高い",
-      "半分くらい",
-      "半分より低い",
-      "悪い予想は浮かんでいない"
-    ],
-    "recommended_index": null,
-    "explanation": "その体感は、覚えておくだけでいい。ここでは採点しない。\n\nこの後、人の心配の体感と実測が、実際にどれくらいズレるものなのかを見る。",
+    "question": "寝る前にスマホを見てしまった夜、ちょっと後ろめたい。\n\n「ブルーライトが」「就寝2時間前は画面を見るな」。この10年で、寝る前のスマホはすっかり悪者になりました。\n\nでは実際、どれくらい悪いのか。1日のスクリーンタイムが1時間増えると、その夜の睡眠は何分減ると思いますか？",
+    "bet_min": 0,
+    "bet_max": 60,
+    "bet_step": 1,
+    "bet_decimals": 0,
+    "bet_unit": "分ぶん睡眠が減る",
+    "bet_answer": 4,
+    "bet_tolerance": 2,
+    "bet_answer_label": "3〜5分",
+    "explanation": "3〜5分です。\n\nオックスフォードのPrzybylskiが5万212人ぶんのデータで出した推定が3〜8分。これだけなら逆張り論文が1本出ただけの話ですが、今年、前向きコホート21本・のべ54万8338人を統合したメタ分析が、独立に3〜5分に着地しました。横断1本と前向き21本が同じ桁を出した以上、この数字はもう動きません。\n\n実世界に換算すると、スクリーンを一切見ない10代の平均睡眠が8時間51分。1日8時間見ている10代が8時間21分。**差は30分**。\n\nしかも睡眠のばらつきのうち、スクリーンタイムで説明できるのは0.6〜2%。残りを握っているのは始業時刻の早さや家庭の経済状況といった、もっと退屈な変数です。著者自身が「始業時刻の早さに比べれば取るに足らない」と書いています。",
+    "feedback_prompt": "スクリーン1時間で減る睡眠は、数分。",
     "actionable_advice": null,
-    "difficulty": "easy",
+    "difficulty": "medium",
     "xp": 5,
-    "source_id": "LaFreniere_Newman_2020",
-    "evidence_grade": "bronze",
+    "source_id": "He_2025_Screen_Sleep_MA",
+    "evidence_grade": "gold",
     "expanded_details": {
       "claim_type": "observation",
-      "evidence_type": "indirect",
+      "evidence_type": "direct",
       "best_for": [
-        "曖昧な連絡や予定の前に、悪い結末が事実のように感じられる時"
+        "夜に画面を見てしまったことを気に病んでいる時"
       ],
       "limitations": [
-        "体感確率の選択で不安傾向や性格を判定しない",
-        "強い不安やつらい記憶を無理に呼び戻さない"
+        "曝露も睡眠も大半が自己報告で、因果は示されていない",
+        "対象の多くは子どもと若者",
+        "この数字は1日の総量の話で、使用時刻は測られていない"
       ],
-      "citation_role": "心配の体感と実測のズレを測った研究へ入る前の、自分の体感の記録",
+      "citation_role": "スクリーン総量と睡眠の関係の大きさを測った中核のメタ分析",
       "claim_tags": [
         "mental_l02",
-        "felt_probability",
-        "setup"
+        "screen_time",
+        "effect_size"
       ]
     }
   },
@@ -44,41 +46,37 @@
     "claim_id": "mental_l02_002_claim",
     "phase": 2,
     "lane": "core",
-    "type": "number_bet",
+    "type": "multiple_choice",
     "bet_card": true,
-    "question": "心配の的中率を実測した研究がある。\n\n質問紙でGAD基準を満たした心配性の29人が、10日間、スマホに心配を全部記録した。研究チームは30日間、その心配が実際に起きたかを追跡した。\n\n追跡できた心配のうち、実際に起きたのは何%だったと思う？",
-    "bet_min": 0,
-    "bet_max": 100,
-    "bet_step": 1,
-    "bet_decimals": 0,
-    "bet_unit": "%が実際に起きた",
-    "bet_answer": 9,
-    "bet_tolerance": 5,
-    "bet_answer_label": "8.6%",
-    "explanation": "実際に起きたのは8.6%。91.4%は起きなかった。29人のうち7人は、追跡した心配が1つも当たらなかった。\n\nただし小さい研究で、対象は質問紙でGAD基準を満たした学部生29人。30日以内に確認できる心配だけを、本人の記録で判定していて、別の研究グループによる追試はまだない。だから「あなたの心配も9割外れる」とまでは言えない。言えるのは、**心配の予測は悲観の側へ体系的にズレやすい**、ということ。",
-    "feedback_prompt": "体感と実測のズレを、数字で見る。",
+    "question": "「それは1日の総量の話でしょ。問題は寝る直前に見ることだ」\n\nそう思いますよね。同じ研究チームが、英国の10代1万1884人を120通りの解析方法すべてで検定しています。\n\n睡眠への影響が大きかったのは、どっち？",
+    "choices": [
+      "就寝前30分の使用",
+      "1日全体の使用",
+      "どちらも同じくらい"
+    ],
+    "correct_index": 1,
+    "explanation": "1日全体の方が大きい。就寝前30分に絞ると、効果は**1分**。1日を通した使用の9分より小さくなります。「寝る前」で切ると、効果はむしろ消える。\n\n自己報告だから鈍いのかと思いきや、ニュージーランドの研究が完全な客観測定で確かめています。就寝2時間前からのスクリーン使用をカメラとウェアラブルで全部記録し、睡眠は手首の加速度計で測る。**結果は0分**（95%信頼区間 −3〜20分）。\n\nつまり「就寝2時間前からスクリーン禁止」という、いちばん広く信じられているルールは、実際に測るとゼロでした。",
+    "feedback_prompt": "「寝る前」で切ると、効果は消える。",
     "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "LaFreniere_Newman_2020",
-    "evidence_grade": "bronze",
+    "source_id": "Orben_Przybylski_2020_Bedtime",
+    "evidence_grade": "silver",
     "expanded_details": {
       "claim_type": "observation",
       "evidence_type": "direct",
       "best_for": [
-        "心配が事実の予告のように感じられる時"
+        "就寝◯時間前からスクリーン禁止、というルールを守ろうとしている時"
       ],
       "limitations": [
-        "N=29の単一研究で、独立した追試は未発見",
-        "GADは質問紙基準で、臨床面接による診断ではない",
-        "30日以内に確認できる心配だけが対象で、長期の心配の的中率は不明",
-        "実現の判定は本人の記録に基づく"
+        "事前登録されていない横断分析で、因果は示されていない",
+        "客観測定の研究はN=79・4夜ぶんで、信頼区間が広い"
       ],
-      "citation_role": "心配の予測と実測のズレを測った中核研究",
+      "citation_role": "就寝直前という切り方が効果を持たないことを示す分析",
       "claim_tags": [
         "mental_l02",
-        "worry_accuracy",
-        "core_number"
+        "bedtime_rule",
+        "reversal"
       ]
     }
   },
@@ -89,35 +87,35 @@
     "lane": "core",
     "type": "multiple_choice",
     "bet_card": true,
-    "question": "では、実際に起きた8.6%の方はどうだったか。\n\n起きた心配のうち、結果が「予想より悪かった」のは？",
+    "question": "もう一つの定番、ブルーライトカット眼鏡。\n\nCochraneが世界中のランダム化比較試験を集めて評価しています。睡眠の質について、その結論は？",
     "choices": [
-      "ほとんど全部",
-      "約半分",
-      "約4分の1"
+      "改善すると言える",
+      "改善しないと言える",
+      "調べた研究が少なすぎて、分からない"
     ],
     "correct_index": 2,
-    "explanation": "約4分の1(25.8%)。44%は予想どおりで、30.1%はむしろ予想より良い結果だった。\n\n当たる心配はあるし、予想より悪くなることもある。だからこれは「心配しなくていい」という話ではない。**予測の平均が、現実より暗い側にズレている**という話。",
-    "feedback_prompt": "起きた心配の中でも、予想より悪い展開は少数だった。",
+    "explanation": "分からない、が結論です。\n\nレビューが集めたRCTは17本ありますが、そのうち睡眠の質を調べたのは**6本・のべ148人だけ**。3本が改善を報告し、3本は差を認めず、結果は割れました。Cochraneの判定は「優れているか同等かは分からない（確実性は非常に低い）」。\n\nつまり「効果がないと証明された」のではありません。**誰もまともに調べていなかった**。10年ぶんの流行の根拠が、これです。\n\n「効果なし」と「証拠なし」は違う。研究の話を読むときに、いちばん取り違えられるところです。",
+    "feedback_prompt": "「効果なし」と「証拠なし」は別物。",
     "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "LaFreniere_Newman_2020",
-    "evidence_grade": "bronze",
+    "source_id": "Singh_2023_BlueLight_Cochrane",
+    "evidence_grade": "gold",
     "expanded_details": {
-      "claim_type": "observation",
+      "claim_type": "theory",
       "evidence_type": "direct",
       "best_for": [
-        "「当たったら終わりだ」という感覚が強い時"
+        "ブルーライトカット眼鏡やナイトモードに期待している時"
       ],
       "limitations": [
-        "同じ単一研究の内訳であり、上の限界がすべて当てはまる",
-        "予想より悪い結果(25.8%)が存在することを消さない"
+        "効果が否定されたのではなく、証拠が不足しているという結論",
+        "眼精疲労など睡眠以外のアウトカムは別の判定"
       ],
-      "citation_role": "実現した心配の結果の内訳",
+      "citation_role": "証拠の不在と効果の不在を区別するための事例",
       "claim_tags": [
         "mental_l02",
-        "realized_worries",
-        "outcome_split"
+        "blue_light",
+        "absence_of_evidence"
       ]
     }
   },
@@ -126,37 +124,40 @@
     "claim_id": "mental_l02_004_claim",
     "phase": 4,
     "lane": "core",
-    "type": "multiple_choice",
+    "type": "number_bet",
     "bet_card": true,
-    "question": "9割外れる予言が、なぜ何年も頭の中で生き続けられるのか。\n\n同じ研究チームがRCTで試した。心配をその場で記録して、後日「実際はどうだったか」を突き合わせた群には、何が起きた？",
-    "choices": [
-      "外れを直視して、心配はむしろ増えた",
-      "特に変わらなかった",
-      "心配の症状が減った"
-    ],
-    "correct_index": 2,
-    "explanation": "減った。記録して答え合わせをした群は、思考を記録するだけの群より心配が減り、2026年のアプリ版RCT(117人)でも同じ方向が報告されている。\n\n採点されない予言は、外れても負けにならない。**負けを見せられて、はじめて力を失う。** ただしGAD基準の人を対象にした治療研究なので、誰にでも効く保証まではない。",
-    "feedback_prompt": "予言は、採点されると弱る。",
-    "actionable_advice": "今夜の心配をひとつ、「明日の夜に○×がつく一文」に直して、採点日を決める。",
+    "question": "じゃあ全部気にしなくていいのか。\n\nさっきのニュージーランドの研究には続きがあります。同じデータを「ベッドに入ってから」に絞り直すと、数字が生き返る。\n\nノルウェーの大学生4万5202人の調査では、ベッドに入ってからのスクリーン時間が1時間増えると、睡眠は何分減っていたと思いますか？",
+    "bet_min": 0,
+    "bet_max": 60,
+    "bet_step": 1,
+    "bet_decimals": 0,
+    "bet_unit": "分ぶん睡眠が減る",
+    "bet_answer": 24,
+    "bet_tolerance": 5,
+    "bet_answer_label": "24分",
+    "explanation": "24分。不眠症状のオッズも1.59倍でした。\n\nニュージーランドの客観測定でも、ベッドの中での使用10分ごとに睡眠が3分減り（1時間換算で18分）、返信やチャットのような双方向的な使用なら9分減、**ゲームなら17分減**。入眠までの時間も、双方向的な使用10分につき10分遅れます。\n\n測定方法も国も違う2つの研究が、同じ桁に着地しました。\n\n面白いのは、SNSか動画かで差がつかなかったこと。効いているのは中身ではなく、**操作しているかどうか**でした。",
+    "feedback_prompt": "境界線は時間ではなく、ベッド。",
+    "actionable_advice": null,
     "difficulty": "medium",
     "xp": 5,
-    "source_id": "LaFreniere_Newman_2016",
-    "evidence_grade": "bronze",
+    "source_id": "Hjetland_2025_InBed_Screen",
+    "evidence_grade": "silver",
     "expanded_details": {
-      "claim_type": "intervention",
+      "claim_type": "observation",
       "evidence_type": "direct",
       "best_for": [
-        "同じ心配が何度も戻ってくる時"
+        "ベッドに入ってからスマホを触り続けてしまう時"
       ],
       "limitations": [
-        "GAD基準サンプルでの治療研究で、単発の利用で同じ効果が出る保証はない",
-        "心配には準備を促す機能もあり、「心配は無駄」の証明ではない"
+        "横断・自己報告で、眠れないから触るという逆向きの因果を排除できない",
+        "対象は18〜28歳の大学生",
+        "客観測定側の研究はN=79・4夜ぶんで信頼区間が広い"
       ],
-      "citation_role": "心配の記録と答え合わせという行為自体の効果を試したRCT",
+      "citation_role": "効果が出る場所がベッドの中であることを示す2本目の独立した証拠",
       "claim_tags": [
         "mental_l02",
-        "worry_outcome_journal",
-        "scoring_effect"
+        "in_bed_use",
+        "boundary"
       ]
     }
   },
@@ -165,77 +166,38 @@
     "claim_id": "mental_l02_005_claim",
     "phase": 5,
     "lane": "core",
-    "type": "multiple_choice",
-    "bet_card": true,
-    "question": "同じ日に、3つが同時に頭にある。\n\n採点日をつける練習を待たずに、いま動くのはどれ？",
-    "choices": [
-      "請求書の支払期限が、今日の17時",
-      "明日の会議で、厳しい意見が出るかもしれない",
-      "返信が来ないのは、避けられているからかもしれない"
-    ],
-    "correct_index": 0,
-    "explanation": "1番目。支払期限は予言ではなく、もう決まっている事実。採点を待たずに払う。\n\nこの練習は、確かめようがない曖昧な心配にだけ使う。締切、体の新しい強い異変、専門家から指示された対応は、賭けずにそのまま動く。",
-    "feedback_prompt": "確かめようがない曖昧さにだけ使う。",
-    "actionable_advice": null,
-    "difficulty": "medium",
-    "xp": 5,
-    "source_id": "Lazarus_1984",
-    "evidence_grade": "bronze",
-    "expanded_details": {
-      "claim_type": "theory",
-      "evidence_type": "theoretical",
-      "best_for": [
-        "確かめられる用事と、確かめようがない心配が同時にある時"
-      ],
-      "limitations": [
-        "具体的な危険、既知の締切、専門家からの指示には使わない",
-        "強い、持続する、生活を妨げる不安には専門的支援が必要"
-      ],
-      "citation_role": "評価と対処の理論的背景。適用範囲を先に区切るために使う",
-      "claim_tags": [
-        "mental_l02",
-        "safety_boundary",
-        "scope"
-      ]
-    }
-  },
-  {
-    "id": "mental_l02_006",
-    "claim_id": "mental_l02_006_claim",
-    "phase": 6,
-    "lane": "core",
     "type": "conversation",
     "bet_card": true,
-    "question": "最初の1枚を賭けるなら、どの心配？",
+    "question": "寝る前のスマホの問題は、「寝る前」ではありませんでした。境界線は時間ではなく、ベッドにあります。\n\n通念が嘘だったのではなく、測る場所が違っていた。時間で引いた線は測るとゼロ。場所で引いた線には、はっきり効果が出る。\n\n今夜、どうしますか？",
     "your_response_prompt": "正解はありません。近いものを選んでください",
     "choices": [
-      "仕事の連絡や評価のこと",
-      "返事を待っている人間関係のこと",
-      "予定の前に浮かぶ悪い結末",
-      "今回は使わない"
+      "ベッドに持ち込むのをやめてみる",
+      "ベッドでの返信とゲームだけやめてみる",
+      "今夜は変えない"
     ],
     "recommended_index": null,
-    "explanation": "どれでもいい。「明日の夜に○×がつく一文」に直せたら、それが賭け札になる。\n\n途中で何度も確かめたくなったら、それは採点ではなく確認になっている。そこで止める。「今回は使わない」も正当な選択。",
-    "actionable_advice": null,
+    "explanation": "**捨てていいもの**：就寝2時間前のスクリーン禁止。ブルーライトカット眼鏡への期待。夜に画面を見てしまった罪悪感。\n\n**残すもの**：ベッドに持ち込まない。とくにベッドの中で返信・チャット・ゲームをしない。\n\nただし書きを3つ。Przybylskiの研究は題名に cohort とありますが実体は単一時点の横断データで、因果は示していません。ベッド内使用の証拠も横断なので、「眠れないからスマホを手に取る」という逆向きの因果を排除できていない。そして客観測定の研究はN=79・4夜ぶんで、信頼区間が広い。対象もほとんどが子どもと若者です。\n\nそれでも、守るべきルールが1つに減りました。",
+    "actionable_advice": "今夜から、スマホをベッドに持ち込まない。とくにベッドの中で返信とゲームをしない。",
     "difficulty": "easy",
     "xp": 5,
-    "source_id": "LaFreniere_Newman_2016",
-    "evidence_grade": "bronze",
+    "source_id": "Brosnan_2024_Bedtime_Objective",
+    "evidence_grade": "silver",
     "expanded_details": {
-      "claim_type": "intervention",
-      "evidence_type": "indirect",
+      "claim_type": "observation",
+      "evidence_type": "direct",
       "best_for": [
-        "今夜、どの心配から試すか決める時"
+        "今夜の寝る前の過ごし方を1つだけ決める時"
       ],
       "limitations": [
-        "使う回数を増やすことを目標にしない",
-        "確認行動へ変わったら中止する"
+        "すべて横断研究で、因果は示されていない",
+        "N=79・4夜ぶんの客観測定に依存する部分がある",
+        "対象の多くは子どもと若者で、一般の成人への外挿は慎重に"
       ],
-      "citation_role": "記録と答え合わせの実生活での最初の一歩を選ぶ",
+      "citation_role": "客観測定によって、時間ではなく場所が境界であることを示した研究",
       "claim_tags": [
         "mental_l02",
-        "commitment",
-        "first_bet"
+        "takeaway",
+        "rule_removal"
       ]
     }
   }

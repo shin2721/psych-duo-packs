@@ -3,7 +3,7 @@
   "curriculum_version": "mental-v1.1.0",
   "course_id": "mental",
   "status": "pilot",
-  "updated_at": "2026-08-07",
+  "updated_at": "2026-08-10",
   "progression_policy": {
     "support_window_size": 7,
     "max_support_actions": 2,
@@ -23,13 +23,13 @@
       "mastery_lesson_ids": []
     },
     {
-      "unit_id": "mental_message_meaning",
-      "outcome": "心配の予言に採点日をつけ、体感と実測のズレを確かめる",
+      "unit_id": "mental_screen_and_sleep",
+      "outcome": "通念の効果量を実測と突き合わせ、守るべきルールを1つに絞る",
       "prerequisite_unit_ids": [
         "mental_discovery_sampler"
       ],
       "skill_ids": [
-        "mental_separate_text_and_meaning"
+        "mental_calibrate_rule_from_effect_size"
       ],
       "core_lesson_ids": [
         "mental_l02"
@@ -40,7 +40,7 @@
       "unit_id": "mental_performance_arousal",
       "outcome": "本番前の身体信号と結果予測を分け、安全境界の内側で最初の一手を選ぶ",
       "prerequisite_unit_ids": [
-        "mental_discovery_sampler"
+        "mental_screen_and_sleep"
       ],
       "skill_ids": [
         "mental_separate_signal_and_forecast"
@@ -58,8 +58,8 @@
       "prerequisite_skill_ids": []
     },
     {
-      "skill_id": "mental_separate_text_and_meaning",
-      "outcome": "心配を採点できる予言に直し、体感と実測のズレを確かめる",
+      "skill_id": "mental_calibrate_rule_from_effect_size",
+      "outcome": "通念の効果量を実測と突き合わせ、守るべきルールを絞り込む",
       "prerequisite_skill_ids": [
         "mental_calibrate_intuition"
       ]
@@ -68,7 +68,7 @@
       "skill_id": "mental_separate_signal_and_forecast",
       "outcome": "身体信号と結果予測を分け、安全境界内で最初の一手を選ぶ",
       "prerequisite_skill_ids": [
-        "mental_calibrate_intuition"
+        "mental_calibrate_rule_from_effect_size"
       ]
     }
   ],
@@ -84,9 +84,9 @@
     },
     {
       "lesson_id": "mental_l02",
-      "unit_id": "mental_message_meaning",
+      "unit_id": "mental_screen_and_sleep",
       "skill_ids": [
-        "mental_separate_text_and_meaning"
+        "mental_calibrate_rule_from_effect_size"
       ],
       "lane": "core",
       "role": "introduce"

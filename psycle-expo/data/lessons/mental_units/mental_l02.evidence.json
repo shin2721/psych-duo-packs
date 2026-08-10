@@ -3,33 +3,57 @@
   "citations": [
     {
       "role": "primary",
-      "source_type": "experiment",
-      "doi": "10.1016/j.beth.2019.07.003",
-      "pmid": "32402257",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/32402257/",
-      "label": "LaFreniere & Newman (2020) - Exposing Worry's Deceit: Percentage of Untrue Worries in GAD Treatment"
+      "source_type": "meta_analysis",
+      "doi": "10.3389/fpsyt.2025.1640263",
+      "pmid": "41480345",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/41480345/",
+      "label": "He et al. (2025) - Screen time and sleep outcomes meta-analysis (21 prospective cohorts, N=548,338)"
+    },
+    {
+      "role": "primary",
+      "source_type": "observational",
+      "doi": "10.1001/jamapediatrics.2024.2914",
+      "pmid": "39226046",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/39226046/",
+      "label": "Brosnan et al. (2024) - Screen use at bedtime, objective measurement (JAMA Pediatrics)"
     },
     {
       "role": "supporting",
-      "source_type": "experiment",
-      "doi": "10.1002/da.22507",
-      "pmid": "27062682",
-      "url": "https://pubmed.ncbi.nlm.nih.gov/27062682/",
-      "label": "LaFreniere & Newman (2016) - Worry Outcome Journal RCT"
+      "source_type": "observational",
+      "doi": "10.1016/j.jpeds.2018.09.054",
+      "pmid": "30396683",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/30396683/",
+      "label": "Przybylski (2019) - Digital screen time and pediatric sleep (N=50,212)"
     },
     {
       "role": "supporting",
-      "source_type": "unverified_secondary",
-      "doi": "",
+      "source_type": "observational",
+      "doi": "10.7717/peerj.8427",
+      "pmid": "32025375",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/32025375/",
+      "label": "Orben & Przybylski (2020) - Teenage sleep and technology across the week"
+    },
+    {
+      "role": "supporting",
+      "source_type": "observational",
+      "doi": "10.3389/fpsyt.2025.1548273",
       "pmid": "",
-      "url": "",
-      "label": "Borkovec, Hazlett-Stevens, & Diaz (1999) - 先行する心配アウトカム観察(方法詳細なし・数字は主役にしない)"
+      "url": "https://doi.org/10.3389/fpsyt.2025.1548273",
+      "label": "Hjetland et al. (2025) - In-bed screen use and insomnia (N=45,202)"
+    },
+    {
+      "role": "supporting",
+      "source_type": "review",
+      "doi": "10.1002/14651858.CD013244.pub2",
+      "pmid": "37593770",
+      "url": "https://pubmed.ncbi.nlm.nih.gov/37593770/",
+      "label": "Singh et al. (2023) - Cochrane review of blue-light filtering lenses"
     }
   ],
-  "source_label": "LaFreniere & Newman (2020) worry accuracy EMA + LaFreniere & Newman (2016) WOJ RCT + Borkovec et al. (1999) background",
-  "claim": "質問紙でGAD基準を満たした学部生29人が記録し30日以内に追跡できた心配のうち、91.4%は実現しなかった(実現8.6%、うち予想より悪かったのは25.8%)。同チームのRCTでは、心配を記録して結果と突き合わせる行為自体が心配を減らした。Psycleではこれを『心配の予測は悲観に偏りやすい』という方向性の証拠と、『予言に採点日をつける』練習の根拠として扱い、『あなたの心配も9割外れる』という個人への適用や『心配は無駄』という含意には使わない",
-  "limitations": "的中率はN=29の単一研究で独立追試は未発見。GADは質問紙基準で臨床診断ではない。30日以内に確認できる心配のみが分母で、実現判定は本人の記録に基づく。心配には準備を促す機能もある。確認行動が増える場合は中止し、具体的な危険・既知の締切・専門家の指示・体の新しい強い異変には使わない。強い、持続する、生活を妨げる不安には専門的支援が必要",
-  "effect_size_note": "LaFreniere & Newman (2020): 非実現率91.4%(個人平均89.6%、範囲53-100%、最頻値100%)、実現8.6%のうち予想より悪い25.8%・予想どおり44.2%・予想より良い30.1% [DOI:10.1016/j.beth.2019.07.003]。LaFreniere & Newman (2016): WOJ群は思考記録群より心配が減少(GAD基準サンプルのRCT) [DOI:10.1002/da.22507]。効果量を個人への保証に使わない",
+  "source_label": "He et al. (2025) meta-analysis + Brosnan et al. (2024) objective measurement + Przybylski 2019 / Orben & Przybylski 2020 / Hjetland 2025 / Cochrane 2023",
+  "claim": "1日のスクリーンタイム1時間あたりの睡眠短縮は3〜5分と小さく(前向きコホート21本・54万8338人)、就寝直前に絞ると効果はむしろ消える(就寝前30分で1分、客観測定では就寝前2時間で0分)。一方でベッドに入ってからの使用には効果があり(1時間で24分減・不眠オッズ1.59倍、客観測定でも10分あたり3分減、ゲームは17分減)。Psycleではこれを『通念は嘘ではなく、測る場所を間違えていた。境界線は時間ではなくベッドにある』という裁定として扱い、『寝る前のスマホは無害』とは主張しない",
+  "limitations": "すべて横断研究で因果は示されていない(眠れないから触るという逆向きの因果を排除できない)。Przybylski 2019は題名に反して単一波の横断データで、使用時刻を測っていない。客観測定のBrosnan 2024はN=79・非連続4夜で信頼区間が広い。対象の多くは子どもと若者で、一般成人への外挿は慎重に。ブルーライトカット眼鏡は『効果が否定された』のではなく『証拠が足りず分からない』が正しい。睡眠が続けて悪い、生活に支障が出ている場合は専門的支援が必要",
+  "effect_size_note": "He 2025: スクリーン1時間あたり総睡眠時間 3〜5分減(標準化β=-0.05, 95%CI[-0.08,-0.03], 21コホート, N=548,338)。Przybylski 2019: 幼児 約8分/6-17歳 約3分、sr²=0.006〜0.020。Orben & Przybylski 2020: 就寝前30分で約1分、終日で約9分(120仕様)。Brosnan 2024: 就寝前2時間 0分(95%CI -3〜20)、ベッド内10分あたり -3分、双方向 -9分、ゲーム -17分。Hjetland 2025: ベッド内1時間で -24分、不眠オッズ1.59倍(N=45,202)。Cochrane 2023: 睡眠の質はRCT6本・148人のみで結論不能(確実性: 非常に低い)",
   "evidence_grade": "bronze",
   "confidence": "medium",
   "status": "active",
@@ -41,11 +65,12 @@
     "auto_approved": false,
     "approval_mode": "owner_tasting_pending",
     "approval_reasons": [
-      "authored_from_raw_pilot_007",
-      "sources_web_verified_and_registered_2026_08_07",
+      "authored_from_raw_pilot_008",
+      "all_figures_web_verified_against_primary_sources_2026_08_10",
+      "first_reading_with_bets_format",
       "owner_playthrough_not_yet_performed"
     ],
-    "evaluated_at": "2026-08-07T00:00:00+09:00"
+    "evaluated_at": "2026-08-10T00:00:00+09:00"
   },
   "citation": {
     "doi": "",
@@ -57,7 +82,7 @@
     "reasons": [],
     "warnings": [
       "owner_tasting_pending",
-      "single_small_study_no_independent_replication"
+      "all_evidence_cross_sectional"
     ]
   },
   "content_package": {
