@@ -19,7 +19,7 @@ describe("learning core next action", () => {
     expect(action).toMatchObject({
       kind: "core",
       lesson_id: "mental_l02",
-      unit_id: "mental_message_meaning",
+      unit_id: "mental_screen_and_sleep",
       reason: "next_core_lesson",
     });
   });

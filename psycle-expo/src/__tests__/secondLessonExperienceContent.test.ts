@@ -5,31 +5,25 @@ import { getLessonRuntimeMetadata } from "../../lib/lesson-data/lessonMetadata";
 import { resolveCompletionRecapAction } from "../../lib/lessonCompletionRecap";
 import type { Question } from "../../types/question";
 
-describe("mental_l02 worry accuracy lesson", () => {
-  test("keeps one authored six-step arc", () => {
-    expect(mentalLesson).toHaveLength(6);
+describe("mental_l02 screen and sleep episode", () => {
+  test("keeps one authored five-step arc", () => {
+    expect(mentalLesson).toHaveLength(5);
     expect(mentalLesson.map((question) => question.id)).toEqual([
       "mental_l02_001",
       "mental_l02_002",
       "mental_l02_003",
       "mental_l02_004",
       "mental_l02_005",
-      "mental_l02_006",
     ]);
-    expect(mentalLesson.map((question) => question.phase)).toEqual([1, 2, 3, 4, 5, 6]);
-    expect(mentalLesson.every((question) => question.bet_card === true)).toBe(true);
-  });
-
-  test("keeps self-observation conversations neutral", () => {
-    const conversations = mentalLesson.filter(
-      (question) => question.type === "conversation"
-    ) as Array<{ recommended_index: null }>;
-
-    expect(conversations).toHaveLength(2);
-    for (const question of conversations) {
-      expect(question.recommended_index).toBeNull();
-      expect("correct_index" in question).toBe(false);
-    }
+    expect(mentalLesson.map((question) => question.phase)).toEqual([1, 2, 3, 4, 5]);
+    // スライダー・選択・選択・スライダー・振り返り。同じ操作を並べない。
+    expect(mentalLesson.map((question) => question.type)).toEqual([
+      "number_bet",
+      "multiple_choice",
+      "multiple_choice",
+      "number_bet",
+      "conversation",
+    ]);
   });
 
   test("traces every question to a registered source", () => {
@@ -38,70 +32,83 @@ describe("mental_l02 worry accuracy lesson", () => {
     for (const question of mentalLesson) {
       expect(question.claim_id).toMatch(/^mental_l02_\d{3}_claim$/);
       expect(sourceRegistry[question.source_id]).toBeDefined();
-      expect(question.evidence_grade).toBe("bronze");
       expect(question.expanded_details.citation_role).toBeTruthy();
+      expect(question.expanded_details.limitations.length).toBeGreaterThan(0);
     }
   });
 
-  test("bets on the core number before revealing it", () => {
-    const bet = mentalLesson.find((question) => question.id === "mental_l02_002");
+  test("bets on the effect size before revealing it", () => {
+    const totalBet = mentalLesson.find((question) => question.id === "mental_l02_001");
 
-    expect(bet?.type).toBe("number_bet");
-    expect(bet?.bet_answer).toBe(9);
-    expect(bet?.bet_min).toBe(0);
-    expect(bet?.bet_max).toBe(100);
-    // 数字はスライダーで賭けた後にだけ出る。設問側で答えを漏らさない。
-    expect(bet?.question).not.toContain("91");
-    expect(bet?.question).not.toContain("8.6");
-    // 種明かしの後にただし書きが続く(前置きしない)。
-    expect(bet?.explanation).toContain("8.6%");
-    expect(bet?.explanation).toContain("追試はまだない");
-    expect(bet?.explanation).toContain("悲観の側へ体系的にズレやすい");
-    expect(bet?.explanation).not.toContain("あなたの心配も9割外れる、と言える");
+    expect(totalBet?.bet_answer).toBe(4);
+    expect(totalBet?.bet_min).toBe(0);
+    expect(totalBet?.bet_max).toBe(60);
+    // 設問側に答えを漏らさない。
+    expect(totalBet?.question).not.toContain("3〜5");
+    expect(totalBet?.question).not.toContain("30分");
+    // 種明かしの後にただし書きが来る。
+    expect(totalBet?.explanation).toContain("3〜5分");
+    expect(totalBet?.explanation).toContain("54万8338人");
+    expect(totalBet?.explanation).toContain("0.6〜2%");
   });
 
-  test("keeps the honest edge on realized worries", () => {
-    const split = mentalLesson.find((question) => question.id === "mental_l02_003");
+  test("reverses the bedtime rule with the larger whole-day effect", () => {
+    const bedtime = mentalLesson.find((question) => question.id === "mental_l02_002");
 
-    expect(split?.choices[split.correct_index]).toBe("約4分の1");
-    expect(split?.explanation).toContain("25.8%");
-    expect(split?.explanation).toContain("30.1%");
-    expect(split?.explanation).toContain("「心配しなくていい」という話ではない");
+    expect(bedtime?.choices[bedtime.correct_index]).toBe("1日全体の使用");
+    expect(bedtime?.explanation).toContain("1分");
+    expect(bedtime?.explanation).toContain("0分");
+    expect(bedtime?.explanation).toContain("就寝2時間前からスクリーン禁止");
   });
 
-  test("explains why unscored predictions survive, backed by the RCT", () => {
-    const mechanism = mentalLesson.find((question) => question.id === "mental_l02_004");
+  test("separates absence of evidence from absence of effect", () => {
+    const blueLight = mentalLesson.find((question) => question.id === "mental_l02_003");
 
-    expect(mechanism?.source_id).toBe("LaFreniere_Newman_2016");
-    expect(mechanism?.choices[mechanism.correct_index]).toBe("心配の症状が減った");
-    expect(mechanism?.explanation).toContain("負けを見せられて、はじめて力を失う");
-    expect(mechanism?.explanation).toContain("誰にでも効く保証まではない");
-    expect(mechanism?.actionable_advice).toContain("○×がつく一文");
+    expect(blueLight?.source_id).toBe("Singh_2023_BlueLight_Cochrane");
+    expect(blueLight?.choices[blueLight.correct_index]).toBe(
+      "調べた研究が少なすぎて、分からない"
+    );
+    // 「効果がないと証明された」と書いたらこのカードは誤報になる。
+    expect(blueLight?.explanation).toContain("効果がないと証明された」のではありません");
+    expect(blueLight?.explanation).toContain("6本・のべ148人");
+    expect(blueLight?.explanation).toContain("「効果なし」と「証拠なし」は違う");
   });
 
-  test("puts the safety boundary before the commitment card", () => {
-    const ids = mentalLesson.map((question) => question.id);
-    expect(ids.indexOf("mental_l02_005")).toBeLessThan(ids.indexOf("mental_l02_006"));
+  test("restores the effect where it is actually measured", () => {
+    const inBed = mentalLesson.find((question) => question.id === "mental_l02_004");
 
-    const boundary = mentalLesson.find((question) => question.id === "mental_l02_005");
-    expect(boundary?.choices[boundary.correct_index]).toBe("請求書の支払期限が、今日の17時");
-    // 判定基準を選択肢に埋め込むと読み取りで解けてしまう。
-    expect(boundary?.choices.join("")).not.toContain("事実");
-    expect(boundary?.choices.join("")).not.toContain("明記");
-    expect(boundary?.explanation).toContain("体の新しい強い異変");
+    expect(inBed?.bet_answer).toBe(24);
+    expect(inBed?.explanation).toContain("1.59倍");
+    expect(inBed?.explanation).toContain("ゲームなら17分減");
+    expect(inBed?.explanation).toContain("操作しているかどうか");
   });
 
-  test("never overgeneralizes the number or promises less anxiety", () => {
+  test("exits by removing a rule, not adding a practice", () => {
+    const closer = mentalLesson.find((question) => question.id === "mental_l02_005");
+
+    expect(closer?.recommended_index).toBeNull();
+    expect(closer?.choices).toContain("今夜は変えない");
+    expect(closer?.explanation).toContain("捨てていいもの");
+    expect(closer?.explanation).toContain("残すもの");
+    expect(closer?.explanation).toContain("守るべきルールが1つに減りました");
+    // 横断研究であることをただし書きで必ず言う。
+    expect(closer?.explanation).toContain("横断");
+    expect(closer?.explanation).toContain("逆向きの因果");
+  });
+
+  test("never claims screens before bed are harmless", () => {
     const shownCopy = mentalLesson
       .map((question) =>
         [question.question, question.explanation, question.actionable_advice ?? ""].join("\n")
       )
       .join("\n");
 
-    expect(shownCopy).not.toContain("心配は無駄");
-    expect(shownCopy).not.toContain("不安が下がる");
-    expect(shownCopy).not.toContain("9割は起きないから大丈夫");
-    expect(shownCopy).not.toContain("コーネル");
+    expect(shownCopy).not.toContain("無害");
+    expect(shownCopy).not.toContain("気にしなくていい。");
+    // 「証明された」は card 3 が否定形で使う（効果がないと証明されたのではない）。
+    // 肯定形の断定だけを禁じる。
+    expect(shownCopy).not.toContain("と証明されました");
+    expect(shownCopy).not.toContain("ことが証明された。");
   });
 
   test("shows the authored final action on completion", () => {
@@ -109,7 +116,7 @@ describe("mental_l02 worry accuracy lesson", () => {
     const recapAction = resolveCompletionRecapAction(mentalLesson as Question[], "fallback");
 
     expect(recapAction).toBe(metadata?.takeaway_action);
-    expect(recapAction).toContain("採点日");
+    expect(recapAction).toContain("ベッドに持ち込まない");
   });
 
   test("keeps the rebuilt package in staging until owner taste approval", () => {

@@ -147,7 +147,7 @@ describe("learner skill state", () => {
     });
     // l02 は未完了なので、そのスキルは unseen のまま登録される。
     expect(
-      states.find((state) => state.skill_id === "mental_separate_text_and_meaning")
+      states.find((state) => state.skill_id === "mental_calibrate_rule_from_effect_size")
     ).toMatchObject({
       curriculum_version: "mental-v1.1.0",
       stage: "unseen",

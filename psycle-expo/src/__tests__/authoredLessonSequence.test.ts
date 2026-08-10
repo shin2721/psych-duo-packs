@@ -33,17 +33,16 @@ describe("authored lesson sequence", () => {
     const bundle = loadMentalLesson02(0.4, 0.1);
 
     expect(bundle.pacing.mode).toBe("authored");
-    expect(bundle.pacing.questionCount).toBe(6);
+    expect(bundle.pacing.questionCount).toBe(5);
     expect(bundle.effectiveQuestions.map((question) => question.id)).toEqual([
       "mental_l02_001",
       "mental_l02_002",
       "mental_l02_003",
       "mental_l02_004",
       "mental_l02_005",
-      "mental_l02_006",
     ]);
     expect(bundle.effectiveQuestions[1]?.feedback_prompt).toBe(
-      "体感と実測のズレを、数字で見る。"
+      "「寝る前」で切ると、効果は消える。"
     );
   });
 
