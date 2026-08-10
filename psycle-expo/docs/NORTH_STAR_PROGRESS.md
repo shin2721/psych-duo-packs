@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-10 - Shipped the first reading-with-bets episode into the app as lesson two
+
+- Changed: Registered six web-verified screen-sleep sources; rebuilt mental_l02 from raw pilot 008 as 5 beats (slider bet on total screen effect, bedtime reversal, blue-light absence-of-evidence, in-bed slider bet, tonight's one change); raised the reveal length limit for bet cards so the prose survives conversion; renamed the unit and skill to mental_screen_and_sleep
+- Verified: Cochrane citation corrected after finding the pilot overstated it (17 RCTs total but only 6 / 148 participants on sleep, verdict is uncertainty not no-effect); tsc clean; 744 tests green; validate 0 errors; Simulator playthrough of cards 1-3 with the long reveals rendering as readable prose
+- Remaining: Owner tasting of the rebuilt l02; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim allows a performance gain it never measured; Flynn and Lake PMID typo
+
 ### 2026-08-08 - Rebuilt lesson two around verified worry-accuracy numbers after the beat-only rebuild died in tasting
 
 - Changed: Registered LaFreniere & Newman 2020/2016 and Borkovec 1999 (with Cornell-85% misattribution note) in the ledger; l02 now bets on the 8.6%/91.4% realized-worry rate with caveats after reveals; extracted rule: every card needs a verified surprising fact, bet mechanics alone cannot carry a lesson
