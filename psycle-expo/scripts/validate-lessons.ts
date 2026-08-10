@@ -69,7 +69,11 @@ const ALLOWED_SEVERITY_TIERS = ['A', 'B', 'C'];
 const ALLOWED_QUESTION_TYPES = new Set<string>(RUNTIME_REACHABLE_QUESTION_TYPES);
 
 const MAX_QUESTION_LENGTH = 200;
+// 予想カードの種明かしは読み物として書く。数字・研究デザイン・ただし書きを
+// 全部畳むと 300 文字では足りず、削ると「正確だが何も残らない要約」になる。
+// 賭けを伴わない普通の設問の解説は従来どおり 300 文字で抑える。
 const MAX_EXPLANATION_LENGTH = 300;
+const MAX_BET_CARD_EXPLANATION_LENGTH = 600;
 
 interface ValidationError {
   file: string;
@@ -747,9 +751,13 @@ export class LessonValidator {
         question.id);
     }
 
-    if (question.explanation && question.explanation.length > MAX_EXPLANATION_LENGTH) {
-      this.addError(filePath, severity, 
-        `解説が長すぎます: ${question.explanation.length}文字 (上限${MAX_EXPLANATION_LENGTH})`, 
+    const explanationLimit =
+      question.bet_card === true || question.type === 'number_bet'
+        ? MAX_BET_CARD_EXPLANATION_LENGTH
+        : MAX_EXPLANATION_LENGTH;
+    if (question.explanation && question.explanation.length > explanationLimit) {
+      this.addError(filePath, severity,
+        `解説が長すぎます: ${question.explanation.length}文字 (上限${explanationLimit})`,
         question.id);
     }
   }
