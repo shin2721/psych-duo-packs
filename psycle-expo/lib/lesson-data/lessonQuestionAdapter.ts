@@ -260,6 +260,10 @@ function adaptQuestion(raw: Record<string, unknown>): Question {
     adapted.bet_card = true;
   }
 
+  if (typeof raw.caveat === "string" && raw.caveat.trim().length > 0) {
+    adapted.caveat = raw.caveat;
+  }
+
   if (raw.type === "number_bet") {
     const num = (value: unknown) => (Number.isFinite(value) ? Number(value) : undefined);
     adapted.bet_min = num(raw.bet_min);

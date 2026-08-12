@@ -134,13 +134,21 @@ export function QuestionResultView({
       ) : null}
 
       {showExplanationInline ? (
-        <InsightText
-          text={runtime.explanationText}
-          style={[
-            styles.explanation,
-            runtime.isSurveyMode && styles.surveyExplanation,
-          ]}
-        />
+        <>
+          <InsightText
+            text={runtime.explanationText}
+            style={[
+              styles.explanation,
+              runtime.isSurveyMode && styles.surveyExplanation,
+            ]}
+          />
+          {question.caveat ? (
+            <View style={styles.caveatBox} testID="question-caveat">
+              <Text style={styles.caveatLabel}>ただし</Text>
+              <Text style={styles.caveatText}>{question.caveat}</Text>
+            </View>
+          ) : null}
+        </>
       ) : (
         <View style={styles.incorrectFeedbackContainer}>
           {incorrectFeedbackHint ? (
@@ -219,6 +227,24 @@ export function QuestionResultView({
 const BET_TRUTH = "#E5A93C";
 
 const styles = StyleSheet.create({
+  caveatBox: {
+    borderLeftColor: "rgba(148,163,184,0.45)",
+    borderLeftWidth: 2,
+    marginTop: 16,
+    paddingLeft: 12,
+  },
+  caveatLabel: {
+    color: "#94a3b8",
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 0.6,
+    marginBottom: 4,
+  },
+  caveatText: {
+    color: "#cbd5e1",
+    fontSize: 13,
+    lineHeight: 21,
+  },
   betMissBox: {
     borderColor: "rgba(229, 169, 60, 0.5)",
   },
