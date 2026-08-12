@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-12 - Cut lesson two to one beat per screen and gave reveals a fixed skeleton
+
+- Changed: Added a caveat field rendered as a subordinate block under a rule, so limits stay visible without competing with the finding; recompressed all five l02 cards to hook+question setups and answer+two-block reveals; pinned the skeleton with length bounds in tests
+- Verified: tsc clean; 745 tests green; validate 0 errors; Simulator playthrough shows setups fitting without scroll and the caveat rendering as a muted subordinate block on both slider and choice cards
+- Remaining: Owner tasting of the tightened l02; whether the same skeleton should be applied to l01 and l03; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-10 - Shipped the first reading-with-bets episode into the app as lesson two
 
 - Changed: Registered six web-verified screen-sleep sources; rebuilt mental_l02 from raw pilot 008 as 5 beats (slider bet on total screen effect, bedtime reversal, blue-light absence-of-evidence, in-bed slider bet, tonight's one change); raised the reveal length limit for bet cards so the prose survives conversion; renamed the unit and skill to mental_screen_and_sleep
