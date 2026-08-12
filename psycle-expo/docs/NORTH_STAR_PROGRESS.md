@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-12 - Added a reading hierarchy to question and reveal typography
+
+- Changed: Prompt splits setup from the ask (muted small vs bold), reveals render paragraph blocks with a stepped-up lead conclusion; caveat block unchanged
+- Verified: tsc clean; 745 tests green; Simulator check of card 1 shows the hierarchy on both the question screen and the reveal
+- Remaining: Owner verdict on readability and pacing; whether to restyle l01/l03 copy to the same setup-plus-ask shape; question format changes deliberately deferred until typography is judged
+
 ### 2026-08-12 - Cut lesson two to one beat per screen and gave reveals a fixed skeleton
 
 - Changed: Added a caveat field rendered as a subordinate block under a rule, so limits stay visible without competing with the finding; recompressed all five l02 cards to hook+question setups and answer+two-block reveals; pinned the skeleton with length bounds in tests
