@@ -69,9 +69,9 @@ describe("mental_l02 screen and sleep episode", () => {
       "調べた研究が少なすぎて、分からない"
     );
     // 「効果がないと証明された」と書いたらこのカードは誤報になる。
-    expect(blueLight?.explanation).toContain("効果がないと証明された」のではありません");
+    expect(blueLight?.explanation).toContain("効果が否定されたのではなく");
     expect(blueLight?.explanation).toContain("6本・のべ148人");
-    expect(blueLight?.explanation).toContain("「効果なし」と「証拠なし」は違う");
+    expect(blueLight?.explanation).toContain("「効果なし」と「証拠なし」は違います");
   });
 
   test("restores the effect where it is actually measured", () => {
@@ -91,15 +91,21 @@ describe("mental_l02 screen and sleep episode", () => {
     expect(closer?.explanation).toContain("捨てていいもの");
     expect(closer?.explanation).toContain("残すもの");
     expect(closer?.explanation).toContain("守るべきルールが1つに減りました");
-    // 横断研究であることをただし書きで必ず言う。
-    expect(closer?.explanation).toContain("横断");
-    expect(closer?.explanation).toContain("逆向きの因果");
+    // 横断研究であることと受診の線は、ただし書き側で必ず言う。
+    expect(closer?.caveat).toContain("横断");
+    expect(closer?.caveat).toContain("逆向きの因果");
+    expect(closer?.caveat).toContain("受診");
   });
 
   test("never claims screens before bed are harmless", () => {
     const shownCopy = mentalLesson
       .map((question) =>
-        [question.question, question.explanation, question.actionable_advice ?? ""].join("\n")
+        [
+          question.question,
+          question.explanation,
+          question.caveat ?? "",
+          question.actionable_advice ?? "",
+        ].join("\n")
       )
       .join("\n");
 
@@ -109,6 +115,18 @@ describe("mental_l02 screen and sleep episode", () => {
     // 肯定形の断定だけを禁じる。
     expect(shownCopy).not.toContain("と証明されました");
     expect(shownCopy).not.toContain("ことが証明された。");
+  });
+
+  test("keeps one screen skeleton: short setup, short reveal, caveat in its own block", () => {
+    for (const question of mentalLesson) {
+      // 設問はフックと問いの2行まで。前置きを積むとテンポが死ぬ。
+      expect(question.question.length).toBeLessThanOrEqual(110);
+      // 種明かしは読める長さで止める。壁にすると前の版の失敗に戻る。
+      expect(question.explanation.length).toBeLessThanOrEqual(230);
+      // ただし書きは消さず、本文から分けて格を下げる。
+      expect(question.caveat).toBeTruthy();
+      expect(question.explanation).not.toContain("ただし書き");
+    }
   });
 
   test("shows the authored final action on completion", () => {
