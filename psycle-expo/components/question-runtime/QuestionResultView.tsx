@@ -135,13 +135,20 @@ export function QuestionResultView({
 
       {showExplanationInline ? (
         <>
-          <InsightText
-            text={runtime.explanationText}
-            style={[
-              styles.explanation,
-              runtime.isSurveyMode && styles.surveyExplanation,
-            ]}
-          />
+          {runtime.explanationText
+            .split("\n\n")
+            .filter((paragraph) => paragraph.trim().length > 0)
+            .map((paragraph, index) => (
+              <InsightText
+                key={index}
+                text={paragraph}
+                style={[
+                  styles.explanation,
+                  index === 0 && styles.explanationLead,
+                  runtime.isSurveyMode && styles.surveyExplanation,
+                ]}
+              />
+            ))}
           {question.caveat ? (
             <View style={styles.caveatBox} testID="question-caveat">
               <Text style={styles.caveatLabel}>ただし</Text>
@@ -354,10 +361,17 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   explanation: {
-    color: "#fff",
+    color: "#e6ebf2",
     fontSize: 15,
-    lineHeight: 24,
-    marginTop: 16,
+    lineHeight: 25,
+    marginTop: 14,
+  },
+  // 最初の段落は結論。少しだけ格を上げて、走り読みでも一行目が残るようにする。
+  explanationLead: {
+    color: "#fff",
+    fontSize: 17,
+    fontWeight: "700",
+    lineHeight: 27,
   },
   incorrectBox: {
     borderColor: "rgba(239, 68, 68, 0.45)",
