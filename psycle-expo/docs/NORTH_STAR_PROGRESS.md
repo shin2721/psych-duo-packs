@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-13 - Framed questions, made the measured value the hero, and made every bet stand alone
+
+- Changed: All prompts share one bordered card with a minimum height so controls stop drifting; bet reveals show the value in a large gold 実際は box on hits and misses alike and the prose stops restating it; card four rewritten to carry its own premise and low anchor; card two states the belief standalone; Cochrane annotated as 医療エビデンス評価の総本山
+- Verified: tsc clean; 746 tests green; validate 0 errors; Simulator check of cards 1-3 including the reveal
+- Remaining: Owner verdict; whether l01 and l03 copy should be reshaped to setup-plus-ask; standalone rule should become a generator constraint before more lessons are written
+
 ### 2026-08-12 - Added a reading hierarchy to question and reveal typography
 
 - Changed: Prompt splits setup from the ask (muted small vs bold), reveals render paragraph blocks with a stepped-up lead conclusion; caveat block unchanged
