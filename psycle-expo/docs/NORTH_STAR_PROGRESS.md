@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-13 - Applied Codex's science corrections to lesson two and shipped episode two on anger
+
+- Changed: Ledger: He 2025 claims now name the continuous-outcome subset and its very low certainty; Bourke 2026 registered (it supports rather than refutes the in-bed boundary); anger meta-analysis registered. Lesson two: four attribution fixes. New mental_l07 runs the same arc with no numeric slider, admitted to the course as position four
+- Verified: Two-agent web verification of both Codex science claims; tsc clean; 756 tests green; validate 0 errors; Simulator playthrough of l07 card 1 showing the skeleton holds without a slider
+- Remaining: Owner tasting of episode two - does the arc survive without the slider; l01 and l03 still on the old skeleton; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-13 - Framed questions, made the measured value the hero, and made every bet stand alone
 
 - Changed: All prompts share one bordered card with a minimum height so controls stop drifting; bet reveals show the value in a large gold 実際は box on hits and misses alike and the prose stops restating it; card four rewritten to carry its own premise and low anchor; card two states the belief standalone; Cochrane annotated as 医療エビデンス評価の総本山
