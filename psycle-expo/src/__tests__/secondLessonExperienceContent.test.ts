@@ -46,8 +46,9 @@ describe("mental_l02 screen and sleep episode", () => {
     // 設問側に答えを漏らさない。
     expect(totalBet?.question).not.toContain("3〜5");
     expect(totalBet?.question).not.toContain("30分");
-    // 種明かしの後にただし書きが来る。
-    expect(totalBet?.explanation).toContain("3〜5分");
+    // 数字は実数ボックスが言う。本文で繰り返すと1画面に答えが二度出る。
+    expect(totalBet?.bet_answer_label).toBe("3〜5分");
+    expect(totalBet?.explanation).not.toContain("3〜5分。");
     expect(totalBet?.explanation).toContain("54万8338人");
     expect(totalBet?.explanation).toContain("0.6〜2%");
   });
@@ -56,6 +57,8 @@ describe("mental_l02 screen and sleep episode", () => {
     const bedtime = mentalLesson.find((question) => question.id === "mental_l02_002");
 
     expect(bedtime?.choices[bedtime.correct_index]).toBe("1日全体の使用");
+    // 前のカードへの反論ではなく、単体で読める通念として書く。
+    expect(bedtime?.question).toContain("多くの人がそう考えています");
     expect(bedtime?.explanation).toContain("1分");
     expect(bedtime?.explanation).toContain("0分");
     expect(bedtime?.explanation).toContain("就寝2時間前からスクリーン禁止");
@@ -70,6 +73,8 @@ describe("mental_l02 screen and sleep episode", () => {
     );
     // 「効果がないと証明された」と書いたらこのカードは誤報になる。
     expect(blueLight?.explanation).toContain("効果が否定されたのではなく");
+    // 知らない固有名詞のままにせず、一言で権威の重さを渡す。
+    expect(blueLight?.question).toContain("医療エビデンス評価の総本山");
     expect(blueLight?.explanation).toContain("6本・のべ148人");
     expect(blueLight?.explanation).toContain("「効果なし」と「証拠なし」は違います");
   });
@@ -78,6 +83,10 @@ describe("mental_l02 screen and sleep episode", () => {
     const inBed = mentalLesson.find((question) => question.id === "mental_l02_004");
 
     expect(inBed?.bet_answer).toBe(24);
+    // 復習で単体に切り出されても成立するよう、必要な前提は問いの中に再掲する。
+    expect(inBed?.question).toContain("3〜5分しか削りません");
+    expect(inBed?.question).not.toContain("さっき");
+    expect(inBed?.question).not.toContain("じゃあ");
     expect(inBed?.explanation).toContain("1.59倍");
     expect(inBed?.explanation).toContain("ゲームなら17分減");
     expect(inBed?.explanation).toContain("操作しているかどうか");
@@ -126,6 +135,17 @@ describe("mental_l02 screen and sleep episode", () => {
       // ただし書きは消さず、本文から分けて格を下げる。
       expect(question.caveat).toBeTruthy();
       expect(question.explanation).not.toContain("ただし書き");
+    }
+  });
+
+  test("keeps every graded question standalone", () => {
+    // 復習キューはカードを単体で出す。前のカードを指す問いはそこで壊れる。
+    const graded = mentalLesson.filter((question) => "correct_index" in question);
+
+    for (const question of graded) {
+      for (const backReference of ["さっき", "じゃあ全部", "先ほど", "前の問題"]) {
+        expect(question.question).not.toContain(backReference);
+      }
     }
   });
 
