@@ -781,12 +781,14 @@
         "meta_analysis"
       ],
       "evidence_strength": "gold",
-      "one_line_why": "前向きコホート21本・54万8338人で、スクリーン1時間あたりの睡眠短縮を3〜5分と推定",
+      "one_line_why": "連続アウトカム11研究4.9万人でスクリーン1時間あたり3〜5分減(確実性は非常に低い)",
       "allowed_claims": [
-        "前向きコホート21本・のべ54万8338人のメタ分析で、1日のスクリーンタイム1時間あたりの総睡眠時間の短縮は3〜5分だった",
-        "この推定は、単一の横断研究による3〜8分という先行推定とほぼ同じ桁に着地した"
+        "睡眠時間を分単位で報告した11研究・のべ4万8560人の統合で、1日のスクリーンタイム1時間あたりの睡眠短縮は3〜5分だった",
+        "この連続アウトカムの推定について、レビュー自身はGRADE確実性を『非常に低い』と評価している",
+        "別枠の9研究・のべ49万8689人では、スクリーン時間が長いほど短時間睡眠のリスクが約1.25倍で、こちらの確実性は『中程度』と評価されている",
+        "レビュー全体は前向きコホート21本・のべ54万8338人だが、分単位の推定はその一部に基づく"
       ],
-      "notes": "曝露・アウトカムの大半が主観測定。二値アウトカムの異質性が極めて高い(I²=97.2%)ため、オッズ比の点推定は強調しない。"
+      "notes": "『54万8338人で3〜5分』は分母の誤帰属。分単位の推定は連続アウトカム11研究・4万8560人。効果の小ささを強調するときは確実性が非常に低いことも併記する。より確実な言い方が要る場合は二値側(OR 1.25, 確実性中程度)を使う。"
     },
     "Orben_Przybylski_2020_Bedtime": {
       "author": "Orben, A., & Przybylski, A. K.",
@@ -886,6 +888,63 @@
         "レビューの結論は『睡眠の質について、ブルーライトカット眼鏡が優れているか同等かは分からない(確実性は非常に低い)』である"
       ],
       "notes": "『効果がないと証明された』とは書かない。証拠が不足しているという結論である。眼精疲労については短期的な改善が認められなかった点は別の結論。"
+    },
+    "Bourke_2026_WithinPerson": {
+      "author": "Bourke, M., Maddren, C. I., Sippel, F., & Thomas, G.",
+      "year": 2026,
+      "title": "Within-Person Association Between Daily Screen Use and Sleep in Youth: A Systematic Review and Meta-Analysis",
+      "full_citation": "Bourke, M., Maddren, C. I., Sippel, F., & Thomas, G. (2026). Within-Person Association Between Daily Screen Use and Sleep in Youth: A Systematic Review and Meta-Analysis. JAMA Pediatrics, 180(5), 500-509. https://doi.org/10.1001/jamapediatrics.2025.6490",
+      "type": "meta_analysis",
+      "domain": [
+        "mental",
+        "health"
+      ],
+      "construct_tags": [
+        "screen_time",
+        "sleep",
+        "within_person",
+        "bedtime"
+      ],
+      "evidence_strength": "gold",
+      "one_line_why": "個人内25研究4562人。スクリーンが多い日でも睡眠時間は変わらず、就床後の使用だけ質と負に相関",
+      "allowed_claims": [
+        "個人内の日次データ25研究・4562人のメタ分析では、スクリーン使用が多い日は入眠がわずかに遅かった(r=0.079)",
+        "同じ分析で、総睡眠時間・入眠潜時・睡眠効率・中途覚醒には有意な個人内関連が見られなかった",
+        "睡眠の質との関連は使用のタイミングで異なり、就床後の使用だけが負の相関を示した(r=-0.092)",
+        "個人間(横断)研究で見られる強い負の関連は、同じ人の日々の変動では再現されなかった"
+      ],
+      "notes": "3〜25歳が対象。『ベッドの中の使用は睡眠に悪い』の反証として使わない。就床後の使用だけ質に負という結果は、むしろ境界がベッドにあるという構図を個人内水準で支持する。オンライン公開2026年3月。"
+    },
+    "Kjaervik_Bushman_2024_Anger": {
+      "author": "Kjærvik, S. L., & Bushman, B. J.",
+      "year": 2024,
+      "title": "A meta-analytic review of anger management activities that increase or decrease arousal: What fuels or douses rage?",
+      "full_citation": "Kjærvik, S. L., & Bushman, B. J. (2024). A meta-analytic review of anger management activities that increase or decrease arousal: What fuels or douses rage? Clinical Psychology Review, 109, 102414. https://doi.org/10.1016/j.cpr.2024.102414 (PMID: 38518585)",
+      "type": "meta_analysis",
+      "domain": [
+        "mental"
+      ],
+      "construct_tags": [
+        "anger",
+        "catharsis",
+        "arousal",
+        "relaxation"
+      ],
+      "evidence_strength": "gold",
+      "one_line_why": "154研究1万189人。発散の平均効果はゼロで、覚醒を下げる実践だけが怒りを下げた",
+      "allowed_claims": [
+        "154の研究報告・184サンプル・のべ1万189人を統合したメタ分析で、体の覚醒を上げる活動の怒りへの平均効果はゼロと区別がつかなかった(g=-0.02, 95%CI[-0.13,0.09])",
+        "サンドバッグなどを殴る・蹴る行為は有意な効果を示さず(g=-0.13, 95%CI[-0.30,0.03])、点推定はわずかに怒りが減る側だった",
+        "有意に怒りを増やしたのはジョギング(g=0.71)と階段昇りだけだった",
+        "覚醒を上げる活動でも、球技(g=-0.36)・体育の授業(g=-0.30)・有酸素運動(g=-0.29)は有意に怒りを減らした",
+        "体の覚醒を下げる活動は全体で中から大の効果で怒りを下げた(g=-0.63, 95%CI[-0.82,-0.43])",
+        "内訳は瞑想 g=-1.55、マインドフルネス g=-0.53、リラクセーション g=-0.45、ヨガ g=-0.41 だった",
+        "身体的な鎮静のみの効果は g=-0.34 で、認知的な要素を組み合わせた形式は g=-0.73 と約2倍だった",
+        "介入期間・セッション数・1回の長さは、いずれも効果量と関連しなかった",
+        "実際に挑発された参加者に限ると鎮静の効果は有意でなくなった(g=-0.22, 95%CI[-0.45,0.0004], 18効果量)",
+        "効果量の大多数は挑発されていない条件から得られている"
+      ],
+      "notes": "事前登録済み・PRISMA準拠。『発散は逆効果』とは書かない。出版版の覚醒上昇群は非有意(g=-0.02)であり、有意な悪化が出たのはジョギングと階段昇りのみ。『逆効果』は出版前の学位論文段階の結論。異質性が大きく(I²≈91%)、効果は自己報告に依存し(他者報告では非有意)、効果の持続時間は測定されていない。急性の怒り場面への外挿は不可。運動を怒り対策として否定するだけで、健康上の利益を否定しない。"
     }
   }
 }
