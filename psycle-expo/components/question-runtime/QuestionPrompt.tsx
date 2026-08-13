@@ -38,7 +38,7 @@ export function QuestionPrompt({
           </Text>
         </View>
       ) : (
-        <View style={styles.promptBlock} testID="question-text">
+        <View style={styles.promptCard} testID="question-text">
           {setup ? <Text style={styles.setupText}>{setup}</Text> : null}
           <Text style={styles.askText}>{ask}</Text>
         </View>
@@ -67,8 +67,18 @@ const styles = StyleSheet.create({
     fontWeight: "700",
     lineHeight: 30,
   },
-  promptBlock: {
-    marginBottom: 28,
+  // 問いは必ず同じ囲いに入れる。星空の上に文字が浮くと背景と分離せず、
+  // カードごとに枠の有無が変わると画面の文法が崩れる。
+  // minHeight は操作部の開始位置をそろえるため（親指の待ち位置を固定する）。
+  promptCard: {
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderColor: "rgba(255,255,255,0.10)",
+    borderRadius: 20,
+    borderWidth: 1,
+    justifyContent: "center",
+    marginBottom: 24,
+    minHeight: 168,
+    padding: 20,
   },
   setupText: {
     color: "#a8b3c5",

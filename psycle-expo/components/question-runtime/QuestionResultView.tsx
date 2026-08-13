@@ -111,12 +111,18 @@ export function QuestionResultView({
         </View>
       )}
 
-      {!runtime.isCorrect && runtime.correctAnswerText ? (
-        <View style={styles.correctAnswerBox}>
+      {/* 賭けカードは当たっても実数を主役に置く。解説の1行目で数字を繰り返すと
+          同じ答えが1画面に二度出るので、数字はここだけが言う。 */}
+      {(isBetCard || !runtime.isCorrect) && runtime.correctAnswerText ? (
+        <View style={[styles.correctAnswerBox, isBetCard && styles.betAnswerBox]}>
           <Text style={styles.correctAnswerLabel}>
-            {runtime.correctAnswerLabel}
+            {isBetCard ? "実際は" : runtime.correctAnswerLabel}
           </Text>
-          <Text style={styles.correctAnswerText}>{runtime.correctAnswerText}</Text>
+          <Text
+            style={[styles.correctAnswerText, isBetCard && styles.betAnswerText]}
+          >
+            {runtime.correctAnswerText}
+          </Text>
         </View>
       ) : null}
 
@@ -252,6 +258,17 @@ const styles = StyleSheet.create({
     fontSize: 13,
     lineHeight: 21,
   },
+  betAnswerBox: {
+    alignItems: "center",
+    paddingVertical: 20,
+  },
+  betAnswerText: {
+    color: BET_TRUTH,
+    fontSize: 34,
+    fontWeight: "800",
+    fontVariant: ["tabular-nums"],
+    lineHeight: 42,
+  },
   betMissBox: {
     borderColor: "rgba(229, 169, 60, 0.5)",
   },
@@ -366,12 +383,11 @@ const styles = StyleSheet.create({
     lineHeight: 25,
     marginTop: 14,
   },
-  // 最初の段落は結論。少しだけ格を上げて、走り読みでも一行目が残るようにする。
+  // 数字は上の実数ボックスが言うので、本文1段落目は根拠から始まる。
+  // 走り読み対策の格上げは最小限にとどめる。
   explanationLead: {
     color: "#fff",
-    fontSize: 17,
-    fontWeight: "700",
-    lineHeight: 27,
+    marginTop: 18,
   },
   incorrectBox: {
     borderColor: "rgba(239, 68, 68, 0.45)",
