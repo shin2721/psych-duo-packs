@@ -843,3 +843,97 @@ Reject if:
   measured time of day)
 - the caveats move ahead of the reveal
 - the exit adds a practice instead of removing a rule
+
+## Pilot 009: 殴っても、走っても、怒りは減らない
+
+嫌なことがあった日。「発散すればスッキリする」と言われて育ちました。
+サンドバッグを殴る、大声を出す、とりあえず走る。
+
+去年、この「発散」を154の研究・のべ1万189人ぶん集めて計算した人たちがいます。
+オハイオ州立大のチーム。事前登録あり。怒りを下げる目的の活動を、
+体の覚醒を「上げる」ものと「下げる」ものに分けて比べました。
+
+**上げる側の平均効果は、ゼロでした。**
+
+正確には g=−0.02、信頼区間は−0.13から0.09。統計的にゼロと区別がつきません。
+殴る、叫ぶ、走る。怒りを減らす目的で選ぶ理由が、平均としては見つからない。
+
+---
+
+もう少し細かく見ると、意外なことが起きています。
+
+サンドバッグを殴る行為は、**「逆効果」ですらありませんでした**。
+g=−0.13、非有意。点推定はむしろわずかに怒りが減る側。
+つまり「殴ると怒りが増える」という最近よく見る要約は、原典を超えています。
+
+有意に怒りを増やしたのは、実は2つだけ。**ジョギング（g=0.71）と階段昇り**。
+著者は、単調な反復動作が退屈とフラストレーションを生むのではないかと
+推測しています（検証はされていません）。
+
+そして著者の理論が、自分のデータで部分的に破れています。
+覚醒を上げるはずの**球技（−0.36）、体育の授業（−0.30）、有酸素運動（−0.29）は、
+有意に怒りを減らしていました**。
+「覚醒の上下」という一本の軸では説明しきれない。著者は遊びや
+肯定的な感情という別の機序を、後から持ち出しています。
+
+---
+
+一方、下げる側ははっきりしています。全体で **g=−0.63**。中から大の効果。
+
+内訳は、瞑想 −1.55、マインドフルネス −0.53、リラクセーション −0.45、ヨガ −0.41。
+面白いのは、身体を鎮めるだけの実践が −0.34 なのに対し、
+認知的な要素を組み合わせたものは **−0.73** と約2倍だったこと。
+体を落ち着かせるだけでは足りず、考え方に触れる部分が効いている。
+
+---
+
+ここまで読んで「じゃあカッとなったら深呼吸だな」と思ったなら、
+いちばん大事なところで裏切られます。
+
+このメタ分析の効果量の94%は、**怒っていない人**のデータです。
+
+実際に挑発されて怒りが立ち上がっている参加者に限ると、
+鎮静の効果は g=−0.22、信頼区間の上限が 0.0004。
+有意になりません。研究数もわずか18。
+
+つまりこの1万人分のデータが支持しているのは、
+「怒った瞬間の対処法」ではなく **平時に続ける習慣** のほうです。
+平均8.2週間、13.5セッション。効果がどれくらい持続するかは、
+一度も測られていません。
+
+---
+
+**発散は、怒りを減らす道具としては空振りだった。**
+**鎮める側は効くが、効くと確かめられているのは「怒る前」の話だった。**
+
+だから今日、捨てていいものが1つあります。
+「イライラを発散しなきゃ」という義務感。
+走りたいから走るのは自由です。ただ、それは健康のためであって、
+怒りを減らす手段としての根拠はありません。
+
+そして残るのは、平時の実践だけ。
+やるなら、体を鎮めるだけでなく、考え方に触れる形のほうが約2倍効きます。
+
+### Conversion notes for Pilot 009
+
+This is the reproducibility test for the L2 arc: **no numeric slider**.
+If the same six beats hold with judgments only, the shape generalises. If it
+strains, L2's shape is specific to effect-size Discovery.
+
+Beats: (1) a belief the reader already holds, (2) a commit before the core
+result, (3) their guess placed against the measurement, (4) one main finding
+and one limit, (5) apply the rule to a fresh case, (6) an exit that removes an
+obligation rather than adding a practice.
+
+Reject conversion if:
+- it says venting makes anger worse (published g=-0.02 is null, not harmful;
+  only jogging and stair-climbing rose significantly, and the "venting is
+  harmful" line comes from the earlier dissertation, not the published paper)
+- it says punching a bag backfires (g=-0.13, non-significant, point estimate
+  negative)
+- it recommends breathing as an in-the-moment fix (provoked subgroup is null,
+  k=18)
+- it hides that ball games and PE lessons *reduced* anger despite raising
+  arousal, which breaks the authors' own single-axis theory
+- the exit adds a meditation practice as a duty instead of removing the
+  obligation to vent
