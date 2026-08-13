@@ -48,12 +48,20 @@
       "pmid": "37593770",
       "url": "https://pubmed.ncbi.nlm.nih.gov/37593770/",
       "label": "Singh et al. (2023) - Cochrane review of blue-light filtering lenses"
+    },
+    {
+      "role": "supporting",
+      "source_type": "meta_analysis",
+      "doi": "10.1001/jamapediatrics.2025.6490",
+      "pmid": "",
+      "url": "https://doi.org/10.1001/jamapediatrics.2025.6490",
+      "label": "Bourke et al. (2026) - Within-person daily screen use and sleep meta-analysis (25 studies, N=4,562)"
     }
   ],
-  "source_label": "He et al. (2025) meta-analysis + Brosnan et al. (2024) objective measurement + Przybylski 2019 / Orben & Przybylski 2020 / Hjetland 2025 / Cochrane 2023",
-  "claim": "1日のスクリーンタイム1時間あたりの睡眠短縮は3〜5分と小さく(前向きコホート21本・54万8338人)、就寝直前に絞ると効果はむしろ消える(就寝前30分で1分、客観測定では就寝前2時間で0分)。一方でベッドに入ってからの使用には効果があり(1時間で24分減・不眠オッズ1.59倍、客観測定でも10分あたり3分減、ゲームは17分減)。Psycleではこれを『通念は嘘ではなく、測る場所を間違えていた。境界線は時間ではなくベッドにある』という裁定として扱い、『寝る前のスマホは無害』とは主張しない",
-  "limitations": "すべて横断研究で因果は示されていない(眠れないから触るという逆向きの因果を排除できない)。Przybylski 2019は題名に反して単一波の横断データで、使用時刻を測っていない。客観測定のBrosnan 2024はN=79・非連続4夜で信頼区間が広い。対象の多くは子どもと若者で、一般成人への外挿は慎重に。ブルーライトカット眼鏡は『効果が否定された』のではなく『証拠が足りず分からない』が正しい。睡眠が続けて悪い、生活に支障が出ている場合は専門的支援が必要",
-  "effect_size_note": "He 2025: スクリーン1時間あたり総睡眠時間 3〜5分減(標準化β=-0.05, 95%CI[-0.08,-0.03], 21コホート, N=548,338)。Przybylski 2019: 幼児 約8分/6-17歳 約3分、sr²=0.006〜0.020。Orben & Przybylski 2020: 就寝前30分で約1分、終日で約9分(120仕様)。Brosnan 2024: 就寝前2時間 0分(95%CI -3〜20)、ベッド内10分あたり -3分、双方向 -9分、ゲーム -17分。Hjetland 2025: ベッド内1時間で -24分、不眠オッズ1.59倍(N=45,202)。Cochrane 2023: 睡眠の質はRCT6本・148人のみで結論不能(確実性: 非常に低い)",
+  "source_label": "He et al. (2025) meta-analysis + Bourke et al. (2026) within-person meta-analysis + Brosnan et al. (2024) objective measurement + Przybylski 2019 / Orben & Przybylski 2020 / Hjetland 2025 / Cochrane 2023",
+  "claim": "1日のスクリーンタイム1時間あたりの睡眠短縮は3〜5分と小さく(連続アウトカム11研究・4万8560人、確実性は非常に低い)、就寝直前に絞ると効果はむしろ消える(就寝前30分で1分、客観測定では就寝前2時間で0分)。一方でベッドに入ってからの使用には個人間で関連があり(1時間で24分減・不眠オッズ1.59倍、客観測定でも10分あたり3分減、ゲームは17分減)、個人内メタ分析(25研究・4562人)でも就床後の使用だけが睡眠の質と負に相関した。Psycleではこれを『通念は嘘ではなく、測る場所を間違えていた。境界線は時間ではなくベッドにある』という裁定として扱い、『寝る前のスマホは無害』とは主張しない",
+  "limitations": "無作為割付の証拠はなく、逆向きの因果(眠れないから触る)を排除できない。分単位の推定はレビュー全体ではなく連続アウトカム11研究に基づき、確実性は非常に低い。個人内で追うと総睡眠時間への効果は消え、残るのは入眠の遅れと就床後の使用による質の低下。Przybylski 2019は題名に反して単一波の横断データで、使用時刻を測っていない。Brosnan 2024は4夜の反復測定だがN=79で信頼区間が広い。対象の多くは子どもと若者。ブルーライトカット眼鏡は『効果が否定された』のではなく『証拠が足りず分からない』が正しい。睡眠が続けて悪い、生活に支障が出ている場合は専門的支援が必要",
+  "effect_size_note": "He 2025: 連続アウトカム11研究・N=48,560で 1時間あたり3〜5分減(β=-0.05, 95%CI[-0.08,-0.03], GRADE Very Low)。同レビューの二値側は9研究・N=498,689で短時間睡眠 OR=1.25(1.08-1.40, GRADE Moderate)。Orben & Przybylski 2020: 就寝前30分で約1分、終日で約9分(120仕様)。Brosnan 2024: 就寝前2時間 0分(95%CI -3〜20)、ベッド内10分あたり -3分、双方向 -9分、ゲーム -17分(4夜の反復測定, N=79)。Hjetland 2025: ベッド内1時間で -24分、不眠オッズ1.59倍(横断, N=45,202)。Bourke 2026: 個人内で入眠 r=0.079、総睡眠時間は非有意、就床後使用と睡眠の質 r=-0.092(25研究, N=4,562)。Cochrane 2023: 睡眠の質はRCT6本・148人のみで結論不能(確実性: 非常に低い)",
   "evidence_grade": "bronze",
   "confidence": "medium",
   "status": "active",
@@ -67,10 +75,11 @@
     "approval_reasons": [
       "authored_from_raw_pilot_008",
       "all_figures_web_verified_against_primary_sources_2026_08_10",
+      "codex_science_review_applied_2026_08_15",
       "first_reading_with_bets_format",
       "owner_playthrough_not_yet_performed"
     ],
-    "evaluated_at": "2026-08-10T00:00:00+09:00"
+    "evaluated_at": "2026-08-15T00:00:00+09:00"
   },
   "citation": {
     "doi": "",
