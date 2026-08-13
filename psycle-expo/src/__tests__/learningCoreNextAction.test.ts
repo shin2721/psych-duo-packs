@@ -122,6 +122,7 @@ describe("learning core next action", () => {
         "mental_l01",
         "mental_l02",
         "mental_l03",
+        "mental_l07",
       ]),
     });
 

@@ -136,7 +136,7 @@ describe("learner skill state", () => {
       nowMs: 3_000,
     });
 
-    expect(states).toHaveLength(3);
+    expect(states).toHaveLength(4);
     expect(
       states.find((state) => state.skill_id === "mental_calibrate_intuition")
     ).toMatchObject({

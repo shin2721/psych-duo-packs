@@ -21,12 +21,14 @@ describe("course manifest", () => {
       "mental_l01",
       "mental_l02",
       "mental_l03",
+      "mental_l07",
     ]);
     expect(manifest && courseManifestHasLessonId(manifest, "mental_l03")).toBe(true);
     expect(manifest && courseManifestHasLessonId(manifest, "mental_l02")).toBe(true);
     expect(isLessonIdAdmittedByCourseManifest("mental_l03")).toBe(true);
     expect(isLessonIdAdmittedByCourseManifest("mental_lesson_3")).toBe(true);
     expect(isLessonIdAdmittedByCourseManifest("mental_l02")).toBe(true);
+    expect(isLessonIdAdmittedByCourseManifest("mental_l07")).toBe(true);
     expect(isLessonIdAdmittedByCourseManifest("mental_l04")).toBe(false);
     expect(isLessonIdAdmittedByCourseManifest("mental_m01")).toBe(false);
   });

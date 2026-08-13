@@ -49,8 +49,10 @@ describe("mental_l02 screen and sleep episode", () => {
     // 数字は実数ボックスが言う。本文で繰り返すと1画面に答えが二度出る。
     expect(totalBet?.bet_answer_label).toBe("3〜5分");
     expect(totalBet?.explanation).not.toContain("3〜5分。");
-    expect(totalBet?.explanation).toContain("54万8338人");
+    // 分単位の推定はレビュー全体ではなく連続アウトカムのサブセット。
+    expect(totalBet?.explanation).toContain("11研究・のべ4万8560人");
     expect(totalBet?.explanation).toContain("0.6〜2%");
+    expect(totalBet?.caveat).toContain("非常に低い");
   });
 
   test("reverses the bedtime rule with the larger whole-day effect", () => {
@@ -72,7 +74,9 @@ describe("mental_l02 screen and sleep episode", () => {
       "調べた研究が少なすぎて、分からない"
     );
     // 「効果がないと証明された」と書いたらこのカードは誤報になる。
+    // 6本のRCTは存在するので「誰も調べていない」とも書けない。
     expect(blueLight?.explanation).toContain("効果が否定されたのではなく");
+    expect(blueLight?.explanation).toContain("まともな規模では");
     // 知らない固有名詞のままにせず、一言で権威の重さを渡す。
     expect(blueLight?.question).toContain("医療エビデンス評価の総本山");
     expect(blueLight?.explanation).toContain("6本・のべ148人");
@@ -90,6 +94,9 @@ describe("mental_l02 screen and sleep episode", () => {
     expect(inBed?.explanation).toContain("1.59倍");
     expect(inBed?.explanation).toContain("ゲームなら17分減");
     expect(inBed?.explanation).toContain("操作しているかどうか");
+    // 24分がどの分析水準の数字かをただし書きで名指しする。
+    expect(inBed?.caveat).toContain("個人間の横断比較");
+    expect(inBed?.caveat).toContain("個人内");
   });
 
   test("exits by removing a rule, not adding a practice", () => {
@@ -101,7 +108,7 @@ describe("mental_l02 screen and sleep episode", () => {
     expect(closer?.explanation).toContain("残すもの");
     expect(closer?.explanation).toContain("守るべきルールが1つに減りました");
     // 横断研究であることと受診の線は、ただし書き側で必ず言う。
-    expect(closer?.caveat).toContain("横断");
+    expect(closer?.caveat).toContain("無作為割付はなく");
     expect(closer?.caveat).toContain("逆向きの因果");
     expect(closer?.caveat).toContain("受診");
   });
@@ -132,6 +139,7 @@ describe("mental_l02 screen and sleep episode", () => {
       expect(question.question.length).toBeLessThanOrEqual(110);
       // 種明かしは読める長さで止める。壁にすると前の版の失敗に戻る。
       expect(question.explanation.length).toBeLessThanOrEqual(230);
+      expect(question.caveat.length).toBeLessThanOrEqual(130);
       // ただし書きは消さず、本文から分けて格を下げる。
       expect(question.caveat).toBeTruthy();
       expect(question.explanation).not.toContain("ただし書き");

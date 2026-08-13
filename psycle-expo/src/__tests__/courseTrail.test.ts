@@ -38,8 +38,9 @@ describe("course trail inventory", () => {
       "mental_l01",
       "mental_l02",
       "mental_l03",
+      "mental_l07",
     ]);
-    expect(trail.map((node) => node.displayLevel)).toEqual([1, 2, 3]);
+    expect(trail.map((node) => node.displayLevel)).toEqual([1, 2, 3, 4]);
     expect(trail.every((node) => node.type === "lesson")).toBe(true);
   });
 });
