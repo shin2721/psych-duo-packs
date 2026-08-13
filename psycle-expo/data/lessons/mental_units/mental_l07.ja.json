@@ -1,0 +1,207 @@
+[
+  {
+    "id": "mental_l07_001",
+    "claim_id": "mental_l07_001_claim",
+    "phase": 1,
+    "lane": "core",
+    "type": "multiple_choice",
+    "bet_card": true,
+    "question": "嫌なことがあった日は発散すればスッキリする。そう言われて育ちました。\n\n殴る・叫ぶ・走るといった発散を154研究・のべ1万189人で統合すると、怒りへの平均効果は？",
+    "choices": [
+      "はっきり減った",
+      "ゼロと区別がつかなかった",
+      "はっきり増えた"
+    ],
+    "correct_index": 1,
+    "explanation": "ゼロでした。g=−0.02、信頼区間は−0.13から0.09。統計的にゼロと区別がつきません。\n\nオハイオ州立大のチームが事前登録して集めた、184サンプル・1万189人ぶんの計算です。\n\n**発散が効かないなら、あの習慣は何のためにあったのか。** 怒りを減らす目的で選ぶ理由が、平均としては見つかりませんでした。",
+    "feedback_prompt": "発散の平均効果は、ゼロ。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Kjaervik_Bushman_2024_Anger",
+    "evidence_grade": "gold",
+    "caveat": "「発散は逆効果」ではありません。平均がゼロという結果です。研究間のばらつきは大きく、効果の多くは自己報告に基づいています。",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "イライラを発散しなければと感じている時"
+      ],
+      "limitations": [
+        "逆効果を示した結果ではなく、平均がゼロという結果",
+        "異質性が大きく、効果は自己報告に依存する",
+        "効果の持続時間は測定されていない"
+      ],
+      "citation_role": "カタルシス説を大規模に検証した中核のメタ分析",
+      "claim_tags": [
+        "mental_l07",
+        "catharsis",
+        "null_effect"
+      ]
+    }
+  },
+  {
+    "id": "mental_l07_002",
+    "claim_id": "mental_l07_002_claim",
+    "phase": 2,
+    "lane": "core",
+    "type": "swipe_judgment",
+    "bet_card": true,
+    "question": "怒りを鎮めるためにジョギングをすると、かえって怒りが増える。\n\n154研究のメタ分析で、この主張は支持されたか。",
+    "is_true": true,
+    "swipe_labels": {
+      "left": "支持されなかった",
+      "right": "支持された"
+    },
+    "explanation": "支持されました。ジョギングは有意に怒りを増やしています（g=0.71）。単調な反復動作が退屈と苛立ちを生むのでは、と著者は推測しています。\n\n意外なのは他の種目です。**サンドバッグを殴る行為は「逆効果」ですらなく、非有意**（g=−0.13、点推定はむしろ減る側）。\n\nそして覚醒を上げるはずの**球技（−0.36）・体育の授業（−0.30）・有酸素運動（−0.29）は、有意に怒りを減らしました**。著者の理論が、自分のデータで破れています。",
+    "feedback_prompt": "上げる活動の中でも、種目で結果が割れる。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Kjaervik_Bushman_2024_Anger",
+    "evidence_grade": "gold",
+    "caveat": "ジョギングの信頼区間は広く、下限は0.07とゼロぎりぎりです。種目ごとの研究数は少なく、著者自身が個別の順位づけを慎重に扱うよう求めています。",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "走れば怒りが晴れると思っている時"
+      ],
+      "limitations": [
+        "ジョギングの信頼区間は広く下限がゼロに近い",
+        "種目ごとの研究数が少ない",
+        "運動の健康上の利益を否定するものではない"
+      ],
+      "citation_role": "覚醒の上下という単一の軸では説明しきれないことを示す内訳",
+      "claim_tags": [
+        "mental_l07",
+        "exercise",
+        "theory_breaks"
+      ]
+    }
+  },
+  {
+    "id": "mental_l07_003",
+    "claim_id": "mental_l07_003_claim",
+    "phase": 3,
+    "lane": "core",
+    "type": "multiple_choice",
+    "bet_card": true,
+    "question": "体の覚醒を下げる実践（瞑想・ヨガ・リラクセーション）は、同じメタ分析で中から大の効果で怒りを下げました。\n\n効果が約2倍になったのは、どんな形式？",
+    "choices": [
+      "1回の時間を長くしたもの",
+      "回数を多く重ねたもの",
+      "考え方に触れる要素を含むもの"
+    ],
+    "correct_index": 2,
+    "explanation": "考え方に触れる形式です。身体を鎮めるだけなら g=−0.34。認知的な要素を組み合わせると **g=−0.73** と約2倍でした。\n\n注目すべきは外れた2つのほうです。**介入期間・セッション数・1回の長さは、どれも効果量と関連しませんでした。** 長くやることでも、たくさんやることでもない。\n\n覚醒を下げる活動の全体効果は g=−0.63。瞑想 −1.55、マインドフルネス −0.53、リラクセーション −0.45、ヨガ −0.41。",
+    "feedback_prompt": "効くのは量ではなく、考え方に触れるかどうか。",
+    "actionable_advice": null,
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Kjaervik_Bushman_2024_Anger",
+    "evidence_grade": "gold",
+    "caveat": "研究間のばらつきが大きく、瞑想の大きな数値は少数の極端な研究に引っ張られている可能性があります。効果は自己報告で強く、他者からの評価では有意になりませんでした。",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "怒りっぽさそのものを変えたい時"
+      ],
+      "limitations": [
+        "異質性が大きい",
+        "自己報告では有意だが他者報告では非有意",
+        "持続時間は未測定"
+      ],
+      "citation_role": "効くほうの内訳と、量ではなく形式が効くという知見",
+      "claim_tags": [
+        "mental_l07",
+        "relaxation",
+        "cognitive_component"
+      ]
+    }
+  },
+  {
+    "id": "mental_l07_004",
+    "claim_id": "mental_l07_004_claim",
+    "phase": 4,
+    "lane": "core",
+    "type": "multiple_choice",
+    "bet_card": true,
+    "question": "深呼吸や瞑想が怒りを下げることは、154研究のメタ分析で確かめられています。\n\nでは、実際に挑発されて怒っている最中の参加者に限ると、その効果は？",
+    "choices": [
+      "同じくらい効いた",
+      "小さくなり、有意ではなくなった",
+      "むしろ怒りが増えた"
+    ],
+    "correct_index": 1,
+    "explanation": "有意ではなくなりました。g=−0.22、信頼区間の上限は0.0004。研究数もわずか18本です。\n\n理由は分母にあります。**このメタ分析の効果量の94%は、怒っていない人のデータでした。**\n\nつまり1万人ぶんの計算が支持しているのは、カッとなった瞬間の対処法ではなく、**平時に続ける習慣**のほう。平均8.2週間、13.5セッション。",
+    "feedback_prompt": "確かめられているのは、怒る前の実践。",
+    "actionable_advice": "「発散しなきゃ」をやめる。怒り対策として走るのも、いったん手放していい。",
+    "difficulty": "medium",
+    "xp": 5,
+    "source_id": "Kjaervik_Bushman_2024_Anger",
+    "evidence_grade": "gold",
+    "caveat": "挑発条件の研究数が少ないため、「その場では効かない」と断定できるわけでもありません。分かっているのは、確かめられていないということです。",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "カッとなった瞬間の対処法を探している時"
+      ],
+      "limitations": [
+        "挑発条件の研究数は18と少ない",
+        "効かないと証明されたのではなく、確かめられていない",
+        "効果の持続時間は一度も測られていない"
+      ],
+      "citation_role": "この証拠が支持する範囲を、その場の対処ではなく平時の習慣に限定する",
+      "claim_tags": [
+        "mental_l07",
+        "provoked_subgroup",
+        "scope_limit"
+      ]
+    }
+  },
+  {
+    "id": "mental_l07_005",
+    "claim_id": "mental_l07_005_claim",
+    "phase": 5,
+    "lane": "core",
+    "type": "conversation",
+    "bet_card": true,
+    "question": "発散は、怒りを減らす道具としては空振りでした。効くと確かめられているのは、怒る前の実践のほうです。\n\nこれから、どうしますか？",
+    "your_response_prompt": "正解はありません。近いものを選んでください",
+    "choices": [
+      "「発散しなきゃ」をやめてみる",
+      "平時の実践を、考え方に触れる形で試す",
+      "走るのは続ける。怒り対策としてではなく",
+      "今回は変えない"
+    ],
+    "recommended_index": null,
+    "explanation": "**捨てていいもの**：イライラを発散しなければという義務感。殴る、叫ぶ、怒りのために走ること。\n\n**残るもの**：平時の実践。やるなら、体を鎮めるだけでなく考え方に触れる形のほうが約2倍効きます。\n\n走りたいから走るのは自由です。ただ、それは健康のためであって、怒りを減らす手段としての根拠はありません。",
+    "actionable_advice": "「発散しなきゃ」をやめる。怒り対策として走るのも、いったん手放していい。",
+    "difficulty": "easy",
+    "xp": 5,
+    "source_id": "Kjaervik_Bushman_2024_Anger",
+    "evidence_grade": "gold",
+    "caveat": "怒りが生活や人間関係を壊している、暴力につながっている場合は、習慣の話ではなく専門的支援の話です。",
+    "expanded_details": {
+      "claim_type": "intervention",
+      "evidence_type": "direct",
+      "best_for": [
+        "怒りとの付き合い方を1つだけ決める時"
+      ],
+      "limitations": [
+        "運動の健康上の利益は否定しない",
+        "強い怒りや暴力の問題には専門的支援が必要",
+        "効果の持続時間は測られていない"
+      ],
+      "citation_role": "証拠が支持する範囲だけを持ち帰りに変換する",
+      "claim_tags": [
+        "mental_l07",
+        "takeaway",
+        "obligation_removal"
+      ]
+    }
+  }
+]

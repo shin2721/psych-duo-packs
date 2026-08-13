@@ -7,6 +7,7 @@ export function getLessonTitle(unit: string, level: number): string {
       "自責から次の一手へ",
       "反芻を見分ける",
       "戻るルートを作る",
+      "発散しても、怒りは減らない",
     ],
     money: [
       "自己回復プレミアム",

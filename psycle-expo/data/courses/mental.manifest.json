@@ -3,7 +3,7 @@
   "curriculum_version": "mental-v1.1.0",
   "course_id": "mental",
   "status": "pilot",
-  "updated_at": "2026-08-10",
+  "updated_at": "2026-08-15",
   "progression_policy": {
     "support_window_size": 7,
     "max_support_actions": 2,
@@ -49,6 +49,20 @@
         "mental_l03"
       ],
       "mastery_lesson_ids": []
+    },
+    {
+      "unit_id": "mental_anger_and_venting",
+      "outcome": "怒りの発散に根拠がないことを確かめ、続ける価値のある実践だけを残す",
+      "prerequisite_unit_ids": [
+        "mental_screen_and_sleep"
+      ],
+      "skill_ids": [
+        "mental_drop_the_unfounded_remedy"
+      ],
+      "core_lesson_ids": [
+        "mental_l07"
+      ],
+      "mastery_lesson_ids": []
     }
   ],
   "skills": [
@@ -67,6 +81,13 @@
     {
       "skill_id": "mental_separate_signal_and_forecast",
       "outcome": "身体信号と結果予測を分け、安全境界内で最初の一手を選ぶ",
+      "prerequisite_skill_ids": [
+        "mental_calibrate_rule_from_effect_size"
+      ]
+    },
+    {
+      "skill_id": "mental_drop_the_unfounded_remedy",
+      "outcome": "効くと信じてきた対処法を証拠と突き合わせ、続けるものと手放すものを分ける",
       "prerequisite_skill_ids": [
         "mental_calibrate_rule_from_effect_size"
       ]
@@ -96,6 +117,15 @@
       "unit_id": "mental_performance_arousal",
       "skill_ids": [
         "mental_separate_signal_and_forecast"
+      ],
+      "lane": "core",
+      "role": "introduce"
+    },
+    {
+      "lesson_id": "mental_l07",
+      "unit_id": "mental_anger_and_venting",
+      "skill_ids": [
+        "mental_drop_the_unfounded_remedy"
       ],
       "lane": "core",
       "role": "introduce"

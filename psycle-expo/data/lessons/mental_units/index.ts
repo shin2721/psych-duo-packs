@@ -8,6 +8,7 @@ import mental_l03_ja from "./mental_l03.ja.json";
 import mental_l04_ja from "./mental_l04.ja.json";
 import mental_l05_ja from "./mental_l05.ja.json";
 import mental_l06_ja from "./mental_l06.ja.json";
+import mental_l07_ja from "./mental_l07.ja.json";
 import mental_m01_ja from "./mental_m01.ja.json";
 import mental_m02_ja from "./mental_m02.ja.json";
 import mental_m03_ja from "./mental_m03.ja.json";
@@ -30,6 +31,7 @@ import mental_l03_continuity from "./mental_l03.continuity.json";
 import mental_l04_continuity from "./mental_l04.continuity.json";
 import mental_l05_continuity from "./mental_l05.continuity.json";
 import mental_l06_continuity from "./mental_l06.continuity.json";
+import mental_l07_continuity from "./mental_l07.continuity.json";
 import mental_m01_continuity from "./mental_m01.continuity.json";
 import mental_m02_continuity from "./mental_m02.continuity.json";
 import mental_m03_continuity from "./mental_m03.continuity.json";
@@ -41,6 +43,7 @@ import mental_l03_evidence from "./mental_l03.evidence.json";
 import mental_l04_evidence from "./mental_l04.evidence.json";
 import mental_l05_evidence from "./mental_l05.evidence.json";
 import mental_l06_evidence from "./mental_l06.evidence.json";
+import mental_l07_evidence from "./mental_l07.evidence.json";
 import mental_m01_evidence from "./mental_m01.evidence.json";
 import mental_m02_evidence from "./mental_m02.evidence.json";
 import mental_m03_evidence from "./mental_m03.evidence.json";
@@ -53,6 +56,7 @@ export const mentalData_ja = [
   ...mental_l04_ja,
   ...mental_l05_ja,
   ...mental_l06_ja,
+  ...mental_l07_ja,
   ...mental_m01_ja,
   ...mental_m02_ja,
   ...mental_m03_ja,
@@ -66,6 +70,7 @@ export const mentalData_en = [
   ...mental_l04_en,
   ...mental_l05_en,
   ...mental_l06_en,
+  ...mental_l07_ja, // fallback to ja
   ...mental_m01_en,
   ...mental_m02_en,
   ...mental_m03_en,
@@ -81,6 +86,7 @@ export const mentalData_continuity: Record<string, LessonContinuityMetadata> = {
   "mental_l04": mental_l04_continuity as LessonContinuityMetadata,
   "mental_l05": mental_l05_continuity as LessonContinuityMetadata,
   "mental_l06": mental_l06_continuity as LessonContinuityMetadata,
+  "mental_l07": mental_l07_continuity as LessonContinuityMetadata,
   "mental_m01": mental_m01_continuity as LessonContinuityMetadata,
   "mental_m02": mental_m02_continuity as LessonContinuityMetadata,
   "mental_m03": mental_m03_continuity as LessonContinuityMetadata,
@@ -103,6 +109,7 @@ export const mentalData_evidence: Record<string, LessonOperationalMetadata> = {
   "mental_l04": mental_l04_evidence as LessonOperationalMetadata,
   "mental_l05": mental_l05_evidence as LessonOperationalMetadata,
   "mental_l06": mental_l06_evidence as LessonOperationalMetadata,
+  "mental_l07": mental_l07_evidence as LessonOperationalMetadata,
   "mental_m01": mental_m01_evidence as LessonOperationalMetadata,
   "mental_m02": mental_m02_evidence as LessonOperationalMetadata,
   "mental_m03": mental_m03_evidence as LessonOperationalMetadata,
