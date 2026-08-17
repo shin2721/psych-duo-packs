@@ -27,7 +27,20 @@ describe("mental_l07 anger and venting episode", () => {
       expect(question.caveat).toBeTruthy();
       expect(question.caveat.length).toBeLessThanOrEqual(130);
       expect(question.expanded_details.limitations.length).toBeGreaterThan(0);
+      // 読者が自分で検索して確かめられるように、出典を画面に出す。
+      expect(question.source_label).toContain("出典：");
       expect(curatedSources.sources[question.source_id as keyof typeof curatedSources.sources]).toBeDefined();
+    }
+  });
+
+  test("keeps statistical notation off the screen", () => {
+    // g や 95%CI は一般の読者には意味のない文字列。効果の大きさは言葉で言い、
+    // 正確な数値は詳細側に置く。
+    for (const question of angerLesson) {
+      const shown = [question.question, question.explanation, question.caveat].join("\n");
+      for (const notation of ["g=", "g＝", "95%CI", "95% CI", "β=", "OR=", "p<", "p ="]) {
+        expect(shown).not.toContain(notation);
+      }
     }
   });
 
@@ -52,9 +65,9 @@ describe("mental_l07 anger and venting episode", () => {
       .join("\n");
 
     expect(opener?.choices[opener.correct_index]).toBe("ゼロと区別がつかなかった");
-    expect(opener?.explanation).toContain("g=−0.02");
+    expect(opener?.explanation).toContain("ほぼゼロ");
     // 出版版は非有意。「発散は逆効果」は学位論文段階の結論で、書けば誤報になる。
-    expect(opener?.caveat).toContain("「発散は逆効果」ではありません");
+    expect(opener?.caveat).toContain("「発散は逆効果」とまでは言えません");
     expect(shownCopy).not.toContain("発散は逆効果だ");
     expect(shownCopy).not.toContain("殴ると怒りが増え");
   });
@@ -64,9 +77,9 @@ describe("mental_l07 anger and venting episode", () => {
 
     expect(jogging?.is_true).toBe(true);
     // サンドバッグは非有意。球技と体育は覚醒を上げるのに怒りを減らした。
-    expect(jogging?.explanation).toContain("非有意");
+    expect(jogging?.explanation).toContain("白黒つかず");
     expect(jogging?.explanation).toContain("球技");
-    expect(jogging?.caveat).toContain("下限は0.07");
+    expect(jogging?.caveat).toContain("ゼロすれすれ");
   });
 
   test("refutes both distractors on the cognitive-component card", () => {
@@ -74,8 +87,8 @@ describe("mental_l07 anger and venting episode", () => {
 
     expect(format?.choices[format.correct_index]).toBe("考え方に触れる要素を含むもの");
     // 長さも回数も効果量と関連しなかった、と原典が報告している。
-    expect(format?.explanation).toContain("セッション数");
-    expect(format?.explanation).toContain("関連しませんでした");
+    expect(format?.explanation).toContain("長くやることでも、たくさんやることでもなかった");
+    expect(format?.explanation).toContain("マインドフルネス認知療法");
   });
 
   test("limits the claim to practice before anger, not in the moment", () => {
@@ -83,9 +96,9 @@ describe("mental_l07 anger and venting episode", () => {
 
     expect(provoked?.choices[provoked.correct_index]).toBe("小さくなり、有意ではなくなった");
     expect(provoked?.explanation).toContain("94%");
-    expect(provoked?.explanation).toContain("平時に続ける習慣");
+    expect(provoked?.explanation).toContain("防火訓練");
     // 効かないと証明されたわけでもない。
-    expect(provoked?.caveat).toContain("確かめられていない");
+    expect(provoked?.caveat).toContain("調べた研究がまだ少ない");
   });
 
   test("exits by removing an obligation", () => {
@@ -94,9 +107,9 @@ describe("mental_l07 anger and venting episode", () => {
     expect(closer?.recommended_index).toBeNull();
     expect(closer?.choices).toContain("今回は変えない");
     expect(closer?.explanation).toContain("捨てていいもの");
-    expect(closer?.explanation).toContain("義務感");
+    expect(closer?.explanation).toContain("宿題");
     // 運動そのものを否定しない。
-    expect(closer?.explanation).toContain("走りたいから走るのは自由");
+    expect(closer?.explanation).toContain("走りたい人はどうぞ");
     expect(closer?.caveat).toContain("専門的支援");
   });
 

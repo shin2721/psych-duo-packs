@@ -50,8 +50,7 @@ describe("mental_l02 screen and sleep episode", () => {
     expect(totalBet?.bet_answer_label).toBe("3〜5分");
     expect(totalBet?.explanation).not.toContain("3〜5分。");
     // 分単位の推定はレビュー全体ではなく連続アウトカムのサブセット。
-    expect(totalBet?.explanation).toContain("11研究・のべ4万8560人");
-    expect(totalBet?.explanation).toContain("0.6〜2%");
+    expect(totalBet?.explanation).toContain("11の研究、のべ4万8560人");
     expect(totalBet?.caveat).toContain("非常に低い");
   });
 
@@ -61,8 +60,8 @@ describe("mental_l02 screen and sleep episode", () => {
     expect(bedtime?.choices[bedtime.correct_index]).toBe("1日全体の使用");
     // 前のカードへの反論ではなく、単体で読める通念として書く。
     expect(bedtime?.question).toContain("多くの人がそう考えています");
-    expect(bedtime?.explanation).toContain("1分");
-    expect(bedtime?.explanation).toContain("0分");
+    expect(bedtime?.explanation).toContain("1分ぶん");
+    expect(bedtime?.explanation).toContain("結果は0分");
     expect(bedtime?.explanation).toContain("就寝2時間前からスクリーン禁止");
   });
 
@@ -80,6 +79,7 @@ describe("mental_l02 screen and sleep episode", () => {
     // 知らない固有名詞のままにせず、一言で権威の重さを渡す。
     expect(blueLight?.question).toContain("医療エビデンス評価の総本山");
     expect(blueLight?.explanation).toContain("6本・のべ148人");
+    expect(blueLight?.explanation).not.toContain("RCT");
     expect(blueLight?.explanation).toContain("「効果なし」と「証拠なし」は違います");
   });
 
@@ -95,8 +95,8 @@ describe("mental_l02 screen and sleep episode", () => {
     expect(inBed?.explanation).toContain("ゲームなら17分減");
     expect(inBed?.explanation).toContain("操作しているかどうか");
     // 24分がどの分析水準の数字かをただし書きで名指しする。
-    expect(inBed?.caveat).toContain("個人間の横断比較");
-    expect(inBed?.caveat).toContain("個人内");
+    expect(inBed?.caveat).toContain("個人間の比べ方");
+    expect(inBed?.caveat).toContain("同じ人の日々の変動");
   });
 
   test("exits by removing a rule, not adding a practice", () => {
@@ -143,6 +143,13 @@ describe("mental_l02 screen and sleep episode", () => {
       // ただし書きは消さず、本文から分けて格を下げる。
       expect(question.caveat).toBeTruthy();
       expect(question.explanation).not.toContain("ただし書き");
+      // 読者が自分で検索して確かめられるように、出典を画面に出す。
+      expect(question.source_label).toContain("出典：");
+      // 統計記号は画面に出さない。効果の大きさは言葉で言う。
+      const shown = [question.question, question.explanation, question.caveat].join("\n");
+      for (const notation of ["g=", "95%CI", "95% CI", "β=", "OR=", "p<"]) {
+        expect(shown).not.toContain(notation);
+      }
     }
   });
 
