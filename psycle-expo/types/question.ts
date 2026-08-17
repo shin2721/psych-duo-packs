@@ -209,6 +209,9 @@ export interface Question {
   // 本文に混ぜると読む壁になり、消すと誠実さが消えるので、格を下げて別枠に置く。
   caveat?: string;
 
+  // 画面に出す出典1行。読者が自分で検索して確かめられる状態を保つ。
+  source_label?: string;
+
   // number_bet用（研究結果を先に予想させてから実数を出す）
   bet_min?: number;           // スライダー下限
   bet_max?: number;           // スライダー上限

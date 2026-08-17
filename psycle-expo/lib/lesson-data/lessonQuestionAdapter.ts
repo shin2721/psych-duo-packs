@@ -264,6 +264,10 @@ function adaptQuestion(raw: Record<string, unknown>): Question {
     adapted.caveat = raw.caveat;
   }
 
+  if (typeof raw.source_label === "string" && raw.source_label.trim().length > 0) {
+    adapted.source_label = raw.source_label;
+  }
+
   if (raw.type === "number_bet") {
     const num = (value: unknown) => (Number.isFinite(value) ? Number(value) : undefined);
     adapted.bet_min = num(raw.bet_min);

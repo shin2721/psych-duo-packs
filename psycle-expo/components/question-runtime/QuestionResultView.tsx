@@ -161,6 +161,11 @@ export function QuestionResultView({
               <Text style={styles.caveatText}>{question.caveat}</Text>
             </View>
           ) : null}
+          {question.source_label ? (
+            <Text style={styles.sourceLabel} testID="question-source">
+              {question.source_label}
+            </Text>
+          ) : null}
         </>
       ) : (
         <View style={styles.incorrectFeedbackContainer}>
@@ -257,6 +262,13 @@ const styles = StyleSheet.create({
     color: "#cbd5e1",
     fontSize: 13,
     lineHeight: 21,
+  },
+  // 出典はいちばん格の低い位置に置く。疑った人が自分で検索できればいい。
+  sourceLabel: {
+    color: "#7c8798",
+    fontSize: 11,
+    lineHeight: 17,
+    marginTop: 14,
   },
   betAnswerBox: {
     alignItems: "center",
