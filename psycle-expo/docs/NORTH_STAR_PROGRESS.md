@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-17 - Rewrote both episodes for a reader: no statistical notation, sources on screen, assertions tracking evidence
+
+- Changed: Statistical symbols purged from card copy (effect sizes as words with figures in parentheses); source_label field added and rendered under the caveat in the dimmest type; l07 openers rewritten to say only what the app can honestly say; card three names the practice instead of the category; l02 plain-language pass
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator playthrough of l07 card 1 showing the new opener, reveal and source line
+- Remaining: Owner tasting of the rewritten episodes; l01 and l03 still on the old copy rules; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-13 - Applied Codex's science corrections to lesson two and shipped episode two on anger
 
 - Changed: Ledger: He 2025 claims now name the continuous-outcome subset and its very low certainty; Bourke 2026 registered (it supports rather than refutes the in-bed boundary); anger meta-analysis registered. Lesson two: four attribution fixes. New mental_l07 runs the same arc with no numeric slider, admitted to the course as position four
