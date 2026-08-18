@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-18 - Card two states direction only; the asymmetric certainty rating is gone
+
+- Changed: Removed the certainty claim about ball sports and PE from card two, which hedged the increase while asserting the decrease on thinner evidence; study counts remain in the details sheet
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator playthrough of the card two reveal
+- Remaining: Owner tasting of the whole episode; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-18 - Removed a forward reference from card two and moved effect sizes to the details sheet with a legend
 
 - Changed: Card two no longer sizes jogging against meditation (first mentioned on card three); the screen stops at direction and certainty; the details sheet carries the point estimates with the 0.2/0.5/0.8 legend and the study counts per activity; checklist item two requires a comparison the reader has already met and allows stopping at direction when no honest yardstick exists
