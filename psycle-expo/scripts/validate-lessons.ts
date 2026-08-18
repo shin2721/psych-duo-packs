@@ -812,15 +812,20 @@ export class LessonValidator {
         question.id);
     }
 
-    // 復習はカードを単体で出す。前のカードを指す問いはそこで壊れる。
-    const isGraded = typeof question.correct_index === 'number' ||
-      typeof question.is_true === 'boolean' ||
-      typeof question.bet_answer === 'number';
-    if (isGraded && isNonEmptyString(question.question)) {
+    // 画面は単体で読めなければならない。復習はカードを切り出して出すし、
+    // 書き手は全カードを頭に入れた状態で読み返すので自分では気づけない。
+    // 設問だけでなく種明かしとただし書きも同じ基準で見る。
+    for (const [field, label] of [
+      ['question', '設問'],
+      ['explanation', '種明かし'],
+      ['caveat', 'ただし書き'],
+    ] as const) {
+      const text = question[field];
+      if (!isNonEmptyString(text)) continue;
       for (const backReference of BACK_REFERENCE_PHRASES) {
-        if (question.question.includes(backReference)) {
+        if (text.includes(backReference)) {
           this.addError(filePath, severity,
-            `設問が前のカードを参照しています（「${backReference}」）: 必要な前提は問いの中に再掲してください`,
+            `${label}が画面外を参照しています（「${backReference}」）: 前提はこの画面の中に書いてください`,
             question.id);
         }
       }
