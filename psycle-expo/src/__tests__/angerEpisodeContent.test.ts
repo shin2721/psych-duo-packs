@@ -82,7 +82,8 @@ describe("mental_l07 anger and venting episode", () => {
     // カード3で明かす瞑想を、カード2の物差しに使わない（画面外の前提になる）。
     // 画面は方向と確かさまで。大きさは詳細シートが凡例つきで持つ。
     expect(jogging?.explanation).not.toContain("瞑想");
-    expect(jogging?.explanation).toContain("誤差では説明のつかない");
+    // 増える側だけ留保して減る側を言い切らない。この画面は向きの対比まで。
+    expect(jogging?.explanation).not.toContain("確かな差");
     expect(jogging?.explanation).not.toContain("中くらいの差");
     expect(jogging?.explanation).toContain("白黒つかず");
     // 読者が知らない内輪話（著者の理論）に寄りかからない。
