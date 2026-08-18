@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-18 - Cold-read the finished episode against its own rules and fixed four faults
+
+- Changed: Card one names meta-analysis after describing it plainly, and says measured anger instead of the meter metaphor; card three's correct option no longer runs twice the length of its distractors, which also shrinks the gold answer box; card four keeps the significance wording but the details sheet now explains what it means; card five names the study instead of saying this calculation; tests pin the choice-length spread and the term introduction
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator playthrough of cards one, two and three including the shortened answer box
+- Remaining: Owner tasting of the whole episode; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-18 - Card two states direction only; the asymmetric certainty rating is gone
 
 - Changed: Removed the certainty claim about ball sports and PE from card two, which hedged the increase while asserting the decrease on thinner evidence; study counts remain in the details sheet
