@@ -79,8 +79,10 @@ describe("mental_l07 anger and venting episode", () => {
     expect(jogging?.is_true).toBe(true);
     // サンドバッグは非有意。球技と体育は覚醒を上げるのに怒りを減らした。
     expect(jogging?.explanation).toContain("怒りを増やしていたのは");
-    // 効果の大きさは統計の物差しの言い換えではなく、同じ研究内の別の効果との比で渡す。
-    expect(jogging?.explanation).toContain("瞑想やヨガが減らす幅と同じくらい");
+    // カード3で明かす瞑想を、カード2の物差しに使わない（画面外の前提になる）。
+    // 画面は方向と確かさまで。大きさは詳細シートが凡例つきで持つ。
+    expect(jogging?.explanation).not.toContain("瞑想");
+    expect(jogging?.explanation).toContain("誤差では説明のつかない");
     expect(jogging?.explanation).not.toContain("中くらいの差");
     expect(jogging?.explanation).toContain("白黒つかず");
     // 読者が知らない内輪話（著者の理論）に寄りかからない。
