@@ -74,6 +74,12 @@ const MAX_QUESTION_LENGTH = 200;
 // 賭けを伴わない普通の設問の解説は従来どおり 300 文字で抑える。
 const MAX_EXPLANATION_LENGTH = 300;
 const MAX_BET_CARD_EXPLANATION_LENGTH = 600;
+const MAX_CAVEAT_LENGTH = 130;
+
+// 一般の読者には意味のない文字列。効果の大きさは言葉で言う。
+const STATISTICAL_NOTATIONS = ['g=', 'g＝', '95%CI', '95% CI', 'β=', 'OR=', 'p<', 'p＜'];
+// 復習で単体に切り出されたときに壊れる書き方。
+const BACK_REFERENCE_PHRASES = ['さっき', '先ほど', '前の問題', 'じゃあ全部'];
 
 interface ValidationError {
   file: string;
@@ -546,6 +552,7 @@ export class LessonValidator {
         
         // 文字数チェック
         this.validateLength(filePath, severity, question);
+        this.validateEpisodeCardCraft(filePath, severity, question);
         
         // evidence_gradeチェック
         this.validateEvidenceGrade(filePath, severity, question);
@@ -759,6 +766,64 @@ export class LessonValidator {
       this.addError(filePath, severity,
         `解説が長すぎます: ${question.explanation.length}文字 (上限${explanationLimit})`,
         question.id);
+    }
+  }
+
+  /**
+   * エピソード型カード（bet_card）の書き方ゲート。
+   * これまで個々のレッスンの jest テストに散っていたルールを、誰が書いても
+   * 効くようにここへ集約する。判断が要るもの（声・断定の強さ・締めの整合）は
+   * 機械では見られないので docs/QUALITY_CONSTITUTION.md の執筆チェックリスト側。
+   */
+  private validateEpisodeCardCraft(filePath: string, severity: 'error' | 'warning',
+                                   question: Question): void {
+    const isBetCard = question.bet_card === true || question.type === 'number_bet';
+    if (!isBetCard) return;
+
+    const shown = [question.question, question.explanation, question.caveat]
+      .filter((value): value is string => typeof value === 'string')
+      .join('\n');
+
+    // 統計記号は読者にとって意味のない文字列。効果の大きさは言葉で言い、
+    // 正確な値は expanded_details 側に置く。
+    for (const notation of STATISTICAL_NOTATIONS) {
+      if (shown.includes(notation)) {
+        this.addError(filePath, severity,
+          `統計記号は画面に出しません: 「${notation}」を効果の大きさを表す言葉に置き換えてください`,
+          question.id);
+      }
+    }
+
+    // 限界を消さず、本文と分けて格を下げる。
+    if (!isNonEmptyString(question.caveat)) {
+      this.addError(filePath, severity,
+        'caveat がありません: 限界は本文に混ぜず、ただし書きとして別に書いてください',
+        question.id);
+    } else if (question.caveat.length > MAX_CAVEAT_LENGTH) {
+      this.addError(filePath, severity,
+        `ただし書きが長すぎます: ${question.caveat.length}文字 (上限${MAX_CAVEAT_LENGTH})`,
+        question.id);
+    }
+
+    // 疑った読者が自分で確かめられる状態を保つ。
+    if (!isNonEmptyString(question.source_label)) {
+      this.addError(filePath, severity,
+        'source_label がありません: 誰の何という研究かを1行で画面に出してください',
+        question.id);
+    }
+
+    // 復習はカードを単体で出す。前のカードを指す問いはそこで壊れる。
+    const isGraded = typeof question.correct_index === 'number' ||
+      typeof question.is_true === 'boolean' ||
+      typeof question.bet_answer === 'number';
+    if (isGraded && isNonEmptyString(question.question)) {
+      for (const backReference of BACK_REFERENCE_PHRASES) {
+        if (question.question.includes(backReference)) {
+          this.addError(filePath, severity,
+            `設問が前のカードを参照しています（「${backReference}」）: 必要な前提は問いの中に再掲してください`,
+            question.id);
+        }
+      }
     }
   }
 
