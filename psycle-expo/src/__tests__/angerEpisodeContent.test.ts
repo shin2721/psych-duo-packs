@@ -65,6 +65,11 @@ describe("mental_l07 anger and venting episode", () => {
 
     expect(opener?.choices[opener.correct_index]).toBe("ゼロと区別がつかなかった");
     expect(opener?.explanation).toContain("ほぼゼロ");
+    // 用語は伏せずに、平語の説明を先に置いてから名前を渡す。
+    expect(opener?.explanation).toContain("複数の研究をまとめて計算し直す手法を");
+    expect(opener?.explanation).toContain("メタ分析");
+    // 計測の比喩をやめ、測った値だと素直に言う。
+    expect(opener?.explanation).not.toContain("怒りのメーター");
     // 限界の列挙で終わらせず、どう受け取るのが正確かまで書く。
     expect(opener?.caveat).toContain("言えるのは");
     // 出版版は非有意。「発散は逆効果」は学位論文段階の結論で、書けば誤報になる。
@@ -96,6 +101,9 @@ describe("mental_l07 anger and venting episode", () => {
     const format = angerLesson.find((question) => question.id === "mental_l07_003");
 
     expect(format?.choices[format.correct_index]).toContain("考え方の練習も入れる");
+    // 正解だけが長いと、中身を読まなくても形で当てられる。
+    const lengths = (format?.choices ?? []).map((choice) => choice.length);
+    expect(Math.max(...lengths) - Math.min(...lengths)).toBeLessThanOrEqual(4);
     // 抽象名だけの選択肢にしない。何を選んだのか分かる例を必ず添える。
     for (const choice of format?.choices ?? []) {
       expect(choice).toContain("（");
@@ -119,6 +127,10 @@ describe("mental_l07 anger and venting episode", () => {
     // 効かないと証明されたわけでもない。
     // 深呼吸を禁じる話ではないことを、ただし書き自身が言う。
     expect(provoked?.caveat).toContain("平時に続ける練習として効く側");
+    // 「有意ではない」を選択肢に残すなら、意味は詳細シートが引き受ける。
+    expect(provoked?.expanded_details.limitations.join("\n")).toContain(
+      "偶然のばらつきと区別がつかなくなった"
+    );
     expect(provoked?.caveat).toContain("研究がまだ少ない");
   });
 
@@ -128,6 +140,8 @@ describe("mental_l07 anger and venting episode", () => {
     expect(closer?.recommended_index).toBeNull();
     expect(closer?.choices).toContain("今回は変えない");
     // 締めは3つの棚卸し。断定できるものとできないものを並べる。
+    expect(closer?.question).toContain("154研究のメタ分析");
+    expect(closer?.question).not.toContain("この計算");
     expect(closer?.explanation).toContain("殴る・叫ぶなどの発散");
     expect(closer?.explanation).toContain("平時に続ける鎮める練習");
     // 運動そのものを否定しない。
