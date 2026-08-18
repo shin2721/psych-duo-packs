@@ -67,7 +67,10 @@ describe("mental_l07 anger and venting episode", () => {
 
     expect(jogging?.is_true).toBe(true);
     // サンドバッグは非有意。球技と体育は覚醒を上げるのに怒りを減らした。
+    expect(jogging?.explanation).toContain("怒りを増やしていたのは");
     expect(jogging?.explanation).toContain("白黒つかず");
+    // 読者が知らない内輪話（著者の理論）に寄りかからない。
+    expect(jogging?.explanation).not.toContain("著者");
     expect(jogging?.explanation).toContain("球技");
     expect(jogging?.caveat).toContain("ゼロすれすれ");
   });
@@ -89,10 +92,14 @@ describe("mental_l07 anger and venting episode", () => {
     const provoked = angerLesson.find((question) => question.id === "mental_l07_004");
 
     expect(provoked?.choices[provoked.correct_index]).toBe("小さくなり、有意ではなくなった");
+    expect(provoked?.explanation).toContain("154研究・のべ1万人");
+    expect(provoked?.explanation).not.toContain("この1万人の");
     expect(provoked?.explanation).toContain("94%");
     expect(provoked?.explanation).toContain("防火訓練");
     // 効かないと証明されたわけでもない。
-    expect(provoked?.caveat).toContain("調べた研究がまだ少ない");
+    // 深呼吸を禁じる話ではないことを、ただし書き自身が言う。
+    expect(provoked?.caveat).toContain("平時に続ける練習として効く側");
+    expect(provoked?.caveat).toContain("研究がまだ少ない");
   });
 
   test("exits by removing an obligation", () => {
