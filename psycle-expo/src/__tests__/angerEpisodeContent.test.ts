@@ -32,6 +32,17 @@ describe("mental_l07 anger and venting episode", () => {
     }
   });
 
+  test("states verdicts plainly, without figures of speech", () => {
+    // 「ぼやけた」「宙に浮く」は同じ絵を持つ読者にしか通じず、しかも
+    // 「効かなかった」と誤読される。判定は判定の言葉で言う。
+    for (const question of angerLesson) {
+      const shown = [question.question, question.explanation, question.caveat].join("\n");
+      for (const figure of ["ぼやけ", "宙に浮", "脇役"]) {
+        expect(shown).not.toContain(figure);
+      }
+    }
+  });
+
   test("keeps every graded question standalone", () => {
     const graded = angerLesson.filter(
       (question) => "correct_index" in question || "is_true" in question
@@ -68,6 +79,9 @@ describe("mental_l07 anger and venting episode", () => {
     expect(jogging?.is_true).toBe(true);
     // サンドバッグは非有意。球技と体育は覚醒を上げるのに怒りを減らした。
     expect(jogging?.explanation).toContain("怒りを増やしていたのは");
+    // 効果の大きさは統計の物差しの言い換えではなく、同じ研究内の別の効果との比で渡す。
+    expect(jogging?.explanation).toContain("瞑想やヨガが減らす幅と同じくらい");
+    expect(jogging?.explanation).not.toContain("中くらいの差");
     expect(jogging?.explanation).toContain("白黒つかず");
     // 読者が知らない内輪話（著者の理論）に寄りかからない。
     expect(jogging?.explanation).not.toContain("著者");
@@ -95,6 +109,9 @@ describe("mental_l07 anger and venting episode", () => {
     expect(provoked?.explanation).toContain("154研究・のべ1万人");
     expect(provoked?.explanation).not.toContain("この1万人の");
     expect(provoked?.explanation).toContain("94%");
+    // どれだけ縮んだかと、どこまで際どいかを画面で言う。
+    expect(provoked?.explanation).toContain("3分の1に縮んで");
+    expect(provoked?.explanation).toContain("効いたとも効かないとも言えなくなりました");
     expect(provoked?.explanation).toContain("防火訓練");
     // 効かないと証明されたわけでもない。
     // 深呼吸を禁じる話ではないことを、ただし書き自身が言う。
