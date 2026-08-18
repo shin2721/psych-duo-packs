@@ -143,13 +143,7 @@ describe("mental_l02 screen and sleep episode", () => {
       // ただし書きは消さず、本文から分けて格を下げる。
       expect(question.caveat).toBeTruthy();
       expect(question.explanation).not.toContain("ただし書き");
-      // 読者が自分で検索して確かめられるように、出典を画面に出す。
-      expect(question.source_label).toContain("出典：");
-      // 統計記号は画面に出さない。効果の大きさは言葉で言う。
-      const shown = [question.question, question.explanation, question.caveat].join("\n");
-      for (const notation of ["g=", "95%CI", "95% CI", "β=", "OR=", "p<"]) {
-        expect(shown).not.toContain(notation);
-      }
+      // 文字数・統計記号・出典・後方参照は validate-lessons が全レッスンに対して見る。
     }
   });
 
