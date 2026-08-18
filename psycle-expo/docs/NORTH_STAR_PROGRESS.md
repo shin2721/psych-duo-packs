@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-18 - Rewrote the anger cards to be readable one screen at a time, and widened the standalone rule to enforce it
+
+- Changed: Card two names what jogging increased and drops the insider note about the authors' theory; card three's caveat says one limitation plainly instead of three in shorthand; card four restates the sample in place and no longer reads as advice against deep breathing; a winning bet's number is now green; validator applies the standalone-screen check to reveal and caveat, not just the question; checklist gains the cold-read rule and covers insider detail
+- Verified: tsc clean; 756 tests green; validate 0 errors; Simulator confirms the green hit and the corrected card one
+- Remaining: Owner tasting of the corrected l07; no spaced review exists for episode cards by design - bet cards are excluded from the in-lesson retry round and only whole-lesson replay exists, so decide whether a re-judgment format is worth building before external users; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-18 - Moved the episode writing rules out of conversation and into gates both agents hit
 
 - Changed: validate-lessons now enforces the mechanical rules on every bet card in every unit (no statistical notation, caveat present and bounded, source line, no back-references); QUALITY_CONSTITUTION gains a 10-item writing checklist for the judgment calls; cross-review prompt gains an explicit card-coherence check; l01 and l03 brought to the same skeleton; l07 closer corrected - running is a split verdict, not something to drop
