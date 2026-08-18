@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-18 - Moved the episode writing rules out of conversation and into gates both agents hit
+
+- Changed: validate-lessons now enforces the mechanical rules on every bet card in every unit (no statistical notation, caveat present and bounded, source line, no back-references); QUALITY_CONSTITUTION gains a 10-item writing checklist for the judgment calls; cross-review prompt gains an explicit card-coherence check; l01 and l03 brought to the same skeleton; l07 closer corrected - running is a split verdict, not something to drop
+- Verified: tsc clean; 756 tests green; validate 0 errors after l01/l03 were brought into compliance (the new gate caught them, as intended); Simulator playthrough of l07 card 1
+- Remaining: Owner tasting of the corrected l07; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-17 - Rewrote both episodes for a reader: no statistical notation, sources on screen, assertions tracking evidence
 
 - Changed: Statistical symbols purged from card copy (effect sizes as words with figures in parentheses); source_label field added and rendered under the caveat in the dimmest type; l07 openers rewritten to say only what the app can honestly say; card three names the practice instead of the category; l02 plain-language pass
