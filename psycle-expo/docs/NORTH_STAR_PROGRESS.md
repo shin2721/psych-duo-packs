@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-18 - Removed a forward reference from card two and moved effect sizes to the details sheet with a legend
+
+- Changed: Card two no longer sizes jogging against meditation (first mentioned on card three); the screen stops at direction and certainty; the details sheet carries the point estimates with the 0.2/0.5/0.8 legend and the study counts per activity; checklist item two requires a comparison the reader has already met and allows stopping at direction when no honest yardstick exists
+- Verified: Cold-read of card two in isolation: every premise is on-screen; tsc clean; 757 tests green; validate 0 errors; Simulator playthrough of the card two reveal
+- Remaining: Card two calls the ball-sports difference certain while it rests on 7 and 13 studies - the count is in the details sheet but not on screen, worth an owner decision; owner tasting of the whole episode; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-18 - Verdicts stated plainly, effect sizes given a reader's yardstick, exact figures moved to the details sheet
 
 - Changed: Card two sizes jogging against the meditation effect in the same study instead of a renamed statistical scale; card four says the effect shrank to a third and landed just short of nothing; blurred/left-hanging/supporting-cast metaphors removed; details sheets now carry the point estimates and interval widths; checklist item two fixes the four verdict forms and bans metaphor for verdicts
