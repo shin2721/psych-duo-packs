@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-18 - Verdicts stated plainly, effect sizes given a reader's yardstick, exact figures moved to the details sheet
+
+- Changed: Card two sizes jogging against the meditation effect in the same study instead of a renamed statistical scale; card four says the effect shrank to a third and landed just short of nothing; blurred/left-hanging/supporting-cast metaphors removed; details sheets now carry the point estimates and interval widths; checklist item two fixes the four verdict forms and bans metaphor for verdicts
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator playthrough of card two reveal and its details sheet showing the 0.71 estimate with its interval
+- Remaining: Owner tasting; review deliberately not built - bet cards are excluded from retry and only whole-lesson replay exists; the jogging-versus-aerobic split stays out of the lesson as unverified speculation, worth revisiting if research explains it; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-18 - Rewrote the anger cards to be readable one screen at a time, and widened the standalone rule to enforce it
 
 - Changed: Card two names what jogging increased and drops the insider note about the authors' theory; card three's caveat says one limitation plainly instead of three in shorthand; card four restates the sample in place and no longer reads as advice against deep breathing; a winning bet's number is now green; validator applies the standalone-screen check to reveal and caveat, not just the question; checklist gains the cold-read rule and covers insider detail
