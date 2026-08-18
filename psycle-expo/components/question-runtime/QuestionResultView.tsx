@@ -119,7 +119,11 @@ export function QuestionResultView({
             {isBetCard ? "実際は" : runtime.correctAnswerLabel}
           </Text>
           <Text
-            style={[styles.correctAnswerText, isBetCard && styles.betAnswerText]}
+            style={[
+              styles.correctAnswerText,
+              isBetCard && styles.betAnswerText,
+              isBetCard && runtime.isCorrect && styles.betAnswerHitText,
+            ]}
           >
             {runtime.correctAnswerText}
           </Text>
@@ -273,6 +277,9 @@ const styles = StyleSheet.create({
   betAnswerBox: {
     alignItems: "center",
     paddingVertical: 20,
+  },
+  betAnswerHitText: {
+    color: theme.colors.success,
   },
   betAnswerText: {
     color: BET_TRUTH,
