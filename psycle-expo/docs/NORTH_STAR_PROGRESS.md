@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-19 - Read the anger meta-analysis in full and rewrote the ledger and cards from it
+
+- Changed: Ledger records measurement (state anger dominant, k=47 vs 7), sample (23 provoked effect sizes, also null), design (mean 8.2 weeks) and per-figure k, with unreported items marked as unreported; card one asks and answers about the anger felt after the activity, in comparison-then-result order; card two judges the belief people actually hold and describes who was studied and what they were asked; card four's 94% gets its correct denominator; length ceilings become wall alarms (160/350/220); checklist gains a first item requiring the primary source be read before writing
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator playthrough of cards one and two
+- Remaining: Owner tasting of the whole episode; l02's ledger entries have not had the same measurement audit; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-18 - Cold-read the finished episode against its own rules and fixed four faults
 
 - Changed: Card one names meta-analysis after describing it plainly, and says measured anger instead of the meter metaphor; card three's correct option no longer runs twice the length of its distractors, which also shrinks the gold answer box; card four keeps the significance wording but the details sheet now explains what it means; card five names the study instead of saying this calculation; tests pin the choice-length spread and the term introduction
