@@ -74,7 +74,10 @@ const MAX_QUESTION_LENGTH = 200;
 // 賭けを伴わない普通の設問の解説は従来どおり 300 文字で抑える。
 const MAX_EXPLANATION_LENGTH = 300;
 const MAX_BET_CARD_EXPLANATION_LENGTH = 600;
-const MAX_CAVEAT_LENGTH = 130;
+// 上限は予算ではなく壁アラーム。本質が入らないから削る、が起きた版より緩めてある。
+// 壁テキストの本当の防止は字数ではなく構造（1画面1ビート・答えはボックスだけが言う・
+// ただしは分離）で持つ。
+const MAX_CAVEAT_LENGTH = 220;
 
 // 一般の読者には意味のない文字列。効果の大きさは言葉で言う。
 const STATISTICAL_NOTATIONS = ['g=', 'g＝', '95%CI', '95% CI', 'β=', 'OR=', 'p<', 'p＜'];
