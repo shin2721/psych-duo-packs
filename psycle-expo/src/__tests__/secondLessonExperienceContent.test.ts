@@ -135,11 +135,11 @@ describe("mental_l02 screen and sleep episode", () => {
 
   test("keeps one screen skeleton: short setup, short reveal, caveat in its own block", () => {
     for (const question of mentalLesson) {
-      // 設問はフックと問いの2行まで。前置きを積むとテンポが死ぬ。
-      expect(question.question.length).toBeLessThanOrEqual(110);
-      // 種明かしは読める長さで止める。壁にすると前の版の失敗に戻る。
-      expect(question.explanation.length).toBeLessThanOrEqual(230);
-      expect(question.caveat.length).toBeLessThanOrEqual(130);
+      // 上限は予算ではなく壁アラーム。本質を削らせる側に働いた版より緩めてある。
+      expect(question.question.length).toBeLessThanOrEqual(160);
+      // 壁テキストだけを止める。飾りは削り、本質は削らない。
+      expect(question.explanation.length).toBeLessThanOrEqual(350);
+      expect(question.caveat.length).toBeLessThanOrEqual(220);
       // ただし書きは消さず、本文から分けて格を下げる。
       expect(question.caveat).toBeTruthy();
       expect(question.explanation).not.toContain("ただし書き");

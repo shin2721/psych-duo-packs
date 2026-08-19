@@ -22,10 +22,10 @@ describe("mental_l07 anger and venting episode", () => {
 
   test("keeps the same screen skeleton as lesson two", () => {
     for (const question of angerLesson) {
-      expect(question.question.length).toBeLessThanOrEqual(110);
-      expect(question.explanation.length).toBeLessThanOrEqual(230);
+      expect(question.question.length).toBeLessThanOrEqual(160);
+      expect(question.explanation.length).toBeLessThanOrEqual(350);
       expect(question.caveat).toBeTruthy();
-      expect(question.caveat.length).toBeLessThanOrEqual(130);
+      expect(question.caveat.length).toBeLessThanOrEqual(220);
       expect(question.expanded_details.limitations.length).toBeGreaterThan(0);
       // 文字数・統計記号・出典・後方参照は validate-lessons が全レッスンに対して見る。
       expect(curatedSources.sources[question.source_id as keyof typeof curatedSources.sources]).toBeDefined();
@@ -63,7 +63,14 @@ describe("mental_l07 anger and venting episode", () => {
       )
       .join("\n");
 
-    expect(opener?.choices[opener.correct_index]).toBe("ゼロと区別がつかなかった");
+    expect(opener?.choices[opener.correct_index]).toBe("差は、ゼロと区別がつかなかった");
+    // 設問は測ったもの（そのとき感じている怒り）と同じ土俵で問う。
+    expect(opener?.question).toContain("そのとき感じていた怒り");
+    // 比べ方 → 比べた結果、の順で書く。
+    expect(opener?.explanation).toContain("した人たちと、しなかった人たち");
+    expect(opener?.explanation).toContain("比べた結果");
+    // 挑発ありの研究は23件ある。「ほとんどない」と書かない。
+    expect(opener?.explanation).toContain("23件ぶん");
     expect(opener?.explanation).toContain("ほぼゼロ");
     // 用語は伏せずに、平語の説明を先に置いてから名前を渡す。
     expect(opener?.explanation).toContain("複数の研究をまとめて計算し直す手法を");
@@ -81,9 +88,13 @@ describe("mental_l07 anger and venting episode", () => {
   test("keeps the authors' own theory break visible", () => {
     const jogging = angerLesson.find((question) => question.id === "mental_l07_002");
 
-    expect(jogging?.is_true).toBe(true);
+    // 「怒り対策のジョギング」ではなく、実在する信念（解消法として効く）を出題する。
+    expect(jogging?.question).toContain("怒りの解消法として、ジョギングは効く");
+    expect(jogging?.is_true).toBe(false);
+    // 誰に・何をして・何を聞いたか。台帳にある測定をそのまま書く。
+    expect(jogging?.explanation).toContain("怒っていない人が大半");
+    expect(jogging?.explanation).toContain("いま、どれくらい怒りを感じるか");
     // サンドバッグは非有意。球技と体育は覚醒を上げるのに怒りを減らした。
-    expect(jogging?.explanation).toContain("怒りを増やしていたのは");
     // カード3で明かす瞑想を、カード2の物差しに使わない（画面外の前提になる）。
     // 画面は方向と確かさまで。大きさは詳細シートが凡例つきで持つ。
     expect(jogging?.explanation).not.toContain("瞑想");
@@ -94,7 +105,8 @@ describe("mental_l07 anger and venting episode", () => {
     // 読者が知らない内輪話（著者の理論）に寄りかからない。
     expect(jogging?.explanation).not.toContain("著者");
     expect(jogging?.explanation).toContain("球技");
-    expect(jogging?.caveat).toContain("ゼロすれすれ");
+    expect(jogging?.caveat).toContain("増え幅ははっきりしません");
+    expect(jogging?.caveat).not.toContain("ゼロすれすれ");
   });
 
   test("refutes both distractors on the cognitive-component card", () => {
@@ -117,8 +129,8 @@ describe("mental_l07 anger and venting episode", () => {
     const provoked = angerLesson.find((question) => question.id === "mental_l07_004");
 
     expect(provoked?.choices[provoked.correct_index]).toBe("小さくなり、有意ではなくなった");
-    expect(provoked?.explanation).toContain("154研究・のべ1万人");
-    expect(provoked?.explanation).not.toContain("この1万人の");
+    expect(provoked?.explanation).toContain("鎮める練習の効果を支えているデータ");
+    expect(provoked?.explanation).not.toContain("この分野の154研究");
     expect(provoked?.explanation).toContain("94%");
     // どれだけ縮んだかと、どこまで際どいかを画面で言う。
     expect(provoked?.explanation).toContain("3分の1に縮んで");
