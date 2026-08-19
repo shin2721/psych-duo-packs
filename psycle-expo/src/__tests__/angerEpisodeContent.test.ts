@@ -68,7 +68,11 @@ describe("mental_l07 anger and venting episode", () => {
     expect(opener?.question).toContain("そのとき感じていた怒り");
     // 比べ方 → 比べた結果、の順で書く。
     expect(opener?.explanation).toContain("した人たちと、しなかった人たち");
-    expect(opener?.explanation).toContain("比べた結果");
+    expect(opener?.explanation).toContain("ぜんぶをならすと、差はほぼゼロ");
+    // ゼロは種目をならした平均。全員同じだったかのような文は書かない。
+    expect(opener?.explanation).not.toContain("同じでした");
+    // 「怒ってない人ばかりなら差が出ないのは当然では」への答えを画面が持つ。
+    expect(opener?.caveat).toContain("鎮める練習には差が出ています");
     // 挑発ありの研究は23件ある。「ほとんどない」と書かない。
     expect(opener?.explanation).toContain("23件ぶん");
     expect(opener?.explanation).toContain("ほぼゼロ");
@@ -89,11 +93,16 @@ describe("mental_l07 anger and venting episode", () => {
     const jogging = angerLesson.find((question) => question.id === "mental_l07_002");
 
     // 「怒り対策のジョギング」ではなく、実在する信念（解消法として効く）を出題する。
-    expect(jogging?.question).toContain("怒りの解消法として、ジョギングは効く");
+    expect(jogging?.question).toContain("ジョギングをすると、怒りは減る");
     expect(jogging?.is_true).toBe(false);
-    // 誰に・何をして・何を聞いたか。台帳にある測定をそのまま書く。
-    expect(jogging?.explanation).toContain("怒っていない人が大半");
-    expect(jogging?.explanation).toContain("いま、どれくらい怒りを感じるか");
+    // 測ったもの（そのとき感じている怒り）を台帳の記述どおりに言う。
+    expect(jogging?.explanation).toContain("いま感じている怒り");
+    // 分野全体の統計（怒っていない人が大半）をジョギング17件に帰属させない。
+    // 種目別の内訳は論文に未報告（詳細シートがそれを言う）。
+    expect(jogging?.explanation).not.toContain("怒っていない人が大半");
+    // 論文に存在しない説明（反芻）を著者に帰属させない。
+    expect(jogging?.explanation).not.toContain("反芻");
+    expect(jogging?.explanation).toContain("退屈や苛立ち");
     // サンドバッグは非有意。球技と体育は覚醒を上げるのに怒りを減らした。
     // カード3で明かす瞑想を、カード2の物差しに使わない（画面外の前提になる）。
     // 画面は方向と確かさまで。大きさは詳細シートが凡例つきで持つ。
@@ -133,12 +142,14 @@ describe("mental_l07 anger and venting episode", () => {
     expect(provoked?.explanation).not.toContain("この分野の154研究");
     expect(provoked?.explanation).toContain("94%");
     // どれだけ縮んだかと、どこまで際どいかを画面で言う。
-    expect(provoked?.explanation).toContain("3分の1に縮んで");
+    expect(provoked?.explanation).toContain("3分の1に縮み");
+    expect(provoked?.explanation).not.toContain("ゼロすれすれ");
     expect(provoked?.explanation).toContain("効いたとも効かないとも言えなくなりました");
     expect(provoked?.explanation).toContain("防火訓練");
     // 効かないと証明されたわけでもない。
     // 深呼吸を禁じる話ではないことを、ただし書き自身が言う。
-    expect(provoked?.caveat).toContain("平時に続ける練習として効く側");
+    // 深呼吸単独の効果量は未報告。カテゴリ（体を鎮める練習）として言う。
+    expect(provoked?.caveat).toContain("深呼吸のような、体を鎮める練習");
     // 「有意ではない」を選択肢に残すなら、意味は詳細シートが引き受ける。
     expect(provoked?.expanded_details.limitations.join("\n")).toContain(
       "偶然のばらつきと区別がつかなくなった"
