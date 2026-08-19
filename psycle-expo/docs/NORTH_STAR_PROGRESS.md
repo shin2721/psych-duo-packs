@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-19 - First run of the read-record-trace procedure on the anger episode; the trace caught six faults review had missed
+
+- Changed: Ledger gains the paper's actual mechanisms, the other-report null, calming-side state and trait results, and notes that the paper never says largest or rumination; card one's zero is an averaged verdict with the floor-effect objection answered in its caveat; card two judges the claim as tested with the paper's own mechanism; card four speaks of calming practice as a category
+- Verified: Full sentence-by-ledger trace of all five cards; tsc clean; 757 tests green; validate 0 errors; Simulator playthrough of card one
+- Remaining: Owner tasting; l02 ledger entries still need the same measurement audit; l03 GRE card still judged boring; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-19 - Read the anger meta-analysis in full and rewrote the ledger and cards from it
 
 - Changed: Ledger records measurement (state anger dominant, k=47 vs 7), sample (23 provoked effect sizes, also null), design (mean 8.2 weeks) and per-figure k, with unreported items marked as unreported; card one asks and answers about the anger felt after the activity, in comparison-then-result order; card two judges the belief people actually hold and describes who was studied and what they were asked; card four's 94% gets its correct denominator; length ceilings become wall alarms (160/350/220); checklist gains a first item requiring the primary source be read before writing
