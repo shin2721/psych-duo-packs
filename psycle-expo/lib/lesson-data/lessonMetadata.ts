@@ -177,7 +177,7 @@ const MENTAL_LESSON_METADATA: Record<string, LessonMetadata> = {
     done_condition: "発散をやめる判断と、平時の実践という残る選択肢を言い分けられる",
     takeaway_action: "「発散しなきゃ」という前提を、いったん外してみる。",
     insight_layer: {
-      surprising_question: "殴る・叫ぶ・走る。154研究を統合した平均効果は？",
+      surprising_question: "「怒りは、発散するといい」。154研究で確かめた結果は？",
       research_finding: "覚醒を上げる活動の平均効果はゼロと区別がつかず、覚醒を下げる実践だけが中から大の効果を示した",
       critical_caveat: "『発散は逆効果』ではなく平均ゼロ。効果量の94%は怒っていない人のデータで、挑発された参加者では鎮静も有意でない",
       usable_scope: "怒りっぽさとの付き合い方を平時に決めるときに使う",

@@ -63,28 +63,26 @@ describe("mental_l07 anger and venting episode", () => {
       )
       .join("\n");
 
-    expect(opener?.choices[opener.correct_index]).toBe("差は、ゼロと区別がつかなかった");
-    // 設問は測ったもの（そのとき感じている怒り）と同じ土俵で問う。
-    expect(opener?.question).toContain("そのとき感じていた怒り");
-    // 比べ方 → 比べた結果、の順で書く。
-    expect(opener?.explanation).toContain("した人たちと、しなかった人たち");
-    expect(opener?.explanation).toContain("ぜんぶをならすと、差はほぼゼロ");
+    // 賭けの対象はデータの形ではなく判定そのもの。「効かない証明」と「証拠なし」を
+    // 区別する3択（l02のコクラン回と同じ型）。「逆効果」は実際の報道の言い方。
+    expect(opener?.choices[opener.correct_index]).toBe("効く証拠が、見つからなかった");
+    expect(opener?.choices).toContain("逆効果だと確かめられた");
+    // 種明かしは研究の背骨（興奮を上げるか下げるか）を見せる。
+    expect(opener?.explanation).toContain("興奮を上げる側");
+    expect(opener?.explanation).toContain("ぜんぶをならして、効果はゼロ");
     // ゼロは種目をならした平均。全員同じだったかのような文は書かない。
     expect(opener?.explanation).not.toContain("同じでした");
-    // 「怒ってない人ばかりなら差が出ないのは当然では」への答えを画面が持つ。
-    expect(opener?.caveat).toContain("鎮める練習には差が出ています");
-    // 挑発ありの研究は23件ある。「ほとんどない」と書かない。
-    expect(opener?.explanation).toContain("23件ぶん");
-    expect(opener?.explanation).toContain("ほぼゼロ");
+    // 瞬間の直接検証が23件しかないことは、ただし書きが正直に言う。
+    expect(opener?.caveat).toContain("23件ぶん");
     // 用語は伏せずに、平語の説明を先に置いてから名前を渡す。
     expect(opener?.explanation).toContain("複数の研究をまとめて計算し直す手法を");
     expect(opener?.explanation).toContain("メタ分析");
     // 計測の比喩をやめ、測った値だと素直に言う。
     expect(opener?.explanation).not.toContain("怒りのメーター");
     // 限界の列挙で終わらせず、どう受け取るのが正確かまで書く。
-    expect(opener?.caveat).toContain("言えるのは");
+    expect(opener?.caveat).toContain("「逆効果」とも言えません");
     // 出版版は非有意。「発散は逆効果」は学位論文段階の結論で、書けば誤報になる。
-    expect(opener?.caveat).toContain("「発散は逆効果」とまでは言えません");
+    
     expect(shownCopy).not.toContain("発散は逆効果だ");
     expect(shownCopy).not.toContain("殴ると怒りが増え");
   });
@@ -103,6 +101,8 @@ describe("mental_l07 anger and venting episode", () => {
     // 論文に存在しない説明（反芻）を著者に帰属させない。
     expect(jogging?.explanation).not.toContain("反芻");
     expect(jogging?.explanation).toContain("退屈や苛立ち");
+    // 興奮を上げる点では同じ。割れたのは頭の中——研究の枠組みへの伏線。
+    expect(jogging?.explanation).toContain("体の興奮を上げる点では、ジョギングも球技も同じ");
     // サンドバッグは非有意。球技と体育は覚醒を上げるのに怒りを減らした。
     // カード3で明かす瞑想を、カード2の物差しに使わない（画面外の前提になる）。
     // 画面は方向と確かさまで。大きさは詳細シートが凡例つきで持つ。
@@ -114,7 +114,7 @@ describe("mental_l07 anger and venting episode", () => {
     // 読者が知らない内輪話（著者の理論）に寄りかからない。
     expect(jogging?.explanation).not.toContain("著者");
     expect(jogging?.explanation).toContain("球技");
-    expect(jogging?.caveat).toContain("増え幅ははっきりしません");
+    expect(jogging?.caveat).toContain("まだ確実ではありません");
     expect(jogging?.caveat).not.toContain("ゼロすれすれ");
   });
 
@@ -130,7 +130,8 @@ describe("mental_l07 anger and venting episode", () => {
       expect(choice).toContain("（");
     }
     // 長さも回数も効果量と関連しなかった、と原典が報告している。
-    expect(format?.explanation).toContain("長くやることでも、たくさんやることでもなかった");
+    expect(format?.explanation).toContain("体の興奮＋頭の解釈");
+    expect(format?.explanation).toContain("長さも回数も、効果と関係していませんでした");
     expect(format?.explanation).toContain("マインドフルネス認知療法");
   });
 
@@ -148,13 +149,15 @@ describe("mental_l07 anger and venting episode", () => {
     expect(provoked?.explanation).toContain("防火訓練");
     // 効かないと証明されたわけでもない。
     // 深呼吸を禁じる話ではないことを、ただし書き自身が言う。
-    // 深呼吸単独の効果量は未報告。カテゴリ（体を鎮める練習）として言う。
-    expect(provoked?.caveat).toContain("深呼吸のような、体を鎮める練習");
+    // 「平時に続けると下がる」は確認済み。「瞬間」はその場で使う場合も、
+    // 続けた人がその瞬間に強いかも、18件で白黒つかない——2つの読みに答える。
+    expect(provoked?.caveat).toContain("平時に続けると、ふだんの怒りが下がる");
+    expect(provoked?.caveat).toContain("白黒つかない");
     // 「有意ではない」を選択肢に残すなら、意味は詳細シートが引き受ける。
     expect(provoked?.expanded_details.limitations.join("\n")).toContain(
       "偶然のばらつきと区別がつかなくなった"
     );
-    expect(provoked?.caveat).toContain("研究がまだ少ない");
+    expect(provoked?.caveat).toContain("効かないと決まったのではありません");
   });
 
   test("exits by removing an obligation", () => {
