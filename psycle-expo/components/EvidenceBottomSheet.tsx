@@ -1,13 +1,13 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Animated, PanResponder } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, Dimensions, TouchableWithoutFeedback, Animated, PanResponder, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
-import { getEvidenceSummary, getTryValueColor } from '../lib/evidenceSummary';
 import i18n from '../lib/i18n';
 import { EvidenceBottomSheetDetails } from './EvidenceBottomSheetDetails';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const SHEET_HEIGHT = SCREEN_HEIGHT * 0.5; // Slightly taller to show source info
+const SHEET_SURFACE = '#111C33';
 
 interface EvidenceBottomSheetProps {
     visible: boolean;
@@ -26,7 +26,6 @@ interface EvidenceBottomSheetProps {
 export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetails }: EvidenceBottomSheetProps) {
     const translateY = useRef(new Animated.Value(SHEET_HEIGHT)).current;
     const backdropOpacity = useRef(new Animated.Value(0)).current;
-    const [showDetails, setShowDetails] = useState(false);
 
     useEffect(() => {
         if (visible) {
@@ -38,7 +37,7 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                     stiffness: 150,
                 }),
                 Animated.timing(backdropOpacity, {
-                    toValue: 0.5,
+                    toValue: 0.6,
                     duration: 200,
                     useNativeDriver: true,
                 }),
@@ -57,7 +56,6 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                     useNativeDriver: true,
                 }),
             ]).start();
-            setShowDetails(false); // Reset on close
         }
     }, [visible]);
 
@@ -90,9 +88,6 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
 
     if (!visible) return null;
 
-    // Get evidence summary for "まず試す価値" display
-    const evidenceSummary = getEvidenceSummary(expandedDetails);
-    const tryValueColor = getTryValueColor(evidenceSummary.tryValue);
     const listSeparator = i18n.locale.startsWith('ja') ? '、' : ', ';
 
     return (
@@ -120,50 +115,20 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
                     </TouchableOpacity>
                 </View>
 
-                {/* まず試す価値 Summary (Always Visible) */}
-                <View style={styles.tryValueSummary}>
-                    {/* 判断の一言（最上段） */}
-                    <Text style={styles.actionHint}>{evidenceSummary.actionHint}</Text>
-
-                    {/* intervention のみバッジ行を表示（theory/observation は迷いを生むので非表示） */}
-                    {expandedDetails?.claim_type === 'intervention' && (
-                        <>
-                            <View style={styles.tryValueRow}>
-                                <Text style={styles.tryValueLabel}>{evidenceSummary.valueLabel}：</Text>
-                                <View style={[styles.tryValueBadge, { backgroundColor: tryValueColor }]}>
-                                    <Text style={styles.tryValueText}>{evidenceSummary.tryValue}</Text>
-                                </View>
-                            </View>
-                            <Text style={styles.basisLabel}>
-                                {i18n.t('lesson.basisLabelPrefix')}
-                                {evidenceSummary.basisLabel}
-                            </Text>
-                        </>
-                    )}
-                    <Text style={styles.safetyNote}>{evidenceSummary.note}</Text>
-                </View>
-
-                {/* Toggle for details */}
-                <TouchableOpacity
-                    onPress={() => setShowDetails(!showDetails)}
-                    style={styles.detailsToggle}
+                {/* 根拠の中身。開いた時点で出す——判断の要約を挟むと、
+                    種明かしとただし書きが既に言ったことを曖昧な言葉で繰り返すことになる。 */}
+                <ScrollView
+                    style={styles.detailsScroll}
+                    contentContainerStyle={styles.detailsScrollContent}
+                    showsVerticalScrollIndicator={false}
                 >
-                    <Text style={styles.detailsToggleText}>
-                        {showDetails ? i18n.t('lesson.closeDetails') : i18n.t('lesson.showDetails')}
-                    </Text>
-                </TouchableOpacity>
-
-                {/* Expandable Details */}
-                {showDetails && (
-                    <>
-                        <EvidenceBottomSheetDetails
-                            expandedDetails={expandedDetails}
-                            listSeparator={listSeparator}
-                            sourceId={source_id}
-                            styles={styles}
-                        />
-                    </>
-                )}
+                    <EvidenceBottomSheetDetails
+                        expandedDetails={expandedDetails}
+                        listSeparator={listSeparator}
+                        sourceId={source_id}
+                        styles={styles}
+                    />
+                </ScrollView>
             </Animated.View>
         </View>
     );
@@ -180,11 +145,19 @@ const styles = StyleSheet.create({
         left: 0,
         right: 0,
         height: SHEET_HEIGHT,
-        backgroundColor: theme.colors.card,
+        // theme.colors.card は半透明で、後ろのレッスン本文が透けて読めなくなる。
+        // このシートだけ不透明の同系色にする。
+        backgroundColor: SHEET_SURFACE,
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         paddingHorizontal: 20,
         paddingBottom: 40,
+    },
+    detailsScroll: {
+        flex: 1,
+    },
+    detailsScrollContent: {
+        paddingBottom: 24,
     },
     headerRow: {
         flexDirection: 'row',
