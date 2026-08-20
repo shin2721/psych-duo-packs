@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-20 - Wove the measurement into the body so the doubt does not form, and codified the two lessons that cost the most
+
+- Changed: Card one's first sentence names the yardstick in everyday words and its caveat says plainly that most studies did not gather people mid-rage; card three softens leaps-to-double and is-made-of to what the analysis observed; checklist gains item 0.1 (verify the belief you pose is the one the study tested, before writing) and an addition to item 8 (answer the reader's objection in the body, not in a footnote); cross-review asks both as explicit questions on lesson changes
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator playthrough of card one
+- Remaining: Owner tasting; reveal length means the caveat and continue button sit below the fold on card one - UI or structure decision pending; l02 ledger measurement audit; l03 GRE card rebuild-or-retire; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-20 - Rebuilt the anger episode on the study's own axis: does raising or lowering arousal help anger
 
 - Changed: Card one bets on the verdict (proven / backfires / no evidence found) and reveals the study's question in three sentences; card two frames the jogging-versus-ball-sports split as the first hint that arousal alone does not decide anger; card three completes the arousal-plus-interpretation frame at the doubling reveal; card four's caveat separates practicing-in-calm (confirmed) from the hot moment (18 effect sizes, open); ledger records the two-factor frame, provocation coding, and the catharsis-design count
