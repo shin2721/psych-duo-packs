@@ -210,7 +210,8 @@ export function QuestionResultView({
         </View>
       )}
 
-      {runtime.isCorrect && question.evidence_grade && runtime.hasEvidence ? (
+      {/* 外した読者こそ「本当か」と思う。根拠は当たりのご褒美ではない。 */}
+      {question.evidence_grade && runtime.hasEvidence ? (
         <Pressable
           onPress={onOpenEvidence}
           style={({ pressed }) => [

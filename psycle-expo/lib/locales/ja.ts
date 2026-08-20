@@ -332,7 +332,7 @@ export const ja = {
         matchingCorrectAnswer: '上の緑色のペアが正解',
         correctLabel: '正解:',
         recommendedLabel: 'おすすめ:',
-        evidenceAvailable: '📚 根拠あり (タップで詳細)',
+        evidenceAvailable: '📚 タップで詳細',
     },
     questionMedia: {
         imageLoadFailed: '画像の読み込みに失敗しました',

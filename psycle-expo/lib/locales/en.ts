@@ -332,7 +332,7 @@ export const en = {
         matchingCorrectAnswer: 'The green pairs above are correct',
         correctLabel: 'Correct:',
         recommendedLabel: 'Recommended:',
-        evidenceAvailable: '📚 Evidence available (tap for details)',
+        evidenceAvailable: '📚 Tap for details',
     },
     questionMedia: {
         imageLoadFailed: 'Failed to load image',

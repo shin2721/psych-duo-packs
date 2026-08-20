@@ -35,15 +35,8 @@ export function EvidenceBottomSheetDetails({
 
   return (
     <>
-      {expandedDetails?.best_for && expandedDetails.best_for.length > 0 ? (
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>{i18n.t("lesson.bestForHeader")}</Text>
-          <Text style={styles.sectionText}>
-            {expandedDetails.best_for.join(listSeparator)}
-          </Text>
-        </View>
-      ) : null}
-
+      {/* 「向いているケース」は締めカードの仕事と重なる。シートは限界と出典に絞る。
+          best_for のデータ自体は他所で使うため残してある。 */}
       {expandedDetails?.limitations && expandedDetails.limitations.length > 0 ? (
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>{i18n.t("lesson.limitationsHeader")}</Text>
