@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-20 - Rebuilt the anger episode on the study's own axis: does raising or lowering arousal help anger
+
+- Changed: Card one bets on the verdict (proven / backfires / no evidence found) and reveals the study's question in three sentences; card two frames the jogging-versus-ball-sports split as the first hint that arousal alone does not decide anger; card three completes the arousal-plus-interpretation frame at the doubling reveal; card four's caveat separates practicing-in-calm (confirmed) from the hot moment (18 effect sizes, open); ledger records the two-factor frame, provocation coding, and the catharsis-design count
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator playthrough of cards one through three
+- Remaining: Owner tasting of the full episode; l02 ledger measurement audit; l03 GRE card rebuild-or-retire; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-19 - First run of the read-record-trace procedure on the anger episode; the trace caught six faults review had missed
 
 - Changed: Ledger gains the paper's actual mechanisms, the other-report null, calming-side state and trait results, and notes that the paper never says largest or rumination; card one's zero is an averaged verdict with the floor-effect objection answered in its caveat; card two judges the claim as tested with the paper's own mechanism; card four speaks of calming practice as a category
