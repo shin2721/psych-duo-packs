@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-20 - The evidence sheet now opens straight onto the evidence, opaque
+
+- Changed: Removed the try-value summary block (action hint, worth-trying badge, basis line, safety note) from the sheet - the reveal and caveat already carry it; details render on open and scroll instead of hiding behind a toggle; sheet surface is opaque so lesson text no longer shows through, scrim raised to 0.6
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator playthrough opening the sheet on card one
+- Remaining: Owner tasting; l02 ledger measurement audit; l03 GRE card rebuild-or-retire; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-20 - Wove the measurement into the body so the doubt does not form, and codified the two lessons that cost the most
 
 - Changed: Card one's first sentence names the yardstick in everyday words and its caveat says plainly that most studies did not gather people mid-rage; card three softens leaps-to-double and is-made-of to what the analysis observed; checklist gains item 0.1 (verify the belief you pose is the one the study tested, before writing) and an addition to item 8 (answer the reader's objection in the body, not in a footnote); cross-review asks both as explicit questions on lesson changes
