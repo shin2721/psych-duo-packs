@@ -69,10 +69,13 @@ describe("mental_l07 anger and venting episode", () => {
     expect(opener?.choices).toContain("逆効果だと確かめられた");
     // 種明かしは研究の背骨（興奮を上げるか下げるか）を見せる。
     expect(opener?.explanation).toContain("興奮を上げる側");
-    expect(opener?.explanation).toContain("ぜんぶをならして、効果はゼロ");
+    expect(opener?.explanation).toContain("イライラや怒りの度合いを比べる");
+    expect(opener?.explanation).toContain("差はゼロ");
     // ゼロは種目をならした平均。全員同じだったかのような文は書かない。
     expect(opener?.explanation).not.toContain("同じでした");
     // 瞬間の直接検証が23件しかないことは、ただし書きが正直に言う。
+    expect(opener?.caveat).toContain("カッとなった人を集めたわけではなく");
+    expect(opener?.caveat).toContain("興奮を下げる練習では下がる");
     expect(opener?.caveat).toContain("23件ぶん");
     // 用語は伏せずに、平語の説明を先に置いてから名前を渡す。
     expect(opener?.explanation).toContain("複数の研究をまとめて計算し直す手法を");
@@ -131,6 +134,9 @@ describe("mental_l07 anger and venting episode", () => {
     }
     // 長さも回数も効果量と関連しなかった、と原典が報告している。
     expect(format?.explanation).toContain("体の興奮＋頭の解釈");
+    // 一般法則の顔をさせない。この分析の観察として言い、原因は未確定と明記。
+    expect(format?.explanation).toContain("どの要素が効いたのかまでは、確定していません");
+    expect(format?.question).not.toContain("跳ねる");
     expect(format?.explanation).toContain("長さも回数も、効果と関係していませんでした");
     expect(format?.explanation).toContain("マインドフルネス認知療法");
   });
