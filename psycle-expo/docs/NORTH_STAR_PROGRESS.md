@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-20 - Completion screen rebuilt: three stat tiles, one takeaway, one button
+
+- Changed: Replaced six stacked cards with XP/hits/evidence tiles that animate in sequence and a single takeaway card; mood collection, habit-loop card, duplicated try-value summary, research details, confetti and level-up sound removed at owner request; double-XP offer preserved and restyled; dead props and locals trimmed from the caller
+- Verified: tsc clean; 757 tests green; validate 0 errors; full five-card Simulator playthrough to the completion screen
+- Remaining: Mood data collection is no longer gathered anywhere in the lesson flow - the hook remains if it should return elsewhere; owner tasting; l02 ledger measurement audit; l03 GRE card rebuild-or-retire; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-20 - The evidence sheet is reachable from any card and shows limits and citation
 
 - Changed: Evidence button no longer requires a correct answer - the reader who missed is the one who wants the source; label changed from a trust badge to what a tap opens; sheet shows limits and citation only, best_for data retained
