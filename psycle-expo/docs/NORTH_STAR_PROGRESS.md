@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-20 - The evidence sheet is reachable from any card and shows limits and citation
+
+- Changed: Evidence button no longer requires a correct answer - the reader who missed is the one who wants the source; label changed from a trust badge to what a tap opens; sheet shows limits and citation only, best_for data retained
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator confirms the button on a missed card and the sheet contents
+- Remaining: Owner tasting; l02 ledger measurement audit; l03 GRE card rebuild-or-retire; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-20 - The evidence sheet now opens straight onto the evidence, opaque
 
 - Changed: Removed the try-value summary block (action hint, worth-trying badge, basis line, safety note) from the sheet - the reveal and caveat already carry it; details render on open and scroll instead of hiding behind a toggle; sheet surface is opaque so lesson text no longer shows through, scrim raised to 0.6
