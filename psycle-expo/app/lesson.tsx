@@ -77,9 +77,7 @@ export default function LessonScreen() {
   const { user } = useAuth();
   const { showToast } = useToast();
   const [combo, setCombo] = useState(0);
-  const [showResearchDetails, setShowResearchDetails] = useState(false);
   const nudgeStorageUserId = user?.id ?? "local";
-  const listSeparator = i18n.locale.startsWith("ja") ? "、" : ", ";
 
   const { handleEnergyBlocked, handleLoadFailed, isE2EAnalyticsMode } = useLessonLoader({
     energy,
@@ -141,13 +139,9 @@ export default function LessonScreen() {
   });
 
   const {
-    feltBetterSubmitted,
-    lastShownInterventionId,
     showDoubleXpNudge,
     setShowDoubleXpNudge,
-    submitFeltBetter,
     handleDoubleXpNudgePurchase,
-    showFeltBetterPrompt,
   } = useLessonPostCompletion({
     addXp,
     buyDoubleXP,
@@ -170,18 +164,10 @@ export default function LessonScreen() {
         completionBottomInset={completionBottomInset}
         correctCount={correctCount}
         currentLesson={currentLesson}
-        feltBetterSubmitted={feltBetterSubmitted}
-        lastShownInterventionId={showFeltBetterPrompt ? lastShownInterventionId : null}
-        listSeparator={listSeparator}
         onDismissDoubleXpNudge={() => setShowDoubleXpNudge(false)}
-        onPressFeltBetter={(value) => {
-          void submitFeltBetter(value);
-        }}
         onPressPurchaseDoubleXp={handleDoubleXpNudgePurchase}
         originalQuestions={originalQuestions}
-        setShowResearchDetails={setShowResearchDetails}
         showDoubleXpNudge={showDoubleXpNudge}
-        showResearchDetails={showResearchDetails}
       />
     );
   }

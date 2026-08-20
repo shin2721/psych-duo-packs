@@ -31,7 +31,7 @@ describe("launch readiness contracts", () => {
     expect(courseNodeColumn).toContain("momentumAccessibilityLabel");
     expect(lessonCompletionView).toContain('testID="lesson-complete-recap"');
     expect(lessonCompletionView).toContain("completionRecap.nextPromise");
-    expect(lessonCompletionView).toContain("accessibilityLabel={String(item.label)}");
+    expect(lessonCompletionView).toContain('accessibilityLabel={String(i18n.t("lesson.continue"))}');
     expect(appLayout).toContain('accessibilityRole="progressbar"');
     expect(errorBoundary).toContain('testID="app-error-boundary-retry"');
     expect(appLayout).toContain("void Analytics.initialize()");
