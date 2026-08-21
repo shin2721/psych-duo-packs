@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-21 - Takeaway names the belief, not the activity; read-through scope now covers text outside the cards
+
+- Changed: The takeaway in all three storage sites and card five's first option now name the belief that anger must come out, so ball games and PE are not swept into what the reader drops; checklist and cross-review require reading the completion takeaway, per-card advice, preview copy and choices, not just the five cards
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator playthrough to card four showing the new takeaway line
+- Remaining: A sync test for the takeaway was built and dropped: it cannot catch this failure (all copies agreed and were all stale) and a verbatim-match rule fails ten healthy older lessons that reword the takeaway by design; the regression is pinned in the anger tests instead. Owner tasting; l02 ledger measurement audit; l03 GRE card rebuild-or-retire; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-20 - Completion screen rebuilt: three stat tiles, one takeaway, one button
 
 - Changed: Replaced six stacked cards with XP/hits/evidence tiles that animate in sequence and a single takeaway card; mood collection, habit-loop card, duplicated try-value summary, research details, confetti and level-up sound removed at owner request; double-XP offer preserved and restyled; dead props and locals trimmed from the caller
