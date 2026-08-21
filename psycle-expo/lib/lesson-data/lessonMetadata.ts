@@ -175,7 +175,7 @@ const MENTAL_LESSON_METADATA: Record<string, LessonMetadata> = {
     lesson_job: "効くと信じてきた対処法を証拠と突き合わせ、手放すものを1つ決める",
     target_shift: "イライラは発散しなければという義務感から、確かめられている実践だけを残す状態へ",
     done_condition: "発散をやめる判断と、平時の実践という残る選択肢を言い分けられる",
-    takeaway_action: "「発散しなきゃ」という前提を、いったん外してみる。",
+    takeaway_action: "「怒りは、出さないと消えない」という前提を、いったん外してみる。",
     insight_layer: {
       surprising_question: "「怒りは、発散するといい」。154研究で確かめた結果は？",
       research_finding: "覚醒を上げる活動の平均効果はゼロと区別がつかず、覚醒を下げる実践だけが中から大の効果を示した",

@@ -189,7 +189,17 @@ describe("mental_l07 anger and venting episode", () => {
     const recapAction = resolveCompletionRecapAction(angerLesson as Question[], "fallback");
 
     expect(recapAction).toBe(metadata?.takeaway_action);
-    expect(recapAction).toContain("発散しなきゃ」という前提");
+    expect(recapAction).toContain("出さないと消えない");
+    // 「発散」はカード2で球技・体育まで含むと認めた語。捨てる前提の名前に使わない。
+    expect(recapAction).not.toContain("発散しなきゃ");
+    // 同じ一手が metadata とカードの3か所に保存されている。片方だけ直すと画面が食い違う。
+    const cardAdvice = angerLesson
+      .map((question) => question.actionable_advice)
+      .filter((advice): advice is string => Boolean(advice));
+    expect(cardAdvice.length).toBeGreaterThan(0);
+    for (const advice of cardAdvice) {
+      expect(advice).toBe(recapAction);
+    }
   });
 
   test("stays in staging until owner taste approval", () => {
