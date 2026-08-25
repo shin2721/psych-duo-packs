@@ -132,9 +132,21 @@ export interface ExpandedDetailsVariant {
   label?: string;
 }
 
+/**
+ * 判定の重さ。信号と同じ読み方をする——緑は乗っていい、黄は話半分、
+ * grey は根拠として使えない。強さの目盛りを一本引くと「調べた結果、効く証拠が
+ * なかった」の置き場所がなくなるので、段階は色だけが持ち、向きは文が言う。
+ */
+export type VerdictWeight = "green" | "amber" | "grey";
+
 export interface ExpandedDetails {
   basis_label?: string;
   best_for?: string[];
+  /** 誰に・何をして・何を測ったか。台帳の記述からだけ書く。 */
+  how_studied?: string;
+  /** この知見をどう持つか。カードの中身について喋る1文。 */
+  verdict_line?: string;
+  verdict_weight?: VerdictWeight;
   citation_role?: string;
   claim_tags?: string[];
   claim_type?: string;

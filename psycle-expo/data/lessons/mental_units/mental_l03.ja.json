@@ -35,7 +35,10 @@
         "mental_l03",
         "body_signal",
         "outcome_forecast"
-      ]
+      ],
+      "how_studied": "試験前の学生に「覚醒は役立つことがある」と伝え、追加情報なしの群と得点を比べた小規模研究。実GREまで追えたのは、募集60人のうち28人。",
+      "verdict_line": "身体信号と結果予測を分ける練習として使える話です。成績が上がる保証ではありません。",
+      "verdict_weight": "amber"
     },
     "caveat": "身体の感覚だけで結果が決まるとも、決まらないとも証明できる問題ではありません。新しく強い、いつもと違う症状には使わないところです。",
     "source_label": "出典：Jamieson et al., Journal of Experimental Social Psychology, 2010"
@@ -78,7 +81,10 @@
         "mental_l03",
         "arousal_reappraisal",
         "research_boundary"
-      ]
+      ],
+      "how_studied": "同じ研究の、比較条件と結果と追跡人数。数学得点に差が出て、言語得点には差がなかった。落ち着こうとする条件との比較ではない。",
+      "verdict_line": "「そういう報告もある」くらいで持っておく話です。",
+      "verdict_weight": "amber"
     },
     "caveat": "実際のGREまで追えたのは、募集60人のうち28人。「落ち着こうとした群」との比較ではなく、面接やプレゼンで同じ効果が出ると確かめた研究でもありません。",
     "source_label": "出典：Jamieson et al., Journal of Experimental Social Psychology, 2010"
@@ -120,7 +126,10 @@
         "mental_l03",
         "safety_boundary",
         "concrete_problem"
-      ]
+      ],
+      "how_studied": "この研究が対象にしていない場面を、使わない線として引いたもの。病気や危険の身体信号は、この研究の範囲外。",
+      "verdict_line": "研究の話ではなく、安全の線です。迷ったら読み替えない側へ。",
+      "verdict_weight": "grey"
     },
     "caveat": "迷ったら、読み替えない側へ。安全に関わる判断をこの練習で先送りしない、というのが唯一の線です。",
     "source_label": "出典：Jamieson et al., Journal of Experimental Social Psychology, 2010"
@@ -163,7 +172,10 @@
         "mental_l03",
         "honest_phrase",
         "first_move"
-      ]
+      ],
+      "how_studied": "同じ研究の枠内で、覚醒が残ったまま最初の一手を選ぶ練習に落としたもの。落ち着くことも成績向上も、研究は保証していない。",
+      "verdict_line": "効果の保証ではなく、次の一手を選ぶための持ち方です。",
+      "verdict_weight": "amber"
     },
     "caveat": "この一文が緊張や結果を良くすると確かめられたわけではありません。自分に嘘でない言い方を選ぶための練習、くらいが妥当な線です。",
     "source_label": "出典：Jamieson et al., Journal of Experimental Social Psychology, 2010"
@@ -206,7 +218,10 @@
         "same_session_transfer_practice",
         "first_move"
       ],
-      "try_this": "体は？　予報は？　最初の一手は？"
+      "try_this": "体は？　予報は？　最初の一手は？",
+      "how_studied": "同じ判断を、研究で調べられていない別の場面へ持っていく練習。効果量の移植ではなく、身体信号と結果予測を分ける判断だけを運ぶ。",
+      "verdict_line": "研究が保証しているのはここまでではありません。判断の型だけを持ち出す話です。",
+      "verdict_weight": "grey"
     },
     "caveat": "低リスクな場面に限った練習です。落ち着いたかどうかは成果ではなく、成果は最初の一手に戻れたかどうかと考えられます。",
     "source_label": "出典：Jamieson et al., Journal of Experimental Social Psychology, 2010"

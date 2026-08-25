@@ -272,12 +272,7 @@ export const en = {
         limitationsHeader: '⚠️ Limitations',
         citationRolePrefix: '📚 Citation role: ',
         tryThisPrefix: '💡 Try this: ',
-        verdictGuide: {
-            title: 'How to hold this verdict',
-            strong: 'Worked — solid enough to change something.',
-            mixed: 'Close or split — change nothing, and do not repeat it as fact.',
-            unknown: 'Too early to tell — "unknown" is the answer. Doubt anyone certain.',
-        },
+        howStudiedHeader: '📐 How it was studied',
         disclaimerGeneralTrend: 'Note: research findings are general trends and may not apply the same way to you.',
         metaSupportYears: '✓ Used in clinical and research settings for over %{years} years',
         metaSupportTheory: '✓ Theory supported by many studies',

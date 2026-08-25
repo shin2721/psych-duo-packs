@@ -83,6 +83,8 @@ const MAX_CAVEAT_LENGTH = 220;
 const STATISTICAL_NOTATIONS = ['g=', 'g＝', '95%CI', '95% CI', 'β=', 'OR=', 'p<', 'p＜'];
 // 復習で単体に切り出されたときに壊れる書き方。
 const BACK_REFERENCE_PHRASES = ['さっき', '先ほど', '前の問題', 'じゃあ全部'];
+// 判定の重さ。段階は色が持ち、向きは文が言う。
+const VERDICT_WEIGHTS = new Set(['green', 'amber', 'grey']);
 
 interface ValidationError {
   file: string;
@@ -812,6 +814,25 @@ export class LessonValidator {
     if (!isNonEmptyString(question.source_label)) {
       this.addError(filePath, severity,
         'source_label がありません: 誰の何という研究かを1行で画面に出してください',
+        question.id);
+    }
+
+    // 限界だけでは「で、どうすれば」に答えられない。判定の1文と、その重さを必ず持つ。
+    const details = question.expanded_details as Record<string, unknown> | undefined;
+    if (!isNonEmptyString(details?.verdict_line as string)) {
+      this.addError(filePath, severity,
+        'verdict_line がありません: この知見をどう持てばいいかを1文で書いてください',
+        question.id);
+    }
+    if (!VERDICT_WEIGHTS.has(details?.verdict_weight as string)) {
+      this.addError(filePath, severity,
+        `verdict_weight が不正です: ${[...VERDICT_WEIGHTS].join(' / ')} のどれかを指定してください`,
+        question.id);
+    }
+    // 誰に・何をして・何を測ったか。限界欄に混ぜると、長くて雑多な塊になる。
+    if (!isNonEmptyString(details?.how_studied as string)) {
+      this.addError(filePath, severity,
+        'how_studied がありません: 誰に何をして何を測ったかを台帳の記述から書いてください',
         question.id);
     }
 

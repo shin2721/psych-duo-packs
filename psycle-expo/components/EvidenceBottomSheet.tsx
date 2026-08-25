@@ -219,23 +219,27 @@ const styles = StyleSheet.create({
         color: '#fff',
         lineHeight: 20,
     },
-    verdictGuide: {
+    verdict: {
+        alignItems: 'flex-start',
         borderTopColor: 'rgba(255,255,255,0.10)',
         borderTopWidth: 1,
+        flexDirection: 'row',
+        gap: 10,
         marginTop: 18,
-        paddingTop: 14,
+        paddingTop: 16,
     },
-    verdictGuideTitle: {
-        color: 'rgba(255,255,255,0.55)',
-        fontSize: 11,
-        fontWeight: '700',
-        letterSpacing: 0.4,
-        marginBottom: 8,
+    verdictDot: {
+        borderRadius: 5,
+        height: 10,
+        marginTop: 6,
+        width: 10,
     },
-    verdictGuideLine: {
-        color: 'rgba(255,255,255,0.72)',
-        fontSize: 12,
-        lineHeight: 20,
+    verdictText: {
+        color: 'rgba(255,255,255,0.85)',
+        flex: 1,
+        fontSize: 14,
+        fontWeight: '600',
+        lineHeight: 22,
     },
     sourceBox: {
         backgroundColor: 'rgba(34, 197, 94, 0.1)',
