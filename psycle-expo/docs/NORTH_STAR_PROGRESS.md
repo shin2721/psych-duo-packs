@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-25 - The evidence sheet now says how to hold a verdict, and its content can actually be scrolled
+
+- Changed: Replaced the effect-size disclaimer with a fixed three-line legend (worked / close or split / too early to tell) present on every card's sheet, including the line that anyone certain about an unsettled question is worth doubting; drag-to-dismiss narrowed to the handle row so the sheet's inner scroll works; card two's sheet gained the runner's answer
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator confirms the legend renders and the sheet scrolls to it
+- Remaining: Owner tasting of l07; checklist compression pass after the next episode; l02 ledger measurement audit; l03 GRE card rebuild-or-retire; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-25 - Fixed the asterisk leak with a gate, and moved lesson work onto a pipeline that spends agent passes instead of owner attention
 
 - Changed: Emphasis markers trapped inside quotation marks removed from card two and rejected by validate-lessons for every lesson; AI_MODEL_OPERATING_MODEL now defines the lesson pipeline - owner approves the finding and tastes the finished lesson, agent runs source reading, ledger, trace, gates, cross-review with fixes, and Simulator before delivery with a QA note
