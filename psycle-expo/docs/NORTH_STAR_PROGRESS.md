@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-25 - Fixed the asterisk leak with a gate, and moved lesson work onto a pipeline that spends agent passes instead of owner attention
+
+- Changed: Emphasis markers trapped inside quotation marks removed from card two and rejected by validate-lessons for every lesson; AI_MODEL_OPERATING_MODEL now defines the lesson pipeline - owner approves the finding and tastes the finished lesson, agent runs source reading, ledger, trace, gates, cross-review with fixes, and Simulator before delivery with a QA note
+- Verified: tsc clean; 757 tests green; validate 0 errors, and the new gate confirmed to fail on a deliberately broken card; Simulator shows the quotes emphasised with no raw asterisks
+- Remaining: First episode under the new pipeline is the test: no factual corrections within two taste rounds; l02 ledger measurement audit; l03 GRE card rebuild-or-retire; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-21 - Takeaway names the belief, not the activity; read-through scope now covers text outside the cards
 
 - Changed: The takeaway in all three storage sites and card five's first option now name the belief that anger must come out, so ball games and PE are not swept into what the reader drops; checklist and cross-review require reading the completion takeaway, per-card advice, preview copy and choices, not just the five cards
