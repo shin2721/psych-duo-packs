@@ -217,7 +217,6 @@ export const es = {
         limitationsHeader: '⚠️ Limitaciones',
         citationRolePrefix: '📚 Rol de la cita: ',
         tryThisPrefix: '💡 Prueba esto: ',
-        disclaimerEffectSize: 'Nota: no se muestra un tamaño de efecto numérico porque el contexto y las diferencias individuales son grandes.',
         disclaimerGeneralTrend: 'Nota: los hallazgos de investigación son tendencias generales y pueden no aplicarse igual en tu caso.',
         metaSupportYears: '✓ Usado en entornos clínicos y de investigación durante más de %{years} años',
         metaSupportTheory: '✓ Teoría respaldada por muchos estudios',

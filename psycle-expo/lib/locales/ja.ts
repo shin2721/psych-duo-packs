@@ -272,7 +272,12 @@ export const ja = {
         limitationsHeader: '⚠️ 限界',
         citationRolePrefix: '📚 引用の役割：',
         tryThisPrefix: '💡 試すなら：',
-        disclaimerEffectSize: '※ 効果の大きさは状況・個人差が大きいため、数値での断定はしていません。',
+        verdictGuide: {
+            title: 'この判定の持ち方',
+            strong: '効いた —— 生活を変える根拠に使える。',
+            mixed: '際どい・割れた —— 自分は変えず、人には言い切らない。',
+            unknown: '白黒つかず —— 「分からない」が答え。断言する人を疑う。',
+        },
         disclaimerGeneralTrend: '※ 研究結果は一般的な傾向であり、あなたに合うかは試してみるまでわかりません。',
         metaSupportYears: '✓ %{years}年以上、臨床・研究で使用',
         metaSupportTheory: '✓ 多数の研究で支持されている理論',

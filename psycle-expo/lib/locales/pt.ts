@@ -217,7 +217,6 @@ export const pt = {
         limitationsHeader: '⚠️ Limitações',
         citationRolePrefix: '📚 Papel da citação: ',
         tryThisPrefix: '💡 Tente isto: ',
-        disclaimerEffectSize: 'Observação: o tamanho do efeito não é apresentado em número, pois contexto e diferenças individuais são grandes.',
         disclaimerGeneralTrend: 'Observação: resultados de pesquisa são tendências gerais e podem não se aplicar da mesma forma a você.',
         metaSupportYears: '✓ Usado em contextos clínicos e de pesquisa por mais de %{years} anos',
         metaSupportTheory: '✓ Teoria apoiada por vários estudos',

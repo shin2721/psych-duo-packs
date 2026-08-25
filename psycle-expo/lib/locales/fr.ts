@@ -217,7 +217,6 @@ export const fr = {
         limitationsHeader: '⚠️ Limites',
         citationRolePrefix: '📚 Rôle de la citation : ',
         tryThisPrefix: '💡 À essayer : ',
-        disclaimerEffectSize: 'Remarque : la taille d\'effet n\'est pas donnée en valeur numérique, car le contexte et les différences individuelles sont importants.',
         disclaimerGeneralTrend: 'Remarque : les résultats de recherche sont des tendances générales et peuvent ne pas s\'appliquer de la même façon à toi.',
         metaSupportYears: '✓ Utilisé en clinique et en recherche depuis plus de %{years} ans',
         metaSupportTheory: '✓ Théorie soutenue par de nombreuses études',

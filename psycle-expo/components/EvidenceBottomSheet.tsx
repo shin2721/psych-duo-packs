@@ -98,12 +98,10 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
             </TouchableWithoutFeedback>
 
             {/* Bottom Sheet */}
-            <Animated.View
-                style={[styles.sheet, { transform: [{ translateY }] }]}
-                {...panResponder.panHandlers}
-            >
-                {/* Handle bar + Close button row */}
-                <View style={styles.headerRow}>
+            <Animated.View style={[styles.sheet, { transform: [{ translateY }] }]}>
+                {/* Handle bar + Close button row。下スワイプで閉じる操作はこの行だけが拾う。
+                    シート全体で拾うと、内側のスクロールが動かせなくなる。 */}
+                <View style={styles.headerRow} {...panResponder.panHandlers}>
                     <View style={styles.handle} />
                     <TouchableOpacity
                         onPress={onClose}
@@ -221,11 +219,23 @@ const styles = StyleSheet.create({
         color: '#fff',
         lineHeight: 20,
     },
-    disclaimer: {
+    verdictGuide: {
+        borderTopColor: 'rgba(255,255,255,0.10)',
+        borderTopWidth: 1,
+        marginTop: 18,
+        paddingTop: 14,
+    },
+    verdictGuideTitle: {
+        color: 'rgba(255,255,255,0.55)',
         fontSize: 11,
-        color: 'rgba(255,255,255,0.5)',
-        marginTop: 'auto',
-        textAlign: 'center',
+        fontWeight: '700',
+        letterSpacing: 0.4,
+        marginBottom: 8,
+    },
+    verdictGuideLine: {
+        color: 'rgba(255,255,255,0.72)',
+        fontSize: 12,
+        lineHeight: 20,
     },
     sourceBox: {
         backgroundColor: 'rgba(34, 197, 94, 0.1)',

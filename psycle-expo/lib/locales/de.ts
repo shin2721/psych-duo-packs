@@ -217,7 +217,6 @@ export const de = {
         limitationsHeader: '⚠️ Grenzen',
         citationRolePrefix: '📚 Rolle der Quelle: ',
         tryThisPrefix: '💡 Versuch das: ',
-        disclaimerEffectSize: 'Hinweis: Die Effektgröße wird nicht numerisch angegeben, da Kontext und individuelle Unterschiede groß sind.',
         disclaimerGeneralTrend: 'Hinweis: Forschungsergebnisse sind allgemeine Tendenzen und gelten nicht für alle gleich.',
         metaSupportYears: '✓ Seit über %{years} Jahren in Klinik und Forschung im Einsatz',
         metaSupportTheory: '✓ Theorie durch viele Studien gestützt',

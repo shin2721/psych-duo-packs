@@ -58,7 +58,14 @@ export function EvidenceBottomSheetDetails({
         </View>
       ) : null}
 
-      <Text style={styles.disclaimer}>{i18n.t("lesson.disclaimerEffectSize")}</Text>
+      {/* 限界を読んだ読者の「で、どうすれば」に、毎回同じ場所で答える。
+          限界は行動を萎縮させるためではなく、他人の言い切りから身を守るためにある。 */}
+      <View style={styles.verdictGuide}>
+        <Text style={styles.verdictGuideTitle}>{i18n.t("lesson.verdictGuide.title")}</Text>
+        <Text style={styles.verdictGuideLine}>{i18n.t("lesson.verdictGuide.strong")}</Text>
+        <Text style={styles.verdictGuideLine}>{i18n.t("lesson.verdictGuide.mixed")}</Text>
+        <Text style={styles.verdictGuideLine}>{i18n.t("lesson.verdictGuide.unknown")}</Text>
+      </View>
     </>
   );
 }

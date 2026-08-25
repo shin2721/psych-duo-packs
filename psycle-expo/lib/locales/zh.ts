@@ -217,7 +217,6 @@ export const zh = {
         limitationsHeader: '⚠️ 局限',
         citationRolePrefix: '📚 引用作用：',
         tryThisPrefix: '💡 可尝试：',
-        disclaimerEffectSize: '说明：由于情境和个体差异较大，未用数值断言效果大小。',
         disclaimerGeneralTrend: '说明：研究结果反映的是一般趋势，不一定对每个人都同样适用。',
         metaSupportYears: '✓ 在临床与研究中已使用超过 %{years} 年',
         metaSupportTheory: '✓ 该理论得到多项研究支持',

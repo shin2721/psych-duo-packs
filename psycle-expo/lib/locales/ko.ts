@@ -217,7 +217,6 @@ export const ko = {
         limitationsHeader: '⚠️ 한계',
         citationRolePrefix: '📚 인용 역할: ',
         tryThisPrefix: '💡 시도해 보기: ',
-        disclaimerEffectSize: '참고: 상황과 개인차가 커서 효과 크기를 수치로 단정하지 않습니다.',
         disclaimerGeneralTrend: '참고: 연구 결과는 일반적 경향이며, 개인에게 동일하게 적용되지 않을 수 있습니다.',
         metaSupportYears: '✓ %{years}년 이상 임상 및 연구 현장에서 사용',
         metaSupportTheory: '✓ 다수의 연구가 지지하는 이론',
