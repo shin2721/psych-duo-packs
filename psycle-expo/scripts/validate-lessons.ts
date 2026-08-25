@@ -815,6 +815,21 @@ export class LessonValidator {
         question.id);
     }
 
+    // 鉤括弧の内側に強調記号を閉じ込めると、パーサが解釈できず ** が画面に生で出る。
+    for (const [field, label] of [
+      ['question', '設問'],
+      ['explanation', '種明かし'],
+      ['caveat', 'ただし書き'],
+    ] as const) {
+      const text = question[field];
+      if (!isNonEmptyString(text)) continue;
+      if (/[「『]\*\*|\*\*[」』]/.test(text)) {
+        this.addError(filePath, severity,
+          `${label}の鉤括弧の内側に強調記号があります: 画面に ** がそのまま出ます`,
+          question.id);
+      }
+    }
+
     // 画面は単体で読めなければならない。復習はカードを切り出して出すし、
     // 書き手は全カードを頭に入れた状態で読み返すので自分では気づけない。
     // 設問だけでなく種明かしとただし書きも同じ基準で見る。
