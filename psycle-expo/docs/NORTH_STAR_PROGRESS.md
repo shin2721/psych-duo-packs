@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-25 - The evidence sheet now carries method and a per-card verdict with a signal colour
+
+- Changed: Added how_studied and verdict_line/verdict_weight to the question type, required both on every bet card in validate-lessons, and filled them for all four episodes from their ledger entries; the sheet leads with method, keeps limits to actual limits, and closes with one spoken sentence and a green/amber/grey dot instead of a three-line classification legend
+- Verified: tsc clean; 757 tests green; validate 0 errors; Simulator shows method first on card one, the grey verdict there and the green verdict on card three
+- Remaining: Completion screen still shows an evidence-strength tile derived from the intervention card alone, which mislabels a lesson whose cards differ - worth revisiting; owner tasting of l07; checklist compression pass after the next episode; l02 ledger measurement audit; l03 GRE card rebuild-or-retire; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-25 - The evidence sheet now says how to hold a verdict, and its content can actually be scrolled
 
 - Changed: Replaced the effect-size disclaimer with a fixed three-line legend (worked / close or split / too early to tell) present on every card's sheet, including the line that anyone certain about an unsettled question is worth doubting; drag-to-dismiss narrowed to the handle row so the sheet's inner scroll works; card two's sheet gained the runner's answer
