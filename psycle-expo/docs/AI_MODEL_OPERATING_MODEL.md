@@ -23,6 +23,49 @@ For lesson work, keep source modeling, raw pilot, critique, implementation, and
 runtime judgment separate. A weak raw pilot is revised or rejected before JSON,
 audits, XP, or UI are changed.
 
+## Lesson Pipeline and Owner Time
+
+The owner is the last reader of a lesson, not the first. Sending raw drafts to
+them turned a single episode into two weeks of correction rounds, most of which
+were errors an agent should have caught. The pipeline below exists to spend
+agent passes instead of owner attention.
+
+**Owner's part — two decisions, about twenty minutes per lesson**
+
+1. **Approve the finding** (one minute). The agent pitches in four lines: the
+   belief being tested, the verdict, why it is worth a reader's time, the grade
+   of the evidence. The owner answers go or no.
+2. **Taste the finished lesson** (fifteen minutes). One Simulator playthrough,
+   feedback in one batch. Two rounds at most; if a third is needed, the pipeline
+   failed, and the pipeline is what gets fixed.
+
+Anything that changes what readers see beyond a lesson's own copy still needs
+its own approval: adding a lesson to a course, monetization surfaces, deleting
+existing work, and format-level changes.
+
+**Agent's part — everything before the owner sees it**
+
+1. Read the primary source in full. Record measurement, sample and design in the
+   ledger, marking unreported items as unreported (checklist item 0).
+2. Verify the belief being posed is the one the study tested (item 0.1).
+3. Write the cards.
+4. Trace every reader-visible string against a ledger line — cards, completion
+   takeaway, per-card advice, preview copy, choices (item 8).
+5. Run the machine gates: tsc, tests, validate-lessons.
+6. **Run cross-review and fix what it finds.** This step was skipped for the
+   whole of the anger episode, which is why the owner ended up performing it.
+7. Play the lesson through in Simulator.
+8. Deliver with a QA note: what the trace covered, what cross-review raised and
+   how it was resolved, and any judgment call left open for the owner.
+
+**How this is judged**
+
+The next episode built this way should draw no factual or logical corrections
+from the owner, within two rounds of taste feedback. Wording and readability
+notes are expected and are not failures — those are the owner's job. Factual
+corrections are the agent's failures, and if they persist, the fault is in the
+pipeline rather than in the lesson.
+
 ## Optional Model Roles
 
 These are current operating assumptions, not permanent rankings.
