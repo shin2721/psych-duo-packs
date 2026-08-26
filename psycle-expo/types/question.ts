@@ -144,6 +144,8 @@ export interface ExpandedDetails {
   best_for?: string[];
   /** 誰に・何をして・何を測ったか。台帳の記述からだけ書く。 */
   how_studied?: string;
+  /** 判定の一言。強さの目盛りではなく判定そのものを言う（使える／話半分／根拠なし／まだ不明）。 */
+  verdict_label?: string;
   /** この知見をどう持つか。カードの中身について喋る1文。 */
   verdict_line?: string;
   verdict_weight?: VerdictWeight;

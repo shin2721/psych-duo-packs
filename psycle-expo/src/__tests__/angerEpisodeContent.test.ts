@@ -159,9 +159,9 @@ describe("mental_l07 anger and venting episode", () => {
     // 続けた人がその瞬間に強いかも、18件で白黒つかない——2つの読みに答える。
     expect(provoked?.caveat).toContain("平時に続けると、ふだんの怒りが下がる");
     expect(provoked?.caveat).toContain("白黒つかない");
-    // 「有意ではない」を選択肢に残すなら、意味は詳細シートが引き受ける。
+    // 「有意ではない」を選択肢に残すなら、意味は詳細シートが平語で引き受ける。
     expect(provoked?.expanded_details.limitations.join("\n")).toContain(
-      "偶然のばらつきと区別がつかなくなった"
+      "「効いた」と言い切れない"
     );
     expect(provoked?.caveat).toContain("効かないと決まったのではありません");
   });

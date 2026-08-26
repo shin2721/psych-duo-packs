@@ -9,6 +9,7 @@ interface Props {
     evidence_type?: string;
     citation_role?: string;
     how_studied?: string;
+    verdict_label?: string;
     verdict_line?: string;
     verdict_weight?: "green" | "amber" | "grey";
     best_for?: string[];
@@ -23,7 +24,7 @@ interface Props {
 const VERDICT_COLORS: Record<"green" | "amber" | "grey", string> = {
   green: "#22C55E",
   amber: "#E5A93C",
-  grey: "rgba(255,255,255,0.35)",
+  grey: "#94A3B8",
 };
 
 export function EvidenceBottomSheetDetails({
@@ -46,6 +47,24 @@ export function EvidenceBottomSheetDetails({
     <>
       {/* 「向いているケース」は締めカードの仕事と重なる。シートは限界と出典に絞る。
           best_for のデータ自体は他所で使うため残してある。 */}
+      {/* 判定が見出し。やり方と限界はその根拠として下に置く。
+          脚注の位置に置くと、一番知りたい行が最後まで読まないと出てこない。 */}
+      {expandedDetails?.verdict_line ? (
+        <View style={styles.verdict}>
+          <View style={styles.verdictHeadRow}>
+            <View
+              style={[
+                styles.verdictChip,
+                { backgroundColor: VERDICT_COLORS[expandedDetails.verdict_weight ?? "grey"] },
+              ]}
+            >
+              <Text style={styles.verdictChipText}>{expandedDetails.verdict_label}</Text>
+            </View>
+          </View>
+          <Text style={styles.verdictText}>{expandedDetails.verdict_line}</Text>
+        </View>
+      ) : null}
+
       {expandedDetails?.how_studied ? (
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>{i18n.t("lesson.howStudiedHeader")}</Text>
@@ -56,9 +75,11 @@ export function EvidenceBottomSheetDetails({
       {expandedDetails?.limitations && expandedDetails.limitations.length > 0 ? (
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>{i18n.t("lesson.limitationsHeader")}</Text>
-          <Text style={styles.sectionText}>
-            {expandedDetails.limitations.join(listSeparator)}
-          </Text>
+          {expandedDetails.limitations.map((limitation, index) => (
+            <Text key={index} style={styles.bulletText}>
+              ・{limitation}
+            </Text>
+          ))}
         </View>
       ) : null}
 
@@ -74,20 +95,6 @@ export function EvidenceBottomSheetDetails({
         </View>
       ) : null}
 
-      {/* 限界を読んだ読者の「で、どうすれば」に答える。分類の凡例は出さない。
-          色が段階を伝え、文が向きを言う。強さの目盛りを一本引くと
-          「調べた結果、効く証拠がなかった」の置き場所がなくなる。 */}
-      {expandedDetails?.verdict_line ? (
-        <View style={styles.verdict}>
-          <View
-            style={[
-              styles.verdictDot,
-              { backgroundColor: VERDICT_COLORS[expandedDetails.verdict_weight ?? "grey"] },
-            ]}
-          />
-          <Text style={styles.verdictText}>{expandedDetails.verdict_line}</Text>
-        </View>
-      ) : null}
     </>
   );
 }
