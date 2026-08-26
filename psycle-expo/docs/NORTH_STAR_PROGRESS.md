@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-08-26 - Verdict chip leads the sheet, limits are bulleted, and the sheet copy is finally in reader language
+
+- Changed: Added verdict_label and rendered it as a coloured chip at the top of the sheet with the spoken line beneath; method and limits follow as the grounds; limits render one per line instead of comma-joined; audited all four episodes and rewrote 27 pieces of ledger shorthand into plain language
+- Verified: tsc clean; 757 tests green; validate 0 errors; jargon scan across all sheet fields returns zero; Simulator shows the chip, the bulleted limits and the plain copy on card one
+- Remaining: Owner tasting of l07; completion screen's evidence-strength tile still derives from one card and mislabels a mixed lesson; checklist compression pass after the next episode; l02 ledger measurement audit; l03 GRE card rebuild-or-retire; transfer_successes measurement bug; Jamieson_2012 ledger claim; Flynn and Lake PMID typo
+
 ### 2026-08-25 - The evidence sheet now carries method and a per-card verdict with a signal colour
 
 - Changed: Added how_studied and verdict_line/verdict_weight to the question type, required both on every bet card in validate-lessons, and filled them for all four episodes from their ledger entries; the sheet leads with method, keeps limits to actual limits, and closes with one spoken sentence and a green/amber/grey dot instead of a three-line classification legend
