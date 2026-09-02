@@ -89,7 +89,7 @@ const LOCALE_SMOKE_CASES = [
   {
     locale: "ja-JP",
     onboardingSubtitle: "1日3分で、心を強くする。",
-    interestsTitle: "何を学びたいですか？",
+    interestsTitle: "今日、少し軽くしたいことは？",
     questionRegex: /[\u3040-\u30ff\u3400-\u9fff]/,
   },
 ];
