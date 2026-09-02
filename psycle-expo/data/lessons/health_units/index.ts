@@ -4,9 +4,6 @@ import type { LessonContinuityMetadata } from "../../../types/lessonContinuity";
 import type { LessonOperationalMetadata } from "../../../types/lessonOperational";
 import health_l01_ja from "./health_l01.ja.json";
 
-// English translations (fallback to ja if not available)
-import health_l01_en from "./health_l01.en.json";
-
 // Continuity metadata
 import health_l01_continuity from "./health_l01.continuity.json";
 
@@ -16,11 +13,6 @@ import health_l01_evidence from "./health_l01.evidence.json";
 // Japanese (base) - always available
 export const healthData_ja = [
   ...health_l01_ja,
-];
-
-// English - uses en where available, falls back to ja
-export const healthData_en = [
-  ...health_l01_en,
 ];
 
 // Default export (ja for backward compatibility)
@@ -55,16 +47,9 @@ export function getHealthDataEvidenceMap(): Record<string, LessonOperationalMeta
 }
 
 /**
- * Get health data for specified locale with fallback
- * Fallback order: requested -> en -> ja
+ * Get health data for specified locale
+ * No generated locale is active for this unit: every language reads the ja source.
  */
-export function getHealthDataForLocale(locale: string): RawLessonJsonEntry[] {
-  const lang = locale.split('-')[0].toLowerCase();
-
-  if (lang === 'en') {
-    return healthData_en;
-  }
-
-  // All other languages fall back to ja for now
+export function getHealthDataForLocale(_locale: string): RawLessonJsonEntry[] {
   return healthData_ja;
 }

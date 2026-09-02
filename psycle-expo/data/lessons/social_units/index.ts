@@ -5,10 +5,6 @@ import type { LessonOperationalMetadata } from "../../../types/lessonOperational
 import social_l01_ja from "./social_l01.ja.json";
 import social_l02_ja from "./social_l02.ja.json";
 
-// English translations (fallback to ja if not available)
-import social_l01_en from "./social_l01.en.json";
-import social_l02_en from "./social_l02.en.json";
-
 // Continuity metadata
 import social_l01_continuity from "./social_l01.continuity.json";
 import social_l02_continuity from "./social_l02.continuity.json";
@@ -21,12 +17,6 @@ import social_l02_evidence from "./social_l02.evidence.json";
 export const socialData_ja = [
   ...social_l01_ja,
   ...social_l02_ja,
-];
-
-// English - uses en where available, falls back to ja
-export const socialData_en = [
-  ...social_l01_en,
-  ...social_l02_en,
 ];
 
 // Default export (ja for backward compatibility)
@@ -63,16 +53,9 @@ export function getSocialDataEvidenceMap(): Record<string, LessonOperationalMeta
 }
 
 /**
- * Get social data for specified locale with fallback
- * Fallback order: requested -> en -> ja
+ * Get social data for specified locale
+ * No generated locale is active for this unit: every language reads the ja source.
  */
-export function getSocialDataForLocale(locale: string): RawLessonJsonEntry[] {
-  const lang = locale.split('-')[0].toLowerCase();
-
-  if (lang === 'en') {
-    return socialData_en;
-  }
-
-  // All other languages fall back to ja for now
+export function getSocialDataForLocale(_locale: string): RawLessonJsonEntry[] {
   return socialData_ja;
 }

@@ -1,10 +1,16 @@
 #!/usr/bin/env node
 /**
- * i18n Lint Script
+ * i18n Lint Script (UI strings in lib/locales/*.ts)
+ *
+ * Locale policy comes from config/locales.json: `source` (ja) is the only
+ * hand-written locale; every other locale is generated from it. A locale file
+ * that exists is validated strictly against the source. An active locale whose
+ * file is missing is an error; a target locale with no file is "not generated"
+ * and is only reported.
  *
  * Validates translation files for:
- * 1. Missing keys (compared to base locale 'ja')
- * 2. Placeholder mismatch ({{name}} style)
+ * 1. Missing keys (compared to the source locale)
+ * 2. Placeholder mismatch (%{name} i18n-js style, and {{name}})
  * 3. ICU MessageFormat parse errors
  * 4. Duplicate values (potential copy-paste errors)
  *
@@ -16,13 +22,16 @@ const fs = require('fs');
 const path = require('path');
 
 const LOCALES_DIR = path.join(__dirname, '..', 'lib', 'locales');
-const BASE_LOCALE = 'ja';
+const LOCALE_CONFIG = require(path.join(__dirname, '..', 'config', 'locales.json'));
+const BASE_LOCALE = LOCALE_CONFIG.source;
+const ACTIVE_TARGETS = LOCALE_CONFIG.active.filter((locale) => locale !== BASE_LOCALE);
+const KNOWN_TARGETS = LOCALE_CONFIG.targets;
 
 // Keys allowed to have duplicate values (e.g., same UI text appears in multiple places)
 const ALLOW_DUPLICATE_KEYS = new Set(['shop.subscription.restore', 'settings.restorePurchases']);
 
-// Simple placeholder pattern: {{variableName}}
-const PLACEHOLDER_PATTERN = /\{\{[^}]+\}\}/g;
+// Placeholder patterns: i18n-js %{variableName} (what the app uses) and {{variableName}}
+const PLACEHOLDER_PATTERN = /%\{[^}]+\}|\{\{[^}]+\}\}/g;
 
 // ICU MessageFormat patterns
 const ICU_PATTERNS = {
@@ -145,11 +154,30 @@ function validate() {
 
   console.log(`Base locale (${BASE_LOCALE}): ${baseKeys.length} keys\n`);
 
-  // Get all locales
-  const localeNames = getLocaleNames();
-  console.log(`Found locales: ${localeNames.join(', ')}\n`);
+  // Locale policy: which files exist, which locales are active.
+  const presentNames = getLocaleNames();
+  console.log(`Source locale: ${BASE_LOCALE}`);
+  console.log(`Active generated locales: ${ACTIVE_TARGETS.join(', ') || '(none)'}`);
+  console.log(`Locale files present: ${presentNames.join(', ')}`);
+  for (const localeName of ACTIVE_TARGETS) {
+    if (!presentNames.includes(localeName)) {
+      errors.push(`[${localeName}] Locale is active but lib/locales/${localeName}.ts is missing`);
+    }
+  }
+  for (const localeName of presentNames) {
+    if (localeName === BASE_LOCALE || ACTIVE_TARGETS.includes(localeName)) continue;
+    const known = KNOWN_TARGETS.includes(localeName) ? 'known target' : 'unknown locale';
+    console.log(`  [${localeName}] present but inactive (${known}) — validated, but the app does not register it`);
+  }
+  for (const localeName of KNOWN_TARGETS) {
+    if (!presentNames.includes(localeName) && !ACTIVE_TARGETS.includes(localeName)) {
+      console.log(`  [${localeName}] not generated — skipped`);
+    }
+  }
+  console.log('');
+  const localeNames = presentNames;
 
-  // Check each locale
+  // Check each locale file that exists
   for (const localeName of localeNames) {
     if (localeName === BASE_LOCALE) continue;
 
@@ -252,7 +280,7 @@ function validate() {
 
   // Summary
   console.log('\n=== Summary ===');
-  console.log(`Locales checked: ${localeNames.length}`);
+  console.log(`Locales checked: ${localeNames.length} (${localeNames.join(', ')})`);
   console.log(`Total keys (base): ${baseKeys.length}`);
   console.log(`Errors: ${errors.length}`);
   console.log(`Warnings: ${warnings.length}`);

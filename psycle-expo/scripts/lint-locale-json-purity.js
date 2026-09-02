@@ -13,6 +13,9 @@ const fs = require('fs');
 const path = require('path');
 
 const ROOT = path.resolve(process.cwd(), 'data/lessons');
+const LOCALE_CONFIG = require(path.join(__dirname, '..', 'config', 'locales.json'));
+const ACTIVE_TARGETS = LOCALE_CONFIG.active.filter((locale) => locale !== LOCALE_CONFIG.source);
+const KNOWN_TARGETS = LOCALE_CONFIG.targets;
 
 // Script ranges:
 // - Kana: Hiragana + Katakana (JP-specific enough for zh/ko checks)
@@ -105,12 +108,21 @@ function main() {
   const allFiles = [];
   collectLocaleJsonFiles(ROOT, allFiles);
 
-  const targetLangs = args.langs || Object.keys(DISALLOWED_BY_LANG);
+  // Default: the active generated locales plus any known target that already has
+  // files on disk (present-but-inactive files are validated too). --langs overrides.
+  const presentLangs = Array.from(new Set(allFiles.map((f) => f.lang))).filter((lang) =>
+    KNOWN_TARGETS.includes(lang)
+  );
+  const targetLangs = args.langs || Array.from(new Set([...ACTIVE_TARGETS, ...presentLangs]));
+  if (targetLangs.length === 0) {
+    console.log('ℹ️ No active or generated locale (config/locales.json) — purity check skipped (not generated).');
+    process.exit(0);
+  }
   const targetSet = new Set(targetLangs);
 
   const files = allFiles.filter((f) => targetSet.has(f.lang));
   if (files.length === 0) {
-    console.log(`⚠️ No locale JSON files found for langs: ${targetLangs.join(',')}`);
+    console.log(`ℹ️ No locale JSON files found for langs: ${targetLangs.join(',')} — not generated, skipped.`);
     process.exit(0);
   }
 

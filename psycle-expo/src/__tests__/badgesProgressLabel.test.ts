@@ -72,14 +72,16 @@ describe("badges progress labels", () => {
     expect(reached).toBe(true);
   });
 
-  test("badge names follow the active locale", () => {
+  test("badge names fall back to ja for a locale that is not active", () => {
     const badge = BADGES.find((item) => item.id === "first_lesson");
     expect(badge).toBeDefined();
 
     i18n.locale = "ja";
     expect(badge?.name).toBe("初めの一歩");
 
-    i18n.locale = "en";
-    expect(badge?.name).toBe("First Step");
+    // A locale that is not registered (here: one the product does not offer)
+    // must show the ja copy, not a missing-translation marker.
+    i18n.locale = "zz";
+    expect(badge?.name).toBe("初めの一歩");
   });
 });

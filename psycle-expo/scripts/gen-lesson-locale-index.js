@@ -2,8 +2,11 @@
 /**
  * Generate index.ts for lesson unit directories from filesystem
  *
- * Scans data/lessons/*_units/ for *.ja.json and *.en.json files,
- * then generates index.ts with correct imports and locale-aware exports.
+ * Scans data/lessons/*_units/ for <lesson>.<locale>.json files of the ACTIVE
+ * locales (config/locales.json) and generates index.ts with the imports and
+ * a locale-aware getter. The source locale (ja) is always emitted; a generated
+ * locale is only wired once it is listed in `active`. Files of inactive
+ * locales are ignored. Every unit always exports get<Unit>DataForLocale().
  *
  * Supports all units: mental, health, money, social, study, work
  *
@@ -16,6 +19,10 @@ const fs = require('fs');
 const path = require('path');
 
 const LESSONS_DIR = path.join(__dirname, '..', 'data', 'lessons');
+const LOCALE_CONFIG = require(path.join(__dirname, '..', 'config', 'locales.json'));
+const SOURCE_LOCALE = LOCALE_CONFIG.source;
+// Generated locales that are switched on. Order = fallback priority in the getter.
+const ACTIVE_TARGETS = LOCALE_CONFIG.active.filter((locale) => locale !== SOURCE_LOCALE);
 
 // Unit config: unitDir -> { prefix, exportName }
 const UNITS = {
@@ -81,15 +88,19 @@ function generateUnit(unitDir, config) {
     }
   }
 
-  const sortedLessons = Array.from(lessons.keys()).sort(compareLessonNames);
+  const sortedLessons = Array.from(lessons.keys())
+    .filter((lesson) => lessons.get(lesson).has(SOURCE_LOCALE))
+    .sort(compareLessonNames);
   if (sortedLessons.length === 0) return null;
 
-  // Check if any en files exist
-  const hasAnyEn = sortedLessons.some(l => lessons.get(l).has('en'));
+  // Active generated locales that have at least one file in this unit.
+  const presentTargets = ACTIVE_TARGETS.filter((locale) =>
+    sortedLessons.some((lesson) => lessons.get(lesson).has(locale))
+  );
 
   // Build imports
   const jaImports = [];
-  const enImports = [];
+  const targetImports = new Map(presentTargets.map((locale) => [locale, []]));
   const continuityImports = [];
   const evidenceImports = [];
 
@@ -97,11 +108,11 @@ function generateUnit(unitDir, config) {
     const locales = lessons.get(lesson);
     const varName = lesson.replace(/\./g, '_');
 
-    if (locales.has('ja')) {
-      jaImports.push(`import ${varName}_ja from "./${lesson}.ja.json";`);
-    }
-    if (locales.has('en')) {
-      enImports.push(`import ${varName}_en from "./${lesson}.en.json";`);
+    jaImports.push(`import ${varName}_ja from "./${lesson}.${SOURCE_LOCALE}.json";`);
+    for (const locale of presentTargets) {
+      if (locales.has(locale)) {
+        targetImports.get(locale).push(`import ${varName}_${locale} from "./${lesson}.${locale}.json";`);
+      }
     }
     if (continuityLessons.has(lesson)) {
       continuityImports.push(`import ${varName}_continuity from "./${lesson}.continuity.json";`);
@@ -112,16 +123,13 @@ function generateUnit(unitDir, config) {
   }
 
   // Build export arrays
-  const jaSpreadEntries = sortedLessons
-    .filter(l => lessons.get(l).has('ja'))
-    .map(l => `  ...${l.replace(/\./g, '_')}_ja,`);
+  const jaSpreadEntries = sortedLessons.map((l) => `  ...${l.replace(/\./g, '_')}_ja,`);
 
-  const enSpreadEntries = sortedLessons
-    .filter(l => lessons.get(l).has('ja'))
-    .map(l => {
+  const targetSpreadEntries = (locale) =>
+    sortedLessons.map((l) => {
       const varName = l.replace(/\./g, '_');
-      if (lessons.get(l).has('en')) {
-        return `  ...${varName}_en,`;
+      if (lessons.get(l).has(locale)) {
+        return `  ...${varName}_${locale},`;
       }
       return `  ...${varName}_ja, // fallback to ja`;
     });
@@ -134,10 +142,10 @@ import type { LessonOperationalMetadata } from "../../../types/lessonOperational
 ${jaImports.join('\n')}
 `;
 
-  if (hasAnyEn) {
+  for (const locale of presentTargets) {
     output += `
-// English translations (fallback to ja if not available)
-${enImports.join('\n')}
+// ${locale} (generated from ja; falls back to ja per lesson when missing)
+${targetImports.get(locale).join('\n')}
 `;
   }
 
@@ -162,11 +170,11 @@ ${jaSpreadEntries.join('\n')}
 ];
 `;
 
-  if (hasAnyEn) {
+  for (const locale of presentTargets) {
     output += `
-// English - uses en where available, falls back to ja
-export const ${config.exportName}_en = [
-${enSpreadEntries.join('\n')}
+// ${locale} - uses ${locale} where available, falls back to ja
+export const ${config.exportName}_${locale} = [
+${targetSpreadEntries(locale).join('\n')}
 ];
 `;
   }
@@ -216,20 +224,31 @@ export function get${config.exportName[0].toUpperCase() + config.exportName.slic
 }
 `;
 
-  if (hasAnyEn) {
+  if (presentTargets.length > 0) {
+    const branches = presentTargets
+      .map((locale) => `  if (lang === '${locale}') {\n    return ${config.exportName}_${locale};\n  }`)
+      .join('\n');
     output += `
 /**
  * Get ${unitDir.replace('_units', '')} data for specified locale with fallback
- * Fallback order: requested -> en -> ja
+ * Fallback order: requested active locale -> ja (source)
  */
 export function ${config.funcName}(locale: string): RawLessonJsonEntry[] {
   const lang = locale.split('-')[0].toLowerCase();
 
-  if (lang === 'en') {
-    return ${config.exportName}_en;
-  }
+${branches}
 
-  // All other languages fall back to ja for now
+  // Every other language reads the ja source
+  return ${config.exportName}_ja;
+}
+`;
+  } else {
+    output += `
+/**
+ * Get ${unitDir.replace('_units', '')} data for specified locale
+ * No generated locale is active for this unit: every language reads the ja source.
+ */
+export function ${config.funcName}(_locale: string): RawLessonJsonEntry[] {
   return ${config.exportName}_ja;
 }
 `;
@@ -241,20 +260,22 @@ export function ${config.funcName}(locale: string): RawLessonJsonEntry[] {
   return {
     lessons: sortedLessons.length,
     ja: jaImports.length,
-    en: enImports.length,
+    targets: Object.fromEntries(presentTargets.map((locale) => [locale, targetImports.get(locale).length])),
     outputPath,
   };
 }
 
 function main() {
   console.log('=== gen-lesson-locale-index (all units) ===\n');
+  console.log(`source locale: ${SOURCE_LOCALE}; active generated locales: ${ACTIVE_TARGETS.join(', ') || '(none)'}\n`);
 
   let totalGenerated = 0;
 
   for (const [unitDir, config] of Object.entries(UNITS)) {
     const result = generateUnit(unitDir, config);
     if (result) {
-      console.log(`${unitDir}: ${result.lessons} lessons (ja=${result.ja}, en=${result.en})`);
+      const targetSummary = Object.entries(result.targets).map(([locale, count]) => `, ${locale}=${count}`).join('');
+      console.log(`${unitDir}: ${result.lessons} lessons (ja=${result.ja}${targetSummary})`);
       totalGenerated++;
     } else {
       console.log(`${unitDir}: skipped (no lesson files found)`);

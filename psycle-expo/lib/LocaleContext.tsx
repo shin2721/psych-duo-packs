@@ -1,13 +1,15 @@
 import React, { createContext, useContext, useEffect, useMemo, useState } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "./i18n";
+import localeConfig from "../config/locales.json";
 
 const LOCALE_STORAGE_KEY = "appLocale";
 
-export const SUPPORTED_LOCALES = ["ja", "en", "es", "zh", "fr", "de", "ko", "pt"] as const;
-export type SupportedLocale = (typeof SUPPORTED_LOCALES)[number];
+// Every locale the product may ever offer (source + generation targets).
+export type SupportedLocale = "ja" | "en" | "es" | "zh" | "fr" | "de" | "ko" | "pt";
 
-export const LOCALE_OPTIONS: Array<{ code: SupportedLocale; label: string }> = [
+// Labels for all known locales; only the active ones (config/locales.json) are offered.
+const LOCALE_LABELS: Array<{ code: SupportedLocale; label: string }> = [
   { code: "ja", label: "日本語" },
   { code: "en", label: "English" },
   { code: "es", label: "Español" },
@@ -17,6 +19,15 @@ export const LOCALE_OPTIONS: Array<{ code: SupportedLocale; label: string }> = [
   { code: "ko", label: "한국어" },
   { code: "pt", label: "Português" },
 ];
+
+// Active locales: registered in lib/i18n.ts and validated by CI. Anything else
+// is normalized to the source locale (ja) so a device set to an inactive
+// language gets a coherent ja UI instead of a half-translated one.
+export const SUPPORTED_LOCALES: readonly SupportedLocale[] = localeConfig.active as SupportedLocale[];
+
+export const LOCALE_OPTIONS: Array<{ code: SupportedLocale; label: string }> = LOCALE_LABELS.filter((option) =>
+  SUPPORTED_LOCALES.includes(option.code)
+);
 
 type LocaleContextValue = {
   locale: SupportedLocale;

@@ -4,9 +4,6 @@ import type { LessonContinuityMetadata } from "../../../types/lessonContinuity";
 import type { LessonOperationalMetadata } from "../../../types/lessonOperational";
 import money_l01_ja from "./money_l01.ja.json";
 
-// English translations (fallback to ja if not available)
-import money_l01_en from "./money_l01.en.json";
-
 // Continuity metadata
 import money_l01_continuity from "./money_l01.continuity.json";
 
@@ -16,11 +13,6 @@ import money_l01_evidence from "./money_l01.evidence.json";
 // Japanese (base) - always available
 export const moneyData_ja = [
   ...money_l01_ja,
-];
-
-// English - uses en where available, falls back to ja
-export const moneyData_en = [
-  ...money_l01_en,
 ];
 
 // Default export (ja for backward compatibility)
@@ -55,16 +47,9 @@ export function getMoneyDataEvidenceMap(): Record<string, LessonOperationalMetad
 }
 
 /**
- * Get money data for specified locale with fallback
- * Fallback order: requested -> en -> ja
+ * Get money data for specified locale
+ * No generated locale is active for this unit: every language reads the ja source.
  */
-export function getMoneyDataForLocale(locale: string): RawLessonJsonEntry[] {
-  const lang = locale.split('-')[0].toLowerCase();
-
-  if (lang === 'en') {
-    return moneyData_en;
-  }
-
-  // All other languages fall back to ja for now
+export function getMoneyDataForLocale(_locale: string): RawLessonJsonEntry[] {
   return moneyData_ja;
 }

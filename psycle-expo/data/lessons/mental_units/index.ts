@@ -13,17 +13,6 @@ import mental_m01_ja from "./mental_m01.ja.json";
 import mental_m02_ja from "./mental_m02.ja.json";
 import mental_m03_ja from "./mental_m03.ja.json";
 
-// English translations (fallback to ja if not available)
-import mental_l01_en from "./mental_l01.en.json";
-import mental_l02_en from "./mental_l02.en.json";
-import mental_l03_en from "./mental_l03.en.json";
-import mental_l04_en from "./mental_l04.en.json";
-import mental_l05_en from "./mental_l05.en.json";
-import mental_l06_en from "./mental_l06.en.json";
-import mental_m01_en from "./mental_m01.en.json";
-import mental_m02_en from "./mental_m02.en.json";
-import mental_m03_en from "./mental_m03.en.json";
-
 // Continuity metadata
 import mental_l01_continuity from "./mental_l01.continuity.json";
 import mental_l02_continuity from "./mental_l02.continuity.json";
@@ -60,20 +49,6 @@ export const mentalData_ja = [
   ...mental_m01_ja,
   ...mental_m02_ja,
   ...mental_m03_ja,
-];
-
-// English - uses en where available, falls back to ja
-export const mentalData_en = [
-  ...mental_l01_en,
-  ...mental_l02_en,
-  ...mental_l03_en,
-  ...mental_l04_en,
-  ...mental_l05_en,
-  ...mental_l06_en,
-  ...mental_l07_ja, // fallback to ja
-  ...mental_m01_en,
-  ...mental_m02_en,
-  ...mental_m03_en,
 ];
 
 // Default export (ja for backward compatibility)
@@ -126,16 +101,9 @@ export function getMentalDataEvidenceMap(): Record<string, LessonOperationalMeta
 }
 
 /**
- * Get mental data for specified locale with fallback
- * Fallback order: requested -> en -> ja
+ * Get mental data for specified locale
+ * No generated locale is active for this unit: every language reads the ja source.
  */
-export function getMentalDataForLocale(locale: string): RawLessonJsonEntry[] {
-  const lang = locale.split('-')[0].toLowerCase();
-
-  if (lang === 'en') {
-    return mentalData_en;
-  }
-
-  // All other languages fall back to ja for now
+export function getMentalDataForLocale(_locale: string): RawLessonJsonEntry[] {
   return mentalData_ja;
 }

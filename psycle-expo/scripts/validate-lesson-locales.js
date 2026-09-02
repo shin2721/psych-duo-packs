@@ -24,7 +24,13 @@ const fs = require('fs');
 const path = require('path');
 
 const LESSONS_DIR = path.join(__dirname, '..', 'data', 'lessons');
-const BASE_LOCALE = 'ja';
+const LOCALE_CONFIG = require(path.join(__dirname, '..', 'config', 'locales.json'));
+const BASE_LOCALE = LOCALE_CONFIG.source;
+// Active generated locales: every lesson must have a file (a missing one is an error).
+const ACTIVE_TARGETS = LOCALE_CONFIG.active.filter((locale) => locale !== BASE_LOCALE);
+// Allowed generated locales that are not active: files that exist are validated,
+// files that do not exist are reported as "not generated" and never fail CI.
+const KNOWN_TARGETS = new Set(LOCALE_CONFIG.targets);
 
 // Fields that must be identical (not translated)
 const NON_TRANSLATABLE_FIELDS = new Set([
@@ -219,13 +225,15 @@ function compareStructure(base, target, path = '', errors = []) {
 /**
  * Validate a single lesson across all locales
  */
-function validateLesson(baseName, locales) {
+function validateLesson(baseName, locales, strictLocales = new Set()) {
   const results = {
     baseName,
     locales: Array.from(locales),
     errors: [],
     warnings: [],
   };
+  // Strict (active) locales are checked even when the lesson has no file for them.
+  const localesToCheck = new Set([...locales, ...strictLocales]);
 
   // Load base (ja) file
   const baseLesson = loadLesson(baseName, BASE_LOCALE);
@@ -239,12 +247,15 @@ function validateLesson(baseName, locales) {
   }
 
   // Validate each other locale
-  for (const locale of locales) {
+  for (const locale of localesToCheck) {
     if (locale === BASE_LOCALE) continue;
 
     const targetLesson = loadLesson(baseName, locale);
     if (!targetLesson) {
-      // Not an error - locale doesn't exist yet (gradual rollout)
+      if (strictLocales.has(locale)) {
+        results.errors.push(`[${locale}] Missing translation file (locale is active, so every lesson needs one)`);
+      }
+      // Inactive locale without a file: not generated yet, not an error.
       continue;
     }
     if (targetLesson.error) {
@@ -275,7 +286,33 @@ function validate() {
 
   // Get all lessons
   const lessons = getLessonBaseNames();
-  console.log(`Found ${lessons.size} lesson(s)\n`);
+  console.log(`Found ${lessons.size} lesson(s)`);
+
+  // Locale policy: which generated locales exist on disk, and which are active.
+  const presentLocales = new Set();
+  for (const locales of lessons.values()) {
+    for (const locale of locales) presentLocales.add(locale);
+  }
+  presentLocales.delete(BASE_LOCALE);
+  const strictLocales = new Set(ACTIVE_TARGETS);
+  console.log(`Source locale: ${BASE_LOCALE}`);
+  console.log(`Active generated locales: ${ACTIVE_TARGETS.join(', ') || '(none)'}`);
+  for (const locale of ACTIVE_TARGETS) {
+    if (!presentLocales.has(locale)) {
+      console.log(`  [${locale}] active but has no files yet — every lesson will be reported as missing`);
+    }
+  }
+  for (const locale of presentLocales) {
+    if (strictLocales.has(locale)) continue;
+    const known = KNOWN_TARGETS.has(locale) ? 'known target' : 'unknown locale';
+    console.log(`  [${locale}] present but inactive (${known}) — existing files are validated, missing ones are not errors`);
+  }
+  for (const locale of LOCALE_CONFIG.targets) {
+    if (!presentLocales.has(locale) && !strictLocales.has(locale)) {
+      console.log(`  [${locale}] not generated — skipped`);
+    }
+  }
+  console.log('');
 
   // Summary
   const summary = {
@@ -286,7 +323,7 @@ function validate() {
 
   // Validate each lesson
   for (const [baseName, locales] of lessons) {
-    const results = validateLesson(baseName, locales);
+    const results = validateLesson(baseName, locales, strictLocales);
 
     // Count lessons with multiple locales
     if (locales.size > 1) {

@@ -1,0 +1,6 @@
+{
+  "_comment": "Locale policy. `source` is the only hand-written locale. `active` lists the locales the app registers and CI validates strictly (a missing file in an active locale is an error). `targets` is the allowlist the machine-translation generator may produce; a target that has no files is reported as `not generated`, never as an error. Activating a generated locale = (1) generate its lesson files (content:i18n:draft) and its UI strings file lib/locales/<xx>.ts (UI generator not written yet), (2) run the i18n gates, (3) add it to `active` here, (4) register it in lib/i18n.ts, (5) regenerate the unit index files (content:i18n:gen) and commit them.",
+  "source": "ja",
+  "active": ["ja"],
+  "targets": ["en", "es", "zh", "fr", "de", "ko", "pt"]
+}

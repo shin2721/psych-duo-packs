@@ -4,8 +4,10 @@ import fs from "node:fs";
 import path from "node:path";
 
 const LESSON_ROOT = path.join(process.cwd(), "data", "lessons");
-const DEFAULT_LOCALE = "ja";
-const SUPPORTED_LOCALES = ["ja", "en", "fr", "es", "de", "ko", "pt", "zh"];
+const LOCALE_CONFIG = JSON.parse(fs.readFileSync(new URL("../config/locales.json", import.meta.url), "utf8"));
+const DEFAULT_LOCALE = LOCALE_CONFIG.source;
+// Active locales only (config/locales.json); inactive targets have no files to audit.
+const SUPPORTED_LOCALES = LOCALE_CONFIG.active;
 
 function parseArgs(argv) {
   const args = {

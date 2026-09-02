@@ -79,19 +79,29 @@ async function stopExpo() {
   }
 }
 
+// Locale policy (config/locales.json): ja is the source; other locales are
+// generated and switched on through `active`. A browser set to a language that
+// is NOT active must still get a coherent ja UI — the fallback cases prove that.
+// When a locale is activated, drop it from the fallback set here and add a real
+// case with that locale's copy.
+const localeConfig = JSON.parse(readFileSync(new URL("../config/locales.json", import.meta.url), "utf8"));
+
+const JA_COPY = {
+  onboardingSubtitle: "1日3分で、心を強くする。",
+  interestsTitle: "今日、少し軽くしたいことは？",
+  questionRegex: /[\u3040-\u30ff\u3400-\u9fff]/,
+};
+
+// Browser locale tags for the generation targets (used only while they are inactive).
+const FALLBACK_BROWSER_LOCALES = { en: "en-US", es: "es-ES", zh: "zh-CN", fr: "fr-FR", de: "de-DE", ko: "ko-KR", pt: "pt-BR" };
+const inactiveFallbackCases = localeConfig.targets
+  .filter((locale) => !localeConfig.active.includes(locale) && FALLBACK_BROWSER_LOCALES[locale])
+  .slice(0, 1) // one inactive language is enough to prove the fallback
+  .map((locale) => ({ locale: FALLBACK_BROWSER_LOCALES[locale], ...JA_COPY }));
+
 const LOCALE_SMOKE_CASES = [
-  {
-    locale: "en-US",
-    onboardingSubtitle: "Build mental strength in just 3 minutes a day.",
-    interestsTitle: "What do you want to learn?",
-    questionRegex: /[A-Za-z]/,
-  },
-  {
-    locale: "ja-JP",
-    onboardingSubtitle: "1日3分で、心を強くする。",
-    interestsTitle: "今日、少し軽くしたいことは？",
-    questionRegex: /[\u3040-\u30ff\u3400-\u9fff]/,
-  },
+  ...inactiveFallbackCases,
+  { locale: "ja-JP", ...JA_COPY },
 ];
 
 async function runLocaleSmokeCase(browser, testCase) {
@@ -171,9 +181,9 @@ async function run() {
 
     await browser.close();
     if (runAuthenticatedFlow) {
-      console.log("Web smoke passed (authenticated): EN/JA onboarding -> sign in -> lesson progression.");
+      console.log("Web smoke passed (authenticated): ja onboarding (en-US falls back to ja) -> sign in -> lesson progression.");
     } else {
-      console.log("Web smoke passed (unauthenticated): EN/JA onboarding -> auth screen visible.");
+      console.log("Web smoke passed (unauthenticated): ja onboarding (en-US falls back to ja) -> auth screen visible.");
     }
   } catch (error) {
     await browser.close();

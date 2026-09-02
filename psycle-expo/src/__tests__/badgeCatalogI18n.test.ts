@@ -1,24 +1,9 @@
 import { BADGES } from "../../lib/badges";
 import i18n from "../../lib/i18n";
-import { de } from "../../lib/locales/de";
-import { en } from "../../lib/locales/en";
-import { es } from "../../lib/locales/es";
-import { fr } from "../../lib/locales/fr";
-import { ja } from "../../lib/locales/ja";
-import { ko } from "../../lib/locales/ko";
-import { pt } from "../../lib/locales/pt";
-import { zh } from "../../lib/locales/zh";
 
-const LOCALES = {
-  ja,
-  en,
-  es,
-  zh,
-  fr,
-  de,
-  ko,
-  pt,
-} as const;
+// Every locale registered in lib/i18n.ts (the active set from config/locales.json).
+// A generated locale becomes part of this check the moment it is registered.
+const LOCALES = i18n.translations as Record<string, unknown>;
 
 type LocaleCode = keyof typeof LOCALES;
 type BadgeField = "name" | "description";

@@ -1,4 +1,5 @@
 import type { LessonMetadata, Question } from "../types/question";
+import localeConfig from "../config/locales.json";
 
 // トップレベルでJSONファイルをインポート（Metro bundlerが確実に認識するため）
 // Force reload: 2025-11-13 21:20
@@ -208,8 +209,16 @@ function metadataAppliesToLocale(metadata: LessonMetadata | null, locale: string
   const localeScope = metadata?.locale_scope;
   if (!localeScope || localeScope.length === 0) return true;
 
+  // Locale policy (config/locales.json): a locale that is not active is served
+  // the source (ja) data, and an active generated locale is a translation of
+  // that same source. Either way the metadata authored for the source lesson
+  // applies, so the scope check runs against the locale that is actually
+  // served plus the source it was generated from.
   const language = locale.toLowerCase().split(/[-_]/)[0];
-  return localeScope.some((entry) => entry.toLowerCase().split(/[-_]/)[0] === language);
+  const source = String(localeConfig.source).toLowerCase();
+  const served = localeConfig.active.includes(language) ? language : source;
+  const effectiveLanguages = served === source ? [source] : [served, source];
+  return localeScope.some((entry) => effectiveLanguages.includes(entry.toLowerCase().split(/[-_]/)[0]));
 }
 
 // JSONファイルからレッスンデータを生成

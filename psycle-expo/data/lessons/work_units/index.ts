@@ -5,10 +5,6 @@ import type { LessonOperationalMetadata } from "../../../types/lessonOperational
 import work_l01_ja from "./work_l01.ja.json";
 import work_l02_ja from "./work_l02.ja.json";
 
-// English translations (fallback to ja if not available)
-import work_l01_en from "./work_l01.en.json";
-import work_l02_en from "./work_l02.en.json";
-
 // Continuity metadata
 import work_l01_continuity from "./work_l01.continuity.json";
 import work_l02_continuity from "./work_l02.continuity.json";
@@ -21,12 +17,6 @@ import work_l02_evidence from "./work_l02.evidence.json";
 export const workData_ja = [
   ...work_l01_ja,
   ...work_l02_ja,
-];
-
-// English - uses en where available, falls back to ja
-export const workData_en = [
-  ...work_l01_en,
-  ...work_l02_en,
 ];
 
 // Default export (ja for backward compatibility)
@@ -63,16 +53,9 @@ export function getWorkDataEvidenceMap(): Record<string, LessonOperationalMetada
 }
 
 /**
- * Get work data for specified locale with fallback
- * Fallback order: requested -> en -> ja
+ * Get work data for specified locale
+ * No generated locale is active for this unit: every language reads the ja source.
  */
-export function getWorkDataForLocale(locale: string): RawLessonJsonEntry[] {
-  const lang = locale.split('-')[0].toLowerCase();
-
-  if (lang === 'en') {
-    return workData_en;
-  }
-
-  // All other languages fall back to ja for now
+export function getWorkDataForLocale(_locale: string): RawLessonJsonEntry[] {
   return workData_ja;
 }

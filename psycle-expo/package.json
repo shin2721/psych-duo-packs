@@ -73,7 +73,6 @@
     "content:i18n:smoke": "node scripts/check-lesson-locale-routing.js",
     "review:factcheck": "bash scripts/review-factcheck.sh",
     "content:i18n:locale-purity": "node scripts/lint-locale-json-purity.js",
-    "content:i18n:en-purity": "node scripts/lint-locale-json-purity.js --langs=en",
     "content:i18n:glossary": "node scripts/lint-translation-glossary.js",
     "content:i18n:glossary:ci": "node scripts/lint-translation-glossary.js --fail-on-new --baseline scripts/translation-glossary-baseline.json",
     "content:i18n:glossary:update-baseline": "node scripts/lint-translation-glossary.js --update-baseline --baseline scripts/translation-glossary-baseline.json",
