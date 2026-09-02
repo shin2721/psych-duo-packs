@@ -139,6 +139,11 @@ function updateIfExists(relativePath, transform) {
 }
 
 function ensurePsyclePrivacyManifest() {
+  // The native project is generated locally by prebuild and is not checked in.
+  // On CI (fresh checkout, no ios/Psycle) there is nothing to repair.
+  if (!fs.existsSync(path.join(repoRoot, 'ios/Psycle'))) {
+    return;
+  }
   overwrite('ios/Psycle/PrivacyInfo.xcprivacy', psyclePrivacyManifest);
 }
 
