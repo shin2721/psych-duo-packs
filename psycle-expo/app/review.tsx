@@ -163,10 +163,10 @@ export default function ReviewScreen() {
             <SafeAreaView style={styles.container} testID="review-screen">
                 <SupportStatePanel
                     icon="sparkles-outline"
-                    title={isReturnMode ? "戻るレッスンを終えました" : String(i18n.t("review.doneTitle"))}
+                    title={String(isReturnMode ? i18n.t("review.returnModeDoneTitle") : i18n.t("review.doneTitle"))}
                     body={String(
                         isReturnMode
-                            ? `短い復習を ${sessionQuestions.length} 問終えました。`
+                            ? i18n.t("review.returnModeSummary", { total: sessionQuestions.length })
                             : i18n.t("review.resultSummary", {
                                 total: sessionQuestions.length,
                                 cleared: clearedCount,

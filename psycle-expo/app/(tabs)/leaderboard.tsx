@@ -78,8 +78,8 @@ export default function LeaderboardScreen() {
         if (member.is_self) return;
         Alert.alert(
             member.username,
-            `今週のXP: ${member.weekly_xp.toLocaleString()}\n順位: ${member.rank}位`,
-            [{ text: '閉じる', style: 'cancel' }]
+            String(i18n.t('leaderboard.memberDetail', { xp: member.weekly_xp.toLocaleString(), rank: member.rank })),
+            [{ text: String(i18n.t('common.close')), style: 'cancel' }]
         );
     };
 

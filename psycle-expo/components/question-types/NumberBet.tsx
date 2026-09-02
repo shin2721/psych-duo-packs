@@ -7,6 +7,7 @@ import {
   View,
 } from "react-native";
 import { hapticFeedback } from "../../lib/haptics";
+import i18n from "../../lib/i18n";
 import { theme } from "../../lib/theme";
 
 const TRACK_INSET = 18;
@@ -138,7 +139,7 @@ export function NumberBet({
             {touched ? draft.toFixed(decimals) : "?"}
           </Text>
           <Text style={styles.unit}>
-            {touched ? unit : "バーを動かして予想する"}
+            {touched ? unit : String(i18n.t("questionRenderer.numberBet.dragHint"))}
           </Text>
         </>
       ) : null}
@@ -151,18 +152,20 @@ export function NumberBet({
         testID="number-bet-track"
         accessible={!showResult}
         accessibilityRole="adjustable"
-        accessibilityLabel="予想の数値"
+        accessibilityLabel={String(i18n.t("questionRenderer.numberBet.valueLabel"))}
         // min/max/now はネイティブ側で整数変換されるため、小数ステップの
         // カードでは渡せない（17.5 で HostFunction が落ちる）。text のみ使う。
         accessibilityValue={{
-          text: touched ? `${draft.toFixed(decimals)}${unit ? ` ${unit}` : ""}` : "未設定",
+          text: touched
+            ? `${draft.toFixed(decimals)}${unit ? ` ${unit}` : ""}`
+            : String(i18n.t("questionRenderer.numberBet.unset")),
         }}
         accessibilityActions={
           showResult
             ? undefined
             : [
-                { name: "increment", label: "増やす" },
-                { name: "decrement", label: "減らす" },
+                { name: "increment", label: String(i18n.t("questionRenderer.numberBet.increment")) },
+                { name: "decrement", label: String(i18n.t("questionRenderer.numberBet.decrement")) },
               ]
         }
         onAccessibilityAction={(event) => {
@@ -188,10 +191,10 @@ export function NumberBet({
         {resultPinsAreCrowded ? (
           <View style={styles.compactLegend} testID="number-bet-compact-legend">
             <Text style={[styles.compactLegendText, styles.compactLegendTruth]}>
-              実際 {answer.toFixed(decimals)}
+              {i18n.t("questionRenderer.numberBet.actual")} {answer.toFixed(decimals)}
             </Text>
             <Text style={[styles.compactLegendText, styles.compactLegendGuess]}>
-              あなた {draft.toFixed(decimals)}
+              {i18n.t("questionRenderer.numberBet.you")} {draft.toFixed(decimals)}
             </Text>
           </View>
         ) : null}
@@ -201,7 +204,7 @@ export function NumberBet({
             <Text style={styles.pinNumGuess}>{draft.toFixed(decimals)}</Text>
           ) : null}
           <View style={[styles.pinBar, styles.pinBarGuess]} />
-          {showResult && !resultPinsAreCrowded ? <Text style={styles.pinCapGuess}>あなた</Text> : null}
+          {showResult && !resultPinsAreCrowded ? <Text style={styles.pinCapGuess}>{i18n.t("questionRenderer.numberBet.you")}</Text> : null}
         </View>
 
         {showResult ? (
@@ -210,7 +213,7 @@ export function NumberBet({
               <Text style={styles.pinNumTruth}>{answer.toFixed(decimals)}</Text>
             ) : null}
             <View style={[styles.pinBar, styles.pinBarTruth]} />
-            {!resultPinsAreCrowded ? <Text style={styles.pinCapTruth}>実際</Text> : null}
+            {!resultPinsAreCrowded ? <Text style={styles.pinCapTruth}>{i18n.t("questionRenderer.numberBet.actual")}</Text> : null}
           </View>
         ) : null}
       </View>
@@ -225,7 +228,7 @@ export function NumberBet({
       ) : (
         <Pressable
           accessibilityRole="button"
-          accessibilityLabel="この予想で賭ける"
+          accessibilityLabel={String(i18n.t("questionRenderer.numberBet.lockBet"))}
           accessibilityState={{ disabled: !touched }}
           disabled={!touched}
           onPress={() => {
@@ -239,7 +242,7 @@ export function NumberBet({
           ]}
           testID="number-bet-lock"
         >
-          <Text style={styles.lockLabel}>この予想で賭ける</Text>
+          <Text style={styles.lockLabel}>{i18n.t("questionRenderer.numberBet.lockBet")}</Text>
         </Pressable>
       )}
     </View>

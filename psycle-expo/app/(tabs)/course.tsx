@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { router } from "expo-router";
 import { CourseWorldHero } from "../../components/CourseWorldHero";
+import i18n from "../../lib/i18n";
 import { GlobalHeaderMenu } from "../../components/GlobalHeaderMenu";
 import { PaywallModal } from "../../components/PaywallModal";
 import { CourseLeagueResultGate } from "../../components/course/CourseLeagueResultGate";
@@ -639,7 +640,7 @@ export default function CourseScreen() {
       return;
     }
 
-    showToast("このレッスンはまだ準備中です。");
+    showToast(String(i18n.t("course.lessonNotReady")));
   };
 
   const trackPrimaryActionStarted = (
@@ -728,11 +729,11 @@ export default function CourseScreen() {
       const result = purchaseStreakRepair();
       if (!result.success) {
         if (result.reason === "insufficient_gems") {
-          showToast("ジェムが足りません。", "error");
+          showToast(String(i18n.t("course.streakRepair.toastInsufficientGems")), "error");
           return;
         }
         if (result.reason === "expired") {
-          showToast("オファーの期限が切れました。", "error");
+          showToast(String(i18n.t("course.streakRepair.toastExpired")), "error");
         }
       }
       return;
@@ -848,7 +849,10 @@ export default function CourseScreen() {
           if (newBalance !== undefined) {
             setGemsDirectly(newBalance);
           }
-          showToast(`報酬を受け取りました: ${claimedGems}ジェム / ${claimedBadges.length}バッジ`, "success");
+          showToast(
+            String(i18n.t("course.leagueRewardClaimedToast", { gems: claimedGems, badges: claimedBadges.length })),
+            "success"
+          );
         }}
         onDismiss={() => setShowLeagueResult(false)}
       />

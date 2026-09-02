@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, Pressable, StyleSheet, Text, View } from "react-native";
 import Svg, { Circle, Defs, RadialGradient, Stop } from "react-native-svg";
 import type { LeagueInfo, LeagueMember } from "../../lib/league";
+import i18n from "../../lib/i18n";
 
 interface LeagueClusterProps {
   leagueInfo: LeagueInfo;
@@ -133,7 +134,13 @@ function MemberStar({
     <Pressable
       onPress={onPress}
       accessibilityRole="button"
-      accessibilityLabel={`${placed.member.username} ${placed.member.rank}位 ${placed.member.weekly_xp}XP`}
+      accessibilityLabel={String(
+        i18n.t("leaderboard.memberA11y", {
+          name: placed.member.username,
+          rank: placed.member.rank,
+          xp: placed.member.weekly_xp,
+        })
+      )}
       style={({ pressed }) => [
         styles.hit,
         {
@@ -312,7 +319,7 @@ export function LeagueCluster({
             ]}
             pointerEvents="none"
           >
-            あなた #{self.member.rank}
+            {i18n.t("leaderboard.selfRankLabel", { rank: self.member.rank })}
           </Text>
         </>
       )}

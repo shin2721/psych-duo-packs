@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, Pressable, StyleSheet, Text, View, useWindowDimensions } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
+import i18n from "../lib/i18n";
 import {
   CLOCK_FIREFLY_CONFIGS,
   CourseWorldBackdrop,
@@ -147,7 +148,7 @@ export function CourseWorldHero({
               ]}
               onPress={onUnitPress}
               accessibilityRole="button"
-              accessibilityLabel="ユニット選択"
+              accessibilityLabel={String(i18n.t("course.accessibility.selectUnit"))}
             >
               <View
                 style={[
@@ -193,11 +194,11 @@ export function CourseWorldHero({
               testID="hero-root-orb"
               accessibilityRole="button"
               accessibilityLabel={`${model.currentLesson.label}、${model.currentLesson.title}`}
-              accessibilityHint="左右にスワイプしてレッスンを選び、ダブルタップして開きます"
+              accessibilityHint={String(i18n.t("course.accessibility.lessonRingHint"))}
               accessibilityActions={[
-                { name: "decrement", label: "前のレッスン" },
-                { name: "increment", label: "次のレッスン" },
-                { name: "activate", label: "選択中のレッスンを開く" },
+                { name: "decrement", label: String(i18n.t("course.accessibility.previousLesson")) },
+                { name: "increment", label: String(i18n.t("course.accessibility.nextLesson")) },
+                { name: "activate", label: String(i18n.t("course.accessibility.openSelectedLesson")) },
               ]}
               onAccessibilityAction={(event) => {
                 if (event.nativeEvent.actionName === "decrement") {

@@ -54,7 +54,7 @@ export function QuestionResultView({
   // 賭けた結果を「詳しく見る」の裏に隠すと、答え合わせが成立しない。
   const isBetCard = question.type === "number_bet" || question.bet_card === true;
   const showExplanationInline = runtime.isCorrect || isBetCard;
-  const betHeadline = runtime.isCorrect ? "当たり" : "はずれ";
+  const betHeadline = String(runtime.isCorrect ? i18n.t("questionRenderer.bet.hit") : i18n.t("questionRenderer.bet.miss"));
   // 賭けの外れは誤答ではなく測定結果。赤×ではなく金色（実際の値の色）で返す。
   const isBetMiss = isBetCard && !runtime.isCorrect;
 
@@ -116,7 +116,7 @@ export function QuestionResultView({
       {(isBetCard || !runtime.isCorrect) && runtime.correctAnswerText ? (
         <View style={[styles.correctAnswerBox, isBetCard && styles.betAnswerBox]}>
           <Text style={styles.correctAnswerLabel}>
-            {isBetCard ? "実際は" : runtime.correctAnswerLabel}
+            {isBetCard ? i18n.t("questionRenderer.bet.actualLabel") : runtime.correctAnswerLabel}
           </Text>
           <Text
             style={[
@@ -161,7 +161,7 @@ export function QuestionResultView({
             ))}
           {question.caveat ? (
             <View style={styles.caveatBox} testID="question-caveat">
-              <Text style={styles.caveatLabel}>ただし</Text>
+              <Text style={styles.caveatLabel}>{i18n.t("questionRenderer.caveatLabel")}</Text>
               <Text style={styles.caveatText}>{question.caveat}</Text>
             </View>
           ) : null}

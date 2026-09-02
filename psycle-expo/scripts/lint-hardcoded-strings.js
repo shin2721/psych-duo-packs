@@ -12,6 +12,11 @@ const path = require('path');
 // 検出対象ディレクトリ
 const TARGET_DIRS = ['app', 'components'];
 
+// 検出から外すディレクトリ（出荷UIではない dev-only 面）。
+// app/debug は __DEV__ 以外では到達不能なデバッグ画面、components/provisional は
+// 生の日本語で書く試作（Preserve First 面）。翻訳対象にならないので lint しない。
+const EXCLUDE_DIRS = ['app/debug', 'components/provisional'];
+
 // 除外パターン（false positive を減らす）
 const EXCLUDE_PATTERNS = [
     /^\s*\/\//,           // コメント行
@@ -76,6 +81,8 @@ function collectSourceFiles(rootDir, targetDir) {
             const fullPath = path.join(current, entry.name);
             if (entry.isDirectory()) {
                 if (entry.name === 'node_modules' || entry.name === '.git') continue;
+                const relativeDir = path.relative(rootDir, fullPath).split(path.sep).join('/');
+                if (EXCLUDE_DIRS.includes(relativeDir)) continue;
                 stack.push(fullPath);
                 continue;
             }
