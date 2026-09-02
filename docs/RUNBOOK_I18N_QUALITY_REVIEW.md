@@ -4,7 +4,7 @@
 Run a lightweight weekly review of translated lessons to catch unnatural phrasing, probabilistic wording issues, and terminology drift.
 
 ## Scope
-- EN lesson files under `psycle-expo/data/lessons/**`.
+- Generated lesson files of the active non-ja locales under `psycle-expo/data/lessons/**` (currently none; `ja` is the only active locale).
 - Focused on language quality, not structural validation (those are handled by `content:i18n:check`).
 
 ## Cadence

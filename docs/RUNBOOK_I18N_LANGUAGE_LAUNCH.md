@@ -1,13 +1,15 @@
 # i18n New-Language Launch Runbook
 
 ## Purpose
-Standardize quality checks when adding a new lesson language (for example `es`, `zh`, `ko`).
+Standardize quality checks when activating a generated lesson language (for example `en`, `es`, `zh`, `ko`).
+Languages are generated from `ja` (`npm run content:i18n:draft -- --lang=<xx>`), never hand-written; this runbook is the gate between "generated" and "active" in `psycle-expo/config/locales.json`.
 
 ## Scope
 - Lesson locale files in `psycle-expo/data/lessons/**`.
 - Applies to first rollout of each language.
 
 ## Step 1: Structural Gate (Required)
+Note: `gen-lesson-locale-index.js` only wires locales listed as `active` in `config/locales.json`; for a locale that is generated but not yet active it is a no-op. Run it again after activation (see `RUNBOOK_I18N.md`, Locale Policy).
 ```bash
 cd psycle-expo
 node scripts/gen-lesson-locale-index.js

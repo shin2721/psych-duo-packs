@@ -1608,6 +1608,11 @@ reject:
 
 #### Localization Authority Contract
 
+`ja` が唯一の source locale。他の locale は ja から機械生成する generated locale であり、手編集しない。
+ja を直したら generated locale は再生成する（差分再生成は `content:i18n:draft`）。
+CI が検証するのは `config/locales.json` の active locale（現在 ja のみ）だけ。未生成の locale は
+error ではなく `not generated` として扱い、生成して active に加えた瞬間から厳密に検証する。
+
 `localized_copy_ready` は locale file の存在ではなく、意味一致が承認されていることを指す。
 
 最低限:

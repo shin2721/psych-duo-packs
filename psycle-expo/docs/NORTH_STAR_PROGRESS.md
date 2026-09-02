@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-09-02 - 多言語の方針を「ja が原本、他言語は生成物」に切り替え、古い7言語の翻訳を削除。CIは config/locales.json の active な言語だけを検証する。
+
+- Changed: config/locales.json 新設、翻訳レッスン94件・UIロケール7件・旧翻訳スクリプト2件を削除、index生成器と各検証スクリプトを active 言語対応に、出荷UIのハードコード日本語をja.tsへ、runbook/SPEC/PRODUCT_DIRECTIONを更新
+- Verified: typecheck、jest 762件、i18n:report、content:i18n:check、purity、glossary、draft policy、hardcoded lint をローカルで通過。web smoke はCIで確認
+- Remaining: 翻訳生成の再起動（台帳添付・逆翻訳チェック・UI文言対応）、ローンチ言語（ja+en推奨）の決定、設定画面の言語ピッカーが1択になった見た目のSimulator確認
+
 ### 2026-08-26 - Verdict chip leads the sheet, limits are bulleted, and the sheet copy is finally in reader language
 
 - Changed: Added verdict_label and rendered it as a coloured chip at the top of the sheet with the spoken line beneath; method and limits follow as the grounds; limits render one per line instead of comma-joined; audited all four episodes and rewrote 27 pieces of ledger shorthand into plain language

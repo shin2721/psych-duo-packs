@@ -1,7 +1,7 @@
 # i18n Style Guide
 
 ## Purpose
-Keep translation quality consistent across all lesson locales.
+Keep translation quality consistent across all lesson locales. Locales are machine-generated from the `ja` source; this guide constrains the generator prompt and the review of its output, not hand translation.
 
 ## Tone and Voice
 1. Use warm, supportive, non-judgmental wording.
