@@ -8,7 +8,6 @@ This repo intentionally separates validation, scheduled publish, and manual publ
 | `validate-packs.yml` | `pull_request`, `push` (`main` only) | Catalog/pack validation only |
 | `auto-publish.yml` | `workflow_dispatch` | **Paused** (publish pipeline migration in progress) |
 | `publish-manual.yml` | `workflow_dispatch` | **Paused** (publish pipeline migration in progress) |
-| `content-generation.yml` | `schedule`, `workflow_dispatch` | Autonomous content generation |
 
 ## Publish Workflow Status
 
@@ -18,7 +17,6 @@ This repo intentionally separates validation, scheduled publish, and manual publ
 
 ## Runbooks
 
-- Content generation: `RUNBOOK_CONTENT_GENERATION.md`
 - i18n: `../docs/RUNBOOK_I18N.md`
 - psycle-billing submodule: `../docs/RUNBOOK_SUBMODULE_PSYCLE_BILLING.md`
 - Pages re-enable decision: `../docs/PAGES_REENABLE_DECISION.md`
