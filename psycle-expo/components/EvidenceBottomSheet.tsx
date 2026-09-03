@@ -225,9 +225,21 @@ const styles = StyleSheet.create({
         marginBottom: 18,
         paddingBottom: 16,
     },
+    verdictClaim: {
+        color: 'rgba(255,255,255,0.7)',
+        fontSize: 14,
+        fontWeight: '600',
+        marginBottom: 8,
+    },
     verdictHeadRow: {
         flexDirection: 'row',
         marginBottom: 10,
+    },
+    verdictStrength: {
+        color: 'rgba(255,255,255,0.62)',
+        fontSize: 13,
+        lineHeight: 19,
+        marginTop: 8,
     },
     verdictChip: {
         borderRadius: 999,

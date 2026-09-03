@@ -84,7 +84,7 @@ const STATISTICAL_NOTATIONS = ['g=', 'g＝', '95%CI', '95% CI', 'β=', 'OR=', 'p
 // 復習で単体に切り出されたときに壊れる書き方。
 const BACK_REFERENCE_PHRASES = ['さっき', '先ほど', '前の問題', 'じゃあ全部'];
 // 判定の重さ。段階は色が持ち、向きは文が言う。
-const VERDICT_WEIGHTS = new Set(['green', 'amber', 'grey']);
+const VERDICT_WEIGHTS = new Set(['green', 'amber', 'grey', 'blue']);
 
 interface ValidationError {
   file: string;
@@ -785,7 +785,15 @@ export class LessonValidator {
     const isBetCard = question.bet_card === true || question.type === 'number_bet';
     if (!isBetCard) return;
 
-    const shown = [question.question, question.explanation, question.caveat]
+    const shownDetails = question.expanded_details as Record<string, unknown> | undefined;
+    const shown = [
+      question.question,
+      question.explanation,
+      question.caveat,
+      shownDetails?.verdict_claim,
+      shownDetails?.verdict_line,
+      shownDetails?.strength_line,
+    ]
       .filter((value): value is string => typeof value === 'string')
       .join('\n');
 
@@ -845,6 +853,20 @@ export class LessonValidator {
       const text = question[field];
       if (!isNonEmptyString(text)) continue;
       if (/[「『]\*\*|\*\*[」』]/.test(text)) {
+        this.addError(filePath, severity,
+          `${label}の鉤括弧の内側に強調記号があります: 画面に ** がそのまま出ます`,
+          question.id);
+      }
+    }
+    // シート側の3行も同じ画面文字列。同じ理由で強調記号の閉じ込めを見る。
+    for (const [field, label] of [
+      ['verdict_claim', '判定の対象'],
+      ['verdict_line', '判定の1行'],
+      ['strength_line', '確からしさの行'],
+    ] as const) {
+      const text = shownDetails?.[field];
+      if (!isNonEmptyString(text as string)) continue;
+      if (/[「『]\*\*|\*\*[」』]/.test(text as string)) {
         this.addError(filePath, severity,
           `${label}の鉤括弧の内側に強調記号があります: 画面に ** がそのまま出ます`,
           question.id);

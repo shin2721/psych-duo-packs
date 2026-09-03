@@ -136,15 +136,26 @@ export interface ExpandedDetailsVariant {
  * 判定の重さ。信号と同じ読み方をする——緑は乗っていい、黄は話半分、
  * grey は根拠として使えない。強さの目盛りを一本引くと「調べた結果、効く証拠が
  * なかった」の置き場所がなくなるので、段階は色だけが持ち、向きは文が言う。
+ * blue は「調べて、差が出なかった」の確定色。「まだ調べられていない」(grey) と
+ * 同じ色にすると、一番分けたい2つが画面で区別できなくなる。
  */
-export type VerdictWeight = "green" | "amber" | "grey";
+export type VerdictWeight = "green" | "amber" | "grey" | "blue";
 
 export interface ExpandedDetails {
   basis_label?: string;
   best_for?: string[];
   /** 誰に・何をして・何を測ったか。台帳の記述からだけ書く。 */
   how_studied?: string;
-  /** 判定の一言。強さの目盛りではなく判定そのものを言う（使える／話半分／根拠なし／まだ不明）。 */
+  // 何についての判定か。チップの上に説を1行で出す（「発散すると、怒りが減る」）。
+  verdict_claim?: string;
+  // なぜそこまで信じていいか。等級ではなく理由で書く（「発散系は73研究。ならすとゼロ」）。
+  strength_line?: string;
+  /**
+   * 判定の一言。強さの目盛りではなく判定そのものを言う
+   * （使える／話半分／差はなかった／まだ不明／研究がまだ少ない／ものによる）。
+   * grey は「まだ不明」（調べたが白黒つかない）と「研究がまだ少ない」（まともに
+   * 調べられていない）の2語を持つ。「根拠なし」はこの2つを混ぜるので使わない。
+   */
   verdict_label?: string;
   /** この知見をどう持つか。カードの中身について喋る1文。 */
   verdict_line?: string;

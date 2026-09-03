@@ -2,6 +2,7 @@ import React from "react";
 import { Text, View } from "react-native";
 import i18n from "../lib/i18n";
 import { getSourceInfo } from "./evidenceBottomSheetSources";
+import type { VerdictWeight } from "../types/question";
 
 interface Props {
   expandedDetails?: {
@@ -9,9 +10,11 @@ interface Props {
     evidence_type?: string;
     citation_role?: string;
     how_studied?: string;
+    verdict_claim?: string;
     verdict_label?: string;
     verdict_line?: string;
-    verdict_weight?: "green" | "amber" | "grey";
+    verdict_weight?: VerdictWeight;
+    strength_line?: string;
     best_for?: string[];
     limitations?: string[];
     try_this?: string;
@@ -21,10 +24,13 @@ interface Props {
   styles: Record<string, object>;
 }
 
-const VERDICT_COLORS: Record<"green" | "amber" | "grey", string> = {
+const VERDICT_COLORS: Record<VerdictWeight, string> = {
   green: "#22C55E",
   amber: "#E5A93C",
   grey: "#94A3B8",
+  // 「調べて、差が出なかった」の確定色。grey（まだ調べられていない）と明度を離す
+  // （#5B9CF6 は grey と輝度がほぼ同じで、グレースケールで見分けがつかなかった）。
+  blue: "#3B82F6",
 };
 
 export function EvidenceBottomSheetDetails({
@@ -51,6 +57,10 @@ export function EvidenceBottomSheetDetails({
           脚注の位置に置くと、一番知りたい行が最後まで読まないと出てこない。 */}
       {expandedDetails?.verdict_line ? (
         <View style={styles.verdict}>
+          {/* 何についての判定かを先に見せる。チップだけだと「何に対する根拠なし？」になる。 */}
+          {expandedDetails.verdict_claim ? (
+            <Text style={styles.verdictClaim}>「{expandedDetails.verdict_claim}」</Text>
+          ) : null}
           <View style={styles.verdictHeadRow}>
             <View
               style={[
@@ -62,6 +72,10 @@ export function EvidenceBottomSheetDetails({
             </View>
           </View>
           <Text style={styles.verdictText}>{expandedDetails.verdict_line}</Text>
+          {/* なぜそこまで信じていいか。等級ではなく理由で書く。 */}
+          {expandedDetails.strength_line ? (
+            <Text style={styles.verdictStrength}>{expandedDetails.strength_line}</Text>
+          ) : null}
         </View>
       ) : null}
 
