@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-09-03 - 判定チップの語彙を直す第1段（B-1）。「根拠なし」を「差はなかった」（怒り1枚目・青）と「研究がまだ少ない」（睡眠3枚目・グレー）に分け、チップの上に判定対象の説、下に理由型の確からしさ1行を追加。
+
+- Changed: types/question.ts（VerdictWeight に blue、verdict_claim/strength_line）、validate-lessons.ts（blue 許可、シート3行を統計記号・強調記号チェックに追加）、EvidenceBottomSheet*.tsx（判定対象・確からしさの表示）、mental_l07 カード1/5・mental_l02 カード3 の文面、angerEpisodeContent テスト
+- Verified: typecheck、validate-lessons 0エラー、jest 762件、Simulator で怒り1枚目と睡眠3枚目のシートを目視（スクショ保存）。レビュー3体（台帳照合・読者・コード）の指摘を反映
+- Remaining: B-2（残り18枚の語彙入れ替え、使える/話半分を今日の一手へ、完了画面の根拠タイル退役、憲法2番の改定案）はオーナーの l07 試食後。怒り1枚目 caveat の「日々のイライラの度合い」を台帳再照合時に見直すか要確認
+
 ### 2026-09-02 - 多言語の方針を「ja が原本、他言語は生成物」に切り替え、古い7言語の翻訳を削除。CIは config/locales.json の active な言語だけを検証する。
 
 - Changed: config/locales.json 新設、翻訳レッスン94件・UIロケール7件・旧翻訳スクリプト2件を削除、index生成器と各検証スクリプトを active 言語対応に、出荷UIのハードコード日本語をja.tsへ、runbook/SPEC/PRODUCT_DIRECTIONを更新

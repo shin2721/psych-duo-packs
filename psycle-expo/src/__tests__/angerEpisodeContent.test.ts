@@ -63,9 +63,10 @@ describe("mental_l07 anger and venting episode", () => {
       )
       .join("\n");
 
-    // 賭けの対象はデータの形ではなく判定そのもの。「効かない証明」と「証拠なし」を
-    // 区別する3択（l02のコクラン回と同じ型）。「逆効果」は実際の報道の言い方。
-    expect(opener?.choices[opener.correct_index]).toBe("効く証拠が、見つからなかった");
+    // 賭けの対象は判定そのもの。3択は「効いた」「逆効果」「差はなかった（調べて差が
+    // 出なかった）」を分ける。「証拠がまだ足りない」側は l02 のコクラン回が受け持つ。
+    // 「逆効果」は実際の報道の言い方。
+    expect(opener?.choices[opener.correct_index]).toBe("差は、なかった");
     expect(opener?.choices).toContain("逆効果だと確かめられた");
     // 種明かしは研究の背骨（興奮を上げるか下げるか）を見せる。
     expect(opener?.explanation).toContain("興奮を上げる側");
