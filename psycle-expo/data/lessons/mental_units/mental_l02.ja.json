@@ -132,11 +132,11 @@
         "absence_of_evidence"
       ],
       "how_studied": "ブルーライトカット眼鏡のランダム化比較試験を集めたコクラン・レビュー。集めた17本のうち、睡眠を調べたのは6本・のべ148人。",
-      "verdict_line": "効くとも効かないとも、まだ言えない。",
+      "verdict_line": "効くかどうかは、まだ判断できない、という結論になっています。",
       "verdict_weight": "grey",
       "verdict_label": "研究がまだ少ない",
       "verdict_claim": "ブルーライトカット眼鏡で、よく眠れる",
-      "strength_line": "睡眠を調べたのは6本・148人だけ。3本は改善を報告、3本は差なし。"
+      "strength_line": "睡眠を調べた試験は6本・148人だけ。3本は改善を報告、3本は差なし。この数では、期待も否定もせず様子見でいいと考えられます。"
     },
     "caveat": "眼精疲労など睡眠以外のアウトカムは、これとは別の判定になります。",
     "source_label": "出典：コクラン・レビュー（Cochrane Database of Systematic Reviews, 2023）"
