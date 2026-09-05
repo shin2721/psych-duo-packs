@@ -273,6 +273,7 @@ export const ja = {
         citationRolePrefix: '📚 引用の役割：',
         tryThisPrefix: '💡 試すなら：',
         howStudiedHeader: '📐 研究のやり方',
+        strengthHeader: '確からしさ',
         disclaimerGeneralTrend: '※ 研究結果は一般的な傾向であり、あなたに合うかは試してみるまでわかりません。',
         metaSupportYears: '✓ %{years}年以上、臨床・研究で使用',
         metaSupportTheory: '✓ 多数の研究で支持されている理論',

@@ -235,11 +235,18 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginBottom: 10,
     },
+    verdictStrengthLabel: {
+        color: 'rgba(255,255,255,0.55)',
+        fontSize: 12,
+        fontWeight: '600',
+        letterSpacing: 0.4,
+        marginTop: 12,
+        marginBottom: 2,
+    },
     verdictStrength: {
         color: 'rgba(255,255,255,0.62)',
         fontSize: 13,
         lineHeight: 19,
-        marginTop: 8,
     },
     verdictChip: {
         borderRadius: 999,

@@ -72,9 +72,13 @@ export function EvidenceBottomSheetDetails({
             </View>
           </View>
           <Text style={styles.verdictText}>{expandedDetails.verdict_line}</Text>
-          {/* なぜそこまで信じていいか。等級ではなく理由で書く。 */}
+          {/* なぜそこまで信じていいか。等級ではなく理由で書く。
+              見出しが無いと補足文に見えて、質の判定だと伝わらなかった（オーナー指摘 2026-09-05）。 */}
           {expandedDetails.strength_line ? (
-            <Text style={styles.verdictStrength}>{expandedDetails.strength_line}</Text>
+            <>
+              <Text style={styles.verdictStrengthLabel}>{i18n.t("lesson.strengthHeader")}</Text>
+              <Text style={styles.verdictStrength}>{expandedDetails.strength_line}</Text>
+            </>
           ) : null}
         </View>
       ) : null}
