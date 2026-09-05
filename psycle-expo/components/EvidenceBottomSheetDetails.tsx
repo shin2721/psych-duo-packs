@@ -39,11 +39,12 @@ const VERDICT_COLORS: Record<VerdictWeight, string> = {
 // 色は判定チップと競わないよう白の濃淡だけ。固いほど濃い。
 const TRUST_LEVELS = ["solid", "fair", "shaky", "thin"] as const;
 type TrustLevel = (typeof TRUST_LEVELS)[number];
-const TRUST_BADGE: Record<TrustLevel, { backgroundColor: string; color: string }> = {
-  solid: { backgroundColor: "rgba(255,255,255,0.22)", color: "rgba(255,255,255,0.96)" },
-  fair: { backgroundColor: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.88)" },
-  shaky: { backgroundColor: "rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.74)" },
-  thin: { backgroundColor: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.6)" },
+// 丸は Cochrane が証拠の確実性に使う ⊕⊕⊕◯ の書き方。語が横にあるので効果の大きさとは読まれない。
+const TRUST_BADGE: Record<TrustLevel, { backgroundColor: string; color: string; dots: string }> = {
+  solid: { backgroundColor: "rgba(255,255,255,0.22)", color: "rgba(255,255,255,0.96)", dots: "●●●●" },
+  fair: { backgroundColor: "rgba(255,255,255,0.16)", color: "rgba(255,255,255,0.9)", dots: "●●●○" },
+  shaky: { backgroundColor: "rgba(255,255,255,0.11)", color: "rgba(255,255,255,0.8)", dots: "●●○○" },
+  thin: { backgroundColor: "rgba(255,255,255,0.08)", color: "rgba(255,255,255,0.68)", dots: "●○○○" },
 };
 
 function splitStrengthLine(line?: string): { level?: TrustLevel; word?: string; reason?: string } {
@@ -104,11 +105,11 @@ export function EvidenceBottomSheetDetails({
               <Text style={styles.verdictText}>{expandedDetails?.verdict_line}</Text>
             </>
           ) : null}
-          {/* どれくらい信じていいか、どこまでの話か。読者にはひとつの問いなので見出しも1つ。
+          {/* どれくらい信じていいか、どこまでの話か。読者にはひとつの問いなので見出しも1つ（問いの形）。
               先頭の語（かなり固い／まあ固い／まだ揺れる／薄い）はバッジ、理由は本文、
               射程の限界は箇条書きで続ける。書く側の線引きは QUALITY_CONSTITUTION 2番。 */}
           {hasStrength ? (
-            <View style={hasVerdict ? styles.strengthBlock : undefined}>
+            <View style={[styles.strengthBlock, hasVerdict ? styles.strengthBlockBelowVerdict : undefined]}>
               <View style={styles.strengthHeaderRow}>
                 <Text style={styles.verdictStrengthLabel}>{i18n.t("lesson.strengthHeader")}</Text>
                 {strength.level ? (
@@ -118,6 +119,9 @@ export function EvidenceBottomSheetDetails({
                       { backgroundColor: TRUST_BADGE[strength.level].backgroundColor },
                     ]}
                   >
+                    <Text style={[styles.strengthDots, { color: TRUST_BADGE[strength.level].color }]}>
+                      {TRUST_BADGE[strength.level].dots}
+                    </Text>
                     <Text style={[styles.strengthBadgeText, { color: TRUST_BADGE[strength.level].color }]}>
                       {strength.word}
                     </Text>

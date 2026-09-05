@@ -273,7 +273,7 @@ export const ja = {
         citationRolePrefix: '📚 引用の役割：',
         tryThisPrefix: '💡 試すなら：',
         howStudiedHeader: '📐 研究のやり方',
-        strengthHeader: '確からしさ',
+        strengthHeader: 'どこまで信じていい？',
         // 確からしさの行の先頭の語。レッスン本文の strength_line と同じ語でなければバッジにならない。
         trustWords: {
             solid: 'かなり固い',
