@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-09-05 - 確からしさの行を「結論の1語（かなり固い／まあ固い／まだ揺れる／薄い）＋理由」に書き直した。理由の材料として、ScienceDirect で取れなかった本文の代わりに OSF 補足資料（感度分析・表SM1/SM2・事前登録書・データセット）を読み、質のコード化（正式な偏りリスク評価は無し）と出版バイアス6手法の結果を台帳に9行追加。限界の欄から信じ方に関わる事実を確からしさへ移して重複を消した
+
+- Changed: data/curated_sources.json（Kjaervik: allowed_claims 9行と notes）、mental_l07.ja.json（strength_line 5枚、カード3・4の limitations）、mental_l02.ja.json（card3 strength_line）、types/question.ts（strength_line の説明）、docs/QUALITY_CONSTITUTION.md（2番に確からしさの語と限界との線引き）
+- Verified: validate 0件、jest 762/762、tsc クリーン。Simulator でカード1・3・4のシートを再読（scratchpad/l07-final/card{1,3,4}-sheet-strength.png）。感度分析の数値は補足表から直接転記（発散側: 補正後 -0.02〜-0.36、外れ値除外後 -0.11。鎮静側: 外れ値除外後 -0.49、無作為のみ -0.69。挑発あり: 外れ値3件除外で -0.43）
+- Remaining: オーナー試食。発散側の「差はなかった」は主解析に基づくが感度分析では小さく減る側に動くため、試食で「差なし」の言い方に違和感があれば verdict_line の「ほとんど変わらない」を再検討。カード2・5のシートは Simulator 未再読（行が短く、描画の仕組みは同じ）。残り18カードの確からしさの行は B-2
+
 ### 2026-09-05 - 詳細シートの根拠の行（strength_line）に見出し「確からしさ」を付けた。オーナーがカード1のシートを見て「論文の質の判定はどこ？」と迷ったため。行の文言は変えていない
 
 - Changed: components/EvidenceBottomSheetDetails.tsx（見出し1行）、components/EvidenceBottomSheet.tsx（verdictStrengthLabel スタイル）、lib/locales/ja.ts（lesson.strengthHeader）
