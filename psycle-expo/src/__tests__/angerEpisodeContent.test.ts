@@ -74,7 +74,7 @@ describe("mental_l07 anger and venting episode", () => {
     expect(opener?.explanation).toContain("差はゼロ");
     // ゼロは種目をならした平均。全員同じだったかのような文は書かない。
     expect(opener?.explanation).not.toContain("同じでした");
-    // 瞬間の直接検証が23件しかないことは、ただし書きが正直に言う。
+    // 怒らされた人での検証が23件しかないことは、ただし書きが正直に言う。
     expect(opener?.caveat).toContain("カッとなった人を集めたわけではなく");
     expect(opener?.caveat).toContain("興奮を下げる練習では下がる");
     expect(opener?.caveat).toContain("23件ぶん");
@@ -86,7 +86,6 @@ describe("mental_l07 anger and venting episode", () => {
     // 限界の列挙で終わらせず、どう受け取るのが正確かまで書く。
     expect(opener?.caveat).toContain("「逆効果」とも言えません");
     // 出版版は非有意。「発散は逆効果」は学位論文段階の結論で、書けば誤報になる。
-    
     expect(shownCopy).not.toContain("発散は逆効果だ");
     expect(shownCopy).not.toContain("殴ると怒りが増え");
   });
@@ -133,19 +132,19 @@ describe("mental_l07 anger and venting episode", () => {
     for (const choice of format?.choices ?? []) {
       expect(choice).toContain("（");
     }
-    // 長さも回数も効果量と関連しなかった、と原典が報告している。
     expect(format?.explanation).toContain("体の興奮＋頭の解釈");
     // 一般法則の顔をさせない。この分析の観察として言い、原因は未確定と明記。
     expect(format?.explanation).toContain("どの要素が効いたのかまでは、確定していません");
     expect(format?.question).not.toContain("跳ねる");
-    expect(format?.explanation).toContain("長さも回数も、効果と関係していませんでした");
+    // 期間も1回の長さも効果量と関連しなかった、と原典が報告している。回数との関連は台帳に無いので言わない。
+    expect(format?.explanation).toContain("続けた期間も、1回の長さも、効果と関係していませんでした");
     expect(format?.explanation).toContain("マインドフルネス認知療法");
   });
 
   test("limits the claim to practice before anger, not in the moment", () => {
     const provoked = angerLesson.find((question) => question.id === "mental_l07_004");
 
-    expect(provoked?.choices[provoked.correct_index]).toBe("小さくなり、有意ではなくなった");
+    expect(provoked?.choices[provoked.correct_index]).toBe("小さくなり、はっきりしなくなった");
     expect(provoked?.explanation).toContain("鎮める練習の効果を支えているデータ");
     expect(provoked?.explanation).not.toContain("この分野の154研究");
     expect(provoked?.explanation).toContain("94%");
@@ -155,12 +154,12 @@ describe("mental_l07 anger and venting episode", () => {
     expect(provoked?.explanation).toContain("効いたとも効かないとも言えなくなりました");
     expect(provoked?.explanation).toContain("防火訓練");
     // 効かないと証明されたわけでもない。
-    // 深呼吸を禁じる話ではないことを、ただし書き自身が言う。
+    // 効かないと決まったのではないことを、ただし書き自身が言う。
     // 「平時に続けると下がる」は確認済み。「瞬間」はその場で使う場合も、
     // 続けた人がその瞬間に強いかも、18件で白黒つかない——2つの読みに答える。
     expect(provoked?.caveat).toContain("平時に続けると、ふだんの怒りが下がる");
     expect(provoked?.caveat).toContain("白黒つかない");
-    // 「有意ではない」を選択肢に残すなら、意味は詳細シートが平語で引き受ける。
+    // 選択肢は平語（はっきりしなくなった）。「言い切れない」の意味は詳細シートも引き受ける。
     expect(provoked?.expanded_details.limitations.join("\n")).toContain(
       "「効いた」と言い切れない"
     );

@@ -179,7 +179,7 @@ const MENTAL_LESSON_METADATA: Record<string, LessonMetadata> = {
     insight_layer: {
       surprising_question: "「怒りは、発散するといい」。154研究で確かめた結果は？",
       research_finding: "覚醒を上げる活動の平均効果はゼロと区別がつかず、覚醒を下げる実践だけが中から大の効果を示した",
-      critical_caveat: "『発散は逆効果』ではなく平均ゼロ。効果量の94%は怒っていない人のデータで、挑発された参加者では鎮静も有意でない",
+      critical_caveat: "『発散は逆効果』ではなく平均ゼロ。鎮静側の効果量の94%は怒っていない人のデータで、挑発された参加者では鎮静も有意でない",
       usable_scope: "怒りっぽさとの付き合い方を平時に決めるときに使う",
       practice_prompt: "発散 / 平時の実践 / 健康のための運動、に分ける",
     },
