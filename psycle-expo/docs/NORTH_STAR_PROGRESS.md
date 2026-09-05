@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-09-05 - 詳細シートの「限界」を「確からしさ」に統合。見出しは1つ、先頭の語をバッジ（白の濃淡4段）、理由を本文、限界をぶら下げ箇条書きで続ける形にした。オーナーの「一緒にしちゃダメなの？」に対し、区別は書く側の点検表としてだけ残す方針
+
+- Changed: components/EvidenceBottomSheetDetails.tsx（splitStrengthLine、TRUST_BADGE、統合ブロック）、components/EvidenceBottomSheet.tsx（strength* スタイル）。レッスンデータ・文言は不変。lesson.limitationsHeader は未使用化（キーは残置）
+- Verified: tsc クリーン、jest 762/762。dev-client Simulator でカード2（まだ揺れる）・3（かなり固い）・4（薄い）のシートを確認、両端のバッジとも可読（scratchpad/l07-final/card4-sheet-merged.png）
+- Remaining: オーナー試食。出典欄の種別チップが英語の生値（meta_analysis）で出る既存問題は別タスクのチップとして起票済み
+
 ### 2026-09-05 - 確からしさの行を「結論の1語（かなり固い／まあ固い／まだ揺れる／薄い）＋理由」に書き直した。理由の材料として、ScienceDirect で取れなかった本文の代わりに OSF 補足資料（感度分析・表SM1/SM2・事前登録書・データセット）を読み、質のコード化（正式な偏りリスク評価は無し）と出版バイアス6手法の結果を台帳に9行追加。限界の欄から信じ方に関わる事実を確からしさへ移して重複を消した
 
 - Changed: data/curated_sources.json（Kjaervik: allowed_claims 9行と notes）、mental_l07.ja.json（strength_line 5枚、カード3・4の limitations）、mental_l02.ja.json（card3 strength_line）、types/question.ts（strength_line の説明）、docs/QUALITY_CONSTITUTION.md（2番に確からしさの語と限界との線引き）
