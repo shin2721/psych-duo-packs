@@ -274,6 +274,13 @@ export const ja = {
         tryThisPrefix: '💡 試すなら：',
         howStudiedHeader: '📐 研究のやり方',
         strengthHeader: '確からしさ',
+        // 確からしさの行の先頭の語。レッスン本文の strength_line と同じ語でなければバッジにならない。
+        trustWords: {
+            solid: 'かなり固い',
+            fair: 'まあ固い',
+            shaky: 'まだ揺れる',
+            thin: '薄い',
+        },
         disclaimerGeneralTrend: '※ 研究結果は一般的な傾向であり、あなたに合うかは試してみるまでわかりません。',
         metaSupportYears: '✓ %{years}年以上、臨床・研究で使用',
         metaSupportTheory: '✓ 多数の研究で支持されている理論',

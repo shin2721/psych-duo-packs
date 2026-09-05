@@ -34,23 +34,25 @@ const VERDICT_COLORS: Record<VerdictWeight, string> = {
 };
 
 // 確からしさの行は「結論の1語。理由」。先頭の語をバッジに、残りを本文に分ける。
+// 語そのものは UI 文言（lesson.trustWords）から引く。レッスン本文と同じ言語で揃うのはそこだけ。
 // 合わない行（締めカードの「固さも3つで違う。…」など）はそのまま本文として出す。
 // 色は判定チップと競わないよう白の濃淡だけ。固いほど濃い。
-const TRUST_WORDS = ["かなり固い", "まあ固い", "まだ揺れる", "薄い"] as const;
-type TrustWord = (typeof TRUST_WORDS)[number];
-const TRUST_BADGE: Record<TrustWord, { backgroundColor: string; color: string }> = {
-  "かなり固い": { backgroundColor: "rgba(255,255,255,0.22)", color: "rgba(255,255,255,0.96)" },
-  "まあ固い": { backgroundColor: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.88)" },
-  "まだ揺れる": { backgroundColor: "rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.74)" },
-  "薄い": { backgroundColor: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.6)" },
+const TRUST_LEVELS = ["solid", "fair", "shaky", "thin"] as const;
+type TrustLevel = (typeof TRUST_LEVELS)[number];
+const TRUST_BADGE: Record<TrustLevel, { backgroundColor: string; color: string }> = {
+  solid: { backgroundColor: "rgba(255,255,255,0.22)", color: "rgba(255,255,255,0.96)" },
+  fair: { backgroundColor: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.88)" },
+  shaky: { backgroundColor: "rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.74)" },
+  thin: { backgroundColor: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.6)" },
 };
 
-function splitStrengthLine(line?: string): { word?: TrustWord; reason?: string } {
+function splitStrengthLine(line?: string): { level?: TrustLevel; word?: string; reason?: string } {
   if (!line) return {};
   const idx = line.indexOf("。");
   const head = idx > 0 ? line.slice(0, idx) : "";
-  if ((TRUST_WORDS as readonly string[]).includes(head)) {
-    return { word: head as TrustWord, reason: line.slice(idx + 1).trim() || undefined };
+  const level = TRUST_LEVELS.find((candidate) => i18n.t(`lesson.trustWords.${candidate}`) === head);
+  if (level) {
+    return { level, word: head, reason: line.slice(idx + 1).trim() || undefined };
   }
   return { reason: line };
 }
@@ -109,14 +111,14 @@ export function EvidenceBottomSheetDetails({
             <View style={hasVerdict ? styles.strengthBlock : undefined}>
               <View style={styles.strengthHeaderRow}>
                 <Text style={styles.verdictStrengthLabel}>{i18n.t("lesson.strengthHeader")}</Text>
-                {strength.word ? (
+                {strength.level ? (
                   <View
                     style={[
                       styles.strengthBadge,
-                      { backgroundColor: TRUST_BADGE[strength.word].backgroundColor },
+                      { backgroundColor: TRUST_BADGE[strength.level].backgroundColor },
                     ]}
                   >
-                    <Text style={[styles.strengthBadgeText, { color: TRUST_BADGE[strength.word].color }]}>
+                    <Text style={[styles.strengthBadgeText, { color: TRUST_BADGE[strength.level].color }]}>
                       {strength.word}
                     </Text>
                   </View>
