@@ -4,6 +4,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { theme } from '../lib/theme';
 import i18n from '../lib/i18n';
 import { EvidenceBottomSheetDetails } from './EvidenceBottomSheetDetails';
+import { VERDICT_COLORS } from './evidenceVerdictColors';
+import type { VerdictWeight } from '../types/question';
 
 const { height: SCREEN_HEIGHT } = Dimensions.get('window');
 const SHEET_HEIGHT = SCREEN_HEIGHT * 0.5; // Slightly taller to show source info
@@ -17,6 +19,7 @@ interface EvidenceBottomSheetProps {
         claim_type?: string;
         evidence_type?: string;
         citation_role?: string;
+        verdict_weight?: VerdictWeight;
         best_for?: string[];
         limitations?: string[];
         try_this?: string;
@@ -89,6 +92,8 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
     if (!visible) return null;
 
     const listSeparator = i18n.locale.startsWith('ja') ? '、' : ', ';
+    // 判定の色を上端の帯にだけ通す。判定が変わるとシートの表情が変わる。
+    const accentColor = VERDICT_COLORS[expandedDetails?.verdict_weight ?? 'grey'];
 
     return (
         <View style={StyleSheet.absoluteFill} pointerEvents="auto">
@@ -99,6 +104,7 @@ export function EvidenceBottomSheet({ visible, onClose, source_id, expandedDetai
 
             {/* Bottom Sheet */}
             <Animated.View style={[styles.sheet, { transform: [{ translateY }] }]}>
+                <View style={[styles.accentBand, { backgroundColor: accentColor }]} />
                 {/* Handle bar + Close button row。下スワイプで閉じる操作はこの行だけが拾う。
                     シート全体で拾うと、内側のスクロールが動かせなくなる。 */}
                 <View style={styles.headerRow} {...panResponder.panHandlers}>
@@ -150,6 +156,14 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 20,
         paddingHorizontal: 20,
         paddingBottom: 40,
+        overflow: 'hidden',
+    },
+    accentBand: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height: 3,
     },
     detailsScroll: {
         flex: 1,
@@ -206,18 +220,26 @@ const styles = StyleSheet.create({
         fontWeight: '600',
     },
     section: {
-        marginBottom: 12,
+        marginBottom: 14,
+    },
+    sectionLabelRow: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        gap: 5,
+    },
+    sectionLabelGap: {
+        marginBottom: 5,
     },
     sectionLabel: {
-        fontSize: 13,
+        color: 'rgba(255,255,255,0.62)',
+        fontSize: 12,
         fontWeight: '600',
-        color: 'rgba(255,255,255,0.7)',
-        marginBottom: 4,
+        letterSpacing: 0.3,
     },
     sectionText: {
-        fontSize: 14,
-        color: '#fff',
-        lineHeight: 20,
+        color: 'rgba(255,255,255,0.7)',
+        fontSize: 13,
+        lineHeight: 19,
     },
     verdict: {
         borderBottomColor: 'rgba(255,255,255,0.10)',
@@ -226,10 +248,13 @@ const styles = StyleSheet.create({
         paddingBottom: 16,
     },
     verdictClaim: {
-        color: 'rgba(255,255,255,0.7)',
-        fontSize: 14,
+        borderLeftWidth: 3,
+        color: 'rgba(255,255,255,0.8)',
+        fontSize: 15,
         fontWeight: '600',
-        marginBottom: 8,
+        lineHeight: 21,
+        marginBottom: 10,
+        paddingLeft: 10,
     },
     verdictHeadRow: {
         flexDirection: 'row',
@@ -249,12 +274,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         marginBottom: 7,
-    },
-    verdictStrengthLabel: {
-        color: 'rgba(255,255,255,0.6)',
-        fontSize: 12,
-        fontWeight: '600',
-        letterSpacing: 0.3,
     },
     strengthBadge: {
         alignItems: 'center',
@@ -278,6 +297,10 @@ const styles = StyleSheet.create({
         color: 'rgba(255,255,255,0.74)',
         fontSize: 13,
         lineHeight: 19,
+    },
+    verdictStrengthStrong: {
+        color: 'rgba(255,255,255,0.96)',
+        fontWeight: '600',
     },
     strengthList: {
         borderLeftColor: 'rgba(255,255,255,0.12)',
@@ -326,35 +349,31 @@ const styles = StyleSheet.create({
         marginBottom: 2,
     },
     sourceBox: {
-        backgroundColor: 'rgba(34, 197, 94, 0.1)',
-        borderRadius: 10,
-        padding: 12,
+        borderTopColor: 'rgba(255,255,255,0.09)',
+        borderTopWidth: 1,
         marginBottom: 12,
-        borderLeftWidth: 3,
-        borderLeftColor: 'rgba(34, 197, 94, 0.6)',
-    },
-    sourceLabel: {
-        fontSize: 12,
-        fontWeight: '600',
-        color: 'rgba(255,255,255,0.7)',
-        marginBottom: 4,
+        paddingTop: 12,
     },
     sourceAuthor: {
-        fontSize: 14,
-        color: '#fff',
-        marginBottom: 6,
+        color: 'rgba(255,255,255,0.75)',
+        fontSize: 13,
+        lineHeight: 19,
+        marginBottom: 7,
     },
-    sourceTypeChip: {
-        alignSelf: 'flex-start',
-        backgroundColor: 'rgba(34, 197, 94, 0.2)',
-        paddingHorizontal: 8,
-        paddingVertical: 3,
+    sourcePillRow: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 6,
+    },
+    sourcePill: {
+        backgroundColor: 'rgba(255,255,255,0.08)',
         borderRadius: 6,
+        paddingHorizontal: 7,
+        paddingVertical: 2,
     },
-    sourceTypeText: {
+    sourcePillText: {
+        color: 'rgba(255,255,255,0.7)',
         fontSize: 11,
-        color: '#4ade80',
-        fontWeight: '600',
     },
     // Try Value Summary styles
     tryValueSummary: {

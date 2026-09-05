@@ -196,12 +196,18 @@ export const ja = {
         },
     },
     evidenceBottomSheet: {
-        sourceLabel: '📖 出典',
+        sourceLabel: '出どころ',
+        evidenceThrough: '%{year}年%{month}月までの研究',
         sourceType: {
             intervention: '実験研究',
+            experiment: '実験',
             observational: '観察研究',
             theory: '理論',
             review: 'レビュー',
+            meta_analysis: 'メタ分析',
+            replication: '再現研究',
+            practice_model: '実践モデル',
+            unverified_secondary: '未検証の二次資料',
         },
     },
     leagueResultModal: {
@@ -272,7 +278,7 @@ export const ja = {
         limitationsHeader: '⚠️ 限界',
         citationRolePrefix: '📚 引用の役割：',
         tryThisPrefix: '💡 試すなら：',
-        howStudiedHeader: '📐 研究のやり方',
+        howStudiedHeader: 'どう調べた？',
         strengthHeader: 'どこまで信じていい？',
         // 確からしさの行の先頭の語。レッスン本文の strength_line と同じ語でなければバッジにならない。
         trustWords: {

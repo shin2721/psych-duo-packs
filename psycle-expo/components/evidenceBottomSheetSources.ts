@@ -5,6 +5,8 @@ export interface SourceEntry {
   year: number;
   title: string;
   type: string;
+  // 検索期限（YYYY-MM）。シートの出どころに「〜までの研究」として出す。無い台帳は出さない。
+  evidence_through?: string;
   notes?: string;
 }
 
