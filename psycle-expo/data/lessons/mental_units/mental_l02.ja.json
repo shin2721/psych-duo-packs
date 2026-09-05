@@ -136,7 +136,7 @@
       "verdict_weight": "grey",
       "verdict_label": "研究がまだ少ない",
       "verdict_claim": "ブルーライトカット眼鏡で、よく眠れる",
-      "strength_line": "薄い。睡眠を調べた試験は6本・148人で、結果も3対3に割れている。レビュー自身の評価も「確実性は非常に低い」。"
+      "strength_line": "薄い。睡眠を調べた試験は**6本・148人**で、結果も3対3に割れている。レビュー自身の評価も「確実性は非常に低い」。"
     },
     "caveat": "眼精疲労など睡眠以外のアウトカムは、これとは別の判定になります。",
     "source_label": "出典：コクラン・レビュー（Cochrane Database of Systematic Reviews, 2023）"

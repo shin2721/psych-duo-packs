@@ -159,10 +159,10 @@ describe("mental_l07 anger and venting episode", () => {
     // 続けた人がその瞬間に強いかも、18件で白黒つかない——2つの読みに答える。
     expect(provoked?.caveat).toContain("平時に続けると、ふだんの怒りが下がる");
     expect(provoked?.caveat).toContain("白黒つかない");
-    // 選択肢は平語（はっきりしなくなった）。「言い切れない」の意味は詳細シートも引き受ける。
-    expect(provoked?.expanded_details.limitations.join("\n")).toContain(
-      "「効いた」と言い切れない"
-    );
+    // 限界の欄は射程だけ。信じ方の理由（誤差がゼロにかかる、効かないと決まったわけではない）は
+    // シートの確からしさの行が持つので、ここでは繰り返さない。
+    expect(provoked?.expanded_details.limitations.join("\n")).toContain("3分の1に縮む");
+    expect(provoked?.expanded_details.limitations.join("\n")).not.toContain("言い切れない");
     expect(provoked?.caveat).toContain("効かないと決まったのではありません");
   });
 
