@@ -306,6 +306,11 @@ jest.mock("../../lib/lesson-data/lessonQuestionAdapter", () => {
 
 const CourseScreen = require("../../app/(tabs)/course").default;
 
+// CourseScreen の初回レンダーは CI の遅いランナーで 5 秒を超えることがあり、
+// 最初のテストだけが既定タイムアウトで落ちていた（2026-09-05、main で 3/5 回）。
+// beforeEach と同じ 20 秒をこのファイル全体に与える。
+jest.setTimeout(20000);
+
 describe("CourseScreen", () => {
   beforeEach(() => {
     jest.clearAllMocks();
