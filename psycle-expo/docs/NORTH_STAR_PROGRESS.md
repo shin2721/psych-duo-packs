@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-09-05 - 詳細シートの根拠の行（strength_line）に見出し「確からしさ」を付けた。オーナーがカード1のシートを見て「論文の質の判定はどこ？」と迷ったため。行の文言は変えていない
+
+- Changed: components/EvidenceBottomSheetDetails.tsx（見出し1行）、components/EvidenceBottomSheet.tsx（verdictStrengthLabel スタイル）、lib/locales/ja.ts（lesson.strengthHeader）
+- Verified: tsc クリーン、jest 762/762。dev-client Simulator でカード1のシートに見出しが出ることを確認（scratchpad/l07-final/card1-sheet-labeled.png）
+- Remaining: オーナー試食。パレオ並みの分かりやすさは構造では揃えたが、控えめな語尾はオーナーの選択。試食で「まだ分かりにくい」なら直す場所は声の強さかシートの並び
+
 ### 2026-09-05 - mental_l07 全5枚の語尾の型を揃えた（事実は「〜という結果」、解釈は「〜と考えられる」、断定は厚い証拠だけ）。詳細シートを 説→チップ→判定文→確からしさ の4段にし、l02 card3 も同じ形にした。反証レビュー3体・43件を台帳と突き合わせて採否を決め、シートの説とチップの食い違い（カード2「減る」に話半分、カード5「出さないと消えない」にものによる）と台帳外の語（揃って／299件／日々のイライラ／回数／深呼吸単独）を直した
 
 - Changed: data/lessons/mental_units/mental_l07.ja.json（5枚全面）、mental_l02.ja.json（card3 シート2行）、lib/lesson-data/lessonMetadata.ts（critical_caveat の94%の分母）、src/__tests__/angerEpisodeContent.test.ts（固定文言と注釈）。コミット 4132a38・2b1daa6
