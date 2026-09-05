@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-09-05 - mental_l07 全5枚の語尾の型を揃えた（事実は「〜という結果」、解釈は「〜と考えられる」、断定は厚い証拠だけ）。詳細シートを 説→チップ→判定文→確からしさ の4段にし、l02 card3 も同じ形にした。反証レビュー3体・43件を台帳と突き合わせて採否を決め、シートの説とチップの食い違い（カード2「減る」に話半分、カード5「出さないと消えない」にものによる）と台帳外の語（揃って／299件／日々のイライラ／回数／深呼吸単独）を直した
+
+- Changed: data/lessons/mental_units/mental_l07.ja.json（5枚全面）、mental_l02.ja.json（card3 シート2行）、lib/lesson-data/lessonMetadata.ts（critical_caveat の94%の分母）、src/__tests__/angerEpisodeContent.test.ts（固定文言と注釈）。コミット 4132a38・2b1daa6
+- Verified: validate-lessons エラー0、jest 762/762、tsc クリーン。dev-client Simulator で5枚の種明かし・ただし書き・シート・完了画面を再読（証跡 scratchpad/l07-final/card1-5-sheet.png）。Codex クロスレビューは CLI 0.42.0 が設定モデルに対応せず実行不可。Claude 3体の独立レビュー＋台帳照合で代替（反証フェーズは利用枠切れで人手代行）
+- Remaining: オーナー試食（content_package.state=staging のまま、promote は試食後）。B-2: 残り18カードの判定語彙付け替え、完了画面の「根拠の強さ」タイル退役（l07 は主判定「差はなかった」なのに「高め」と出る）、QUALITY_CONSTITUTION 2番の語彙改訂（差はなかった／研究がまだ少ない／語尾の型）、l01・l02 の語尾パス。Codex CLI の更新はオーナー環境の作業
+
 ### 2026-09-03 - 判定チップの語彙を直す第1段（B-1）。「根拠なし」を「差はなかった」（怒り1枚目・青）と「研究がまだ少ない」（睡眠3枚目・グレー）に分け、チップの上に判定対象の説、下に理由型の確からしさ1行を追加。
 
 - Changed: types/question.ts（VerdictWeight に blue、verdict_claim/strength_line）、validate-lessons.ts（blue 許可、シート3行を統計記号・強調記号チェックに追加）、EvidenceBottomSheet*.tsx（判定対象・確からしさの表示）、mental_l07 カード1/5・mental_l02 カード3 の文面、angerEpisodeContent テスト
