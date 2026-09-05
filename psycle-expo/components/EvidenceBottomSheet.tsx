@@ -235,16 +235,53 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         marginBottom: 10,
     },
+    strengthBlock: {
+        marginTop: 14,
+    },
+    strengthHeaderRow: {
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginBottom: 6,
+    },
     verdictStrengthLabel: {
         color: 'rgba(255,255,255,0.55)',
         fontSize: 12,
         fontWeight: '600',
         letterSpacing: 0.4,
-        marginTop: 12,
-        marginBottom: 2,
+    },
+    strengthBadge: {
+        borderRadius: 999,
+        marginLeft: 8,
+        paddingHorizontal: 9,
+        paddingVertical: 2,
+    },
+    strengthBadgeText: {
+        fontSize: 12,
+        fontWeight: '700',
+        letterSpacing: 0.2,
     },
     verdictStrength: {
         color: 'rgba(255,255,255,0.62)',
+        fontSize: 13,
+        lineHeight: 19,
+    },
+    strengthList: {
+        marginTop: 8,
+    },
+    strengthItem: {
+        alignItems: 'flex-start',
+        flexDirection: 'row',
+        marginBottom: 3,
+    },
+    strengthDot: {
+        color: 'rgba(255,255,255,0.4)',
+        fontSize: 13,
+        lineHeight: 19,
+        width: 14,
+    },
+    strengthItemText: {
+        color: 'rgba(255,255,255,0.62)',
+        flex: 1,
         fontSize: 13,
         lineHeight: 19,
     },

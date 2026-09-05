@@ -33,6 +33,28 @@ const VERDICT_COLORS: Record<VerdictWeight, string> = {
   blue: "#3B82F6",
 };
 
+// 確からしさの行は「結論の1語。理由」。先頭の語をバッジに、残りを本文に分ける。
+// 合わない行（締めカードの「固さも3つで違う。…」など）はそのまま本文として出す。
+// 色は判定チップと競わないよう白の濃淡だけ。固いほど濃い。
+const TRUST_WORDS = ["かなり固い", "まあ固い", "まだ揺れる", "薄い"] as const;
+type TrustWord = (typeof TRUST_WORDS)[number];
+const TRUST_BADGE: Record<TrustWord, { backgroundColor: string; color: string }> = {
+  "かなり固い": { backgroundColor: "rgba(255,255,255,0.22)", color: "rgba(255,255,255,0.96)" },
+  "まあ固い": { backgroundColor: "rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.88)" },
+  "まだ揺れる": { backgroundColor: "rgba(255,255,255,0.09)", color: "rgba(255,255,255,0.74)" },
+  "薄い": { backgroundColor: "rgba(255,255,255,0.06)", color: "rgba(255,255,255,0.6)" },
+};
+
+function splitStrengthLine(line?: string): { word?: TrustWord; reason?: string } {
+  if (!line) return {};
+  const idx = line.indexOf("。");
+  const head = idx > 0 ? line.slice(0, idx) : "";
+  if ((TRUST_WORDS as readonly string[]).includes(head)) {
+    return { word: head as TrustWord, reason: line.slice(idx + 1).trim() || undefined };
+  }
+  return { reason: line };
+}
+
 export function EvidenceBottomSheetDetails({
   expandedDetails,
   listSeparator,
@@ -40,6 +62,10 @@ export function EvidenceBottomSheetDetails({
   styles,
 }: Props) {
   const sourceInfo = getSourceInfo(sourceId);
+  const strength = splitStrengthLine(expandedDetails?.strength_line);
+  const limitations = expandedDetails?.limitations ?? [];
+  const hasVerdict = Boolean(expandedDetails?.verdict_line);
+  const hasStrength = Boolean(strength.word || strength.reason) || limitations.length > 0;
   const typeLabel = sourceInfo
     ? {
         intervention: i18n.t("evidenceBottomSheet.sourceType.intervention"),
@@ -53,32 +79,61 @@ export function EvidenceBottomSheetDetails({
     <>
       {/* 「向いているケース」は締めカードの仕事と重なる。シートは限界と出典に絞る。
           best_for のデータ自体は他所で使うため残してある。 */}
-      {/* 判定が見出し。やり方と限界はその根拠として下に置く。
+      {/* 判定が見出し。確からしさと研究のやり方はその根拠として下に置く。
           脚注の位置に置くと、一番知りたい行が最後まで読まないと出てこない。 */}
-      {expandedDetails?.verdict_line ? (
+      {hasVerdict || hasStrength ? (
         <View style={styles.verdict}>
-          {/* 何についての判定かを先に見せる。チップだけだと「何に対する根拠なし？」になる。 */}
-          {expandedDetails.verdict_claim ? (
-            <Text style={styles.verdictClaim}>「{expandedDetails.verdict_claim}」</Text>
-          ) : null}
-          <View style={styles.verdictHeadRow}>
-            <View
-              style={[
-                styles.verdictChip,
-                { backgroundColor: VERDICT_COLORS[expandedDetails.verdict_weight ?? "grey"] },
-              ]}
-            >
-              <Text style={styles.verdictChipText}>{expandedDetails.verdict_label}</Text>
-            </View>
-          </View>
-          <Text style={styles.verdictText}>{expandedDetails.verdict_line}</Text>
-          {/* なぜそこまで信じていいか。等級ではなく理由で書く。
-              見出しが無いと補足文に見えて、質の判定だと伝わらなかった（オーナー指摘 2026-09-05）。 */}
-          {expandedDetails.strength_line ? (
+          {hasVerdict ? (
             <>
-              <Text style={styles.verdictStrengthLabel}>{i18n.t("lesson.strengthHeader")}</Text>
-              <Text style={styles.verdictStrength}>{expandedDetails.strength_line}</Text>
+              {/* 何についての判定かを先に見せる。チップだけだと「何に対する根拠なし？」になる。 */}
+              {expandedDetails?.verdict_claim ? (
+                <Text style={styles.verdictClaim}>「{expandedDetails.verdict_claim}」</Text>
+              ) : null}
+              <View style={styles.verdictHeadRow}>
+                <View
+                  style={[
+                    styles.verdictChip,
+                    { backgroundColor: VERDICT_COLORS[expandedDetails?.verdict_weight ?? "grey"] },
+                  ]}
+                >
+                  <Text style={styles.verdictChipText}>{expandedDetails?.verdict_label}</Text>
+                </View>
+              </View>
+              <Text style={styles.verdictText}>{expandedDetails?.verdict_line}</Text>
             </>
+          ) : null}
+          {/* どれくらい信じていいか、どこまでの話か。読者にはひとつの問いなので見出しも1つ。
+              先頭の語（かなり固い／まあ固い／まだ揺れる／薄い）はバッジ、理由は本文、
+              射程の限界は箇条書きで続ける。書く側の線引きは QUALITY_CONSTITUTION 2番。 */}
+          {hasStrength ? (
+            <View style={hasVerdict ? styles.strengthBlock : undefined}>
+              <View style={styles.strengthHeaderRow}>
+                <Text style={styles.verdictStrengthLabel}>{i18n.t("lesson.strengthHeader")}</Text>
+                {strength.word ? (
+                  <View
+                    style={[
+                      styles.strengthBadge,
+                      { backgroundColor: TRUST_BADGE[strength.word].backgroundColor },
+                    ]}
+                  >
+                    <Text style={[styles.strengthBadgeText, { color: TRUST_BADGE[strength.word].color }]}>
+                      {strength.word}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
+              {strength.reason ? <Text style={styles.verdictStrength}>{strength.reason}</Text> : null}
+              {limitations.length > 0 ? (
+                <View style={styles.strengthList}>
+                  {limitations.map((limitation, index) => (
+                    <View key={index} style={styles.strengthItem}>
+                      <Text style={styles.strengthDot}>・</Text>
+                      <Text style={styles.strengthItemText}>{limitation}</Text>
+                    </View>
+                  ))}
+                </View>
+              ) : null}
+            </View>
           ) : null}
         </View>
       ) : null}
@@ -87,17 +142,6 @@ export function EvidenceBottomSheetDetails({
         <View style={styles.section}>
           <Text style={styles.sectionLabel}>{i18n.t("lesson.howStudiedHeader")}</Text>
           <Text style={styles.sectionText}>{expandedDetails.how_studied}</Text>
-        </View>
-      ) : null}
-
-      {expandedDetails?.limitations && expandedDetails.limitations.length > 0 ? (
-        <View style={styles.section}>
-          <Text style={styles.sectionLabel}>{i18n.t("lesson.limitationsHeader")}</Text>
-          {expandedDetails.limitations.map((limitation, index) => (
-            <Text key={index} style={styles.bulletText}>
-              ・{limitation}
-            </Text>
-          ))}
         </View>
       ) : null}
 
