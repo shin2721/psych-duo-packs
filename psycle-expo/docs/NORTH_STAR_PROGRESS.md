@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-09-05 - 詳細シートの信じ方ブロックを4点手直し。見出しを読者の問い「どこまで信じていい？」に、バッジに Cochrane 式の丸（●●●○）を添え、ブロックをうすい下地カードに載せ、限界の箇条書きを一段小さく薄くして左の細線で束ねた。オーナーの4つの問い（名前・色味・研究のやり方との分離・見やすさ）への回答として実装
+
+- Changed: lib/locales/ja.ts（lesson.strengthHeader）、components/EvidenceBottomSheetDetails.tsx（TRUST_BADGE に dots、バッジの行構成）、components/EvidenceBottomSheet.tsx（strength* スタイル）。文言・データは不変。研究のやり方は別見出しのまま（答える問いが違う）
+- Verified: lint:hardcoded-strings:ci クリーン、tsc クリーン、jest 762/762。dev-client Simulator でカード1（●●●○ まあ固い）とカード4（●○○○ 薄い）を確認、両端とも可読（scratchpad/l07-final/card{1,4}-sheet-v3.png）
+- Remaining: オーナー試食。出典の箱が緑で「使える」チップと競う件は未着手（範囲外として保留）。出典欄の種別チップの英語生値は別タスク起票済み
+
 ### 2026-09-05 - 詳細シートの「限界」を「確からしさ」に統合。見出しは1つ、先頭の語をバッジ（白の濃淡4段）、理由を本文、限界をぶら下げ箇条書きで続ける形にした。オーナーの「一緒にしちゃダメなの？」に対し、区別は書く側の点検表としてだけ残す方針
 
 - Changed: components/EvidenceBottomSheetDetails.tsx（splitStrengthLine、TRUST_BADGE、統合ブロック）、components/EvidenceBottomSheet.tsx（strength* スタイル）。レッスンデータ・文言は不変。lesson.limitationsHeader は未使用化（キーは残置）
