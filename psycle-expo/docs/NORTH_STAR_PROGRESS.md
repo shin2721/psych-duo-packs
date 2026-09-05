@@ -129,6 +129,12 @@ Useful next work:
 
 ## Update Log
 
+### 2026-09-05 - 詳細シートを提案Bに。判定チップの色を上端の帯と説の引用線に通し、3見出しを線画アイコン＋問いの形で統一、出どころを無彩色の著者行＋ピル（種別・いつまでの研究か）に、理由の鍵数字を**で強調。台帳に evidence_through（検索期限）を追加し、日付つき判定の最初の実装とした。カード4の限界から理由と重複する2項目と時点の1項目を外した
+
+- Changed: components/EvidenceBottomSheet.tsx・EvidenceBottomSheetDetails.tsx・evidenceBottomSheetSources.ts・evidenceVerdictColors.ts（新規）、lib/locales/ja.ts（見出し3つ、sourceType 全種別、evidenceThrough）、data/curated_sources.json（Kjaervik evidence_through）、mental_l07/l02（strength_line の強調、card4 limitations）、angerEpisodeContent.test.ts
+- Verified: lint:hardcoded-strings:ci クリーン、validate 0件、tsc クリーン、jest 762/762。dev-client Simulator でカード1のシート上下を確認（scratchpad/l07-final/card1-sheet-b-{top,bottom}.png）
+- Remaining: オーナー試食。evidence_through は Kjaervik のみ（l02 のコクランは検索日を原典で確認してから）。多言語化時は lesson.trustWords とレッスン本文の語を揃える必要あり
+
 ### 2026-09-05 - 詳細シートの信じ方ブロックを4点手直し。見出しを読者の問い「どこまで信じていい？」に、バッジに Cochrane 式の丸（●●●○）を添え、ブロックをうすい下地カードに載せ、限界の箇条書きを一段小さく薄くして左の細線で束ねた。オーナーの4つの問い（名前・色味・研究のやり方との分離・見やすさ）への回答として実装
 
 - Changed: lib/locales/ja.ts（lesson.strengthHeader）、components/EvidenceBottomSheetDetails.tsx（TRUST_BADGE に dots、バッジの行構成）、components/EvidenceBottomSheet.tsx（strength* スタイル）。文言・データは不変。研究のやり方は別見出しのまま（答える問いが違う）
